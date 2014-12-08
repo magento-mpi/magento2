@@ -8,8 +8,8 @@
 
 namespace Magento\GiftWrapping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftWrappingSuccessDeleteMessage

@@ -26,7 +26,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
 
         $this->_storeManagerInterface = $this->getMock('\Magento\Framework\StoreManagerInterface');
 
@@ -46,11 +46,10 @@ class FlatTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_store)
         );
 
-
         $this->_model = new \Magento\Catalog\Model\Resource\Product\Flat(
-            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Resource', [], [], '', false),
             $this->_storeManagerInterface,
-            $this->getMock('Magento\Catalog\Model\Config', array(), array(), '', false)
+            $this->getMock('Magento\Catalog\Model\Config', [], [], '', false)
         );
     }
 

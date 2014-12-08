@@ -8,13 +8,13 @@
 
 namespace Magento\SalesRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteNew;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Create SalesRuleEntity

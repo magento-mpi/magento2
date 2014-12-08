@@ -49,7 +49,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $collectionFactory,
         \Magento\Sales\Helper\Reorder $salesReorder,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_salesReorder = $salesReorder;
@@ -109,44 +109,44 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('increment_id', array('header' => __('Order'), 'width' => '100', 'index' => 'increment_id'));
+        $this->addColumn('increment_id', ['header' => __('Order'), 'width' => '100', 'index' => 'increment_id']);
 
         $this->addColumn(
             'created_at',
-            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
+            ['header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime']
         );
 
-        $this->addColumn('billing_name', array('header' => __('Bill-to Name'), 'index' => 'billing_name'));
+        $this->addColumn('billing_name', ['header' => __('Bill-to Name'), 'index' => 'billing_name']);
 
-        $this->addColumn('shipping_name', array('header' => __('Ship-to Name'), 'index' => 'shipping_name'));
+        $this->addColumn('shipping_name', ['header' => __('Ship-to Name'), 'index' => 'shipping_name']);
 
         $this->addColumn(
             'grand_total',
-            array(
+            [
                 'header' => __('Order Total'),
                 'index' => 'grand_total',
                 'type' => 'currency',
                 'currency' => 'order_currency_code'
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store_id',
-                array('header' => __('Purchase Point'), 'index' => 'store_id', 'type' => 'store', 'store_view' => true)
+                ['header' => __('Purchase Point'), 'index' => 'store_id', 'type' => 'store', 'store_view' => true]
             );
         }
 
         if ($this->_salesReorder->isAllow()) {
             $this->addColumn(
                 'action',
-                array(
+                [
                     'header' => ' ',
                     'filter' => false,
                     'sortable' => false,
                     'width' => '100px',
                     'renderer' => 'Magento\Sales\Block\Adminhtml\Reorder\Renderer\Action'
-                )
+                ]
             );
         }
 
@@ -161,7 +161,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
     }
 
     /**
@@ -169,6 +169,6 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('customer/*/orders', array('_current' => true));
+        return $this->getUrl('customer/*/orders', ['_current' => true]);
     }
 }

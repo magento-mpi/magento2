@@ -8,7 +8,7 @@
 
 namespace Magento\Sales\Api\Data;
 
-use \Magento\Framework\Api\SearchResultsInterface;
+use Magento\Framework\Api\SearchResultsInterface;
 
 /**
  * Interface ShipmentSearchResultInterface

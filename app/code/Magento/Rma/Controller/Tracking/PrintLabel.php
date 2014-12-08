@@ -8,7 +8,7 @@
  */
 namespace Magento\Rma\Controller\Tracking;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class PrintLabel extends \Magento\Rma\Controller\Tracking

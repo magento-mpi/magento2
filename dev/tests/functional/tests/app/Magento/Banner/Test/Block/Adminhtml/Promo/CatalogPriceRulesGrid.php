@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Banner\Test\Block\Adminhtml\Promo;
 
 use Magento\Backend\Test\Block\Widget\Grid;
@@ -24,10 +23,10 @@ class CatalogPriceRulesGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="catalogrule_name"]'
+            'selector' => 'input[name="catalogrule_name"]',
         ],
         'id' => [
-            'selector' => 'input[name="catalogrule_rule_id"]'
-        ]
+            'selector' => 'input[name="catalogrule_rule_id"]',
+        ],
     ];
 }

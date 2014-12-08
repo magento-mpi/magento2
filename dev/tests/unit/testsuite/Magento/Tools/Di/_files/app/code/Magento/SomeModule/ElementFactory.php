@@ -28,7 +28,7 @@ class ElementFactory
      * @param array $data
      * @return mixed
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $instance = $this->_objectManager->create($className, $data);
         return $instance;

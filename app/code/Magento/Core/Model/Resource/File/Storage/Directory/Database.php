@@ -41,43 +41,43 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
             'directory_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+            ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
             'Directory Id'
         )->addColumn(
             'name',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             100,
-            array('nullable' => false),
+            ['nullable' => false],
             'Directory Name'
         )->addColumn(
             'path',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
-            array('default' => null),
+            ['default' => null],
             'Path to the \Directory'
         )->addColumn(
             'upload_time',
             \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
             null,
-            array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+            ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
             'Upload Timestamp'
         )->addColumn(
             'parent_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            array('nullable' => true, 'default' => null, 'unsigned' => true),
+            ['nullable' => true, 'default' => null, 'unsigned' => true],
             'Parent \Directory Id'
         )->addIndex(
             $adapter->getIndexName(
                 $table,
-                array('name', 'parent_id'),
+                ['name', 'parent_id'],
                 \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
             ),
-            array('name', 'parent_id'),
-            array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+            ['name', 'parent_id'],
+            ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
         )->addIndex(
-            $adapter->getIndexName($table, array('parent_id')),
-            array('parent_id')
+            $adapter->getIndexName($table, ['parent_id']),
+            ['parent_id']
         )->addForeignKey(
             $adapter->getForeignKeyName($table, 'parent_id', $table, 'directory_id'),
             'parent_id',
@@ -111,12 +111,12 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
         }
 
         $select = $adapter->select()->from(
-            array('e' => $this->getMainTable())
+            ['e' => $this->getMainTable()]
         )->where(
             'name = ?',
             $name
         )->where(
-            $adapter->prepareSqlCondition('path', array('seq' => $path))
+            $adapter->prepareSqlCondition('path', ['seq' => $path])
         );
 
         $data = $adapter->fetchRow($select);
@@ -145,13 +145,13 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
         }
 
         $select = $adapter->select()->from(
-            array('e' => $this->getMainTable()),
-            array('directory_id')
+            ['e' => $this->getMainTable()],
+            ['directory_id']
         )->where(
             'name = ?',
             $name
         )->where(
-            $adapter->prepareSqlCondition('path', array('seq' => $path))
+            $adapter->prepareSqlCondition('path', ['seq' => $path])
         );
 
         return $adapter->fetchOne($select);
@@ -182,8 +182,8 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()->from(
-            array('e' => $this->getMainTable()),
-            array('name', 'path')
+            ['e' => $this->getMainTable()],
+            ['name', 'path']
         )->order(
             'directory_id'
         )->limit(
@@ -206,10 +206,10 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()->from(
-            array('e' => $this->getMainTable()),
-            array('name', 'path')
+            ['e' => $this->getMainTable()],
+            ['name', 'path']
         )->where(
-            $adapter->prepareSqlCondition('path', array('seq' => $directory))
+            $adapter->prepareSqlCondition('path', ['seq' => $directory])
         )->order(
             'directory_id'
         );
@@ -228,8 +228,8 @@ class Database extends \Magento\Core\Model\Resource\File\Storage\AbstractStorage
     {
         $adapter = $this->_getWriteAdapter();
 
-        $where = array('name = ?' => $name);
-        $where[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('path', array('seq' => $path)));
+        $where = ['name = ?' => $name];
+        $where[] = new \Zend_Db_Expr($adapter->prepareSqlCondition('path', ['seq' => $path]));
 
         $adapter->delete($this->getMainTable(), $where);
     }

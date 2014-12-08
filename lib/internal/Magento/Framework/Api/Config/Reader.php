@@ -14,10 +14,10 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/custom_attributes' => 'for',
-        '/config/custom_attributes/attribute' => 'code'
-    );
+        '/config/custom_attributes/attribute' => 'code',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -35,7 +35,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Api\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'data_object.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

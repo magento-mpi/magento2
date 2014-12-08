@@ -71,7 +71,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_filterItemFactory = $filterItemFactory;
         $this->_storeManager = $storeManager;
@@ -187,7 +187,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      */
     protected function _getItemsData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -198,7 +198,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
     protected function _initItems()
     {
         $data = $this->_getItemsData();
-        $items = array();
+        $items = [];
         foreach ($data as $itemData) {
             $items[] = $this->_createItem($itemData['label'], $itemData['value'], $itemData['count']);
         }

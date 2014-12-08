@@ -18,7 +18,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedFieldsets = array('base_fieldset', 'upload_file_fieldset');
+    protected $_expectedFieldsets = ['base_fieldset', 'upload_file_fieldset'];
 
     /**
      * Add behaviour fieldsets to expected fieldsets
@@ -55,7 +55,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($form->getUseContainer(), 'Form should use container.');
 
         // check form fieldsets
-        $formFieldsets = array();
+        $formFieldsets = [];
         $formElements = $form->getElements();
         foreach ($formElements as $element) {
             /** @var $element \Magento\Framework\Data\Form\Element\AbstractElement */

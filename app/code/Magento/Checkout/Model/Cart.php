@@ -9,9 +9,9 @@ namespace Magento\Checkout\Model;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product;
-use Magento\Framework\Object;
 use Magento\Checkout\Model\Cart\CartInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Object;
 
 /**
  * Shopping cart model
@@ -117,7 +117,7 @@ class Cart extends Object implements CartInterface
         \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         ProductRepositoryInterface $productRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eventManager = $eventManager;
         $this->_scopeConfig = $scopeConfig;
@@ -171,7 +171,7 @@ class Cart extends Object implements CartInterface
     public function getItems()
     {
         if (!$this->getQuote()->getId()) {
-            return array();
+            return [];
         }
         return $this->getQuote()->getItemsCollection();
     }
@@ -185,7 +185,7 @@ class Cart extends Object implements CartInterface
     {
         $products = $this->getData('product_ids');
         if (is_null($products)) {
-            $products = array();
+            $products = [];
             foreach ($this->getQuote()->getAllItems() as $item) {
                 $products[$item->getProductId()] = $item->getProductId();
             }
@@ -313,7 +313,7 @@ class Cart extends Object implements CartInterface
         if ($requestInfo instanceof \Magento\Framework\Object) {
             $request = $requestInfo;
         } elseif (is_numeric($requestInfo)) {
-            $request = new \Magento\Framework\Object(array('qty' => $requestInfo));
+            $request = new \Magento\Framework\Object(['qty' => $requestInfo]);
         } else {
             $request = new \Magento\Framework\Object($requestInfo);
         }
@@ -366,7 +366,7 @@ class Cart extends Object implements CartInterface
                 if ($product->hasOptionsValidationFail()) {
                     $redirectUrl = $product->getUrlModel()->getUrl(
                         $product,
-                        array('_query' => array('startcustomization' => 1))
+                        ['_query' => ['startcustomization' => 1]]
                     );
                 } else {
                     $redirectUrl = $product->getProductUrl();
@@ -383,7 +383,7 @@ class Cart extends Object implements CartInterface
 
         $this->_eventManager->dispatch(
             'checkout_cart_product_add_after',
-            array('quote_item' => $result, 'product' => $product)
+            ['quote_item' => $result, 'product' => $product]
         );
         $this->_checkoutSession->setLastAddedProductId($productId);
         return $this;
@@ -548,7 +548,7 @@ class Cart extends Object implements CartInterface
      */
     public function save()
     {
-        $this->_eventManager->dispatch('checkout_cart_save_before', array('cart' => $this));
+        $this->_eventManager->dispatch('checkout_cart_save_before', ['cart' => $this]);
 
         $this->getQuote()->getBillingAddress();
         $this->getQuote()->getShippingAddress()->setCollectShippingRates(true);
@@ -558,7 +558,7 @@ class Cart extends Object implements CartInterface
         /**
          * Cart save usually called after changes with cart items.
          */
-        $this->_eventManager->dispatch('checkout_cart_save_after', array('cart' => $this));
+        $this->_eventManager->dispatch('checkout_cart_save_after', ['cart' => $this]);
         return $this;
     }
 
@@ -589,7 +589,7 @@ class Cart extends Object implements CartInterface
     public function getProductIds()
     {
         if (null === $this->_productIds) {
-            $this->_productIds = array();
+            $this->_productIds = [];
             if ($this->getSummaryQty() > 0) {
                 foreach ($this->getQuote()->getAllItems() as $item) {
                     $this->_productIds[] = $item->getProductId();
@@ -702,7 +702,7 @@ class Cart extends Object implements CartInterface
 
         $this->_eventManager->dispatch(
             'checkout_cart_product_update_after',
-            array('quote_item' => $result, 'product' => $product)
+            ['quote_item' => $result, 'product' => $product]
         );
         $this->_checkoutSession->setLastAddedProductId($productId);
         return $result;

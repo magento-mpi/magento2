@@ -33,5 +33,4 @@ class WrapperFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf($expectedInstance, $wrapperFactory->create($arguments));
     }
-
 }

@@ -9,15 +9,14 @@
 
 namespace Magento\Catalog\Api\Data;
 
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductAttributeInterface
  */
 class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
 {
-
     /**
      * @param ObjectFactory $objectFactory
      * @param MetadataServiceInterface $metadataService

@@ -26,18 +26,18 @@ class DiffTest extends \PHPUnit_Framework_TestCase
     {
         $escaper = $this->getMock('Magento\Framework\Escaper');
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
-        $context = $this->getMock('Magento\Backend\Block\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Backend\Block\Context', [], [], '', false);
         $context->expects($this->once())
             ->method('getEscaper')
             ->will($this->returnValue($escaper));
         $this->_column = $this->getMock(
             'Magento\Backend\Block\Widget\Grid\Column\Extended',
-            array('getValues', 'getIndex', 'getHtmlName'),
-            array(),
+            ['getValues', 'getIndex', 'getHtmlName'],
+            [],
             '',
             false
         );
-        
+
         $this->_object = new Diff($context);
         $this->_object->setColumn($this->_column);
     }
@@ -52,18 +52,18 @@ class DiffTest extends \PHPUnit_Framework_TestCase
         $this->_column->expects($this->once())->method('getIndex')->will($this->returnValue('result_data'));
         $this->assertContains($expectedResult, $this->_object->render(new \Magento\Framework\Object($rowData)));
     }
-    
+
     public function renderDataProvider()
     {
-        return array(
-            'allowed' => array(
-                array('result_data' => 'a:1:{s:5:"allow";a:2:{i:0;s:3:"TMM";i:1;s:3:"USD";}}'),
-                '<dd class="value">TMM</dd><dd class="value">USD</dd>'
-            ),
-            'time' => array(
-                array('result_data' => 'a:1:{s:4:"time";a:3:{i:0;s:2:"00";i:1;s:2:"00";i:2;s:2:"00";}}'),
-                '<dd class="value">00:00:00</dd>'
-            )
-        );
+        return [
+            'allowed' => [
+                ['result_data' => 'a:1:{s:5:"allow";a:2:{i:0;s:3:"TMM";i:1;s:3:"USD";}}'],
+                '<dd class="value">TMM</dd><dd class="value">USD</dd>',
+            ],
+            'time' => [
+                ['result_data' => 'a:1:{s:4:"time";a:3:{i:0;s:2:"00";i:1;s:2:"00";i:2;s:2:"00";}}'],
+                '<dd class="value">00:00:00</dd>',
+            ]
+        ];
     }
 }

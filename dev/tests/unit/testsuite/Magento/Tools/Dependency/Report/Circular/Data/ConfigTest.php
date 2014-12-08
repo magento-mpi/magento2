@@ -30,15 +30,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->moduleFirst = $this->getMock(
             'Magento\Tools\Dependency\Report\Circular\Data\Module',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->moduleSecond = $this->getMock(
             'Magento\Tools\Dependency\Report\Circular\Data\Module',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -46,7 +46,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         $this->config = $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Circular\Data\Config',
-            array('modules' => array($this->moduleFirst, $this->moduleSecond))
+            ['modules' => [$this->moduleFirst, $this->moduleSecond]]
         );
     }
 

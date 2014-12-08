@@ -12,9 +12,9 @@
  */
 namespace Magento\Framework\Module\Dir;
 
-use Magento\Framework\Filesystem;
+use Magento\Framework\Config\FileIteratorFactory;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\Config\FileIteratorFactory;
+use Magento\Framework\Filesystem;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -57,17 +57,17 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_protFactoryMock = $this->getMock(
             'Magento\Framework\App\Config\BaseFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
-        $this->_dirsMock = $this->getMock('Magento\Framework\Module\Dir', array(), array(), '', false, false);
+        $this->_dirsMock = $this->getMock('Magento\Framework\Module\Dir', [], [], '', false, false);
         $this->_baseConfigMock = $this->getMock(
             'Magento\Framework\App\Config\Base',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -75,16 +75,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_moduleListMock = $this->getMock('Magento\Framework\Module\ModuleListInterface');
         $this->_filesystemMock = $this->getMock(
             '\Magento\Framework\Filesystem',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
         $this->_fileIteratorFactory = $this->getMock(
             '\Magento\Framework\Config\FileIteratorFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false

@@ -16,7 +16,7 @@ $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 /** @var $model  \Magento\TargetRule\Model\Rule*/
 $model = $this->getObjectManager()->get('Magento\TargetRule\Model\Rule');
 //Get all websites
-$categoriesArray = array();
+$categoriesArray = [];
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
     //Get all groups
@@ -31,7 +31,7 @@ foreach ($websites as $website) {
             $category->load($resultsCategory);
             $structure = explode('/', $category->getPath());
             if (count($structure) > 2) {
-                $categoriesArray[] = array($category->getId(), $website->getId());
+                $categoriesArray[] = [$category->getId(), $website->getId()];
             }
         }
     }
@@ -40,16 +40,14 @@ asort($categoriesArray);
 $categoriesArray = array_values($categoriesArray);
 $idField = $model->getIdFieldName();
 
-
 for ($i = 0; $i < $catalogTargetRules; $i++) {
-
     //Necessary to create the correct data in magento_targetrule_product table
     $this->resetObjectManager();
     $model = $this->getObjectManager()->get('Magento\TargetRule\Model\Rule');
     //------------
 
     $ruleName = sprintf('Catalog Target Rule %1$d', $i);
-    $data = array(
+    $data = [
         $idField                => null,
         'name'                  => $ruleName,
         'sort_order'            => 0,
@@ -60,44 +58,38 @@ for ($i = 0; $i < $catalogTargetRules; $i++) {
         'positions_limit'       => 10,
         'use_customer_segment'  => 0,
         'customer_segment_ids'  => '',
-        'rule'                  => array (
-            'conditions' =>
-                array (
-                    1 =>
-                        array (
+        'rule'                  => [
+            'conditions' => [
+                    1 => [
                             'type' => 'Magento\\TargetRule\\Model\\Rule\\Condition\\Combine',
                             'aggregator' => 'all',
                             'value' => '1',
                             'new_child' => '',
-                        ),
-                    '1--1' =>
-                        array (
+                        ],
+                    '1--1' => [
                             'type' => 'Magento\\TargetRule\\Model\\Rule\\Condition\\Product\\Attributes',
                             'attribute' => 'category_ids',
                             'operator' => '==',
                             'value' => $categoriesArray[$i % count($categoriesArray)][0],
-                        ),
-                ),
-            'actions' =>
-                array (
-                    1 =>
-                        array (
+                        ],
+                ],
+            'actions' => [
+                    1 => [
                             'type' => 'Magento\\TargetRule\\Model\\Actions\\Condition\\Combine',
                             'aggregator' => 'all',
                             'value' => '1',
                             'new_child' => '',
-                        ),
-                    '1--1' =>
-                        array (
+                        ],
+                    '1--1' => [
                             'type' => 'Magento\\TargetRule\\Model\\Actions\\Condition\\Product\\Attributes',
                             'attribute' => 'category_ids',
                             'operator' => '==',
                             'value_type' => 'same_as',
                             'value' => '',
-                        ),
-                ),
-        ),
-    );
+                        ],
+                ],
+        ],
+    ];
     if (isset($data['rule']['conditions'])) {
         $data['conditions'] = $data['rule']['conditions'];
     }

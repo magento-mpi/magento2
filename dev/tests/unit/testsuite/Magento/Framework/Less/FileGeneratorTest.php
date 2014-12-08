@@ -54,17 +54,17 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function ($file) {
                 return "content of '$file'";
             }));
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(DirectoryList::VAR_DIR)
             ->will($this->returnValue($this->tmpDirectory));
-        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
+        $this->assetRepo = $this->getMock('\Magento\Framework\View\Asset\Repository', [], [], '', false);
         $this->magentoImport = $this->getMock(
-            '\Magento\Framework\Less\PreProcessor\Instruction\MagentoImport', array(), array(), '', false
+            '\Magento\Framework\Less\PreProcessor\Instruction\MagentoImport', [], [], '', false
         );
         $this->import = $this->getMock(
-            '\Magento\Framework\Less\PreProcessor\Instruction\Import', array(), array(), '', false
+            '\Magento\Framework\Less\PreProcessor\Instruction\Import', [], [], '', false
         );
         $this->object = new \Magento\Framework\Less\FileGenerator(
             $filesystem, $this->assetRepo, $this->magentoImport, $this->import
@@ -78,7 +78,7 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
         $expectedRelativePath = 'view_preprocessed/less/some/file.less';
         $expectedPath = '/var/view_preprocessed/less/some/file.less';
 
-        $asset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $asset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $asset->expects($this->once())
             ->method('getPath')
             ->will($this->returnValue('some/file.css'));
@@ -86,21 +86,19 @@ class FileGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $this->magentoImport->expects($this->once())
             ->method('process')
-            ->with($chain)
-        ;
+            ->with($chain);
         $this->import->expects($this->once())
             ->method('process')
-            ->with($chain)
-        ;
+            ->with($chain);
 
-        $relatedAssetOne = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $relatedAssetOne = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $relatedAssetOne->expects($this->any())
             ->method('getPath')
             ->will($this->returnValue('related/file_one.css'));
         $relatedAssetOne->expects($this->any())
             ->method('getContent')
             ->will($this->returnValue("content of 'related/file_one.css'"));
-        $relatedAssetTwo = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $relatedAssetTwo = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $relatedAssetTwo->expects($this->any())
             ->method('getPath')
             ->will($this->returnValue('related/file_two.css'));

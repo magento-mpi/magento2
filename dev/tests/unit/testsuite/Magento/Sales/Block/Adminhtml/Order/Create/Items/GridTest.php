@@ -61,17 +61,17 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getQuote', '__wakeup'))
+            ->setMethods(['getQuote', '__wakeup'])
             ->getMock();
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getStore', '__wakeup'))
+            ->setMethods(['getStore', '__wakeup'])
             ->getMock();
 
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->getMock();
         $this->priceCurrency->expects($this->any())
             ->method('convertAndFormat')
@@ -80,11 +80,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $wishlistFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\WishlistFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('methods', '__wakeup'))
+            ->setMethods(['methods', '__wakeup'])
             ->getMock();
 
         $giftMessageSave = $this->getMockBuilder('Magento\Giftmessage\Model\Save')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -118,7 +118,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $this->objectManager->getObject(
             'Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid',
-            array(
+            [
                 'wishlistFactory' => $wishlistFactoryMock,
                 'giftMessageSave' => $giftMessageSave,
                 'taxConfig' => $taxConfig,
@@ -129,7 +129,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'coreData' => $coreData,
                 'stockRegistry' => $this->stockRegistry,
                 'stockState' => $this->stockState
-            )
+            ]
         );
 
         $this->priceRenderBlock = $this->getMockBuilder('\Magento\Backend\Block\Template')
@@ -168,29 +168,29 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     public function tierPriceDataProvider()
     {
-        return array(
-            array(
-                array(array('price' => 100, 'price_qty' => 1)),
+        return [
+            [
+                [['price' => 100, 'price_qty' => 1]],
                 '1 with 100% discount each',
-                \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-            ),
-            array(
-                array(array('price' => 100, 'price_qty' => 1), array('price' => 200, 'price_qty' => 2)),
+                \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE,
+            ],
+            [
+                [['price' => 100, 'price_qty' => 1], ['price' => 200, 'price_qty' => 2]],
                 '1 with 100% discount each<br />2 with 200% discount each',
                 \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE
-            ),
-            array(
-                array(array('price' => 50, 'price_qty' => 2)),
+            ],
+            [
+                [['price' => 50, 'price_qty' => 2]],
                 '2 for 50',
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            ),
-            array(
-                array(array('price' => 50, 'price_qty' => 2), array('price' => 150, 'price_qty' => 3)),
+            ],
+            [
+                [['price' => 50, 'price_qty' => 2], ['price' => 150, 'price_qty' => 3]],
                 '2 for 50<br />3 for 150',
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            ),
-            array(0, '', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
-        );
+            ],
+            [0, '', \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE]
+        ];
     }
 
     /**
@@ -202,13 +202,13 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
-            ->setMethods(array('getTierPrice', '__wakeup'))
+            ->setMethods(['getTierPrice', '__wakeup'])
             ->getMock();
         $product->expects($this->once())->method('getTierPrice')->will($this->returnValue($tierPrices));
         $item = $this->getMock(
             'Magento\Sales\Model\Quote\Item',
-            array(),
-            array('getProduct', 'getProductType'),
+            [],
+            ['getProduct', 'getProductType'],
             '',
             false
         );
@@ -231,15 +231,15 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $itemMock = $this->getMock(
             'Magento\Sales\Model\Quote\Item',
-            array('getProduct', 'setHasError', 'setQty', 'getQty', '__sleep', '__wakeup'),
-            array(),
+            ['getProduct', 'setHasError', 'setQty', 'getQty', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getStockItem', 'getID', '__sleep', '__wakeup'),
-            array(),
+            ['getStockItem', 'getID', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
@@ -250,9 +250,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $layoutMock->expects($this->once())->method('getBlock')->with('parentBlock')
             ->will($this->returnValue($blockMock));
 
-        $blockMock->expects($this->once())->method('getItems')->will($this->returnValue(array($itemMock)));
+        $blockMock->expects($this->once())->method('getItems')->will($this->returnValue([$itemMock]));
 
-        $itemMock->expects($this->any())->method('getChildren')->will($this->returnValue(array($itemMock)));
+        $itemMock->expects($this->any())->method('getChildren')->will($this->returnValue([$itemMock]));
         $itemMock->expects($this->any())->method('getProduct')->will($this->returnValue($productMock));
         $itemMock->expects($this->any())->method('getQty')->will($this->returnValue($itemQty));
 
@@ -286,12 +286,12 @@ class GridTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid  $grid */
         $grid = $this->objectManager->getObject(
             'Magento\Sales\Block\Adminhtml\Order\Create\Items\Grid',
-            array(
+            [
                 'context' => $this->objectManager->getObject(
                         'Magento\Backend\Block\Template\Context',
-                        array('layout' => $this->layoutMock)
+                        ['layout' => $this->layoutMock]
                     )
-            )
+            ]
         );
 
         return $grid;
@@ -316,7 +316,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('toHtml')
             ->will($this->returnValue($html));
 
-
         $this->assertEquals($html, $grid->getItemUnitPriceHtml($this->itemMock));
     }
 
@@ -339,7 +338,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('toHtml')
             ->will($this->returnValue($html));
 
-
         $this->assertEquals($html, $grid->getItemRowTotalHtml($this->itemMock));
     }
     public function testGetItemRowTotalWithDiscountHtml()
@@ -360,7 +358,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->priceRenderBlock->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
-
 
         $this->assertEquals($html, $grid->getItemRowTotalWithDiscountHtml($this->itemMock));
     }

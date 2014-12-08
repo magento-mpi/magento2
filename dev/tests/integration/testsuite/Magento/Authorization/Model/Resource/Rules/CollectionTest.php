@@ -42,6 +42,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_collection->addSortByLength();
 
         $order = $this->_collection->getSelect()->getPart(\Zend_Db_Select::ORDER);
-        $this->assertContains(array('length', 'DESC'), $order);
+        $this->assertContains(['length', 'DESC'], $order);
     }
 }

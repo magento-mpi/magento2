@@ -25,7 +25,7 @@ class Settings
      *
      * @var array
      */
-    private $_settings = array();
+    private $_settings = [];
 
     /**
      * Constructor
@@ -116,7 +116,7 @@ class Settings
         if ($settingValue !== '') {
             return $this->_resolvePathPattern($settingValue);
         }
-        return array();
+        return [];
     }
 
     /**
@@ -138,7 +138,7 @@ class Settings
      */
     protected function _resolvePathPattern($pattern)
     {
-        $result = array();
+        $result = [];
         $allPatterns = preg_split('/\s*;\s*/', trim($pattern), -1, PREG_SPLIT_NO_EMPTY);
         foreach ($allPatterns as $onePattern) {
             $onePattern = $this->_resolvePath($onePattern);

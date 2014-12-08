@@ -56,13 +56,13 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productId', $productSku, self::RESOURCE_PATH),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getChildren'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getChildren',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productId' => $productSku]);
     }

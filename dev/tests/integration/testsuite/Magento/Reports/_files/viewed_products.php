@@ -19,16 +19,16 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_virtual.php';
 $reportObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Reports\Model\Event\Observer'
 );
-foreach (array(1, 2, 1, 21, 1, 21) as $productId) {
+foreach ([1, 2, 1, 21, 1, 21] as $productId) {
     $reportObserver->catalogProductView(
         new \Magento\Framework\Event\Observer(
-            array(
+            [
                 'event' => new \Magento\Framework\Object(
-                        array(
-                            'product' => new \Magento\Framework\Object(array('id' => $productId))
-                        )
-                    )
-            )
+                        [
+                            'product' => new \Magento\Framework\Object(['id' => $productId]),
+                        ]
+                    ),
+            ]
         )
     );
 }

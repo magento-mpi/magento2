@@ -9,19 +9,19 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry;
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContent;
-use Magento\Framework\Filesystem;
-use \Magento\Catalog\Service\V1\Product\ProductLoader;
-use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
-use \Magento\Catalog\Model\Product;
-use \Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContentValidator;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Media\Config as MediaConfig;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContent;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContentValidator;
+use Magento\Catalog\Service\V1\Product\ProductLoader;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Store\Model\StoreFactory;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Store\Model\StoreFactory;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Exception\StateException;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -33,12 +33,12 @@ class WriteService implements WriteServiceInterface
      *
      * @var array
      */
-    private $mimeTypeExtensionMap = array(
+    private $mimeTypeExtensionMap = [
         'image/jpg' => 'jpg',
         'image/jpeg' => 'jpg',
         'image/gif' => 'gif',
         'image/png' => 'png',
-    );
+    ];
 
     /**
      * @var GalleryEntryContentValidator
@@ -127,11 +127,11 @@ class WriteService implements WriteServiceInterface
             $entry->isDisabled()
         );
         // Update additional fields that are still empty after addImage call
-        $productMediaGallery->updateImage($product, $imageFileUri, array(
+        $productMediaGallery->updateImage($product, $imageFileUri, [
             'label' => $entry->getLabel(),
             'position' => $entry->getPosition(),
             'disabled' => $entry->isDisabled(),
-        ));
+        ]);
         $product->setStoreId($storeId);
         $product->save();
         // Remove all temporary files
@@ -160,11 +160,11 @@ class WriteService implements WriteServiceInterface
             throw new NoSuchEntityException('There is no image with provided ID.');
         }
 
-        $productMediaGallery->updateImage($product, $filePath, array(
+        $productMediaGallery->updateImage($product, $filePath, [
             'label' => $entry->getLabel(),
             'position' => $entry->getPosition(),
             'disabled' => $entry->isDisabled(),
-        ));
+        ]);
         $productMediaGallery->clearMediaAttribute($product, array_keys($product->getMediaAttributes()));
         $productMediaGallery->setMediaAttribute($product, $entry->getTypes(), $filePath);
         $product->setStoreId($storeId);

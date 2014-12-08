@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModule2\Service\V1;
 
-use Magento\TestModule2\Service\V1\Entity\ItemBuilder;
 use Magento\TestModule2\Service\V1\Entity\Item;
+use Magento\TestModule2\Service\V1\Entity\ItemBuilder;
 
 class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterface
 {
@@ -24,7 +24,7 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
     {
         $this->itemBuilder = $itemBuilder;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -42,7 +42,7 @@ class NoWebApiXml implements \Magento\TestModule2\Service\V1\NoWebApiXmlInterfac
 
         $result2 = $this->itemBuilder->setId(2)->setName('testProduct2')->create();
 
-        return array($result1, $result2);
+        return [$result1, $result2];
     }
 
     /**

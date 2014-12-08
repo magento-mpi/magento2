@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Di\Compiler\Log;
 
-use Magento\Tools\Di\Compiler\Log\Writer;
 
 class Log
 {
@@ -38,14 +37,14 @@ class Log
      *
      * @var array
      */
-    protected $_successEntries = array();
+    protected $_successEntries = [];
 
     /**
      * List of error entries
      *
      * @var array
      */
-    protected $_errorEntries = array();
+    protected $_errorEntries = [];
 
     /**
      * @param Writer\WriterInterface $successWriter
@@ -55,12 +54,12 @@ class Log
     {
         $this->_successWriter = $successWriter;
         $this->_errorWriter = $errorWriter;
-        $this->_successEntries[self::GENERATION_SUCCESS] = array();
-        $this->_errorEntries = array(
-            self::CONFIGURATION_ERROR => array(),
-            self::GENERATION_ERROR => array(),
-            self::COMPILATION_ERROR => array()
-        );
+        $this->_successEntries[self::GENERATION_SUCCESS] = [];
+        $this->_errorEntries = [
+            self::CONFIGURATION_ERROR => [],
+            self::GENERATION_ERROR => [],
+            self::COMPILATION_ERROR => [],
+        ];
     }
 
     /**

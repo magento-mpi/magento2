@@ -33,7 +33,7 @@ $parameters = $this->getParameters();
             <div class="field">
                 <label class="label" for="options_<?php echo $uniqueHash; ?>_anchor_text_<?php echo $store['value']; ?>"><?php echo __('Anchor Custom Text'); ?></label>
                 <div class="control">
-                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('anchor_text_'.$store['value']); ?>" name="parameters[anchor_text_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text">
+                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('anchor_text_' . $store['value']); ?>" name="parameters[anchor_text_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text">
                     <div id="note_options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>anchor_text" class="note"><?php echo __('If this value is empty, the node or page name will be used.'); ?></div>
                 </div>
             </div>
@@ -41,14 +41,14 @@ $parameters = $this->getParameters();
             <div class="field">
                 <label class="label" for="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>title"><?php echo __('Anchor Custom Title'); ?></label>
                 <div class="control">
-                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('title_'.$store['value']); ?>" name="parameters[title_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>title">
+                    <input type="text" class="widget-option input-text" value="<?php echo $this->getParamValue('title_' . $store['value']); ?>" name="parameters[title_<?php echo $store['value']; ?>]" id="options_<?php echo $uniqueHash; ?>_<?php echo $store['value']; ?>title">
                 </div>
             </div>
 
             <div class="field">
                 <label class="label"><?php echo __('Node');?></label>
                 <div class="control">
-                    <input style="display:none;" type="text" class="widget-option required-entry" value="<?php echo $this->getParamValue('node_id_'.$store['value']); ?>" name="parameters[node_id_<?php echo $store['value']; ?>]" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value" />
+                    <input style="display:none;" type="text" class="widget-option required-entry" value="<?php echo $this->getParamValue('node_id_' . $store['value']); ?>" name="parameters[node_id_<?php echo $store['value']; ?>]" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value" />
                     <label id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label" class="widget-option-label"><?php echo __('Not Selected'); ?></label>
                     <div class="hidden" id="<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container"></div>
                 </div>
@@ -71,11 +71,11 @@ require(['prototype', 'mage/adminhtml/wysiwyg/widget'], function(){
 
 //<![CDATA[
     <?php foreach ($this->getAllStoreViews() as $store): ?>
-        <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', array('uniq_id' => $uniqueId.'_'.$store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store'));?>", {"buttons":{"open":"Select a page or node.","close":"Close"}});
+        <?php echo $uniqueId; ?>_<?php echo $store['value']; ?> = new WysiwygWidget.chooser("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>", "<?php echo $this->getUrl('*/cms_hierarchy_widget/chooser', ['uniq_id' => $uniqueId . '_' . $store['value'], 'scope_id' => $store['value'], 'scope' => ($store['value'] == 0) ? 'default' : 'store']);?>", {"buttons":{"open":"Select a page or node.","close":"Close"}});
         if ($("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value")) {
             $("<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>value").advaiceContainer = "<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>advice-container";
         }
-        $('<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label').update('<?php echo $this->escapeHtml($this->getLabelByNodeId($this->getParamValue('node_id_'.$store['value'])))?>');
+        $('<?php echo $uniqueId; ?>_<?php echo $store['value']; ?>label').update('<?php echo $this->escapeHtml($this->getLabelByNodeId($this->getParamValue('node_id_' . $store['value'])))?>');
     <?php endforeach; ?>
     var storesArray = [<?php echo implode($this->getAllStoreViewIds(), ',')?>];
 
@@ -185,7 +185,7 @@ require(['prototype', 'mage/adminhtml/wysiwyg/widget'], function(){
 
     window.changeHierarchyArray = changeHierarchyArray;
     window.storesArray = storesArray;
-    
+
     if (document.loaded) {
         onLoadCallback();
     } else {

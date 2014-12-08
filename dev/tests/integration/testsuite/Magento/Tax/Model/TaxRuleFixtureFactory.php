@@ -74,7 +74,6 @@ class TaxRuleFixtureFactory
      */
     public function createTaxRates($ratesData)
     {
-
         /** @var \Magento\Tax\Api\Data\TaxRateDataBuilder $taxRateBuilder */
         $taxRateBuilder = $this->objectManager->create('Magento\Tax\Api\Data\TaxRateDataBuilder');
         /** @var \Magento\Tax\Api\TaxRateRepositoryInterface $taxRateService */

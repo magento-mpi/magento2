@@ -8,10 +8,10 @@
 
 namespace Magento\Msrp\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Apply minimum advertised price to Configurable product

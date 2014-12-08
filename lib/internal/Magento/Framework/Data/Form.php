@@ -61,10 +61,10 @@ class Form extends \Magento\Framework\Data\Form\AbstractForm
         Factory $factoryElement,
         ElementCollectionFactory $factoryCollection,
         FormKey $formKey,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $data);
-        $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
+        $this->_allElements = $this->_factoryCollection->create(['container' => $this]);
         $this->formKey = $formKey;
     }
 
@@ -126,7 +126,7 @@ class Form extends \Magento\Framework\Data\Form\AbstractForm
      */
     public function getHtmlAttributes()
     {
-        return array('id', 'name', 'method', 'action', 'enctype', 'class', 'onsubmit', 'target');
+        return ['id', 'name', 'method', 'action', 'enctype', 'class', 'onsubmit', 'target'];
     }
 
     /**

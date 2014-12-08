@@ -9,8 +9,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell\Grid as CrosssellGrid;
+use Mtf\Client\Element;
 
 /**
  * Class Crosssell

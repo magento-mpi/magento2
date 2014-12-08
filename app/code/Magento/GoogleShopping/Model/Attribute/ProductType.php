@@ -43,7 +43,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->categoryRepository = $categoryRepository;
         parent::__construct(
@@ -68,7 +68,6 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
      */
     public function convertAttribute($product, $entry)
     {
-
         $productCategories = $product->getCategoryIds();
 
         // TODO: set Default value for product_type attribute if product isn't assigned for any category
@@ -77,7 +76,7 @@ class ProductType extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribu
         if (!empty($productCategories)) {
             $category = $this->categoryRepository->get(array_shift($productCategories));
 
-            $breadcrumbs = array();
+            $breadcrumbs = [];
 
             foreach ($category->getParentCategories() as $cat) {
                 $breadcrumbs[] = $cat->getName();

@@ -28,7 +28,7 @@ $category->setId(
     1
 )->save();
 
-$urlKeys = array('url-key', 'url-key-1', 'url-key-2', 'url-key-5', 'url-key-1000', 'url-key-999', 'url-key-asdf');
+$urlKeys = ['url-key', 'url-key-1', 'url-key-2', 'url-key-5', 'url-key-1000', 'url-key-999', 'url-key-asdf'];
 
 foreach ($urlKeys as $i => $urlKey) {
     $id = $i + 1;
@@ -42,7 +42,7 @@ foreach ($urlKeys as $i => $urlKey) {
     )->setAttributeSetId(
         4
     )->setWebsiteIds(
-        array(1)
+        [1]
     )->setName(
         'Simple Product ' . $id
     )->setSku(
@@ -50,7 +50,7 @@ foreach ($urlKeys as $i => $urlKey) {
     )->setPrice(
         10
     )->setCategoryIds(
-        array(3)
+        [3]
     )->setVisibility(
         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
     )->setStatus(

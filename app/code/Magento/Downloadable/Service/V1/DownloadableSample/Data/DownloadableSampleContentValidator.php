@@ -8,9 +8,9 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableSample\Data;
 
-use \Magento\Downloadable\Service\V1\Data\FileContentValidator;
-use \Magento\Framework\Url\Validator as UrlValidator;
-use \Magento\Framework\Exception\InputException;
+use Magento\Downloadable\Service\V1\Data\FileContentValidator;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Url\Validator as UrlValidator;
 
 class DownloadableSampleContentValidator
 {

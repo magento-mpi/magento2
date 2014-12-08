@@ -36,12 +36,12 @@ class Item extends \Magento\Sales\Block\Adminhtml\Order\Totals
     public function initTotals()
     {
         $total = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),
                 'area' => $this->getDisplayArea(),
-                'strong' => $this->getStrong()
-            )
+                'strong' => $this->getStrong(),
+            ]
         );
         if ($this->getBeforeCondition()) {
             $this->getParentBlock()->addTotalBefore($total, $this->getBeforeCondition());

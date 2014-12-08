@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -19,5 +19,5 @@ interface FileProviderInterface
      * @param array $filters
      * @return \Magento\Framework\View\Design\Theme\FileInterface[]
      */
-    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = array());
+    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = []);
 }

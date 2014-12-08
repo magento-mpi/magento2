@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Interpreter that instantiates object by a class name

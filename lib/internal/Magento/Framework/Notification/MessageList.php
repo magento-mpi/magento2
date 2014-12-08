@@ -33,7 +33,7 @@ class MessageList
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $messages
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $messages = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $messages = [])
     {
         $this->_objectManager = $objectManager;
         $this->_messageClasses = $messages;
@@ -61,7 +61,6 @@ class MessageList
             } else {
                 throw new \UnexpectedValueException("Message class has to implement the message interface.");
             }
-
         }
     }
 

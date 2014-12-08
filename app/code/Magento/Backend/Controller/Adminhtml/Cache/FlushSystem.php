@@ -8,7 +8,6 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\Cache;
 
-
 class FlushSystem extends \Magento\Backend\Controller\Adminhtml\Cache
 {
     /**

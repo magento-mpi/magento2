@@ -58,7 +58,7 @@ class Data
      */
     public function getStatusesOptionArray()
     {
-        return array(1 => __('Enabled'), 0 => __('Disabled'));
+        return [1 => __('Enabled'), 0 => __('Disabled')];
     }
 
     /**
@@ -68,7 +68,7 @@ class Data
      */
     public function getOperationsOptionArray()
     {
-        return array('import' => __('Import'), 'export' => __('Export'));
+        return ['import' => __('Import'), 'export' => __('Export')];
     }
 
     /**
@@ -78,11 +78,11 @@ class Data
      */
     public function getFrequencyOptionArray()
     {
-        return array(
+        return [
             \Magento\Cron\Model\Config\Source\Frequency::CRON_DAILY => __('Daily'),
             \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY => __('Weekly'),
             \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY => __('Monthly')
-        );
+        ];
     }
 
     /**
@@ -92,7 +92,7 @@ class Data
      */
     public function getServerTypesOptionArray()
     {
-        return array(self::FILE_STORAGE => __('Local Server'), self::FTP_STORAGE => __('Remote FTP'));
+        return [self::FILE_STORAGE => __('Local Server'), self::FTP_STORAGE => __('Remote FTP')];
     }
 
     /**
@@ -102,7 +102,7 @@ class Data
      */
     public function getFileModesOptionArray()
     {
-        return array(FTP_BINARY => __('Binary'), FTP_ASCII => __('ASCII'));
+        return [FTP_BINARY => __('Binary'), FTP_ASCII => __('ASCII')];
     }
 
     /**
@@ -112,7 +112,7 @@ class Data
      */
     public function getForcedImportOptionArray()
     {
-        return array(0 => __('Stop Import'), 1 => __('Continue Processing'));
+        return [0 => __('Stop Import'), 1 => __('Continue Processing')];
     }
 
     /**
@@ -122,7 +122,7 @@ class Data
      */
     public function getResultOptionArray()
     {
-        return array(0 => __('Failed'), 1 => __('Successful'), self::STATUS_PENDING => __('Pending'));
+        return [0 => __('Failed'), 1 => __('Successful'), self::STATUS_PENDING => __('Pending')];
     }
 
     /**
@@ -133,11 +133,11 @@ class Data
      */
     public function getEntitiesOptionArray($type = null)
     {
-        $importOptions = array();
+        $importOptions = [];
         foreach ($this->_importConfig->getEntities() as $entityName => $entityConfig) {
             $importOptions[$entityName] = __($entityConfig['label']);
         }
-        $exportOptions = array();
+        $exportOptions = [];
         foreach ($this->_exportConfig->getEntities() as $entityName => $entityConfig) {
             $exportOptions[$entityName] = __($entityConfig['label']);
         }

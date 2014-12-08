@@ -20,7 +20,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectManagerMock;
 
-
     protected function setUp()
     {
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
@@ -51,20 +50,20 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($className, array('text' => 'text'))
+            ->with($className, ['text' => 'text'])
             ->will($this->returnValue($messageMock));
         $this->factory->create($type, 'text');
     }
 
     public function testSuccessfulCreateMessage()
     {
-        $messageMock = $this->getMock('Magento\Framework\Message\Success', array(), array(), '', false);
+        $messageMock = $this->getMock('Magento\Framework\Message\Success', [], [], '', false);
         $type = 'success';
         $className = 'Magento\\Framework\\Message\\' . ucfirst($type);
         $this->objectManagerMock
             ->expects($this->once())
             ->method('create')
-            ->with($className, array('text' => 'text'))
+            ->with($className, ['text' => 'text'])
             ->will($this->returnValue($messageMock));
         $this->assertEquals($messageMock, $this->factory->create($type, 'text'));
     }

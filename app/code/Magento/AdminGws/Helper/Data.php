@@ -23,7 +23,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function explodeIds($ids, $separator = ',')
     {
         if (empty($ids) && $ids !== 0 && $ids !== '0') {
-            return array();
+            return [];
         }
         if (!is_array($ids)) {
             return explode($separator, $ids);

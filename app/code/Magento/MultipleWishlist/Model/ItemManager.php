@@ -51,7 +51,7 @@ class ItemManager
         $wishlist->addNewItem($item->getProduct(), $buyRequest);
         $this->eventManager->dispatch(
             'wishlist_add_product',
-            array('wishlist' => $wishlist, 'product' => $item->getProduct(), 'item' => $item)
+            ['wishlist' => $wishlist, 'product' => $item->getProduct(), 'item' => $item]
         );
     }
 

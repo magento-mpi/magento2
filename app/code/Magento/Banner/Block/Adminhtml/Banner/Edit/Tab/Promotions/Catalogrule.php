@@ -30,7 +30,7 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         parent::__construct($context, $backendHelper, $data);
@@ -52,7 +52,7 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setSaveParametersInSession(true);
         $this->setVarNameFilter('related_catalogrule_filter');
         if ($this->_getBanner() && $this->_getBanner()->getId()) {
-            $this->setDefaultFilter(array('in_banner_catalogrule' => 1));
+            $this->setDefaultFilter(['in_banner_catalogrule' => 1]);
         }
     }
 
@@ -70,10 +70,10 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
                 $ruleIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('rule_id', array('in' => $ruleIds));
+                $this->getCollection()->addFieldToFilter('rule_id', ['in' => $ruleIds]);
             } else {
                 if ($ruleIds) {
-                    $this->getCollection()->addFieldToFilter('rule_id', array('nin' => $ruleIds));
+                    $this->getCollection()->addFieldToFilter('rule_id', ['nin' => $ruleIds]);
                 }
             }
         } else {
@@ -91,70 +91,69 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'in_banner_catalogrule',
-            array(
+            [
                 'type' => 'checkbox',
                 'name' => 'in_banner_catalogrule',
                 'values' => $this->_getSelectedRules(),
                 'index' => 'rule_id',
                 'header_css_class' => 'col-select col-massaction',
                 'column_css_class' => 'col-select col-massaction'
-            )
+            ]
         );
         $this->addColumn(
             'catalogrule_rule_id',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'rule_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
         $this->addColumn(
             'catalogrule_name',
-            array(
+            [
                 'header' => __('Rule'),
                 'index' => 'name',
                 'header_css_class' => 'col-name',
                 'column_css_class' => 'col-name'
-            )
+            ]
         );
 
         $this->addColumn(
             'catalogrule_from_date',
-            array(
+            [
                 'header' => __('Start on'),
                 'type' => 'date',
                 'index' => 'from_date',
                 'header_css_class' => 'col-date',
                 'column_css_class' => 'col-date'
-            )
+            ]
         );
 
         $this->addColumn(
             'catalogrule_to_date',
-            array(
+            [
                 'header' => __('End on'),
                 'type' => 'date',
                 'default' => '--',
                 'index' => 'to_date',
                 'header_css_class' => 'col-date',
                 'column_css_class' => 'col-date'
-            )
+            ]
         );
 
         $this->addColumn(
             'catalogrule_is_active',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'is_active',
                 'type' => 'options',
-                'options' => array(1 => 'Active', 0 => 'Inactive'),
+                'options' => [1 => 'Active', 0 => 'Inactive'],
                 'header_css_class' => 'col-status',
                 'column_css_class' => 'col-status'
-            )
+            ]
         );
-
 
         return parent::_prepareColumns();
     }
@@ -166,7 +165,7 @@ class Catalogrule extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/catalogRuleGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/catalogRuleGrid', ['_current' => true]);
     }
 
     /**

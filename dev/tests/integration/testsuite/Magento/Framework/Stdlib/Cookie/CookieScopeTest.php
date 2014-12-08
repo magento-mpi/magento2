@@ -25,7 +25,6 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = Bootstrap::getObjectManager();
-
     }
 
     public function testGetSensitiveCookieMetadataEmpty()
@@ -62,7 +61,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => $sensitive,
                 'publicCookieMetadata' => null,
-                'cookieMetadata' => null
+                'cookieMetadata' => null,
             ]
         );
         $this->assertEquals(
@@ -104,7 +103,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $cookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'deleteCookieMetadata' => $cookieMetadata
+                'deleteCookieMetadata' => $cookieMetadata,
             ]
         );
         $this->assertEquals($defaultValues, $cookieScope->getCookieMetadata()->__toArray());
@@ -177,7 +176,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
         $deleteCookieMetadata = $this->createCookieMetadata($defaultValues);
         $cookieScope = $this->createCookieScope(
             [
-                'deleteCookieMetadata' => $deleteCookieMetadata
+                'deleteCookieMetadata' => $deleteCookieMetadata,
             ]
         );
         $override = $this->createCookieMetadata($overrideValues);
@@ -236,5 +235,4 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             ['metadata' => $metadata]
         );
     }
-
 }

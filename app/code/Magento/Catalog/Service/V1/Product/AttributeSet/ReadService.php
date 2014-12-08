@@ -71,7 +71,7 @@ class ReadService implements ReadServiceInterface
      */
     public function getList()
     {
-        $sets = array();
+        $sets = [];
 
         $attributeSetsCollection = $this->setCollectionFactory->create()
             ->setEntityTypeFilter($this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId())
@@ -120,7 +120,7 @@ class ReadService implements ReadServiceInterface
         }
         $attributeCollection = $this->attributeCollection->setAttributeSetFilter($attributeSet->getId())->load();
 
-        $attributes = array();
+        $attributes = [];
         /** @var \Magento\Eav\Model\Entity\Attribute $attribute */
         foreach ($attributeCollection as $attribute) {
             $attributes[] = $this->attributeBuilder->setId($attribute->getAttributeId())
@@ -133,6 +133,5 @@ class ReadService implements ReadServiceInterface
                 ->create();
         }
         return $attributes;
-
     }
 }

@@ -107,7 +107,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute
         LockValidatorInterface $lockValidator,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->attrLockValidator = $lockValidator;
         parent::__construct(

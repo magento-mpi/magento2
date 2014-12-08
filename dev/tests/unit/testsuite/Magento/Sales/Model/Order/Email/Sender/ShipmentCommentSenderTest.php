@@ -147,7 +147,7 @@ class ShipmentCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'shipment' => $this->shipmentMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -195,7 +195,7 @@ class ShipmentCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'shipment' => $this->shipmentMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

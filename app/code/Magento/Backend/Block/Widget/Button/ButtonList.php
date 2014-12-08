@@ -41,11 +41,11 @@ class ButtonList
     public function add($buttonId, $data, $level = 0, $sortOrder = 0, $region = 'toolbar')
     {
         if (!isset($this->_buttons[$level])) {
-            $this->_buttons[$level] = array();
+            $this->_buttons[$level] = [];
         }
 
         $data['id'] = empty($data['id']) ? $buttonId : $data['id'];
-        $data['button_key'] = $data['id'] . '_button' ;
+        $data['button_key'] = $data['id'] . '_button';
         $data['region'] = empty($data['region']) ? $region : $data['region'];
         $data['level'] = $level;
         $sortOrder = $sortOrder ?: (count($this->_buttons[$level]) + 1) * 10;

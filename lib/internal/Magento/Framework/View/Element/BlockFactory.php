@@ -39,7 +39,7 @@ class BlockFactory
      * @return \Magento\Framework\View\Element\BlockInterface
      * @throws \LogicException
      */
-    public function createBlock($blockName, array $arguments = array())
+    public function createBlock($blockName, array $arguments = [])
     {
         $block = $this->objectManager->create($blockName, $arguments);
         if (!$block instanceof BlockInterface) {

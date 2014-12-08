@@ -40,7 +40,7 @@ class GiftregistryTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost(
             'type',
-            array('code' => 'test_registry', 'label' => 'Test', 'sort_order' => 10, 'is_listed' => 1)
+            ['code' => 'test_registry', 'label' => 'Test', 'sort_order' => 10, 'is_listed' => 1]
         );
         $this->dispatch('backend/admin/giftregistry/save/store/0');
         /** @var $type \Magento\GiftRegistry\Model\Type */

@@ -23,4 +23,4 @@ class InvalidEmailOrPasswordExceptionTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame('Invalid email or password', $exception->getMessage());
     }
-} 
+}

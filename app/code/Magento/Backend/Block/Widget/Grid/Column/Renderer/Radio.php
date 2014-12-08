@@ -37,7 +37,7 @@ class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_converter = $converter;
@@ -62,7 +62,7 @@ class Radio extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     public function getValues()
     {
         if (is_null($this->_values)) {
-            $this->_values = $this->getColumn()->getData('values') ? $this->getColumn()->getData('values') : array();
+            $this->_values = $this->getColumn()->getData('values') ? $this->getColumn()->getData('values') : [];
         }
         return $this->_values;
     }

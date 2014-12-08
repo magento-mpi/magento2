@@ -8,9 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Attributes;
 
-use Mtf\Client\Element;
-use Mtf\Client\Driver\Selenium\Element\SuggestElement;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Client\Driver\Selenium\Element\SuggestElement;
 
 /**
  * Class FormAttributeSearch

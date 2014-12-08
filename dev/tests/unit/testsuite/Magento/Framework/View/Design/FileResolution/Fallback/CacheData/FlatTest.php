@@ -28,7 +28,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cache = $this->getMock(
-            '\Magento\Framework\View\Design\FileResolution\Fallback\Cache', array(), array(), '', false
+            '\Magento\Framework\View\Design\FileResolution\Fallback\Cache', [], [], '', false
         );
 
         $this->theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');

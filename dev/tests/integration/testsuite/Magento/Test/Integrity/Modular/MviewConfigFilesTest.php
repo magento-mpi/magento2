@@ -16,7 +16,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $fileList = array();
+    protected $fileList = [];
 
     /**
      * Path to scheme file

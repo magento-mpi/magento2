@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Model\Resource;
 
+use Magento\Customer\Api\AddressRepositoryInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Api\AddressRepositoryInterface;
 
 /**
  * Integration test for \Magento\Customer\Model\Resource\AddressRepository
@@ -70,7 +70,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             ->setLastname('Smith');
         $address2 = $this->_addressBuilder->create();
 
-        $this->_expectedAddresses = array($address, $address2);
+        $this->_expectedAddresses = [$address, $address2];
     }
 
     protected function tearDown()
@@ -231,7 +231,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             $this->repository->save($proposedAddress);
             $this->fail('Expected exception not thrown');
         } catch (NoSuchEntityException $nsee) {
-             $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
+            $this->assertEquals('No such entity with customerId = this_is_not_a_valid_id', $nsee->getMessage());
         }
     }
 
@@ -349,12 +349,12 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
             'Address with postcode 75477' => [
                 [$filterBuilder->setField('postcode')->setValue('75477')->create()],
                 null,
-                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']]
+                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']],
             ],
             'Address with city CityM' => [
                 [$filterBuilder->setField('city')->setValue('CityM')->create()],
                 null,
-                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']]
+                [1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John']],
             ],
             'Addresses with firstname John' => [
                 [$filterBuilder->setField('firstname')->setValue('John')->create()],
@@ -362,7 +362,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
                     2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
-                ]
+                ],
             ],
             'Addresses with postcode of either 75477 or 47676' => [
                 [],
@@ -373,7 +373,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
                     2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
-                ]
+                ],
             ],
             'Addresses with postcode greater than 0' => [
                 [$filterBuilder->setField('postcode')->setValue('0')->setConditionType('gt')->create()],
@@ -381,7 +381,7 @@ class AddressRepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => ['city' => 'CityM', 'postcode' => 75477, 'firstname' => 'John'],
                     2 => ['city' => 'CityX', 'postcode' => 47676, 'firstname' => 'John']
-                ]
+                ],
             ]
         ];
     }

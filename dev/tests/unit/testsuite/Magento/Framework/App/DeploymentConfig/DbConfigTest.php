@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-
 class DbConfigTest extends \PHPUnit_Framework_TestCase
 {
     private $data = [
@@ -23,7 +22,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                 DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                 DbConfig::KEY_ACTIVE => '1',
             ],
-        ]
+        ],
     ];
 
     public function testGetKey()
@@ -73,8 +72,8 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                                 DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                                 DbConfig::KEY_ACTIVE => '1',
                             ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             [
                 [
@@ -89,7 +88,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
             [
@@ -105,7 +104,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
             [
@@ -121,7 +120,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
         ];

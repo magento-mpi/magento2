@@ -1,7 +1,7 @@
 <?php
 /**
  * Payment config reader
- * 
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -16,9 +16,9 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/payment/credit_cards/type' => 'id',
         '/payment/groups/group' => 'id',
-        '/payment/methods/method' => 'name'
-    );
+        '/payment/methods/method' => 'name',
+    ];
 }

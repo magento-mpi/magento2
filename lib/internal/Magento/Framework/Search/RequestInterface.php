@@ -8,8 +8,8 @@
 namespace Magento\Framework\Search;
 
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Framework\Search\Request\QueryInterface;
 use Magento\Framework\Search\Request\Dimension;
+use Magento\Framework\Search\Request\QueryInterface;
 
 /**
  * Search Request

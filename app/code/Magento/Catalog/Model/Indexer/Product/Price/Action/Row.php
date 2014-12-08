@@ -26,7 +26,7 @@ class Row extends \Magento\Catalog\Model\Indexer\Product\Price\AbstractAction
             throw new \Magento\Catalog\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_reindexRows(array($id));
+            $this->_reindexRows([$id]);
         } catch (\Exception $e) {
             throw new \Magento\Catalog\Exception($e->getMessage(), $e->getCode(), $e);
         }

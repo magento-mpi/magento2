@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
@@ -36,28 +35,28 @@ class TabTest extends \PHPUnit_Framework_TestCase
 
     public function testTransform()
     {
-        $config = array(
-            'tab_1' => array(
-                'sort_order' => array('#text' => 10),
-                'frontend_type' => array('#text' => 'text'),
-                'class' => array('#text' => 'css class'),
-                'label' => array('#text' => 'tab label'),
-                'comment' => array('#cdata-section' => 'tab comment')
-            ),
-            'tab_2' => array()
-        );
+        $config = [
+            'tab_1' => [
+                'sort_order' => ['#text' => 10],
+                'frontend_type' => ['#text' => 'text'],
+                'class' => ['#text' => 'css class'],
+                'label' => ['#text' => 'tab label'],
+                'comment' => ['#cdata-section' => 'tab comment'],
+            ],
+            'tab_2' => [],
+        ];
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'nodeName' => 'tab',
-                '@attributes' => array('id' => 'tab_1', 'sortOrder' => 10, 'type' => 'text', 'class' => 'css class'),
-                'parameters' => array(
-                    array('name' => 'label', '#text' => 'tab label'),
-                    array('name' => 'comment', '#cdata-section' => 'tab comment')
-                )
-            ),
-            array('nodeName' => 'tab', '@attributes' => array('id' => 'tab_2'), 'parameters' => array())
-        );
+                '@attributes' => ['id' => 'tab_1', 'sortOrder' => 10, 'type' => 'text', 'class' => 'css class'],
+                'parameters' => [
+                    ['name' => 'label', '#text' => 'tab label'],
+                    ['name' => 'comment', '#cdata-section' => 'tab comment'],
+                ],
+            ],
+            ['nodeName' => 'tab', '@attributes' => ['id' => 'tab_2'], 'parameters' => []],
+        ];
 
         $actual = $this->_object->transform($config);
         $this->assertEquals($expected, $actual);

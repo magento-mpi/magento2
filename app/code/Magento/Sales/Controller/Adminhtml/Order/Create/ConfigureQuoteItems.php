@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class ConfigureQuoteItems extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
@@ -36,7 +35,7 @@ class ConfigureQuoteItems extends \Magento\Sales\Controller\Adminhtml\Order\Crea
             $optionCollection = $this->_objectManager->create(
                 'Magento\Sales\Model\Quote\Item\Option'
             )->getCollection()->addItemFilter(
-                array($quoteItemId)
+                [$quoteItemId]
             );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 

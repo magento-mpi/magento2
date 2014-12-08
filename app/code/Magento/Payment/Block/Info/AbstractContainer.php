@@ -29,7 +29,7 @@ abstract class AbstractContainer extends \Magento\Framework\View\Element\Templat
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $data);

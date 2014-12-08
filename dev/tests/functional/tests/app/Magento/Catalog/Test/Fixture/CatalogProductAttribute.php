@@ -32,7 +32,7 @@ class CatalogProductAttribute extends InjectableFixture
     protected $defaultDataSet = [
         'frontend_label' => 'attribute_label%isolation%',
         'frontend_input' => 'Text Field',
-        'is_required' => 'No'
+        'is_required' => 'No',
     ];
 
     protected $attribute_id = [

@@ -7,10 +7,10 @@
  */
 namespace Magento\Pbridge\Model;
 
-use Magento\Framework\Math\Random;
-use Magento\Framework\Encryption\CryptFactory;
-use Magento\Framework\Encryption\Crypt;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\Encryption\CryptFactory;
+use Magento\Framework\Math\Random;
 
 class Encryption extends \Magento\Pci\Model\Encryption
 {
@@ -29,7 +29,7 @@ class Encryption extends \Magento\Pci\Model\Encryption
         $key
     ) {
         parent::__construct($randomGenerator, $cryptFactory, $deploymentConfig);
-        $this->_keys = array($key);
+        $this->_keys = [$key];
         $this->_keyVersion = 0;
     }
 

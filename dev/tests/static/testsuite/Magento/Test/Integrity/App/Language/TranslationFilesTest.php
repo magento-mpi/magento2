@@ -55,7 +55,7 @@ class TranslationFilesTest extends TranslationFiles
 
         $parser->parse($optionResolver->getOptions());
 
-        $defaultLocale = array();
+        $defaultLocale = [];
         foreach ($parser->getPhrases() as $key => $phrase) {
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
                 throw new \RuntimeException(sprintf('Missed context in row #%d.', $key + 1));
@@ -105,11 +105,11 @@ class TranslationFilesTest extends TranslationFiles
         $phraseCollector = new \Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer\PhraseCollector(
             new \Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer()
         );
-        $adapters = array(
+        $adapters = [
             'php' => new \Magento\Tools\I18n\Parser\Adapter\Php($phraseCollector),
             'js' =>  new \Magento\Tools\I18n\Parser\Adapter\Js(),
-            'xml' => new \Magento\Tools\I18n\Parser\Adapter\Xml()
-        );
+            'xml' => new \Magento\Tools\I18n\Parser\Adapter\Xml(),
+        ];
 
         $parserContextual = new \Magento\Tools\I18n\Parser\Contextual(
             $filesCollector,
@@ -144,7 +144,7 @@ class TranslationFilesTest extends TranslationFiles
         $this->markTestSkipped('MAGETWO-26083');
         $files = $this->getCsvFiles($placePath);
 
-        $failures = array();
+        $failures = [];
         foreach ($files as $locale => $file) {
             $fileData = $this->csvParser->getDataPairs($file);
             foreach ($fileData as $key => $translate) {

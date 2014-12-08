@@ -66,7 +66,7 @@ class SkuTest extends \PHPUnit_Framework_TestCase
     public function uniqueSkuDataProvider()
     {
         $product = $this->_getProduct();
-        return array(array($product));
+        return [[$product]];
     }
 
     /**
@@ -79,7 +79,7 @@ class SkuTest extends \PHPUnit_Framework_TestCase
         $product = $this->_getProduct();
         $product->setSku('0123456789012345678901234567890123456789012345678901234567890123');
         //strlen === 64
-        return array(array($product));
+        return [[$product]];
     }
 
     /**
@@ -100,7 +100,7 @@ class SkuTest extends \PHPUnit_Framework_TestCase
         )->setAttributeSetId(
             4
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setName(
             'Simple Product'
         )->setSku(
@@ -114,9 +114,9 @@ class SkuTest extends \PHPUnit_Framework_TestCase
         )->setStatus(
             \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
         )->setCategoryIds(
-            array(2)
+            [2]
         )->setStockData(
-            array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
+            ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1]
         );
         return $product;
     }

@@ -8,9 +8,9 @@
 
 namespace Magento\Rma\Test\Fixture\Rma;
 
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Source rma order id.

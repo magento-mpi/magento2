@@ -33,7 +33,7 @@ class Button extends \Magento\Framework\View\Element\Template
         $disabled = $this->getDisabled() ? 'disabled' : '';
         $title = $this->getTitle() ?: $this->getLabel();
 
-        $classes = array();
+        $classes = [];
         if ($this->getClass()) {
             $classes[] = $this->getClass();
         }
@@ -54,7 +54,7 @@ class Button extends \Magento\Framework\View\Element\Template
      */
     protected function _prepareAttributes($title, $classes, $disabled)
     {
-        return array(
+        return [
             'id' => $this->getId(),
             'name' => $this->getElementName(),
             'href' => $this->getHref(),
@@ -63,7 +63,7 @@ class Button extends \Magento\Framework\View\Element\Template
             'style' => $this->getStyle(),
             'target' => $this->getTarget(),
             'disabled' => $disabled
-        );
+        ];
     }
 
     /**

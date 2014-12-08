@@ -31,19 +31,19 @@ class TruncateTest extends \PHPUnit_Framework_TestCase
     public function truncateDataProvider()
     {
         $remainder = '';
-        return array(
-            '1' => array(
+        return [
+            '1' => [
                 '1234567890',
-                array(new \Magento\Framework\Stdlib\String(), 5, '...', '', true),
+                [new \Magento\Framework\Stdlib\String(), 5, '...', '', true],
                 '12...',
-                '34567890'
-            ),
-            '2' => array(
+                '34567890',
+            ],
+            '2' => [
                 '123 456 789',
-                array(new \Magento\Framework\Stdlib\String(), 8, '..', $remainder, false),
+                [new \Magento\Framework\Stdlib\String(), 8, '..', $remainder, false],
                 '123..',
-                ' 456 789'
-            )
-        );
+                ' 456 789',
+            ]
+        ];
     }
 }

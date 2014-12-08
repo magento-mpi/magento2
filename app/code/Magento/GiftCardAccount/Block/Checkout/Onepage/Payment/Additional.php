@@ -24,7 +24,7 @@ class Additional extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;

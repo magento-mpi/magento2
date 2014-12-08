@@ -25,27 +25,27 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $config = $this->getMockBuilder(
             'Magento\Framework\View\Layout\PageType\Config'
         )->setMethods(
-            array('getPageTypes')
+            ['getPageTypes']
         )->disableOriginalConstructor()->getMock();
-        $pageTypeValues = array(
-            'wishlist_index_index' => array(
+        $pageTypeValues = [
+            'wishlist_index_index' => [
                 'label' => 'Customer My Account My Wish List',
-                'id' => 'wishlist_index_index'
-            ),
-            'cms_index_nocookies' => array('label' => 'CMS No-Cookies Page', 'id' => 'cms_index_nocookies'),
-            'cms_index_defaultindex' => array('label' => 'CMS Home Default Page', 'id' => 'cms_index_defaultindex')
-        );
+                'id' => 'wishlist_index_index',
+            ],
+            'cms_index_nocookies' => ['label' => 'CMS No-Cookies Page', 'id' => 'cms_index_nocookies'],
+            'cms_index_defaultindex' => ['label' => 'CMS Home Default Page', 'id' => 'cms_index_defaultindex'],
+        ];
         $config->expects($this->any())->method('getPageTypes')->will($this->returnValue($pageTypeValues));
 
         $this->_block = new \Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Layout(
             $objectManager->get('Magento\Framework\View\Element\Template\Context'),
             $config,
-            array(
+            [
                 'name' => 'page_type',
                 'id' => 'page_types_select',
                 'class' => 'page-types-select',
                 'title' => 'Page Types Select'
-            )
+            ]
         );
     }
 

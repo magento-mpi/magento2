@@ -36,9 +36,9 @@ class Synchronize extends \Magento\Backend\Controller\Adminhtml\System\Config\Sy
             return;
         }
 
-        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)->setFlagData(array())->save();
+        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)->setFlagData([])->save();
 
-        $storage = array('type' => $requestStorage);
+        $storage = ['type' => $requestStorage];
         if (isset($requestConnection) && !empty($requestConnection)) {
             $storage['connection'] = $requestConnection;
         }

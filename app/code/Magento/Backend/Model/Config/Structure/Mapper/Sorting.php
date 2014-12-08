@@ -38,7 +38,7 @@ class Sorting extends \Magento\Backend\Model\Config\Structure\AbstractMapper
                 $item['children'] = $this->_processConfig($item['children']);
             }
         }
-        uasort($data, array($this, '_cmp'));
+        uasort($data, [$this, '_cmp']);
         return $data;
     }
 

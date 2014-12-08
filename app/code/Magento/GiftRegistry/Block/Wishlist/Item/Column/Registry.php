@@ -31,7 +31,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
@@ -56,7 +56,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 

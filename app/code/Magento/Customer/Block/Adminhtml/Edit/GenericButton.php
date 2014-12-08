@@ -8,7 +8,6 @@
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Class GenericButton
@@ -44,7 +43,6 @@ class GenericButton
         $this->registry = $registry;
     }
 
-
     /**
      * Return the customer Id.
      *
@@ -62,7 +60,7 @@ class GenericButton
      * @param   array $params
      * @return  string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return $this->urlBuilder->getUrl($route, $params);
     }

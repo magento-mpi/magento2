@@ -13,7 +13,7 @@ $defaultReportFile = 'report.log';
 
 try {
     $options = new \Zend_Console_Getopt(
-        array(
+        [
             'file=s' => "File containing json encoded acl identifier map (old => new)",
             'mode|w' => "Application mode.  Preview mode is default. If set to 'write' - database is updated.",
             'output|f-w' => "Report output type. Report is flushed to console by default." .
@@ -23,8 +23,8 @@ try {
             'dbuser=s' => "Database server user",
             'dbpassword=s' => "Database server password",
             'dbname=s' => "Database name",
-            'dbtable=s' => "Table containing resource ids"
-        )
+            'dbtable=s' => "Table containing resource ids",
+        ]
     );
 
     $fileReader = new \Magento\Tools\Migration\Acl\Db\FileReader();
@@ -34,12 +34,12 @@ try {
     $dbAdapterFactory = new \Magento\Tools\Migration\Acl\Db\Adapter\Factory();
 
     $dbAdapter = $dbAdapterFactory->getAdapter(
-        $dbConfig = array(
+        $dbConfig = [
             'host' => $options->getOption('dbhost'),
             'username' => $options->getOption('dbuser'),
             'password' => $options->getOption('dbpassword'),
-            'dbname' => $options->getOption('dbname')
-        ),
+            'dbname' => $options->getOption('dbname'),
+        ],
         $options->getOption('dbprovider')
     );
 

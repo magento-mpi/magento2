@@ -36,7 +36,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
         $this->_systemStore = $systemStore;
@@ -70,55 +70,55 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         }
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $saveUrl, 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $saveUrl, 'method' => 'post']]
         );
 
         if ($showNew) {
             $fieldset = $form->addFieldset(
                 'base_fieldset',
-                array('legend' => __('General Information'), 'class' => 'fieldset-wide')
+                ['legend' => __('General Information'), 'class' => 'fieldset-wide']
             );
 
             $options = $this->_getFormType()->getCollection()->toOptionArray();
-            array_unshift($options, array('label' => __('-- Please Select --'), 'value' => ''));
+            array_unshift($options, ['label' => __('-- Please Select --'), 'value' => '']);
             $fieldset->addField(
                 'type_id',
                 'select',
-                array(
+                [
                     'name' => 'type_id',
                     'label' => __('Based On'),
                     'title' => __('Based On'),
                     'required' => true,
                     'values' => $options
-                )
+                ]
             );
 
             $fieldset->addField(
                 'label',
                 'text',
-                array('name' => 'label', 'label' => __('Form Label'), 'title' => __('Form Label'), 'required' => true)
+                ['name' => 'label', 'label' => __('Form Label'), 'title' => __('Form Label'), 'required' => true]
             );
 
             /** @var $label \Magento\Framework\View\Design\Theme\Label */
             $label = $this->_themeLabelFactory->create();
             $options = $label->getLabelsCollection();
-            array_unshift($options, array('label' => __('All Themes'), 'value' => ''));
+            array_unshift($options, ['label' => __('All Themes'), 'value' => '']);
             $fieldset->addField(
                 'theme',
                 'select',
-                array('name' => 'theme', 'label' => __('For Theme'), 'title' => __('For Theme'), 'values' => $options)
+                ['name' => 'theme', 'label' => __('For Theme'), 'title' => __('For Theme'), 'values' => $options]
             );
 
             $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'name' => 'store_id',
                     'label' => __('Store View'),
                     'title' => __('Store View'),
                     'required' => true,
                     'values' => $this->_systemStore->getStoreValuesForForm(false, true)
-                )
+                ]
             );
 
             $form->setValues($this->_getFormType()->getData());

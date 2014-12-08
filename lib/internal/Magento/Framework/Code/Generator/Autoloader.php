@@ -7,9 +7,7 @@
  */
 namespace Magento\Framework\Code\Generator;
 
-use \Magento\Framework\Code\Generator;
-use \Magento\Framework\Autoload\AutoloaderRegistry;
-use \Magento\Framework\Autoload\AutoloaderInterface;
+use Magento\Framework\Code\Generator;
 
 class Autoloader
 {

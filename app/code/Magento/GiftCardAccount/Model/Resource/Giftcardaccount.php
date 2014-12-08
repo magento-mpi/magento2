@@ -37,7 +37,7 @@ class Giftcardaccount extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select->from($this->getMainTable(), $this->getIdFieldName());
         $select->where('code = :code');
 
-        if ($id = $read->fetchOne($select, array('code' => $code))) {
+        if ($id = $read->fetchOne($select, ['code' => $code])) {
             return $id;
         }
 
@@ -56,7 +56,7 @@ class Giftcardaccount extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (empty($ids)) {
             return $this;
         }
-        $bind = array('state' => $state);
+        $bind = ['state' => $state];
         $where[$this->getIdFieldName() . ' IN (?)'] = $ids;
 
         $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);

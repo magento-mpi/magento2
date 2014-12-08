@@ -52,7 +52,7 @@ class Structure extends DataStructure
         if (empty($name)) {
             $name = $this->_generateAnonymousName($class);
         }
-        $this->createElement($name, array('type' => $type));
+        $this->createElement($name, ['type' => $type]);
         return $name;
     }
 

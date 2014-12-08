@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class CanonicalUrlRewriteGeneratorTest extends \PHPUnit_Framework_TestCase
 {

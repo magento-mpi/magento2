@@ -40,7 +40,7 @@ class RelativePathConverter
             $relativePathParts = array_pad($relativePathParts, -$pathPartsCount, '*');
         }
 
-        $realPath = array();
+        $realPath = [];
         foreach ($relativePathParts as $index => $path) {
             if ($path === '*') {
                 if (false == array_key_exists($index, $pathParts)) {

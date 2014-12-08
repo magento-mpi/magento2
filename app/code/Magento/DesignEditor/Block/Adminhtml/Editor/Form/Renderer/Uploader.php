@@ -19,5 +19,5 @@ class Uploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rendere
      *
      * @var string[]
      */
-    protected $_templates = array('Magento_DesignEditor::editor/form/renderer/element/input.phtml');
+    protected $_templates = ['Magento_DesignEditor::editor/form/renderer/element/input.phtml'];
 }

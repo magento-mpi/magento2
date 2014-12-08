@@ -44,10 +44,10 @@ class Observer
         $row = $observer->getEvent()->getRow();
 
         if ($this->_rmaData->canCreateRma($row, true)) {
-            $reorderAction = array(
-                '@' => array('href' => $renderer->getUrl('*/rma/new', array('order_id' => $row->getId()))),
-                '#' => __('Return')
-            );
+            $reorderAction = [
+                '@' => ['href' => $renderer->getUrl('*/rma/new', ['order_id' => $row->getId()])],
+                '#' => __('Return'),
+            ];
             $renderer->addToActions($reorderAction);
         }
     }

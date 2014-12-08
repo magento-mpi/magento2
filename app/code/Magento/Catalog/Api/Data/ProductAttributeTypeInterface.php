@@ -10,7 +10,7 @@ namespace Magento\Catalog\Api\Data;
 
 interface ProductAttributeTypeInterface
 {
-    const VALUE= 'value';
+    const VALUE = 'value';
 
     const LABEL = 'label';
 

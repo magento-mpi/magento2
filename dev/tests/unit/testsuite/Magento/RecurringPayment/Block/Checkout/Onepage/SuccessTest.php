@@ -26,11 +26,11 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
     {
         $checkoutSessionArgs = $this->objectManager->getConstructArguments(
             'Magento\Checkout\Model\Session',
-            array('storage' => new \Magento\Framework\Session\Storage('checkout'))
+            ['storage' => new \Magento\Framework\Session\Storage('checkout')]
         );
         $checkoutSession = $this->getMock(
             'Magento\Checkout\Model\Session',
-            array('getLastRecurringPaymentIds'),
+            ['getLastRecurringPaymentIds'],
             $checkoutSessionArgs
         );
         $checkoutSession->expects(
@@ -38,12 +38,12 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getLastRecurringPaymentIds'
         )->will(
-            $this->returnValue(array(1, 2, 3))
+            $this->returnValue([1, 2, 3])
         );
         $collection = $this->getMock(
             'Magento\RecurringPayment\Model\Resource\Payment\Collection',
-            array('addFieldToFilter'),
-            array(),
+            ['addFieldToFilter'],
+            [],
             '',
             false
         );
@@ -53,14 +53,14 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'payment_id',
-            array('in' => array(1, 2, 3))
+            ['in' => [1, 2, 3]]
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
         $recurringPaymentCollectionFactory = $this->getMock(
             'Magento\RecurringPayment\Model\Resource\Payment\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -75,10 +75,10 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Checkout\Block\Onepage\Success $block */
         $block = $this->objectManager->getObject(
             'Magento\RecurringPayment\Block\Checkout\Onepage\Success',
-            array(
+            [
                 'checkoutSession' => $checkoutSession,
                 'recurringPaymentCollectionFactory' => $recurringPaymentCollectionFactory
-            )
+            ]
         );
         $this->assertEquals('', $block->toHtml());
     }

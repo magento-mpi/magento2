@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Shell;
 
-
 interface CommandRendererInterface
 {
     /**
@@ -17,5 +16,5 @@ interface CommandRendererInterface
      * @param array $arguments
      * @return string
      */
-    public function render($command, array $arguments = array());
+    public function render($command, array $arguments = []);
 }

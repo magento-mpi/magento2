@@ -35,13 +35,13 @@ abstract class AbstractMethod extends \Magento\Dhl\Model\Source\Method\Generic
         $carrierModel = $this->_shippingDhl;
         $dhlProducts = $carrierModel->getDhlProducts($this->_contentType);
 
-        $options = array();
+        $options = [];
         foreach ($dhlProducts as $code => $title) {
-            $options[] = array('value' => $code, 'label' => $title);
+            $options[] = ['value' => $code, 'label' => $title];
         }
 
         if ($this->_noneMethod) {
-            array_unshift($options, array('value' => '', 'label' => __('None')));
+            array_unshift($options, ['value' => '', 'label' => __('None')]);
         }
 
         return $options;

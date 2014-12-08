@@ -8,15 +8,15 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Wishlist\Test\Page\WishlistIndex;
-use Magento\Wishlist\Test\Page\WishlistShare;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\Wishlist\Test\Page\WishlistIndex;
+use Magento\Wishlist\Test\Page\WishlistShare;
+use Mtf\Client\Browser;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ShareMultipleWishlist

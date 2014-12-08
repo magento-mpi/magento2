@@ -32,7 +32,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateExceptionDataProvider()
     {
-        return array('no value' => array(array()), 'non-numeric value' => array(array('value' => 'non-numeric')));
+        return ['no value' => [[]], 'non-numeric value' => [['value' => 'non-numeric']]];
     }
 
     /**
@@ -43,17 +43,17 @@ class NumberTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluate($input, $expected)
     {
-        $actual = $this->_model->evaluate(array('value' => $input));
+        $actual = $this->_model->evaluate(['value' => $input]);
         $this->assertSame($expected, $actual);
     }
 
     public function evaluateDataProvider()
     {
-        return array(
-            'integer' => array(10, 10),
-            'float' => array(10.5, 10.5),
-            'string numeric (integer)' => array('10', '10'),
-            'string numeric (float)' => array('10.5', '10.5')
-        );
+        return [
+            'integer' => [10, 10],
+            'float' => [10.5, 10.5],
+            'string numeric (integer)' => ['10', '10'],
+            'string numeric (float)' => ['10.5', '10.5']
+        ];
     }
 }

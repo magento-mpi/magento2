@@ -72,6 +72,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => $this->getShipment()->getOrderId()));
+        return $this->getUrl('*/*/save', ['order_id' => $this->getShipment()->getOrderId()]);
     }
 }

@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Creditmemo;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Sales\Api\Data\CreditmemoCommentInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\CreditmemoCommentInterface;
+use Magento\Sales\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Comment _getResource()
@@ -116,7 +116,6 @@ class Comment extends AbstractModel implements CreditmemoCommentInterface
         }
         return $this->_storeManager->getStore();
     }
-
 
     /**
      * Returns comment

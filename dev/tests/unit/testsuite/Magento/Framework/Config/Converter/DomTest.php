@@ -26,9 +26,9 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     public function convertDataProvider()
     {
-        return array(
-            array('cdata.xml', 'cdata.php',),
-            array('attributes.xml', 'attributes.php',),
-        );
+        return [
+            ['cdata.xml', 'cdata.php'],
+            ['attributes.xml', 'attributes.php',],
+        ];
     }
 }

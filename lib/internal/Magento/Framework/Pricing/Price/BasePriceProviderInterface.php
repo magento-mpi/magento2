@@ -13,5 +13,4 @@ namespace Magento\Framework\Pricing\Price;
  */
 interface BasePriceProviderInterface
 {
-
 }

@@ -14,7 +14,7 @@
     <?php echo $this->getChildHtml('top_button'); ?>
     <?php foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $_alias => $_child): ?>
         <?php if ($_alias != 'top_button' && $_alias != 'bottom_button'): ?>
-            <?php if($this->canDisplay($_child)): ?>
+            <?php if ($this->canDisplay($_child)): ?>
                 <div id="order-sidebar_<?php echo $_alias ?>">
                     <?php echo $this->getChildHtml($_alias) ?>
                 </div>

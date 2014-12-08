@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\Search\Dynamic\Algorithm;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Model\Exception;
+use Magento\Framework\ObjectManagerInterface;
 
 class Repository
 {

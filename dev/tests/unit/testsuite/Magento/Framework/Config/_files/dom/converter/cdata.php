@@ -5,25 +5,25 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'root' => array(
-        array(
-            'simple' => array(array('node_two' => array(array('__content__' => 'valueOne')))),
-            'cdata' => array(array('node_one' => array(array('__content__' => '<valueTwo>')))),
-            'mixed' => array(
-                array(
-                    'node_one' => array(
-                        array('__attributes__' => array('attributeOne' => '10'), '__content__' => '<valueThree>'),
-                        array('__attributes__' => array('attributeTwo' => '20'), '__content__' => 'valueFour')
-                    )
-                )
-            ),
-            'mixed_different_names' => array(
-                array(
-                    'node_one' => array(array('__content__' => 'valueFive')),
-                    'node_two' => array(array('__content__' => 'valueSix'))
-                )
-            )
-        )
-    )
-);
+return [
+    'root' => [
+        [
+            'simple' => [['node_two' => [['__content__' => 'valueOne']]]],
+            'cdata' => [['node_one' => [['__content__' => '<valueTwo>']]]],
+            'mixed' => [
+                [
+                    'node_one' => [
+                        ['__attributes__' => ['attributeOne' => '10'], '__content__' => '<valueThree>'],
+                        ['__attributes__' => ['attributeTwo' => '20'], '__content__' => 'valueFour'],
+                    ],
+                ],
+            ],
+            'mixed_different_names' => [
+                [
+                    'node_one' => [['__content__' => 'valueFive']],
+                    'node_two' => [['__content__' => 'valueSix']],
+                ],
+            ],
+        ],
+    ]
+];

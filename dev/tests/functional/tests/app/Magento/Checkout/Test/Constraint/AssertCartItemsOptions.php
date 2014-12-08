@@ -8,12 +8,12 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Checkout\Test\Fixture\Cart\Items;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert that cart item options for product(s) display with correct information block.
@@ -64,10 +64,10 @@ class AssertCartItemsOptions extends AbstractAssertForm
             $cartItem = $checkoutCart->getCartBlock()->getCartItem($product);
 
             $productsData[$productName] = [
-                'options' => $this->sortDataByPath($checkoutItem['options'], '::title')
+                'options' => $this->sortDataByPath($checkoutItem['options'], '::title'),
             ];
             $cartData[$productName] = [
-                'options' => $this->sortDataByPath($cartItem->getOptions(), '::title')
+                'options' => $this->sortDataByPath($cartItem->getOptions(), '::title'),
             ];
         }
 

@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Status;
 
-use Magento\Sales\Model\Resource\Entity;
 use Magento\Sales\Model\Order\Status\History\Validator;
+use Magento\Sales\Model\Resource\Entity;
 use Magento\Sales\Model\Spi\OrderStatusHistoryResourceInterface;
 
 /**

@@ -8,10 +8,10 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert created invitation appears in Invitation grid on backend.
@@ -58,7 +58,7 @@ class AssertInvitationInGrid extends AbstractConstraint
                 'id' => $invitationData['id'],
                 'email' => $invitationData['email'],
                 'invitee_group' => $customer->getGroupId(),
-                'status' => $status
+                'status' => $status,
             ];
 
             $invitationGrid->search($filter);

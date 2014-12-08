@@ -58,7 +58,7 @@ class Manager
     {
         return $this->metadataFactory->create(
             [
-                'config' => $this->config->getDataSource($dataSource)
+                'config' => $this->config->getDataSource($dataSource),
             ]
         );
     }

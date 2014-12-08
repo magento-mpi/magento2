@@ -22,9 +22,9 @@ class Type implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\Customer\Model\Address\AbstractAddress::TYPE_BILLING => __('Billing Address'),
             \Magento\Customer\Model\Address\AbstractAddress::TYPE_SHIPPING => __('Shipping Address')
-        );
+        ];
     }
 }

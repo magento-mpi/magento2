@@ -18,22 +18,22 @@ class StaticProperties
      *
      * @var array
      */
-    protected static $_cleanableFolders = array('/app/code/', '/dev/tests/', '/lib/internal/');
+    protected static $_cleanableFolders = ['/app/code/', '/dev/tests/', '/lib/internal/'];
 
     /**
      * Classes to exclude from static variables cleaning
      *
      * @var array
      */
-    protected static $_classesToSkip = array(
+    protected static $_classesToSkip = [
         'Mage',
         'Magento\Framework\App\ObjectManager',
         'Magento\TestFramework\Helper\Bootstrap',
         'Magento\TestFramework\Event\Magento',
         'Magento\TestFramework\Event\PhpUnit',
         'Magento\TestFramework\Annotation\AppIsolation',
-        'Magento\Framework\Phrase'
-    );
+        'Magento\Framework\Phrase',
+    ];
 
     /**
      * Check whether it is allowed to clean given class static variables

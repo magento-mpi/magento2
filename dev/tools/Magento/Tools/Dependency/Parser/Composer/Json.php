@@ -27,7 +27,7 @@ class Json implements ParserInterface
             $package = $this->getModuleComposerPackage($file);
             $modules[] = [
                 'name' => $this->extractModuleName($package),
-                'dependencies' => $this->extractDependencies($package)
+                'dependencies' => $this->extractDependencies($package),
             ];
         }
         return $modules;
@@ -77,7 +77,7 @@ class Json implements ParserInterface
             foreach ($requires as $key => $value) {
                 $dependencies[] = [
                     'module' => $this->prepareModuleName($key),
-                    'type' => 'hard'
+                    'type' => 'hard',
                 ];
             }
         }
@@ -87,7 +87,7 @@ class Json implements ParserInterface
             foreach ($suggests as $key => $value) {
                 $dependencies[] = [
                     'module' => $this->prepareModuleName($key),
-                    'type' => 'soft'
+                    'type' => 'soft',
                 ];
             }
         }

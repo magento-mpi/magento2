@@ -8,8 +8,8 @@
 
 namespace Magento\Setup\Model;
 
-use Zend\Console\Console;
 use Zend\Console\ColorInterface;
+use Zend\Console\Console;
 
 /**
  * Console Logger
@@ -18,7 +18,6 @@ use Zend\Console\ColorInterface;
  */
 class ConsoleLogger implements LoggerInterface
 {
-
     /**
      * Console
      *

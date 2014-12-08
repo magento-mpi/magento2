@@ -18,7 +18,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
      *
      * @var array
      */
-    protected $_validators = array();
+    protected $_validators = [];
 
     /**
      * Adds a validator to the end of the chain
@@ -34,10 +34,10 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
         if (!$validator->hasTranslator()) {
             $validator->setTranslator($this->getTranslator());
         }
-        $this->_validators[] = array(
+        $this->_validators[] = [
             'instance' => $validator,
-            'breakChainOnFailure' => (bool)$breakChainOnFailure
-        );
+            'breakChainOnFailure' => (bool)$breakChainOnFailure,
+        ];
         return $this;
     }
 

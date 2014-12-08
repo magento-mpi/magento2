@@ -30,7 +30,7 @@ class Errors extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Abstra
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sessionQuote = $sessionQuote;
         parent::__construct($context, $cartFactory, $data);

@@ -23,7 +23,9 @@ $groupBehavior = $this->getGroupBehaviour() ? $this->getGroupBehaviour() : '{"ta
             <?php foreach ($detailedInfoGroup as $name):?>
                 <?php
                     $html = $layout->renderElement($name);
-                    if (!trim($html) && ($this->getUseForce() != true)) continue;
+                    if (!trim($html) && ($this->getUseForce() != true)) {
+                        continue;
+                    }
                     $alias = $layout->getElementAlias($name);
                     $label = $this->getChildData($alias, 'title');
                 ?>

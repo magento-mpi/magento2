@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Paypal;
 
 /**
@@ -14,5 +14,4 @@ namespace Magento\Paypal;
  */
 class UnavailableException extends \Magento\Framework\Model\Exception
 {
-
 }

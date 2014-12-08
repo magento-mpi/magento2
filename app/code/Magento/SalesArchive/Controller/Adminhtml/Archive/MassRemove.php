@@ -17,7 +17,7 @@ class MassRemove extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
+        $orderIds = $this->getRequest()->getPost('order_ids', []);
         $removedFromArchive = $this->_archiveModel->removeOrdersFromArchiveById($orderIds);
 
         $removedFromArchiveCount = count($removedFromArchive);

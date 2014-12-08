@@ -74,7 +74,7 @@ class PaymentDataImporter
             $customerData = $quote->getCustomer();
             $customer = $this->customerFactory->create(
                 [
-                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                 ]
             );
             /* @var $reward \Magento\Reward\Model\Reward */

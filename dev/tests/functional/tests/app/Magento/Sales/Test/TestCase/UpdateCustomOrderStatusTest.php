@@ -144,7 +144,6 @@ class UpdateCustomOrderStatusTest extends Injectable
         ];
     }
 
-
     /**
      * Change created order status and unassign custom order status if order was created.
      *

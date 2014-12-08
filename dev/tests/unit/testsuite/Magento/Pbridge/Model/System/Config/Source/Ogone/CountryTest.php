@@ -31,7 +31,7 @@ class CountryTest extends \PHPUnit_Framework_TestCase
         $expected = [
             ['value' => 'AT', 'label' => __('Austria')],
             ['value' => 'DE', 'label' => __('Germany')],
-            ['value' => 'NL', 'label' => __('Netherlands')]
+            ['value' => 'NL', 'label' => __('Netherlands')],
         ];
         $this->assertEquals($expected, $this->country->toOptionArray());
     }

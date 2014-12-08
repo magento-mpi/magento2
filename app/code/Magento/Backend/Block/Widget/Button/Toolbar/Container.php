@@ -8,7 +8,7 @@
 
 namespace Magento\Backend\Block\Widget\Button\Toolbar;
 
-use \Magento\Backend\Block\Widget\Button\ContextInterface;
+use Magento\Backend\Block\Widget\Button\ContextInterface;
 
 /**
  * @method \Magento\Backend\Block\Widget\Button\Item getButtonItem

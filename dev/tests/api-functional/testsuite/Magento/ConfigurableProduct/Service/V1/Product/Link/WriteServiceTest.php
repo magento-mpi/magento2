@@ -9,8 +9,6 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Webapi\Exception as HTTPExceptionCodes;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class WriteServiceTest
@@ -42,13 +40,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/child',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'AddChild'
-            ]
+                'operation' => self::SERVICE_NAME . 'AddChild',
+            ],
         ];
         $res = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'childSku' => $childSku]);
         $this->assertTrue($res);
@@ -60,15 +58,15 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => sprintf($resourcePath, $productSku, $childSku),
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeChild'
-            ]
+                'operation' => self::SERVICE_NAME . 'removeChild',
+            ],
         ];
-        $requestData = array('productSku' => $productSku, 'childSku' => $childSku);
+        $requestData = ['productSku' => $productSku, 'childSku' => $childSku];
         return $this->_webApiCall($serviceInfo, $requestData);
     }
 }

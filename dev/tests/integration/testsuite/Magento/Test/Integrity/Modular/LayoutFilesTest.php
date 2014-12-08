@@ -87,27 +87,27 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
 
         // Arguments, evaluation of which causes a run-time error, because of unsafe assumptions to the environment
         $typeAttr = \Magento\Core\Model\Layout\Merge::TYPE_ATTRIBUTE;
-        $ignoredArguments = array(
-            array(
+        $ignoredArguments = [
+            [
                 $typeAttr => 'object',
-                'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
-            ),
-            array(
+                'value' => 'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection',
+            ],
+            [
                 $typeAttr => 'object',
                 'value' => 'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
-            ),
-            array($typeAttr => 'object', 'value' => 'Magento\Solr\Model\Resource\Search\Grid\Collection'),
-            array($typeAttr => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'),
-            array(
+            ],
+            [$typeAttr => 'object', 'value' => 'Magento\Solr\Model\Resource\Search\Grid\Collection'],
+            [$typeAttr => 'object', 'value' => 'Magento\Wishlist\Model\Resource\Item\Collection\Grid'],
+            [
                 $typeAttr => 'object',
                 'value' => 'Magento\CustomerSegment\Model\Resource\Segment\Report\Detail\Collection'
-            ),
-            array($typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'),
-            array($typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getContinueButtonTemplate'),
-            array($typeAttr => 'options', 'model' => 'Magento\Solr\Model\Adminhtml\Search\Grid\Options'),
-            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'),
-            array($typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions')
-        );
+            ],
+            [$typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getReviewButtonTemplate'],
+            [$typeAttr => 'helper', 'helper' => 'Magento\Pbridge\Helper\Data::getContinueButtonTemplate'],
+            [$typeAttr => 'options', 'model' => 'Magento\Solr\Model\Adminhtml\Search\Grid\Options'],
+            [$typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\ActionsGroup'],
+            [$typeAttr => 'options', 'model' => 'Magento\Logging\Model\Resource\Grid\Actions'],
+        ];
         $isIgnoredArgument = in_array($argumentData, $ignoredArguments, true);
 
         unset($argumentData[$typeAttr]);

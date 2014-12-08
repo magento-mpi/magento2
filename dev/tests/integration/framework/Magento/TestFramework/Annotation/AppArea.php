@@ -21,14 +21,14 @@ class AppArea
      *
      * @var array
      */
-    private $_allowedAreas = array(
+    private $_allowedAreas = [
         \Magento\Framework\App\Area::AREA_GLOBAL,
         \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
         \Magento\Framework\App\Area::AREA_FRONTEND,
         'webapi_rest',
         'webapi_soap',
-        'cron'
-    );
+        'cron',
+    ];
 
     /**
      * @param \Magento\TestFramework\Application $application

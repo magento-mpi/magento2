@@ -47,7 +47,7 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Orders',
             '',
-            array('coreRegistry' => $this->coreRegistry)
+            ['coreRegistry' => $this->coreRegistry]
         );
         $this->block->getPreparedCollection();
     }
@@ -66,7 +66,7 @@ class OrdersTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetRowUrl()
     {
-        $row = new \Magento\Framework\Object(array('id' => 1));
+        $row = new \Magento\Framework\Object(['id' => 1]);
         $this->assertContains('sales/order/view/order_id/1', $this->block->getRowUrl($row));
     }
 

@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Sales\Test\Fixture\OrderCheckout;
 use Mtf\Factory\Factory;
 use Mtf\ObjectManager;
-use Magento\Sales\Test\Fixture\OrderCheckout;
 
 /**
  * Class OnlineRefundTest

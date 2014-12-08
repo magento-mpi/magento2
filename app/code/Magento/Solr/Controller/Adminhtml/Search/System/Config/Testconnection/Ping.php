@@ -57,7 +57,7 @@ class Ping extends \Magento\Backend\App\Action
             $timeout = 0;
         }
 
-        $context = stream_context_create(array('http' => array('method' => 'HEAD', 'timeout' => $timeout)));
+        $context = stream_context_create(['http' => ['method' => 'HEAD', 'timeout' => $timeout]]);
 
         // attempt a HEAD request to the solr ping page
         $ping = $httpResource->readAll();

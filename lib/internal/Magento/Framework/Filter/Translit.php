@@ -19,7 +19,7 @@ class Translit implements \Zend_Filter_Interface
      *
      * @var array
      */
-    protected $convertTable = array(
+    protected $convertTable = [
         '&amp;' => 'and',
         '@' => 'at',
         '©' => 'c',
@@ -336,8 +336,8 @@ class Translit implements \Zend_Filter_Interface
         'ר' => 'r',
         'ש' => 'w',
         'ת' => 't',
-        '™' => 'tm'
-    );
+        '™' => 'tm',
+    ];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config

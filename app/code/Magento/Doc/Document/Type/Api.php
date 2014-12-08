@@ -42,7 +42,7 @@ class Api extends AbstractType implements ApiInterface
     public function getContent(Item $item)
     {
         $filePath = str_replace('_', '/', $item->getData('name')) . '.html';
-        list ($class, $method) = explode('::', $item['reference']);
+        list($class, $method) = explode('::', $item['reference']);
         $result = $this->content->get($filePath);
         if (!$result) {
             $result = "<h4>{$class}</h4><h5>{$method}</h5><h6>Arguments</h6><ul><li>...</li></ul>";

@@ -8,10 +8,10 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
-use Magento\Wishlist\Controller\IndexInterface;
-use Magento\Framework\App\Action;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\App\Action;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Wishlist\Controller\IndexInterface;
 
 class UpdateItemOptions extends Action\Action implements IndexInterface
 {
@@ -91,7 +91,7 @@ class UpdateItemOptions extends Action\Action implements IndexInterface
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             $this->_eventManager->dispatch(
                 'wishlist_update_item',
-                array('wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id))
+                ['wishlist' => $wishlist, 'product' => $product, 'item' => $wishlist->getItem($id)]
             );
 
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
@@ -104,6 +104,6 @@ class UpdateItemOptions extends Action\Action implements IndexInterface
             $this->messageManager->addError(__('An error occurred while updating wish list.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('*/*', array('wishlist_id' => $wishlist->getId()));
+        $this->_redirect('*/*', ['wishlist_id' => $wishlist->getId()]);
     }
 }

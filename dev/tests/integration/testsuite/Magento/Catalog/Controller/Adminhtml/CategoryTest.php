@@ -21,7 +21,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      * @param array $defaultAttributes
      * @param array $attributesSaved
      */
-    public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = array())
+    public function testSaveAction($inputData, $defaultAttributes, $attributesSaved = [])
     {
         /** @var $store \Magento\Store\Model\Store */
         $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
@@ -34,7 +34,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the category.')),
+            $this->equalTo(['You saved the category.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
 
@@ -45,7 +45,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         $category->setStoreId($storeId);
         $category->load(2);
 
-        $errors = array();
+        $errors = [];
         foreach ($attributesSaved as $attribute => $value) {
             $actualValue = $category->getData($attribute);
             if ($value !== $actualValue) {
@@ -108,17 +108,17 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
     public static function categoryCreatedFromProductCreationPageDataProvider()
     {
         /* Keep in sync with new-category-dialog.js */
-        $postData = array(
-            'general' => array(
+        $postData = [
+            'general' => [
                 'name' => 'Category Created From Product Creation Page',
                 'is_active' => 1,
-                'include_in_menu' => 0
-            ),
+                'include_in_menu' => 0,
+            ],
             'parent' => 2,
-            'use_config' => array('available_sort_by', 'default_sort_by')
-        );
+            'use_config' => ['available_sort_by', 'default_sort_by'],
+        ];
 
-        return array(array($postData), array($postData + array('return_session_messages_only' => 1)));
+        return [[$postData], [$postData + ['return_session_messages_only' => 1]]];
     }
 
     public function testSuggestCategoriesActionDefaultCategoryFound()
@@ -144,16 +144,16 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
      */
     public function saveActionDataProvider()
     {
-        return array(
-            'default values' => array(
-                array(
-                    'general' => array(
+        return [
+            'default values' => [
+                [
+                    'general' => [
                         'id' => '2',
                         'path' => '1/2',
                         'url_key' => 'default-category',
-                        'is_anchor' => '0'
-                    ),
-                    'use_default' => array(
+                        'is_anchor' => '0',
+                    ],
+                    'use_default' => [
                         0 => 'name',
                         1 => 'is_active',
                         2 => 'thumbnail',
@@ -173,10 +173,10 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
                         16 => 'custom_design_from',
                         17 => 'custom_design_to',
                         18 => 'page_layout',
-                        19 => 'custom_layout_update'
-                    )
-                ),
-                array(
+                        19 => 'custom_layout_update',
+                    ],
+                ],
+                [
                     'name' => false,
                     'default_sort_by' => false,
                     'display_mode' => false,
@@ -196,11 +196,11 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
                     'custom_design_from' => false,
                     'custom_design_to' => false,
                     'filter_price_range' => false
-                )
-            ),
-            'custom values' => array(
-                array(
-                    'general' => array(
+                ],
+            ],
+            'custom values' => [
+                [
+                    'general' => [
                         'id' => '2',
                         'path' => '1/2',
                         'name' => 'Custom Name',
@@ -219,11 +219,11 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
                         'custom_design_from' => '',
                         'custom_design_to' => '',
                         'page_layout' => '',
-                        'custom_layout_update' => ''
-                    ),
-                    'use_config' => array(0 => 'available_sort_by', 1 => 'default_sort_by', 2 => 'filter_price_range')
-                ),
-                array(
+                        'custom_layout_update' => '',
+                    ],
+                    'use_config' => [0 => 'available_sort_by', 1 => 'default_sort_by', 2 => 'filter_price_range'],
+                ],
+                [
                     'name' => true,
                     'default_sort_by' => true,
                     'display_mode' => true,
@@ -242,8 +242,8 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
                     'custom_design_from' => true,
                     'custom_design_to' => true,
                     'filter_price_range' => true
-                ),
-                array(
+                ],
+                [
                     'name' => 'Custom Name',
                     'default_sort_by' => null,
                     'display_mode' => 'PRODUCTS',
@@ -262,29 +262,29 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
                     'custom_design_from' => null,
                     'custom_design_to' => null,
                     'filter_price_range' => null
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 
     public function testSaveActionCategoryWithDangerRequest()
     {
         $this->getRequest()->setPost(
-            array(
-                'general' => array(
+            [
+                'general' => [
                     'path' => '1',
                     'name' => 'test',
                     'is_active' => '1',
                     'entity_id' => 1500,
                     'include_in_menu' => '1',
                     'available_sort_by' => 'name',
-                    'default_sort_by' => 'name'
-                )
-            )
+                    'default_sort_by' => 'name',
+                ],
+            ]
         );
         $this->dispatch('backend/catalog/category/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save the category')),
+            $this->equalTo(['Unable to save the category']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }

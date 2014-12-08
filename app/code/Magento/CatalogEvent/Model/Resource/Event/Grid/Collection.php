@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Event resource collection
  *

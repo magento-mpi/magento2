@@ -8,12 +8,12 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Framework\UrlFactory;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 use Magento\Framework\Exception\State\InvalidTransitionException;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\UrlFactory;
 
 class Confirmation extends \Magento\Customer\Controller\Account
 {
@@ -72,12 +72,12 @@ class Confirmation extends \Magento\Customer\Controller\Account
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
                 $this->getResponse()->setRedirect(
-                    $this->urlModel->getUrl('*/*/*', array('email' => $email, '_secure' => true))
+                    $this->urlModel->getUrl('*/*/*', ['email' => $email, '_secure' => true])
                 );
                 return;
             }
             $this->_getSession()->setUsername($email);
-            $this->getResponse()->setRedirect($this->urlModel->getUrl('*/*/index', array('_secure' => true)));
+            $this->getResponse()->setRedirect($this->urlModel->getUrl('*/*/index', ['_secure' => true]));
             return;
         }
 

@@ -158,7 +158,7 @@ abstract class Tree extends Element
                 'name' => $text,
                 'element' => $currentNode,
                 'subnodes' => $nodesContents->isVisible() ?
-                        $this->_getNodeContent($nodesContents, $this->nodeCssClass) : null
+                        $this->_getNodeContent($nodesContents, $this->nodeCssClass) : null,
             ];
         }
         return $nodeArray;

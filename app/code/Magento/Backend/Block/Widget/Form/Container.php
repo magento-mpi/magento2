@@ -22,12 +22,12 @@ class Container extends \Magento\Backend\Block\Widget\Container
     /**
      * @var string[]
      */
-    protected $_formScripts = array();
+    protected $_formScripts = [];
 
     /**
      * @var string[]
      */
-    protected $_formInitScripts = array();
+    protected $_formInitScripts = [];
 
     /**
      * @var string
@@ -53,16 +53,16 @@ class Container extends \Magento\Backend\Block\Widget\Container
 
         $this->addButton(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
                 'class' => 'back'
-            ),
+            ],
             -1
         );
         $this->addButton(
             'reset',
-            array('label' => __('Reset'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'),
+            ['label' => __('Reset'), 'onclick' => 'setLocation(window.location.href)', 'class' => 'reset'],
             -1
         );
 
@@ -71,25 +71,25 @@ class Container extends \Magento\Backend\Block\Widget\Container
         if (!empty($objId)) {
             $this->addButton(
                 'delete',
-                array(
+                [
                     'label' => __('Delete'),
                     'class' => 'delete',
                     'onclick' => 'deleteConfirm(\'' . __(
                         'Are you sure you want to do this?'
                     ) . '\', \'' . $this->getDeleteUrl() . '\')'
-                )
+                ]
             );
         }
 
         $this->addButton(
             'save',
-            array(
+            [
                 'label' => __('Save'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
-                )
-            ),
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']],
+                ]
+            ],
             1
         );
     }
@@ -119,7 +119,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
     protected function _buildFormClassName()
     {
         return $this->nameBuilder->buildClassName(
-            array($this->_blockGroup, 'Block', $this->_controller, $this->_mode, 'Form')
+            [$this->_blockGroup, 'Block', $this->_controller, $this->_mode, 'Form']
         );
     }
 
@@ -138,7 +138,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
+        return $this->getUrl('*/*/delete', [$this->_objectId => $this->getRequest()->getParam($this->_objectId)]);
     }
 
     /**

@@ -53,10 +53,10 @@ class Post extends \Magento\Contact\Controller\Index
                 ->setTemplateOptions(
                     [
                         'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                        'store' => $this->storeManager->getStore()->getId()
+                        'store' => $this->storeManager->getStore()->getId(),
                     ]
                 )
-                ->setTemplateVars(array('data' => $postObject))
+                ->setTemplateVars(['data' => $postObject])
                 ->setFrom($this->scopeConfig->getValue(self::XML_PATH_EMAIL_SENDER, $storeScope))
                 ->addTo($this->scopeConfig->getValue(self::XML_PATH_EMAIL_RECIPIENT, $storeScope))
                 ->setReplyTo($post['email'])

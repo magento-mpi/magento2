@@ -24,7 +24,7 @@ class Compression extends \Magento\Framework\Cache\Backend\Decorator\AbstractDec
      * Array of specific options. Made in separate array to distinguish from parent options
      * @var array
      */
-    protected $_decoratorOptions = array('compression_threshold' => 512);
+    protected $_decoratorOptions = ['compression_threshold' => 512];
 
     /**
      * Test if a cache is available for the given id and (if yes) return it (false else)
@@ -61,7 +61,7 @@ class Compression extends \Magento\Framework\Cache\Backend\Decorator\AbstractDec
      *                                  some particular backends
      * @return bool true if no problem
      */
-    public function save($data, $cacheId, $tags = array(), $specificLifetime = false, $priority = 8)
+    public function save($data, $cacheId, $tags = [], $specificLifetime = false, $priority = 8)
     {
         if ($this->_isCompressionNeeded($data)) {
             $data = self::_compressData($data);

@@ -34,7 +34,7 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array('value' => self::EXPECTED_CLASS);
+        $input = ['value' => self::EXPECTED_CLASS];
         $this->_objectManager->expects(
             $this->once()
         )->method(
@@ -69,13 +69,13 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateWrongClassDataProvider()
     {
-        return array(
-            'no class' => array(array(), '\InvalidArgumentException', 'Object class name is missing'),
-            'unexpected class' => array(
-                array('value' => 'Magento\Framework\ObjectManagerInterface'),
+        return [
+            'no class' => [[], '\InvalidArgumentException', 'Object class name is missing'],
+            'unexpected class' => [
+                ['value' => 'Magento\Framework\ObjectManagerInterface'],
                 '\UnexpectedValueException',
-                'Instance of ' . self::EXPECTED_CLASS . ' is expected'
-            )
-        );
+                'Instance of ' . self::EXPECTED_CLASS . ' is expected',
+            ]
+        ];
     }
 }

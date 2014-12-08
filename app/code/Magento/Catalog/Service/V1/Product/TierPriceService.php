@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
-use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Customer\Api\GroupManagementInterface;
@@ -116,13 +115,13 @@ class TierPriceService implements TierPriceServiceInterface
                 ? $this->groupManagement->getAllCustomersGroup()->getId()
                 : $this->groupRepository->getById($customerGroupId)->getId();
 
-            $tierPrices[] = array(
+            $tierPrices[] = [
                 'cust_group' => $mappedCustomerGroupId,
                 'price' => $price->getValue(),
                 'website_price' => $price->getValue(),
                 'website_id' => $websiteId,
-                'price_qty' => $price->getQty()
-            );
+                'price_qty' => $price->getQty(),
+            ];
         }
 
         $product->setData('tier_price', $tierPrices);
@@ -168,16 +167,16 @@ class TierPriceService implements TierPriceServiceInterface
             $priceKey = 'price';
         }
 
-        $prices = array();
+        $prices = [];
         foreach ($product->getData('tier_price') as $price) {
             if ((is_numeric($customerGroupId) && intval($price['cust_group']) === intval($customerGroupId))
                 || ($customerGroupId === 'all' && $price['all_groups'])
             ) {
                 $this->priceBuilder->populateWithArray(
-                    array(
+                    [
                         Product\TierPrice::VALUE => $price[$priceKey],
-                        Product\TierPrice::QTY => $price['price_qty']
-                    )
+                        Product\TierPrice::QTY => $price['price_qty'],
+                    ]
                 );
                 $prices[] = $this->priceBuilder->create();
             }

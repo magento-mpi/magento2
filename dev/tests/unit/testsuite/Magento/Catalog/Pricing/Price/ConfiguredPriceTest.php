@@ -95,7 +95,7 @@ class ConfiguredPriceTest extends \PHPUnit_Framework_TestCase
             'option_1' => $itemOption,
             'option_2' => $itemOption,
             'option_3' => $itemOption,
-            'option_ids' => $optionCollection
+            'option_ids' => $optionCollection,
         ];
         $optionsGetterByCode = $this->returnCallback(function ($code) use ($optionsList) {
             return $optionsList[$code];

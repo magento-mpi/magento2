@@ -23,5 +23,5 @@ interface ConfigInterface
      * @param array $params
      * @return \Magento\Framework\Config\View
      */
-    public function getViewConfig(array $params = array());
+    public function getViewConfig(array $params = []);
 }

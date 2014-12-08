@@ -43,7 +43,7 @@ class UnitBaseCalculatorTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'setCode', 'setType', 'setTaxPercent', 'setPrice', 'setPriceInclTax', 'setRowTotal',
                 'setRowTotalInclTax', 'setRowTax', 'create', 'populateWithArray', 'setTaxableAmount',
-                'setDiscountAmount', 'setDiscountTaxCompensationAmount', 'setAppliedTaxes', 'setAssociatedItemCode'
+                'setDiscountAmount', 'setDiscountTaxCompensationAmount', 'setAppliedTaxes', 'setAssociatedItemCode',
             ])->disableOriginalConstructor()
             ->getMock();
         $this->mockCalculationTool = $this->getMockBuilder('\Magento\Tax\Model\Calculation')

@@ -8,13 +8,13 @@
  */
 namespace Magento\Catalog\Service\V1\Product\AttributeGroup;
 
-use \Magento\Catalog\Model\Product\Attribute\GroupFactory;
-use \Magento\Catalog\Model\Product\Attribute\Group;
-use \Magento\Eav\Model\Entity\Attribute\SetFactory;
-use \Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\StateException;
+use Magento\Catalog\Model\Product\Attribute\Group;
+use Magento\Catalog\Model\Product\Attribute\GroupFactory;
+use Magento\Catalog\Service\V1\Data\Eav\AttributeGroupBuilder;
+use Magento\Eav\Model\Entity\Attribute\SetFactory;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {

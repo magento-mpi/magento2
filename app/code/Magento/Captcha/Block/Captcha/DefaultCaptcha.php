@@ -37,7 +37,7 @@ class DefaultCaptcha extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Captcha\Helper\Data $captchaData,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_captchaData = $captchaData;
@@ -61,7 +61,7 @@ class DefaultCaptcha extends \Magento\Framework\View\Element\Template
     public function getRefreshUrl()
     {
         $store = $this->_storeManager->getStore();
-        return $store->getUrl('captcha/refresh', array('_secure' => $store->isCurrentlySecure()));
+        return $store->getUrl('captcha/refresh', ['_secure' => $store->isCurrentlySecure()]);
     }
 
     /**

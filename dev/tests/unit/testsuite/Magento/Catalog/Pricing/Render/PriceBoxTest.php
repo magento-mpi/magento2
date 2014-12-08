@@ -28,7 +28,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
      */
     protected $mathRandom;
 
-
     protected function setUp()
     {
         $this->coreHelper = $this->getMock('Magento\Core\Helper\Data', ['jsonEncode'], [], '', false);
@@ -53,7 +52,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo($expectedValue))
             ->will($this->returnValue($expectedValue));
 
-
         $result = $this->object->jsonEncode($expectedValue);
 
         $this->assertEquals($expectedValue, $result);
@@ -68,7 +66,6 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getRandomString')
             ->with($this->equalTo($expectedValue))
             ->will($this->returnValue('test_value'));
-
 
         $result = $this->object->getRandomString($expectedValue);
 

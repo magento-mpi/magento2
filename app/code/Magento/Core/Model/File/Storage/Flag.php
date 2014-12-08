@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Synchronize process status flag class
  *
@@ -58,7 +57,7 @@ class Flag extends \Magento\Framework\Flag
     {
         $data = $this->getFlagData();
         if (!is_array($data)) {
-            $data = array();
+            $data = [];
         }
         $data['has_errors'] = true;
         $this->setFlagData($data);

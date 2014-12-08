@@ -97,7 +97,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->model->isValid($this->itemMock));
         $messages = [
             'invalid_email_format' => 'Invalid email format',
-            'invalid_country_code' => 'Invalid country code'
+            'invalid_country_code' => 'Invalid country code',
         ];
         $this->assertEquals($messages, $this->model->getMessages());
     }

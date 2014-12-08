@@ -18,7 +18,7 @@ class ConstantReference extends AbstractReference
      *
      * @var string[]
      */
-    protected $replacements = array('false', 'true', 'null');
+    protected $replacements = ['false', 'true', 'null'];
 
     /**
      * This method constructs a new reference based on the specified constant.

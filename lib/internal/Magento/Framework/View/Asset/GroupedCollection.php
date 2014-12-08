@@ -33,7 +33,7 @@ class GroupedCollection extends Collection
      *
      * @var PropertyGroup[]
      */
-    protected $groups = array();
+    protected $groups = [];
 
     /**
      * Constructor
@@ -53,7 +53,7 @@ class GroupedCollection extends Collection
      * @param array $properties
      * @return void
      */
-    public function add($identifier, AssetInterface $asset, array $properties = array())
+    public function add($identifier, AssetInterface $asset, array $properties = [])
     {
         parent::add($identifier, $asset);
         $properties = array_filter($properties);
@@ -77,7 +77,7 @@ class GroupedCollection extends Collection
             }
         }
         /** @var $newGroup PropertyGroup */
-        $newGroup = $this->propertyFactory->create(array('properties' => $properties));
+        $newGroup = $this->propertyFactory->create(['properties' => $properties]);
         $this->groups[] = $newGroup;
         return $newGroup;
     }

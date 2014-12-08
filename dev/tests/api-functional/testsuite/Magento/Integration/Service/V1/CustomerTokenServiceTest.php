@@ -71,8 +71,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
         $requestData = ['username' => $customerUserName, 'password' => $password];
         $accessToken = $this->_webApiCall($serviceInfo, $requestData);
@@ -92,8 +92,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => '', 'password' => ''];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -110,8 +110,8 @@ class CustomerTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => $customerUserName, 'password' => $password];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -152,15 +152,15 @@ class CustomerTokenServiceTest extends WebapiAbstract
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'username',
-                    ]
+                    ],
                 ],
                 [
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'password',
                     ]
-                ]
-            ]
+                ],
+            ],
         ];
         $this->assertEquals($expectedExceptionData, $exceptionData);
     }

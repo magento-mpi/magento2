@@ -38,7 +38,7 @@ class NumericTest extends \PHPUnit_Framework_TestCase
             [
                 'lastId' => 1,
                 'prefix' => 'prefix',
-                'expectedResult' => 'prefix00000002'
+                'expectedResult' => 'prefix00000002',
             ],
             [
                 'lastId' => 'prefix00000001',

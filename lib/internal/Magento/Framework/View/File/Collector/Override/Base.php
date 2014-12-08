@@ -9,10 +9,10 @@
 namespace Magento\Framework\View\File\Collector\Override;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 
 /**
@@ -69,8 +69,8 @@ class Base implements CollectorInterface
         $themePath = $theme->getFullPath();
         $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}{$filePath}";
         $files = $this->themesDirectory->search($searchPattern);
-        $result = array();
-        $pattern = "#(?<moduleName>[^/]+)/{$this->subDir}" . strtr(preg_quote($filePath), array('\*' => '[^/]+'))
+        $result = [];
+        $pattern = "#(?<moduleName>[^/]+)/{$this->subDir}" . strtr(preg_quote($filePath), ['\*' => '[^/]+'])
             . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);

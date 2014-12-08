@@ -67,7 +67,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_catalogHelper = $catalogData;
@@ -131,7 +131,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $canChangeQty = $selections[0]->getSelectionCanChangeQty();
         }
 
-        return array($defaultQty, $canChangeQty);
+        return [$defaultQty, $canChangeQty];
     }
 
     /**
@@ -142,7 +142,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     protected function _getSelectedOptions()
     {
         if (is_null($this->_selectedOptions)) {
-            $this->_selectedOptions = array();
+            $this->_selectedOptions = [];
             $option = $this->getOption();
 
             if ($this->getProduct()->hasPreconfiguredValues()) {

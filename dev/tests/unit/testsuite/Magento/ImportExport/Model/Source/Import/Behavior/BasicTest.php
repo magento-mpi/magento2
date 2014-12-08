@@ -25,11 +25,11 @@ class BasicTest extends \Magento\ImportExport\Model\Source\Import\AbstractBehavi
      *
      * @var array
      */
-    protected $_expectedBehaviors = array(
+    protected $_expectedBehaviors = [
         \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
         \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
-    );
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+    ];
 
     protected function setUp()
     {

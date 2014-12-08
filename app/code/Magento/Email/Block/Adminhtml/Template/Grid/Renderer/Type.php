@@ -19,10 +19,10 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
      *
      * @var array
      */
-    protected static $_types = array(
+    protected static $_types = [
         \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => 'HTML',
-        \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => 'Text'
-    );
+        \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => 'Text',
+    ];
 
     /**
      * Render grid column
@@ -32,7 +32,6 @@ class Type extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
      */
     public function render(\Magento\Framework\Object $row)
     {
-
         $str = __('Unknown');
 
         if (isset(self::$_types[$row->getTemplateType()])) {

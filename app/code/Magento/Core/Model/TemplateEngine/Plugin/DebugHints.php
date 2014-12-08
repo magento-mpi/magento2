@@ -67,7 +67,7 @@ class DebugHints
             $showBlockHints = $this->_scopeConfig->getValue(self::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
             return $this->_objectManager->create(
                 'Magento\Core\Model\TemplateEngine\Decorator\DebugHints',
-                array('subject' => $invocationResult, 'showBlockHints' => $showBlockHints)
+                ['subject' => $invocationResult, 'showBlockHints' => $showBlockHints]
             );
         }
         return $invocationResult;

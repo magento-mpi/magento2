@@ -32,9 +32,9 @@ class SalesRule extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
+        $this->_data['default'] = ['config' => $defaultConfig, 'data' => $defaultData];
 
         $this->_data[self::SIMPLE] = $this->_getSalesRuleSimple();
         $this->_data[self::ACTIONS] = $this->_getSalesRuleActions();
@@ -46,16 +46,16 @@ class SalesRule extends AbstractRepository
      */
     protected function _getSalesRuleActions()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'discount_amount' => array(
+        return [
+            'data' => [
+                'fields' => [
+                    'discount_amount' => [
                         'value' => '50',
-                        'group' => self::GROUP_ACTIONS
-                    )
-                )
-            )
-        );
+                        'group' => self::GROUP_ACTIONS,
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -64,27 +64,27 @@ class SalesRule extends AbstractRepository
      */
     protected function _getSalesRuleSimple()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'name' => array(
+        return [
+            'data' => [
+                'fields' => [
+                    'name' => [
                         'value' => 'Simple Cart Price Rule %isolation%',
-                        'group' => self::GROUP_RULE_INFORMATION
-                    ),
-                    'website_ids' => array(
-                        'value' => array('Main Website'),
+                        'group' => self::GROUP_RULE_INFORMATION,
+                    ],
+                    'website_ids' => [
+                        'value' => ['Main Website'],
                         'group' => self::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
-                        'input_value' => array('1')
-                    ),
-                    'customer_group_ids' => array(
-                        'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
+                        'input_value' => ['1'],
+                    ],
+                    'customer_group_ids' => [
+                        'value' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
                         'group' => self::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
-                        'input_value' => array('0', '1', '2', '3')
-                    )
-                )
-            )
-        );
+                        'input_value' => ['0', '1', '2', '3'],
+                    ],
+                ],
+            ]
+        ];
     }
 }

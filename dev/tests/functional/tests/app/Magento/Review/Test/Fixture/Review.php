@@ -32,19 +32,19 @@ class Review extends DataFixture
      */
     protected function _initData()
     {
-        $this->_data = array(
-            'fields' => array(
-                'nickname' => array(
+        $this->_data = [
+            'fields' => [
+                'nickname' => [
                     'value' => 'Guest customer %isolation%',
-                ),
-                'title' => array(
+                ],
+                'title' => [
                     'value' => 'Summary review %isolation%',
-                ),
-                'detail' => array(
+                ],
+                'detail' => [
                     'value' => 'Text review %isolation%',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoReviewReview($this->_dataConfig, $this->_data);

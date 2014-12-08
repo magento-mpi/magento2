@@ -67,7 +67,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
             'AD' => 'Andorra',
             'ZZ' => 'Unknown Region',
             'VC' => 'St. Vincent & Grenadines',
-            'PM' => 'Saint Pierre and Miquelon'
+            'PM' => 'Saint Pierre and Miquelon',
         ];
 
         $countryTranslationList = $this->listsModel->getCountryTranslationList();
@@ -104,7 +104,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
             'AD' => 'Andorra',
             'ZZ' => 'Unknown Region',
             'VC' => 'St. Vincent & Grenadines',
-            'PM' => 'Saint Pierre and Miquelon'
+            'PM' => 'Saint Pierre and Miquelon',
         ];
 
         $countryTranslationList = $this->listsModel->getTranslationList($path, $value);
@@ -127,7 +127,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
             ['value' => 'BAM', 'label' => 'Bosnia-Herzegovina Convertible Mark'],
             ['value' => 'TTD', 'label' => 'Trinidad and Tobago Dollar'],
             ['value' => 'USN', 'label' => 'US Dollar (Next day)'],
-            ['value' => 'USS', 'label' => 'US Dollar (Same day)']
+            ['value' => 'USS', 'label' => 'US Dollar (Same day)'],
         ];
 
         $currencyList = $this->listsModel->getOptionAllCurrencies();
@@ -173,7 +173,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
             ['value' => 'BA', 'label' => 'Bosnia and Herzegovina'],
             ['value' => 'CC', 'label' => 'Cocos (Keeling) Islands'],
             ['value' => 'GS', 'label' => 'South Georgia & South Sandwich Islands'],
-            ['value' => 'PM', 'label' => 'Saint Pierre and Miquelon']
+            ['value' => 'PM', 'label' => 'Saint Pierre and Miquelon'],
         ];
 
         $optionCountries = $this->listsModel->getOptionCountries();

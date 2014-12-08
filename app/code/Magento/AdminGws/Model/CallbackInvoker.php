@@ -41,7 +41,7 @@ class CallbackInvoker
 
         $object = $this->objectManager->get($class);
         if (method_exists($object, $method)) {
-            return call_user_func_array(array($object, $method), array($passThroughObject));
+            return call_user_func_array([$object, $method], [$passThroughObject]);
         }
         return null;
     }

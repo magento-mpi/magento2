@@ -20,12 +20,12 @@ class Customer extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['customer_US'] = $this->_getCustomerUS();
         $this->_data['address_US_1'] = $this->_getAddressUS1();
@@ -33,50 +33,50 @@ class Customer extends AbstractRepository
 
     protected function _getCustomerUS()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'login_email' => array(
-                        'value' => 'mtf_personal@example.com'
-                    ),
-                    'login_password' => array(
-                        'value' => '12345678'
-                    )
-                )
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'login_email' => [
+                        'value' => 'mtf_personal@example.com',
+                    ],
+                    'login_password' => [
+                        'value' => '12345678',
+                    ],
+                ],
+            ]
+        ];
     }
 
     protected function _getAddressUS1()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'firstname' => array(
-                        'value' => 'Dmytro'
-                    ),
-                    'lastname' => array(
-                        'value' => 'Aponasenko'
-                    ),
-                    'street' => array(
-                        'value' => '1 Main St'
-                    ),
-                    'city' => array(
-                        'value' => 'Culver City'
-                    ),
-                    'region_id' => array(
+        return [
+            'data' => [
+                'fields' => [
+                    'firstname' => [
+                        'value' => 'Dmytro',
+                    ],
+                    'lastname' => [
+                        'value' => 'Aponasenko',
+                    ],
+                    'street' => [
+                        'value' => '1 Main St',
+                    ],
+                    'city' => [
+                        'value' => 'Culver City',
+                    ],
+                    'region_id' => [
                         'value' => 'California',
-                        'input' => 'select'
-                    ),
-                    'postcode' => array(
-                        'value' => '90230'
-                    ),
-                    'country_id' => array(
+                        'input' => 'select',
+                    ],
+                    'postcode' => [
+                        'value' => '90230',
+                    ],
+                    'country_id' => [
                         'value' => 'United States',
-                        'input' => 'select'
-                    )
-                )
-            )
-        );
+                        'input' => 'select',
+                    ],
+                ],
+            ]
+        ];
     }
 }

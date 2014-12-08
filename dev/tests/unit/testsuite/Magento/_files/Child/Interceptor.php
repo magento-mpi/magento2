@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -22,7 +22,7 @@ class Interceptor extends \Magento\Test\Di\Child
     /**
      * @var array
      */
-    protected $_plugins = array();
+    protected $_plugins = [];
 
     /**
      * @var \Magento\Framework\ObjectManager\ObjectManager
@@ -32,7 +32,7 @@ class Interceptor extends \Magento\Test\Di\Child
     /**
      * @var array
      */
-    protected $_pluginList = array();
+    protected $_pluginList = [];
 
     /**
      * @var string

@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Reflection;
 
-
 class AttributeTypeResolverTest extends \PHPUnit_Framework_TestCase
 {
     /**

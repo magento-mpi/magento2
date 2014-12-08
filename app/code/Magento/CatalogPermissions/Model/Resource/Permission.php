@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Permission resource model
  *
@@ -34,9 +33,9 @@ class Permission extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _initUniqueFields()
     {
         parent::_initUniqueFields();
-        $this->_uniqueFields[] = array(
-            'field' => array('category_id', 'website_id', 'customer_group_id'),
-            'title' => __('Permission with the same scope')
-        );
+        $this->_uniqueFields[] = [
+            'field' => ['category_id', 'website_id', 'customer_group_id'],
+            'title' => __('Permission with the same scope'),
+        ];
     }
 }

@@ -39,7 +39,7 @@ class Recursive extends \Magento\Backend\Block\Template implements
      *
      * @var string[]
      */
-    protected $_templates = array();
+    protected $_templates = [];
 
     /**
      * Get element renderer bound to

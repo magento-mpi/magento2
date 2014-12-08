@@ -61,7 +61,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getStatus',
-                    'getRedirect'
+                    'getRedirect',
                 ]
             )
             ->disableOriginalConstructor()
@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     'setRedirectUrl',
                     'setRedirect',
                     'setPath',
-                    'setArguments'
+                    'setArguments',
                 ]
             )
             ->disableOriginalConstructor()

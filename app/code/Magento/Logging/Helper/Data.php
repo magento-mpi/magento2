@@ -42,7 +42,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if (!is_array($array)) {
             return $array;
         }
-        $result = array();
+        $result = [];
         foreach ($array as $item) {
             if (is_array($item)) {
                 $result[] = $this->implodeValues($item);

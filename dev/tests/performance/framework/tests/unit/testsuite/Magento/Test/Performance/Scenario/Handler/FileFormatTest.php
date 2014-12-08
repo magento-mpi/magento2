@@ -34,9 +34,9 @@ class FileFormatTest extends \PHPUnit_Framework_TestCase
         $this->_scenario = new \Magento\TestFramework\Performance\Scenario(
             'Scenario',
             'scenario.jmx',
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            []
         );
     }
 
@@ -70,9 +70,9 @@ class FileFormatTest extends \PHPUnit_Framework_TestCase
         $scenario = new \Magento\TestFramework\Performance\Scenario(
             'Scenario',
             'scenario.txt',
-            array(),
-            array(),
-            array()
+            [],
+            [],
+            []
         );
         $this->_object->run($scenario);
     }

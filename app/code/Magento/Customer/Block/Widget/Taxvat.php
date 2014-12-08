@@ -29,7 +29,7 @@ class Taxvat extends AbstractWidget
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerMetadataInterface $customerMetadata,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $addressHelper, $customerMetadata, $data);
         $this->_isScopePrivate = true;

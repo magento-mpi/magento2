@@ -12,7 +12,6 @@ use Magento\Framework\Debug;
 
 abstract class LoggerAbstract implements LoggerInterface
 {
-
     /**
      * @var int
      */

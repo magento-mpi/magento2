@@ -30,10 +30,10 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Resource',
-            array('tablePrefix' => 'prefix_')
+            ['tablePrefix' => 'prefix_']
         );
 
-        $tableName = $this->_model->getTableName(array($tableNameOrig, $tableSuffix));
+        $tableName = $this->_model->getTableName([$tableNameOrig, $tableSuffix]);
         $this->assertContains($tablePrefix, $tableName);
         $this->assertContains($tableSuffix, $tableName);
         $this->assertContains($tableNameOrig, $tableName);
@@ -49,19 +49,19 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
         /** @var \Zend_Db_Adapter_Abstract $connection */
         $connection = $objectManager->create(
             'Magento\TestFramework\Db\Adapter\Mysql',
-            array(
-                'config' => array(
-                    'profiler' => array(
+            [
+                'config' => [
+                    'profiler' => [
                         'class' => 'Magento\Framework\Model\Resource\Db\Profiler',
-                        'enabled' => 'true'
-                    ),
+                        'enabled' => 'true',
+                    ],
                     'username' => 'username',
                     'password' => 'password',
                     'host' => 'host',
                     'type' => 'type',
-                    'dbname' => 'dbname'
-                )
-            )
+                    'dbname' => 'dbname',
+                ]
+            ]
         );
 
         /** @var \Magento\Framework\Model\Resource\Db\Profiler $profiler */

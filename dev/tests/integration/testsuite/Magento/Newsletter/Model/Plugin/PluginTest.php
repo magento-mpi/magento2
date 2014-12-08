@@ -74,7 +74,6 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((int)$createdCustomer->getId(), (int)$subscriber->getCustomerId());
     }
 
-
     /**
      * @magentoAppArea adminhtml
      * @magentoDbIsolation enabled

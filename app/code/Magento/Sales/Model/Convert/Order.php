@@ -100,7 +100,7 @@ class Order extends \Magento\Framework\Object
         \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
         \Magento\Sales\Model\Order\Creditmemo\ItemFactory $creditmemoItemFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eventManager = $eventManager;
         $this->_quoteFactory = $quoteFactory;
@@ -134,7 +134,7 @@ class Order extends \Magento\Framework\Object
 
         $this->_objectCopyService->copyFieldsetToTarget('sales_convert_order', 'to_quote', $order, $quote);
 
-        $this->_eventManager->dispatch('sales_convert_order_to_quote', array('order' => $order, 'quote' => $quote));
+        $this->_eventManager->dispatch('sales_convert_order_to_quote', ['order' => $order, 'quote' => $quote]);
         return $quote;
     }
 

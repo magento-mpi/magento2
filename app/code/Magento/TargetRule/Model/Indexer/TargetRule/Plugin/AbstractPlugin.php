@@ -9,8 +9,8 @@
  */
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
-use \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor as RuleProductProcessor;
-use \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor as ProductRuleProcessor;
+use Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor as ProductRuleProcessor;
+use Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor as RuleProductProcessor;
 
 abstract class AbstractPlugin
 {

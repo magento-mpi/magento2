@@ -17,7 +17,7 @@ abstract class EntityAbstract
     /**
      * @var string[]
      */
-    private $_errors = array();
+    private $_errors = [];
 
     /**
      * Source model class name
@@ -172,16 +172,16 @@ abstract class EntityAbstract
     protected function _getClassProperties()
     {
         // protected $_objectManager = null;
-        $objectManager = array(
+        $objectManager = [
             'name' => '_objectManager',
             'visibility' => 'protected',
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Object Manager instance',
-                'tags' => array(array('name' => 'var', 'description' => '\Magento\Framework\ObjectManagerInterface'))
-            )
-        );
+                'tags' => [['name' => 'var', 'description' => '\Magento\Framework\ObjectManagerInterface']],
+            ],
+        ];
 
-        return array($objectManager);
+        return [$objectManager];
     }
 
     /**
@@ -253,7 +253,7 @@ abstract class EntityAbstract
             $pathParts[2]
         ) && !in_array(
             $pathParts[2],
-            array('Block', 'Helper', 'Model')
+            ['Block', 'Helper', 'Model']
         )
         ) {
             $controllerPath = preg_replace(
@@ -294,7 +294,7 @@ abstract class EntityAbstract
     protected function _getClassDocBlock()
     {
         $description = ucfirst(static::ENTITY_TYPE) . ' class for \\' . $this->_getSourceClassName();
-        return array('shortDescription' => $description);
+        return ['shortDescription' => $description];
     }
 
     /**
@@ -338,10 +338,10 @@ abstract class EntityAbstract
      */
     protected function _getMethodParameterInfo(\ReflectionParameter $parameter)
     {
-        $parameterInfo = array(
+        $parameterInfo = [
             'name' => $parameter->getName(),
-            'passedByReference' => $parameter->isPassedByReference()
-        );
+            'passedByReference' => $parameter->isPassedByReference(),
+        ];
 
         if ($parameter->isArray()) {
             $parameterInfo['type'] = 'array';

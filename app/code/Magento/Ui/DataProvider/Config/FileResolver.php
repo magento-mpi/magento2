@@ -9,10 +9,10 @@
  */
 namespace Magento\Ui\DataProvider\Config;
 
-use Magento\Framework\Config\FileResolverInterface;
-use Magento\Framework\Config\FileIteratorFactory;
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Config\FileIteratorFactory;
+use Magento\Framework\Config\FileResolverInterface;
+use Magento\Framework\Filesystem;
 
 /**
  * Class FileResolver

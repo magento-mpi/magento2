@@ -46,7 +46,7 @@ class Role extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Authorization\Model\Resource\Role $resource,
         \Magento\Authorization\Model\Resource\Role\Collection $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -57,7 +57,7 @@ class Role extends \Magento\Framework\Model\AbstractModel
     public function __sleep()
     {
         $properties = parent::__sleep();
-        return array_diff($properties, array('_resource', '_resourceCollection'));
+        return array_diff($properties, ['_resource', '_resourceCollection']);
     }
 
     /**

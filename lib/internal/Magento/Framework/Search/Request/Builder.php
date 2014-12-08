@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Search\Request;
 
-
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Search\RequestInterface;
 
@@ -34,7 +33,7 @@ class Builder
      */
     private $data = [
         'dimensions' => [],
-        'placeholder' => []
+        'placeholder' => [],
     ];
     /**
      * @var Cleaner

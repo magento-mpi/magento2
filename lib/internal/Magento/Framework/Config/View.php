@@ -31,7 +31,7 @@ class View extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractData(\DOMDocument $dom)
     {
-        $result = array();
+        $result = [];
         /** @var $varsNode \DOMElement */
         foreach ($dom->childNodes->item(0)/*root*/->childNodes as $varsNode) {
             $moduleName = $varsNode->getAttribute('module');
@@ -55,7 +55,7 @@ class View extends \Magento\Framework\Config\AbstractXml
      */
     public function getVars($module)
     {
-        return isset($this->_data[$module]) ? $this->_data[$module] : array();
+        return isset($this->_data[$module]) ? $this->_data[$module] : [];
     }
 
     /**
@@ -87,7 +87,7 @@ class View extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?>'.
+        return '<?xml version="1.0" encoding="UTF-8"?>' .
                '<view xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></view>';
     }
 
@@ -98,6 +98,6 @@ class View extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getIdAttributes()
     {
-        return array('/view/vars' => 'module', '/view/vars/var' => 'name');
+        return ['/view/vars' => 'module', '/view/vars/var' => 'name'];
     }
 }

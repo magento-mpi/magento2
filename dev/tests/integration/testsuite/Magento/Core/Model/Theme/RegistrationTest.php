@@ -28,13 +28,13 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
-            array(
-                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-                    DirectoryList::THEMES => array(
-                        'path' => dirname(__DIR__) . '/_files/design'
-                    )
-                )
-            )
+            [
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+                    DirectoryList::THEMES => [
+                        'path' => dirname(__DIR__) . '/_files/design',
+                    ],
+                ],
+            ]
         );
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Framework\App\AreaList')
@@ -70,7 +70,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     protected function _getTestTheme()
     {
         $theme = $this->_theme->getCollection()->getThemeByFullPath(
-            implode(\Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR, array('frontend', 'Test/test_theme'))
+            implode(\Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR, ['frontend', 'Test/test_theme'])
         );
         $this->assertNotEmpty($theme->getId());
         return $theme;
@@ -130,7 +130,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->registerThemes();
         $themePath = implode(
             \Magento\Framework\View\Design\ThemeInterface::PATH_SEPARATOR,
-            array('frontend', 'Test/test_theme')
+            ['frontend', 'Test/test_theme']
         );
         $theme = $this->_model->getThemeFromDb($themePath);
         $this->assertEquals($themePath, $theme->getFullPath());

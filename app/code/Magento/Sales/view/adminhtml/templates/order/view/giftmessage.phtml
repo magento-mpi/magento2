@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 ?>
-<?php if($this->canDisplayGiftmessage()): ?>
+<?php if ($this->canDisplayGiftmessage()): ?>
 <?php $_required = $this->getMessage()->getMessage() != ''?>
 <div id="<?php echo $this->getHtmlId() ?>" class="box-left giftmessage-whole-order-container">
     <form class="entry-edit form-inline" id="<?php echo $this->getFieldId('form') ?>" action="<?php echo $this->getSaveUrl() ?>">

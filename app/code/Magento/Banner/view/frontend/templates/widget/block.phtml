@@ -11,11 +11,11 @@
     <?php $iterator = 1; ?>
     <ul class="banner-items">
         <?php foreach ($bannersContent as $bannerId => $content): ?>
-            <?php echo ($iterator++==1) ? '<li class="banner-item">' : '</li><li class="banner-item">' ?>
+            <?php echo($iterator++ == 1) ? '<li class="banner-item">' : '</li><li class="banner-item">' ?>
             <div class="banner-item-content">
                 <?php echo $content?>
             </div>
-            <?php echo ($iterator==count($bannersContent)+1) ? '</li>' : '' ?>
+            <?php echo($iterator == count($bannersContent)+1) ? '</li>' : '' ?>
         <?php endforeach; ?>
     </ul>
 </div>

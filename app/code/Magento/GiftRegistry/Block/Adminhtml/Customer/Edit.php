@@ -24,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -79,6 +79,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($this->_coreRegistry->registry('current_giftregistry_entity')) {
             $customerId = $this->_coreRegistry->registry('current_giftregistry_entity')->getCustomerId();
         }
-        return $this->getUrl('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        return $this->getUrl('customer/index/edit', ['id' => $customerId, 'active_tab' => 'giftregistry']);
     }
 }

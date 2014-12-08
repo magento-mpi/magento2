@@ -7,8 +7,8 @@
  */
 namespace Magento\Cms\Ui\DataProvider\Page\Options;
 
-use Magento\Ui\Component\Listing\OptionsInterface;
 use Magento\Core\Model\PageLayout\Config\Builder;
+use Magento\Ui\Component\Listing\OptionsInterface;
 
 /**
  * Class PageLayout
@@ -42,7 +42,7 @@ class PageLayout implements OptionsInterface
         foreach ($newOptions as $key => $value) {
             $newOptions[$key] = [
                 'label' => $value,
-                'value' => $key
+                'value' => $key,
             ];
         }
 

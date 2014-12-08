@@ -8,10 +8,10 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form;
 
-use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form\Items\Product;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractItemsNewBlock;
+use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form\Items\Product;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items

@@ -27,7 +27,7 @@ class RegistryTest extends \PHPUnit_Framework_TestCase
         $this->registry = new Registry();
         $this->data = [
             'key' => 'customer',
-            'value' => '\Magento\Customer\Model\Customer'
+            'value' => '\Magento\Customer\Model\Customer',
         ];
         $this->registry->register($this->data['key'], $this->data['value']);
     }

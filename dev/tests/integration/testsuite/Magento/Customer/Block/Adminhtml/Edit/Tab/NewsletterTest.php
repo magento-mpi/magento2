@@ -43,7 +43,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter',
             '',
-            array('registry' => $this->coreRegistry)
+            ['registry' => $this->coreRegistry]
         )->setTemplate(
             'tab/newsletter.phtml'
         );

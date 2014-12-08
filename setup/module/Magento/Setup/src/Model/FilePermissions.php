@@ -71,12 +71,12 @@ class FilePermissions
     public function getInstallationWritableDirectories()
     {
         if (!$this->installationWritableDirectories) {
-            $data = array(
+            $data = [
                 DirectoryList::CONFIG,
                 DirectoryList::VAR_DIR,
                 DirectoryList::MEDIA,
-                DirectoryList::STATIC_VIEW
-            );
+                DirectoryList::STATIC_VIEW,
+            ];
             foreach ($data as $code) {
                 $this->installationWritableDirectories[$code] = $this->directoryList->getPath($code);
             }
@@ -92,9 +92,9 @@ class FilePermissions
     public function getApplicationNonWritableDirectories()
     {
         if (!$this->applicationNonWritableDirectories) {
-            $data = array(
-                DirectoryList::CONFIG
-            );
+            $data = [
+                DirectoryList::CONFIG,
+            ];
             foreach ($data as $code) {
                 $this->applicationNonWritableDirectories[$code] = $this->directoryList->getPath($code);
             }

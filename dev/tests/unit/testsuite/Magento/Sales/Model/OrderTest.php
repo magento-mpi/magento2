@@ -95,7 +95,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * @param int|null $gettingQuoteItemId
      * @param int|null $quoteItemId
@@ -282,9 +281,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
         $this->prepareItemMock(1);
 
-        $actionFlags= [
+        $actionFlags = [
             \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
-            \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => $cancelActionFlag
+            \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => $cancelActionFlag,
         ];
         foreach ($actionFlags as $action => $flag) {
             $this->order->setActionFlag($action, $flag);
@@ -375,7 +374,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      * @param array $mockedMethods
      * @return \Magento\Sales\Model\Order\Payment|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _prepareOrderPayment($order, $mockedMethods = array())
+    protected function _prepareOrderPayment($order, $mockedMethods = [])
     {
         $payment = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')->disableOriginalConstructor()->getMock();
         foreach ($mockedMethods as $method => $value) {
@@ -394,17 +393,17 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getActionFlagsValues()
     {
-        return array(
-            array(),
-            array(
+        return [
+            [],
+            [
                 \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
                 \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => false
-            ),
-            array(
+            ],
+            [
                 \Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD => false,
                 \Magento\Sales\Model\Order::ACTION_FLAG_CANCEL => true
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -414,14 +413,14 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getOrderStatuses()
     {
-        return array(
+        return [
             \Magento\Sales\Model\Order::STATE_HOLDED,
             \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW,
             \Magento\Sales\Model\Order::STATE_CANCELED,
             \Magento\Sales\Model\Order::STATE_COMPLETE,
             \Magento\Sales\Model\Order::STATE_CLOSED,
             \Magento\Sales\Model\Order::STATE_PROCESSING
-        );
+        ];
     }
 
     /**
@@ -459,10 +458,10 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     public function canVoidPaymentDataProvider()
     {
-        $data = array();
+        $data = [];
         foreach ($this->_getActionFlagsValues() as $actionFlags) {
             foreach ($this->_getOrderStatuses() as $status) {
-                $data[] = array($actionFlags, $status);
+                $data[] = [$actionFlags, $status];
             }
         }
         return $data;

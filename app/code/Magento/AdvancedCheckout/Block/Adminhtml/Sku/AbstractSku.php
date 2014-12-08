@@ -44,7 +44,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
@@ -74,13 +74,13 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
         $this->addChild(
             'deleteButton',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => '', 'onclick' => 'addBySku.del(this)', 'class' => 'delete')
+            ['label' => '', 'onclick' => 'addBySku.del(this)', 'class' => 'delete']
         );
 
         $this->addChild(
             'addButton',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => 'Add', 'onclick' => 'addBySku.add()', 'class' => 'add')
+            ['label' => 'Add', 'onclick' => 'addBySku.add()', 'class' => 'add']
         );
 
         return $this;
@@ -121,7 +121,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
      */
     public function getAddBySkuDataJson()
     {
-        $data = array(
+        $data = [
             'dataContainerId' => $this->getDataContainerId(),
             'deleteButtonHtml' => $this->getDeleteButtonHtml(),
             'fileUploaded' => \Magento\AdvancedCheckout\Helper\Data::REQUEST_PARAMETER_SKU_FILE_IMPORTED_FLAG,
@@ -129,8 +129,8 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             'listType' => \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE,
             'errorGridId' => $this->getErrorGridId(),
             'fileFieldName' => \Magento\AdvancedCheckout\Model\Import::FIELD_NAME_SOURCE_FILE,
-            'fileUploadUrl' => $this->getFileUploadUrl()
-        );
+            'fileUploadUrl' => $this->getFileUploadUrl(),
+        ];
 
         $json = $this->_jsonEncoder->encode($data);
         return $json;

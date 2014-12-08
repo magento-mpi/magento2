@@ -7,7 +7,6 @@
  */
 namespace Magento\SomeModule\Model\One;
 
-
 require_once __DIR__ . '/../Proxy.php';
 class Test
 {

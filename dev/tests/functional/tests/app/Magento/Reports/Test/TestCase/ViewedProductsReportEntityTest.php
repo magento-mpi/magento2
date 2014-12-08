@@ -8,10 +8,10 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportView;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ViewedProductsReportEntity

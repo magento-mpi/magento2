@@ -30,7 +30,7 @@ class CopyConstructorFactory
      * @return CopyConstructorInterface
      * @throws \InvalidArgumentException
      */
-    public function create($instance, array $arguments = array())
+    public function create($instance, array $arguments = [])
     {
         if (!is_subclass_of($instance, '\Magento\Catalog\Model\Product\CopyConstructorInterface')) {
             throw new \InvalidArgumentException(

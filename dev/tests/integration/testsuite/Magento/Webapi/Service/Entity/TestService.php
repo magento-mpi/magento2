@@ -16,7 +16,7 @@ class TestService
      */
     public function simple($entityId, $name)
     {
-        return array($entityId, $name);
+        return [$entityId, $name];
     }
 
     /**

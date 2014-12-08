@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 
 /**
  * Customer account form block
@@ -103,7 +103,7 @@ class Account extends GenericMetadata
         \Magento\Customer\Api\CustomerMetadataInterface $customerMetadata,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        array $data = array()
+        array $data = []
     ) {
         $this->options = $options;
         $this->_jsonEncoder = $jsonEncoder;
@@ -132,7 +132,7 @@ class Account extends GenericMetadata
         $form->setFieldNameSuffix('account');
 
         /** @var \Magento\Framework\Data\Form\Element\Fieldset $fieldset */
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Account Information')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Account Information')]);
         $accountData = $this->_customizeFieldset($fieldset);
 
         $form->setValues($accountData);
@@ -149,7 +149,7 @@ class Account extends GenericMetadata
     protected function _customizeFieldset($fieldset)
     {
         $attributes = $this->_initCustomerAttributes();
-        $this->_setFieldset($attributes, $fieldset, array(self::DISABLE_ATTRIBUTE_NAME));
+        $this->_setFieldset($attributes, $fieldset, [self::DISABLE_ATTRIBUTE_NAME]);
         $form = $fieldset->getForm();
         $groupElement = $form->getElement(
             'group_id'
@@ -233,7 +233,7 @@ class Account extends GenericMetadata
     {
         if (is_null($this->_customerDataObject)) {
             $customerData = $this->_backendSession->getCustomerData();
-            $accountData = isset($customerData['account']) ? $customerData['account'] : array();
+            $accountData = isset($customerData['account']) ? $customerData['account'] : [];
             $this->_customerDataObject = $this->_customerBuilder->populateWithArray($accountData)->create();
         }
         return $this->_customerDataObject;
@@ -246,11 +246,11 @@ class Account extends GenericMetadata
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'file' => 'Magento\Customer\Block\Adminhtml\Form\Element\File',
             'image' => 'Magento\Customer\Block\Adminhtml\Form\Element\Image',
             'boolean' => 'Magento\Customer\Block\Adminhtml\Form\Element\Boolean'
-        );
+        ];
     }
 
     /**
@@ -320,7 +320,7 @@ class Account extends GenericMetadata
         $fieldset->addField(
             'sendemail',
             'checkbox',
-            array('label' => __('Send Welcome Email'), 'name' => 'sendemail', 'id' => 'sendemail')
+            ['label' => __('Send Welcome Email'), 'name' => 'sendemail', 'id' => 'sendemail']
         );
         $renderer = $this->getLayout()->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Renderer\Attribute\Sendemail'
@@ -332,15 +332,15 @@ class Account extends GenericMetadata
             $fieldset->addField(
                 'sendemail_store_id',
                 'select',
-                array(
+                [
                     'label' => __('Send From'),
                     'name' => 'sendemail_store_id',
                     'values' => $this->_systemStore->getStoreValuesForForm()
-                )
+                ]
             );
         }
 
-        return array('sendemail' => '1');
+        return ['sendemail' => '1'];
     }
 
     /**
@@ -355,9 +355,8 @@ class Account extends GenericMetadata
         $fieldset->getForm()->getElement('website_id')->setDisabled('disabled');
         $customerData = $this->_getCustomerDataObject();
         if ($customerData->getId() && $this->_accountManagement->isReadonly($customerData->getId())) {
-            return array();
+            return [];
         }
-
 
         // Prepare customer confirmation control (only for existing customers)
         $confirmationStatus = $this->_accountManagement->getConfirmationStatus($customerData->getId());
@@ -371,10 +370,10 @@ class Account extends GenericMetadata
             $element = $fieldset->addField(
                 'confirmation',
                 'select',
-                array('name' => 'confirmation', 'label' => __($confirmationAttr->getFrontendLabel()))
+                ['name' => 'confirmation', 'label' => __($confirmationAttr->getFrontendLabel())]
             );
             $element->setEntityAttribute($confirmationAttr);
-            $element->setValues(array('' => 'Confirmed', $confirmationKey => 'Not confirmed'));
+            $element->setValues(['' => 'Confirmed', $confirmationKey => 'Not confirmed']);
 
             // Prepare send welcome email checkbox if customer is not confirmed
             // no need to add it, if website ID is empty
@@ -382,12 +381,12 @@ class Account extends GenericMetadata
                 $fieldset->addField(
                     'sendemail',
                     'checkbox',
-                    array('name' => 'sendemail', 'label' => __('Send Welcome Email after Confirmation'))
+                    ['name' => 'sendemail', 'label' => __('Send Welcome Email after Confirmation')]
                 );
-                return array('sendemail' => '1');
+                return ['sendemail' => '1'];
             }
         }
-        return array();
+        return [];
     }
 
     /**

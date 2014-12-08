@@ -25,7 +25,6 @@ class Button extends Template
         parent::_construct();
     }
 
-
     /**
      * Retrieve button type
      *
@@ -101,7 +100,7 @@ class Button extends Template
             'onclick' => $this->getOnClick(),
             'style' => $this->getStyle(),
             'value' => $this->getValue(),
-            'disabled' => $disabled
+            'disabled' => $disabled,
         ];
         if ($this->getDataAttribute()) {
             foreach ($this->getDataAttribute() as $key => $attr) {

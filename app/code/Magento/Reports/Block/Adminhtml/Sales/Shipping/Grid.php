@@ -47,7 +47,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     {
         $this->addColumn(
             'period',
-            array(
+            [
                 'header' => __('Interval'),
                 'index' => 'period',
                 'sortable' => false,
@@ -55,26 +55,26 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'renderer' => 'Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date',
                 'totals_label' => __('Total'),
                 'subtotals_label' => __('Subtotal'),
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'header_css_class' => 'col-period',
                 'column_css_class' => 'col-period'
-            )
+            ]
         );
 
         $this->addColumn(
             'shipping_description',
-            array(
+            [
                 'header' => __('Carrier/Method'),
                 'index' => 'shipping_description',
                 'sortable' => false,
                 'header_css_class' => 'col-method',
                 'column_css_class' => 'col-method'
-            )
+            ]
         );
 
         $this->addColumn(
             'orders_count',
-            array(
+            [
                 'header' => __('Orders'),
                 'index' => 'orders_count',
                 'total' => 'sum',
@@ -82,7 +82,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'sortable' => false,
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -94,7 +94,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
         $this->addColumn(
             'total_shipping',
-            array(
+            [
                 'header' => __('Total Sales Shipping'),
                 'type' => 'currency',
                 'currency_code' => $currencyCode,
@@ -104,12 +104,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-total-sales-shipping',
                 'column_css_class' => 'col-total-sales-shipping'
-            )
+            ]
         );
 
         $this->addColumn(
             'total_shipping_actual',
-            array(
+            [
                 'header' => __('Total Shipping'),
                 'type' => 'currency',
                 'currency_code' => $currencyCode,
@@ -119,7 +119,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-total-shipping',
                 'column_css_class' => 'col-total-shipping'
-            )
+            ]
         );
 
         $this->addExportType('*/*/exportShippingCsv', __('CSV'));

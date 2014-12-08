@@ -8,7 +8,6 @@
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
 use Magento\Framework\Api\Code\Generator\EntityChildTestAbstract;
-use Magento\Framework\Code\Generator\Io;
 use Magento\TestFramework\Helper\ObjectManager;
 
 /**

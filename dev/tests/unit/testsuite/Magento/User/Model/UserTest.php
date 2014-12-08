@@ -59,73 +59,73 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->_userData = $this->getMockBuilder(
             'Magento\User\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_coreData = $this->getMockBuilder(
             'Magento\Core\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_contextMock = $this->getMockBuilder(
             'Magento\Framework\Model\Context'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_resourceMock = $this->getMockBuilder(
             'Magento\User\Model\Resource\User'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_collectionMock = $this->getMockBuilder(
             'Magento\Framework\Data\Collection\Db'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $coreRegistry = $this->getMockBuilder(
             'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $eventManagerMock = $this->getMockBuilder(
             'Magento\Framework\Event\ManagerInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $objectFactoryMock = $this->getMockBuilder(
             'Magento\Framework\Validator\ObjectFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $roleFactoryMock = $this->getMockBuilder(
             'Magento\Authorization\Model\RoleFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
         $this->_transportMock = $this->getMockBuilder(
             'Magento\Framework\Mail\TransportInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_transportBuilderMock = $this->getMockBuilder(
             '\Magento\Framework\Mail\Template\TransportBuilder'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_storetMock = $this->getMockBuilder(
             '\Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
         $this->_storeManagerMock = $this->getMockBuilder(
             '\Magento\Framework\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
 
         $this->_configMock = $this->getMockBuilder(
             '\Magento\Backend\App\ConfigInterface'
         )->disableOriginalConstructor()->setMethods(
-            array()
+            []
         )->getMock();
 
         $this->_encryptorMock = $this->getMockBuilder('Magento\Framework\Encryption\EncryptorInterface')
@@ -135,7 +135,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\User\Model\User',
-            array(
+            [
                 'eventManager' => $eventManagerMock,
                 'userData' => $this->_userData,
                 'coreData' => $this->_coreData,
@@ -149,7 +149,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->_storeManagerMock,
                 'config' => $this->_configMock,
                 'encryptor' => $this->_encryptorMock
-            )
+            ]
         );
     }
 
@@ -188,7 +188,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setTemplateVars'
         )->with(
-            array('user' => $this->_model, 'store' => $this->_storetMock)
+            ['user' => $this->_model, 'store' => $this->_storetMock]
         )->will(
             $this->returnSelf()
         );
@@ -239,7 +239,6 @@ class UserTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_storetMock)
         );
 
-
         $this->assertInstanceOf('\Magento\User\Model\User', $this->_model->sendPasswordResetNotificationEmail());
     }
 
@@ -278,7 +277,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setTemplateVars'
         )->with(
-            array('user' => $this->_model, 'store' => $this->_storetMock)
+            ['user' => $this->_model, 'store' => $this->_storetMock]
         )->will(
             $this->returnSelf()
         );

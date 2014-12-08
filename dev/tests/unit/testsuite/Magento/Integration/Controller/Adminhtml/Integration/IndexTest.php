@@ -9,7 +9,6 @@
 
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-
 class IndexTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
 {
     public function testIndexAction()

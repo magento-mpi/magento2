@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Backup;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 require_once __DIR__ . '/_files/Fs.php';
 require_once __DIR__ . '/_files/Helper.php';
@@ -42,7 +41,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_backupDbMock = $this->getMock('Magento\Framework\Backup\Db', array(), array(), '', false);
+        $this->_backupDbMock = $this->getMock('Magento\Framework\Backup\Db', [], [], '', false);
         $this->_backupDbMock->expects($this->any())->method('setBackupExtension')->will($this->returnSelf());
 
         $this->_backupDbMock->expects($this->any())->method('setTime')->will($this->returnSelf());
@@ -61,13 +60,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->_backupDbMock->expects($this->any())->method('create')->will($this->returnValue(true));
 
-        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $dirMock = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $this->_filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
             ->will($this->returnValue($dirMock));
 
-        $this->_backupFactoryMock = $this->getMock('Magento\Framework\Backup\Factory', array(), array(), '', false);
+        $this->_backupFactoryMock = $this->getMock('Magento\Framework\Backup\Factory', [], [], '', false);
         $this->_backupFactoryMock->expects(
             $this->once()
         )->method(
@@ -112,6 +111,6 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public static function actionProvider()
     {
-        return array(array('create'), array('rollback'));
+        return [['create'], ['rollback']];
     }
 }

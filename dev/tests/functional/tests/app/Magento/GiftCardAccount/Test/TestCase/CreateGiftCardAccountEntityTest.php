@@ -11,8 +11,8 @@ namespace Magento\GiftCardAccount\Test\TestCase;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
-use Mtf\TestCase\Injectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateGiftCardAccountEntityTest

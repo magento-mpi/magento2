@@ -19,11 +19,11 @@ class VatGroup extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
+            'data' => $defaultData,
         ];
 
         $this->_data['customer_UK_with_VAT'] = $this->buildCustomerUKWithVATData($this->_data['default']);

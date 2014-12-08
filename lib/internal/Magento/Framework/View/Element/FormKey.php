@@ -26,7 +26,7 @@ class FormKey extends \Magento\Framework\View\Element\AbstractBlock
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\Data\Form\FormKey $formKey,
-        array $data = array()
+        array $data = []
     ) {
         $this->formKey = $formKey;
         parent::__construct($context, $data);

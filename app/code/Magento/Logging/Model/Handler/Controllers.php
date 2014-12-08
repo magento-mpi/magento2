@@ -161,7 +161,7 @@ class Controllers
     public function postDispatchConfigSave($config, $eventModel, $processor)
     {
         $postData = $this->_request->getPost();
-        $groupFieldsData = array();
+        $groupFieldsData = [];
         /** @var \Magento\Logging\Model\Event\Changes $change */
         $change = $this->_eventChangesFactory->create();
 
@@ -171,7 +171,7 @@ class Controllers
             'Magento\Backend\Model\Config\Backend\Encrypted'
         );
 
-        $skipEncrypted = array();
+        $skipEncrypted = [];
         foreach ($encryptedNodePaths as $path) {
             $skipEncrypted[] = basename($path);
         }
@@ -181,7 +181,7 @@ class Controllers
             foreach ($postData['groups'] as $groupName => $groupData) {
                 foreach (isset(
                     $groupData['fields']
-                ) ? $groupData['fields'] : array() as $fieldName => $fieldValueData) {
+                ) ? $groupData['fields'] : [] as $fieldName => $fieldValueData) {
                     //Clearing config data accordingly to collected skip fields
                     if (!in_array($fieldName, $skipEncrypted) && isset($fieldValueData['value'])) {
                         $groupFieldsData[$fieldName] = $fieldValueData['value'];
@@ -189,9 +189,9 @@ class Controllers
                 }
 
                 $processor->addEventChanges(
-                    clone $change->setSourceName($groupName)->setOriginalData(array())->setResultData($groupFieldsData)
+                    clone $change->setSourceName($groupName)->setOriginalData([])->setResultData($groupFieldsData)
                 );
-                $groupFieldsData = array();
+                $groupFieldsData = [];
             }
         }
         $sectionId = $this->_request->getParam('section');
@@ -288,14 +288,14 @@ class Controllers
         //Filtering request data
         $data = array_intersect_key(
             $this->_request->getParams(),
-            array(
+            [
                 'report_from' => null,
                 'report_to' => null,
                 'report_period' => null,
                 'store' => null,
                 'website' => null,
                 'group' => null
-            )
+            ]
         );
 
         //Need when in request data there are was no period info
@@ -309,7 +309,7 @@ class Controllers
             /** @var \Magento\Logging\Model\Event\Changes $change */
             $change = $this->_eventChangesFactory->create();
             $processor->addEventChanges(
-                $change->setSourceName('params')->setOriginalData(array())->setResultData($data)
+                $change->setSourceName('params')->setOriginalData([])->setResultData($data)
             );
         }
 
@@ -405,9 +405,9 @@ class Controllers
                 clone $change->setSourceName(
                     'product'
                 )->setOriginalData(
-                    array()
+                    []
                 )->setResultData(
-                    array('ids' => implode(', ', $products))
+                    ['ids' => implode(', ', $products)]
                 )
             );
         }
@@ -416,42 +416,42 @@ class Controllers
             clone $change->setSourceName(
                 'inventory'
             )->setOriginalData(
-                array()
+                []
             )->setResultData(
-                $this->_request->getParam('inventory', array())
+                $this->_request->getParam('inventory', [])
             )
         );
-        $attributes = $this->_request->getParam('attributes', array());
+        $attributes = $this->_request->getParam('attributes', []);
         $status = $this->_request->getParam('status', null);
         if (!$attributes && $status) {
             $attributes['status'] = $status;
         }
         $processor->addEventChanges(
-            clone $change->setSourceName('attributes')->setOriginalData(array())->setResultData($attributes)
+            clone $change->setSourceName('attributes')->setOriginalData([])->setResultData($attributes)
         );
 
-        $websiteIds = $this->_request->getParam('remove_website', array());
+        $websiteIds = $this->_request->getParam('remove_website', []);
         if ($websiteIds) {
             $processor->addEventChanges(
                 clone $change->setSourceName(
                     'remove_website_ids'
                 )->setOriginalData(
-                    array()
+                    []
                 )->setResultData(
-                    array('ids' => implode(', ', $websiteIds))
+                    ['ids' => implode(', ', $websiteIds)]
                 )
             );
         }
 
-        $websiteIds = $this->_request->getParam('add_website', array());
+        $websiteIds = $this->_request->getParam('add_website', []);
         if ($websiteIds) {
             $processor->addEventChanges(
                 clone $change->setSourceName(
                     'add_website_ids'
                 )->setOriginalData(
-                    array()
+                    []
                 )->setResultData(
-                    array('ids' => implode(', ', $websiteIds))
+                    ['ids' => implode(', ', $websiteIds)]
                 )
             );
         }
@@ -577,9 +577,9 @@ class Controllers
         if (!$this->_request->isPost()) {
             return false;
         }
-        $userIds = $this->_request->getPost('unlock', array());
+        $userIds = $this->_request->getPost('unlock', []);
         if (!is_array($userIds)) {
-            $userIds = array();
+            $userIds = [];
         }
         if (!$userIds) {
             return false;
@@ -616,7 +616,7 @@ class Controllers
         /** @var \Magento\Logging\Model\Event\Changes $change */
         $change = $this->_eventChangesFactory->create();
         $data = $this->_request->getParam('rate');
-        $values = array();
+        $values = [];
         if (!is_array($data)) {
             return false;
         }
@@ -634,9 +634,9 @@ class Controllers
             $change->setSourceName(
                 'rates'
             )->setOriginalData(
-                array()
+                []
             )->setResultData(
-                array('rates' => implode(', ', $values))
+                ['rates' => implode(', ', $values)]
             )
         );
         $success = true;

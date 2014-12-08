@@ -201,7 +201,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $this->extensibleDataObjectConverterMock
             ->expects($this->any())
             ->method('toFlatArray')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->onepage = $this->objectManagerHelper->getObject(
             'Magento\Checkout\Model\Type\Onepage',
@@ -491,7 +491,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue($quoteCustomerId));
         $this->quoteRepositoryMock->expects($this->once())->method('save')->with($quoteMock);
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
-        $data1= [];
+        $data1 = [];
         $extensibleDataObjectConverterMock = $this->getMock(
             'Magento\Framework\Api\ExtensibleDataObjectConverter',
             ['toFlatArray'],
@@ -573,7 +573,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
                 true, // $isEmailAvailable
                 false, // $isVirtual
                 false, // $getStepDataResult
-                [] // $expected
+                [], // $expected
             ]
         ];
     }

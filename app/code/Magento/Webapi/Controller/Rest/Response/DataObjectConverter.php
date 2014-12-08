@@ -59,11 +59,11 @@ class DataObjectConverter
                 $result[] = $datum;
             }
             return $result;
-        } else if (is_object($data)) {
+        } elseif (is_object($data)) {
             return $this->processDataObject(
                 $this->dataObjectProcessor->buildOutputDataArray($data, $dataType)
             );
-        } else if (is_null($data)) {
+        } elseif (is_null($data)) {
             return [];
         } else {
             /** No processing is required for scalar types */

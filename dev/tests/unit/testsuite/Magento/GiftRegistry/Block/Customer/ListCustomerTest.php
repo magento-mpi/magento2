@@ -8,7 +8,6 @@
 
 namespace Magento\GiftRegistry\Block\Customer;
 
-
 class ListCustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**

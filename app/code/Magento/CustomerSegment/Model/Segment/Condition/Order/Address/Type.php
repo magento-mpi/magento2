@@ -32,7 +32,7 @@ class Type extends AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type');
@@ -46,7 +46,7 @@ class Type extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('sales_order_save_commit_after');
+        return ['sales_order_save_commit_after'];
     }
 
     /**
@@ -56,7 +56,7 @@ class Type extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Address Type'));
+        return ['value' => $this->getType(), 'label' => __('Address Type')];
     }
 
     /**
@@ -66,7 +66,7 @@ class Type extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('shipping' => __('Shipping'), 'billing' => __('Billing')));
+        $this->setValueOption(['shipping' => __('Shipping'), 'billing' => __('Billing')]);
         return $this;
     }
 

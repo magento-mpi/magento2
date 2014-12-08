@@ -8,11 +8,10 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
+use Magento\Sales\Test\Constraint\AbstractAssertItems;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Sales\Test\Constraint\AbstractAssertItems;
 
 /**
  * Class AssertArchiveCreditMemoItems

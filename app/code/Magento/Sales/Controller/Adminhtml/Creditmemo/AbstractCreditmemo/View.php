@@ -26,7 +26,7 @@ class View extends \Magento\Backend\App\Action
     public function execute()
     {
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
-            $this->_forward('view', 'order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
+            $this->_forward('view', 'order_creditmemo', null, ['come_from' => 'sales_creditmemo']);
         } else {
             $this->_forward('noroute');
         }

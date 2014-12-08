@@ -53,7 +53,7 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit implements Revisi
         if ($revisionId && !$revision->getId()) {
             $this->messageManager->addError(__('We could not load the specified revision.'));
 
-            $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_redirect('adminhtml/cms_page/edit', ['page_id' => $this->getRequest()->getParam('page_id')]);
             return;
         }
 

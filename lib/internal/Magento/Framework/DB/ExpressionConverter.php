@@ -16,7 +16,7 @@ class ExpressionConverter
      *
      * @var array
      */
-    protected static $_translateMap = array(
+    protected static $_translateMap = [
         'address'       => 'addr',
         'admin'         => 'adm',
         'attribute'     => 'attr',
@@ -60,8 +60,8 @@ class ExpressionConverter
         'shipping'      => 'shpp',
         'calculation'   => 'calc',
         'search'        => 'srch',
-        'query'         => 'qr'
-    );
+        'query'         => 'qr',
+    ];
 
     /**
      * Convert name using dictionary

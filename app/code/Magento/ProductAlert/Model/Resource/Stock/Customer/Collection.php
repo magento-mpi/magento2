@@ -24,9 +24,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function join($productId, $websiteId)
     {
         $this->getSelect()->join(
-            array('alert' => $this->getTable('product_alert_stock')),
+            ['alert' => $this->getTable('product_alert_stock')],
             'alert.customer_id=e.entity_id',
-            array('alert_stock_id', 'add_date', 'send_date', 'send_count', 'status')
+            ['alert_stock_id', 'add_date', 'send_date', 'send_count', 'status']
         );
 
         $this->getSelect()->where('alert.product_id=?', $productId);

@@ -124,7 +124,7 @@ class Converter
         $addressId = $addressModel->getId();
 
         $attributes = $this->_addressMetadataService->getAllAttributesMetadata();
-        $addressData = array();
+        $addressData = [];
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
             if (!is_null($addressModel->getData($code))) {
@@ -143,16 +143,16 @@ class Converter
         $this->_addressBuilder->populateWithArray(
             array_merge(
                 $addressData,
-                array(
+                [
                     Address::KEY_STREET => $addressModel->getStreet(),
                     Address::KEY_DEFAULT_BILLING => $isDefaultBilling,
                     Address::KEY_DEFAULT_SHIPPING => $isDefaultShipping,
-                    Address::KEY_REGION => array(
+                    Address::KEY_REGION => [
                         Region::KEY_REGION => $addressModel->getRegion(),
                         Region::KEY_REGION_ID => $addressModel->getRegionId(),
-                        Region::KEY_REGION_CODE => $addressModel->getRegionCode()
-                    )
-                )
+                        Region::KEY_REGION_CODE => $addressModel->getRegionCode(),
+                    ]
+                ]
             )
         );
 

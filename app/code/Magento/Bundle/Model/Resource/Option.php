@@ -34,10 +34,10 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         parent::_afterSave($object);
 
-        $condition = array(
+        $condition = [
             'option_id = ?' => $object->getId(),
-            'store_id = ? OR store_id = 0' => $object->getStoreId()
-        );
+            'store_id = ? OR store_id = 0' => $object->getStoreId(),
+        ];
 
         $write = $this->_getWriteAdapter();
         $write->delete($this->getTable('catalog_product_bundle_option_value'), $condition);
@@ -72,7 +72,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $this->_getWriteAdapter()->delete(
             $this->getTable('catalog_product_bundle_option_value'),
-            array('option_id = ?' => $object->getId())
+            ['option_id = ?' => $object->getId()]
         );
 
         return $this;
@@ -94,23 +94,23 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'option_title_store.title',
             'option_title_default.title'
         );
-        $bind = array('store_id' => $storeId, 'product_id' => $productId);
+        $bind = ['store_id' => $storeId, 'product_id' => $productId];
         $select = $adapter->select()->from(
-            array('opt' => $this->getMainTable()),
-            array()
+            ['opt' => $this->getMainTable()],
+            []
         )->join(
-            array('option_title_default' => $this->getTable('catalog_product_bundle_option_value')),
+            ['option_title_default' => $this->getTable('catalog_product_bundle_option_value')],
             'option_title_default.option_id = opt.option_id AND option_title_default.store_id = 0',
-            array()
+            []
         )->joinLeft(
-            array('option_title_store' => $this->getTable('catalog_product_bundle_option_value')),
+            ['option_title_store' => $this->getTable('catalog_product_bundle_option_value')],
             'option_title_store.option_id = opt.option_id AND option_title_store.store_id = :store_id',
-            array('title' => $title)
+            ['title' => $title]
         )->where(
             'opt.parent_id=:product_id'
         );
         if (!($searchData = $adapter->fetchCol($select, $bind))) {
-            $searchData = array();
+            $searchData = [];
         }
         return $searchData;
     }

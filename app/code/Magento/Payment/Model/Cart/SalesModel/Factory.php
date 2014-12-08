@@ -34,10 +34,10 @@ class Factory
      */
     public function create($salesModel)
     {
-        $arguments = array('salesModel' => $salesModel);
+        $arguments = ['salesModel' => $salesModel];
         if ($salesModel instanceof \Magento\Sales\Model\Quote) {
             return $this->_objectManager->create('Magento\Payment\Model\Cart\SalesModel\Quote', $arguments);
-        } else if ($salesModel instanceof \Magento\Sales\Model\Order) {
+        } elseif ($salesModel instanceof \Magento\Sales\Model\Order) {
             return $this->_objectManager->create('Magento\Payment\Model\Cart\SalesModel\Order', $arguments);
         }
         throw new \InvalidArgumentException('Sales model has bad type!');

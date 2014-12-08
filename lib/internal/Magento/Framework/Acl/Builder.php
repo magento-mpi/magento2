@@ -55,7 +55,7 @@ class Builder
     ) {
         $this->_aclFactory = $aclFactory;
         $this->_cache = $cache;
-        $this->_loaderPool = array($roleLoader, $resourceLoader, $ruleLoader);
+        $this->_loaderPool = [$roleLoader, $resourceLoader, $ruleLoader];
     }
 
     /**

@@ -29,7 +29,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Review\CollectionFactory $reviewsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reviewsFactory = $reviewsFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -67,15 +67,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('nickname', array('header' => __('Customer'), 'width' => '100px', 'index' => 'nickname'));
+        $this->addColumn('nickname', ['header' => __('Customer'), 'width' => '100px', 'index' => 'nickname']);
 
-        $this->addColumn('title', array('header' => __('Title'), 'width' => '150px', 'index' => 'title'));
+        $this->addColumn('title', ['header' => __('Title'), 'width' => '150px', 'index' => 'title']);
 
-        $this->addColumn('detail', array('header' => __('Detail'), 'index' => 'detail'));
+        $this->addColumn('detail', ['header' => __('Detail'), 'index' => 'detail']);
 
         $this->addColumn(
             'created_at',
-            array('header' => __('Created'), 'index' => 'created_at', 'width' => '200px', 'type' => 'datetime')
+            ['header' => __('Created'), 'index' => 'created_at', 'width' => '200px', 'type' => 'datetime']
         );
 
         $this->setFilterVisibility(false);

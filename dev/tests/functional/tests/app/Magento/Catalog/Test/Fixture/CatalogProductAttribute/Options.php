@@ -93,7 +93,7 @@ class Options implements FixtureInterface
                     'is_default' => 'Yes',
                     'admin' => 'blue',
                     'view' => '',
-                ]
+                ],
             ],
         ];
 

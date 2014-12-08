@@ -54,7 +54,7 @@ class CopyPasteDetector implements \Magento\TestFramework\CodingStandard\ToolInt
      *
      * @return int
      */
-    public function run(array $whiteList, array $blackList = array(), array $extensions = array())
+    public function run(array $whiteList, array $blackList = [], array $extensions = [])
     {
         $blackListStr = ' ';
         foreach ($blackList as $file) {

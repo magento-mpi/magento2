@@ -48,7 +48,7 @@ class ProductPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTierPrice()
     {
-        $this->assertEquals(array(), $this->_model->getTierPrice());
+        $this->assertEquals([], $this->_model->getTierPrice());
     }
 
     /**
@@ -64,7 +64,7 @@ class ProductPriceTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFormatedTierPrice()
     {
-        $this->assertEquals(array(), $this->_model->getFormatedTierPrice());
+        $this->assertEquals([], $this->_model->getFormatedTierPrice());
     }
 
     /**

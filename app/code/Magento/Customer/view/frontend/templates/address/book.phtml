@@ -15,7 +15,7 @@
 <div class="block block-addresses-default">
     <div class="block-title"><strong><?php echo __('Default Addresses') ?></strong></div>
     <div class="block-content">
-        <?php if($_pAddsses = $this->getDefaultBilling()): ?>
+        <?php if ($_pAddsses = $this->getDefaultBilling()): ?>
             <div class="box box-address-billing">
                 <strong class="box-title">
                     <span><?php echo __('Default Billing Address') ?></span>
@@ -40,7 +40,7 @@
             </div>
         <?php endif ?>
 
-        <?php if($_pAddsses = $this->getDefaultShipping()): ?>
+        <?php if ($_pAddsses = $this->getDefaultShipping()): ?>
             <div class="box box-address-shipping">
                 <strong class="box-title">
                     <span><?php echo __('Default Shipping Address') ?></span>
@@ -70,15 +70,15 @@
 <div class="block block-addresses-list">
     <div class="block-title"><strong><?php echo __('Additional Address Entries') ?></strong></div>
     <div class="block-content">
-        <?php if($_pAddsses = $this->getAdditionalAddresses()): ?>
+        <?php if ($_pAddsses = $this->getAdditionalAddresses()): ?>
             <ol class="items addresses">
-                <?php foreach($_pAddsses as $_address): ?>
+                <?php foreach ($_pAddsses as $_address): ?>
                     <li class="item">
                         <address>
                             <?php echo $this->getAddressHtml($_address) ?><br />
                         </address>
                         <div class="item actions">
-                            <a class="action edit" href="<?php echo $this->getUrl('customer/address/edit', array('id'=>$_address->getId())) ?>"><span><?php echo __('Edit Address') ?></span></a>
+                            <a class="action edit" href="<?php echo $this->getUrl('customer/address/edit', ['id' => $_address->getId()]) ?>"><span><?php echo __('Edit Address') ?></span></a>
                             <a class="action delete" href="#" role="delete-address" data-address="<?php echo $_address->getId() ?>"><span><?php echo __('Delete Address') ?></span></a>
                         </div>
                     </li>

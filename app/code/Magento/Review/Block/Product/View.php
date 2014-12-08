@@ -9,7 +9,6 @@ namespace Magento\Review\Block\Product;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
-use Magento\Tax\Api\TaxCalculationInterface;
 
 /**
  * Product Reviews Page
@@ -57,7 +56,7 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Customer\Model\Session $customerSession,
         ProductRepositoryInterface $productRepository,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(

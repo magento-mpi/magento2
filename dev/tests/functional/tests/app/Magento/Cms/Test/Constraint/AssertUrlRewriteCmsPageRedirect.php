@@ -8,11 +8,11 @@
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Client\Browser;
 use Magento\Cms\Test\Fixture\CmsPage;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertUrlRewriteCmsPageRedirect

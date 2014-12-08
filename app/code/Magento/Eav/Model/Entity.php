@@ -43,7 +43,7 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        $data = array()
+        $data = []
     ) {
         parent::__construct(
             $resource,

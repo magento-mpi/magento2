@@ -62,7 +62,7 @@
         <?php echo $_item->getQtyFulfilled()*1 ?>
     </td>
     <td class="col remaining" data-th="<?php echo $this->escapeHtml(__('Remaining')); ?>">
-        <?php echo ($_item->getRemainingQty())*1 ?>
+        <?php echo($_item->getRemainingQty())*1 ?>
     </td>
     <td class="col price" data-th="<?php echo $this->escapeHtml(__('Unit Price')); ?>">
         <?php echo $this->getProductPriceHtml($_item->getProduct());?>

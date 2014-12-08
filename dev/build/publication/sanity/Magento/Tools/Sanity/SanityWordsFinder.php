@@ -43,7 +43,7 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
      */
     protected function _findWordsRecursively($currentDir)
     {
-        $result = array();
+        $result = [];
 
         $entries = glob($currentDir . '/*');
         $initialLength = strlen($this->_baseDir);
@@ -54,8 +54,8 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
                     continue;
                 }
                 $relPath = substr($entry, $initialLength + 1);
-                $result[] = array('words' => $foundWords, 'file' => $relPath);
-            } else if (is_dir($entry)) {
+                $result[] = ['words' => $foundWords, 'file' => $relPath];
+            } elseif (is_dir($entry)) {
                 $more = $this->_findWordsRecursively($entry);
                 $result = array_merge($result, $more);
             }

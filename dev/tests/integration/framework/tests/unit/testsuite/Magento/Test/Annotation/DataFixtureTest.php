@@ -23,8 +23,8 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object = $this->getMock(
             'Magento\TestFramework\Annotation\DataFixture',
-            array('_applyOneFixture'),
-            array(__DIR__ . '/_files')
+            ['_applyOneFixture'],
+            [__DIR__ . '/_files']
         );
     }
 
@@ -109,7 +109,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
 
     public function testStartTransactionClassAnnotation()
     {
-        $this->_object->expects($this->once())->method('_applyOneFixture')->with(array(__CLASS__, 'sampleFixtureOne'));
+        $this->_object->expects($this->once())->method('_applyOneFixture')->with([__CLASS__, 'sampleFixtureOne']);
         $this->_object->startTransaction($this);
     }
 
@@ -119,7 +119,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
      */
     public function testStartTransactionMethodAnnotation()
     {
-        $this->_object->expects($this->at(0))->method('_applyOneFixture')->with(array(__CLASS__, 'sampleFixtureTwo'));
+        $this->_object->expects($this->at(0))->method('_applyOneFixture')->with([__CLASS__, 'sampleFixtureTwo']);
         $this->_object->expects(
             $this->at(1)
         )->method(
@@ -142,7 +142,7 @@ class DataFixtureTest extends \PHPUnit_Framework_TestCase
         )->method(
             '_applyOneFixture'
         )->with(
-            array(__CLASS__, 'sampleFixtureTwoRollback')
+            [__CLASS__, 'sampleFixtureTwoRollback']
         );
         $this->_object->rollbackTransaction();
     }

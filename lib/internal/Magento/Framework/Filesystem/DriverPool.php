@@ -80,7 +80,7 @@ class DriverPool
         }
         if (!isset($this->pool[$code])) {
             $class = $this->types[$code];
-            $this->pool[$code] = new $class;
+            $this->pool[$code] = new $class();
         }
         return $this->pool[$code];
     }

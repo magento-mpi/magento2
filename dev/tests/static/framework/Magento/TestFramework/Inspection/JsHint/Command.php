@@ -95,7 +95,7 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
      * @param array $blackList Files/directories to be excluded from the inspection
      * @return bool
      */
-    public function run(array $whiteList, array $blackList = array())
+    public function run(array $whiteList, array $blackList = [])
     {
         $shellCmd = $this->_buildShellCmd($whiteList, $blackList);
         $result = $this->_execShellCmd($shellCmd);
@@ -118,13 +118,13 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
      */
     protected function _getJsHintOptions()
     {
-        $jsHintOptionsArray = array(
+        $jsHintOptionsArray = [
             'browser' => 'true',
             'eqnull' => 'true',
             'expr' => 'true',
             'jquery' => 'true',
-            'supernew' => 'true'
-        );
+            'supernew' => 'true',
+        ];
         $jsHintOptions = null;
         if ($this->_isOsWin()) {
             foreach ($jsHintOptionsArray as $key => $value) {
@@ -188,7 +188,7 @@ class Command extends \Magento\TestFramework\Inspection\AbstractCommand
     protected function _executeCommand($cmd)
     {
         exec(trim($cmd), $output, $retVal);
-        return array($output, $retVal);
+        return [$output, $retVal];
     }
 
     /**

@@ -29,15 +29,15 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\Element\Context'
         );
-        $childOne = $this->getMock('Magento\Framework\View\Element\Text', array('initTotals'), array($context));
+        $childOne = $this->getMock('Magento\Framework\View\Element\Text', ['initTotals'], [$context]);
         $childOne->expects($this->once())->method('initTotals');
         $layout->addBlock($childOne, 'child1', 'block');
 
-        $childTwo = $this->getMock('Magento\Framework\View\Element\Text', array('initTotals'), array($context));
+        $childTwo = $this->getMock('Magento\Framework\View\Element\Text', ['initTotals'], [$context]);
         $childTwo->expects($this->once())->method('initTotals');
         $layout->addBlock($childTwo, 'child2', 'block');
 
-        $childThree = $this->getMock('Magento\Framework\View\Element\Text', array('initTotals'), array($context));
+        $childThree = $this->getMock('Magento\Framework\View\Element\Text', ['initTotals'], [$context]);
         $childThree->expects($this->once())->method('initTotals');
         $layout->addBlock($childThree, 'child3', 'block');
 

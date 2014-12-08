@@ -57,7 +57,7 @@ class SetRewardPointsBalanceToRefundTest extends \PHPUnit_Framework_TestCase
 
         $inputData = [
             'refund_reward_points' => 100,
-            'refund_reward_points_enable' => false
+            'refund_reward_points_enable' => false,
         ];
 
         $eventMock = $this->getMock('\Magento\Framework\Event', ['getInput', 'getCreditmemo'], [], '', false);
@@ -81,7 +81,7 @@ class SetRewardPointsBalanceToRefundTest extends \PHPUnit_Framework_TestCase
 
         $inputData = [
             'refund_reward_points' => 100,
-            'refund_reward_points_enable' => true
+            'refund_reward_points_enable' => true,
         ];
 
         $eventMock = $this->getMock('\Magento\Framework\Event', ['getInput', 'getCreditmemo'], [], '', false);
@@ -107,7 +107,7 @@ class SetRewardPointsBalanceToRefundTest extends \PHPUnit_Framework_TestCase
 
         $inputData = [
             'refund_reward_points' => 100,
-            'refund_reward_points_enable' => true
+            'refund_reward_points_enable' => true,
         ];
 
         $eventMock = $this->getMock('\Magento\Framework\Event', ['getInput', 'getCreditmemo'], [], '', false);
@@ -124,4 +124,3 @@ class SetRewardPointsBalanceToRefundTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

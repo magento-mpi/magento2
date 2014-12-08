@@ -17,7 +17,7 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $code = 1111;
-        $details = array('key1' => 'value1', 'key2' => 'value2');
+        $details = ['key1' => 'value1', 'key2' => 'value2'];
         $apiException = new \Magento\Webapi\Exception(
             'Message',
             $code,
@@ -81,6 +81,6 @@ class ExceptionTest extends \PHPUnit_Framework_TestCase
     public function providerForTestConstructInvalidHttpCode()
     {
         //Each array contains invalid \Exception code.
-        return array(array(300), array(600));
+        return [[300], [600]];
     }
 }

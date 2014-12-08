@@ -16,7 +16,7 @@ class Factory
     /**
      * @var array
      */
-    protected static $_instances = array();
+    protected static $_instances = [];
 
     /**
      * Retrieves singleton instance of helper

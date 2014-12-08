@@ -116,11 +116,11 @@ class Integration
         if ($integration->getId()) {
             if ($integration->getData('all_resources')) {
                 $this->integrationAuthorizationService->grantAllPermissions($integration->getId());
-            } else if (is_array($integration->getData('resource'))) {
+            } elseif (is_array($integration->getData('resource'))) {
                 $this->integrationAuthorizationService
                     ->grantPermissions($integration->getId(), $integration->getData('resource'));
             } else {
-                $this->integrationAuthorizationService->grantPermissions($integration->getId(), array());
+                $this->integrationAuthorizationService->grantPermissions($integration->getId(), []);
             }
         }
     }

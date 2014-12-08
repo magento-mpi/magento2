@@ -34,14 +34,14 @@ class Products extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
         $serializer = $this->_view->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Grid\Serializer',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'grid_block' => $chooser,
                     'callback' => 'getSelectedProducts',
                     'input_element_name' => 'selected_products',
-                    'reload_param_name' => 'selected_products'
-                )
-            )
+                    'reload_param_name' => 'selected_products',
+                ]
+            ]
         );
         $this->setBody($chooser->toHtml() . $serializer->toHtml());
     }

@@ -15,7 +15,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * @var array
      */
-    protected $_websiteBaseCurrencyCodes = array();
+    protected $_websiteBaseCurrencyCodes = [];
 
     /**
      * Get currency code by row data

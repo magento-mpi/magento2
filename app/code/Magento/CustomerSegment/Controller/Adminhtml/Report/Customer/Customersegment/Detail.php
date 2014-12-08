@@ -22,10 +22,10 @@ class Detail extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custom
             if ($this->_getAdminSession()->getMassactionIds()) {
                 $collection = $this->_collectionFactory->create()->addFieldToFilter(
                     'segment_id',
-                    array('in' => $this->_getAdminSession()->getMassactionIds())
+                    ['in' => $this->_getAdminSession()->getMassactionIds()]
                 );
 
-                $segments = array();
+                $segments = [];
                 foreach ($collection as $item) {
                     $segments[] = $item->getName();
                 }

@@ -46,7 +46,6 @@ class VariationMatrix
         } while (true);
 
         return $variations;
-
     }
 
     /**
@@ -59,7 +58,7 @@ class VariationMatrix
     {
         $variationalAttributes = [];
         foreach ($usedProductAttributes as $attribute) {
-            $options = array();
+            $options = [];
             foreach ($attribute['options'] as $valueInfo) {
                 foreach ($attribute['values'] as $priceData) {
                     if (isset($priceData['value_index']) && $priceData['value_index'] == $valueInfo['value']
@@ -70,7 +69,7 @@ class VariationMatrix
                     }
                 }
             }
-            $variationalAttributes[] = array('id' => $attribute['attribute_id'], 'values' => $options);
+            $variationalAttributes[] = ['id' => $attribute['attribute_id'], 'values' => $options];
         }
         return $variationalAttributes;
     }

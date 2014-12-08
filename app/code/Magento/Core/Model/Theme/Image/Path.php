@@ -40,7 +40,7 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
 
     /**
      * Initialize dependencies
-     * 
+     *
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\StoreManagerInterface $storeManager

@@ -7,18 +7,17 @@
  */
 namespace Magento\Tax\Model;
 
-use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Store\Model\Store;
-use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Api\Data\RegionInterface as AddressRegion;
 use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement;
-use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
-use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
 use Magento\Customer\Api\CustomerRepositoryInterface as CustomerRepository;
 use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Magento\Customer\Api\Data\RegionInterface as AddressRegion;
+use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
+use Magento\Customer\Api\GroupRepositoryInterface as CustomerGroupRepository;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Tax\Model\Config;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Store\Model\Store;
 
 /**
  * Tax Calculation Model
@@ -65,35 +64,35 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_rates = array();
+    protected $_rates = [];
 
     /**
      * Identifier constant for row based calculation
      *
      * @var array
      */
-    protected $_ctc = array();
+    protected $_ctc = [];
 
     /**
      * Identifier constant for total based calculation
      *
      * @var array
      */
-    protected $_ptc = array();
+    protected $_ptc = [];
 
     /**
      * Cache to hold the rates
      *
      * @var array
      */
-    protected $_rateCache = array();
+    protected $_rateCache = [];
 
     /**
      * Store the rate calculation process
      *
      * @var array
      */
-    protected $_rateCalculationProcess = array();
+    protected $_rateCalculationProcess = [];
 
     /**
      * Hold the customer
@@ -207,7 +206,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         CustomerDataBuilder $customerBuilder,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_config = $taxConfig;
@@ -313,14 +312,14 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         $value = $this->getRateValue();
         $id = $this->getRateId();
 
-        $rate = array('code' => $title, 'title' => $title, 'percent' => $value, 'position' => 1, 'priority' => 1);
+        $rate = ['code' => $title, 'title' => $title, 'percent' => $value, 'position' => 1, 'priority' => 1];
 
-        $process = array();
+        $process = [];
         $process['percent'] = $value;
         $process['id'] = "{$id}-{$value}";
         $process['rates'][] = $rate;
 
-        return array($process);
+        return [$process];
     }
 
     /**
@@ -340,7 +339,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
             $this->unsRateValue();
             $this->unsCalculationProcess();
             $this->unsEventModuleId();
-            $this->_eventManager->dispatch('tax_rate_data_fetch', array('request' => $request, 'sender' => $this));
+            $this->_eventManager->dispatch('tax_rate_data_fetch', ['request' => $request, 'sender' => $this]);
             if (!$this->hasRateValue()) {
                 $rateInfo = $this->_getResource()->getRateInfo($request);
                 $this->setCalculationProcess($rateInfo['process']);
@@ -494,7 +493,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         ) {
             $basedOn = 'default';
         } else {
-
             if ((is_null($billingAddress) || !$billingAddress->getCountryId())
                 && $basedOn == 'billing'
                 || (is_null($shippingAddress) || !$shippingAddress->getCountryId())
@@ -628,7 +626,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
         // Save to set it back later
 
         // Ids are equal for both requests, so take any of them to process
-        $ids = is_array($productClassId1) ? $productClassId1 : array($productClassId1);
+        $ids = is_array($productClassId1) ? $productClassId1 : [$productClassId1];
         $identical = true;
         foreach ($ids as $productClassId) {
             $first->setProductClassId($productClassId);
@@ -658,7 +656,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function getAppliedRates($request)
     {
         if (!$request->getCountryId() || !$request->getCustomerClassId() || !$request->getProductClassId()) {
-            return array();
+            return [];
         }
 
         $cacheKey = $this->_getRequestCacheKey($request);

@@ -52,8 +52,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     public function testCategoryChanges()
     {
-        $subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', array(), array(), '', false);
-        $modelMock = $this->getMock('\Magento\Framework\Model\AbstractModel', array(), array(), '', false);
+        $subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', [], [], '', false);
+        $modelMock = $this->getMock('\Magento\Framework\Model\AbstractModel', [], [], '', false);
 
         $subjectMock->expects($this->any())
             ->method('getData')

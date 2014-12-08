@@ -41,7 +41,7 @@ class Files extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Cms\Model\Wysiwyg\Images\Storage $imageStorage,
         \Magento\Cms\Helper\Wysiwyg\Images $imageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_imageHelper = $imageHelper;
         $this->_imageStorage = $imageStorage;

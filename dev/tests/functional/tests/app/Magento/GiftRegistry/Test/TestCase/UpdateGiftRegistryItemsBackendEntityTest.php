@@ -20,8 +20,8 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Fixture\FixtureFactory;
-use Mtf\TestCase\Injectable;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Updating Items of GiftRegistryEntity from Customer Account(Backend)
@@ -280,7 +280,7 @@ class UpdateGiftRegistryItemsBackendEntityTest extends Injectable
             $productsProperties[] = [
                 'name' => $product->getName(),
                 'qty' => $qty[$key],
-                'action' => $actions[$key]
+                'action' => $actions[$key],
             ];
         }
         $this->giftRegistryCustomerEdit->getItemsGrid()->searchAndUpdate($productsProperties);

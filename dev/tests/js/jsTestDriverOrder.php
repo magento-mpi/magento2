@@ -10,7 +10,7 @@
  *
  * @return array
  */
-return array(
+return [
     '/lib/web/jquery/jquery.js',
     '/lib/web/jquery/jquery-migrate.js',
     '/lib/web/jquery/jquery-ui-1.9.2.js',
@@ -23,4 +23,4 @@ return array(
     '/lib/web/jquery/jquery.metadata.js',
     '/lib/web/mage/translate.js',
     '/lib/web/mage/requirejs/plugin/id-normalizer.js',
-);
+];

@@ -36,7 +36,7 @@ class ExportConfigFilesTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $objectManager->create(
             'Magento\ImportExport\Model\Export\Config\Reader',
-            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+            ['fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock]
         );
     }
 

@@ -127,7 +127,6 @@ class Quote
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
     ) {
-
         $this->accountManagement = $accountManagement;
         $this->customerBuilder = $customerBuilder;
         $this->addressBuilder = $addressBuilder;

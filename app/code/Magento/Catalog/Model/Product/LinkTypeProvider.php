@@ -45,7 +45,7 @@ class LinkTypeProvider implements \Magento\Catalog\Api\ProductLinkTypeListInterf
         \Magento\Catalog\Api\Data\ProductLinkTypeDataBuilder $linkTypeBuilder,
         \Magento\Catalog\Api\Data\ProductLinkAttributeDataBuilder $linkAttributeBuilder,
         \Magento\Catalog\Model\Product\LinkFactory $linkFactory,
-        array $linkTypes = array()
+        array $linkTypes = []
     ) {
         $this->linkTypes = $linkTypes;
         $this->linkTypeBuilder = $linkTypeBuilder;

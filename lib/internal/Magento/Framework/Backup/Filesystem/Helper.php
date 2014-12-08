@@ -55,7 +55,7 @@ class Helper
      * @return void
      * @throws \Magento\Framework\Exception
      */
-    public function rm($path, $skipPaths = array(), $removeRoot = false)
+    public function rm($path, $skipPaths = [], $removeRoot = false)
     {
         $filesystemIterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator($path),
@@ -81,9 +81,9 @@ class Helper
      * @param array $skipFiles
      * @return array
      */
-    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = array())
+    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = [])
     {
-        $info = array();
+        $info = [];
         if ($infoOptions & self::INFO_READABLE) {
             $info['readable'] = true;
         }

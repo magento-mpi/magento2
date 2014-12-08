@@ -7,11 +7,11 @@
  */
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\Sales\Model\QuoteRepository;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
+use Magento\Sales\Model\QuoteRepository;
 
 /**
  * Shipping method write service object.

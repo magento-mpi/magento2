@@ -181,7 +181,6 @@ class InitializerTest extends \PHPUnit_Framework_TestCase
             ->method('setQty')
             ->will($this->returnSelf());
 
-
         $this->quoteMock->expects($this->once())
             ->method('addProduct')
             ->will($this->returnValue($quoteItemMock));

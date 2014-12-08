@@ -6,4 +6,4 @@
  * @license     {license_link}
  */
 
-return array('Fixture Label' => array('fixture_key_one', 'fixture_key_two'));
+return ['Fixture Label' => ['fixture_key_one', 'fixture_key_two']];

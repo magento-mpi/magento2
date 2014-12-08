@@ -16,7 +16,7 @@
 <div class="divider"></div>
 <div class="order-totals-bottom">
     <div class="field choice field-append-comments">
-        <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?php if($this->getNoteNotify()): ?>checked="true"<?php endif; ?>/>
+        <input type="checkbox" id="notify_customer" name="order[comment][customer_note_notify]" value="1" <?php if ($this->getNoteNotify()): ?>checked="true"<?php endif; ?>/>
         <label for="notify_customer" class="normal"><?php echo __('Append Comments') ?></label>
     </div>
     <?php if ($this->canSendNewOrderConfirmationEmail()): ?>
@@ -25,7 +25,7 @@
         <label for="send_confirmation" class="normal"><?php echo __('Email Order Confirmation') ?></label>
     </div>
     <?php endif; ?>
-    <div class="actions"><?php echo $this->getButtonHtml(__('Submit Order'),'order.submit()' ,'save primary'); ?></div>
+    <div class="actions"><?php echo $this->getButtonHtml(__('Submit Order'), 'order.submit()', 'save primary'); ?></div>
 </div>
 
 <script type="text/javascript">

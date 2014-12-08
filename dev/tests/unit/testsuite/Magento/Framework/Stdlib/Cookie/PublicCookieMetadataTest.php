@@ -54,5 +54,4 @@ class PublicCookieMetadataTest extends \PHPUnit_Framework_TestCase
             "getDurationOneYear" => ["setDurationOneYear", 'getDuration', (3600*24*365)],
         ];
     }
-
 }

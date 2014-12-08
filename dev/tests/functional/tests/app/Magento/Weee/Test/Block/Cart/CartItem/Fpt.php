@@ -8,8 +8,8 @@
 
 namespace Magento\Weee\Test\Block\Cart\CartItem;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Product item fpt block on cart page

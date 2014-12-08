@@ -72,7 +72,7 @@ class Config
         foreach ($languageNode->getElementsByTagName('use') as $useNode) {
             $use[] = [
                 'vendor'  => $useNode->getAttribute('vendor'),
-                'package' => $useNode->getAttribute('package')
+                'package' => $useNode->getAttribute('package'),
             ];
         }
         return [

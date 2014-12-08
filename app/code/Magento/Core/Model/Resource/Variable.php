@@ -76,20 +76,20 @@ class Variable extends \Magento\Framework\Model\Resource\Db\AbstractDb
              */
             $this->_getWriteAdapter()->delete(
                 $this->getTable('core_variable_value'),
-                array('variable_id = ?' => $object->getId(), 'store_id = ?' => $object->getStoreId())
+                ['variable_id = ?' => $object->getId(), 'store_id = ?' => $object->getStoreId()]
             );
         } else {
-            $data = array(
+            $data = [
                 'variable_id' => $object->getId(),
                 'store_id' => $object->getStoreId(),
                 'plain_value' => $object->getPlainValue(),
-                'html_value' => $object->getHtmlValue()
-            );
+                'html_value' => $object->getHtmlValue(),
+            ];
             $data = $this->_prepareDataForTable(new \Magento\Framework\Object($data), $this->getTable('core_variable_value'));
             $this->_getWriteAdapter()->insertOnDuplicate(
                 $this->getTable('core_variable_value'),
                 $data,
-                array('plain_value', 'html_value')
+                ['plain_value', 'html_value']
             );
         }
         return $this;
@@ -126,20 +126,20 @@ class Variable extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $ifNullHtmlValue = $adapter->getCheckSql('store.html_value IS NULL', 'def.html_value', 'store.html_value');
 
         $select->joinLeft(
-            array('def' => $this->getTable('core_variable_value')),
+            ['def' => $this->getTable('core_variable_value')],
             'def.variable_id = ' . $this->getMainTable() . '.variable_id AND def.store_id = 0',
-            array()
+            []
         )->joinLeft(
-            array('store' => $this->getTable('core_variable_value')),
+            ['store' => $this->getTable('core_variable_value')],
             'store.variable_id = def.variable_id AND store.store_id = ' . $adapter->quote($storeId),
-            array()
+            []
         )->columns(
-            array(
+            [
                 'plain_value' => $ifNullPlainValue,
                 'html_value' => $ifNullHtmlValue,
                 'store_plain_value' => 'store.plain_value',
-                'store_html_value' => 'store.html_value'
-            )
+                'store_html_value' => 'store.html_value',
+            ]
         );
 
         return $this;

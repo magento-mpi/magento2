@@ -8,7 +8,7 @@
 namespace Magento\Log\Model\Resource;
 
 /**
- * Log aggregation resource model 
+ * Log aggregation resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
@@ -34,7 +34,7 @@ class Aggregation extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('log_summary'),
-            array($adapter->quoteIdentifier('date') => 'MAX(add_date)')
+            [$adapter->quoteIdentifier('date') => 'MAX(add_date)']
         );
 
         return $adapter->fetchOne($select);
@@ -51,7 +51,7 @@ class Aggregation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getCounts($from, $to, $store)
     {
         $adapter = $this->_getReadAdapter();
-        $result = array('customers' => 0, 'visitors' => 0);
+        $result = ['customers' => 0, 'visitors' => 0];
         $select = $adapter->select()->from(
             $this->getTable('log_customer'),
             'visitor_id'
@@ -68,7 +68,6 @@ class Aggregation extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $customers = $adapter->fetchCol($select);
         $result['customers'] = count($customers);
-
 
         $select = $adapter->select();
         $select->from(
@@ -90,7 +89,6 @@ class Aggregation extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $result['visitors'] = $adapter->fetchOne($select);
-
 
         return $result;
     }
@@ -122,7 +120,7 @@ class Aggregation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function removeEmpty($date)
     {
         $adapter = $this->_getWriteAdapter();
-        $condition = array('add_date < ?' => $date, 'customer_count = 0', 'visitor_count = 0');
+        $condition = ['add_date < ?' => $date, 'customer_count = 0', 'visitor_count = 0'];
         $adapter->delete($this->getTable('log_summary'), $condition);
     }
 

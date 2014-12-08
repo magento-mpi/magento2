@@ -15,14 +15,14 @@ class Config
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * Labels for config values
      *
      * @var array
      */
-    protected $_labels = array();
+    protected $_labels = [];
 
     /**
      * Get config instance
@@ -33,7 +33,7 @@ class Config
     {
         static $instance;
         if (!$instance instanceof static) {
-            $instance = new static;
+            $instance = new static();
         }
         return $instance;
     }
@@ -77,7 +77,7 @@ class Config
      */
     public function getLabels()
     {
-        return isset($this->_labels['config']['labels']) ? $this->_labels['config']['labels'] : array();
+        return isset($this->_labels['config']['labels']) ? $this->_labels['config']['labels'] : [];
     }
 
     /**

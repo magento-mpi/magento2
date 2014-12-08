@@ -46,7 +46,7 @@ class Cron implements \Magento\Framework\AppInterface
         State $state,
         Console\Request $request,
         Console\Response $response,
-        array $parameters = array()
+        array $parameters = []
     ) {
         $this->_eventManager = $eventManager;
         $this->_state = $state;

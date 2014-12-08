@@ -17,6 +17,6 @@ class MassCancel extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_forward('massCancel', 'order', null, array('origin' => 'archive'));
+        $this->_forward('massCancel', 'order', null, ['origin' => 'archive']);
     }
 }

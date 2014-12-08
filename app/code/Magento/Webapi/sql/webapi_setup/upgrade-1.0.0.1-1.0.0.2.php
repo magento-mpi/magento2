@@ -18,7 +18,7 @@ $connection->dropIndex(
     $table,
     $installer->getIdxName(
         'webapi_user',
-        array('user_name'),
+        ['user_name'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     )
 );
@@ -26,40 +26,40 @@ $connection->dropIndex(
 $connection->addColumn(
     $table,
     'company_name',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => true,
         'comment' => 'Company Name'
-    )
+    ]
 );
 $connection->addColumn(
     $table,
     'contact_email',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Contact Email'
-    )
+    ]
 );
 $connection->changeColumn(
     $table,
     'user_name',
     'api_key',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Web API key'
-    )
+    ]
 );
 
 $connection->addIndex(
     $table,
     $installer->getIdxName(
         'webapi_user',
-        array('api_key'),
+        ['api_key'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
     'api_key',

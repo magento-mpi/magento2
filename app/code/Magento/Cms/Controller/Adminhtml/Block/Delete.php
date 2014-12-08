@@ -34,7 +34,7 @@ class Delete extends \Magento\Cms\Controller\Adminhtml\Block
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('*/*/edit', array('block_id' => $id));
+                $this->_redirect('*/*/edit', ['block_id' => $id]);
                 return;
             }
         }

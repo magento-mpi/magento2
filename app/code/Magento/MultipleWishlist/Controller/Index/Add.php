@@ -8,8 +8,8 @@
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
-use Magento\Framework\App\Action;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Framework\App\Action;
 
 class Add extends \Magento\Wishlist\Controller\Index\Add
 {

@@ -50,12 +50,12 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
         $deploymentConfig = $objectManager->get('Magento\Framework\App\DeploymentConfig');
         $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
         $connectionConfig = $dbConfig->getConnection('default');
-        $connectionConfig['profiler'] = array(
+        $connectionConfig['profiler'] = [
             'class' => 'Magento\Framework\Model\Resource\Db\Profiler',
-            'enabled' => 'true'
-        );
+            'enabled' => 'true',
+        ];
 
-        return $objectManager->create('Magento\TestFramework\Db\Adapter\Mysql', array('config' => $connectionConfig));
+        return $objectManager->create('Magento\TestFramework\Db\Adapter\Mysql', ['config' => $connectionConfig]);
     }
 
     /**
@@ -98,24 +98,24 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
      */
     public function profileQueryDataProvider()
     {
-        return array(
-            array("SELECT * FROM %s", \Magento\Framework\DB\Profiler::SELECT),
-            array(
+        return [
+            ["SELECT * FROM %s", \Magento\Framework\DB\Profiler::SELECT],
+            [
                 "INSERT INTO %s (code, version, data_version) " .
                 "VALUES ('" .
                 self::$_testResourceName .
                 "', '1.1', '1.1')",
                 \Magento\Framework\DB\Profiler::INSERT
-            ),
-            array(
+            ],
+            [
                 "UPDATE %s SET version = '1.2' WHERE code = '" . self::$_testResourceName . "'",
                 \Magento\Framework\DB\Profiler::UPDATE
-            ),
-            array(
+            ],
+            [
                 "DELETE FROM %s WHERE code = '" . self::$_testResourceName . "'",
                 \Magento\Framework\DB\Profiler::DELETE
-            )
-        );
+            ]
+        ];
     }
 
     /**

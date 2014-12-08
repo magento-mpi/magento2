@@ -9,7 +9,6 @@
 
 $distributeConfigurables = \Magento\TestFramework\Helper\Cli::getOption('distribute_configurable_products', false);
 
-
 if ($distributeConfigurables) {
     /** @var $helper \Magento\TestFramework\Helper\Categories */
     $helper = $this->getObjectManager()->create('Magento\TestFramework\Helper\Categories');
@@ -20,7 +19,7 @@ if ($distributeConfigurables) {
     $productCategory = \Magento\TestFramework\Helper\Cli::getOption('configurables_category_path', 'Category 1');
 }
 
-$headers = array(
+$headers = [
     'sku',
     '_store',
     '_attribute_set',
@@ -128,11 +127,11 @@ $headers = array(
     '_super_products_sku',
     '_super_attribute_code',
     '_super_attribute_option',
-    '_super_attribute_price_corr'
-);
+    '_super_attribute_price_corr',
+];
 
-$rows = array(
-    array(
+$rows = [
+    [
         'sku' => 'Configurable Product %s-option 1',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -240,9 +239,9 @@ $rows = array(
         '_super_products_sku' => '',
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
-        '_super_attribute_price_corr' => ''
-    ),
-    array(
+        '_super_attribute_price_corr' => '',
+    ],
+    [
         'sku' => 'Configurable Product %s-option 2',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -351,8 +350,8 @@ $rows = array(
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
         '_super_attribute_price_corr' => ''
-    ),
-    array(
+    ],
+    [
         'sku' => 'Configurable Product %s-option 3',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -461,8 +460,8 @@ $rows = array(
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
         '_super_attribute_price_corr' => ''
-    ),
-    array(
+    ],
+    [
         'sku' => 'Configurable Product %s',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -571,8 +570,8 @@ $rows = array(
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 1',
         '_super_attribute_price_corr' => '10.0000'
-    ),
-    array(
+    ],
+    [
         'sku' => '',
         '_store' => '',
         '_attribute_set' => '',
@@ -681,8 +680,8 @@ $rows = array(
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 2',
         '_super_attribute_price_corr' => '20.0000'
-    ),
-    array(
+    ],
+    [
         'sku' => '',
         '_store' => '',
         '_attribute_set' => '',
@@ -791,8 +790,8 @@ $rows = array(
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 3',
         '_super_attribute_price_corr' => '30.0000'
-    )
-);
+    ],
+];
 
 /**
  * Create configurable products
@@ -805,7 +804,7 @@ $pattern->setRowsSet($rows);
 /** @var \Magento\ImportExport\Model\Import $import */
 $import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
-    array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
+    ['data' => ['entity' => 'catalog_product', 'behavior' => 'append']]
 );
 
 $source = new \Magento\TestFramework\ImportExport\Fixture\Complex\Generator($pattern, $configurablesCount);

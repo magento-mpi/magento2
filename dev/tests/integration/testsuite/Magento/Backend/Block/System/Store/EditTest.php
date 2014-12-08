@@ -62,20 +62,20 @@ class EditTest extends \PHPUnit_Framework_TestCase
      */
     public function getStoreTypesForLayout()
     {
-        return array(
-            array(
-                array('store_type' => 'website', 'store_data' => 'Magento\Store\Model\Website'),
-                'Magento\Backend\Block\System\Store\Edit\Form\Website'
-            ),
-            array(
-                array('store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store'),
+        return [
+            [
+                ['store_type' => 'website', 'store_data' => 'Magento\Store\Model\Website'],
+                'Magento\Backend\Block\System\Store\Edit\Form\Website',
+            ],
+            [
+                ['store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store'],
                 'Magento\Backend\Block\System\Store\Edit\Form\Group'
-            ),
-            array(
-                array('store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store'),
+            ],
+            [
+                ['store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store'],
                 'Magento\Backend\Block\System\Store\Edit\Form\Store'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -104,39 +104,39 @@ class EditTest extends \PHPUnit_Framework_TestCase
      */
     public function getStoreDataForBlock()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'store_type' => 'website',
                     'store_data' => 'Magento\Store\Model\Website',
-                    'store_action' => 'add'
-                ),
-                'New Web Site'
-            ),
-            array(
-                array(
+                    'store_action' => 'add',
+                ],
+                'New Web Site',
+            ],
+            [
+                [
                     'store_type' => 'website',
                     'store_data' => 'Magento\Store\Model\Website',
-                    'store_action' => 'edit'
-                ),
+                    'store_action' => 'edit',
+                ],
                 'Edit Web Site'
-            ),
-            array(
-                array('store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'add'),
+            ],
+            [
+                ['store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'add'],
                 'New Store'
-            ),
-            array(
-                array('store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'edit'),
+            ],
+            [
+                ['store_type' => 'group', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'edit'],
                 'Edit Store'
-            ),
-            array(
-                array('store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'add'),
+            ],
+            [
+                ['store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'add'],
                 'New Store View'
-            ),
-            array(
-                array('store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'edit'),
+            ],
+            [
+                ['store_type' => 'store', 'store_data' => 'Magento\Store\Model\Store', 'store_action' => 'edit'],
                 'Edit Store View'
-            )
-        );
+            ]
+        ];
     }
 }

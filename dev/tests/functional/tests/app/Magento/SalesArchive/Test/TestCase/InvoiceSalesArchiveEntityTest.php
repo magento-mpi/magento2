@@ -8,12 +8,12 @@
 
 namespace Magento\SalesArchive\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
-use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for InvoiceSalesArchiveEntity

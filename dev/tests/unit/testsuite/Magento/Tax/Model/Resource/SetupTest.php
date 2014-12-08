@@ -25,13 +25,13 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
         $this->taxSetup = $helper->getObject(
             'Magento\Tax\Model\Resource\Setup',
-            array('productTypeConfig' => $this->typeConfigMock)
+            ['productTypeConfig' => $this->typeConfigMock]
         );
     }
 
     public function testGetTaxableItems()
     {
-        $refundable = array('simple', 'simple2');
+        $refundable = ['simple', 'simple2'];
         $this->typeConfigMock->expects(
             $this->once()
         )->method(

@@ -26,7 +26,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_factory = $helper->getObject(
             'Magento\Persistent\Model\Factory',
-            array('objectManager' => $this->_objectManagerMock)
+            ['objectManager' => $this->_objectManagerMock]
         );
     }
 
@@ -41,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($classMock)
         );
@@ -52,7 +52,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithArguments()
     {
         $className = 'SomeModel';
-        $data = array('param1', 'param2');
+        $data = ['param1', 'param2'];
 
         $classMock = $this->getMock('SomeModel');
         $this->_objectManagerMock->expects(

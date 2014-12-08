@@ -26,4 +26,3 @@ class SearchCriteriaBuilderTest extends \PHPUnit_Framework_TestCase
         $builder->make();
     }
 }
- 

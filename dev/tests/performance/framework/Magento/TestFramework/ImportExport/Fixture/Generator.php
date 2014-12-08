@@ -18,14 +18,14 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
      *
      * @var array
      */
-    protected $_pattern = array();
+    protected $_pattern = [];
 
     /**
      * Which columns are determined as dynamic
      *
      * @var array
      */
-    protected $_dynamicColumns = array();
+    protected $_dynamicColumns = [];
 
     /**
      * @var int

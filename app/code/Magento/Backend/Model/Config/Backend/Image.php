@@ -20,6 +20,6 @@ class Image extends File
      */
     protected function _getAllowedExtensions()
     {
-        return array('jpg', 'jpeg', 'gif', 'png');
+        return ['jpg', 'jpeg', 'gif', 'png'];
     }
 }

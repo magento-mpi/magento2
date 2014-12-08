@@ -47,11 +47,11 @@ class Pool implements \Iterator
     public function __construct(
         \Magento\Framework\App\DeploymentConfig $deploymentConfig,
         Factory $frontendFactory,
-        array $frontendSettings = array()
+        array $frontendSettings = []
     ) {
         $this->_deploymentConfig = $deploymentConfig;
         $this->_factory = $frontendFactory;
-        $this->_frontendSettings = $frontendSettings + array(self::DEFAULT_FRONTEND_ID => array());
+        $this->_frontendSettings = $frontendSettings + [self::DEFAULT_FRONTEND_ID => []];
     }
 
     /**
@@ -63,7 +63,7 @@ class Pool implements \Iterator
     protected function _initialize()
     {
         if ($this->_instances === null) {
-            $this->_instances = array();
+            $this->_instances = [];
             foreach ($this->_getCacheSettings() as $frontendId => $frontendOptions) {
                 $this->_instances[$frontendId] = $this->_factory->create($frontendOptions);
             }

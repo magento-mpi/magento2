@@ -11,10 +11,12 @@
  * Create account form template
 /* @var $this \Magento\Rma\Block\Form\Renderer\Select */
 ?>
-<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) echo ' required' ?>">
+<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) {
+    echo ' required' ?>">
     <label for="items:<?php echo $this->getHtmlId()?>${_index_}" class="label"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
-        <select id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]"<?php if ($this->getFieldName() == 'reason'): ?> data-args='{"index":${_index_}}' <?php endif; ?>>
+        <select id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]"<?php if ($this->getFieldName() == 'reason'): ?> data-args='{"index":${_index_}}' <?php endif;
+} ?>>
             <?php foreach ($this->getOptions() as $option):?>
                 <option value="<?php echo $option['value']?>"<?php if ($option['value'] == $this->getValue()):?> selected="selected"<?php endif;?>><?php echo $this->escapeHtml($option['label'])?></option>
             <?php endforeach;?>

@@ -8,9 +8,9 @@
 
 namespace Magento\CatalogEvent\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Delete all Catalog Events on backend.

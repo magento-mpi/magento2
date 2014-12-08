@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertOrderStatusSuccessUnassignMessage

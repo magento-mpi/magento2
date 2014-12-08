@@ -12,8 +12,6 @@
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
 use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
-use Magento\Customer\Api\Data\OptionDataBuilder;
-use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
 /**
  * Class AbstractTest
@@ -36,7 +34,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Sales\Model\AdminOrder\Create'),
             $objectManager->get('Magento\Framework\Pricing\PriceCurrencyInterface'),
             $objectManager->get('Magento\Framework\Data\FormFactory'),
-            $objectManager->get('Magento\Framework\Reflection\DataObjectProcessor')
+            $objectManager->get('Magento\Framework\Reflection\DataObjectProcessor'),
         ];
 
         /** @var $block \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractForm */

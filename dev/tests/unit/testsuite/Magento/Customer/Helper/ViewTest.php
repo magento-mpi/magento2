@@ -62,63 +62,63 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function getCustomerServiceDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'prefix', //prefix
                 'first_name', //first_name
                 'middle_name', //middle_name
                 'last_name', //last_name
                 'suffix', //suffix
                 'prefix first_name middle_name last_name suffix', //result name
-            ),
-            array(
+            ],
+            [
                 '', //prefix
                 'first_name', //first_name
                 'middle_name', //middle_name
                 'last_name', //last_name
                 'suffix', //suffix
                 'first_name middle_name last_name suffix', //result name
-            ),
-            array(
+            ],
+            [
                 'prefix', //prefix
                 'first_name', //first_name
                 '', //middle_name
                 'last_name', //last_name
                 'suffix', //suffix
                 'prefix first_name last_name suffix', //result name
-            ),
-            array(
+            ],
+            [
                 'prefix', //prefix
                 'first_name', //first_name
                 'middle_name', //middle_name
                 'last_name', //last_name
                 '', //suffix
                 'prefix first_name middle_name last_name', //result name
-            ),
-            array(
+            ],
+            [
                 '', //prefix
                 'first_name', //first_name
                 '', //middle_name
                 'last_name', //last_name
                 'suffix', //suffix
                 'first_name last_name suffix', //result name
-            ),
-            array(
+            ],
+            [
                 'prefix', //prefix
                 'first_name', //first_name
                 '', //middle_name
                 'last_name', //last_name
                 '', //suffix
                 'prefix first_name last_name', //result name
-            ),
-            array(
+            ],
+            [
                 '', //prefix
                 'first_name', //first_name
                 'middle_name', //middle_name
                 'last_name', //last_name
                 '', //suffix
                 'first_name middle_name last_name', //result name
-            ),
-        );
+            ],
+        ];
     }
 }

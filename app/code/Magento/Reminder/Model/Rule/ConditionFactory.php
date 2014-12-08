@@ -24,7 +24,7 @@ class ConditionFactory
      *
      * @var string[]
      */
-    protected $_conditions = array(
+    protected $_conditions = [
         'Magento\Reminder\Model\Rule\Condition\Cart\Amount',
         'Magento\Reminder\Model\Rule\Condition\Cart\Attributes',
         'Magento\Reminder\Model\Rule\Condition\Cart\Combine',
@@ -46,8 +46,8 @@ class ConditionFactory
         'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
         'Magento\Reminder\Model\Rule\Condition\Cart',
         'Magento\Reminder\Model\Rule\Condition\Combine',
-        'Magento\Reminder\Model\Rule\Condition\Wishlist'
-    );
+        'Magento\Reminder\Model\Rule\Condition\Wishlist',
+    ];
 
     /**
      * Factory constructor

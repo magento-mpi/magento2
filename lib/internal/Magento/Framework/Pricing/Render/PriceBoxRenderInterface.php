@@ -9,8 +9,8 @@
 namespace Magento\Framework\Pricing\Render;
 
 use Magento\Framework\Pricing\Amount\AmountInterface;
-use Magento\Framework\Pricing\Price\PriceInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Framework\Pricing\Price\PriceInterface;
 
 /**
  * Price box render interface

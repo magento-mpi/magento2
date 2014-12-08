@@ -14,14 +14,14 @@ namespace Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permis
 
 use Magento\Backend\Block\Template\Context;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
-use Magento\Framework\Registry;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
-use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
-use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 use Magento\Customer\Model\Resource\Group\Collection as GroupCollection;
 use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
-use Magento\Catalog\Model\CategoryFactory;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\AbstractBlock;
+use Magento\Store\Model\Resource\Website\Collection as WebsiteCollection;
+use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
 
 class Row extends AbstractCategory
 {
@@ -61,7 +61,7 @@ class Row extends AbstractCategory
         CategoryFactory $categoryFactory,
         WebsiteCollectionFactory $websiteCollectionFactory,
         GroupCollectionFactory $groupCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_websiteCollectionFactory = $websiteCollectionFactory;
         $this->_groupCollectionFactory = $groupCollectionFactory;
@@ -76,13 +76,13 @@ class Row extends AbstractCategory
         $this->addChild(
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 //'label' => __('Remove Permission'),
                 'class' => 'delete' . ($this->isReadonly() ? ' disabled' : ''),
                 'disabled' => $this->isReadonly(),
                 'type' => 'button',
                 'id' => '{{html_id}}_delete_button'
-            )
+            ]
         );
 
         return parent::_prepareLayout();
@@ -123,11 +123,11 @@ class Row extends AbstractCategory
      */
     public function getGrants()
     {
-        return array(
+        return [
             'grant_catalog_category_view' => __('Browsing Category'),
             'grant_catalog_product_price' => __('Display Product Prices'),
             'grant_checkout_items' => __('Add to Cart')
-        );
+        ];
     }
 
     /**

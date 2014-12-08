@@ -26,7 +26,7 @@ class OutputBamboo extends \Magento\Framework\Profiler\Driver\Standard\Output\Cs
     public function __construct(array $config = null)
     {
         parent::__construct($config);
-        $this->_metrics = isset($config['metrics']) ? (array)$config['metrics'] : array();
+        $this->_metrics = isset($config['metrics']) ? (array)$config['metrics'] : [];
     }
 
     /**
@@ -44,7 +44,7 @@ class OutputBamboo extends \Magento\Framework\Profiler\Driver\Standard\Output\Cs
     ) {
         /* Prepare pattern that matches timers with deepest nesting level only */
         $nestingSep = preg_quote(\Magento\Framework\Profiler::NESTING_SEPARATOR, '/');
-        array_map('preg_quote', $timerNames, array('/'));
+        array_map('preg_quote', $timerNames, ['/']);
         $pattern = '/(?<=' . $nestingSep . '|^)(?:' . implode('|', $timerNames) . ')$/';
 
         /* Sum profiler values for matched timers */
@@ -70,7 +70,7 @@ class OutputBamboo extends \Magento\Framework\Profiler\Driver\Standard\Output\Cs
     protected function _writeFileContent($fileHandle, \Magento\Framework\Profiler\Driver\Standard\Stat $stat)
     {
         /* First column must be a timestamp */
-        $result = array('Timestamp' => time());
+        $result = ['Timestamp' => time()];
         foreach ($this->_metrics as $metricName => $timerNames) {
             $result[$metricName] = $this->_aggregateTimerValues($stat, $timerNames);
         }

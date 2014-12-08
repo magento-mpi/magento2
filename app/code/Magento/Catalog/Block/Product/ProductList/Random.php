@@ -42,7 +42,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(

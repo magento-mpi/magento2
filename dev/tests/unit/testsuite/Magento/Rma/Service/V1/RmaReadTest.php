@@ -94,7 +94,6 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
                 'permissionChecker' => $this->permissionCheckerMock
             ]
         );
-
     }
 
     /**
@@ -140,7 +139,6 @@ class RmaReadTest extends \PHPUnit_Framework_TestCase
         $this->permissionCheckerMock->expects($this->once())->method('isRmaOwner')
             ->with($this->rmaModelMock)
             ->willReturn($isRmaOwner);
-
 
         $this->rmaRepositoryMock->expects($this->once())->method('find')
             ->with($searchCriteriaMock)->willReturn([$this->rmaModelMock]);

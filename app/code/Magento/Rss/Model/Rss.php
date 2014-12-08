@@ -40,7 +40,7 @@ class Rss
     public function getFeeds()
     {
         if (is_null($this->dataProvider)) {
-            return array();
+            return [];
         }
         $cache = false;
         if ($this->dataProvider->getCacheKey() && $this->dataProvider->getCacheLifetime()) {
@@ -57,7 +57,7 @@ class Rss
             $this->cache->save(
                 serialize($data),
                 $this->dataProvider->getCacheKey(),
-                array('rss'),
+                ['rss'],
                 $this->dataProvider->getCacheLifetime()
             );
         }

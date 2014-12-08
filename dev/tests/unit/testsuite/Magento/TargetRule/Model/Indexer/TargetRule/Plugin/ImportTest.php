@@ -52,7 +52,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterImportSource()
     {
-        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', [], [], '', false);
         $result = 'result';
         $this->_productRuleMock->expects($this->once())
             ->method('markIndexerAsInvalid');

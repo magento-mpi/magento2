@@ -33,7 +33,7 @@ class Logo extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Com
         $this->addField(
             $uploaderId,
             'logo-uploader',
-            array('name' => $uploaderId, 'title' => $uploaderTitle, 'label' => null)
+            ['name' => $uploaderId, 'title' => $uploaderTitle, 'label' => null]
         );
 
         return $this;

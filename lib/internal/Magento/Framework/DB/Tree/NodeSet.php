@@ -16,7 +16,7 @@ class NodeSet implements \Iterator
     /**
      * @var Node[]
      */
-    private $_nodes = array();
+    private $_nodes = [];
 
     /**
      * @var int
@@ -33,7 +33,7 @@ class NodeSet implements \Iterator
      */
     public function __construct()
     {
-        $this->_nodes = array();
+        $this->_nodes = [];
         $this->_current = 0;
         $this->_currentNode = 0;
         $this->count = 0;

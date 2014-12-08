@@ -15,12 +15,12 @@ $count = $_helper->getItemCount();
 <div class="block block-compare">
     <div class="block-title">
         <strong id="block-compare-heading" role="heading" aria-level="2"><?php echo __('Compare Products') ?></strong>
-        <?php if($count > 0): ?>
-        <span class="counter qty"><?php echo ($count == 1) ? __('1 item') : __('%1 items',$count) ?></span>
+        <?php if ($count > 0): ?>
+        <span class="counter qty"><?php echo($count == 1) ? __('1 item') : __('%1 items', $count) ?></span>
         <?php endif; ?>
     </div>
     <div class="block-content" aria-labelledby="block-compare-heading">
-        <?php if($_helper->getItemCount() > 0): ?>
+        <?php if ($_helper->getItemCount() > 0): ?>
             <ol id="compare-items" class="product-items product-items-names"
                 data-mage-init='{"compareItems":{
                     "removeConfirmMessage":"<?php echo __("Are you sure you would like to remove this item from the compare products?") ?>",
@@ -28,7 +28,7 @@ $count = $_helper->getItemCount();
                     "clearAllConfirmMessage":"<?php echo __("Are you sure you would like to remove all products from your comparison?") ?>",
                     "clearAllSelector":"#compare-clear-all"
                 }}'>
-            <?php foreach($_items as $_index => $_item): ?>
+            <?php foreach ($_items as $_index => $_item): ?>
             <li class="product-item">
                 <input type="hidden" class="compare-item-id" value="<?php echo $_item->getId() ?>"/>
                 <strong class="product-item-name">

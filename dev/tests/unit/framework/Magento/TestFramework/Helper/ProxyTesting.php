@@ -30,7 +30,7 @@ class ProxyTesting
         $object,
         \PHPUnit_Framework_MockObject_MockObject $proxiedObject,
         $method,
-        $params = array(),
+        $params = [],
         $proxiedResult = null,
         $expectedMethod = null,
         $expectedParams = null
@@ -46,9 +46,9 @@ class ProxyTesting
         )->method(
             $expectedMethod
         );
-        $builder = call_user_func_array(array($builder, 'with'), $expectedParams);
+        $builder = call_user_func_array([$builder, 'with'], $expectedParams);
         $builder->will(new \PHPUnit_Framework_MockObject_Stub_Return($proxiedResult));
 
-        return call_user_func_array(array($object, $method), $params);
+        return call_user_func_array([$object, $method], $params);
     }
 }

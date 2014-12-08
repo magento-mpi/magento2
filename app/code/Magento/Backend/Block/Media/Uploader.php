@@ -35,7 +35,7 @@ class Uploader extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\File\Size $fileSize,
-        array $data = array()
+        array $data = []
     ) {
         $this->_fileSizeService = $fileSize;
         parent::__construct($context, $data);
@@ -52,20 +52,20 @@ class Uploader extends \Magento\Backend\Block\Widget
 
         $uploadUrl = $this->_urlBuilder->addSessionParam()->getUrl('adminhtml/*/upload');
         $this->getConfig()->setUrl($uploadUrl);
-        $this->getConfig()->setParams(array('form_key' => $this->getFormKey()));
+        $this->getConfig()->setParams(['form_key' => $this->getFormKey()]);
         $this->getConfig()->setFileField('file');
         $this->getConfig()->setFilters(
-            array(
-                'images' => array(
+            [
+                'images' => [
                     'label' => __('Images (.gif, .jpg, .png)'),
-                    'files' => array('*.gif', '*.jpg', '*.png')
-                ),
-                'media' => array(
+                    'files' => ['*.gif', '*.jpg', '*.png'],
+                ],
+                'media' => [
                     'label' => __('Media (.avi, .flv, .swf)'),
-                    'files' => array('*.avi', '*.flv', '*.swf')
-                ),
-                'all' => array('label' => __('All Files'), 'files' => array('*.*'))
-            )
+                    'files' => ['*.avi', '*.flv', '*.swf'],
+                ],
+                'all' => ['label' => __('All Files'), 'files' => ['*.*']],
+            ]
         );
     }
 

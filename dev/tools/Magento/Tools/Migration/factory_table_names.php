@@ -57,7 +57,7 @@ exit(0);
  */
 function getFilesCombinedArray($dirPath, $filePattern)
 {
-    $result = array();
+    $result = [];
     foreach (glob($dirPath . '/' . $filePattern, GLOB_NOSORT | GLOB_BRACE) as $filePath) {
         $arrayFromFile = include_once $filePath;
         $result = array_merge($result, $arrayFromFile);
@@ -77,9 +77,9 @@ function getFilesCombinedArray($dirPath, $filePattern)
 function replaceTableNames(array $files, array &$tablesAssociation, $outputWithErrors, $isDryRunMode)
 {
     $isErrorsFound = false;
-    $errors = array();
+    $errors = [];
     foreach ($files as $filePath) {
-        $search = $replace = array();
+        $search = $replace = [];
 
         $tables = Magento_Test_Legacy_TableTest::extractTables($filePath);
         $tables = array_filter(
@@ -107,7 +107,7 @@ function replaceTableNames(array $files, array &$tablesAssociation, $outputWithE
                 if ($outputWithErrors) {
                     echo "Error - Missed table names in config: \n" . implode(", ", $errors) . "\n";
                 }
-                $errors = array();
+                $errors = [];
                 $isErrorsFound = true;
             }
         }
@@ -149,7 +149,7 @@ function replaceTableNamesInFile($filePath, $search, $replace, $isDryRunMode)
  */
 function searchTableNamesNotInReplacedList(array $files, array &$tablesAssociation, array &$blackList)
 {
-    $search = array();
+    $search = [];
     foreach ($files as $filePath) {
         $tables = Magento_Test_Legacy_TableTest::extractTables($filePath);
         foreach ($tables as $table) {

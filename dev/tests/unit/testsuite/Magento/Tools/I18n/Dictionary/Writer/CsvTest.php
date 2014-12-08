@@ -30,15 +30,15 @@ class CsvTest extends \PHPUnit_Framework_TestCase
 
         $this->_phraseFirstMock = $this->getMock(
             'Magento\Tools\I18n\Dictionary\Phrase',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_phraseSecondMock = $this->getMock(
             'Magento\Tools\I18n\Dictionary\Phrase',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -60,7 +60,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $objectManagerHelper->getObject(
             'Magento\Tools\I18n\Dictionary\Writer\Csv',
-            array('outputFilename' => 'wrong/path')
+            ['outputFilename' => 'wrong/path']
         );
     }
 
@@ -128,7 +128,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tools\I18n\Dictionary\Writer\Csv $writer */
         $writer = $objectManagerHelper->getObject(
             'Magento\Tools\I18n\Dictionary\Writer\Csv',
-            array('outputFilename' => $this->_testFile)
+            ['outputFilename' => $this->_testFile]
         );
         $writer->write($this->_phraseFirstMock);
         $writer->write($this->_phraseSecondMock);
@@ -181,7 +181,7 @@ EXPECTED;
         /** @var \Magento\Tools\I18n\Dictionary\Writer\Csv $writer */
         $writer = $objectManagerHelper->getObject(
             'Magento\Tools\I18n\Dictionary\Writer\Csv',
-            array('outputFilename' => $this->_testFile)
+            ['outputFilename' => $this->_testFile]
         );
         $writer->write($this->_phraseFirstMock);
         $writer->write($this->_phraseSecondMock);

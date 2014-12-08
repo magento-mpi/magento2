@@ -43,18 +43,18 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
     {
         $this->_writeAdapter = $this->getMockForAbstractClass(
             'Magento\Framework\DB\Adapter\AdapterInterface',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('query', 'insertMultiple', 'beginTransaction', 'commit')
+            ['query', 'insertMultiple', 'beginTransaction', 'commit']
         );
 
         $this->_resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -64,37 +64,37 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getConnection'
         )->with()->will(
-            $this->returnValueMap(array(array('core_write', $this->_writeAdapter)))
+            $this->returnValueMap([['core_write', $this->_writeAdapter]])
         );
 
         $this->_configShare = $this->getMock(
             'Magento\Customer\Model\Config\Share',
-            array('isGlobalScope', '__wakeup'),
-            array(),
+            ['isGlobalScope', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_segment = $this->getMock(
             'Magento\CustomerSegment\Model\Segment',
-            array('getConditions', 'getWebsiteIds', 'getId', '__wakeup'),
-            array(),
+            ['getConditions', 'getWebsiteIds', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
 
         $this->_conditions = $this->getMock(
             'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
-            array('getConditionsSql', 'getConditions'),
-            array(),
+            ['getConditionsSql', 'getConditions'],
+            [],
             '',
             false
         );
 
         $this->_resourceModel = new \Magento\CustomerSegment\Model\Resource\Segment(
             $this->_resource,
-            $this->getMock('Magento\CustomerSegment\Model\Resource\Helper', array(), array(), '', false),
+            $this->getMock('Magento\CustomerSegment\Model\Resource\Helper', [], [], '', false),
             $this->_configShare,
-            $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true)
+            $this->getMock('Magento\Framework\Stdlib\DateTime', null, [], '', true)
         );
     }
 
@@ -104,29 +104,29 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
     public function testSaveCustomersFromSelect()
     {
         $select =
-            $this->getMock('Magento\Framework\DB\Select', array('joinLeft', 'from', 'columns'), array(), '', false);
+            $this->getMock('Magento\Framework\DB\Select', ['joinLeft', 'from', 'columns'], [], '', false);
         $this->_segment->expects($this->any())->method('getId')->will($this->returnValue(3));
         $statement = $this->getMock(
             'Zend_Db_Statement',
-            array('closeCursor', 'columnCount', 'errorCode', 'errorInfo', 'fetch', 'nextRowset', 'rowCount'),
-            array(),
+            ['closeCursor', 'columnCount', 'errorCode', 'errorInfo', 'fetch', 'nextRowset', 'rowCount'],
+            [],
             '',
             false
         );
-        $websites = array(8, 9);
+        $websites = [8, 9];
         $statement->expects(
             $this->at(0)
         )->method(
             'fetch'
         )->will(
-            $this->returnValue(array('entity_id' => 4, 'website_id' => $websites[0]))
+            $this->returnValue(['entity_id' => 4, 'website_id' => $websites[0]])
         );
         $statement->expects(
             $this->at(1)
         )->method(
             'fetch'
         )->will(
-            $this->returnValue(array('entity_id' => 5, 'website_id' => $websites[1]))
+            $this->returnValue(['entity_id' => 5, 'website_id' => $websites[1]])
         );
         $statement->expects($this->at(2))->method('fetch')->will($this->returnValue(false));
         $this->_writeAdapter->expects(
@@ -171,8 +171,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
     {
         $select = $this->getMock(
             'Magento\Framework\DB\Select',
-            array('joinLeft', 'from', 'columns'),
-            array(),
+            ['joinLeft', 'from', 'columns'],
+            [],
             '',
             false
         );
@@ -191,8 +191,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         $this->_segment->expects($this->any())->method('getId')->will($this->returnValue(3));
         $statement = $this->getMock(
             'Zend_Db_Statement',
-            array('closeCursor', 'columnCount', 'errorCode', 'errorInfo', 'fetch', 'nextRowset', 'rowCount'),
-            array(),
+            ['closeCursor', 'columnCount', 'errorCode', 'errorInfo', 'fetch', 'nextRowset', 'rowCount'],
+            [],
             '',
             false
         );
@@ -201,7 +201,7 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
         )->method(
             'fetch'
         )->will(
-            $this->returnValue(array('entity_id' => 4, 'website_id' => $websites[0]))
+            $this->returnValue(['entity_id' => 4, 'website_id' => $websites[0]])
         );
         $statement->expects($this->at(1))->method('fetch')->will($this->returnValue(false));
         $this->_writeAdapter->expects(
@@ -234,6 +234,6 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
 
     public function aggregateMatchedCustomersDataProvider()
     {
-        return array(array(true, array(7), array(7)), array(false, array(6), 6));
+        return [[true, [7], [7]], [false, [6], 6]];
     }
 }

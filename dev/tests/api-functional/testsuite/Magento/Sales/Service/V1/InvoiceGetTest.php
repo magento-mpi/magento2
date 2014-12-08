@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class InvoiceGetTest
@@ -33,18 +33,18 @@ class InvoiceGetTest extends WebapiAbstract
         $expectedInvoiceData = [
             'grand_total' => '100.0000',
             'subtotal' => '100.0000',
-            'increment_id' => $invoice->getIncrementId()
+            'increment_id' => $invoice->getIncrementId(),
         ];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invoice->getId(),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'get',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $invoice->getId()]);
         foreach ($expectedInvoiceData as $field => $value) {

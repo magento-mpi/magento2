@@ -220,4 +220,3 @@ class PrintPackageTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->controller->execute());
     }
 }
- 

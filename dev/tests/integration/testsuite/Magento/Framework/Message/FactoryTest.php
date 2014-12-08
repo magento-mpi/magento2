@@ -39,12 +39,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createProvider()
     {
-        return array(
-            array(MessageInterface::TYPE_SUCCESS),
-            array(MessageInterface::TYPE_NOTICE),
-            array(MessageInterface::TYPE_WARNING),
-            array(MessageInterface::TYPE_ERROR)
-        );
+        return [
+            [MessageInterface::TYPE_SUCCESS],
+            [MessageInterface::TYPE_NOTICE],
+            [MessageInterface::TYPE_WARNING],
+            [MessageInterface::TYPE_ERROR]
+        ];
     }
 
     /**

@@ -32,9 +32,8 @@ class HandlerFactory
      * @return object
      * @throws \InvalidArgumentException
      */
-    public function create($instance, array $arguments = array())
+    public function create($instance, array $arguments = [])
     {
-
         if (!is_subclass_of(
             $instance,
             '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface'

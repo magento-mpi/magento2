@@ -52,34 +52,34 @@ class Create extends Button
         )->setLabel(
             __('New Attribute')
         )->setDataAttribute(
-            array(
-                'mage-init' => array(
-                    'productAttributes' => array(
+            [
+                'mage-init' => [
+                    'productAttributes' => [
                         'url' => $this->getUrl(
                             'catalog/product_attribute/new',
-                            array(
+                            [
                                 'group' => $this->getConfig()->getAttributeGroupCode(),
                                 'store' => $this->getConfig()->getStoreId(),
                                 'product' => $this->getConfig()->getProductId(),
                                 'type' => $this->getConfig()->getTypeId(),
                                 'popup' => 1
-                            )
-                        )
-                    )
-                )
-            )
+                            ]
+                        ),
+                    ],
+                ],
+            ]
         );
 
         $this->getConfig()->setUrl(
             $this->getUrl(
                 'catalog/product_attribute/new',
-                array(
+                [
                     'group' => $this->getConfig()->getAttributeGroupCode(),
                     'store' => $this->getConfig()->getStoreId(),
                     'product' => $this->getConfig()->getProductId(),
                     'type' => $this->getConfig()->getTypeId(),
                     'popup' => 1
-                )
+                ]
             )
         );
 
@@ -94,7 +94,7 @@ class Create extends Button
         $this->setCanShow(true);
         $this->_eventManager->dispatch(
             'adminhtml_catalog_product_edit_tab_attributes_create_html_before',
-            array('block' => $this)
+            ['block' => $this]
         );
         if (!$this->getCanShow()) {
             return '';

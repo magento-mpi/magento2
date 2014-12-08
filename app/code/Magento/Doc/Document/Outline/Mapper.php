@@ -7,7 +7,6 @@
  */
 namespace Magento\Doc\Document\Outline;
 
-use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Stdlib\BooleanUtils;
 
 /**

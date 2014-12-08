@@ -8,8 +8,8 @@
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array(
-        'data' => array(
+    [
+        'data' => [
             'firstname' => 'guest',
             'lastname' => 'guest',
             'email' => 'customer@example.com',
@@ -18,9 +18,9 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
             'region' => 'CA',
             'postcode' => '1',
             'country_id' => 'US',
-            'telephone' => '1'
-        )
-    )
+            'telephone' => '1',
+        ]
+    ]
 );
 $billingAddress->setAddressType('billing');
 

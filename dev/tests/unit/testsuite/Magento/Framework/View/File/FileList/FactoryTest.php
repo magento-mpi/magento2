@@ -43,7 +43,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\View\File\FileList'),
-                $this->equalTo(array('collator' => $collator))
+                $this->equalTo(['collator' => $collator])
             )
             ->will($this->returnValue($list));
         $this->assertSame($list, $this->model->create());

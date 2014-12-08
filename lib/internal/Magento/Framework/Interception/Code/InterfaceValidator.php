@@ -46,7 +46,7 @@ class InterfaceValidator
         $plugin = new \ReflectionClass($pluginClass);
         $type = new \ReflectionClass($interceptedType);
 
-        $pluginMethods = array();
+        $pluginMethods = [];
         foreach ($plugin->getMethods(\ReflectionMethod::IS_PUBLIC) as $pluginMethod) {
             /** @var  $pluginMethod \ReflectionMethod */
             $originMethodName = $this->getOriginMethodName($pluginMethod->getName());
@@ -241,12 +241,12 @@ class InterfaceValidator
      */
     protected function getMethodParameters(\ReflectionMethod $method)
     {
-        $output = array();
+        $output = [];
         foreach ($method->getParameters() as $parameter) {
-            $output[$parameter->getPosition()] = array(
+            $output[$parameter->getPosition()] = [
                 'name' => $parameter->getName(),
-                'type' => $this->getParametersType($parameter)
-            );
+                'type' => $this->getParametersType($parameter),
+            ];
         }
         return $output;
     }

@@ -8,8 +8,8 @@
 
 namespace Magento\AdvancedCheckout\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that success message is present after requiring attention product has been deleted from cart.

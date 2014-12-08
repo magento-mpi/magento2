@@ -101,7 +101,7 @@ class RequestGeneratorTest extends \PHPUnit_Framework_TestCase
                     'getSearchWeight',
                     'getFrontendInput',
                     'getIsFilterable',
-                    'getIsSearchable'
+                    'getIsSearchable',
                 ]
             )
             ->getMock();

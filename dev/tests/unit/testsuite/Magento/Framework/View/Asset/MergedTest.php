@@ -51,12 +51,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $this->_assetJsTwo->expects($this->any())->method('getPath')
             ->will($this->returnValue('script_two.js'));
 
-        $this->_logger = $this->getMock('Magento\Framework\Logger', array('logException'), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Framework\Logger', ['logException'], [], '', false);
 
         $this->_mergeStrategy = $this->getMock('Magento\Framework\View\Asset\MergeStrategyInterface');
 
         $this->_assetRepo = $this->getMock(
-            '\Magento\Framework\View\Asset\Repository', array(), array(), '', false
+            '\Magento\Framework\View\Asset\Repository', [], [], '', false
         );
     }
 
@@ -66,7 +66,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructorNothingToMerge()
     {
-        new \Magento\Framework\View\Asset\Merged($this->_logger, $this->_mergeStrategy, $this->_assetRepo, array());
+        new \Magento\Framework\View\Asset\Merged($this->_logger, $this->_mergeStrategy, $this->_assetRepo, []);
     }
 
     /**
@@ -80,7 +80,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             $this->_logger,
             $this->_mergeStrategy,
             $this->_assetRepo,
-            array($this->_assetJsOne, $assetUrl)
+            [$this->_assetJsOne, $assetUrl]
         );
     }
 
@@ -96,13 +96,13 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             $this->_logger,
             $this->_mergeStrategy,
             $this->_assetRepo,
-            array($this->_assetJsOne, $assetCss)
+            [$this->_assetJsOne, $assetCss]
         );
     }
 
     public function testIteratorInterfaceMerge()
     {
-        $assets = array($this->_assetJsOne, $this->_assetJsTwo);
+        $assets = [$this->_assetJsOne, $this->_assetJsTwo];
         $this->_logger->expects($this->never())->method('logException');
         $merged = new \Magento\Framework\View\Asset\Merged(
             $this->_logger,
@@ -110,14 +110,14 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             $this->_assetRepo,
             $assets
         );
-        $mergedAsset = $this->getMock('Magento\Framework\View\Asset\File', array(), array(), '', false);
+        $mergedAsset = $this->getMock('Magento\Framework\View\Asset\File', [], [], '', false);
         $this->_mergeStrategy
             ->expects($this->once())
             ->method('merge')
             ->with($assets, $mergedAsset)
             ->will($this->returnValue(null));
         $this->_assetRepo->expects($this->once())->method('createArbitrary')->will($this->returnValue($mergedAsset));
-        $expectedResult = array($mergedAsset);
+        $expectedResult = [$mergedAsset];
 
         $this->_assertIteratorEquals($expectedResult, $merged);
         $this->_assertIteratorEquals($expectedResult, $merged); // ensure merging happens only once
@@ -135,12 +135,12 @@ class MergedTest extends \PHPUnit_Framework_TestCase
             $this->_logger,
             $this->_mergeStrategy,
             $this->_assetRepo,
-            array($this->_assetJsOne, $this->_assetJsTwo, $assetBroken)
+            [$this->_assetJsOne, $this->_assetJsTwo, $assetBroken]
         );
 
         $this->_logger->expects($this->once())->method('logException')->with($this->identicalTo($mergeError));
 
-        $expectedResult = array($this->_assetJsOne, $this->_assetJsTwo, $assetBroken);
+        $expectedResult = [$this->_assetJsOne, $this->_assetJsTwo, $assetBroken];
         $this->_assertIteratorEquals($expectedResult, $merged);
         $this->_assertIteratorEquals($expectedResult, $merged); // ensure merging attempt happens only once
     }
@@ -153,7 +153,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
      */
     protected function _assertIteratorEquals(array $expectedItems, \Iterator $actual)
     {
-        $actualItems = array();
+        $actualItems = [];
         foreach ($actual as $actualItem) {
             $actualItems[] = $actualItem;
         }

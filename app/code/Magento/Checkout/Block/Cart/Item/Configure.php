@@ -26,10 +26,10 @@ class Configure extends \Magento\Framework\View\Element\Template
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
             $block->setSubmitRouteData(
-                array(
+                [
                     'route' => 'checkout/cart/updateItemOptions',
-                    'params' => array('id' => $this->getRequest()->getParam('id'))
-                )
+                    'params' => ['id' => $this->getRequest()->getParam('id')],
+                ]
             );
         }
 

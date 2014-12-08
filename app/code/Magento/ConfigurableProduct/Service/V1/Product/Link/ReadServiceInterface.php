@@ -7,7 +7,6 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
-
 interface ReadServiceInterface
 {
     /**

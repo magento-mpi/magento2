@@ -53,7 +53,7 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
         $itemBlock = $this->getChildBlock('theme');
         $themeCollection = $this->getCollection();
 
-        $items = array();
+        $items = [];
         if (!empty($themeCollection)) {
             /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
             foreach ($themeCollection as $theme) {
@@ -78,12 +78,12 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
         $assignButton = $this->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Theme\Button');
         $assignButton->setData(
-            array(
+            [
                 'title' => __('Duplicate'),
                 'label' => __('Duplicate'),
                 'class' => 'action-duplicate',
-                'href' => $this->getUrl('adminhtml/*/duplicate', array('theme_id' => $themeId))
-            )
+                'href' => $this->getUrl('adminhtml/*/duplicate', ['theme_id' => $themeId]),
+            ]
         );
 
         $themeBlock->addButton($assignButton);
@@ -116,22 +116,22 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
         /** @var $assignButton \Magento\Backend\Block\Widget\Button */
         $assignButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
         $assignButton->setData(
-            array(
+            [
                 'label' => __('Assign to a Store View'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'assign',
                             'target' => 'body',
-                            'eventData' => array(
+                            'eventData' => [
                                 'theme_id' => $themeId,
-                                'confirm' => array('message' => $message, 'title' => __('Assign New Theme'))
-                            )
-                        )
-                    )
-                ),
-                'class' => 'save action-theme-assign primary'
-            )
+                                'confirm' => ['message' => $message, 'title' => __('Assign New Theme')],
+                            ],
+                        ],
+                    ],
+                ],
+                'class' => 'save action-theme-assign primary',
+            ]
         );
 
         $themeBlock->addButton($assignButton);
@@ -149,13 +149,13 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
         /** @var $editButton \Magento\Backend\Block\Widget\Button */
         $editButton = $this->getLayout()->createBlock('Magento\DesignEditor\Block\Adminhtml\Theme\Button');
         $editButton->setData(
-            array(
+            [
                 'title' => __('Edit'),
                 'label' => __('Edit'),
                 'class' => 'action-edit primary',
                 'href' => $this->_getEditUrl($themeBlock->getTheme()->getId()),
-                'target' => 'edittheme'
-            )
+                'target' => 'edittheme',
+            ]
         );
 
         $themeBlock->addButton($editButton);
@@ -172,7 +172,7 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/launch',
-            array('theme_id' => $themeId, 'mode' => \Magento\DesignEditor\Model\State::MODE_NAVIGATION)
+            ['theme_id' => $themeId, 'mode' => \Magento\DesignEditor\Model\State::MODE_NAVIGATION]
         );
     }
 
@@ -186,7 +186,7 @@ abstract class AbstractSelectorList extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/launch',
-            array('theme_id' => $themeId, 'mode' => \Magento\DesignEditor\Model\State::MODE_NAVIGATION)
+            ['theme_id' => $themeId, 'mode' => \Magento\DesignEditor\Model\State::MODE_NAVIGATION]
         );
     }
 }

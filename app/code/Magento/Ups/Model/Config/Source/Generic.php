@@ -42,9 +42,9 @@ class Generic implements GenericInterface
     public function toOptionArray()
     {
         $configData = $this->carrierConfig->getCode($this->_code);
-        $arr = array();
+        $arr = [];
         foreach ($configData as $code => $title) {
-            $arr[] = array('value' => $code, 'label' => __($title));
+            $arr[] = ['value' => $code, 'label' => __($title)];
         }
         return $arr;
     }

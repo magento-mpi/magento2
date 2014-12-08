@@ -37,27 +37,27 @@ class Unassigned extends \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\Se
         $removeButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
         $removeButton->setData(
-            array(
+            [
                 'label' => __('Remove'),
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array(
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => [
                             'event' => 'delete',
                             'target' => 'body',
-                            'eventData' => array(
+                            'eventData' => [
                                 'url' => $this->getUrl(
                                     '*/system_design_theme/delete/',
-                                    array('id' => $themeId, 'back' => true)
+                                    ['id' => $themeId, 'back' => true]
                                 ),
-                                'confirm' => array('message' => __('Are you sure you want to delete this theme?')),
-                                'title' => __('Delete %1 Theme', $themeTitle)
-                            )
-                        )
-                    )
-                ),
+                                'confirm' => ['message' => __('Are you sure you want to delete this theme?')],
+                                'title' => __('Delete %1 Theme', $themeTitle),
+                            ],
+                        ],
+                    ],
+                ],
                 'class' => 'action-delete',
-                'target' => '_blank'
-            )
+                'target' => '_blank',
+            ]
         );
 
         $themeBlock->addButton($removeButton);

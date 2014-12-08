@@ -17,7 +17,7 @@ class Redirect extends Template
      *
      * @var array
      */
-    protected $formFields = array();
+    protected $formFields = [];
 
     /**
      * Form factory
@@ -36,7 +36,7 @@ class Redirect extends Template
     public function __construct(
         Template\Context $context,
         \Magento\Framework\Data\FormFactory $formFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->formFactory = $formFactory;
         parent::__construct($context, $data);
@@ -116,7 +116,7 @@ class Redirect extends Template
             true
         );
         foreach ($this->_getFormFields() as $field => $value) {
-            $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
+            $form->addField($field, 'hidden', ['name' => $field, 'value' => $value]);
         }
         return $form->toHtml();
     }
@@ -158,7 +158,7 @@ class Redirect extends Template
      */
     public function getFormFields()
     {
-        return array();
+        return [];
     }
 
     /**

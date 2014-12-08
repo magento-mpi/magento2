@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ['priceCurrency' => $this->priceCurrencyMock]
         );
         $this->event = new \Magento\Framework\Object();
-        $this->observer = new \Magento\Framework\Event\Observer(array('event' => $this->event));
+        $this->observer = new \Magento\Framework\Event\Observer(['event' => $this->event]);
     }
 
     /**
@@ -60,7 +60,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($amount)
         );
-        $cart = $this->getMock('Magento\Payment\Model\Cart', array(), array(), '', false);
+        $cart = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
         $cart->expects($this->once())->method('getSalesModel')->will($this->returnValue($salesModel));
         if (abs($amount) > 0.0001) {
             $cart->expects($this->once())->method('addDiscount')->with(abs($amount));
@@ -73,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function addPaymentCustomerBalanceItemDataProvider()
     {
-        return array(array(0.0), array(0.1), array(-0.1));
+        return [[0.0], [0.1], [-0.1]];
     }
 
     /**
@@ -88,15 +88,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $orderMock = $this->getMock(
             '\Magento\Sales\Model\Order',
-            array(
+            [
                 'getBsCustomerBalTotalRefunded',
                 'getBaseTotalRefunded',
                 'getBaseTaxRefunded',
                 'getBaseShippingRefunded',
                 '__wakeup',
                 '__sleep'
-            ),
-            array(), '', false
+            ],
+            [], '', false
         );
         $orderMock->expects($this->any())->method('getBsCustomerBalTotalRefunded')
             ->will($this->returnValue($orderData['bs_customer_bal_total_refunded']));
@@ -109,8 +109,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $creditMemoMock = $this->getMock(
             '\Magento\Sales\Model\Order\Creditmemo',
-            array('getRewardedAmountAfterRefund', 'setRewardedAmountAfterRefund', 'getOrder', '__wakeup', '__sleep'),
-            array(), '', false
+            ['getRewardedAmountAfterRefund', 'setRewardedAmountAfterRefund', 'getOrder', '__wakeup', '__sleep'],
+            [], '', false
         );
         $creditMemoMock->expects($this->any())->method('getOrder')
             ->will($this->returnValue($orderMock));
@@ -128,28 +128,28 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testModifyRewardedAmountOnRefundDataProvider()
     {
-        return array(
-            array(
-                'orderData' => array(
+        return [
+            [
+                'orderData' => [
                     'bs_customer_bal_total_refunded' => 100,
                     'base_total_refunded' => 40,
                     'base_tax_refunded' => 10,
-                    'base_shipping_refunded' => 10
-                ),
+                    'base_shipping_refunded' => 10,
+                ],
                 'baseRewardAmount' => 5,
-                'expectedRewardAmount' => 25
-            ),
-            array(
-                'orderData' => array(
+                'expectedRewardAmount' => 25,
+            ],
+            [
+                'orderData' => [
                     'bs_customer_bal_total_refunded' => 10,
                     'base_total_refunded' => 40,
                     'base_tax_refunded' => 10,
-                    'base_shipping_refunded' => 10
-                ),
+                    'base_shipping_refunded' => 10,
+                ],
                 'baseRewardAmount' => 10,
                 'expectedRewardAmount' => 20
-            )
-        );
+            ]
+        ];
     }
 
     public function testCreditmemoDataImport()
@@ -160,7 +160,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'refund_customerbalance_return' => $refundAmount,
             'refund_customerbalance_return_enable' => true,
             'refund_customerbalance' => true,
-            'refund_real_customerbalance' => true
+            'refund_real_customerbalance' => true,
         ];
 
         $observerMock = $this->getMockBuilder('Magento\Framework\Event\Observer')

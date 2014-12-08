@@ -46,7 +46,7 @@ class ProcessorFactory
      * @param array $data
      * @return ProcessorInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->objectManager->create($this->instanceName, $data);
     }

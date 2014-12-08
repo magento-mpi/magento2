@@ -41,7 +41,7 @@ class ProductAction
         $type
     ) {
         if (!$this->_role->getIsAll()) {
-            if (in_array($type, array('remove', 'add'))) {
+            if (in_array($type, ['remove', 'add'])) {
                 if (!$this->_role->getIsWebsiteLevel()) {
                     throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }

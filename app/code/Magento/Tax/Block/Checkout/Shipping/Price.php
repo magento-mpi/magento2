@@ -30,7 +30,7 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
         \Magento\Checkout\Model\Session $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Tax\Helper\Data $taxHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->taxHelper = $taxHelper;
         parent::__construct(

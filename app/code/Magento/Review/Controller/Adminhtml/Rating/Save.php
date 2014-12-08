@@ -78,7 +78,7 @@ class Save extends \Magento\Review\Controller\Adminhtml\Rating
                 )->setRatingData(
                     $this->getRequest()->getPost()
                 );
-                $this->_redirect('review/rating/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('review/rating/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

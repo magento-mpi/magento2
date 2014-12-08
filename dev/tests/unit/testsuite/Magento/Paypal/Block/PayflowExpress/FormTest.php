@@ -21,17 +21,17 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_paypalConfig = $this->getMock('Magento\Paypal\Model\Config', array(), array(), '', false);
+        $this->_paypalConfig = $this->getMock('Magento\Paypal\Model\Config', [], [], '', false);
         $this->_paypalConfig->expects($this->once())->method('setMethod')->will($this->returnSelf());
         $paypalConfigFactory = $this->getMock(
             'Magento\Paypal\Model\ConfigFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $paypalConfigFactory->expects($this->once())->method('create')->will($this->returnValue($this->_paypalConfig));
-        $mark = $this->getMock('Magento\Framework\View\Element\Template', array(), array(), '', false);
+        $mark = $this->getMock('Magento\Framework\View\Element\Template', [], [], '', false);
         $mark->expects($this->once())->method('setTemplate')->will($this->returnSelf());
         $mark->expects($this->any())->method('__call')->will($this->returnSelf());
         $layout = $this->getMockForAbstractClass('Magento\Framework\View\LayoutInterface');
@@ -46,8 +46,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $localeResolver = $this->getMock(
             'Magento\Framework\Locale\ResolverInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false

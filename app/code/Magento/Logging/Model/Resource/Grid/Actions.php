@@ -38,7 +38,7 @@ class Actions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $actions = array();
+        $actions = [];
         $fieldValues = $this->_resource->getAllFieldValues('action');
 
         foreach ($fieldValues as $action) {

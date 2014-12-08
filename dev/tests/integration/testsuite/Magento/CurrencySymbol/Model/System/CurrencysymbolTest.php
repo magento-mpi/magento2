@@ -68,7 +68,7 @@ class CurrencysymbolTest extends \PHPUnit_Framework_TestCase
 
         //Change currency symbol
         $currencySymbolsData = [
-            'EUR' => '@'
+            'EUR' => '@',
         ];
         $this->currencySymbolModel->setCurrencySymbolsData($currencySymbolsData);
 

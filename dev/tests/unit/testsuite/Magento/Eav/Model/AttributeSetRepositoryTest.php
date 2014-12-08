@@ -46,30 +46,30 @@ class AttributeSetRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->resourceMock = $this->getMock(
             'Magento\Eav\Model\Resource\Entity\Attribute\Set',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->setFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\SetFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->collectionFactoryMock = $this->getMock(
             'Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array('getEntityType'), array(), '', false);
+        $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', ['getEntityType'], [], '', false);
         $this->resultBuilderMock = $this->getMock(
             '\Magento\Eav\Api\Data\AttributeSetSearchResultsDataBuilder',
-            array('setSearchCriteria', 'setItems', 'setTotalCount', 'create', '__wakeup'),
-            array(),
+            ['setSearchCriteria', 'setItems', 'setTotalCount', 'create', '__wakeup'],
+            [],
             '',
             false
         );

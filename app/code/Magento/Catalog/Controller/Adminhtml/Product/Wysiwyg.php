@@ -57,7 +57,7 @@ class Wysiwyg extends \Magento\Catalog\Controller\Adminhtml\Product
                 'data' => [
                     'editor_element_id' => $elementId,
                     'store_id' => $storeId,
-                    'store_media_url' => $storeMediaUrl
+                    'store_media_url' => $storeMediaUrl,
                 ]
             ]
         );

@@ -12,7 +12,6 @@ namespace Magento\Framework\Less\File\Collector;
  */
 class AggregatedTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\View\File\FileList\Factory|PHPUnit_Framework_MockObject_MockObject
      */

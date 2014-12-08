@@ -8,13 +8,13 @@
 
 namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
 
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\Data\ObjectFactory;
 use Magento\Framework\DB\GenericMapper;
 use Magento\Framework\DB\MapperFactory;
 use Magento\Framework\DB\Select;
-use Magento\Framework\Data\ObjectFactory;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Logger;
-use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * Interface StockItemCriteriaMapper

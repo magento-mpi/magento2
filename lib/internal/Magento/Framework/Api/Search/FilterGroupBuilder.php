@@ -8,11 +8,11 @@
 
 namespace Magento\Framework\Api\Search;
 
-use Magento\Framework\Api\Builder;
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\AttributeDataBuilder;
-use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\Builder;
 use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * Builder for FilterGroup Data.

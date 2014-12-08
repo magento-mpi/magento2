@@ -25,7 +25,7 @@ class Multiaction extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Act
         $html = '';
         $actions = $this->getColumn()->getActions();
         if (!empty($actions) && is_array($actions)) {
-            $links = array();
+            $links = [];
             foreach ($actions as $action) {
                 if (is_array($action)) {
                     $link = $this->_toLinkHtml($action, $row);

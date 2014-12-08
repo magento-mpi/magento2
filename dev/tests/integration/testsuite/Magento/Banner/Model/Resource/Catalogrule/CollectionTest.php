@@ -83,9 +83,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function addWebsiteCustomerGroupFilterWrongDataDataProvider()
     {
-        return array(
-            'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
-            'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
-        );
+        return [
+            'wrong website' => [$this->_websiteId + 1, $this->_customerGroupId],
+            'wrong customer group' => [$this->_websiteId, $this->_customerGroupId + 1]
+        ];
     }
 }

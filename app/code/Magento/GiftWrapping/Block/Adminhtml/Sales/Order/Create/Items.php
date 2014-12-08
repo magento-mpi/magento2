@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Gift wrapping adminhtml block for create order items
  *

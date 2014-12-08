@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -63,6 +63,6 @@ class Product extends AbstractDb
     public function removeMultiple(array $removeData)
     {
         $write = $this->_getWriteAdapter();
-        return $write->delete($this->getTable(self::TABLE_NAME), array('url_rewrite_id in (?)' => $removeData));
+        return $write->delete($this->getTable(self::TABLE_NAME), ['url_rewrite_id in (?)' => $removeData]);
     }
 }

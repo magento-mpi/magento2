@@ -8,8 +8,8 @@
  */
 namespace Magento\GroupedProduct\Api;
 
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\GroupedProduct\Model\Resource\Product\Link;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -22,13 +22,13 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . 'links/types',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetItems'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetItems',
+            ],
         ];
 
         $actual = $this->_webApiCall($serviceInfo);
@@ -38,7 +38,6 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
          */
         $expectedItems = ['name' => 'associated', 'code' => Link::LINK_TYPE_GROUPED];
         $this->assertContains($expectedItems, $actual);
-
     }
 
     public function testGetItemAttributes()
@@ -48,13 +47,13 @@ class ProductLinkTypeListTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . 'links/' . $linkType . '/attributes',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetItemAttributes'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetItemAttributes',
+            ],
         ];
 
         $actual = $this->_webApiCall($serviceInfo, ['type' => $linkType]);

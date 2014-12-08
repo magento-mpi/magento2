@@ -75,7 +75,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ['store', 0, 'some_store'],
             ['type', null, 'type_id'],
             ['set', null, 3],
-            ['store', null, 'store']
+            ['store', null, 'store'],
         ];
         $this->requestMock->expects($this->any())
             ->method('getParam')
@@ -113,7 +113,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $registryValueMap = [
             ['product', $this->productMock, $this->registryMock],
-            ['current_product', $this->productMock, $this->registryMock]
+            ['current_product', $this->productMock, $this->registryMock],
         ];
         $this->registryMock->expects($this->any())
             ->method('register')
@@ -131,7 +131,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ['store', 0, 'some_store'],
             ['type', null, 'type_id'],
             ['set', null, 3],
-            ['store', null, 'store']
+            ['store', null, 'store'],
         ];
         $this->requestMock->expects($this->any())
             ->method('getParam')
@@ -189,7 +189,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $registryValueMap = [
             ['product', $this->productMock, $this->registryMock],
-            ['current_product', $this->productMock, $this->registryMock]
+            ['current_product', $this->productMock, $this->registryMock],
         ];
         $this->registryMock->expects($this->any())
             ->method('register')
@@ -207,7 +207,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ['store', 0, 'some_store'],
             ['type', null, 'type_id'],
             ['set', null, 3],
-            ['store', null, 'store']
+            ['store', null, 'store'],
         ];
         $this->requestMock->expects($this->any())
             ->method('getParam')
@@ -235,7 +235,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             );
         $productValueMap = [
             ['type_id', $this->productMock],
-            [\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE, $this->productMock]
+            [\Magento\Catalog\Model\Product\Type::DEFAULT_TYPE, $this->productMock],
         ];
         $this->productMock->expects($this->any())
             ->method('setTypeId')
@@ -248,7 +248,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $registryValueMap = [
             ['product', $this->productMock, $this->registryMock],
-            ['current_product', $this->productMock, $this->registryMock]
+            ['current_product', $this->productMock, $this->registryMock],
         ];
         $this->registryMock->expects($this->any())
             ->method('register')

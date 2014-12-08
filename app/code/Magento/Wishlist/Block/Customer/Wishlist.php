@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist block customer items
  *
@@ -21,7 +20,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      *
      * @var array
      */
-    protected $_optionsCfg = array();
+    protected $_optionsCfg = [];
 
     /**
      * @var \Magento\Catalog\Helper\Product\ConfigurationPool
@@ -47,7 +46,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\Framework\Data\Form\FormKey $formKey,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formKey = $formKey;
         $this->_helperPool = $helperPool;
@@ -129,7 +128,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function addOptionsRenderCfg($productType, $helperName, $template = null)
     {
-        $this->_optionsCfg[$productType] = array('helper' => $helperName, 'template' => $template);
+        $this->_optionsCfg[$productType] = ['helper' => $helperName, 'template' => $template];
         return $this;
     }
 
@@ -209,7 +208,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
     {
         return $this->getUrl(
             '*/*/allcart',
-            array('wishlist_id' => $this->getWishlistInstance()->getId(), 'form_key' => $this->_formKey->getFormKey())
+            ['wishlist_id' => $this->getWishlistInstance()->getId(), 'form_key' => $this->_formKey->getFormKey()]
         );
     }
 }

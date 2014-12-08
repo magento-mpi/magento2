@@ -9,13 +9,12 @@
 namespace Magento\Ui\Component;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\Component\Filter as FilterView;
-use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
+use Magento\Ui\ContentType\ContentTypeFactory;
 
 /**
  * Class ViewTest
@@ -208,10 +207,10 @@ class FilterPoolTest extends \PHPUnit_Framework_TestCase
             'field-1' => 'value-1',
             'field-2' => 'value-2',
             'field-3' => 'value-3',
-            'field-4' => 'value-4'
+            'field-4' => 'value-4',
         ];
         $meta = [
-            'fields' => $metaData
+            'fields' => $metaData,
         ];
         $filters = $metaData;
 
@@ -272,15 +271,15 @@ class FilterPoolTest extends \PHPUnit_Framework_TestCase
 
         $result = [
             'field-1' => ['filterable' => 1],
-            'field-4' => ['filterable' => 1]
+            'field-4' => ['filterable' => 1],
         ];
         $meta = [
             'fields' => [
                 'field-1' => ['filterable' => true],
                 'field-2' => ['filterable' => false],
                 'field-3' => ['filterable' => false],
-                'field-4' => ['filterable' => true]
-            ]
+                'field-4' => ['filterable' => true],
+            ],
         ];
         /**
          * @var \Magento\Framework\View\Element\UiComponent\ConfigInterface
@@ -338,27 +337,27 @@ class FilterPoolTest extends \PHPUnit_Framework_TestCase
             'field-4' => [
                 'title' => 'title-4',
                 'current_display_value' => 'value-4',
-            ]
+            ],
         ];
         $meta = [
             'fields' => [
                 'field-1' => [
                     'filter_type' => true,
-                    'title' => 'title-1'
+                    'title' => 'title-1',
                 ],
                 'field-2' => [
                     'filter_type' => true,
-                    'title' => 'title-2'
+                    'title' => 'title-2',
                 ],
                 'field-3' => [
                     'filter_type' => true,
-                    'title' => 'title-3'
+                    'title' => 'title-3',
                 ],
                 'field-4' => [
                     'filter_type' => true,
-                    'title' => 'title-4'
-                ]
-            ]
+                    'title' => 'title-4',
+                ],
+            ],
         ];
         $filters = [
             'field-1' => 'value-1',

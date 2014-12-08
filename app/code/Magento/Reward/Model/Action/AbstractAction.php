@@ -124,7 +124,7 @@ abstract class AbstractAction extends \Magento\Framework\Object
      * @param array $args Additional history data
      * @return string
      */
-    abstract public function getHistoryMessage($args = array());
+    abstract public function getHistoryMessage($args = []);
 
     /**
      * Setter for $_reward

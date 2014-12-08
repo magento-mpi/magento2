@@ -26,7 +26,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      *
      * @var array
      */
-    protected $_dateInputs = array();
+    protected $_dateInputs = [];
 
     /**
      * Array of minimal and maximal date range values
@@ -48,7 +48,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\View\Element\Html\Date $dateElement,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->dateElement = $dateElement;
@@ -104,7 +104,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
      */
     public function getSortedDateInputs($stripNonInputChars = true)
     {
-        $mapping = array();
+        $mapping = [];
         if ($stripNonInputChars) {
             $mapping['/[^medy]/i'] = '\\1';
         }
@@ -234,7 +234,7 @@ class Date extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     protected function _getDateRange()
     {
         if (is_null($this->_dateRange)) {
-            $this->_dateRange = array();
+            $this->_dateRange = [];
             $rules = $this->getAttributeObject()->getValidateRules();
             if (isset($rules[self::MIN_DATE_RANGE_KEY])) {
                 $this->_dateRange[self::MIN_DATE_RANGE_KEY] = $rules[self::MIN_DATE_RANGE_KEY];

@@ -18,7 +18,7 @@ interface IoInterface
      * @param array $args
      * @return bool
      */
-    public function open(array $args = array());
+    public function open(array $args = []);
 
     /**
      * Close a connection

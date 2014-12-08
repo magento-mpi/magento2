@@ -9,7 +9,6 @@
 
 namespace Magento\Persistent\Model\Observer;
 
-
 class SetQuotePersistentDataTest extends \PHPUnit_Framework_TestCase
 {
     /**

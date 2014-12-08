@@ -9,9 +9,9 @@
 namespace Magento\CustomerBalance\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
 use Mtf\Constraint\AbstractConstraint;
 
 /**

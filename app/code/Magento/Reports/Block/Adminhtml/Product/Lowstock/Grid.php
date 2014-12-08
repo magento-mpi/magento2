@@ -29,7 +29,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Product\Lowstock\CollectionFactory $lowstocksFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_lowstocksFactory = $lowstocksFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -47,10 +47,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         if ($website) {
             $storeIds = $this->_storeManager->getWebsite($website)->getStoreIds();
             $storeId = array_pop($storeIds);
-        } else if ($group) {
+        } elseif ($group) {
             $storeIds = $this->_storeManager->getGroup($group)->getStoreIds();
             $storeId = array_pop($storeIds);
-        } else if ($store) {
+        } elseif ($store) {
             $storeId = (int)$store;
         } else {
             $storeId = '';

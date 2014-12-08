@@ -37,7 +37,7 @@ class Link extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingFactory = $wrappingFactory;

@@ -18,12 +18,12 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
-        $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
+        $paymentDataMock = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
         $adapterFactoryMock = $this->getMock(
             'Magento\Framework\Logger\AdapterFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -31,12 +31,12 @@ class CashondeliveryTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_object = $helper->getObject(
             'Magento\OfflinePayments\Model\Cashondelivery',
-            array(
+            [
                 'eventManager' => $eventManager,
                 'paymentData' => $paymentDataMock,
                 'scopeConfig' => $scopeConfig,
                 'logAdapterFactory' => $adapterFactoryMock
-            )
+            ]
         );
     }
 

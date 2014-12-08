@@ -65,7 +65,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cartHelper = $cartHelper;
         $this->_coreRegistry = $registry;
@@ -92,13 +92,13 @@ class Items extends \Magento\Checkout\Block\Cart
     {
         if (!$this->hasItemCollection()) {
             if (!$this->getEntity()) {
-                return array();
+                return [];
             }
             $collection = $this->itemFactory->create()->getCollection()
                 ->addRegistryFilter($this->getEntity()->getId())
                 ->addWebsiteFilter();
 
-            $quoteItemsCollection = array();
+            $quoteItemsCollection = [];
             $quote = $this->quoteFactory->create()->setItemCount(true);
             $emptyQuoteItem = $this->quoteItemFactory->create();
             foreach ($collection as $item) {
@@ -144,7 +144,7 @@ class Items extends \Magento\Checkout\Block\Cart
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/addToCart', array('_current' => true));
+        return $this->getUrl('*/*/addToCart', ['_current' => true]);
     }
 
     /**
@@ -154,7 +154,7 @@ class Items extends \Magento\Checkout\Block\Cart
      */
     public function getActionUpdateUrl()
     {
-        return $this->getUrl('*/*/updateItems', array('_current' => true));
+        return $this->getUrl('*/*/updateItems', ['_current' => true]);
     }
 
     /**

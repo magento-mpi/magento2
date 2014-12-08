@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -31,7 +31,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWithException()
     {
-        $notActionInterfaceMock = $this->getMock('NotAction', array(), array(), '', false);
+        $notActionInterfaceMock = $this->getMock('NotAction', [], [], '', false);
         $this->objectManagerMock->expects(
             $this->once()
         )->method(
@@ -48,7 +48,7 @@ class ActionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $actionInterfaceMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\ActionInterface',
-            array(),
+            [],
             '',
             false
         );

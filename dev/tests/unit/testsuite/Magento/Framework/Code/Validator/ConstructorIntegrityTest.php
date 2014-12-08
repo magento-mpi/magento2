@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Code\Validator;
 
-
 require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Three/Test.php';
 require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/Two/Test.php';
 require_once __DIR__ . '/../_files/app/code/Magento/SomeModule/Model/One/Test.php';

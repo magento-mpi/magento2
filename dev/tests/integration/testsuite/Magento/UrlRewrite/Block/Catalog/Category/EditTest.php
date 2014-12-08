@@ -34,7 +34,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $block = $layout->createBlock(
             'Magento\UrlRewrite\Block\Catalog\Category\Edit',
             '',
-            array('data' => $blockAttributes)
+            ['data' => $blockAttributes]
         );
 
         $this->_checkSelector($block, $expected);
@@ -274,33 +274,33 @@ class EditTest extends \PHPUnit_Framework_TestCase
         /** @var $category \Magento\Catalog\Model\Category */
         $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Category',
-            array('data' => array('entity_id' => 1, 'name' => 'Test category'))
+            ['data' => ['entity_id' => 1, 'name' => 'Test category']]
         );
         /** @var $existingUrlRewrite \Magento\UrlRewrite\Model\UrlRewrite */
         $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\UrlRewrite\Model\UrlRewrite',
-            array('data' => array('url_rewrite_id' => 1))
+            ['data' => ['url_rewrite_id' => 1]]
         );
 
-        return array(
+        return [
             // Creating URL rewrite when category selected
-            array(
-                array('category' => $category, 'url_rewrite' => $urlRewrite),
-                array(
+            [
+                ['category' => $category, 'url_rewrite' => $urlRewrite],
+                [
                     'selector' => false,
-                    'category_link' => array('name' => $category->getName()),
+                    'category_link' => ['name' => $category->getName()],
                     'back_button' => true,
                     'save_button' => true,
                     'reset_button' => false,
                     'delete_button' => false,
-                    'form' => array('category' => $category, 'url_rewrite' => $urlRewrite),
+                    'form' => ['category' => $category, 'url_rewrite' => $urlRewrite],
                     'categories_tree' => false
-                )
-            ),
+                ]
+            ],
             // Creating URL rewrite when category not selected
-            array(
-                array('url_rewrite' => $urlRewrite),
-                array(
+            [
+                ['url_rewrite' => $urlRewrite],
+                [
                     'selector' => true,
                     'category_link' => false,
                     'back_button' => true,
@@ -309,21 +309,21 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'delete_button' => false,
                     'form' => false,
                     'categories_tree' => true
-                )
-            ),
+                ]
+            ],
             // Editing URL rewrite with category
-            array(
-                array('url_rewrite' => $existingUrlRewrite, 'category' => $category),
-                array(
+            [
+                ['url_rewrite' => $existingUrlRewrite, 'category' => $category],
+                [
                     'selector' => false,
-                    'category_link' => array('name' => $category->getName()),
+                    'category_link' => ['name' => $category->getName()],
                     'save_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,
-                    'form' => array('category' => $category, 'url_rewrite' => $existingUrlRewrite),
+                    'form' => ['category' => $category, 'url_rewrite' => $existingUrlRewrite],
                     'categories_tree' => false
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

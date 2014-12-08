@@ -32,7 +32,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('supported_containers', $config);
         $blocks = $config['supported_containers'];
 
-        $containers = array();
+        $containers = [];
         foreach ($blocks as $block) {
             $containers[] = $block['container_name'];
         }
@@ -64,7 +64,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
 
         $this->assertArrayHasKey('supported_containers', $config);
         $blocks = $config['supported_containers'];
-        $containers = array();
+        $containers = [];
         foreach ($blocks as $block) {
             $containers[] = $block['container_name'];
         }

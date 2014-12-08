@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Attribute Date Data Model
  *

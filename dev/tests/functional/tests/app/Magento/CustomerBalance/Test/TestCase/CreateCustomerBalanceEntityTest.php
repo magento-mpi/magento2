@@ -8,12 +8,12 @@
 
 namespace Magento\CustomerBalance\Test\TestCase;
 
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\CustomerBalance\Test\Fixture\CustomerBalance;
-use Mtf\TestCase\Injectable;
-use \Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover creating CustomerBalanceEntity with fucntional tests designed for automation

@@ -17,7 +17,7 @@ class ActionFlag
     /**
      * @var array
      */
-    protected $_flags = array();
+    protected $_flags = [];
 
     /**
      * @param RequestInterface $request
@@ -60,7 +60,7 @@ class ActionFlag
         if ('' === $flag) {
             return isset(
                 $this->_flags[$this->_getControllerKey()]
-            ) ? $this->_flags[$this->_getControllerKey()] : array();
+            ) ? $this->_flags[$this->_getControllerKey()] : [];
         } elseif (isset($this->_flags[$this->_getControllerKey()][$action][$flag])) {
             return $this->_flags[$this->_getControllerKey()][$action][$flag];
         } else {

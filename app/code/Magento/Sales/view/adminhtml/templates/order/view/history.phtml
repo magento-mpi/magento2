@@ -13,8 +13,8 @@
         <div>
             <label for="history_status"><?php echo __('Status') ?></label>
             <select name="history[status]" id="history_status">
-            <?php foreach ($this->getStatuses() as $_code=>$_label): ?>
-                <option value="<?php echo $_code ?>"<?php if($_code==$this->getOrder()->getStatus()): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
+            <?php foreach ($this->getStatuses() as $_code => $_label): ?>
+                <option value="<?php echo $_code ?>"<?php if ($_code == $this->getOrder()->getStatus()): ?> selected="selected"<?php endif; ?>><?php echo $_label ?></option>
             <?php endforeach; ?>
             </select>
         </div>
@@ -52,7 +52,7 @@
                 <?php endif; ?>
             </span>
             <?php if ($_item->getComment()): ?>
-                <div class="note-list-comment"><?php echo $this->escapeHtml($_item->getComment(), array('b','br','strong','i','u')) ?></div>
+                <div class="note-list-comment"><?php echo $this->escapeHtml($_item->getComment(), ['b', 'br', 'strong', 'i', 'u']) ?></div>
             <?php endif; ?>
         </li>
     <?php endforeach; ?>
@@ -61,7 +61,7 @@
 require(['prototype'], function(){
 
         if($('order_status'))$('order_status').update('<?php echo $this->getOrder()->getStatusLabel() ?>');
-    
+
 });
 </script>
 </div>

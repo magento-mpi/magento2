@@ -28,31 +28,31 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_eavDecimalFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_eavSourceFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Indexer\Product\Eav\AbstractAction',
-            array($this->_eavDecimalFactoryMock, $this->_eavSourceFactoryMock)
+            [$this->_eavDecimalFactoryMock, $this->_eavSourceFactoryMock]
         );
     }
 
     public function testGetIndexers()
     {
-        $expectedIndexers = array(
+        $expectedIndexers = [
             'source' => 'source_instance',
-            'decimal' => 'decimal_instance'
-        );
+            'decimal' => 'decimal_instance',
+        ];
 
         $this->_eavSourceFactoryMock->expects($this->once())
             ->method('create')
@@ -124,7 +124,7 @@ class AbstractActionTest extends \PHPUnit_Framework_TestCase
 
     public function testReindexWithNotNullArgumentExecutesReindexEntities()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $eavSource = $this->getMockBuilder('Magento\Catalog\Model\Resource\Product\Indexer\Eav\Source')
             ->disableOriginalConstructor()

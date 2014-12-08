@@ -16,7 +16,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product'
 )->setSku(
@@ -36,5 +36,5 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->save();

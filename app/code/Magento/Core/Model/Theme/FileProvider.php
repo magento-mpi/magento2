@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +25,7 @@ class FileProvider implements \Magento\Framework\View\Design\Theme\FileProviderI
     /**
      * {@inheritdoc}
      */
-    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = array())
+    public function getItems(\Magento\Framework\View\Design\ThemeInterface $theme, array $filters = [])
     {
         /** @var \Magento\Framework\View\Design\Theme\File\CollectionInterface $themeFiles */
         $themeFiles = $this->fileFactory->create();

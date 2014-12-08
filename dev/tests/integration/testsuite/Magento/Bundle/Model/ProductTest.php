@@ -82,7 +82,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         )->setStatus(
             \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
         );
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('sku' => uniqid()));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['sku' => uniqid()]);
         $crud->testCrud();
     }
 

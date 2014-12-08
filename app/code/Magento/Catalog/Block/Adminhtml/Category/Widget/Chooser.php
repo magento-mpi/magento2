@@ -18,7 +18,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     /**
      * @var array
      */
-    protected $_selectedCategories = array();
+    protected $_selectedCategories = [];
 
     /**
      * Block construction
@@ -71,7 +71,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
         $uniqId = $this->mathRandom->getUniqueHash($element->getId());
         $sourceUrl = $this->getUrl(
             'catalog/category_widget/chooser',
-            array('uniq_id' => $uniqId, 'use_massaction' => false)
+            ['uniq_id' => $uniqId, 'use_massaction' => false]
         );
 
         $chooser = $this->getLayout()->createBlock(
@@ -179,7 +179,7 @@ class Chooser extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     {
         return $this->getUrl(
             'catalog/category_widget/categoriesJson',
-            array('_current' => true, 'uniq_id' => $this->getId(), 'use_massaction' => $this->getUseMassaction())
+            ['_current' => true, 'uniq_id' => $this->getId(), 'use_massaction' => $this->getUseMassaction()]
         );
     }
 }

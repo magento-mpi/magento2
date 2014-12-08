@@ -79,7 +79,7 @@ class Fpt implements FixtureInterface
                     'country_name' => 'United States',
                     'state_name' => '*',
                 ],
-            ]
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

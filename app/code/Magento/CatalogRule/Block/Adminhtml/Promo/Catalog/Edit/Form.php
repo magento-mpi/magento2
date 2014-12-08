@@ -34,13 +34,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getUrl('catalog_rule/promo_catalog/save'),
-                    'method' => 'post'
-                )
-            )
+                    'method' => 'post',
+                ],
+            ]
         );
         $form->setUseContainer(true);
         $this->setForm($form);

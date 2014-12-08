@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Shipment;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\ShipmentTrackInterface;
+use Magento\Sales\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Track _getResource()

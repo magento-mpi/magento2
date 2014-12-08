@@ -9,7 +9,6 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Integration\Service\V1\OauthInterface as IntegrationOauthService;
-use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Controller for integrations management.
@@ -105,11 +104,11 @@ class Integration extends Action
      * @param array $arguments
      * @return $this|\Magento\Backend\App\AbstractAction
      */
-    protected function _redirect($path, $arguments = array())
+    protected function _redirect($path, $arguments = [])
     {
         if ($this->getRequest()->isXmlHttpRequest()) {
             $this->getResponse()->representJson(
-                $this->_coreHelper->jsonEncode(array('_redirect' => $this->getUrl($path, $arguments)))
+                $this->_coreHelper->jsonEncode(['_redirect' => $this->getUrl($path, $arguments)])
             );
             return $this;
         } else {

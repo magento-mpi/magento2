@@ -8,12 +8,12 @@
 
 namespace Magento\CurrencySymbol\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that after applying changes, currency symbol changed on Product Details Page.

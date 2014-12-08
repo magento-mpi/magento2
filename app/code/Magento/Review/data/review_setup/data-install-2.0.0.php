@@ -19,7 +19,7 @@ $installer = $this;
 $reviewEntityCodes = [
     \Magento\Review\Model\Review::ENTITY_PRODUCT_CODE,
     \Magento\Review\Model\Review::ENTITY_CUSTOMER_CODE,
-    \Magento\Review\Model\Review::ENTITY_CATEGORY_CODE
+    \Magento\Review\Model\Review::ENTITY_CATEGORY_CODE,
 ];
 foreach ($reviewEntityCodes as $entityCode) {
     $installer->getConnection()->insert($installer->getTable('review_entity'), ['entity_code' => $entityCode]);
@@ -29,7 +29,7 @@ foreach ($reviewEntityCodes as $entityCode) {
 $reviewStatuses = [
     \Magento\Review\Model\Review::STATUS_APPROVED => 'Approved',
     \Magento\Review\Model\Review::STATUS_PENDING => 'Pending',
-    \Magento\Review\Model\Review::STATUS_NOT_APPROVED => 'Not Approved'
+    \Magento\Review\Model\Review::STATUS_NOT_APPROVED => 'Not Approved',
 ];
 foreach ($reviewStatuses as $k => $v) {
     $bind = ['status_id' => $k, 'status_code' => $v];
@@ -40,10 +40,10 @@ $data = [
     \Magento\Review\Model\Rating::ENTITY_PRODUCT_CODE => [
         ['rating_code' => 'Quality', 'position' => 0],
         ['rating_code' => 'Value', 'position' => 0],
-        ['rating_code' => 'Price', 'position' => 0]
+        ['rating_code' => 'Price', 'position' => 0],
     ],
     \Magento\Review\Model\Rating::ENTITY_PRODUCT_REVIEW_CODE => [],
-    \Magento\Review\Model\Rating::ENTITY_REVIEW_CODE => []
+    \Magento\Review\Model\Rating::ENTITY_REVIEW_CODE => [],
 ];
 
 foreach ($data as $entityCode => $ratings) {

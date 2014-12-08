@@ -85,7 +85,6 @@ class CommentWriteTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-
     /**
      * Test for success cases
      *

@@ -79,7 +79,7 @@ class Related extends Extended
         \Magento\Catalog\Model\Product\Attribute\Source\Status $status,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_linkFactory = $linkFactory;
         $this->_setsFactory = $setsFactory;
@@ -103,7 +103,7 @@ class Related extends Extended
         $this->setDefaultSort('entity_id');
         $this->setUseAjax(true);
         if ($this->getProduct() && $this->getProduct()->getId()) {
-            $this->setDefaultFilter(array('in_products' => 1));
+            $this->setDefaultFilter(['in_products' => 1]);
         }
         if ($this->isReadonly()) {
             $this->setFilterVisibility(false);
@@ -135,10 +135,10 @@ class Related extends Extended
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', ['in' => $productIds]);
             } else {
                 if ($productIds) {
-                    $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
+                    $this->getCollection()->addFieldToFilter('entity_id', ['nin' => $productIds]);
                 }
             }
         } else {
@@ -163,9 +163,9 @@ class Related extends Extended
         if ($this->isReadonly()) {
             $productIds = $this->_getSelectedProducts();
             if (empty($productIds)) {
-                $productIds = array(0);
+                $productIds = [0];
             }
-            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
+            $collection->addFieldToFilter('entity_id', ['in' => $productIds]);
         }
 
         $this->setCollection($collection);
@@ -192,7 +192,7 @@ class Related extends Extended
         if (!$this->isReadonly()) {
             $this->addColumn(
                 'in_products',
-                array(
+                [
                     'type' => 'checkbox',
                     'name' => 'in_products',
                     'values' => $this->_getSelectedProducts(),
@@ -200,41 +200,41 @@ class Related extends Extended
                     'index' => 'entity_id',
                     'header_css_class' => 'col-select',
                     'column_css_class' => 'col-select'
-                )
+                ]
             );
         }
 
         $this->addColumn(
             'entity_id',
-            array(
+            [
                 'header' => __('ID'),
                 'sortable' => true,
                 'index' => 'entity_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
         $this->addColumn(
             'name',
-            array(
+            [
                 'header' => __('Name'),
                 'index' => 'name',
                 'header_css_class' => 'col-name',
                 'column_css_class' => 'col-name'
-            )
+            ]
         );
 
         $this->addColumn(
             'type',
-            array(
+            [
                 'header' => __('Type'),
                 'index' => 'type_id',
                 'type' => 'options',
                 'options' => $this->_type->getOptionArray(),
                 'header_css_class' => 'col-type',
                 'column_css_class' => 'col-type'
-            )
+            ]
         );
 
         $sets = $this->_setsFactory->create()->setEntityTypeFilter(
@@ -243,53 +243,53 @@ class Related extends Extended
 
         $this->addColumn(
             'set_name',
-            array(
+            [
                 'header' => __('Attribute Set'),
                 'index' => 'attribute_set_id',
                 'type' => 'options',
                 'options' => $sets,
                 'header_css_class' => 'col-attr-name',
                 'column_css_class' => 'col-attr-name'
-            )
+            ]
         );
 
         $this->addColumn(
             'status',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'status',
                 'type' => 'options',
                 'options' => $this->_status->getOptionArray(),
                 'header_css_class' => 'col-status',
                 'column_css_class' => 'col-status'
-            )
+            ]
         );
 
         $this->addColumn(
             'visibility',
-            array(
+            [
                 'header' => __('Visibility'),
                 'index' => 'visibility',
                 'type' => 'options',
                 'options' => $this->_visibility->getOptionArray(),
                 'header_css_class' => 'col-visibility',
                 'column_css_class' => 'col-visibility'
-            )
+            ]
         );
 
         $this->addColumn(
             'sku',
-            array(
+            [
                 'header' => __('SKU'),
                 'index' => 'sku',
                 'header_css_class' => 'col-sku',
                 'column_css_class' => 'col-sku'
-            )
+            ]
         );
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'type' => 'currency',
                 'currency_code' => (string)$this->_scopeConfig->getValue(
@@ -299,12 +299,12 @@ class Related extends Extended
                 'index' => 'price',
                 'header_css_class' => 'col-price',
                 'column_css_class' => 'col-price'
-            )
+            ]
         );
 
         $this->addColumn(
             'position',
-            array(
+            [
                 'header' => __('Position'),
                 'name' => 'position',
                 'type' => 'number',
@@ -314,7 +314,7 @@ class Related extends Extended
                 'edit_only' => !$this->getProduct()->getId(),
                 'header_css_class' => 'col-position',
                 'column_css_class' => 'col-position'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -333,7 +333,7 @@ class Related extends Extended
             'grid_url'
         ) : $this->getUrl(
             'catalog/*/relatedGrid',
-            array('_current' => true)
+            ['_current' => true]
         );
     }
 
@@ -358,9 +358,9 @@ class Related extends Extended
      */
     public function getSelectedRelatedProducts()
     {
-        $products = array();
+        $products = [];
         foreach ($this->_coreRegistry->registry('current_product')->getRelatedProducts() as $product) {
-            $products[$product->getId()] = array('position' => $product->getPosition());
+            $products[$product->getId()] = ['position' => $product->getPosition()];
         }
         return $products;
     }

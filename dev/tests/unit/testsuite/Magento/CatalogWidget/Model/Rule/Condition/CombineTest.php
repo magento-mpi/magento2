@@ -8,7 +8,7 @@
 
 namespace Magento\CatalogWidget\Model\Rule\Condition;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class CombineTest
@@ -51,13 +51,13 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ['value' => 'Magento\CatalogWidget\Model\Rule\Condition\Combine', 'label' => 'Conditions Combination'],
             ['label' => 'Product Attribute', 'value' => [
                 ['value' => 'Magento\CatalogWidget\Model\Rule\Condition\Product|sku', 'label' => 'SKU'],
-                ['value' => 'Magento\CatalogWidget\Model\Rule\Condition\Product|category', 'label' => 'Category']
-            ]]
+                ['value' => 'Magento\CatalogWidget\Model\Rule\Condition\Product|category', 'label' => 'Category'],
+            ]],
         ];
 
         $attributeOptions = [
             'sku' => 'SKU',
-            'category' => 'Category'
+            'category' => 'Category',
         ];
         $productCondition = $this->getMockBuilder('\Magento\CatalogWidget\Model\Rule\Condition\Product')
             ->setMethods(['loadAttributeOptions', 'getAttributeOption'])

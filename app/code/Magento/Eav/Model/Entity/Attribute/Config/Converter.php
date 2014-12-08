@@ -19,27 +19,27 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
 
         /** @var DOMNode $entity */
         foreach ($entities as $entity) {
-            $entityConfig = array();
-            $attributes = array();
+            $entityConfig = [];
+            $attributes = [];
 
             /** @var DOMNode $entityAttribute */
             foreach ($entity->getElementsByTagName('attribute') as $entityAttribute) {
-                $attributeFields = array();
+                $attributeFields = [];
                 foreach ($entityAttribute->getElementsByTagName('field') as $fieldData) {
                     $locked = $fieldData->attributes->getNamedItem('locked')->nodeValue == "true" ? true : false;
                     $attributeFields[$fieldData->attributes->getNamedItem(
                         'code'
-                    )->nodeValue] = array(
+                    )->nodeValue] = [
                         'code' => $fieldData->attributes->getNamedItem('code')->nodeValue,
-                        'locked' => $locked
-                    );
+                        'locked' => $locked,
+                    ];
                 }
                 $attributes[$entityAttribute->attributes->getNamedItem('code')->nodeValue] = $attributeFields;
             }

@@ -8,8 +8,8 @@
 
 namespace Mtf\Client\Driver\Selenium\Element;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SuggestElement

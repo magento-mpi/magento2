@@ -8,8 +8,8 @@
 
 namespace Magento\Widget\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that Widget success delete message presents

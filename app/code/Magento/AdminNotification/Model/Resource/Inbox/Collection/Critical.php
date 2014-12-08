@@ -32,10 +32,10 @@ class Critical extends \Magento\Framework\Model\Resource\Db\Collection\AbstractC
             self::SORT_ORDER_DESC
         )->addFieldToFilter(
             'is_read',
-            array('neq' => 1)
+            ['neq' => 1]
         )->addFieldToFilter(
             'is_remove',
-            array('neq' => 1)
+            ['neq' => 1]
         )->addFieldToFilter(
             'severity',
             \Magento\Framework\Notification\MessageInterface::SEVERITY_CRITICAL

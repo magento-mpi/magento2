@@ -17,14 +17,14 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/system/tab' => 'id',
         '/config/system/section' => 'id',
         '/config/system/section(/group)+' => 'id',
         '/config/system/section(/group)+/field' => 'id',
         '/config/system/section(/group)+/field/depends/field' => 'id',
-        '/config/system/section(/group)+/field/options/option' => 'label'
-    );
+        '/config/system/section(/group)+/field/options/option' => 'label',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -42,7 +42,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Backend\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'system.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

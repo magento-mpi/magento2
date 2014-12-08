@@ -77,13 +77,13 @@ class AddressRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/customers/addresses/{$fixtureAddressId}",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'GetById'
-            ]
+                'operation' => self::SOAP_SERVICE_NAME . 'GetById',
+            ],
         ];
         $requestData = ['addressId' => $fixtureAddressId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
@@ -104,13 +104,13 @@ class AddressRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/addresses/{$fixtureAddressId}",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SOAP_SERVICE_NAME,
                 'serviceVersion' => self::SOAP_SERVICE_VERSION,
-                'operation' => self::SOAP_SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SOAP_SERVICE_NAME . 'DeleteById',
+            ],
         ];
         $requestData = ['addressId' => $fixtureAddressId];
         $response = $this->_webApiCall($serviceInfo, $requestData);
@@ -158,7 +158,7 @@ class AddressRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstra
             'country_id' => 'US',
             'postcode' => '47676',
             'telephone' => '3234676',
-            'street' => ['Black str, 48',],
+            'street' => ['Black str, 48'],
             'id' => 2,
             'default_billing' => false,
             'default_shipping' => false,

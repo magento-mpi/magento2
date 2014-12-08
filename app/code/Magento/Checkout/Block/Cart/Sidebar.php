@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-use Magento\Checkout\Block\Cart\AbstractCart;
 use Magento\Framework\View\Block\IdentityInterface;
 
 /**
@@ -53,7 +52,7 @@ class Sidebar extends AbstractCart implements IdentityInterface
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutHelper = $checkoutHelper;
         $this->_catalogUrl = $catalogUrl;
@@ -92,7 +91,7 @@ class Sidebar extends AbstractCart implements IdentityInterface
             $count = $this->getItemCount();
         }
 
-        $items = array();
+        $items = [];
         if (!$this->getSummaryCount()) {
             return $items;
         }
@@ -103,7 +102,7 @@ class Sidebar extends AbstractCart implements IdentityInterface
             /* @var $item \Magento\Sales\Model\Quote\Item */
             if (!$item->getProduct()->isVisibleInSiteVisibility()) {
                 $productId = $item->getProduct()->getId();
-                $products = $this->_catalogUrl->getRewriteByProductStore(array($productId => $item->getStoreId()));
+                $products = $this->_catalogUrl->getRewriteByProductStore([$productId => $item->getStoreId()]);
                 if (!isset($products[$productId])) {
                     continue;
                 }
@@ -228,12 +227,12 @@ class Sidebar extends AbstractCart implements IdentityInterface
      */
     protected function _serializeRenders()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getLayout()->getChildBlocks(
             $this->_getRendererList()->getNameInLayout()
         ) as $alias => $block) {
             /** @var $block \Magento\Framework\View\Element\Template */
-            $result[] = implode('|', array($alias, get_class($block), $block->getTemplate()));
+            $result[] = implode('|', [$alias, get_class($block), $block->getTemplate()]);
         }
         return implode('|', $result);
     }
@@ -261,7 +260,7 @@ class Sidebar extends AbstractCart implements IdentityInterface
             }
 
             if (!$rendererList->getChildBlock($alias)) {
-                $rendererList->addChild($alias, $block, array('template' => $template));
+                $rendererList->addChild($alias, $block, ['template' => $template]);
             }
         }
         return $this;
@@ -274,7 +273,7 @@ class Sidebar extends AbstractCart implements IdentityInterface
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         /** @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getProduct()->getIdentities());

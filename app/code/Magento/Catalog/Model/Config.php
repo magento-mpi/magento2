@@ -203,8 +203,8 @@ class Config extends \Magento\Eav\Model\Config
 
         $attributeSetCollection = $this->_setCollectionFactory->create()->load();
 
-        $this->_attributeSetsById = array();
-        $this->_attributeSetsByName = array();
+        $this->_attributeSetsById = [];
+        $this->_attributeSetsByName = [];
         foreach ($attributeSetCollection as $id => $attributeSet) {
             $entityTypeId = $attributeSet->getEntityTypeId();
             $name = $attributeSet->getAttributeSetName();
@@ -266,8 +266,8 @@ class Config extends \Magento\Eav\Model\Config
 
         $attributeSetCollection = $this->_groupCollectionFactory->create()->load();
 
-        $this->_attributeGroupsById = array();
-        $this->_attributeGroupsByName = array();
+        $this->_attributeGroupsById = [];
+        $this->_attributeGroupsByName = [];
         foreach ($attributeSetCollection as $id => $attributeGroup) {
             $attributeSetId = $attributeGroup->getAttributeSetId();
             $name = $attributeGroup->getAttributeGroupName();
@@ -331,8 +331,8 @@ class Config extends \Magento\Eav\Model\Config
 
         $productTypeCollection = $this->_productTypeFactory->create()->getOptionArray();
 
-        $this->_productTypesById = array();
-        $this->_productTypesByName = array();
+        $this->_productTypesById = [];
+        $this->_productTypesByName = [];
         foreach ($productTypeCollection as $id => $type) {
             $name = $type;
             $this->_productTypesById[$id] = $name;
@@ -418,7 +418,7 @@ class Config extends \Magento\Eav\Model\Config
     public function getAttributesUsedInProductListing()
     {
         if (is_null($this->_usedInProductListing)) {
-            $this->_usedInProductListing = array();
+            $this->_usedInProductListing = [];
             $entityType = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()->setStoreId($this->getStoreId())->getAttributesUsedInListing();
             $this->_eavConfig->importAttributesData($entityType, $attributesData);
@@ -441,7 +441,7 @@ class Config extends \Magento\Eav\Model\Config
     public function getAttributesUsedForSortBy()
     {
         if (is_null($this->_usedForSortBy)) {
-            $this->_usedForSortBy = array();
+            $this->_usedForSortBy = [];
             $entityType = \Magento\Catalog\Model\Product::ENTITY;
             $attributesData = $this->_getResource()->getAttributesUsedForSortBy();
             $this->_eavConfig->importAttributesData($entityType, $attributesData);
@@ -461,7 +461,7 @@ class Config extends \Magento\Eav\Model\Config
      */
     public function getAttributeUsedForSortByArray()
     {
-        $options = array('position' => __('Position'));
+        $options = ['position' => __('Position')];
         foreach ($this->getAttributesUsedForSortBy() as $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $options[$attribute->getAttributeCode()] = $attribute->getStoreLabel();

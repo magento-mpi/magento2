@@ -17,7 +17,7 @@ class Add extends \Magento\Backend\Model\Menu\Builder\AbstractCommand
      *
      * @var string[]
      */
-    protected $_requiredParams = array("id", "title", "module", "resource");
+    protected $_requiredParams = ["id", "title", "module", "resource"];
 
     /**
      * Add command as last in the list of callbacks

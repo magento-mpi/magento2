@@ -59,7 +59,7 @@ class QueryParamsResolver extends \Magento\Framework\Object implements QueryPara
     public function getQueryParams()
     {
         if (!$this->hasData('query_params')) {
-            $params = array();
+            $params = [];
             if ($this->_getData('query')) {
                 foreach (explode('&', $this->_getData('query')) as $param) {
                     $paramArr = explode('=', $param);
@@ -92,7 +92,7 @@ class QueryParamsResolver extends \Magento\Framework\Object implements QueryPara
 
         $params = $this->_getData('query_params');
         if (!is_array($params)) {
-            $params = array();
+            $params = [];
         }
         foreach ($data as $param => $value) {
             $params[$param] = $value;

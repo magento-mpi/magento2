@@ -60,7 +60,6 @@ class IndexBuilder implements IndexBuilderInterface
                 []
             );
 
-
         $isShowOutOfStock = $this->config->isSetFlag(
             'cataloginventory/options/show_out_of_stock',
             ScopeInterface::SCOPE_STORE

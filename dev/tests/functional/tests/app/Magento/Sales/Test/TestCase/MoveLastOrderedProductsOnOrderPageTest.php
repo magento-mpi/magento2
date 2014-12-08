@@ -8,12 +8,11 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateOrderFromCustomerPage (lastOrder)

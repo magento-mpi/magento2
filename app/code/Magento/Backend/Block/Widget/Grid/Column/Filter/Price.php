@@ -43,7 +43,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Directory\Model\Currency $currencyModel,
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceHelper, $data);
         $this->_currencyModel = $currencyModel;

@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Code\Validator;
 
-
 require_once '_files/ClassesForTypeDuplication.php';
 class TypeDuplicationTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,11 +38,11 @@ class TypeDuplicationTest extends \PHPUnit_Framework_TestCase
 
     public function validClassesDataProvider()
     {
-        return array(
-            'Duplicated interface injection' => array('\TypeDuplication\ValidClassWithTheSameInterfaceTypeArguments'),
-            'Class with sub type arguments' => array('\TypeDuplication\ValidClassWithSubTypeArguments'),
-            'Class with SuppressWarnings' => array('\TypeDuplication\ValidClassWithSuppressWarnings')
-        );
+        return [
+            'Duplicated interface injection' => ['\TypeDuplication\ValidClassWithTheSameInterfaceTypeArguments'],
+            'Class with sub type arguments' => ['\TypeDuplication\ValidClassWithSubTypeArguments'],
+            'Class with SuppressWarnings' => ['\TypeDuplication\ValidClassWithSuppressWarnings']
+        ];
     }
 
     public function testInvalidClass()

@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/System/Configuration/Mapper/AbstractMapper.php';
@@ -44,15 +43,15 @@ class MapperTest extends \PHPUnit_Framework_TestCase
     {
         $this->_tabMapperMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Mapper\Tab',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_sectionMapperMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Mapper\Section',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -72,18 +71,18 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformWithSetTabsAndSections()
     {
-        $config = array(
+        $config = [
             'comment' => 'test comment',
-            'tabs' => array('test tabs config'),
-            'sections' => array('test sections config')
-        );
+            'tabs' => ['test tabs config'],
+            'sections' => ['test sections config'],
+        ];
 
         $this->_tabMapperMock->expects(
             $this->once()
         )->method(
             'transform'
         )->with(
-            array('test tabs config')
+            ['test tabs config']
         )->will(
             $this->returnArgument(0)
         );
@@ -93,12 +92,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         )->method(
             'transform'
         )->with(
-            array('test sections config')
+            ['test sections config']
         )->will(
             $this->returnArgument(0)
         );
 
-        $expected = array('comment' => 'test comment', 'nodes' => array('test tabs config', 'test sections config'));
+        $expected = ['comment' => 'test comment', 'nodes' => ['test tabs config', 'test sections config']];
         $actual = $this->_object->transform($config);
 
         $this->assertEquals($expected, $actual);
@@ -106,14 +105,14 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testTransformWithoutSetTabsAndSections()
     {
-        $config = array('comment' => 'test comment');
+        $config = ['comment' => 'test comment'];
 
         $this->_tabMapperMock->expects(
             $this->once()
         )->method(
             'transform'
         )->with(
-            array()
+            []
         )->will(
             $this->returnArgument(0)
         );
@@ -123,12 +122,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         )->method(
             'transform'
         )->with(
-            array()
+            []
         )->will(
             $this->returnArgument(0)
         );
 
-        $expected = array('comment' => 'test comment', 'nodes' => array());
+        $expected = ['comment' => 'test comment', 'nodes' => []];
         $actual = $this->_object->transform($config);
 
         $this->assertEquals($expected, $actual);

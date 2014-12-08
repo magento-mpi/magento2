@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist Report collection
  *
@@ -97,20 +96,20 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $countSelect = clone $customersSelect;
         $countSelect->joinLeft(
-            array('wt' => $this->getWishlistTable()),
+            ['wt' => $this->getWishlistTable()],
             'wt.customer_id = e.entity_id',
-            array()
+            []
         )->group(
             'wt.wishlist_id'
         );
         $count = $collection->count();
         $resultSelect = $this->getConnection()->select()->union(
-            array($customersSelect, $count),
+            [$customersSelect, $count],
             \Zend_Db_Select::SQL_UNION_ALL
         );
         list($customers, $count) = $this->getConnection()->fetchCol($resultSelect);
 
-        return array($count * 100 / $customers, $count);
+        return [$count * 100 / $customers, $count];
     }
 
     /**
@@ -124,9 +123,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $collection = $this->_customerResFactory->create();
         $countSelect = $collection->getSelectCountSql();
         $countSelect->joinLeft(
-            array('wt' => $this->getWishlistTable()),
+            ['wt' => $this->getWishlistTable()],
             'wt.customer_id = e.entity_id',
-            array()
+            []
         )->where(
             'wt.shared > 0'
         )->group(

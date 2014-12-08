@@ -61,7 +61,7 @@ interface DesignInterface
      * @param array $params
      * @return string
      */
-    public function getConfigurationDesignTheme($area = null, array $params = array());
+    public function getConfigurationDesignTheme($area = null, array $params = []);
 
     /**
      * Set default design theme

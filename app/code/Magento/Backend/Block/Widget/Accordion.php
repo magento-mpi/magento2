@@ -17,7 +17,7 @@ class Accordion extends \Magento\Backend\Block\Widget
     /**
      * @var string[]
      */
-    protected $_items = array();
+    protected $_items = [];
 
     /**
      * @var string

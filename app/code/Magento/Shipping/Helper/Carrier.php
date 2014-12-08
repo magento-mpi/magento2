@@ -54,7 +54,7 @@ class Carrier extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getOnlineCarrierCodes($store = null)
     {
-        $carriersCodes = array();
+        $carriersCodes = [];
         foreach ($this->scopeConfig->getValue(
             self::XML_PATH_CARRIERS_ROOT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

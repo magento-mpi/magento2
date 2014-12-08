@@ -23,7 +23,7 @@ class Debit extends \Magento\Payment\Block\Info
         }
         $transport = parent::_prepareSpecificInformation($transport);
 
-        $data = array();
+        $data = [];
 
         $details = @unserialize($this->getInfo()->getAdditionalData());
         if (!isset($details['pbridge_data']['x_params'])) {

@@ -22,7 +22,7 @@ class Fieldset extends \Magento\Ui\Controller\Adminhtml\AbstractAction
      */
     public function execute()
     {
-//        $component = $this->getComponent();
+        //        $component = $this->getComponent();
 //        $name = $this->getName();
 //        if ($component && $name) {
 //            $fieldset = $this->factory->createUiComponent($this->getComponent(), $this->getName())->getContainer($this->_request->getParam('container'));

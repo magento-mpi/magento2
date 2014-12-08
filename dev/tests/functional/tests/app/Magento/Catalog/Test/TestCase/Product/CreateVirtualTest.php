@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\VirtualProduct;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\VirtualProduct;
 
 /**
  * Class CreateTest

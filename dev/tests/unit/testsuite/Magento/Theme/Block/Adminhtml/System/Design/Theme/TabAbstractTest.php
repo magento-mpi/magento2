@@ -18,17 +18,17 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\AbstractTab',
-            array(
-                $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '', false),
-                $this->getMock('Magento\Framework\Registry', array(), array(), '', false),
-                $this->getMock('Magento\Framework\Data\FormFactory', array(), array(), '', false),
+            [
+                $this->getMock('Magento\Backend\Block\Template\Context', [], [], '', false),
+                $this->getMock('Magento\Framework\Registry', [], [], '', false),
+                $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false),
                 $this->getMock('Magento\Framework\ObjectManagerInterface'),
-            ),
+            ],
             '',
             true,
             false,
             true,
-            array('_getCurrentTheme', 'getTabLabel')
+            ['_getCurrentTheme', 'getTabLabel']
         );
     }
 
@@ -54,8 +54,8 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $themeMock = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('isVirtual', 'getId', '__wakeup'),
-            array(),
+            ['isVirtual', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -77,7 +77,7 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function canShowTabDataProvider()
     {
-        return array(array(true, 1, true), array(true, 0, false), array(false, 1, false));
+        return [[true, 1, true], [true, 0, false], [false, 1, false]];
     }
 
     public function testIsHidden()

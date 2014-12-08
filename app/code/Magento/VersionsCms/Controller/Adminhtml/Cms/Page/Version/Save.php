@@ -80,12 +80,12 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect(
                         'adminhtml/*/' . $this->getRequest()->getParam('back'),
-                        array('page_id' => $version->getPageId(), 'version_id' => $version->getId())
+                        ['page_id' => $version->getPageId(), 'version_id' => $version->getId()]
                     );
                     return;
                 }
                 // go to grid
-                $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $version->getPageId()));
+                $this->_redirect('adminhtml/cms_page/edit', ['page_id' => $version->getPageId()]);
                 return;
             } catch (\Exception $e) {
                 // display error message
@@ -95,10 +95,10 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save
                 // redirect to edit form
                 $this->_redirect(
                     'adminhtml/*/edit',
-                    array(
+                    [
                         'page_id' => $this->getRequest()->getParam('page_id'),
                         'version_id' => $this->getRequest()->getParam('version_id')
-                    )
+                    ]
                 );
                 return;
             }

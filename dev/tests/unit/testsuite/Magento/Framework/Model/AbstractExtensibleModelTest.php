@@ -52,22 +52,22 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
     {
         $this->actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->contextMock = new \Magento\Framework\Model\Context(
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\State', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false),
+            $this->getMock('Magento\Framework\App\CacheInterface', [], [], '', false),
+            $this->getMock('Magento\Framework\App\State', [], [], '', false),
             $this->actionValidatorMock
         );
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(
+            [
                 '_construct',
                 '_getReadAdapter',
                 '_getWriteAdapter',
@@ -76,15 +76,15 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
                 'delete',
                 'getIdFieldName',
                 'rollBack'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->resourceCollectionMock = $this->getMock(
             'Magento\Framework\Data\Collection\Db',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -104,14 +104,14 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->model = $this->getMockForAbstractClass(
             'Magento\Framework\Model\AbstractExtensibleModel',
-            array(
+            [
                 $this->contextMock,
                 $this->registryMock,
                 $this->metadataServiceMock,
                 $this->attributeDataBuilderMock,
                 $this->resourceMock,
                 $this->resourceCollectionMock
-            )
+            ]
         );
     }
 
@@ -149,7 +149,7 @@ class AbstractExtensibleModelTest extends \PHPUnit_Framework_TestCase
             'attribute1' => true,
             'attribute2' => 'Attribute Value',
             'attribute3' => 333,
-            'invalid' => true
+            'invalid' => true,
         ];
         $modelData = ['key1' => 'value1', 'key2' => 222];
         $this->model->setData($modelData);

@@ -23,12 +23,12 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      * Array of specific options. Made in separate array to distinguish from parent options
      * @var array
      */
-    protected $_decoratorOptions = array();
+    protected $_decoratorOptions = [];
 
     /**
      * @param array $options
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         if (array_key_exists(
             'concrete_backend',
@@ -100,7 +100,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      *                                  some particular backends
      * @return bool true if no problem
      */
-    public function save($data, $cacheId, $tags = array(), $specificLifetime = false, $priority = 8)
+    public function save($data, $cacheId, $tags = [], $specificLifetime = false, $priority = 8)
     {
         return $this->_backend->save($data, $cacheId, $tags, $specificLifetime, $priority);
     }
@@ -133,7 +133,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      * @param  string[] $tags Array of tags
      * @return bool true if no problem
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = [])
     {
         return $this->_backend->clean($mode, $tags);
     }
@@ -166,7 +166,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      * @param string[] $tags array of tags
      * @return string[] array of matching cache ids (string)
      */
-    public function getIdsMatchingTags($tags = array())
+    public function getIdsMatchingTags($tags = [])
     {
         return $this->_backend->getIdsMatchingTags($tags);
     }
@@ -179,7 +179,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      * @param string[] $tags array of tags
      * @return string[] array of not matching cache ids (string)
      */
-    public function getIdsNotMatchingTags($tags = array())
+    public function getIdsNotMatchingTags($tags = [])
     {
         return $this->_backend->getIdsNotMatchingTags($tags);
     }
@@ -192,7 +192,7 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
      * @param string[] $tags array of tags
      * @return string[] array of any matching cache ids (string)
      */
-    public function getIdsMatchingAnyTags($tags = array())
+    public function getIdsMatchingAnyTags($tags = [])
     {
         return $this->_backend->getIdsMatchingAnyTags($tags);
     }

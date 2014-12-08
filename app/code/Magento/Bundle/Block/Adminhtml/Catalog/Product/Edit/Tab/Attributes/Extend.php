@@ -34,7 +34,7 @@ class Extend extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Ele
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -145,7 +145,7 @@ class Extend extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Ele
                             $('dynamic-price-warning').hide();
                         }
                     }
-                }"."\n";
+                }" . "\n";
 
             if (!($this->getAttribute()->getAttributeCode() == 'price' &&
                 !$this->getCanEditPrice() &&

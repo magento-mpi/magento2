@@ -31,7 +31,7 @@ class Review extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = [])
     {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
@@ -64,7 +64,7 @@ class Review extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         return __('For submitting a product review');
     }

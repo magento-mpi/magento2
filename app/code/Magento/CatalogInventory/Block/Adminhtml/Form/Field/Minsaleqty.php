@@ -31,7 +31,7 @@ class Minsaleqty extends \Magento\Backend\Block\System\Config\Form\Field\FieldAr
             $this->_groupRenderer = $this->getLayout()->createBlock(
                 'Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup',
                 '',
-                array('data' => array('is_render_to_js_template' => true))
+                ['data' => ['is_render_to_js_template' => true]]
             );
             $this->_groupRenderer->setClass('customer_group_select');
         }
@@ -47,9 +47,9 @@ class Minsaleqty extends \Magento\Backend\Block\System\Config\Form\Field\FieldAr
     {
         $this->addColumn(
             'customer_group_id',
-            array('label' => __('Customer Group'), 'renderer' => $this->_getGroupRenderer())
+            ['label' => __('Customer Group'), 'renderer' => $this->_getGroupRenderer()]
         );
-        $this->addColumn('min_sale_qty', array('label' => __('Minimum Qty')));
+        $this->addColumn('min_sale_qty', ['label' => __('Minimum Qty')]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add Minimum Qty');
     }

@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Invoice;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Sales\Api\Data\InvoiceCommentInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\InvoiceCommentInterface;
+use Magento\Sales\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()

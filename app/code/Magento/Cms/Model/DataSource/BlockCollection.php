@@ -7,9 +7,9 @@
  */
 namespace Magento\Cms\Model\DataSource;
 
-use Magento\Framework\Data\CollectionDataSourceInterface;
-use Magento\Cms\Model\Resource\BlockCriteria;
 use Magento\Cms\Api\BlockRepositoryInterface;
+use Magento\Cms\Model\Resource\BlockCriteria;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 
 /**
  * CMS block collection data source

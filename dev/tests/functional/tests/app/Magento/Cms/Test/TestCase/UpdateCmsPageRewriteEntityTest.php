@@ -8,13 +8,13 @@
 
 namespace Magento\Cms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Fixture\UrlRewrite;
-use Magento\Backend\Test\Page\Adminhtml\StoreNew;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Backend\Test\Page\Adminhtml\StoreNew;
+use Magento\Cms\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateCmsPageRewriteEntity

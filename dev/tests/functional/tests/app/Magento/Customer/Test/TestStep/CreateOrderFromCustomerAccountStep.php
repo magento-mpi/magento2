@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class CreateOrderFromCustomerAccountStep

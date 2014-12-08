@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class ShowUpdateResult extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {

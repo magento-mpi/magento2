@@ -29,11 +29,11 @@ abstract class AbstractBehavior implements \Magento\Framework\Option\ArrayInterf
      */
     public function toOptionArray()
     {
-        $optionArray = array(array('label' => __('-- Please Select --'), 'value' => ''));
+        $optionArray = [['label' => __('-- Please Select --'), 'value' => '']];
         $options = $this->toArray();
         if (is_array($options) && count($options) > 0) {
             foreach ($options as $value => $label) {
-                $optionArray[] = array('label' => $label, 'value' => $value);
+                $optionArray[] = ['label' => $label, 'value' => $value];
             }
         }
         return $optionArray;

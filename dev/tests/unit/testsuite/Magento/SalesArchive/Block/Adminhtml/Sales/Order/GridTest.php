@@ -18,7 +18,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('isAllowed')
             ->will($this->returnValue(true));
 
-        $buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', array(), array(), '', false);
+        $buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', [], [], '', false);
 
         $orderCollection = $this->getMock(
             'Magento\SalesArchive\Model\Resource\Order\Collection',
@@ -34,14 +34,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $params = [
             'authorization' => $authorization,
             'buttonList' => $buttonList,
-            'orderCollection' => $orderCollection
+            'orderCollection' => $orderCollection,
         ];
 
-        $expectedButtonData =  array(
-            'label' =>'Go to Archive (5 orders)',
+        $expectedButtonData =  [
+            'label' => 'Go to Archive (5 orders)',
             'onclick' => 'setLocation(\'\')',
-            'class' => 'go'
-        );
+            'class' => 'go',
+        ];
         $buttonList->expects($this->at(1))->method('add')->with('go_to_archive', $expectedButtonData, 0, 0, 'toolbar');
         $objectManager->getObject('Magento\SalesArchive\Block\Adminhtml\Sales\Order\Grid', $params);
     }

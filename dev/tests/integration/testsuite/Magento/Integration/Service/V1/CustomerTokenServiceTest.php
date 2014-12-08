@@ -109,4 +109,3 @@ class CustomerTokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('password is a required field.', $errors[1]->getLogMessage());
     }
 }
- 

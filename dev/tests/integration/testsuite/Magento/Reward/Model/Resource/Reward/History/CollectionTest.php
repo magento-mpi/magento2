@@ -29,6 +29,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(1, $this->_collection->count());
         /** @var \Magento\Reward\Model\Reward\History $rewardHistory */
         $rewardHistory = $this->_collection->getFirstItem();
-        $this->assertSame(array('email' => 'test@example.com'), $rewardHistory->getAdditionalData());
+        $this->assertSame(['email' => 'test@example.com'], $rewardHistory->getAdditionalData());
     }
 }

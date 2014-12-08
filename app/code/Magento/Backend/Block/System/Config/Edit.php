@@ -49,7 +49,7 @@ class Edit extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configStructure = $configStructure;
         parent::__construct($context, $data);
@@ -74,14 +74,14 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'id' => 'save',
                 'label' => __('Save Config'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#config-edit-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#config-edit-form']],
+                ]
+            ]
         );
         $block = $this->getLayout()->createBlock($this->_formBlockName);
         $this->setChild('form', $block);
@@ -105,6 +105,6 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/system_config/save', array('_current' => true));
+        return $this->getUrl('*/system_config/save', ['_current' => true]);
     }
 }

@@ -60,7 +60,7 @@ class ConditionManager
     public function generateCondition($field, $operator, $value)
     {
         return sprintf(
-            is_array($value) ? self::CONDITION_PATTERN_ARRAY :self::CONDITION_PATTERN_SIMPLE,
+            is_array($value) ? self::CONDITION_PATTERN_ARRAY : self::CONDITION_PATTERN_SIMPLE,
             $this->adapter->quoteIdentifier($field),
             $operator,
             $this->adapter->quote($value)

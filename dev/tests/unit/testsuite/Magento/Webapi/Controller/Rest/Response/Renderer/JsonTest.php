@@ -40,7 +40,7 @@ class JsonTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $arrayToRender = array('key' => 'value');
+        $arrayToRender = ['key' => 'value'];
         /** Assert that jsonEncode method in mocked helper will run once */
         $this->_helperMock->expects($this->once())->method('jsonEncode');
         $this->_restJsonRenderer->render($arrayToRender);

@@ -49,7 +49,7 @@ class Rss extends \Magento\Framework\Model\AbstractModel
             ->addAttributeToSelect('name', 'inner')
             ->setDateOrder();
 
-        $this->eventManager->dispatch('rss_catalog_review_collection_select', array('collection' => $collection));
+        $this->eventManager->dispatch('rss_catalog_review_collection_select', ['collection' => $collection]);
         return $collection;
     }
 }

@@ -8,8 +8,8 @@
 namespace Magento\Customer\Block\Account\Dashboard;
 
 use Magento\Customer\Api\Data\AddressInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Model\Address\Mapper;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class to manage customer dashboard addresses section
@@ -50,7 +50,7 @@ class Address extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomerAddress $currentCustomerAddress,
         \Magento\Customer\Model\Address\Config $addressConfig,
         Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->currentCustomerAddress = $currentCustomerAddress;
@@ -126,7 +126,7 @@ class Address extends \Magento\Framework\View\Element\Template
             $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $addressId)
+                ['id' => $addressId]
             );
         }
     }
@@ -143,7 +143,7 @@ class Address extends \Magento\Framework\View\Element\Template
             $addressId = $address ? $address->getId() : null;
             return $this->_urlBuilder->getUrl(
                 'customer/address/edit',
-                array('id' => $addressId)
+                ['id' => $addressId]
             );
         }
     }

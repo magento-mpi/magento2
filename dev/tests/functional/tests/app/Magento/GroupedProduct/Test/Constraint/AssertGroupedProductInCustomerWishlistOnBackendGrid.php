@@ -8,9 +8,9 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Magento\Wishlist\Test\Constraint\AssertProductInCustomerWishlistOnBackendGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGroupedProductInCustomerWishlistOnBackendGrid
@@ -48,7 +48,7 @@ class AssertGroupedProductInCustomerWishlistOnBackendGrid extends AssertProductI
                 $productKey = str_replace('product_key_', '', $optionData['name']);
                 $productOptions[] = [
                     'option_name' => $associated['assigned_products'][$productKey]['name'],
-                    'value' => $optionData['qty']
+                    'value' => $optionData['qty'],
                 ];
             }
         }

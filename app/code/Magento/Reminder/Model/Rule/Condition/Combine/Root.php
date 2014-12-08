@@ -32,7 +32,7 @@ class Root extends \Magento\Reminder\Model\Rule\Condition\Combine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Customer\Model\Config\Share $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Combine\Root');
@@ -52,12 +52,12 @@ class Root extends \Magento\Reminder\Model\Rule\Condition\Combine
         $rootTable = $this->getResource()->getTable('customer_entity');
         $couponTable = $this->getResource()->getTable('magento_reminder_rule_coupon');
 
-        $select->from(array('root' => $rootTable), array('entity_id'));
+        $select->from(['root' => $rootTable], ['entity_id']);
 
         $select->joinLeft(
-            array('c' => $couponTable),
+            ['c' => $couponTable],
             'c.customer_id=root.entity_id AND c.rule_id=:rule_id',
-            array('c.coupon_id')
+            ['c.coupon_id']
         );
 
         if ($customer === null) {
@@ -83,7 +83,7 @@ class Root extends \Magento\Reminder\Model\Rule\Condition\Combine
         $required = $this->_getRequiredValidation();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
         $operator = $required ? '=' : '<>';
-        $conditions = array();
+        $conditions = [];
 
         foreach ($this->getConditions() as $condition) {
             $sql = $condition->getConditionsSql($customer, $website);

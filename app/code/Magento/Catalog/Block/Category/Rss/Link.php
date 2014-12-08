@@ -35,7 +35,7 @@ class Link extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->registry = $registry;
         $this->rssUrlBuilder = $rssUrlBuilder;
@@ -63,11 +63,11 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        return array(
+        return [
             'type' => 'category',
             'cid' => $this->registry->registry('current_category')->getId(),
             'store_id' => $this->_storeManager->getStore()->getId()
-        );
+        ];
     }
 
     /**

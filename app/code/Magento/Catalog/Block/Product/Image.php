@@ -56,7 +56,7 @@ class Image extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Product\Image\View $productImageView,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productImageView = $productImageView;
         parent::__construct($context, $data);

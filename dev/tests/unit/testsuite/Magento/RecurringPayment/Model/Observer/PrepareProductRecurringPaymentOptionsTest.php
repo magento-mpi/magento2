@@ -47,25 +47,25 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_fieldsBlock = $this->getMock(
             '\Magento\RecurringPayment\Block\Fields',
-            array('getFieldLabel'),
-            array(),
+            ['getFieldLabel'],
+            [],
             '',
             false
         );
         $this->_recurringPaymentFactory = $this->getMock(
             '\Magento\RecurringPayment\Model\RecurringPaymentFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_paymentFactory = $this->getMock(
             '\Magento\RecurringPayment\Model\PaymentFactory',
-            array('create', 'importProduct'),
-            array(),
+            ['create', 'importProduct'],
+            [],
             '',
             false
         );
@@ -74,17 +74,17 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
 
         $this->_testModel = $helper->getObject(
             'Magento\RecurringPayment\Model\Observer\PrepareProductRecurringPaymentOptions',
-            array(
+            [
                 'recurringPaymentFactory' => $this->_recurringPaymentFactory,
                 'fields' => $this->_fieldsBlock,
                 'paymentFactory' => $this->_paymentFactory
-            )
+            ]
         );
 
         $this->_event = $this->getMock(
             'Magento\Framework\Event',
-            array('getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'),
-            array(),
+            ['getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'],
+            [],
             '',
             false
         );
@@ -92,7 +92,7 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
         $this->_observer->expects($this->any())->method('getEvent')->will($this->returnValue($this->_event));
         $this->_payment = $this->getMock(
             'Magento\RecurringPayment\Model\Payment',
-            array(
+            [
                 '__sleep',
                 '__wakeup',
                 'isValid',
@@ -101,8 +101,8 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
                 'submit',
                 'getId',
                 'setMethodCode'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -112,15 +112,15 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
     {
         $payment = $this->getMock(
             'Magento\Framework\Object',
-            array(
+            [
                 'setStory',
                 'importBuyRequest',
                 'importProduct',
                 'exportStartDatetime',
                 'exportScheduleInfo',
                 'getFieldLabel'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -133,7 +133,7 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
                 'exportScheduleInfo'
             )->will(
                 $this->returnValue(
-                    array(new \Magento\Framework\Object(array('title' => 'Title', 'schedule' => 'schedule')))
+                    [new \Magento\Framework\Object(['title' => 'Title', 'schedule' => 'schedule'])]
                 )
             );
 
@@ -143,17 +143,17 @@ class PrepareProductRecurringPaymentOptionsTest extends \PHPUnit_Framework_TestC
 
         $product = $this->getMock(
             'Magento\Framework\Object',
-            array('getIsRecurring', 'addCustomOption'),
-            array(),
+            ['getIsRecurring', 'addCustomOption'],
+            [],
             '',
             false
         );
         $product->expects($this->once())->method('getIsRecurring')->will($this->returnValue(true));
 
-        $infoOptions = array(
-            array('label' => 'Field Label', 'value' => 'date'),
-            array('label' => 'Title', 'value' => 'schedule')
-        );
+        $infoOptions = [
+            ['label' => 'Field Label', 'value' => 'date'],
+            ['label' => 'Title', 'value' => 'schedule'],
+        ];
 
         $product->expects(
             $this->at(2)

@@ -9,12 +9,12 @@
 
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder;
 use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\MediaImageBuilder;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryBuilder;
-use \Magento\Catalog\Model\Product;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -48,7 +48,7 @@ class ReadService implements ReadServiceInterface
      * @var GalleryEntryBuilder
      */
     protected $galleryEntryBuilder;
-    
+
     /**
      * @var \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media
      */
@@ -155,7 +155,7 @@ class ReadService implements ReadServiceInterface
      */
     public function getList($productSku)
     {
-        $result = array();
+        $result = [];
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
 
@@ -164,7 +164,7 @@ class ReadService implements ReadServiceInterface
             'media_gallery'
         );
 
-        $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
+        $container = new \Magento\Framework\Object(['attribute' => $galleryAttribute]);
         $gallery = $this->mediaGallery->loadGallery($product, $container);
 
         $productImages = $this->getMediaAttributeValues($product);
@@ -217,7 +217,7 @@ class ReadService implements ReadServiceInterface
     protected function getMediaAttributeValues(Product $product)
     {
         $mediaAttributeCodes = array_keys($product->getMediaAttributes());
-        $mediaAttributeValues = array();
+        $mediaAttributeValues = [];
         foreach ($mediaAttributeCodes as $attributeCode) {
             $mediaAttributeValues[$attributeCode] = $product->getData($attributeCode);
         }

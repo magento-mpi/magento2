@@ -31,7 +31,7 @@ class OpenAmount extends \Magento\Framework\Data\Form\Element\Select
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_element = $factoryElement->create('checkbox');
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

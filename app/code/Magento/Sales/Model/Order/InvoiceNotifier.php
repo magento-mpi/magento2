@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
 use Magento\Framework\Logger;
+use Magento\Sales\Model\Order\Email\Sender\InvoiceSender;
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 
 /**
  * Class InvoiceNotifier

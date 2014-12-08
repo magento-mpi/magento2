@@ -47,7 +47,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->httpContext = $httpContext;
         $this->productRepository = $productRepository;
@@ -285,7 +285,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @param  array $additional
      * @return string
      */
-    public function getProductUrl($item, $additional = array())
+    public function getProductUrl($item, $additional = [])
     {
         if ($item instanceof \Magento\Catalog\Model\Product) {
             $product = $item;

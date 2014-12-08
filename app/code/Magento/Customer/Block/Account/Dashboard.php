@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block\Account;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer dashboard block
@@ -56,7 +56,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
         AccountManagementInterface $customerAccountManagement,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerSession = $customerSession;
         $this->subscriberFactory = $subscriberFactory;
@@ -83,7 +83,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getAccountUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/account/edit', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('customer/account/edit', ['_secure' => true]);
     }
 
     /**
@@ -93,7 +93,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getAddressesUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/address/index', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('customer/address/index', ['_secure' => true]);
     }
 
     /**
@@ -106,7 +106,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
     {
         return $this->_urlBuilder->getUrl(
             'customer/address/edit',
-            array('_secure' => true, 'id' => $address->getId())
+            ['_secure' => true, 'id' => $address->getId()]
         );
     }
 
@@ -117,7 +117,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getOrdersUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/order/index', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('customer/order/index', ['_secure' => true]);
     }
 
     /**
@@ -127,7 +127,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getReviewsUrl()
     {
-        return $this->_urlBuilder->getUrl('review/customer/index', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('review/customer/index', ['_secure' => true]);
     }
 
     /**
@@ -137,7 +137,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getWishlistUrl()
     {
-        return $this->_urlBuilder->getUrl('customer/wishlist/index', array('_secure' => true));
+        return $this->_urlBuilder->getUrl('customer/wishlist/index', ['_secure' => true]);
     }
 
     /**
@@ -186,7 +186,7 @@ class Dashboard extends \Magento\Framework\View\Element\Template
      */
     public function getPrimaryAddresses()
     {
-        $addresses = array();
+        $addresses = [];
         $customerId = $this->getCustomer()->getId();
 
         if ($defaultBilling = $this->customerAccountManagement->getDefaultBillingAddress($customerId)) {

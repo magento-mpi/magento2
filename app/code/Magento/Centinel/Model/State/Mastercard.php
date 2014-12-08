@@ -40,7 +40,6 @@ class Mastercard extends \Magento\Centinel\Model\AbstractState
 
         //Test cases 1-4, 10
         if ($this->_isLookupStrictSuccessful()) {
-
             if ($paResStatus == 'Y' && $eciFlag == '02' && $xid != '' && $cavv != '' && $errorNo == '0') {
                 //Test case 1
                 if ($signatureVerification == 'Y') {

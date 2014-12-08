@@ -10,7 +10,6 @@
 
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\Config;
 use Magento\Framework\App\Config\MutableScopeConfigInterface;
 
 class MutableScopeConfig extends Config implements MutableScopeConfigInterface

@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Service\V1\Data;
 
 use Magento\Framework\Api\AbstractExtensibleObject as DataObject;

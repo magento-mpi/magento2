@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Model\Quote;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -138,7 +137,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->setDefaultShipping(-1)
             ->setAddresses(
                 [
-                    $addressRepository->getById($this->_address->getId())
+                    $addressRepository->getById($this->_address->getId()),
                 ]
             )->create();
 

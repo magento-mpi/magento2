@@ -11,11 +11,13 @@
  * @var $this \Magento\CheckoutAgreements\Block\Agreements
  */
 ?>
-<?php if (!$this->getAgreements()) return; ?>
+<?php if (!$this->getAgreements()) {
+    return;
+} ?>
 <ol id="checkout-agreements" class="agreements checkout items">
 <?php foreach ($this->getAgreements() as $_a): ?>
     <li class="item">
-        <div class="agreement content"<?php echo ($_a->getContentHeight() ? ' style="height:' . $_a->getContentHeight() . '"' : '')?>>
+        <div class="agreement content"<?php echo($_a->getContentHeight() ? ' style="height:' . $_a->getContentHeight() . '"' : '')?>>
             <?php if ($_a->getIsHtml()):?>
                 <?php echo $_a->getContent() ?>
             <?php else:?>

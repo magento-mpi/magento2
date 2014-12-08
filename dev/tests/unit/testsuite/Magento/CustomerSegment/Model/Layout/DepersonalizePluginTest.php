@@ -74,19 +74,19 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
-        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
+        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
         $this->customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            array('getCustomerSegmentIds', 'setCustomerSegmentIds'),
-            array(),
+            ['getCustomerSegmentIds', 'setCustomerSegmentIds'],
+            [],
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
 
-        $this->cacheConfig = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+        $this->cacheConfig = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
 
         $this->plugin = new \Magento\CustomerSegment\Model\Layout\DepersonalizePlugin(
             $this->customerSessionMock,
@@ -102,8 +102,8 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeGenerateXml()
     {
-        $expectedCustomerSegmentIds = array(1, 2, 3);
-        $defaultCustomerSegmentIds = array();
+        $expectedCustomerSegmentIds = [1, 2, 3];
+        $defaultCustomerSegmentIds = [];
         $this->moduleManagerMock->expects($this->exactly(2))
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))

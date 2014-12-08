@@ -8,9 +8,9 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Success

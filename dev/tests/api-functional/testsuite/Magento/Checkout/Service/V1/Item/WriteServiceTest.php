@@ -10,7 +10,6 @@ namespace Magento\Checkout\Service\V1\Item;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -40,24 +39,24 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/items',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'AddItem',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
             "data" => [
                 "sku" => $productSku,
-                "qty" => 7
-            ]
+                "qty" => 7,
+            ],
         ];
         $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($quote->hasProductId(2));
@@ -77,21 +76,21 @@ class WriteServiceTest extends WebapiAbstract
         $productId = $product->getIdBySku('simple_one');
         $product->load($productId);
         $itemId = $quote->getItemByProduct($product)->getId();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/items/' . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'RemoveItem',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
-            "itemId" => $itemId
+            "itemId" => $itemId,
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -112,24 +111,24 @@ class WriteServiceTest extends WebapiAbstract
         $productId = $product->getIdBySku('simple_one');
         $product->load($productId);
         $itemId = $quote->getItemByProduct($product)->getId();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/items/' . $itemId,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'UpdateItem',
-            ),
-        );
+            ],
+        ];
 
         $requestData = [
             "cartId" => $cartId,
             "itemId" => $itemId,
             "data" => [
-                "qty" => 5
-            ]
+                "qty" => 5,
+            ],
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');

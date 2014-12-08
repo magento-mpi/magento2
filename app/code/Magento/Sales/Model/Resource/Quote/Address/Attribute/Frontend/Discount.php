@@ -29,7 +29,7 @@ class Discount extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Fro
             if (strlen($couponCode)) {
                 $title .= sprintf(' (%s)', $couponCode);
             }
-            $address->addTotal(array('code' => 'discount', 'title' => $title, 'value' => -$amount));
+            $address->addTotal(['code' => 'discount', 'title' => $title, 'value' => -$amount]);
         }
         return $this;
     }

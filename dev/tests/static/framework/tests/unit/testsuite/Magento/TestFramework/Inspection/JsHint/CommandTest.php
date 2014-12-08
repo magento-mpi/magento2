@@ -18,7 +18,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cmd = $this->getMock(
             'Magento\TestFramework\Inspection\JsHint\Command',
-            array(
+            [
                 '_getHostScript',
                 '_fileExists',
                 '_getJsHintPath',
@@ -26,8 +26,8 @@ class CommandTest extends \PHPUnit_Framework_TestCase
                 'getFileName',
                 '_execShellCmd',
                 '_getJsHintOptions'
-            ),
-            array('mage.js', 'report.xml')
+            ],
+            ['mage.js', 'report.xml']
         );
     }
 
@@ -41,7 +41,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringContains('cscript')
         )->will(
-            $this->returnValue(array('output', 0))
+            $this->returnValue(['output', 0])
         );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
         $this->_cmd->expects(
@@ -67,7 +67,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringContains('cscript')
         )->will(
-            $this->returnValue(array('output', 1))
+            $this->returnValue(['output', 1])
         );
         try {
             $this->_cmd->canRun();
@@ -86,7 +86,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringContains('cscript')
         )->will(
-            $this->returnValue(array('output', 0))
+            $this->returnValue(['output', 0])
         );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
         $this->_cmd->expects(
@@ -115,7 +115,7 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->stringContains('cscript')
         )->will(
-            $this->returnValue(array('output', 0))
+            $this->returnValue(['output', 0])
         );
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
         $this->_cmd->expects($this->any())->method('_fileExists')->will(
@@ -145,6 +145,6 @@ class CommandTest extends \PHPUnit_Framework_TestCase
         $this->_cmd->expects($this->any())->method('_getJsHintPath')->will($this->returnValue('jshint-path'));
         $this->_cmd->expects($this->any())->method('getFileName')->will($this->returnValue('mage.js'));
         $this->_cmd->expects($this->once())->method('_execShellCmd')->with('cscript "jshint-path" "mage.js" ');
-        $this->_cmd->run(array());
+        $this->_cmd->run([]);
     }
 }

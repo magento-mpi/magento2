@@ -10,7 +10,7 @@
 <div class="store-switcher">
     <label for="store_switcher"><?php echo __('Choose Scope:') ?></label>
     <select id="store_switcher" class="system-config-store-switcher" onchange="return switchStore(this);">
-        <?php foreach ($this->getStoreSelectOptions() as $_value=>$_option): ?>
+        <?php foreach ($this->getStoreSelectOptions() as $_value => $_option): ?>
         <?php if (isset($_option['is_group'])): ?>
             <?php if ($_option['is_close']): ?>
                 </optgroup>
@@ -19,7 +19,7 @@
         <?php endif; ?>
             <?php continue ?>
             <?php endif; ?>
-        <option value="<?php echo $_value ?>" url="<?php echo $_option['url'] ?>" <?php echo $_option['selected']?'selected="selected"':'' ?> style="<?php echo $_option['style'] ?>">
+        <option value="<?php echo $_value ?>" url="<?php echo $_option['url'] ?>" <?php echo $_option['selected'] ? 'selected="selected"' : '' ?> style="<?php echo $_option['style'] ?>">
             <?php echo $_option['label'] ?>
         </option>
         <?php endforeach ?>

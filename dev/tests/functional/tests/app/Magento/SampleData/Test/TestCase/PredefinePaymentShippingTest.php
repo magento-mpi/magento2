@@ -8,9 +8,9 @@
 
 namespace Magento\SampleData\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Core\Test\Fixture\ConfigData;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class PredefinePaymentShippingTest

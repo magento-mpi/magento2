@@ -33,7 +33,7 @@ class Index extends \Magento\Checkout\Controller\Onepage
         $currentUrl = $this->_objectManager->create('Magento\Framework\UrlInterface')
             ->getUrl(
                 '*/*/*',
-                array('_secure' => true)
+                ['_secure' => true]
             );
         $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeAuthUrl($currentUrl);
         $this->getOnepage()->initCheckout();

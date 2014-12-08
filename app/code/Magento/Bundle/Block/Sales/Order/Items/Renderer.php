@@ -7,7 +7,7 @@
  */
 namespace Magento\Bundle\Block\Sales\Order\Items;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType;
+use Magento\Catalog\Model\Product\Type\AbstractType;
 
 /**
  * Order item render block
@@ -127,7 +127,7 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
      */
     public function getChilds($item)
     {
-        $itemsArray = array();
+        $itemsArray = [];
 
         $items = null;
         if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item) {

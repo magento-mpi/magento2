@@ -9,7 +9,6 @@
 namespace Magento\Framework\Pricing\Adjustment;
 
 use Magento\Framework\Pricing\Adjustment\Factory as AdjustmentFactory;
-use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
 
 /**
  * Global adjustment pool model

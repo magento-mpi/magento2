@@ -72,7 +72,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getParameters'
         )->will(
-            $this->returnValue(array($this->parameterReflection))
+            $this->returnValue([$this->parameterReflection])
         );
 
         $classReflection->expects(
@@ -80,7 +80,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getMethods'
         )->will(
-            $this->returnValue(array($methodReflection))
+            $this->returnValue([$methodReflection])
         );
 
         $this->fileReflection->expects(
@@ -88,7 +88,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getClasses'
         )->will(
-            $this->returnValue(array($classReflection))
+            $this->returnValue([$classReflection])
         );
     }
 
@@ -120,7 +120,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array('Magento\Core\Model\Object'),
+            ['Magento\Core\Model\Object'],
             $this->injectable->getDependencies($this->fileReflection)
         );
     }
@@ -141,7 +141,7 @@ class InjectableTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals(
-            array('Magento\Core\Model\Object'),
+            ['Magento\Core\Model\Object'],
             $this->injectable->getDependencies($this->fileReflection)
         );
     }

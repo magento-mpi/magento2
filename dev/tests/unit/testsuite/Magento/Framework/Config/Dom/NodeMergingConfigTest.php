@@ -24,7 +24,7 @@ class NodeMergingConfigTest extends \PHPUnit_Framework_TestCase
         $this->nodePathMatcher = $this->getMock('\Magento\Framework\Config\Dom\NodePathMatcher');
         $this->object = new NodeMergingConfig(
             $this->nodePathMatcher,
-            array('/root/one' => 'name', '/root/two' => 'id', '/root/three' => 'key')
+            ['/root/one' => 'name', '/root/two' => 'id', '/root/three' => 'key']
         );
     }
 

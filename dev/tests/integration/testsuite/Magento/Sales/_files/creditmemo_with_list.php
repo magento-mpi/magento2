@@ -22,11 +22,10 @@ $creditmemo->setOrder($order);
 $creditmemo->setState(Magento\Sales\Model\Order\Creditmemo::STATE_OPEN);
 foreach ($order->getItems() as $item) {
     $creditmemoItem = $creditmemoItemFactory->create(
-        ['data' =>
-            [
+        ['data' => [
                 'order_item_id' => $item->getId(),
-                'sku' => $item->getSku()
-            ]
+                'sku' => $item->getSku(),
+            ],
         ]
     );
     $creditmemo->addItem($creditmemoItem);

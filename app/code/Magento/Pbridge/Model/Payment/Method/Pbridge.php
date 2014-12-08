@@ -51,7 +51,7 @@ class Pbridge extends AbstractMethod
      *
      * @var string[]
      */
-    protected $_addressFileds = array(
+    protected $_addressFileds = [
         'prefix',
         'firstname',
         'middlename',
@@ -62,15 +62,15 @@ class Pbridge extends AbstractMethod
         'country_id',
         'telephone',
         'fax',
-        'postcode'
-    );
+        'postcode',
+    ];
 
     /**
      * Array of additional parameters, which need to be included in Pbridge request
      *
      * @var array
      */
-    protected $_additionalRequestParameters = array();
+    protected $_additionalRequestParameters = [];
 
     /**
      * Pbridge data
@@ -140,7 +140,7 @@ class Pbridge extends AbstractMethod
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\ApiFactory $pbridgeApiFactory,
         \Magento\Framework\App\RequestInterface $requestHttp,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_pbridgeSession = $pbridgeSession;
@@ -200,7 +200,7 @@ class Pbridge extends AbstractMethod
         $checkResult->isAvailable = (bool)(int)$this->getOriginalMethodInstance()->getConfigData('active', $storeId);
         $this->_eventManager->dispatch(
             'payment_method_is_active',
-            array('result' => $checkResult, 'method_instance' => $this->getOriginalMethodInstance(), 'quote' => $quote)
+            ['result' => $checkResult, 'method_instance' => $this->getOriginalMethodInstance(), 'quote' => $quote]
         );
         $usingPbridge = $this->getOriginalMethodInstance()->getConfigData('using_pbridge', $storeId);
         return $checkResult->isAvailable && $this->_pbridgeData->isEnabled($storeId) && $usingPbridge;
@@ -214,7 +214,7 @@ class Pbridge extends AbstractMethod
      */
     public function assignData($data)
     {
-        $pbridgeData = array();
+        $pbridgeData = [];
         if (is_array($data)) {
             if (isset($data['pbridge_data'])) {
                 $pbridgeData = $data['pbridge_data'];
@@ -243,9 +243,9 @@ class Pbridge extends AbstractMethod
      */
     public function setPbridgeResponse($data)
     {
-        $data = array('pbridge_data' => $data);
+        $data = ['pbridge_data' => $data];
         if (!($additionalData = unserialize($this->getInfoInstance()->getAdditionalData()))) {
-            $additionalData = array();
+            $additionalData = [];
         }
         $additionalData = array_merge($additionalData, $data);
         $this->getInfoInstance()->setAdditionalData(serialize($additionalData));
@@ -351,7 +351,7 @@ class Pbridge extends AbstractMethod
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true)
             ->setData(
                 'notify_url',
-                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', ['_scope' => $order->getStore()->getStoreId()])
             );
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
@@ -426,7 +426,7 @@ class Pbridge extends AbstractMethod
             ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true)
             ->setData(
                 'notify_url',
-                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_scope' => $order->getStore()->getStoreId()))
+                $this->_url->getUrl('magento_pbridge/PbridgeIpn/', ['_scope' => $order->getStore()->getStoreId()])
             );
 
         $api = $this->_getApi()->doCapture($request);
@@ -503,7 +503,7 @@ class Pbridge extends AbstractMethod
             $request = $this->_getApiRequest();
             $request->addData([
                 'transaction_id' => $authTransactionId,
-                'amount' => $payment->getOrder()->getBaseTotalDue()
+                'amount' => $payment->getOrder()->getBaseTotalDue(),
             ]);
             $this->_getApi()->doVoid($request);
         } else {
@@ -597,7 +597,7 @@ class Pbridge extends AbstractMethod
      */
     protected function _getAddressInfo($address)
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->_addressFileds as $addressField) {
             if ($address->hasData($addressField)) {

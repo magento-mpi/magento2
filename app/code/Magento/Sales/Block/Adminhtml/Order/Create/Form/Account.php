@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
-use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Framework\Data\Form\Element\AbstractElement;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
+use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * Create order account form
@@ -59,7 +59,7 @@ class Account extends AbstractForm
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_metadataFormFactory = $metadataFormFactory;
         $this->customerRepository = $customerRepository;
@@ -163,7 +163,7 @@ class Account extends AbstractForm
         } catch (\Exception $e) {
             /** If customer does not exist do nothing. */
         }
-        $data = isset($customer) ? $this->_extensibleDataObjectConverter->toFlatArray($customer) : array();
+        $data = isset($customer) ? $this->_extensibleDataObjectConverter->toFlatArray($customer) : [];
         foreach ($this->getQuote()->getData() as $key => $value) {
             if (strpos($key, 'customer_') === 0) {
                 $data[substr($key, 9)] = $value;

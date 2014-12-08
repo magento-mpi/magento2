@@ -24,12 +24,12 @@ class Currency extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['usd_eur_rates'] = $this->_getUsdToEurRate();
     }
@@ -41,7 +41,7 @@ class Currency extends AbstractRepository
      */
     protected function _getUsdToEurRate()
     {
-        $data = array();
+        $data = [];
         $data['data']['rate']['USD']['EUR'] = 0.8;
         $data['data']['rate']['USD']['USD'] = 1.0;
 

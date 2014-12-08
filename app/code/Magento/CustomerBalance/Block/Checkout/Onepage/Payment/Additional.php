@@ -47,7 +47,7 @@ class Additional extends \Magento\Framework\View\Element\Template
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_checkoutSession = $checkoutSession;

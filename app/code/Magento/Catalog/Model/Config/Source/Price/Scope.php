@@ -16,6 +16,6 @@ class Scope implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => '0', 'label' => __('Global')), array('value' => '1', 'label' => __('Website')));
+        return [['value' => '0', 'label' => __('Global')], ['value' => '1', 'label' => __('Website')]];
     }
 }

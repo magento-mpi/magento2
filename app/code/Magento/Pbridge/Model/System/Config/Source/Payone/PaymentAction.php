@@ -17,15 +17,15 @@ class PaymentAction
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => AbstractMethod::ACTION_AUTHORIZE,
-                'label' => __('Preauthorization')
-            ),
-            array(
+                'label' => __('Preauthorization'),
+            ],
+            [
                 'value' => AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Authorization')
-            ),
-        );
+            ],
+        ];
     }
 }

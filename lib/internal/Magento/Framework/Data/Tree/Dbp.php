@@ -119,7 +119,6 @@ class Dbp extends \Magento\Framework\Data\Tree
             $fields[self::ORDER_FIELD]
         )
         ) {
-
             throw new \Exception('"$fields" tree configuratin array');
         }
 
@@ -171,7 +170,7 @@ class Dbp extends \Magento\Framework\Data\Tree
                 $startLevel = $parentNode->getData($this->_levelField);
             } elseif (is_numeric($parentNode)) {
                 $select = $this->_conn->select()
-                    ->from($this->_table, array($this->_pathField, $this->_levelField))
+                    ->from($this->_table, [$this->_pathField, $this->_levelField])
                     ->where("{$this->_idField} = ?", $parentNode);
                 $parent = $this->_conn->fetchRow($select);
 
@@ -188,17 +187,17 @@ class Dbp extends \Magento\Framework\Data\Tree
 
             $select->order($this->_table . '.' . $this->_orderField . ' ASC');
             if ($parentPath) {
-                $pathField = $this->_conn->quoteIdentifier(array($this->_table, $this->_pathField));
+                $pathField = $this->_conn->quoteIdentifier([$this->_table, $this->_pathField]);
                 $select->where("{$pathField} LIKE ?", "{$parentPath}/%");
             }
             if ($recursionLevel != 0) {
-                $levelField = $this->_conn->quoteIdentifier(array($this->_table, $this->_levelField));
+                $levelField = $this->_conn->quoteIdentifier([$this->_table, $this->_levelField]);
                 $select->where("{$levelField} <= ?", $startLevel + $recursionLevel);
             }
 
             $arrNodes = $this->_conn->fetchAll($select);
 
-            $childrenItems = array();
+            $childrenItems = [];
 
             foreach ($arrNodes as $nodeInfo) {
                 $pathToParent = explode('/', $nodeInfo[$this->_pathField]);
@@ -240,11 +239,10 @@ class Dbp extends \Magento\Framework\Data\Tree
                 $node->setPathId($node->getData($this->_pathField));
                 $this->addNode($node, $parentNode);
 
-
                 if ($path) {
                     $childrenPath = explode('/', $path);
                 } else {
-                    $childrenPath = array();
+                    $childrenPath = [];
                 }
                 $childrenPath[] = $node->getId();
                 $childrenPath = implode('/', $childrenPath);
@@ -264,9 +262,9 @@ class Dbp extends \Magento\Framework\Data\Tree
     {
         $select = clone $this->_select;
         if (is_numeric($nodeId)) {
-            $condField = $this->_conn->quoteIdentifier(array($this->_table, $this->_idField));
+            $condField = $this->_conn->quoteIdentifier([$this->_table, $this->_idField]);
         } else {
-            $condField = $this->_conn->quoteIdentifier(array($this->_table, $this->_pathField));
+            $condField = $this->_conn->quoteIdentifier([$this->_table, $this->_pathField]);
         }
 
         $select->where("{$condField} = ?", $nodeId);
@@ -284,7 +282,7 @@ class Dbp extends \Magento\Framework\Data\Tree
      * @param array $result
      * @return array
      */
-    public function getChildren($node, $recursive = true, $result = array())
+    public function getChildren($node, $recursive = true, $result = [])
     {
         if (is_numeric($node)) {
             $node = $this->getNodeById($node);
@@ -327,17 +325,17 @@ class Dbp extends \Magento\Framework\Data\Tree
         $newLevel = $newParent->getLevel() + 1;
         $levelDisposition = $newLevel - $node->getLevel();
 
-        $data = array(
+        $data = [
             $this->_levelField => new \Zend_Db_Expr("{$this->_levelField} + '{$levelDisposition}'"),
             $this->_pathField => new \Zend_Db_Expr(
                 "CONCAT('{$newPath}', RIGHT({$this->_pathField}, LENGTH({$this->_pathField}) - {$oldPathLength}))"
-            )
-        );
+            ),
+        ];
         $condition = $this->_conn->quoteInto("{$this->_pathField} REGEXP ?", "^{$oldPath}(/|\$)");
 
         $this->_conn->beginTransaction();
 
-        $reorderData = array($this->_orderField => new \Zend_Db_Expr("{$this->_orderField} + 1"));
+        $reorderData = [$this->_orderField => new \Zend_Db_Expr("{$this->_orderField} + 1")];
         try {
             if ($prevNode && $prevNode->getId()) {
                 $reorderCondition = "{$this->_orderField} > {$prevNode->getData($this->_orderField)}";
@@ -360,7 +358,7 @@ class Dbp extends \Magento\Framework\Data\Tree
             $this->_conn->update($this->_table, $data, $condition);
             $this->_conn->update(
                 $this->_table,
-                array($this->_orderField => $position, $this->_levelField => $newLevel),
+                [$this->_orderField => $position, $this->_levelField => $newLevel],
                 $this->_conn->quoteInto("{$this->_idField} = ?", $node->getId())
             );
 
@@ -395,7 +393,7 @@ class Dbp extends \Magento\Framework\Data\Tree
         $arrNodes = $this->_conn->fetchAll($select);
 
         if ($arrNodes) {
-            $childrenItems = array();
+            $childrenItems = [];
             foreach ($arrNodes as $nodeInfo) {
                 $nodeId = $nodeInfo[$this->_idField];
                 if ($nodeId <= $rootNodeId) {
@@ -445,7 +443,7 @@ class Dbp extends \Magento\Framework\Data\Tree
                 if ($path) {
                     $childrenPath = explode('/', $path);
                 } else {
-                    $childrenPath = array();
+                    $childrenPath = [];
                 }
                 $childrenPath[] = $node->getId();
                 $childrenPath = implode('/', $childrenPath);

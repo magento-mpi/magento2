@@ -29,7 +29,7 @@ class Actions extends \Magento\Backend\Block\System\Config\Form\Field
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Logging\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $config;
         parent::__construct($context, $data);

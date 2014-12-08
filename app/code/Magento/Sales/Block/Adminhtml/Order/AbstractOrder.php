@@ -40,7 +40,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminHelper = $adminHelper;
         $this->_coreRegistry = $registry;
@@ -121,7 +121,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      */
     public function getOrderTotalData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -131,7 +131,7 @@ class AbstractOrder extends \Magento\Backend\Block\Widget
      */
     public function getOrderInfoData()
     {
-        return array();
+        return [];
     }
 
     /**

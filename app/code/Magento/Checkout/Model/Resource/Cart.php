@@ -34,14 +34,14 @@ class Cart extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()->from(
-            array('q' => $this->getTable('sales_quote')),
-            array('items_qty', 'items_count')
+            ['q' => $this->getTable('sales_quote')],
+            ['items_qty', 'items_count']
         )->where(
             'q.entity_id = :quote_id'
         );
 
-        $result = $read->fetchRow($select, array(':quote_id' => $quoteId));
-        return $result ? $result : array('items_qty' => 0, 'items_count' => 0);
+        $result = $read->fetchRow($select, [':quote_id' => $quoteId]);
+        return $result ? $result : ['items_qty' => 0, 'items_count' => 0];
     }
 
     /**
@@ -54,13 +54,13 @@ class Cart extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $read = $this->_getReadAdapter();
         $select = $read->select()->from(
-            array('qi' => $this->getTable('sales_quote_item')),
-            array('id' => 'item_id', 'product_id', 'super_product_id', 'qty', 'created_at')
+            ['qi' => $this->getTable('sales_quote_item')],
+            ['id' => 'item_id', 'product_id', 'super_product_id', 'qty', 'created_at']
         )->where(
             'qi.quote_id = :quote_id'
         );
 
-        return $read->fetchAll($select, array(':quote_id' => $quoteId));
+        return $read->fetchAll($select, [':quote_id' => $quoteId]);
     }
 
     /**
@@ -75,12 +75,12 @@ class Cart extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $exclusionSelect = $adapter->select()->from(
             $this->getTable('sales_quote_item'),
-            array('product_id')
+            ['product_id']
         )->where(
             'quote_id = ?',
             $quoteId
         );
-        $condition = $adapter->prepareSqlCondition('e.entity_id', array('nin' => $exclusionSelect));
+        $condition = $adapter->prepareSqlCondition('e.entity_id', ['nin' => $exclusionSelect]);
         $collection->getSelect()->where($condition);
         return $this;
     }

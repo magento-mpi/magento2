@@ -7,8 +7,8 @@
  */
 namespace Magento\Rss\Model;
 
-use \Magento\Framework\App\Rss\DataProviderInterface;
-use \Magento\Framework\App\Rss\RssManagerInterface;
+use Magento\Framework\App\Rss\DataProviderInterface;
+use Magento\Framework\App\Rss\RssManagerInterface;
 
 /**
  * Rss Manager
@@ -28,7 +28,7 @@ class RssManager implements RssManagerInterface
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        array $dataProviders = array()
+        array $dataProviders = []
     ) {
         $this->objectManager = $objectManager;
         $this->providers = $dataProviders;
@@ -67,7 +67,7 @@ class RssManager implements RssManagerInterface
      */
     public function getProviders()
     {
-        $result = array();
+        $result = [];
         foreach (array_keys($this->providers) as $type) {
             $result[] = $this->getProvider($type);
         }

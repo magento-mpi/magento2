@@ -10,11 +10,11 @@ namespace Magento\Catalog\Service\V1\Category;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
-use Magento\Catalog\Service\V1\Data\Category\Mapper as CategoryMapper;
 use Magento\Framework\StoreManagerInterface;
 
 class WriteService implements WriteServiceInterface

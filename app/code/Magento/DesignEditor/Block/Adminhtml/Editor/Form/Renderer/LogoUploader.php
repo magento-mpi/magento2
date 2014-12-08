@@ -35,10 +35,10 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
      *
      * @var string[]
      */
-    protected $_templates = array(
+    protected $_templates = [
         'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
-        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml'
-    );
+        'Magento_DesignEditor::editor/form/renderer/logo-uploader.phtml',
+    ];
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -50,7 +50,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         \Magento\Theme\Model\Config\Customization $customization,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeContext = $themeContext;
         $this->_customization = $customization;
@@ -67,7 +67,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/uploadStoreLogo',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId()]
         );
     }
 
@@ -81,7 +81,7 @@ class LogoUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Ren
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/removeStoreLogo',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId(), 'store_id' => $store->getId()]
         );
     }
 

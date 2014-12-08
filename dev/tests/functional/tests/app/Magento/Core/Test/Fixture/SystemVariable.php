@@ -24,7 +24,7 @@ class SystemVariable extends InjectableFixture
         'code' => 'variableCode%isolation%',
         'name' => 'variableName%isolation%',
         'html_value' => "<p>html_value</p>",
-        'plain_value' => 'plain_value'
+        'plain_value' => 'plain_value',
     ];
 
     protected $variable_id = [

@@ -9,7 +9,6 @@
 namespace Magento\Theme\Block\Html;
 
 use Magento\Customer\Helper\View as CustomerViewHelper;
-
 use Magento\Customer\Model\Context;
 
 /**
@@ -51,7 +50,7 @@ class Header extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
         CustomerViewHelper $customerViewHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);

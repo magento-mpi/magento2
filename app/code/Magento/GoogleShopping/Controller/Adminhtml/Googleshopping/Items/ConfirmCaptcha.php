@@ -17,7 +17,6 @@ class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Google
      */
     public function execute()
     {
-
         $storeId = $this->_getStore()->getId();
         try {
             $this->_objectManager->create(
@@ -49,6 +48,6 @@ class ConfirmCaptcha extends \Magento\GoogleShopping\Controller\Adminhtml\Google
             $this->messageManager->addError(__('Something went wrong during Captcha confirmation.'));
         }
 
-        $this->_redirect('adminhtml/*/index', array('store' => $storeId));
+        $this->_redirect('adminhtml/*/index', ['store' => $storeId]);
     }
 }

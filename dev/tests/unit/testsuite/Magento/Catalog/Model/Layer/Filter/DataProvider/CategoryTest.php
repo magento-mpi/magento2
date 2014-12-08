@@ -16,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Catalog\Model\Category|MockObject */
     private $category;
 
@@ -115,5 +114,4 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         return $this->target;
     }
-
 }

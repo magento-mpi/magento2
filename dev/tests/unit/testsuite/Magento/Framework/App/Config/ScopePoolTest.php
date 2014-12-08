@@ -45,12 +45,12 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
         $this->_cache = $this->getMock('\Magento\Framework\Cache\FrontendInterface');
         $this->_object = $helper->getObject(
             '\Magento\Framework\App\Config\ScopePool',
-            array(
+            [
                 'readerPool' => $this->_readerPool,
                 'dataFactory' => $this->_dataFactory,
                 'cache' => $this->_cache,
                 'cacheId' => 'test_cache_id'
-            )
+            ]
         );
     }
 
@@ -87,7 +87,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
             )->with(
                 serialize($data),
                 $cacheKey,
-                array(\Magento\Framework\App\Config\ScopePool::CACHE_TAG)
+                [\Magento\Framework\App\Config\ScopePool::CACHE_TAG]
             );
         }
 
@@ -99,7 +99,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            array('data' => $data)
+            ['data' => $data]
         )->will(
             $this->returnValue($configData)
         );
@@ -119,11 +119,11 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
     {
         $baseScope = $this->getMockForAbstractClass('Magento\Framework\App\ScopeInterface');
         $baseScope->expects($this->any())->method('getCode')->will($this->returnValue('testScope'));
-        return array(
-            array('scopeType1', 'testScope', array('key' => 'value'), null),
-            array('scopeType2', 'testScope', array('key' => 'value'), serialize(array('key' => 'value'))),
-            array('scopeType1', $baseScope, array('key' => 'value'), null)
-        );
+        return [
+            ['scopeType1', 'testScope', ['key' => 'value'], null],
+            ['scopeType2', 'testScope', ['key' => 'value'], serialize(['key' => 'value'])],
+            ['scopeType1', $baseScope, ['key' => 'value'], null]
+        ];
     }
 
     public function testClean()
@@ -134,7 +134,7 @@ class ScopePoolTest extends \PHPUnit_Framework_TestCase
             'clean'
         )->with(
             \Zend_Cache::CLEANING_MODE_MATCHING_TAG,
-            array(\Magento\Framework\App\Config\ScopePool::CACHE_TAG)
+            [\Magento\Framework\App\Config\ScopePool::CACHE_TAG]
         );
         $this->_object->clean('testScope');
     }

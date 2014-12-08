@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Backup;
 
-
 /**
  * Mock is_dir function
  *

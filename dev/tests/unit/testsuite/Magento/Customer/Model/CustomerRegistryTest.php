@@ -60,7 +60,7 @@ class CustomerRegistryTest extends \PHPUnit_Framework_TestCase
                     '__wakeup',
                     'setEmail',
                     'setWebsiteId',
-                    'loadByEmail'
+                    'loadByEmail',
                 ]
             )
             ->getMock();

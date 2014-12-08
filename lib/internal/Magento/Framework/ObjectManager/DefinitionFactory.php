@@ -10,16 +10,15 @@
  */
 namespace Magento\Framework\ObjectManager;
 
-use Magento\Framework\Filesystem\DriverInterface;
-use Magento\Framework\ObjectManager\Definition\Runtime;
-use Magento\Framework\ObjectManager\RelationsInterface;
-use Magento\Framework\ObjectManager\Code\Generator;
-use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
 use Magento\Framework\Api\Code\Generator\DataBuilder as DataBuilderGenerator;
 use Magento\Framework\Api\Code\Generator\Mapper as MapperGenerator;
-use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
 use Magento\Framework\Api\Code\Generator\SearchResults;
 use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\Filesystem\DriverInterface;
+use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
+use Magento\Framework\ObjectManager\Code\Generator;
+use Magento\Framework\ObjectManager\Code\Generator\Converter as ConverterGenerator;
+use Magento\Framework\ObjectManager\Definition\Runtime;
 use Magento\Framework\ObjectManager\Profiler\Code\Generator as ProfilerGenerator;
 
 /**
@@ -60,10 +59,10 @@ class DefinitionFactory
      *
      * @var array
      */
-    protected $_definitionClasses = array(
+    protected $_definitionClasses = [
         'igbinary' => 'Magento\Framework\ObjectManager\Definition\Compiled\Binary',
-        'serialized' => 'Magento\Framework\ObjectManager\Definition\Compiled\Serialized'
-    );
+        'serialized' => 'Magento\Framework\ObjectManager\Definition\Compiled\Serialized',
+    ];
 
     /**
      * @param DriverInterface $filesystemDriver
@@ -107,34 +106,23 @@ class DefinitionFactory
             );
             $generator = new \Magento\Framework\Code\Generator(
                 $generatorIo,
-                array(
-                    SearchResultsBuilder::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
-                    Generator\Factory::ENTITY_TYPE
-                        => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
-                    Generator\Proxy::ENTITY_TYPE
-                        => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    Generator\Repository::ENTITY_TYPE
-                        => '\Magento\Framework\ObjectManager\Code\Generator\Repository',
-                    Generator\Persistor::ENTITY_TYPE
-                    => '\Magento\Framework\ObjectManager\Code\Generator\Persistor',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE
-                        => '\Magento\Framework\Interception\Code\Generator\Interceptor',
-                    DataBuilderGenerator::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\DataBuilder',
+                [
+                    SearchResultsBuilder::ENTITY_TYPE => '\Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
+                    Generator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
+                    Generator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
+                    Generator\Repository::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Repository',
+                    Generator\Persistor::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Persistor',
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor',
+                    DataBuilderGenerator::ENTITY_TYPE => '\Magento\Framework\Api\Code\Generator\DataBuilder',
                     DataBuilderGenerator::ENTITY_TYPE_BUILDER  => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-                    MapperGenerator::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\Mapper',
-                    SearchResults::ENTITY_TYPE
-                        => '\Magento\Framework\Api\Code\Generator\SearchResults',
-                    ConverterGenerator::ENTITY_TYPE
-                        => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
-                    ProfilerGenerator\Logger::ENTITY_TYPE
-                        => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
-                )
+                    MapperGenerator::ENTITY_TYPE => '\Magento\Framework\Api\Code\Generator\Mapper',
+                    SearchResults::ENTITY_TYPE => '\Magento\Framework\Api\Code\Generator\SearchResults',
+                    ConverterGenerator::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Converter',
+                    ProfilerGenerator\Logger::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Profiler\Code\Generator\Logger'
+                ]
             );
             $autoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);
-            spl_autoload_register(array($autoloader, 'load'));
+            spl_autoload_register([$autoloader, 'load']);
 
             $result = new Runtime();
         }

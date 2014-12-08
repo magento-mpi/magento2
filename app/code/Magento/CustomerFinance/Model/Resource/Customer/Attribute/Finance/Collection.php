@@ -64,26 +64,26 @@ class Collection extends \Magento\Framework\Data\Collection
         parent::__construct($entityFactory);
 
         if ($this->_customerFinanceData->isCustomerBalanceEnabled()) {
-            $storeCreditData = array(
+            $storeCreditData = [
                 'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_CUSTOMER_BALANCE,
                 'attribute_code' => self::COLUMN_CUSTOMER_BALANCE,
                 'frontend_label' => __('Store Credit'),
                 'backend_type' => 'decimal',
-                'is_required' => false
-            );
+                'is_required' => false,
+            ];
             $this->addItem(
                 $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $storeCreditData)
             );
         }
 
         if ($this->_customerFinanceData->isRewardPointsEnabled()) {
-            $rewardPointsData = array(
+            $rewardPointsData = [
                 'attribute_id' => self::CUSTOMER_ENTITY_FINANCE_ATTRIBUTE_REWARD_POINTS,
                 'attribute_code' => self::COLUMN_REWARD_POINTS,
                 'frontend_label' => __('Reward Points'),
                 'backend_type' => 'int',
-                'is_required' => false
-            );
+                'is_required' => false,
+            ];
             $this->addItem(
                 $this->_attributeFactory->createAttribute('Magento\Eav\Model\Entity\Attribute', $rewardPointsData)
             );
@@ -100,7 +100,7 @@ class Collection extends \Magento\Framework\Data\Collection
     public function setOrder($field, $direction = self::SORT_ORDER_DESC)
     {
         $this->_orderField = $field;
-        uasort($this->_items, array($this, 'compareAttributes'));
+        uasort($this->_items, [$this, 'compareAttributes']);
 
         if ($direction == self::SORT_ORDER_DESC) {
             $this->_items = array_reverse($this->_items, true);

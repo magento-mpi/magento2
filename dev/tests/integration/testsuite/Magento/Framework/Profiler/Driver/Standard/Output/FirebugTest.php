@@ -31,11 +31,11 @@ class FirebugTest extends \PHPUnit_Framework_TestCase
         $this->_response = $this->getMockBuilder(
             '\Magento\Framework\App\Response\Http'
         )->setMethods(
-            array('canSendHeaders', 'sendHeaders')
+            ['canSendHeaders', 'sendHeaders']
         )->disableOriginalConstructor()->getMock();
         $this->_response->expects($this->any())->method('canSendHeaders')->will($this->returnValue(true));
 
-        $this->_request = $this->getMock('\Magento\Framework\App\Request\Http', array('getHeader'), array(), '', false);
+        $this->_request = $this->getMock('\Magento\Framework\App\Request\Http', ['getHeader'], [], '', false);
         $this->_request->expects(
             $this->any()
         )->method(

@@ -34,20 +34,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     public function parseExpressionDataProvider()
     {
-        return array(
-            array('1-2', array('1', '2', '-')),
-            array('1*2', array('1', '2', '*')),
-            array('1/2', array('1', '2', '/')),
-            array('1+2+3', array('1', '2', '+', '3', '+')),
-            array('1*2*3+4', array('1', '2', '*', '3', '*', '4', '+')),
-            array('1-2-3', array('1', '2', '-', '3', '-')),
-            array('1*2*3', array('1', '2', '*', '3', '*')),
-            array('1/2/3', array('1', '2', '/', '3', '/')),
-            array(
+        return [
+            ['1-2', ['1', '2', '-']],
+            ['1*2', ['1', '2', '*']],
+            ['1/2', ['1', '2', '/']],
+            ['1+2+3', ['1', '2', '+', '3', '+']],
+            ['1*2*3+4', ['1', '2', '*', '3', '*', '4', '+']],
+            ['1-2-3', ['1', '2', '-', '3', '-']],
+            ['1*2*3', ['1', '2', '*', '3', '*']],
+            ['1/2/3', ['1', '2', '/', '3', '/']],
+            [
                 '1 * 2 / 3 + 4 * 5 * 6 - 7 - 8',
-                array('1', '2', '*', '3', '/', '4', '5', '*', '6', '*', '+', '7', '-', '8', '-')
-            )
-        );
+                ['1', '2', '*', '3', '/', '4', '5', '*', '6', '*', '+', '7', '-', '8', '-']
+            ]
+        ];
     }
 
     /**
@@ -62,13 +62,13 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 
     public function isOperationDataProvider()
     {
-        return array(
-            array('+', true),
-            array('-', true),
-            array('*', true),
-            array('/', true),
-            array('0', false),
-            array('aa', false)
-        );
+        return [
+            ['+', true],
+            ['-', true],
+            ['*', true],
+            ['/', true],
+            ['0', false],
+            ['aa', false]
+        ];
     }
 }

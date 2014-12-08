@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Abstract class AbstractOptions

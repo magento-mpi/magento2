@@ -8,8 +8,8 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for LowStockProductsReportEntityTest

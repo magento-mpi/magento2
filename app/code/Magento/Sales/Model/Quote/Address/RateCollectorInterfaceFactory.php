@@ -46,7 +46,7 @@ class RateCollectorInterfaceFactory
      * @param array $data
      * @return \Magento\Sales\Model\Quote\Address\RateCollectorInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

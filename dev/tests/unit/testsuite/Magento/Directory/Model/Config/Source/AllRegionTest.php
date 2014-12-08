@@ -57,7 +57,6 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnValue($this->regionCollection));
 
-
         $this->model = $objectManagerHelper->getObject(
             'Magento\Directory\Model\Config\Source\Allregion',
             [
@@ -106,18 +105,18 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
                 [
                     [
                         'label' => '',
-                        'value' => ''
+                        'value' => '',
                     ],
                     [
                         'label' => 'France',
                         'value' => [
                             [
                                 'label' => 'Paris',
-                                'value' => 1
-                            ]
+                                'value' => 1,
+                            ],
                         ]
                     ]
-                ]
+                ],
             ],
             [
                 true,
@@ -134,13 +133,13 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
                         'value' => [
                             [
                                 'label' => 'Paris',
-                                'value' => 1
+                                'value' => 1,
                             ],
                             [
                                 'label' => 'Marseille',
                                 'value' => 2
-                            ]
-                        ]
+                            ],
+                        ],
                     ]
                 ]
             ],
@@ -160,17 +159,17 @@ class AllRegionTest extends \PHPUnit_Framework_TestCase
                         'value' => [
                             [
                                 'label' => 'Paris',
-                                'value' => 1
-                            ]
-                        ]
+                                'value' => 1,
+                            ],
+                        ],
                     ],
                     [
                         'label' => 'Germany',
                         'value' => [
                             [
                                 'label' => 'Berlin',
-                                'value' => 2
-                            ]
+                                'value' => 2,
+                            ],
                         ]
                     ]
                 ]

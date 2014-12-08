@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Ui\Component\Layout\Tabs;
 
 use Magento\Framework\View\Element\Text\ListText;

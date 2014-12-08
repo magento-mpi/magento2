@@ -8,7 +8,6 @@
 namespace Magento\Ui\Component\Form\Element\DataType;
 
 use Magento\Ui\Component\AbstractView;
-use Magento\Framework\Object as DataObject;
 
 /**
  * Class AbstractDataType

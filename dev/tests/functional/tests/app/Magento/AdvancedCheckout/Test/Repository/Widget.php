@@ -34,8 +34,8 @@ class Widget extends AbstractRepository
                     'page_group' => 'All Pages',
                     'all_pages' => [
                         'block' => 'Sidebar Additional',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'parameters' => [
                 'display_mode' => 'fixed',

@@ -9,9 +9,9 @@
  */
 namespace Magento\Backend\Test\Block\System\Config;
 
-use \Mtf\Block\Block;
+use Mtf\Block\Block;
+use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use \Mtf\Factory\Factory;
 
 class Form extends Block
 {

@@ -47,7 +47,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $propertyAccessor = new \ReflectionProperty($this->_model, '_messageTemplates');
         $propertyAccessor->setAccessible(true);
-        $propertyAccessor->setValue($this->_model, array());
+        $propertyAccessor->setValue($this->_model, []);
 
         $this->_customerData = [
             'firstname' => 'Firstname',
@@ -58,7 +58,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             Customer::COLUMN_STORE => 'default',
             'store_id' => 1,
             'website_id' => 1,
-            'password' => 'password'
+            'password' => 'password',
         ];
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -157,9 +157,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
 
-
         $this->_model->setParameters(
-            array('behavior' => Import::BEHAVIOR_DELETE)
+            ['behavior' => Import::BEHAVIOR_DELETE]
         )->setSource(
                 $source
             )->isDataValid();
@@ -263,7 +262,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testValidateEmailForDeleteBehavior()
     {
         $this->_customerData[Customer::COLUMN_EMAIL] = 'new.customer@example.com';
-        $this->_model->setParameters(array('behavior' => Import::BEHAVIOR_DELETE));
+        $this->_model->setParameters(['behavior' => Import::BEHAVIOR_DELETE]);
         $this->_model->validateRow($this->_customerData, 0);
         $this->assertGreaterThan(0, $this->_model->getErrorsCount());
         $this->assertArrayHasKey(

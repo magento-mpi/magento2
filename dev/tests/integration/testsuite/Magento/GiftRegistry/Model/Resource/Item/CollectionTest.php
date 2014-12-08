@@ -28,9 +28,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddProductFilter()
     {
         $select = $this->_collection->getSelect();
-        $this->assertSame(array(), $select->getPart(\Zend_Db_Select::WHERE));
+        $this->assertSame([], $select->getPart(\Zend_Db_Select::WHERE));
         $this->assertSame($this->_collection, $this->_collection->addProductFilter(0));
-        $this->assertSame(array(), $select->getPart(\Zend_Db_Select::WHERE));
+        $this->assertSame([], $select->getPart(\Zend_Db_Select::WHERE));
         $this->_collection->addProductFilter(99);
         $where = $select->getPart(\Zend_Db_Select::WHERE);
         $this->assertArrayHasKey(0, $where);
@@ -41,9 +41,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddItemFilter()
     {
         $select = $this->_collection->getSelect();
-        $this->assertSame(array(), $select->getPart(\Zend_Db_Select::WHERE));
+        $this->assertSame([], $select->getPart(\Zend_Db_Select::WHERE));
         $this->assertSame($this->_collection, $this->_collection->addItemFilter(99));
-        $this->_collection->addItemFilter(array(100, 101));
+        $this->_collection->addItemFilter([100, 101]);
         $this->assertStringMatchesFormat(
             '%AWHERE%S(%Sitem_id%S = %S99%S)%SAND%S(%Sitem_id%S IN(%S100%S,%S101%S))%A',
             (string)$select
@@ -68,7 +68,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($collection->getSize() > 0);
 
         $relation = $this->objectManager->create('Magento\Catalog\Model\Product\Website');
-        $relation->removeProducts(array(1), array($product->getId()));
+        $relation->removeProducts([1], [$product->getId()]);
 
         $collection = $this->objectManager->create(
             'Magento\GiftRegistry\Model\Resource\Item\Collection'

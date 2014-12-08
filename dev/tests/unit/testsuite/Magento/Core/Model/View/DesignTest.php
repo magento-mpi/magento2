@@ -23,13 +23,13 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
         $flyweightThemeFactory = $this->getMock(
-            '\Magento\Framework\View\Design\Theme\FlyweightFactory', array(), array(), '', false
+            '\Magento\Framework\View\Design\Theme\FlyweightFactory', [], [], '', false
         );
         $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface');
         $themeFactory = $this->getMock('\Magento\Core\Model\ThemeFactory');
         $this->objectManager = $this->getMockForAbstractClass('\Magento\Framework\ObjectManagerInterface');
-        $state = $this->getMock('\Magento\Framework\App\State', array(), array(), '', false);
-        $themes = array();
+        $state = $this->getMock('\Magento\Framework\App\State', [], [], '', false);
+        $themes = [];
         $this->model = new \Magento\Core\Model\View\Design(
             $storeManager, $flyweightThemeFactory, $config, $themeFactory, $this->objectManager, $state, $themes
         );
@@ -68,10 +68,10 @@ class DesignTest extends \PHPUnit_Framework_TestCase
      */
     public function getThemePathDataProvider()
     {
-        return array(
-            array('some_path', '', 'some_path'),
-            array('', '2', \Magento\Framework\View\DesignInterface::PUBLIC_THEME_DIR . '2'),
-            array('', '', \Magento\Framework\View\DesignInterface::PUBLIC_VIEW_DIR),
-        );
+        return [
+            ['some_path', '', 'some_path'],
+            ['', '2', \Magento\Framework\View\DesignInterface::PUBLIC_THEME_DIR . '2'],
+            ['', '', \Magento\Framework\View\DesignInterface::PUBLIC_VIEW_DIR],
+        ];
     }
 }

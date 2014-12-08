@@ -14,7 +14,7 @@ class CartFixed extends AbstractDiscount
      *
      * @var int[]
      */
-    protected $_cartFixedRuleUsedForAddress = array();
+    protected $_cartFixedRuleUsedForAddress = [];
 
     /**
      * @param \Magento\SalesRule\Model\Rule $rule

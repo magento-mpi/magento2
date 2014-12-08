@@ -8,12 +8,12 @@
 
 namespace Magento\Customer\Test\TestCase;
 
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountEdit;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ChangeCustomerPassword

@@ -23,7 +23,7 @@ class Chooser extends Grid
      */
     protected $filters = [
         'chooser_sku' => [
-            'selector' => 'input[name="chooser_sku"]'
+            'selector' => 'input[name="chooser_sku"]',
         ],
     ];
 

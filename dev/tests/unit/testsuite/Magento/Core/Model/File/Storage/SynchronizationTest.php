@@ -22,15 +22,15 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
 
         $storageFactoryMock = $this->getMock(
             'Magento\Core\Model\File\Storage\DatabaseFactory',
-            array('create', '_wakeup'),
-            array(),
+            ['create', '_wakeup'],
+            [],
             '',
             false
         );
         $storageMock = $this->getMock(
             'Magento\Core\Model\File\Storage\Database',
-            array('getContent', 'getId', 'loadByFilename', '__wakeup'),
-            array(),
+            ['getContent', 'getId', 'loadByFilename', '__wakeup'],
+            [],
             '',
             false
         );
@@ -42,8 +42,8 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
 
         $file = $this->getMock(
             'Magento\Framework\Filesystem\File\Write',
-            array('lock', 'write', 'unlock', 'close'),
-            array(),
+            ['lock', 'write', 'unlock', 'close'],
+            [],
             '',
             false
         );
@@ -53,8 +53,8 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->once())->method('close');
         $directory = $this->getMock(
             'Magento\Framework\Filesystem\Direcoty\Write',
-            array('openFile', 'getRelativePath'),
-            array(),
+            ['openFile', 'getRelativePath'],
+            [],
             '',
             false
         );
@@ -62,8 +62,8 @@ class SynchronizationTest extends \PHPUnit_Framework_TestCase
         $directory->expects($this->once())->method('openFile')->with($filePath)->will($this->returnValue($file));
         $filesystem = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryWrite'),
-            array(),
+            ['getDirectoryWrite'],
+            [],
             '',
             false
         );

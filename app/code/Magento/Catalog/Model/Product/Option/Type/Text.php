@@ -38,7 +38,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Stdlib\String $string,
-        array $data = array()
+        array $data = []
     ) {
         $this->_escaper = $escaper;
         $this->string = $string;

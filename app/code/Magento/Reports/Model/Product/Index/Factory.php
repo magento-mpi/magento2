@@ -16,10 +16,10 @@ class Factory
     /**
      * @var array
      */
-    protected $_typeClasses = array(
+    protected $_typeClasses = [
         self::TYPE_COMPARED => 'Magento\Reports\Model\Product\Index\Compared',
-        self::TYPE_VIEWED => 'Magento\Reports\Model\Product\Index\Viewed'
-    );
+        self::TYPE_VIEWED => 'Magento\Reports\Model\Product\Index\Viewed',
+    ];
 
     /**
      * @var \Magento\Reports\Model\Product\Index\Abstract[]

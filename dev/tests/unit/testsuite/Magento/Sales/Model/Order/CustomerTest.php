@@ -241,8 +241,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                     'customerNoteNotify' => 'customer_note_notify',
                     'customerPrefix' => 'customer_prefix',
                     'customerSuffix' => 'customer_suffix',
-                    'customerTaxvat' => 'customer_taxvat'
-                ]
+                    'customerTaxvat' => 'customer_taxvat',
+                ],
             ]
         ];
     }

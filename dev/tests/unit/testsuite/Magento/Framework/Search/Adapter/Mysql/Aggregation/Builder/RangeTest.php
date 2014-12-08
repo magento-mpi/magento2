@@ -147,7 +147,7 @@ class RangeTest extends \PHPUnit_Framework_TestCase
                     [
                         '`value` < 50' => "'*_50'",
                         '`value` BETWEEN 50 AND 100' => "'50_100'",
-                        '`value` >= 100' => "'100_*'"
+                        '`value` >= 100' => "'100_*'",
                     ]
                 ]
             );

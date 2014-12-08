@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Add extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer
 {
@@ -33,13 +33,13 @@ class Add extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Custom
                 }
             } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('Failed to add shopping cart items to gift registry.'));
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+        $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
     }
 }

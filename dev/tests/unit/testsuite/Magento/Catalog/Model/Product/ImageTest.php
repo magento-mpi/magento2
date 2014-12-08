@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Model\Product;
 
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class ImageTest
@@ -84,9 +84,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
         $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManager')
             ->disableOriginalConstructor()
-            ->setMethods(array('getStore', 'getWebsite'))->getMock();
+            ->setMethods(['getStore', 'getWebsite'])->getMock();
         $store = $this->getMockBuilder('\Magento\Store\Model\Store')->disableOriginalConstructor()
-            ->setMethods(array('getId', '__sleep', '__wakeup', 'getBaseUrl'))->getMock();
+            ->setMethods(['getId', '__sleep', '__wakeup', 'getBaseUrl'])->getMock();
         $store->expects($this->any())->method('getId')->will($this->returnValue(1));
         $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://magento.com/media/'));
         $this->storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
@@ -234,7 +234,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     public function testSetWatermark()
     {
         $website = $this->getMockBuilder('\Magento\Store\Model\Website')->disableOriginalConstructor()
-            ->setMethods(array('getId', '__sleep', '__wakeup'))->getMock();
+            ->setMethods(['getId', '__sleep', '__wakeup'])->getMock();
         $website->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($website));
         $this->mediaDirectory->expects($this->at(3))->method('isExist')->with('catalog/product/watermark//somefile.png')
@@ -245,7 +245,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($absolutePath));
 
         $imageProcessor = $this->getMockBuilder('Magento\Framework\Image')->disableOriginalConstructor()
-            ->setMethods(array(
+            ->setMethods([
                 'keepAspectRatio',
                 'keepFrame',
                 'keepTransparency',
@@ -256,8 +256,8 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'setWatermarkImageOpacity',
                 'setWatermarkWidth',
                 'setWatermarkHeight',
-                'watermark'
-            ))->getMock();
+                'watermark',
+            ])->getMock();
         $imageProcessor->expects($this->once())->method('setWatermarkPosition')->with('center')
             ->will($this->returnValue(true));
         $imageProcessor->expects($this->once())->method('setWatermarkImageOpacity')->with(50)
@@ -271,7 +271,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $result = $this->image->setWatermark(
             '/somefile.png',
             'center',
-            array('width' => 100, 'height' => 100),
+            ['width' => 100, 'height' => 100],
             100,
             100,
             50

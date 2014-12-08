@@ -119,7 +119,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     'activity_path' => [self::CONFIG_PATH_ACTIVE, self::CONFIG_PATH_NOT_ACTIVE],
-                    'fieldset_css' => 'any-css'
+                    'fieldset_css' => 'any-css',
                 ],
                 ' class="section-config any-css with-button enabled">'
             ],

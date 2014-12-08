@@ -77,12 +77,12 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
 
         $this->price = $this->getMock('Magento\Framework\Pricing\Price\PriceInterface');
 
-        $this->model = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', array(
+        $this->model = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', [
             'context' => $this->context,
             'saleableItem' => $this->saleable,
             'price' => $this->price,
             'rendererPool' => $this->rendererPool
-        ));
+        ]);
     }
 
     /**
@@ -97,30 +97,30 @@ class PriceBoxTest extends \PHPUnit_Framework_TestCase
             ->method('getPriceCode')
             ->will($this->returnValue($priceCode));
 
-        $priceBox = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', array(
+        $priceBox = $this->objectManager->getObject('Magento\Framework\Pricing\Render\PriceBox', [
             'context' => $this->context,
             'saleableItem' => $this->saleable,
             'price' => $this->price,
             'rendererPool' => $this->rendererPool,
             'data' => $data
-        ));
+        ]);
         $priceBox->toHtml();
         $this->assertEquals($cssClasses, $priceBox->getData('css_classes'));
     }
 
     public function toHtmlDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'data' => [],
                 'price_code' => 'test_price',
-                'css_classes' => 'price-test_price'
-            ),
-            array(
+                'css_classes' => 'price-test_price',
+            ],
+            [
                 'data' => ['css_classes' => 'some_css_class'],
                 'price_code' => 'test_price',
                 'css_classes' => 'some_css_class price-test_price'
-        ));
+        ]];
     }
 
     public function testGetSaleableItem()

@@ -54,8 +54,8 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
         ];
         $item = $this->itemBuilder
             ->setEntityId($incorrectItemId)
@@ -78,8 +78,8 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $firstItemId . '/nestedResource/' . $secondItemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
         ];
         $item = $this->itemBuilder
             ->setEntityId($incorrectItemId)
@@ -100,8 +100,8 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
         ];
         $item = $this->itemBuilder
             ->setName('test')
@@ -127,8 +127,8 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
         ];
         $requestData = ['entityItem' => ['entityId' => $incorrectItemId, 'name' => 'test']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -139,7 +139,6 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
         );
     }
 
-
     public function testOverrideWithScalarValues()
     {
         $firstItemId = 1;
@@ -149,8 +148,8 @@ class RequestIdOverrideTest extends \Magento\Webapi\Routing\BaseService
             'rest' => [
                 'resourcePath' => "/{$this->_version}/TestModule5/OverrideService/" . $firstItemId
                     . '/nestedResource/' . $secondItemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
         ];
 
         $requestData = ['entity_id' => $incorrectItemId, 'name' => 'test', 'orders' => true];

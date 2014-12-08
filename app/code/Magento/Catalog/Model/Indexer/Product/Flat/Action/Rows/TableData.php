@@ -52,7 +52,7 @@ class TableData implements \Magento\Catalog\Model\Indexer\Product\Flat\TableData
         $connection = $this->_resource->getConnection('write');
         if (!$connection->isTableExists($flatTable)) {
             $connection->dropTable($flatDropName);
-            $connection->renameTablesBatch(array(['oldName' => $temporaryFlatTableName, 'newName' => $flatTable]));
+            $connection->renameTablesBatch([['oldName' => $temporaryFlatTableName, 'newName' => $flatTable]]);
             $connection->dropTable($flatDropName);
         } else {
             $describe = $connection->describeTable($flatTable);
@@ -60,7 +60,7 @@ class TableData implements \Magento\Catalog\Model\Indexer\Product\Flat\TableData
             $columns = array_keys(array_intersect_key($describe, $columns));
             $select = $connection->select();
 
-            $select->from(array('tf' => sprintf('%s_tmp_indexer', $flatTable)), $columns);
+            $select->from(['tf' => sprintf('%s_tmp_indexer', $flatTable)], $columns);
             $sql = $select->insertFromSelect($flatTable, $columns);
             $connection->query($sql);
 

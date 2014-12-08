@@ -212,42 +212,42 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
 
         $write = $this->_getWriteAdapter();
         $select = $write->select()->from(
-            array('e' => $this->getTable('catalog_product_entity')),
-            array('entity_id')
+            ['e' => $this->getTable('catalog_product_entity')],
+            ['entity_id']
         )->join(
-            array('cg' => $this->getTable('customer_group')),
+            ['cg' => $this->getTable('customer_group')],
             '',
-            array('customer_group_id')
+            ['customer_group_id']
         )->join(
-            array('cw' => $this->getTable('store_website')),
+            ['cw' => $this->getTable('store_website')],
             '',
-            array('website_id')
+            ['website_id']
         )->join(
-            array('cwd' => $this->_getWebsiteDateTable()),
+            ['cwd' => $this->_getWebsiteDateTable()],
             'cw.website_id = cwd.website_id',
-            array()
+            []
         )->join(
-            array('csg' => $this->getTable('store_group')),
+            ['csg' => $this->getTable('store_group')],
             'csg.website_id = cw.website_id AND cw.default_group_id = csg.group_id',
-            array()
+            []
         )->join(
-            array('cs' => $this->getTable('store')),
+            ['cs' => $this->getTable('store')],
             'csg.default_store_id = cs.store_id AND cs.store_id != 0',
-            array()
+            []
         )->join(
-            array('pw' => $this->getTable('catalog_product_website')),
+            ['pw' => $this->getTable('catalog_product_website')],
             'pw.product_id = e.entity_id AND pw.website_id = cw.website_id',
-            array()
+            []
         )->joinLeft(
-            array('tp' => $this->_getTierPriceIndexTable()),
+            ['tp' => $this->_getTierPriceIndexTable()],
             'tp.entity_id = e.entity_id AND tp.website_id = cw.website_id' .
             ' AND tp.customer_group_id = cg.customer_group_id',
-            array()
+            []
         )->joinLeft(
-            array('gp' => $this->_getGroupPriceIndexTable()),
+            ['gp' => $this->_getGroupPriceIndexTable()],
             'gp.entity_id = e.entity_id AND gp.website_id = cw.website_id' .
             ' AND gp.customer_group_id = cg.customer_group_id',
-            array()
+            []
         )->where(
             'e.type_id = ?',
             $this->getTypeId()
@@ -261,7 +261,7 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         } else {
             $taxClassId = new \Zend_Db_Expr('0');
         }
-        $select->columns(array('tax_class_id' => $taxClassId));
+        $select->columns(['tax_class_id' => $taxClassId]);
 
         $price = $this->_addAttributeToSelect($select, 'price', 'e.entity_id', 'cs.store_id');
         $specialPrice = $this->_addAttributeToSelect($select, 'special_price', 'e.entity_id', 'cs.store_id');
@@ -285,7 +285,7 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $finalPrice = $write->getCheckSql("{$groupPrice} < {$finalPrice}", $groupPrice, $finalPrice);
 
         $select->columns(
-            array(
+            [
                 'orig_price' => $price,
                 'price' => $finalPrice,
                 'min_price' => $finalPrice,
@@ -293,8 +293,8 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
                 'tier_price' => new \Zend_Db_Expr('tp.min_price'),
                 'base_tier' => new \Zend_Db_Expr('tp.min_price'),
                 'group_price' => new \Zend_Db_Expr('gp.price'),
-                'base_group_price' => new \Zend_Db_Expr('gp.price')
-            )
+                'base_group_price' => new \Zend_Db_Expr('gp.price'),
+            ]
         );
 
         if (!is_null($entityIds)) {
@@ -306,36 +306,36 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
          */
         $this->_eventManager->dispatch(
             'prepare_catalog_product_index_select',
-            array(
+            [
                 'select' => $select,
                 'entity_field' => new \Zend_Db_Expr('e.entity_id'),
                 'website_field' => new \Zend_Db_Expr('cw.website_id'),
                 'store_field' => new \Zend_Db_Expr('cs.store_id')
-            )
+            ]
         );
 
-        $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), array(), false);
+        $query = $select->insertFromSelect($this->_getDefaultFinalPriceTable(), [], false);
         $write->query($query);
 
         /**
          * Add possibility modify prices from external events
          */
         $select = $write->select()->join(
-            array('wd' => $this->_getWebsiteDateTable()),
+            ['wd' => $this->_getWebsiteDateTable()],
             'i.website_id = wd.website_id',
-            array()
+            []
         );
         $this->_eventManager->dispatch(
             'prepare_catalog_product_price_index_table',
-            array(
-                'index_table' => array('i' => $this->_getDefaultFinalPriceTable()),
+            [
+                'index_table' => ['i' => $this->_getDefaultFinalPriceTable()],
                 'select' => $select,
                 'entity_id' => 'i.entity_id',
                 'customer_group_id' => 'i.customer_group_id',
                 'website_id' => 'i.website_id',
                 'website_date' => 'wd.website_date',
-                'update_fields' => array('price', 'min_price', 'max_price')
-            )
+                'update_fields' => ['price', 'min_price', 'max_price']
+            ]
         );
 
         return $this;
@@ -404,38 +404,38 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $this->_prepareCustomOptionPriceTable();
 
         $select = $write->select()->from(
-            array('i' => $this->_getDefaultFinalPriceTable()),
-            array('entity_id', 'customer_group_id', 'website_id')
+            ['i' => $this->_getDefaultFinalPriceTable()],
+            ['entity_id', 'customer_group_id', 'website_id']
         )->join(
-            array('cw' => $this->getTable('store_website')),
+            ['cw' => $this->getTable('store_website')],
             'cw.website_id = i.website_id',
-            array()
+            []
         )->join(
-            array('csg' => $this->getTable('store_group')),
+            ['csg' => $this->getTable('store_group')],
             'csg.group_id = cw.default_group_id',
-            array()
+            []
         )->join(
-            array('cs' => $this->getTable('store')),
+            ['cs' => $this->getTable('store')],
             'cs.store_id = csg.default_store_id',
-            array()
+            []
         )->join(
-            array('o' => $this->getTable('catalog_product_option')),
+            ['o' => $this->getTable('catalog_product_option')],
             'o.product_id = i.entity_id',
-            array('option_id')
+            ['option_id']
         )->join(
-            array('ot' => $this->getTable('catalog_product_option_type_value')),
+            ['ot' => $this->getTable('catalog_product_option_type_value')],
             'ot.option_id = o.option_id',
-            array()
+            []
         )->join(
-            array('otpd' => $this->getTable('catalog_product_option_type_price')),
+            ['otpd' => $this->getTable('catalog_product_option_type_price')],
             'otpd.option_type_id = ot.option_type_id AND otpd.store_id = 0',
-            array()
+            []
         )->joinLeft(
-            array('otps' => $this->getTable('catalog_product_option_type_price')),
+            ['otps' => $this->getTable('catalog_product_option_type_price')],
             'otps.option_type_id = otpd.option_type_id AND otpd.store_id = cs.store_id',
-            array()
+            []
         )->group(
-            array('i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id')
+            ['i.entity_id', 'i.customer_group_id', 'i.website_id', 'o.option_id']
         );
 
         $optPriceType = $write->getCheckSql('otps.option_type_price_id > 0', 'otps.price_type', 'otpd.price_type');
@@ -466,44 +466,44 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         );
 
         $select->columns(
-            array(
+            [
                 'min_price' => $minPrice,
                 'max_price' => $maxPrice,
                 'tier_price' => $tierPrice,
-                'group_price' => $groupPrice
-            )
+                'group_price' => $groupPrice,
+            ]
         );
 
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
         $select = $write->select()->from(
-            array('i' => $this->_getDefaultFinalPriceTable()),
-            array('entity_id', 'customer_group_id', 'website_id')
+            ['i' => $this->_getDefaultFinalPriceTable()],
+            ['entity_id', 'customer_group_id', 'website_id']
         )->join(
-            array('cw' => $this->getTable('store_website')),
+            ['cw' => $this->getTable('store_website')],
             'cw.website_id = i.website_id',
-            array()
+            []
         )->join(
-            array('csg' => $this->getTable('store_group')),
+            ['csg' => $this->getTable('store_group')],
             'csg.group_id = cw.default_group_id',
-            array()
+            []
         )->join(
-            array('cs' => $this->getTable('store')),
+            ['cs' => $this->getTable('store')],
             'cs.store_id = csg.default_store_id',
-            array()
+            []
         )->join(
-            array('o' => $this->getTable('catalog_product_option')),
+            ['o' => $this->getTable('catalog_product_option')],
             'o.product_id = i.entity_id',
-            array('option_id')
+            ['option_id']
         )->join(
-            array('opd' => $this->getTable('catalog_product_option_price')),
+            ['opd' => $this->getTable('catalog_product_option_price')],
             'opd.option_id = o.option_id AND opd.store_id = 0',
-            array()
+            []
         )->joinLeft(
-            array('ops' => $this->getTable('catalog_product_option_price')),
+            ['ops' => $this->getTable('catalog_product_option_price')],
             'ops.option_id = opd.option_id AND ops.store_id = cs.store_id',
-            array()
+            []
         );
 
         $optPriceType = $write->getCheckSql('ops.option_price_id > 0', 'ops.price_type', 'opd.price_type');
@@ -526,20 +526,20 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $groupPrice = $write->getCheckSql("i.base_group_price IS NOT NULL", $groupPriceValue, "NULL");
 
         $select->columns(
-            array(
+            [
                 'min_price' => $minPrice,
                 'max_price' => $maxPrice,
                 'tier_price' => $tierPrice,
-                'group_price' => $groupPrice
-            )
+                'group_price' => $groupPrice,
+            ]
         );
 
         $query = $select->insertFromSelect($coaTable);
         $write->query($query);
 
         $select = $write->select()->from(
-            array($coaTable),
-            array(
+            [$coaTable],
+            [
                 'entity_id',
                 'customer_group_id',
                 'website_id',
@@ -547,22 +547,22 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
                 'max_price' => 'SUM(max_price)',
                 'tier_price' => 'SUM(tier_price)',
                 'group_price' => 'SUM(group_price)'
-            )
+            ]
         )->group(
-            array('entity_id', 'customer_group_id', 'website_id')
+            ['entity_id', 'customer_group_id', 'website_id']
         );
         $query = $select->insertFromSelect($copTable);
         $write->query($query);
 
-        $table = array('i' => $this->_getDefaultFinalPriceTable());
+        $table = ['i' => $this->_getDefaultFinalPriceTable()];
         $select = $write->select()->join(
-            array('io' => $copTable),
+            ['io' => $copTable],
             'i.entity_id = io.entity_id AND i.customer_group_id = io.customer_group_id' .
             ' AND i.website_id = io.website_id',
-            array()
+            []
         );
         $select->columns(
-            array(
+            [
                 'min_price' => new \Zend_Db_Expr('i.min_price + io.min_price'),
                 'max_price' => new \Zend_Db_Expr('i.max_price + io.max_price'),
                 'tier_price' => $write->getCheckSql(
@@ -574,8 +574,8 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
                     'i.group_price IS NOT NULL',
                     'i.group_price + io.group_price',
                     'NULL'
-                )
-            )
+                ),
+            ]
         );
         $query = $select->crossUpdateFromSelect($table);
         $write->query($query);
@@ -593,7 +593,7 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
      */
     protected function _movePriceDataToIndexTable()
     {
-        $columns = array(
+        $columns = [
             'entity_id' => 'entity_id',
             'customer_group_id' => 'customer_group_id',
             'website_id' => 'website_id',
@@ -603,14 +603,14 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
             'min_price' => 'min_price',
             'max_price' => 'max_price',
             'tier_price' => 'tier_price',
-            'group_price' => 'group_price'
-        );
+            'group_price' => 'group_price',
+        ];
 
         $write = $this->_getWriteAdapter();
         $table = $this->_getDefaultFinalPriceTable();
         $select = $write->select()->from($table, $columns);
 
-        $query = $select->insertFromSelect($this->getIdxTable(), array(), false);
+        $query = $select->insertFromSelect($this->getIdxTable(), [], false);
         $write->query($query);
 
         $write->delete($table);
@@ -660,8 +660,8 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $reader = $this->_getReadAdapter();
 
         $select = $reader->select()->from(
-            array($this->getTable('catalog_product_entity')),
-            array('count(entity_id)')
+            [$this->getTable('catalog_product_entity')],
+            ['count(entity_id)']
         )->where(
             'type_id=?',
             $this->getTypeId()

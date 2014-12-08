@@ -8,7 +8,6 @@
 namespace Magento\Framework\DB\Adapter;
 
 use Magento\Framework\DB\Ddl\Table;
-use Magento\Framework\DB\LoggerInterface;
 
 /**
  * Magento Database Adapter Interface
@@ -434,7 +433,7 @@ interface AdapterInterface
      * @param array $fields update fields pairs or values
      * @return int The number of affected rows.
      */
-    public function insertOnDuplicate($table, array $data, array $fields = array());
+    public function insertOnDuplicate($table, array $data, array $fields = []);
 
     /**
      * Inserts a table multiply rows with specified data.
@@ -510,7 +509,7 @@ interface AdapterInterface
      * @param  mixed  $bind An array of data or data itself to bind to the placeholders.
      * @return \Zend_Db_Statement_Interface
      */
-    public function query($sql, $bind = array());
+    public function query($sql, $bind = []);
 
     /**
      * Executes a SQL statement(s)
@@ -529,7 +528,7 @@ interface AdapterInterface
      * @param mixed                 $fetchMode Override current fetch mode.
      * @return array
      */
-    public function fetchAll($sql, $bind = array(), $fetchMode = null);
+    public function fetchAll($sql, $bind = [], $fetchMode = null);
 
     /**
      * Fetches the first row of the SQL result.
@@ -540,7 +539,7 @@ interface AdapterInterface
      * @param mixed                 $fetchMode Override current fetch mode.
      * @return array
      */
-    public function fetchRow($sql, $bind = array(), $fetchMode = null);
+    public function fetchRow($sql, $bind = [], $fetchMode = null);
 
     /**
      * Fetches all SQL result rows as an associative array.
@@ -555,7 +554,7 @@ interface AdapterInterface
      * @param mixed $bind Data to bind into SELECT placeholders.
      * @return array
      */
-    public function fetchAssoc($sql, $bind = array());
+    public function fetchAssoc($sql, $bind = []);
 
     /**
      * Fetches the first column of all SQL result rows as an array.
@@ -566,7 +565,7 @@ interface AdapterInterface
      * @param mixed $bind Data to bind into SELECT placeholders.
      * @return array
      */
-    public function fetchCol($sql, $bind = array());
+    public function fetchCol($sql, $bind = []);
 
     /**
      * Fetches all SQL result rows as an array of key-value pairs.
@@ -578,7 +577,7 @@ interface AdapterInterface
      * @param mixed $bind Data to bind into SELECT placeholders.
      * @return array
      */
-    public function fetchPairs($sql, $bind = array());
+    public function fetchPairs($sql, $bind = []);
 
     /**
      * Fetches the first column of the first row of the SQL result.
@@ -587,7 +586,7 @@ interface AdapterInterface
      * @param mixed $bind Data to bind into SELECT placeholders.
      * @return string
      */
-    public function fetchOne($sql, $bind = array());
+    public function fetchOne($sql, $bind = []);
 
     /**
      * Safely quotes a value for an SQL statement.
@@ -980,7 +979,7 @@ interface AdapterInterface
      * @param int|bool $mode
      * @return string
      */
-    public function insertFromSelect(\Magento\Framework\DB\Select $select, $table, array $fields = array(), $mode = false);
+    public function insertFromSelect(\Magento\Framework\DB\Select $select, $table, array $fields = [], $mode = false);
 
     /**
      * Get insert queries in array for insert by range with step parameter

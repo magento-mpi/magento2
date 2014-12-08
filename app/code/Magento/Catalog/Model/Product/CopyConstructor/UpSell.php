@@ -18,10 +18,10 @@ class UpSell implements \Magento\Catalog\Model\Product\CopyConstructorInterface
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
-        $data = array();
+        $data = [];
         $link = $product->getLinkInstance();
         $link->useUpSellLinks();
-        $attributes = array();
+        $attributes = [];
         foreach ($link->getAttributes() as $attribute) {
             if (isset($attribute['code'])) {
                 $attributes[] = $attribute['code'];

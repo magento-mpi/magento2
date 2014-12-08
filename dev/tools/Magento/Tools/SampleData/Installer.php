@@ -7,13 +7,12 @@
  */
 namespace Magento\Tools\SampleData;
 
-use Magento\Framework\App\State;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\Event;
-use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Console;
+use Magento\Framework\App\ObjectManager\ConfigLoader;
+use Magento\Framework\App\State;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

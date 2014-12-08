@@ -60,7 +60,7 @@ class AssertConfigurableProductPage extends AssertProductPage
 
                 $optionData['options'][$optionKey] = [
                     'title' => $option['label'],
-                    'price' => number_format($price, 2)
+                    'price' => number_format($price, 2),
                 ];
             }
 

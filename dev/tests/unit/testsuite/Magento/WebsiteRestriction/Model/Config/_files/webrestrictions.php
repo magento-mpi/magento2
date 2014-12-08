@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'generic' => array(
-        0 => 'path_one'
-    ),
-    'register' =>array(
-        0 => 'path_two'
-    )
-);
+return [
+    'generic' => [
+        0 => 'path_one',
+    ],
+    'register' => [
+        0 => 'path_two',
+    ]
+];

@@ -29,23 +29,23 @@ class OutputTest extends \PHPUnit_Framework_TestCase
     {
         // invalid handler
         $this->_helper->addHandler('method', 'handler');
-        $this->assertEquals(array(), $this->_helper->getHandlers('method'));
+        $this->assertEquals([], $this->_helper->getHandlers('method'));
 
         // add one handler
         $objectOne = new \StdClass();
         $this->_helper->addHandler('valid', $objectOne);
-        $this->assertSame(array($objectOne), $this->_helper->getHandlers('valid'));
+        $this->assertSame([$objectOne], $this->_helper->getHandlers('valid'));
 
         // add another one
         $objectTwo = new \StdClass();
         $this->_helper->addHandler('valid', $objectTwo);
-        $this->assertSame(array($objectOne, $objectTwo), $this->_helper->getHandlers('valid'));
+        $this->assertSame([$objectOne, $objectTwo], $this->_helper->getHandlers('valid'));
     }
 
     public function testProcess()
     {
         $this->_helper->addHandler('sampleProcessor', $this);
-        $this->assertStringStartsWith(__CLASS__, $this->_helper->process('sampleProcessor', uniqid(), array()));
+        $this->assertStringStartsWith(__CLASS__, $this->_helper->process('sampleProcessor', uniqid(), []));
     }
 
     public function testProductAttribute()

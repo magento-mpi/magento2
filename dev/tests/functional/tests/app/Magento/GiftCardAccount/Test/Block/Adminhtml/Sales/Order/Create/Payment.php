@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Sales\Order\Create;
 
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 
 /**
  * Gift card account block in order new page.

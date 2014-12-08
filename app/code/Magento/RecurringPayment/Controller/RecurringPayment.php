@@ -11,8 +11,8 @@
  */
 namespace Magento\RecurringPayment\Controller;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Controller\RegistryConstants;
+use Magento\Framework\App\RequestInterface;
 
 class RecurringPayment extends \Magento\Framework\App\Action\Action
 {

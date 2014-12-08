@@ -11,10 +11,10 @@ namespace Magento\Banner\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Curl handler for creating a banner
@@ -51,13 +51,13 @@ class CreateBanner extends Curl
     protected function postRequest(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
-        $fields = array();
+        $fields = [];
         foreach ($data as $key => $field) {
             $fields[$key] = $field['value'];
         }
         $url = $_ENV['app_backend_url'] . 'admin/banner/save/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $fields);
         $response = $curl->read();
         $curl->close();
 

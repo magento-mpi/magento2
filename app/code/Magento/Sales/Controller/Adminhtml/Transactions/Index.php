@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Transactions;
 
-use \Magento\Backend\App\Action;
 
 class Index extends \Magento\Sales\Controller\Adminhtml\Transactions
 {

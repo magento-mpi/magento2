@@ -113,13 +113,13 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManager->getObject(
             'Magento\Catalog\Pricing\Render\FinalPriceBox',
-            array(
+            [
                 'context' => $context,
                 'saleableItem' => $this->product,
                 'rendererPool' => $this->rendererPool,
                 'price' => $this->price,
                 'data' => ['zone' => 'test_zone']
-            )
+            ]
         );
     }
 
@@ -218,7 +218,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'display_label' => 'As low as',
             'price_id' => $priceId,
             'include_container' => false,
-            'skip_adjustments' => true
+            'skip_adjustments' => true,
         ];
 
         $amountRender = $this->getMock('Magento\Framework\Pricing\Render\Amount', ['toHtml'], [], '', false);

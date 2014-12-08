@@ -8,13 +8,13 @@
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
-use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
+use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
+use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Parent class for TargetRule tests.

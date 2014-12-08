@@ -12,7 +12,7 @@ class Object extends \Zend_Filter
     /**
      * @var array
      */
-    protected $_columnFilters = array();
+    protected $_columnFilters = [];
 
     /**
      * @var \Magento\Framework\Data\Collection\EntityFactoryInterface

@@ -54,7 +54,7 @@ class Context
         } else {
             throw new \InvalidArgumentException(sprintf('Invalid path given: "%s".', $path));
         }
-        return array($type, $value);
+        return [$type, $value];
     }
 
     /**

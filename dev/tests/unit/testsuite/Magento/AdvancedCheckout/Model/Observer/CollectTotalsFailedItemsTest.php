@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\AdvancedCheckout\Model\Observer;
- 
+
 class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var CollectTotalsFailedItems
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -35,7 +35,7 @@ class CollectTotalsFailedItemsTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $eventMock;
-    
+
     protected function setUp()
     {
         $this->cartMock = $this->getMock('Magento\AdvancedCheckout\Model\Cart', [], [], '', false);

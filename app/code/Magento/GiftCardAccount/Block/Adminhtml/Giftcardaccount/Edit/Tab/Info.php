@@ -38,7 +38,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -58,35 +58,35 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
 
         $model = $this->_coreRegistry->registry('current_giftcardaccount');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Information')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Information')]);
 
         if ($model->getId()) {
             $fieldset->addField(
                 'code',
                 'label',
-                array('name' => 'code', 'label' => __('Gift Card Code'), 'title' => __('Gift Card Code'))
+                ['name' => 'code', 'label' => __('Gift Card Code'), 'title' => __('Gift Card Code')]
             );
 
             $fieldset->addField(
                 'state_text',
                 'label',
-                array('name' => 'state_text', 'label' => __('Status'), 'title' => __('Status'))
+                ['name' => 'state_text', 'label' => __('Status'), 'title' => __('Status')]
             );
         }
 
         $fieldset->addField(
             'status',
             'select',
-            array(
+            [
                 'label' => __('Active'),
                 'title' => __('Active'),
                 'name' => 'status',
                 'required' => true,
-                'options' => array(
+                'options' => [
                     \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED => __('Yes'),
-                    \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED => __('No')
-                )
-            )
+                    \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_DISABLED => __('No'),
+                ]
+            ]
         );
         if (!$model->getId()) {
             $model->setData('status', \Magento\GiftCardAccount\Model\Giftcardaccount::STATUS_ENABLED);
@@ -95,16 +95,16 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'is_redeemable',
             'select',
-            array(
+            [
                 'label' => __('Redeemable'),
                 'title' => __('Redeemable'),
                 'name' => 'is_redeemable',
                 'required' => true,
-                'options' => array(
+                'options' => [
                     \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE => __('Yes'),
-                    \Magento\GiftCardAccount\Model\Giftcardaccount::NOT_REDEEMABLE => __('No')
-                )
-            )
+                    \Magento\GiftCardAccount\Model\Giftcardaccount::NOT_REDEEMABLE => __('No'),
+                ]
+            ]
         );
         if (!$model->getId()) {
             $model->setData('is_redeemable', \Magento\GiftCardAccount\Model\Giftcardaccount::REDEEMABLE);
@@ -114,13 +114,13 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             $field = $fieldset->addField(
                 'website_id',
                 'select',
-                array(
+                [
                     'name' => 'website_id',
                     'label' => __('Website'),
                     'title' => __('Website'),
                     'required' => true,
                     'values' => $this->_systemStore->getWebsiteValuesForForm(true)
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -138,20 +138,20 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'balance',
             'price',
-            array(
+            [
                 'label' => __('Balance'),
                 'title' => __('Balance'),
                 'name' => 'balance',
                 'class' => 'validate-number',
                 'required' => true,
                 'note' => '<div id="balance_currency">' . $note . '</div>'
-            )
+            ]
         );
 
         $fieldset->addField(
             'date_expires',
             'date',
-            array(
+            [
                 'name' => 'date_expires',
                 'label' => __('Expiration Date'),
                 'title' => __('Expiration Date'),
@@ -159,7 +159,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'date_format' => $this->_localeDate->getDateFormat(
                     \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
                 )
-            )
+            ]
         );
 
         $form->setValues($model->getData());
@@ -175,7 +175,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getCurrency()
     {
-        $result = array();
+        $result = [];
         $websites = $this->_systemStore->getWebsiteCollection();
         foreach ($websites as $id => $website) {
             $result[$id] = $website->getBaseCurrencyCode();

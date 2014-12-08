@@ -26,7 +26,6 @@ $customer = $customerRepository->getById(1);
 $addressRepository = $objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 $quoteShippingAddress->importCustomerAddressData($addressRepository->getById(1));
 
-
 /** @var \Magento\Sales\Model\Quote $quote */
 $quote = $objectManager->create('Magento\Sales\Model\Quote');
 $quote->setStoreId(

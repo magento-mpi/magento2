@@ -92,7 +92,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
         \Magento\Rule\Model\Condition\Sql\Builder $sqlBuilder,
         \Magento\CatalogWidget\Model\Rule $rule,
         \Magento\Widget\Helper\Conditions $conditionsHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->productCollectionFactory = $productCollectionFactory;
         $this->catalogProductVisibility = $catalogProductVisibility;
@@ -119,10 +119,10 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             ->addColumnCountLayoutDepend('2columns-right', 4)
             ->addColumnCountLayoutDepend('3columns', 3);
 
-        $this->addData(array(
+        $this->addData([
             'cache_lifetime' => 86400,
-            'cache_tags' => array(\Magento\Catalog\Model\Product::CACHE_TAG
-        )));
+            'cache_tags' => [\Magento\Catalog\Model\Product::CACHE_TAG,
+        ], ]);
     }
 
     /**
@@ -136,7 +136,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             ? $this->getData('conditions')
             : $this->getData('conditions_encoded');
 
-        return array(
+        return [
             'CATALOG_PRODUCTS_LIST_WIDGET',
             $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
@@ -144,7 +144,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
             intval($this->getRequest()->getParam(self::PAGE_VAR_NAME, 1)),
             $this->getProductsPerPage(),
             $conditions
-        );
+        ];
     }
 
     /**
@@ -315,7 +315,7 @@ class ProductsList extends \Magento\Catalog\Block\Product\AbstractProduct implem
      */
     public function getIdentities()
     {
-        return array(\Magento\Catalog\Model\Product::CACHE_TAG);
+        return [\Magento\Catalog\Model\Product::CACHE_TAG];
     }
 
     /**

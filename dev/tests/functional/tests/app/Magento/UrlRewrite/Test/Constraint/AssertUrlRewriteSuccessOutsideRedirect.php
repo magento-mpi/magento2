@@ -8,9 +8,9 @@
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
+use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 
 /**
  * Class AssertUrlRewriteSuccessOutsideRedirect

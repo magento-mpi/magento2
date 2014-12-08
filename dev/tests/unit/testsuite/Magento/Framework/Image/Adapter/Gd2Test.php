@@ -132,7 +132,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
             3 => 'width="480" height="320"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg'
+            'mime' => 'image/jpeg',
         ];
 
         $bigFile = [
@@ -142,7 +142,7 @@ class Gd2Test extends \PHPUnit_Framework_TestCase
             3 => 'width="3579" height="2398"',
             'bits' => 8,
             'channels' => 3,
-            'mime' => 'image/jpeg'
+            'mime' => 'image/jpeg',
         ];
 
         return [

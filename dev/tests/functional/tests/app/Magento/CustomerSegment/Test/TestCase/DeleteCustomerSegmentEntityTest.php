@@ -8,10 +8,10 @@
 
 namespace Magento\CustomerSegment\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test creation for DeleteCustomerSegmentEntity

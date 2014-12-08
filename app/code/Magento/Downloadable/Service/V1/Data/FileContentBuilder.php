@@ -7,7 +7,7 @@
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
-use \Magento\Framework\Api\ExtensibleObjectBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for sort order data object.

@@ -22,7 +22,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         if (!$source instanceof \DOMDocument) {
             return $output;
         }
@@ -32,7 +32,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
 
         /** @var \DOMElement $section */
         foreach ($sections as $section) {
-            $sectionArray = array();
+            $sectionArray = [];
             $sectionName = $section->getAttribute('name');
 
             if (!$sectionName) {
@@ -44,7 +44,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             /** @var \DOMElement $group */
 
             foreach ($groups as $group) {
-                $groupArray = array();
+                $groupArray = [];
                 $groupName = $group->getAttribute('name');
                 if (!$groupName) {
                     throw new \InvalidArgumentException('Attribute "name" of "group" does not exist');
@@ -55,7 +55,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 /** @var \DOMElement $item */
 
                 foreach ($items as $item) {
-                    $rendererArray = array();
+                    $rendererArray = [];
                     $itemName = $item->getAttribute('name');
                     if (!$itemName) {
                         throw new \InvalidArgumentException('Attribute "name" of "item" does not exist');
@@ -72,11 +72,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                         $rendererArray[$rendererName] = $renderer->getAttribute('instance');
                     }
 
-                    $itemArray = array(
+                    $itemArray = [
                         'instance' => $item->getAttribute('instance'),
                         'sort_order' => $item->getAttribute('sort_order'),
-                        'renderers' => $rendererArray
-                    );
+                        'renderers' => $rendererArray,
+                    ];
                     $groupArray[$itemName] = $itemArray;
                 }
                 $sectionArray[$groupName] = $groupArray;
@@ -85,7 +85,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         }
 
         $order = $source->getElementsByTagName('order')->item(0);
-        $availableProductTypes = array();
+        $availableProductTypes = [];
         /** @var \DOMElement $order */
         if ($order) {
             /** @var \DOMNodeList $types */

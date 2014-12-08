@@ -36,7 +36,7 @@ hierarchyNodes = {
     page: <?php echo $this->getCurrentPageJson() ?>,
     initialize: function(){
         this.increment = 0;
-        this.pageAssignedToWebsiteRoot = <?php echo $this->getPage()->getWebsiteRoot()?'true':'false' ?>;
+        this.pageAssignedToWebsiteRoot = <?php echo $this->getPage()->getWebsiteRoot() ? 'true' : 'false' ?>;
         this.nodeIds = $('node_ids');
         this.tree = new Ext.tree.TreePanel('tree-container', {
             animate: false,

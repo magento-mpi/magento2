@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Helper;
 
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 /**
  * Class Data
@@ -41,7 +41,7 @@ class Data
      */
     public function getOptions($currentProduct, $allowedProducts)
     {
-        $options = array();
+        $options = [];
         $baseImageUrl = (string)$this->imageHelper->init($currentProduct, 'image');
 
         foreach ($allowedProducts as $product) {

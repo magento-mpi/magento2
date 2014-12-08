@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App;
+use Magento\Framework\Controller\AbstractResult;
 
 /**
  * In many cases controller actions may result in a redirect

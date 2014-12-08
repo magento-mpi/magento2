@@ -15,12 +15,12 @@ class Timezone implements TimezoneInterface
     /**
      * @var array
      */
-    protected $_allowedFormats = array(
+    protected $_allowedFormats = [
         TimezoneInterface::FORMAT_TYPE_FULL,
         TimezoneInterface::FORMAT_TYPE_LONG,
         TimezoneInterface::FORMAT_TYPE_MEDIUM,
-        TimezoneInterface::FORMAT_TYPE_SHORT
-    );
+        TimezoneInterface::FORMAT_TYPE_SHORT,
+    ];
 
     /**
      * @var string
@@ -152,7 +152,7 @@ class Timezone implements TimezoneInterface
             // $date may be false, but \Magento\Framework\Stdlib\DateTime\DateInterface uses strict compare
             $date = null;
         }
-        $date = $this->_dateFactory->create(array('date' => $date, 'part' => $part, 'locale' => $locale));
+        $date = $this->_dateFactory->create(['date' => $date, 'part' => $part, 'locale' => $locale]);
         if ($useTimezone) {
             $timezone = $this->_scopeConfig->getValue($this->getDefaultTimezonePath(), $this->_scopeType);
             if ($timezone) {
@@ -170,7 +170,7 @@ class Timezone implements TimezoneInterface
     {
         $timezone = $this->_scopeConfig->getValue($this->getDefaultTimezonePath(), $this->_scopeType, $scope);
         $date = $this->_dateFactory->create(
-            array('date' => $date, 'part' => null, 'locale' => $this->_localeResolver->getLocale())
+            ['date' => $date, 'part' => null, 'locale' => $this->_localeResolver->getLocale()]
         );
         $date->setTimezone($timezone);
         if (!$includeTime) {

@@ -35,7 +35,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array();
+    protected $_associatedEntitiesMap = [];
 
     /**
      * Quote rule environment
@@ -93,7 +93,7 @@ abstract class AbstractCollection extends \Magento\Framework\Model\Resource\Db\C
             }
 
             $subSelect = $this->getConnection()->select()->from(
-                array('website' => $this->getTable($entityInfo['associations_table'])),
+                ['website' => $this->getTable($entityInfo['associations_table'])],
                 ''
             )->where(
                 'website.' . $entityInfo['entity_id_field'] . ' IN (?)',

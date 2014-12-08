@@ -60,7 +60,7 @@ class Save extends \Magento\Search\Controller\Adminhtml\Term
                     } elseif (!$model->getId() && $queryId) {
                         $model->load($queryId);
                     }
-                } else if ($queryId) {
+                } elseif ($queryId) {
                     $model->load($queryId);
                 }
 

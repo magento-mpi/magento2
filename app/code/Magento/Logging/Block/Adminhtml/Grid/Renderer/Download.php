@@ -25,7 +25,7 @@ class Download extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     {
         return '<a href="' . $this->getUrl(
             'adminhtml/*/download',
-            array('basename' => $row->getBasename())
+            ['basename' => $row->getBasename()]
         ) . '">' . $row->getBasename() . '</a>';
     }
 }

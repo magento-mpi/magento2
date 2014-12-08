@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog entity setup
  *
@@ -26,8 +25,8 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
      */
     public function installEntities($entities = null)
     {
-        $attributes = array(
-            'is_recurring' => array(
+        $attributes = [
+            'is_recurring' => [
                 'type' => 'int',
                 'label' => 'Enable Recurring Payment',
                 'input' => 'select',
@@ -37,9 +36,9 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
                 'sort_order' => 1,
                 'apply_to' => 'simple,virtual',
                 'is_configurable' => false,
-                'group' => 'Recurring Payment'
-            ),
-            'recurring_payment' => array(
+                'group' => 'Recurring Payment',
+            ],
+            'recurring_payment' => [
                 'type' => 'text',
                 'label' => 'Recurring Payment',
                 'input' => 'text',
@@ -48,9 +47,9 @@ class Setup extends \Magento\Catalog\Model\Resource\Setup
                 'sort_order' => 2,
                 'apply_to' => 'simple,virtual',
                 'is_configurable' => false,
-                'group' => 'Recurring Payment'
-            )
-        );
+                'group' => 'Recurring Payment',
+            ],
+        ];
         foreach ($attributes as $attrCode => $attr) {
             $this->addAttribute('catalog_product', $attrCode, $attr);
         }

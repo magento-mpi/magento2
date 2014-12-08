@@ -40,7 +40,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'giftwrapping_design', 'class' => 'select')
+            ['id' => 'giftwrapping_design', 'class' => 'select']
         )->setName(
             'giftwrapping[' . $type . '][' . $this->getEntityId() . '][design]'
         )->setOptions(

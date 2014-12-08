@@ -132,7 +132,7 @@ class Category extends \Magento\Framework\Data\Form\Element\Multiselect
                     'label' => $newCategoryCaption,
                     'title' => $newCategoryCaption,
                     'onclick' => 'jQuery("#new-category").dialog("open")',
-                    'disabled' => $this->getDisabled()
+                    'disabled' => $this->getDisabled(),
                 ]
             );
         $return = <<<HTML

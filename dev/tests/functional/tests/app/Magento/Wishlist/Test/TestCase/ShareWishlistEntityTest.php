@@ -8,17 +8,17 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\Wishlist\Test\Page\WishlistShare;
+use Mtf\Client\Browser;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ShareWishlistEntity

@@ -105,7 +105,6 @@ class Converter
                 $value = $this->setOptionsToValues($options, $value);
             }
             $data[$field] = $value;
-
         }
         return $data;
     }
@@ -210,9 +209,9 @@ class Converter
     {
         /** @var \Magento\Catalog\Model\Resource\Product\Attribute\Collection $collection */
         $collection = $this->attributeCollectionFactory->create();
-        $collection->addFieldToSelect(array('attribute_code', 'attribute_id'));
+        $collection->addFieldToSelect(['attribute_code', 'attribute_id']);
         $collection->setAttributeSetFilter($this->getAttributeSetId());
-        $collection->setFrontendInputTypeFilter(array('in' => array('select', 'multiselect')));
+        $collection->setFrontendInputTypeFilter(['in' => ['select', 'multiselect']]);
         foreach ($collection as $item) {
             $options = $this->attrOptionCollectionFactory->create()
                 ->setAttributeFilter($item->getAttributeId())->setPositionOrder('asc', true)->load();

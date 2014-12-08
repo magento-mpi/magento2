@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward Points Settings form
  *
@@ -29,7 +28,7 @@ class Subscription extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);

@@ -265,7 +265,7 @@ class Product extends \Magento\Core\Helper\Url
         if ($category) {
             $categoryId = $category->getId();
         }
-        return $this->_getUrl('sendfriend/product/send', array('id' => $product->getId(), 'cat_id' => $categoryId));
+        return $this->_getUrl('sendfriend/product/send', ['id' => $product->getId(), 'cat_id' => $categoryId]);
     }
 
     /**
@@ -274,7 +274,7 @@ class Product extends \Magento\Core\Helper\Url
     public function getStatuses()
     {
         if (null === $this->_statuses) {
-            $this->_statuses = array();
+            $this->_statuses = [];
         }
 
         return $this->_statuses;
@@ -331,10 +331,10 @@ class Product extends \Magento\Core\Helper\Url
         /**
          * @todo specify there all relations for properties depending on input type
          */
-        $inputTypes = array(
-            'multiselect' => array('backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'),
-            'boolean' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean')
-        );
+        $inputTypes = [
+            'multiselect' => ['backend_model' => 'Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend'],
+            'boolean' => ['source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'],
+        ];
 
         if (is_null($inputType)) {
             return $inputTypes;
@@ -343,7 +343,7 @@ class Product extends \Magento\Core\Helper\Url
                 return $inputTypes[$inputType];
             }
         }
-        return array();
+        return [];
     }
 
     /**
@@ -398,7 +398,7 @@ class Product extends \Magento\Core\Helper\Url
         // Init and load product
         $this->_eventManager->dispatch(
             'catalog_controller_product_init_before',
-            array('controller_action' => $controller, 'params' => $params)
+            ['controller_action' => $controller, 'params' => $params]
         );
 
         if (!$productId) {
@@ -448,7 +448,7 @@ class Product extends \Magento\Core\Helper\Url
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_product_init_after',
-                array('product' => $product, 'controller_action' => $controller)
+                ['product' => $product, 'controller_action' => $controller]
             );
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_logger->logException($e);

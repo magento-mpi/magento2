@@ -144,11 +144,11 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton(
             'add',
-            array(
+            [
                 'label' => $this->getAddButtonLabel(),
                 'onclick' => 'setLocation(\'' . $this->getCreateUrl() . '\')',
                 'class' => 'add primary'
-            )
+            ]
         );
     }
 
@@ -159,11 +159,11 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton(
             'back',
-            array(
+            [
                 'label' => $this->getBackButtonLabel(),
                 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
                 'class' => 'back'
-            )
+            ]
         );
     }
 

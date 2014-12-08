@@ -32,16 +32,16 @@ class ResourcesConfigFilesTest extends \PHPUnit_Framework_TestCase
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
         $validationStateMock = $this->getMock('Magento\Framework\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
-        $deploymentConfigMock = $this->getMock('Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
-        $deploymentConfigMock->expects($this->any())->method('getConfiguration')->will($this->returnValue(array()));
+        $deploymentConfigMock = $this->getMock('Magento\Framework\App\DeploymentConfig', [], [], '', false);
+        $deploymentConfigMock->expects($this->any())->method('getConfiguration')->will($this->returnValue([]));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create(
             'Magento\Framework\App\Resource\Config\Reader',
-            array(
+            [
                 'fileResolver' => $fileResolverMock,
                 'validationState' => $validationStateMock,
                 'deploymentConfig' => $deploymentConfigMock
-            )
+            ]
         );
     }
 

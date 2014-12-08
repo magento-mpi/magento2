@@ -11,9 +11,9 @@
     <div class="tree-store-scope">
     <?php $showHelpHint = 0; ?>
     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
-        <?php $showWebsite=false; ?>
+        <?php $showWebsite = false; ?>
         <?php foreach ($this->getGroupCollection($_website) as $_group): ?>
-            <?php $showGroup=false; ?>
+            <?php $showGroup = false; ?>
             <?php foreach ($this->getStoreCollection($_group) as $_store): ?>
                 <?php if ($showWebsite == false): ?>
                     <?php $showWebsite = true; ?>

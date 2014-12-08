@@ -33,7 +33,7 @@ class Total extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
         parent::__construct($context, $customerSession, $checkoutSession, $salesConfig, $data);

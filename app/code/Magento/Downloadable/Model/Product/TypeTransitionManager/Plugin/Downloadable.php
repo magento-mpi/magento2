@@ -46,11 +46,11 @@ class Downloadable
     ) {
         $isTypeCompatible = in_array(
             $product->getTypeId(),
-            array(
+            [
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
                 \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
-            )
+            ]
         );
         $downloadableData = $this->request->getPost('downloadable');
         $hasDownloadableData = false;

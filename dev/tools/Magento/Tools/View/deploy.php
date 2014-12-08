@@ -14,7 +14,7 @@
 use Magento\Framework\Autoload\AutoloaderRegistry;
 
 $baseName = basename(__FILE__);
-$options = getopt('', array('langs::', 'dry-run', 'verbose::', 'help'));
+$options = getopt('', ['langs::', 'dry-run', 'verbose::', 'help']);
 define('USAGE', "USAGE:\n\tphp -f {$baseName} -- [--langs=en_US,de_DE,...] [--verbose=0|1] [--dry-run] [--help]\n");
 require __DIR__ . '/../../../../../app/bootstrap.php';
 

@@ -59,7 +59,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
     {
         $formattedData = $this->_formatData($data, true);
         /** Wrap response in a single node. */
-        $formattedData = array(self::XML_ROOT_NODE => $formattedData);
+        $formattedData = [self::XML_ROOT_NODE => $formattedData];
         $this->_xmlGenerator->setIndexedArrayItemName(self::DEFAULT_ENTITY_ITEM_NAME)->arrayToXml($formattedData);
         return $this->_xmlGenerator->getDom()->saveXML();
     }
@@ -87,7 +87,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
         }
         $isAssoc = !preg_match('/^\d+$/', implode(array_keys($data), ''));
 
-        $formattedData = array();
+        $formattedData = [];
         foreach ($data as $key => $value) {
             $value = is_array($value) || is_object($value) ? $this->_formatData($value) : $this->_formatValue($value);
             if ($isAssoc) {
@@ -111,7 +111,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
             /** Without the following transformation boolean values are rendered incorrectly */
             $value = $value ? 'true' : 'false';
         }
-        $replacementMap = array('&' => '&amp;');
+        $replacementMap = ['&' => '&amp;'];
         return str_replace(array_keys($replacementMap), array_values($replacementMap), $value);
     }
 
@@ -125,7 +125,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
      */
     protected function _prepareKey($key)
     {
-        $replacementMap = array(
+        $replacementMap = [
             '!' => '',
             '"' => '',
             '#' => '',
@@ -155,8 +155,8 @@ class Xml implements \Magento\Webapi\Controller\Rest\Response\RendererInterface
             '}' => '',
             '~' => '',
             ' ' => '_',
-            ':' => '_'
-        );
+            ':' => '_',
+        ];
         $key = str_replace(array_keys($replacementMap), array_values($replacementMap), $key);
         $key = trim($key, '_');
         $prohibitedTagPattern = '/^[0-9,.-]/';

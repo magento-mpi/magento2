@@ -9,7 +9,7 @@
 
 namespace Magento\Checkout\Service\V1\Item;
 
-use \Magento\Checkout\Service\V1\Data\Cart\Item as Item;
+use Magento\Checkout\Service\V1\Data\Cart\Item as Item;
 
 class ReaderServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,7 +36,7 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
         $this->service = new ReadService($this->quoteRepositoryMock, $this->itemMapperMock);
     }
 
-    public  function testGetList()
+    public function testGetList()
     {
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $this->quoteRepositoryMock->expects($this->once())->method('getActive')
@@ -44,7 +44,7 @@ class ReaderServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($quoteMock));
         $itemMock = $this->getMock('\Magento\Sales\Model\Quote\Item',
             ['getSku', 'getName', 'getPrice', 'getQty', 'getProductType', '__wakeup'], [], '', false);
-        $quoteMock->expects($this->any())->method('getAllItems')->will($this->returnValue(array($itemMock)));
+        $quoteMock->expects($this->any())->method('getAllItems')->will($this->returnValue([$itemMock]));
         $testData = [
             Item::ITEM_ID => 7,
             Item::SKU => 'prd_SKU',

@@ -166,7 +166,7 @@ class BaseTest extends \Magento\Test\BaseTestCase
         $defaultReturnMap = [
             ['module', $moduleFrontName],
             ['controller', $actionPath],
-            ['action', $actionName]
+            ['action', $actionName],
         ];
         $this->defaultPathMock->expects($this->any())->method('getPart')->willReturnMap($defaultReturnMap);
         $this->routeConfigMock->expects($this->any())->method('getModulesByFrontName')->willReturn($moduleList);
@@ -241,7 +241,6 @@ class BaseTest extends \Magento\Test\BaseTestCase
             ->with([$module, $prefix, $actionPath])
             ->willReturn($className);
         $this->assertEquals($className, $this->model->getActionClassName($module, $actionPath));
-
     }
 
     /**
@@ -258,4 +257,4 @@ class BaseTest extends \Magento\Test\BaseTestCase
             ->with($with);
         return $this;
     }
-} 
+}

@@ -33,7 +33,7 @@ class Factory
      * @throws \InvalidArgumentException
      * @return \Magento\Eav\Model\Form
      */
-    public function create($form, array $data = array())
+    public function create($form, array $data = [])
     {
         $formInstance = $this->_objectManager->create($form, $data);
         if (false == $formInstance instanceof \Magento\Eav\Model\Form) {

@@ -8,13 +8,12 @@
 
 namespace Magento\SalesRule\Test\Handler\SalesRuleInjectable;
 
-use Magento\SalesRule\Test\Handler\SalesRuleInjectable;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Handler\Conditions;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -30,28 +29,28 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
     protected $mapTypeParams = [
         'Subtotal' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'base_subtotal'
+            'attribute' => 'base_subtotal',
         ],
         'Conditions combination' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Combine',
             'aggregator' => 'all',
-            'value' => '1'
+            'value' => '1',
         ],
         'Shipping Country' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'country_id'
+            'attribute' => 'country_id',
         ],
         'Shipping Postcode' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Address',
-            'attribute' => 'postcode'
+            'attribute' => 'postcode',
         ],
         'Category' => [
             'type' => 'Magento\SalesRule\Model\Rule\Condition\Product',
-            'attribute' => 'category_ids'
+            'attribute' => 'category_ids',
         ],
         'Customer Segment' => [
             'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment',
-        ]
+        ],
     ];
 
     /**
@@ -62,36 +61,36 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
     protected $mappingData = [
         'is_active' => [
             'Active' => 1,
-            'Inactive' => 0
+            'Inactive' => 0,
         ],
         'coupon_type' => [
             'No Coupon' => 1,
             'Specific Coupon' => 2,
-            'Auto' => 3
+            'Auto' => 3,
         ],
         'is_rss' => [
             'Yes' => 1,
-            'No' => 2
+            'No' => 2,
         ],
         'simple_action' => [
             'Percent of product price discount' => 'by_percent',
             'Fixed amount discount' => 'by_fixed',
             'Fixed amount discount for whole cart' => 'cart_fixed',
-            'Buy X get Y free (discount amount is Y)' => 'buy_x_get_y'
+            'Buy X get Y free (discount amount is Y)' => 'buy_x_get_y',
         ],
         'apply_to_shipping' => [
             'Yes' => 1,
-            'No' => 2
+            'No' => 2,
         ],
         'stop_rules_processing' => [
             'Yes' => 1,
-            'No' => 2
+            'No' => 2,
         ],
         'simple_free_shipping' => [
             'No' => 0,
             'For matching items only' => 1,
-            'For shipment with matching items' => 2
-        ]
+            'For shipment with matching items' => 2,
+        ],
     ];
 
     /**
@@ -100,7 +99,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
      * @var array
      */
     protected $websiteIds = [
-        'Main Website' => 1
+        'Main Website' => 1,
     ];
 
     /**
@@ -112,7 +111,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
         'NOT LOGGED IN' => 0,
         'General' => 1,
         'Wholesale' => 2,
-        'Retailer' => 3
+        'Retailer' => 3,
     ];
 
     /**
@@ -141,7 +140,7 @@ class Curl extends Conditions implements SalesRuleInjectableInterface
             $data['rule']['actions'] = $this->prepareCondition($data['actions_serialized']);
             unset($data['actions_serialized']);
         }
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();

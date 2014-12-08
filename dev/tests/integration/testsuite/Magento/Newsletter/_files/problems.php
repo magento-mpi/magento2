@@ -16,5 +16,3 @@ $problem->setSubscriberId($firstSubscriberId)
     ->setProblemErrorCode(11)
     ->setProblemErrorText('error text')
     ->save();
-
-

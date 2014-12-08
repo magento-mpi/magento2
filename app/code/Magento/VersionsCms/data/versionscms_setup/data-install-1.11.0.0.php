@@ -13,7 +13,7 @@ $installer->startSetup();
 /*
  * Creating initial versions and revisions
  */
-$attributes = array(
+$attributes = [
     'page_layout',
     'meta_keywords',
     'meta_description',
@@ -21,17 +21,17 @@ $attributes = array(
     'layout_update_xml',
     'custom_theme',
     'custom_theme_from',
-    'custom_theme_to'
-);
+    'custom_theme_to',
+];
 $adapter = $installer->getConnection();
 $select = $adapter->select();
 
 $select->from(
-    array('p' => $installer->getTable('cms_page'))
+    ['p' => $installer->getTable('cms_page')]
 )->joinLeft(
-    array('v' => $installer->getTable('magento_versionscms_page_version')),
+    ['v' => $installer->getTable('magento_versionscms_page_version')],
     'v.page_id = p.page_id',
-    array()
+    []
 )->where(
     'v.page_id IS NULL'
 );
@@ -41,12 +41,12 @@ $resource = $adapter->query($select);
 while (true == ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC))) {
     $adapter->insert(
         $installer->getTable('magento_versionscms_increment'),
-        array('increment_type' => 0, 'increment_node' => $page['page_id'], 'increment_level' => 0, 'last_id' => 1)
+        ['increment_type' => 0, 'increment_node' => $page['page_id'], 'increment_level' => 0, 'last_id' => 1]
     );
 
     $adapter->insert(
         $installer->getTable('magento_versionscms_page_version'),
-        array(
+        [
             'version_number' => 1,
             'page_id' => $page['page_id'],
             'access_level' => \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC,
@@ -54,20 +54,20 @@ while (true == ($page = $resource->fetch(\Zend_Db::FETCH_ASSOC))) {
             'revisions_count' => 1,
             'label' => $page['title'],
             'created_at' => $this->_coreDate->gmtDate()
-        )
+        ]
     );
 
     $versionId = $adapter->lastInsertId($installer->getTable('magento_versionscms_page_version'), 'version_id');
 
     $adapter->insert(
         $installer->getTable('magento_versionscms_increment'),
-        array('increment_type' => 0, 'increment_node' => $versionId, 'increment_level' => 1, 'last_id' => 1)
+        ['increment_type' => 0, 'increment_node' => $versionId, 'increment_level' => 1, 'last_id' => 1]
     );
 
     /**
      * Prepare revision data
      */
-    $_data = array();
+    $_data = [];
 
     foreach ($attributes as $attr) {
         $_data[$attr] = $page[$attr];

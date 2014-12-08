@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Model;
 
-
 class Registration
 {
     /**

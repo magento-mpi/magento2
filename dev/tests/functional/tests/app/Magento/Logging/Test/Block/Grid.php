@@ -25,32 +25,32 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'timeFrom' => [
-            'selector' => ''
+            'selector' => '',
         ],
         'timeTo' => [
-            'selector' => ''
+            'selector' => '',
         ],
         'actionGroup' => [
             'selector' => '#loggingLogGrid_filter_event',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'action' => [
             'selector' => '#loggingLogGrid_filter_action',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'ipAddress' => [
-            'selector' => '#loggingLogGrid_filter_ip'
+            'selector' => '#loggingLogGrid_filter_ip',
         ],
         'username' => [
             'selector' => '#loggingLogGrid_filter_user',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'result' => [
             'selector' => '#loggingLogGrid_filter_status',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'fullActionName' => [
-            'selector' => '#loggingLogGrid_filter_fullaction'
+            'selector' => '#loggingLogGrid_filter_fullaction',
         ],
         'shortDetails' => [
             'selector' => '#loggingLogGrid_filter_info',

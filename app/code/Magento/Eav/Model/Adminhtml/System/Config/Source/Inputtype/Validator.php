@@ -35,7 +35,7 @@ class Validator extends \Zend_Validate_InArray
         $this->_initMessageTemplates();
 
         //parent construct with options
-        parent::__construct(array('haystack' => $haystack, 'strict' => true));
+        parent::__construct(['haystack' => $haystack, 'strict' => true]);
     }
 
     /**
@@ -46,9 +46,9 @@ class Validator extends \Zend_Validate_InArray
     protected function _initMessageTemplates()
     {
         if (!$this->_messageTemplates) {
-            $this->_messageTemplates = array(
-                self::NOT_IN_ARRAY => __('Input type "%value%" not found in the input types list.')
-            );
+            $this->_messageTemplates = [
+                self::NOT_IN_ARRAY => __('Input type "%value%" not found in the input types list.'),
+            ];
         }
         return $this;
     }

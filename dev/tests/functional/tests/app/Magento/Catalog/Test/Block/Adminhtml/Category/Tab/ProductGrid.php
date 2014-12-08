@@ -23,11 +23,11 @@ class ProductGrid extends Grid
      */
     protected $filters = [
         'sku' => [
-            'selector' => '#catalog_category_products_filter_sku'
+            'selector' => '#catalog_category_products_filter_sku',
         ],
         'name' => [
-            'selector' => '#catalog_category_products_filter_name'
-        ]
+            'selector' => '#catalog_category_products_filter_name',
+        ],
     ];
 
     /**

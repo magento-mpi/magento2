@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogEventSuccessCreateMessage
@@ -34,7 +34,6 @@ class AssertCatalogEventSuccessDeleteMessage extends AbstractConstraint
      */
     public function processAssert(CatalogEventIndex $catalogEventIndex)
     {
-
         \PHPUnit_Framework_Assert::assertEquals(
             self::DELETE_MESSAGE,
             $catalogEventIndex->getMessagesBlock()->getSuccessMessages(),

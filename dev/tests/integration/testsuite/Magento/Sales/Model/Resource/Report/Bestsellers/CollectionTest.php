@@ -19,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Resource\Report\Bestsellers\Collection'
         );
-        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter(array(1));
+        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter([1]);
     }
 
     /**
@@ -28,8 +28,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItems()
     {
-        $expectedResult = array(1 => 2);
-        $actualResult = array();
+        $expectedResult = [1 => 2];
+        $actualResult = [];
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('qty_ordered');
@@ -70,12 +70,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $dateNow = date('Y-m-d', time());
         $dateYearAgo = date('Y-m-d', strtotime($dateNow . ' -1 year'));
-        return array(
+        return [
             [
                 'period'    => 'year',
                 'table'     => 'sales_bestsellers_aggregated_yearly',
                 'date_from' => null,
-                'date_to'   => null
+                'date_to'   => null,
             ],
             [
                 'period'    => 'month',
@@ -119,6 +119,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'date_from' => null,
                 'date_to'   => null
             ],
-        );
+        ];
     }
 }

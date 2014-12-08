@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class AddProductsStep

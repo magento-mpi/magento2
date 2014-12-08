@@ -30,7 +30,7 @@ class Config extends \Magento\Framework\Object
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleReader,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_moduleReader = $moduleReader;

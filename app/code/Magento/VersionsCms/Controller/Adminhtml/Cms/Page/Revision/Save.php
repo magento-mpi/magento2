@@ -67,7 +67,7 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save imple
             if (!$this->dataProcessor->validate($data)) {
                 $this->_redirect(
                     'adminhtml/*/' . $this->getRequest()->getParam('back'),
-                    array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                    ['page_id' => $revision->getPageId(), 'revision_id' => $revision->getId()]
                 );
                 return;
             }
@@ -85,14 +85,14 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save imple
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect(
                         'adminhtml/*/' . $this->getRequest()->getParam('back'),
-                        array('page_id' => $revision->getPageId(), 'revision_id' => $revision->getId())
+                        ['page_id' => $revision->getPageId(), 'revision_id' => $revision->getId()]
                     );
                     return;
                 }
                 // go to grid
                 $this->_redirect(
                     'adminhtml/cms_page_version/edit',
-                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                    ['page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId()]
                 );
                 return;
             } catch (\Exception $e) {
@@ -103,10 +103,10 @@ class Save extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Save imple
                 // redirect to edit form
                 $this->_redirect(
                     'adminhtml/*/edit',
-                    array(
+                    [
                         'page_id' => $this->getRequest()->getParam('page_id'),
                         'revision_id' => $this->getRequest()->getParam('revision_id')
-                    )
+                    ]
                 );
                 return;
             }

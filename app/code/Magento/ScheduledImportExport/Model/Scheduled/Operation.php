@@ -153,7 +153,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Io\Ftp $ftpAdapter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_dateModel = $dateModel;
@@ -176,7 +176,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      * @param array $vars
      * @return $this
      */
-    public function sendEmailNotification($vars = array())
+    public function sendEmailNotification($vars = [])
     {
         $storeId = $this->_storeManager->getStore()->getId();
         $copyTo = explode(',', $this->getEmailCopy());
@@ -197,7 +197,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $this->getEmailTemplate()
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
             $vars
         )->setFrom(
@@ -222,7 +222,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
                 $this->_transportBuilder->setTemplateIdentifier(
                     $this->getEmailTemplate()
                 )->setTemplateOptions(
-                    array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+                    ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
                 )->setTemplateVars(
                     $vars
                 )->setFrom(
@@ -315,13 +315,13 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         if (!is_array($time)) {
             $time = explode(':', $time);
         }
-        $cronExprArray = array(
+        $cronExprArray = [
             intval($time[1]),
             intval($time[0]),
             $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY ? '1' : '*',
             '*',
-            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*'
-        );
+            $frequency == \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY ? '1' : '*',
+        ];
 
         $cronExprString = join(' ', $cronExprArray);
         $exprPath = $this->getExprConfigPath();
@@ -442,13 +442,13 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         if (!$result || isset($e) && is_object($e)) {
             $operation->addLogComment(__('Something went wrong and the operation failed.'));
             $this->sendEmailNotification(
-                array(
+                [
                     'operationName' => $this->getName(),
                     'trace' => nl2br($operation->getFormatedLogTrace()),
                     'entity' => $this->getEntityType(),
                     'dateAndTime' => $runDate,
-                    'fileName' => $filePath
-                )
+                    'fileName' => $filePath,
+                ]
             );
         }
 
@@ -631,7 +631,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
      */
     protected function _prepareIoConfiguration($fileInfo)
     {
-        $data = array();
+        $data = [];
         foreach ($fileInfo as $key => &$v) {
             $key = str_replace('file_', '', $key);
             $data[$key] = $v;
@@ -682,7 +682,7 @@ class Operation extends \Magento\Framework\Model\AbstractModel
         $dirPath = self::LOG_DIRECTORY . $this->_dateModel->date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 
-        $fileName = join('_', array($this->_getRunTime(), $this->getOperationType(), $this->getEntityType()));
+        $fileName = join('_', [$this->_getRunTime(), $this->getOperationType(), $this->getEntityType()]);
 
         $fileInfo = $this->getFileInfo();
         if (isset($fileInfo['file_format'])) {

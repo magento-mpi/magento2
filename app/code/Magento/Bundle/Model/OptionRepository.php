@@ -8,9 +8,9 @@
  */
 namespace Magento\Bundle\Model;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Webapi\Exception;
-use \Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Webapi\Exception;
 
 class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInterface
 {

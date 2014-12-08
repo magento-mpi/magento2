@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product alerts tab
  *
@@ -35,25 +34,25 @@ class Alerts extends \Magento\Backend\Block\Widget\Tab
         if ($alertPriceAllow) {
             $accordion->addItem(
                 'price',
-                array(
+                [
                     'title' => __('We saved the price alert subscription.'),
                     'content' => $this->getLayout()->createBlock(
                         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Price'
                     )->toHtml() . '<br />',
                     'open' => true
-                )
+                ]
             );
         }
         if ($alertStockAllow) {
             $accordion->addItem(
                 'stock',
-                array(
+                [
                     'title' => __('We saved the stock notification.'),
                     'content' => $this->getLayout()->createBlock(
                         'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts\Stock'
                     ),
                     'open' => true
-                )
+                ]
             );
         }
 

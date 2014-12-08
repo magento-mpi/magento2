@@ -8,9 +8,9 @@
 
 namespace Magento\Banner\Test\Fixture\BannerInjectable;
 
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment as CustomerSegmentFixture;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment as CustomerSegmentFixture;
 
 /**
  * Class CustomerSegment

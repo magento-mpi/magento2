@@ -8,7 +8,7 @@
  */
 namespace Magento\Rss\Controller\Adminhtml\Feed;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 
 /**
  * Class Index

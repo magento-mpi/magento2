@@ -89,7 +89,7 @@ class Observer
      */
     public function scheduledUpdateCurrencyRates($schedule)
     {
-        $importWarnings = array();
+        $importWarnings = [];
         if (!$this->_scopeConfig->getValue(
             self::IMPORT_ENABLE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -101,8 +101,8 @@ class Observer
             return;
         }
 
-        $errors = array();
-        $rates = array();
+        $errors = [];
+        $rates = [];
         $service = $this->_scopeConfig->getValue(
             self::IMPORT_SERVICE,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -136,12 +136,12 @@ class Observer
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setTemplateVars(
-                array('warnings' => join("\n", $importWarnings))
+                ['warnings' => join("\n", $importWarnings)]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,

@@ -110,11 +110,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         )->distinct(
             true
         )->from(
-            array('main_table' => $this->getTable('search_query')),
-            array('query' => $ifSynonymFor, 'num_results')
+            ['main_table' => $this->getTable('search_query')],
+            ['query' => $ifSynonymFor, 'num_results']
         )->where(
             'num_results > 0 AND display_in_terms = 1 AND query_text LIKE ?',
-            $this->_resourceHelper->addLikeEscape($query, array('position' => 'start'))
+            $this->_resourceHelper->addLikeEscape($query, ['position' => 'start'])
         )->order(
             'popularity ' . \Magento\Framework\DB\Select::SQL_DESC
         );
@@ -147,8 +147,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         )->distinct(
             true
         )->from(
-            array('main_table' => $this->getTable('search_query')),
-            array('name' => $ifSynonymFor, 'num_results', 'popularity', 'query_id')
+            ['main_table' => $this->getTable('search_query')],
+            ['name' => $ifSynonymFor, 'num_results', 'popularity', 'query_id']
         );
         if ($storeIds) {
             $this->addStoreFilter($storeIds);
@@ -158,7 +158,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $this->getSelect()->where('num_results > 0');
         }
 
-        $this->getSelect()->order(array('popularity desc', 'name'));
+        $this->getSelect()->order(['popularity desc', 'name']);
 
         return $this;
     }
@@ -183,7 +183,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addStoreFilter($storeIds)
     {
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
         $this->getSelect()->where('main_table.store_id IN (?)', $storeIds);
         return $this;

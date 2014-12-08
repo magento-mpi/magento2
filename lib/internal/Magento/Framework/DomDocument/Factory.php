@@ -28,6 +28,6 @@ class Factory
      */
     public function createDomDocument()
     {
-        return $this->_objectManager->create('DOMDocument', array());
+        return $this->_objectManager->create('DOMDocument', []);
     }
 }

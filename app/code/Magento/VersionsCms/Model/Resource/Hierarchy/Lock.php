@@ -43,6 +43,6 @@ class Lock extends \Magento\Framework\Model\Resource\Db\AbstractDb
             1
         );
         $data = $this->_getReadAdapter()->fetchRow($select);
-        return is_array($data) ? $data : array();
+        return is_array($data) ? $data : [];
     }
 }

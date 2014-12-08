@@ -9,9 +9,8 @@
 namespace Magento\Catalog\Test\TestCase\Category;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
 use Mtf\TestCase\Injectable;
 
 /**

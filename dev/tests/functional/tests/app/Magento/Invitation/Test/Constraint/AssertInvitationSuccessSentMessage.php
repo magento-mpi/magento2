@@ -8,9 +8,9 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvitationSuccessSentMessage.

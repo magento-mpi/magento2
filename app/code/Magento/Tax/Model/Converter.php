@@ -8,10 +8,10 @@
 
 namespace Magento\Tax\Model;
 
+use Magento\Tax\Api\Data\TaxClassDataBuilder;
+use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
 use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Model\ClassModelFactory as TaxClassFactory;
-use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
-use Magento\Tax\Api\Data\TaxClassDataBuilder;
 
 /**
  * Tax class converter. Allows conversion between tax class model and tax class service data object.

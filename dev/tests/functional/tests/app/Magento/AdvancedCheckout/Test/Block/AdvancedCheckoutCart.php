@@ -8,10 +8,10 @@
 
 namespace Magento\AdvancedCheckout\Test\Block;
 
+use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
+use Magento\Checkout\Test\Block\Cart;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Checkout\Test\Block\Cart;
-use Magento\AdvancedCheckout\Test\Block\Sku\Products\Info;
 
 /**
  * Class AdvancedCheckout

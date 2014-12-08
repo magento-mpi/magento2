@@ -8,8 +8,8 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Review;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportProductCsv extends \Magento\Reports\Controller\Adminhtml\Report\Review
 {

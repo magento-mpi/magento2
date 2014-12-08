@@ -79,17 +79,17 @@ class ErrorMessageTest extends \PHPUnit_Framework_TestCase
             'withPositionalParameters' => [
                 'message %1 %2',
                 ['parameter1', 'parameter2'],
-                'message parameter1 parameter2'
+                'message parameter1 parameter2',
             ],
             'withNamedParameters' => [
                 'message %key1 %key2',
                 ['key1' => 'parameter1', 'key2' => 'parameter2'],
-                'message parameter1 parameter2'
+                'message parameter1 parameter2',
             ],
             'withNoParameters' => [
                 'message',
                 [],
-                'message'
+                'message',
             ]
         ];
     }

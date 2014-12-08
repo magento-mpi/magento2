@@ -23,7 +23,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
      * @param bool $useTempTable
      * @return $this
      */
-    public function execute(array $entityIds = array(), $useTempTable = false)
+    public function execute(array $entityIds = [], $useTempTable = false)
     {
         $this->limitationByCategories = $entityIds;
         $this->useTempTable = $useTempTable;
@@ -42,7 +42,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
      */
     protected function getRootCategoryIds()
     {
-        $rootIds = array(\Magento\Catalog\Model\Category::TREE_ROOT_ID);
+        $rootIds = [\Magento\Catalog\Model\Category::TREE_ROOT_ID];
         foreach ($this->storeManager->getStores() as $store) {
             if ($this->getPathFromCategoryId($store->getRootCategoryId())) {
                 $rootIds[] = $store->getRootCategoryId();
@@ -59,7 +59,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     protected function removeEntries()
     {
         $removalCategoryIds = array_diff($this->limitationByCategories, $this->getRootCategoryIds());
-        $this->getWriteAdapter()->delete($this->getMainTable(), array('category_id IN (?)' => $removalCategoryIds));
+        $this->getWriteAdapter()->delete($this->getMainTable(), ['category_id IN (?)' => $removalCategoryIds]);
     }
 
     /**

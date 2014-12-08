@@ -56,7 +56,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON,
                 'value' => 'value',
-                'expectedResult' => 'value'
+                'expectedResult' => 'value',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,

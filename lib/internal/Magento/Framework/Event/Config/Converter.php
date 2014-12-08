@@ -20,13 +20,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $events */
         $events = $source->getElementsByTagName('event');
         /** @var \DOMNode $eventConfig */
         foreach ($events as $eventConfig) {
             $eventName = $eventConfig->attributes->getNamedItem('name')->nodeValue;
-            $eventObservers = array();
+            $eventObservers = [];
             /** @var \DOMNode $observerConfig */
             foreach ($eventConfig->childNodes as $observerConfig) {
                 if ($observerConfig->nodeName != 'observer' || $observerConfig->nodeType != XML_ELEMENT_NODE) {
@@ -53,7 +53,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function _convertObserverConfig($observerConfig)
     {
-        $output = array();
+        $output = [];
         /** Parse instance configuration */
         $instanceAttribute = $observerConfig->attributes->getNamedItem('instance');
         if ($instanceAttribute) {

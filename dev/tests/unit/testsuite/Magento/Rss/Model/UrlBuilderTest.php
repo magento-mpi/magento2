@@ -8,7 +8,7 @@
 
 namespace Magento\Rss\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class UrlBuilderTest
@@ -60,10 +60,10 @@ class UrlBuilderTest extends \PHPUnit_Framework_TestCase
             ->with('rss/config/active', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->will($this->returnValue(true));
         $this->urlInterface->expects($this->once())->method('getUrl')
-            ->with('rss/feed/index', array('type' => 'rss_feed'))
+            ->with('rss/feed/index', ['type' => 'rss_feed'])
             ->will($this->returnValue('http://magento.com/rss/feed/index/type/rss_feed'));
         $this->assertEquals(
             'http://magento.com/rss/feed/index/type/rss_feed',
-            $this->urlBuilder->getUrl(array('type' => 'rss_feed')));
+            $this->urlBuilder->getUrl(['type' => 'rss_feed']));
     }
 }

@@ -20,6 +20,6 @@ class AddFormExcludedAttribute
     {
         $block = $observer->getEvent()->getObject();
 
-        $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), array('recurring_payment')));
+        $block->setFormExcludedFieldList(array_merge($block->getFormExcludedFieldList(), ['recurring_payment']));
     }
 }

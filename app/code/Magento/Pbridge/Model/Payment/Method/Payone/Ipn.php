@@ -22,14 +22,14 @@ class Ipn
      *
      * @var array
      */
-    protected $_ipnFormData = array();
+    protected $_ipnFormData = [];
 
     /**
      * Fields that should be replaced in debug with '***'
      *
      * @var array
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * @var \Magento\Pbridge\Helper\Data
@@ -127,9 +127,9 @@ class Ipn
         $url = rtrim($this->_pbridgeData->getBridgeBaseUrl(), '/') . '/ipn.php?action=PayoneIpn';
 
         try {
-            $config = array('timeout' => 60);
+            $config = ['timeout' => 60];
             $this->_curl->setConfig($config);
-            $this->_curl->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
+            $this->_curl->write(\Zend_Http_Client::POST, $url, '1.1', [], $sReq);
             $response = $this->_curl->read();
         } catch (\Exception $e) {
             throw $e;

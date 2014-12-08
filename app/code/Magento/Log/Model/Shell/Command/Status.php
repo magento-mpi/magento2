@@ -19,7 +19,7 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
      *
      * @var array
      */
-    protected $_output = array();
+    protected $_output = [];
 
     /**
      * @param \Magento\Log\Model\Resource\ShellFactory $resourceFactory
@@ -60,9 +60,9 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
     {
         if ($number < 1000) {
             return $number;
-        } else if ($number >= 1000 && $number < 1000000) {
+        } elseif ($number >= 1000 && $number < 1000000) {
             return sprintf('%.2fK', $number / 1000);
-        } else if ($number >= 1000000 && $number < 1000000000) {
+        } elseif ($number >= 1000000 && $number < 1000000000) {
             return sprintf('%.2fM', $number / 1000000);
         } else {
             return sprintf('%.2fB', $number / 1000000000);
@@ -108,7 +108,6 @@ class Status implements \Magento\Log\Model\Shell\CommandInterface
         /** @var $resource \Magento\Log\Model\Resource\Shell */
         $resource = $this->_resourceFactory->create();
         $tables = $resource->getTablesInfo();
-
 
         $this->_addRowDelimiter();
         $line = sprintf('%-35s|', 'Table Name');

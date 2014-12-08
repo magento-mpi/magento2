@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Item Dynamic attributes Form Block
  *

@@ -79,7 +79,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaEav = $rmaEav;
         $this->_rmaData = $rmaData;
@@ -107,7 +107,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @throws \Magento\Framework\Model\Exception
      * @return \Zend_Pdf
      */
-    public function getPdf($rmaArray = array())
+    public function getPdf($rmaArray = [])
     {
         $this->_beforeGetPdf();
 
@@ -175,7 +175,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         /* add address blocks */
         $shippingAddress = $this->_formatAddress($rma->getOrder()->getShippingAddress()->format('pdf'));
-        $returnAddress = $this->_formatAddress($this->_rmaData->getReturnAddress('pdf', array(), $this->getStoreId()));
+        $returnAddress = $this->_formatAddress($this->_rmaData->getReturnAddress('pdf', [], $this->getStoreId()));
 
         $page->setFillColor(new \Zend_Pdf_Color_Rgb(0.93, 0.92, 0.92));
         $page->setLineColor(new \Zend_Pdf_Color_GrayScale(0.5));
@@ -225,7 +225,6 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         $collection = $rma->getItemsForDisplay();
 
         foreach ($collection as $item) {
-
             if ($this->y < 15) {
                 $page = $this->_addNewPage();
             }

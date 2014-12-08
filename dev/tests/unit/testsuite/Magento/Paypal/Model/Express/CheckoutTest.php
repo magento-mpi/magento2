@@ -116,7 +116,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
                 'params'                 => [
                     'quote' => $this->quoteMock,
                     'config' => $paypalConfigMock,
-                    'session' => $this->customerSessionMock
+                    'session' => $this->customerSessionMock,
                 ],
                 'accountManagement' => $this->customerAccountServiceMock,
                 'serviceQuoteFactory' => $this->quoteFactoryMock,

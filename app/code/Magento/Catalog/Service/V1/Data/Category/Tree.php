@@ -124,7 +124,7 @@ class Tree
             ->setChildren([]);
 
         if ($node->hasChildren()) {
-            $children = array();
+            $children = [];
             foreach ($node->getChildren() as $child) {
                 if (!is_null($depth) && $depth <= $currentLevel) {
                     break;

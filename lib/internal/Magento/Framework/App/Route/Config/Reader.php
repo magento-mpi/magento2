@@ -16,11 +16,11 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/router' => 'id',
         '/config/router/route' => 'id',
-        '/config/router/route/module' => 'name'
-    );
+        '/config/router/route/module' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver

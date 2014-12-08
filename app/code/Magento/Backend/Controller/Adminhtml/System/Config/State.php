@@ -41,10 +41,10 @@ class State extends AbstractScopeConfig
     public function execute()
     {
         if ($this->getRequest()->getParam('isAjax')
-            && $this->getRequest()->getParam('container')!= ''
+            && $this->getRequest()->getParam('container') != ''
             && $this->getRequest()->getParam('value') != ''
         ) {
-            $configState = array($this->getRequest()->getParam('container') => $this->getRequest()->getParam('value'));
+            $configState = [$this->getRequest()->getParam('container') => $this->getRequest()->getParam('value')];
             $this->_saveState($configState);
             /** @var \Magento\Framework\Controller\Result\Raw $resultRaw */
             $resultRaw = $this->resultRawFactory->create();

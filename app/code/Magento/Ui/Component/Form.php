@@ -7,17 +7,17 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Framework\View\Element\UiElementFactory;
-use Magento\Ui\Component\Control\ButtonProviderInterface;
-use Magento\Ui\DataProvider\Manager;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Framework\View\Element\UiElementFactory;
 use Magento\Ui\Component\Control\ActionPool;
 use Magento\Ui\Component\Control\ButtonProviderFactory;
+use Magento\Ui\Component\Control\ButtonProviderInterface;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Class Form
@@ -36,7 +36,7 @@ class Form extends AbstractView
      */
     protected $formElementMap = [
         'text' => 'input',
-        'number' => 'input'
+        'number' => 'input',
     ];
 
     /**
@@ -141,7 +141,7 @@ class Form extends AbstractView
             'child_blocks' => $this->getLayout()->getChildBlocks($this->getNameInLayout()),
             'configuration' => isset($layoutSettings['configuration'])
                 ? $layoutSettings['configuration']
-                : []
+                : [],
         ];
         $layoutType = isset($layoutSettings['type'])
             ? $layoutSettings['type']
@@ -174,7 +174,7 @@ class Form extends AbstractView
             [
                 'component' => 'Magento_Ui/js/form/component',
                 'config' => [
-                    'provider' => $this->getData('name')
+                    'provider' => $this->getData('name'),
                 ],
                 'deps' => [$this->getData('name')]
             ]

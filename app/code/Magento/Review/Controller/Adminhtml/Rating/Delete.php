@@ -24,7 +24,7 @@ class Delete extends \Magento\Review\Controller\Adminhtml\Rating
                 $this->_redirect('review/rating/');
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('review/rating/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('review/rating/edit', ['id' => $this->getRequest()->getParam('id')]);
             }
         }
         $this->_redirect('review/rating/');

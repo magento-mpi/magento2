@@ -29,7 +29,7 @@ class Invitee extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Model\UrlInterface $url,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_url = $url;
@@ -49,7 +49,7 @@ class Invitee extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
             }
             return '<a href="' . $this->_url->getUrl(
                 'customer/index/edit',
-                array('id' => $row->getReferralId())
+                ['id' => $row->getReferralId()]
             ) . '">' . $this->escapeHtml(
                 $row->getData($this->getColumn()->getIndex())
             ) . '</a>';

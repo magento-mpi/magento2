@@ -19,7 +19,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
      *
      * @var array
      */
-    protected $_errors = array(
+    protected $_errors = [
         'auth/frontend/adwords' => "Your AdWords advertisements are not running. You need to activate your AdWords account.",
         'auth/frontend/checkout' => "Google Checkout not enabled",
         'auth/frontend/feed_config' => "You have not set your data feed to go live",
@@ -53,8 +53,8 @@ class HttpException extends \Zend_Gdata_App_HttpException
         'validation/missing_required' => "A required attribute is missing.",
         'validation/other' => "Generic validation error.",
         'validation/policy' => "One of the policies has been violated.",
-        'validation/warning' => "We found this attribute problematic for some reason and recommend checking it."
-    );
+        'validation/warning' => "We found this attribute problematic for some reason and recommend checking it.",
+    ];
 
     /**
      * Error codes.
@@ -62,7 +62,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
      *
      * @var string[] codes
      */
-    protected $_codes = array();
+    protected $_codes = [];
 
     /**
      * Error messages.
@@ -70,7 +70,7 @@ class HttpException extends \Zend_Gdata_App_HttpException
      *
      * @var string[] messages
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Create object
@@ -135,9 +135,8 @@ class HttpException extends \Zend_Gdata_App_HttpException
         $body = $response->getBody();
 
         if ($body && ($errors = @simplexml_load_string($body)) && 'errors' == $errors->getName()) {
-
-            $this->_messages = array();
-            $this->_codes = array();
+            $this->_messages = [];
+            $this->_codes = [];
             foreach ($errors as $error) {
                 $reason = isset(
                     $this->_errors["{$error->code}"]

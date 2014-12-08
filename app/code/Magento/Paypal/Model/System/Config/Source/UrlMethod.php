@@ -17,6 +17,6 @@ class UrlMethod implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => 'GET', 'label' => 'GET'), array('value' => 'POST', 'label' => 'POST'));
+        return [['value' => 'GET', 'label' => 'GET'], ['value' => 'POST', 'label' => 'POST']];
     }
 }

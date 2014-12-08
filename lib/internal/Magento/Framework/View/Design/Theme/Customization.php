@@ -45,7 +45,7 @@ class Customization implements CustomizationInterface
      *
      * @var \Magento\Framework\View\Design\Theme\FileInterface[]
      */
-    protected $themeFilesByType = array();
+    protected $themeFilesByType = [];
 
     /**
      * Constructor
@@ -86,7 +86,7 @@ class Customization implements CustomizationInterface
     public function getFilesByType($type)
     {
         if (!isset($this->themeFilesByType[$type])) {
-            $this->themeFilesByType[$type] = $this->fileProvider->getItems($this->theme, array('file_type' => $type));
+            $this->themeFilesByType[$type] = $this->fileProvider->getItems($this->theme, ['file_type' => $type]);
         }
         return $this->themeFilesByType[$type];
     }
@@ -99,7 +99,7 @@ class Customization implements CustomizationInterface
      */
     public function generateFileInfo(array $files)
     {
-        $filesInfo = array();
+        $filesInfo = [];
         /** @var $file \Magento\Framework\View\Design\Theme\FileInterface */
         foreach ($files as $file) {
             if ($file instanceof \Magento\Framework\View\Design\Theme\FileInterface) {

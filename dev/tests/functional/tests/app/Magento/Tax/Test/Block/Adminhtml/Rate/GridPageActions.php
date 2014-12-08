@@ -8,7 +8,7 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rate;
 
-use \Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
+use Magento\Backend\Test\Block\GridPageActions as ParentGridPageActions;
 
 /**
  * Class GridPageActions

@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 
 /**
  * Assert that cart item options for product(s) not display with old options.

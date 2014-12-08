@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Api\Data\GroupDataBuilder;
+use Magento\Customer\Api\GroupRepositoryInterface;
 
 /**
  * Customer groups controller

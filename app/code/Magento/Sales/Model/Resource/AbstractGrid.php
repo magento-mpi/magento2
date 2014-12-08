@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Resource;
 
-use Magento\Framework\Model\Resource\Db\AbstractDb;
-use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\App\Resource as AppResource;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Class AbstractGrid

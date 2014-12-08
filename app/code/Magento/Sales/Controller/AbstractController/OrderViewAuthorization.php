@@ -9,7 +9,6 @@
 
 namespace Magento\Sales\Controller\AbstractController;
 
-
 class OrderViewAuthorization implements OrderViewAuthorizationInterface
 {
     /**
@@ -49,6 +48,5 @@ class OrderViewAuthorization implements OrderViewAuthorizationInterface
             return true;
         }
         return false;
-
     }
 }

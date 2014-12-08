@@ -20,7 +20,6 @@ class Save extends \Magento\Banner\Controller\Adminhtml\Banner
         $redirectBack = $this->getRequest()->getParam('back', false);
         $data = $this->getRequest()->getPost();
         if ($data) {
-
             $bannerId = $this->getRequest()->getParam('id');
             $model = $this->_initBanner();
             if (!$model->getId() && $bannerId) {
@@ -82,7 +81,7 @@ class Save extends \Magento\Banner\Controller\Adminhtml\Banner
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
             if ($redirectBack) {
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             }
         }

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product options text type block
  *
@@ -31,7 +30,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $coreHelper, $catalogData, $data);
@@ -59,7 +58,7 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
             $select = $this->getLayout()->createBlock(
                 'Magento\Framework\View\Element\Html\Select'
             )->setData(
-                array('id' => 'select_' . $_option->getId(), 'class' => $require . ' product-custom-option')
+                ['id' => 'select_' . $_option->getId(), 'class' => $require . ' product-custom-option']
             );
             if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN) {
                 $select->setName('options[' . $_option->getid() . ']')->addOption('', __('-- Please Select --'));
@@ -69,16 +68,16 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
             }
             foreach ($_option->getValues() as $_value) {
                 $priceStr = $this->_formatPrice(
-                    array(
+                    [
                         'is_percent' => $_value->getPriceType() == 'percent',
-                        'pricing_value' => $_value->getPrice($_value->getPriceType() == 'percent')
-                    ),
+                        'pricing_value' => $_value->getPrice($_value->getPriceType() == 'percent'),
+                    ],
                     false
                 );
                 $select->addOption(
                     $_value->getOptionTypeId(),
                     $_value->getTitle() . ' ' . $priceStr . '',
-                    array('price' => $this->_coreHelper->currencyByStore($_value->getPrice(true), $store, false))
+                    ['price' => $this->_coreHelper->currencyByStore($_value->getPrice(true), $store, false)]
                 );
             }
             if ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_MULTIPLE) {
@@ -132,10 +131,10 @@ class Select extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
                 $count++;
 
                 $priceStr = $this->_formatPrice(
-                    array(
+                    [
                         'is_percent' => $_value->getPriceType() == 'percent',
-                        'pricing_value' => $_value->getPrice($_value->getPriceType() == 'percent')
-                    )
+                        'pricing_value' => $_value->getPrice($_value->getPriceType() == 'percent'),
+                    ]
                 );
 
                 $htmlValue = $_value->getOptionTypeId();

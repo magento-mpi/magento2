@@ -138,7 +138,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         $this->_appState = $context->getAppState();
@@ -186,7 +186,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        $properties = array_diff($properties, array('_eventManager', '_cacheManager', '_registry', '_appState'));
+        $properties = array_diff($properties, ['_eventManager', '_cacheManager', '_registry', '_appState']);
         return $properties;
     }
 
@@ -237,7 +237,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
             throw new \Magento\Framework\Model\Exception(__('Resource is not set.'));
         }
 
-        return $this->_resource ? : \Magento\Framework\App\ObjectManager::getInstance()->get($this->_resourceName);
+        return $this->_resource ?: \Magento\Framework\App\ObjectManager::getInstance()->get($this->_resourceName);
     }
 
     /**
@@ -304,10 +304,10 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     protected function _getEventData()
     {
-        return array(
+        return [
             'data_object' => $this,
             $this->_eventObject => $this,
-        );
+        ];
     }
 
     /**
@@ -319,7 +319,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     protected function _beforeLoad($modelId, $field = null)
     {
-        $params = array('object' => $this, 'field' => $field, 'value' => $modelId);
+        $params = ['object' => $this, 'field' => $field, 'value' => $modelId];
         $this->_eventManager->dispatch('model_load_before', $params);
         $params = array_merge($params, $this->_getEventData());
         $this->_eventManager->dispatch($this->_eventPrefix . '_load_before', $params);
@@ -333,7 +333,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     protected function _afterLoad()
     {
-        $this->_eventManager->dispatch('model_load_after', array('object' => $this));
+        $this->_eventManager->dispatch('model_load_after', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', $this->_getEventData());
         return $this;
     }
@@ -398,7 +398,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     public function afterCommitCallback()
     {
-        $this->_eventManager->dispatch('model_save_commit_after', array('object' => $this));
+        $this->_eventManager->dispatch('model_save_commit_after', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_save_commit_after', $this->_getEventData());
         return $this;
     }
@@ -433,7 +433,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
         if (!$this->getId()) {
             $this->isObjectNew(true);
         }
-        $this->_eventManager->dispatch('model_save_before', array('object' => $this));
+        $this->_eventManager->dispatch('model_save_before', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_save_before', $this->_getEventData());
         return $this;
     }
@@ -520,12 +520,12 @@ abstract class AbstractModel extends \Magento\Framework\Object
         $tags = false;
         if ($this->_cacheTag) {
             if ($this->_cacheTag === true) {
-                $tags = array();
+                $tags = [];
             } else {
                 if (is_array($this->_cacheTag)) {
                     $tags = $this->_cacheTag;
                 } else {
-                    $tags = array($this->_cacheTag);
+                    $tags = [$this->_cacheTag];
                 }
             }
         }
@@ -554,8 +554,8 @@ abstract class AbstractModel extends \Magento\Framework\Object
     public function afterSave()
     {
         $this->cleanModelCache();
-        $this->_eventManager->dispatch('model_save_after', array('object' => $this));
-        $this->_eventManager->dispatch('clean_cache_by_tags', array('object' => $this));
+        $this->_eventManager->dispatch('model_save_after', ['object' => $this]);
+        $this->_eventManager->dispatch('clean_cache_by_tags', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_save_after', $this->_getEventData());
         return $this;
     }
@@ -584,7 +584,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
             throw new Exception(__('Delete operation is forbidden for current area'));
         }
 
-        $this->_eventManager->dispatch('model_delete_before', array('object' => $this));
+        $this->_eventManager->dispatch('model_delete_before', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_delete_before', $this->_getEventData());
         $this->cleanModelCache();
         return $this;
@@ -597,8 +597,8 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     public function afterDelete()
     {
-        $this->_eventManager->dispatch('model_delete_after', array('object' => $this));
-        $this->_eventManager->dispatch('clean_cache_by_tags', array('object' => $this));
+        $this->_eventManager->dispatch('model_delete_after', ['object' => $this]);
+        $this->_eventManager->dispatch('clean_cache_by_tags', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_delete_after', $this->_getEventData());
         return $this;
     }
@@ -610,7 +610,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      */
     public function afterDeleteCommit()
     {
-        $this->_eventManager->dispatch('model_delete_commit_after', array('object' => $this));
+        $this->_eventManager->dispatch('model_delete_commit_after', ['object' => $this]);
         $this->_eventManager->dispatch($this->_eventPrefix . '_delete_commit_after', $this->_getEventData());
         return $this;
     }

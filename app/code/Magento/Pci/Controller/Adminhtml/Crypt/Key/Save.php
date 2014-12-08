@@ -44,7 +44,7 @@ class Save extends \Magento\Pci\Controller\Adminhtml\Crypt\Key
             if ($message = $e->getMessage()) {
                 $this->messageManager->addError($e->getMessage());
             }
-            $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(array('crypt_key' => $key));
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(['crypt_key' => $key]);
         }
         $this->_redirect('adminhtml/*/');
     }

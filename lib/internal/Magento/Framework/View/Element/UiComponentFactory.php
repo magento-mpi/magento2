@@ -8,10 +8,9 @@
 namespace Magento\Framework\View\Element;
 
 use Magento\Framework\Object;
+use Magento\Framework\View\Element\UiComponent\Context as RenderContext;
 use Magento\Framework\View\LayoutFactory;
 use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\UiComponent\Context as RenderContext;
 
 /**
  * Class UiComponentFactory

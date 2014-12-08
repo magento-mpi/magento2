@@ -32,12 +32,12 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $parentName = 'parent';
         $mockClass = $this->getMockClass(
             'Magento\Catalog\Block\Product\AbstractProduct',
-            array('_prepareLayout'),
-            array(
+            ['_prepareLayout'],
+            [
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                     'Magento\Framework\View\Element\Template\Context'
                 )
-            )
+            ]
         );
         $this->_layout->createBlock($mockClass, $parentName);
         $this->_layout->setChild($parentName, $this->_block->getNameInLayout(), '');

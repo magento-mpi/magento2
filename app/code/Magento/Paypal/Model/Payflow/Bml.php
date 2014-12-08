@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Paypal\Model\Payflow;
 
 use Magento\Paypal\Model;

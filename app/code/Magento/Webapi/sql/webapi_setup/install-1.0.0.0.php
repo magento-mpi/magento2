@@ -19,22 +19,22 @@ $table = $installer->getConnection()->newTable(
     'role_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Webapi role ID'
 )->addColumn(
     'role_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Role name is displayed in Adminhtml interface'
 )->addIndex(
     $installer->getIdxName(
         'webapi_role',
-        array('role_name'),
+        ['role_name'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('role_name'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['role_name'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->setComment(
     'Roles of unified webapi ACL'
 );
@@ -46,36 +46,36 @@ $table = $installer->getConnection()->newTable(
     'user_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Webapi user ID'
 )->addColumn(
     'user_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'User name is displayed in Adminhtml interface'
 )->addColumn(
     'role_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'default' => null, 'nullable' => true),
+    ['unsigned' => true, 'default' => null, 'nullable' => true],
     'User role from webapi_role'
 )->addIndex(
     $installer->getIdxName(
         'webapi_user',
-        array('role_id'),
+        ['role_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     ),
-    array('role_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
+    ['role_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX]
 )->addIndex(
     $installer->getIdxName(
         'webapi_user',
-        array('user_name'),
+        ['user_name'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('user_name'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['user_name'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addForeignKey(
     $installer->getFkName('webapi_user', 'role_id', 'webapi_role', 'role_id'),
     'role_id',
@@ -94,28 +94,28 @@ $table = $installer->getConnection()->newTable(
     'rule_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Rule ID'
 )->addColumn(
     'resource_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Resource name. Must match resource calls in xml.'
 )->addColumn(
     'role_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'User role from webapi_role'
 )->addIndex(
     $installer->getIdxName(
         'webapi_rule',
-        array('role_id'),
+        ['role_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX
     ),
-    array('role_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX)
+    ['role_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_INDEX]
 )->addForeignKey(
     $installer->getFkName('webapi_rule', 'role_id', 'webapi_role', 'role_id'),
     'role_id',

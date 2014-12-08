@@ -64,7 +64,7 @@ class TitleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
-                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix]
+                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix],
                 ]
             ));
         $this->title->set($value);
@@ -94,7 +94,7 @@ class TitleTest extends \PHPUnit_Framework_TestCase
                 [
                     ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
                     ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix],
-                    ['design/head/default_title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $defaultTitle]
+                    ['design/head/default_title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $defaultTitle],
                 ]
             ));
         $this->assertEquals($expected, $this->title->getDefault());

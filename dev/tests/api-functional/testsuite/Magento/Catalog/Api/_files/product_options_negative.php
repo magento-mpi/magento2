@@ -15,7 +15,7 @@ return [
         'price' => 10,
         'price_type' => 'fixed',
         'sku' => 'sku1',
-        'max_characters' => 10
+        'max_characters' => 10,
     ],
     'negative_price' => [
         'title' => 'area option',
@@ -25,7 +25,7 @@ return [
         'price' => -20,
         'price_type' => 'percent',
         'sku' => 'sku2',
-        'max_characters' => 20
+        'max_characters' => 20,
 
     ],
     'negative_value_of_image_size' => [
@@ -38,7 +38,7 @@ return [
         'sku' => 'sku3',
         'file_extension' => 'jpg',
         'image_size_x' => -10,
-        'image_size_y' => -20
+        'image_size_y' => -20,
     ],
     'option_with_type_select_without_options' => [
         'title' => 'drop_down option',
@@ -57,7 +57,7 @@ return [
                 'price_type' => 'fixed',
                 'sku' => 'radio option 1 sku',
                 'title' => '',
-                'sort_order' => 1
+                'sort_order' => 1,
             ],
         ],
     ],
@@ -72,7 +72,7 @@ return [
                 'price_type' => 'fixed_one',
                 'sku' => 'checkbox option 1 sku',
                 'title' => 'checkbox option 1',
-                'sort_order' => 1
+                'sort_order' => 1,
             ],
         ],
     ],
@@ -87,7 +87,7 @@ return [
                 'price_type' => 'fixed',
                 'sku' => 'multiple option 1 sku',
                 'title' => 'multiple option 1',
-                'sort_order' => 1
+                'sort_order' => 1,
             ],
         ],
     ],

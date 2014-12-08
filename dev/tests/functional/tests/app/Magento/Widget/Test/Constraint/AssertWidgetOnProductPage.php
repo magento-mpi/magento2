@@ -10,9 +10,9 @@ namespace Magento\Widget\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that created widget displayed on frontend on Product page

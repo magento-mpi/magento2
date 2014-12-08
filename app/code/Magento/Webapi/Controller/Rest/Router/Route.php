@@ -114,7 +114,6 @@ class Route extends \Zend_Controller_Router_Route
         return $this->_aclResources;
     }
 
-
     /**
      * Set parameters list.
      *

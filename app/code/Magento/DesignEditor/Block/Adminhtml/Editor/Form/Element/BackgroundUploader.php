@@ -35,12 +35,12 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
         $this->addField(
             $uploaderId,
             'image-uploader',
-            array(
+            [
                 'name' => $uploaderId,
                 'title' => $uploaderTitle,
                 'label' => null,
                 'value' => trim($uploaderData['value'])
-            )
+            ]
         );
 
         $checkboxTitle = $this->_escape(
@@ -50,14 +50,14 @@ class BackgroundUploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Fo
         $this->addField(
             $checkboxHtmlId,
             'checkbox',
-            array(
+            [
                 'name' => $checkboxHtmlId,
                 'title' => $checkboxTitle,
                 'label' => 'Tile Background',
                 'class' => 'element-checkbox',
                 'value' => $checkboxData['value'] == 'disabled' ? 'disabled' : 'repeat',
                 'checked' => $checkboxData['value'] == 'repeat'
-            )
+            ]
         )->setUncheckedValue(
             'no-repeat'
         );

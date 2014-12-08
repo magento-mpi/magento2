@@ -51,7 +51,7 @@ class Callback implements \Magento\Framework\Validator\Constraint\OptionInterfac
         if (is_array($arguments)) {
             $this->_arguments = $arguments;
         } elseif (null !== $arguments) {
-            $this->_arguments = array($arguments);
+            $this->_arguments = [$arguments];
         } else {
             $this->_arguments = null;
         }

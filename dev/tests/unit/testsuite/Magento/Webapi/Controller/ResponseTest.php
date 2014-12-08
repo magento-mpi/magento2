@@ -43,21 +43,21 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->_response->addMessage(
             'Message text',
             \Magento\Webapi\Controller\Response::HTTP_OK,
-            array('key' => 'value'),
+            ['key' => 'value'],
             \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS
         );
         $this->assertTrue($this->_response->hasMessages(), 'New message is not added correctly.');
 
         /** Test message getting functionality. */
-        $expectedMessage = array(
-            \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS => array(
-                array(
+        $expectedMessage = [
+            \Magento\Webapi\Controller\Response::MESSAGE_TYPE_SUCCESS => [
+                [
                     'key' => 'value',
                     'message' => 'Message text',
-                    'code' => \Magento\Webapi\Controller\Response::HTTP_OK
-                )
-            )
-        );
+                    'code' => \Magento\Webapi\Controller\Response::HTTP_OK,
+                ],
+            ],
+        ];
         $this->assertEquals($expectedMessage, $this->_response->getMessages(), 'Message is got incorrectly.');
 
         /** Test message clearing functionality. */

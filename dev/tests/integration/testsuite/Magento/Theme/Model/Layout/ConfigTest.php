@@ -28,28 +28,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $fileResolverMock->expects($this->any())
             ->method('get')
-            ->will($this->returnValue(array($configFile)));
+            ->will($this->returnValue([$configFile]));
         $reader = $objectManager->create(
             'Magento\Theme\Model\Layout\Config\Reader',
-            array('fileResolver' => $fileResolverMock)
+            ['fileResolver' => $fileResolverMock]
         );
-        $dataStorage = $objectManager->create('Magento\Theme\Model\Layout\Config\Data', array('reader' => $reader));
+        $dataStorage = $objectManager->create('Magento\Theme\Model\Layout\Config\Data', ['reader' => $reader]);
         $this->_model = $objectManager->create(
             'Magento\Theme\Model\Layout\Config',
-            array('dataStorage' => $dataStorage)
+            ['dataStorage' => $dataStorage]
         );
     }
 
     public function testGetPageLayouts()
     {
-        $empty = array(
+        $empty = [
             'label' => 'Empty',
             'code' => 'empty',
-        );
-        $oneColumn = array(
+        ];
+        $oneColumn = [
             'label' => '1 column',
             'code' => '1column',
-        );
+        ];
         $result = $this->_model->getPageLayouts();
         $this->assertEquals($empty, $result['empty']->getData());
         $this->assertEquals($oneColumn, $result['1column']->getData());
@@ -57,17 +57,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPageLayout()
     {
-        $empty = array(
+        $empty = [
             'label' => 'Empty',
             'code' => 'empty',
-        );
+        ];
         $this->assertEquals($empty, $this->_model->getPageLayout('empty')->getData());
         $this->assertFalse($this->_model->getPageLayout('unknownLayoutCode'));
     }
 
     public function testGetPageLayoutHandles()
     {
-        $expected = array('empty' => 'empty', '1column' => '1column');
+        $expected = ['empty' => 'empty', '1column' => '1column'];
         $this->assertEquals($expected, $this->_model->getPageLayoutHandles());
     }
 }

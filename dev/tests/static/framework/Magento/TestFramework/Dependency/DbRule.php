@@ -40,11 +40,11 @@ class DbRule implements \Magento\TestFramework\Dependency\RuleInterface
     public function getDependencyInfo($currentModule, $fileType, $file, &$contents)
     {
         if (!preg_match('#/app/.*/(sql|data|resource)/.*\.php$#', $file)) {
-            return array();
+            return [];
         }
 
-        $dependenciesInfo = array();
-        $unKnowTables = array();
+        $dependenciesInfo = [];
+        $unKnowTables = [];
         if (preg_match_all('#>gettable(name)?\([\'"]([^\'"]+)[\'"]\)#i', $contents, $matches)) {
             $tables = array_pop($matches);
             foreach ($tables as $table) {
@@ -53,17 +53,17 @@ class DbRule implements \Magento\TestFramework\Dependency\RuleInterface
                     continue;
                 }
                 if (strtolower($currentModule) !== strtolower($this->_moduleTableMap[$table])) {
-                    $dependenciesInfo[] = array(
+                    $dependenciesInfo[] = [
                         'module' => $this->_moduleTableMap[$table],
                         'type' => \Magento\TestFramework\Dependency\RuleInterface::TYPE_HARD,
-                        'source' => $table
-                    );
+                        'source' => $table,
+                    ];
                 }
             }
         }
         foreach ($unKnowTables as $tables) {
             foreach ($tables as $table) {
-                $dependenciesInfo[] = array('module' => 'Unknown', 'source' => $table);
+                $dependenciesInfo[] = ['module' => 'Unknown', 'source' => $table];
             }
         }
         return $dependenciesInfo;

@@ -51,7 +51,7 @@ class CssResolver
     {
         $patterns = self::extractRelativeUrls($cssContent);
         if ($patterns) {
-            $replace = array();
+            $replace = [];
             foreach ($patterns as $pattern => $path) {
                 if (!isset($replace[$pattern])) {
                     $newPath = call_user_func($inlineCallback, $path);
@@ -75,8 +75,8 @@ class CssResolver
     public function aggregateImportDirectives($cssContent)
     {
         $parts = preg_split('/(@import\s.+?;\s*)/', $cssContent, -1, PREG_SPLIT_DELIM_CAPTURE);
-        $imports = array();
-        $css = array();
+        $imports = [];
+        $css = [];
         foreach ($parts as $part) {
             if (0 === strpos($part, '@import', 0)) {
                 $imports[] = trim($part);
@@ -89,8 +89,7 @@ class CssResolver
         if ($imports) {
             $result = implode("\n", $imports)
                 . "\n/* The above import directives are aggregated from content. */\n"
-                . $result
-            ;
+                . $result;
         }
         return $result;
     }
@@ -107,6 +106,6 @@ class CssResolver
         if (!empty($matches[0]) && !empty($matches[1])) {
             return array_combine($matches[0], $matches[1]);
         }
-        return array();
+        return [];
     }
 }

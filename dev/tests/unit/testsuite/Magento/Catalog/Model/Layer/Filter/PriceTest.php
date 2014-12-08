@@ -16,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
-
     private $itemDataBuilder;
 
     private $resource;
@@ -49,7 +48,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     /** @var  \Magento\Catalog\Model\Layer\Filter\ItemFactory|MockObject */
     private $filterItemFactory;
-
 
     /** @var  \Magento\Catalog\Model\Layer\State|MockObject */
     private $state;
@@ -86,7 +84,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getState'])
             ->getMock();
-
 
         $this->state = $this->getMockBuilder('\Magento\Catalog\Model\Layer\State')
             ->disableOriginalConstructor()
@@ -236,7 +233,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $this->target->apply($this->request);
     }
-
 
     public function testGetItems()
     {

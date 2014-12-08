@@ -45,7 +45,7 @@ class Locale extends \Magento\Backend\Block\Template
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Helper\Url $urlHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeLists = $localeLists;
         $this->_localeResolver = $localeResolver;

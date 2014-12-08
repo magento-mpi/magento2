@@ -17,7 +17,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $fieldsets = array();
+        $fieldsets = [];
         $xpath = new \DOMXPath($source);
         /** @var \DOMNode $fieldset */
         foreach ($xpath->query('/config/scope') as $scope) {
@@ -35,7 +35,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertScope($scope)
     {
-        $result = array();
+        $result = [];
         foreach ($scope->childNodes as $fieldset) {
             if (!$fieldset instanceof \DOMElement) {
                 continue;
@@ -54,7 +54,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertFieldset($fieldset)
     {
-        $result = array();
+        $result = [];
         foreach ($fieldset->childNodes as $field) {
             if (!$field instanceof \DOMElement) {
                 continue;
@@ -73,7 +73,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertField($field)
     {
-        $result = array();
+        $result = [];
         foreach ($field->childNodes as $aspect) {
             if (!$aspect instanceof \DOMElement) {
                 continue;

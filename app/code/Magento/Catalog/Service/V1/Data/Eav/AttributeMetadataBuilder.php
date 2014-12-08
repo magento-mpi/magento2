@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
@@ -58,9 +58,9 @@ class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements Attrib
         $this->optionBuilder = $optionBuilder;
         $this->validationRuleBuilder = $validationRuleBuilder;
         $this->frontendLabelBuilder = $frontendLabelBuilder;
-        $this->data[AttributeMetadata::OPTIONS] = array();
-        $this->data[AttributeMetadata::VALIDATION_RULES] = array();
-        $this->data[AttributeMetadata::FRONTEND_LABEL] = array();
+        $this->data[AttributeMetadata::OPTIONS] = [];
+        $this->data[AttributeMetadata::VALIDATION_RULES] = [];
+        $this->data[AttributeMetadata::FRONTEND_LABEL] = [];
     }
 
     /**
@@ -283,7 +283,7 @@ class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements Attrib
      */
     protected function processApplyToValue($applyTo)
     {
-        $value = array();
+        $value = [];
         if (is_array($applyTo)) {
             $value = $applyTo;
         } elseif (is_string($applyTo)) {
@@ -479,13 +479,13 @@ class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements Attrib
     protected function _setDataValues(array $data)
     {
         if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
-            $options = array();
+            $options = [];
             if (is_array($data[AttributeMetadata::OPTIONS])) {
                 foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
                     $options[$key] = $this->optionBuilder->populateWithArray($option)->create();
                 }
             }
-            $validationRules = array();
+            $validationRules = [];
             if (is_array($data[AttributeMetadata::VALIDATION_RULES])) {
                 foreach ($data[AttributeMetadata::VALIDATION_RULES] as $key => $value) {
                     $validationRules[$key] = $this->validationRuleBuilder->populateWithArray($value)->create();

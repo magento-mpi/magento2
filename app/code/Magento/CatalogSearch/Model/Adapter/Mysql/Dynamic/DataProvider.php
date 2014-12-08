@@ -7,19 +7,17 @@
  */
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Dynamic;
 
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface as MysqlDataProviderInterface;
-use Magento\Framework\Search\Dynamic\DataProviderInterface;
-use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface as MysqlDataProviderInterface;
+use Magento\Framework\Search\Dynamic\DataProviderInterface;
 use Magento\Framework\Search\Dynamic\IntervalFactory;
 use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Catalog\Model\Layer\Filter\Price\Range;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Store\Model\Store;
 
 class DataProvider implements DataProviderInterface
 {
@@ -98,9 +96,8 @@ class DataProvider implements DataProviderInterface
             'count' => 'count(DISTINCT entity_id)',
             'max' => 'MAX(min_price)',
             'min' => 'MIN(min_price)',
-            'std' => 'STDDEV_SAMP(min_price)'
+            'std' => 'STDDEV_SAMP(min_price)',
         ];
-
 
         $select = $this->getSelect();
 
@@ -192,7 +189,7 @@ class DataProvider implements DataProviderInterface
                 $data[] = [
                     'from' => $fromPrice,
                     'to' => $toPrice,
-                    'count' => $count
+                    'count' => $count,
                 ];
             }
         }

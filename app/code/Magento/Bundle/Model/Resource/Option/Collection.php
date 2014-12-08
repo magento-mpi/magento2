@@ -45,11 +45,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function joinValues($storeId)
     {
         $this->getSelect()->joinLeft(
-            array('option_value_default' => $this->getTable('catalog_product_bundle_option_value')),
+            ['option_value_default' => $this->getTable('catalog_product_bundle_option_value')],
             'main_table.option_id = option_value_default.option_id and option_value_default.store_id = 0',
-            array()
+            []
         )->columns(
-            array('default_title' => 'option_value_default.title')
+            ['default_title' => 'option_value_default.title']
         );
 
         $title = $this->getConnection()->getCheckSql(
@@ -59,14 +59,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
         if ($storeId !== null) {
             $this->getSelect()->columns(
-                array('title' => $title)
+                ['title' => $title]
             )->joinLeft(
-                array('option_value' => $this->getTable('catalog_product_bundle_option_value')),
+                ['option_value' => $this->getTable('catalog_product_bundle_option_value')],
                 $this->getConnection()->quoteInto(
                     'main_table.option_id = option_value.option_id and option_value.store_id = ?',
                     $storeId
                 ),
-                array()
+                []
             );
         }
         return $this;
@@ -137,7 +137,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _stripSelections()
     {
         foreach ($this->getItems() as $option) {
-            $option->setSelections(array());
+            $option->setSelections([]);
         }
         $this->_selectionsAppended = false;
         return $this;
@@ -152,7 +152,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function setIdFilter($ids)
     {
         if (is_array($ids)) {
-            $this->addFieldToFilter('main_table.option_id', array('in' => $ids));
+            $this->addFieldToFilter('main_table.option_id', ['in' => $ids]);
         } elseif ($ids != '') {
             $this->addFieldToFilter('main_table.option_id', $ids);
         }

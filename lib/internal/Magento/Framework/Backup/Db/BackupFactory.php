@@ -44,7 +44,7 @@ class BackupFactory
      * @param array $arguments
      * @return \Magento\Framework\Backup\Db\BackupInterface
      */
-    public function createBackupModel(array $arguments = array())
+    public function createBackupModel(array $arguments = [])
     {
         return $this->_objectManager->create($this->_backupInstanceName, $arguments);
     }
@@ -55,7 +55,7 @@ class BackupFactory
      * @param array $arguments
      * @return \Magento\Framework\Backup\Db\BackupDbInterface
      */
-    public function createBackupDbModel(array $arguments = array())
+    public function createBackupDbModel(array $arguments = [])
     {
         return $this->_objectManager->create($this->_backupDbInstanceName, $arguments);
     }

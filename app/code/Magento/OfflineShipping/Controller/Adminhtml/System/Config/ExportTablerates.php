@@ -8,9 +8,9 @@
  */
 namespace Magento\OfflineShipping\Controller\Adminhtml\System\Config;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 class ExportTablerates extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {

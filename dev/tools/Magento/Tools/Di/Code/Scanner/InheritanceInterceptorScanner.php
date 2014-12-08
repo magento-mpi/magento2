@@ -16,9 +16,9 @@ class InheritanceInterceptorScanner implements ScannerInterface
      * @param array $interceptedEntities
      * @return array
      */
-    public function collectEntities(array $classes, array $interceptedEntities = array())
+    public function collectEntities(array $classes, array $interceptedEntities = [])
     {
-        $output = array();
+        $output = [];
         foreach ($classes as $class) {
             foreach ($interceptedEntities as $interceptorClass) {
                 $interceptedEntity = substr($interceptorClass, 0, -12);

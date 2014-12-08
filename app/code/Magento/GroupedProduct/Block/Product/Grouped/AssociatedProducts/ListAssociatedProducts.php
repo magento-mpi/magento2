@@ -37,7 +37,7 @@ class ListAssociatedProducts extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->priceCurrency = $priceCurrency;
@@ -54,17 +54,17 @@ class ListAssociatedProducts extends \Magento\Backend\Block\Template
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_registry->registry('current_product');
         $associatedProducts = $product->getTypeInstance()->getAssociatedProducts($product);
-        $products = array();
+        $products = [];
 
         foreach ($associatedProducts as $product) {
-            $products[] = array(
+            $products[] = [
                 'id' => $product->getId(),
                 'sku' => $product->getSku(),
                 'name' => $product->getName(),
                 'price' => $this->priceCurrency->format($product->getPrice(), false),
                 'qty' => $product->getQty(),
-                'position' => $product->getPosition()
-            );
+                'position' => $product->getPosition(),
+            ];
         }
         return $products;
     }

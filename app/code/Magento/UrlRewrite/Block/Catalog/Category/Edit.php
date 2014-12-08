@@ -29,7 +29,7 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         \Magento\UrlRewrite\Model\UrlRewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryFactory = $categoryFactory;
         parent::__construct($context, $rewriteFactory, $adminhtmlData, $data);
@@ -83,11 +83,11 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         $this->addChild(
             'category_link',
             'Magento\UrlRewrite\Block\Link',
-            array(
+            [
                 'item_url' => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'category',
                 'item_name' => $this->_getCategory()->getName(),
                 'label' => __('Category:')
-            )
+            ]
         );
     }
 
@@ -111,7 +111,7 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         return $this->getLayout()->createBlock(
             'Magento\UrlRewrite\Block\Catalog\Edit\Form',
             '',
-            array('data' => array('category' => $this->_getCategory(), 'url_rewrite' => $this->_getUrlRewrite()))
+            ['data' => ['category' => $this->_getCategory(), 'url_rewrite' => $this->_getUrlRewrite()]]
         );
     }
 }

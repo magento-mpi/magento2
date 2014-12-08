@@ -8,7 +8,6 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Statistics;
 
-use \Magento\Backend\Model\Session;
 
 class RefreshRecent extends \Magento\Reports\Controller\Adminhtml\Report\Statistics
 {

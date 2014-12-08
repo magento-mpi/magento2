@@ -46,7 +46,7 @@ class TypeList implements \Magento\Catalog\Api\ProductCustomOptionTypeListInterf
                 $itemData = [
                     'label' => __($type['label']),
                     'code' => $type['name'],
-                    'group' => __($option['label'])
+                    'group' => __($option['label']),
                 ];
                 $output[] = $this->builder->populateWithArray($itemData)->create();
             }

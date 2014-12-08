@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Interpreter that returns invocation result of a helper method
@@ -53,6 +53,6 @@ class HelperMethod implements InterpreterInterface
         $methodParams = array_values($methodParams);
         // Use positional argument binding instead of named binding
         $helperInstance = $this->objectManager->get($helperClass);
-        return call_user_func_array(array($helperInstance, $methodName), $methodParams);
+        return call_user_func_array([$helperInstance, $methodName], $methodParams);
     }
 }

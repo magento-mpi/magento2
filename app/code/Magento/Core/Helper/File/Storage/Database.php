@@ -13,8 +13,8 @@
  */
 namespace Magento\Core\Helper\File\Storage;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class Database extends \Magento\Framework\App\Helper\AbstractHelper
 {
@@ -301,7 +301,7 @@ class Database extends \Magento\Framework\App\Helper\AbstractHelper
     public function saveUploadedFile($result)
     {
         if ($this->checkDbUsage()) {
-            $path = rtrim(str_replace(array('\\', '/'), '/', $result['path']), '/');
+            $path = rtrim(str_replace(['\\', '/'], '/', $result['path']), '/');
             $file = '/' . ltrim($result['file'], '\\/');
 
             $uniqueResultFile = $this->getUniqueFilename($path, $file);

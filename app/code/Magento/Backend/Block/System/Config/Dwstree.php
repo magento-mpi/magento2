@@ -35,19 +35,19 @@ class Dwstree extends \Magento\Backend\Block\Widget\Tabs
 
         $this->addTab(
             'default',
-            array(
+            [
                 'label' => __('Default Config'),
-                'url' => $this->getUrl('*/*/*', array('section' => $section)),
+                'url' => $this->getUrl('*/*/*', ['section' => $section]),
                 'class' => 'default'
-            )
+            ]
         );
 
         /** @var $website \Magento\Store\Model\Website */
         foreach ($this->_storeManager->getWebsites(true) as $website) {
             $wCode = $website->getCode();
             $wName = $website->getName();
-            $wUrl = $this->getUrl('*/*/*', array('section' => $section, 'website' => $wCode));
-            $this->addTab('website_' . $wCode, array('label' => $wName, 'url' => $wUrl, 'class' => 'website'));
+            $wUrl = $this->getUrl('*/*/*', ['section' => $section, 'website' => $wCode]);
+            $this->addTab('website_' . $wCode, ['label' => $wName, 'url' => $wUrl, 'class' => 'website']);
             if ($curWebsite === $wCode) {
                 if ($curStore) {
                     $this->_addBreadcrumb($wName, '', $wUrl);
@@ -61,14 +61,14 @@ class Dwstree extends \Magento\Backend\Block\Widget\Tabs
                 $sName = $store->getName();
                 $this->addTab(
                     'store_' . $sCode,
-                    array(
+                    [
                         'label' => $sName,
                         'url' => $this->getUrl(
                             '*/*/*',
-                            array('section' => $section, 'website' => $wCode, 'store' => $sCode)
+                            ['section' => $section, 'website' => $wCode, 'store' => $sCode]
                         ),
                         'class' => 'store'
-                    )
+                    ]
                 );
                 if ($curStore === $sCode) {
                     $this->_addBreadcrumb($sName);

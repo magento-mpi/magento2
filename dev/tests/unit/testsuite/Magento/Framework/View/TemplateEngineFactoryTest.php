@@ -23,7 +23,7 @@ class TemplateEngineFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_factory = new TemplateEngineFactory(
             $this->_objectManagerMock,
-            array('test' => 'Fixture\Module\Model\TemplateEngine')
+            ['test' => 'Fixture\Module\Model\TemplateEngine']
         );
     }
 

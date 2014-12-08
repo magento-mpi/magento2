@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Paypal\Block\Bml;
 
 use Magento\Catalog\Block as CatalogBlock;
@@ -80,8 +80,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
      * @param string $shortcutTemplate
      * @param array $data
      */
-    public function __construct
-    (
+    public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Math\Random $mathRandom,
@@ -91,7 +90,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         $alias,
         $bmlMethodCode,
         $shortcutTemplate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         $this->_mathRandom = $mathRandom;
@@ -131,7 +130,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
                 [
                     'href' => 'https://www.securecheckout.billmelater.com/paycapture-content/'
                     . 'fetch?hash=AU826TU8&content=/bmlweb/ppwpsiw.html',
-                    'src' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_text.png'
+                    'src' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_text.png',
                 ]
             );
 

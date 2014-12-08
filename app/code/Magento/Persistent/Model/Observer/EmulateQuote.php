@@ -77,7 +77,7 @@ class EmulateQuote
      */
     public function execute($observer)
     {
-        $stopActions = array('persistent_index_saveMethod', 'customer_account_createpost');
+        $stopActions = ['persistent_index_saveMethod', 'customer_account_createpost'];
 
         if (!$this->_persistentData->canProcess($observer)
             || !$this->_persistentSession->isPersistent()

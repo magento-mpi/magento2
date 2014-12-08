@@ -140,7 +140,6 @@ class ReadService implements ReadServiceInterface
         $this->resourceBuilder->setUrl($resourceData->getData($entityType . '_url'));
         $this->resourceBuilder->setFile($resourceData->getData($entityType . '_file'));
         return $this->resourceBuilder->create();
-
     }
 
     /**

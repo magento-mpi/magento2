@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Class AdvancedPropertiesTab

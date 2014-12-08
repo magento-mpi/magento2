@@ -45,7 +45,9 @@
     <ul id="order-info-tabs" class="items items-info-tabs">
         <?php foreach ($infoTabs as $elementName): ?>
             <?php $block = $layout->getBlock($elementName); ?>
-            <?php if (!$block) continue; ?>
+            <?php if (!$block) {
+    continue;
+} ?>
             <?php if ($this->getObjectData($block, 'is_view_current')): ?>
                 <li class="item current">
                     <strong><?php echo $this->escapeHtml($this->getObjectData($block, 'view_label')) ?></strong>
@@ -71,7 +73,9 @@
                         <?php for ($j = 1; $j <= 2; $j++): ?>
                             <?php foreach ($infoBlocks as $elementName): ?>
                                 <?php $block = $layout->getBlock($elementName); ?>
-                                <?php if (!$block) continue; ?>
+                                <?php if (!$block) {
+    continue;
+} ?>
                                 <?php if ($j == $this->getObjectData($block, 'view_column')): ?>
                                     <div class="box box<?php echo $j ?>">
                                         <strong class="box-title">

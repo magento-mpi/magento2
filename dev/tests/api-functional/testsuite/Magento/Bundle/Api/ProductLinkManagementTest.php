@@ -8,8 +8,8 @@
  */
 namespace Magento\Bundle\Api;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Webapi\Model\Rest\Config;
 
 class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -28,7 +28,7 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
                 'sku' => 'simple',
                 'position' => 0,
                 'qty' => 1,
-            ]
+            ],
         ];
 
         $result = $this->getChildren($productSku);
@@ -79,7 +79,7 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
             'priceType' => 2,
             'price' => 151.34,
             'qty' => 8,
-            'can_change_quantity' => 1
+            'can_change_quantity' => 1,
         ];
 
         $childId = $this->addChild($productSku, $optionId, $linkedProduct);
@@ -102,13 +102,13 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
                     [$productSku, $optionId],
                     $resourcePath
                 ),
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'AddChildByProductSku'
-            ]
+                'operation' => self::SERVICE_NAME . 'AddChildByProductSku',
+            ],
         ];
         return $this->_webApiCall(
             $serviceInfo,
@@ -132,15 +132,15 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => sprintf($resourcePath, $productSku, $optionId, $childSku),
-                'httpMethod' => Config::HTTP_METHOD_DELETE
+                'httpMethod' => Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'removeChild'
-            ]
+                'operation' => self::SERVICE_NAME . 'removeChild',
+            ],
         ];
-        $requestData = array('productSku' => $productSku, 'optionId' => $optionId, 'childSku' => $childSku);
+        $requestData = ['productSku' => $productSku, 'optionId' => $optionId, 'childSku' => $childSku];
         return $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -152,14 +152,14 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
     {
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH .'/' . $productSku . '/children',
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/children',
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getChildren'
-            ]
+                'operation' => self::SERVICE_NAME . 'getChildren',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productId' => $productSku]);
     }

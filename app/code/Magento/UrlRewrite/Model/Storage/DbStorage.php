@@ -8,8 +8,8 @@
 namespace Magento\UrlRewrite\Model\Storage;
 
 use Magento\Framework\App\Resource;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 class DbStorage extends AbstractStorage
 {

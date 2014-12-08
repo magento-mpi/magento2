@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Test\TestStep;
 
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestStep\TestStepInterface;
 
@@ -88,7 +88,7 @@ class MoveAttributeToProductTemplateStep implements TestStepInterface
                 'dataSet' => 'product_with_category_with_anchor',
                 'data' => [
                     'attribute_set_id' => ['attribute_set' => $this->productTemplate],
-                    'custom_attribute' => $this->attribute
+                    'custom_attribute' => $this->attribute,
                 ],
             ]
         );

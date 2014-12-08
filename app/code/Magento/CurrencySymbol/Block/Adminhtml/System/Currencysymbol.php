@@ -28,7 +28,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolSystemFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_symbolSystemFactory = $symbolSystemFactory;
         parent::__construct($context, $data);
@@ -51,7 +51,7 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
      *
      * @var array
      */
-    protected $_symbolsData = array();
+    protected $_symbolsData = [];
 
     /**
      * Prepares layout
@@ -63,13 +63,13 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save Currency Symbols'),
                 'class' => 'save primary save-currency-symbols',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#currency-symbols-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#currency-symbols-form']],
+                ]
+            ]
         );
 
         return parent::_prepareLayout();

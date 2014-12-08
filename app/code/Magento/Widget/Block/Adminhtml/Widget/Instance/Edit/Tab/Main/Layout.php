@@ -39,7 +39,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Product\Type $productType,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productType = $productType;
         parent::__construct($context, $data);
@@ -86,7 +86,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     public function getCategoriesChooserUrl()
     {
-        return $this->getUrl('adminhtml/*/categories', array('_current' => true));
+        return $this->getUrl('adminhtml/*/categories', ['_current' => true]);
     }
 
     /**
@@ -96,7 +96,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     public function getProductsChooserUrl()
     {
-        return $this->getUrl('adminhtml/*/products', array('_current' => true));
+        return $this->getUrl('adminhtml/*/products', ['_current' => true]);
     }
 
     /**
@@ -106,7 +106,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     public function getBlockChooserUrl()
     {
-        return $this->getUrl('adminhtml/*/blocks', array('_current' => true));
+        return $this->getUrl('adminhtml/*/blocks', ['_current' => true]);
     }
 
     /**
@@ -116,7 +116,7 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     public function getTemplateChooserUrl()
     {
-        return $this->getUrl('adminhtml/*/template', array('_current' => true));
+        return $this->getUrl('adminhtml/*/template', ['_current' => true]);
     }
 
     /**
@@ -152,34 +152,34 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     protected function _getDisplayOnOptions()
     {
-        $options = array();
-        $options[] = array('value' => '', 'label' => $this->escapeJsQuote(__('-- Please Select --')));
-        $options[] = array(
+        $options = [];
+        $options[] = ['value' => '', 'label' => $this->escapeJsQuote(__('-- Please Select --'))];
+        $options[] = [
             'label' => __('Categories'),
-            'value' => array(
-                array('value' => 'anchor_categories', 'label' => $this->escapeJsQuote(__('Anchor Categories'))),
-                array('value' => 'notanchor_categories', 'label' => $this->escapeJsQuote(__('Non-Anchor Categories')))
-            )
-        );
+            'value' => [
+                ['value' => 'anchor_categories', 'label' => $this->escapeJsQuote(__('Anchor Categories'))],
+                ['value' => 'notanchor_categories', 'label' => $this->escapeJsQuote(__('Non-Anchor Categories'))],
+            ],
+        ];
         foreach ($this->_productType->getTypes() as $typeId => $type) {
-            $productsOptions[] = array(
+            $productsOptions[] = [
                 'value' => $typeId . '_products',
-                'label' => $this->escapeJsQuote($type['label'])
-            );
+                'label' => $this->escapeJsQuote($type['label']),
+            ];
         }
         array_unshift(
             $productsOptions,
-            array('value' => 'all_products', 'label' => $this->escapeJsQuote(__('All Product Types')))
+            ['value' => 'all_products', 'label' => $this->escapeJsQuote(__('All Product Types'))]
         );
-        $options[] = array('label' => $this->escapeJsQuote(__('Products')), 'value' => $productsOptions);
-        $options[] = array(
+        $options[] = ['label' => $this->escapeJsQuote(__('Products')), 'value' => $productsOptions];
+        $options[] = [
             'label' => $this->escapeJsQuote(__('Generic Pages')),
-            'value' => array(
-                array('value' => 'all_pages', 'label' => $this->escapeJsQuote(__('All Pages'))),
-                array('value' => 'pages', 'label' => $this->escapeJsQuote(__('Specified Page'))),
-                array('value' => 'page_layouts', 'label' => $this->escapeJsQuote(__('Page Layouts')))
-            )
-        );
+            'value' => [
+                ['value' => 'all_pages', 'label' => $this->escapeJsQuote(__('All Pages'))],
+                ['value' => 'pages', 'label' => $this->escapeJsQuote(__('Specified Page'))],
+                ['value' => 'page_layouts', 'label' => $this->escapeJsQuote(__('Page Layouts'))],
+            ],
+        ];
         return $options;
     }
 
@@ -190,33 +190,33 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
      */
     public function getDisplayOnContainers()
     {
-        $container = array();
-        $container['anchor'] = array(
+        $container = [];
+        $container['anchor'] = [
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'anchor_categories',
             'layout_handle' => \Magento\Widget\Model\Widget\Instance::ANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 1,
-            'product_type_id' => ''
-        );
-        $container['notanchor'] = array(
+            'product_type_id' => '',
+        ];
+        $container['notanchor'] = [
             'label' => 'Categories',
             'code' => 'categories',
             'name' => 'notanchor_categories',
             'layout_handle' => \Magento\Widget\Model\Widget\Instance::NOTANCHOR_CATEGORY_LAYOUT_HANDLE,
             'is_anchor_only' => 0,
-            'product_type_id' => ''
-        );
-        $container['all_products'] = array(
+            'product_type_id' => '',
+        ];
+        $container['all_products'] = [
             'label' => 'Products',
             'code' => 'products',
             'name' => 'all_products',
             'layout_handle' => \Magento\Widget\Model\Widget\Instance::PRODUCT_LAYOUT_HANDLE,
             'is_anchor_only' => '',
-            'product_type_id' => ''
-        );
+            'product_type_id' => '',
+        ];
         foreach ($this->_productType->getTypes() as $typeId => $type) {
-            $container[$typeId] = array(
+            $container[$typeId] = [
                 'label' => 'Products',
                 'code' => 'products',
                 'name' => $typeId . '_products',
@@ -226,8 +226,8 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
                     \Magento\Widget\Model\Widget\Instance::PRODUCT_TYPE_LAYOUT_HANDLE
                 ),
                 'is_anchor_only' => '',
-                'product_type_id' => $typeId
-            );
+                'product_type_id' => $typeId,
+            ];
         }
         return $container;
     }
@@ -294,11 +294,11 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'label' => __('Add Layout Update'),
                 'onclick' => 'WidgetInstance.addPageGroup({})',
-                'class' => 'action-add'
-            )
+                'class' => 'action-add',
+            ]
         );
         return $button->toHtml();
     }
@@ -313,11 +313,11 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'label' => $this->escapeJsQuote(__('Remove Layout Update')),
                 'onclick' => 'WidgetInstance.removePageGroup(this)',
-                'class' => 'action-delete'
-            )
+                'class' => 'action-delete',
+            ]
         );
         return $button->toHtml();
     }
@@ -330,18 +330,18 @@ class Layout extends \Magento\Backend\Block\Template implements \Magento\Framewo
     public function getPageGroups()
     {
         $widgetInstance = $this->getWidgetInstance();
-        $pageGroups = array();
+        $pageGroups = [];
         if ($widgetInstance->getPageGroups()) {
             foreach ($widgetInstance->getPageGroups() as $pageGroup) {
-                $pageGroups[] = array(
+                $pageGroups[] = [
                     'page_id' => $pageGroup['page_id'],
                     'group' => $pageGroup['page_group'],
                     'block' => $pageGroup['block_reference'],
                     'for_value' => $pageGroup['page_for'],
                     'layout_handle' => $pageGroup['layout_handle'],
                     $pageGroup['page_group'] . '_entities' => $pageGroup['entities'],
-                    'template' => $pageGroup['page_template']
-                );
+                    'template' => $pageGroup['page_template'],
+                ];
             }
         }
         return $pageGroups;

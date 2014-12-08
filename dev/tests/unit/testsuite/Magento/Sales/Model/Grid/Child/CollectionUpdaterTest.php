@@ -20,10 +20,9 @@ class CollectionUpdaterTest extends \PHPUnit_Framework_TestCase
      */
     protected $registryMock;
 
-
     protected function setUp()
     {
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
         $this->collectionUpdater = new \Magento\Sales\Model\Grid\Child\CollectionUpdater(
             $this->registryMock
@@ -33,9 +32,9 @@ class CollectionUpdaterTest extends \PHPUnit_Framework_TestCase
     public function testUpdateIfOrderExists()
     {
         $collectionMock = $this->getMock(
-            'Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection', array(), array(), '', false
+            'Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection', [], [], '', false
         );
-        $transactionMock = $this->getMock('Magento\Sales\Model\Order\Payment\Transaction', array(), array(), '', false);
+        $transactionMock = $this->getMock('Magento\Sales\Model\Order\Payment\Transaction', [], [], '', false);
         $this->registryMock
             ->expects($this->once())
             ->method('registry')
@@ -45,5 +44,4 @@ class CollectionUpdaterTest extends \PHPUnit_Framework_TestCase
         $collectionMock->expects($this->once())->method('addParentIdFilter')->will($this->returnSelf());
         $this->assertEquals($collectionMock, $this->collectionUpdater->update($collectionMock));
     }
-
 }

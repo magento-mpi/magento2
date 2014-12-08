@@ -28,7 +28,7 @@ class Shoppingcart extends \Magento\CustomerSegment\Model\Condition\AbstractCond
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($context, $resourceSegment, $data);
@@ -43,14 +43,14 @@ class Shoppingcart extends \Magento\CustomerSegment\Model\Condition\AbstractCond
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => array(
+        return [
+            'value' => [
                 $this->_conditionFactory->create('Shoppingcart\Amount')->getNewChildSelectOptions(),
                 $this->_conditionFactory->create('Shoppingcart\Itemsquantity')->getNewChildSelectOptions(),
-                $this->_conditionFactory->create('Shoppingcart\Productsquantity')->getNewChildSelectOptions()
-            ),
+                $this->_conditionFactory->create('Shoppingcart\Productsquantity')->getNewChildSelectOptions(),
+            ],
             'label' => __('Shopping Cart'),
             'available_in_guest_mode' => true
-        );
+        ];
     }
 }

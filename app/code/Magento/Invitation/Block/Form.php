@@ -16,7 +16,7 @@ class Form extends \Magento\Framework\View\Element\Template
 {
     /**
      * Invitation Config
-     * 
+     *
      * @var \Magento\Invitation\Model\Config
      */
     protected $_config;
@@ -29,7 +29,7 @@ class Form extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Invitation\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_config = $config;

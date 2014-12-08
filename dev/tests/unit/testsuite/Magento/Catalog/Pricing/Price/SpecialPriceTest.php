@@ -55,7 +55,6 @@ class SpecialPriceTest extends \PHPUnit_Framework_TestCase
             $expected = $specialPriceValue;
         }
 
-
         $this->assertSame($expected, $specialPriceModel->getValue());
     }
 

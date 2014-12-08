@@ -25,7 +25,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     /**
      * @var array
      */
-    protected $_callbacks = array();
+    protected $_callbacks = [];
 
     /**
      * @var array|null
@@ -165,7 +165,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $object->setGwsStoreGroups(array_values(array_unique($storeGroupIds)));
 
         // determine and set store ids
-        $storeIds = array();
+        $storeIds = [];
         foreach ($this->_storeManager->getStores() as $store) {
             if (in_array($store->getGroupId(), $object->getGwsStoreGroups())) {
                 $storeIds[] = $store->getId();
@@ -174,7 +174,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $object->setGwsStores($storeIds);
 
         // set relevant website ids from allowed store group ids
-        $relevantWebsites = array();
+        $relevantWebsites = [];
         foreach ($this->_getAllStoreGroups() as $storeGroup) {
             if (in_array($storeGroup->getId(), $object->getGwsStoreGroups())) {
                 $relevantWebsites[] = $storeGroup->getWebsite()->getId();
@@ -241,7 +241,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         if (empty($websiteIds)) {
-            $websiteIds = array();
+            $websiteIds = [];
         } else {
             if (!is_array($websiteIds)) {
                 $websiteIds = explode(',', $websiteIds);
@@ -265,17 +265,17 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             }
         }
         if (empty($storeGroupIds)) {
-            $storeGroupIds = array();
+            $storeGroupIds = [];
         } else {
             if (!is_array($storeGroupIds)) {
                 $storeGroupIds = explode(',', $storeGroupIds);
             }
-            $allStoreGroups = array();
+            $allStoreGroups = [];
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $allStoreGroups = array_merge($allStoreGroups, $website->getGroupIds());
             }
             foreach ($storeGroupIds as $storeGroupId) {
-                if (!array($storeGroupId, $allStoreGroups)) {
+                if (![$storeGroupId, $allStoreGroups]) {
                     throw new Exception(__('Incorrect store ID: %1', $storeGroupId));
                 }
                 // prevent granting disallowed store group
@@ -502,7 +502,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {
-            $this->_controllersMap = array('full' => array(), 'partial' => array());
+            $this->_controllersMap = ['full' => [], 'partial' => []];
             foreach ($this->config->getCallbacks('controller_predispatch') as $actionName => $method) {
                 list($module, $controller, $action) = explode('__', $actionName);
                 if ($action) {
@@ -575,7 +575,7 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function updateRoleStores($observer)
     {
         $this->_role->setStoreIds(
-            array_merge($this->_role->getStoreIds(), array($observer->getStore()->getStoreId()))
+            array_merge($this->_role->getStoreIds(), [$observer->getStore()->getStoreId()])
         );
         return $this;
     }

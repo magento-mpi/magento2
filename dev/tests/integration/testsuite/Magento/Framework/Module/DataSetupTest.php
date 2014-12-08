@@ -18,7 +18,7 @@ class DataSetupTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Module\DataSetup',
-            array('resourceName' => 'default_setup', 'moduleName' => 'Magento_Core')
+            ['resourceName' => 'default_setup', 'moduleName' => 'Magento_Core']
         );
     }
 

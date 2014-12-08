@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Product\AttributeSet;
 
+use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Service\V1\Data\Eav\AttributeSet;
 use Magento\Framework\Exception\StateException;
 
 /**
@@ -44,11 +44,11 @@ class WriteService implements WriteServiceInterface
             throw InputException::invalidFieldValue('id', $setData->getId());
         }
 
-        $basicData = array(
+        $basicData = [
             'attribute_set_name' => $setData->getName(),
             'sort_order' => $setData->getSortOrder(),
             'entity_type_id' => $this->eavConfig->getEntityType(\Magento\Catalog\Model\Product::ENTITY)->getId(),
-        );
+        ];
 
         /** @var \Magento\Eav\Model\Entity\Attribute\Set $set */
         $set = $this->setFactory->create();

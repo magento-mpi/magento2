@@ -61,10 +61,10 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function configLoadDataProvider()
     {
         $baseFixtureDir = $this->_getBaseFixtureDir();
-        return array(
-            'config.php.dist' => array('fixtureDir' => $baseFixtureDir . '/config_dist', 'expectedUrl' => '127.0.0.1'),
-            'config.dist' => array('fixtureDir' => $baseFixtureDir . '/config_normal', 'expectedUrl' => '192.168.0.1')
-        );
+        return [
+            'config.php.dist' => ['fixtureDir' => $baseFixtureDir . '/config_dist', 'expectedUrl' => '127.0.0.1'],
+            'config.dist' => ['fixtureDir' => $baseFixtureDir . '/config_normal', 'expectedUrl' => '192.168.0.1']
+        ];
     }
 
     /**

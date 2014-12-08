@@ -8,8 +8,8 @@
  */
 namespace Magento\Wonderland\Model;
 
-use Magento\Wonderland\Api\Data\FakeAddressInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Wonderland\Api\Data\FakeAddressInterface;
 
 class FakeAddress extends AbstractExtensibleModel implements FakeAddressInterface
 {

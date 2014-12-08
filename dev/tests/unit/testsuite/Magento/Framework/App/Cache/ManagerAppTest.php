@@ -166,7 +166,7 @@ class ManagerAppTest extends \PHPUnit_Framework_TestCase
         $model = $this->createModel([]);
         $this->assertFalse($model->catchException(
             $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false),
-            new \Exception
+            new \Exception()
         ));
     }
 

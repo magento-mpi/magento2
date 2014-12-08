@@ -189,8 +189,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                     [
                         [
                             'cust_group' => 3,
-                            'website_price' => 80
-                        ]
+                            'website_price' => 80,
+                        ],
                     ]
 
                 )

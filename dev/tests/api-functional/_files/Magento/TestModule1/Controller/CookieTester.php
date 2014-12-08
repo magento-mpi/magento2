@@ -8,8 +8,8 @@
 namespace Magento\TestModule1\Controller;
 
 use Magento\Framework\App\RequestInterface;
-use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\PhpCookieManager;
 
 /**
  * Controller for testing the CookieManager.

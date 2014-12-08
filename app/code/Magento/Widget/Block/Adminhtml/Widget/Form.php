@@ -32,7 +32,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Widget\Model\WidgetFactory $widgetFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_widgetFactory = $widgetFactory;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -48,12 +48,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Widget')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Widget')]);
 
         $fieldset->addField(
             'select_widget_type',
             'select',
-            array(
+            [
                 'label' => __('Widget Type'),
                 'title' => __('Widget Type'),
                 'name' => 'widget_type',
@@ -61,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'onchange' => "wWidget.validateField()",
                 'options' => $this->_getWidgetSelectOptions(),
                 'after_element_html' => $this->_getWidgetSelectAfterHtml()
-            )
+            ]
         );
 
         $form->setUseContainer(true);
@@ -109,7 +109,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getAvailableWidgets($withEmptyElement = false)
     {
         if (!$this->hasData('available_widgets')) {
-            $result = array();
+            $result = [];
             $allWidgets = $this->_widgetFactory->create()->getWidgetsArray();
             $skipped = $this->_getSkippedWidgets();
             foreach ($allWidgets as $widget) {
@@ -119,7 +119,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 $result[] = $widget;
             }
             if ($withEmptyElement) {
-                array_unshift($result, array('type' => '', 'name' => __('-- Please Select --'), 'description' => ''));
+                array_unshift($result, ['type' => '', 'name' => __('-- Please Select --'), 'description' => '']);
             }
             $this->setData('available_widgets', $result);
         }

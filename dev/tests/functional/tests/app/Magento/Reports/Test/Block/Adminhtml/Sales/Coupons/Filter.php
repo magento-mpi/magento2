@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Sales\Coupons;
 
-use Mtf\ObjectManager;
 use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 
 /**

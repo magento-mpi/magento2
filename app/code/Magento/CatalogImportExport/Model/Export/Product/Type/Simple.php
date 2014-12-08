@@ -19,24 +19,24 @@ class Simple extends \Magento\CatalogImportExport\Model\Export\Product\Type\Abst
      *
      * @var array
      */
-    protected $_attributeOverrides = array(
-        'has_options' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
-        'required_options' => array('source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'),
-        'created_at' => array('backend_type' => 'datetime'),
-        'updated_at' => array('backend_type' => 'datetime')
-    );
+    protected $_attributeOverrides = [
+        'has_options' => ['source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'],
+        'required_options' => ['source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean'],
+        'created_at' => ['backend_type' => 'datetime'],
+        'updated_at' => ['backend_type' => 'datetime'],
+    ];
 
     /**
      * Array of attributes codes which are disabled for export.
      *
      * @var string[]
      */
-    protected $_disabledAttrs = array(
+    protected $_disabledAttrs = [
         'old_id',
         'recurring_payment',
         'is_recurring',
         'tier_price',
         'group_price',
-        'category_ids'
-    );
+        'category_ids',
+    ];
 }

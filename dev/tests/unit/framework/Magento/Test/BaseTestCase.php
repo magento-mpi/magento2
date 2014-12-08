@@ -26,7 +26,7 @@ class BaseTestCase extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager = new ObjectManager($this);
     }
-    
+
     /**
      * Build a basic mock object
      *

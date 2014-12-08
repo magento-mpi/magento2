@@ -37,8 +37,8 @@ class LogTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->processorMock = $this->getMock('\Magento\Logging\Model\Processor', array(), array(), '', false);
-        $this->requestMock = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->processorMock = $this->getMock('\Magento\Logging\Model\Processor', [], [], '', false);
+        $this->requestMock = $this->getMock('\Magento\Framework\App\Request\Http', [], [], '', false);
         $this->requestMock->expects(
             $this->once()
         )->method(
@@ -91,7 +91,7 @@ class LogTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getBeforeForwardInfo'
         )->will(
-            $this->returnValue(array('controller_name' => 'origcontroller', 'action_name' => 'origaction'))
+            $this->returnValue(['controller_name' => 'origcontroller', 'action_name' => 'origaction'])
         );
         $this->processorMock->expects(
             $this->once()
@@ -128,7 +128,7 @@ class LogTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getBeforeForwardInfo'
         )->will(
-            $this->returnValue(array('forward'))
+            $this->returnValue(['forward'])
         );
         $this->processorMock->expects(
             $this->once()

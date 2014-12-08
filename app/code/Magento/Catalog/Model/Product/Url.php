@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product Url model
  *
@@ -14,8 +13,8 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Url extends \Magento\Framework\Object
 {
@@ -74,7 +73,7 @@ class Url extends \Magento\Framework\Object
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         UrlFinderInterface $urlFinder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_url = $url;
@@ -117,7 +116,7 @@ class Url extends \Magento\Framework\Object
      * @param array $params the URL route params
      * @return string
      */
-    public function getUrlInStore(\Magento\Catalog\Model\Product $product, $params = array())
+    public function getUrlInStore(\Magento\Catalog\Model\Product $product, $params = [])
     {
         $params['_scope_to_url'] = true;
         return $this->getUrl($product, $params);
@@ -136,7 +135,7 @@ class Url extends \Magento\Framework\Object
             $useSid = $this->_sidResolver->getUseSessionInUrl();
         }
 
-        $params = array();
+        $params = [];
         if (!$useSid) {
             $params['_nosid'] = true;
         }
@@ -162,7 +161,7 @@ class Url extends \Magento\Framework\Object
      * @param array $params
      * @return string
      */
-    public function getUrl(\Magento\Catalog\Model\Product $product, $params = array())
+    public function getUrl(\Magento\Catalog\Model\Product $product, $params = [])
     {
         $routePath = '';
         $routeParams = $params;
@@ -221,7 +220,7 @@ class Url extends \Magento\Framework\Object
 
         // reset cached URL instance GET query params
         if (!isset($routeParams['_query'])) {
-            $routeParams['_query'] = array();
+            $routeParams['_query'] = [];
         }
 
         return $this->getUrlInstance()->setScope($storeId)->getUrl($routePath, $routeParams);

@@ -8,11 +8,11 @@
 
 namespace Magento\GoogleShopping\Test\Constraint;
 
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\GoogleShopping\Test\Page\Adminhtml\GoogleShoppingTypesIndex;
 use Magento\GoogleShopping\Test\Page\Adminhtml\GoogleShoppingTypesNew;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertProductAttributeAbsenceForAttributeMapping
@@ -51,7 +51,7 @@ class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstrain
             [
                 'dataSet' => 'default',
                 'data' => [
-                    'attribute_set_id' => ['attribute_set' => $productTemplate]
+                    'attribute_set_id' => ['attribute_set' => $productTemplate],
                 ],
             ]
         );

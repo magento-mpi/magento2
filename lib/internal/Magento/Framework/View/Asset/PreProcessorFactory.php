@@ -37,7 +37,7 @@ class PreProcessorFactory
      * @return \Magento\Framework\View\Asset\PreProcessorInterface
      * @throws \UnexpectedValueException
      */
-    public function create($instanceName, array $data = array())
+    public function create($instanceName, array $data = [])
     {
         $processorInstance = $this->objectManager->create($instanceName, $data);
         if (!$processorInstance instanceof \Magento\Framework\View\Asset\PreProcessorInterface) {

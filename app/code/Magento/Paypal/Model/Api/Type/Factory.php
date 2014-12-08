@@ -37,7 +37,7 @@ class Factory
      * @param array $data
      * @return \Magento\Paypal\Model\Api\AbstractApi
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         return $this->_objectManager->create($className, $data);
     }

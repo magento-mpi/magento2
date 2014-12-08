@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -22,7 +22,7 @@ class ScopeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->areaListMock = $this->getMock('Magento\Framework\App\AreaList', array('getCodes'), array(), '', false);
+        $this->areaListMock = $this->getMock('Magento\Framework\App\AreaList', ['getCodes'], [], '', false);
         $this->model = new Scope($this->areaListMock);
     }
 
@@ -35,10 +35,10 @@ class ScopeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAllScopes()
     {
-        $expectedBalances = array('primary', 'test_scope');
+        $expectedBalances = ['primary', 'test_scope'];
         $this->areaListMock->expects($this->once())
             ->method('getCodes')
-            ->will($this->returnValue(array('test_scope')));
+            ->will($this->returnValue(['test_scope']));
         $this->assertEquals($expectedBalances, $this->model->getAllScopes());
     }
 }

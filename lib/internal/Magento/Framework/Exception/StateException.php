@@ -13,5 +13,4 @@ namespace Magento\Framework\Exception;
  */
 class StateException extends LocalizedException
 {
-
 }

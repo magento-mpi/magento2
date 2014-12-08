@@ -20,14 +20,14 @@ class Remove extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Button
         $removeButtonHtml = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'class' => 'delete',
                     'label' => 'Remove',
                     'onclick' => 'addBySku.removeFailedItem(this)',
-                    'type' => 'button'
-                )
-            )
+                    'type' => 'button',
+                ]
+            ]
         );
 
         return $removeButtonHtml->toHtml();

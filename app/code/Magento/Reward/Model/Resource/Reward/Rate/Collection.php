@@ -32,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addWebsiteFilter($websiteId)
     {
-        $websiteId = array_merge((array)$websiteId, array(0));
+        $websiteId = array_merge((array)$websiteId, [0]);
         $this->getSelect()->where('main_table.website_id IN (?)', $websiteId);
         return $this;
     }

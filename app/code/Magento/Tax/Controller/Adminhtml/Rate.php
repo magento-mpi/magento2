@@ -64,7 +64,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _processRateData($rateData)
     {
-        $result = array();
+        $result = [];
         foreach ($rateData as $key => $value) {
             if (is_array($value)) {
                 $result[$key] = $this->_processRateData($value);

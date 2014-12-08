@@ -37,39 +37,39 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOrderOptions()
     {
-        $expectedResult = array(
-            array(
+        $expectedResult = [
+            [
                 'label' => 'Gift Card Type',
                 'value' => 'Physical',
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Sender',
                 'value' => 'sender_name &lt;sender_email&gt;',
                 'custom_view' => true,
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Recipient',
                 'value' => 'recipient_name &lt;recipient_email&gt;',
                 'custom_view' => true,
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Message',
                 'value' => 'giftcard_message',
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Lifetime',
                 'value' => 'lifetime days',
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Is Redeemable',
                 'value' => 'Yes',
-            ),
-            array(
+            ],
+            [
                 'label' => 'Gift Card Accounts',
                 'value' => 'xxx123<br />yyy456<br />N/A<br />N/A<br />N/A',
                 'custom_view' => true,
-            ),
-        );
+            ],
+        ];
 
         $itemMock = $this->getMockBuilder('\Magento\Sales\Model\Order\Item')
             ->setMethods(['getProductOptionByCode', 'getQtyOrdered'])

@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AttributeMetadataInterface;
 use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +51,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->_customerMetadata = $this->getMockForAbstractClass(
             'Magento\Customer\Api\CustomerMetadataInterface',
-            array(),
+            [],
             '',
             false
         );
@@ -69,42 +69,42 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getCustomAttributesMetadata'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Api\Data\AttributeMetadataInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->customerBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            array('populateWithArray','setId','setFirstname','setLastname','setEmail','create'),
-            array(),
+            ['populateWithArray', 'setId', 'setFirstname', 'setLastname', 'setEmail', 'create'],
+            [],
             '',
             false
         );
         $this->customerFactoryMock = $this->getMock(
             'Magento\Customer\Model\CustomerFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->storeManagerMock = $this->getMock(
             'Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->extensibleDataObjectConverter = $this->getMock(
             'Magento\Framework\Api\ExtensibleDataObjectConverter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -149,31 +149,31 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $this->_mockReturnValue(
             $customerModelMock,
-            array(
+            [
                 'getId' => 1,
                 'getFirstname' => 'Tess',
                 'getLastname' => 'Tester',
                 'getEmail' => 'ttester@example.com',
-                'getAttributes' => array($attributeModelMock1, $attributeModelMock, $attributeModelMock)
-            )
+                'getAttributes' => [$attributeModelMock1, $attributeModelMock, $attributeModelMock]
+            ]
         );
 
         $this->_mockReturnValue(
             $customerMock,
-            array(
+            [
                 'getId' => 1,
                 'getFirstname' => 'Tess',
                 'getLastname' => 'Tester',
                 'getEmail' => 'ttester@example.com',
-                'getAttributes' => array($attributeModelMock1, $attributeModelMock, $attributeModelMock)
-            )
+                'getAttributes' => [$attributeModelMock1, $attributeModelMock, $attributeModelMock]
+            ]
         );
 
-        $map = array(
-            array('attribute_code', null, 'attributeValue'),
-            array('attribute_code2', null, 'attributeValue2'),
-            array('attribute_code3', null, null)
-        );
+        $map = [
+            ['attribute_code', null, 'attributeValue'],
+            ['attribute_code2', null, 'attributeValue2'],
+            ['attribute_code3', null, null],
+        ];
         $customerModelMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
         $customerMock->expects($this->any())->method('getData')->will($this->returnValueMap($map));
 
@@ -192,14 +192,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
         $customerDataObject = $converter->createCustomerFromModel($customerModelMock);
 
-        $expectedCustomerData = array(
+        $expectedCustomerData = [
             'firstname' => 'Tess',
             'email' => 'ttester@example.com',
             'lastname' => 'Tester',
             'id' => 1,
             'attribute_code' => 'attributeValue',
-            'attribute_code2' => 'attributeValue2'
-        );
+            'attribute_code2' => 'attributeValue2',
+        ];
 
         $this->assertEquals('Tess', $customerDataObject->getFirstname());
         $this->assertEquals('Tester', $customerDataObject->getLastname());
@@ -217,7 +217,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function prepareGetCustomerModel($customerId)
     {
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerMock->expects($this->once())
             ->method('load')
             ->with($customerId)
@@ -266,8 +266,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $customerMock = $this->getMock(
             'Magento\Customer\Model\Customer',
-            array('setWebsiteId', 'loadByEmail', 'getId', '__wakeup'),
-            array(),
+            ['setWebsiteId', 'loadByEmail', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -295,7 +295,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $customerEmail = 'test@example.com';
         $this->prepareGetCustomerModelByEmail($websiteId, $customerEmail, $customerId);
 
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())
             ->method('getWebsiteId')
             ->will($this->returnValue($websiteId));

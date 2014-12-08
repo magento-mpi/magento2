@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture;
+use Mtf\Factory\Factory;
 
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method

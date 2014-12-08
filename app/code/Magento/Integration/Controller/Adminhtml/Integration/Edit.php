@@ -8,9 +8,9 @@
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-use \Magento\Backend\App\Action;
-use \Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
-use \Magento\Integration\Exception as IntegrationException;
+use Magento\Backend\App\Action;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Exception as IntegrationException;
 
 class Edit extends \Magento\Integration\Controller\Adminhtml\Integration
 {
@@ -48,7 +48,7 @@ class Edit extends \Magento\Integration\Controller\Adminhtml\Integration
         }
         $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         $this->_view->loadLayout();
-        $this->_getSession()->setIntegrationData(array());
+        $this->_getSession()->setIntegrationData([]);
         $this->_setActiveMenu('Magento_Integration::system_integrations');
 
         if ($this->_integrationData->isConfigType($integrationData)) {

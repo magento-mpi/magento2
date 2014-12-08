@@ -218,7 +218,7 @@ interface CustomerAccountServiceInterface
      */
     public function validateCustomerData(
         \Magento\Customer\Api\Data\CustomerInterface $customer,
-        array $attributes = array()
+        array $attributes = []
     );
 
     /**

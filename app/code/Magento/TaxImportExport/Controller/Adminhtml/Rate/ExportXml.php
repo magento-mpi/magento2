@@ -8,8 +8,8 @@
  */
 namespace Magento\TaxImportExport\Controller\Adminhtml\Rate;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportXml extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
 {

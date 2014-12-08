@@ -20,7 +20,6 @@ class Category extends AbstractFilter
      */
     private $escaper;
 
-
     /**
      * @var CategoryDataProvider
      */

@@ -8,8 +8,8 @@
 
 namespace Magento\Wishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertWishlistShareMessage

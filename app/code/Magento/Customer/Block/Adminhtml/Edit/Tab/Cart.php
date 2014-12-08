@@ -167,13 +167,13 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                         'caption' => __('Configure'),
                         'url' => 'javascript:void(0)',
                         'process' => 'configurable',
-                        'control_object' => $this->getJsObjectName() . 'cartControl'
+                        'control_object' => $this->getJsObjectName() . 'cartControl',
                     ],
                     [
                         'caption' => __('Delete'),
                         'url' => '#',
                         'onclick' => 'return ' . $this->getJsObjectName() . 'cartControl.removeItem($item_id);'
-                    ]
+                    ],
                 ]
             ]
         );

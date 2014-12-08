@@ -9,8 +9,8 @@ namespace Magento\CatalogInventory\Model\Resource\Stock;
 
 use Magento\CatalogInventory\Api\Data\StockItemInterface;
 use Magento\CatalogInventory\Model\Indexer\Stock\Processor;
-use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\App\Resource as AppResource;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Stock item resource model
@@ -62,7 +62,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function loadByProductId(\Magento\CatalogInventory\Api\Data\StockItemInterface $item, $productId, $websiteId)
     {
         $select = $this->_getLoadSelect('product_id', $productId, $item)->where('website_id = :website_id');
-        $data = $this->_getReadAdapter()->fetchRow($select, array(':website_id' => $websiteId));
+        $data = $this->_getReadAdapter()->fetchRow($select, [':website_id' => $websiteId]);
         if ($data) {
             $item->setData($data);
         } else {
@@ -84,7 +84,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object)
-            ->join(array('p' => $this->getTable('catalog_product_entity')), 'product_id=p.entity_id', array('type_id'));
+            ->join(['p' => $this->getTable('catalog_product_entity')], 'product_id=p.entity_id', ['type_id']);
         return $select;
     }
 

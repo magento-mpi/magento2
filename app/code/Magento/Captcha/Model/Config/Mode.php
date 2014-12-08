@@ -22,12 +22,12 @@ class Mode implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('label' => __('Always'), 'value' => \Magento\Captcha\Helper\Data::MODE_ALWAYS),
-            array(
+        return [
+            ['label' => __('Always'), 'value' => \Magento\Captcha\Helper\Data::MODE_ALWAYS],
+            [
                 'label' => __('After number of attempts to login'),
                 'value' => \Magento\Captcha\Helper\Data::MODE_AFTER_FAIL
-            )
-        );
+            ]
+        ];
     }
 }

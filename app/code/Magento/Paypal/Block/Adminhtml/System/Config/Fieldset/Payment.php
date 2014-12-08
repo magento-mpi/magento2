@@ -29,7 +29,7 @@ class Payment extends \Magento\Backend\Block\System\Config\Form\Fieldset
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Backend\Model\Config $backendConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendConfig = $backendConfig;
         parent::__construct($context, $authSession, $jsHelper, $data);

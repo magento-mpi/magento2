@@ -25,7 +25,7 @@ class Form extends Generic
     {
         /** @var DataForm $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
         $form->setUseContainer(true);
         $this->setForm($form);

@@ -47,19 +47,19 @@ $elementToggleCode = $element->getToggleCode() ? $element->getToggleCode()
         <?php else: ?>
         <?php echo $element->getLabelHtml() ?>
         <div class="control">
-            <?php echo ($addOn) ? '<div class="addon">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
+            <?php echo($addOn) ? '<div class="addon">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
             <?php echo $note ?>
         </div>
         <?php endif; ?>
         <div class="field-service" value-scope="<?php echo $this->getScopeLabel()?>">
             <?php if ($this->canDisplayUseDefault()): ?>
             <label for="<?php echo $element->getHtmlId() ?>_default" class="choice use-default">
-                <input <?php if($element->getReadonly()):?> disabled="disabled"<?php endif; ?>
+                <input <?php if ($element->getReadonly()):?> disabled="disabled"<?php endif; ?>
                                                             type="checkbox"
                                                             name="use_default[]"
                                                             class="use-default-control"
                                                             id="<?php echo $element->getHtmlId() ?>_default"
-                    <?php if($this->usedDefault()): ?> checked="checked"<?php endif; ?>
+                    <?php if ($this->usedDefault()): ?> checked="checked"<?php endif; ?>
                                                             onclick="<?php echo $elementToggleCode; ?>"
                                                             value="<?php echo $this->getAttributeCode() ?>"/>
                 <span class="use-default-label"><?php echo __('Use Default Value') ?></span>

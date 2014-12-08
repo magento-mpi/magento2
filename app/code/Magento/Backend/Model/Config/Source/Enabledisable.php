@@ -14,6 +14,6 @@ class Enabledisable implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => 1, 'label' => __('Enable')), array('value' => 0, 'label' => __('Disable')));
+        return [['value' => 1, 'label' => __('Enable')], ['value' => 0, 'label' => __('Disable')]];
     }
 }

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customers by orders Report collection
  *

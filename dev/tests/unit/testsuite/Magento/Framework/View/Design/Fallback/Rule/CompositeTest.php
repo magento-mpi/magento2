@@ -19,12 +19,12 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new Composite(array(new \stdClass()));
+        new Composite([new \stdClass()]);
     }
 
     public function testGetPatternDirs()
     {
-        $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
+        $inputParams = ['param_one' => 'value_one', 'param_two' => 'value_two'];
 
         $ruleOne = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
         $ruleOne->expects(
@@ -34,7 +34,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         )->with(
             $inputParams
         )->will(
-            $this->returnValue(array('rule_one/path/one', 'rule_one/path/two'))
+            $this->returnValue(['rule_one/path/one', 'rule_one/path/two'])
         );
 
         $ruleTwo = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Fallback\Rule\RuleInterface');
@@ -45,12 +45,12 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
         )->with(
             $inputParams
         )->will(
-            $this->returnValue(array('rule_two/path/one', 'rule_two/path/two'))
+            $this->returnValue(['rule_two/path/one', 'rule_two/path/two'])
         );
 
-        $object = new Composite(array($ruleOne, $ruleTwo));
+        $object = new Composite([$ruleOne, $ruleTwo]);
 
-        $expectedResult = array('rule_one/path/one', 'rule_one/path/two', 'rule_two/path/one', 'rule_two/path/two');
+        $expectedResult = ['rule_one/path/one', 'rule_one/path/two', 'rule_two/path/one', 'rule_two/path/two'];
         $this->assertEquals($expectedResult, $object->getPatternDirs($inputParams));
     }
 }

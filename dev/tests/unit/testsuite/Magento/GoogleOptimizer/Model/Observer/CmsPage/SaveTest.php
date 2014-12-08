@@ -46,20 +46,20 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', array(), array(), '', false);
-        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\GoogleOptimizer\Helper\Data', [], [], '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', [], [], '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
 
-        $this->_pageMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
-        $event = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
+        $this->_pageMock = $this->getMock('Magento\Cms\Model\Page', [], [], '', false);
+        $event = $this->getMock('Magento\Framework\Event', ['getObject'], [], '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($this->_pageMock));
-        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_modelObserver = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Model\Observer\CmsPage\Save',
-            array('helper' => $this->_helperMock, 'modelCode' => $this->_codeMock, 'request' => $this->_requestMock)
+            ['helper' => $this->_helperMock, 'modelCode' => $this->_codeMock, 'request' => $this->_requestMock]
         );
     }
 
@@ -78,7 +78,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->with(
             'google_experiment'
         )->will(
-            $this->returnValue(array('code_id' => '', 'experiment_script' => $experimentScript))
+            $this->returnValue(['code_id' => '', 'experiment_script' => $experimentScript])
         );
 
         $this->_codeMock->expects(
@@ -86,12 +86,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addData'
         )->with(
-            array(
+            [
                 'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
                 'entity_id' => $pageId,
                 'store_id' => 0,
-                'experiment_script' => $experimentScript
-            )
+                'experiment_script' => $experimentScript,
+            ]
         );
         $this->_codeMock->expects($this->once())->method('save');
 
@@ -126,13 +126,13 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongRequestForCreating()
     {
-        return array(
+        return [
             // if param 'google_experiment' is not array
-            array('wrong type'),
+            ['wrong type'],
             // if param 'experiment_script' is missed
-            array(array('code_id' => '')),
+            [['code_id' => '']],
             // if param 'code_id' is missed
-            array(array('experiment_script' => '')));
+            [['experiment_script' => '']]];
     }
 
     public function testEditingCodeIfRequestIsValid()
@@ -151,7 +151,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->with(
             'google_experiment'
         )->will(
-            $this->returnValue(array('code_id' => $codeId, 'experiment_script' => $experimentScript))
+            $this->returnValue(['code_id' => $codeId, 'experiment_script' => $experimentScript])
         );
 
         $this->_codeMock->expects($this->once())->method('load')->with($codeId);
@@ -162,12 +162,12 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addData'
         )->with(
-            array(
+            [
                 'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
                 'entity_id' => $pageId,
                 'store_id' => $this->_storeId,
-                'experiment_script' => $experimentScript
-            )
+                'experiment_script' => $experimentScript,
+            ]
         );
         $this->_codeMock->expects($this->once())->method('save');
 
@@ -192,7 +192,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->with(
             'google_experiment'
         )->will(
-            $this->returnValue(array('code_id' => $codeId, 'experiment_script' => $experimentScript))
+            $this->returnValue(['code_id' => $codeId, 'experiment_script' => $experimentScript])
         );
 
         $this->_codeMock->expects($this->once())->method('load')->with($codeId);
@@ -223,7 +223,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         )->with(
             'google_experiment'
         )->will(
-            $this->returnValue(array('code_id' => $codeId, 'experiment_script' => ''))
+            $this->returnValue(['code_id' => $codeId, 'experiment_script' => ''])
         );
 
         $this->_codeMock->expects($this->once())->method('load')->with($codeId);

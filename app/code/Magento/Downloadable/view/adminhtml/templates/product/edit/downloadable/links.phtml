@@ -18,9 +18,9 @@
     <div class="field">
         <label class="label" for="name"><span><?php echo __('Title')?></span></label>
         <div class="control">
-            <input type="text" class="input-text" id="downloadable_links_title" name="product[links_title]" value="<?php echo $this->getLinksTitle() ?>" <?php echo ($_product->getStoreId() && $this->getUsedDefault())?'disabled="disabled"':'' ?>>
-            <?php if($_product->getStoreId()): ?>
-                <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault()?'checked="checked"':'' ?> />
+            <input type="text" class="input-text" id="downloadable_links_title" name="product[links_title]" value="<?php echo $this->getLinksTitle() ?>" <?php echo($_product->getStoreId() && $this->getUsedDefault()) ? 'disabled="disabled"' : '' ?>>
+            <?php if ($_product->getStoreId()): ?>
+                <input id="link_title_default" type="checkbox" name="use_default[]" value="links_title" onclick="toggleValueElements(this, this.parentNode.parentNode)" <?php echo $this->getUsedDefault() ? 'checked="checked"' : '' ?> />
                 <label class="normal" for="link_title_default"><?php echo __('Use Default Value'); ?></label>
             <?php endif; ?>
         </div>
@@ -81,7 +81,7 @@ var linkTemplate = '<tr>'+
         '<input type="hidden" class="__delete__" name="downloadable[link][{{id}}][is_delete]" value="" />'+
         '<input type="hidden" name="downloadable[link][{{id}}][link_id]" value="{{link_id}}" />'+
         '<input type="text" class="required-entry input-text" name="downloadable[link][{{id}}][title]" value="{{title}}" />'+
-        '<?php echo $_product->getStoreId()?'<input type="checkbox" id="downloadable_link_{{id}}_title" name="downloadable[link][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_link_{{id}}_title">Use Default Value</label>':'' ?>'+
+        '<?php echo $_product->getStoreId() ? '<input type="checkbox" id="downloadable_link_{{id}}_title" name="downloadable[link][{{id}}][use_default_title]" value="1" /><label class="normal" for="downloadable_link_{{id}}_title">Use Default Value</label>' : '' ?>'+
     '</td>'+
     <?php if ($this->getCanReadPrice() !== false) : ?>
     '<td class="input-price">'+

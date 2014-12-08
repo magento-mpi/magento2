@@ -27,7 +27,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\User\Model\Resource\User $resourceModel,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_resourceModel = $resourceModel;
@@ -41,12 +41,12 @@ class User extends \Magento\Backend\Block\Widget\Grid\Container
     protected function _construct()
     {
         $this->addData(
-            array(
+            [
                 \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'user',
                 \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_User',
                 \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => __('Add New User'),
-                \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Users')
-            )
+                \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => __('Users'),
+            ]
         );
         parent::_construct();
         $this->_addNewButton();

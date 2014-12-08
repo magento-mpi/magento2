@@ -8,11 +8,11 @@
 
 namespace Magento\Cms\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex as FrontCmsIndex;
+use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Magento\Cms\Test\Page\CmsIndex as FrontCmsIndex;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Fixture\CmsPage;
 
 /**
  * Class AssertCmsPageDisabledOnFrontend

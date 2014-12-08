@@ -45,7 +45,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cartHelper = $cartHelper;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
@@ -72,7 +72,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function prepareItemUrls()
     {
-        $products = array();
+        $products = [];
         /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             $product = $item->getProduct();
@@ -145,7 +145,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('checkout/onepage', array('_secure' => true));
+        return $this->getUrl('checkout/onepage', ['_secure' => true]);
     }
 
     /**
@@ -184,7 +184,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         if ($childName) {
             return $this->getLayout()->getChildNames($childName);
         }
-        return array();
+        return [];
     }
 
     /**

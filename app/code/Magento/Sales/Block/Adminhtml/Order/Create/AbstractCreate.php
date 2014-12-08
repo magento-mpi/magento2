@@ -47,7 +47,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_sessionQuote = $sessionQuote;

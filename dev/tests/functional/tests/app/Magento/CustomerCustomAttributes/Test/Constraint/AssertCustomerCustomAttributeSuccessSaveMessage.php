@@ -8,8 +8,8 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerCustomAttributeSuccessSaveMessage

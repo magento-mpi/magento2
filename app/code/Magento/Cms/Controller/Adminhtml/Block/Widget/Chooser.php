@@ -21,7 +21,7 @@ class Chooser extends \Magento\Backend\App\Action
         $pagesGrid = $this->_view->getLayout()->createBlock(
             'Magento\Cms\Block\Adminhtml\Block\Widget\Chooser',
             '',
-            array('data' => array('id' => $uniqId))
+            ['data' => ['id' => $uniqId]]
         );
         $this->getResponse()->setBody($pagesGrid->toHtml());
     }

@@ -27,7 +27,7 @@ class PaymentAvailabilityObserverTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->paymentAvailabilityObserver = $this->objectManagerHelper->getObject(
             'Magento\RecurringPayment\Model\Observer\PaymentAvailabilityObserver',
-            array('quoteFilter' => $this->filterMock)
+            ['quoteFilter' => $this->filterMock]
         );
     }
 
@@ -36,13 +36,13 @@ class PaymentAvailabilityObserverTest extends \PHPUnit_Framework_TestCase
         $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')->disableOriginalConstructor()->getMock();
 
         $event = new \Magento\Framework\Event(
-            array(
+            [
                 'quote' => $quote,
                 'method_instance' => $this->getMockBuilder(
                     'Magento\Payment\Model\Method\AbstractMethod'
                 )->disableOriginalConstructor()->getMock(),
-                'result' => new \StdClass()
-            )
+                'result' => new \StdClass(),
+            ]
         );
         $this->filterMock->expects(
             $this->once()

@@ -16,7 +16,7 @@ class Review extends AbstractOnepage
     {
         $this->getCheckout()->setStepData(
             'review',
-            array('label' => __('Order Review'), 'is_show' => $this->isShow())
+            ['label' => __('Order Review'), 'is_show' => $this->isShow()]
         );
         parent::_construct();
     }

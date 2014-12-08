@@ -104,7 +104,7 @@ class Launch extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
         /** @var $vdeUrlModel \Magento\DesignEditor\Model\Url\NavigationMode */
         $vdeUrlModel = $this->_objectManager->create(
             'Magento\DesignEditor\Model\Url\NavigationMode',
-            array('data' => array('mode' => $mode, 'themeId' => $themeId))
+            ['data' => ['mode' => $mode, 'themeId' => $themeId]]
         );
         $url = $this->_getSession()->getData(\Magento\DesignEditor\Model\State::CURRENT_URL_SESSION_KEY);
         if (empty($url)) {
@@ -133,7 +133,7 @@ class Launch extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
                 )->createVirtualTheme(
                     $launchedTheme
                 );
-                $this->_redirect($this->getUrl('adminhtml/*/*', array('theme_id' => $launchedTheme->getId())));
+                $this->_redirect($this->getUrl('adminhtml/*/*', ['theme_id' => $launchedTheme->getId()]));
                 return;
             }
             $editableTheme = $themeContext->getStagingTheme();
@@ -152,7 +152,7 @@ class Launch extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
 
             /** @var $storeViewBlock \Magento\DesignEditor\Block\Adminhtml\Theme\Selector\StoreView */
             $storeViewBlock = $this->_view->getLayout()->getBlock('theme.selector.storeview');
-            $storeViewBlock->setData(array('actionOnAssign' => 'none', 'theme_id' => $launchedTheme->getId()));
+            $storeViewBlock->setData(['actionOnAssign' => 'none', 'theme_id' => $launchedTheme->getId()]);
 
             $this->_view->renderLayout();
         } catch (CoreException $e) {

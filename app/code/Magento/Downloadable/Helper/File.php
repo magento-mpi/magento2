@@ -47,7 +47,7 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\Filesystem $filesystem,
-        array $mimeTypes = array()
+        array $mimeTypes = []
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
@@ -228,7 +228,7 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var array
      */
-    protected static $_mimeTypes = array(
+    protected static $_mimeTypes = [
         'x123' => 'application/vnd.lotus-1-2-3',
         'x3dml' => 'text/vnd.in3d.3dml',
         'x3g2' => 'video/3gpp2',
@@ -765,6 +765,6 @@ class File extends \Magento\Framework\App\Helper\AbstractHelper
         'xzaz' => 'application/vnd.zzazz.deck+xml',
         'xzip' => 'application/zip',
         'xzmm' => 'application/vnd.handheld-entertainment+xml',
-        'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet'
-    );
+        'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet',
+    ];
 }

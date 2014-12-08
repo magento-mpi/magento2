@@ -23,7 +23,7 @@ class Optimizer
      */
     public function optimizeFixtureSets(array $sets)
     {
-        $sorted = array();
+        $sorted = [];
         $currentSet = null;
         while ($sets) {
             $chosenKey = null;

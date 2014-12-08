@@ -19,12 +19,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/section' => 'name',
         '/config/section/group' => 'name',
         '/config/section/group/item' => 'name',
-        '/config/order/available_product_type' => 'name'
-    );
+        '/config/order/available_product_type' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -42,7 +42,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Sales\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'sales.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

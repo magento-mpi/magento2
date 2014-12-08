@@ -14,7 +14,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_blockDependencies = array(
+    protected $_blockDependencies = [
         'request' => 'Magento\Framework\App\RequestInterface',
         'layout' => 'Magento\Framework\View\LayoutInterface',
         'eventManager' => 'Magento\Framework\Event\ManagerInterface',
@@ -22,20 +22,20 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         'cache' => 'Magento\Framework\App\CacheInterface',
         'design' => 'Magento\Framework\View\DesignInterface',
         'session' => 'Magento\Framework\Session\SessionManagerInterface',
-        'scopeConfig' => 'Magento\Framework\App\Config\ScopeConfigInterface'
-    );
+        'scopeConfig' => 'Magento\Framework\App\Config\ScopeConfigInterface',
+    ];
 
     /**
      * List of model default dependencies
      *
      * @var array
      */
-    protected $_modelDependencies = array(
+    protected $_modelDependencies = [
         'eventManager' => 'Magento\Framework\Event\ManagerInterface',
         'cacheManager' => 'Magento\Framework\App\CacheInterface',
         'resource' => 'Magento\Framework\Model\Resource\AbstractResource',
-        'resourceCollection' => 'Magento\Framework\Data\Collection\Db'
-    );
+        'resourceCollection' => 'Magento\Framework\Data\Collection\Db',
+    ];
 
     /**
      * @covers \Magento\TestFramework\TestCase\ObjectManager::getBlock
@@ -52,7 +52,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
 
         $area = 'frontend';
         /** @var $appStateMock \Magento\Framework\App\State|\PHPUnit_Framework_MockObject_MockObject */
-        $appStateMock = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
+        $appStateMock = $this->getMock('Magento\Framework\App\State', ['getAreaCode'], [], '', false);
         $appStateMock->expects($this->once())->method('getAreaCode')->will($this->returnValue($area));
 
         $context = $objectManager->getObject('Magento\Framework\View\Element\Template\Context');
@@ -61,7 +61,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateProperty->setValue($context, $appStateMock);
 
         /** @var $template \Magento\Framework\View\Element\Template */
-        $template = $objectManager->getObject('Magento\Framework\View\Element\Template', array('context' => $context));
+        $template = $objectManager->getObject('Magento\Framework\View\Element\Template', ['context' => $context]);
         $this->assertEquals($area, $template->getArea());
     }
 
@@ -81,14 +81,14 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         /** @var $resourceMock \Magento\Core\Model\Resource\Resource */
         $resourceMock = $this->getMock(
             'Magento\Framework\Module\Resource',
-            array('_getReadAdapter', 'getIdFieldName', '__sleep', '__wakeup'),
-            array(),
+            ['_getReadAdapter', 'getIdFieldName', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $resourceMock->expects($this->once())->method('_getReadAdapter')->will($this->returnValue(false));
         $resourceMock->expects($this->any())->method('getIdFieldName')->will($this->returnValue('id'));
-        $arguments = array('resource' => $resourceMock);
+        $arguments = ['resource' => $resourceMock];
         $model = $objectManager->getObject('Magento\Framework\App\Config\Value', $arguments);
         $this->assertFalse($model->getResource()->getDataVersion('test'));
     }

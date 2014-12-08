@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
 
+use Magento\Backend\Test\Block\Template;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Template;
 
 /**
  * Class Items

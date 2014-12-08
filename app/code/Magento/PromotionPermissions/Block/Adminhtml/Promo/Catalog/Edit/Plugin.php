@@ -14,7 +14,7 @@ class Plugin extends \Magento\PromotionPermissions\Block\Adminhtml\Plugin
      * @var string[]
      */
     protected $restrictedButtons = [
-        'delete', 'save', 'save_and_continue_edit', 'save_apply', 'reset'
+        'delete', 'save', 'save_and_continue_edit', 'save_apply', 'reset',
     ];
 
     /**

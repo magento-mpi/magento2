@@ -7,9 +7,9 @@
  */
 namespace Magento\Review\Model;
 
+use Magento\Catalog\Model\Product;
 use Magento\Review\Model\Resource\Review\Product\Collection as ProductCollection;
 use Magento\Review\Model\Resource\Review\Status\Collection as StatusCollection;
-use Magento\Catalog\Model\Product;
 
 /**
  * Review model
@@ -136,7 +136,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\UrlInterface $urlModel,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->productCollectionFactory = $productFactory;
         $this->_statusFactory = $statusFactory;
@@ -234,7 +234,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      */
     public function getReviewUrl()
     {
-        return $this->_urlModel->getUrl('review/product/view', array('id' => $this->getReviewId()));
+        return $this->_urlModel->getUrl('review/product/view', ['id' => $this->getReviewId()]);
     }
 
     /**
@@ -250,7 +250,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
             $this->_urlModel->setScope($storeId);
         }
 
-        return $this->_urlModel->getUrl('catalog/product/view', array('id' => $productId));
+        return $this->_urlModel->getUrl('catalog/product/view', ['id' => $productId]);
     }
 
     /**
@@ -260,7 +260,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
 
         if (!\Zend_Validate::is($this->getTitle(), 'NotEmpty')) {
             $errors[] = __('The review summary field can\'t be empty.');
@@ -299,7 +299,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      */
     public function appendSummary($collection)
     {
-        $entityIds = array();
+        $entityIds = [];
         foreach ($collection->getItems() as $item) {
             $entityIds[] = $item->getEntityId();
         }

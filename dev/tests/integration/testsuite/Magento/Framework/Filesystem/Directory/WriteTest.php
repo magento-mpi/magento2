@@ -9,8 +9,8 @@
  */
 namespace Magento\Framework\Filesystem\Directory;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Framework\Filesystem\DriverPool;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class ReadTest
@@ -23,7 +23,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    private $testDirectories = array();
+    private $testDirectories = [];
 
     /**
      * Test instance of Read
@@ -57,12 +57,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function createProvider()
     {
-        return array(
-            array('newDir1', 0777, "newDir1"),
-            array('newDir1', 0777, "root_dir1/subdir1/subdir2"),
-            array('newDir2', 0755, "root_dir2/subdir"),
-            array('newDir1', 0777, ".")
-        );
+        return [
+            ['newDir1', 0777, "newDir1"],
+            ['newDir1', 0777, "root_dir1/subdir1/subdir2"],
+            ['newDir2', 0755, "root_dir2/subdir"],
+            ['newDir1', 0777, "."]
+        ];
     }
 
     /**
@@ -87,7 +87,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function deleteProvider()
     {
-        return array(array('subdir'), array('subdir/subsubdir'));
+        return [['subdir'], ['subdir/subsubdir']];
     }
 
     /**
@@ -118,7 +118,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function renameProvider()
     {
-        return array(array('newDir1', 0777, 'first_name.txt', 'second_name.txt'));
+        return [['newDir1', 0777, 'first_name.txt', 'second_name.txt']];
     }
 
     /**
@@ -152,7 +152,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function renameTargetDirProvider()
     {
-        return array(array('dir1', 'dir2', 0777, 'first_name.txt', 'second_name.txt'));
+        return [['dir1', 'dir2', 0777, 'first_name.txt', 'second_name.txt']];
     }
 
     /**
@@ -181,10 +181,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function copyProvider()
     {
-        return array(
-            array('newDir1', 0777, 'first_name.txt', 'second_name.txt'),
-            array('newDir1', 0777, 'subdir/first_name.txt', 'subdir/second_name.txt')
-        );
+        return [
+            ['newDir1', 0777, 'first_name.txt', 'second_name.txt'],
+            ['newDir1', 0777, 'subdir/first_name.txt', 'subdir/second_name.txt']
+        ];
     }
 
     /**
@@ -217,10 +217,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function copyTargetDirProvider()
     {
-        return array(
-            array('dir1', 'dir2', 0777, 'first_name.txt', 'second_name.txt'),
-            array('dir1', 'dir2', 0777, 'subdir/first_name.txt', 'subdir/second_name.txt')
-        );
+        return [
+            ['dir1', 'dir2', 0777, 'first_name.txt', 'second_name.txt'],
+            ['dir1', 'dir2', 0777, 'subdir/first_name.txt', 'subdir/second_name.txt']
+        ];
     }
 
     /**
@@ -257,10 +257,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function touchProvider()
     {
-        return array(
-            array('test_directory', 0777, 'touch_file.txt', time() - 3600),
-            array('test_directory', 0777, 'subdirectory/touch_file.txt', time() - 3600)
-        );
+        return [
+            ['test_directory', 0777, 'touch_file.txt', time() - 3600],
+            ['test_directory', 0777, 'subdirectory/touch_file.txt', time() - 3600]
+        ];
     }
 
     /**
@@ -298,10 +298,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function openFileProvider()
     {
-        return array(
-            array('newDir1', 0777, 'newFile.txt', 'w+'),
-            array('newDir1', 0777, 'subdirectory/newFile.txt', 'w+')
-        );
+        return [
+            ['newDir1', 0777, 'newFile.txt', 'w+'],
+            ['newDir1', 0777, 'subdirectory/newFile.txt', 'w+']
+        ];
     }
 
     /**
@@ -345,7 +345,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function writeFileProvider()
     {
-        return array(array('file1', '123', '456'), array('folder1/file1', '123', '456'));
+        return [['file1', '123', '456'], ['folder1/file1', '123', '456']];
     }
 
     /**

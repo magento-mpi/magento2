@@ -22,7 +22,7 @@ $product->setTypeId(
 )->setTaxClassId(
     0
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1]
 )->setMetaTitle(
     'meta title'
 )->setMetaKeyword(
@@ -39,7 +39,7 @@ $product->load(1);
 $addressData = include __DIR__ . '/address_data.php';
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Quote\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $billingAddress->setAddressType('billing');
 

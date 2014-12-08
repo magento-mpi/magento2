@@ -7,8 +7,8 @@
  */
 namespace Magento\GroupedProduct\Block\Cart\Item\Renderer;
 
-use Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped as Renderer;
 use Magento\Catalog\Model\Config\Source\Product\Thumbnail as ThumbnailSource;
+use Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped as Renderer;
 
 class GroupedTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +25,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\GroupedProduct\Block\Cart\Item\Renderer\Grouped',
-            array('scopeConfig' => $this->_scopeConfig)
+            ['scopeConfig' => $this->_scopeConfig]
         );
     }
 
@@ -106,14 +106,14 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         /** Initialized parent product */
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $parentProduct */
-        $parentProduct = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $parentProduct = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         /** Initialize child product */
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $childProduct */
         $childProduct = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getThumbnail', '__wakeup'),
-            array(),
+            ['getThumbnail', '__wakeup'],
+            [],
             '',
             false
         );
@@ -122,10 +122,10 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         /** Mock methods which return parent and child products */
         /** @var \Magento\Sales\Model\Quote\Item\Option|\PHPUnit_Framework_MockObject_MockObject $itemOption */
-        $itemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', array(), array(), '', false);
+        $itemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', [], [], '', false);
         $itemOption->expects($this->any())->method('getProduct')->will($this->returnValue($parentProduct));
         /** @var \Magento\Sales\Model\Quote\Item|\PHPUnit_Framework_MockObject_MockObject $item */
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $item->expects($this->any())->method('getProduct')->will($this->returnValue($childProduct));
         $item->expects(
             $this->any()
@@ -138,15 +138,15 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         );
         $this->_renderer->setItem($item);
 
-        return array('parentProduct' => $parentProduct, 'childProduct' => $childProduct);
+        return ['parentProduct' => $parentProduct, 'childProduct' => $childProduct];
     }
 
     public function testGetIdentities()
     {
-        $productTags = array('catalog_product_1');
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productTags = ['catalog_product_1'];
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->exactly(2))->method('getIdentities')->will($this->returnValue($productTags));
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $item->expects($this->exactly(2))->method('getProduct')->will($this->returnValue($product));
         $this->_renderer->setItem($item);
         $this->assertEquals(array_merge($productTags, $productTags), $this->_renderer->getIdentities());

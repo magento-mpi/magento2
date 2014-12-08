@@ -9,9 +9,9 @@
 
 namespace Magento\CheckoutAgreements\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementNew;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class DeleteAllTermsEntityStep

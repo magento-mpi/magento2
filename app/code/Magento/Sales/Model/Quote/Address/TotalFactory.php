@@ -37,7 +37,7 @@ class TotalFactory
      * @param array $data
      * @return \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
-    public function create($instanceName, array $data = array())
+    public function create($instanceName, array $data = [])
     {
         return $this->_objectManager->create($instanceName, $data);
     }

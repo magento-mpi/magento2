@@ -27,7 +27,7 @@ abstract class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function initContext()
     {
-        $productActionMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
+        $productActionMock = $this->getMock('Magento\Catalog\Model\Product\Action', [], [], '', false);
         $objectManagerMock = $this->getMockForAbstractClass('Magento\Framework\ObjectManagerInterface');
         $objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($productActionMock));
 
@@ -45,20 +45,20 @@ abstract class ProductTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['add'])->disableOriginalConstructor()->getMock();
         $title->expects($this->any())->method('prepend')->withAnyParameters()->will($this->returnSelf());
         $requestInterfaceMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')->setMethods(
-            array('getParam', 'getFullActionName')
+            ['getParam', 'getFullActionName']
         )->disableOriginalConstructor()->getMock();
 
         $responseInterfaceMock = $this->getMockBuilder('Magento\Framework\App\ResponseInterface')->setMethods(
-            array('setRedirect', 'sendResponse')
+            ['setRedirect', 'sendResponse']
         )->getMock();
 
         $managerInterfaceMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
-        $sessionMock = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
-        $actionFlagMock = $this->getMock('Magento\Framework\App\ActionFlag', array(), array(), '', false);
-        $helperDataMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $sessionMock = $this->getMock('Magento\Backend\Model\Session', [], [], '', false);
+        $actionFlagMock = $this->getMock('Magento\Framework\App\ActionFlag', [], [], '', false);
+        $helperDataMock = $this->getMock('Magento\Backend\Helper\Data', [], [], '', false);
         $this->context = $this->getMock(
             'Magento\Backend\App\Action\Context',
-            array(
+            [
                 'getRequest',
                 'getResponse',
                 'getObjectManager',
@@ -69,8 +69,8 @@ abstract class ProductTest extends \PHPUnit_Framework_TestCase
                 'getHelper',
                 'getTitle',
                 'getView'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

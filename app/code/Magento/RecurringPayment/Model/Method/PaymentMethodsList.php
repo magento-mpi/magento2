@@ -34,7 +34,7 @@ class PaymentMethodsList implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->paymentHelper->getPaymentMethods() as $code => $data) {
             if ($this->specification->isSatisfiedBy($code)) {
                 $result[$code] = isset(

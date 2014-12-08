@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class DataBuilderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder
      */
@@ -39,7 +38,7 @@ class DataBuilderTest extends \PHPUnit_Framework_TestCase
                 'label' => 'New label for test',
                 'value' => 2344,
                 'count' => 122,
-            ]
+            ],
         ];
 
         foreach ($data as $item) {

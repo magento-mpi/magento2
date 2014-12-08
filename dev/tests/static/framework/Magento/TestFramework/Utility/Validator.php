@@ -20,7 +20,7 @@ class Validator
     {
         libxml_use_internal_errors(true);
         $result = $dom->schemaValidate($schemaFileName);
-        $errors = array();
+        $errors = [];
         if (!$result) {
             $validationErrors = libxml_get_errors();
             if (count($validationErrors)) {

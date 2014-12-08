@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class SkeletonSet

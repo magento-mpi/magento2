@@ -150,7 +150,7 @@ class OptionConverterTest extends \PHPUnit_Framework_TestCase
             'position' => 333,
             'use_default' => true,
             'label' => 'someLabel',
-            'values' => $values
+            'values' => $values,
         ];
 
         $this->option->expects($this->any())->method('getValues')->will($this->returnValue($values));

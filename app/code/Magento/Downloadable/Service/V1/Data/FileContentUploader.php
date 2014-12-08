@@ -7,14 +7,14 @@
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
-use \Magento\Core\Model\File\Uploader;
+use Magento\Core\Helper\File\Storage;
+use Magento\Core\Helper\File\Storage\Database;
+use Magento\Core\Model\File\Uploader;
+use Magento\Core\Model\File\Validator\NotProtectedExtension;
+use Magento\Downloadable\Model\Link as LinkConfig;
+use Magento\Downloadable\Model\Sample as SampleConfig;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
-use \Magento\Core\Model\File\Validator\NotProtectedExtension;
-use \Magento\Core\Helper\File\Storage;
-use \Magento\Core\Helper\File\Storage\Database;
-use \Magento\Downloadable\Model\Link as LinkConfig;
-use \Magento\Downloadable\Model\Sample as SampleConfig;
 
 class FileContentUploader extends Uploader implements FileContentUploaderInterface
 {
@@ -86,13 +86,13 @@ class FileContentUploader extends Uploader implements FileContentUploaderInterfa
         $tmpFileName = $this->getTmpFileName();
         $fileSize = $this->systemTmpDirectory->writeFile($tmpFileName, base64_decode($fileContent->getData()));
 
-        return array(
+        return [
             'name' => $fileContent->getName(),
             'type' => self::DEFAULT_MIME_TYPE,
             'tmp_name' => $this->systemTmpDirectory->getAbsolutePath($tmpFileName),
             'error' => 0,
             'size' => $fileSize,
-        );
+        ];
     }
 
     /**

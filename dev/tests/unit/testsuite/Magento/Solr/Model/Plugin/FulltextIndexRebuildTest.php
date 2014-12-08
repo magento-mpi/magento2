@@ -49,31 +49,31 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->_engineProviderMock = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\EngineProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_searchHelperMock = $this->getMock('Magento\Solr\Helper\Data', array(), array(), '', false);
-        $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false);
+        $this->_searchHelperMock = $this->getMock('Magento\Solr\Helper\Data', [], [], '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\CacheInterface', [], [], '', false);
         $this->_searchEngineMock = $this->getMock(
             'Magento\Solr\Model\Resource\Solr\Engine',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_filterPriceMock = $this->getMock(
             'Magento\Solr\Model\Layer\Category\Filter\Price',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->subjectMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -81,12 +81,12 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
             '\Magento\Solr\Model\Plugin\FulltextIndexRebuild',
-            array(
+            [
                 'engineProvider' => $this->_engineProviderMock,
                 'searchHelper' => $this->_searchHelperMock,
                 'layerFilterPrice' => $this->_filterPriceMock,
                 'cache' => $this->_cacheMock,
-            )
+            ]
         );
     }
 
@@ -248,7 +248,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $cacheTag = 'cacheTag';
         $this->_filterPriceMock->expects($this->once())->method('getCacheTag')->will($this->returnValue($cacheTag));
 
-        $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
+        $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue([$cacheTag]));
 
         $this->_model->afterExecuteFull($this->subjectMock);
     }
@@ -291,7 +291,7 @@ class FulltextIndexRebuildTest extends \PHPUnit_Framework_TestCase
         $cacheTag = 'cacheTag';
         $this->_filterPriceMock->expects($this->once())->method('getCacheTag')->will($this->returnValue($cacheTag));
 
-        $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue(array($cacheTag)));
+        $this->_cacheMock->expects($this->once())->method('clean')->will($this->returnValue([$cacheTag]));
 
         $this->_model->afterExecuteFull($this->subjectMock);
     }

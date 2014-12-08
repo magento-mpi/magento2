@@ -8,11 +8,10 @@
 namespace Magento\Tax\Model\TaxClass;
 
 use Magento\Framework\Exception\InputException;
-use Magento\Tax\Model\ClassModel as TaxClassModel;
 use Magento\Tax\Api\Data\TaxClassDataBuilder;
-use Magento\Tax\Api\Data\TaxClassKeyInterface;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\Tax\Model\ClassModel as TaxClassModel;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +50,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->taxClassModel = $this->objectManager->create('Magento\Tax\Model\ClassModel');
         $this->predefinedTaxClasses = [
             TaxClassManagementInterface::TYPE_PRODUCT => 'Taxable Goods',
-            TaxClassManagementInterface::TYPE_CUSTOMER => 'Retail Customer'
+            TaxClassManagementInterface::TYPE_CUSTOMER => 'Retail Customer',
         ];
     }
 

@@ -7,10 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Email;
 
-use Magento\Sales\Model\Order;
 use Magento\Framework\Mail\Template\TransportBuilder;
-use Magento\Sales\Model\Order\Email\Container\Template;
 use Magento\Sales\Model\Order\Email\Container\IdentityInterface;
+use Magento\Sales\Model\Order\Email\Container\Template;
 
 class SenderBuilder
 {

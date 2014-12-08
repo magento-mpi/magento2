@@ -75,7 +75,6 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function saveItemTitleAndPrice($linkObject)
     {
-
         $writeAdapter = $this->_getWriteAdapter();
         $linkTitleTable = $this->getTable('downloadable_link_title');
         $linkPriceTable = $this->getTable('downloadable_link_price');
@@ -85,45 +84,45 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'link_id=:link_id AND store_id=:store_id'
         );
-        $bind = array(':link_id' => $linkObject->getId(), ':store_id' => (int)$linkObject->getStoreId());
+        $bind = [':link_id' => $linkObject->getId(), ':store_id' => (int)$linkObject->getStoreId()];
 
         if ($writeAdapter->fetchOne($select, $bind)) {
-            $where = array('link_id = ?' => $linkObject->getId(), 'store_id = ?' => (int)$linkObject->getStoreId());
+            $where = ['link_id = ?' => $linkObject->getId(), 'store_id = ?' => (int)$linkObject->getStoreId()];
             if ($linkObject->getUseDefaultTitle()) {
                 $writeAdapter->delete($linkTitleTable, $where);
             } else {
-                $insertData = array('title' => $linkObject->getTitle());
+                $insertData = ['title' => $linkObject->getTitle()];
                 $writeAdapter->update($linkTitleTable, $insertData, $where);
             }
         } else {
             if (!$linkObject->getUseDefaultTitle()) {
                 $writeAdapter->insert(
                     $linkTitleTable,
-                    array(
+                    [
                         'link_id' => $linkObject->getId(),
                         'store_id' => (int)$linkObject->getStoreId(),
                         'title' => $linkObject->getTitle()
-                    )
+                    ]
                 );
             }
         }
 
         $select = $writeAdapter->select()->from($linkPriceTable)->where('link_id=:link_id AND website_id=:website_id');
-        $bind = array(':link_id' => $linkObject->getId(), ':website_id' => (int)$linkObject->getWebsiteId());
+        $bind = [':link_id' => $linkObject->getId(), ':website_id' => (int)$linkObject->getWebsiteId()];
         if ($writeAdapter->fetchOne($select, $bind)) {
-            $where = array('link_id = ?' => $linkObject->getId(), 'website_id = ?' => $linkObject->getWebsiteId());
+            $where = ['link_id = ?' => $linkObject->getId(), 'website_id = ?' => $linkObject->getWebsiteId()];
             if ($linkObject->getUseDefaultPrice()) {
                 $writeAdapter->delete($linkPriceTable, $where);
             } else {
-                $writeAdapter->update($linkPriceTable, array('price' => $linkObject->getPrice()), $where);
+                $writeAdapter->update($linkPriceTable, ['price' => $linkObject->getPrice()], $where);
             }
         } else {
             if (!$linkObject->getUseDefaultPrice()) {
-                $dataToInsert[] = array(
+                $dataToInsert[] = [
                     'link_id' => $linkObject->getId(),
                     'website_id' => (int)$linkObject->getWebsiteId(),
-                    'price' => (double)$linkObject->getPrice()
-                );
+                    'price' => (double)$linkObject->getPrice(),
+                ];
                 if ($linkObject->getOrigData('link_id') != $linkObject->getLinkId()) {
                     $_isNew = true;
                 } else {
@@ -145,11 +144,11 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
                             $rate = 1;
                         }
                         $newPrice = $linkObject->getPrice() * $rate;
-                        $dataToInsert[] = array(
+                        $dataToInsert[] = [
                             'link_id' => $linkObject->getId(),
                             'website_id' => (int)$websiteId,
-                            'price' => $newPrice
-                        );
+                            'price' => $newPrice,
+                        ];
                     }
                 }
                 $writeAdapter->insertMultiple($linkPriceTable, $dataToInsert);
@@ -167,13 +166,13 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function deleteItems($items)
     {
         $writeAdapter = $this->_getWriteAdapter();
-        $where = array();
+        $where = [];
         if ($items instanceof \Magento\Downloadable\Model\Link) {
-            $where = array('link_id = ?' => $items->getId());
+            $where = ['link_id = ?' => $items->getId()];
         } elseif (is_array($items)) {
-            $where = array('link_id in (?)' => $items);
+            $where = ['link_id in (?)' => $items];
         } else {
-            $where = array('sample_id = ?' => $items);
+            $where = ['sample_id = ?' => $items];
         }
         if ($where) {
             $writeAdapter->delete($this->getMainTable(), $where);
@@ -195,20 +194,20 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $ifNullDefaultTitle = $adapter->getIfNullSql('st.title', 's.title');
         $select = $adapter->select()->from(
-            array('m' => $this->getMainTable()),
+            ['m' => $this->getMainTable()],
             null
         )->join(
-            array('s' => $this->getTable('downloadable_link_title')),
+            ['s' => $this->getTable('downloadable_link_title')],
             's.link_id=m.link_id AND s.store_id=0',
-            array()
+            []
         )->joinLeft(
-            array('st' => $this->getTable('downloadable_link_title')),
+            ['st' => $this->getTable('downloadable_link_title')],
             'st.link_id=m.link_id AND st.store_id=:store_id',
-            array('title' => $ifNullDefaultTitle)
+            ['title' => $ifNullDefaultTitle]
         )->where(
             'm.product_id=:product_id'
         );
-        $bind = array(':store_id' => (int)$storeId, ':product_id' => $productId);
+        $bind = [':store_id' => (int)$storeId, ':product_id' => $productId];
 
         return $adapter->fetchCol($select, $bind);
     }

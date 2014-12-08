@@ -17,7 +17,7 @@ class Registry
      *
      * @var array
      */
-    private $_registry = array();
+    private $_registry = [];
 
     /**
      * Retrieve a value from registry by a key
@@ -78,6 +78,6 @@ class Registry
     public function __destruct()
     {
         $keys = array_keys($this->_registry);
-        array_walk($keys, array($this, 'unregister'));
+        array_walk($keys, [$this, 'unregister']);
     }
 }

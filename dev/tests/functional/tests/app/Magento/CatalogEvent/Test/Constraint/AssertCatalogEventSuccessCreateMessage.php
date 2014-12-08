@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogEventSuccessCreateMessage

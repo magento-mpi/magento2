@@ -39,7 +39,7 @@ class ConditionsSerialized implements FixtureInterface
         'Customer Segment' => [
             'field' => 'name',
             'class' => 'Magento/CustomerSegment/Test/Block/Adminhtml/Customersegment/Grid/Chooser',
-        ]
+        ],
     ];
 
     /**

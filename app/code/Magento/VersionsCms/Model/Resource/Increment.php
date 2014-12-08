@@ -44,15 +44,15 @@ class Increment extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             implode(
                 ' AND ',
-                array(
+                [
                     'increment_type  = :increment_type',
                     'increment_node  = :increment_node',
                     'increment_level = :increment_level'
-                )
+                ]
             )
         );
 
-        $bind = array(':increment_type' => $type, ':increment_node' => $node, ':increment_level' => $level);
+        $bind = [':increment_type' => $type, ':increment_node' => $node, ':increment_level' => $level];
 
         $data = $read->fetchRow($select, $bind);
 
@@ -79,7 +79,7 @@ class Increment extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('increment_type = ?' => $type, 'increment_node = ?' => $node, 'increment_level = ?' => $level)
+            ['increment_type = ?' => $type, 'increment_node = ?' => $node, 'increment_level = ?' => $level]
         );
 
         return $this;

@@ -105,8 +105,8 @@ class Category implements FixtureInterface
     {
         $presets = [
             'simple_category' => [
-                'name' => 'Simple With Category'
-            ]
+                'name' => 'Simple With Category',
+            ],
         ];
         if (!isset($presets[$name])) {
             return null;

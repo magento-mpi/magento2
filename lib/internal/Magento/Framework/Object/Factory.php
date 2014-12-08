@@ -15,7 +15,7 @@ class Factory
      * @param array $data
      * @return \Magento\Framework\Object
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return new \Magento\Framework\Object($data);
     }

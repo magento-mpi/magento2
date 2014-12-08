@@ -8,9 +8,9 @@
 
 $attributes = $this->getCssClass() ? ' class="' . $this->getCssClass() . '"' : '';
 $attr = $this->getAttributes();
-if ( !empty($attr) ) {
-    foreach ($this->getAttributes() as $attribute => $value ) {
-        $attributes .= ' '. $attribute . '="' . $value . '"';
+if (!empty($attr)) {
+    foreach ($this->getAttributes() as $attribute => $value) {
+        $attributes .= ' ' . $attribute . '="' . $value . '"';
     }
 };
 echo

@@ -27,7 +27,7 @@ class Factory
      * @param array $arguments
      * @return \Magento\Integration\Model\Oauth\Token
      */
-    public function create($arguments = array())
+    public function create($arguments = [])
     {
         return $this->_objectManager->create('Magento\Integration\Model\Oauth\Token', $arguments);
     }

@@ -37,7 +37,7 @@ class Factory
      * @return \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($class = null, $arguments = array())
+    public function create($class = null, $arguments = [])
     {
         $class = $class ?: $this->_defaultTotalModel;
         if (!is_a($class, 'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal', true)) {

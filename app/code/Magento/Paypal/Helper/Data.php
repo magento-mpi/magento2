@@ -75,7 +75,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getBillingAgreementMethods($store = null, $quote = null)
     {
-        $result = array();
+        $result = [];
         foreach ($this->_paymentData->getStoreMethods($store, $quote) as $method) {
             if ($method instanceof MethodInterface) {
                 $result[] = $method;

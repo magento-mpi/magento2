@@ -14,7 +14,7 @@ class RendererList extends AbstractBlock
      *
      * @var array
      */
-    protected $rendererTemplates = array();
+    protected $rendererTemplates = [];
 
     /**
      * Retrieve renderer by code

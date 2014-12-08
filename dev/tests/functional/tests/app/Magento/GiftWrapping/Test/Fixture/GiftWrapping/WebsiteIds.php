@@ -8,9 +8,9 @@
 
 namespace Magento\GiftWrapping\Test\Fixture\GiftWrapping;
 
+use Magento\Store\Test\Fixture\Website;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Store\Test\Fixture\Website;
 
 /**
  * Class WebsiteIds

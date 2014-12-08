@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Service\V1;
 
 use Magento\TestFramework\TestCase\WebapiAbstract;
@@ -30,18 +30,17 @@ class TrackReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId() . '/tracking-numbers',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getTracks'
-            ]
+                'operation' => self::SERVICE_NAME . 'getTracks',
+            ],
         ];
 
         $items = $this->_webApiCall($serviceInfo, ['id' => $rma->getId()]);
         $this->assertNotEmpty($items);
-
     }
 
     /**

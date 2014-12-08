@@ -8,16 +8,15 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Review\Test\Fixture\ReviewInjectable;
-use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
-use Magento\Review\Test\Page\Adminhtml\RatingEdit;
-use Magento\Review\Test\Page\Adminhtml\RatingIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
+use Magento\Review\Test\Page\Adminhtml\ReviewEdit;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateProductReviewEntity on product page
@@ -149,7 +148,7 @@ class UpdateProductReviewEntityOnProductPageTest extends Injectable
         $this->catalogProductEdit->getProductForm()->openTab('product_reviews');
         $filter = [
             'title' => $this->reviewInitial->getTitle(),
-            'sku' => $product->getSku()
+            'sku' => $product->getSku(),
         ];
         $this->catalogProductEdit->getProductForm()->getTabElement('product_reviews')->getReviewsGrid()
             ->searchAndOpen($filter);

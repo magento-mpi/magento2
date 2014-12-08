@@ -15,6 +15,6 @@
 <?php
 $name = $this->getNameInLayout();
 foreach ($this->getChildNames($name) as $childName) {
-   echo $this->getChildBlock($childName)->setItem($this->getItem())->toHtml();
+    echo $this->getChildBlock($childName)->setItem($this->getItem())->toHtml();
 }
 ?>

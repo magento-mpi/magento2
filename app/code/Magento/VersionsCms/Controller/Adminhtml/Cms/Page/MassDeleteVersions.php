@@ -75,7 +75,7 @@ class MassDeleteVersions extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong while deleting these versions.'));
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));
+        $this->_redirect('adminhtml/*/edit', ['_current' => true, 'tab' => 'versions']);
     }
 
     /**

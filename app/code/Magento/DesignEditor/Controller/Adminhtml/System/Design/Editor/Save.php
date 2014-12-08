@@ -29,10 +29,10 @@ class Save extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Edit
             } else {
                 $message = __('You saved updates to this theme.');
             }
-            $response = array('message' => $message);
+            $response = ['message' => $message];
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $response = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
+            $response = ['error' => true, 'message' => __('Sorry, there was an unknown error.')];
         }
 
         /** @var $coreHelper \Magento\Core\Helper\Data */

@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-/** 
- * Cart write service interface. 
+/**
+ * Cart write service interface.
  */
 interface WriteServiceInterface
 {

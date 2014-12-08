@@ -27,7 +27,7 @@ class Serializer extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
@@ -82,7 +82,7 @@ class Serializer extends \Magento\Framework\View\Element\Template
      */
     public function getDataAsJSON()
     {
-        $result = array();
+        $result = [];
         $inputNames = $this->getInputNames();
         if ($serializeData = $this->getSerializeData()) {
             $result = $serializeData;

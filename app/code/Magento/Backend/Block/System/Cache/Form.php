@@ -31,7 +31,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -47,34 +47,34 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('cache_enable', array('legend' => __('Cache Control')));
+        $fieldset = $form->addFieldset('cache_enable', ['legend' => __('Cache Control')]);
 
         $fieldset->addField(
             'all_cache',
             'select',
-            array(
+            [
                 'name' => 'all_cache',
                 'label' => '<strong>' . __('All Cache') . '</strong>',
                 'value' => 1,
-                'options' => array(
+                'options' => [
                     '' => __('No change'),
                     'refresh' => __('Refresh'),
                     'disable' => __('Disable'),
-                    'enable' => __('Enable')
-                )
-            )
+                    'enable' => __('Enable'),
+                ]
+            ]
         );
 
         foreach ($this->_coreData->getCacheTypes() as $type => $label) {
             $fieldset->addField(
                 'enable_' . $type,
                 'checkbox',
-                array(
+                [
                     'name' => 'enable[' . $type . ']',
                     'label' => __($label),
                     'value' => 1,
                     'checked' => (int)$this->_cacheState->isEnabled($type)
-                )
+                ]
             );
         }
         $this->setForm($form);

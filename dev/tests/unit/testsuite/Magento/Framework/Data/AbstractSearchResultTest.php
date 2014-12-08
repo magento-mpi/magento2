@@ -116,4 +116,3 @@ class AbstractSearchResultTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($size, $this->searchResult->getSize());
     }
 }
- 

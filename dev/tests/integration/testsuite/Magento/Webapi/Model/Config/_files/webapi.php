@@ -10,13 +10,13 @@ return [
         'Magento\TestModule1\Service\V1\AllSoapAndRestInterface' => [
             'item' => [
                 'resources' => [
-                    'Magento_Test1::resource1'
+                    'Magento_Test1::resource1',
                 ],
                 'secure' => false,
             ],
             'create' => [
                 'resources' => [
-                    'Magento_Test1::resource1'
+                    'Magento_Test1::resource1',
                 ],
                 'secure' => false,
             ],
@@ -25,28 +25,28 @@ return [
             'item' => [
                 'resources' => [
                     'Magento_Test1::resource1',
-                    'Magento_Test1::resource2'
+                    'Magento_Test1::resource2',
                 ],
                 'secure' => false,
             ],
             'create' => [
                 'resources' => [
                     'Magento_Test1::resource1',
-                    'Magento_Test1::resource2'
+                    'Magento_Test1::resource2',
                 ],
                 'secure' => false,
             ],
             'delete' => [
                 'resources' => [
                     'Magento_Test1::resource1',
-                    'Magento_Test1::resource2'
+                    'Magento_Test1::resource2',
                 ],
                 'secure' => false,
             ],
             'update' => [
                 'resources' => [
                     'Magento_Test1::resource1',
-                    'Magento_Test1::resource2'
+                    'Magento_Test1::resource2',
                 ],
                 'secure' => false,
             ],
@@ -123,7 +123,7 @@ return [
                     'id' => [
                         'force' => true,
                         'value' => null,
-                    ]
+                    ],
                 ],
             ],
         ],
@@ -141,7 +141,7 @@ return [
                     'id' => [
                         'force' => true,
                         'value' => null,
-                    ]
+                    ],
                 ],
             ],
         ],

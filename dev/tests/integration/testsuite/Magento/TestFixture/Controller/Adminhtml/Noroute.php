@@ -7,8 +7,8 @@
  */
 namespace Magento\TestFixture\Controller\Adminhtml;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Action;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
 
 /**
@@ -27,7 +27,6 @@ class Noroute implements \Magento\Framework\App\ActionInterface
      */
     public function dispatch(RequestInterface $request)
     {
-
     }
 
     /**
@@ -37,6 +36,5 @@ class Noroute implements \Magento\Framework\App\ActionInterface
      */
     public function getResponse()
     {
-
     }
 }

@@ -43,7 +43,7 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('block_id' => $model->getId()));
+                    $this->_redirect('*/*/edit', ['block_id' => $model->getId()]);
                     return;
                 }
                 // go to grid
@@ -55,7 +55,7 @@ class Save extends \Magento\Cms\Controller\Adminhtml\Block
                 // save data in session
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('*/*/edit', array('block_id' => $this->getRequest()->getParam('block_id')));
+                $this->_redirect('*/*/edit', ['block_id' => $this->getRequest()->getParam('block_id')]);
                 return;
             }
         }

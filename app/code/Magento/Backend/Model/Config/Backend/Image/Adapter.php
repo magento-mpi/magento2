@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config image field backend model for Zend PDF generator
  *
@@ -37,7 +36,7 @@ class Adapter extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Image\AdapterFactory $imageFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
         $this->_imageFactory = $imageFactory;

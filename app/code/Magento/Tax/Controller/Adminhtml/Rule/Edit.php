@@ -8,7 +8,6 @@
  */
 namespace Magento\Tax\Controller\Adminhtml\Rule;
 
-use \Magento\Backend\App\Action;
 
 class Edit extends \Magento\Tax\Controller\Adminhtml\Rule
 {

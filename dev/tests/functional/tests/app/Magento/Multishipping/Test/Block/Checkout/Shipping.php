@@ -8,9 +8,9 @@
 
 namespace Magento\Multishipping\Test\Block\Checkout;
 
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Mustishipping checkout shipping.

@@ -9,7 +9,6 @@
 namespace Magento\Backend\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Menu

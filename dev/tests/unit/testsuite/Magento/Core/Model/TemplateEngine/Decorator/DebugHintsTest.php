@@ -16,7 +16,7 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
     public function testRender($showBlockHints)
     {
         $subject = $this->getMock('Magento\Framework\View\TemplateEngineInterface');
-        $block = $this->getMock('Magento\Framework\View\Element\BlockInterface', array(), array(), 'TestBlock', false);
+        $block = $this->getMock('Magento\Framework\View\Element\BlockInterface', [], [], 'TestBlock', false);
         $subject->expects(
             $this->once()
         )->method(
@@ -24,12 +24,12 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->identicalTo($block),
             'template.phtml',
-            array('var' => 'val')
+            ['var' => 'val']
         )->will(
             $this->returnValue('<div id="fixture"/>')
         );
         $model = new DebugHints($subject, $showBlockHints);
-        $actualResult = $model->render($block, 'template.phtml', array('var' => 'val'));
+        $actualResult = $model->render($block, 'template.phtml', ['var' => 'val']);
         $this->assertSelectEquals('div > div[title="template.phtml"]', 'template.phtml', 1, $actualResult);
         $this->assertSelectCount('div > div#fixture', 1, $actualResult);
         $this->assertSelectEquals('div > div[title="TestBlock"]', 'TestBlock', (int)$showBlockHints, $actualResult);
@@ -37,6 +37,6 @@ class DebugHintsTest extends \PHPUnit_Framework_TestCase
 
     public function renderDataProvider()
     {
-        return array('block hints disabled' => array(false), 'block hints enabled' => array(true));
+        return ['block hints disabled' => [false], 'block hints enabled' => [true]];
     }
 }

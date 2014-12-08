@@ -31,7 +31,7 @@ class DocumentationGenerator
         }
         if (!is_writable(dirname($filePath))) {
             throw new \RuntimeException('Cannot write to documentation directory.');
-        } else if (file_exists($filePath)) {
+        } elseif (file_exists($filePath)) {
             $fileContent = file_get_contents($filePath);
             $endHtml = $this->generateHtmlFooter();
             $fileContent = str_replace($endHtml, '', $fileContent);

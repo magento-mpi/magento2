@@ -8,7 +8,7 @@
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use \Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Addresses extends \Magento\Multishipping\Controller\Checkout
 {

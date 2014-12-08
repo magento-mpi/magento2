@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentAddTrackTest
@@ -64,20 +64,20 @@ class ShipmentAddTrackTest extends WebapiAbstract
             ShipmentTrackInterface::TITLE => 'Shipment title',
             ShipmentTrackInterface::CARRIER_CODE => \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE,
             ShipmentTrackInterface::CREATED_AT => null,
-            ShipmentTrackInterface::UPDATED_AT => null
+            ShipmentTrackInterface::UPDATED_AT => null,
         ];
 
         $requestData = ['entity' => $trackData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/track',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

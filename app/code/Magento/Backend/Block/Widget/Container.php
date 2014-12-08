@@ -51,7 +51,7 @@ class Container extends \Magento\Backend\Block\Template implements ContainerInte
      * @param Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Widget\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Widget\Context $context, array $data = [])
     {
         $this->buttonList = $context->getButtonList();
         $this->toolbar = $context->getButtonToolbar();

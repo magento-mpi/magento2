@@ -23,7 +23,7 @@ class Check extends Block
     protected $filter = [
         'code' => 'Gift Card: (.*)',
         'balance' => '\nCurrent Balance: \$(.*)',
-        'date_expires' => '\nExpires: (\d+\/\d+\/\d+)'
+        'date_expires' => '\nExpires: (\d+\/\d+\/\d+)',
     ];
 
     /**

@@ -47,7 +47,7 @@ class ValueFactory
      * @return \Magento\Framework\App\Config\ValueInterface
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $model = $this->_objectManager->create($this->_instanceName, $data);
         if (!$model instanceof \Magento\Framework\App\Config\ValueInterface) {

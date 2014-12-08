@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Model\Rma;
 
-use Magento\Rma\Service\V1\Data\Rma;
 use Magento\Framework\Api\ExtensibleDataObjectConverter;
+use Magento\Rma\Service\V1\Data\Rma;
 
 class Converter
 {

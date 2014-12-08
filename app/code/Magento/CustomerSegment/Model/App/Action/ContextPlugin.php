@@ -70,13 +70,13 @@ class ContextPlugin
             $this->httpContext->setValue(
                 \Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT,
                 $customerSegmentIds,
-                array()
+                []
             );
         } else {
             $this->httpContext->setValue(
                 \Magento\CustomerSegment\Helper\Data::CONTEXT_SEGMENT,
-                array(),
-                array()
+                [],
+                []
             );
         }
         return $proceed($request);

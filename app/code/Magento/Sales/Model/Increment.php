@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Model;
 
-use Magento\Sales\Model\Order;
 use Magento\Eav\Model\Config as EavConfig;
 
 /**

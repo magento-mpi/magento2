@@ -7,8 +7,8 @@
  */
 namespace Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
-use Mtf\Factory\Factory;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
+use Mtf\Factory\Factory;
 
 /**
  * Class LinksPurchasedSeparately
@@ -39,17 +39,17 @@ class LinksPurchasedSeparately extends DownloadableProduct
                                         'number_of_downloads' => 2,
                                         'sample' => [
                                             'sample_type_url' => 'Yes',
-                                            'sample_url' => 'http://example.com'
+                                            'sample_url' => 'http://example.com',
                                         ],
                                         'file_type_url' => 'Yes',
                                         'file_link_url' => 'http://example.com',
                                         'is_shareable' => 'No',
-                                        'sort_order' => 0
-                                    ]
+                                        'sort_order' => 0,
+                                    ],
                                 ],
-                            ]
+                            ],
                         ],
-                        'group' => static::GROUP
+                        'group' => static::GROUP,
                     ],
                 ]
             ]

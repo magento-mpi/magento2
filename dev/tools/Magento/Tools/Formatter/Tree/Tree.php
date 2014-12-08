@@ -58,9 +58,9 @@ class Tree implements NodeInterface
         } else {
             // only a single root, so make it an array
             if ($after) {
-                $this->rootNode = array($this->rootNode, $treeNode);
+                $this->rootNode = [$this->rootNode, $treeNode];
             } else {
-                $this->rootNode = array($treeNode, $this->rootNode);
+                $this->rootNode = [$treeNode, $this->rootNode];
             }
         }
         // make the tree itself the parent of the new root

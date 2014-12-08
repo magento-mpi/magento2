@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Test\TestCase\Category;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssignProducts

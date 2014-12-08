@@ -91,7 +91,7 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->methodSpecificationFactory = $methodSpecificationFactory;
         parent::__construct(
@@ -154,7 +154,7 @@ class Payment extends \Magento\Payment\Model\Info
         $data = new \Magento\Framework\Object($data);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_import_data_before',
-            array($this->_eventObject => $this, 'input' => $data)
+            [$this->_eventObject => $this, 'input' => $data]
         );
 
         $this->setMethod($data->getMethod());

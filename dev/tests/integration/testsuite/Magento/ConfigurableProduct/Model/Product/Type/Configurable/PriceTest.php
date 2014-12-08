@@ -35,7 +35,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
             $prices = $attribute->getPrices();
             $product->addCustomOption(
                 'attributes',
-                serialize(array($attribute->getProductAttribute()->getId() => $prices[0]['value_index']))
+                serialize([$attribute->getProductAttribute()->getId() => $prices[0]['value_index']])
             );
             break;
         }

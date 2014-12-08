@@ -48,7 +48,7 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPatternDirsNonModular()
     {
-        $inputParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
+        $inputParams = ['param_one' => 'value_one', 'param_two' => 'value_two'];
         $expectedResult = new \stdClass();
         $this->ruleNonModular->expects(
             $this->once()
@@ -67,7 +67,7 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPatternDirsModular()
     {
-        $inputParams = array('param' => 'value', 'namespace' => 'Magento', 'module' => 'Core');
+        $inputParams = ['param' => 'value', 'namespace' => 'Magento', 'module' => 'Core'];
         $expectedResult = new \stdClass();
         $this->ruleNonModular->expects($this->never())->method('getPatternDirs');
 
@@ -100,9 +100,9 @@ class ModularSwitchTest extends \PHPUnit_Framework_TestCase
      */
     public function getPatternDirsExceptionDataProvider()
     {
-        return array(
-            'no namespace' => array(array('module' => 'Core')),
-            'no module' => array(array('namespace' => 'Magento'))
-        );
+        return [
+            'no namespace' => [['module' => 'Core']],
+            'no module' => [['namespace' => 'Magento']]
+        ];
     }
 }

@@ -18,14 +18,14 @@ class CacheStateTags
      * @param array $additionalTags
      * @return array
      */
-    public function getList(\Magento\Catalog\Model\Category $category, array $additionalTags = array())
+    public function getList(\Magento\Catalog\Model\Category $category, array $additionalTags = [])
     {
         return array_merge(
             $additionalTags,
-            array(
+            [
                 \Magento\Catalog\Model\Category::CACHE_TAG . $category->getId(),
                 \Magento\Catalog\Model\Category::CACHE_TAG . $category->getId() . '_SEARCH'
-            )
+            ]
         );
     }
 }

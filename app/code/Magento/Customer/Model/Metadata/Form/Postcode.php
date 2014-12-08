@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Customer\Api\Data\AttributeMetadataInterface;
+use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Directory\Helper\Data as DirectoryHelper;
 use Magento\Framework\Locale\ResolverInterface;
 use Magento\Framework\Logger;

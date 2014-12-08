@@ -8,12 +8,12 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateProductSimpleEntity
@@ -93,8 +93,8 @@ class UpdateSimpleProductEntityTest extends Injectable
                 'dataSet' => 'default',
                 'data' => [
                     'category_ids' => [
-                        'category' => $category
-                    ]
+                        'category' => $category,
+                    ],
                 ]
             ]
         );

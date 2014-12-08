@@ -28,7 +28,7 @@ class LayoutUpdates extends \Magento\Widget\Test\Fixture\Widget\LayoutUpdates
                     'block' => 'Sidebar Main',
                     'template' => 'Order by SKU Template',
                     'entities' => 'catalogCategory::default',
-                ]
+                ],
             ],
         ];
 

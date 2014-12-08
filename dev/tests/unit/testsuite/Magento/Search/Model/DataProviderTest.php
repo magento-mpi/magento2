@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class DataProviderTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ObjectManager
      */

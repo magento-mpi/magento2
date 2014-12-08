@@ -20,4 +20,3 @@ interface OverrideServiceInterface
      */
     public function scalarUpdate($entityId, $name, $orders);
 }
-

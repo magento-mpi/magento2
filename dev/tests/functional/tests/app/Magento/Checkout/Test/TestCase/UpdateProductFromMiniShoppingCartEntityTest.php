@@ -8,11 +8,11 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

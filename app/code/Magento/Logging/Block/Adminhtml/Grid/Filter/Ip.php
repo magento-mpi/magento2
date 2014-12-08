@@ -23,7 +23,7 @@ class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Logging\Model\Resource\Helper $resourceHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceHelper, $data);
     }
@@ -41,7 +41,7 @@ class Ip extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Text
         }
 
         $fieldExpression = new \Zend_Db_Expr('INET_NTOA(#?)');
-        $likeExpression = $this->_resourceHelper->addLikeEscape($value, array('position' => 'any'));
-        return array('field_expr' => $fieldExpression, 'like' => $likeExpression);
+        $likeExpression = $this->_resourceHelper->addLikeEscape($value, ['position' => 'any']);
+        return ['field_expr' => $fieldExpression, 'like' => $likeExpression];
     }
 }

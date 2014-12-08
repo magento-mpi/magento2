@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Config backend model for "Use Custom Admin URL" option
  */
@@ -37,7 +36,7 @@ class Usecustom extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\Storage\WriterInterface $configWriter,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configWriter = $configWriter;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

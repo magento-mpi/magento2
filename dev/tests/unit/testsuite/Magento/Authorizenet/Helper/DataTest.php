@@ -80,7 +80,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 false,
                 $additionalMessage,
                 'Credit Card: xxxx-' . self::LAST4 . ' amount 12.3 authorize - successful. '
-                . 'Authorize.Net Transaction ID ' . self::TRID . '. Addition message.'
+                . 'Authorize.Net Transaction ID ' . self::TRID . '. Addition message.',
             ],
             [
                 'AUTH_CAPTURE',

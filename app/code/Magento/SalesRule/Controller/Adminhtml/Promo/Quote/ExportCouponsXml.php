@@ -30,7 +30,7 @@ class ExportCouponsXml extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quo
             );
             return $this->_fileFactory->create($fileName, $content, DirectoryList::VAR_DIR);
         } else {
-            $this->_redirect('sales_rule/*/detail', array('_current' => true));
+            $this->_redirect('sales_rule/*/detail', ['_current' => true]);
             return;
         }
     }

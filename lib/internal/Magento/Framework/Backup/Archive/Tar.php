@@ -20,7 +20,7 @@ class Tar extends \Magento\Framework\Archive\Tar
      *
      * @var array
      */
-    protected $_skipFiles = array();
+    protected $_skipFiles = [];
 
     /**
      * Overridden \Magento\Framework\Archive\Tar::_createTar method that does the same actions as it's parent but filters

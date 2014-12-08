@@ -92,7 +92,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      *
      * @var array
      */
-    protected $_renderedParams = array();
+    protected $_renderedParams = [];
 
     /**
      * @var \Magento\Framework\App\Http\Context
@@ -113,7 +113,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_bannerResource = $resource;
@@ -146,7 +146,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
     public function getBannerIds()
     {
         if (!$this->_getData('banner_ids')) {
-            $this->setData('banner_ids', array(0));
+            $this->setData('banner_ids', [0]);
         } elseif (is_string($this->_getData('banner_ids'))) {
             $bannerIds = explode(',', $this->_getData('banner_ids'));
             foreach ($bannerIds as $_key => $_id) {
@@ -207,7 +207,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
         switch ($this->getDisplayMode()) {
 
             case self::BANNER_WIDGET_DISPLAY_SALESRULE:
-                $appliedRules = array();
+                $appliedRules = [];
                 if ($this->_checkoutSession->getQuoteId()) {
                     $quote = $this->_checkoutSession->getQuote();
                     if ($quote && $quote->getAppliedRuleIds()) {
@@ -257,11 +257,11 @@ class Banner extends \Magento\Framework\View\Element\Template implements
     {
         $params = $this->getData('suggested_params');
         if (!$params) {
-            $params = array();
+            $params = [];
         }
 
         // Ensure that option keys exist
-        $keys = array('bannersSelected', 'bannersSequence');
+        $keys = ['bannersSelected', 'bannersSequence'];
         foreach ($keys as $key) {
             if (!isset($params[$key])) {
                 $params[$key] = null;
@@ -279,9 +279,9 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      */
     protected function _getBannersContent(array $bannerIds)
     {
-        $this->_setRenderedParam('bannerIds', $bannerIds)->_setRenderedParam('renderedBannerIds', array());
+        $this->_setRenderedParam('bannerIds', $bannerIds)->_setRenderedParam('renderedBannerIds', []);
 
-        $content = array();
+        $content = [];
         if (!empty($bannerIds)) {
             $bannerResource = $this->_bannerResource;
 
@@ -309,7 +309,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
                     if (!empty($_content)) {
                         $content[$bannerId] = $_content;
                     }
-                    $this->_setRenderedParam('renderedBannerIds', array($bannerId));
+                    $this->_setRenderedParam('renderedBannerIds', [$bannerId]);
                     break;
 
                 case self::BANNER_WIDGET_RORATE_SHUFFLE:
@@ -337,7 +337,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
 
                     // If some banners were shown, get the list of unshown ones and choose banner to show
                     if ($bannersSequence) {
-                        $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), array());
+                        $canShowIds = array_merge(array_diff($bannerIds, $bannersSequence), []);
                         if (!empty($canShowIds)) {
                             // Stil not whole serie is shown, choose the banner to show
                             if ($suggBannerId && array_search($suggBannerId, $canShowIds) !== false) {
@@ -358,7 +358,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
                             $bannerKey = $isShuffle ? array_rand($bannerIds, 1) : 0;
                             $bannerId = $bannerIds[$bannerKey];
                         }
-                        $bannersSequence = array($bannerId);
+                        $bannersSequence = [$bannerId];
                     }
 
                     $this->_session->setData($this->getUniqueId(), $bannersSequence);
@@ -369,7 +369,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
                     }
                     $this->_setRenderedParam(
                         'renderedBannerIds',
-                        array($bannerId)
+                        [$bannerId]
                     )->_setRenderedParam(
                         'bannersSequence',
                         $bannersSequence
@@ -395,14 +395,14 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      */
     public function getCacheKeyInfo()
     {
-        $items = array(
+        $items = [
             'name' => $this->getNameInLayout(),
             'types' => $this->getTypes(),
             'display_mode' => $this->getDisplayMode(),
             'rotate' => (string)$this->getRotate(),
             'banner_ids' => implode(',', $this->getBannerIds()),
-            'unique_id' => $this->getUniqueId()
-        );
+            'unique_id' => $this->getUniqueId(),
+        ];
 
         $items = parent::getCacheKeyInfo() + $items;
 
@@ -416,7 +416,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      */
     protected function _clearRenderedParams()
     {
-        $this->_renderedParams = array();
+        $this->_renderedParams = [];
         return $this;
     }
 
@@ -466,7 +466,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      */
     public function renderAndGetInfo()
     {
-        $result = array('html' => $this->toHtml(), 'params' => $this->_getRenderedParams());
+        $result = ['html' => $this->toHtml(), 'params' => $this->_getRenderedParams()];
         return $result;
     }
 
@@ -477,7 +477,7 @@ class Banner extends \Magento\Framework\View\Element\Template implements
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getBannerIds() as $bannerId) {
             $identities[] = \Magento\Banner\Model\Banner::CACHE_TAG . '_' . $bannerId;
         }

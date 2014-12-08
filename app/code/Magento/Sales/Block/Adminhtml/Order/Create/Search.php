@@ -42,11 +42,11 @@ class Search extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getButtonsHtml()
     {
-        $addButtonData = array(
+        $addButtonData = [
             'label' => __('Add Selected Product(s) to Order'),
             'onclick' => 'order.productGridAddSelected()',
-            'class' => 'action-add'
-        );
+            'class' => 'action-add',
+        ];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(

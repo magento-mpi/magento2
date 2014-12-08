@@ -29,8 +29,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_importConfig = $this->getMock(
             'Magento\Directory\Model\Currency\Import\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -58,11 +58,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Test_Class',
-            array('argument' => 'value')
+            ['argument' => 'value']
         )->will(
             $this->returnValue($expectedResult)
         );
-        $actualResult = $this->_model->create('test', array('argument' => 'value'));
+        $actualResult = $this->_model->create('test', ['argument' => 'value']);
         $this->assertSame($expectedResult, $actualResult);
     }
 

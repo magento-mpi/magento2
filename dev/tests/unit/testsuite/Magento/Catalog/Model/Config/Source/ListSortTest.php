@@ -38,11 +38,11 @@ class ListSortTest extends \PHPUnit_Framework_TestCase
     {
         $except = [
             ['label' => __('Position'), 'value' => 'position'],
-            ['label' => 'testLabel', 'value' => 'testAttributeCode']
+            ['label' => 'testLabel', 'value' => 'testAttributeCode'],
         ];
         $this->catalogConfig->expects($this->any())->method('getAttributesUsedForSortBy')
             ->will($this->returnValue([['frontend_label' => 'testLabel', 'attribute_code' => 'testAttributeCode']]));
 
         $this->assertEquals($except, $this->model->toOptionArray());
     }
-} 
+}

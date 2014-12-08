@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Item;
 
-/** 
- * Read service interface. 
+/**
+ * Read service interface.
  */
 interface ReadServiceInterface
 {

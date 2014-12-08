@@ -8,9 +8,9 @@
 
 namespace Magento\Invitation\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for MassActionCustomerInvitationBackend.

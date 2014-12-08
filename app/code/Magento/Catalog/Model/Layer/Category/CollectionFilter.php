@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Model\Layer\Category;
 
-
 use Magento\Catalog\Model\Layer\CollectionFilterInterface;
 
 class CollectionFilter implements CollectionFilterInterface

@@ -52,7 +52,7 @@ class GoogleProductCategory extends \Magento\GoogleShopping\Model\Attribute\Defa
         \Magento\GoogleShopping\Model\TypeFactory $typeFactory,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_typeFactory = $typeFactory;
         $this->_config = $config;

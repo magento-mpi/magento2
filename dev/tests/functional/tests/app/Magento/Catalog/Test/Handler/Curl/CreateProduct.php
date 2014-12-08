@@ -12,10 +12,10 @@ namespace Magento\Catalog\Test\Handler\Curl;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CreateProduct
@@ -31,7 +31,7 @@ class CreateProduct extends Curl
      */
     protected function _prepareData($params, $prefix = null)
     {
-        $data = array();
+        $data = [];
         foreach ($params as $key => $values) {
             $value = $this->_getValue($values);
             //do not add this data if value does not exist
@@ -71,7 +71,7 @@ class CreateProduct extends Curl
      */
     protected function _getUrl(array $config)
     {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : [];
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
@@ -108,9 +108,9 @@ class CreateProduct extends Curl
             $data['product']['category_ids'] = $fixture->getCategoryIds();
         }
         $url = $this->_getUrl($config);
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 

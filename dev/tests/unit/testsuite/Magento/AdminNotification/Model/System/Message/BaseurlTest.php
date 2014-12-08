@@ -47,28 +47,28 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_configMock = $this->getMock('Magento\Framework\App\Config', array(), array(), '', false);
+        $this->_configMock = $this->getMock('Magento\Framework\App\Config', [], [], '', false);
         $this->_urlBuilderMock = $this->getMock('Magento\Framework\UrlInterface');
 
         $this->_storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
         $configFactoryMock = $this->getMock(
             'Magento\Framework\App\Config\ValueFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_configDataMock = $this->getMock(
             'Magento\Framework\App\Config\Value',
-            array('getScope', 'getScopeId', 'getCollection', '__sleep', '__wakeup'),
-            array(),
+            ['getScope', 'getScopeId', 'getCollection', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_dataCollectionMock = $this->getMock(
             'Magento\Core\Model\Resource\Config\Data\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -91,12 +91,12 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_dataCollectionMock)
         );
 
-        $arguments = array(
+        $arguments = [
             'config' => $this->_configMock,
             'urlBuilder' => $this->_urlBuilderMock,
             'configValueFactory' => $configFactoryMock,
-            'storeManager' => $this->_storeManagerMock
-        );
+            'storeManager' => $this->_storeManagerMock,
+        ];
         $this->_model = $helper->getObject('Magento\AdminNotification\Model\System\Message\Baseurl', $arguments);
     }
 
@@ -111,20 +111,20 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 
     public function testgetValueUrlWithDefaultUnsecureAndSecureBaseUrl()
     {
-        $map = array(
-            array(
+        $map = [
+            [
                 \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL,
                 'default',
                 null,
-                \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
-            ),
-            array(
+                \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER,
+            ],
+            [
                 \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL,
                 'default',
                 null,
                 \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
-            )
-        );
+            ],
+        ];
         $this->_configMock->expects($this->exactly(2))->method('getValue')->will($this->returnValueMap($map));
         $this->_urlBuilderMock->expects(
             $this->once()
@@ -132,7 +132,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             'adminhtml/system_config/edit',
-            array('section' => 'web')
+            ['section' => 'web']
         )->will(
             $this->returnValue('http://some_url')
         );
@@ -163,7 +163,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 
         $this->_configDataMock->expects($this->once())->method('getScopeId')->will($this->returnValue(1));
 
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManagerMock->expects(
             $this->once()
         )->method(
@@ -182,7 +182,7 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             'adminhtml/system_config/edit',
-            array('section' => 'web', $urlParam => 'some_code')
+            ['section' => 'web', $urlParam => 'some_code']
         )->will(
             $this->returnValue('http://some_url')
         );
@@ -192,10 +192,10 @@ class BaseurlTest extends \PHPUnit_Framework_TestCase
 
     public function getValueUrlWithSavedDataForStoreScopeDataProvider()
     {
-        return array(
-            'storeScope' => array('stores', 'store', 'getStore'),
-            'websiteScope' => array('websites', 'website', 'getWebsite')
-        );
+        return [
+            'storeScope' => ['stores', 'store', 'getStore'],
+            'websiteScope' => ['websites', 'website', 'getWebsite']
+        ];
     }
 
     public function testIsDisplayedWithEmptyConfigUrl()

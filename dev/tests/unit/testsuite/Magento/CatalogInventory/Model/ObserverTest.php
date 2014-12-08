@@ -41,7 +41,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\CatalogInventory\Api\StockManagementInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockManagement;
-    
+
     /**
      * @var \Magento\CatalogInventory\Api\StockIndexInterface|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -140,7 +140,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        
+
         $this->stockHelper = $this->getMock(
             '\Magento\CatalogInventory\Helper\Stock',
             [

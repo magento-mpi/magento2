@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Block\Product\View\Options\Type;
 
-use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Product options text type block
@@ -42,7 +41,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogProductOptionTypeDate = $catalogProductOptionTypeDate;
         parent::__construct($context, $coreHelper, $catalogData, $data);
@@ -124,7 +123,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         $yearEnd = $this->_catalogProductOptionTypeDate->getYearEnd();
         $yearsHtml = $this->_getSelectFromToHtml('year', $yearStart, $yearEnd);
 
-        $translations = array('d' => $daysHtml, 'm' => $monthsHtml, 'y' => $yearsHtml);
+        $translations = ['d' => $daysHtml, 'm' => $monthsHtml, 'y' => $yearsHtml];
         return strtr($fieldsOrder, $translations);
     }
 
@@ -145,7 +144,7 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
             $dayPartHtml = $this->_getHtmlSelect(
                 'day_part'
             )->setOptions(
-                array('am' => __('AM'), 'pm' => __('PM'))
+                ['am' => __('AM'), 'pm' => __('PM')]
             )->getHtml();
         }
         $hoursHtml = $this->_getSelectFromToHtml('hour', $hourStart, $hourEnd);
@@ -165,9 +164,9 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
      */
     protected function _getSelectFromToHtml($name, $from, $to, $value = null)
     {
-        $options = array(array('value' => '', 'label' => '-'));
+        $options = [['value' => '', 'label' => '-']];
         for ($i = $from; $i <= $to; $i++) {
-            $options[] = array('value' => $i, 'label' => $this->_getValueWithLeadingZeros($i));
+            $options[] = ['value' => $i, 'label' => $this->_getValueWithLeadingZeros($i)];
         }
         return $this->_getHtmlSelect($name, $value)->setOptions($options)->getHtml();
     }

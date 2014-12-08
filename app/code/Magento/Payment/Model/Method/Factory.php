@@ -37,7 +37,7 @@ class Factory
      * @return \Magento\Payment\Model\MethodInterface
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, $data = array())
+    public function create($className, $data = [])
     {
         $method = $this->_objectManager->create($className, $data);
         if (!$method instanceof \Magento\Payment\Model\MethodInterface) {

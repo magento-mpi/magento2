@@ -23,7 +23,7 @@ class Placeholder implements \Magento\Framework\Phrase\RendererInterface
         $text = end($source);
 
         if ($arguments) {
-            $placeholders = array();
+            $placeholders = [];
             foreach (array_keys($arguments) as $key) {
                 $placeholders[] = "%" . (is_int($key) ? strval($key + 1) : $key);
             }

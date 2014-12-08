@@ -37,7 +37,7 @@ class Items extends \Magento\Rma\Block\Form
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Helper\Eav $rmaEav,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaEav = $rmaEav;
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);

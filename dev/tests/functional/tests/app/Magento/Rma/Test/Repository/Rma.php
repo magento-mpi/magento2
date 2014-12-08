@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;

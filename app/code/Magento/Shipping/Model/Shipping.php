@@ -209,7 +209,7 @@ class Shipping implements RateCollectorInterface
             }
         } else {
             if (!is_array($limitCarrier)) {
-                $limitCarrier = array($limitCarrier);
+                $limitCarrier = [$limitCarrier];
             }
             foreach ($limitCarrier as $carrierCode) {
                 $carrierConfig = $this->_scopeConfig->getValue(
@@ -255,7 +255,7 @@ class Shipping implements RateCollectorInterface
                 if ($carrier->getConfigData('shipment_requesttype')) {
                     $packages = $this->composePackagesForCarrier($carrier, $request);
                     if (!empty($packages)) {
-                        $sumResults = array();
+                        $sumResults = [];
                         foreach ($packages as $weight => $packageCount) {
                             $request->setPackageWeight($weight);
                             $result = $carrier->collectRates($request);
@@ -267,7 +267,7 @@ class Shipping implements RateCollectorInterface
                             $sumResults[] = $result;
                         }
                         if (!empty($sumResults) && count($sumResults) > 1) {
-                            $result = array();
+                            $result = [];
                             foreach ($sumResults as $res) {
                                 if (empty($result)) {
                                     $result = $res;
@@ -316,7 +316,7 @@ class Shipping implements RateCollectorInterface
     public function composePackagesForCarrier($carrier, $request)
     {
         $allItems = $request->getAllItems();
-        $fullItems = array();
+        $fullItems = [];
 
         $maxWeight = (double)$carrier->getConfigData('max_package_weight');
 
@@ -331,7 +331,7 @@ class Shipping implements RateCollectorInterface
             $qty = $item->getQty();
             $changeQty = true;
             $checkWeight = true;
-            $decimalItems = array();
+            $decimalItems = [];
 
             if ($item->getParentItem()) {
                 if (!$item->getParentItem()->getProduct()->getShipmentType()) {
@@ -358,10 +358,10 @@ class Shipping implements RateCollectorInterface
                         $itemWeight = $itemWeight * $item->getQty();
                         if ($itemWeight > $maxWeight) {
                             $qtyItem = floor($itemWeight / $maxWeight);
-                            $decimalItems[] = array('weight' => $maxWeight, 'qty' => $qtyItem);
+                            $decimalItems[] = ['weight' => $maxWeight, 'qty' => $qtyItem];
                             $weightItem = $this->mathDivision->getExactDivision($itemWeight, $maxWeight);
                             if ($weightItem) {
-                                $decimalItems[] = array('weight' => $weightItem, 'qty' => 1);
+                                $decimalItems[] = ['weight' => $weightItem, 'qty' => 1];
                             }
                             $checkWeight = false;
                         } else {
@@ -374,7 +374,7 @@ class Shipping implements RateCollectorInterface
             }
 
             if ($checkWeight && $maxWeight && $itemWeight > $maxWeight) {
-                return array();
+                return [];
             }
 
             if ($changeQty
@@ -411,7 +411,7 @@ class Shipping implements RateCollectorInterface
      */
     protected function _makePieces($items, $maxWeight)
     {
-        $pieces = array();
+        $pieces = [];
         if (!empty($items)) {
             $sumWeight = 0;
 

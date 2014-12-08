@@ -34,7 +34,6 @@ class OptionBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
         return $this->_set(Option::VALUE, $value);
     }
 
-
     /**
      * Set nested options
      *

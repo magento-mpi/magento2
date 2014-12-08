@@ -25,11 +25,11 @@ class RoleGrid extends Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => '#roleGrid_filter_role_id'
+            'selector' => '#roleGrid_filter_role_id',
         ],
         'rolename' => [
-            'selector' => '#roleGrid_filter_role_name'
-        ]
+            'selector' => '#roleGrid_filter_role_name',
+        ],
     ];
 
     /**

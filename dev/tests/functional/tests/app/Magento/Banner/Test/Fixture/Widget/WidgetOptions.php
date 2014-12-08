@@ -44,21 +44,21 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                     'display_mode' => 'Specified Banners',
                     'rotate' => 'Display all instead of rotating.',
                     'entities' => ['bannerInjectable::default'],
-                ]
+                ],
             ],
             'bannerRotatorShoppingCartRules' => [
                 [
                     'display_mode' => 'Specified Banners',
                     'rotate' => 'Display all instead of rotating.',
                     'entities' => ['bannerInjectable::banner_rotator_shopping_cart_rules'],
-                ]
+                ],
             ],
             'bannerRotatorCatalogRules' => [
                 [
                     'display_mode' => 'Specified Banners',
                     'rotate' => 'Display all instead of rotating.',
                     'entities' => ['bannerInjectable::banner_rotator_catalog_rules'],
-                ]
+                ],
             ],
         ];
 

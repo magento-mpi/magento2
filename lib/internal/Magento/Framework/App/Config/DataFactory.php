@@ -43,7 +43,7 @@ class DataFactory
      * @param array $data
      * @return DataInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

@@ -8,11 +8,11 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
-use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices\Grid;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvoiceInInvoicesTab
@@ -52,7 +52,7 @@ class AssertInvoiceInInvoicesTab extends AbstractConstraint
             $filter = [
                 'id' => $invoiceId,
                 'amount_from' => $amount[$key]['grand_invoice_total'],
-                'amount_to' => $amount[$key]['grand_invoice_total']
+                'amount_to' => $amount[$key]['grand_invoice_total'],
             ];
             $grid->search($filter);
             $filter['amount_from'] = number_format($amount[$key]['grand_invoice_total'], 2);

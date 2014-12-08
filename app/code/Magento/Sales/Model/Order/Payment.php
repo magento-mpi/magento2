@@ -7,10 +7,10 @@
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Payment\Model\Info;
 use Magento\Sales\Api\Data\OrderPaymentInterface;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order payment information
@@ -593,7 +593,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_paid' => $invoice->getGrandTotal(),
                 'base_amount_paid' => $invoice->getBaseGrandTotal(),
                 'shipping_captured' => $invoice->getShippingAmount(),
-                'base_shipping_captured' => $invoice->getBaseShippingAmount()
+                'base_shipping_captured' => $invoice->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch('sales_order_payment_pay', ['payment' => $this, 'invoice' => $invoice]);
@@ -613,7 +613,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_paid' => -1 * $invoice->getGrandTotal(),
                 'base_amount_paid' => -1 * $invoice->getBaseGrandTotal(),
                 'shipping_captured' => -1 * $invoice->getShippingAmount(),
-                'base_shipping_captured' => -1 * $invoice->getBaseShippingAmount()
+                'base_shipping_captured' => -1 * $invoice->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch(
@@ -753,7 +753,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'base_amount_refunded' => $baseAmountToRefund,
                 'base_amount_refunded_online' => $isOnline ? $baseAmountToRefund : null,
                 'shipping_refunded' => $creditmemo->getShippingAmount(),
-                'base_shipping_refunded' => $creditmemo->getBaseShippingAmount()
+                'base_shipping_refunded' => $creditmemo->getBaseShippingAmount(),
             ]
         );
 
@@ -896,7 +896,7 @@ class Payment extends Info implements OrderPaymentInterface
                 'amount_refunded' => -1 * $creditmemo->getGrandTotal(),
                 'base_amount_refunded' => -1 * $creditmemo->getBaseGrandTotal(),
                 'shipping_refunded' => -1 * $creditmemo->getShippingAmount(),
-                'base_shipping_refunded' => -1 * $creditmemo->getBaseShippingAmount()
+                'base_shipping_refunded' => -1 * $creditmemo->getBaseShippingAmount(),
             ]
         );
         $this->_eventManager->dispatch(

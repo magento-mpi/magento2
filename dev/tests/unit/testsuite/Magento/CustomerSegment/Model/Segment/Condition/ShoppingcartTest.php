@@ -8,7 +8,6 @@
 
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
-
 class ShoppingcartTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -123,10 +122,10 @@ class ShoppingcartTest extends \PHPUnit_Framework_TestCase
                 'value' => [
                     $amountOptions,
                     $itemsquantityOptions,
-                    $productsquantityOptions
+                    $productsquantityOptions,
                 ],
                 'label' => __('Shopping Cart'),
-                'available_in_guest_mode' => true
+                'available_in_guest_mode' => true,
             ],
             $result
         );

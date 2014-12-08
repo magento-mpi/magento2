@@ -59,30 +59,30 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_tokenMock = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Token'
         )->disableOriginalConstructor()->setMethods(
-            array('createVerifierToken', 'getType', '__wakeup', 'delete')
+            ['createVerifierToken', 'getType', '__wakeup', 'delete']
         )->getMock();
 
         $this->_tokenFactoryMock = $this->getMock(
             'Magento\Integration\Model\Oauth\Token\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_consumerMock = $this->getMockBuilder(
             'Magento\Integration\Model\Oauth\Consumer'
         )->disableOriginalConstructor()->setMethods(
-            array('getData', 'getId', 'load', 'save', 'delete', '__wakeup')
+            ['getData', 'getId', 'load', 'save', 'delete', '__wakeup']
         )->getMock();
-        $this->_consumerData = array(
+        $this->_consumerData = [
             'entity_id' => self::VALUE_CONSUMER_ID,
             'key' => self::VALUE_CONSUMER_KEY,
             'secret' => 'iuyytrfdsdfbnnhbmkkjlkjl',
             'created_at' => '',
             'updated_at' => '',
             'callback_url' => '',
-            'rejected_callback_url' => ''
-        );
+            'rejected_callback_url' => '',
+        ];
         $this->_consumerFactory->expects(
             $this->any()
         )->method(
@@ -92,19 +92,19 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_service = new \Magento\Integration\Service\V1\Oauth(
-            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
             $this->_consumerFactory,
             $this->_tokenFactoryMock,
-            $this->getMock('Magento\Integration\Helper\Oauth\Data', array(), array(), '', false),
-            $this->getMock('Magento\Framework\HTTP\ZendClient', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Oauth\Helper\Oauth', array(), array(), '', false),
+            $this->getMock('Magento\Integration\Helper\Oauth\Data', [], [], '', false),
+            $this->getMock('Magento\Framework\HTTP\ZendClient', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
+            $this->getMock('Magento\Framework\Oauth\Helper\Oauth', [], [], '', false),
             $this->_tokenProviderMock
         );
         $this->_emptyConsumerMock = $this->getMockBuilder(
             'Magento\Integration\Model\Integration'
         )->disableOriginalConstructor()->setMethods(
-            array('getData', 'load', 'getId', 'save', 'delete', '__wakeup')
+            ['getData', 'load', 'getId', 'save', 'delete', '__wakeup']
         )->getMock();
         $this->_emptyConsumerMock->expects($this->any())->method('getId')->will($this->returnValue(null));
     }
@@ -147,7 +147,6 @@ class OauthTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateAccessTokenAndClearExisting()
     {
-
         $this->_consumerMock->expects(
             $this->any()
         )->method(

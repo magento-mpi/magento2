@@ -17,7 +17,7 @@ class Tokenizer
      *
      * @var array
      */
-    private $_tokens = array();
+    private $_tokens = [];
 
     /**
      * Tokens count
@@ -59,7 +59,7 @@ class Tokenizer
      */
     public function getFunctionArgumentsTokens()
     {
-        $arguments = array();
+        $arguments = [];
         try {
             $this->_openBrackets = 1;
             $this->_closeBrackets = 0;
@@ -86,7 +86,7 @@ class Tokenizer
                 }
             }
         } catch (\Exception $e) {
-            return array();
+            return [];
         }
         return $arguments;
     }

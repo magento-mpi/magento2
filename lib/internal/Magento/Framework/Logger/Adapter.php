@@ -24,14 +24,14 @@ class Adapter
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Fields that should be replaced in debug data with '***'
      *
      * @var array
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * @var \Magento\Framework\Logger
@@ -62,7 +62,7 @@ class Adapter
             $data = $this->_data;
         } else {
             if (!is_array($data)) {
-                $data = array($data);
+                $data = [$data];
             }
         }
         $data = $this->_filterDebugData($data);
@@ -97,7 +97,7 @@ class Adapter
     public function setFilterDataKeys($keys)
     {
         if (!is_array($keys)) {
-            $keys = array($keys);
+            $keys = [$keys];
         }
         $this->_debugReplacePrivateDataKeys = $keys;
         return $this;

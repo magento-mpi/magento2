@@ -42,16 +42,16 @@ try {
         throw new Exception(USAGE);
     }
     if (!is_array($options['l'])) {
-        $options['l'] = array($options['l']);
+        $options['l'] = [$options['l']];
     }
     if (!isset($options['i'])) {
         $options['i'] = [];
     } elseif (!is_array($options['i'])) {
         $options['i'] = [$options['i']];
     }
-    $list = array();
-    $patternList = array();
-    $ignoreList = array();
+    $list = [];
+    $patternList = [];
+    $ignoreList = [];
     foreach ($options['l'] as $file) {
         if (!is_file($file) || !is_readable($file)) {
             throw new Exception("Specified file with patterns does not exist or cannot be read: '{$file}'");
@@ -117,7 +117,7 @@ try {
         $itemRel = substr($item, strlen($workingDir) + 1);
         $shell->execute(
             'git --git-dir %s --work-tree %s rm -r -f -- %s',
-            array("{$workingDir}/.git", $workingDir, $itemRel)
+            ["{$workingDir}/.git", $workingDir, $itemRel]
         );
         if (file_exists($item)) {
             throw new Exception("The file or directory '{$item}' was supposed to be deleted, but it still exists.");

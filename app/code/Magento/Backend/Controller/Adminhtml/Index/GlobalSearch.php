@@ -30,7 +30,7 @@ class GlobalSearch extends \Magento\Backend\Controller\Adminhtml\Index
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Framework\Controller\Result\JSONFactory $resultJsonFactory,
-        array $searchModules = array()
+        array $searchModules = []
     ) {
         $this->_searchModules = $searchModules;
         parent::__construct($context);
@@ -44,31 +44,30 @@ class GlobalSearch extends \Magento\Backend\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $items = array();
+        $items = [];
 
         if (!$this->_authorization->isAllowed('Magento_Adminhtml::global_search')) {
-            $items[] = array(
+            $items[] = [
                 'id' => 'error',
                 'type' => __('Error'),
                 'name' => __('Access Denied'),
-                'description' => __('You need more permissions to do this.')
-            );
+                'description' => __('You need more permissions to do this.'),
+            ];
         } else {
             if (empty($this->_searchModules)) {
-                $items[] = array(
+                $items[] = [
                     'id' => 'error',
                     'type' => __('Error'),
                     'name' => __('No search modules were registered'),
                     'description' => __(
                         'Please make sure that all global admin search modules are installed and activated.'
-                    )
-                );
+                    ),
+                ];
             } else {
                 $start = $this->getRequest()->getParam('start', 1);
                 $limit = $this->getRequest()->getParam('limit', 10);
                 $query = $this->getRequest()->getParam('query', '');
                 foreach ($this->_searchModules as $searchConfig) {
-
                     if ($searchConfig['acl'] && !$this->_authorization->isAllowed($searchConfig['acl'])) {
                         continue;
                     }

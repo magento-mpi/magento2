@@ -55,13 +55,13 @@ class Proxy extends \Magento\Framework\App\AreaList
         $this->_instanceName = $instanceName;
         $this->_isShared = $shared;
     }
-    
+
     /**
      * @return array
      */
     public function __sleep()
     {
-        return array('_subject', '_isShared');
+        return ['_subject', '_isShared'];
     }
 
     /**
@@ -98,7 +98,6 @@ class Proxy extends \Magento\Framework\App\AreaList
         }
         return $this->_subject;
     }
-
 
     /**
      * Retrieve area code by front name

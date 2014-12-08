@@ -35,7 +35,7 @@ $nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
 $categoryIndex = 1;
 
-$categoryIds = array();
+$categoryIds = [];
 
 $category = Mage::getModel('Magento_Catalog_Model_Category');
 while ($categoryIndex <= $categoriesNumber) {
@@ -75,9 +75,6 @@ while ($categoryIndex <= $categoriesNumber) {
     $nestingPath .= "/{$parentCategoryId}";
 }
 
-
-
-
 // Extract product set id
 $productResource = Mage::getModel('Magento_Catalog_Model_Product');
 $entityType = $productResource->getResource()->getEntityType();
@@ -98,13 +95,12 @@ if (!$setId) {
 
 $productsCount = 15;
 //number of products
-$productCategories = array(array_pop($categoryIds));
+$productCategories = [array_pop($categoryIds)];
 
 /**
  * Skipping fixture generation tool to avoid reindex requirement
  */
 while ($productsCount) {
-
     // Create product
     $product = Mage::getModel('Magento_Catalog_Model_Product');
     $product->setTypeId(
@@ -112,7 +108,7 @@ while ($productsCount) {
     )->setAttributeSetId(
         $setId
     )->setWebsiteIds(
-        array(1)
+        [1]
     )->setName(
         "Simple product {$productsCount}"
     )->setShortDescription(

@@ -40,15 +40,15 @@ class StructureTest extends \PHPUnit_Framework_TestCase
 
         $expected = [
             'elementName1' => ['attributeName1' => 'attributeValue1'],
-            'elementName2' => ['attributeName2' => 'attributeValue2']
+            'elementName2' => ['attributeName2' => 'attributeValue2'],
         ];
 
         $this->structure->setElementAttribute($elementName1, $attributeName1, $attributeValue1);
         $this->structure->setElementAttribute($elementName2, $attributeName2, $attributeValue2);
         $this->assertEquals($expected, $this->structure->getElementAttributes());
 
-        $expectedAfterRemove =[
-            'elementName2' => ['attributeName2' => 'attributeValue2']
+        $expectedAfterRemove = [
+            'elementName2' => ['attributeName2' => 'attributeValue2'],
         ];
         $this->structure->setElementAttribute($elementName1, $attributeName1, false);
         $this->structure->processRemoveElementAttributes();

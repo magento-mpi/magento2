@@ -11,10 +11,12 @@
 <?php $_isRedeemable = $this->getIsRedeemable(); ?>
 
 <?php foreach ($_codes as $_code): ?>
-    <?php if (!$_code) continue; ?>
+    <?php if (!$_code) {
+    continue;
+} ?>
 
     <?php if ($_isRedeemable): ?>
-        <a href="<?php echo $this->getUrl('magento_giftcardaccount/customer', array('giftcard'=>$_code)); ?>"><?php echo $_code; ?></a>
+        <a href="<?php echo $this->getUrl('magento_giftcardaccount/customer', ['giftcard' => $_code]); ?>"><?php echo $_code; ?></a>
     <?php else: ?>
         <?php echo $_code; ?>
     <?php endif; ?>

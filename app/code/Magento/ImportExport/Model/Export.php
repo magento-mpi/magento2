@@ -74,7 +74,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
-        array $data = array()
+        array $data = []
     ) {
         $this->_exportConfig = $exportConfig;
         $this->_entityFactory = $entityFactory;
@@ -175,7 +175,7 @@ class Export extends \Magento\ImportExport\Model\AbstractModel
                 throw new \Magento\Framework\Model\Exception(__('There is no data for export'));
             }
             if ($result) {
-                $this->addLogComment(array(__('Exported %1 rows.', $countRows), __('Export has been done.')));
+                $this->addLogComment([__('Exported %1 rows.', $countRows), __('Export has been done.')]);
             }
             return $result;
         } else {

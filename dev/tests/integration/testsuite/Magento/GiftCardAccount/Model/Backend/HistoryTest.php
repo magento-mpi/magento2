@@ -29,7 +29,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Backend\Model\Auth\Session'
         )->setUser(
-            new \Magento\Framework\Object(array('id' => 1, 'username' => 'Admin user'))
+            new \Magento\Framework\Object(['id' => 1, 'username' => 'Admin user'])
         );
         $this->_giftcardAccount = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\GiftCardAccount\Model\Giftcardaccount'
@@ -88,6 +88,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
     public function recipientDataProvider()
     {
-        return array(array(null), array('recipient'));
+        return [[null], ['recipient']];
     }
 }

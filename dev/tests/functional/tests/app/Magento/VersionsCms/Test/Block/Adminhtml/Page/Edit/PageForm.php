@@ -8,7 +8,6 @@
 
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit;
 
-use Mtf\Client\Element;
 
 /**
  * Class PageForm

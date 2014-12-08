@@ -9,7 +9,6 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class GuestPaypalDirect
@@ -27,8 +26,8 @@ class GuestPaypalDirect extends Checkout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '156.81'
-            ]
+                'grand_total' => '156.81',
+            ],
         ];
     }
 
@@ -45,7 +44,7 @@ class GuestPaypalDirect extends Checkout
             'default_tax_config',
             'display_price',
             'display_shopping_cart',
-            'default_tax_config'
+            'default_tax_config',
         ]);
 
         //Tax

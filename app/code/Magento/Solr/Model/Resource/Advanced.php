@@ -21,7 +21,7 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_textFieldTypes = array('text', 'varchar', 'int');
+    protected $_textFieldTypes = ['text', 'varchar', 'int'];
 
     /**
      * @var \Magento\Solr\Model\Resource\Solr\Engine
@@ -109,11 +109,11 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
             $value['to']
         ) && empty($value['to'])
         ) {
-            return array();
+            return [];
         }
 
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
 
         $field = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
@@ -130,9 +130,9 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
         }
 
         if (empty($value)) {
-            return array();
+            return [];
         } else {
-            return array($field => $value);
+            return [$field => $value];
         }
     }
 
@@ -149,7 +149,7 @@ class Advanced extends \Magento\Framework\Model\Resource\AbstractResource
     {
         $collection->addPriceData();
         $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute);
-        $collection->addSearchParam(array($fieldName => $value));
+        $collection->addSearchParam([$fieldName => $value]);
 
         return true;
     }

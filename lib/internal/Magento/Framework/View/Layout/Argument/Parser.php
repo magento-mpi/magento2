@@ -8,8 +8,8 @@
 namespace Magento\Framework\View\Layout\Argument;
 
 use Magento\Framework\Config\Converter\Dom\Flat as FlatConverter;
-use Magento\Framework\Config\Dom\NodePathMatcher;
 use Magento\Framework\Config\Dom\ArrayNodeConfig;
+use Magento\Framework\Config\Dom\NodePathMatcher;
 
 /**
  * Parser of a layout argument node that returns its array representation with no data loss
@@ -43,8 +43,8 @@ class Parser
         if (!$this->converter) {
             $arrayNodeConfig = new ArrayNodeConfig(
                 new NodePathMatcher(),
-                array('argument/param' => 'name', 'argument(/item)+' => 'name', 'argument(/item)+/param' => 'name'),
-                array('argument/updater')
+                ['argument/param' => 'name', 'argument(/item)+' => 'name', 'argument(/item)+/param' => 'name'],
+                ['argument/updater']
             );
             $this->converter = new FlatConverter($arrayNodeConfig);
         }

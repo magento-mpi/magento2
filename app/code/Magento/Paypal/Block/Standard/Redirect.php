@@ -43,7 +43,7 @@ class Redirect extends \Magento\Framework\View\Element\AbstractBlock
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
         \Magento\Framework\Math\Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formFactory = $formFactory;
         $this->_elementFactory = $elementFactory;
@@ -72,12 +72,12 @@ class Redirect extends \Magento\Framework\View\Element\AbstractBlock
             true
         );
         foreach ($standard->getStandardCheckoutFormFields() as $field => $value) {
-            $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
+            $form->addField($field, 'hidden', ['name' => $field, 'value' => $value]);
         }
         $idSuffix = $this->mathRandom->getUniqueHash();
         $submitButton = $this->_elementFactory->create(
             'submit',
-            array('data' => array('value' => __('Click here if you are not redirected within 10 seconds.')))
+            ['data' => ['value' => __('Click here if you are not redirected within 10 seconds.')]]
         );
         $id = "submit_to_paypal_button_{$idSuffix}";
         $submitButton->setId($id);

@@ -47,7 +47,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         \Magento\Catalog\Model\Config\Source\Category $category,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_category = $category;
         $this->_storeFactory = $storeFactory;
@@ -70,7 +70,7 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
             $groupModel->setData($postData['group']);
         }
 
-        $fieldset = $form->addFieldset('group_fieldset', array('legend' => __('Store Information')));
+        $fieldset = $form->addFieldset('group_fieldset', ['legend' => __('Store Information')]);
 
         $storeAction = $this->_coreRegistry->registry('store_action');
         if ($storeAction == 'edit' || $storeAction == 'add') {
@@ -78,14 +78,14 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
             $fieldset->addField(
                 'group_website_id',
                 'select',
-                array(
+                [
                     'name' => 'group[website_id]',
                     'label' => __('Web Site'),
                     'value' => $groupModel->getWebsiteId(),
                     'values' => $websites,
                     'required' => true,
                     'disabled' => $groupModel->isReadOnly()
-                )
+                ]
             );
 
             if ($groupModel->getId() && $groupModel->getWebsite()->getDefaultGroupId() == $groupModel->getId()) {
@@ -95,17 +95,17 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
                     $fieldset->addField(
                         'group_hidden_website_id',
                         'hidden',
-                        array('name' => 'group[website_id]', 'no_span' => true, 'value' => $groupModel->getWebsiteId())
+                        ['name' => 'group[website_id]', 'no_span' => true, 'value' => $groupModel->getWebsiteId()]
                     );
                 } else {
                     $fieldset->addField(
                         'group_original_website_id',
                         'hidden',
-                        array(
+                        [
                             'name' => 'group[original_website_id]',
                             'no_span' => true,
                             'value' => $groupModel->getWebsiteId()
-                        )
+                        ]
                     );
                 }
             }
@@ -114,13 +114,13 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         $fieldset->addField(
             'group_name',
             'text',
-            array(
+            [
                 'name' => 'group[name]',
                 'label' => __('Name'),
                 'value' => $groupModel->getName(),
                 'required' => true,
                 'disabled' => $groupModel->isReadOnly()
-            )
+            ]
         );
 
         $categories = $this->_category->toOptionArray();
@@ -128,14 +128,14 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
         $fieldset->addField(
             'group_root_category_id',
             'select',
-            array(
+            [
                 'name' => 'group[root_category_id]',
                 'label' => __('Root Category'),
                 'value' => $groupModel->getRootCategoryId(),
                 'values' => $categories,
                 'required' => true,
                 'disabled' => $groupModel->isReadOnly()
-            )
+            ]
         );
 
         if ($this->_coreRegistry->registry('store_action') == 'edit') {
@@ -145,21 +145,21 @@ class Group extends \Magento\Backend\Block\System\Store\Edit\AbstractForm
             $fieldset->addField(
                 'group_default_store_id',
                 'select',
-                array(
+                [
                     'name' => 'group[default_store_id]',
                     'label' => __('Default Store View'),
                     'value' => $groupModel->getDefaultStoreId(),
                     'values' => $stores,
                     'required' => false,
                     'disabled' => $groupModel->isReadOnly()
-                )
+                ]
             );
         }
 
         $fieldset->addField(
             'group_group_id',
             'hidden',
-            array('name' => 'group[group_id]', 'no_span' => true, 'value' => $groupModel->getId())
+            ['name' => 'group[group_id]', 'no_span' => true, 'value' => $groupModel->getId()]
         );
     }
 }

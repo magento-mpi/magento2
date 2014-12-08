@@ -8,8 +8,8 @@
 
 namespace Magento\VersionsCms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\AdminHtml\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsPageRevisionSuccessPublishMessage

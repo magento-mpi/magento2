@@ -9,8 +9,8 @@
 
 namespace Magento\Catalog\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 
 class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInterface
@@ -18,7 +18,7 @@ class CategoryRepository implements \Magento\Catalog\Api\CategoryRepositoryInter
     /**
      * @var Category[]
      */
-    protected $instances = array();
+    protected $instances = [];
 
     /**
      * @var \Magento\Framework\StoreManagerInterface

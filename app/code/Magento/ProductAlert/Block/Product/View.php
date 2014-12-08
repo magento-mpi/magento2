@@ -34,7 +34,7 @@ class View extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $helper,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_registry = $registry;

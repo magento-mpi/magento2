@@ -20,7 +20,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_object = $this->getMock('Magento\Framework\Object', array('hasDataChanges', 'getData', 'getOrigData'));
+        $this->_object = $this->getMock('Magento\Framework\Object', ['hasDataChanges', 'getData', 'getOrigData']);
     }
 
     protected function tearDown()
@@ -37,7 +37,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
     public function testIsValidException()
     {
         $validator = new \Magento\Framework\Validator\Entity\Properties();
-        $validator->isValid(array());
+        $validator->isValid([]);
     }
 
     /**
@@ -50,7 +50,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         $this->_object->expects($this->once())->method('getOrigData')->with('attr1')->will($this->returnValue(1));
 
         $validator = new \Magento\Framework\Validator\Entity\Properties();
-        $validator->setReadOnlyProperties(array('attr1'));
+        $validator->setReadOnlyProperties(['attr1']);
         $this->assertTrue($validator->isValid($this->_object));
     }
 
@@ -70,7 +70,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object->expects($this->once())->method('hasDataChanges')->will($this->returnValue(false));
         $validator = new \Magento\Framework\Validator\Entity\Properties();
-        $validator->setReadOnlyProperties(array('attr1'));
+        $validator->setReadOnlyProperties(['attr1']);
         $this->assertTrue($validator->isValid($this->_object));
     }
 
@@ -84,7 +84,7 @@ class PropertiesTest extends \PHPUnit_Framework_TestCase
         $this->_object->expects($this->once())->method('getOrigData')->with('attr1')->will($this->returnValue(2));
 
         $validator = new \Magento\Framework\Validator\Entity\Properties();
-        $validator->setReadOnlyProperties(array('attr1'));
+        $validator->setReadOnlyProperties(['attr1']);
         $this->assertFalse($validator->isValid($this->_object));
     }
 }

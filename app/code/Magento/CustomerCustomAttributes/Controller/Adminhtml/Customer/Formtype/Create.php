@@ -25,14 +25,14 @@ class Create extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Cust
                 /** @var $formType \Magento\Eav\Model\Form\Type */
                 $formType = $this->_formTypeFactory->create();
                 $formType->addData(
-                    array(
+                    [
                         'code' => $skeleton->getCode(),
                         'label' => $this->getRequest()->getPost('label'),
                         'theme' => $this->getRequest()->getPost('theme'),
                         'store_id' => $this->getRequest()->getPost('store_id'),
                         'entity_types' => $skeleton->getEntityTypes(),
-                        'is_system' => 0
-                    )
+                        'is_system' => 0,
+                    ]
                 );
                 $formType->save();
                 $formType->createFromSkeleton($skeleton);
@@ -47,7 +47,7 @@ class Create extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Cust
                 $this->_getSession()->setFormData($this->getRequest()->getPost());
                 $redirectUrl = $this->getUrl('adminhtml/*/new');
             } else {
-                $redirectUrl = $this->getUrl('adminhtml/*/edit/', array('type_id' => $formType->getId()));
+                $redirectUrl = $this->getUrl('adminhtml/*/edit/', ['type_id' => $formType->getId()]);
             }
         }
 

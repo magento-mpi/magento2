@@ -14,32 +14,32 @@ class VirtualTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_themes = array(
-        'physical' => array(
+    protected $_themes = [
+        'physical' => [
             'parent_id' => null,
             'theme_path' => 'test/test',
             'theme_version' => '0.1.0',
             'theme_title' => 'Test physical theme',
             'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-            'type' => ThemeInterface::TYPE_PHYSICAL
-        ),
-        'virtual' => array(
+            'type' => ThemeInterface::TYPE_PHYSICAL,
+        ],
+        'virtual' => [
             'parent_id' => null,
             'theme_path' => '',
             'theme_version' => '0.1.0',
             'theme_title' => 'Test virtual theme',
             'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-            'type' => ThemeInterface::TYPE_VIRTUAL
-        ),
-        'staging' => array(
+            'type' => ThemeInterface::TYPE_VIRTUAL,
+        ],
+        'staging' => [
             'parent_id' => null,
             'theme_path' => '',
             'theme_version' => '0.1.0',
             'theme_title' => 'Test staging theme',
             'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-            'type' => ThemeInterface::TYPE_STAGING
-        )
-    );
+            'type' => ThemeInterface::TYPE_STAGING,
+        ],
+    ];
 
     /**
      * @var int

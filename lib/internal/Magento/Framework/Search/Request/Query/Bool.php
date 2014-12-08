@@ -37,21 +37,21 @@ class Bool implements QueryInterface
      *
      * @var array
      */
-    protected $should = array();
+    protected $should = [];
 
     /**
      * Query names to which result set MUST satisfy
      *
      * @var array
      */
-    protected $must = array();
+    protected $must = [];
 
     /**
      * Query names to which result set MUST NOT satisfy
      *
      * @var array
      */
-    protected $mustNot = array();
+    protected $mustNot = [];
 
     /**
      * @param string $name

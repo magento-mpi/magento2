@@ -8,16 +8,16 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Reports\Test\Page\Adminhtml\Statistics;
-use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
 use Magento\Reports\Test\Page\Adminhtml\SalesTaxReport;
+use Magento\Reports\Test\Page\Adminhtml\Statistics;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceNew;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Magento\Tax\Test\Fixture\TaxRule;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

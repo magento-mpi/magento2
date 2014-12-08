@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Service\V1\Data;
 
 class Rma extends \Magento\Framework\Api\AbstractExtensibleObject

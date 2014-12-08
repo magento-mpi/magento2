@@ -47,7 +47,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     {
         parent::_afterLoad();
 
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', [$this->_eventObject => $this]);
 
         return $this;
     }

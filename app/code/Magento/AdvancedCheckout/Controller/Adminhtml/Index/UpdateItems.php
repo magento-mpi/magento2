@@ -24,7 +24,7 @@ class UpdateItems extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             if ($this->_redirectFlag) {
                 return;
             }
-            $items = $this->getRequest()->getPost('item', array());
+            $items = $this->getRequest()->getPost('item', []);
             if ($items) {
                 $this->getCartModel()->updateQuoteItems($items);
             }

@@ -8,8 +8,8 @@
 
 namespace Magento\User\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRoleSuccessDeleteMessage

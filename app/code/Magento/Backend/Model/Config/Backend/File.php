@@ -64,7 +64,7 @@ class File extends \Magento\Framework\App\Config\Value
         Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_uploaderFactory = $uploaderFactory;
         $this->_requestData = $requestData;
@@ -83,7 +83,7 @@ class File extends \Magento\Framework\App\Config\Value
     {
         $value = $this->getValue();
         $tmpName = $this->_requestData->getTmpName($this->getPath());
-        $file = array();
+        $file = [];
         if ($tmpName) {
             $file['tmp_name'] = $tmpName;
             $file['name'] = $this->_requestData->getName($this->getPath());
@@ -94,7 +94,7 @@ class File extends \Magento\Framework\App\Config\Value
         if (!empty($file)) {
             $uploadDir = $this->_getUploadDir();
             try {
-                $uploader = $this->_uploaderFactory->create(array('fileId' => $file));
+                $uploader = $this->_uploaderFactory->create(['fileId' => $file]);
                 $uploader->setAllowedExtensions($this->_getAllowedExtensions());
                 $uploader->setAllowRenameFiles(true);
                 $uploader->addValidateCallback('size', $this, 'validateMaxSize');
@@ -149,7 +149,7 @@ class File extends \Magento\Framework\App\Config\Value
     protected function _addWhetherScopeInfo()
     {
         $fieldConfig = $this->getFieldConfig();
-        $dirParams = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : array();
+        $dirParams = array_key_exists('upload_dir', $fieldConfig) ? $fieldConfig['upload_dir'] : [];
         return is_array($dirParams) && array_key_exists('scope_info', $dirParams) && $dirParams['scope_info'];
     }
 
@@ -226,6 +226,6 @@ class File extends \Magento\Framework\App\Config\Value
      */
     protected function _getAllowedExtensions()
     {
-        return array();
+        return [];
     }
 }

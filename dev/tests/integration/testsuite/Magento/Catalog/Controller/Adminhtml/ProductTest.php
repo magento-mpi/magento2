@@ -14,10 +14,10 @@ class ProductTest extends \Magento\Backend\Utility\Controller
 {
     public function testSaveActionWithDangerRequest()
     {
-        $this->getRequest()->setPost(array('product' => array('entity_id' => 15)));
+        $this->getRequest()->setPost(['product' => ['entity_id' => 15]]);
         $this->dispatch('backend/catalog/product/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save product')),
+            $this->equalTo(['Unable to save product']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/catalog/product/edit'));
@@ -28,7 +28,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionAndNew()
     {
-        $this->getRequest()->setPost(array('back' => 'new'));
+        $this->getRequest()->setPost(['back' => 'new']);
         $this->dispatch('backend/catalog/product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/catalog/product/new/'));
         $this->assertSessionMessages(
@@ -42,7 +42,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionAndDuplicate()
     {
-        $this->getRequest()->setPost(array('back' => 'duplicate'));
+        $this->getRequest()->setPost(['back' => 'duplicate']);
         $this->dispatch('backend/catalog/product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/catalog/product/edit/'));
         $this->assertRedirect(

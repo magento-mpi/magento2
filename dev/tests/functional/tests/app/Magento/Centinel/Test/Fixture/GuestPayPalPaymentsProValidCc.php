@@ -23,7 +23,7 @@ class GuestPayPalPaymentsProValidCc extends AbstractCreditCard
         $this->_data = [
             'totals' => [
                 'grand_total' => '15',
-                'comment_history' => 'Authorized amount of $15'
+                'comment_history' => 'Authorized amount of $15',
             ],
             'payment_info' => [
                 'verification_result' => 'Successful',
@@ -44,7 +44,7 @@ class GuestPayPalPaymentsProValidCc extends AbstractCreditCard
                 '3d_secure_credit_card_validation',
                 'default_tax_config',
                 'display_price',
-                'display_shopping_cart'
+                'display_shopping_cart',
             ],
         ];
     }

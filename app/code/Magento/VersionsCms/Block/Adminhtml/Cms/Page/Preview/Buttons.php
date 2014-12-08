@@ -25,7 +25,7 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsConfig = $cmsConfig;
         parent::__construct($context, $data);
@@ -42,12 +42,12 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
 
         $this->buttonList->add(
             'preview',
-            array(
+            [
                 'id' => 'preview-buttons-preview',
                 'label' => 'Preview',
                 'class' => 'preview',
                 'onclick' => 'preview()'
-            ),
+            ],
             0,
             0,
             null
@@ -56,12 +56,12 @@ class Buttons extends \Magento\Backend\Block\Widget\Container
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
             $this->buttonList->add(
                 'publish',
-                array(
+                [
                     'id' => 'preview-buttons-publish',
                     'label' => 'Publish',
                     'class' => 'publish',
                     'onclick' => 'publish()'
-                ),
+                ],
                 0,
                 0,
                 null

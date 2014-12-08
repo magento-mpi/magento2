@@ -24,7 +24,7 @@ class Storage extends \Magento\Framework\Object implements StorageInterface
      * @param string $namespace
      * @param array $data
      */
-    public function __construct($namespace = 'default', array $data = array())
+    public function __construct($namespace = 'default', array $data = [])
     {
         $this->namespace = $namespace;
         parent::__construct($data);
@@ -39,7 +39,7 @@ class Storage extends \Magento\Framework\Object implements StorageInterface
         if (isset($data[$namespace])) {
             $this->setData($data[$namespace]);
         }
-        $_SESSION[$namespace] =& $this->_data;
+        $_SESSION[$namespace] = & $this->_data;
     }
 
     /**

@@ -35,7 +35,7 @@ class UrlBuilder
         $this->frontendUrlBuilder->setScope($scope);
         $href = $this->frontendUrlBuilder->getUrl(
             $routePath,
-            array('_current' => false, '_query' => '___store=' . $store)
+            ['_current' => false, '_query' => '___store=' . $store]
         );
         return $href;
     }

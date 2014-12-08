@@ -28,12 +28,12 @@ class TabTest extends \PHPUnit_Framework_TestCase
     {
         $this->_iteratorMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Iterator\Field',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
 
         $this->_model = new \Magento\Backend\Model\Config\Structure\Element\Tab(
             $this->_storeManagerMock,
@@ -50,7 +50,7 @@ class TabTest extends \PHPUnit_Framework_TestCase
 
     public function testIsVisibleOnlyChecksPresenceOfChildren()
     {
-        $this->_model->setData(array('showInStore' => 0, 'showInWebsite' => 0, 'showInDefault' => 0), 'store');
+        $this->_model->setData(['showInStore' => 0, 'showInWebsite' => 0, 'showInDefault' => 0], 'store');
         $this->_iteratorMock->expects($this->once())->method('current')->will($this->returnValue(true));
         $this->_iteratorMock->expects($this->once())->method('valid')->will($this->returnValue(true));
         $this->assertTrue($this->_model->isVisible());

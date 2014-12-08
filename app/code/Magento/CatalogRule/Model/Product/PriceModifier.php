@@ -9,8 +9,8 @@
  */
 namespace Magento\CatalogRule\Model\Product;
 
-use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\PriceModifierInterface;
 use Magento\CatalogRule\Model\RuleFactory;
 
 class PriceModifier implements PriceModifierInterface

@@ -39,8 +39,8 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->indexerStateMock = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
-            array('loadByIndexer', 'setStatus', 'save', '__wakeup'),
-            array(),
+            ['loadByIndexer', 'setStatus', 'save', '__wakeup'],
+            [],
             '',
             false
         );
@@ -51,17 +51,17 @@ class ModeTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Model\Indexer\Category\Flat\System\Config\Mode',
-            array(
+            [
                 'config' => $this->configMock,
                 'indexerState' => $this->indexerStateMock,
                 'indexerRegistry' => $this->indexerRegistry
-            )
+            ]
         );
     }
 
     public function dataProviderProcessValueEqual()
     {
-        return array(array('0', '0'), array('', '0'), array('0', ''), array('1', '1'));
+        return [['0', '0'], ['', '0'], ['0', ''], ['1', '1']];
     }
 
     /**
@@ -96,7 +96,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderProcessValueOn()
     {
-        return array(array('0', '1'), array('', '1'));
+        return [['0', '1'], ['', '1']];
     }
 
     /**
@@ -147,7 +147,7 @@ class ModeTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderProcessValueOff()
     {
-        return array(array('1', '0'), array('1', ''));
+        return [['1', '0'], ['1', '']];
     }
 
     /**

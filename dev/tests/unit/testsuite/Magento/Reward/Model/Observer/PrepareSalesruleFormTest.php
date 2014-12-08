@@ -61,11 +61,11 @@ class PrepareSalesruleFormTest extends \PHPUnit_Framework_TestCase
             ->with(
                 'reward_points_delta',
                 'text',
-                array(
+                [
                     'name' => 'reward_points_delta',
                     'label' => __('Add Reward Points'),
                     'title' => __('Add Reward Points')
-                ),
+                ],
                 'stop_rules_processing'
             )
             ->will($this->returnSelf());
@@ -73,4 +73,3 @@ class PrepareSalesruleFormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

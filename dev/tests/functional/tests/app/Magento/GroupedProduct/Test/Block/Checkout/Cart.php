@@ -8,8 +8,8 @@
 
 namespace Magento\GroupedProduct\Test\Block\Checkout;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Cart
@@ -30,7 +30,7 @@ class Cart extends \Magento\Checkout\Test\Block\Cart
             [
                 'element' => $this->_rootElement,
                 'config' => [
-                    'associated_cart_items' => $this->findCartItems($product)
+                    'associated_cart_items' => $this->findCartItems($product),
                 ]
             ]
         );

@@ -72,7 +72,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_taxData = $taxData;
@@ -118,7 +118,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
      */
     protected function _getShippingAvailability()
     {
-        $carriers = array();
+        $carriers = [];
         if ($this->getRma()) {
             $carriers = $this->_rmaData->getAllowedShippingCarriers($this->getRma()->getStoreId());
         }
@@ -206,7 +206,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')')
+            ['label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')']
         )->toHtml();
     }
 
@@ -220,7 +220,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Show Packages'), 'onclick' => 'showPackedWindow();')
+            ['label' => __('Show Packages'), 'onclick' => 'showPackedWindow();']
         )->toHtml();
     }
 
@@ -237,7 +237,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Print'), 'onclick' => 'setLocation(\'' . $url . '\')')
+            ['label' => __('Print'), 'onclick' => 'setLocation(\'' . $url . '\')']
         )->toHtml();
     }
 
@@ -272,7 +272,7 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         $carrierCode = $this->getShipment()->getCarrierCode();
         $carrier = $this->_rmaData->getCarrier($carrierCode, $this->getRma()->getStoreId());
         if ($carrier) {
-            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(['country_recipient' => $countryId]);
             $confirmationTypes = $carrier->getDeliveryConfirmationTypes($params);
             $containerType = !empty($confirmationTypes[$code]) ? $confirmationTypes[$code] : '';
             return $containerType;
@@ -327,15 +327,15 @@ class Shippingmethod extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\A
         );
         if ($carrier) {
             $params = new \Magento\Framework\Object(
-                array(
+                [
                     'method' => $carrier->getMethod(),
                     'country_shipper' => $countryShipper,
-                    'country_recipient' => $address->getCountryId()
-                )
+                    'country_recipient' => $address->getCountryId(),
+                ]
             );
             return $carrier->getContentTypes($params);
         }
-        return array();
+        return [];
     }
 
     /**

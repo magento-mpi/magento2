@@ -21,7 +21,7 @@ class TransportTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_messageMock = $this->getMock('\Magento\Framework\Mail\Message', array(), array(), '', false);
+        $this->_messageMock = $this->getMock('\Magento\Framework\Mail\Message', [], [], '', false);
         $this->_transport = new \Magento\Framework\Mail\Transport($this->_messageMock);
     }
 
@@ -44,7 +44,7 @@ class TransportTest extends \PHPUnit_Framework_TestCase
     {
         $this->_messageMock->expects($this->any())
             ->method('getParts')
-            ->will($this->returnValue(array('a','b')));
+            ->will($this->returnValue(['a', 'b']));
 
         $this->_transport->sendMessage();
     }

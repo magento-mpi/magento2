@@ -43,7 +43,7 @@ class Form extends \Magento\CustomAttributeManagement\Block\Form
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Metadata\FormFactory $metadataFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
         $this->_metadataFormFactory = $metadataFormFactory;

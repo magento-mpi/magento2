@@ -8,9 +8,9 @@
 namespace Magento\Customer\Block\Address\Renderer;
 
 use Magento\Customer\Model\Address\AbstractAddress;
+use Magento\Customer\Model\Address\Mapper;
 use Magento\Customer\Model\Metadata\ElementFactory;
 use Magento\Framework\View\Element\AbstractBlock;
-use Magento\Customer\Model\Address\Mapper;
 
 /**
  * Address format renderer default
@@ -69,7 +69,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
         \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Customer\Api\AddressMetadataInterface $metadataService,
         Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_addressConverter = $addressConverter;
@@ -169,7 +169,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
         }
 
         $attributesMetadata = $this->_addressMetadataService->getAllAttributesMetadata();
-        $data = array();
+        $data = [];
         foreach ($attributesMetadata as $attributeMetadata) {
             if (!$attributeMetadata->isVisible()) {
                 continue;
@@ -202,6 +202,6 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
             }
         }
         $format = !is_null($format) ? $format : $this->getFormatArray($addressAttributes);
-        return $this->filterManager->template($format, array('variables' => $data));
+        return $this->filterManager->template($format, ['variables' => $data]);
     }
 }

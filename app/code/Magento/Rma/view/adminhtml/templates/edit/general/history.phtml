@@ -28,7 +28,7 @@
                 <input name="comment[is_visible_on_front]" type="checkbox" id="history_visible" value="1" /><label class="normal" for="history_visible"> <?php echo __('Visible on Frontend') ?></label>
             </div>
         </div>
-        <?php if($this->getComments()): ?>
+        <?php if ($this->getComments()): ?>
             <ul class="note-list">
             <?php foreach ($this->getComments() as $_item): ?>
                 <li>
@@ -48,7 +48,7 @@
                         <?php endif; ?>
                     </span>
                     <?php if ($_item->getComment()): ?>
-                        <div class="note-list-comment"><?php echo $this->escapeHtml($_item->getComment(), array('b','br','strong','i','u')) ?></div>
+                        <div class="note-list-comment"><?php echo $this->escapeHtml($_item->getComment(), ['b', 'br', 'strong', 'i', 'u']) ?></div>
                     <?php endif; ?>
                 </li>
             <?php endforeach; ?>

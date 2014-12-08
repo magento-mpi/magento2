@@ -31,7 +31,7 @@ class Feeds extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Rss\RssManagerInterface $rssManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->rssManager = $rssManager;
         parent::__construct($context, $data);
@@ -66,8 +66,8 @@ class Feeds extends \Magento\Framework\View\Element\Template
     public function getFeeds()
     {
         $providers = $this->rssManager->getProviders();
-        $feeds = array();
-        $groups = array();
+        $feeds = [];
+        $groups = [];
         foreach ($providers as $provider) {
             $item = $provider->getFeeds();
             if (empty($item)) {

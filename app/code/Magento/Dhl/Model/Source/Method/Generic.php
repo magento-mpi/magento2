@@ -35,9 +35,9 @@ class Generic
     public function toOptionArray()
     {
         $configData = $this->_shippingDhl->getCode($this->_code);
-        $arr = array();
+        $arr = [];
         foreach ($configData as $code => $title) {
-            $arr[] = array('value' => $code, 'label' => $title);
+            $arr[] = ['value' => $code, 'label' => $title];
         }
         return $arr;
     }

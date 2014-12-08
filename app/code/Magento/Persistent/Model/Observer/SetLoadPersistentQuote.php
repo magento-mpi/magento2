@@ -38,7 +38,6 @@ class SetLoadPersistentQuote
      */
     protected $_persistentData = null;
 
-
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Persistent\Helper\Data $persistentData
@@ -56,7 +55,6 @@ class SetLoadPersistentQuote
         $this->_checkoutSession = $checkoutSession;
         $this->_persistentData = $persistentData;
     }
-
 
     /**
      * Set quote to be loaded even if not active

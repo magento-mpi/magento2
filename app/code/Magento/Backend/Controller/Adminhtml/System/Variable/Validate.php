@@ -17,7 +17,7 @@ class Validate extends \Magento\Backend\Controller\Adminhtml\System\Variable
      */
     public function execute()
     {
-        $response = new \Magento\Framework\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(['error' => false]);
         $variable = $this->_initVariable();
         $variable->addData($this->getRequest()->getPost('variable'));
         $result = $variable->validate();

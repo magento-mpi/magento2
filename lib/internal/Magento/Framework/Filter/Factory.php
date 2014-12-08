@@ -17,7 +17,7 @@ class Factory extends AbstractFactory
      *
      * @var array
      */
-    protected $invokableClasses = array(
+    protected $invokableClasses = [
         'email' => 'Magento\Framework\Filter\Email',
         'money' => 'Magento\Framework\Filter\Money',
         'simple' => 'Magento\Framework\Filter\Template\Simple',
@@ -33,20 +33,20 @@ class Factory extends AbstractFactory
         'encrypt' => 'Magento\Framework\Filter\Encrypt',
         'decrypt' => 'Magento\Framework\Filter\Decrypt',
         'translit' => 'Magento\Framework\Filter\Translit',
-        'translitUrl' => 'Magento\Framework\Filter\TranslitUrl'
-    );
+        'translitUrl' => 'Magento\Framework\Filter\TranslitUrl',
+    ];
 
     /**
      * Shared instances, by default is shared
      *
      * @var array
      */
-    protected $shared = array(
+    protected $shared = [
         'Magento\Framework\Filter\Sprintf' => false,
         'Magento\Framework\Filter\Money' => false,
         'Magento\Framework\Filter\RemoveAccents' => false,
         'Magento\Framework\Filter\SplitWords' => false,
         'Magento\Framework\Filter\StripTags' => false,
-        'Magento\Framework\Filter\Truncate' => false
-    );
+        'Magento\Framework\Filter\Truncate' => false,
+    ];
 }

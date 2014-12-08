@@ -17,6 +17,6 @@ class MassPrintPackingSlips extends \Magento\SalesArchive\Controller\Adminhtml\A
      */
     public function execute()
     {
-        $this->_forward('pdfshipments', 'order', null, array('origin' => 'archive'));
+        $this->_forward('pdfshipments', 'order', null, ['origin' => 'archive']);
     }
 }

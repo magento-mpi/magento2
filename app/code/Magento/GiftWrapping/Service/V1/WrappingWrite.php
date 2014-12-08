@@ -7,10 +7,10 @@
  */
 namespace Magento\GiftWrapping\Service\V1;
 
-use Magento\GiftWrapping\Model\WrappingRepository;
-use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\GiftWrapping\Model\WrappingRepository;
+use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
 
 class WrappingWrite implements WrappingWriteInterface
 {

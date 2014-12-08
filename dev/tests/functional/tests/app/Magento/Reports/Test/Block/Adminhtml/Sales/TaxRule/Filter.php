@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Sales\TaxRule;
 
-use Mtf\ObjectManager;
 use Magento\Reports\Test\Block\Adminhtml\AbstractFilter;
 
 /**

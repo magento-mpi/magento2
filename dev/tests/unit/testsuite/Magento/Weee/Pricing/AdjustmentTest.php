@@ -8,8 +8,8 @@
 
 namespace Magento\Weee\Pricing;
 
-use Magento\Weee\Helper\Data as WeeeHelper;
 use Magento\Framework\Pricing\Object\SaleableInterface;
+use Magento\Weee\Helper\Data as WeeeHelper;
 
 class AdjustmentTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +67,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
         $displayTypes = [
             \Magento\Weee\Model\Tax::DISPLAY_INCL,
             \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR,
-            \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
+            \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL,
         ];
         $this->weeeHelper->expects($this->any())
             ->method('typeOfDisplay')

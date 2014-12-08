@@ -68,7 +68,7 @@ class ChosenOption extends Element
     protected $chooserClasses = [
         'page' => 'Magento\Cms\Test\Block\Adminhtml\Page\Widget\Chooser',
         'category' => 'Magento\Catalog\Test\Block\Adminhtml\Category\Widget\Chooser',
-        'product' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser'
+        'product' => 'Magento\Catalog\Test\Block\Adminhtml\Product\Widget\Chooser',
     ];
 
     /**

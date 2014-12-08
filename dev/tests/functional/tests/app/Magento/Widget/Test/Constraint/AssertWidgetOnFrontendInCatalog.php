@@ -11,8 +11,8 @@ namespace Magento\Widget\Test\Constraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that created widget displayed on frontent in Catalog

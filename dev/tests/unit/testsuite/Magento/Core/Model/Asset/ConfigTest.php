@@ -11,7 +11,6 @@ namespace Magento\Core\Model\Asset;
 
 class ConfigTest extends \Magento\Test\BaseTestCase
 {
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Config\ScopeConfigInterface
      */
@@ -29,7 +28,6 @@ class ConfigTest extends \Magento\Test\BaseTestCase
         $this->model = $this->objectManager->getObject('Magento\Core\Model\Asset\Config',
             ['scopeConfig' => $this->scopeConfigMock]
         );
-
     }
 
     /**
@@ -54,7 +52,6 @@ class ConfigTest extends \Magento\Test\BaseTestCase
             ->with(Config::XML_PATH_MERGE_JS_FILES, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)
             ->willReturn($booleanData);
         $this->assertSame($booleanData, $this->model->isMergeJsFiles());
-
     }
 
     public function testIsAssetMinification()
@@ -82,4 +79,3 @@ class ConfigTest extends \Magento\Test\BaseTestCase
         $this->assertSame($adapter, $this->model->getAssetMinificationAdapter($contentType));
     }
 }
-

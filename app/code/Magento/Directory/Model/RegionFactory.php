@@ -34,7 +34,7 @@ class RegionFactory
      * @param array $arguments
      * @return \Magento\Directory\Model\Region
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create('Magento\Directory\Model\Region', $arguments);
     }

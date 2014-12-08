@@ -238,7 +238,6 @@ class CancelTest extends \PHPUnit_Framework_TestCase
             ->with('Magento\Sales\Model\Order\Invoice')
             ->willReturn($invoiceMock);
 
-
         $this->assertNull($this->controller->execute());
     }
 

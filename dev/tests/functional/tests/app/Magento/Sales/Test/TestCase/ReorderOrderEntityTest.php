@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\TestCase;
 
 use Mtf\TestCase\Scenario;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Test Creation for ReorderOrderEntityTest

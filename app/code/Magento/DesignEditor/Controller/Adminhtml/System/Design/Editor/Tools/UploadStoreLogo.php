@@ -44,16 +44,16 @@ class UploadStoreLogo extends \Magento\DesignEditor\Controller\Adminhtml\System\
 
             $this->_reinitSystemConfiguration();
 
-            $response = array('error' => false, 'content' => array('name' => basename($storeLogo->getValue())));
+            $response = ['error' => false, 'content' => ['name' => basename($storeLogo->getValue())]];
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
             $errorMessage = __(
                 'Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).'
             );
-            $response = array('error' => true, 'message' => $errorMessage);
+            $response = ['error' => true, 'message' => $errorMessage];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

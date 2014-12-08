@@ -62,4 +62,3 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(Subscriber::STATUS_SUBSCRIBED, $this->_model->getSubscriberStatus());
     }
 }
- 

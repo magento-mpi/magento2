@@ -8,7 +8,6 @@
 namespace Magento\CatalogSearch\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\Product\CollectionFactory;
-use Magento\CatalogSearch\Model\Resource\EngineInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**

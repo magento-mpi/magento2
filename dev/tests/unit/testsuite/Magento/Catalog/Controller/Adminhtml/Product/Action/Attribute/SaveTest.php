@@ -142,7 +142,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 'resultRedirectFactory' => $resultRedirectFactory
             ]
         );
-
     }
 
     /**
@@ -153,7 +152,6 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->stockItemRepository = $this->getMockBuilder('Magento\CatalogInventory\Api\StockItemRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
@@ -251,7 +249,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->objectManager->expects($this->any())->method('create')->will($this->returnValueMap([
             ['Magento\Catalog\Model\Product', [], $this->product],
             ['Magento\CatalogInventory\Api\StockRegistryInterface', [], $this->stockItemService],
-            ['Magento\CatalogInventory\Api\StockItemRepositoryInterface', [], $this->stockItemRepository]
+            ['Magento\CatalogInventory\Api\StockItemRepositoryInterface', [], $this->stockItemRepository],
         ]));
 
         $this->objectManager->expects($this->any())->method('get')->will($this->returnValueMap([
@@ -282,7 +280,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $this->stockIndexerProcessor->expects($this->any())->method('reindexList')->with([5]);
 
         $this->request->expects($this->any())->method('getParam')->will($this->returnValueMap([
-            ['inventory', [], [7]]
+            ['inventory', [], [7]],
         ]));
 
         $this->messageManager->expects($this->never())->method('addError');

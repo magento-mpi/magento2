@@ -40,7 +40,7 @@ class ProcessableExceptionTest extends \PHPUnit_Framework_TestCase
             [
                 10001,
                 "I'm sorry - but we were not able to process your payment. "
-                . "Please try another payment method or contact us so we can assist you."
+                . "Please try another payment method or contact us so we can assist you.",
             ],
             [
                 10417,

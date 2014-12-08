@@ -82,7 +82,7 @@ class Collection extends \Magento\Framework\Data\Collection implements Collectio
     {
         $this->load();
 
-        $result = array();
+        $result = [];
         foreach ($this as $view) {
             /** @var \Magento\Framework\Mview\ViewInterface $view */
             if ($view->getState()->getMode() == $mode) {

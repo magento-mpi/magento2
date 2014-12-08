@@ -52,9 +52,9 @@ class Summary extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('primary_id' => new \Zend_Db_Expr('MAX(primary_id)'), 'store_id', 'entity_pk_value')
+            ['primary_id' => new \Zend_Db_Expr('MAX(primary_id)'), 'store_id', 'entity_pk_value']
         )->group(
-            array('entity_pk_value', 'store_id')
+            ['entity_pk_value', 'store_id']
         );
         foreach ($adapter->fetchAll($select) as $row) {
             if (isset($summary[$row['store_id']]) && isset($summary[$row['store_id']][$row['entity_pk_value']])) {
@@ -69,7 +69,7 @@ class Summary extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
             $adapter->update(
                 $this->getMainTable(),
-                array('rating_summary' => $ratingSummary),
+                ['rating_summary' => $ratingSummary],
                 $adapter->quoteInto('primary_id = ?', $row['primary_id'])
             );
         }

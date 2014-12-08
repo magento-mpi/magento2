@@ -20,14 +20,14 @@
             <div id="checkout-shipping-method-load">
                 <dl class="sp-methods">
             <?php foreach ($this->getShippingMethods() as $method): ?>
-                <?php if ($method->getCode() == $method->getCarrier().'_error'): ?>
+                <?php if ($method->getCode() == $method->getCarrier() . '_error'): ?>
                     <?php continue; ?>
                 <?php endif; ?>
                 <?php if ($carrier != $method->getCarrier()): ?>
                     <?php if ($carrier): ?>
                         </ul>
                     </dd>
-                    <?php endif ;?>
+                    <?php endif;?>
                     <dt class="option-label">
                         <?php echo $this->escapeHtml($method->getCarrierTitle()); ?>
                     </dt>

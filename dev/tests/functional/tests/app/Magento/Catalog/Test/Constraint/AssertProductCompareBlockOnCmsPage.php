@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertProductCompareBlockOnCmsPage

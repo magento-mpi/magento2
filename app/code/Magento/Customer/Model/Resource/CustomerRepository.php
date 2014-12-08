@@ -8,11 +8,10 @@
 
 namespace Magento\Customer\Model\Resource;
 
-use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Data\CustomerSecure;
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Customer repository.
@@ -306,7 +305,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $isEmailAddress = \Zend_Validate::is(
             $customer->getEmail(),
             'EmailAddress',
-            ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+            ['allow' => ['allow' => \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
         );
 
         if (!$isEmailAddress) {
@@ -367,7 +366,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+            $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);

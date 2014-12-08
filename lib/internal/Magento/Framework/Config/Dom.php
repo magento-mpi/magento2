@@ -125,7 +125,6 @@ class Dom
 
         /* Update matched node attributes and value */
         if ($matchedNode) {
-
             //different node type
             if ($this->_typeAttributeName && $node->hasAttribute(
                 $this->_typeAttributeName

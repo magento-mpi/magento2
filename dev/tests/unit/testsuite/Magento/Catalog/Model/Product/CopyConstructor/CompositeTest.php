@@ -13,8 +13,8 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $factoryMock = $this->getMock(
             '\Magento\Catalog\Model\Product\CopyConstructorFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -31,14 +31,14 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($constructorMock)
         );
 
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
-        $duplicateMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $duplicateMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
         $constructorMock->expects($this->exactly(2))->method('build')->with($productMock, $duplicateMock);
 
         $model = new \Magento\Catalog\Model\Product\CopyConstructor\Composite(
             $factoryMock,
-            array('constructorInstance', 'constructorInstance')
+            ['constructorInstance', 'constructorInstance']
         );
 
         $model->build($productMock, $duplicateMock);

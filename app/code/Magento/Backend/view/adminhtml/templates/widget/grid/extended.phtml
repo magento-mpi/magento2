@@ -125,7 +125,7 @@ $numColumns = sizeof($this->getColumns());
                     <tr class="totals">
                         <?php foreach ($this->getColumns() as $_column): ?>
                             <th class="<?php echo $_column->getCssProperty() ?>">
-                                <?php echo ($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>
+                                <?php echo($_column->hasTotalsLabel()) ? $_column->getTotalsLabel() : $_column->getRowField($_column->getGrid()->getTotals()) ?>
                             </th>
                         <?php endforeach; ?>
                     </tr>
@@ -228,7 +228,7 @@ $numColumns = sizeof($this->getColumns());
 <script type="text/javascript">
     var deps = ['mage/adminhtml/grid'];
 
-    <?php if (strpos($this->getRowClickCallback(), 'order.')!==false): ?>
+    <?php if (strpos($this->getRowClickCallback(), 'order.') !== false): ?>
     deps.push('Magento_Sales/order/create/form')
     <?php endif; ?>
 

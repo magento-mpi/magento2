@@ -71,39 +71,39 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_fieldsBlock = $this->getMock(
             '\Magento\RecurringPayment\Block\Fields',
-            array('getFieldLabel'),
-            array(),
+            ['getFieldLabel'],
+            [],
             '',
             false
         );
         $this->_recurringPaymentFactory = $this->getMock(
             '\Magento\RecurringPayment\Model\RecurringPaymentFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_paymentFactory = $this->getMock(
             '\Magento\RecurringPayment\Model\PaymentFactory',
-            array('create', 'importProduct'),
-            array(),
+            ['create', 'importProduct'],
+            [],
             '',
             false
         );
         $this->_checkoutSession = $this->getMock(
             '\Magento\Checkout\Model\Session',
-            array('setLastRecurringPaymentIds'),
-            array(),
+            ['setLastRecurringPaymentIds'],
+            [],
             '',
             false
         );
         $this->_quote = $this->getMock(
             '\Magento\RecurringPayment\Model\QuoteImporter',
-            array('import'),
-            array(),
+            ['import'],
+            [],
             '',
             false
         );
@@ -119,11 +119,11 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_testModel = $helper->getObject(
             'Magento\RecurringPayment\Model\Observer\CheckoutManagerObserver',
-            array(
+            [
                 'checkoutSession' => $this->_checkoutSession,
                 'quoteImporter' => $this->_quote,
                 'specification' => $this->_specification
-            )
+            ]
         );
         $this->_quotePayment = $this->getMock(
             'Magento\Sales\Model\Quote\Payment',
@@ -142,15 +142,15 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_event = $this->getMock(
             'Magento\Framework\Event',
-            array('getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'),
-            array(),
+            ['getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'],
+            [],
             '',
             false
         );
         $this->_observer->expects($this->any())->method('getEvent')->will($this->returnValue($this->_event));
         $this->_payment = $this->getMock(
             'Magento\RecurringPayment\Model\Payment',
-            array(
+            [
                 '__sleep',
                 '__wakeup',
                 'isValid',
@@ -159,8 +159,8 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
                 'submit',
                 'getId',
                 'setMethodCode'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -169,7 +169,7 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
     public function testSubmitRecurringPayments()
     {
         $this->_prepareRecurringPayments();
-        $this->_quote->expects($this->once())->method('import')->will($this->returnValue(array($this->_payment)));
+        $this->_quote->expects($this->once())->method('import')->will($this->returnValue([$this->_payment]));
         $this->_payment->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $this->_payment->expects($this->once())->method('submit');
 
@@ -179,7 +179,7 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
     public function testAddRecurringPaymentIdsToSession()
     {
         $this->_prepareRecurringPayments();
-        $this->_quote->expects($this->once())->method('import')->will($this->returnValue(array($this->_payment)));
+        $this->_quote->expects($this->once())->method('import')->will($this->returnValue([$this->_payment]));
         $this->_payment->expects($this->once())->method('isValid')->will($this->returnValue(true));
         $this->_payment->expects($this->once())->method('submit');
 
@@ -192,8 +192,8 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMock(
             'Magento\RecurringPayment\Model\Payment',
-            array('getIsRecurring', '__sleep', '__wakeup'),
-            array(),
+            ['getIsRecurring', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
@@ -201,7 +201,7 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_payment = $this->getMock(
             'Magento\RecurringPayment\Model\Payment',
-            array(
+            [
                 '__sleep',
                 '__wakeup',
                 'isValid',
@@ -210,8 +210,8 @@ class CheckoutManagerObserverTest extends \PHPUnit_Framework_TestCase
                 'submit',
                 'getId',
                 'setMethodCode'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

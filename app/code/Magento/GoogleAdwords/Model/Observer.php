@@ -53,7 +53,7 @@ class Observer
         if (!$orderIds || !is_array($orderIds)) {
             return $this;
         }
-        $this->_collection->addFieldToFilter('entity_id', array('in' => $orderIds));
+        $this->_collection->addFieldToFilter('entity_id', ['in' => $orderIds]);
         $conversionValue = 0;
         /** @var $order \Magento\Sales\Model\Order */
         foreach ($this->_collection as $order) {

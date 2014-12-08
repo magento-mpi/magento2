@@ -9,8 +9,8 @@
 namespace Magento\Sales\Test\TestStep;
 
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
-use Mtf\TestStep\TestStepInterface;
 use Magento\Store\Test\Fixture\Store;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class SelectStoreStep

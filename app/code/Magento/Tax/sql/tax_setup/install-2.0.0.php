@@ -18,19 +18,19 @@ $table = $this->getConnection()->newTable(
     'class_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Class Id'
 )->addColumn(
     'class_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Class Name'
 )->addColumn(
     'class_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     8,
-    array('nullable' => false, 'default' => 'CUSTOMER'),
+    ['nullable' => false, 'default' => 'CUSTOMER'],
     'Class Type'
 )->setComment(
     'Tax Class'
@@ -46,38 +46,38 @@ $table = $this->getConnection()->newTable(
     'tax_calculation_rule_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Tax Calculation Rule Id'
 )->addColumn(
     'code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Code'
 )->addColumn(
     'priority',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Priority'
 )->addColumn(
     'position',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Position'
 )->addColumn(
     'calculate_subtotal',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Calculate off subtotal option'
 )->addIndex(
-    $this->getIdxName('tax_calculation_rule', array('priority', 'position')),
-    array('priority', 'position')
+    $this->getIdxName('tax_calculation_rule', ['priority', 'position']),
+    ['priority', 'position']
 )->addIndex(
-    $this->getIdxName('tax_calculation_rule', array('code')),
-    array('code')
+    $this->getIdxName('tax_calculation_rule', ['code']),
+    ['code']
 )->setComment(
     'Tax Calculation Rule'
 );
@@ -92,68 +92,68 @@ $table = $this->getConnection()->newTable(
     'tax_calculation_rate_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Tax Calculation Rate Id'
 )->addColumn(
     'tax_country_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax Country Id'
 )->addColumn(
     'tax_region_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax Region Id'
 )->addColumn(
     'tax_postcode',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     21,
-    array(),
+    [],
     'Tax Postcode'
 )->addColumn(
     'code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Code'
 )->addColumn(
     'rate',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Rate'
 )->addColumn(
     'zip_is_range',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array(),
+    [],
     'Zip Is Range'
 )->addColumn(
     'zip_from',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Zip From'
 )->addColumn(
     'zip_to',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Zip To'
 )->addIndex(
-    $this->getIdxName('tax_calculation_rate', array('tax_country_id', 'tax_region_id', 'tax_postcode')),
-    array('tax_country_id', 'tax_region_id', 'tax_postcode')
+    $this->getIdxName('tax_calculation_rate', ['tax_country_id', 'tax_region_id', 'tax_postcode']),
+    ['tax_country_id', 'tax_region_id', 'tax_postcode']
 )->addIndex(
-    $this->getIdxName('tax_calculation_rate', array('code')),
-    array('code')
+    $this->getIdxName('tax_calculation_rate', ['code']),
+    ['code']
 )->addIndex(
     $this->getIdxName(
         'tax_calculation_rate',
-        array('tax_calculation_rate_id', 'tax_country_id', 'tax_region_id', 'zip_is_range', 'tax_postcode')
+        ['tax_calculation_rate_id', 'tax_country_id', 'tax_region_id', 'zip_is_range', 'tax_postcode']
     ),
-    array('tax_calculation_rate_id', 'tax_country_id', 'tax_region_id', 'zip_is_range', 'tax_postcode')
+    ['tax_calculation_rate_id', 'tax_country_id', 'tax_region_id', 'zip_is_range', 'tax_postcode']
 )->setComment(
     'Tax Calculation Rate'
 );
@@ -168,47 +168,47 @@ $table = $this->getConnection()->newTable(
     'tax_calculation_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Tax Calculation Id'
 )->addColumn(
     'tax_calculation_rate_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax Calculation Rate Id'
 )->addColumn(
     'tax_calculation_rule_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax Calculation Rule Id'
 )->addColumn(
     'customer_tax_class_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Customer Tax Class Id'
 )->addColumn(
     'product_tax_class_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Product Tax Class Id'
 )->addIndex(
-    $this->getIdxName('tax_calculation', array('tax_calculation_rule_id')),
-    array('tax_calculation_rule_id')
+    $this->getIdxName('tax_calculation', ['tax_calculation_rule_id']),
+    ['tax_calculation_rule_id']
 )->addIndex(
-    $this->getIdxName('tax_calculation', array('customer_tax_class_id')),
-    array('customer_tax_class_id')
+    $this->getIdxName('tax_calculation', ['customer_tax_class_id']),
+    ['customer_tax_class_id']
 )->addIndex(
-    $this->getIdxName('tax_calculation', array('product_tax_class_id')),
-    array('product_tax_class_id')
+    $this->getIdxName('tax_calculation', ['product_tax_class_id']),
+    ['product_tax_class_id']
 )->addIndex(
     $this->getIdxName(
         'tax_calculation',
-        array('tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id')
+        ['tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id']
     ),
-    array('tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id')
+    ['tax_calculation_rate_id', 'customer_tax_class_id', 'product_tax_class_id']
 )->addForeignKey(
     $this->getFkName('tax_calculation', 'product_tax_class_id', 'tax_class', 'class_id'),
     'product_tax_class_id',
@@ -261,32 +261,32 @@ $table = $this->getConnection()->newTable(
     'tax_calculation_rate_title_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'primary' => true],
     'Tax Calculation Rate Title Id'
 )->addColumn(
     'tax_calculation_rate_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax Calculation Rate Id'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Store Id'
 )->addColumn(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Value'
 )->addIndex(
-    $this->getIdxName('tax_calculation_rate_title', array('tax_calculation_rate_id', 'store_id')),
-    array('tax_calculation_rate_id', 'store_id')
+    $this->getIdxName('tax_calculation_rate_title', ['tax_calculation_rate_id', 'store_id']),
+    ['tax_calculation_rate_id', 'store_id']
 )->addIndex(
-    $this->getIdxName('tax_calculation_rate_title', array('store_id')),
-    array('store_id')
+    $this->getIdxName('tax_calculation_rate_title', ['store_id']),
+    ['store_id']
 )->addForeignKey(
     $this->getFkName('tax_calculation_rate_title', 'store_id', 'store', 'store_id'),
     'store_id',
@@ -320,61 +320,61 @@ $table = $this->getConnection()->newTable(
     'id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Id'
 )->addColumn(
     'period',
     \Magento\Framework\DB\Ddl\Table::TYPE_DATE,
     null,
-    array('nullable' => true),
+    ['nullable' => true],
     'Period'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Store Id'
 )->addColumn(
     'code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Code'
 )->addColumn(
     'order_status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     50,
-    array('nullable' => false),
+    ['nullable' => false],
     'Order Status'
 )->addColumn(
     'percent',
     \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
     null,
-    array(),
+    [],
     'Percent'
 )->addColumn(
     'orders_count',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Orders Count'
 )->addColumn(
     'tax_base_amount_sum',
     \Magento\Framework\DB\Ddl\Table::TYPE_FLOAT,
     null,
-    array(),
+    [],
     'Tax Base Amount Sum'
 )->addIndex(
     $this->getIdxName(
         'tax_order_aggregated_created',
-        array('period', 'store_id', 'code', 'percent', 'order_status'),
+        ['period', 'store_id', 'code', 'percent', 'order_status'],
         true
     ),
-    array('period', 'store_id', 'code', 'percent', 'order_status'),
-    array('type' => 'unique')
+    ['period', 'store_id', 'code', 'percent', 'order_status'],
+    ['type' => 'unique']
 )->addIndex(
-    $this->getIdxName('tax_order_aggregated_created', array('store_id')),
-    array('store_id')
+    $this->getIdxName('tax_order_aggregated_created', ['store_id']),
+    ['store_id']
 )->addForeignKey(
     $this->getFkName('tax_order_aggregated_created', 'store_id', 'store', 'store_id'),
     'store_id',
@@ -406,73 +406,73 @@ $table = $this->getConnection()->newTable(
     'tax_item_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Tax Item Id'
 )->addColumn(
     'tax_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Tax Id'
 )->addColumn(
     'item_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => true),
+    ['unsigned' => true, 'nullable' => true],
     'Item Id'
 )->addColumn(
     'tax_percent',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Real Tax Percent For Item'
 )->addColumn(
     'amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Tax amount for the item and tax rate'
 )->addColumn(
     'base_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Base tax amount for the item and tax rate'
 )->addColumn(
     'real_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Real tax amount for the item and tax rate'
 )->addColumn(
     'real_base_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false),
+    ['nullable' => false],
     'Real base tax amount for the item and tax rate'
 )->addColumn(
     'associated_item_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => true, 'unsigned' => true),
+    ['nullable' => true, 'unsigned' => true],
     'Id of the associated item'
 )->addColumn(
     'taxable_item_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Type of the taxable item'
 )->addIndex(
-    $this->getIdxName('sales_order_tax_item', array('item_id')),
-    array('item_id')
+    $this->getIdxName('sales_order_tax_item', ['item_id']),
+    ['item_id']
 )->addIndex(
     $this->getIdxName(
         'sales_order_tax_item',
-        array('tax_id', 'item_id'),
+        ['tax_id', 'item_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('tax_id', 'item_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['tax_id', 'item_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addForeignKey(
     $this->getFkName('sales_order_tax_item', 'associated_item_id', 'sales_order_item', 'item_id'),
     'associated_item_id',

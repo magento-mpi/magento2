@@ -61,8 +61,8 @@ class History extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->update(
             $this->getMainTable(),
-            array('is_customer_notified' => 1),
-            array('history_id = ?' => $id)
+            ['is_customer_notified' => 1],
+            ['history_id = ?' => $id]
         );
     }
 }

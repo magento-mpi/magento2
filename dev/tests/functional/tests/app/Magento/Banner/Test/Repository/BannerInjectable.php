@@ -31,7 +31,7 @@ class BannerInjectable extends AbstractRepository
             'is_enabled' => 'Yes',
             'use_customer_segment' => 'All',
             'store_contents_not_use' => ['value_1' => 'Yes'],
-            'store_contents' => ['value_0' => 'banner_content_%isolation%']
+            'store_contents' => ['value_0' => 'banner_content_%isolation%'],
         ];
 
         $this->_data['banner_rotator_shopping_cart_rules'] = [
@@ -40,7 +40,7 @@ class BannerInjectable extends AbstractRepository
             'use_customer_segment' => 'All',
             'store_contents_not_use' => ['value_1' => 'Yes'],
             'store_contents' => ['value_0' => 'banner_content_%isolation%'],
-            'banner_sales_rules' => ['presets' => 'default']
+            'banner_sales_rules' => ['presets' => 'default'],
         ];
 
         $this->_data['banner_rotator_catalog_rules'] = [
@@ -49,7 +49,7 @@ class BannerInjectable extends AbstractRepository
             'use_customer_segment' => 'All',
             'store_contents_not_use' => ['value_1' => 'Yes'],
             'store_contents' => ['value_0' => 'banner_content_%isolation%'],
-            'banner_catalog_rules' => ['presets' => 'default']
+            'banner_catalog_rules' => ['presets' => 'default'],
         ];
     }
 }

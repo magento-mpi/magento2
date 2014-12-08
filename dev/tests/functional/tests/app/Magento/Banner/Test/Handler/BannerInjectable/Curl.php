@@ -9,11 +9,11 @@
 namespace Magento\Banner\Test\Handler\BannerInjectable;
 
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -42,7 +42,7 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
         'use_customer_segment' => [
             'All' => 0,
             'Specified' => 1,
-        ]
+        ],
     ];
 
     /**
@@ -95,7 +95,7 @@ class Curl extends AbstractCurl implements BannerInjectableInterface
             $data['banner_sales_rules'] = $this->salesRules;
         }
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
 
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {

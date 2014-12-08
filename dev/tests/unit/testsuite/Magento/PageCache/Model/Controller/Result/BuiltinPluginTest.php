@@ -25,13 +25,12 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
         $cacheControl = 'test';
         $response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
 
-            $response->expects($getHeaderCount)->method('getHeader')->with('Cache-Control')
+        $response->expects($getHeaderCount)->method('getHeader')->with('Cache-Control')
                 ->will($this->returnValue(['value' => $cacheControl]));
-            $response->expects($setCacheControlHeaderCount)->method('setHeader')
+        $response->expects($setCacheControlHeaderCount)->method('setHeader')
                 ->with('X-Magento-Cache-Control', $cacheControl);
-            $response->expects($setCacheDebugHeaderCount)->method('setHeader')
+        $response->expects($setCacheDebugHeaderCount)->method('setHeader')
                 ->with('X-Magento-Cache-Debug', 'MISS', true);
-
 
         /** @var \Magento\Framework\Controller\ResultInterface $result */
         $result = $this->getMock('Magento\Framework\Controller\ResultInterface', [], [], '', false);
@@ -83,4 +82,4 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
             [false, $this->never(), $this->never(), $this->never(), $this->never(), $this->never()]
         ];
     }
-} 
+}

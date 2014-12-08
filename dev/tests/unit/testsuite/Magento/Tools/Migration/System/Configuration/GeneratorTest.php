@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/System/Configuration/Generator.php';
@@ -46,24 +45,24 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_loggerMock = $this->getMockForAbstractClass(
             'Magento\Tools\Migration\System\Configuration\AbstractLogger',
-            array(),
+            [],
             '',
             false,
             false,
             false,
-            array('add')
+            ['add']
         );
         $this->_formatterMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Formatter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

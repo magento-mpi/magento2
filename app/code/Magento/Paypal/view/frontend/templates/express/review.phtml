@@ -36,7 +36,7 @@
                                                     label="<?php echo $this->escapeHtml($this->getCarrierName($code)) ?>">
                                                     <?php foreach ($rates as $rate): ?>
                                                         <option
-                                                            value="<?php echo $this->renderShippingRateValue($rate) ?>"<?php echo ($currentRate === $rate) ? ' selected="selected"' : ''; ?>>
+                                                            value="<?php echo $this->renderShippingRateValue($rate) ?>"<?php echo($currentRate === $rate) ? ' selected="selected"' : ''; ?>>
                                                             <?php echo $this->renderShippingRateOption($rate) ?>
                                                         </option>
                                                     <?php endforeach; ?>

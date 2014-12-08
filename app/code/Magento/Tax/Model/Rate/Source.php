@@ -8,10 +8,10 @@
 
 namespace Magento\Tax\Model\Rate;
 
-use Magento\Tax\Api\TaxRateRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Convert\Object as Converter;
 use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
+use Magento\Tax\Api\TaxRateRepositoryInterface;
 
 /**
  * Tax rate source model.

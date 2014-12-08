@@ -31,7 +31,7 @@ class CleanDeleteProduct extends \Magento\TargetRule\Model\Indexer\TargetRule\Ab
             throw new \Magento\TargetRule\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_deleteProductFromIndex(array($productId));
+            $this->_deleteProductFromIndex([$productId]);
         } catch (\Exception $e) {
             throw new \Magento\TargetRule\Exception($e->getMessage(), $e->getCode(), $e);
         }

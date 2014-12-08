@@ -38,13 +38,13 @@ class InvoiceCommentsListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/invoice/' . $invoice->getId() . '/comments',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getCommentsList'
-            ]
+                'operation' => self::SERVICE_NAME . 'getCommentsList',
+            ],
         ];
         $requestData = ['id' => $invoice->getId()];
         // TODO Test fails, due to the inability of the framework API to handle data collection

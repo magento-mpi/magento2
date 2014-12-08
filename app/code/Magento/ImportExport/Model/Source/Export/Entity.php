@@ -32,10 +32,10 @@ class Entity implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
-        $options[] = array('label' => __('-- Please Select --'), 'value' => '');
+        $options = [];
+        $options[] = ['label' => __('-- Please Select --'), 'value' => ''];
         foreach ($this->_exportConfig->getEntities() as $entityName => $entityConfig) {
-            $options[] = array('value' => $entityName, 'label' => __($entityConfig['label']));
+            $options[] = ['value' => $entityName, 'label' => __($entityConfig['label'])];
         }
         return $options;
     }

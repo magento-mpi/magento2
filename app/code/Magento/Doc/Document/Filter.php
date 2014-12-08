@@ -14,7 +14,7 @@ class Filter extends \Magento\Framework\Filter\Template
      *
      * @var array
      */
-    protected $modifiers = array('nl2br' => '');
+    protected $modifiers = ['nl2br' => ''];
 
     /**
      * @var \Magento\Framework\View\Asset\Repository

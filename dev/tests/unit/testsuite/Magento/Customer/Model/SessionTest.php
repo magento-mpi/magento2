@@ -95,7 +95,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with('customer_data_object_login', ['customer' => $customerDto]);
 
-        $_SESSION = array();
+        $_SESSION = [];
         $this->_model->setCustomerAsLoggedIn($customer);
         $this->assertSame($customer, $this->_model->getCustomer());
     }
@@ -122,7 +122,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testAuthenticate()
     {
-        $urlMock = $this->getMock('Magento\Framework\Url', array(), array(), '', false);
+        $urlMock = $this->getMock('Magento\Framework\Url', [], [], '', false);
         $urlMock->expects($this->exactly(2))
             ->method('getUrl')
             ->will($this->returnValue(''));
@@ -133,13 +133,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($urlMock));
 
-        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $responseMock->expects($this->once())
             ->method('setRedirect')
             ->with('')
             ->will($this->returnValue(''));
 
-        $actionMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $actionMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $actionMock->expects($this->once())
             ->method('getResponse')
             ->will($this->returnValue($responseMock));
@@ -167,12 +167,12 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     protected function prepareLoginDataMock($customerId)
     {
-        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $customerDataMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $customerDataMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($customerId));
 
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerMock->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($customerId));
@@ -192,7 +192,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('setValue');
         return $customerDataMock;
     }
-
 
     /**
      * @param bool $expectedResult
@@ -226,17 +225,17 @@ class SessionTest extends \PHPUnit_Framework_TestCase
      */
     public function getIsLoggedInDataProvider()
     {
-        return array(
-            array('expectedResult' => true, 'isCustomerIdValid' => true, 'isCustomerEmulated' => false,),
-            array('expectedResult' => false, 'isCustomerIdValid' => true, 'isCustomerEmulated' => true,),
-            array('expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => false,),
-            array('expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => true,),
-        );
+        return [
+            ['expectedResult' => true, 'isCustomerIdValid' => true, 'isCustomerEmulated' => false],
+            ['expectedResult' => false, 'isCustomerIdValid' => true, 'isCustomerEmulated' => true,],
+            ['expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => false,],
+            ['expectedResult' => false, 'isCustomerIdValid' => false, 'isCustomerEmulated' => true,],
+        ];
     }
 
     public function testSetCustomerRemovesFlagThatShowsIfCustomerIsEmulated()
     {
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $this->_storageMock->expects($this->once())->method('unsIsCustomerEmulated');
         $this->_model->setCustomer($customerMock);
     }

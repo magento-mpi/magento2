@@ -8,7 +8,7 @@
  */
 namespace Magento\Bundle\Model;
 
-use \Magento\Webapi\Exception;
+use Magento\Webapi\Exception;
 
 class OptionManagement implements \Magento\Bundle\Api\ProductOptionManagementInterface
 {

@@ -17,7 +17,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         $processorMock->expects($this->once())
             ->method('markIndexerAsInvalid');
 
-
         $subjectMock = $this->getMockBuilder('Magento\ImportExport\Model\Import')
             ->disableOriginalConstructor()
             ->getMock();

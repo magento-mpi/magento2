@@ -23,12 +23,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getAttributes', '__wakeup'),
-            array(),
+            ['getAttributes', '__wakeup'],
+            [],
             '',
             false
         );
-        $product->expects($this->any())->method('getAttributes')->will($this->returnValue(array()));
+        $product->expects($this->any())->method('getAttributes')->will($this->returnValue([]));
         $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -44,6 +44,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $data = json_decode($this->_block->getTypeSwitcherData(), true);
         $this->assertEquals('simple', $data['current_type']);
-        $this->assertEquals(array(), $data['attributes']);
+        $this->assertEquals([], $data['attributes']);
     }
 }

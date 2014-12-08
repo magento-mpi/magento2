@@ -17,7 +17,7 @@ class TreeBuilder
      */
     public function build(array $resourceList)
     {
-        $result = array();
+        $result = [];
         foreach ($resourceList as $resource) {
             if ($resource['disabled']) {
                 continue;
@@ -26,7 +26,7 @@ class TreeBuilder
             $resource['children'] = $this->build($resource['children']);
             $result[] = $resource;
         }
-        usort($result, array($this, '_sortTree'));
+        usort($result, [$this, '_sortTree']);
         return $result;
     }
 

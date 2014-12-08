@@ -42,5 +42,4 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
             $this->model->getPerFileSchema()
         );
     }
-
 }

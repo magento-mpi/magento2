@@ -24,12 +24,12 @@ class PeriodUnits implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             self::DAY => __('Day'),
             self::WEEK => __('Week'),
             self::SEMI_MONTH => __('Two Weeks'),
             self::MONTH => __('Month'),
             self::YEAR => __('Year')
-        );
+        ];
     }
 }

@@ -51,11 +51,11 @@ class Sku extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function getButtonsHtml()
     {
-        $addButtonData = array(
+        $addButtonData = [
             'label' => __('Add to Order'),
             'onclick' => 'addBySku.submitSkuForm()',
-            'class' => 'action-add'
-        );
+            'class' => 'action-add',
+        ];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(

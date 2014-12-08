@@ -21,12 +21,12 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $nodeListData = array();
+        $nodeListData = [];
 
         /** @var $node \DOMNode */
         foreach ($source->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
-                $nodeData = array();
+                $nodeData = [];
                 /** @var $attribute \DOMNode */
                 foreach ($node->attributes as $attribute) {
                     if ($attribute->nodeType == XML_ATTRIBUTE_NODE) {

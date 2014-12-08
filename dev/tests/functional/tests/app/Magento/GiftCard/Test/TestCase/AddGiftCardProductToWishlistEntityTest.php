@@ -8,7 +8,6 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Wishlist\Test\TestCase\AddProductToWishlistEntityTest;
 
 /**

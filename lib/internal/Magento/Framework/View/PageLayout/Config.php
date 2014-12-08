@@ -62,11 +62,11 @@ class Config extends \Magento\Framework\Config\AbstractXml
     {
         $options = [];
         foreach ($this->getPageLayouts() as $value => $label) {
-            $options[] = array('label' => $label, 'value' => $value);
+            $options[] = ['label' => $label, 'value' => $value];
         }
 
         if ($withEmpty) {
-            array_unshift($options, array('value' => '', 'label' => __('-- Please Select --')));
+            array_unshift($options, ['value' => '', 'label' => __('-- Please Select --')]);
         }
         return $options;
     }
@@ -96,7 +96,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
     protected function _getInitialXml()
     {
         return '<?xml version="1.0" encoding="UTF-8"?>'
-            .'<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></page_layouts>';
+            . '<page_layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></page_layouts>';
     }
 
     /**

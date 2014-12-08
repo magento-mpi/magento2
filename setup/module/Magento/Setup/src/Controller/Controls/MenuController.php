@@ -8,9 +8,9 @@
 
 namespace Magento\Setup\Controller\Controls;
 
+use Magento\Setup\Model\Navigation;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\Navigation;
 
 class MenuController extends AbstractActionController
 {

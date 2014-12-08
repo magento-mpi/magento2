@@ -7,12 +7,12 @@
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Api\Data\OrderAddressInterface;
-use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionDataBuilder;
+use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\OrderAddressInterface;
 
 /**
  * Sales order address model

@@ -43,7 +43,7 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function ksortMultibyteDataProvider()
     {
-        return array(array(array('б' => 2, 'в' => 3, 'а' => 1), 'ru_RU'));
+        return [[['б' => 2, 'в' => 3, 'а' => 1], 'ru_RU']];
     }
 
     /**
@@ -51,27 +51,27 @@ class ArrayUtilsTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecorateArray()
     {
-        $original = array(array('value' => 1), array('value' => 2), array('value' => 3));
-        $decorated = array(
-            array('value' => 1, 'is_first' => true, 'is_odd' => true),
-            array('value' => 2, 'is_even' => true),
-            array('value' => 3, 'is_last' => true, 'is_odd' => true)
-        );
+        $original = [['value' => 1], ['value' => 2], ['value' => 3]];
+        $decorated = [
+            ['value' => 1, 'is_first' => true, 'is_odd' => true],
+            ['value' => 2, 'is_even' => true],
+            ['value' => 3, 'is_last' => true, 'is_odd' => true],
+        ];
 
         // arrays
         $this->assertEquals($decorated, $this->_arrayUtils->decorateArray($original, ''));
 
         // \Magento\Framework\Object
-        $sample = array(
+        $sample = [
             new \Magento\Framework\Object($original[0]),
             new \Magento\Framework\Object($original[1]),
-            new \Magento\Framework\Object($original[2])
-        );
-        $decoratedVo = array(
+            new \Magento\Framework\Object($original[2]),
+        ];
+        $decoratedVo = [
             new \Magento\Framework\Object($decorated[0]),
             new \Magento\Framework\Object($decorated[1]),
-            new \Magento\Framework\Object($decorated[2])
-        );
+            new \Magento\Framework\Object($decorated[2]),
+        ];
         foreach ($decoratedVo as $obj) {
             $obj->setDataChanges(true); // hack for assertion
         }

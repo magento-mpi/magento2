@@ -58,9 +58,9 @@ class CodeMessDetector implements \Magento\TestFramework\CodingStandard\ToolInte
      *
      * @return int
      */
-    public function run(array $whiteList, array $blackList = array(), array $extensions = array())
+    public function run(array $whiteList, array $blackList = [], array $extensions = [])
     {
-        $commandLineArguments = array(
+        $commandLineArguments = [
             'run_file_mock', //emulate script name in console arguments
             implode(',', $whiteList),
             'xml', //report format
@@ -68,8 +68,8 @@ class CodeMessDetector implements \Magento\TestFramework\CodingStandard\ToolInte
             '--exclude',
             implode(',', $blackList),
             '--reportfile',
-            $this->_reportFile
-        );
+            $this->_reportFile,
+        ];
 
         $options = new \PHP_PMD_TextUI_CommandLineOptions($commandLineArguments);
 

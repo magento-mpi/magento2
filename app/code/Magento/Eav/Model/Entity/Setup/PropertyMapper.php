@@ -22,7 +22,7 @@ class PropertyMapper extends PropertyMapperAbstract
      */
     public function map(array $input, $entityTypeId)
     {
-        return array(
+        return [
             'backend_model' => $this->_getValue($input, 'backend'),
             'backend_type' => $this->_getValue($input, 'type', 'varchar'),
             'backend_table' => $this->_getValue($input, 'table'),
@@ -37,6 +37,6 @@ class PropertyMapper extends PropertyMapperAbstract
             'is_unique' => $this->_getValue($input, 'unique', 0),
             'note' => $this->_getValue($input, 'note'),
             'is_global' => $this->_getValue($input, 'global', Attribute::SCOPE_GLOBAL)
-        );
+        ];
     }
 }

@@ -48,11 +48,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->context = $objectManager->getObject('Magento\Framework\View\Context', array(
+        $this->context = $objectManager->getObject('Magento\Framework\View\Context', [
             'appState' => $this->appState,
             'request' => $this->request,
             'design' => $this->design
-        ));
+        ]);
     }
 
     public function testGetCache()

@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -38,7 +38,7 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
     {
         $select = $this->getReadAdapter()->select()->from(
             $this->getTable('catalog_category_entity'),
-            array('entity_id', 'path')
+            ['entity_id', 'path']
         )->order(
             'level ASC'
         );
@@ -73,14 +73,14 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                 $this->getWriteAdapter()->insertFromSelect(
                     $query,
                     $this->getIndexTable(),
-                    array(
+                    [
                         'category_id',
                         'website_id',
                         'customer_group_id',
                         'grant_catalog_category_view',
                         'grant_catalog_product_price',
                         'grant_checkout_items'
-                    ),
+                    ],
                     \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
@@ -103,14 +103,14 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
                 $this->getWriteAdapter()->insertFromSelect(
                     $query,
                     $this->getProductIndexTable(),
-                    array(
+                    [
                         'product_id',
                         'store_id',
                         'customer_group_id',
                         'grant_catalog_category_view',
                         'grant_catalog_product_price',
                         'grant_checkout_items'
-                    ),
+                    ],
                     \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
@@ -125,9 +125,9 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
     protected function removeObsoleteCategoryIndexData()
     {
         $query = $this->getWriteAdapter()->select()->from(
-            array('m' => $this->getIndexTable())
+            ['m' => $this->getIndexTable()]
         )->joinLeft(
-            array('t' => $this->getIndexTempTable()),
+            ['t' => $this->getIndexTempTable()],
             'm.category_id = t.category_id' .
             ' AND m.website_id = t.website_id' .
             ' AND m.customer_group_id = t.customer_group_id'
@@ -146,9 +146,9 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
     protected function removeObsoleteProductIndexData()
     {
         $query = $this->getWriteAdapter()->select()->from(
-            array('m' => $this->getProductIndexTable())
+            ['m' => $this->getProductIndexTable()]
         )->joinLeft(
-            array('t' => $this->getProductIndexTempTable()),
+            ['t' => $this->getProductIndexTempTable()],
             'm.product_id = t.product_id' .
             ' AND m.store_id = t.store_id' .
             ' AND m.customer_group_id = t.customer_group_id'
@@ -176,6 +176,6 @@ class Full extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function getProductList()
     {
-        return array();
+        return [];
     }
 }

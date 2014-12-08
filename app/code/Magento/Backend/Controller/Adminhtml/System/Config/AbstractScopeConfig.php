@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Backend\Controller\Adminhtml\System\Config;
 
 use Magento\Backend\Controller\Adminhtml\System\ConfigSectionChecker;

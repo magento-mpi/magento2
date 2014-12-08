@@ -29,7 +29,7 @@ class Adapter implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->config->getAdapters() as $alias => $adapter) {
             $result[$alias] = __($adapter['title']);
         }

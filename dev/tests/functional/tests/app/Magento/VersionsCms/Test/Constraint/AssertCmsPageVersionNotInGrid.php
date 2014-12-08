@@ -8,10 +8,10 @@
 
 namespace Magento\VersionsCms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsPageVersionNotInGrid

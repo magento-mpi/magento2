@@ -8,9 +8,8 @@
 
 namespace Magento\CatalogSearch\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogSearch\Test\Page\AdvancedResult;
-use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogSearchResult

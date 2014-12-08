@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Enterprise Customer Data Helper
  *
@@ -32,9 +31,9 @@ class Address extends \Magento\CustomAttributeManagement\Helper\Data
      */
     public function getAttributeFormOptions()
     {
-        return array(
-            array('label' => __('Customer Address Registration'), 'value' => 'customer_register_address'),
-            array('label' => __('Customer Account Address'), 'value' => 'customer_address_edit')
-        );
+        return [
+            ['label' => __('Customer Address Registration'), 'value' => 'customer_register_address'],
+            ['label' => __('Customer Account Address'), 'value' => 'customer_address_edit']
+        ];
     }
 }

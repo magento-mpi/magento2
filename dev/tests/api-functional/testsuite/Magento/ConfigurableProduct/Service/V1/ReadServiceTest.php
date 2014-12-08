@@ -8,8 +8,8 @@
 
 namespace Magento\ConfigurableProduct\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -26,13 +26,13 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GenerateVariation'
-            ]
+                'operation' => self::SERVICE_NAME . 'GenerateVariation',
+            ],
         ];
         /** @var \Magento\Catalog\Service\V1\Product\Attribute\ReadServiceInterface $attributeService */
         $attributeService = Bootstrap::getObjectManager()
@@ -42,7 +42,7 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $data = [
             'product' => [
                 'sku' => 'test',
-                'price' => 10.0
+                'price' => 10.0,
             ],
             'options' => [
                 [
@@ -50,11 +50,11 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                     'values' => [
                         [
                             'index' => $attributeOptionValue,
-                            'price' => 100.0
-                        ]
-                    ]
-                ]
-            ]
+                            'price' => 100.0,
+                        ],
+                    ],
+                ],
+            ],
 
         ];
         $actual = $this->_webApiCall($serviceInfo, $data);
@@ -68,10 +68,10 @@ class ReadServiceTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'custom_attributes' => [
                     [
                         'attribute_code' => 'test_configurable',
-                        'value' => $attributeOptionValue
-                    ]
-                ]
-            ]
+                        'value' => $attributeOptionValue,
+                    ],
+                ],
+            ],
         ];
         $this->assertEquals($expectedItems, $actual);
     }

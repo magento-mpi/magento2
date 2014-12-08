@@ -24,7 +24,7 @@ class Composite implements HandlerInterface
      * @param HandlerFactory $factory
      * @param array $handlers
      */
-    public function __construct(HandlerFactory $factory, array $handlers = array())
+    public function __construct(HandlerFactory $factory, array $handlers = [])
     {
         foreach ($handlers as $instance) {
             $this->handlers[] = $factory->create($instance);

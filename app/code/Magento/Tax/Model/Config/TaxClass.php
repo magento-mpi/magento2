@@ -40,7 +40,7 @@ class TaxClass extends \Magento\Framework\App\Config\Value
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->resourceConfig = $resourceConfig;
         $this->attributeFactory = $attributeFactory;

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Abstract Rule condition data model
  *
@@ -42,7 +41,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      * List of input types for values which should be array
      * @var string[]
      */
-    protected $_arrayInputTypes = array();
+    protected $_arrayInputTypes = [];
 
     /**
      * @var \Magento\Framework\View\Asset\Repository
@@ -69,7 +68,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      * @param Context $context
      * @param array $data
      */
-    public function __construct(Context $context, array $data = array())
+    public function __construct(Context $context, array $data = [])
     {
         $this->_assetRepo = $context->getAssetRepository();
         $this->_localeDate = $context->getLocaleDate();
@@ -103,16 +102,16 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     public function getDefaultOperatorInputByType()
     {
         if (null === $this->_defaultOperatorInputByType) {
-            $this->_defaultOperatorInputByType = array(
-                'string' => array('==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()'),
-                'numeric' => array('==', '!=', '>=', '>', '<=', '<', '()', '!()'),
-                'date' => array('==', '>=', '<='),
-                'select' => array('==', '!='),
-                'boolean' => array('==', '!='),
-                'multiselect' => array('{}', '!{}', '()', '!()'),
-                'grid' => array('()', '!()')
-            );
-            $this->_arrayInputTypes = array('multiselect', 'grid');
+            $this->_defaultOperatorInputByType = [
+                'string' => ['==', '!=', '>=', '>', '<=', '<', '{}', '!{}', '()', '!()'],
+                'numeric' => ['==', '!=', '>=', '>', '<=', '<', '()', '!()'],
+                'date' => ['==', '>=', '<='],
+                'select' => ['==', '!='],
+                'boolean' => ['==', '!='],
+                'multiselect' => ['{}', '!{}', '()', '!()'],
+                'grid' => ['()', '!()'],
+            ];
+            $this->_arrayInputTypes = ['multiselect', 'grid'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -126,7 +125,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     public function getDefaultOperatorOptions()
     {
         if (null === $this->_defaultOperatorOptions) {
-            $this->_defaultOperatorOptions = array(
+            $this->_defaultOperatorOptions = [
                 '==' => __('is'),
                 '!=' => __('is not'),
                 '>=' => __('equals or greater than'),
@@ -136,8 +135,8 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
                 '{}' => __('contains'),
                 '!{}' => __('does not contain'),
                 '()' => __('is one of'),
-                '!()' => __('is not one of')
-            );
+                '!()' => __('is not one of'),
+            ];
         }
         return $this->_defaultOperatorOptions;
     }
@@ -155,15 +154,15 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function asArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = [])
     {
-        $out = array(
+        $out = [
             'type' => $this->getType(),
             'attribute' => $this->getAttribute(),
             'operator' => $this->getOperator(),
             'value' => $this->getValue(),
-            'is_value_processed' => $this->getIsValueParsed()
-        );
+            'is_value_processed' => $this->getIsValueParsed(),
+        ];
         return $out;
     }
 
@@ -258,7 +257,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getAttributeOptions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -266,9 +265,9 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getAttributeSelectOptions()
     {
-        $opt = array();
+        $opt = [];
         foreach ($this->getAttributeOption() as $key => $value) {
-            $opt[] = array('value' => $key, 'label' => $value);
+            $opt[] = ['value' => $key, 'label' => $value];
         }
         return $opt;
     }
@@ -312,11 +311,11 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
     public function getOperatorSelectOptions()
     {
         $type = $this->getInputType();
-        $opt = array();
+        $opt = [];
         $operatorByType = $this->getOperatorByInputType();
         foreach ($this->getOperatorOption() as $key => $value) {
             if (!$operatorByType || in_array($key, $operatorByType[$type])) {
-                $opt[] = array('value' => $key, 'label' => $value);
+                $opt[] = ['value' => $key, 'label' => $value];
             }
         }
         return $opt;
@@ -335,7 +334,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array());
+        $this->setValueOption([]);
         return $this;
     }
 
@@ -344,12 +343,12 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getValueSelectOptions()
     {
-        $valueOption = $opt = array();
+        $valueOption = $opt = [];
         if ($this->hasValueOption()) {
             $valueOption = (array)$this->getValueOption();
         }
         foreach ($valueOption as $key => $value) {
-            $opt[] = array('value' => $key, 'label' => $value);
+            $opt[] = ['value' => $key, 'label' => $value];
         }
         return $opt;
     }
@@ -420,7 +419,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         }
 
         $options = $this->getValueSelectOptions();
-        $valueArr = array();
+        $valueArr = [];
         if (!empty($options)) {
             foreach ($options as $option) {
                 if (is_array($value)) {
@@ -454,7 +453,7 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => '', 'label' => __('Please choose a condition to add.')));
+        return [['value' => '', 'label' => __('Please choose a condition to add.')]];
     }
 
     /**
@@ -496,12 +495,12 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         return $this->getForm()->addField(
             $this->getPrefix() . '__' . $this->getId() . '__type',
             'hidden',
-            array(
+            [
                 'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][type]',
                 'value' => $this->getType(),
                 'no_span' => true,
                 'class' => 'hidden'
-            )
+            ]
         );
     }
 
@@ -527,12 +526,12 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         return $this->getForm()->addField(
             $this->getPrefix() . '__' . $this->getId() . '__attribute',
             'select',
-            array(
+            [
                 'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][attribute]',
                 'values' => $this->getAttributeSelectOptions(),
                 'value' => $this->getAttribute(),
                 'value_name' => $this->getAttributeName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable')
         );
@@ -567,12 +566,12 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
         $element = $this->getForm()->addField(
             $elementId,
             'select',
-            array(
+            [
                 'name' => $elementName,
                 'values' => $options,
                 'value' => $this->getOperator(),
                 'value_name' => $this->getOperatorName()
-            )
+            ]
         );
         $element->setRenderer($this->_layout->getBlockSingleton('Magento\Rule\Block\Editable'));
 
@@ -614,14 +613,14 @@ abstract class AbstractCondition extends \Magento\Framework\Object implements Co
      */
     public function getValueElement()
     {
-        $elementParams = array(
+        $elementParams = [
             'name' => $this->elementName . '[' . $this->getPrefix() . '][' . $this->getId() . '][value]',
             'value' => $this->getValue(),
             'values' => $this->getValueSelectOptions(),
             'value_name' => $this->getValueName(),
             'after_element_html' => $this->getValueAfterElementHtml(),
-            'explicit_apply' => $this->getExplicitApply()
-        );
+            'explicit_apply' => $this->getExplicitApply(),
+        ];
         if ($this->getInputType() == 'date') {
             // date format intentionally hard-coded
             $elementParams['input_format'] = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;

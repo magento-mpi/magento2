@@ -10,20 +10,19 @@ namespace Magento\CustomerSegment\Test\TestCase;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
-use Mtf\TestCase\Injectable;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 use Magento\CustomerSegment\Test\Constraint\AssertCustomerSegmentSuccessSaveMessage;
+use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCustomerSegmentEntity
@@ -196,7 +195,7 @@ class CreateCustomerSegmentEntityTest extends Injectable
                 '%postcode%' => $address->getPostcode(),
                 '%province%' => $address->getRegionId(),
                 '%city%' => $address->getCity(),
-            ]
+            ],
         ];
 
         //Steps

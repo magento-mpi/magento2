@@ -15,12 +15,12 @@ class Tab extends \Magento\Backend\Block\Widget\Tab
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
 
         if (!$this->_request->getParam('id') || !$this->_authorization->isAllowed('Magento_Review::reviews_all')) {
-             $this->setCanShow(false);
+            $this->setCanShow(false);
         }
     }
 }

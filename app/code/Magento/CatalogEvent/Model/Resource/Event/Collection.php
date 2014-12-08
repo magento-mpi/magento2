@@ -108,7 +108,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addVisibilityFilter()
     {
         $this->_skipClosed = true;
-        $this->addFieldToFilter('status', array('nin' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED));
+        $this->addFieldToFilter('status', ['nin' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED]);
         return $this;
     }
 
@@ -137,20 +137,20 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!$this->_categoryDataAdded) {
             $this->getSelect()->joinLeft(
-                array('category' => $this->getTable('catalog_category_entity')),
+                ['category' => $this->getTable('catalog_category_entity')],
                 'category.entity_id = main_table.category_id',
-                array('category_position' => 'position')
+                ['category_position' => 'position']
             )->joinLeft(
-                array('category_name_attribute' => $this->getTable('eav_attribute')),
+                ['category_name_attribute' => $this->getTable('eav_attribute')],
                 'category_name_attribute.entity_type_id = category.entity_type_id
                     AND category_name_attribute.attribute_code = \'name\'',
-                array()
+                []
             )->joinLeft(
-                array('category_varchar' => $this->getTable('catalog_category_entity_varchar')),
+                ['category_varchar' => $this->getTable('catalog_category_entity_varchar')],
                 'category_varchar.entity_id = category.entity_id
                     AND category_varchar.attribute_id = category_name_attribute.attribute_id
                     AND category_varchar.store_id = 0',
-                array('category_name' => 'value')
+                ['category_name' => 'value']
             );
             $this->_map['fields']['category_name'] = 'category_varchar.value';
             $this->_map['fields']['category_position'] = 'category.position';
@@ -174,11 +174,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $this->getSelect()->order(
-            array(
+            [
                 $adapter->getCheckSql($columnExpr, 0, 1) . ' ASC',
                 $adapter->getCheckSql($columnExpr, 'main_table.date_end', 'main_table.date_start') . ' ASC',
-                'main_table.sort_order ASC'
-            )
+                'main_table.sort_order ASC',
+            ]
         );
 
         return $this;
@@ -193,25 +193,25 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $adapter = $this->getConnection();
         $this->getSelect()->joinLeft(
-            array('event_image' => $this->getTable('magento_catalogevent_event_image')),
+            ['event_image' => $this->getTable('magento_catalogevent_event_image')],
             implode(
                 ' AND ',
-                array(
+                [
                     'event_image.event_id = main_table.event_id',
                     $adapter->quoteInto('event_image.store_id = ?', $this->_storeManager->getStore()->getId())
-                )
+                ]
             ),
-            array(
+            [
                 'image' => $adapter->getCheckSql(
                     'event_image.image IS NULL',
                     'event_image_default.image',
                     'event_image.image'
                 )
-            )
+            ]
         )->joinLeft(
-            array('event_image_default' => $this->getTable('magento_catalogevent_event_image')),
+            ['event_image_default' => $this->getTable('magento_catalogevent_event_image')],
             'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = 0',
-            array()
+            []
         );
 
         return $this;
@@ -226,7 +226,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function capByCategoryPaths($allowedPaths)
     {
         $this->addCategoryData();
-        $paths = array();
+        $paths = [];
         foreach ($allowedPaths as $path) {
             $paths[] = $this->getConnection()->quoteInto('category.path = ?', $path);
             $paths[] = $this->getConnection()->quoteInto('category.path LIKE ?', $path . '/%');
@@ -280,12 +280,12 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         return $adapter->getCaseSql(
             '',
-            array(
+            [
                 "({$dateStart1} AND {$dateEnd1})" => $adapter->quote(\Magento\CatalogEvent\Model\Event::STATUS_OPEN),
                 "({$dateStart2} AND {$dateEnd2})" => $adapter->quote(
                     \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING
                 )
-            ),
+            ],
             $adapter->quote(\Magento\CatalogEvent\Model\Event::STATUS_CLOSED)
         );
     }
@@ -298,7 +298,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->getSelect()->columns(array('status' => $this->_getStatusColumnExpr()));
+        $this->getSelect()->columns(['status' => $this->_getStatusColumnExpr()]);
         return $this;
     }
 }

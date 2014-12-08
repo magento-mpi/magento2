@@ -41,7 +41,7 @@ class ProductTypeService implements ProductTypeServiceInterface
      */
     public function getProductTypes()
     {
-        $productTypes = array();
+        $productTypes = [];
         foreach ($this->productTypeConfig->getAll() as $productTypeData) {
             $productTypes[] = $this->productTypeBuilder->setName($productTypeData['name'])
                 ->setLabel($productTypeData['label'])

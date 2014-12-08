@@ -26,7 +26,7 @@ return [
             'deleteCustomer' => [
                 'resources' => [
                     'Magento_Customer::manage',
-                    'Magento_Customer::delete'
+                    'Magento_Customer::delete',
                 ],
                 'secure' => false,
             ],
@@ -83,7 +83,7 @@ return [
                         'value' => null,
                     ],
                 ],
-            ]
+            ],
         ],
         '/V1/customers' => [
             'POST' => [

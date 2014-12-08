@@ -22,13 +22,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $rendererType = 'some-type';
         $renderer = $this->getMock(
             'Magento\Framework\View\Element\AbstractBlock',
-            array('setRenderedBlock'),
-            array(),
+            ['setRenderedBlock'],
+            [],
             '',
             false
         );
 
-        $rendererList = $this->getMock('Magento\Framework\View\Element\RendererList', array(), array(), '', false);
+        $rendererList = $this->getMock('Magento\Framework\View\Element\RendererList', [], [], '', false);
         $rendererList->expects(
             $this->once()
         )->method(
@@ -42,8 +42,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock'),
-            array(),
+            ['getChildName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -63,12 +63,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Items\AbstractItems */
         $block = $this->_objectManager->getObject(
             'Magento\Sales\Block\Items\AbstractItems',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $renderer->expects($this->once())->method('setRenderedBlock')->with($block);
@@ -84,8 +84,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock'),
-            array(),
+            ['getChildName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -94,12 +94,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Items\AbstractItems */
         $block = $this->_objectManager->getObject(
             'Magento\Sales\Block\Items\AbstractItems',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $block->getItemRenderer('some-type');

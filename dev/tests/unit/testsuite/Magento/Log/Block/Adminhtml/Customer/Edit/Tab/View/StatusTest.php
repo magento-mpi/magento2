@@ -7,7 +7,7 @@
  */
 namespace Magento\Log\Block\Adminhtml\Customer\Edit\Tab\View;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class StatusTest
@@ -66,7 +66,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $customer->expects($this->any())->method('getId')->will($this->returnValue(1));
         $customer->expects($this->any())->method('getStoreId')->will($this->returnValue(1));
 
-        $customerData = array('account' => ['id' => 1, 'store_id' => 1]);
+        $customerData = ['account' => ['id' => 1, 'store_id' => 1]];
         $customerBuilder = $this->getMockBuilder('\Magento\Customer\Api\Data\CustomerDataBuilder')
             ->setMethods(['populateWithArray', 'create'])
             ->disableOriginalConstructor()

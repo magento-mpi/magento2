@@ -40,7 +40,7 @@ class AssertCustomerIsSubscribedToNewsletter extends AbstractConstraint
             'email' => $customer->getEmail(),
             'firstname' => $customer->getFirstname(),
             'lastname' => $customer->getLastname(),
-            'status' => 'Subscribed'
+            'status' => 'Subscribed',
         ];
 
         $subscriberIndex->open();

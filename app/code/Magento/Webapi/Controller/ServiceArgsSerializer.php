@@ -9,17 +9,17 @@
  */
 namespace Magento\Webapi\Controller;
 
-use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
-use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\AttributeValue;
+use Magento\Framework\Api\Config\Reader as ServiceConfigReader;
+use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Exception\SerializationException;
 use Magento\Framework\Reflection\TypeProcessor;
+use Magento\Framework\Serialization\DataBuilderFactory;
+use Magento\Webapi\Exception as WebapiException;
 use Zend\Code\Reflection\ClassReflection;
 use Zend\Code\Reflection\MethodReflection;
 use Zend\Code\Reflection\ParameterReflection;
-use Magento\Framework\Api\SimpleDataObjectConverter;
-use Magento\Framework\Exception\SerializationException;
-use Magento\Webapi\Exception as WebapiException;
-use Magento\Framework\Serialization\DataBuilderFactory;
 
 /**
  * Deserializes arguments from API requests.
@@ -184,7 +184,7 @@ class ServiceArgsSerializer
         foreach ($customAttributesValueArray as $customAttribute) {
             if (isset($customAttribute[AttributeValue::ATTRIBUTE_CODE])) {
                 $customAttributeCode = $customAttribute[AttributeValue::ATTRIBUTE_CODE];
-            } else if (isset($customAttribute[$camelCaseAttributeCodeKey])) {
+            } elseif (isset($customAttribute[$camelCaseAttributeCodeKey])) {
                 $customAttributeCode = $customAttribute[$camelCaseAttributeCodeKey];
             } else {
                 $customAttributeCode = null;

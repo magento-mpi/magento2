@@ -9,9 +9,9 @@
  */
 namespace Magento\Framework\App;
 
+use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\Resource\ConfigInterface as ResourceConfigInterface;
 use Magento\Framework\Model\Resource\Type\Db\ConnectionFactoryInterface;
-use Magento\Framework\App\DeploymentConfig\DbConfig;
 
 class Resource
 {
@@ -32,7 +32,7 @@ class Resource
      *
      * @var \Magento\Framework\DB\Adapter\AdapterInterface[]
      */
-    protected $_connections = array();
+    protected $_connections = [];
 
     /**
      * Mapped tables cache array

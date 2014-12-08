@@ -71,34 +71,34 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function getConfigNoProcessingDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'files_browser_window_url' => 'http://example.com/111/',
                     'directives_url' => 'http://example.com/222/',
                     'popup_css' => 'http://example.com/333/popup.css',
                     'content_css' => 'http://example.com/444/content.css',
-                    'directives_url_quoted' => 'http://example.com/555/'
-                )
-            ),
-            array(
-                array(
+                    'directives_url_quoted' => 'http://example.com/555/',
+                ],
+            ],
+            [
+                [
                     'files_browser_window_url' => '/111/',
                     'directives_url' => '/222/',
                     'popup_css' => '/333/popup.css',
                     'content_css' => '/444/content.css',
-                    'directives_url_quoted' => '/555/'
-                )
-            ),
-            array(
-                array(
+                    'directives_url_quoted' => '/555/',
+                ]
+            ],
+            [
+                [
                     'files_browser_window_url' => '111/',
                     'directives_url' => '222/',
                     'popup_css' => '333/popup.css',
                     'content_css' => '444/content.css',
-                    'directives_url_quoted' => '555/'
-                )
-            )
-        );
+                    'directives_url_quoted' => '555/',
+                ]
+            ]
+        ];
     }
 }

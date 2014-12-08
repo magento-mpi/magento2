@@ -124,7 +124,7 @@ class Server
     {
         $rawRequestBody = file_get_contents('php://input');
         $this->_checkRequest($rawRequestBody);
-        $options = array('encoding' => $this->getApiCharset(), 'soap_version' => SOAP_1_2);
+        $options = ['encoding' => $this->getApiCharset(), 'soap_version' => SOAP_1_2];
         $soapServer = $this->_soapServerFactory->create($this->generateUri(true), $options);
         $soapServer->handle($rawRequestBody);
     }
@@ -151,7 +151,7 @@ class Server
      */
     public function generateUri($isWsdl = false)
     {
-        $params = array(self::REQUEST_PARAM_SERVICES => $this->_request->getParam(self::REQUEST_PARAM_SERVICES));
+        $params = [self::REQUEST_PARAM_SERVICES => $this->_request->getParam(self::REQUEST_PARAM_SERVICES)];
         if ($isWsdl) {
             $params[self::REQUEST_PARAM_WSDL] = true;
         }

@@ -8,9 +8,9 @@
 
 namespace Magento\Banner\Test\TestCase;
 
+use Magento\Banner\Test\Fixture\BannerInjectable;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 use Magento\Banner\Test\Page\Adminhtml\BannerNew;
-use Magento\Banner\Test\Fixture\BannerInjectable;
 use Mtf\TestCase\Injectable;
 
 /**

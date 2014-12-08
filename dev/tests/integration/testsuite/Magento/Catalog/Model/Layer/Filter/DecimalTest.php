@@ -15,7 +15,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
  */
 class DecimalTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Catalog\Model\Layer\Filter\Decimal
      */

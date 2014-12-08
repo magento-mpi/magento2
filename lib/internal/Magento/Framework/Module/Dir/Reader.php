@@ -9,13 +9,13 @@
  */
 namespace Magento\Framework\Module\Dir;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Config\FileIterator;
 use Magento\Framework\Config\FileIteratorFactory;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\Read;
-use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\Module\Dir;
+use Magento\Framework\Module\ModuleListInterface;
 
 class Reader
 {
@@ -24,7 +24,7 @@ class Reader
      *
      * @var array
      */
-    protected $customModuleDirs = array();
+    protected $customModuleDirs = [];
 
     /**
      * Directory registry
@@ -76,7 +76,7 @@ class Reader
      */
     public function getConfigurationFiles($filename)
     {
-        $result = array();
+        $result = [];
         foreach ($this->modulesList->getNames() as $moduleName) {
             $file = $this->getModuleDir('etc', $moduleName) . '/' . $filename;
             $path = $this->modulesDirectory->getRelativePath($file);
@@ -94,7 +94,7 @@ class Reader
      */
     public function getComposerJsonFiles()
     {
-        $result = array();
+        $result = [];
         foreach ($this->modulesList->getNames() as $moduleName) {
             $file = $this->getModuleDir('', $moduleName) . '/composer.json';
             $path = $this->modulesDirectory->getRelativePath($file);
@@ -112,7 +112,7 @@ class Reader
      */
     public function getActionFiles()
     {
-        $actions = array();
+        $actions = [];
         foreach ($this->modulesList->getNames() as $moduleName) {
             $actionDir = $this->getModuleDir('Controller', $moduleName);
             if (!file_exists($actionDir)) {

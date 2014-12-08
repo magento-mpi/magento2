@@ -33,14 +33,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      *
      * @var array
      */
-    protected $_filters = array();
+    protected $_filters = [];
 
     /**
      * Default filters values
      *
      * @var array
      */
-    protected $_defaultFilters = array('report_from' => '', 'report_to' => '', 'report_period' => 'day');
+    protected $_defaultFilters = ['report_from' => '', 'report_to' => '', 'report_period' => 'day'];
 
     /**
      * Sub-report rows count
@@ -54,7 +54,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Block template file name
@@ -84,7 +84,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         }
 
         if (is_string($filter)) {
-            $data = array();
+            $data = [];
             $filter = base64_decode($filter);
             parse_str(urldecode($filter), $data);
 
@@ -139,7 +139,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
 
             $this->_eventManager->dispatch(
                 'adminhtml_widget_grid_filter_collection',
-                array('collection' => $this->getCollection(), 'filter_values' => $this->_filterValues)
+                ['collection' => $this->getCollection(), 'filter_values' => $this->_filterValues]
             );
         }
 
@@ -156,9 +156,9 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         /**
          * Getting and saving store ids for website & group
          */
-        $storeIds = array();
+        $storeIds = [];
         if ($this->getRequest()->getParam('store')) {
-            $storeIds = array($this->getParam('store'));
+            $storeIds = [$this->getParam('store')];
         } elseif ($this->getRequest()->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
         } elseif ($this->getRequest()->getParam('group')) {
@@ -361,7 +361,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         $this->addChild(
             'refresh_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Refresh'), 'onclick' => "{$this->getJsObjectName()}.doFilter();", 'class' => 'task')
+            ['label' => __('Refresh'), 'onclick' => "{$this->getJsObjectName()}.doFilter();", 'class' => 'task']
         );
     }
 }

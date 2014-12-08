@@ -41,7 +41,7 @@ class Results extends \Magento\Framework\View\Element\Template
      */
     public function getRegistryLink($item)
     {
-        return $this->getUrl('*/view/index', array('id' => $item->getUrlKey()));
+        return $this->getUrl('*/view/index', ['id' => $item->getUrlKey()]);
     }
 
     /**

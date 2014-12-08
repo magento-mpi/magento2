@@ -33,7 +33,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
@@ -66,7 +66,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
             if (strpos($referer, 'customer') !== false) {
                 $link = $this->getUrl(
                     'customer/index/edit/',
-                    array('id' => $order->getCustomerId(), 'active_tab' => 'orders')
+                    ['id' => $order->getCustomerId(), 'active_tab' => 'orders']
                 );
             }
         } else {
@@ -102,7 +102,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl(
             'adminhtml/*/save',
-            array('order_id' => $this->_coreRegistry->registry('current_order')->getId())
+            ['order_id' => $this->_coreRegistry->registry('current_order')->getId()]
         );
     }
 }

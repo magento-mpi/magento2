@@ -37,16 +37,16 @@ class Package
     /**
      * @var array
      */
-    protected $_data = array(
-        'options' => array(
+    protected $_data = [
+        'options' => [
             'baseinstalldir' => '',
             'filelistgenerator' => 'file',
             'packagedirectory' => '.',
-            'outputdirectory' => '.'
-        ),
-        'package' => array(),
-        'release' => array()
-    );
+            'outputdirectory' => '.',
+        ],
+        'package' => [],
+        'release' => [],
+    ];
 
     /**
      * @var Pear
@@ -98,13 +98,13 @@ class Package
         // accept a/b/c as ['a']['b']['c']
         $keyArr = explode('/', $key);
 
-        $ref =& $this->_data;
-        for ($i = 0,$l = sizeof($keyArr); $i < $l; $i++) {
+        $ref = & $this->_data;
+        for ($i = 0, $l = sizeof($keyArr); $i < $l; $i++) {
             $k = $keyArr[$i];
             if (!isset($ref[$k])) {
-                $ref[$k] = array();
+                $ref[$k] = [];
             }
-            $ref =& $ref[$k];
+            $ref = & $ref[$k];
         }
         $ref = $data;
 
@@ -215,8 +215,8 @@ class Package
             $outputDir = $this->get('options/outputdirectory');
             MagePearWrapper::getInstance()->run(
                 'package',
-                array(),
-                array($outputDir . 'package.xml', $outputDir . 'package2.xml')
+                [],
+                [$outputDir . 'package.xml', $outputDir . 'package2.xml']
             );
         } else {
             $pfm1->debugPackageFile();

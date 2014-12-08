@@ -37,7 +37,7 @@ class Conditions extends Generic implements TabInterface
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rendererFieldset = $rendererFieldset;
         $this->_conditions = $conditions;
@@ -103,7 +103,7 @@ class Conditions extends Generic implements TabInterface
 
         $fieldset = $form->addFieldset(
             'conditions_fieldset',
-            array('legend' => __('Conditions (leave blank for all products)'))
+            ['legend' => __('Conditions (leave blank for all products)')]
         )->setRenderer(
             $renderer
         );
@@ -111,7 +111,7 @@ class Conditions extends Generic implements TabInterface
         $fieldset->addField(
             'conditions',
             'text',
-            array('name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'), 'required' => true)
+            ['name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'), 'required' => true]
         )->setRule(
             $model
         )->setRenderer(

@@ -36,7 +36,7 @@ class Fees extends \Magento\RecurringPayment\Block\Payment\View
         \Magento\Framework\Registry $registry,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\RecurringPayment\Block\Fields $fields,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $registry, $data);
@@ -54,21 +54,21 @@ class Fees extends \Magento\RecurringPayment\Block\Payment\View
 
         $this->_shouldRenderInfo = true;
         $this->_addInfo(
-            array(
+            [
                 'label' => $this->_fields->getFieldLabel('currency_code'),
-                'value' => $this->_recurringPayment->getCurrencyCode()
-            )
+                'value' => $this->_recurringPayment->getCurrencyCode(),
+            ]
         );
-        $params = array('init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount');
+        $params = ['init_amount', 'trial_billing_amount', 'billing_amount', 'tax_amount', 'shipping_amount'];
         foreach ($params as $key) {
             $value = $this->_recurringPayment->getData($key);
             if ($value) {
                 $this->_addInfo(
-                    array(
+                    [
                         'label' => $this->_fields->getFieldLabel($key),
                         'value' => $this->_coreHelper->formatCurrency($value, false),
-                        'is_amount' => true
-                    )
+                        'is_amount' => true,
+                    ]
                 );
             }
         }

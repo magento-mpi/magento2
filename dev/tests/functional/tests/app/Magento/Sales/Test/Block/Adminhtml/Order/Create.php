@@ -9,8 +9,8 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
 
 /**

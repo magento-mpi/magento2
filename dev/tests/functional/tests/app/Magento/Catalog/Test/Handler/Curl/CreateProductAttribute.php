@@ -12,10 +12,10 @@ namespace Magento\Catalog\Test\Handler\Curl;
 use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CreateProductAttribute
@@ -32,7 +32,7 @@ class CreateProductAttribute extends Curl
     {
         $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/back/edit/active_tab/main';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $this->getPostParams($fixture));
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $this->getPostParams($fixture));
         $response = $curl->read();
         $curl->close();
 
@@ -41,7 +41,7 @@ class CreateProductAttribute extends Curl
             $id = $matches[1];
         }
 
-        $optionIds = array();
+        $optionIds = [];
         if (preg_match_all(
             '!attributeOption\.add\({"checked":"(.?)*","intype":"radio","id":"(\d+)"!',
             $response,
@@ -50,7 +50,7 @@ class CreateProductAttribute extends Curl
             $optionIds = $matches[2];
         }
 
-        return array('attributeId' => $id, 'optionIds' => $optionIds);
+        return ['attributeId' => $id, 'optionIds' => $optionIds];
     }
 
     /**
@@ -77,7 +77,7 @@ class CreateProductAttribute extends Curl
      */
     protected function prepareParams(array $fields)
     {
-        $data = array();
+        $data = [];
         foreach ($fields as $key => $field) {
             $value = $this->getParamValue($field);
 

@@ -15,7 +15,7 @@ class Rows extends \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full
      * @param int[] $entityIds
      * @return void
      */
-    public function reindex(array $entityIds = array())
+    public function reindex(array $entityIds = [])
     {
         // Index basic products
         $this->rebuildIndex($entityIds);

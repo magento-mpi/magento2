@@ -30,9 +30,9 @@ class Factory
      * @param array $data
      * @return \Magento\Integration\Model\Oauth\Consumer
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        $consumer = $this->_objectManager->create('Magento\Integration\Model\Oauth\Consumer', array());
+        $consumer = $this->_objectManager->create('Magento\Integration\Model\Oauth\Consumer', []);
         $consumer->setData($data);
         return $consumer;
     }

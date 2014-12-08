@@ -8,10 +8,10 @@
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCustomUrlRewriteEntity

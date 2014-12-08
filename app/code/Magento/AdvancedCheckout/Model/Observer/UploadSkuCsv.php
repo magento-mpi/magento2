@@ -46,7 +46,7 @@ class UploadSkuCsv
         $helper = $this->_checkoutData;
         $rows = $helper->isSkuFileUploaded(
             $observer->getRequestModel()
-        ) ? $helper->processSkuFileUploading() : array();
+        ) ? $helper->processSkuFileUploading() : [];
         if (empty($rows)) {
             return;
         }

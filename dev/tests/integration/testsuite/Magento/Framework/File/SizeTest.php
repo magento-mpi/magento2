@@ -49,13 +49,13 @@ class SizeTest extends \PHPUnit_Framework_TestCase
      */
     public function getConvertSizeToIntegerDataProvider()
     {
-        return array(
-            array('0K', 0),
-            array('123K', 125952),
-            array('1K', 1024),
-            array('1g', 1073741824),
-            array('asdas', 0),
-            array('1M', 1048576)
-        );
+        return [
+            ['0K', 0],
+            ['123K', 125952],
+            ['1K', 1024],
+            ['1g', 1073741824],
+            ['asdas', 0],
+            ['1M', 1048576]
+        ];
     }
 }

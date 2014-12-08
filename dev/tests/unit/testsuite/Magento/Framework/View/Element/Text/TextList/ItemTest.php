@@ -52,7 +52,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->assertTag([
             'tag' => 'li',
             'attributes' => [$attrName => $attrValue],
-            'content' => $innerText
+            'content' => $innerText,
         ], $this->item->toHtml());
     }
 

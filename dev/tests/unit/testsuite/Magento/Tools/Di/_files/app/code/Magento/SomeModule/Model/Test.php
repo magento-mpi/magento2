@@ -21,8 +21,8 @@ class Test
      * @param \Magento\SomeModule\ModelFactory $factory
      * @param array $data
      */
-    public function testModel(\Magento\SomeModule\ModelFactory $factory, array $data = array())
+    public function testModel(\Magento\SomeModule\ModelFactory $factory, array $data = [])
     {
-        $factory->create('Magento\SomeModule\Model\BlockFactory', array('data' => $data));
+        $factory->create('Magento\SomeModule\Model\BlockFactory', ['data' => $data]);
     }
 }

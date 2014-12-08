@@ -62,7 +62,7 @@ class Invitation extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\Invitation\Test\Fixture\Invitation\Email'
+        'source' => 'Magento\Invitation\Test\Fixture\Invitation\Email',
     ];
 
     protected $referral_id = [
@@ -104,7 +104,7 @@ class Invitation extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'source' => 'Magento\Invitation\Test\Fixture\Invitation\GroupId'
+        'source' => 'Magento\Invitation\Test\Fixture\Invitation\GroupId',
     ];
 
     protected $message = [

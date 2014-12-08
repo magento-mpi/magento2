@@ -7,9 +7,9 @@
  */
 namespace Magento\CustomerFinance\Model\Import\Eav\Customer;
 
-use Magento\ImportExport\Model\Import\AbstractEntity;
-use Magento\CustomerImportExport\Model\Import\Address;
 use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection;
+use Magento\CustomerImportExport\Model\Import\Address;
+use Magento\ImportExport\Model\Import\AbstractEntity;
 
 /**
  * Test class for \Magento\CustomerFinance\Model\Import\Eav\Customer\Finance
@@ -35,67 +35,67 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(
+    protected $_websites = [
         \Magento\Store\Model\Store::DEFAULT_STORE_ID => 'admin',
         1 => 'website1',
-        2 => 'website2'
-    );
+        2 => 'website2',
+    ];
 
     /**
      * Customers array
      *
      * @var array
      */
-    protected $_customers = array(
-        array('entity_id' => 1, 'email' => 'test1@email.com', 'website_id' => 1),
-        array('entity_id' => 2, 'email' => 'test2@email.com', 'website_id' => 2)
-    );
+    protected $_customers = [
+        ['entity_id' => 1, 'email' => 'test1@email.com', 'website_id' => 1],
+        ['entity_id' => 2, 'email' => 'test2@email.com', 'website_id' => 2],
+    ];
 
     /**
      * Attributes array
      *
      * @var array
      */
-    protected $_attributes = array(
-        array(
+    protected $_attributes = [
+        [
             'id' => 1,
             'attribute_code' => Collection::COLUMN_CUSTOMER_BALANCE,
             'frontend_label' => 'Store Credit',
             'backend_type' => 'decimal',
-            'is_required' => true
-        ),
-        array(
+            'is_required' => true,
+        ],
+        [
             'id' => 2,
             'attribute_code' => Collection::COLUMN_REWARD_POINTS,
             'frontend_label' => 'Reward Points',
             'backend_type' => 'int',
             'is_required' => false
-        )
-    );
+        ],
+    ];
 
     /**
      * Input data
      *
      * @var array
      */
-    protected $_inputData = array(
-        array(
+    protected $_inputData = [
+        [
             Finance::COLUMN_EMAIL => 'test1@email.com',
             Finance::COLUMN_WEBSITE => 'website1',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => null,
             Address::COLUMN_ADDRESS_ID => 1,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
-            Collection::COLUMN_REWARD_POINTS => 200
-        ),
-        array(
+            Collection::COLUMN_REWARD_POINTS => 200,
+        ],
+        [
             Finance::COLUMN_EMAIL => 'test2@email.com',
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
             AbstractEntity::COLUMN_ACTION => AbstractEntity::COLUMN_ACTION_VALUE_DELETE,
             Address::COLUMN_ADDRESS_ID => 2
-        ),
-        array(
+        ],
+        [
             Finance::COLUMN_EMAIL => 'test2@email.com',
             Finance::COLUMN_WEBSITE => 'website2',
             Finance::COLUMN_FINANCE_WEBSITE => 'website1',
@@ -103,8 +103,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             Address::COLUMN_ADDRESS_ID => 2,
             Collection::COLUMN_CUSTOMER_BALANCE => 100,
             Collection::COLUMN_REWARD_POINTS => 200
-        )
-    );
+        ],
+    ];
 
     /**
      * Init entity adapter model
@@ -121,8 +121,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $moduleHelper = $this->getMock(
             'Magento\CustomerFinance\Helper\Data',
-            array('isRewardPointsEnabled', 'isCustomerBalanceEnabled'),
-            array(),
+            ['isRewardPointsEnabled', 'isCustomerBalanceEnabled'],
+            [],
             '',
             false
         );
@@ -136,23 +136,23 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             ->method('isCustomerBalanceEnabled')
             ->will($this->returnValue(true));
 
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $coreData = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
 
         $customerFactory = $this->getMock(
             'Magento\Customer\Model\CustomerFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $balanceFactory = $this->getMock(
             'Magento\CustomerBalance\Model\BalanceFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $rewardFactory = $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
+        $rewardFactory = $this->getMock('Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
 
         $customerFactory->expects(
             $this->any()
@@ -184,16 +184,16 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
 
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
-        $adminUser = $this->getMock('stdClass', array('getUsername'));
+        $adminUser = $this->getMock('stdClass', ['getUsername']);
         $adminUser->expects($this->any())
             ->method('getUsername')
             ->will($this->returnValue('admin'));
-        $authSession = $this->getMock('Magento\Backend\Model\Auth\Session', array('getUser'), array(), '', false);
+        $authSession = $this->getMock('Magento\Backend\Model\Auth\Session', ['getUser'], [], '', false);
         $authSession->expects($this->once())
             ->method('getUser')
             ->will($this->returnValue($adminUser));
 
-        $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', array('getWebsites'), array(), '', false);
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManager', ['getWebsites'], [], '', false);
         $storeManager->expects(
             $this->once()
         )
@@ -201,23 +201,23 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 'getWebsites'
             )
             ->will(
-                $this->returnCallback(array($this, 'getWebsites'))
+                $this->returnCallback([$this, 'getWebsites'])
             );
 
         $this->_model = new \Magento\CustomerFinance\Model\Import\Eav\Customer\Finance(
             $coreData,
             new \Magento\Framework\Stdlib\String(),
             $scopeConfig,
-            $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\ImportFactory', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Helper', [], [], '', false),
+            $this->getMock('Magento\Framework\App\Resource', [], [], '', false),
             $storeManager,
-            $this->getMock('Magento\ImportExport\Model\Export\Factory', array(), array(), '', false),
-            $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Export\Factory', [], [], '', false),
+            $this->getMock('Magento\Eav\Model\Config', [], [], '', false),
             $this->getMock(
                 'Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
             ),
@@ -249,7 +249,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
+        $dataSourceModel = $this->getMock('stdClass', ['getNextBunch']);
         if ($addData) {
             $dataSourceModel->expects(
                 $this->exactly(2)
@@ -258,7 +258,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     'getNextBunch'
                 )
                 ->will(
-                    $this->returnCallback(array($this, 'getNextBunch'))
+                    $this->returnCallback([$this, 'getNextBunch'])
                 );
         }
 
@@ -267,15 +267,15 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $customerStorage \Magento\CustomerImportExport\Model\Resource\Import\Customer\Storage */
         $customerStorage = $this->getMock(
             'Magento\CustomerImportExport\Model\Resource\Import\Customer\Storage',
-            array('load'),
-            array(),
+            ['load'],
+            [],
             '',
             false
         );
         $customerResource = $this->getMock(
             'Magento\Customer\Model\Resource\Customer',
-            array('getIdFieldName'),
-            array(),
+            ['getIdFieldName'],
+            [],
             '',
             false
         );
@@ -287,11 +287,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $arguments = $objectManagerHelper->getConstructArguments('Magento\Customer\Model\Customer');
             $arguments['resource'] = $customerResource;
             $arguments['data'] = $customerData;
-            $customer = $this->getMock('Magento\Customer\Model\Customer', array('_construct'), $arguments);
+            $customer = $this->getMock('Magento\Customer\Model\Customer', ['_construct'], $arguments);
             $customerStorage->addCustomer($customer);
         }
 
-        $objectFactory = $this->getMock('stdClass', array('getModelInstance'));
+        $objectFactory = $this->getMock('stdClass', ['getModelInstance']);
         $objectFactory->expects(
             $this->any()
         )
@@ -299,20 +299,20 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 'getModelInstance'
             )
             ->will(
-                $this->returnCallback(array($this, 'getModelInstance'))
+                $this->returnCallback([$this, 'getModelInstance'])
             );
 
         /** @var $attributeCollection \Magento\Framework\Data\Collection */
         $attributeCollection = $this->getMock(
             'Magento\Framework\Data\Collection',
-            array('getEntityTypeCode'),
-            array($this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false))
+            ['getEntityTypeCode'],
+            [$this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)]
         );
         foreach ($this->_attributes as $attributeData) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $arguments = $objectManagerHelper->getConstructArguments(
                 'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-                array('eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory'))
+                ['eavTypeFactory' => $this->getMock('Magento\Eav\Model\Entity\TypeFactory')]
             );
             $arguments['data'] = $attributeData;
             $attribute = $this->getMockForAbstractClass(
@@ -322,12 +322,12 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 true,
                 true,
                 true,
-                array('_construct')
+                ['_construct']
             );
             $attributeCollection->addItem($attribute);
         }
 
-        $data = array(
+        $data = [
             'data_source_model' => $dataSourceModel,
             'connection' => $connection,
             'json_helper' => 'not_used',
@@ -337,8 +337,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             'entity_type_id' => 1,
             'customer_storage' => $customerStorage,
             'object_factory' => $objectFactory,
-            'attribute_collection' => $attributeCollection
-        );
+            'attribute_collection' => $attributeCollection,
+        ];
 
         return $data;
     }
@@ -387,7 +387,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function getWebsites($withDefault = false)
     {
-        $websites = array();
+        $websites = [];
         if (!$withDefault) {
             unset($websites[0]);
         }
@@ -395,7 +395,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             if (!$withDefault && $id == \Magento\Store\Model\Store::DEFAULT_STORE_ID) {
                 continue;
             }
-            $websiteData = array('id' => $id, 'code' => $code);
+            $websiteData = ['id' => $id, 'code' => $code];
             $websites[$id] = new \Magento\Framework\Object($websiteData);
         }
 
@@ -409,13 +409,13 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * @param array|object $constructArguments
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
-    public function getModelInstance($modelClass = '', $constructArguments = array())
+    public function getModelInstance($modelClass = '', $constructArguments = [])
     {
         switch ($modelClass) {
             case 'Magento\CustomerBalance\Model\Balance':
                 $instance = $this->getMock(
                     $modelClass,
-                    array(
+                    [
                         'setCustomer',
                         'setWebsiteId',
                         'loadByCustomer',
@@ -424,7 +424,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                         'setComment',
                         'save',
                         '__wakeup'
-                    ),
+                    ],
                     $constructArguments,
                     '',
                     false
@@ -454,7 +454,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             case 'Magento\Reward\Model\Reward':
                 $instance = $this->getMock(
                     $modelClass,
-                    array(
+                    [
                         'setCustomer',
                         'setWebsiteId',
                         'loadByCustomer',
@@ -464,7 +464,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                         'setComment',
                         'updateRewardPoints',
                         '__wakeup'
-                    ),
+                    ],
                     $constructArguments,
                     '',
                     false
@@ -495,7 +495,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     ->will($this->returnSelf());
                 break;
             default:
-                $instance = $this->getMock($modelClass, array(), $constructArguments, '', false);
+                $instance = $this->getMock($modelClass, [], $constructArguments, '', false);
                 break;
         }
         return $instance;
@@ -509,293 +509,293 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     public function validateRowDataProvider()
     {
-        return array(
-            'valid' => array(
+        return [
+            'valid' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_valid.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array('errors' => array()),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array('errors' => array())
-                )
-            ),
-            'no website' => array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => ['errors' => []],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => ['errors' => []],
+                ],
+            ],
+            'no website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_no_website.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
-                                array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'empty website' => array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'empty website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_website.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_WEBSITE_IS_EMPTY => array(
-                                array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'no email' => array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'no email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_no_email.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_EMAIL_IS_EMPTY => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_EMAIL_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_EMAIL_IS_EMPTY => array(
-                                array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_EMAIL_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'empty email' => array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'empty email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_email.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_EMAIL_IS_EMPTY => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_EMAIL_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_EMAIL_IS_EMPTY => array(
-                                array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_EMAIL_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'empty finance website' => array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'empty finance website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_finance_website.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => array(
-                                array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_FINANCE_WEBSITE_IS_EMPTY => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'invalid email' => array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'invalid email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_email.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_EMAIL => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_EMAIL => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_EMAIL => array(
-                                array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_EMAIL => [
+                                [
                                     1,
-                                    Finance::COLUMN_EMAIL
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'invalid website' => array(
+                                    Finance::COLUMN_EMAIL,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'invalid website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_website.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_WEBSITE => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_WEBSITE => array(
-                                array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'invalid finance website' => array(
+                                    Finance::COLUMN_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'invalid finance website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
-                                array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'invalid finance website (admin)' => array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'invalid finance website (admin)' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_finance_website_admin.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
-                                array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_INVALID_FINANCE_WEBSITE => array(
-                                array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_INVALID_FINANCE_WEBSITE => [
+                                [
                                     1,
-                                    Finance::COLUMN_FINANCE_WEBSITE
-                                )
-                            )
-                        )
-                    )
-                )
-            ),
-            'no customer' => array(
+                                    Finance::COLUMN_FINANCE_WEBSITE,
+                                ],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'no customer' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_no_customer.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_CUSTOMER_NOT_FOUND => array(
-                                array(1, null)
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array(
-                        'errors' => array(
-                            Finance::ERROR_CUSTOMER_NOT_FOUND => array(
-                                array(1, null)
-                            )
-                        )
-                    )
-                )
-            ),
-            'invalid_attribute_value' => array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_CUSTOMER_NOT_FOUND => [
+                                [1, null],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => [
+                        'errors' => [
+                            Finance::ERROR_CUSTOMER_NOT_FOUND => [
+                                [1, null],
+                            ],
+                        ],
+                    ],
+                ],
+            ],
+            'invalid_attribute_value' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_invalid_attribute_value.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            "Please correct the value for '%s'." => array(
-                                array(1, 'store_credit'),
-                                array(1, 'reward_points')
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array('errors' => array())
-                )
-            ),
-            'empty_optional_attribute_value' => array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            "Please correct the value for '%s'." => [
+                                [1, 'store_credit'],
+                                [1, 'reward_points'],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => ['errors' => []],
+                ],
+            ],
+            'empty_optional_attribute_value' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_optional_attribute_value.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array('errors' => array()),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array('errors' => array())
-                )
-            ),
-            'empty_required_attribute_value' => array(
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => ['errors' => []],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => ['errors' => []],
+                ],
+            ],
+            'empty_required_attribute_value' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_empty_required_attribute_value.php',
-                '$behaviors' => array(
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => array(
-                        'errors' => array(
-                            Finance::ERROR_VALUE_IS_REQUIRED => array(
-                                array(1, 'store_credit')
-                            )
-                        )
-                    ),
-                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => array('errors' => array())
-                )
-            )
-        );
+                '$behaviors' => [
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => [
+                        'errors' => [
+                            Finance::ERROR_VALUE_IS_REQUIRED => [
+                                [1, 'store_credit'],
+                            ],
+                        ],
+                    ],
+                    \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => ['errors' => []],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -812,7 +812,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         $behavior = \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE;
 
-        $this->_model->setParameters(array('behavior' => $behavior));
+        $this->_model->setParameters(['behavior' => $behavior]);
 
         if (!count($behaviors[$behavior]['errors'])) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));
@@ -833,23 +833,23 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         $behavior = \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE;
 
-        $this->_model->setParameters(array('behavior' => $behavior));
+        $this->_model->setParameters(['behavior' => $behavior]);
 
-        $secondRow = $firstRow = array(
+        $secondRow = $firstRow = [
             '_website' => 'website1',
             '_email' => 'test1@email.com',
             '_finance_website' => 'website2',
             'store_credit' => 10.5,
-            'reward_points' => 5
-        );
+            'reward_points' => 5,
+        ];
         $secondRow['store_credit'] = 20;
         $secondRow['reward_points'] = 30;
 
-        $errors = array(
-            Finance::ERROR_DUPLICATE_PK => array(
-                array(2, null)
-            )
-        );
+        $errors = [
+            Finance::ERROR_DUPLICATE_PK => [
+                [2, null],
+            ],
+        ];
 
         $this->assertTrue($this->_model->validateRow($firstRow, 0));
         $this->assertFalse($this->_model->validateRow($secondRow, 1));
@@ -871,7 +871,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     {
         $behavior = \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE;
 
-        $this->_model->setParameters(array('behavior' => $behavior));
+        $this->_model->setParameters(['behavior' => $behavior]);
 
         if (!count($behaviors[$behavior]['errors'])) {
             $this->assertTrue($this->_model->validateRow($rowData, 0));

@@ -8,11 +8,11 @@
 
 namespace Magento\Framework\Pricing\PriceInfo;
 
-use Magento\Framework\Pricing\PriceInfoInterface;
-use Magento\Framework\Pricing\Price\PriceInterface;
-use Magento\Framework\Pricing\Adjustment\Collection;
 use Magento\Framework\Pricing\Adjustment\AdjustmentInterface;
+use Magento\Framework\Pricing\Adjustment\Collection;
 use Magento\Framework\Pricing\Price\Collection as PriceCollection;
+use Magento\Framework\Pricing\Price\PriceInterface;
+use Magento\Framework\Pricing\PriceInfoInterface;
 
 /**
  * Class Base

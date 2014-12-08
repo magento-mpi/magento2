@@ -40,7 +40,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
         $this->_context = $this->_objectManager->get(
             'Magento\Backend\Block\Template\Context',
-            array('storeManager' => $this->_storeManager)
+            ['storeManager' => $this->_storeManager]
         );
 
         $this->_coreRegistry = $this->_objectManager->get('Magento\Framework\Registry');
@@ -51,7 +51,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
-            array('context' => $this->_context, 'registry' => $this->_coreRegistry)
+            ['context' => $this->_context, 'registry' => $this->_coreRegistry]
         );
     }
 
@@ -77,7 +77,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
             '',
-            array()
+            []
         );
         $mockCollection = $this->getMockBuilder('\Magento\Framework\Data\Collection')
             ->disableOriginalConstructor()

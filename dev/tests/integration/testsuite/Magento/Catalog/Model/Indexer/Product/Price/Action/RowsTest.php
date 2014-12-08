@@ -41,7 +41,7 @@ class RowsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_product->load(1);
 
-        $this->_processor->reindexList(array($this->_product->getId()));
+        $this->_processor->reindexList([$this->_product->getId()]);
 
         $categoryFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             '\Magento\Catalog\Model\CategoryFactory'

@@ -8,8 +8,8 @@
 namespace Magento\Solr\Helper;
 
 use Magento\Customer\Helper\Session\CurrentCustomer;
-use Magento\Tax\Model\TaxClass\Source\Product as ProductTaxClassSource;
 use Magento\Tax\Api\TaxCalculationInterface;
+use Magento\Tax\Model\TaxClass\Source\Product as ProductTaxClassSource;
 
 /**
  * Enterprise search helper
@@ -28,7 +28,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      *
      * @var array
      */
-    protected $_languageCode = array();
+    protected $_languageCode = [];
 
     /**
      * Store result of third party search engine availability check
@@ -56,7 +56,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      *
      * @var string[]
      */
-    protected $_textFieldTypes = array('text', 'varchar');
+    protected $_textFieldTypes = ['text', 'varchar'];
 
     /**
      * Tax data
@@ -155,7 +155,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         CurrentCustomer $currentCustomer,
-        array $supportedLanguages = array()
+        array $supportedLanguages = []
     ) {
         $this->_engineProvider = $engineProvider;
         $this->_taxData = $taxData;
@@ -192,28 +192,28 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      */
     public function getSolrSupportedLanguages()
     {
-        $default = array(
+        $default = [
             'da' => 'da_DK',
             'nl' => 'nl_NL',
-            'en' => array('en_AU', 'en_CA', 'en_NZ', 'en_GB', 'en_US'),
+            'en' => ['en_AU', 'en_CA', 'en_NZ', 'en_GB', 'en_US'],
             'fi' => 'fi_FI',
-            'fr' => array('fr_CA', 'fr_FR'),
-            'de' => array('de_DE', 'de_CH', 'de_AT'),
-            'it' => array('it_IT', 'it_CH'),
-            'nb' => array('nb_NO', 'nn_NO'),
-            'pt' => array('pt_BR', 'pt_PT'),
+            'fr' => ['fr_CA', 'fr_FR'],
+            'de' => ['de_DE', 'de_CH', 'de_AT'],
+            'it' => ['it_IT', 'it_CH'],
+            'nb' => ['nb_NO', 'nn_NO'],
+            'pt' => ['pt_BR', 'pt_PT'],
             'ro' => 'ro_RO',
             'ru' => 'ru_RU',
-            'es' => array('es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_VE'),
+            'es' => ['es_AR', 'es_CL', 'es_CO', 'es_CR', 'es_ES', 'es_MX', 'es_PA', 'es_PE', 'es_VE'],
             'sv' => 'sv_SE',
             'tr' => 'tr_TR',
             'cs' => 'cs_CZ',
             'el' => 'el_GR',
             'th' => 'th_TH',
-            'zh' => array('zh_CN', 'zh_HK', 'zh_TW'),
+            'zh' => ['zh_CN', 'zh_HK', 'zh_TW'],
             'ja' => 'ja_JP',
-            'ko' => 'ko_KR'
-        );
+            'ko' => 'ko_KR',
+        ];
 
         /**
          * Merging languages that specified manually
@@ -225,13 +225,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
                         $default[$langCode][] = $localeCode;
                     }
                 } elseif ($default[$langCode] != $localeCode) {
-                    $default[$langCode] = array($default[$langCode], $localeCode);
+                    $default[$langCode] = [$default[$langCode], $localeCode];
                 }
             } else {
                 $default[$langCode] = $localeCode;
             }
         }
-
 
         return $default;
     }
@@ -388,7 +387,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
             $attribute->setStoreId($this->_storeManager->getStore()->getId());
         }
 
-        return array($field => $value);
+        return [$field => $value];
     }
 
     /**
@@ -426,8 +425,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
         if (is_null($this->_taxInfluence)) {
             $effectiveRates = [];
             if ($this->_taxData->priceIncludesTax() || !$this->_taxData->displayPriceExcludingTax()) {
-                $defaultRates = array();
-                $currentRates = array();
+                $defaultRates = [];
+                $currentRates = [];
                 foreach ($this->productTaxClassSource->getAllOptions() as $productTaxClass) {
                     $productTaxClassId = $productTaxClass['value'];
                     $customerId = $this->currentCustomer->getCustomerId();
@@ -500,16 +499,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper implements \Mage
      * @param array $options
      * @return mixed
      */
-    public function prepareClientOptions($options = array())
+    public function prepareClientOptions($options = [])
     {
-        $def_options = array(
+        $def_options = [
             'hostname' => $this->getSolrConfigData('server_hostname'),
             'login' => $this->getSolrConfigData('server_username'),
             'password' => $this->getSolrConfigData('server_password'),
             'port' => $this->getSolrConfigData('server_port'),
             'timeout' => $this->getSolrConfigData('server_timeout'),
-            'path' => $this->getSolrConfigData('server_path')
-        );
+            'path' => $this->getSolrConfigData('server_path'),
+        ];
         $options = array_merge($def_options, $options);
         return $options;
     }

@@ -42,7 +42,6 @@ class Edit extends \Magento\Reminder\Controller\Adminhtml\Reminder
             return;
         }
 
-
         // set entered data if was error when we do save
         $data = $this->_getSession()->getPageData(true);
         if (!empty($data)) {

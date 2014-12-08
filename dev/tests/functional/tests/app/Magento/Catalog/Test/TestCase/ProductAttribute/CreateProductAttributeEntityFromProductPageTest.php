@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Scenario;

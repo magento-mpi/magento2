@@ -24,14 +24,14 @@ class Radio extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * All Store Views
      *
      * @var array
      */
-    protected $_allStoreViews = array();
+    protected $_allStoreViews = [];
 
     /**
      * Path to template file in theme.
@@ -69,7 +69,7 @@ class Radio extends \Magento\Backend\Block\Template
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\Node $hierarchyNode,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_hierarchyNode = $hierarchyNode;
@@ -91,7 +91,7 @@ class Radio extends \Magento\Backend\Block\Template
                     continue;
                 }
                 if ($view['value'] == 0) {
-                    $view['value'] = array(array('label' => $view['label'], 'value' => $view['value']));
+                    $view['value'] = [['label' => $view['label'], 'value' => $view['value']]];
                 }
                 foreach ($view['value'] as $store) {
                     $this->_allStoreViews[] = $store;
@@ -117,7 +117,7 @@ class Radio extends \Magento\Backend\Block\Template
         $storeValues = $this->_systemStore->getStoreCollection();
 
         foreach ($storeValues as $store) {
-            $storeViews[] = array('label' => $store->getName(), 'value' => $store->getId());
+            $storeViews[] = ['label' => $store->getName(), 'value' => $store->getId()];
         }
 
         return $storeViews;
@@ -130,7 +130,7 @@ class Radio extends \Magento\Backend\Block\Template
      */
     public function getAllStoreViewIds()
     {
-        $ids = array();
+        $ids = [];
         foreach ($this->getAllStoreViews() as $view) {
             $ids[] = $view['value'];
         }
@@ -162,7 +162,7 @@ class Radio extends \Magento\Backend\Block\Template
     public function getParameters()
     {
         if (empty($this->_params)) {
-            $this->_params = array();
+            $this->_params = [];
             $widget = $this->_coreRegistry->registry('current_widget_instance');
             $block = $this->getLayout()->getBlock('wysiwyg_widget.options');
             if ($widget) {

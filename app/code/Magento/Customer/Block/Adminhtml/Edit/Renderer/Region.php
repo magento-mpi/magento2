@@ -26,7 +26,7 @@ class Region extends \Magento\Backend\Block\AbstractBlock implements
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Directory\Helper\Data $directoryHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_directoryHelper = $directoryHelper;
         parent::__construct($context, $data);

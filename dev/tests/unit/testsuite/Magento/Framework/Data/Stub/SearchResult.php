@@ -13,7 +13,5 @@ class SearchResult extends AbstractSearchResult
 {
     public function init()
     {
-
     }
 }
- 

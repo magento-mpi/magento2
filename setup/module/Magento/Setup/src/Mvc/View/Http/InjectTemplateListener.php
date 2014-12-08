@@ -8,9 +8,8 @@
 
 namespace Magento\Setup\Mvc\View\Http;
 
-use Zend\EventManager\EventManagerInterface as Events;
-use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
 use Zend\Mvc\MvcEvent;
+use Zend\Mvc\View\Http\InjectTemplateListener as ZendInjectTemplateListener;
 
 class InjectTemplateListener extends ZendInjectTemplateListener
 {

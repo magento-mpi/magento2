@@ -43,8 +43,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         );
         $this->groupManagement = $this->getMock(
             'Magento\Customer\Api\GroupManagementInterface',
-            array('getDefaultGroup','getNotLoggedInGroup','isReadOnly','getLoggedInGroups','getAllCustomersGroup'),
-            array(),
+            ['getDefaultGroup', 'getNotLoggedInGroup', 'isReadOnly', 'getLoggedInGroups', 'getAllCustomersGroup'],
+            [],
             '',
             false);
 

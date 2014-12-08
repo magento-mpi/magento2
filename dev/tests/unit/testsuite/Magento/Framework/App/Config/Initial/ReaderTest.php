@@ -43,8 +43,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_converterMock = $this->getMock('Magento\Framework\App\Config\Initial\Converter');
         $schemaLocatorMock = $this->getMock(
             'Magento\Framework\App\Config\Initial\SchemaLocator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -54,8 +54,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $schemaLocatorMock->expects($this->once())->method('getSchema')->will($this->returnValue($schemaFile));
         $this->rootDirectory = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array('readFile', 'getRelativePath'),
-            array(),
+            ['readFile', 'getRelativePath'],
+            [],
             '',
             false
         );
@@ -80,10 +80,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'config.xml',
             'global'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
-        $this->assertEquals(array(), $this->_model->read());
+        $this->assertEquals([], $this->_model->read());
     }
 
     /**
@@ -91,11 +91,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testReadValidConfig()
     {
-        $testXmlFilesList = array(
+        $testXmlFilesList = [
             file_get_contents($this->_filePath . 'initial_config1.xml'),
-            file_get_contents($this->_filePath . 'initial_config2.xml')
-        );
-        $expectedConfig = array('data' => array(), 'metadata' => array());
+            file_get_contents($this->_filePath . 'initial_config2.xml'),
+        ];
+        $expectedConfig = ['data' => [], 'metadata' => []];
 
         $this->_fileResolverMock->expects(
             $this->at(0)

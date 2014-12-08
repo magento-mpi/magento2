@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Events grid bitmask renderer
  *
@@ -24,7 +23,7 @@ class Bitmask extends Text
     public function render(\Magento\Framework\Object $row)
     {
         $value = (int)$row->getData($this->getColumn()->getIndex());
-        $result = array();
+        $result = [];
         foreach ($this->getColumn()->getOptions() as $option) {
             if (($value & $option['value']) == $option['value']) {
                 $result[] = $option['label'];

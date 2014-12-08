@@ -16,7 +16,7 @@ class Query implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array())
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = [])
     {
         return $select->getAdapter()->fetchAll($select, $bindParams);
     }

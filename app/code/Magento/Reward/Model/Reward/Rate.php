@@ -66,7 +66,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
@@ -135,7 +135,7 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      */
     public function reset()
     {
-        $this->setData(array());
+        $this->setData([]);
         return $this;
     }
 
@@ -241,10 +241,10 @@ class Rate extends \Magento\Framework\Model\AbstractModel
      */
     public function getDirectionsOptionArray()
     {
-        $optArray = array(
+        $optArray = [
             self::RATE_EXCHANGE_DIRECTION_TO_CURRENCY => __('Points to Currency'),
-            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => __('Currency to Points')
-        );
+            self::RATE_EXCHANGE_DIRECTION_TO_POINTS => __('Currency to Points'),
+        ];
         return $optArray;
     }
 

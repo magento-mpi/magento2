@@ -35,7 +35,7 @@ class PropertyGroupFactory
      * @param array $data
      * @return Collection
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->objectManager->create('Magento\Framework\View\Asset\PropertyGroup', $data);
     }

@@ -28,7 +28,7 @@ class Forgotpassword extends \Magento\Framework\View\Element\Template
     public function __construct(
         Template\Context $context,
         Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerUrl = $customerUrl;
         parent::__construct($context, $data);

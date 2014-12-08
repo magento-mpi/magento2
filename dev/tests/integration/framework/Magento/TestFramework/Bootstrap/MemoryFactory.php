@@ -10,7 +10,6 @@ namespace Magento\TestFramework\Bootstrap;
 
 class MemoryFactory
 {
-
     /**
      * @var \Magento\Framework\Shell
      */

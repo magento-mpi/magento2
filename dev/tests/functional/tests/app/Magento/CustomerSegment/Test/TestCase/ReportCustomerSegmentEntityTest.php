@@ -8,12 +8,12 @@
 
 namespace Magento\CustomerSegment\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
-use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ReportCustomerSegmentEntity
@@ -144,7 +144,7 @@ class ReportCustomerSegmentEntityTest extends Injectable
                 [
                     'dataSet' => $dataSet,
                     'data' => [
-                        'address' => ['presets' => $address]
+                        'address' => ['presets' => $address],
                     ]
                 ]
             );

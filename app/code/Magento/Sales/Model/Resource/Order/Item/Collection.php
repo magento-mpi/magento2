@@ -84,7 +84,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     public function addIdFilter($item)
     {
         if (is_array($item)) {
-            $this->addFieldToFilter('item_id', array('in' => $item));
+            $this->addFieldToFilter('item_id', ['in' => $item]);
         } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
@@ -101,7 +101,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
      */
     public function filterByTypes($typeIds)
     {
-        $this->addFieldToFilter('product_type', array('in' => $typeIds));
+        $this->addFieldToFilter('product_type', ['in' => $typeIds]);
         return $this;
     }
 
@@ -114,7 +114,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection\Abstract
     public function filterByParent($parentId = null)
     {
         if (empty($parentId)) {
-            $this->addFieldToFilter('parent_item_id', array('null' => true));
+            $this->addFieldToFilter('parent_item_id', ['null' => true]);
         } else {
             $this->addFieldToFilter('parent_item_id', $parentId);
         }

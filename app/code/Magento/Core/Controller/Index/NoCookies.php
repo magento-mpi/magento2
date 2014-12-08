@@ -20,7 +20,7 @@ class NoCookies extends \Magento\Framework\App\Action\Action
         $redirect = new \Magento\Framework\Object();
         $this->_eventManager->dispatch(
             'controller_action_nocookies',
-            array('action' => $this, 'redirect' => $redirect)
+            ['action' => $this, 'redirect' => $redirect]
         );
 
         $url = $redirect->getRedirectUrl();
@@ -29,7 +29,7 @@ class NoCookies extends \Magento\Framework\App\Action\Action
         } elseif ($redirect->getRedirect()) {
             $this->_redirect($redirect->getPath(), $redirect->getArguments());
         } else {
-            $this->_view->loadLayout(array('default', 'noCookie'));
+            $this->_view->loadLayout(['default', 'noCookie']);
             $this->_view->renderLayout();
         }
 

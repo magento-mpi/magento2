@@ -45,7 +45,7 @@ class Gender extends AbstractWidget
         CustomerMetadataInterface $customerMetadata,
         CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->customerRepository = $customerRepository;

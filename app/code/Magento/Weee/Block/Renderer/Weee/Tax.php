@@ -63,7 +63,7 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
         \Magento\Directory\Model\Config\Source\Country $sourceCountry,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sourceCountry = $sourceCountry;
         $this->_directoryHelper = $directoryHelper;
@@ -97,16 +97,16 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Add Tax'), 'data_attribute' => array('action' => 'add-fpt-item'), 'class' => 'add')
+            ['label' => __('Add Tax'), 'data_attribute' => ['action' => 'add-fpt-item'], 'class' => 'add']
         );
         $this->addChild(
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Delete Tax'),
-                'data_attribute' => array('action' => 'delete-fpt-item'),
+                'data_attribute' => ['action' => 'delete-fpt-item'],
                 'class' => 'delete'
-            )
+            ]
         );
         return parent::_prepareLayout();
     }
@@ -134,11 +134,11 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
         $data = $this->getElement()->getValue();
 
         if (is_array($data) && count($data)) {
-            usort($data, array($this, '_sortWeeeTaxes'));
+            usort($data, [$this, '_sortWeeeTaxes']);
             $values = $data;
         }
         return $values;
@@ -196,28 +196,28 @@ class Tax extends \Magento\Backend\Block\Widget implements \Magento\Framework\Da
         if (null !== $this->_websites) {
             return $this->_websites;
         }
-        $websites = array();
-        $websites[0] = array(
+        $websites = [];
+        $websites[0] = [
             'name' => __('All Websites'),
-            'currency' => $this->_directoryHelper->getBaseCurrencyCode()
-        );
+            'currency' => $this->_directoryHelper->getBaseCurrencyCode(),
+        ];
 
         if (!$this->_storeManager->hasSingleStore() && !$this->getElement()->getEntityAttribute()->isScopeGlobal()) {
             if ($storeId = $this->getProduct()->getStoreId()) {
                 $website = $this->_storeManager->getStore($storeId)->getWebsite();
-                $websites[$website->getId()] = array(
+                $websites[$website->getId()] = [
                     'name' => $website->getName(),
-                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
-                );
+                    'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                ];
             } else {
                 foreach ($this->_storeManager->getWebsites() as $website) {
                     if (!in_array($website->getId(), $this->getProduct()->getWebsiteIds())) {
                         continue;
                     }
-                    $websites[$website->getId()] = array(
+                    $websites[$website->getId()] = [
                         'name' => $website->getName(),
-                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE)
-                    );
+                        'currency' => $website->getConfig(\Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE),
+                    ];
                 }
             }
         }

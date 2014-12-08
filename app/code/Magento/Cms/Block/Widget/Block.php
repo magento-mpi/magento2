@@ -24,7 +24,7 @@ class Block extends \Magento\Framework\View\Element\Template implements \Magento
      *
      * @var array
      */
-    protected static $_widgetUsageMap = array();
+    protected static $_widgetUsageMap = [];
 
     /**
      * Block factory
@@ -43,7 +43,7 @@ class Block extends \Magento\Framework\View\Element\Template implements \Magento
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_filterProvider = $filterProvider;

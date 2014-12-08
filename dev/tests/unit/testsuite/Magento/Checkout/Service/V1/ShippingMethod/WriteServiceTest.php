@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -38,7 +38,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->addressFactoryMock = $this->getMock('\Magento\Sales\Model\Quote\AddressFactory', [], [], '', false);
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->quoteMock = $this->getMock(

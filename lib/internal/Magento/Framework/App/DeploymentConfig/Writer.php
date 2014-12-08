@@ -48,7 +48,7 @@ class Writer
     {
         $this->reader = $reader;
         $this->filesystem = $filesystem;
-        $this->formatter = $formatter ?: new Writer\PhpFormatter;
+        $this->formatter = $formatter ?: new Writer\PhpFormatter();
     }
 
     /**

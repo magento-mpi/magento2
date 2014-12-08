@@ -51,7 +51,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollection,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
         \Magento\RecurringPayment\Model\Resource\Order\CollectionFilter $recurringCollectionFilter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_orderCollection = $orderCollection;
@@ -97,82 +97,82 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     {
         $this->addColumn(
             'real_order_id',
-            array('header' => __('Order'), 'width' => '80px', 'type' => 'text', 'index' => 'increment_id')
+            ['header' => __('Order'), 'width' => '80px', 'type' => 'text', 'index' => 'increment_id']
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store_id',
-                array(
+                [
                     'header' => __('Purchase Point'),
                     'index' => 'store_id',
                     'type' => 'store',
                     'store_view' => true,
                     'display_deleted' => true
-                )
+                ]
             );
         }
 
         $this->addColumn(
             'created_at',
-            array('header' => __('Purchased Date'), 'index' => 'created_at', 'type' => 'datetime', 'width' => '100px')
+            ['header' => __('Purchased Date'), 'index' => 'created_at', 'type' => 'datetime', 'width' => '100px']
         );
 
-        $this->addColumn('billing_name', array('header' => __('Bill-to Name'), 'index' => 'billing_name'));
+        $this->addColumn('billing_name', ['header' => __('Bill-to Name'), 'index' => 'billing_name']);
 
-        $this->addColumn('shipping_name', array('header' => __('Ship-to Name'), 'index' => 'shipping_name'));
+        $this->addColumn('shipping_name', ['header' => __('Ship-to Name'), 'index' => 'shipping_name']);
 
         $this->addColumn(
             'base_grand_total',
-            array(
+            [
                 'header' => __('Grand Total (Base)'),
                 'index' => 'base_grand_total',
                 'type' => 'currency',
                 'currency' => 'base_currency_code'
-            )
+            ]
         );
 
         $this->addColumn(
             'grand_total',
-            array(
+            [
                 'header' => __('Grand Total (Purchased)'),
                 'index' => 'grand_total',
                 'type' => 'currency',
                 'currency' => 'order_currency_code'
-            )
+            ]
         );
 
         $this->addColumn(
             'status',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'status',
                 'type' => 'options',
                 'width' => '70px',
                 'options' => $this->_orderConfig->create()->getStatuses()
-            )
+            ]
         );
 
         if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
             $this->addColumn(
                 'action',
-                array(
+                [
                     'header' => __('Action'),
                     'width' => '50px',
                     'type' => 'action',
                     'getter' => 'getId',
-                    'actions' => array(
-                        array(
+                    'actions' => [
+                        [
                             'caption' => __('View'),
-                            'url' => array('base' => 'sales/order/view'),
-                            'field' => 'order_id'
-                        )
-                    ),
+                            'url' => ['base' => 'sales/order/view'],
+                            'field' => 'order_id',
+                        ],
+                    ],
                     'filter' => false,
                     'sortable' => false,
                     'index' => 'stores',
                     'is_system' => true
-                )
+                ]
             );
         }
 
@@ -187,7 +187,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
     }
 
     /**
@@ -208,7 +208,7 @@ class Orders extends \Magento\Backend\Block\Widget\Grid\Extended implements
     public function getTabUrl()
     {
         $recurringPayment = $this->_coreRegistry->registry('current_recurring_payment');
-        return $this->getUrl('*/*/orders', array('payment' => $recurringPayment->getId()));
+        return $this->getUrl('*/*/orders', ['payment' => $recurringPayment->getId()]);
     }
 
     /**

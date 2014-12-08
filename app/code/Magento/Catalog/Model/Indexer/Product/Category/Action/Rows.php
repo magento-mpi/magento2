@@ -23,7 +23,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
      * @param bool $useTempTable
      * @return $this
      */
-    public function execute(array $entityIds = array(), $useTempTable = false)
+    public function execute(array $entityIds = [], $useTempTable = false)
     {
         $this->limitationByProducts = $entityIds;
         $this->useTempTable = $useTempTable;
@@ -44,7 +44,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     {
         $this->getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('product_id IN (?)' => $this->limitationByProducts)
+            ['product_id IN (?)' => $this->limitationByProducts]
         );
     }
 

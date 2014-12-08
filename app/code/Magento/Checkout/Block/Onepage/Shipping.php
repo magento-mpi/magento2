@@ -55,7 +55,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_addressFactory = $addressFactory;
         parent::__construct(
@@ -84,7 +84,7 @@ class Shipping extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         $this->getCheckout()->setStepData(
             'shipping',
-            array('label' => __('Shipping Information'), 'is_show' => $this->isShow())
+            ['label' => __('Shipping Information'), 'is_show' => $this->isShow()]
         );
 
         parent::_construct();

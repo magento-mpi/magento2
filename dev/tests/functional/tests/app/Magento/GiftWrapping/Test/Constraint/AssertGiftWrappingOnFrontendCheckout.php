@@ -8,16 +8,16 @@
 
 namespace Magento\GiftWrapping\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Checkout\Test\Page\CheckoutOnepage;
-use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
-use Magento\Customer\Test\Fixture\AddressInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Checkout\Test\Page\CheckoutOnepage;
+use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftWrappingOnFrontendCheckout

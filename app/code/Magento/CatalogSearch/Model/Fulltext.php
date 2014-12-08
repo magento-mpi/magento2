@@ -12,7 +12,6 @@ use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Model\Context;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Registry;
-use Magento\Search\Model\Query;
 use Magento\Search\Model\QueryFactory;
 
 /**
@@ -61,7 +60,7 @@ class Fulltext extends \Magento\Framework\Model\AbstractModel
         ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->queryFactory = $queryFactory;
         $this->_scopeConfig = $scopeConfig;

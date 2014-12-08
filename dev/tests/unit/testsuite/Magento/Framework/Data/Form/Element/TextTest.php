@@ -25,15 +25,15 @@ class TextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $factoryMock = $this->getMock('\Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryMock = $this->getMock('\Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $collectionFactoryMock = $this->getMock(
             '\Magento\Framework\Data\Form\Element\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', [], [], '', false);
         $this->_model = new \Magento\Framework\Data\Form\Element\Text(
             $factoryMock,
             $collectionFactoryMock,
@@ -71,7 +71,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty(
             array_diff(
-                array(
+                [
                     'type',
                     'title',
                     'class',
@@ -83,8 +83,8 @@ class TextTest extends \PHPUnit_Framework_TestCase
                     'readonly',
                     'maxlength',
                     'tabindex',
-                    'placeholder'
-                ),
+                    'placeholder',
+                ],
                 $this->_model->getHtmlAttributes()
             )
         );

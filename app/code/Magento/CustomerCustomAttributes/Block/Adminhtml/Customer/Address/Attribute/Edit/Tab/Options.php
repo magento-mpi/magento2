@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address Attribute General Tab Block
  *

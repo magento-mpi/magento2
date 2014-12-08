@@ -33,20 +33,19 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array(
+        $input = [
             'value' => 'some text',
-            'updater' => array('Magento\Framework\View\Layout\Argument\UpdaterInterface')
-        );
+            'updater' => ['Magento\Framework\View\Layout\Argument\UpdaterInterface'],
+        ];
         $evaluatedValue = 'some text (new)';
         $updatedValue = 'some text (updated)';
-
 
         $this->_interpreter->expects(
             $this->once()
         )->method(
             'evaluate'
         )->with(
-            array('value' => 'some text')
+            ['value' => 'some text']
         )->will(
             $this->returnValue($evaluatedValue)
         );
@@ -78,8 +77,8 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluateNoUpdaters()
     {
-        $input = array('value' => 'some text');
-        $expected = array('value' => 'new text');
+        $input = ['value' => 'some text'];
+        $expected = ['value' => 'new text'];
 
         $this->_interpreter->expects(
             $this->once()
@@ -102,7 +101,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluateWrongUpdaterValue()
     {
-        $input = array('value' => 'some text', 'updater' => 'non-array');
+        $input = ['value' => 'some text', 'updater' => 'non-array'];
         $this->_model->evaluate($input);
     }
 
@@ -112,13 +111,13 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluateWrongUpdaterClass()
     {
-        $input = array(
+        $input = [
             'value' => 'some text',
-            'updater' => array(
+            'updater' => [
                 'Magento\Framework\View\Layout\Argument\UpdaterInterface',
-                'Magento\Framework\ObjectManagerInterface'
-            )
-        );
+                'Magento\Framework\ObjectManagerInterface',
+            ],
+        ];
         $self = $this;
         $this->_objectManager->expects($this->exactly(2))->method('get')->will(
             $this->returnCallback(

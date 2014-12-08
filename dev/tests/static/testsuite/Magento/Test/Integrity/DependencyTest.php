@@ -182,7 +182,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 self::$_mapRouters,
                 self::$_mapLayoutBlocks,
                 self::$_mapLayoutHandles
-            )
+            ),
         ];
     }
 
@@ -505,7 +505,6 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                 if (!empty(self::$_listRoutesXml[$module])) {
                     foreach (self::$_listRoutesXml[$module] as $configFile) {
                         self::updateRoutersMap($module, $configFile);
-
                     }
                 }
             }
@@ -629,7 +628,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         }
         return $jsonName;
     }
-    
+
     /**
      * Initialise map of dependencies
      *
@@ -650,11 +649,11 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     self::$_mapDependencies[$moduleName][$type] = [
                         self::MAP_TYPE_DECLARED  => [],
                         self::MAP_TYPE_FOUND     => [],
-                        self::MAP_TYPE_REDUNDANT => []
+                        self::MAP_TYPE_REDUNDANT => [],
                     ];
                 }
             }
-            
+
             $require = $json->get('require');
             if (isset($require) && !empty($require)) {
                 foreach ($require as $requiredModule => $version) {

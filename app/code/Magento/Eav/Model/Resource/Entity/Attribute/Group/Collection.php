@@ -32,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setAttributeSetFilter($setId)
     {
-        $this->addFieldToFilter('attribute_set_id', array('eq' => $setId));
+        $this->addFieldToFilter('attribute_set_id', ['eq' => $setId]);
         $this->setOrder('sort_order');
         return $this;
     }

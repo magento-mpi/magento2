@@ -85,7 +85,7 @@ class Ordered extends AbstractAccordion
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->stockHelper = $stockHelper;
@@ -127,7 +127,7 @@ class Ordered extends AbstractAccordion
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $productIds = array();
+            $productIds = [];
             $storeIds = $this->_getStore()->getWebsite()->getStoreIds();
 
             // Load last order of a customer
@@ -137,7 +137,7 @@ class Ordered extends AbstractAccordion
                 $this->_getCustomer()->getId()
             )->addAttributeToFilter(
                 'store_id',
-                array('in' => $storeIds)
+                ['in' => $storeIds]
             )->addAttributeToSort(
                 'created_at',
                 'desc'
@@ -151,7 +151,7 @@ class Ordered extends AbstractAccordion
 
             // Add products to order items
             if (isset($order)) {
-                $productIds = array();
+                $productIds = [];
                 $collection = $order->getItemsCollection();
                 foreach ($collection as $item) {
                     if ($item->getParentItem()) {
@@ -207,6 +207,6 @@ class Ordered extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewOrdered', array('_current' => true));
+        return $this->getUrl('checkout/*/viewOrdered', ['_current' => true]);
     }
 }

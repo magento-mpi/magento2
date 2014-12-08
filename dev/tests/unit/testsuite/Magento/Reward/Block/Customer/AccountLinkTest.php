@@ -22,7 +22,7 @@ class AccountLinkTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Reward\Block\Customer\AccountLink $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Reward\Block\Customer\AccountLink',
-            array('rewardHelper' => $helper)
+            ['rewardHelper' => $helper]
         );
 
         $helper->expects($this->once())->method('isEnabledOnFront')->will($this->returnValue(false));

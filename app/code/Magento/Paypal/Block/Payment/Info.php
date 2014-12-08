@@ -28,7 +28,7 @@ class Info extends \Magento\Payment\Block\Info\Cc
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paypalInfoFactory = $paypalInfoFactory;
         parent::__construct($context, $paymentConfig, $data);

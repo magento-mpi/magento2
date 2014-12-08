@@ -8,11 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super;
 
-use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Client\Element\Locator;
-use Mtf\Client\Element;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Backend\Test\Block\Template;
+use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Config

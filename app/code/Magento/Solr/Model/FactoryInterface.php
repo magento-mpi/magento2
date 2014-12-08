@@ -15,7 +15,7 @@ interface FactoryInterface
      * @param array $options
      * @return mixed
      */
-    public function createClient(array $options = array());
+    public function createClient(array $options = []);
 
     /**
      * Return search adapter

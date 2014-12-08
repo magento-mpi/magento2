@@ -17,7 +17,7 @@
             <ul>
             <?php foreach ($_rates as $_rate): ?>
                 <?php $_radioProperty = 'name="order[shipping_method]" type="radio" onclick="order.setShippingMethod(this.value)"' ?>
-                <?php $_code=$_rate->getCode() ?>
+                <?php $_code = $_rate->getCode() ?>
                 <li>
                    <?php if ($_rate->getErrorMessage()): ?>
                         <div class="messages">
@@ -74,7 +74,7 @@ require(['prototype'], function(){
 });
 </script>
     <?php endif; ?>
-<?php elseif($this->getIsRateRequest()): ?>
+<?php elseif ($this->getIsRateRequest()): ?>
     <strong><?php echo __('Sorry, no quotes are available for this order.') ?></strong>
 <?php else: ?>
     <div id="order-shipping-method-summary">

@@ -8,9 +8,6 @@
 namespace Magento\Sales\Model\Resource\Order;
 
 use Magento\Framework\App\Resource;
-use Magento\Framework\Stdlib\DateTime;
-use Magento\Sales\Model\Resource\Attribute;
-use Magento\Sales\Model\Increment;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 
 /**

@@ -22,7 +22,7 @@ class Extended extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Option
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_converter = $converter;

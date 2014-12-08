@@ -15,7 +15,7 @@ interface SearchDataProviderInterface
      * @param array $additionalFilters
      * @return \Magento\Search\Model\QueryResult[]
      */
-    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array());
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = []);
 
     /**
      * @return bool

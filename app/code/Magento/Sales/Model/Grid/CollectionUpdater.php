@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Model\Grid;
 
-
 class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**
@@ -36,7 +35,7 @@ class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\Updat
         if ($order) {
             $argument->setOrderFilter($order->getId());
         }
-        $argument->addOrderInformation(array('increment_id'));
+        $argument->addOrderInformation(['increment_id']);
 
         return $argument;
     }

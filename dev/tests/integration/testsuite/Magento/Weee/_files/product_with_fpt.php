@@ -8,7 +8,7 @@
 
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 $attributeSetId = $installer->getAttributeSetId('catalog_product', 'Default');
 $entityModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Eav\Model\Entity');
@@ -42,7 +42,7 @@ $product->setTypeId(
 )->setStoreId(
     1
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product'
 )->setSku(
@@ -50,5 +50,5 @@ $product->setTypeId(
 )->setPrice(
     100
 )->setFptForAll(
-    array(array('website_id' => 0, 'country' => 'US', 'state' => 0, 'price' => 0.07, 'delete' => ''))
+    [['website_id' => 0, 'country' => 'US', 'state' => 0, 'price' => 0.07, 'delete' => '']]
 )->save();

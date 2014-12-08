@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 

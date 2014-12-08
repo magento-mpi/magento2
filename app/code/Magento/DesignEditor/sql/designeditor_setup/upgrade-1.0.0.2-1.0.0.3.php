@@ -20,19 +20,19 @@ $table = $installer->getConnection()->newTable(
     'change_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Theme Change Identifier'
 )->addColumn(
     'theme_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false, 'unsigned' => true),
+    ['nullable' => false, 'unsigned' => true],
     'Theme Id'
 )->addColumn(
     'change_time',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Change Time'
 )->addForeignKey(
     $installer->getFkName('vde_theme_change', 'theme_id', 'core_theme', 'theme_id'),

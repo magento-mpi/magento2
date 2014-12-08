@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class LoadBlock extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
@@ -29,7 +28,6 @@ class LoadBlock extends \Magento\Sales\Controller\Adminhtml\Order\Create
             $this->_reloadQuote();
             $this->messageManager->addException($e, $e->getMessage());
         }
-
 
         $asJson = $request->getParam('json');
         $block = $request->getParam('block');

@@ -11,7 +11,7 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL)
     ->setId(21)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(1))
+    ->setWebsiteIds([1])
     ->setName('Virtual Product')
     ->setSku('virtual-product')
     ->setPrice(10)

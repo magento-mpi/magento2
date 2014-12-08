@@ -23,7 +23,7 @@ class DataFixture
      *
      * @var array
      */
-    private $_appliedFixtures = array();
+    private $_appliedFixtures = [];
 
     /**
      * Constructor
@@ -56,7 +56,7 @@ class DataFixture
                 $param->requestTransactionRollback();
             }
             $param->requestTransactionStart();
-        } else if (!$this->_appliedFixtures && $this->_getFixtures('class', $test)) {
+        } elseif (!$this->_appliedFixtures && $this->_getFixtures('class', $test)) {
             $param->requestTransactionStart();
         }
     }
@@ -106,7 +106,7 @@ class DataFixture
     protected function _getFixtures($scope, \PHPUnit_Framework_TestCase $test)
     {
         $annotations = $test->getAnnotations();
-        $result = array();
+        $result = [];
         if (!empty($annotations[$scope]['magentoDataFixture'])) {
             foreach ($annotations[$scope]['magentoDataFixture'] as $fixture) {
                 if (strpos($fixture, '\\') !== false) {
@@ -115,7 +115,7 @@ class DataFixture
                         'Directory separator "\\" is prohibited in fixture declaration.'
                     );
                 }
-                $fixtureMethod = array(get_class($test), $fixture);
+                $fixtureMethod = [get_class($test), $fixture];
                 if (is_callable($fixtureMethod)) {
                     $result[] = $fixtureMethod;
                 } else {
@@ -190,6 +190,6 @@ class DataFixture
                 }
             }
         }
-        $this->_appliedFixtures = array();
+        $this->_appliedFixtures = [];
     }
 }

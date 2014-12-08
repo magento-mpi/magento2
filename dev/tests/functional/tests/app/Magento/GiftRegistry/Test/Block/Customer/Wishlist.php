@@ -8,9 +8,9 @@
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 
 /**
  * Class Wishlist

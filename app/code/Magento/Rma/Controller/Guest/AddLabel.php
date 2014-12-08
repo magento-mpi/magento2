@@ -8,7 +8,7 @@
  */
 namespace Magento\Rma\Controller\Guest;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class AddLabel extends \Magento\Rma\Controller\Guest
 {
@@ -56,12 +56,12 @@ class AddLabel extends \Magento\Rma\Controller\Guest
                     $carriers[$carrier]
                 )->save();
             } catch (\Magento\Framework\Model\Exception $e) {
-                $response = array('error' => true, 'message' => $e->getMessage());
+                $response = ['error' => true, 'message' => $e->getMessage()];
             } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('We cannot add a label.'));
+                $response = ['error' => true, 'message' => __('We cannot add a label.')];
             }
         } else {
-            $response = array('error' => true, 'message' => __('The wrong RMA was selected.'));
+            $response = ['error' => true, 'message' => __('The wrong RMA was selected.')];
         }
         if (is_array($response)) {
             $this->_objectManager->get('Magento\Framework\Session\Generic')->setErrorMessage($response['message']);

@@ -17,6 +17,6 @@ class MassUnhold extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_forward('massUnhold', 'order', null, array('origin' => 'archive'));
+        $this->_forward('massUnhold', 'order', null, ['origin' => 'archive']);
     }
 }

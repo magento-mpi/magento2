@@ -7,9 +7,9 @@
  */
 namespace Magento\Banner\Test\Block\Adminhtml\Banner\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Content

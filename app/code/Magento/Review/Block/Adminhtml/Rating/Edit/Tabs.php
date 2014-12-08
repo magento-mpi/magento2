@@ -32,13 +32,13 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'form_section',
-            array(
+            [
                 'label' => __('Rating Information'),
                 'title' => __('Rating Information'),
                 'content' => $this->getLayout()
                         ->createBlock('Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form')
                         ->toHtml()
-            )
+            ]
         );
         return parent::_beforeToHtml();
     }

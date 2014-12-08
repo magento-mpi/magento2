@@ -36,5 +36,5 @@ $queue->setTemplateId(
 )->setQueueStartAtByString(
     0
 )->setStores(
-    array($currentStore, $otherStore)
+    [$currentStore, $otherStore]
 )->save();

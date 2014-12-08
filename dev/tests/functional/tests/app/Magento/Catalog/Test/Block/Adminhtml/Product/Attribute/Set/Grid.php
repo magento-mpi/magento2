@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -31,7 +30,7 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'set_name' => [
-            'selector' => 'input[name="set_name"]'
+            'selector' => 'input[name="set_name"]',
         ],
     ];
 }

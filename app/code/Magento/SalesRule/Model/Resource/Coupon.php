@@ -24,7 +24,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('salesrule_coupon', 'coupon_id');
-        $this->addUniqueField(array('field' => 'code', 'title' => __('Coupon with the same code')));
+        $this->addUniqueField(['field' => 'code', 'title' => __('Coupon with the same code')]);
     }
 
     /**
@@ -37,7 +37,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         if (!$object->getExpirationDate()) {
             $object->setExpirationDate(null);
-        } else if ($object->getExpirationDate() instanceof \Zend_Date) {
+        } elseif ($object->getExpirationDate() instanceof \Zend_Date) {
             $object->setExpirationDate(
                 $object->getExpirationDate()->toString(\Magento\Framework\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
             );
@@ -75,7 +75,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'is_primary = :is_primary'
         );
 
-        $data = $read->fetchRow($select, array(':rule_id' => $ruleId, ':is_primary' => 1));
+        $data = $read->fetchRow($select, [':rule_id' => $ruleId, ':is_primary' => 1]);
 
         if (!$data) {
             return false;
@@ -100,7 +100,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select->from($this->getMainTable(), 'code');
         $select->where('code = :code');
 
-        if ($read->fetchOne($select, array('code' => $code)) === false) {
+        if ($read->fetchOne($select, ['code' => $code]) === false) {
             return false;
         }
         return true;
@@ -118,7 +118,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return $this;
         }
 
-        $updateArray = array();
+        $updateArray = [];
         if ($rule->dataHasChangedFor('uses_per_coupon')) {
             $updateArray['usage_limit'] = $rule->getUsesPerCoupon();
         }
@@ -138,7 +138,7 @@ class Coupon extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_getWriteAdapter()->update(
                 $this->getTable('salesrule_coupon'),
                 $updateArray,
-                array('rule_id = ?' => $rule->getId())
+                ['rule_id = ?' => $rule->getId()]
             );
         }
 

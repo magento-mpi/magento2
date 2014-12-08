@@ -28,13 +28,13 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->routerList = array(
-            'adminRouter' => array('class' => 'AdminClass', 'disable' => true, 'sortOrder' => 10),
-            'frontendRouter' => array('class' => 'FrontClass', 'disable' => false, 'sortOrder' => 10),
-            'default' => array('class' => 'DefaultClass', 'disable' => false, 'sortOrder' => 5),
-            'someRouter' => array('class' => 'SomeClass', 'disable' => false, 'sortOrder' => 10),
-            'anotherRouter' => array('class' => 'AnotherClass', 'disable' => false, 'sortOrder' => 15),
-        );
+        $this->routerList = [
+            'adminRouter' => ['class' => 'AdminClass', 'disable' => true, 'sortOrder' => 10],
+            'frontendRouter' => ['class' => 'FrontClass', 'disable' => false, 'sortOrder' => 10],
+            'default' => ['class' => 'DefaultClass', 'disable' => false, 'sortOrder' => 5],
+            'someRouter' => ['class' => 'SomeClass', 'disable' => false, 'sortOrder' => 10],
+            'anotherRouter' => ['class' => 'AnotherClass', 'disable' => false, 'sortOrder' => 15],
+        ];
 
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->model = new \Magento\Framework\App\RouterList($this->objectManagerMock, $this->routerList);
@@ -97,5 +97,4 @@ class RouterListTest extends \PHPUnit_Framework_TestCase
         $this->model->rewind();
         $this->assertEquals($defaultClass, $this->model->current());
     }
-
 }

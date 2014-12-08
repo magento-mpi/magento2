@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Model;
 
-use \Magento\CustomerSegment\Helper\Data;
+use Magento\CustomerSegment\Helper\Data;
 
 /**
  * Segment/customer relation model. Model working in website scope. If website is not declared
@@ -38,14 +38,14 @@ class Customer extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_segmentMap = array();
+    protected $_segmentMap = [];
 
     /**
      * Array of segment ids per customer id and website id
      *
      * @var array
      */
-    protected $_customerWebsiteSegments = array();
+    protected $_customerWebsiteSegments = [];
 
     /**
      * @var \Magento\Customer\Model\Visitor
@@ -105,7 +105,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
@@ -202,8 +202,8 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             $customerId = $customer;
         }
 
-        $matchedIds = array();
-        $notMatchedIds = array();
+        $matchedIds = [];
+        $notMatchedIds = [];
         $useVisitorId = !$customer || !$customerId;
         /** @var Segment $segment */
         foreach ($segments as $segment) {
@@ -251,9 +251,9 @@ class Customer extends \Magento\Framework\Model\AbstractModel
         if ($this->_configShare->isWebsiteScope()) {
             $websiteIds = $this->_resourceCustomer->getWebsiteId($customerId);
             if ($websiteIds) {
-                $websiteIds = array($websiteIds);
+                $websiteIds = [$websiteIds];
             } else {
-                $websiteIds = array();
+                $websiteIds = [];
             }
         } else {
             $websiteIds = $this->_storeManager->getWebsites();
@@ -277,7 +277,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     {
         $visitorSegmentIds = $visitorSession->getCustomerSegmentIds();
         if (!is_array($visitorSegmentIds)) {
-            $visitorSegmentIds = array();
+            $visitorSegmentIds = [];
         }
         if (isset($visitorSegmentIds[$websiteId]) && is_array($visitorSegmentIds[$websiteId])) {
             $segmentsIdsForWebsite = $visitorSegmentIds[$websiteId];
@@ -289,7 +289,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             $visitorSegmentIds[$websiteId] = $segmentIds;
         }
         $visitorSession->setCustomerSegmentIds($visitorSegmentIds);
-        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorSegmentIds), array());
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorSegmentIds), []);
         return $this;
     }
 
@@ -305,7 +305,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     {
         $visitorCustomerSegmentIds = $visitorSession->getCustomerSegmentIds();
         if (!is_array($visitorCustomerSegmentIds)) {
-            $visitorCustomerSegmentIds = array();
+            $visitorCustomerSegmentIds = [];
         }
         if (isset($visitorCustomerSegmentIds[$websiteId]) && is_array($visitorCustomerSegmentIds[$websiteId])) {
             $segmentsIdsForWebsite = $visitorCustomerSegmentIds[$websiteId];
@@ -315,7 +315,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
             $visitorCustomerSegmentIds[$websiteId] = $segmentsIdsForWebsite;
         }
         $visitorSession->setCustomerSegmentIds($visitorCustomerSegmentIds);
-        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorCustomerSegmentIds), array());
+        $this->_httpContext->setValue(Data::CONTEXT_SEGMENT, array_filter($visitorCustomerSegmentIds), []);
         return $this;
     }
 
@@ -382,7 +382,7 @@ class Customer extends \Magento\Framework\Model\AbstractModel
     {
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = $this->_customerSession;
-        $result = array();
+        $result = [];
         /** @var \Magento\Customer\Model\Customer $customer */
         $customer = $this->_registry->registry('segment_customer');
         if (!$customer) {

@@ -9,8 +9,8 @@
 
 namespace Magento\Catalog\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 class ProductCustomOptionRepositoryTest extends WebapiAbstract
 {
@@ -42,18 +42,18 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         /** @var  \Magento\Catalog\Model\Product $product */
         $product = $this->objectManager->create('Magento\Catalog\Model\Product');
         $product->load(1);
-        $customOptions= $product->getOptions();
+        $customOptions = $product->getOptions();
         $optionId = array_pop($customOptions)->getId();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/products/$sku/options/$optionId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteByIdentifier',
+            ],
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo, ['productSku' => $sku, 'optionId' => $optionId]));
         /** @var  \Magento\Catalog\Model\Product $product */
@@ -77,13 +77,13 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . "/options/" . $optionId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
         $option = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
         unset($option['product_sku']);
@@ -102,13 +102,13 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . "/options",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $options = $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
 
@@ -146,22 +146,20 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/options',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, ['option' => $optionDataPost]);
         unset($result['product_sku']);
         unset($result['option_id']);
-        if (!empty($result['values']))
-        {
-            foreach($result['values'] as $key => $value)
-            {
+        if (!empty($result['values'])) {
+            foreach ($result['values'] as $key => $value) {
                 unset($result['values'][$key]['option_type_id']);
             }
         }
@@ -170,7 +168,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
 
     public function optionDataProvider()
     {
-        $fixtureOptions = array();
+        $fixtureOptions = [];
         $fixture = include '_files/product_options.php';
         foreach ($fixture as $item) {
             $fixtureOptions[$item['type']] = [
@@ -194,13 +192,13 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => "/V1/products/options",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
@@ -213,7 +211,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
 
     public function optionNegativeDataProvider()
     {
-        $fixtureOptions = array();
+        $fixtureOptions = [];
         $fixture = include '_files/product_options_negative.php';
         foreach ($fixture as $key => $item) {
             $fixtureOptions[$key] = [
@@ -248,22 +246,22 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
             'price' => $option->getPrice(),
             'price_type' => $option->getPriceType(),
             'sku' => $option->getSku(),
-            'max_characters' => 500
+            'max_characters' => 500,
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/options/' . $optionId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $optionDataPost['option_id'] = $optionId ;
+            $optionDataPost['option_id'] = $optionId;
             $updatedOption = $this->_webApiCall(
                 $serviceInfo, [ 'id' => $optionId, 'option' => $optionDataPost]
             );
@@ -294,7 +292,7 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
             'price_type' => 'fixed',
             'sku' => 'new option sku ' . $optionType,
             'title' => 'New Option Title',
-            'sort_order' => 100
+            'sort_order' => 100,
         ];
 
         $product = $this->productFactory->create();
@@ -309,39 +307,38 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         }
 
         $values = [];
-        foreach($option->getValues() as $key => $value)
-        {
+        foreach ($option->getValues() as $key => $value) {
             $values[] = [
                 'price' => $value->getPrice(),
                 'price_type' => $value->getPriceType(),
                 'sku' => $value->getSku(),
                 'title' => $value->getTitle(),
-                'sort_order' => $value->getSortOrder()
+                'sort_order' => $value->getSortOrder(),
         ];
         }
         $values[] = $valueData;
-        $data = array(
+        $data = [
             'product_sku' => $option->getProductSku(),
             'title' => $option->getTitle(),
             'type' => $option->getType(),
             'is_require' => $option->getIsRequire(),
             'sort_order' => $option->getSortOrder(),
-            'values' => $values
-        );
+            'values' => $values,
+        ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/options/' . $fixtureOption->getId(),
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $data['option_id'] = $fixtureOption->getId() ;
+            $data['option_id'] = $fixtureOption->getId();
             $valueObject = $this->_webApiCall(
                 $serviceInfo, [ 'option_id' => $fixtureOption->getId(), 'option' => $data]
             );

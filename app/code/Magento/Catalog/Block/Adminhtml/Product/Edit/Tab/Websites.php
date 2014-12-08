@@ -46,7 +46,7 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $websiteFactory, $storeGroupFactory, $storeFactory, $data);

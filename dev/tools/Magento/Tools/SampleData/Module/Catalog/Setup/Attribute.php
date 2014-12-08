@@ -8,8 +8,8 @@
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Setup sample attributes
@@ -125,7 +125,7 @@ class Attribute implements SetupInterface
             if (!$fileName) {
                 continue;
             }
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $data) {
                 $data['attribute_set'] = explode("\n", $data['attribute_set']);
 
@@ -148,7 +148,7 @@ class Attribute implements SetupInterface
                 $data['backend_model'] = $this->productHelper->getAttributeBackendModelByInputType(
                     $data['frontend_input']
                 );
-                $data += array('is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => array());
+                $data += ['is_filterable' => 0, 'is_filterable_in_search' => 0, 'apply_to' => []];
                 $data['backend_type'] = $attribute->getBackendTypeByInput($data['frontend_input']);
 
                 $attribute->addData($data);

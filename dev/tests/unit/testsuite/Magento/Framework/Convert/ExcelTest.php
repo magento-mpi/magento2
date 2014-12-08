@@ -18,23 +18,23 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    private $_testData = array(
-        array('ID', 'Name', 'Email', 'Group', 'Telephone', '+Telephone', 'ZIP', '0ZIP', 'Country', 'State/Province'),
-        array(
+    private $_testData = [
+        ['ID', 'Name', 'Email', 'Group', 'Telephone', '+Telephone', 'ZIP', '0ZIP', 'Country', 'State/Province'],
+        [
             1, 'Jon Doe', 'jon.doe@magento.com', 'General', '310-111-1111', '+310-111-1111', 90232, '090232',
             'United States', 'California'
-        )
-    );
+        ],
+    ];
 
-    protected $_testHeader = array(
+    protected $_testHeader = [
         'HeaderID', 'HeaderName', 'HeaderEmail', 'HeaderGroup', 'HeaderPhone', 'Header+Phone',
         'HeaderZIP', 'Header0ZIP', 'HeaderCountry', 'HeaderRegion',
-    );
+    ];
 
-    protected $_testFooter = array(
+    protected $_testFooter = [
         'FooterID', 'FooterName', 'FooterEmail', 'FooterGroup', 'FooterPhone', 'Footer+Phone',
         'FooterZIP', 'Footer0ZIP', 'FooterCountry', 'FooterRegion',
-    );
+    ];
 
     /**
      * Path for Sample File
@@ -54,7 +54,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
      */
     public function callbackMethod($row)
     {
-        $data = array();
+        $data = [];
         foreach ($row as $value) {
             $data[] = $value . '_TRUE_';
         }
@@ -88,7 +88,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     {
         $convert = new \Magento\Framework\Convert\Excel(
             new \ArrayIterator($this->_testData),
-            array($this, 'callbackMethod')
+            [$this, 'callbackMethod']
         );
         $this->assertContains('_TRUE_', $convert->convert(), 'Failed asserting that callback method is called.');
     }
@@ -118,7 +118,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         } else {
             $convert = new \Magento\Framework\Convert\Excel(
                 new \ArrayIterator($this->_testData),
-                array($this, 'callbackMethod')
+                [$this, 'callbackMethod']
             );
         }
 

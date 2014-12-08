@@ -31,12 +31,12 @@ class MinifyService
      *
      * @var array
      */
-    protected $enabled = array();
+    protected $enabled = [];
 
     /**
      * @var \Magento\Framework\Code\Minifier\AdapterInterface[]
      */
-    protected $adapters = array();
+    protected $adapters = [];
 
     /**
      * @var string
@@ -69,7 +69,7 @@ class MinifyService
      */
     public function getAssets($assets)
     {
-        $resultAssets = array();
+        $resultAssets = [];
         $strategy = $this->appMode == \Magento\Framework\App\State::MODE_PRODUCTION
             ? Minified::FILE_EXISTS : Minified::MTIME;
         /** @var $asset AssetInterface */
@@ -80,11 +80,11 @@ class MinifyService
                 $asset = $this->objectManager
                     ->create(
                         'Magento\Framework\View\Asset\Minified',
-                        array(
+                        [
                             'asset' => $asset,
                             'strategy' => $strategy,
                             'adapter' => $this->getAdapter($contentType),
-                        )
+                        ]
                     );
             }
             $resultAssets[] = $asset;

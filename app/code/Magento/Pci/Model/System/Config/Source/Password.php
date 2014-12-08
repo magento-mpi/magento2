@@ -21,6 +21,6 @@ class Password extends \Magento\Framework\Object implements \Magento\Framework\O
      */
     public function toOptionArray()
     {
-        return array(array('value' => 0, 'label' => __('Recommended')), array('value' => 1, 'label' => __('Forced')));
+        return [['value' => 0, 'label' => __('Recommended')], ['value' => 1, 'label' => __('Forced')]];
     }
 }

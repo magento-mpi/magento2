@@ -10,7 +10,6 @@
 namespace Magento\Banner\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
 
 /**
  * Curl handler for updating a banner

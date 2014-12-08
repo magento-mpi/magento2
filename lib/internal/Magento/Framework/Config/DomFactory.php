@@ -37,7 +37,7 @@ class DomFactory
      * @param array $arguments
      * @return \Magento\Framework\Config\Dom
      */
-    public function createDom(array $arguments = array())
+    public function createDom(array $arguments = [])
     {
         return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }

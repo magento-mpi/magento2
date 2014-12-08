@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
+return [
     '/config/global/fieldsets' => '',
     '/config/global/cache/betatypes' => '',
     '/config/admin/fieldsets' => '',
@@ -101,4 +101,4 @@ return array(
     '/config/global/currency/import/services' => 'Configurations moved to DI file settings',
     '/config/global/template' => 'Use /config/template of email_templates.xml',
     '/config/default/general/file/sitemap_generate_valid_paths' => '/config/default/sitemap/file/valid_paths',
-);
+];

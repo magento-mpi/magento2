@@ -60,7 +60,7 @@ class Error implements \Magento\TestModule3\Service\V1\ErrorInterface
      */
     public function parameterizedServiceException($parameters)
     {
-        $details = array();
+        $details = [];
         foreach ($parameters as $parameter) {
             $details[$parameter->getName()] = $parameter->getValue();
         }

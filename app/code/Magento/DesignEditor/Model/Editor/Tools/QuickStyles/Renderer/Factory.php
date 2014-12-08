@@ -29,9 +29,9 @@ class Factory
      *
      * @var array
      */
-    protected $_specificRenderer = array(
-        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage'
-    );
+    protected $_specificRenderer = [
+        self::BACKGROUND_IMAGE => 'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
+    ];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

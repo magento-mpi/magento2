@@ -8,11 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 
 /**

@@ -18,7 +18,7 @@ class Freemethod extends \Magento\Ups\Model\Config\Source\Method
     public function toOptionArray()
     {
         $arr = parent::toOptionArray();
-        array_unshift($arr, array('value' => '', 'label' => __('None')));
+        array_unshift($arr, ['value' => '', 'label' => __('None')]);
         return $arr;
     }
 }

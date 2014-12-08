@@ -96,13 +96,13 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = parent::_getLoadSelect($field, $value, $object);
         $select->joinLeft(
-            array('page_table' => $this->getTable('cms_page')),
+            ['page_table' => $this->getTable('cms_page')],
             $this->getMainTable() . '.page_id = page_table.page_id',
-            array('page_title' => 'title', 'page_identifier' => 'identifier', 'page_is_active' => 'is_active')
+            ['page_title' => 'title', 'page_identifier' => 'identifier', 'page_is_active' => 'is_active']
         )->joinLeft(
-            array('metadata_table' => $this->_metadataTable),
+            ['metadata_table' => $this->_metadataTable],
             sprintf('%s.%s = metadata_table.node_id', $this->getMainTable(), $this->getIdFieldName()),
-            array(
+            [
                 'meta_first_last',
                 'meta_next_previous',
                 'meta_chapter',
@@ -120,7 +120,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'menu_list_type',
                 'top_menu_visibility',
                 'top_menu_excluded'
-            )
+            ]
         );
 
         $this->_applyParamFilters($select);
@@ -212,7 +212,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $parentNodeId,
                 $object
             )->order(
-                array($this->getMainTable() . '.sort_order')
+                [$this->getMainTable() . '.sort_order']
             )->limit(
                 1
             );
@@ -235,7 +235,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function removeTreeChilds($object)
     {
-        $where = array('parent_node_id = ?' => (int)$object->getId());
+        $where = ['parent_node_id = ?' => (int)$object->getId()];
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         return $this;
     }
@@ -257,7 +257,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         );
 
         $rowset = $this->_getReadAdapter()->fetchAll($select);
-        $treeXpaths = array();
+        $treeXpaths = [];
         foreach ($rowset as $row) {
             $treeXpaths[] = $row['xpath'];
         }
@@ -273,8 +273,8 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function updateRequestUrlsForTreeByXpath($xpath)
     {
         $select = $this->_getReadAdapter()->select()->from(
-            array('node_table' => $this->getMainTable()),
-            array(
+            ['node_table' => $this->getMainTable()],
+            [
                 $this->getIdFieldName(),
                 'parent_node_id',
                 'page_id',
@@ -282,21 +282,21 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'request_url',
                 'level',
                 'sort_order'
-            )
+            ]
         )->joinLeft(
-            array('page_table' => $this->getTable('cms_page')),
+            ['page_table' => $this->getTable('cms_page')],
             'node_table.page_id=page_table.page_id',
-            array('page_identifier' => 'identifier')
+            ['page_identifier' => 'identifier']
         )->where(
             'xpath LIKE ? OR xpath = ?',
             $xpath . '/%'
         )->group(
             'node_table.node_id'
         )->order(
-            array('level', 'sort_order')
+            ['level', 'sort_order']
         );
 
-        $nodes = array();
+        $nodes = [];
         $rowSet = $this->_getReadAdapter()->fetchAll($select);
         foreach ($rowSet as $row) {
             $nodes[intval($row['parent_node_id'])][$row[$this->getIdFieldName()]] = $row;
@@ -338,7 +338,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if ($nodeRow['request_url'] != $requestUrl) {
                 $this->_getWriteAdapter()->update(
                     $this->getMainTable(),
-                    array('request_url' => $requestUrl),
+                    ['request_url' => $requestUrl],
                     $this->_getWriteAdapter()->quoteInto(
                         $this->getIdFieldName() . '=?',
                         $nodeRow[$this->getIdFieldName()]
@@ -367,12 +367,12 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
-            array('main_table' => $this->getTable('cms_page')),
-            array('page_id', 'website_root')
+            ['main_table' => $this->getTable('cms_page')],
+            ['page_id', 'website_root']
         )->join(
-            array('cps' => $this->getTable('cms_page_store')),
+            ['cps' => $this->getTable('cms_page_store')],
             'main_table.page_id = cps.page_id',
-            array()
+            []
         )->where(
             'main_table.identifier = ?',
             $identifier
@@ -405,7 +405,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($object->dataHasChangedFor($this->getIdFieldName())) {
             // update xpath
             $xpath = $object->getXpath() . $object->getId();
-            $bind = array('xpath' => $xpath);
+            $bind = ['xpath' => $xpath];
             $where = $this->_getWriteAdapter()->quoteInto($this->getIdFieldName() . '=?', $object->getId());
             $this->_getWriteAdapter()->update($this->getMainTable(), $bind, $where);
             $object->setXpath($xpath);
@@ -475,7 +475,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         )->where(
                             'metadata_table.' . $fieldName . '=1'
                         )->order(
-                            array($this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC)
+                            [$this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC]
                         )->limit(
                             1
                         );
@@ -569,7 +569,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getTreeSlice($object, $up = 0, $down = 0)
     {
-        $tree = array();
+        $tree = [];
         $parentId = $object->getParentNodeId();
 
         if ($this->_treeMaxDepth > 0 && $object->getLevel() > $this->_treeMaxDepth) {
@@ -580,7 +580,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!$this->_treeIsBrief) {
             array_pop($xpath); //remove self node
         }
-        $parentIds = array();
+        $parentIds = [];
         $useUp = $up > 0;
         while (count($xpath) > 0) {
             if ($useUp && $up == 0) {
@@ -595,7 +595,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         /**
          * Collect childs
          */
-        $children = array();
+        $children = [];
         if ($this->_treeMaxDepth > 0 && $this->_treeMaxDepth > $object->getLevel() || $this->_treeMaxDepth == 0) {
             $children = $this->_getSliceChildren($object, $down);
         }
@@ -625,10 +625,9 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select->where('scope = ?', $object->getScope())->where('scope_id = ?', $object->getScopeId());
         }
 
-        $select->order(array('level', $this->getMainTable() . '.sort_order'));
+        $select->order(['level', $this->getMainTable() . '.sort_order']);
         $nodes = $select->query()->fetchAll();
         $tree = $this->_prepareRelatedStructure($nodes, 0, $tree);
-
 
         // add children to tree
         if (count($children) > 0) {
@@ -659,7 +658,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             ) : $object->getLevel() + $down;
             $select->where($select->getAdapter()->quoteIdentifier('level') . ' <= ?', $maxLevel);
         }
-        $select->order(array('level', $this->getMainTable() . '.sort_order'));
+        $select->order(['level', $this->getMainTable() . '.sort_order']);
         return $select->query()->fetchAll();
     }
 
@@ -710,7 +709,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getParentMetadataParams($object, $fieldName, $values)
     {
-        $values = is_array($values) ? $values : array($values);
+        $values = is_array($values) ? $values : [$values];
 
         $parentIds = preg_split('/\/{1}/', $object->getXpath(), 0, PREG_SPLIT_NO_EMPTY);
         array_pop($parentIds); //remove self node
@@ -721,7 +720,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'metadata_table.' . $fieldName . ' IN (?)',
             $values
         )->order(
-            array($this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC)
+            [$this->getMainTable() . '.level ' . \Magento\Framework\DB\Select::SQL_DESC]
         )->limit(
             1
         );
@@ -743,11 +742,11 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $pageId = $object->getPageId();
         if (!empty($pageId)) {
-            $columns = array(
+            $columns = [
                 'page_title' => 'title',
                 'page_identifier' => 'identifier',
-                'page_is_active' => 'is_active'
-            );
+                'page_is_active' => 'is_active',
+            ];
             $select = $this->_getReadAdapter()->select()->from(
                 $this->getTable('cms_page'),
                 $columns
@@ -775,7 +774,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function removePageFromNodes($pageId, $nodes)
     {
-        $whereClause = array('page_id = ?' => $pageId, 'parent_node_id IN (?)' => $nodes);
+        $whereClause = ['page_id = ?' => $pageId, 'parent_node_id IN (?)' => $nodes];
         $this->_getWriteAdapter()->delete($this->getMainTable(), $whereClause);
 
         return $this;
@@ -790,7 +789,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function dropNodes($nodeIds)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(), array('node_id IN (?)' => $nodeIds));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), ['node_id IN (?)' => $nodeIds]);
         return $this;
     }
 
@@ -835,8 +834,8 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->update(
             $this->getMainTable(),
-            array('sort_order' => $sortOrder),
-            array($this->getIdFieldName() . ' = ? ' => $nodeId)
+            ['sort_order' => $sortOrder],
+            [$this->getIdFieldName() . ' = ? ' => $nodeId]
         );
 
         return $this;
@@ -855,9 +854,9 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         // Copy hierarchy
         /** @var $nodesModel \Magento\VersionsCms\Model\Hierarchy\Node */
-        $nodesModel = $this->_nodeFactory->create(array('data' => array('scope' => $scope, 'scope_id' => $scopeId)));
+        $nodesModel = $this->_nodeFactory->create(['data' => ['scope' => $scope, 'scope_id' => $scopeId]]);
 
-        $nodes = array();
+        $nodes = [];
         foreach ($collection as $node) {
             if ($node->getLevel() == \Magento\VersionsCms\Model\Hierarchy\Node::NODE_LEVEL_FAKE) {
                 continue;
@@ -873,7 +872,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
         $this->beginTransaction();
         try {
-            $nodesModel->collectTree($nodes, array());
+            $nodesModel->collectTree($nodes, []);
             $this->addEmptyNode($scope, $scopeId);
             $this->commit();
         } catch (\Exception $e) {
@@ -899,10 +898,10 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
             // Delete metadata
             $adapter->delete(
                 $this->getTable('magento_versionscms_hierarchy_metadata'),
-                array(
+                [
                     'node_id IN (?)' => $adapter->select()->from(
                         $this->getMainTable(),
-                        array('node_id')
+                        ['node_id']
                     )->where(
                         'scope = ?',
                         $scope
@@ -910,10 +909,10 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
                         'scope_id = ?',
                         $scopeId
                     )
-                )
+                ]
             );
             // Delete nodes
-            $adapter->delete($this->getMainTable(), array('scope = ?' => $scope, 'scope_id = ?' => $scopeId));
+            $adapter->delete($this->getMainTable(), ['scope = ?' => $scope, 'scope_id = ?' => $scopeId]);
             $this->commit();
         } catch (\Exception $e) {
             $this->rollBack();
@@ -964,7 +963,7 @@ class Node extends \Magento\Framework\Model\Resource\Db\AbstractDb
         ) {
             $this->_getWriteAdapter()->insert(
                 $this->getMainTable(),
-                array('sort_order' => 0, 'scope' => $scope, 'scope_id' => $scopeId)
+                ['sort_order' => 0, 'scope' => $scope, 'scope_id' => $scopeId]
             );
         }
     }

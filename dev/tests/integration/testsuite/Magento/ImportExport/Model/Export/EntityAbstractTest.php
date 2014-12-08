@@ -26,12 +26,12 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\AbstractEntity',
-            array(
+            [
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Store\Model\StoreManager'),
                 $objectManager->get('Magento\ImportExport\Model\Export\Factory'),
                 $objectManager->get('Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory')
-            )
+            ]
         );
     }
 
@@ -86,7 +86,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
-        $existedAttributes = array();
+        $existedAttributes = [];
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
@@ -112,9 +112,9 @@ abstract class Stub_Magento_ImportExport_Model_Export_AbstractEntity
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
-        $this->_disabledAttrs = array('default_billing', 'default_shipping');
+        $this->_disabledAttrs = ['default_billing', 'default_shipping'];
     }
 }

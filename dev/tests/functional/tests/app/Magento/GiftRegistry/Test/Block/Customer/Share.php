@@ -8,8 +8,8 @@
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
-use Mtf\Block\Form;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Block\Form;
 
 /**
  * Class Share

@@ -36,7 +36,7 @@ class Load extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\View\Helper\Js $jsHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_jsHelper = $jsHelper;
@@ -50,7 +50,7 @@ class Load extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        $result = array();
+        $result = [];
         $layout = $this->getLayout();
         foreach ($this->getChildNames() as $name) {
             $result[$name] = $layout->renderElement($name);

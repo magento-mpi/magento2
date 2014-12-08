@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 class GalleryEntryResolver
 {

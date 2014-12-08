@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\TestStep;
 
+use Magento\Sales\Test\Page\SalesGuestView;
 use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
-use Magento\Sales\Test\Page\SalesGuestView;
 
 /**
  * Click on "Print Order" button.

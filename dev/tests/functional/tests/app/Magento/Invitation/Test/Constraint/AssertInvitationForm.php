@@ -8,10 +8,10 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Assert that Invitation form was filled correctly.
@@ -62,7 +62,7 @@ class AssertInvitationForm extends AbstractAssertForm
             $fixtureData = [
                 'email' => $invitationData['email'],
                 'message' => $invitation->getMessage(),
-                'status' => $status
+                'status' => $status,
             ];
             $formData = $invitationsIndexView->getInvitationForm()->getData();
             $error = $this->verifyData($fixtureData, $formData);

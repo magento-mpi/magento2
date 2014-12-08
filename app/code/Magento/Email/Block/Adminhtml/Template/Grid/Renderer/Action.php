@@ -22,13 +22,13 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
      */
     public function render(\Magento\Framework\Object $row)
     {
-        $actions = array();
+        $actions = [];
 
-        $actions[] = array(
-            'url' => $this->getUrl('adminhtml/*/preview', array('id' => $row->getId())),
+        $actions[] = [
+            'url' => $this->getUrl('adminhtml/*/preview', ['id' => $row->getId()]),
             'popup' => true,
-            'caption' => __('Preview')
-        );
+            'caption' => __('Preview'),
+        ];
 
         $this->getColumn()->setActions($actions);
 
@@ -54,7 +54,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
      */
     protected function _actionsToHtml(array $actions)
     {
-        $html = array();
+        $html = [];
         $attributesObject = new \Magento\Framework\Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);

@@ -29,7 +29,7 @@ class YearRange extends Field
         if ($element->getValue()) {
             $values = explode(',', $element->getValue());
         } else {
-            $values = array();
+            $values = [];
         }
 
         $from = $element->setValue(isset($values[0]) ? $values[0] : null)->getElementHtml();

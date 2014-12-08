@@ -52,7 +52,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Builder $formBuilder,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_formBuilder = $formBuilder;
@@ -73,14 +73,14 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form
             );
         }
         $form = $this->_formBuilder->create(
-            array(
+            [
                 'id' => $this->_formId,
                 'action' => '#',
                 'method' => 'post',
                 'tab' => $this->_tab,
                 'theme' => $this->_themeContext->getStagingTheme(),
-                'parent_theme' => $this->_themeContext->getEditableTheme()->getParentTheme()
-            )
+                'parent_theme' => $this->_themeContext->getEditableTheme()->getParentTheme(),
+            ]
         );
         $form->setUseContainer(true);
 

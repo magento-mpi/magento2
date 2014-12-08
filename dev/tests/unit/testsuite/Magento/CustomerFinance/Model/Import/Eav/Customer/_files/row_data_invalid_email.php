@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     '_website' => 'website1',
     '_email' => 'test1email.com',
     '_finance_website' => 'website2',
     'store_credit' => 10.5,
     'reward_points' => 5
-);
+];

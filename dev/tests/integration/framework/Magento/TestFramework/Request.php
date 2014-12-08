@@ -18,7 +18,7 @@ class Request extends \Magento\Framework\App\Request\Http
      *
      * @var array
      */
-    protected $_server = array();
+    protected $_server = [];
 
     /**
      * Retrieve HTTP HOST.

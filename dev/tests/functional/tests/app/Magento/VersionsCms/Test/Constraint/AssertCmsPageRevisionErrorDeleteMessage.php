@@ -8,8 +8,8 @@
 
 namespace Magento\VersionsCms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsPageRevisionErrorDeleteMessage

@@ -16,19 +16,19 @@ class FormStub extends \Magento\Backend\Block\System\Config\Form
     /**
      * @var array
      */
-    protected $_configDataStub = array();
+    protected $_configDataStub = [];
 
     /**
      * @var array
      */
-    protected $_configRootStub = array();
+    protected $_configRootStub = [];
 
     /**
      * Sets stub config data
      *
      * @param array $configData
      */
-    public function setStubConfigData(array $configData = array())
+    public function setStubConfigData(array $configData = [])
     {
         $this->_configDataStub = $configData;
     }
@@ -39,7 +39,7 @@ class FormStub extends \Magento\Backend\Block\System\Config\Form
      * @param array $configRoot
      * @return void
      */
-    public function setStubConfigRoot(array $configRoot = array())
+    public function setStubConfigRoot(array $configRoot = [])
     {
         $this->_configRootStub = $configRoot;
     }

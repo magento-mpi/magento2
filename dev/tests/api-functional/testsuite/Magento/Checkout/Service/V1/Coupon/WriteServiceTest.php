@@ -37,17 +37,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'Delete',
-            ),
-        );
+            ],
+        ];
         $requestData = ["cartId" => $cartId];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
         $quote->load('test_order_1', 'reserved_order_id');
@@ -66,23 +66,23 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test_order_1', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'Set',
-            ),
-        );
+            ],
+        ];
 
         $data = [Coupon::COUPON_CODE => 'invalid_coupon_code'];
 
         $requestData = [
             "cartId" => $cartId,
-            "couponCodeData" => $data
+            "couponCodeData" => $data,
         ];
 
         $this->_webApiCall($serviceInfo, $requestData);
@@ -99,17 +99,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote->load('test01', 'reserved_order_id');
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/coupons',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'Set',
-            ),
-        );
+            ],
+        ];
 
         $salesRule = $this->objectManager->create('Magento\SalesRule\Model\Rule');
         $salesRule->load('Test Coupon', 'name');
@@ -119,7 +119,7 @@ class WriteServiceTest extends WebapiAbstract
 
         $requestData = [
             "cartId" => $cartId,
-            "couponCodeData" => $data
+            "couponCodeData" => $data,
         ];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));

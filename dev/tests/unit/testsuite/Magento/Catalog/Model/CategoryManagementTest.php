@@ -97,7 +97,7 @@ class CategoryManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     [$categoryId, null, $categoryMock],
-                    [$parentId, null, $parentCategoryMock]
+                    [$parentId, null, $parentCategoryMock],
                 ]
             ));
         $parentCategoryMock->expects($this->once())->method('hasChildren')->willReturn(true);
@@ -132,7 +132,7 @@ class CategoryManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     [$categoryId, null, $categoryMock],
-                    [$parentId, null, $parentCategoryMock]
+                    [$parentId, null, $parentCategoryMock],
                 ]
             ));
         $categoryMock->expects($this->once())->method('getPath')->willReturn('test');
@@ -164,13 +164,13 @@ class CategoryManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     [$categoryId, null, $categoryMock],
-                    [$parentId, null, $parentCategoryMock]
+                    [$parentId, null, $parentCategoryMock],
                 ]
             ));
         $categoryMock->expects($this->once())
             ->method('move')
             ->with($parentId, $afterId)
-            ->willThrowException(new \Magento\Framework\Model\Exception);
+            ->willThrowException(new \Magento\Framework\Model\Exception());
         $this->model->move($categoryId, $parentId, $afterId);
     }
 }

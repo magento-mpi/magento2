@@ -20,12 +20,12 @@ $ruleTo->load('50% Off on Large Orders', 'name');
 /** @var \Magento\Banner\Model\Banner $banner */
 $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Banner\Model\Banner');
 $banner->setData(
-    array(
+    [
         'name' => 'Get from 40% to 50% Off on Large Orders',
         'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,
-        'types' => array(), /*Any Banner Type*/
-        'store_contents' => array('<img src="http://example.com/banner_40_to_50_percent_off.png" />'),
-        'banner_sales_rules' => array($ruleFrom->getId(), $ruleTo->getId())
-    )
+        'types' => [], /*Any Banner Type*/
+        'store_contents' => ['<img src="http://example.com/banner_40_to_50_percent_off.png" />'],
+        'banner_sales_rules' => [$ruleFrom->getId(), $ruleTo->getId()],
+    ]
 );
 $banner->save();

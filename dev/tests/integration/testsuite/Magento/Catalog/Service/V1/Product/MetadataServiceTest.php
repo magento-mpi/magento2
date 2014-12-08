@@ -20,9 +20,9 @@ class MetadataServiceTest extends \PHPUnit_Framework_TestCase
             [
                 'Magento\Framework\Api\Config\Reader' => [
                     'arguments' => [
-                        'fileResolver' => ['instance' => 'Magento\Catalog\Service\V1\FileResolverStub']
-                    ]
-                ]
+                        'fileResolver' => ['instance' => 'Magento\Catalog\Service\V1\FileResolverStub'],
+                    ],
+                ],
             ]
         );
         $this->_service = $objectManager->create('Magento\Catalog\Service\V1\Product\MetadataServiceInterface');

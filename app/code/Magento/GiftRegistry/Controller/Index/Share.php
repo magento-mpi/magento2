@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Share extends \Magento\GiftRegistry\Controller\Index
 {

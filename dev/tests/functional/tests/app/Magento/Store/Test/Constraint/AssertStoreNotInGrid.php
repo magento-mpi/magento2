@@ -8,9 +8,9 @@
 
 namespace Magento\Store\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Store\Test\Fixture\Store;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertStoreNotInGrid

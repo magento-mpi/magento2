@@ -5,62 +5,62 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    array(
+return [
+    [
         'global',
-        array(
-            'Magento\Framework\Interception\Custom\Module\Model\Item' => array(
-                'plugins' => array(
-                    'simple_plugin' => array(
+        [
+            'Magento\Framework\Interception\Custom\Module\Model\Item' => [
+                'plugins' => [
+                    'simple_plugin' => [
                         'sortOrder' => 10,
-                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Simple'
-                    )
-                )
-            )
-        )
-    ),
-    array(
+                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Simple',
+                    ],
+                ],
+            ]
+        ],
+    ],
+    [
         'backend',
-        array(
-            'Magento\Framework\Interception\Custom\Module\Model\Item' => array(
-                'plugins' => array(
-                    'advanced_plugin' => array(
+        [
+            'Magento\Framework\Interception\Custom\Module\Model\Item' => [
+                'plugins' => [
+                    'advanced_plugin' => [
                         'sortOrder' => 5,
-                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Advanced'
-                    )
-                )
-            ),
-            'Magento\Framework\Interception\Custom\Module\Model\ItemContainer' => array(
-                'plugins' => array(
-                    'simple_plugin' => array(
+                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Advanced',
+                    ],
+                ],
+            ],
+            'Magento\Framework\Interception\Custom\Module\Model\ItemContainer' => [
+                'plugins' => [
+                    'simple_plugin' => [
                         'sortOrder' => 15,
-                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemContainerPlugin\Simple'
-                    )
-                )
-            )
-        )
-    ),
-    array(
+                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemContainerPlugin\Simple',
+                    ],
+                ],
+            ]
+        ]
+    ],
+    [
         'frontend',
-        array(
-            'Magento\Framework\Interception\Custom\Module\Model\Item' => array(
-                'plugins' => array('simple_plugin' => array('disabled' => true))
-            ),
-            'Magento\Framework\Interception\Custom\Module\Model\Item\Enhanced' => array(
-                'plugins' => array(
-                    'advanced_plugin' => array(
+        [
+            'Magento\Framework\Interception\Custom\Module\Model\Item' => [
+                'plugins' => ['simple_plugin' => ['disabled' => true]],
+            ],
+            'Magento\Framework\Interception\Custom\Module\Model\Item\Enhanced' => [
+                'plugins' => [
+                    'advanced_plugin' => [
                         'sortOrder' => 5,
-                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Advanced'
-                    )
-                )
-            ),
-            'SomeType' => array(
-                'plugins' => array(
-                    'simple_plugin' => array(
-                        'instance' => 'NonExistingPluginClass'
-                    )
-                )
-            )
-        )
-    )
-);
+                        'instance' => 'Magento\Framework\Interception\Custom\Module\Model\ItemPlugin\Advanced',
+                    ],
+                ],
+            ],
+            'SomeType' => [
+                'plugins' => [
+                    'simple_plugin' => [
+                        'instance' => 'NonExistingPluginClass',
+                    ],
+                ],
+            ]
+        ]
+    ]
+];

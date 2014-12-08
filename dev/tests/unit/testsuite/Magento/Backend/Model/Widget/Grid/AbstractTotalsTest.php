@@ -36,7 +36,7 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
         $this->_prepareParserMock();
         $this->_prepareFactoryMock();
 
-        $arguments = array('factory' => $this->_factoryMock, 'parser' => $this->_parserMock);
+        $arguments = ['factory' => $this->_factoryMock, 'parser' => $this->_parserMock];
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Backend\Model\Widget\Grid\AbstractTotals',
             $arguments,
@@ -44,7 +44,7 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
             true,
             false,
             true,
-            array()
+            []
         );
         $this->_model->expects($this->any())->method('_countSum')->will($this->returnValue(2));
         $this->_model->expects($this->any())->method('_countAverage')->will($this->returnValue(2));
@@ -66,9 +66,9 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     protected function _getTestCollection()
     {
         $collection = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
-        $items = array(new \Magento\Framework\Object(array('test1' => '1', 'test2' => '2')));
+        $items = [new \Magento\Framework\Object(['test1' => '1', 'test2' => '2'])];
         foreach ($items as $item) {
             $collection->addItem($item);
         }
@@ -81,15 +81,15 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setUpColumns()
     {
-        $columns = array(
+        $columns = [
             'test1' => 'sum',
             'test2' => 'avg',
             'test3' => 'test1+test2',
             'test4' => 'test1-test2',
             'test5' => 'test1*test2',
             'test6' => 'test1/test2',
-            'test7' => 'test1/0'
-        );
+            'test7' => 'test1/0',
+        ];
 
         foreach ($columns as $index => $expression) {
             $this->_model->setColumn($index, $expression);
@@ -103,16 +103,16 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_parserMock = $this->getMock(
             'Magento\Backend\Model\Widget\Grid\Parser',
-            array('parseExpression', 'isOperation')
+            ['parseExpression', 'isOperation']
         );
 
-        $columnsValueMap = array(
-            array('test1+test2', array('test1', 'test2', '+')),
-            array('test1-test2', array('test1', 'test2', '-')),
-            array('test1*test2', array('test1', 'test2', '*')),
-            array('test1/test2', array('test1', 'test2', '/')),
-            array('test1/0', array('test1', '0', '/'))
-        );
+        $columnsValueMap = [
+            ['test1+test2', ['test1', 'test2', '+']],
+            ['test1-test2', ['test1', 'test2', '-']],
+            ['test1*test2', ['test1', 'test2', '*']],
+            ['test1/test2', ['test1', 'test2', '/']],
+            ['test1/0', ['test1', '0', '/']],
+        ];
         $this->_parserMock->expects(
             $this->any()
         )->method(
@@ -121,15 +121,15 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
             $this->returnValueMap($columnsValueMap)
         );
 
-        $isOperationValueMap = array(
-            array('+', true),
-            array('-', true),
-            array('*', true),
-            array('/', true),
-            array('test1', false),
-            array('test2', false),
-            array('0', false)
-        );
+        $isOperationValueMap = [
+            ['+', true],
+            ['-', true],
+            ['*', true],
+            ['/', true],
+            ['test1', false],
+            ['test2', false],
+            ['0', false],
+        ];
         $this->_parserMock->expects(
             $this->any()
         )->method(
@@ -146,53 +146,53 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryMock = $this->getMock(
             'Magento\Framework\Object\Factory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false,
             false,
             false
         );
 
-        $createValueMap = array(
-            array(
-                array(
+        $createValueMap = [
+            [
+                [
                     'test1' => 2,
                     'test2' => 2,
                     'test3' => 4,
                     'test4' => 0,
                     'test5' => 4,
                     'test6' => 1,
-                    'test7' => 0
-                ),
+                    'test7' => 0,
+                ],
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'test1' => 2,
                         'test2' => 2,
                         'test3' => 4,
                         'test4' => 0,
                         'test5' => 4,
                         'test6' => 1,
-                        'test7' => 0
-                    )
-                )
-            ),
-            array(array(), new \Magento\Framework\Object())
-        );
+                        'test7' => 0,
+                    ]
+                ),
+            ],
+            [[], new \Magento\Framework\Object()],
+        ];
         $this->_factoryMock->expects($this->any())->method('create')->will($this->returnValueMap($createValueMap));
     }
 
     public function testColumns()
     {
-        $expected = array(
+        $expected = [
             'test1' => 'sum',
             'test2' => 'avg',
             'test3' => 'test1+test2',
             'test4' => 'test1-test2',
             'test5' => 'test1*test2',
             'test6' => 'test1/test2',
-            'test7' => 'test1/0'
-        );
+            'test7' => 'test1/0',
+        ];
 
         $this->assertEquals($expected, $this->_model->getColumns());
     }
@@ -200,7 +200,7 @@ class AbstractTotalsTest extends \PHPUnit_Framework_TestCase
     public function testCountTotals()
     {
         $expected = new \Magento\Framework\Object(
-            array('test1' => 2, 'test2' => 2, 'test3' => 4, 'test4' => 0, 'test5' => 4, 'test6' => 1, 'test7' => 0)
+            ['test1' => 2, 'test2' => 2, 'test3' => 4, 'test4' => 0, 'test5' => 4, 'test6' => 1, 'test7' => 0]
         );
         $this->assertEquals($expected, $this->_model->countTotals($this->_getTestCollection()));
     }

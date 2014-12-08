@@ -12,12 +12,12 @@ define('SELENIUM_TESTS_BASEDIR', realpath(__DIR__ . '/..'));
 define('SELENIUM_TESTS_SCREENSHOTDIR', realpath(SELENIUM_TESTS_BASEDIR . '/var/screenshots'));
 define('SELENIUM_TESTS_LOGS', realpath(SELENIUM_TESTS_BASEDIR . '/var/logs'));
 
-set_include_path(implode(PATH_SEPARATOR, array(
+set_include_path(implode(PATH_SEPARATOR, [
     realpath(SELENIUM_TESTS_BASEDIR . '/framework'),
     realpath(SELENIUM_TESTS_BASEDIR . '/testsuite'),
     realpath(SELENIUM_TESTS_BASEDIR . '/../../../lib'),
     get_include_path(),
-)));
+]));
 
 $opt = getopt('', ['module-list-file::']);
 $enableModules = [];
@@ -47,12 +47,12 @@ if (defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && SELENIUM_TESTS_INSTALLATIO
 }
 $installConfigFile = SELENIUM_TESTS_BASEDIR . '/config/install.php';
 $installConfigFile = file_exists($installConfigFile) ? $installConfigFile : "$installConfigFile.dist";
-$installConfig = require($installConfigFile);
-$installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : array();
+$installConfig = require $installConfigFile;
+$installOptions = isset($installConfig['install_options']) ? $installConfig['install_options'] : [];
 if ($enableModules) {
     $installOptions['enable_modules'] = implode(',', $enableModules);
 }
-$installOptionsNoValue = isset($installConfig['install_options_no_value']) ? $installConfig['install_options_no_value'] : array();
+$installOptionsNoValue = isset($installConfig['install_options_no_value']) ? $installConfig['install_options_no_value'] : [];
 
 /* Install application */
 if ($installOptions) {

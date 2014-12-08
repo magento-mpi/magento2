@@ -30,14 +30,14 @@ class BareTest extends \PHPUnit_Framework_TestCase
      */
     public function proxyMethodDataProvider()
     {
-        return array(
-            array('test', array('record_id'), 111),
-            array('load', array('record_id'), '111'),
-            array('save', array('record_value', 'record_id', array('tag'), 555), true),
-            array('remove', array('record_id'), true),
-            array('clean', array(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')), true),
-            array('getBackend', array(), $this->getMock('Zend_Cache_Backend')),
-            array('getLowLevelFrontend', array(), $this->getMock('Zend_Cache_Core'))
-        );
+        return [
+            ['test', ['record_id'], 111],
+            ['load', ['record_id'], '111'],
+            ['save', ['record_value', 'record_id', ['tag'], 555], true],
+            ['remove', ['record_id'], true],
+            ['clean', [\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, ['tag']], true],
+            ['getBackend', [], $this->getMock('Zend_Cache_Backend')],
+            ['getLowLevelFrontend', [], $this->getMock('Zend_Cache_Core')]
+        ];
     }
 }

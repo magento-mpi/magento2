@@ -42,11 +42,11 @@ class PrepareSalesruleForm
         $fieldset->addField(
             'reward_points_delta',
             'text',
-            array(
+            [
                 'name' => 'reward_points_delta',
                 'label' => __('Add Reward Points'),
                 'title' => __('Add Reward Points')
-            ),
+            ],
             'stop_rules_processing'
         );
         return $this;

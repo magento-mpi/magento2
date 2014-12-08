@@ -18,7 +18,6 @@ use Magento\Framework\Acl;
 use Magento\Framework\Acl\Builder as AclBuilder;
 use Magento\Framework\Acl\RootResource as RootAclResource;
 use Magento\Framework\Exception\LocalizedException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Logger;
 
 /**
@@ -115,7 +114,7 @@ class AuthorizationService implements AuthorizationServiceInterface
      */
     public function grantAllPermissions($integrationId)
     {
-        $this->grantPermissions($integrationId, array($this->_rootAclResource->getId()));
+        $this->grantPermissions($integrationId, [$this->_rootAclResource->getId()]);
     }
 
     /**

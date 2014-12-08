@@ -8,13 +8,13 @@
 
 namespace Magento\Tax\Model;
 
+use Magento\Tax\Api\TaxRateRepositoryInterface;
 use Magento\Core\Model\EntityFactory;
 use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Tax\Api\TaxRateRepositoryInterface;
-use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 use Magento\Framework\Api\SortOrderBuilder;
+use Magento\Tax\Api\Data\TaxRateInterface as TaxRate;
 
 /**
  * Tax rate collection for a grid backed by Services

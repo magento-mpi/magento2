@@ -40,7 +40,7 @@ class Generator extends \Magento\ImportExport\Model\Import\AbstractSource
      *
      * @var array
      */
-    protected $_variables = array();
+    protected $_variables = [];
 
     /**
      * Current index

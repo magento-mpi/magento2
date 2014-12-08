@@ -59,14 +59,14 @@ class ScheduledStructure
      *
      * @SuppressWarnings(PHPMD.NPathComplexity)
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
-        $this->_scheduledStructure = isset($data['scheduledStructure']) ? $data['scheduledStructure'] : array();
-        $this->_scheduledData = isset($data['scheduledData']) ? $data['scheduledData'] : array();
-        $this->_scheduledElements = isset($data['scheduledElements']) ? $data['scheduledElements'] : array();
-        $this->_scheduledMoves = isset($data['scheduledMoves']) ? $data['scheduledMoves'] : array();
-        $this->_scheduledRemoves = isset($data['scheduledRemoves']) ? $data['scheduledRemoves'] : array();
-        $this->_scheduledPaths = isset($data['scheduledPaths']) ? $data['scheduledPaths'] : array();
+        $this->_scheduledStructure = isset($data['scheduledStructure']) ? $data['scheduledStructure'] : [];
+        $this->_scheduledData = isset($data['scheduledData']) ? $data['scheduledData'] : [];
+        $this->_scheduledElements = isset($data['scheduledElements']) ? $data['scheduledElements'] : [];
+        $this->_scheduledMoves = isset($data['scheduledMoves']) ? $data['scheduledMoves'] : [];
+        $this->_scheduledRemoves = isset($data['scheduledRemoves']) ? $data['scheduledRemoves'] : [];
+        $this->_scheduledPaths = isset($data['scheduledPaths']) ? $data['scheduledPaths'] : [];
     }
 
     /**
@@ -106,7 +106,7 @@ class ScheduledStructure
      * @param array $default
      * @return bool|array
      */
-    public function getElement($elementName, $default = array())
+    public function getElement($elementName, $default = [])
     {
         return $this->hasElement($elementName) ? $this->_scheduledElements[$elementName] : $default;
     }
@@ -355,7 +355,7 @@ class ScheduledStructure
      */
     public function flushPaths()
     {
-        $this->_scheduledPaths = array();
+        $this->_scheduledPaths = [];
     }
 
     /**
@@ -366,7 +366,7 @@ class ScheduledStructure
     public function flushScheduledStructure()
     {
         $this->flushPaths();
-        $this->_scheduledElements = array();
-        $this->_scheduledStructure = array();
+        $this->_scheduledElements = [];
+        $this->_scheduledStructure = [];
     }
 }

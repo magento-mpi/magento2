@@ -99,12 +99,12 @@ class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testNotLoggedLoginActionWithRedirect()
     {
         $this->getRequest()->setPost(
-            array(
-                'login' => array(
+            [
+                'login' => [
                     'username' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
-                    'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-                )
-            )
+                    'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                ],
+            ]
         );
 
         $this->dispatch('backend/admin/index/index');
@@ -148,12 +148,12 @@ class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         $this->_login();
         $this->dispatch('backend/admin/auth/deniedJson');
-        $data = array(
+        $data = [
             'ajaxExpired' => 1,
             'ajaxRedirect' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Backend\Helper\Data'
-            )->getHomePageUrl()
-        );
+            )->getHomePageUrl(),
+        ];
         $expected = json_encode($data);
         $this->assertEquals($expected, $this->getResponse()->getBody());
         $this->_logout();
@@ -193,31 +193,31 @@ class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function incorrectLoginDataProvider()
     {
-        return array(
-            'login dummy user' => array(
-                array(
-                    'login' => array(
+        return [
+            'login dummy user' => [
+                [
+                    'login' => [
                         'username' => 'test1',
-                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-                    )
-                )
-            ),
-            'login without role' => array(
-                array(
-                    'login' => array(
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    ],
+                ],
+            ],
+            'login without role' => [
+                [
+                    'login' => [
                         'username' => 'test2',
-                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-                    )
-                )
-            ),
-            'login not active user' => array(
-                array(
-                    'login' => array(
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    ],
+                ],
+            ],
+            'login not active user' => [
+                [
+                    'login' => [
                         'username' => 'test3',
-                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-                    )
-                )
-            )
-        );
+                        'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
+                    ],
+                ],
+            ]
+        ];
     }
 }

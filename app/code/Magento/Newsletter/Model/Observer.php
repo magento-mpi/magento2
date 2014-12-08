@@ -50,6 +50,6 @@ class Observer
         $collection = $this->_queueCollectionFactory->create();
         $collection->setPageSize($countOfQueue)->setCurPage(1)->addOnlyForSendingFilter()->load();
 
-         $collection->walk('sendPerSubscriber', array($countOfSubscriptions));
+        $collection->walk('sendPerSubscriber', [$countOfSubscriptions]);
     }
 }

@@ -74,7 +74,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->productRepository = $productRepository;
         $this->_reviewFactory = $reviewFactory;
@@ -210,7 +210,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         return ($this->getReviewData()->getCustomerId() == $this->currentCustomer->getCustomerId());
     }
-
 
     /**
      * Get product reviews summary

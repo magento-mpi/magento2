@@ -21,7 +21,7 @@ class AjaxMarkAsRead extends \Magento\AdminNotification\Controller\Adminhtml\Not
             return;
         }
         $notificationId = (int)$this->getRequest()->getPost('id');
-        $responseData = array();
+        $responseData = [];
         try {
             $this->_objectManager->create(
                 'Magento\AdminNotification\Model\NotificationService'

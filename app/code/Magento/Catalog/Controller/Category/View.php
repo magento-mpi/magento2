@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Controller\Category;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Result\PageFactory;
-use Magento\Catalog\Model\Layer\Resolver;
 
 class View extends \Magento\Framework\App\Action\Action
 {
@@ -123,7 +123,7 @@ class View extends \Magento\Framework\App\Action\Action
         try {
             $this->_eventManager->dispatch(
                 'catalog_controller_category_init_after',
-                array('category' => $category, 'controller_action' => $this)
+                ['category' => $category, 'controller_action' => $this]
             );
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
@@ -170,9 +170,9 @@ class View extends \Magento\Framework\App\Action\Action
             if (!$category->hasChildren()) {
                 // Two levels removed from parent.  Need to add default page type.
                 $parentType = strtok($type, '_');
-                $page->addPageLayoutHandles(array('type' => $parentType));
+                $page->addPageLayoutHandles(['type' => $parentType]);
             }
-            $page->addPageLayoutHandles(array('type' => $type, 'id' => $category->getId()));
+            $page->addPageLayoutHandles(['type' => $type, 'id' => $category->getId()]);
 
             // apply custom layout update once layout is loaded
             $layoutUpdates = $settings->getLayoutUpdates();

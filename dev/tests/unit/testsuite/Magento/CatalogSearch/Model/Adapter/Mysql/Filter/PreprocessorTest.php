@@ -14,7 +14,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class PreprocessorTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\DB\Adapter\AdapterInterface|MockObject
      */

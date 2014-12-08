@@ -79,7 +79,7 @@ class Copy
         }
 
         $eventName = sprintf('core_copy_fieldset_%s_%s', $fieldset, $aspect);
-        $this->_eventManager->dispatch($eventName, array('target' => $target, 'source' => $source, 'root' => $root));
+        $this->_eventManager->dispatch($eventName, ['target' => $target, 'source' => $source, 'root' => $root]);
 
         return $target;
     }
@@ -104,7 +104,7 @@ class Copy
             return null;
         }
 
-        $data = array();
+        $data = [];
         foreach ($fields as $code => $node) {
             if (empty($node[$aspect])) {
                 continue;

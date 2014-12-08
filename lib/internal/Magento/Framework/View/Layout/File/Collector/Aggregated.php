@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\View\Layout\File\Collector;
 
-use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\FileList\Factory;
 
 /**

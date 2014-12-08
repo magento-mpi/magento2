@@ -176,7 +176,7 @@ class NameTest extends \PHPUnit_Framework_TestCase
 
     public function testShowMiddlename()
     {
-        $this->_setUpShowAttribute(array(\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME));
+        $this->_setUpShowAttribute([\Magento\Customer\Model\Data\Customer::MIDDLENAME => self::MIDDLENAME]);
         $this->assertTrue($this->_block->showMiddlename());
     }
 

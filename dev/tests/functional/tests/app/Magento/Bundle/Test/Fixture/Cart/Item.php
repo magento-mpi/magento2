@@ -8,8 +8,8 @@
 
 namespace Magento\Bundle\Test\Fixture\Cart;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Item
@@ -61,7 +61,7 @@ class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
                 : number_format($bundleOptions['assigned_products'][$optionKey]['data']['selection_price_value'], 2);
             $optionData = [
                 'title' => $checkoutOption['title'],
-                'value' => "{$qty} x {$value} {$price}"
+                'value' => "{$qty} x {$value} {$price}",
             ];
 
             $checkoutBundleOptions[$checkoutOptionKey] = $optionData;

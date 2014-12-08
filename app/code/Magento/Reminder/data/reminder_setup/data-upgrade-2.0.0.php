@@ -15,7 +15,7 @@ $installer->appendClassAliasReplace(
     'conditions_serialized',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
-    array('rule_id')
+    ['rule_id']
 );
 $installer->doUpdateClassAliases();
 

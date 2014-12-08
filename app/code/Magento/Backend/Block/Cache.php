@@ -22,21 +22,21 @@ class Cache extends \Magento\Backend\Block\Widget\Grid\Container
         $this->buttonList->remove('add');
         $this->buttonList->add(
             'flush_magento',
-            array(
+            [
                 'label' => __('Flush Magento Cache'),
                 'onclick' => 'setLocation(\'' . $this->getFlushSystemUrl() . '\')',
                 'class' => 'primary flush-cache-magento'
-            )
+            ]
         );
 
         $message = __('Cache storage may contain additional data. Are you sure that you want flush it?');
         $this->buttonList->add(
             'flush_system',
-            array(
+            [
                 'label' => __('Flush Cache Storage'),
                 'onclick' => 'confirmSetLocation(\'' . $message . '\', \'' . $this->getFlushStorageUrl() . '\')',
                 'class' => 'flush-cache-storage'
-            )
+            ]
         );
     }
 

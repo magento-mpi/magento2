@@ -27,16 +27,16 @@ class NamedParamsTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array(
-            'param' => array('param1' => array('value' => 'value 1'), 'param2' => array('value' => 'value 2'))
-        );
+        $input = [
+            'param' => ['param1' => ['value' => 'value 1'], 'param2' => ['value' => 'value 2']],
+        ];
 
         $this->_interpreter->expects(
             $this->at(0)
         )->method(
             'evaluate'
         )->with(
-            array('value' => 'value 1')
+            ['value' => 'value 1']
         )->will(
             $this->returnValue('value 1 (evaluated)')
         );
@@ -45,11 +45,11 @@ class NamedParamsTest extends \PHPUnit_Framework_TestCase
         )->method(
             'evaluate'
         )->with(
-            array('value' => 'value 2')
+            ['value' => 'value 2']
         )->will(
             $this->returnValue('value 2 (evaluated)')
         );
-        $expected = array('param1' => 'value 1 (evaluated)', 'param2' => 'value 2 (evaluated)');
+        $expected = ['param1' => 'value 1 (evaluated)', 'param2' => 'value 2 (evaluated)'];
 
         $actual = $this->_model->evaluate($input);
         $this->assertSame($expected, $actual);
@@ -66,15 +66,15 @@ class NamedParamsTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateWrongParamDataProvider()
     {
-        return array(
-            'root param is non-array' => array(
-                array('param' => 'non-array'),
-                'Layout argument parameters are expected to be an array'
-            ),
-            'individual param is non-array' => array(
-                array('param' => array('sub-param' => 'non-array')),
-                'Parameter data of layout argument is expected to be an array'
-            )
-        );
+        return [
+            'root param is non-array' => [
+                ['param' => 'non-array'],
+                'Layout argument parameters are expected to be an array',
+            ],
+            'individual param is non-array' => [
+                ['param' => ['sub-param' => 'non-array']],
+                'Parameter data of layout argument is expected to be an array',
+            ]
+        ];
     }
 }

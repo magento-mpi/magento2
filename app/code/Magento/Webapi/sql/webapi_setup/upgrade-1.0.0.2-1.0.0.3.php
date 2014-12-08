@@ -18,12 +18,12 @@ $connection->changeColumn(
     $table,
     'api_secret',
     'secret',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'Secret used for authentication.'
-    )
+    ]
 );
 
 $installer->endSetup();

@@ -8,10 +8,10 @@
 namespace Magento\Framework\Less\File\Collector;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 use Magento\Framework\View\File\FileList\Factory as FileListFactory;
 
@@ -85,7 +85,7 @@ class Library implements CollectorInterface
      */
     protected function createFiles(ReadInterface $reader, ThemeInterface $theme, $files)
     {
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
             $filename = $reader->getAbsolutePath($file);
             $result[] = $this->fileFactory->create($filename, false, $theme);

@@ -126,7 +126,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        
+
         $this->stockFactory = $this->getMock(
             '\Magento\CatalogInventory\Api\Data\StockInterfaceFactory',
             ['create'],
@@ -161,7 +161,6 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
         $this->stockItemRepository = $this->getMockBuilder('\Magento\CatalogInventory\Api\StockItemRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
-
 
         $this->stockStatusRepository = $this->getMockBuilder(
             '\Magento\CatalogInventory\Api\StockStatusRepositoryInterface'

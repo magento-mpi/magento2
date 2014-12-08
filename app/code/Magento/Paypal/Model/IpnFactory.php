@@ -19,7 +19,7 @@ class IpnFactory
     /**
      * @var array
      */
-    protected $mapping = array();
+    protected $mapping = [];
 
     /**
      * Factory constructor
@@ -27,7 +27,7 @@ class IpnFactory
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $mapping
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $mapping = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $mapping = [])
     {
         $this->_objectManager = $objectManager;
         $this->mapping = $mapping;
@@ -39,7 +39,7 @@ class IpnFactory
      * @param array $data
      * @return \Magento\Paypal\Model\IpnInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $type = isset($data['data']['txn_type']) ? $data['data']['txn_type'] : '';
         $instanceType = isset($this->mapping[$type]) ? $this->mapping[$type] : 'Magento\Paypal\Model\Ipn';

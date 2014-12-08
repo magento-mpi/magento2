@@ -34,7 +34,7 @@ class Usesecretkey extends \Magento\Framework\App\Config\Value
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendUrl = $backendUrl;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

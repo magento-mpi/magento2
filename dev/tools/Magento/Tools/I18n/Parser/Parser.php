@@ -43,7 +43,7 @@ class Parser extends AbstractParser
         $this->_phrases[$phraseKey] = $this->_factory->createPhrase([
             'phrase'      => $phraseData['phrase'],
             'translation' => $phraseData['phrase'],
-            'quote'       => $phraseData['quote']
+            'quote'       => $phraseData['quote'],
         ]);
     }
 }

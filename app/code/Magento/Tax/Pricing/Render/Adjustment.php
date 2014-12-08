@@ -8,9 +8,9 @@
 
 namespace Magento\Tax\Pricing\Render;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\Pricing\Render\AbstractAdjustment;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\View\Element\Template;
 
 /**
  * @method string getIdSuffix()
@@ -115,7 +115,7 @@ class Adjustment extends AbstractAdjustment
      */
     public function getDisplayAmount($includeContainer = true)
     {
-         return $this->formatCurrency($this->getRawAmount([]), $includeContainer);
+        return $this->formatCurrency($this->getRawAmount([]), $includeContainer);
     }
 
     /**

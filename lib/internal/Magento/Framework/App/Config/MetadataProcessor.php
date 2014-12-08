@@ -19,7 +19,7 @@ class MetadataProcessor
     /**
      * @var array
      */
-    protected $_metadata = array();
+    protected $_metadata = [];
 
     /**
      * @param \Magento\Framework\App\Config\Data\ProcessorFactory $processorFactory
@@ -64,12 +64,12 @@ class MetadataProcessor
     protected function _setValue(array &$container, $path, $value)
     {
         $segments = explode('/', $path);
-        $currentPointer =& $container;
+        $currentPointer = & $container;
         foreach ($segments as $segment) {
             if (!isset($currentPointer[$segment])) {
-                $currentPointer[$segment] = array();
+                $currentPointer[$segment] = [];
             }
-            $currentPointer =& $currentPointer[$segment];
+            $currentPointer = & $currentPointer[$segment];
         }
         $currentPointer = $value;
     }

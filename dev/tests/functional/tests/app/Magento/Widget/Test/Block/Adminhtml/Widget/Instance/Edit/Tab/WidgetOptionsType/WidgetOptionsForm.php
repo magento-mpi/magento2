@@ -8,11 +8,11 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
+use Magento\Backend\Test\Block\Template;
+use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Block\Form;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Backend\Test\Block\Template;
 
 /**
  * Responds for filling widget options form

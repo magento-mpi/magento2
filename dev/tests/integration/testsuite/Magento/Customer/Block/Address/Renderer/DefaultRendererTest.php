@@ -39,7 +39,7 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
 
     public function renderArrayDataProvider()
     {
-        $addressAttributes = array(
+        $addressAttributes = [
             'city' => 'CityM',
             'country_id' => 'US',
             'firstname' => 'John',
@@ -47,30 +47,30 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             'postcode' => '75477',
             'region' => 'Alabama',
             'region_id' => '1',
-            'street' => array('Green str, 67'),
-            'telephone' => '3468676'
-        );
+            'street' => ['Green str, 67'],
+            'telephone' => '3468676',
+        ];
 
         $htmlResult = "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, " .
             "75477<br/>\nUnited States<br/>\nT: 3468676\n\n";
-        return array(
-            array($addressAttributes, AttributeDataFactory::OUTPUT_FORMAT_HTML, $htmlResult),
-            array(
+        return [
+            [$addressAttributes, AttributeDataFactory::OUTPUT_FORMAT_HTML, $htmlResult],
+            [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_PDF,
                 "John Smith|\n\nGreen str, 67\n\n\n\n\nCityM,|\nAlabama, 75477|\nUnited States|\nT: 3468676|\n|\n|"
-            ),
-            array(
+            ],
+            [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_ONELINE,
                 "John Smith, Green str, 67, CityM, Alabama 75477, United States"
-            ),
-            array(
+            ],
+            [
                 $addressAttributes,
                 AttributeDataFactory::OUTPUT_FORMAT_TEXT,
                 "John Smith\n\nGreen str, 67\n\n\n\n\nCityM,  Alabama, 75477\nUnited States\nT: 3468676\n\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -86,7 +86,7 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
 
     public function renderDataProvider()
     {
-        $data = array(
+        $data = [
             'city' => 'CityM',
             'country_id' => 'US',
             'firstname' => 'John',
@@ -94,9 +94,9 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             'postcode' => '75477',
             'region' => 'Alabama',
             'region_id' => '1',
-            'street' => array('Green str, 67'),
-            'telephone' => '3468676'
-        );
+            'street' => ['Green str, 67'],
+            'telephone' => '3468676',
+        ];
 
         $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Address'
@@ -104,30 +104,30 @@ class DefaultRendererTest extends \PHPUnit_Framework_TestCase
             $data
         );
 
-        return array(
-            array(
+        return [
+            [
                 $address,
                 AttributeDataFactory::OUTPUT_FORMAT_HTML,
                 "John Smith<br/>\n\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>
-United States<br/>\nT: 3468676\n\n"
-            ),
-            array(
+United States<br/>\nT: 3468676\n\n",
+            ],
+            [
                 $address,
                 AttributeDataFactory::OUTPUT_FORMAT_PDF,
                 "John Smith|\n\nGreen str, 67\n\n\n\n\nCityM,|\nAlabama, 75477|
 United States|\nT: 3468676|\n|\n|"
-            ),
-            array(
+            ],
+            [
                 $address,
                 AttributeDataFactory::OUTPUT_FORMAT_ONELINE,
                 "John Smith, Green str, 67, CityM, Alabama 75477, United States"
-            ),
-            array(
+            ],
+            [
                 $address,
                 AttributeDataFactory::OUTPUT_FORMAT_TEXT,
                 "John Smith\n\nGreen str, 67\n\n\n\n\nCityM,  Alabama, 75477
 United States\nT: 3468676\n\n"
-            )
-        );
+            ]
+        ];
     }
 }

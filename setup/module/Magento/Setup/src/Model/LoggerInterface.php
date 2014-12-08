@@ -31,7 +31,6 @@ interface LoggerInterface
      */
     public function logError(\Exception $e);
 
-
     /**
      * Logs a message
      *

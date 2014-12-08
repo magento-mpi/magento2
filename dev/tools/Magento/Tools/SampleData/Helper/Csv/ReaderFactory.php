@@ -46,7 +46,7 @@ class ReaderFactory
      * @param array $data
      * @return \Magento\Tools\SampleData\Helper\Csv\Reader
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

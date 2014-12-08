@@ -9,8 +9,8 @@
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array(
-        'data' => array(
+    [
+        'data' => [
             'firstname' => 'guest',
             'lastname' => 'guest',
             'email' => 'customer@example.com',
@@ -19,9 +19,9 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
             'region' => 'CA',
             'postcode' => '1',
             'country_id' => 'US',
-            'telephone' => '1'
-        )
-    )
+            'telephone' => '1',
+        ]
+    ]
 );
 $billingAddress->setAddressType('billing');
 
@@ -43,7 +43,7 @@ $orderItem->setProductId(
 )->setQtyOrdered(
     1
 )->setProductOptions(
-    array(
+    [
         'giftcard_amount' => 'custom',
         'custom_giftcard_amount' => 100,
         'giftcard_sender_name' => 'Gift Card Sender Name',
@@ -51,8 +51,8 @@ $orderItem->setProductId(
         'giftcard_recipient_name' => 'Gift Card Recipient Name',
         'giftcard_recipient_email' => 'recipient@example.com',
         'giftcard_message' => 'Gift Card Message',
-        'giftcard_email_template' => 'giftcard_email_template'
-    )
+        'giftcard_email_template' => 'giftcard_email_template',
+    ]
 );
 
 /** @var $order \Magento\Sales\Model\Order */

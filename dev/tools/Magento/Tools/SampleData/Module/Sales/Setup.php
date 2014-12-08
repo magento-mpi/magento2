@@ -7,9 +7,9 @@
  */
 namespace Magento\Tools\SampleData\Module\Sales;
 
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Framework\App\State;
 use Magento\Tools\SampleData\Helper\PostInstaller;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Setup

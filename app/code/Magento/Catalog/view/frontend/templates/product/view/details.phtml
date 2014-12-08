@@ -13,7 +13,9 @@
             <?php foreach ($detailedInfoGroup as $name):?>
                 <?php
                     $html = $layout->renderElement($name);
-                    if (!trim($html)) continue;
+                    if (!trim($html)) {
+                        continue;
+                    }
                     $alias = $layout->getElementAlias($name);
                     $label = $this->getChildData($alias, 'title');
                 ?>

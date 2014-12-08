@@ -22,7 +22,7 @@ class MenuConfigFilesTest extends \PHPUnit_Framework_TestCase
         $schemaFile = $moduleReader->getModuleDir('etc', 'Magento_Backend') . '/menu.xsd';
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Backend\Model\Menu\Config\Reader',
-            array('perFileSchema' => $schemaFile, 'isValidated' => true)
+            ['perFileSchema' => $schemaFile, 'isValidated' => true]
         );
     }
 

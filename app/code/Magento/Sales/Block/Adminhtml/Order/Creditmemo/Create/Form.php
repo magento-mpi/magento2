@@ -49,6 +49,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('sales/*/save', array('_current' => true));
+        return $this->getUrl('sales/*/save', ['_current' => true]);
     }
 }

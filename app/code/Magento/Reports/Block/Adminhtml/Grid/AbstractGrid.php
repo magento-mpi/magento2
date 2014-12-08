@@ -22,7 +22,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @var array
      */
-    protected $_storeIds = array();
+    protected $_storeIds = [];
 
     /**
      * @var null
@@ -64,7 +64,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Reports\Model\Resource\Report\Collection\Factory $resourceFactory,
         \Magento\Reports\Model\Grouped\CollectionFactory $collectionFactory,
         \Magento\Reports\Helper\Data $reportsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceFactory = $resourceFactory;
         $this->_collectionFactory = $collectionFactory;
@@ -114,7 +114,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
         if (is_null($this->_aggregatedColumns)) {
             foreach ($this->getColumns() as $column) {
                 if (!is_array($this->_aggregatedColumns)) {
-                    $this->_aggregatedColumns = array();
+                    $this->_aggregatedColumns = [];
                 }
                 if ($column->hasTotal()) {
                     $this->_aggregatedColumns[$column->getId()] = "{$column->getTotal()}({$column->getIndex()})";
@@ -140,7 +140,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
             $filterData = $this->getFilterData();
             $visibilityFilter = $column['visibility_filter'];
             if (!is_array($visibilityFilter)) {
-                $visibilityFilter = array($visibilityFilter);
+                $visibilityFilter = [$visibilityFilter];
             }
             foreach ($visibilityFilter as $k => $v) {
                 if (is_int($k)) {
@@ -170,7 +170,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($filterData) {
             $storeIds = explode(',', $filterData->getData('store_ids'));
         } else {
-            $storeIds = array();
+            $storeIds = [];
         }
         // By default storeIds array contains only allowed stores
         $allowedStoreIds = array_keys($this->_storeManager->getStores());

@@ -60,7 +60,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEquals($normalCollection, $filteredCollection);
     }
 
-
     /**
      * Check that grid does not contain unnecessary totals row
      *

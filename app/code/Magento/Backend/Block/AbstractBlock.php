@@ -21,7 +21,7 @@ class AbstractBlock extends \Magento\Framework\View\Element\AbstractBlock
      * @param \Magento\Backend\Block\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Context $context, array $data = [])
     {
         parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();

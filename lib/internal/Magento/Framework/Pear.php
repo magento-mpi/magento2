@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework;
 
-use Magento\Framework\Exception;
 use Magento\Framework\Pear\Frontend;
 use Magento\Framework\Pear\Registry as PearRegistry;
 
@@ -54,7 +53,7 @@ class Pear
     /**
      * @var array
      */
-    protected $_cmdCache = array();
+    protected $_cmdCache = [];
 
     /**
      * @var Pear
@@ -91,7 +90,7 @@ class Pear
      */
     public function isSystemPackage($pkg)
     {
-        return in_array($pkg, array('Archive_Tar', 'Console_Getopt', 'PEAR', 'Structures_Graph'));
+        return in_array($pkg, ['Archive_Tar', 'Console_Getopt', 'PEAR', 'Structures_Graph']);
     }
 
     /**
@@ -165,7 +164,7 @@ class Pear
      */
     public function getMagentoChannels()
     {
-        return array('connect.magentocommerce.com/core', 'connect.magentocommerce.com/community');
+        return ['connect.magentocommerce.com/core', 'connect.magentocommerce.com/community'];
     }
 
     /**
@@ -180,7 +179,7 @@ class Pear
             $changed = false;
             foreach ($this->getMagentoChannels() as $channel) {
                 if (!$this->getRegistry()->channelExists($channel)) {
-                    $this->run('channel-discover', array(), array($channel));
+                    $this->run('channel-discover', [], [$channel]);
                     $changed = true;
                 }
             }
@@ -232,7 +231,7 @@ class Pear
      * @param array $params
      * @return mixed
      */
-    public function run($command, $options = array(), $params = array())
+    public function run($command, $options = [], $params = [])
     {
         @set_time_limit(0);
         @ini_set('memory_limit', '256M');
@@ -258,7 +257,7 @@ class Pear
     public function setRemoteConfig($uri) #$host, $user, $password, $path='', $port=null)
     {
         #$uri = 'ftp://' . $user . ':' . $password . '@' . $host . (is_numeric($port) ? ':' . $port : '') . '/' . trim($path, '/') . '/';
-        $this->run('config-set', array(), array('remote_config', $uri));
+        $this->run('config-set', [], ['remote_config', $uri]);
         return $this;
     }
 
@@ -283,7 +282,7 @@ class Pear
         } elseif (is_array($runParams)) {
             $run = new Object($runParams);
         } elseif (is_string($runParams)) {
-            $run = new Object(array('title' => $runParams));
+            $run = new Object(['title' => $runParams]);
         } else {
             throw Exception("Invalid run parameters");
         }
@@ -304,11 +303,11 @@ class Pear
             echo '</pre><script type="text/javascript">';
             if ($result instanceof PEAR_Error) {
                 if ($callback = $run->getFailureCallback()) {
-                    call_user_func_array($callback, array($result));
+                    call_user_func_array($callback, [$result]);
                 }
             } else {
                 if ($callback = $run->getSuccessCallback()) {
-                    call_user_func_array($callback, array($result));
+                    call_user_func_array($callback, [$result]);
                 }
             }
             echo '</script>';

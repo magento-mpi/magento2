@@ -14,14 +14,14 @@ class Frequency implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'always', 'label' => __('Always')),
-            array('value' => 'hourly', 'label' => __('Hourly')),
-            array('value' => 'daily', 'label' => __('Daily')),
-            array('value' => 'weekly', 'label' => __('Weekly')),
-            array('value' => 'monthly', 'label' => __('Monthly')),
-            array('value' => 'yearly', 'label' => __('Yearly')),
-            array('value' => 'never', 'label' => __('Never'))
-        );
+        return [
+            ['value' => 'always', 'label' => __('Always')],
+            ['value' => 'hourly', 'label' => __('Hourly')],
+            ['value' => 'daily', 'label' => __('Daily')],
+            ['value' => 'weekly', 'label' => __('Weekly')],
+            ['value' => 'monthly', 'label' => __('Monthly')],
+            ['value' => 'yearly', 'label' => __('Yearly')],
+            ['value' => 'never', 'label' => __('Never')]
+        ];
     }
 }

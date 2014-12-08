@@ -16,7 +16,7 @@ interface DateInterface
      * @throws \Zend_Date_Exception
      * @return array of options if no option was given
      */
-    public static function setOptions(array $options = array());
+    public static function setOptions(array $options = []);
 
     /**
      * Returns this object's internal UNIX timestamp (equivalent to \Zend_Date::TIMESTAMP).

@@ -61,7 +61,7 @@ class Wishlist extends AbstractAccordion
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemFactory,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemFactory = $itemFactory;
         $this->stockRegistry = $stockRegistry;
@@ -147,7 +147,7 @@ class Wishlist extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewWishlist', array('_current' => true));
+        return $this->getUrl('checkout/*/viewWishlist', ['_current' => true]);
     }
 
     /**
@@ -160,7 +160,7 @@ class Wishlist extends AbstractAccordion
     {
         parent::_addControlColumns();
         $this->getColumn('qty')->addData(
-            array('renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty')
+            ['renderer' => 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Wishlist\Qty']
         );
 
         return $this;

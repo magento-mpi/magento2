@@ -59,7 +59,7 @@ class MemoryLimit
     public function printStats()
     {
         list($usage, $leak) = $this->_getUsage();
-        $result = array();
+        $result = [];
 
         $msg = sprintf(
             "Memory usage (OS):\t%s (%.2F%% of %s reported by PHP",
@@ -127,6 +127,6 @@ class MemoryLimit
     private function _getUsage()
     {
         $usage = $this->_helper->getRealMemoryUsage();
-        return array($usage, $usage - memory_get_usage(true));
+        return [$usage, $usage - memory_get_usage(true)];
     }
 }

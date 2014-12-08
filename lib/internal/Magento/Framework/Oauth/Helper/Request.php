@@ -75,7 +75,7 @@ class Request
      */
     protected function _processRequest($authHeaderValue, $contentTypeHeader, $requestBodyString, $requestUrl)
     {
-        $protocolParams = array();
+        $protocolParams = [];
 
         if (!$this->_processHeader($authHeaderValue, $protocolParams)) {
             return [];
@@ -205,6 +205,6 @@ class Request
         }
 
         $response->setHttpResponseCode($responseCode);
-        return array('oauth_problem' => $errorMsg);
+        return ['oauth_problem' => $errorMsg];
     }
 }

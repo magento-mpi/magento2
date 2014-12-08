@@ -88,7 +88,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'test'
         );
 
-
         $expected = 'http://www.magentocommerce.com/gethelp/en_US/dummy/index/test/';
         $this->assertEquals($expected, $this->_helper->getPageHelpUrl(), 'Incorrect help Url');
 
@@ -131,7 +130,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testPrepareFilterString()
     {
-        $expected = array('key1' => 'val1', 'key2' => 'val2', 'key3' => 'val3');
+        $expected = ['key1' => 'val1', 'key2' => 'val2', 'key3' => 'val3'];
 
         $filterString = base64_encode('key1=' . rawurlencode('val1') . '&key2=' . rawurlencode('val2') . '&key3=val3');
         $actual = $this->_helper->prepareFilterString($filterString);

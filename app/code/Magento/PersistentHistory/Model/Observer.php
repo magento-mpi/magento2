@@ -7,7 +7,6 @@
  */
 namespace Magento\PersistentHistory\Model;
 
-use Magento\Framework\Event\Observer as EventObserver;
 
 class Observer
 {

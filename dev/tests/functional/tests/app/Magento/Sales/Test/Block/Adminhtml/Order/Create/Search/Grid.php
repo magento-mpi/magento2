@@ -28,7 +28,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'sku' => [
-            'selector' => '#sales_order_create_search_grid_filter_sku'
-        ]
+            'selector' => '#sales_order_create_search_grid_filter_sku',
+        ],
     ];
 }

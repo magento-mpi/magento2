@@ -68,12 +68,12 @@ class AppIsolation
         $annotations = $test->getAnnotations();
         if (isset($annotations['method']['magentoAppIsolation'])) {
             $isolation = $annotations['method']['magentoAppIsolation'];
-            if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
+            if ($isolation !== ['enabled'] && $isolation !== ['disabled']) {
                 throw new \Magento\Framework\Exception(
                     'Invalid "@magentoAppIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }
-            $isIsolationEnabled = $isolation === array('enabled');
+            $isIsolationEnabled = $isolation === ['enabled'];
         } else {
             /* Controller tests should be isolated by default */
             $isIsolationEnabled = $test instanceof \Magento\TestFramework\TestCase\AbstractController;

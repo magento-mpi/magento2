@@ -44,26 +44,26 @@ class VatGroup extends DataFixture
     protected function _initData()
     {
         //Verification data
-        $this->_data = array(
-            'default_group' => array(
-                'name' => array(
+        $this->_data = [
+            'default_group' => [
+                'name' => [
                     'value' => 'General',
-                ),
-            ),
-            'vat' => array(
-                'invalid' => array(
+                ],
+            ],
+            'vat' => [
+                'invalid' => [
                     'value' => '123456789',
-                ),
-                'valid' => array(
+                ],
+                'valid' => [
                     'value' => '584451913', //Valid GB VAT number
-                ),
-            ),
-            'customer' => array(
-                'dataset' => array(
+                ],
+            ],
+            'customer' => [
+                'dataset' => [
                     'value' => 'customer_UK_1',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCustomerVatGroup($this->_dataConfig, $this->_data);

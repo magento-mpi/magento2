@@ -71,7 +71,7 @@ class Category implements \Magento\Indexer\Model\ActionInterface, \Magento\Frame
      */
     public function executeRow($id)
     {
-        $this->executeAction(array($id));
+        $this->executeAction([$id]);
     }
 
     /**

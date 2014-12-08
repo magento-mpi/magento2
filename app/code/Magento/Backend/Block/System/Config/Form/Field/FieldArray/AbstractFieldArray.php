@@ -19,7 +19,7 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
      *
      * @var array
      */
-    protected $_columns = array();
+    protected $_columns = [];
 
     /**
      * Enable the "Add after" button or not
@@ -76,13 +76,13 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
      */
     public function addColumn($name, $params)
     {
-        $this->_columns[$name] = array(
+        $this->_columns[$name] = [
             'label' => $this->_getParam($params, 'label', 'Column'),
             'size' => $this->_getParam($params, 'size', false),
             'style' => $this->_getParam($params, 'style'),
             'class' => $this->_getParam($params, 'class'),
-            'renderer' => false
-        );
+            'renderer' => false,
+        ];
         if (!empty($params['renderer']) && $params['renderer'] instanceof \Magento\Framework\View\Element\AbstractBlock) {
             $this->_columns[$name]['renderer'] = $params['renderer'];
         }
@@ -140,12 +140,12 @@ abstract class AbstractFieldArray extends \Magento\Backend\Block\System\Config\F
         if (null !== $this->_arrayRowsCache) {
             return $this->_arrayRowsCache;
         }
-        $result = array();
+        $result = [];
         /** @var \Magento\Framework\Data\Form\Element\AbstractElement */
         $element = $this->getElement();
         if ($element->getValue() && is_array($element->getValue())) {
             foreach ($element->getValue() as $rowId => $row) {
-                $rowColumnValues = array();
+                $rowColumnValues = [];
                 foreach ($row as $key => $value) {
                     $row[$key] = $this->escapeHtml($value);
                     $rowColumnValues[$this->_getCellInputElementId($rowId, $key)] = $row[$key];

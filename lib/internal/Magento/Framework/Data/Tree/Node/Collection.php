@@ -33,7 +33,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      */
     public function __construct($container)
     {
-        $this->_nodes = array();
+        $this->_nodes = [];
         $this->_container = $container;
     }
 

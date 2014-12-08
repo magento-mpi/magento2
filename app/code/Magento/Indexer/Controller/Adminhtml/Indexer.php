@@ -9,7 +9,6 @@ namespace Magento\Indexer\Controller\Adminhtml;
 
 class Indexer extends \Magento\Backend\App\Action
 {
-
     /**
      * Check ACL permissions
      *

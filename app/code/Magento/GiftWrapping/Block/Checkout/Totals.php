@@ -41,7 +41,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($context, $customerSession, $checkoutSession, $salesConfig, $data);
@@ -55,7 +55,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
         $total = $this->getTotal();
         $totals = $this->_giftWrappingData->getTotals($total);
         foreach ($totals as $total) {

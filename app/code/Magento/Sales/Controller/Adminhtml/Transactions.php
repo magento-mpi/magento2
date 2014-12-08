@@ -56,7 +56,7 @@ class Transactions extends \Magento\Backend\App\Action
         }
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
-            $txn->setOrderUrl($this->getUrl('sales/order/view', array('order_id' => $orderId)));
+            $txn->setOrderUrl($this->getUrl('sales/order/view', ['order_id' => $orderId]));
         }
 
         $this->_coreRegistry->register('current_transaction', $txn);

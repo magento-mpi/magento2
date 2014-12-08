@@ -8,9 +8,8 @@
 
 namespace Magento\Setup\Module;
 
-use Magento\Framework\App\Resource;
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Model\LoggerInterface;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class SetupFactory
 {

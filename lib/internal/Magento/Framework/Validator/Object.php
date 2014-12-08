@@ -19,14 +19,14 @@ class Object implements \Zend_Validate_Interface
      *
      * @var \Zend_Validate_Interface[]
      */
-    private $_rules = array();
+    private $_rules = [];
 
     /**
      * Validation error messages
      *
      * @var array
      */
-    private $_messages = array();
+    private $_messages = [];
 
     /**
      * Add rule to be applied to a validation scope
@@ -61,7 +61,7 @@ class Object implements \Zend_Validate_Interface
      */
     public function isValid($entity)
     {
-        $this->_messages = array();
+        $this->_messages = [];
         /** @var $validator \Zend_Validate_Interface */
         foreach ($this->_rules as $fieldName => $validator) {
             $value = $fieldName ? $entity->getDataUsingMethod($fieldName) : $entity;

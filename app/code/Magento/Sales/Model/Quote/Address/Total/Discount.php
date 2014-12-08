@@ -40,11 +40,11 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
         $quote = $address->getQuote();
-        $eventArgs = array(
+        $eventArgs = [
             'website_id' => $this->_storeManager->getStore($quote->getStoreId())->getWebsiteId(),
             'customer_group_id' => $quote->getCustomerGroupId(),
-            'coupon_code' => $quote->getCouponCode()
-        );
+            'coupon_code' => $quote->getCouponCode(),
+        ];
 
         $address->setFreeShipping(0);
         $totalDiscountAmount = 0;
@@ -148,7 +148,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             if (strlen($code)) {
                 $title = __('Discount (%1)', $code);
             }
-            $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => -$amount));
+            $address->addTotal(['code' => $this->getCode(), 'title' => $title, 'value' => -$amount]);
         }
         return $this;
     }

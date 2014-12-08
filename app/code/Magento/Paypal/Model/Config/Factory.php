@@ -36,7 +36,7 @@ class Factory
      * @param array $data
      * @return object
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         return $this->_objectManager->create($className, $data);
     }

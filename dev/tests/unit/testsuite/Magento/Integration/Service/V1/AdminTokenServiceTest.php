@@ -75,7 +75,6 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
             $this->_tokenModelCollectionFactoryMock,
             $this->validatorHelperMock
         );
-
     }
 
     public function testRevokeAdminAccessToken()
@@ -150,5 +149,3 @@ class AdminTokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->_tokenService->revokeAdminAccessToken($adminId);
     }
 }
-
-

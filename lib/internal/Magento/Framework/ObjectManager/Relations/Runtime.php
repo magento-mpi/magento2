@@ -19,7 +19,7 @@ class Runtime implements \Magento\Framework\ObjectManager\RelationsInterface
      *
      * @var array
      */
-    protected $_default = array();
+    protected $_default = [];
 
     /**
      * @param \Magento\Framework\Code\Reader\ClassReader $classReader

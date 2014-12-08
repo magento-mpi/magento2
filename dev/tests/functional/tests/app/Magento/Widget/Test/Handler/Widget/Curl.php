@@ -11,10 +11,10 @@ namespace Magento\Widget\Test\Handler\Widget;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Curl handler for creating widgetInstance/frontendApp.
@@ -36,20 +36,20 @@ class Curl extends AbstractCurl
         'block' => [
             'Main Content Area' => 'content',
             'Sidebar Additional' => 'sidebar.additional',
-            'Sidebar Main' => 'sidebar.main'
+            'Sidebar Main' => 'sidebar.main',
         ],
         'page_group' => [
             'All Pages' => 'all_pages',
             'Specified Page' => 'pages',
             'Page Layouts' => 'page_layouts',
-            'Non-Anchor Categories' => 'notanchor_categories'
+            'Non-Anchor Categories' => 'notanchor_categories',
         ],
         'template' => [
-            'CMS Page Link Block Template' => 'widget/link/link_block.phtml'
+            'CMS Page Link Block Template' => 'widget/link/link_block.phtml',
         ],
         'layout_handle' => [
-            'Shopping Cart' => 'checkout_cart_index'
-        ]
+            'Shopping Cart' => 'checkout_cart_index',
+        ],
     ];
 
     /**

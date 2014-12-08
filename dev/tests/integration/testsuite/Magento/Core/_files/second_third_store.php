@@ -18,7 +18,6 @@ $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Ma
 $store->setCode('secondstore')->setName('Second Store')->setSortOrder(10)->setIsActive(1);
 $store->save();
 
-
 /** @var \Magento\Store\Model\Website $website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');
 $website->setName('Third Website')->setCode('thirdwebsite')->save();

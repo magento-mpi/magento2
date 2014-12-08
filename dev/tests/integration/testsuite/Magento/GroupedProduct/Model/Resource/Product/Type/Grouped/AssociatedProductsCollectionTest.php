@@ -29,6 +29,6 @@ class AssociatedProductsCollectionTest extends \PHPUnit_Framework_TestCase
             'Magento\GroupedProduct\Model\Resource\Product\Type\Grouped\AssociatedProductsCollection'
         );
 
-        $this->assertEquals(array('simple-1', 'virtual-product'), $collection->getColumnValues('sku'));
+        $this->assertEquals(['simple-1', 'virtual-product'], $collection->getColumnValues('sku'));
     }
 }

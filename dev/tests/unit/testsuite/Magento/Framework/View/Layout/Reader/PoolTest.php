@@ -75,7 +75,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 [
                     ['Magento\Framework\View\Layout\Reader\Move', [], $moveReaderMock],
-                    ['Magento\Framework\View\Layout\Reader\Remove', [], $removeReaderMock]
+                    ['Magento\Framework\View\Layout\Reader\Remove', [], $removeReaderMock],
                 ]
             ));
 

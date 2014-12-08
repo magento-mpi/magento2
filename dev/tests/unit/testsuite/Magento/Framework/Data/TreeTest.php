@@ -44,4 +44,3 @@ class TreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_tree->getNodes()->getNodes());
     }
 }
- 

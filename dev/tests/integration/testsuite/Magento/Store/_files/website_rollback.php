@@ -22,4 +22,3 @@ if ($website->getId()) {
 
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', false);
-

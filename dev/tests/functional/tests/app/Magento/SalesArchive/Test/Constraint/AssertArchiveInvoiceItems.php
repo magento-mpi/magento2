@@ -5,14 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Sales\Test\Constraint\AbstractAssertItems;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderInvoiceView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
-use Magento\Sales\Test\Constraint\AbstractAssertItems;
 
 /**
  * Class AssertArchiveInvoiceItems
@@ -50,7 +49,7 @@ class AssertArchiveInvoiceItems extends AbstractAssertItems
         foreach ($ids['invoiceIds'] as $invoiceId) {
             $filter = [
                 'order_id' => $orderId,
-                'invoice_id' => $invoiceId
+                'invoice_id' => $invoiceId,
             ];
 
             $archiveInvoices->open();

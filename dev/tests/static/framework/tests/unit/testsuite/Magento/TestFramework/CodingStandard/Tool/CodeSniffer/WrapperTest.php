@@ -15,7 +15,7 @@ class WrapperTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Code Sniffer is not installed');
         }
         $wrapper = new \Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper();
-        $expected = array('some_key' => 'some_value');
+        $expected = ['some_key' => 'some_value'];
         $wrapper->setValues($expected);
         $this->assertEquals($expected, $wrapper->getCommandLineValues());
     }

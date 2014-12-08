@@ -47,9 +47,7 @@ class AbstractIframeTest extends \PHPUnit_Framework_TestCase
                 'httpContext' => $this->_httpContext
             ]
         );
-
     }
-
 
     public function testGetQuote()
     {
@@ -66,7 +64,6 @@ class AbstractIframeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIframeBlock()
     {
-
         $iframeBlock = new \Magento\Framework\Object();
         $this->_layout->expects($this->atLeastOnce())
             ->method('createBlock')

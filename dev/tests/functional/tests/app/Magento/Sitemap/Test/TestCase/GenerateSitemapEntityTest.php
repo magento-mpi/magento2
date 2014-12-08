@@ -12,9 +12,9 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Sitemap\Test\Fixture\Sitemap;
-use Mtf\TestCase\Injectable;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover generating Sitemap Entity

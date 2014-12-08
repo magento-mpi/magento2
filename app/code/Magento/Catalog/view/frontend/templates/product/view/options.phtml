@@ -20,7 +20,7 @@ require([ 'jquery', 'Magento_Catalog/js/price-options' ], function($){
         });
 });
 </script>
-    <?php foreach($_options as $_option): ?>
+    <?php foreach ($_options as $_option): ?>
         <?php echo $this->getOptionHtml($_option) ?>
     <?php endforeach; ?>
 <?php endif; ?>

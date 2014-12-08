@@ -51,7 +51,7 @@ class Subscription implements SubscriptionInterface
      *
      * @var array
      */
-    protected $linkedViews = array();
+    protected $linkedViews = [];
 
     /**
      * @var \Magento\Framework\App\Resource

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward Helper for operations with customer
  *
@@ -44,7 +43,7 @@ class Customer extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getUnsubscribeUrl($notification = false, $storeId = null)
     {
-        $params = array();
+        $params = [];
 
         if ($notification) {
             $params['notification'] = $notification;

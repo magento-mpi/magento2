@@ -34,7 +34,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->createBlock(
                 'Magento\Customer\Block\Account\Dashboard\Address',
                 '',
-                array('customerSession' => $this->_customerSession)
+                ['customerSession' => $this->_customerSession]
             );
         $this->objectManager->get('Magento\Framework\App\ViewInterface')->setIsLayoutLoaded(true);
     }
@@ -100,11 +100,11 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $expected = "John Smith<br/>\nCompanyName<br />\nGreen str, 67<br />\n\n\n\nCityM,  Alabama, 75477<br/>"
             . "\nUnited States<br/>\nT: 3468676\n\n";
 
-        return array(
-            '0' => array(0, 'You have not set a default shipping address.'),
-            '1' => array(1, $expected),
-            '5' => array(5, 'You have not set a default shipping address.')
-        );
+        return [
+            '0' => [0, 'You have not set a default shipping address.'],
+            '1' => [1, $expected],
+            '5' => [5, 'You have not set a default shipping address.']
+        ];
     }
 
     /**

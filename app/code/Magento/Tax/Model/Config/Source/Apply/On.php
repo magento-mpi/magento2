@@ -14,9 +14,9 @@ class On implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 0, 'label' => __('Custom price if available')),
-            array('value' => 1, 'label' => __('Original price only'))
-        );
+        return [
+            ['value' => 0, 'label' => __('Custom price if available')],
+            ['value' => 1, 'label' => __('Original price only')]
+        ];
     }
 }

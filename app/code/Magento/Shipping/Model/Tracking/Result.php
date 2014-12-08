@@ -7,15 +7,15 @@
  */
 namespace Magento\Shipping\Model\Tracking;
 
-use Magento\Shipping\Model\Tracking\Result\AbstractResult;
 use Magento\Shipping\Model\Rate\Result as RateResult;
+use Magento\Shipping\Model\Tracking\Result\AbstractResult;
 
 class Result
 {
     /**
      * @var array
      */
-    protected $_trackings = array();
+    protected $_trackings = [];
 
     /**
      * @var null|array
@@ -29,7 +29,7 @@ class Result
      */
     public function reset()
     {
-        $this->_trackings = array();
+        $this->_trackings = [];
         return $this;
     }
 

@@ -168,7 +168,6 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 try {
                     $this->quote = $this->quoteRepository->getForCustomer($currentCustomerId, $storeIds);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                 }
             }
         }

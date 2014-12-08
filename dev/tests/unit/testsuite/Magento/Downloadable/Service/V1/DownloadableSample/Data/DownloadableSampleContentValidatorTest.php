@@ -38,22 +38,22 @@ class DownloadableSampleContentValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileValidatorMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContentValidator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->urlValidatorMock = $this->getMock(
             '\Magento\Framework\Url\Validator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->sampleFileMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -62,11 +62,11 @@ class DownloadableSampleContentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValid()
     {
-        $sampleContentData = array(
+        $sampleContentData = [
             'title' => 'Title',
             'sort_order' => 1,
             'sample_type' => 'file',
-        );
+        ];
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $contentMock = $this->getSampleContentMock($sampleContentData);
@@ -81,11 +81,11 @@ class DownloadableSampleContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfSortOrderIsInvalid($sortOrder)
     {
-        $sampleContentData = array(
+        $sampleContentData = [
             'title' => 'Title',
             'sort_order' => $sortOrder,
             'sample_type' => 'file',
-        );
+        ];
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->validator->isValid($this->getSampleContentMock($sampleContentData));
@@ -96,11 +96,11 @@ class DownloadableSampleContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidSortOrder()
     {
-        return array(
-            array(-1),
-            array(1.1),
-            array('string'),
-        );
+        return [
+            [-1],
+            [1.1],
+            ['string'],
+        ];
     }
 
     /**
@@ -111,8 +111,8 @@ class DownloadableSampleContentValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $contentMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\DownloadableSample\Data\DownloadableSampleContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

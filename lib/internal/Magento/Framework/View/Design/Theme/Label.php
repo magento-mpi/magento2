@@ -40,7 +40,7 @@ class Label
     {
         $options = $this->_labelsCollection->getLabels();
         if ($label) {
-            array_unshift($options, array('value' => '', 'label' => $label));
+            array_unshift($options, ['value' => '', 'label' => $label]);
         }
         return $options;
     }

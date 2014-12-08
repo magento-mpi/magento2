@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Persistent\Model\Observer;
- 
+
 class RemovePersistentCookieTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var RemovePersistentCookie
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -46,7 +46,6 @@ class RemovePersistentCookieTest extends \PHPUnit_Framework_TestCase
      */
     protected $sessionModelMock;
 
-    
     protected function setUp()
     {
         $this->persistentMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);

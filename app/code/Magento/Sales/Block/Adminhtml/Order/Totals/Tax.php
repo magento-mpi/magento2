@@ -58,7 +58,7 @@ class Tax extends \Magento\Tax\Block\Sales\Order\Tax
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Sales\Order\TaxFactory $taxOrderFactory,
         \Magento\Sales\Helper\Admin $salesAdminHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;

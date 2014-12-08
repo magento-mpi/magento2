@@ -12,7 +12,7 @@
  */
 ?>
 <dl class="items payment-schedule">
-<?php foreach($this->getScheduleInfo() as $term => $definitions): ?>
+<?php foreach ($this->getScheduleInfo() as $term => $definitions): ?>
     <dt class="item-title"><?php echo $this->escapeHtml($term); ?></dt>
     <?php foreach ($definitions as $definition):?>
         <dd class="item-content"><?php echo $this->escapeHtml($definition)?></dd>

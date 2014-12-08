@@ -41,12 +41,12 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->with(
                 $this->logicalOr(
                     $routerClass,
-                    array(
+                    [
                         'route'    => $parameterRoute,
                         'defaults' => $parameterDefaults,
                         'regs'     => $parameterRegs,
                         'locale'   => $parameterLocale,
-                    )
+                    ]
                 )
             )
             ->will($this->returnValue($router));
@@ -72,7 +72,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManager->expects($this->once())
             ->method('create')
-            ->will($this->returnValue(new \StdClass));
+            ->will($this->returnValue(new \StdClass()));
 
         $object = new \Magento\Framework\Controller\Router\Route\Factory($this->objectManager);
         $object->createRoute(

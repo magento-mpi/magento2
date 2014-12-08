@@ -50,23 +50,23 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_uploader = $this->getMock('Magento\Core\Model\File\Uploader', array(), array(), '', false);
+        $this->_uploader = $this->getMock('Magento\Core\Model\File\Uploader', [], [], '', false);
         $this->_uploaderFactory = $this->getMock(
             'Magento\Core\Model\File\UploaderFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($this->_uploader));
         $this->_directoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
         $this->_filesystemMock->expects(
             $this->any()
         )->method(
@@ -79,7 +79,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         $this->_fileSizeMock = $this->getMockBuilder(
             'Magento\Framework\File\Size'
         )->setMethods(
-            array('getMaxFileSize')
+            ['getMaxFileSize']
         )->disableOriginalConstructor()->getMock();
 
         $this->_fileSizeMock->expects(
@@ -117,7 +117,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('css' => '5M')
+            ['css' => '5M']
         );
         $this->assertEquals(5 * self::MB_MULTIPLIER, $this->_service->getCssUploadMaxSize());
     }
@@ -128,7 +128,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('js' => '3M')
+            ['js' => '3M']
         );
         $this->assertEquals(3 * self::MB_MULTIPLIER, $this->_service->getJsUploadMaxSize());
     }
@@ -161,7 +161,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('js' => '3M')
+            ['js' => '3M']
         );
 
         $this->assertEquals('content from my file', $this->_service->getFileContent($fileName));
@@ -174,7 +174,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('css' => '3M')
+            ['css' => '3M']
         );
         $this->_directoryMock->expects(
             $this->once()
@@ -201,11 +201,11 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'validateFile'
         )->will(
-            $this->returnValue(array('name' => $fileName, 'tmp_name' => $fileName))
+            $this->returnValue(['name' => $fileName, 'tmp_name' => $fileName])
         );
 
         $this->assertEquals(
-            array('content' => 'content', 'filename' => $fileName),
+            ['content' => 'content', 'filename' => $fileName],
             $this->_service->uploadCssFile($fileName)
         );
     }
@@ -229,7 +229,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('css' => '10M')
+            ['css' => '10M']
         );
 
         $this->_service->uploadCssFile($fileName);
@@ -251,7 +251,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('js' => '500M')
+            ['js' => '500M']
         );
         $this->_directoryMock->expects(
             $this->once()
@@ -278,13 +278,13 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'validateFile'
         )->will(
-            $this->returnValue(array('name' => $fileName, 'tmp_name' => $fileName))
+            $this->returnValue(['name' => $fileName, 'tmp_name' => $fileName])
         );
 
         $this->_uploader->expects($this->once())->method('getFileSize')->will($this->returnValue('499'));
 
         $this->assertEquals(
-            array('content' => 'content', 'filename' => $fileName),
+            ['content' => 'content', 'filename' => $fileName],
             $this->_service->uploadJsFile($fileName)
         );
     }
@@ -299,7 +299,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $this->_fileSizeMock,
             $this->_uploaderFactory,
-            array('js' => '100M')
+            ['js' => '100M']
         );
 
         $this->_uploader->expects(

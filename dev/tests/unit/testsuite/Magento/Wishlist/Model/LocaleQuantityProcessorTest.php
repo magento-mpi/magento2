@@ -7,7 +7,6 @@
  */
 namespace Magento\Wishlist\Model;
 
-
 class LocaleQuantityProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -69,4 +68,3 @@ class LocaleQuantityProcessorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 

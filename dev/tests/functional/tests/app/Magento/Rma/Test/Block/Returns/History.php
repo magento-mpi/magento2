@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Test\Block\Returns;
 
+use Magento\Rma\Test\Block\Returns\History\RmaRow;
+use Magento\Rma\Test\Fixture\Rma;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Fixture\Rma;
-use Magento\Rma\Test\Block\Returns\History\RmaRow;
 
 /**
  * Rma of order grid block.

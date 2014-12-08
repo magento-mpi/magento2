@@ -47,8 +47,8 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', [], [], '', false);
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Layer\Resolver $layerResolver */
         $layerResolver = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Resolver')
             ->disableOriginalConstructor()
@@ -59,41 +59,41 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->layerMock));
         $this->postDataHelperMock = $this->getMock(
             'Magento\Core\Helper\PostData',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->typeInstanceMock = $this->getMock(
             'Magento\Catalog\Model\Product\Type\Simple',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->cartHelperMock = $this->getMock(
             'Magento\Checkout\Helper\Cart',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->block = $objectManager->getObject(
             'Magento\Catalog\Block\Product\ListProduct',
-            array(
+            [
                 'registry' => $this->registryMock,
                 'layerResolver' => $layerResolver,
                 'cartHelper' => $this->cartHelperMock,
                 'postDataHelper' => $this->postDataHelperMock
-            )
+            ]
         );
     }
 
@@ -109,13 +109,13 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
 
         $this->productMock->expects($this->once())
             ->method('getIdentities')
-            ->will($this->returnValue(array($productTag)));
+            ->will($this->returnValue([$productTag]));
 
         $itemsCollection = new \ReflectionProperty('Magento\Catalog\Block\Product\ListProduct', '_productCollection');
         $itemsCollection->setAccessible(true);
-        $itemsCollection->setValue($this->block, array($this->productMock));
+        $itemsCollection->setValue($this->block, [$this->productMock]);
 
-        $currentCategory = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $currentCategory = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $currentCategory->expects($this->once())
             ->method('getId')
             ->will($this->returnValue('1'));
@@ -125,7 +125,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($currentCategory));
 
         $this->assertEquals(
-            array($productTag, $categoryTag ),
+            [$productTag, $categoryTag ],
             $this->block->getIdentities()
         );
     }
@@ -135,12 +135,12 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
         $url = 'http://localhost.com/dev/';
         $id = 1;
         $uenc = strtr(base64_encode($url), '+/=', '-_,');
-        $data = array('product' => $id, \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $uenc);
+        $data = ['product' => $id, \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $uenc];
         $expectedPostData = json_encode(
-            array(
+            [
                 'action' => $url,
-                'data' => array('product' => $id, 'uenc' => $uenc)
-            )
+                'data' => ['product' => $id, 'uenc' => $uenc],
+            ]
         );
 
         $this->typeInstanceMock->expects($this->once())
@@ -149,7 +149,7 @@ class ListProductTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
         $this->cartHelperMock->expects($this->any())
             ->method('getAddUrl')
-            ->with($this->equalTo($this->productMock), $this->equalTo(array()))
+            ->with($this->equalTo($this->productMock), $this->equalTo([]))
             ->will($this->returnValue($url));
         $this->productMock->expects($this->once())
             ->method('getEntityId')

@@ -71,7 +71,7 @@ class Group extends AbstractComposite
      */
     public function populateFieldset(\Magento\Framework\Data\Form\Element\Fieldset $fieldset)
     {
-        $originalData = array();
+        $originalData = [];
         foreach ($this->_data as $key => $value) {
             if (!is_array($value)) {
                 $originalData[$key] = $value;
@@ -108,7 +108,7 @@ class Group extends AbstractComposite
      */
     public function getDependencies($storeCode)
     {
-        $dependencies = array();
+        $dependencies = [];
         if (false == isset($this->_data['depends']['fields'])) {
             return $dependencies;
         }

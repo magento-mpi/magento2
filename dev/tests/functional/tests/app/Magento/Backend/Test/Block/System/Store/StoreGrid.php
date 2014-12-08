@@ -8,11 +8,11 @@
 
 namespace Magento\Backend\Test\Block\System\Store;
 
-use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Magento\Store\Test\Fixture\Store;
 use Magento\Store\Test\Fixture\StoreGroup;
 use Magento\Store\Test\Fixture\Website;
-use Magento\Store\Test\Fixture\Store;
-use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class StoreGrid
@@ -37,11 +37,11 @@ class StoreGrid extends GridInterface
             'selector' => '#storeGrid_filter_store_title',
         ],
         'group_title' => [
-            'selector' => '#storeGrid_filter_group_title'
+            'selector' => '#storeGrid_filter_group_title',
         ],
         'website_title' => [
-            'selector' => '#storeGrid_filter_website_title'
-        ]
+            'selector' => '#storeGrid_filter_website_title',
+        ],
     ];
 
     /**

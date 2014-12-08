@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Api\Code\Generator;
 
-use Magento\Framework\Api\Code\Generator\SearchResults;
 
 /**
  * Class SearchResultTest

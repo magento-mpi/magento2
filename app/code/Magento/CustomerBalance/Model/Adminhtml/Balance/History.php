@@ -41,7 +41,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authSession = $authSession;
         parent::__construct(
@@ -65,7 +65,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     public function beforeSave()
     {
         $balance = $this->getBalanceModel();
-        if (in_array((int)$balance->getHistoryAction(), array(self::ACTION_CREATED, self::ACTION_UPDATED))
+        if (in_array((int)$balance->getHistoryAction(), [self::ACTION_CREATED, self::ACTION_UPDATED])
             && !$balance->getUpdatedActionAdditionalInfo()
         ) {
             $user = $this->_authSession->getUser();

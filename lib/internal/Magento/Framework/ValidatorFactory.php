@@ -56,6 +56,5 @@ class ValidatorFactory
         } else {
             return $this->_objectManager->create($instanceName, $data);
         }
-
     }
 }

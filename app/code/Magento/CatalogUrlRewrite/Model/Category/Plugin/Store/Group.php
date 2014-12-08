@@ -7,15 +7,15 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Store;
 
-use Magento\UrlRewrite\Model\UrlPersistInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Framework\StoreManagerInterface;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
-use Magento\Store\Model\Store;
 use Magento\Framework\Model\AbstractModel;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\Store;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Group
 {
@@ -112,7 +112,7 @@ class Group
         $collection = $this->productFactory->create()
             ->getCollection()
             ->addCategoryIds()
-            ->addAttributeToSelect(array('name', 'url_path', 'url_key'))
+            ->addAttributeToSelect(['name', 'url_path', 'url_key'])
             ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
             /** @var \Magento\Catalog\Model\Product $product */

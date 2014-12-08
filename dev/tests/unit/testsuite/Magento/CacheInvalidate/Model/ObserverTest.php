@@ -34,16 +34,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock(
             'Magento\PageCache\Model\Config',
-            array('getType', 'isEnabled'),
-            array(),
+            ['getType', 'isEnabled'],
+            [],
             '',
             false
         );
-        $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', array('getUrl'), array(), '', false);
+        $this->_helperMock = $this->getMock('Magento\PageCache\Helper\Data', ['getUrl'], [], '', false);
         $this->_curlMock = $this->getMock(
             '\Magento\Framework\HTTP\Adapter\Curl',
-            array('setOptions', 'write', 'read', 'close'),
-            array(),
+            ['setOptions', 'write', 'read', 'close'],
+            [],
             '',
             false
         );
@@ -54,12 +54,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
         $this->_observerMock = $this->getMock(
             'Magento\Framework\Event\Observer',
-            array('getEvent'),
-            array(),
+            ['getEvent'],
+            [],
             '',
             false
         );
-        $this->_observerObject = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_observerObject = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
     }
 
     /**
@@ -67,7 +67,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidateVarnish()
     {
-        $tags = array('cache_1', 'cache_group');
+        $tags = ['cache_1', 'cache_group'];
         $pattern = '((^|,)cache(,|$))|((^|,)cache_1(,|$))|((^|,)cache_group(,|$))';
 
         $this->_configMock->expects($this->once())->method('isEnabled')->will($this->returnValue(true));
@@ -78,7 +78,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(\Magento\PageCache\Model\Config::VARNISH)
         );
-        $eventMock = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
+        $eventMock = $this->getMock('Magento\Framework\Event', ['getObject'], [], '', false);
         $eventMock->expects($this->once())->method('getObject')->will($this->returnValue($this->_observerObject));
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($eventMock));
         $this->_observerObject->expects($this->once())->method('getIdentities')->will($this->returnValue($tags));
@@ -112,18 +112,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $url = 'http://mangento.index.php';
         $httpVersion = '1.1';
-        $headers = array("X-Magento-Tags-Pattern: {$tags}");
+        $headers = ["X-Magento-Tags-Pattern: {$tags}"];
         $this->_helperMock->expects(
             $this->any()
         )->method(
             'getUrl'
         )->with(
             $this->equalTo('*'),
-            array()
+            []
         )->will(
             $this->returnValue($url)
         );
-        $this->_curlMock->expects($this->once())->method('setOptions')->with(array(CURLOPT_CUSTOMREQUEST => 'PURGE'));
+        $this->_curlMock->expects($this->once())->method('setOptions')->with([CURLOPT_CUSTOMREQUEST => 'PURGE']);
         $this->_curlMock->expects(
             $this->once()
         )->method(

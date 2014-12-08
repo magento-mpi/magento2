@@ -18,7 +18,7 @@ class Listmode implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             '' => __('Default'),
             '1' => __('Numbers (1, 2, 3, ...)'),
             'a' => __('Lower Alpha (a, b, c, ...)'),
@@ -28,6 +28,6 @@ class Listmode implements \Magento\Framework\Option\ArrayInterface
             'circle' => __('Circle'),
             'disc' => __('Disc'),
             'square' => __('Square')
-        );
+        ];
     }
 }

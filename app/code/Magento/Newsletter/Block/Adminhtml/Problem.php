@@ -34,7 +34,7 @@ class Problem extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         Collection $problemCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->_problemCollection = $problemCollection;
         parent::__construct($context, $data);
@@ -63,7 +63,7 @@ class Problem extends \Magento\Backend\Block\Template
                 'Magento\Backend\Block\Widget\Button',
                 'del.button'
             )->setData(
-                array('label' => __('Delete Selected Problems'), 'onclick' => 'problemController.deleteSelected();')
+                ['label' => __('Delete Selected Problems'), 'onclick' => 'problemController.deleteSelected();']
             )
         );
 
@@ -73,7 +73,7 @@ class Problem extends \Magento\Backend\Block\Template
                 'Magento\Backend\Block\Widget\Button',
                 'unsubscribe.button'
             )->setData(
-                array('label' => __('Unsubscribe Selected'), 'onclick' => 'problemController.unsubscribe();')
+                ['label' => __('Unsubscribe Selected'), 'onclick' => 'problemController.unsubscribe();']
             )
         );
         return parent::_prepareLayout();

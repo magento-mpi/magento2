@@ -13,15 +13,15 @@ class FullTest extends \PHPUnit_Framework_TestCase
     {
         $eavDecimalFactory = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Indexer\Eav\DecimalFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $eavSourceFactory = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Indexer\Eav\SourceFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );

@@ -69,14 +69,14 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
      */
     public function getGiftcardOptions(\Magento\Catalog\Model\Product\Configuration\Item\ItemInterface $item)
     {
-        $result = array();
+        $result = [];
         $value = $this->prepareCustomOption($item, 'giftcard_sender_name');
         if ($value) {
             $email = $this->prepareCustomOption($item, 'giftcard_sender_email');
             if ($email) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array('label' => __('Gift Card Sender'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Sender'), 'value' => $value];
         }
 
         $value = $this->prepareCustomOption($item, 'giftcard_recipient_name');
@@ -85,12 +85,12 @@ class Configuration extends \Magento\Framework\App\Helper\AbstractHelper impleme
             if ($email) {
                 $value = "{$value} &lt;{$email}&gt;";
             }
-            $result[] = array('label' => __('Gift Card Recipient'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Recipient'), 'value' => $value];
         }
 
         $value = $this->prepareCustomOption($item, 'giftcard_message');
         if ($value) {
-            $result[] = array('label' => __('Gift Card Message'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Message'), 'value' => $value];
         }
 
         return $result;

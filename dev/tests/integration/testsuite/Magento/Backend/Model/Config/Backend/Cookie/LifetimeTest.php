@@ -26,4 +26,4 @@ class LifetimeTest extends \PHPUnit_Framework_TestCase
         $model->setValue($invalidCookieLifetime);
         $model->save();
     }
-} 
+}

@@ -38,13 +38,13 @@ class Config extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     public function getAllOptions()
     {
         if ($this->_options === null) {
-            $this->_options = array();
+            $this->_options = [];
 
             if (empty($this->_optionsData)) {
                 throw new \Magento\Eav\Exception(__('No options found.'));
             }
             foreach ($this->_optionsData as $option) {
-                $this->_options[] = array('value' => $option['value'], 'label' => __($option['label']));
+                $this->_options[] = ['value' => $option['value'], 'label' => __($option['label'])];
             }
         }
 

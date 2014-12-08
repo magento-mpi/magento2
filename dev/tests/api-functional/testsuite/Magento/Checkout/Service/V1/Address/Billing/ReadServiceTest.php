@@ -8,10 +8,10 @@
 
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Checkout\Service\V1\Data\Cart\Address;
-use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\Checkout\Service\V1\Data\Cart\Address;
+use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -44,11 +44,11 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
             Address::KEY_ID => (int)$address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
-            Address::KEY_REGION => array(
+            Address::KEY_REGION => [
                 Region::REGION => $address->getRegion(),
                 Region::REGION_ID => $address->getRegionId(),
-                Region::REGION_CODE => $address->getRegionCode()
-            ),
+                Region::REGION_CODE => $address->getRegionCode(),
+            ],
             Address::KEY_STREET => $address->getStreet(),
             Address::KEY_COMPANY => $address->getCompany(),
             Address::KEY_TELEPHONE => $address->getTelephone(),
@@ -57,22 +57,22 @@ class ReadServiceTest extends WebapiAbstract
             Address::KEY_FIRSTNAME => $address->getFirstname(),
             Address::KEY_LASTNAME => $address->getLastname(),
             Address::KEY_EMAIL => $address->getEmail(),
-            Address::CUSTOM_ATTRIBUTES_KEY => array(['attribute_code' => 'disable_auto_group_change', 'value' => null])
+            Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'disable_auto_group_change', 'value' => null]],
         ];
 
         $cartId = $quote->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/billing-address',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'GetAddress',
-            ),
-        );
+            ],
+        ];
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             unset($data[Address::KEY_PREFIX]);

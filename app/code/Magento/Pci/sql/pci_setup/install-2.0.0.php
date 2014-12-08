@@ -19,35 +19,35 @@ $table = $installer->getConnection()->newTable(
     'password_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Password Id'
 )->addColumn(
     'user_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'User Id'
 )->addColumn(
     'password_hash',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     100,
-    array(),
+    [],
     'Password Hash'
 )->addColumn(
     'expires',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Expires'
 )->addColumn(
     'last_updated',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Last Updated'
 )->addIndex(
-    $installer->getIdxName('enterprise_admin_passwords', array('user_id')),
-    array('user_id')
+    $installer->getIdxName('enterprise_admin_passwords', ['user_id']),
+    ['user_id']
 )->addForeignKey(
     $installer->getFkName('enterprise_admin_passwords', 'user_id', 'admin_user', 'user_id'),
     'user_id',
@@ -65,24 +65,24 @@ $tableAdmins = $installer->getTable('admin_user');
 $installer->getConnection()->addColumn(
     $tableAdmins,
     'failures_num',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable' => true,
         'default' => 0,
         'comment' => 'Failure Number'
-    )
+    ]
 );
 
 $installer->getConnection()->addColumn(
     $tableAdmins,
     'first_failure',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP, 'comment' => 'First Failure')
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP, 'comment' => 'First Failure']
 );
 
 $installer->getConnection()->addColumn(
     $tableAdmins,
     'lock_expires',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP, 'comment' => 'Expiration Lock Dates')
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP, 'comment' => 'Expiration Lock Dates']
 );
 
 $installer->endSetup();

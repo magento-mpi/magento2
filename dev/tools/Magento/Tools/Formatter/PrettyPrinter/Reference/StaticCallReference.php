@@ -9,9 +9,9 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_ArrayDimFetch;
+use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr_Variable;
 
 class StaticCallReference extends AbstractFunctionReference

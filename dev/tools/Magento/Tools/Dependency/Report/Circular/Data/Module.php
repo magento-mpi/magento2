@@ -32,7 +32,7 @@ class Module
      * @param array $name
      * @param \Magento\Tools\Dependency\Report\Circular\Data\Chain[] $chains
      */
-    public function __construct($name, array $chains = array())
+    public function __construct($name, array $chains = [])
     {
         $this->name = $name;
         $this->chains = $chains;

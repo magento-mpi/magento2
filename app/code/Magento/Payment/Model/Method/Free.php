@@ -56,7 +56,7 @@ class Free extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->priceCurrency = $priceCurrency;

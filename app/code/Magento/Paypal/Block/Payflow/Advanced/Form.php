@@ -26,6 +26,6 @@ class Form extends \Magento\Paypal\Block\Payflow\Link\Form
      */
     public function getFrameActionUrl()
     {
-        return $this->getUrl('paypal/payflowadvanced/form', array('_secure' => true));
+        return $this->getUrl('paypal/payflowadvanced/form', ['_secure' => true]);
     }
 }

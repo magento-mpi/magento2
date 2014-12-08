@@ -9,9 +9,9 @@
 namespace Magento\Cms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\CmsIndex as FrontCmsIndex;
 use Magento\Cms\Test\Page\CmsPage as FrontCmsPage;
-use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 

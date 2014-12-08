@@ -8,12 +8,12 @@
 
 namespace Magento\Reward\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Reward\Test\Fixture\RewardRate;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Exchange Rate Deletion for RewardPointsEntity

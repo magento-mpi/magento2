@@ -27,7 +27,7 @@ class XmlTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertWrongIncomingData()
     {
-        $result = $this->_converter->convert(array('wrong data'));
+        $result = $this->_converter->convert(['wrong data']);
         $this->assertEmpty($result);
     }
 
@@ -51,21 +51,21 @@ class XmlTest extends \PHPUnit_Framework_TestCase
                     'name' => 'job1',
                     'schedule' => '30 2 * * *',
                     'instance' => 'Model1',
-                    'method' => 'method1'
+                    'method' => 'method1',
                 ],
                 'job2' => [
                     'name' => 'job2',
                     'schedule' => '* * * * *',
                     'instance' => 'Model2',
-                    'method' => 'method2'
+                    'method' => 'method2',
                 ],
                 'job3' => [
                     'name'        => 'job3',
                     'instance'    => 'Model3',
                     'method'      => 'method3',
-                    'config_path' => 'some/config/path'
+                    'config_path' => 'some/config/path',
                 ],
-            ]
+            ],
         ];
 
         $xmlFile = __DIR__ . '/../_files/crontab_valid.xml';

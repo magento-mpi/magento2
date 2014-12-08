@@ -1,7 +1,7 @@
 <?php
 /**
  * Page layout config reader
- * 
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -16,5 +16,5 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/page_types/type' => 'id');
+    protected $_idAttributes = ['/page_types/type' => 'id'];
 }

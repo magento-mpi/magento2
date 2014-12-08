@@ -42,7 +42,7 @@ class FormKeyTest extends \PHPUnit_Framework_TestCase
     {
         $valueMap = [
             [FormKey::FORM_KEY, false, null],
-            [FormKey::FORM_KEY, false, 'random_string']
+            [FormKey::FORM_KEY, false, 'random_string'],
         ];
         $this->sessionMock
             ->expects($this->any())

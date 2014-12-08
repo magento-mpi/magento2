@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Attribute Multiply line Data Model
  *

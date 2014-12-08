@@ -165,7 +165,7 @@ class State
      * @return mixed
      * @throws \Exception
      */
-    public function emulateAreaCode($areaCode, $callback, $params = array())
+    public function emulateAreaCode($areaCode, $callback, $params = [])
     {
         $currentArea = $this->_areaCode;
         $this->_areaCode = $areaCode;

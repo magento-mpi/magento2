@@ -9,10 +9,10 @@
  */
 namespace Magento\Framework\Session;
 
-use Magento\Framework\Filesystem;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Session\Config\ConfigInterface;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Session\Config\ConfigInterface;
 
 /**
  * Magento session configuration
@@ -66,7 +66,7 @@ class Config implements ConfigInterface
      *
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -88,12 +88,12 @@ class Config implements ConfigInterface
      *
      * @var string[]
      */
-    protected $booleanOptions = array(
+    protected $booleanOptions = [
         'session.use_cookies',
         'session.use_only_cookies',
         'session.use_trans_sid',
-        'session.cookie_httponly'
-    );
+        'session.cookie_httponly',
+    ];
 
     /**
      * @var string

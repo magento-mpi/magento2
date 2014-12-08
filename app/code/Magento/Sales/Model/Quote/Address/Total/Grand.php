@@ -37,12 +37,12 @@ class Grand extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(
-            array(
+            [
                 'code' => $this->getCode(),
                 'title' => __('Grand Total'),
                 'value' => $address->getGrandTotal(),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
         return $this;
     }

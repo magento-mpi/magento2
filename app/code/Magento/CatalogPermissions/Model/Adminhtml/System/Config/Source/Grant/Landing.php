@@ -21,10 +21,10 @@ class Landing implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             ConfigInterface::GRANT_ALL => __('Yes, for Everyone'),
             ConfigInterface::GRANT_CUSTOMER_GROUP => __('Yes, for Specified Customer Groups'),
             ConfigInterface::GRANT_NONE => __('No, Redirect to Landing Page')
-        );
+        ];
     }
 }

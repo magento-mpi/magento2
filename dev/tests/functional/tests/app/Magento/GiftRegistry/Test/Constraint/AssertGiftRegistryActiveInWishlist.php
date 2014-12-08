@@ -8,14 +8,14 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\Wishlist\Test\Page\WishlistIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
+use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftRegistryActiveInWishlist

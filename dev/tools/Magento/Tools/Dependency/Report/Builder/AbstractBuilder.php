@@ -7,8 +7,8 @@
  */
 namespace Magento\Tools\Dependency\Report\Builder;
 
-use Magento\Tools\Dependency\Report\BuilderInterface;
 use Magento\Tools\Dependency\ParserInterface;
+use Magento\Tools\Dependency\Report\BuilderInterface;
 use Magento\Tools\Dependency\Report\WriterInterface;
 
 /**
@@ -33,7 +33,7 @@ abstract class AbstractBuilder implements BuilderInterface
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * Builder constructor

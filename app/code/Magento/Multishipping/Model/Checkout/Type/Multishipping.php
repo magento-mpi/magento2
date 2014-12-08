@@ -262,7 +262,7 @@ class Multishipping extends \Magento\Framework\Object
                     continue;
                 }
                 if ($item->getQty() > 1) {
-                    for ($i = 0,$n = $item->getQty(); $i < $n; $i++) {
+                    for ($i = 0, $n = $item->getQty(); $i < $n; $i++) {
                         if ($i == 0) {
                             $addressItem = $item;
                         } else {

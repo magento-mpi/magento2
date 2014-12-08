@@ -21,8 +21,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
 
-        $event = new \Magento\Framework\Event(array('order' => $order));
-        $observer = new \Magento\Framework\Event\Observer(array('event' => $event));
+        $event = new \Magento\Framework\Event(['order' => $order]);
+        $observer = new \Magento\Framework\Event\Observer(['event' => $event]);
 
         /** @var $model \Magento\GiftCard\Model\Observer */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

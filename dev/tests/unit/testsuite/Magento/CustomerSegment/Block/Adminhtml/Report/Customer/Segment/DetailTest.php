@@ -8,7 +8,7 @@
 
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
 
-use \Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
+use Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase
 {

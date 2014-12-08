@@ -23,9 +23,9 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_requiredSettings = array(
+    protected $_requiredSettings = [
         'TESTS_INSTALL_CONFIG_FILE' => 'etc/install-config-mysql.php',
-    );
+    ];
 
     /**
      * @var \Magento\TestFramework\Bootstrap\Settings|\PHPUnit_Framework_MockObject_MockObject
@@ -73,20 +73,20 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->_settings = $this->getMock('\Magento\TestFramework\Bootstrap\Settings', [], [], '', false);
         $this->_envBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\Environment',
-            array('emulateHttpRequest', 'emulateSession')
+            ['emulateHttpRequest', 'emulateSession']
         );
         $this->_docBlockBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\DocBlock',
-            array('registerAnnotations'),
-            array(__DIR__)
+            ['registerAnnotations'],
+            [__DIR__]
         );
-        $profilerDriver = $this->getMock('Magento\Framework\Profiler\Driver\Standard', array('registerOutput'));
+        $profilerDriver = $this->getMock('Magento\Framework\Profiler\Driver\Standard', ['registerOutput']);
         $this->_profilerBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\Profiler',
-            array('registerFileProfiler', 'registerBambooProfiler'),
-            array($profilerDriver)
+            ['registerFileProfiler', 'registerBambooProfiler'],
+            [$profilerDriver]
         );
-        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', ['execute'], [], '', false);
         $this->application = $this->getMock('\Magento\TestFramework\Application', [], [], '', false);
         $this->memoryFactory = $this->getMock('\Magento\TestFramework\Bootstrap\MemoryFactory', [], [], '', false);
         $this->_object = new \Magento\TestFramework\Bootstrap(
@@ -120,12 +120,10 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $this->_envBootstrap->expects($this->once())
             ->method('emulateHttpRequest')
-            ->with($this->identicalTo($_SERVER))
-        ;
+            ->with($this->identicalTo($_SERVER));
         $this->_envBootstrap->expects($this->once())
             ->method('emulateSession')
-            ->with($this->identicalTo(isset($_SESSION) ? $_SESSION : null))
-        ;
+            ->with($this->identicalTo(isset($_SESSION) ? $_SESSION : null));
 
         $memUsageLimit = '100B';
         $memLeakLimit = '60B';
@@ -138,8 +136,8 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($settingsMap));
         $memoryBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\Memory',
-            array('activateStatsDisplaying', 'activateLimitValidation'),
-            array(),
+            ['activateStatsDisplaying', 'activateLimitValidation'],
+            [],
             '',
             false
         );
@@ -152,8 +150,7 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
 
         $this->_docBlockBootstrap->expects($this->once())
             ->method('registerAnnotations')
-            ->with($this->isInstanceOf('Magento\TestFramework\Application'))
-        ;
+            ->with($this->isInstanceOf('Magento\TestFramework\Application'));
 
         $this->_profilerBootstrap->expects($this->never())->method($this->anything());
 
@@ -164,8 +161,8 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         $memoryBootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap\Memory',
-            array('activateStatsDisplaying', 'activateLimitValidation'),
-            array(),
+            ['activateStatsDisplaying', 'activateLimitValidation'],
+            [],
             '',
             false
         );
@@ -187,13 +184,11 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->_profilerBootstrap
             ->expects($this->once())
             ->method('registerFileProfiler')
-            ->with("profiler.csv")
-        ;
+            ->with("profiler.csv");
         $this->_profilerBootstrap
             ->expects($this->once())
             ->method('registerBambooProfiler')
-            ->with("profiler_bamboo.csv", "profiler_metrics.php")
-        ;
+            ->with("profiler_bamboo.csv", "profiler_metrics.php");
         $this->_object->runBootstrap();
     }
 }

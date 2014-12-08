@@ -8,7 +8,7 @@
  */
 namespace Magento\Review\Controller\Product;
 
-use \Magento\Review\Model\Review;
+use Magento\Review\Model\Review;
 
 class View extends \Magento\Review\Controller\Product
 {

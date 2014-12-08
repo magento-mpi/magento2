@@ -103,7 +103,7 @@ class Generator
                 $this->_setCurrentDom($node)->arrayToXml($_item);
             } elseif (is_array($_item) && isset($_item[0])) {
                 foreach ($_item as $v) {
-                    $this->_setCurrentDom($node)->arrayToXml(array($this->_getIndexedArrayItemName() => $v));
+                    $this->_setCurrentDom($node)->arrayToXml([$this->_getIndexedArrayItemName() => $v]);
                 }
             }
         }

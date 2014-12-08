@@ -84,7 +84,7 @@ class General extends \Magento\Backend\Test\Block\Widget\Tab
 
         foreach ($comments as $comment) {
             $data[] = [
-                'comment' => trim($comment->find($this->commentText)->getText())
+                'comment' => trim($comment->find($this->commentText)->getText()),
             ];
         }
 

@@ -22,9 +22,9 @@ interface BlockInterface
 
     const CREATION_TIME = 'creation_time';
 
-    const UPDATE_TIME ='update_time';
+    const UPDATE_TIME = 'update_time';
 
-    const IS_ACTIVE ='is_active';
+    const IS_ACTIVE = 'is_active';
 
     /**
      * Retrieve block id

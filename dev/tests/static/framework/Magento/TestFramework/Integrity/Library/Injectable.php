@@ -18,7 +18,7 @@ class Injectable
     /**
      * @var \ReflectionException[]
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * @param FileReflection $fileReflection

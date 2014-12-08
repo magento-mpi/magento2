@@ -34,7 +34,7 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
      *
      * @var string[]
      */
-    protected $_protectedFileExtensions = array();
+    protected $_protectedFileExtensions = [];
 
     /**
      * Core store config
@@ -63,9 +63,9 @@ class NotProtectedExtension extends \Zend_Validate_Abstract
     protected function _initMessageTemplates()
     {
         if (!$this->_messageTemplates) {
-            $this->_messageTemplates = array(
-                self::PROTECTED_EXTENSION => __('File with an extension "%value%" is protected and cannot be uploaded')
-            );
+            $this->_messageTemplates = [
+                self::PROTECTED_EXTENSION => __('File with an extension "%value%" is protected and cannot be uploaded'),
+            ];
         }
         return $this;
     }

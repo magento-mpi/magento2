@@ -8,12 +8,11 @@
 
 namespace Mtf;
 
-use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Stdlib\BooleanUtils;
-use Mtf\System\Config as SystemConfig;
-use Mtf\ObjectManager\Factory;
 use Magento\Framework\ObjectManagerInterface as MagentoObjectManager;
+use Magento\Framework\Stdlib\BooleanUtils;
+use Mtf\ObjectManager\Factory;
+use Mtf\System\Config as SystemConfig;
 
 /**
  * Class ObjectManagerFactory
@@ -105,7 +104,7 @@ class ObjectManagerFactory
     ) {
         $constInterpreter = new \Magento\Framework\Data\Argument\Interpreter\Constant();
         $result = new \Magento\Framework\Data\Argument\Interpreter\Composite(
-            array(
+            [
                 'boolean' => new \Magento\Framework\Data\Argument\Interpreter\Boolean($booleanUtils),
                 'string' => new \Magento\Framework\Data\Argument\Interpreter\String($booleanUtils),
                 'number' => new \Magento\Framework\Data\Argument\Interpreter\Number(),
@@ -113,7 +112,7 @@ class ObjectManagerFactory
                 'const' => $constInterpreter,
                 'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter),
-            ),
+            ],
             \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );
         // Add interpreters that reference the composite

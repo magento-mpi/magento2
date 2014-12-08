@@ -14,7 +14,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Bundle\Model\Plugin\Product */
     private $plugin;
 

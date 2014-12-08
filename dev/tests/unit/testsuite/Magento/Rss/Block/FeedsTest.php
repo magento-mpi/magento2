@@ -7,7 +7,7 @@
  */
 namespace Magento\Rss\Block;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class FeedsTest
@@ -54,18 +54,18 @@ class FeedsTest extends \PHPUnit_Framework_TestCase
     {
         $provider1 = $this->getMock('\Magento\Framework\App\Rss\DataProviderInterface');
         $provider2 = $this->getMock('\Magento\Framework\App\Rss\DataProviderInterface');
-        $feed1 = array(
+        $feed1 = [
             'group' => 'Some Group',
-            'feeds' => array(
-                array('link' => 'feed 1 link', 'label' => 'Feed 1 Label')
-            )
-        );
-        $feed2 = array('link' => 'feed 2 link', 'label' => 'Feed 2 Label');
+            'feeds' => [
+                ['link' => 'feed 1 link', 'label' => 'Feed 1 Label'],
+            ],
+        ];
+        $feed2 = ['link' => 'feed 2 link', 'label' => 'Feed 2 Label'];
         $provider1->expects($this->once())->method('getFeeds')->will($this->returnValue($feed1));
         $provider2->expects($this->once())->method('getFeeds')->will($this->returnValue($feed2));
         $this->rssManagerInterface->expects($this->once())->method('getProviders')
-            ->will($this->returnValue(array($provider1, $provider2)));
+            ->will($this->returnValue([$provider1, $provider2]));
 
-        $this->assertEquals(array($feed2, $feed1), $this->block->getFeeds());
+        $this->assertEquals([$feed2, $feed1], $this->block->getFeeds());
     }
 }

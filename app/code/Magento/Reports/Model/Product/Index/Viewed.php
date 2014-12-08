@@ -48,7 +48,7 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     public function getExcludeProductIds()
     {
-        $productIds = array();
+        $productIds = [];
 
         if ($this->_registry->registry('current_product')) {
             $productIds[] = $this->_registry->registry('current_product')->getId();

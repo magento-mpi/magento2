@@ -15,8 +15,8 @@ class TrackTest extends \PHPUnit_Framework_TestCase
 
         $carrier = $this->getMock(
             'Magento\OfflineShipping\Model\Carrier\Freeshipping',
-            array('setStore', 'getTrackingInfo'),
-            array(),
+            ['setStore', 'getTrackingInfo'],
+            [],
             '',
             false
         );
@@ -25,8 +25,8 @@ class TrackTest extends \PHPUnit_Framework_TestCase
 
         $carrierFactory = $this->getMock(
             '\Magento\Shipping\Model\CarrierFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -34,8 +34,8 @@ class TrackTest extends \PHPUnit_Framework_TestCase
 
         $shipment = $this->getMock(
             'Magento\OfflineShipping\Model\Carrier\Freeshipping',
-            array('load'),
-            array(),
+            ['load'],
+            [],
             '',
             false
         );
@@ -43,8 +43,8 @@ class TrackTest extends \PHPUnit_Framework_TestCase
 
         $shipmentFactory = $this->getMock(
             '\Magento\Sales\Model\Order\ShipmentFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -53,7 +53,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Shipping\Model\Order\Track $model */
         $model = $helper->getObject(
             'Magento\Shipping\Model\Order\Track',
-            array('carrierFactory' => $carrierFactory, 'shipmentFactory' => $shipmentFactory)
+            ['carrierFactory' => $carrierFactory, 'shipmentFactory' => $shipmentFactory]
         );
 
         $this->assertEquals('trackingInfo', $model->getNumberDetail());

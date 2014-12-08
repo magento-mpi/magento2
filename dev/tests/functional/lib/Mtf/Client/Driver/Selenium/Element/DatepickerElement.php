@@ -9,7 +9,6 @@
 namespace Mtf\Client\Driver\Selenium\Element;
 
 use Mtf\Client\Driver\Selenium\Element;
-use Mtf\Client\Element as ElementInterface;
 use Mtf\Client\Element\Locator;
 
 /**

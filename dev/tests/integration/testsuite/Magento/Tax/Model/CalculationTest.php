@@ -7,9 +7,9 @@
  */
 namespace Magento\Tax\Model;
 
+use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Customer\Service\V1\CustomerAddressService;
 use Magento\Customer\Service\V1\CustomerGroupService;
-use Magento\Customer\Service\V1\CustomerAccountService;
 
 /**
  * Class CalculationTest

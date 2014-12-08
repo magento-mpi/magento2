@@ -51,18 +51,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_readerMock = $this->getMock(
             'Magento\Customer\Model\Address\Config\Reader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->_storeManagerMock->expects(
             $this->once()
         )->method(
@@ -71,7 +71,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_storeMock)
         );
 
-        $this->_addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
+        $this->_addressHelperMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
         $this->_cacheMock->expects(
             $this->once()
@@ -95,7 +95,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             serialize($fixtureConfigData),
             $this->_cacheId
         );
-
 
         $this->_model = new \Magento\Customer\Model\Address\Config(
             $this->_readerMock,
@@ -161,7 +160,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         )->setRenderer(
             null
         );
-        $expectedResult = array($firstExpected, $secondExpected);
+        $expectedResult = [$firstExpected, $secondExpected];
 
         $this->assertEquals($expectedResult, $this->_model->getFormats());
     }

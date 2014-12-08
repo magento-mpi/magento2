@@ -193,7 +193,7 @@ class Pager extends \Magento\Theme\Block\Html\Pager
      */
     public function getPages()
     {
-        $pages = array();
+        $pages = [];
         if ($this->getLastPageNum() <= $this->_displayPages) {
             $pages = range(1, $this->getLastPageNum());
         } else {

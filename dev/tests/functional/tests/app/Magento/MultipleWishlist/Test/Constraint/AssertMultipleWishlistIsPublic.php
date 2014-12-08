@@ -8,8 +8,8 @@
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Magento\MultipleWishlist\Test\Page\SearchResult;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\MultipleWishlist\Test\Page\SearchResult;
 
 /**
  * Class AssertMultipleWishlistIsPublic

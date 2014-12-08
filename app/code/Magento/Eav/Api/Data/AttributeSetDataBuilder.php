@@ -9,8 +9,8 @@
 
 namespace Magento\Eav\Api\Data;
 
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * DataBuilder class for \Magento\Eav\Api\Data\AttributeSetInterface

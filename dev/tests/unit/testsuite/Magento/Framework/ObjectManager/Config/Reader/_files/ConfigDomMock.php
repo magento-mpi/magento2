@@ -19,7 +19,6 @@ class ConfigDomMock extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('first content item', $initialContents);
         $this->assertEquals('xsi:type', $typeAttribute);
-
     }
 
     /**

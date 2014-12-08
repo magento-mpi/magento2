@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Send to a Friend Limit sending by Source
  *
@@ -23,9 +22,9 @@ class Checktype implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\Sendfriend\Helper\Data::CHECK_IP, 'label' => __('IP Address')),
-            array('value' => \Magento\Sendfriend\Helper\Data::CHECK_COOKIE, 'label' => __('Cookie (unsafe)'))
-        );
+        return [
+            ['value' => \Magento\Sendfriend\Helper\Data::CHECK_IP, 'label' => __('IP Address')],
+            ['value' => \Magento\Sendfriend\Helper\Data::CHECK_COOKIE, 'label' => __('Cookie (unsafe)')]
+        ];
     }
 }

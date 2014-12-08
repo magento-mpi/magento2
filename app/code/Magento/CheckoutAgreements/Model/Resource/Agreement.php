@@ -66,11 +66,11 @@ class Agreement extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
-        $condition = array('agreement_id = ?' => $object->getId());
+        $condition = ['agreement_id = ?' => $object->getId()];
         $this->_getWriteAdapter()->delete($this->getTable('checkout_agreement_store'), $condition);
 
         foreach ((array)$object->getData('stores') as $store) {
-            $storeArray = array();
+            $storeArray = [];
             $storeArray['agreement_id'] = $object->getId();
             $storeArray['store_id'] = $store;
             $this->_getWriteAdapter()->insert($this->getTable('checkout_agreement_store'), $storeArray);
@@ -89,12 +89,12 @@ class Agreement extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getTable('checkout_agreement_store'),
-            array('store_id')
+            ['store_id']
         )->where(
             'agreement_id = :agreement_id'
         );
 
-        if ($stores = $this->_getReadAdapter()->fetchCol($select, array(':agreement_id' => $object->getId()))) {
+        if ($stores = $this->_getReadAdapter()->fetchCol($select, [':agreement_id' => $object->getId()])) {
             $object->setData('store_id', $stores);
         }
 
@@ -114,7 +114,7 @@ class Agreement extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
         if ($object->getStoreId()) {
             $select->join(
-                array('cps' => $this->getTable('checkout_agreement_store')),
+                ['cps' => $this->getTable('checkout_agreement_store')],
                 $this->getMainTable() . '.agreement_id = cps.agreement_id'
             )->where(
                 'is_active=1'

@@ -7,9 +7,9 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
-use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Store\Model\ScopeInterface;
 use Magento\Catalog\Model\Category;
+use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class CategoryUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 {

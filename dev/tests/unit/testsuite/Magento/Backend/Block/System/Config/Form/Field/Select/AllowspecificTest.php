@@ -26,8 +26,8 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
         $this->_object->setData('html_id', 'spec_element');
         $this->_formMock = $this->getMock(
             'Magento\Framework\Data\Form',
-            array('getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'),
-            array(),
+            ['getHtmlIdPrefix', 'getHtmlIdSuffix', 'getElement'],
+            [],
             '',
             false,
             false
@@ -72,8 +72,8 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
 
         $elementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Select',
-            array('setDisabled'),
-            array(),
+            ['setDisabled'],
+            [],
             '',
             false,
             false
@@ -98,11 +98,11 @@ class AllowspecificTest extends \PHPUnit_Framework_TestCase
 
     public function getHtmlWhenValueIsEmptyDataProvider()
     {
-        return array(
-            'zero' => array('1' => 0),
-            'null' => array('1' => null),
-            'false' => array('1' => false),
-            'negative' => array('1' => -1)
-        );
+        return [
+            'zero' => ['1' => 0],
+            'null' => ['1' => null],
+            'false' => ['1' => false],
+            'negative' => ['1' => -1]
+        ];
     }
 }

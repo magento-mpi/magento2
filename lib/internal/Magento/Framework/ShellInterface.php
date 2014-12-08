@@ -20,5 +20,5 @@ interface ShellInterface
      * @throws \Magento\Framework\Exception If a command returns non-zero exit code
      * @return string
      */
-    public function execute($command, array $arguments = array());
+    public function execute($command, array $arguments = []);
 }

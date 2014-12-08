@@ -7,8 +7,8 @@
  */
 namespace Magento\SalesRule\Model;
 
-use Magento\Sales\Model\Quote\Item\AbstractItem;
 use Magento\Sales\Model\Quote\Address;
+use Magento\Sales\Model\Quote\Item\AbstractItem;
 
 /**
  * SalesRule Validator Model
@@ -44,7 +44,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_rulesItemTotals = array();
+    protected $_rulesItemTotals = [];
 
     /**
      * Skip action rules validation flag
@@ -116,7 +116,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_catalogData = $catalogData;
@@ -259,7 +259,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
             $baseShippingAmount = $address->getBaseShippingAmount();
         }
         $quote = $address->getQuote();
-        $appliedRuleIds = array();
+        $appliedRuleIds = [];
         foreach ($this->_getRules() as $rule) {
             /* @var \Magento\SalesRule\Model\Rule $rule */
             if (!$rule->getApplyToShipping() || !$this->validatorUtility->canProcessRule($rule, $address)) {
@@ -340,7 +340,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      */
     public function initTotals($items, Address $address)
     {
-        $address->setCartFixedRules(array());
+        $address->setCartFixedRules([]);
 
         if (!$items) {
             return $this;
@@ -372,11 +372,11 @@ class Validator extends \Magento\Framework\Model\AbstractModel
                     $validItemsCount++;
                 }
 
-                $this->_rulesItemTotals[$rule->getId()] = array(
+                $this->_rulesItemTotals[$rule->getId()] = [
                     'items_price' => $ruleTotalItemsPrice,
                     'base_items_price' => $ruleTotalBaseItemsPrice,
-                    'items_count' => $validItemsCount
-                );
+                    'items_count' => $validItemsCount,
+                ];
             }
         }
 
@@ -463,7 +463,7 @@ class Validator extends \Magento\Framework\Model\AbstractModel
      */
     public function sortItemsByPriority($items)
     {
-        $itemsSorted = array();
+        $itemsSorted = [];
         /** @var $rule \Magento\SalesRule\Model\Rule */
         foreach ($this->_getRules() as $rule) {
             foreach ($items as $itemKey => $itemValue) {

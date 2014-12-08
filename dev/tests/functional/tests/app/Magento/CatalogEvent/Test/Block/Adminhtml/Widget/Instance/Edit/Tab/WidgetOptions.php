@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Widget\Test\Fixture\Widget;
 
 /**

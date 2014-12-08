@@ -8,8 +8,8 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
+use Magento\Framework\App\ResponseInterface;
 
 class GetShippingItemsGrid extends \Magento\Backend\App\Action
 {

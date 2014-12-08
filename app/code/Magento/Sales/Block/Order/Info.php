@@ -41,7 +41,7 @@ class Info extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->_coreRegistry = $registry;

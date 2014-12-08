@@ -42,7 +42,7 @@ class Url extends \Magento\Core\Helper\Url
      */
     public function getMSLoginUrl()
     {
-        return $this->_getUrl('multishipping/checkout/login', array('_secure' => true, '_current' => true));
+        return $this->_getUrl('multishipping/checkout/login', ['_secure' => true, '_current' => true]);
     }
 
     /**

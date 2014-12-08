@@ -7,13 +7,13 @@
  */
 namespace Magento\Sales\Model\Quote\Item;
 
-use \Magento\Catalog\Model\Product;
-use \Magento\Sales\Model\Quote\ItemFactory;
-use \Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\App\State;
+use Magento\Framework\Object;
+use Magento\Sales\Model\Quote\Item;
+use Magento\Sales\Model\Quote\ItemFactory;
+use Magento\Store\Model\Store;
 use Magento\Framework\StoreManagerInterface;
-use \Magento\Store\Model\Store;
-use \Magento\Framework\App\State;
-use \Magento\Framework\Object;
 
 /**
  * Tests for Magento\Sales\Model\Service\Quote\Processor
@@ -150,7 +150,6 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->method('setData')
             ->with($this->equalTo('qty'), $this->equalTo(0));
 
-
         $this->storeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($storeId));
@@ -176,7 +175,6 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->any())
             ->method('getParentProductId')
             ->will($this->returnValue(true));
-
 
         $this->itemMock->expects($this->never())->method('setOptions');
         $this->itemMock->expects($this->never())->method('setProduct');
@@ -254,7 +252,6 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         $this->itemMock->expects($this->any())
             ->method('addQty')
             ->will($this->returnValue($qty));
-
 
         $this->productMock->expects($this->any())
             ->method('getCartQty')

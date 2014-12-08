@@ -32,7 +32,7 @@ class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_typeFactory = $typeFactory;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -46,30 +46,30 @@ class Formgroup extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend' => __('Add New Group')));
+        $fieldset = $form->addFieldset('set_fieldset', ['legend' => __('Add New Group')]);
 
         $fieldset->addField(
             'attribute_group_name',
             'text',
-            array('label' => __('Name'), 'name' => 'attribute_group_name', 'required' => true)
+            ['label' => __('Name'), 'name' => 'attribute_group_name', 'required' => true]
         );
 
         $fieldset->addField(
             'submit',
             'note',
-            array(
+            [
                 'text' => $this->getLayout()->createBlock(
                     'Magento\Backend\Block\Widget\Button'
                 )->setData(
-                    array('label' => __('Add Group'), 'onclick' => 'this.form.submit();', 'class' => 'add')
+                    ['label' => __('Add Group'), 'onclick' => 'this.form.submit();', 'class' => 'add']
                 )->toHtml()
-            )
+            ]
         );
 
         $fieldset->addField(
             'attribute_set_id',
             'hidden',
-            array('name' => 'attribute_set_id', 'value' => $this->_getSetId())
+            ['name' => 'attribute_set_id', 'value' => $this->_getSetId()]
         );
 
         $form->setUseContainer(true);

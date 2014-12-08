@@ -37,7 +37,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Logging\Model\Resource\Event\Changes\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -78,33 +78,33 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'source_name',
-            array(
+            [
                 'header' => __('Source Data'),
                 'sortable' => false,
                 'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Sourcename',
                 'index' => 'source_name',
                 'width' => 1
-            )
+            ]
         );
 
         $this->addColumn(
             'original_data',
-            array(
+            [
                 'header' => __('Value Before Change'),
                 'sortable' => false,
                 'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
                 'index' => 'original_data'
-            )
+            ]
         );
 
         $this->addColumn(
             'result_data',
-            array(
+            [
                 'header' => __('Value After Change'),
                 'sortable' => false,
                 'renderer' => 'Magento\Logging\Block\Adminhtml\Details\Renderer\Diff',
                 'index' => 'result_data'
-            )
+            ]
         );
 
         return parent::_prepareColumns();

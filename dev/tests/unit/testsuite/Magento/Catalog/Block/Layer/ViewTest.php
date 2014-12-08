@@ -14,7 +14,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $childBlock = new \Magento\Framework\Object();
 
         $block = $this->getMock(
-            'Magento\LayeredNavigation\Block\Navigation', array('getChildBlock'), array(), '', false
+            'Magento\LayeredNavigation\Block\Navigation', ['getChildBlock'], [], '', false
         );
         $block->expects($this->atLeastOnce())
             ->method('getChildBlock')

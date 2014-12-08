@@ -9,8 +9,8 @@
 namespace Magento\Framework\View\Result;
 
 use Magento\Framework;
-use Magento\Framework\View;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\View;
 
 /**
  * A "page" result that encapsulates page type, page configuration
@@ -207,10 +207,10 @@ class Page extends Layout
      * @param string|null $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
+    public function addPageLayoutHandles(array $parameters = [], $defaultHandle = null)
     {
         $handle = $defaultHandle ? $defaultHandle : $this->getDefaultLayoutHandle();
-        $pageHandles = array($handle);
+        $pageHandles = [$handle];
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
@@ -237,7 +237,7 @@ class Page extends Layout
                 'htmlAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HTML),
                 'headAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_HEAD),
                 'bodyAttributes' => $this->pageConfigRenderer->renderElementAttributes($config::ELEMENT_TYPE_BODY),
-                'loaderIcon' => $this->getViewFileUrl('images/loader-2.gif')
+                'loaderIcon' => $this->getViewFileUrl('images/loader-2.gif'),
             ]);
 
             $output = $this->getLayout()->getOutput();
@@ -324,10 +324,10 @@ class Page extends Layout
      * @param array $params
      * @return string
      */
-    protected function getViewFileUrl($fileId, array $params = array())
+    protected function getViewFileUrl($fileId, array $params = [])
     {
         try {
-            $params = array_merge(array('_secure' => $this->request->isSecure()), $params);
+            $params = array_merge(['_secure' => $this->request->isSecure()], $params);
             return $this->assetRepo->getUrlWithParams($fileId, $params);
         } catch (\Magento\Framework\Exception $e) {
             $this->logger->logException($e);

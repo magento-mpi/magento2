@@ -32,17 +32,17 @@ class ResourceFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
-        $this->_expectedObject = $this->getMock('Magento\Framework\Acl\Resource', array(), array(), '', false);
+        $this->_expectedObject = $this->getMock('Magento\Framework\Acl\Resource', [], [], '', false);
 
         $this->_model = $helper->getObject(
             'Magento\Framework\Acl\ResourceFactory',
-            array('objectManager' => $this->_objectManager)
+            ['objectManager' => $this->_objectManager]
         );
     }
 
     public function testCreateResource()
     {
-        $arguments = array('5', '6');
+        $arguments = ['5', '6'];
         $this->_objectManager->expects(
             $this->once()
         )->method(

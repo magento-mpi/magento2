@@ -153,11 +153,11 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         /** @var \Magento\Framework\Data\Form\FormKey $formKey */
         $formKey = $this->_objectManager->get('Magento\Framework\Data\Form\FormKey');
-        $postData = array(
-            'cart' => array($quoteItem->getId() => array('qty' => $updatedQuantity)),
+        $postData = [
+            'cart' => [$quoteItem->getId() => ['qty' => $updatedQuantity]],
             'update_cart_action' => 'update_qty',
-            'form_key' => $formKey->getFormKey()
-        );
+            'form_key' => $formKey->getFormKey(),
+        ];
         $this->getRequest()->setPost($postData);
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = $this->_objectManager->create('Magento\Customer\Model\Session');

@@ -47,7 +47,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\CmsUrlRewrite\Model\CmsPageUrlPathGenerator $cmsPageUrlPathGenerator,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pageFactory = $pageFactory;
         parent::__construct(
@@ -75,7 +75,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         $form->setAction(
             $this->_adminhtmlData->getUrl(
                 'adminhtml/*/save',
-                array('id' => $this->_getModel()->getId(), 'cms_page' => $cmsPage->getId())
+                ['id' => $this->_getModel()->getId(), 'cms_page' => $cmsPage->getId()]
             )
         );
 
@@ -106,7 +106,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
     protected function _getEntityStores()
     {
         $cmsPage = $this->_getCmsPage();
-        $entityStores = array();
+        $entityStores = [];
 
         // showing websites that only associated to CMS page
         if ($this->_getCmsPage()->getId()) {

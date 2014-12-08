@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Model;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class AbstractModelTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,22 +50,22 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
     {
         $this->actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->contextMock = new \Magento\Framework\Model\Context(
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\State', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false),
+            $this->getMock('Magento\Framework\App\CacheInterface', [], [], '', false),
+            $this->getMock('Magento\Framework\App\State', [], [], '', false),
             $this->actionValidatorMock
         );
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(
+            [
                 '_construct',
                 '_getReadAdapter',
                 '_getWriteAdapter',
@@ -75,26 +74,26 @@ class AbstractModelTest extends \PHPUnit_Framework_TestCase
                 'delete',
                 'getIdFieldName',
                 'rollBack'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->resourceCollectionMock = $this->getMock(
             'Magento\Framework\Data\Collection\Db',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->model = $this->getMockForAbstractClass(
             'Magento\Framework\Model\AbstractModel',
-            array($this->contextMock, $this->registryMock, $this->resourceMock, $this->resourceCollectionMock)
+            [$this->contextMock, $this->registryMock, $this->resourceMock, $this->resourceCollectionMock]
         );
         $this->adapterMock = $this->getMock(
             'Magento\Framework\DB\Adapter\AdapterInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

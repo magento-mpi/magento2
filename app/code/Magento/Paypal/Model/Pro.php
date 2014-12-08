@@ -97,11 +97,11 @@ class Pro
     public function setMethod($code, $storeId = null)
     {
         if (null === $this->_config) {
-            $params = array($code);
+            $params = [$code];
             if (null !== $storeId) {
                 $params[] = $storeId;
             }
-            $this->_config = $this->_configFactory->create($this->_configType, array('params' => $params));
+            $this->_config = $this->_configFactory->create($this->_configType, ['params' => $params]);
         } else {
             $this->_config->setMethod($code);
             if (null !== $storeId) {
@@ -374,7 +374,7 @@ class Pro
         $api->callGetTransactionDetails();
         $this->importPaymentInfo($api, $payment);
         $data = $api->getRawSuccessResponseData();
-        return $data ? $data : array();
+        return $data ? $data : [];
     }
 
     /**

@@ -37,7 +37,7 @@ class RouteParamsResolverFactory
      * @param array $data
      * @return \Magento\Framework\Url\RouteParamsResolverInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

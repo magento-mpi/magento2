@@ -17,7 +17,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_arguments = array('test1', 'test2');
+    protected $_arguments = ['test1', 'test2'];
 
     /**
      * @var string
@@ -33,7 +33,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->will(
-            $this->returnCallback(array($this, 'getModelInstance'))
+            $this->returnCallback([$this, 'getModelInstance'])
         );
 
         $this->_factory = new \Magento\Eav\Model\AttributeFactory($objectManagerMock);

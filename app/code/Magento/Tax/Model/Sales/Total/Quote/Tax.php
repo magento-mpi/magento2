@@ -7,11 +7,11 @@
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
+use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 use Magento\Tax\Model\Calculation;
-use Magento\Customer\Api\Data\AddressDataBuilder as CustomerAddressBuilder;
-use Magento\Customer\Api\Data\RegionDataBuilder as CustomerAddressRegionBuilder;
 
 /**
  * Tax totals calculation model
@@ -44,7 +44,7 @@ class Tax extends CommonTaxCollector
      *
      * @var array
      */
-    protected $_hiddenTaxes = array();
+    protected $_hiddenTaxes = [];
 
     /**
      * Class constructor
@@ -184,7 +184,6 @@ class Tax extends CommonTaxCollector
         return $taxDetails;
     }
 
-
     /**
      * Map extra taxables associated with quote
      *
@@ -305,13 +304,13 @@ class Tax extends CommonTaxCollector
 
         if ($amount != 0 || $this->_config->displayCartZeroTax($store)) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Tax'),
-                    'full_info' => $applied ? $applied : array(),
+                    'full_info' => $applied ? $applied : [],
                     'value' => $amount,
-                    'area' => $area
-                )
+                    'area' => $area,
+                ]
             );
         }
 
@@ -327,13 +326,13 @@ class Tax extends CommonTaxCollector
             }
 
             $address->addTotal(
-                array(
+                [
                     'code' => 'subtotal',
                     'title' => __('Subtotal'),
                     'value' => $subtotalInclTax,
                     'value_incl_tax' => $subtotalInclTax,
-                    'value_excl_tax' => $address->getSubtotal()
-                )
+                    'value_excl_tax' => $address->getSubtotal(),
+                ]
             );
         }
 

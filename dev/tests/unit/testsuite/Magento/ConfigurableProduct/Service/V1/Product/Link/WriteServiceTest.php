@@ -7,7 +7,6 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
-
 use Magento\TestFramework\Helper\ObjectManager;
 
 class WriteServiceTest extends \PHPUnit_Framework_TestCase
@@ -88,7 +87,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $this->productType->expects($this->once())->method('getUsedProducts')
             ->will($this->returnValue([$option]));
 
-        $this->product->expects($this->once())->method('addData')->with(['associated_product_ids' => array()]);
+        $this->product->expects($this->once())->method('addData')->with(['associated_product_ids' => []]);
         $this->product->expects($this->once())->method('save');
         $this->assertTrue($this->service->removeChild($productSku, $childSku));
     }

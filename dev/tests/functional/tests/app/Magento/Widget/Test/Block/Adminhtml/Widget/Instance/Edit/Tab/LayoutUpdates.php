@@ -8,10 +8,10 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType\LayoutForm;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Layout Updates form

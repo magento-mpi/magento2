@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\View\Page\Config;
 
-use Magento\Framework\View\Page\Config as PageConfig;
 
 /**
  * Page config structure model

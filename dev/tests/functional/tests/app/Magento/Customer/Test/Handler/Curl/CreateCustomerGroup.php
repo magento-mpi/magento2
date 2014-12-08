@@ -10,10 +10,10 @@ namespace Magento\Customer\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Curl handler for creating customer group in admin
@@ -73,9 +73,9 @@ class CreateCustomerGroup extends Curl
         /** @var \Magento\Customer\Test\Fixture\CustomerGroup $fixture*/
         $params = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . $this->saveUrl;
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $params);
         $response = $curl->read();
         $curl->close();
 
@@ -91,7 +91,7 @@ class CreateCustomerGroup extends Curl
      */
     protected function findId($response, $name)
     {
-        $regExp = '~/customer/group/edit/id/(\d+)(?=.*?' . $name. ')~s';
+        $regExp = '~/customer/group/edit/id/(\d+)(?=.*?' . $name . ')~s';
         preg_match_all($regExp, $response, $matches);
         $result = '';
         if (!empty($matches[1])) {

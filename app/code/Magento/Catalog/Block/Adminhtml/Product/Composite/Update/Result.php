@@ -46,7 +46,7 @@ class Result extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_jsHelper = $jsHelper;

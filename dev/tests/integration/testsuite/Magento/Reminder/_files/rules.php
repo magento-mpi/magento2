@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-$conditions = serialize(array());
+$conditions = serialize([]);
 
 /** @var $rule \Magento\Reminder\Model\Rule */
 $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reminder\Model\Rule');
 $rule->setData(
-    array(
+    [
         'name' => 'Rule 1',
         'description' => 'Rule 1 Desc',
         'conditions_serialized' => $conditions,
@@ -22,13 +22,13 @@ $rule->setData(
         'default_label' => null,
         'default_description' => null,
         'from_date' => null,
-        'to_date' => '1981-01-01'
-    )
+        'to_date' => '1981-01-01',
+    ]
 )->save();
 
 $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reminder\Model\Rule');
 $rule->setData(
-    array(
+    [
         'name' => 'Rule 2',
         'description' => 'Rule 2 Desc',
         'conditions_serialized' => $conditions,
@@ -46,7 +46,7 @@ $rule->setData(
          * Also make sure that dates will be properly formatted through \Magento\Framework\DB\Adapter\*::formatDate()
          */
         'to_date' => date('Y-m-d', time() + 172800),
-    ))->save();
+    ])->save();
 
 //$adapter = $rule->getResource()->getReadConnection();
 //print_r($adapter->fetchAll('SELECT * FROM magento_reminder_rule'));

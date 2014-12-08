@@ -60,12 +60,12 @@ class Webservicex extends \Magento\Directory\Model\Currency\Import\AbstractImpor
             $response = $this->_httpClient->setUri(
                 $url
             )->setConfig(
-                array(
+                [
                     'timeout' => $this->_scopeConfig->getValue(
                         'currency/webservicex/timeout',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-                    )
-                )
+                    ),
+                ]
             )->request(
                 'GET'
             )->getBody();

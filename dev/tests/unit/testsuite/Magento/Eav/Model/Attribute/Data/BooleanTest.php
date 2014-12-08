@@ -52,7 +52,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,
                 'value' => '0',
-                'expectedResult' => 'No'
+                'expectedResult' => 'No',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,

@@ -8,9 +8,9 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Wishlist\Test\Constraint\AssertProductInCustomerWishlistOnBackendGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertBundleProductInCustomerWishlistOnBackendGrid
@@ -33,7 +33,7 @@ class AssertBundleProductInCustomerWishlistOnBackendGrid extends AssertProductIn
             foreach ($checkoutData['bundle_options'] as $optionData) {
                 $productOptions[] = [
                     'option_name' => $optionData['title'],
-                    'value' => $optionData['value']['name']
+                    'value' => $optionData['value']['name'],
                 ];
             }
         }

@@ -22,7 +22,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      *
      * @var string[]
      */
-    protected $_disabledTargetRuleCodes = array('status');
+    protected $_disabledTargetRuleCodes = ['status'];
 
     /**
      * @param \Magento\Rule\Model\Condition\Context $context
@@ -44,7 +44,7 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -69,13 +69,13 @@ class Attributes extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
+        $conditions = [];
         foreach ($attributes as $code => $label) {
             if (!in_array($code, $this->_disabledTargetRuleCodes)) {
-                $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
+                $conditions[] = ['value' => $this->getType() . '|' . $code, 'label' => $label];
             }
         }
 
-        return array('value' => $conditions, 'label' => __('Product Attributes'));
+        return ['value' => $conditions, 'label' => __('Product Attributes')];
     }
 }

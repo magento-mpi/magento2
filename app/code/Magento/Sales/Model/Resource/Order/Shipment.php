@@ -7,12 +7,12 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Sales\Model\Resource\Attribute;
-use Magento\Sales\Model\Spi\ShipmentResourceInterface;
 use Magento\Framework\App\Resource as AppResource;
 use Magento\Sales\Model\Increment as SalesIncrement;
+use Magento\Sales\Model\Resource\Attribute;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Resource\Order\Shipment\Grid as ShipmentGrid;
+use Magento\Sales\Model\Spi\ShipmentResourceInterface;
 
 /**
  * Flat sales order shipment resource

@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductCompareSuccessRemoveMessage

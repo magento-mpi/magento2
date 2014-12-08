@@ -43,10 +43,10 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected function _getAdminCredentials()
     {
-        return array(
+        return [
             'user' => \Magento\TestFramework\Bootstrap::ADMIN_NAME,
             'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
-        );
+        ];
     }
 
     protected function tearDown()

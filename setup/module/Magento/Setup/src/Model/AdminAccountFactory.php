@@ -8,8 +8,8 @@
 
 namespace Magento\Setup\Model;
 
-use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Module\Setup;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 class AdminAccountFactory
 {

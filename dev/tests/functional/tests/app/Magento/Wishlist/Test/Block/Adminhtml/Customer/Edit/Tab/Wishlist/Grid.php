@@ -24,18 +24,18 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'product_name' => [
-            'selector' => 'input[name="product_name"]'
+            'selector' => 'input[name="product_name"]',
         ],
         'qty_from' => [
-            'selector' => 'input[name="qty[from]"]'
+            'selector' => 'input[name="qty[from]"]',
         ],
         'qty_to' => [
-            'selector' => 'input[name="qty[to]"]'
+            'selector' => 'input[name="qty[to]"]',
         ],
         'options' => [
             'selector' => 'td//*[dt[contains(.,"%option_name%")]/following-sibling::dd[contains(.,"%value%")]]',
-            'strategy' => 'xpath'
-        ]
+            'strategy' => 'xpath',
+        ],
     ];
 
     /**

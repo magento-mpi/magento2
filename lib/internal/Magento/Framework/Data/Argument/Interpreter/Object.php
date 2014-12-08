@@ -36,7 +36,7 @@ class Object implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        $result = array('instance' => $data['value']);
+        $result = ['instance' => $data['value']];
         if (isset($data['shared'])) {
             $result['shared'] = $this->booleanUtils->toBoolean($data['shared']);
         }

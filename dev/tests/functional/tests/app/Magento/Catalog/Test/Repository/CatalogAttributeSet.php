@@ -40,7 +40,7 @@ class CatalogAttributeSet extends AbstractRepository
             'attribute_set_name' => 'Custom_attribute_set%isolation%',
             'skeleton_set' => ['dataSet' => 'default'],
             'assigned_attributes' => [
-                'presets' => 'attribute_type_fpt'
+                'presets' => 'attribute_type_fpt',
             ],
         ];
     }

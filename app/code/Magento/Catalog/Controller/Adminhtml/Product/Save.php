@@ -56,7 +56,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         $this->resultRedirectFactory = $resultRedirectFactory;
     }
 
-
     /**
      * Save product action
      *
@@ -108,7 +107,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
 
                 $this->_eventManager->dispatch(
                     'controller_action_catalog_product_save_entity_after',
-                    array('controller' => $this)
+                    ['controller' => $this]
                 );
 
                 if ($redirectBack === 'duplicate') {

@@ -9,10 +9,10 @@
 
 namespace Magento\Tax\Model\TaxClass;
 
-use Magento\Tax\Api\Data\TaxClassKeyInterface;
-use Magento\Tax\Api\Data\TaxClassInterface;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Tax\Api\Data\TaxClassKeyInterface;
 
 class Management implements \Magento\Tax\Api\TaxClassManagementInterface
 {
@@ -68,7 +68,7 @@ class Management implements \Magento\Tax\Api\TaxClassManagementInterface
                         [
                             $this->filterBuilder->setField(TaxClassInterface::KEY_NAME)
                                 ->setValue($taxClassKey->getValue())
-                                ->create()
+                                ->create(),
                         ]
                     )->create();
                     $taxClasses = $this->classRepository->getList($searchCriteria)->getItems();

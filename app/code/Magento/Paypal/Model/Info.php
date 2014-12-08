@@ -74,7 +74,7 @@ class Info
      *
      * @var array
      */
-    protected $_paymentMap = array(
+    protected $_paymentMap = [
         self::PAYER_ID => self::PAYPAL_PAYER_ID,
         self::PAYER_EMAIL => self::PAYPAL_PAYER_EMAIL,
         self::PAYER_STATUS => self::PAYPAL_PAYER_STATUS,
@@ -88,19 +88,19 @@ class Info
         self::CENTINEL_VPAS => self::CENTINEL_VPAS,
         self::CENTINEL_ECI => self::CENTINEL_ECI,
         self::BUYER_TAX_ID => self::BUYER_TAX_ID,
-        self::BUYER_TAX_ID_TYPE => self::BUYER_TAX_ID_TYPE
-    );
+        self::BUYER_TAX_ID_TYPE => self::BUYER_TAX_ID_TYPE,
+    ];
 
     /**
      * System information map
      *
      * @var array
      */
-    protected $_systemMap = array(
+    protected $_systemMap = [
         self::PAYMENT_STATUS => self::PAYMENT_STATUS_GLOBAL,
         self::PENDING_REASON => self::PENDING_REASON_GLOBAL,
-        self::IS_FRAUD => self::IS_FRAUD_GLOBAL
-    );
+        self::IS_FRAUD => self::IS_FRAUD_GLOBAL,
+    ];
 
     /**
      * PayPal payment status possible values
@@ -162,14 +162,14 @@ class Info
      *
      * @var string[]
      */
-    protected $_paymentPublicMap = array('paypal_payer_email', self::BUYER_TAX_ID, self::BUYER_TAX_ID_TYPE);
+    protected $_paymentPublicMap = ['paypal_payer_email', self::BUYER_TAX_ID, self::BUYER_TAX_ID_TYPE];
 
     /**
      * Rendered payment map cache
      *
      * @var array
      */
-    protected $_paymentMapFull = array();
+    protected $_paymentMapFull = [];
 
     /**
      * Cache for storing label translations
@@ -251,7 +251,7 @@ class Info
         if ($labelValuesOnly) {
             $result[$label] = $value;
         } else {
-            $result['last_trans_id'] = array('label' => $label, 'value' => $value);
+            $result['last_trans_id'] = ['label' => $label, 'value' => $value];
         }
 
         return $result;
@@ -280,9 +280,9 @@ class Info
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
         if (is_object($from)) {
-            $from = array($from, 'getDataUsingMethod');
+            $from = [$from, 'getDataUsingMethod'];
         }
-        \Magento\Framework\Object\Mapper::accumulateByMap($from, array($payment, 'setAdditionalInformation'), $fullMap);
+        \Magento\Framework\Object\Mapper::accumulateByMap($from, [$payment, 'setAdditionalInformation'], $fullMap);
     }
 
     /**
@@ -297,7 +297,7 @@ class Info
     {
         $fullMap = array_merge($this->_paymentMap, $this->_systemMap);
         \Magento\Framework\Object\Mapper::accumulateByMap(
-            array($payment, 'getAdditionalInformation'),
+            [$payment, 'getAdditionalInformation'],
             $to,
             $map ? $map : array_flip($fullMap)
         );
@@ -315,7 +315,7 @@ class Info
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         if (self::PAYMENTSTATUS_PENDING === $paymentStatus) {
             $pendingReason = $payment->getAdditionalInformation(self::PENDING_REASON_GLOBAL);
-            return !in_array($pendingReason, array('authorization', 'order'));
+            return !in_array($pendingReason, ['authorization', 'order']);
         }
         return false;
     }
@@ -358,14 +358,14 @@ class Info
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         if (in_array(
             $paymentStatus,
-            array(
+            [
                 self::PAYMENTSTATUS_COMPLETED,
                 self::PAYMENTSTATUS_INPROGRESS,
                 self::PAYMENTSTATUS_REFUNDED,
                 self::PAYMENTSTATUS_REFUNDEDPART,
                 self::PAYMENTSTATUS_UNREVERSED,
                 self::PAYMENTSTATUS_PROCESSED
-            )
+            ]
         )
         ) {
             return true;
@@ -373,7 +373,7 @@ class Info
         $pendingReason = $payment->getAdditionalInformation(self::PENDING_REASON_GLOBAL);
         return self::PAYMENTSTATUS_PENDING === $paymentStatus && in_array(
             $pendingReason,
-            array('authorization', 'order')
+            ['authorization', 'order']
         );
     }
 
@@ -388,13 +388,13 @@ class Info
         $paymentStatus = $payment->getAdditionalInformation(self::PAYMENT_STATUS_GLOBAL);
         return in_array(
             $paymentStatus,
-            array(
+            [
                 self::PAYMENTSTATUS_DENIED,
                 self::PAYMENTSTATUS_EXPIRED,
                 self::PAYMENTSTATUS_FAILED,
                 self::PAYMENTSTATUS_REVERSED,
                 self::PAYMENTSTATUS_VOIDED
-            )
+            ]
         );
     }
 
@@ -484,7 +484,7 @@ class Info
             'unauthorized' => __('Buyer claims that he/she did not authorize transaction.'),
             'adjustment_reimburse' => __('A case that has been resolved and close requires a reimbursement.'),
             'duplicate' => __('Buyer claims that a possible duplicate payment was made to the merchant.'),
-            'merchandise' => __('Buyer claims that the received merchandise is unsatisfactory, defective, or damaged.')
+            'merchandise' => __('Buyer claims that the received merchandise is unsatisfactory, defective, or damaged.'),
         ];
         return isset($comments[$code])
             ? $comments[$code]
@@ -523,10 +523,10 @@ class Info
      */
     protected function _getFullInfo(array $keys, \Magento\Payment\Model\Info $payment, $labelValuesOnly)
     {
-        $result = array();
+        $result = [];
         foreach ($keys as $key) {
             if (!isset($this->_paymentMapFull[$key])) {
-                $this->_paymentMapFull[$key] = array();
+                $this->_paymentMapFull[$key] = [];
             }
             if (!isset($this->_paymentMapFull[$key]['label'])) {
                 if (!$payment->hasAdditionalInformation($key)) {
@@ -560,11 +560,11 @@ class Info
         if (!isset($this->_labelCodesCache[self::ITEM_LABELS])) {
             $this->_labelCodesCache[self::ITEM_LABELS] = [
                 self::PAYPAL_PAYER_ID => __('Payer ID'),
-                self::PAYPAL_PAYER_EMAIL=> __('Payer Email'),
+                self::PAYPAL_PAYER_EMAIL => __('Payer Email'),
                 self::PAYPAL_PAYER_STATUS => __('Payer Status'),
                 self::PAYPAL_ADDRESS_ID => __('Payer Address ID'),
                 self::PAYPAL_ADDRESS_STATUS => __('Payer Address Status'),
-                self::PAYPAL_PROTECTION_ELIGIBILITY=> __('Merchant Protection Eligibility'),
+                self::PAYPAL_PROTECTION_ELIGIBILITY => __('Merchant Protection Eligibility'),
                 self::PAYPAL_FRAUD_FILTERS => __('Triggered Fraud Filters'),
                 self::PAYPAL_CORRELATION_ID => __('Last Correlation ID'),
                 self::PAYPAL_AVS_CODE => __('Address Verification System Response'),
@@ -572,7 +572,7 @@ class Info
                 self::BUYER_TAX_ID => __('Buyer\'s Tax ID'),
                 self::BUYER_TAX_ID_TYPE => __('Buyer\'s Tax ID Type'),
                 self::CENTINEL_VPAS => __('PayPal/Centinel Visa Payer Authentication Service Result'),
-                self::CENTINEL_ECI => __('PayPal/Centinel Electronic Commerce Indicator')
+                self::CENTINEL_ECI => __('PayPal/Centinel Electronic Commerce Indicator'),
             ];
         }
         return isset($this->_labelCodesCache[self::ITEM_LABELS][$key])
@@ -591,7 +591,7 @@ class Info
         $labels = [
             'chargeback' => __('Chargeback'),
             'complaint' => __('Complaint'),
-            'dispute' => __('Dispute')
+            'dispute' => __('Dispute'),
         ];
         $value = isset($labels[$key]) ? $labels[$key] : '';
         return $value;
@@ -668,7 +668,7 @@ class Info
                 '1' => __('None of the address information matched'),
                 '2' => __('Part of the address information matched'),
                 '3' => __('N/A. The merchant did not provide AVS information'),
-                '4' => __('N/A. Address not checked, or acquirer had no response. Service not available')
+                '4' => __('N/A. Address not checked, or acquirer had no response. Service not available'),
             ];
         }
         return isset($this->_labelCodesCache[self::PAYPAL_AVS_CODE][$value])
@@ -699,7 +699,7 @@ class Info
                 '1' => __('No match'),
                 '2' => __('N/A. The merchant has not implemented CVV2 code handling'),
                 '3' => __('N/A. Merchant has indicated that CVV2 is not present on card'),
-                '4' => __('N/A. Service not available')
+                '4' => __('N/A. Service not available'),
             ];
         }
         return isset($this->_labelCodesCache[self::PAYPAL_CVV2_MATCH][$value])
@@ -731,7 +731,7 @@ class Info
                 '9' => __('Attempted Authentication, Bad Result'),
                 '' => __('No Liability Shift'),
                 '0' => __('No Liability Shift'),
-                'B' => __('No Liability Shift')
+                'B' => __('No Liability Shift'),
             ];
         }
         return isset($this->_labelCodesCache[self::CENTINEL_VPAS][$value])
@@ -754,7 +754,7 @@ class Info
                 '07' => __('Merchant Liability'),
                 '02' => __('Issuer Liability'),
                 '05' => __('Issuer Liability'),
-                '06' => __('Issuer Liability')
+                '06' => __('Issuer Liability'),
             ];
         }
         return isset($this->_labelCodesCache[self::CENTINEL_ECI][$value])
@@ -773,7 +773,7 @@ class Info
         if (!isset($this->_labelCodesCache[self::BUYER_TAX_ID_TYPE])) {
             $this->_labelCodesCache[self::BUYER_TAX_ID_TYPE] = [
                 self::BUYER_TAX_ID_TYPE_CNPJ => __('CNPJ'),
-                self::BUYER_TAX_ID_TYPE_CPF => __('CPF')
+                self::BUYER_TAX_ID_TYPE_CPF => __('CPF'),
             ];
         }
         return isset($this->_labelCodesCache[self::BUYER_TAX_ID_TYPE][$code])

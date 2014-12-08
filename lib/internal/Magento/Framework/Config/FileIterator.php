@@ -18,7 +18,7 @@ class FileIterator implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $paths = array();
+    protected $paths = [];
 
     /**
      * Position
@@ -104,7 +104,7 @@ class FileIterator implements \Iterator, \Countable
      */
     public function toArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this as $item) {
             $result[$this->key()] = $item;
         }

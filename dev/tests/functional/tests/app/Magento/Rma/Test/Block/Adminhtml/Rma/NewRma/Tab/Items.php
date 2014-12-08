@@ -8,12 +8,12 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Template;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Grid as ItemsGrid;
 use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid as OrderItemsGrid;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Items product tab.

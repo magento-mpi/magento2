@@ -8,15 +8,15 @@
 
 namespace Magento\Rma\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
+use Magento\Rma\Test\Constraint\AssertRmaSuccessSaveMessage;
+use Magento\Rma\Test\Fixture\Rma;
+use Magento\Rma\Test\Page\Adminhtml\RmaChooseOrder;
 use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
 use Magento\Rma\Test\Page\Adminhtml\RmaNew;
-use Magento\Rma\Test\Page\Adminhtml\RmaChooseOrder;
-use Magento\Rma\Test\Constraint\AssertRmaSuccessSaveMessage;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Rma\Test\Fixture\Rma;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Preconditions:

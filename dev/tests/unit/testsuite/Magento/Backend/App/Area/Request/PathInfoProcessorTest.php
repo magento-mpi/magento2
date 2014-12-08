@@ -39,12 +39,12 @@ class PathInfoProcessorTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
         $this->_subjectMock = $this->getMock(
             '\Magento\Store\App\Request\PathInfoProcessor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_backendHelperMock = $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false);
+        $this->_backendHelperMock = $this->getMock('\Magento\Backend\Helper\Data', [], [], '', false);
         $this->_model = new \Magento\Backend\App\Request\PathInfoProcessor(
             $this->_subjectMock,
             $this->_backendHelperMock

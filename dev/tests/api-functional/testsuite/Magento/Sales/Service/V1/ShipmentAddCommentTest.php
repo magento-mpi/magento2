@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\Sales\Api\Data\ShipmentCommentInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentAddCommentTest
@@ -58,20 +58,20 @@ class ShipmentAddCommentTest extends WebapiAbstract
             ShipmentCommentInterface::CREATED_AT => null,
             ShipmentCommentInterface::PARENT_ID => $shipment->getId(),
             ShipmentCommentInterface::IS_VISIBLE_ON_FRONT => true,
-            ShipmentCommentInterface::IS_CUSTOMER_NOTIFIED => true
+            ShipmentCommentInterface::IS_CUSTOMER_NOTIFIED => true,
         ];
 
         $requestData = ['entity' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/comment',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

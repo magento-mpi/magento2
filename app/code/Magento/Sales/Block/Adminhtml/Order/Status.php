@@ -26,11 +26,11 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Container
         $this->_addButtonLabel = __('Create New Status');
         $this->buttonList->add(
             'assign',
-            array(
+            [
                 'label' => __('Assign Status to State'),
                 'onclick' => 'setLocation(\'' . $this->getAssignUrl() . '\')',
                 'class' => 'add'
-            )
+            ]
         );
         parent::_construct();
     }

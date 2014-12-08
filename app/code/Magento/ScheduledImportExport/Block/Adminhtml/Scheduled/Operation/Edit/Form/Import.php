@@ -58,7 +58,7 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         \Magento\Framework\Stdlib\String $string,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Import $importModel,
-        array $data = array()
+        array $data = []
     ) {
         $this->_templateFactory = $templateFactory;
         $this->_importModel = $importModel;
@@ -99,14 +99,14 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
             $fieldset->addField(
                 $behaviorCode,
                 'select',
-                array(
+                [
                     'name' => 'behavior',
                     'title' => __('Import Behavior'),
                     'label' => __('Import Behavior'),
                     'required' => true,
                     'disabled' => true,
                     'values' => $this->_optionArrayPool->get($behaviorClass)->toOptionArray()
-                ),
+                ],
                 'entity'
             );
         }
@@ -114,13 +114,13 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         $fieldset->addField(
             'force_import',
             'select',
-            array(
+            [
                 'name' => 'force_import',
                 'title' => __('On Error'),
                 'label' => __('On Error'),
                 'required' => true,
                 'values' => $this->_operationData->getForcedImportOptionArray()
-            ),
+            ],
             'freq'
         );
 
@@ -134,12 +134,12 @@ class Import extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         $fieldset->addField(
             'file_name',
             'text',
-            array(
+            [
                 'name' => 'file_info[file_name]',
                 'title' => __('File Name'),
                 'label' => __('File Name'),
                 'required' => true
-            ),
+            ],
             'file_path'
         );
 

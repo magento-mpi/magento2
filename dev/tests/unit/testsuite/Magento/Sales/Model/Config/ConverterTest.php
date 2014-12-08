@@ -27,7 +27,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvertWrongIncomingData()
     {
-        $result = $this->_converter->convert(array('wrong data'));
+        $result = $this->_converter->convert(['wrong data']);
         $this->assertEmpty($result);
     }
 
@@ -45,26 +45,26 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testConvert()
     {
-        $expected = array(
-            'section1' => array(
-                'group1' => array(
-                    'item1' => array(
+        $expected = [
+            'section1' => [
+                'group1' => [
+                    'item1' => [
                         'instance' => 'instance1',
                         'sort_order' => '1',
-                        'renderers' => array('renderer1' => 'instance1')
-                    )
-                ),
-                'group2' => array(
-                    'item1' => array('instance' => 'instance1', 'sort_order' => '1', 'renderers' => array())
-                )
-            ),
-            'section2' => array(
-                'group1' => array(
-                    'item1' => array('instance' => 'instance1', 'sort_order' => '1', 'renderers' => array())
-                )
-            ),
-            'order' => array('available_product_types' => array('type1', 'type2'))
-        );
+                        'renderers' => ['renderer1' => 'instance1'],
+                    ],
+                ],
+                'group2' => [
+                    'item1' => ['instance' => 'instance1', 'sort_order' => '1', 'renderers' => []],
+                ],
+            ],
+            'section2' => [
+                'group1' => [
+                    'item1' => ['instance' => 'instance1', 'sort_order' => '1', 'renderers' => []],
+                ],
+            ],
+            'order' => ['available_product_types' => ['type1', 'type2']],
+        ];
 
         $xmlFile = __DIR__ . '/_files/sales_valid.xml';
         $dom = new \DOMDocument();

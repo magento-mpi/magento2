@@ -9,10 +9,10 @@ namespace Magento\Downloadable\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 class CreateDownloadable extends Curl
 {
@@ -25,7 +25,7 @@ class CreateDownloadable extends Curl
      */
     protected function prepareData($params, $prefix = null)
     {
-        $data = array();
+        $data = [];
         foreach ($params as $key => $values) {
             if ($key === 'downloadable') {
                 $data += $this->prepareDownloadableData($key, $values);
@@ -97,7 +97,7 @@ class CreateDownloadable extends Curl
      */
     protected function getUrl(array $config)
     {
-        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : array();
+        $requestParams = isset($config['create_url_params']) ? $config['create_url_params'] : [];
         $params = '';
         foreach ($requestParams as $key => $value) {
             $params .= $key . '/' . $value . '/';
@@ -115,7 +115,7 @@ class CreateDownloadable extends Curl
     {
         $config = $fixture->getDataConfig();
 
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(
             CurlInterface::POST,

@@ -58,7 +58,7 @@ class Text extends \Magento\Eav\Model\Attribute\Data\AbstractData
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = __($attribute->getStoreLabel());
 

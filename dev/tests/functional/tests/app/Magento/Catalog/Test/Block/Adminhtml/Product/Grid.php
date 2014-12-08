@@ -23,39 +23,39 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'name' => [
-            'selector' => '#productGrid_product_filter_name'
+            'selector' => '#productGrid_product_filter_name',
         ],
         'sku' => [
-            'selector' => '#productGrid_product_filter_sku'
+            'selector' => '#productGrid_product_filter_sku',
         ],
         'type' => [
             'selector' => '#productGrid_product_filter_type',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'price_from' => [
-            'selector' => '#productGrid_product_filter_price_from'
+            'selector' => '#productGrid_product_filter_price_from',
         ],
         'price_to' => [
-            'selector' => '#productGrid_product_filter_price_to'
+            'selector' => '#productGrid_product_filter_price_to',
         ],
         'qty_from' => [
-            'selector' => '#productGrid_product_filter_qty_from'
+            'selector' => '#productGrid_product_filter_qty_from',
         ],
         'qty_to' => [
-            'selector' => '#productGrid_product_filter_qty_to'
+            'selector' => '#productGrid_product_filter_qty_to',
         ],
         'visibility' => [
             'selector' => '#productGrid_product_filter_visibility',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'status' => [
             'selector' => '#productGrid_product_filter_status',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'set_name' => [
             'selector' => '#productGrid_product_filter_set_name',
-            'input' => 'select'
-        ]
+            'input' => 'select',
+        ],
     ];
 
     /**

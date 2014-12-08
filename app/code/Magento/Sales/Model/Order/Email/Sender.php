@@ -8,8 +8,8 @@
 namespace Magento\Sales\Model\Order\Email;
 
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Email\Container\Template;
 use Magento\Sales\Model\Order\Email\Container\IdentityInterface;
+use Magento\Sales\Model\Order\Email\Container\Template;
 
 abstract class Sender
 {
@@ -93,7 +93,7 @@ abstract class Sender
         return $this->senderBuilderFactory->create(
             [
                 'templateContainer' => $this->templateContainer,
-                'identityContainer' => $this->identityContainer
+                'identityContainer' => $this->identityContainer,
             ]
         );
     }

@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Model;
 
-use \Magento\Framework\Exception\StateException;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 class ProductAttributeGroupRepository implements \Magento\Catalog\Api\ProductAttributeGroupRepositoryInterface
 {

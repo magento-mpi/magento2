@@ -65,7 +65,7 @@ class AbstractCollection extends \Magento\Reports\Model\Resource\Report\Collecti
         }
         $orderStatus = $this->_orderStatus;
         if (!is_array($orderStatus)) {
-            $orderStatus = array($orderStatus);
+            $orderStatus = [$orderStatus];
         }
         $this->getSelect()->where('order_status IN(?)', $orderStatus);
         return $this;

@@ -8,9 +8,9 @@
 
 namespace Magento\TargetRule\Test\TestCase;
 
-use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\TargetRule\Test\Fixture\TargetRule;
 
 /**
  * Test Creation for UpdateTargetRuleEntity

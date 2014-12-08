@@ -31,8 +31,8 @@ class BooleanUtils
      * @param array $falseValues
      */
     public function __construct(
-        array $trueValues = array(true, 1, 'true', '1'),
-        array $falseValues = array(false, 0, 'false', '0')
+        array $trueValues = [true, 1, 'true', '1'],
+        array $falseValues = [false, 0, 'false', '0']
     ) {
         $this->trueValues = $trueValues;
         $this->falseValues = $falseValues;

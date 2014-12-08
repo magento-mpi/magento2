@@ -94,7 +94,7 @@ class TrackWriteTest extends \PHPUnit_Framework_TestCase
 
     public function testAddTrack()
     {
-        list ($id, $trackNumber, $carrierCode, $carrierTitle, $addTrackResult) = [1, 1, 'code', 'title', true];
+        list($id, $trackNumber, $carrierCode, $carrierTitle, $addTrackResult) = [1, 1, 'code', 'title', true];
         $this->permissionCheckerMock->expects($this->once())->method('isCustomerContext')
             ->willReturn(false);
 

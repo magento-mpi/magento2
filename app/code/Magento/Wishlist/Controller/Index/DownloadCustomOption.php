@@ -8,9 +8,9 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
+use Magento\Framework\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Wishlist\Controller\IndexInterface;
-use Magento\Framework\App\Action;
 
 class DownloadCustomOption extends Action\Action implements IndexInterface
 {
@@ -76,7 +76,7 @@ class DownloadCustomOption extends Action\Action implements IndexInterface
             if ($secretKey == $info['secret_key']) {
                 $this->_fileResponseFactory->create(
                     $info['title'],
-                    array('value' => $info['quote_path'], 'type' => 'filename'),
+                    ['value' => $info['quote_path'], 'type' => 'filename'],
                     DirectoryList::ROOT
                 );
             }

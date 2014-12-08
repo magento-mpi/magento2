@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Centinel validation form lookup
  */
@@ -29,7 +28,7 @@ class Complete extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

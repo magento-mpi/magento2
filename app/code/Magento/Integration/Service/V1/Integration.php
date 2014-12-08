@@ -7,8 +7,8 @@
  */
 namespace Magento\Integration\Service\V1;
 
-use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Integration\Service\V1\OauthInterface as IntegrationOauthService;
 
 /**
@@ -50,7 +50,7 @@ class Integration implements \Magento\Integration\Service\V1\IntegrationInterfac
         // TODO: Think about double save issue
         $integration->save();
         $consumerName = 'Integration' . $integration->getId();
-        $consumer = $this->_oauthService->createConsumer(array('name' => $consumerName));
+        $consumer = $this->_oauthService->createConsumer(['name' => $consumerName]);
         $integration->setConsumerId($consumer->getId());
         $integration->save();
         return $integration;

@@ -34,9 +34,9 @@ class Type implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $backupTypes = array();
+        $backupTypes = [];
         foreach ($this->_backupData->getBackupTypes() as $type => $label) {
-            $backupTypes[] = array('label' => $label, 'value' => $type);
+            $backupTypes[] = ['label' => $label, 'value' => $type];
         }
         return $backupTypes;
     }

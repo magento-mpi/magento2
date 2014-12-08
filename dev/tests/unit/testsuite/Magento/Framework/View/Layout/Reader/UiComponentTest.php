@@ -98,7 +98,7 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                $this->getElement('<ui_component name="cms_block_listing" component="listing" ifconfig="test"/>')
+                $this->getElement('<ui_component name="cms_block_listing" component="listing" ifconfig="test"/>'),
             ]
         ];
     }

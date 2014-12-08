@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder;
 
 class DefaultReader implements ReaderInterface
 {
@@ -35,7 +35,7 @@ class DefaultReader implements ReaderInterface
         $fields = [
             Metadata::PRICE => $option->getPrice(),
             Metadata::PRICE_TYPE => $option->getPriceType(),
-            Metadata::SKU => $option->getSku()
+            Metadata::SKU => $option->getSku(),
         ];
         $fields = array_merge($fields, $this->getCustomAttributes($option));
         $value = $this->valueBuilder->populateWithArray($fields)->create();

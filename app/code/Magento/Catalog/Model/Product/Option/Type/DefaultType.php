@@ -35,7 +35,7 @@ class DefaultType extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_productOptions = array();
+    protected $_productOptions = [];
 
     /**
      * Core store config
@@ -61,7 +61,7 @@ class DefaultType extends \Magento\Framework\Object
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($data);
@@ -353,11 +353,11 @@ class DefaultType extends \Magento\Framework\Object
         if (!isset($this->_productOptions[$this->getProduct()->getId()])) {
             foreach ($this->getProduct()->getOptions() as $_option) {
                 /* @var $option \Magento\Catalog\Model\Product\Option */
-                $this->_productOptions[$this->getProduct()->getId()][$_option->getTitle()] = array(
-                    'option_id' => $_option->getId()
-                );
+                $this->_productOptions[$this->getProduct()->getId()][$_option->getTitle()] = [
+                    'option_id' => $_option->getId(),
+                ];
                 if ($_option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
-                    $optionValues = array();
+                    $optionValues = [];
                     foreach ($_option->getValues() as $_value) {
                         /* @var $value \Magento\Catalog\Model\Product\Option\Value */
                         $optionValues[$_value->getTitle()] = $_value->getId();
@@ -367,14 +367,14 @@ class DefaultType extends \Magento\Framework\Object
                         ->getId()][$_option
                         ->getTitle()]['values'] = $optionValues;
                 } else {
-                    $this->_productOptions[$this->getProduct()->getId()][$_option->getTitle()]['values'] = array();
+                    $this->_productOptions[$this->getProduct()->getId()][$_option->getTitle()]['values'] = [];
                 }
             }
         }
         if (isset($this->_productOptions[$this->getProduct()->getId()])) {
             return $this->_productOptions[$this->getProduct()->getId()];
         }
-        return array();
+        return [];
     }
 
     /**

@@ -14,7 +14,7 @@ class Config implements \Magento\Framework\Locale\ConfigInterface
      *
      * @var array
      */
-    protected $_allowedLocales = array(
+    protected $_allowedLocales = [
         'af_ZA', /*Afrikaans (South Africa)*/
         'ar_DZ', /*Arabic (Algeria)*/
         'ar_EG', /*Arabic (Egypt)*/
@@ -97,15 +97,15 @@ class Config implements \Magento\Framework\Locale\ConfigInterface
         'es_CL', /*Spanich (Chile)*/
         'lo_LA', /*Laotian*/
         'es_VE', /*Spanish (Venezuela)*/
-        'en_IE' /*English (Ireland)*/
-    );
+        'en_IE', /*English (Ireland)*/
+    ];
 
     /**
      * List of allowed currencies
      *
      * @var array
      */
-    protected $_allowedCurrencies = array(
+    protected $_allowedCurrencies = [
         'AFN', /*Afghani*/
         'ALL', /*Albanian Lek*/
         'AZN', /*Azerbaijanian Manat*/
@@ -275,13 +275,13 @@ class Config implements \Magento\Framework\Locale\ConfigInterface
         'AZM', /*Azerbaijani Manat (1993-2006)*/
         'ROL', /*Old Romanian Leu*/
         'TRL', /*Old Turkish Lira*/
-        'XPF' /*CFP Franc*/
-    );
+        'XPF', /*CFP Franc*/
+    ];
 
     /**
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         if (isset($data['allowedLocales']) && is_array($data['allowedLocales'])) {
             $this->_allowedLocales = array_merge($this->_allowedLocales, $data['allowedLocales']);

@@ -8,7 +8,7 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class RemoveTrack extends \Magento\Backend\App\Action
 {
@@ -63,7 +63,7 @@ class RemoveTrack extends \Magento\Backend\App\Action
                 } else {
                     $response = [
                         'error' => true,
-                        'message' => __('Cannot initialize shipment for delete tracking number.')
+                        'message' => __('Cannot initialize shipment for delete tracking number.'),
                     ];
                 }
             } catch (\Exception $e) {

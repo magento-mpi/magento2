@@ -38,8 +38,8 @@ class Helper
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = array())
+    public function getInfo($path, $infoOptions = self::INFO_ALL, $skipFiles = [])
     {
-        return array('readable' => true, 'size' => 1);
+        return ['readable' => true, 'size' => 1];
     }
 }

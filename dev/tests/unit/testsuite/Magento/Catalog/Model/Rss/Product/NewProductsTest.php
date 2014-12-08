@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class NewProductsTest
@@ -98,4 +98,3 @@ class NewProductsTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($productCollection, $products);
     }
 }
-

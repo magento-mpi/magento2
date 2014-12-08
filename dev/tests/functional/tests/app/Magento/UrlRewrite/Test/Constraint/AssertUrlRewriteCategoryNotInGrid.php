@@ -8,9 +8,9 @@
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertUrlRewriteCategoryNotInGrid

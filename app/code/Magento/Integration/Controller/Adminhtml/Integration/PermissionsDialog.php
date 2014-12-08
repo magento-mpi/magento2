@@ -44,7 +44,7 @@ class PermissionsDialog extends \Magento\Integration\Controller\Adminhtml\Integr
         $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()->xpath(
             '//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id'
         );
-        $handles = array();
+        $handles = [];
         if (is_array($handleNodes)) {
             foreach ($handleNodes as $node) {
                 $handles[] = (string)$node;

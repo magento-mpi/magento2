@@ -35,5 +35,5 @@ interface FactoryInterface
      * @param array $arguments
      * @return \Zend_Filter_Interface
      */
-    public function createFilter($alias, array $arguments = array());
+    public function createFilter($alias, array $arguments = []);
 }

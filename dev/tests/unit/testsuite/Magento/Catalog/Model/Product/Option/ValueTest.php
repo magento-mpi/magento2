@@ -191,7 +191,7 @@ class ValueTest extends \PHPUnit_Framework_TestCase
                     'delete',
                     'commit',
                     'save',
-                    'addCommitCallback'
+                    'addCommitCallback',
                 ]
             )
             ->disableOriginalConstructor();
@@ -285,4 +285,4 @@ class ValueTest extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
-} 
+}

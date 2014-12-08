@@ -28,7 +28,7 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Backend\Block\Widget\Grid\Column\Renderer\Options\Converter $converter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_converter = $converter;
         parent::__construct($context, $data);

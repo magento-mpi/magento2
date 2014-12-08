@@ -23,7 +23,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface');
-        $args = array('urlBuilder' => $this->_urlBuilder);
+        $args = ['urlBuilder' => $this->_urlBuilder];
         $this->_block = $helper->getObject('Magento\GiftRegistry\Block\Product\View', $args);
     }
 
@@ -38,11 +38,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->any())->method('getParam')->with('options')->will($this->returnValue($options));
         $childBlock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\AbstractBlock',
-            array(),
+            [],
             '',
             false
         );
-        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryTemplate('test', 'template.phtml');
@@ -55,10 +55,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function setGiftRegistryTemplateDataProvider()
     {
-        return array(
-            'no options' => array('some other option', null),
-            'with options' => array(\Magento\GiftRegistry\Block\Product\View::FLAG, 'template.phtml')
-        );
+        return [
+            'no options' => ['some other option', null],
+            'with options' => [\Magento\GiftRegistry\Block\Product\View::FLAG, 'template.phtml']
+        ];
     }
 
     /**
@@ -74,18 +74,18 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->_urlBuilder->expects($this->any())->method('getUrl')->will($this->returnValue('some_url'));
         $request = $this->_block->getRequest();
-        $valueMap = array(
-            array('options', null, \Magento\GiftRegistry\Block\Product\View::FLAG),
-            array('entity', null, 'any')
-        );
+        $valueMap = [
+            ['options', null, \Magento\GiftRegistry\Block\Product\View::FLAG],
+            ['entity', null, 'any'],
+        ];
         $request->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
         $childBlock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\AbstractBlock',
-            array(),
+            [],
             '',
             false
         );
-        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');
@@ -97,11 +97,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         $childBlock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\AbstractBlock',
-            array(),
+            [],
             '',
             false
         );
-        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())->method('getBlock')->with('test')->will($this->returnValue($childBlock));
         $this->_block->setGiftRegistryUrl('test');

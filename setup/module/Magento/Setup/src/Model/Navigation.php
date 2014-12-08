@@ -50,7 +50,6 @@ class Navigation
         );
     }
 
-
     /**
      * Retrieve array of menu items
      *

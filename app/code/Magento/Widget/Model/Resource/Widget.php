@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Preconfigured widget
  *
@@ -40,7 +39,7 @@ class Widget extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             $this->getIdFieldName() . '=:' . $this->getIdFieldName()
         );
-        $bind = array($this->getIdFieldName() => $widgetId);
+        $bind = [$this->getIdFieldName() => $widgetId];
         $widget = $readAdapter->fetchRow($select, $bind);
         if (is_array($widget)) {
             if ($widget['parameters']) {

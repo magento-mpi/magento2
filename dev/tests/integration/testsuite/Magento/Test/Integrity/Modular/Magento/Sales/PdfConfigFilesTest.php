@@ -42,7 +42,7 @@ class PdfConfigFilesTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Pdf\Config\Reader $reader */
         $reader = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Order\Pdf\Config\Reader',
-            array('validationState' => $validationState)
+            ['validationState' => $validationState]
         );
         try {
             $reader->read();

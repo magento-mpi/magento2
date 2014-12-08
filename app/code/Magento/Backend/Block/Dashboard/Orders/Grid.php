@@ -36,7 +36,7 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_collectionFactory = $collectionFactory;
@@ -67,12 +67,12 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
         if ($this->getParam('store') || $this->getParam('website') || $this->getParam('group')) {
             if ($this->getParam('store')) {
                 $collection->addAttributeToFilter('store_id', $this->getParam('store'));
-            } else if ($this->getParam('website')) {
+            } elseif ($this->getParam('website')) {
                 $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
-                $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
-            } else if ($this->getParam('group')) {
+                $collection->addAttributeToFilter('store_id', ['in' => $storeIds]);
+            } elseif ($this->getParam('group')) {
                 $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
-                $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
+                $collection->addAttributeToFilter('store_id', ['in' => $storeIds]);
             }
 
             $collection->addRevenueToSelect();
@@ -104,32 +104,32 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
     {
         $this->addColumn(
             'customer',
-            array('header' => __('Customer'), 'sortable' => false, 'index' => 'customer', 'default' => __('Guest'))
+            ['header' => __('Customer'), 'sortable' => false, 'index' => 'customer', 'default' => __('Guest')]
         );
 
         $this->addColumn(
             'items',
-            array(
+            [
                 'header' => __('Items'),
                 'align' => 'right',
                 'type' => 'number',
                 'sortable' => false,
                 'index' => 'items_count'
-            )
+            ]
         );
 
         $baseCurrencyCode = $this->_storeManager->getStore((int)$this->getParam('store'))->getBaseCurrencyCode();
 
         $this->addColumn(
             'total',
-            array(
+            [
                 'header' => __('Grand Total'),
                 'align' => 'right',
                 'sortable' => false,
                 'type' => 'currency',
                 'currency_code' => $baseCurrencyCode,
                 'index' => 'revenue'
-            )
+            ]
         );
 
         $this->setFilterVisibility(false);
@@ -143,6 +143,6 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $row->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $row->getId()]);
     }
 }

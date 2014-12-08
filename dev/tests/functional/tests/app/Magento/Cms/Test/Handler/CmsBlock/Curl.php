@@ -8,12 +8,12 @@
 
 namespace Magento\Cms\Test\Handler\CmsBlock;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -46,7 +46,7 @@ class Curl extends AbstractCurl implements CmsBlockInterface
      * @var array
      */
     protected $stores = [
-        'All Store Views' => 0
+        'All Store Views' => 0,
     ];
 
     /**

@@ -37,7 +37,7 @@ class Tablerate extends \Magento\Framework\App\Config\Value
         \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_tablerateFactory = $tablerateFactory;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

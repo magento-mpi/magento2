@@ -4,7 +4,7 @@
  *
  * @copyright  {copyright}
  * @license    {license_link}
- * 
+ *
  * Exists for testing FileResolver.
  *
  * \Magento\Framework\Filesystem\FileResolverTest

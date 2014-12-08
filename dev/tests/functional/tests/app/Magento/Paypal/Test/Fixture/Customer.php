@@ -8,8 +8,8 @@
 
 namespace Magento\Paypal\Test\Fixture;
 
-use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
 
 /**
  * Class Customer

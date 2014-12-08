@@ -7,8 +7,8 @@
  */
 namespace Magento\Newsletter\Model;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Mail\Exception as MailException;
 
@@ -371,7 +371,7 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
     public function randomSequence($length = 32)
     {
         $id = '';
-        $par = array();
+        $par = [];
         $char = array_merge(range('a', 'z'), range(0, 9));
         $charLen = count($char) - 1;
         for ($i = 0; $i < $length; $i++) {
@@ -652,12 +652,12 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
         )->setTemplateOptions(
-            array(
+            [
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId()
-            )
+                'store' => $this->_storeManager->getStore()->getId(),
+            ]
         )->setTemplateVars(
-            array('subscriber' => $this, 'store' => $this->_storeManager->getStore())
+            ['subscriber' => $this, 'store' => $this->_storeManager->getStore()]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_CONFIRM_EMAIL_IDENTITY,
@@ -705,12 +705,12 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
         )->setTemplateOptions(
-            array(
+            [
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId()
-            )
+                'store' => $this->_storeManager->getStore()->getId(),
+            ]
         )->setTemplateVars(
-            array('subscriber' => $this)
+            ['subscriber' => $this]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_SUCCESS_EMAIL_IDENTITY,
@@ -757,12 +757,12 @@ class Subscriber extends \Magento\Framework\Model\AbstractModel
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )
         )->setTemplateOptions(
-            array(
+            [
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => $this->_storeManager->getStore()->getId()
-            )
+                'store' => $this->_storeManager->getStore()->getId(),
+            ]
         )->setTemplateVars(
-            array('subscriber' => $this)
+            ['subscriber' => $this]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_UNSUBSCRIBE_EMAIL_IDENTITY,

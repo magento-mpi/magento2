@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Shipment;
 
-use Magento\Sales\Model\Spi\ShipmentItemResourceInterface;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
+use Magento\Sales\Model\Spi\ShipmentItemResourceInterface;
 
 /**
  * Flat sales order shipment item resource

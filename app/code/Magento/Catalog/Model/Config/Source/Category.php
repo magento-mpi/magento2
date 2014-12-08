@@ -44,13 +44,13 @@ class Category implements \Magento\Framework\Option\ArrayInterface
 
         $collection->addAttributeToSelect('name')->addRootLevelFilter()->load();
 
-        $options = array();
+        $options = [];
 
         if ($addEmpty) {
-            $options[] = array('label' => __('-- Please Select a Category --'), 'value' => '');
+            $options[] = ['label' => __('-- Please Select a Category --'), 'value' => ''];
         }
         foreach ($collection as $category) {
-            $options[] = array('label' => $category->getName(), 'value' => $category->getId());
+            $options[] = ['label' => $category->getName(), 'value' => $category->getId()];
         }
 
         return $options;

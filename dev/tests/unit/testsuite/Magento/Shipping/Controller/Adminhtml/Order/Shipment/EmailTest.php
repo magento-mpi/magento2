@@ -8,8 +8,8 @@
 
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class EmailTest
@@ -181,7 +181,7 @@ class EmailTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipment],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -247,4 +247,3 @@ class EmailTest extends \PHPUnit_Framework_TestCase
             ->with($url);
     }
 }
- 

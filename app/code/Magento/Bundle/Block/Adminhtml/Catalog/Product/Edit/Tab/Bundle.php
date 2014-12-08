@@ -39,7 +39,7 @@ class Bundle extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -50,7 +50,7 @@ class Bundle extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
      */
     public function getTabUrl()
     {
-        return $this->getUrl('adminhtml/bundle_product_edit/form', array('_current' => true));
+        return $this->getUrl('adminhtml/bundle_product_edit/form', ['_current' => true]);
     }
 
     /**
@@ -71,12 +71,12 @@ class Bundle extends \Magento\Backend\Block\Widget implements \Magento\Backend\B
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Create New Option'),
                 'class' => 'add',
                 'id' => 'add_new_option',
                 'on_click' => 'bOption.add()'
-            )
+            ]
         );
 
         $this->setChild(

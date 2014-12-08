@@ -58,7 +58,7 @@ class Scoped extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCol
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToSelect(array('path', 'value'))->addFieldToFilter('scope', $this->_scope);
+        $this->addFieldToSelect(['path', 'value'])->addFieldToFilter('scope', $this->_scope);
 
         if (!is_null($this->_scopeId)) {
             $this->addFieldToFilter('scope_id', $this->_scopeId);

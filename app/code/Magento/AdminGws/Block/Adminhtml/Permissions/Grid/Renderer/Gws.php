@@ -16,7 +16,7 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
     /**
      * @var array
      */
-    public static $websites = array();
+    public static $websites = [];
 
     /**
      * @var \Magento\Store\Model\Resource\Group\Collection
@@ -31,7 +31,7 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Store\Model\Resource\Group\Collection $storeGroupCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeGroupCollection = $storeGroupCollection;
         parent::__construct($context, $data);
@@ -66,7 +66,7 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
         }
 
         // analyze current row values
-        $storeGroupIds = array();
+        $storeGroupIds = [];
         if ($websiteIds = $row->getData('gws_websites')) {
             $websiteIds = !is_array($websiteIds) ? explode(',', $websiteIds) : $websiteIds;
             foreach (self::$websites as $websiteId => $website) {
@@ -76,14 +76,14 @@ class Gws extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRen
                 }
             }
         } else {
-            $websiteIds = array();
+            $websiteIds = [];
             if ($ids = $row->getData('gws_store_groups')) {
                 $storeGroupIds = explode(',', $ids);
             }
         }
 
         // walk through all websties and store groups and draw them
-        $output = array();
+        $output = [];
         foreach (self::$websites as $websiteId => $website) {
             $isWebsite = in_array($websiteId, $websiteIds);
             // show only if something from this website is relevant

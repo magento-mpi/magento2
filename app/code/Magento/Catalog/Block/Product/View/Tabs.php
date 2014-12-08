@@ -18,7 +18,7 @@ class Tabs extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_tabs = array();
+    protected $_tabs = [];
 
     /**
      * Add tab to the container
@@ -36,7 +36,7 @@ class Tabs extends \Magento\Framework\View\Element\Template
             return;
         }
 
-        $this->_tabs[] = array('alias' => $alias, 'title' => $title, 'header' => $header);
+        $this->_tabs[] = ['alias' => $alias, 'title' => $title, 'header' => $header];
 
         $this->setChild($alias, $this->getLayout()->createBlock($block, $alias)->setTemplate($template));
     }

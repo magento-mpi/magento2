@@ -49,7 +49,7 @@ abstract class AbstractStockqty extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Api\StockStateInterface $stockState,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->stockState = $stockState;

@@ -41,7 +41,7 @@ class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         CustomerRepositoryInterface $customerRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_customerRepository = $customerRepository;
@@ -102,7 +102,7 @@ class Info extends \Magento\Backend\Block\Template implements \Magento\Backend\B
         $customerId = $agreement->getCustomerId();
         $customer = $this->_customerRepository->getById($customerId);
         $this->setCustomerEmail($customer->getEmail());
-        $this->setCustomerUrl($this->getUrl('customer/index/edit', array('id' => $customerId)));
+        $this->setCustomerUrl($this->getUrl('customer/index/edit', ['id' => $customerId]));
         $this->setStatus($agreement->getStatusLabel());
         $this->setCreatedAt($this->formatDate($agreement->getCreatedAt(), 'short', true));
         $this->setUpdatedAt(

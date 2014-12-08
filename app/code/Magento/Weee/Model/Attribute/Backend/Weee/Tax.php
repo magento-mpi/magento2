@@ -69,7 +69,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         if (empty($taxes)) {
             return $this;
         }
-        $dup = array();
+        $dup = [];
 
         foreach ($taxes as $tax) {
             if (!empty($tax['delete'])) {
@@ -77,7 +77,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
             }
 
             $state = isset($tax['state']) ? $tax['state'] : '*';
-            $key1 = implode('-', array($tax['website_id'], $tax['country'], $state));
+            $key1 = implode('-', [$tax['website_id'], $tax['country'], $state]);
 
             if (!empty($dup[$key1])) {
                 throw new Exception(
@@ -146,7 +146,7 @@ class Tax extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
                 $state = '*';
             }
 
-            $data = array();
+            $data = [];
             $data['website_id'] = $tax['website_id'];
             $data['country'] = $tax['country'];
             $data['state'] = $state;

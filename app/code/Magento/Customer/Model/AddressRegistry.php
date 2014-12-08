@@ -9,7 +9,6 @@
 namespace Magento\Customer\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Model\AddressFactory;
 
 /**
  * Registry for Address models

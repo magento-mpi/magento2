@@ -49,7 +49,7 @@ class Calendar extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Json\EncoderInterface $encoder,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_date = $date;
         $this->encoder = $encoder;
@@ -70,20 +70,20 @@ class Calendar extends \Magento\Framework\View\Element\Template
         $days = \Zend_Locale_Data::getList($localeCode, 'days');
         $this->assign(
             'days',
-            array(
+            [
                 'wide' => $this->encoder->encode(array_values($days['format']['wide'])),
                 'abbreviated' => $this->encoder->encode(array_values($days['format']['abbreviated']))
-            )
+            ]
         );
 
         // get months names
         $months = \Zend_Locale_Data::getList($localeCode, 'months');
         $this->assign(
             'months',
-            array(
+            [
                 'wide' => $this->encoder->encode(array_values($months['format']['wide'])),
                 'abbreviated' => $this->encoder->encode(array_values($months['format']['abbreviated']))
-            )
+            ]
         );
 
         // get "today" and "week" words

@@ -48,7 +48,7 @@ class Customer extends AbstractRepository
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
+            'data' => $defaultData,
         ];
 
         $this->_data['customer_US_1'] = $this->_getUS1();
@@ -66,22 +66,22 @@ class Customer extends AbstractRepository
                 'fields' => [
                     'firstname' => [
                         'value' => 'John',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'lastname' => [
                         'value' => 'Doe',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'email' => [
                         'value' => 'John.Doe%isolation%@example.com',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'password' => [
-                        'value' => '123123q'
+                        'value' => '123123q',
                     ],
                     'password_confirmation' => [
-                        'value' => '123123q'
-                    ]
+                        'value' => '123123q',
+                    ],
                 ],
                 'address' => [
                     'dataset' => [
@@ -104,22 +104,22 @@ class Customer extends AbstractRepository
                 'fields' => [
                     'firstname' => [
                         'value' => 'Jan',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'lastname' => [
                         'value' => 'Jansen',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'email' => [
                         'value' => 'Jan.Jansen%isolation%@example.com',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'password' => [
-                        'value' => '123123q'
+                        'value' => '123123q',
                     ],
                     'password_confirmation' => [
-                        'value' => '123123q'
-                    ]
+                        'value' => '123123q',
+                    ],
                 ],
             ]
         ];
@@ -132,43 +132,43 @@ class Customer extends AbstractRepository
                 'fields' => [
                     'firstname' => [
                         'value' => 'John',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'lastname' => [
                         'value' => 'Doe',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'email' => [
                         'value' => 'John.Doe%isolation%@example.com',
-                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                     ],
                     'website_id' => [
                         'value' => 'Main Website',
                         'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                         'input' => 'select',
-                        'input_value' => '1'
+                        'input_value' => '1',
                     ],
                     'group_id' => [
                         'value' => $groupType[self::INDEX_VALUE],
                         'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
                         'input' => 'select',
-                        'input_value' => $groupType[self::INDEX_INPUT_VALUE]
+                        'input_value' => $groupType[self::INDEX_INPUT_VALUE],
                     ],
                     'password' => [
                         'value' => '123123q',
-                        'group' => null
+                        'group' => null,
                     ],
                     'password_confirmation' => [
                         'value' => '123123q',
-                        'group' => null
-                    ]
+                        'group' => null,
+                    ],
                 ],
                 'address' => [
                     'dataset' => [
                         'value' => 'address_US_1',
                     ],
                 ],
-                'addresses' => []
+                'addresses' => [],
             ]
         ];
     }

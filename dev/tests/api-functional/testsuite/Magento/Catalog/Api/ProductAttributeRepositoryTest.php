@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -41,26 +41,26 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
                             [
                                 'field' => 'frontend_input',
                                 'value' => 'textarea',
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
+                'page_size' => 2,
             ],
-            'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE
+            'entityTypeCode' => \Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE,
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
+                'operation' => self::SERVICE_NAME . 'GetList',
             ],
         ];
         $response = $this->_webApiCall($serviceInfo, $searchCriteria);
@@ -116,23 +116,23 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
             'attribute' => [
                 'attribute_code' => $attributeCode,
                 'frontend_labels' => [
-                    ['store_id' => 0, 'label' => 'front_lbl_new']
+                    ['store_id' => 0, 'label' => 'front_lbl_new'],
                 ],
                 'default_value' => 'default value new',
                 'is_required' => false,
-                'frontend_input' => 'text'
-            ]
+                'frontend_input' => 'text',
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attribute['attribute_id'],
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
 
@@ -167,12 +167,12 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'deleteById'
+                'operation' => self::SERVICE_NAME . 'deleteById',
             ],
         ];
 
@@ -202,23 +202,23 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
             'attribute' => [
                 'attribute_code' => $attributeCode,
                 'frontend_labels' => [
-                    ['store_id' => 0, 'label' => 'front_lbl']
+                    ['store_id' => 0, 'label' => 'front_lbl'],
                 ],
                 'default_value' => 'default value',
                 'frontend_input' => 'textarea',
                 'is_required' => true,
-            ]
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         return $this->_webApiCall($serviceInfo, $attributeData);
@@ -233,12 +233,12 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
+                'operation' => self::SERVICE_NAME . 'Get',
             ],
         ];
 
@@ -256,12 +256,12 @@ class ProductAttributeRepositoryTest extends \Magento\TestFramework\TestCase\Web
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'deleteById'
+                'operation' => self::SERVICE_NAME . 'deleteById',
             ],
         ];
         return $this->_webApiCall($serviceInfo, ['attributeCode' => $attributeCode]);

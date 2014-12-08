@@ -38,7 +38,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $gridCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_gridCollectionFactory = $gridCollectionFactory;
         $this->_orderConfig = $orderConfig;
@@ -79,77 +79,77 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'real_order_id',
-            array('header' => __('Order'), 'width' => '80px', 'type' => 'text', 'index' => 'increment_id')
+            ['header' => __('Order'), 'width' => '80px', 'type' => 'text', 'index' => 'increment_id']
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store_id',
-                array(
+                [
                     'header' => __('Purchase Point'),
                     'index' => 'store_id',
                     'type' => 'store',
                     'store_view' => true,
                     'display_deleted' => true
-                )
+                ]
             );
         }
 
         $this->addColumn(
             'created_at',
-            array('header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime')
+            ['header' => __('Purchase Date'), 'index' => 'created_at', 'type' => 'datetime']
         );
 
         $this->addColumn(
             'billing_name',
-            array(
+            [
                 'header' => __('Bill-to Name'),
                 'index' => 'billing_name',
                 'header_css_class' => 'col-name',
                 'column_css_class' => 'col-name'
 
-            )
+            ]
         );
 
         $this->addColumn(
             'shipping_name',
-            array(
+            [
                 'header' => __('Ship-to Name'),
                 'index' => 'shipping_name',
                 'header_css_class' => 'col-name',
                 'column_css_class' => 'col-name'
-            )
+            ]
         );
 
         $this->addColumn(
             'base_grand_total',
-            array(
+            [
                 'header' => __('Grand Total (Base)'),
                 'index' => 'base_grand_total',
                 'type' => 'currency',
                 'currency' => 'base_currency_code'
-            )
+            ]
         );
 
         $this->addColumn(
             'grand_total',
-            array(
+            [
                 'header' => __('Grand Total (Purchased)'),
                 'index' => 'grand_total',
                 'type' => 'currency',
                 'currency' => 'order_currency_code'
-            )
+            ]
         );
 
         $this->addColumn(
             'status',
-            array(
+            [
                 'header' => __('Status'),
                 'index' => 'status',
                 'type' => 'options',
                 'width' => '70px',
                 'options' => $this->_orderConfig->getStatuses()
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -163,6 +163,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/new', array('order_id' => $row->getId()));
+        return $this->getUrl('adminhtml/*/new', ['order_id' => $row->getId()]);
     }
 }

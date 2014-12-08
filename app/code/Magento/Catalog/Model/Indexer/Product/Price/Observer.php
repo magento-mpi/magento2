@@ -134,8 +134,8 @@ class Observer
         $connection = $this->_getWriteConnection();
 
         $select = $connection->select()->from(
-            $this->_resource->getTableName(array('catalog_product_entity', 'datetime')),
-            array('entity_id')
+            $this->_resource->getTableName(['catalog_product_entity', 'datetime']),
+            ['entity_id']
         )->where(
             'attribute_id = ?',
             $attributeId
@@ -147,6 +147,6 @@ class Observer
             $attrConditionValue
         );
 
-        $this->_processor->getIndexer()->reindexList($connection->fetchCol($select, array('entity_id')));
+        $this->_processor->getIndexer()->reindexList($connection->fetchCol($select, ['entity_id']));
     }
 }

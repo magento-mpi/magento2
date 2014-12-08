@@ -23,7 +23,7 @@ class Setup
      *
      * @var array
      */
-    protected $_tables = array();
+    protected $_tables = [];
 
     /**
      * Modules configuration

@@ -18,17 +18,17 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMock(
             'Magento\OfflineShipping\Model\SalesRule\Calculator',
-            array('_getRules', '__wakeup'),
-            array(),
+            ['_getRules', '__wakeup'],
+            [],
             '',
             false
         );
-        $this->_model->expects($this->any())->method('_getRules')->will($this->returnValue(array()));
+        $this->_model->expects($this->any())->method('_getRules')->will($this->returnValue([]));
     }
 
     public function testProcessFreeShipping()
     {
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress', '__wakeup'), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', ['getAddress', '__wakeup'], [], '', false);
         $item->expects($this->once())->method('getAddress')->will($this->returnValue(true));
 
         $this->assertInstanceOf(

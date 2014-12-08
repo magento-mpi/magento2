@@ -25,26 +25,26 @@ class SerializerTest extends \PHPUnit_Framework_TestCase
 
         $grid = $this->getMock(
             'Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser',
-            array('getSelectedProducts'),
-            array(),
+            ['getSelectedProducts'],
+            [],
             '',
             false
         );
-        $grid->expects($this->once())->method('getSelectedProducts')->will($this->returnValue(array('product1')));
-        $arguments = array(
-            'data' => array(
+        $grid->expects($this->once())->method('getSelectedProducts')->will($this->returnValue(['product1']));
+        $arguments = [
+            'data' => [
                 'grid_block' => $grid,
                 'callback' => 'getSelectedProducts',
                 'input_element_name' => 'selected_products_input',
-                'reload_param_name' => 'selected_products_param'
-            )
-        );
+                'reload_param_name' => 'selected_products_param',
+            ],
+        ];
 
         $block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Serializer', $arguments);
         $block->setLayout($this->_layoutMock);
 
         $this->assertEquals($grid, $block->getGridBlock());
-        $this->assertEquals(array('product1'), $block->getSerializeData());
+        $this->assertEquals(['product1'], $block->getSerializeData());
         $this->assertEquals('selected_products_input', $block->getInputElementName());
         $this->assertEquals('selected_products_param', $block->getReloadParamName());
     }

@@ -42,7 +42,7 @@ class Obscure extends \Magento\Framework\Data\Form\Element\Password
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -55,6 +55,6 @@ class Obscure extends \Magento\Framework\Data\Form\Element\Password
             'maxlength',
             'tabindex',
             'data-form-part'
-        );
+        ];
     }
 }

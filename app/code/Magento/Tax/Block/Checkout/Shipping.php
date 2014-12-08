@@ -38,7 +38,7 @@ class Shipping extends \Magento\Checkout\Block\Total\DefaultTotal
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($context, $customerSession, $checkoutSession, $salesConfig, $data);

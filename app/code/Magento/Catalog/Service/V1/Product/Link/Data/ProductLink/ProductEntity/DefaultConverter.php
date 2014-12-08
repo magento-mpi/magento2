@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
 class DefaultConverter implements ConverterInterface
 {

@@ -74,8 +74,8 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $address->setGrandTotal($address->getGrandTotal() - $amountLeft);
         }
 
-        $addressCards = array();
-        $usedAddressCards = array();
+        $addressCards = [];
+        $usedAddressCards = [];
         if ($baseUsed) {
             $quoteCards = $this->_sortGiftCards($this->_giftCardAccountData->getCards($quote));
             $skipped = 0;
@@ -147,7 +147,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
                 $model = $this->_giftCAFactory->create()->load($card['i']);
                 if ($model->isExpired() || $model->getBalance() == 0) {
                     unset($cards[$k]);
-                } else if ($model->getBalance() != $card['ba']) {
+                } elseif ($model->getBalance() != $card['ba']) {
                     $card['ba'] = $model->getBalance();
                 } else {
                     $card['a'] = $this->priceCurrency->round(
@@ -180,12 +180,12 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
             $giftCards = $this->_giftCardAccountData->getCards($address);
         }
         $address->addTotal(
-            array(
+            [
                 'code' => $this->getCode(),
                 'title' => __('Gift Cards'),
                 'value' => -$address->getGiftCardsAmount(),
-                'gift_cards' => $giftCards
-            )
+                'gift_cards' => $giftCards,
+            ]
         );
 
         return $this;
@@ -197,7 +197,7 @@ class Giftcardaccount extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
      */
     protected function _sortGiftCards($in)
     {
-        usort($in, array($this, 'compareGiftCards'));
+        usort($in, [$this, 'compareGiftCards']);
         return $in;
     }
 

@@ -24,7 +24,7 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
      *
      * @var array
      */
-    protected $_allowCurrencyCode = array('USD');
+    protected $_allowCurrencyCode = ['USD'];
 
     /**#@+
      * Availability options

@@ -22,7 +22,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Virtual');
@@ -36,7 +36,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Virtual Only'));
+        return ['value' => $this->getType(), 'label' => __('Virtual Only')];
     }
 
     /**
@@ -69,7 +69,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('1' => __('has'), '0' => __('does not have')));
+        $this->setValueOption(['1' => __('has'), '0' => __('does not have')]);
         return $this;
     }
 
@@ -85,7 +85,7 @@ class Virtual extends \Magento\Reminder\Model\Condition\AbstractCondition
         $table = $this->getResource()->getTable('sales_quote');
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)]);
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

@@ -19,16 +19,16 @@ php -f prepare_publication.php --
     --changelog-file="<markdown_file>"
 SYNOPSIS
 );
-$options = getopt('', array(
+$options = getopt('', [
     'source:', 'source-point:', 'target:', 'target-branch::', 'target-dir::', 'changelog-file:'
-));
+]);
 if (empty($options['source']) || empty($options['source-point']) || empty($options['target'])
     || empty($options['changelog-file'])) {
     echo SYNOPSIS;
     exit(1);
 }
 
-require_once(__DIR__ . '/functions.php');
+require_once __DIR__ . '/functions.php';
 
 $sourceRepository = $options['source'];
 $targetRepository = $options['target'];
@@ -105,7 +105,6 @@ try {
     execVerbose("$gitCmd config user.email " . getGitEmail());
     execVerbose("$gitCmd commit --message=%s", $commitMsg);
     execVerbose("$gitCmd tag %s", $rootJson->version);
-
 } catch (Exception $exception) {
     echo $exception->getMessage() . PHP_EOL;
     exit(1);

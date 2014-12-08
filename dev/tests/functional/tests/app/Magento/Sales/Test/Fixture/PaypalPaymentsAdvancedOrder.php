@@ -26,8 +26,8 @@ class PaypalPaymentsAdvancedOrder extends OrderCheckout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '156.81'
-            ]
+                'grand_total' => '156.81',
+            ],
         ];
     }
 

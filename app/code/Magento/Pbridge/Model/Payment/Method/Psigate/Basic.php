@@ -21,7 +21,7 @@ class Basic extends \Magento\Pbridge\Model\Payment\Method
      * List of allowed currency codes
      * @var array
      */
-    protected $_allowCurrencyCode = array('USD', 'CAD');
+    protected $_allowCurrencyCode = ['USD', 'CAD'];
 
     /**#@+
      * Availability options

@@ -29,7 +29,7 @@ class Files extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content\Files
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Theme\Helper\Storage $storageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageHelper = $storageHelper;
         parent::__construct($context, $data);

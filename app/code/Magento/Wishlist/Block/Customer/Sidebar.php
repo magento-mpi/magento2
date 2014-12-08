@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist sidebar block
  *
@@ -109,7 +108,7 @@ class Sidebar extends \Magento\Wishlist\Block\AbstractBlock implements \Magento\
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         if ($this->getItemCount()) {
             foreach ($this->getWishlistItems() as $item) {
                 /** @var $item \Magento\Wishlist\Model\Item */

@@ -7,19 +7,18 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\App\Request\Http as Request;
-use Magento\Framework\App\FrontControllerInterface;
-use Magento\Framework\TranslateInterface;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\View\ConfigInterface as ViewConfig;
-use Magento\Framework\Logger;
-use Magento\Framework\App\State as AppState;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\Session\SessionManager;
-use Magento\Framework\App\CacheInterface as Cache;
 use Magento\Framework\App\Cache\StateInterface as CacheState;
-use Magento\Framework\UrlInterface;
+use Magento\Framework\App\CacheInterface as Cache;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\App\FrontControllerInterface;
+use Magento\Framework\App\Request\Http as Request;
+use Magento\Framework\App\State as AppState;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Logger;
+use Magento\Framework\Session\SessionManager;
+use Magento\Framework\TranslateInterface;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\ConfigInterface as ViewConfig;
 
 /**
  * Application Runtime Context

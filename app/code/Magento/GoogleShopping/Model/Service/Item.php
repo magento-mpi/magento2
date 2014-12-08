@@ -42,7 +42,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
         \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_date = $date;
         $this->_googleShoppingHelper = $googleShoppingHelper;
@@ -184,7 +184,7 @@ class Item extends \Magento\GoogleShopping\Model\Service
      */
     protected function _getEntryStats($entry)
     {
-        $result = array();
+        $result = [];
         $expirationDate = $entry->getContentAttributeByName('expiration_date');
         if ($expirationDate instanceof \Magento\Framework\Gdata\Gshopping\Extension\Attribute) {
             $result['expires'] = $this->convertContentDateToTimestamp($expirationDate->text);

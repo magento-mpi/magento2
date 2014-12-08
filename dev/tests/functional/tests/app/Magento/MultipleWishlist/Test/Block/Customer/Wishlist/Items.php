@@ -8,9 +8,9 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist;
 
+use Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Items\Product;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\MultipleWishlist\Test\Block\Customer\Wishlist\Items\Product;
 use Mtf\Fixture\FixtureInterface;
 
 /**

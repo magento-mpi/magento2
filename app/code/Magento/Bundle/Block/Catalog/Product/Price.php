@@ -38,7 +38,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxData;
         parent::__construct(

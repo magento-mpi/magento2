@@ -64,7 +64,7 @@ class OrderServiceTest extends \PHPUnit_Framework_TestCase
         )
             ->disableOriginalConstructor()
             ->getMock();
-        $this->orderStatusHistoryRepositoryMock= $this->getMockBuilder(
+        $this->orderStatusHistoryRepositoryMock = $this->getMockBuilder(
             'Magento\Sales\Api\OrderStatusHistoryRepositoryInterface'
         )
             ->disableOriginalConstructor()

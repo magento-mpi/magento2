@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
-use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
+use Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
 
 /** Quote billing address read service object. */
 class ReadService implements ReadServiceInterface

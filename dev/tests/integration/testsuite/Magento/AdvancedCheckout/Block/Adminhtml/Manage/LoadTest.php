@@ -38,16 +38,16 @@ class LoadTest extends \PHPUnit_Framework_TestCase
 
         $parent = $this->_block->getNameInLayout();
         $this->_layout->addBlock('Magento\Framework\View\Element\Text', $blockName, $parent)->setText($content);
-        $this->_layout->addContainer($containerName, 'Container', array(), $parent);
+        $this->_layout->addContainer($containerName, 'Container', [], $parent);
         $this->_layout->addBlock('Magento\Framework\View\Element\Text', '', $containerName)->setText($containerContent);
         $this->_layout->addBlock('Magento\Framework\View\Element\Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
-        $expectedDecoded = array(
+        $expectedDecoded = [
             $blockName => $content,
             $containerName => $containerContent,
-            $blockNameOne => $contentOne
-        );
+            $blockNameOne => $contentOne,
+        ];
         $this->assertEquals(
             $expectedDecoded,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

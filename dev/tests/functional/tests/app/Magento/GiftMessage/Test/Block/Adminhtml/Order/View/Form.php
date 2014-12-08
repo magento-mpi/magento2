@@ -9,7 +9,6 @@
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\View;
 
 use Mtf\Block\Form as ParentForm;
-use Mtf\Client\Element;
 
 /**
  * Class Form

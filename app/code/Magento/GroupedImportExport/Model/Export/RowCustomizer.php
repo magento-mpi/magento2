@@ -7,7 +7,7 @@
  */
 namespace Magento\GroupedImportExport\Model\Export;
 
-use \Magento\CatalogImportExport\Model\Export\RowCustomizerInterface;
+use Magento\CatalogImportExport\Model\Export\RowCustomizerInterface;
 
 class RowCustomizer implements RowCustomizerInterface
 {
@@ -26,11 +26,11 @@ class RowCustomizer implements RowCustomizerInterface
     {
         $columns = array_merge(
             $columns,
-            array(
+            [
                 '_associated_sku',
                 '_associated_default_qty',
                 '_associated_position'
-            )
+            ]
         );
         return $columns;
     }

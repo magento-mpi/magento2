@@ -39,13 +39,13 @@ class EditTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
                 '__call'
             )->will(
                 $this->returnValueMap(
-                    array(
-                        array('setIntegrationData'),
-                        array(
+                    [
+                        ['setIntegrationData'],
+                        [
                             'getIntegrationData',
-                            array(Info::DATA_ID => self::INTEGRATION_ID, Info::DATA_NAME => 'testIntegration')
-                        )
-                    )
+                            [Info::DATA_ID => self::INTEGRATION_ID, Info::DATA_NAME => 'testIntegration']
+                        ],
+                    ]
                 )
             );
         $this->pageTitleMock->expects($this->atLeastOnce())
@@ -67,7 +67,7 @@ class EditTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
         )->method(
                 '__call'
             )->will(
-                $this->returnValue(array('name' => 'nonExistentInt'))
+                $this->returnValue(['name' => 'nonExistentInt'])
             );
 
         $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);

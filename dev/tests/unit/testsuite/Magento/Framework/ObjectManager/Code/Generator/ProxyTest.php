@@ -17,7 +17,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', array(), array(), '', false);
+        $this->ioObjectMock = $this->getMock('\Magento\Framework\Code\Generator\Io', [], [], '', false);
     }
 
     public function testGenerate()
@@ -25,7 +25,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         require_once __DIR__ . '/_files/Sample.php';
         $model = $this->getMock(
             '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-            array('_validateData'),
+            ['_validateData'],
             ['\Magento\Framework\ObjectManager\Code\Generator\Sample',
                 null,
                 $this->ioObjectMock,
@@ -35,7 +35,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $sampleProxyCode = file_get_contents(__DIR__ . '/_files/SampleProxy.txt');
-        
+
         $this->ioObjectMock->expects($this->once())->method('getResultFileName')
             ->with('\Magento\Framework\ObjectManager\Code\Generator\Sample_Proxy')
             ->will($this->returnValue('sample_file.php'));

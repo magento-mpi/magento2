@@ -83,7 +83,7 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      */
     public function textTranslationMode()
     {
-        return array(array('text'), array('script'), array('alt'));
+        return [['text'], ['script'], ['alt']];
     }
 
     /**
@@ -106,9 +106,9 @@ class InlineTest extends \PHPUnit_Framework_TestCase
      */
     public function processResponseBodyTextDataProvider()
     {
-        return array(
-            'plain text' => array('text with no translations and tags', 'text with no translations and tags')
-        );
+        return [
+            'plain text' => ['text with no translations and tags', 'text with no translations and tags']
+        ];
     }
 
     /**
@@ -148,6 +148,6 @@ class InlineTest extends \PHPUnit_Framework_TestCase
     {
         $originalText = file_get_contents(__DIR__ . '/_files/_inline_page_original.html');
 
-        return array('html string' => array($originalText));
+        return ['html string' => [$originalText]];
     }
 }

@@ -70,7 +70,7 @@ class SetRepository implements \Magento\Catalog\Api\AttributeSetRepositoryInterf
                     ->setField('entity_type_code')
                     ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
                     ->setConditionType('eq')
-                    ->create()
+                    ->create(),
             ]
         );
         $this->searchCriteriaBuilder->setCurrentPage($searchCriteria->getCurrentPage());

@@ -8,7 +8,6 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType;
 
-use Mtf\Client\Element;
 
 /**
  * Filling Generic Pages type layout

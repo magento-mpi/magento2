@@ -7,7 +7,6 @@
  */
 namespace Magento\Integration\Model;
 
-use Magento\Integration\Model\Integration;
 
 /**
  * Class to test Integration Manager
@@ -40,13 +39,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_integrationConfigMock = $this->getMockBuilder(
             '\Magento\Integration\Model\Config'
         )->disableOriginalConstructor()->setMethods(
-            array('getIntegrations')
+            ['getIntegrations']
         )->getMock();
 
         $this->_integrationServiceMock = $this->getMockBuilder(
             '\Magento\Integration\Service\V1\Integration'
         )->disableOriginalConstructor()->setMethods(
-            array('findByName', 'update', 'create')
+            ['findByName', 'update', 'create']
         )->getMock();
 
         $this->_integrationManager = new \Magento\Integration\Model\Manager(
@@ -65,7 +64,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
     public function testProcessIntegrationConfigNoIntegrations()
     {
         $this->_integrationConfigMock->expects($this->never())->method('getIntegrations');
-        $this->_integrationManager->processIntegrationConfig(array());
+        $this->_integrationManager->processIntegrationConfig([]);
     }
 
     public function testProcessIntegrationConfigSuccess()
@@ -76,34 +75,34 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             'getIntegrations'
         )->will(
             $this->returnValue(
-                array(
-                    'TestIntegration1' => array(
+                [
+                    'TestIntegration1' => [
                         'email' => 'test-integration1@magento.com',
                         'endpoint_url' => 'http://endpoint.com',
-                        'identity_link_url' => 'http://www.example.com/identity'
-                    ),
-                    'TestIntegration2' => array('email' => 'test-integration2@magento.com')
-                )
+                        'identity_link_url' => 'http://www.example.com/identity',
+                    ],
+                    'TestIntegration2' => ['email' => 'test-integration2@magento.com'],
+                ]
             )
         );
         $intLookupData1 = new \Magento\Framework\Object(
-            array('id' => 1, Integration::NAME => 'TestIntegration1', Integration::SETUP_TYPE => 1)
+            ['id' => 1, Integration::NAME => 'TestIntegration1', Integration::SETUP_TYPE => 1]
         );
 
-        $intUpdateData1 = array(
+        $intUpdateData1 = [
             Integration::ID => 1,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
             Integration::IDENTITY_LINK_URL => 'http://www.example.com/identity',
-            Integration::SETUP_TYPE => 1
-        );
+            Integration::SETUP_TYPE => 1,
+        ];
 
-        $integrationsData2 = array(
+        $integrationsData2 = [
             Integration::NAME => 'TestIntegration2',
             Integration::EMAIL => 'test-integration2@magento.com',
-            Integration::SETUP_TYPE => 1
-        );
+            Integration::SETUP_TYPE => 1,
+        ];
 
         $this->_integrationServiceMock->expects(
             $this->at(0)
@@ -123,10 +122,10 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         )->with(
             'TestIntegration2'
         )->will(
-            $this->returnValue(new \Magento\Framework\Object(array()))
+            $this->returnValue(new \Magento\Framework\Object([]))
         );
         $this->_integrationServiceMock->expects($this->once())->method('update')->with($intUpdateData1);
 
-        $this->_integrationManager->processIntegrationConfig(array('TestIntegration1', 'TestIntegration2'));
+        $this->_integrationManager->processIntegrationConfig(['TestIntegration1', 'TestIntegration2']);
     }
 }

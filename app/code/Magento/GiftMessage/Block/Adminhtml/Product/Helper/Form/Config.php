@@ -33,7 +33,7 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        $data = array()
+        $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

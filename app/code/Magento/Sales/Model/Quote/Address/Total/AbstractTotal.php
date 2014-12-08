@@ -103,7 +103,7 @@ abstract class AbstractTotal
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $this->_setAddress($address);
-        return array();
+        return [];
     }
 
     /**

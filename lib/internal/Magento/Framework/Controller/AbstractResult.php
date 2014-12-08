@@ -50,7 +50,7 @@ abstract class AbstractResult implements ResultInterface
         $this->headers[] = [
             'name'    => $name,
             'value'   => $value,
-            'replace' => $replace
+            'replace' => $replace,
         ];
         return $this;
     }

@@ -26,7 +26,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
      *
      * @var array
      */
-    protected $_rangeValues = array('from' => '', 'to' => '');
+    protected $_rangeValues = ['from' => '', 'to' => ''];
 
     /**
      * Range string delimiter for from/to dates
@@ -55,7 +55,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Math\Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formFactory = $formFactory;
         $this->mathRandom = $mathRandom;
@@ -77,12 +77,12 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
         $idSuffix = $this->mathRandom->getUniqueHash();
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $dateFields = array('from' => __('From'), 'to' => __('To'));
+        $dateFields = ['from' => __('From'), 'to' => __('To')];
         foreach ($dateFields as $key => $label) {
             $form->addField(
                 "{$key}_{$idSuffix}",
                 'date',
-                array(
+                [
                     // hardcoded because hardcoded values delimiter
                     'format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     'label' => $label,
@@ -90,7 +90,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
                     // won't work through Event.observe()
                     'onchange' => "dateTimeChoose_{$idSuffix}()",
                     'value' => $this->_rangeValues[$key]
-                )
+                ]
             );
         }
         return $form->toHtml() .
@@ -119,7 +119,7 @@ class Daterange extends \Magento\Backend\Block\AbstractBlock
      */
     public function setRangeValues($from, $to)
     {
-        $this->_rangeValues = array('from' => $from, 'to' => $to);
+        $this->_rangeValues = ['from' => $from, 'to' => $to];
         return $this;
     }
 

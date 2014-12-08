@@ -27,7 +27,7 @@ class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address');
@@ -40,7 +40,7 @@ class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
      */
     public function getMatchedEvents()
     {
-        return array('sales_order_save_commit_after');
+        return ['sales_order_save_commit_after'];
     }
 
     /**
@@ -93,16 +93,16 @@ class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         $orderTable = $this->getResource()->getTable('sales_order');
 
         $select->from(
-            array('order_address' => $mainAddressTable),
-            array(new \Zend_Db_Expr(1))
+            ['order_address' => $mainAddressTable],
+            [new \Zend_Db_Expr(1)]
         )->join(
-            array('order_address_order' => $orderTable),
+            ['order_address_order' => $orderTable],
             'order_address.parent_id = order_address_order.entity_id',
-            array()
+            []
         )->joinLeft(
-            array('extra_order_address' => $extraAddressTable),
+            ['extra_order_address' => $extraAddressTable],
             'order_address.entity_id = extra_order_address.entity_id',
-            array()
+            []
         )->where(
             $this->_createCustomerFilter($customer, 'order_address_order.customer_id')
         );
@@ -118,6 +118,6 @@ class Address extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
      */
     protected function _getSubfilterMap()
     {
-        return array('order_address_type' => 'order_address_type.value');
+        return ['order_address_type' => 'order_address_type.value'];
     }
 }

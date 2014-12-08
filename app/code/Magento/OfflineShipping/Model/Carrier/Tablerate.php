@@ -28,7 +28,7 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
     /**
      * @var array
      */
-    protected $_conditionNames = array();
+    protected $_conditionNames = [];
 
     /**
      * @var \Magento\Shipping\Model\Rate\ResultFactory
@@ -61,7 +61,7 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $resultMethodFactory,
         \Magento\OfflineShipping\Model\Resource\Carrier\TablerateFactory $tablerateFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_resultMethodFactory = $resultMethodFactory;
@@ -168,13 +168,13 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
         } else {
             /** @var \Magento\Sales\Model\Quote\Address\RateResult\Error $error */
             $error = $this->_rateErrorFactory->create(
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'carrier' => $this->_code,
                         'carrier_title' => $this->getConfigData('title'),
-                        'error_message' => $this->getConfigData('specificerrmsg')
-                    )
-                )
+                        'error_message' => $this->getConfigData('specificerrmsg'),
+                    ],
+                ]
             );
             $result->append($error);
         }
@@ -199,18 +199,18 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
      */
     public function getCode($type, $code = '')
     {
-        $codes = array(
-            'condition_name' => array(
+        $codes = [
+            'condition_name' => [
                 'package_weight' => __('Weight vs. Destination'),
                 'package_value' => __('Price vs. Destination'),
-                'package_qty' => __('# of Items vs. Destination')
-            ),
-            'condition_name_short' => array(
+                'package_qty' => __('# of Items vs. Destination'),
+            ],
+            'condition_name_short' => [
                 'package_weight' => __('Weight (and above)'),
                 'package_value' => __('Order Subtotal (and above)'),
-                'package_qty' => __('# of Items (and above)')
-            )
-        );
+                'package_qty' => __('# of Items (and above)'),
+            ],
+        ];
 
         if (!isset($codes[$type])) {
             throw new \Magento\Shipping\Exception(__('Please correct Table Rate code type: %1.', $type));
@@ -234,6 +234,6 @@ class Tablerate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implemen
      */
     public function getAllowedMethods()
     {
-        return array('bestway' => $this->getConfigData('name'));
+        return ['bestway' => $this->getConfigData('name')];
     }
 }

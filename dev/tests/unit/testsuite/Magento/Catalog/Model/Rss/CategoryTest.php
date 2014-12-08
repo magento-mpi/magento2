@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Rss;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class CategoryTest

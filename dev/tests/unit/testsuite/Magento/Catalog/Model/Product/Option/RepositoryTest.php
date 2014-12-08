@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Model\Product\Option;
 
-
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -20,7 +19,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected  $productRepositoryMock;
+    protected $productRepositoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -192,7 +191,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             'price_type' => 'fixed',
             'sku' => 'sku1',
             'max_characters' => 10,
-            'values' => []
+            'values' => [],
         ];
         $optionId = 10;
         $productSku = 'productSku';
@@ -213,5 +212,4 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('getOptionById')->with($optionId);
         $this->optionRepository->save($this->optionMock);
     }
-
 }

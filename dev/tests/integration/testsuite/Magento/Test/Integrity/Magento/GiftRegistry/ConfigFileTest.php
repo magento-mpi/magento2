@@ -37,7 +37,7 @@ class ConfigFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testGiftRegistryConfigValidation($file)
     {
-        $errors = array();
+        $errors = [];
         $dom = new \Magento\Framework\Config\Dom(file_get_contents($file));
         $result = $dom->validate($this->_schemaFile, $errors);
         $message = "Invalid XML-file: {$file}\n";

@@ -100,12 +100,12 @@ require(['jquery', "mage/mage"], function($){
     var forms = $('form[id^="gr-quick-search-widget"]');
 
     forms.mage('validation');
-    
+
     $('#search-by').on('change', function() {
         forms.hide();
         $('#gr-quick-search-widget-' + this.value + '-form').show();
     });
-    
+
 });
 </script>
 <?php endif; ?>

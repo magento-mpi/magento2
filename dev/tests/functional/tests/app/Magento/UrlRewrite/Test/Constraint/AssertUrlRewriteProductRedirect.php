@@ -9,9 +9,9 @@
 namespace Magento\UrlRewrite\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Mtf\Fixture\InjectableFixture;
 
 /**

@@ -39,14 +39,14 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function viewConfigFileDataProvider()
     {
-        $result = array();
+        $result = [];
         $files = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Module\Dir\Reader'
         )->getConfigurationFiles(
             'view.xml'
         );
         foreach ($files as $file) {
-            $result[] = array($file);
+            $result[] = [$file];
         }
         return $result;
     }

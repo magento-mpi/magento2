@@ -74,7 +74,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON,
                 'value' => 'value',
                 'callTimes' => 1,
-                'expectedResult' => ['value' => 'value', 'url_key' => 'url_key']
+                'expectedResult' => ['value' => 'value', 'url_key' => 'url_key'],
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,
@@ -139,7 +139,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                 'isAjaxRequest' => true,
                 'rules' => [],
                 'fileIsValid' => true,
-                'expectedResult' => true
+                'expectedResult' => true,
             ],
             [
                 'value' => ['delete' => '', 'tmp_name' => ''],
@@ -170,7 +170,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 'value' => [
-                    'delete' => 'delete', 'tmp_name' => 'tmp_name', 'name' => 'name'
+                    'delete' => 'delete', 'tmp_name' => 'tmp_name', 'name' => 'name',
                 ],
                 'originalValue' => 'value',
                 'isRequired' => true,
@@ -236,7 +236,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     'delete' => 'delete',
                     'tmp_name' => 'tmp_name',
                     'name' => 'name.txt',
-                    'size' => 20
+                    'size' => 20,
                 ],
                 'originalValue' => 'value',
                 'isRequired' => true,
@@ -250,7 +250,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     'delete' => 'delete',
                     'tmp_name' => 'tmp_name',
                     'name' => 'name.txt',
-                    'size' => 5
+                    'size' => 5,
                 ],
                 'originalValue' => 'value',
                 'isRequired' => true,

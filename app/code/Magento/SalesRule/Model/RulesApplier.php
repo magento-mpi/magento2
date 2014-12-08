@@ -54,7 +54,7 @@ class RulesApplier
     public function applyRules($item, $rules, $skipValidation, $couponCode)
     {
         $address = $item->getAddress();
-        $appliedRuleIds = array();
+        $appliedRuleIds = [];
         /* @var $rule \Magento\SalesRule\Model\Rule */
         foreach ($rules as $rule) {
             if (!$this->validatorUtility->canProcessRule($rule, $address)) {
@@ -205,14 +205,14 @@ class RulesApplier
 
         $this->_eventManager->dispatch(
             'salesrule_validator_process',
-            array(
+            [
                 'rule' => $rule,
                 'item' => $item,
                 'address' => $address,
                 'quote' => $quote,
                 'qty' => $qty,
                 'result' => $discountData
-            )
+            ]
         );
 
         return $this;

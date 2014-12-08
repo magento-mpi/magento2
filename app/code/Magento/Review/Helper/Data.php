@@ -61,7 +61,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDetail($origDetail)
     {
-        return nl2br($this->filter->truncate($origDetail, array('length' => 50)));
+        return nl2br($this->filter->truncate($origDetail, ['length' => 50]));
     }
 
     /**
@@ -72,7 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getDetailHtml($origDetail)
     {
-        return nl2br($this->filter->truncate($this->_escaper->escapeHtml($origDetail), array('length' => 50)));
+        return nl2br($this->filter->truncate($this->_escaper->escapeHtml($origDetail), ['length' => 50]));
     }
 
     /**
@@ -92,11 +92,11 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getReviewStatuses()
     {
-        return array(
+        return [
             \Magento\Review\Model\Review::STATUS_APPROVED => __('Approved'),
             \Magento\Review\Model\Review::STATUS_PENDING => __('Pending'),
             \Magento\Review\Model\Review::STATUS_NOT_APPROVED => __('Not Approved')
-        );
+        ];
     }
 
     /**
@@ -106,9 +106,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getReviewStatusesOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getReviewStatuses() as $value => $label) {
-            $result[] = array('value' => $value, 'label' => $label);
+            $result[] = ['value' => $value, 'label' => $label];
         }
 
         return $result;

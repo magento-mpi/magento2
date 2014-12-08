@@ -24,7 +24,6 @@ class UpdateOptionCustomerSegmentation
         $this->_valueFactory = $valueFactory;
     }
 
-
     /**
      * Update Option "Persist Customer Group Membership and Segmentation"
      * set value "Yes" if option "Persist Shopping Cart" equals "Yes"

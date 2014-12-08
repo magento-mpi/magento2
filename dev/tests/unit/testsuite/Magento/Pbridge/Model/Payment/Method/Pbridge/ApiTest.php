@@ -25,7 +25,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         $mock = $this->getMockBuilder(
             'Magento\Pbridge\Model\Payment\Method\Pbridge\Api'
         )->disableOriginalConstructor()->setMethods(
-            array('_call')
+            ['_call']
         )->getMock();
         $mock->expects($this->once())->method('_call')->with($data);
         return $mock;
@@ -39,7 +39,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
         return $this->getMockBuilder(
             'Magento\Framework\Profiler\DriverInterface'
         )->setMethods(
-            array('start', 'stop', 'reset')
+            ['start', 'stop', 'reset']
         )->getMockForAbstractClass();
     }
 
@@ -57,7 +57,7 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             'start'
         )->with(
             'pbridge_' . $action,
-            array('group' => 'pbridge', 'operation' => 'pbridge:' . $action)
+            ['group' => 'pbridge', 'operation' => 'pbridge:' . $action]
         );
         $profilerDriver->expects($this->once())->method('stop')->with('pbridge_' . $action);
         \Magento\Framework\Profiler::add($profilerDriver);
@@ -73,12 +73,12 @@ class ApiTest extends \PHPUnit_Framework_TestCase
      */
     public function profilingDataProvider()
     {
-        return array(
-            array('doAuthorize', 'place'),
-            array('doCapture', 'capture'),
-            array('doRefund', 'refund'),
-            array('doVoid', 'void')
-        );
+        return [
+            ['doAuthorize', 'place'],
+            ['doCapture', 'capture'],
+            ['doRefund', 'refund'],
+            ['doVoid', 'void']
+        ];
     }
 
     public function testValidateTokenProfiling()
@@ -90,12 +90,12 @@ class ApiTest extends \PHPUnit_Framework_TestCase
             'start'
         )->with(
             'pbridge_validate_token',
-            array('group' => 'pbridge', 'operation' => 'pbridge:validate_token')
+            ['group' => 'pbridge', 'operation' => 'pbridge:validate_token']
         );
         $profilerDriver->expects($this->once())->method('stop')->with('pbridge_validate_token');
         \Magento\Framework\Profiler::add($profilerDriver);
 
-        $api = $this->_getApiMock(array('client_identifier' => 10, 'payment_action' => 'validate_token'));
+        $api = $this->_getApiMock(['client_identifier' => 10, 'payment_action' => 'validate_token']);
         $api->validateToken(10);
     }
 }

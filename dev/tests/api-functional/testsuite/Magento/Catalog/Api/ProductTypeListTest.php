@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductTypeListTest extends WebapiAbstract
 {
@@ -18,40 +18,40 @@ class ProductTypeListTest extends WebapiAbstract
 
     public function testGetProductTypes()
     {
-        $expectedProductTypes = array(
-            array(
+        $expectedProductTypes = [
+            [
                 'name' => 'simple',
                 'label' => 'Simple Product',
-            ),
-            array(
+            ],
+            [
                 'name' => 'virtual',
                 'label' => 'Virtual Product',
-            ),
-            array(
+            ],
+            [
                 'name' => 'downloadable',
                 'label' => 'Downloadable Product',
-            ),
-            array(
+            ],
+            [
                 'name' => 'bundle',
                 'label' => 'Bundle Product',
-            ),
-            array(
+            ],
+            [
                 'name' => 'configurable',
                 'label' => 'Configurable Product',
-            ),
-        );
+            ],
+        ];
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/types',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetProductTypes'
-            ),
-        );
+                'operation' => self::SERVICE_NAME . 'GetProductTypes',
+            ],
+        ];
 
         $productTypes = $this->_webApiCall($serviceInfo);
 
@@ -60,4 +60,3 @@ class ProductTypeListTest extends WebapiAbstract
         }
     }
 }
-

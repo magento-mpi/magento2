@@ -33,7 +33,6 @@ class PaymentDataImportTest extends \PHPUnit_Framework_TestCase
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
         $this->importerMock = $this->getMock('\Magento\Reward\Model\PaymentDataImporter', [], [], '', false);
 
-
         $this->subject = $objectManager->getObject(
             '\Magento\Reward\Model\Observer\PaymentDataImport',
             ['rewardData' => $this->rewardDataMock, 'importer' => $this->importerMock]
@@ -72,4 +71,3 @@ class PaymentDataImportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

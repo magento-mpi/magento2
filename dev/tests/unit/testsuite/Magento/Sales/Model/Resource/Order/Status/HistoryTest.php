@@ -38,7 +38,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
      */
     protected $validatorMock;
 
-
     public function setUp()
     {
         $this->appResourceMock = $this->getMock(
@@ -80,7 +79,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
                 'validator' => $this->validatorMock
             ]
         );
-
     }
 
     /**
@@ -103,7 +101,7 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue([]));
         $this->historyResource->save($historyMock);
     }
-    
+
     /**
      * test _beforeSaveMethod via save()
      * @expectedException \Magento\Framework\Model\Exception

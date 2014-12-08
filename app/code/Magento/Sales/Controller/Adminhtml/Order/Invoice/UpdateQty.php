@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Backend\App\Action;
 
 class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View
@@ -50,9 +50,9 @@ class UpdateQty extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvo
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Invoices'));
             $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot update item quantity.'));
+            $response = ['error' => true, 'message' => __('Cannot update item quantity.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

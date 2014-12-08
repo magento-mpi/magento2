@@ -18,7 +18,7 @@ $website->save();
 // create test customer
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 /** @var $objectManager \Magento\TestFramework\ObjectManager */

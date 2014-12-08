@@ -9,8 +9,8 @@
 namespace Magento\GiftMessage\Test\Block\Adminhtml\Order\Create;
 
 use Mtf\Block\Form as ParentForm;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Client\Element;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Form

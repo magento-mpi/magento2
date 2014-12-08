@@ -35,7 +35,7 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Filter\Input\MaliciousCode $maliciousCode,
         \Magento\Email\Model\TemplateFactory $emailFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_maliciousCode = $maliciousCode;
         $this->_emailFactory = $emailFactory;
@@ -51,7 +51,7 @@ class Preview extends \Magento\Backend\Block\Widget
     {
         /** @var $template \Magento\Email\Model\Template */
         $template = $this->_emailFactory->create(
-            array('data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND))
+            ['data' => ['area' => \Magento\Framework\App\Area::AREA_FRONTEND]]
         );
         $id = (int)$this->getRequest()->getParam('id');
         if ($id) {
@@ -65,12 +65,12 @@ class Preview extends \Magento\Backend\Block\Widget
         $template->setTemplateText($this->_maliciousCode->filter($template->getTemplateText()));
 
         \Magento\Framework\Profiler::start("email_template_proccessing");
-        $vars = array();
+        $vars = [];
 
         $store = $this->getAnyStoreView();
         $storeId = $store ? $store->getId() : null;
         $template->setDesignConfig(
-            array('area' => $this->_design->getArea(), 'store' => $storeId)
+            ['area' => $this->_design->getArea(), 'store' => $storeId]
         );
         $templateProcessed = $template->getProcessedTemplate($vars, true);
 

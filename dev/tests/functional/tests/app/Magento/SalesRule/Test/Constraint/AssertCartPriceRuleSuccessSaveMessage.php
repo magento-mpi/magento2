@@ -8,8 +8,8 @@
 
 namespace Magento\SalesRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCartPriceRuleSuccessSaveMessage

@@ -31,7 +31,7 @@ class Active extends \Magento\Framework\App\Config\Value
     {
         if ($this->isValueChanged()) {
             $this->_cacheManager->clean(
-                array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
+                [\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG]
             );
         }
         return parent::afterSave();

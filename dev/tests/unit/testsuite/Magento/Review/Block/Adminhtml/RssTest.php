@@ -8,7 +8,7 @@
 
 namespace Magento\Review\Block\Adminhtml;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class RssTest extends \PHPUnit_Framework_TestCase
 {
@@ -55,26 +55,24 @@ class RssTest extends \PHPUnit_Framework_TestCase
 
     public function testGetRssData()
     {
-        $rssData = array(
+        $rssData = [
             'title' => 'Pending product review(s)',
             'description' => 'Pending product review(s)',
             'link' => 'http://rss.magento.com',
             'charset' => 'UTF-8',
-            'entries' =>
-                array(
+            'entries' => [
                     'title' => 'Product: "Product Name" reviewed by: Product Nick',
                     'link' => 'http://product.magento.com',
-                    'description' =>
-                        array(
+                    'description' => [
                             'rss_url' => 'http://rss.magento.com',
                             'name' => 'Product Name',
                             'summary' => 'Product Title',
                             'review' => 'Product Detail',
                             'store' => 'Store Name',
 
-                        )
-                )
-        );
+                        ],
+                ],
+        ];
         $rssUrl = 'http://rss.magento.com';
         $productModel = $this->getMock(
             'Magento\Catalog\Model\Resource\Product',
@@ -111,7 +109,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
         $productModel->expects($this->any())->method('getProductUrl')
             ->will($this->returnValue('http://product.magento.com'));
         $this->rss->expects($this->once())->method('getProductCollection')
-            ->will($this->returnValue(array($productModel)));
+            ->will($this->returnValue([$productModel]));
 
         $data = $this->block->getRssData();
 
@@ -140,6 +138,6 @@ class RssTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFeeds()
     {
-        $this->assertEquals(array(), $this->block->getFeeds());
+        $this->assertEquals([], $this->block->getFeeds());
     }
 }

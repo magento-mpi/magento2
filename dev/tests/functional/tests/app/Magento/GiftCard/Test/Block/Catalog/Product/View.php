@@ -10,7 +10,6 @@ namespace Magento\GiftCard\Test\Block\Catalog\Product;
 
 use Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard;
 use Mtf\Fixture\FixtureInterface;
-use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 
 /**
  * Class View

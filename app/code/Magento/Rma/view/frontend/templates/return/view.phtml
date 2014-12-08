@@ -88,7 +88,7 @@
                                     <td class="col carrier">
                                         <select name="tracking_carrier_select" id="tracking_carrier_select" class="select" data-validate="{required:true}">
                                             <option value=""></option>
-                                            <?php foreach($this->getCarriers() as $key => $value): ?>
+                                            <?php foreach ($this->getCarriers() as $key => $value): ?>
                                                 <option value="<?php echo $key ?>"><?php echo $this->escapeHtml($value) ?></option>
                                             <?php endforeach ?>
                                         </select>
@@ -129,20 +129,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->getItems() as $key=>$item): ?>
-                            <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute) {
-                                $_qna = NULL;
-                                if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
-                                    $_qna = '
+                        <?php foreach ($this->getItems() as $key => $item): ?>
+                            <?php foreach ($this->getRealValueAttributes($item->getId()) as $code => $attribute) {
+    $_qna = null;
+    if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
+        $_qna = '
                                         <tr><td class="col questions">' . $this->getAttributeLabel($item->getId(), $code) . '</td>
                                         <td class="col answers">' . $this->getAttributeValue($item->getId(), $code) . '</td></tr>
                                     ';
-                                }
-                            } ?>
+    }
+} ?>
                         <tr>
                             <td data-th="<?php echo $this->escapeHtml(__('Product Name')) ?>" class="col id">
                                 <?php echo $this->escapeHtml($item->getProductName()) ?>
-                                <?php if($_options = $this->getItemOptions($item)): ?>
+                                <?php if ($_options = $this->getItemOptions($item)): ?>
                                 <dl class="item options">
                                 <?php foreach ($_options as $_option) : ?>
                                     <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -192,7 +192,7 @@
             <dl class="returns-comments">
                 <?php $_comments = $this->getComments(); ?>
                 <?php if (!empty($_comments)): ?>
-                    <?php foreach($_comments as $_comment): ?>
+                    <?php foreach ($_comments as $_comment): ?>
                         <?php if ($_comment->getIsVisibleOnFront()): ?>
                             <dt class="returns-comment-date">
                                 <strong class="returns-comment-autor">

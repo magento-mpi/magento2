@@ -65,9 +65,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function blockHtmlBeforeDataProvider()
     {
-        return array(
-            array('promo_quote_edit_tabs', 'salesrule.related.banners'),
-            array('promo_catalog_edit_tabs', 'catalogrule.related.banners')
-        );
+        return [
+            ['promo_quote_edit_tabs', 'salesrule.related.banners'],
+            ['promo_catalog_edit_tabs', 'catalogrule.related.banners']
+        ];
     }
 }

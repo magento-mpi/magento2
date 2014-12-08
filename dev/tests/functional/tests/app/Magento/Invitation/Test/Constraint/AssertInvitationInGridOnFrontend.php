@@ -8,11 +8,11 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Invitation\Test\Fixture\Invitation;
 use Magento\Invitation\Test\Page\InvitationIndex;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvitationInGridOnFrontend

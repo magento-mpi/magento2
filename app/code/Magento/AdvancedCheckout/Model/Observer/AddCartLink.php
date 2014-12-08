@@ -8,7 +8,7 @@
  */
 namespace Magento\AdvancedCheckout\Model\Observer;
 
-use \Magento\AdvancedCheckout\Model\Cart;
+use Magento\AdvancedCheckout\Model\Cart;
 
 class AddCartLink
 {

@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test creation for DeleteCustomerBackendEntity

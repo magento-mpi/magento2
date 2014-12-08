@@ -44,7 +44,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $frontName
      * @param array $disabledCacheTypes
      */
-    public function __construct(Context $context, $frontName, array $disabledCacheTypes = array())
+    public function __construct(Context $context, $frontName, array $disabledCacheTypes = [])
     {
         parent::__construct($context);
         $this->_frontName = $frontName;

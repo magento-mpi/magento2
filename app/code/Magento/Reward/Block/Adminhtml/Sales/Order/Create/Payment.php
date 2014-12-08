@@ -58,7 +58,7 @@ class Payment extends \Magento\Backend\Block\Template
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         $this->_orderCreate = $orderCreate;
@@ -113,15 +113,15 @@ class Payment extends \Magento\Backend\Block\Template
     {
         if (!$this->_getData('reward')) {
             $customerData = $this->getQuote()->getCustomer();
-                $customer = $this->customerFactory->create(
+            $customer = $this->customerFactory->create(
                     [
-                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                     ]
                 );
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create()->setCustomer($customer);
             $reward->setStore($this->getQuote()->getStore());
-            $reward ->loadByCustomer();
+            $reward->loadByCustomer();
             $this->setData('reward', $reward);
         }
         return $this->_getData('reward');

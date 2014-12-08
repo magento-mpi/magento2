@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Shipment;
 
-use Magento\Sales\Api\Data\ShipmentItemInterface;
-use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Sales\Api\Data\ShipmentItemInterface;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Item _getResource()

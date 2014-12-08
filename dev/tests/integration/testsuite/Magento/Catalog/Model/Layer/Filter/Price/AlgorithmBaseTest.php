@@ -56,7 +56,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             'scope' => $objectManager->create(
                 'Magento\Framework\Search\Request\Dimension',
                 ['name' => 'someName', 'value' => 'default']
-            )
+            ),
         ];
 
         /** @var \Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation\DataProvider $dataProvider */
@@ -107,7 +107,7 @@ class AlgorithmBaseTest extends \PHPUnit_Framework_TestCase
             $result[] = [
                 $index + 4, //category id
                 $testCase[1],
-                $testCase[2]
+                $testCase[2],
             ];
         }
 

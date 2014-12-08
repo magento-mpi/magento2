@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Cancel extends \Magento\Backend\App\Action
 {
@@ -66,7 +66,7 @@ class Cancel extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You canceled the credit memo.'));
             }
-            $this->_redirect('sales/*/view', array('creditmemo_id' => $creditmemo->getId()));
+            $this->_redirect('sales/*/view', ['creditmemo_id' => $creditmemo->getId()]);
         } else {
             $this->_forward('noroute');
         }

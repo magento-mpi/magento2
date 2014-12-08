@@ -37,23 +37,22 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryElementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_factoryCollectionMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $collectionModel = $objectManager->getObject
-            ('Magento\Framework\Data\Form\Element\Collection');
+        $collectionModel = $objectManager->getObject('Magento\Framework\Data\Form\Element\Collection');
 
         $this->_factoryCollectionMock
             ->expects($this->any())
@@ -62,8 +61,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
         $this->_formKeyMock = $this->getMock(
             'Magento\Framework\Data\Form\FormKey',
-            array('getFormKey'),
-            array(),
+            ['getFormKey'],
+            [],
             '',
             false
         );
@@ -83,8 +82,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testSettersGetters()
     {
-        $setElementRenderer = $this->getMockBuilder
-            ('Magento\Backend\Block\Widget\Form\Renderer\Element')
+        $setElementRenderer = $this->getMockBuilder('Magento\Backend\Block\Widget\Form\Renderer\Element')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -95,9 +93,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         // restore our Form to its earlier state
         $this->_form->setElementRenderer(null);
 
-
-        $setFieldsetRenderer = $this->getMockBuilder
-            ('Magento\Backend\Block\Widget\Form\Renderer\Fieldset')
+        $setFieldsetRenderer = $this->getMockBuilder('Magento\Backend\Block\Widget\Form\Renderer\Fieldset')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -105,9 +101,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $getFieldsetRenderer = $this->_form->getFieldsetRenderer();
         $this->assertSame($setFieldsetRenderer, $getFieldsetRenderer);
 
-
-        $setFieldsetElementRenderer = $this->getMockBuilder
-            ('Magento\Backend\Block\Widget\Form\Renderer\Fieldset')
+        $setFieldsetElementRenderer = $this->getMockBuilder('Magento\Backend\Block\Widget\Form\Renderer\Fieldset')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -131,8 +125,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function testElementExistsException()
     {
-        $buttonElement = $this->getMockBuilder
-            ('Magento\Framework\Data\Form\Element\Button')
+        $buttonElement = $this->getMockBuilder('Magento\Framework\Data\Form\Element\Button')
             ->disableOriginalConstructor()
             ->getMock();
         $buttonElement->expects($this->any())->method('getId')->will($this->returnValue('1'));
@@ -145,8 +138,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
 
     public function testElementOperations()
     {
-        $buttonElement = $this->getMockBuilder
-            ('Magento\Framework\Data\Form\Element\Button')
+        $buttonElement = $this->getMockBuilder('Magento\Framework\Data\Form\Element\Button')
             ->disableOriginalConstructor()
             ->getMock();
         $buttonElement->expects($this->any())->method('getId')->will($this->returnValue('1'));

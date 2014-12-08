@@ -8,12 +8,12 @@
 
 namespace Magento\Cms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\Adminhtml\CmsBlockNew;
+use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
+use Magento\Cms\Test\Page\Adminhtml\CmsBlockNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class AbstractCmsBlockEntityTest

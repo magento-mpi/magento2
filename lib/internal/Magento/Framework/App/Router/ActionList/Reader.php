@@ -31,7 +31,7 @@ class Reader
     public function read()
     {
         $actionFiles = $this->moduleReader->getActionFiles();
-        $actions = array();
+        $actions = [];
         foreach ($actionFiles as $actionFile) {
             $action = str_replace('/', '\\', substr($actionFile, 0, -4));
             $actions[strtolower($action)] = $action;

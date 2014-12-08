@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\ContentType;
 
-use Magento\Framework\Object;
 use Magento\Framework\View\Element\UiComponentInterface;
 use Magento\Framework\View\FileSystem;
 use Magento\Framework\View\TemplateEnginePool;

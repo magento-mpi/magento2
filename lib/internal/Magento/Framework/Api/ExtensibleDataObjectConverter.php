@@ -36,7 +36,7 @@ class ExtensibleDataObjectConverter
      * @param string[] $skipCustomAttributes
      * @return array
      */
-    public function toNestedArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = array())
+    public function toNestedArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = [])
     {
         $dataObjectType = get_class($dataObject);
         $dataObjectArray = $this->dataObjectProcessor->buildOutputDataArray($dataObject, $dataObjectType);
@@ -44,7 +44,7 @@ class ExtensibleDataObjectConverter
         if (!empty($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
             /** @var AttributeValue[] $customAttributes */
             $customAttributes = $dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY];
-            unset ($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]);
+            unset($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]);
             foreach ($customAttributes as $attributeValue) {
                 if (!in_array($attributeValue[AttributeValue::ATTRIBUTE_CODE], $skipCustomAttributes)) {
                     $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]
@@ -62,7 +62,7 @@ class ExtensibleDataObjectConverter
      * @param string[] $skipCustomAttributes
      * @return array
      */
-    public function toFlatArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = array())
+    public function toFlatArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = [])
     {
         $dataObjectArray = $this->toNestedArray($dataObject, $skipCustomAttributes);
         return ConvertArray::toFlatArray($dataObjectArray);
@@ -76,14 +76,14 @@ class ExtensibleDataObjectConverter
      * @return array
      * @deprecated use toFlatArray instead. Should be removed once all references are refactored.
      */
-    public static function toFlatArrayStatic(AbstractExtensibleObject $dataObject, $skipCustomAttributes = array())
+    public static function toFlatArrayStatic(AbstractExtensibleObject $dataObject, $skipCustomAttributes = [])
     {
         $dataObjectArray = $dataObject->__toArray();
         //process custom attributes if present
         if (!empty($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY])) {
             /** @var AttributeValue[] $customAttributes */
             $customAttributes = $dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY];
-            unset ($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]);
+            unset($dataObjectArray[AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY]);
             foreach ($customAttributes as $attributeValue) {
                 if (!in_array($attributeValue[AttributeValue::ATTRIBUTE_CODE], $skipCustomAttributes)) {
                     $dataObjectArray[$attributeValue[AttributeValue::ATTRIBUTE_CODE]]

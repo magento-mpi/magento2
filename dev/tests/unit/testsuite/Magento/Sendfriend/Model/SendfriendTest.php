@@ -33,7 +33,6 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-
         $objectManager = new ObjectManager($this);
         $this->sendfriendDataMock = $this->getMockBuilder('Magento\Sendfriend\Helper\Data')
             ->disableOriginalConstructor()
@@ -47,7 +46,6 @@ class SendfriendTest extends \PHPUnit_Framework_TestCase
                 'cookieManager' => $this->cookieManagerMock,
             ]
         );
-
     }
 
     public function testGetSentCountWithCheckCookie()

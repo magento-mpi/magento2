@@ -70,7 +70,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected static $_alreadySelectedIds = array();
+    protected static $_alreadySelectedIds = [];
 
     /**
      * Gift card account data
@@ -184,7 +184,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -340,7 +340,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         if ($this->isValid(true, true, $website)) {
             $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
-                $cards = array();
+                $cards = [];
             } else {
                 foreach ($cards as $one) {
                     if ($one['i'] == $this->getId()) {
@@ -348,12 +348,12 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                     }
                 }
             }
-            $cards[] = array(
+            $cards[] = [
                 'i' => $this->getId(),
                 'c' => $this->getCode(),
                 'a' => $this->getBalance(),
-                'ba' => $this->getBalance()
-            );
+                'ba' => $this->getBalance(),
+            ];
             $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
@@ -533,7 +533,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      */
     public function getStatesAsOptionList()
     {
-        $result = array();
+        $result = [];
 
         $result[self::STATE_AVAILABLE] = __('Available');
         $result[self::STATE_USED] = __('Used');
@@ -644,15 +644,15 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
-            array(
+            [
                 'name' => $recipientName,
                 'code' => $code,
                 'balance' => $balance,
                 'store' => $recipientStore,
-                'store_name' => $recipientStore->getName()
-            )
+                'store_name' => $recipientStore->getName(),
+            ]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 'giftcard/giftcardaccount_email/identity',
@@ -663,7 +663,6 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             $recipientEmail,
             $recipientName
         )->getTransport();
-
 
         try {
             $transport->sendMessage();

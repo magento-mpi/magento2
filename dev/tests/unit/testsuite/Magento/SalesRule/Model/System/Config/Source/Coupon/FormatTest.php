@@ -40,15 +40,14 @@ class FormatTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testToOptionArray()
     {
         $formatTitle = 'format Title';
         $expected = [
             [
                 'label' => $formatTitle,
-                'value' => 0
-            ]
+                'value' => 0,
+            ],
         ];
         $this->salesRuleCoupon->expects($this->once())
             ->method('getFormatsList')

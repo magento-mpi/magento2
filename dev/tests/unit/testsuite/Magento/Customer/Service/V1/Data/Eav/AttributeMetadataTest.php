@@ -7,8 +7,6 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadata;
-use Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder;
 
 class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +25,7 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
 
     public function testConstructorAndGetters()
     {
-        $options = array(array('value' => 'OPTION_ONE'), array('value' => 'OPTION_TWO'));
+        $options = [['value' => 'OPTION_ONE'], ['value' => 'OPTION_TWO']];
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var \Magento\Customer\Service\V1\Data\Eav\OptionBuilder $optionBuilder */
         $optionBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\Eav\OptionBuilder');
@@ -39,14 +37,14 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
             '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
             ['optionBuilder' => $optionBuilder, 'validationRuleBuilder' => $validationRuleBuilder]
         )->populateWithArray(
-            array(
+            [
                 'attribute_code' => self::ATTRIBUTE_CODE,
                 'frontend_input' => self::FRONTEND_INPUT,
                 'input_filter' => self::INPUT_FILTER,
                 'store_label' => self::STORE_LABEL,
-                'validation_rules' => array(),
-                'options' => $options
-            )
+                'validation_rules' => [],
+                'options' => $options,
+            ]
         );
         $attributeMetadata = new AttributeMetadata($attributeMetadataBuilder);
 
@@ -54,7 +52,7 @@ class AttributeMetadataTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(self::FRONTEND_INPUT, $attributeMetadata->getFrontendInput());
         $this->assertSame(self::INPUT_FILTER, $attributeMetadata->getInputFilter());
         $this->assertSame(self::STORE_LABEL, $attributeMetadata->getStoreLabel());
-        $this->assertSame(array(), $attributeMetadata->getValidationRules());
+        $this->assertSame([], $attributeMetadata->getValidationRules());
         $this->assertSame($options[0], $attributeMetadata->getOptions()[0]->__toArray());
         $this->assertSame($options[1], $attributeMetadata->getOptions()[1]->__toArray());
     }

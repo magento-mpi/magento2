@@ -140,7 +140,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     'updated_at',
                     'parent_id',
                     'increment_id',
-                    'entity_id'
+                    'entity_id',
                 ]
             );
         $dbAdapter->expects($this->any())->method('lastInsertId');
@@ -211,7 +211,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
                     'updated_at',
                     'parent_id',
                     'increment_id',
-                    'entity_id'
+                    'entity_id',
                 ]
             );
         $eavConfig->expects($this->any())

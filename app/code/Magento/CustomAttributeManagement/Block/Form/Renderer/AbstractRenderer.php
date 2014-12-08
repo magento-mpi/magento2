@@ -167,7 +167,7 @@ abstract class AbstractRenderer extends \Magento\Framework\View\Element\Template
      */
     protected function _getValidateClasses($withRequired = true)
     {
-        $classes = array();
+        $classes = [];
         if ($withRequired && $this->isRequired()) {
             $classes[] = 'required-entry';
         }

@@ -34,7 +34,7 @@ class Filter extends \Magento\Framework\Filter\Template
      *
      * @var array
      */
-    protected $_modifiers = array('nl2br' => '');
+    protected $_modifiers = ['nl2br' => ''];
 
     /**
      * Store id
@@ -111,7 +111,7 @@ class Filter extends \Magento\Framework\Filter\Template
      * @var \Magento\Backend\Model\UrlInterface
      */
     protected $backendUrlBuilder;
-    
+
     /**
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Framework\Logger $logger
@@ -140,13 +140,13 @@ class Filter extends \Magento\Framework\Filter\Template
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\Framework\App\State $appState,
         \Magento\Backend\Model\UrlInterface $backendUrlBuilder,
-        $variables = array()
+        $variables = []
     ) {
         $this->_escaper = $escaper;
         $this->_assetRepo = $assetRepo;
         $this->_logger = $logger;
         $this->_scopeConfig = $scopeConfig;
-        $this->_modifiers['escape'] = array($this, 'modifierEscape');
+        $this->_modifiers['escape'] = [$this, 'modifierEscape'];
         $this->_variableFactory = $coreVariableFactory;
         $this->_storeManager = $storeManager;
         $this->_layout = $layout;
@@ -228,12 +228,12 @@ class Filter extends \Magento\Framework\Filter\Template
      */
     public function blockDirective($construction)
     {
-        $skipParams = array('class', 'id', 'output');
+        $skipParams = ['class', 'id', 'output'];
         $blockParameters = $this->_getIncludeParameters($construction[2]);
         $block = null;
 
         if (isset($blockParameters['class'])) {
-            $block = $this->_layout->createBlock($blockParameters['class'], null, array('data' => $blockParameters));
+            $block = $this->_layout->createBlock($blockParameters['class'], null, ['data' => $blockParameters]);
         } elseif (isset($blockParameters['id'])) {
             $block = $this->_layout->createBlock('Magento\Cms\Block\Block');
             if ($block) {
@@ -252,7 +252,6 @@ class Filter extends \Magento\Framework\Filter\Template
             }
             $block->setDataUsingMethod($k, $v);
         }
-
 
         if (isset($blockParameters['output'])) {
             $method = $blockParameters['output'];
@@ -282,7 +281,7 @@ class Filter extends \Magento\Framework\Filter\Template
         if ($this->_directiveParams['area'] != $this->_appState->getAreaCode()) {
             return $this->_appState->emulateAreaCode(
                 $this->_directiveParams['area'],
-                array($this, 'emulateAreaCallback')
+                [$this, 'emulateAreaCallback']
             );
         } else {
             return $this->emulateAreaCallback();
@@ -296,10 +295,10 @@ class Filter extends \Magento\Framework\Filter\Template
      */
     public function emulateAreaCallback()
     {
-        $skipParams = array('handle', 'area');
+        $skipParams = ['handle', 'area'];
 
         /** @var $layout \Magento\Framework\View\LayoutInterface */
-        $layout = $this->_layoutFactory->create(array('cacheable' => false));
+        $layout = $this->_layoutFactory->create(['cacheable' => false]);
         $layout->getUpdate()->addHandle($this->_directiveParams['handle'])->load();
 
         $layout->generateXml();
@@ -369,7 +368,7 @@ class Filter extends \Magento\Framework\Filter\Template
     {
         $params = $this->_getIncludeParameters($construction[2]);
         return $this->_storeManager->getStore()
-            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA). $params['url'];
+            ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . $params['url'];
     }
 
     /**
@@ -383,7 +382,7 @@ class Filter extends \Magento\Framework\Filter\Template
     {
         $params = $this->_getIncludeParameters($construction[2]);
         if (!isset($params['_query'])) {
-            $params['_query'] = array();
+            $params['_query'] = [];
         }
         foreach ($params as $k => $v) {
             if (strpos($k, '_query_') === 0) {

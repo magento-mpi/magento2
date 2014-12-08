@@ -58,12 +58,12 @@ class Recommendations implements SearchDataProviderInterface
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter
      */
-    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array())
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = [])
     {
-        $recommendations = array();
+        $recommendations = [];
 
         if (!$this->isSearchRecommendationsEnabled()) {
-            return array();
+            return [];
         }
 
         /** @var \Magento\Solr\Model\Recommendations $recommendationsModel */

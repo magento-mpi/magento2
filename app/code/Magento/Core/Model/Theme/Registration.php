@@ -7,8 +7,8 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Model\Exception;
 use Magento\Framework\View\Design\ThemeInterface;
 
@@ -34,20 +34,20 @@ class Registration
      *
      * @var array
      */
-    protected $_allowedRelations = array(
-        array(ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_VIRTUAL),
-        array(ThemeInterface::TYPE_VIRTUAL, ThemeInterface::TYPE_STAGING)
-    );
+    protected $_allowedRelations = [
+        [ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_VIRTUAL],
+        [ThemeInterface::TYPE_VIRTUAL, ThemeInterface::TYPE_STAGING],
+    ];
 
     /**
      * Forbidden sequence relation by type
      *
      * @var array
      */
-    protected $_forbiddenRelations = array(
-        array(ThemeInterface::TYPE_VIRTUAL, ThemeInterface::TYPE_VIRTUAL),
-        array(ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_STAGING)
-    );
+    protected $_forbiddenRelations = [
+        [ThemeInterface::TYPE_VIRTUAL, ThemeInterface::TYPE_VIRTUAL],
+        [ThemeInterface::TYPE_PHYSICAL, ThemeInterface::TYPE_STAGING],
+    ];
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\Read
@@ -103,7 +103,7 @@ class Registration
      * @return $this
      * @throws Exception
      */
-    protected function _registerThemeRecursively(&$theme, $inheritanceChain = array())
+    protected function _registerThemeRecursively(&$theme, $inheritanceChain = [])
     {
         if ($theme->getId()) {
             return $this;

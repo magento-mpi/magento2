@@ -15,7 +15,6 @@ use Magento\Framework\Autoload\AutoloaderRegistry;
  */
 class DefinedClasses
 {
-
     /**
      * Determine if a class can be loaded without using the Code\Generator\Autoloader.
      *

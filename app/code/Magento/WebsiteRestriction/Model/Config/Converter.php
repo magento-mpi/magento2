@@ -19,7 +19,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $actions */
         $actions = $source->getElementsByTagName('action');
         /** @var DOMNode $actionConfig */

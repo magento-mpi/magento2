@@ -26,13 +26,13 @@ class BackendTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false);
-        $contextMock = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', ['getUrl'], [], '', false);
+        $contextMock = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
         $contextMock->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($this->_urlBuilder));
-        $this->_orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', array('create'), array(), '', false);
+        $this->_orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', ['create'], [], '', false);
         $this->_model = new Backend(
             $contextMock,
-            $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false),
+            $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false),
             $this->_orderFactory,
             $this->_urlBuilder
         );
@@ -46,7 +46,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             $this->equalTo('adminhtml/authorizenet_directpost_payment/place'),
-            $this->equalTo(array())
+            $this->equalTo([])
         )->will(
             $this->returnValue('some value')
         );
@@ -57,8 +57,8 @@ class BackendTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getMock(
             'Magento\Sales\Model\Order',
-            array('loadByIncrementId', 'getId', '__wakeup'),
-            array(),
+            ['loadByIncrementId', 'getId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -71,19 +71,19 @@ class BackendTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             $this->equalTo('sales/order/view'),
-            $this->equalTo(array('order_id' => 'order id'))
+            $this->equalTo(['order_id' => 'order id'])
         )->will(
             $this->returnValue('some value')
         );
         $this->assertEquals(
             'some value',
-            $this->_model->getSuccessOrderUrl(array('x_invoice_num' => 'invoice number', 'some param'))
+            $this->_model->getSuccessOrderUrl(['x_invoice_num' => 'invoice number', 'some param'])
         );
     }
 
     public function testGetRedirectIframeUrl()
     {
-        $params = array('some params');
+        $params = ['some params'];
         $this->_urlBuilder->expects(
             $this->once()
         )->method(

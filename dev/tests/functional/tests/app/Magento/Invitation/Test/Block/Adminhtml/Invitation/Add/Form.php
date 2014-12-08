@@ -8,9 +8,9 @@
 
 namespace Magento\Invitation\Test\Block\Adminhtml\Invitation\Add;
 
+use Magento\Backend\Test\Block\Widget\Form as AbstractForm;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form as AbstractForm;
 
 /**
  * New invitation form on backend.

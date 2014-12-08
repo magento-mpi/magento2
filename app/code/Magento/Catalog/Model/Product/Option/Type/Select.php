@@ -43,7 +43,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Escaper $escaper,
-        array $data = array()
+        array $data = []
     ) {
         $this->string = $string;
         $this->_escaper = $escaper;
@@ -176,7 +176,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     public function parseOptionValue($optionValue, $productOptionValues)
     {
-        $values = array();
+        $values = [];
         if (!$this->_isSingleSelection()) {
             foreach (explode(',', $optionValue) as $value) {
                 $value = trim($value);
@@ -266,7 +266,7 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $option = $this->getOption();
 
         if (!$this->_isSingleSelection()) {
-            $skus = array();
+            $skus = [];
             foreach (explode(',', $optionValue) as $value) {
                 $optionSku = $option->getValueById($value);
                 if ($optionSku) {
@@ -303,10 +303,10 @@ class Select extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      */
     protected function _isSingleSelection()
     {
-        $single = array(
+        $single = [
             \Magento\Catalog\Model\Product\Option::OPTION_TYPE_DROP_DOWN,
-            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO
-        );
+            \Magento\Catalog\Model\Product\Option::OPTION_TYPE_RADIO,
+        ];
         return in_array($this->getOption()->getType(), $single);
     }
 }

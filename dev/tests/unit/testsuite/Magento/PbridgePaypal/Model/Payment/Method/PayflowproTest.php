@@ -23,15 +23,15 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
     {
         $this->_pbridgeMethod = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge',
-            array('capture', 'authorize', 'refund'),
-            array(),
+            ['capture', 'authorize', 'refund'],
+            [],
             '',
             false
         );
         $paypal = $this->getMock(
             'Magento\PbridgePaypal\Model\Payment\Method\Paypal',
-            array('getPbridgeMethodInstance'),
-            array(),
+            ['getPbridgeMethodInstance'],
+            [],
             '',
             false
         );
@@ -41,7 +41,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $helper->getObject(
             'Magento\PbridgePaypal\Model\Payment\Method\Payflowpro',
-            array('paypal' => $paypal)
+            ['paypal' => $paypal]
         );
     }
 
@@ -53,7 +53,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
      */
     public function testCapture($amount, $amountAuthorized, $amountPaid)
     {
-        $infoInstance = $this->getMock('Magento\Payment\Model\Info', array('__wakeup'), array(), '', false);
+        $infoInstance = $this->getMock('Magento\Payment\Model\Info', ['__wakeup'], [], '', false);
         $infoInstance->setAmountPaid($amountPaid);
         $infoInstance->setAmountAuthorized($amountAuthorized);
         $this->_model->setData('info_instance', $infoInstance);
@@ -66,7 +66,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
 
     public function captureDataProvider()
     {
-        return array(array(3.2, 5, 1), array(3.2, 5, null), array(3, 3, null), array(2.23, 2.23, 1));
+        return [[3.2, 5, 1], [3.2, 5, null], [3, 3, null], [2.23, 2.23, 1]];
     }
 
     /**
@@ -77,14 +77,14 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
     {
         $invoice = $this->getMock(
             'Magento\Sales\Model\Order\Invoice',
-            array('canRefund', '__wakeup'),
-            array(),
+            ['canRefund', '__wakeup'],
+            [],
             '',
             false
         );
         $invoice->expects($this->once())->method('canRefund')->will($this->returnValue($canRefund));
         $payment = new \Magento\Framework\Object(
-            array('creditmemo' => new \Magento\Framework\Object(array('invoice' => $invoice)))
+            ['creditmemo' => new \Magento\Framework\Object(['invoice' => $invoice])]
         );
         $this->_model->refund($payment, 'any');
         // check fix for partial refunds in Payflow Pro
@@ -93,7 +93,7 @@ class PayflowproTest extends \PHPUnit_Framework_TestCase
 
     public function refundDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     public function testAuthorizeRespMsg()

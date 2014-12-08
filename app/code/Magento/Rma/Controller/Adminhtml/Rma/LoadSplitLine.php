@@ -39,9 +39,9 @@ class LoadSplitLine extends \Magento\Rma\Controller\Adminhtml\Rma
                 throw new \Magento\Framework\Model\Exception(__('The wrong RMA item was requested.'));
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot display the item attributes.'));
+            $response = ['error' => true, 'message' => __('We cannot display the item attributes.')];
         }
 
         $this->_view->loadLayout();

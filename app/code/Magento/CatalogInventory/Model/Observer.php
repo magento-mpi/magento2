@@ -8,13 +8,13 @@
 
 namespace Magento\CatalogInventory\Model;
 
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockIndexInterface;
+use Magento\CatalogInventory\Api\StockManagementInterface;
+use Magento\CatalogInventory\Api\StockRegistryInterface;
 use Magento\CatalogInventory\Model\Stock\Item;
 use Magento\Framework\Event\Observer as EventObserver;
 use Magento\Sales\Model\Quote\Item as QuoteItem;
-use Magento\CatalogInventory\Api\StockRegistryInterface;
-use Magento\CatalogInventory\Api\StockManagementInterface;
-use Magento\CatalogInventory\Api\StockIndexInterface;
-use Magento\CatalogInventory\Api\StockConfigurationInterface;
 
 /**
  * Catalog inventory module observer
@@ -24,7 +24,7 @@ class Observer
     /**
      * @var Item[]
      */
-    protected $_itemsForReindex = array();
+    protected $_itemsForReindex = [];
 
     /**
      * Array, indexed by product's id to contain stockItems of already loaded products
@@ -32,7 +32,7 @@ class Observer
      *
      * @var array
      */
-    protected $_stockItemsArray = array();
+    protected $_stockItemsArray = [];
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock
@@ -454,7 +454,7 @@ class Observer
     {
         // Reindex quote ids
         $quote = $observer->getEvent()->getQuote();
-        $productIds = array();
+        $productIds = [];
         foreach ($quote->getAllItems() as $item) {
             $productIds[$item->getProductId()] = $item->getProductId();
             $children = $item->getChildrenItems();
@@ -470,7 +470,7 @@ class Observer
         }
 
         // Reindex previously remembered items
-        $productIds = array();
+        $productIds = [];
         foreach ($this->_itemsForReindex as $item) {
             $item->save();
             $productIds[] = $item->getProductId();

@@ -77,15 +77,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     public function addItemWithInvalidQtyDataProvider()
     {
-        return array(
-            array('string'),
-            array(0),
-            array(''),
-            array(null),
-            array(-12),
-            array(false),
-            array(-13.1),
-        );
+        return [
+            ['string'],
+            [0],
+            [''],
+            [null],
+            [-12],
+            [false],
+            [-13.1],
+        ];
     }
 
     /**
@@ -151,15 +151,15 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     public function updateItemWithInvalidQtyDataProvider()
     {
-        return array(
-            array('string'),
-            array(0),
-            array(''),
-            array(null),
-            array(-12),
-            array(false),
-            array(-13.1),
-        );
+        return [
+            ['string'],
+            [0],
+            [''],
+            [null],
+            [-12],
+            [false],
+            [-13.1],
+        ];
     }
 
     /**

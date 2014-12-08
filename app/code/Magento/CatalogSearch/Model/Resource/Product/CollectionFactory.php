@@ -47,7 +47,7 @@ class CollectionFactory
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Product\Collection
      */
-    public function create($collectionName, array $data = array())
+    public function create($collectionName, array $data = [])
     {
         if (!isset($this->productFactoryNames[$collectionName])) {
             throw new \RuntimeException(sprintf('Collection "%s" has not been set', $collectionName));

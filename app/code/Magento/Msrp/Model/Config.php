@@ -1,16 +1,16 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Msrp\Model;
 
-use Magento\Store\Model\ScopeInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\Escaper;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\ScopeInterface;
 
 class Config
 {
@@ -111,7 +111,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 
@@ -128,7 +128,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 }

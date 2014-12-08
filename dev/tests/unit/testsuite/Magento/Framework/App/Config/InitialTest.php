@@ -27,18 +27,18 @@ class InitialTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_initialReaderMock =
-            $this->getMock('Magento\Framework\App\Config\Initial\Reader', array(), array(), '', false);
+            $this->getMock('Magento\Framework\App\Config\Initial\Reader', [], [], '', false);
         $this->_configCacheMock =
-            $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
+            $this->getMock('Magento\Framework\App\Cache\Type\Config', [], [], '', false);
         $serializedData = serialize(
-            array(
-                'data' => array(
-                    'default' => array('key' => 'default_value'),
-                    'stores' => array('default' => array('key' => 'store_value')),
-                    'websites' => array('default' => array('key' => 'website_value'))
-                ),
-                'metadata' => array('metadata')
-            )
+            [
+                'data' => [
+                    'default' => ['key' => 'default_value'],
+                    'stores' => ['default' => ['key' => 'store_value']],
+                    'websites' => ['default' => ['key' => 'website_value']],
+                ],
+                'metadata' => ['metadata'],
+            ]
         );
         $this->_configCacheMock->expects(
             $this->any()
@@ -66,16 +66,16 @@ class InitialTest extends \PHPUnit_Framework_TestCase
 
     public function getDataDataProvider()
     {
-        return array(
-            array('default', array('key' => 'default_value')),
-            array('stores|default', array('key' => 'store_value')),
-            array('websites|default', array('key' => 'website_value'))
-        );
+        return [
+            ['default', ['key' => 'default_value']],
+            ['stores|default', ['key' => 'store_value']],
+            ['websites|default', ['key' => 'website_value']]
+        ];
     }
 
     public function testGetMetadata()
     {
-        $expectedResult = array('metadata');
+        $expectedResult = ['metadata'];
         $this->assertEquals($expectedResult, $this->_model->getMetadata());
     }
 }

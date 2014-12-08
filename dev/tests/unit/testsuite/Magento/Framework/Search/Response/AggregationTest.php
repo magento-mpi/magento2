@@ -40,8 +40,8 @@ class AggregationTest extends \PHPUnit_Framework_TestCase
     public function testGetIterator()
     {
         foreach ($this->aggregation as $bucket) {
-             $this->assertEquals($bucket->getName(), "1");
-             $this->assertEquals($bucket->getValues(), 1);
+            $this->assertEquals($bucket->getName(), "1");
+            $this->assertEquals($bucket->getValues(), 1);
         }
     }
 

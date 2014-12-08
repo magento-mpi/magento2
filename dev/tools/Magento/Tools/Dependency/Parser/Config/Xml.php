@@ -23,7 +23,7 @@ class Xml implements ParserInterface
     {
         $this->checkOptions($options);
 
-        $modules = array();
+        $modules = [];
         foreach ($options['files_for_parse'] as $file) {
             $config = $this->getModuleConfig($file);
             $modules[] = $this->extractModuleName($config);

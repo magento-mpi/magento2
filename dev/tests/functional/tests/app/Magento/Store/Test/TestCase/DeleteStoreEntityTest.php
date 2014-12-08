@@ -8,12 +8,12 @@
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditStore;
-use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 use Magento\Backend\Test\Page\Adminhtml\StoreDelete;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 use Magento\Store\Test\Fixture\Store;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteStoreEntity

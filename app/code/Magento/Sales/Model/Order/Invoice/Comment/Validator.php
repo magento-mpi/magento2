@@ -20,8 +20,8 @@ class Validator
      * @var array
      */
     protected $required = [
-        'parent_id' =>'Parent Invoice Id',
-        'comment' => 'Comment'
+        'parent_id' => 'Parent Invoice Id',
+        'comment' => 'Comment',
     ];
 
     /**

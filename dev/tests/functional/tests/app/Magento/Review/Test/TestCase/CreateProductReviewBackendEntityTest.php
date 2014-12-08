@@ -8,9 +8,8 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewEdit;

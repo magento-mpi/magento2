@@ -13,7 +13,6 @@ namespace Magento\Framework\Api;
  */
 class AttributeValue extends AbstractSimpleObject implements AttributeInterface
 {
-
     /**
      * Initialize internal storage
      *

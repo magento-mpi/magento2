@@ -8,7 +8,6 @@
 
 namespace Magento\Pbridge\Model\Payment\Method\Payone;
 
-use Magento\Payment\Model\Method\Cc;
 
 class Gate extends \Magento\Pbridge\Model\Payment\Method
 {
@@ -22,7 +21,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
     /**
      * @var array
      */
-    protected $_allowCurrencyCode = array('EUR');
+    protected $_allowCurrencyCode = ['EUR'];
 
     /**#@+
      * Availability options
@@ -73,7 +72,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $url,
         $formBlock = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_url = $url;
         parent::__construct(
@@ -163,7 +162,7 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      */
     public function getRedirectUrlSuccess()
     {
-        return $this->_url->getUrl('magento_pbridge/pbridge/onepagesuccess', array('_secure' => true));
+        return $this->_url->getUrl('magento_pbridge/pbridge/onepagesuccess', ['_secure' => true]);
     }
 
     /**
@@ -173,6 +172,6 @@ class Gate extends \Magento\Pbridge\Model\Payment\Method
      */
     public function getRedirectUrlError()
     {
-        return $this->_url->getUrl('magento_pbridge/pbridge/cancel', array('_secure' => true));
+        return $this->_url->getUrl('magento_pbridge/pbridge/cancel', ['_secure' => true]);
     }
 }

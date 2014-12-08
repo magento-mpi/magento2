@@ -16,7 +16,7 @@
      <fieldset>
          <div class="content">
             <p><input type="text" class="input-text" id="coupon_code" name="ccode" style="width:200px" /> <?php echo $this->getApplyButtonHtml() ?></p>
-            <?php if($this->getCouponCode()): ?>
+            <?php if ($this->getCouponCode()): ?>
                 <p id="cc_info"><strong><?php echo $this->getCouponCode(); ?></strong> [<a href="#" onclick="checkoutObj.applyCoupon();return false;" title="<?php echo __('Remove Coupon Code') ?>"><?php echo __('Remove') ?></a>]</p>
             <?php elseif ($invalid = $this->getInvalidCouponCode()): ?>
                 <p id="cc_info"><strong><?php echo __('The coupon code "%1" is not valid.', $invalid) ?></strong></p>

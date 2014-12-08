@@ -17,7 +17,7 @@ class ValidatePaymentData extends \Magento\Centinel\Controller\Adminhtml\Centine
      */
     public function execute()
     {
-        $result = array();
+        $result = [];
         try {
             $paymentData = $this->getRequest()->getParam('payment');
             $validator = $this->_getValidator();

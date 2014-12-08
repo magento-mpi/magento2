@@ -57,7 +57,6 @@ class MainTest extends \PHPUnit_Framework_TestCase
             ->with('productId', false)
             ->will($this->returnValue(false));
 
-
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\Review\Block\Adminhtml\Main',

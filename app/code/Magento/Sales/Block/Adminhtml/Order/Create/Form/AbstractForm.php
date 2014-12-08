@@ -52,7 +52,7 @@ abstract class AbstractForm extends \Magento\Sales\Block\Adminhtml\Order\Create\
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formFactory = $formFactory;
         $this->dataObjectProcessor = $dataObjectProcessor;

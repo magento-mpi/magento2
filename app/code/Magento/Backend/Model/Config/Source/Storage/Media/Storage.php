@@ -20,12 +20,12 @@ class Storage implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_FILE_SYSTEM,
-                'label' => __('File System')
-            ),
-            array('value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE, 'label' => __('Database'))
-        );
+                'label' => __('File System'),
+            ],
+            ['value' => \Magento\Core\Model\File\Storage::STORAGE_MEDIA_DATABASE, 'label' => __('Database')]
+        ];
     }
 }

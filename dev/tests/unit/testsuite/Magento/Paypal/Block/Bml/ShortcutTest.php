@@ -8,8 +8,8 @@
 
 namespace Magento\Paypal\Block\Bml;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Catalog\Block as CatalogBlock;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ShortcutTest extends \PHPUnit_Framework_TestCase
 {
@@ -110,9 +110,9 @@ class ShortcutTest extends \PHPUnit_Framework_TestCase
             'image_url' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_SM.png',
             'additional_link_image' => [
                 'href' => 'https://www.securecheckout.billmelater.com/paycapture-content/'
-                        .'fetch?hash=AU826TU8&content=/bmlweb/ppwpsiw.html',
-                'src' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_text.png'
-            ]
+                        . 'fetch?hash=AU826TU8&content=/bmlweb/ppwpsiw.html',
+                'src' => 'https://www.paypalobjects.com/webstatic/en_US/btn/btn_bml_text.png',
+            ],
         ];
 
         $this->paypalShortcutHelperMock->expects($this->once())->method('validate')

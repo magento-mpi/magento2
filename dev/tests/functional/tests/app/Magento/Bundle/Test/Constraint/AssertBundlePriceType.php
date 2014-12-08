@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBundlePriceType

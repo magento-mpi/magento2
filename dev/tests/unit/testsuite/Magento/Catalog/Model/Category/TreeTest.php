@@ -65,7 +65,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $methods = ['setId', 'setParentId', 'setName', 'setPosition', 'setLevel',
-            'setIsActive', 'setProductCount', 'setChildrenData', 'create'];
+            'setIsActive', 'setProductCount', 'setChildrenData', 'create', ];
         $this->treeBuilderMock =
             $this->getMock('\Magento\Catalog\Api\Data\CategoryTreeDataBuilder', $methods, [], '', false);
 
@@ -79,7 +79,6 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'treeBuilder' => $this->treeBuilderMock
                 ]
             );
-
     }
 
     public function testGetNode()
@@ -171,7 +170,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'getPosition',
                     'getLevel',
                     'getIsActive',
-                    'getProductCount'
+                    'getProductCount',
                 ]
             )
             ->getMock();
@@ -219,7 +218,7 @@ class TreeTest extends \PHPUnit_Framework_TestCase
                     'getPosition',
                     'getLevel',
                     'getIsActive',
-                    'getProductCount'
+                    'getProductCount',
                 ]
             )
             ->getMock();

@@ -16,7 +16,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/event' => 'name', '/config/event/observer' => 'name');
+    protected $_idAttributes = ['/config/event' => 'name', '/config/event/observer' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -34,7 +34,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Event\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'events.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

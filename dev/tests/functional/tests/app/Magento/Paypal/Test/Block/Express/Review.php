@@ -8,13 +8,11 @@
 
 namespace Magento\Paypal\Test\Block\Express;
 
-use Mtf\Block\Form;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
-use Mtf\Fixture\DataFixture;
-use Magento\Paypal\Test\Block\Express;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Paypal\Test\Block\Express;
 use Magento\Shipping\Test\Fixture\Method;
+use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Review
@@ -49,7 +47,7 @@ class Review extends Form
      *
      * @var string
      */
-    protected $billingBlock ='#billing-address';
+    protected $billingBlock = '#billing-address';
 
     /**
      * Shipping address block

@@ -20,7 +20,7 @@ class BlockAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->_block = $this->getMockForAbstractClass(
             'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\AbstractBlock',
-            array(),
+            [],
             '',
             false
         );

@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Model\Layer;
 
-
 interface ItemCollectionProviderInterface
 {
     /**

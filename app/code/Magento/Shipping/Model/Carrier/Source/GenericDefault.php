@@ -19,6 +19,6 @@ class GenericDefault implements GenericInterface
      */
     public function toOptionArray()
     {
-        return array();
+        return [];
     }
 }

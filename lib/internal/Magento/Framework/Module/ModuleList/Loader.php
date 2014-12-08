@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\Module\ModuleList;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Module\Declaration\Converter\Dom;
 
 /**
@@ -71,12 +71,12 @@ class Loader
      */
     private function sortBySequence($origList)
     {
-        $expanded = array();
+        $expanded = [];
         foreach ($origList as $moduleName => $value) {
-            $expanded[] = array(
+            $expanded[] = [
                 'name' => $moduleName,
-                'sequence' => $this->expandSequence($origList, $moduleName)
-            );
+                'sequence' => $this->expandSequence($origList, $moduleName),
+            ];
         }
 
         // Use "bubble sorting" because usort does not check each pair of elements and in this case it is important

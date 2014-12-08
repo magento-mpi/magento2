@@ -35,10 +35,10 @@ class UploadJs extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\
             $this->_forward('jsList');
             return;
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot upload the JS file.'));
+            $response = ['error' => true, 'message' => __('We cannot upload the JS file.')];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

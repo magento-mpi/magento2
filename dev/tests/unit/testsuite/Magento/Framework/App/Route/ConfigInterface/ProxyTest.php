@@ -10,7 +10,6 @@ namespace Magento\Framework\App\Route\ConfigInterface;
 
 class ProxyTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface\Proxy
      */

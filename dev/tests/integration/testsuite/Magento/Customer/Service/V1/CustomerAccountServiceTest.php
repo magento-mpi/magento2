@@ -8,10 +8,8 @@
 namespace Magento\Customer\Service\V1;
 
 use Magento\Customer\Service\V1;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\SearchCriteria;
-use Magento\Framework\Exception\State\ExpiredException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -142,7 +140,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($firstName, $newCustomerDetails->getCustomer()->getFirstname());
         $this->assertEquals($lastName, $newCustomerDetails->getCustomer()->getLastname());
         $this->assertEquals(2, count($newCustomerDetails->getAddresses()));
-
     }
 
     /**
@@ -402,7 +399,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedInAfter, $actualInAfterOnly);
     }
 
-
     /**
      * @magentoDbIsolation enabled
      */
@@ -536,12 +532,12 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
             'Customer with specific email' => [
                 [$builder->setField('email')->setValue('customer@search.example.com')->create()],
                 null,
-                [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']]
+                [1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname']],
             ],
             'Customer with specific first name' => [
                 [$builder->setField('firstname')->setValue('Firstname2')->create()],
                 null,
-                [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']]
+                [2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']],
             ],
             'Customers with either email' => [
                 [],
@@ -552,18 +548,18 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
                     2 => ['email' => 'customer2@search.example.com', 'firstname' => 'Firstname2']
-                ]
+                ],
             ],
             'Customers created since' => [
                 [
                     $builder->setField('created_at')->setValue('2011-02-28 15:52:26')
-                        ->setConditionType('gt')->create()
+                        ->setConditionType('gt')->create(),
                 ],
                 [],
                 [
                     1 => ['email' => 'customer@search.example.com', 'firstname' => 'Firstname'],
                     3 => ['email' => 'customer3@search.example.com', 'firstname' => 'Firstname3']
-                ]
+                ],
             ]
         ];
     }
@@ -815,7 +811,6 @@ class CustomerAccountServiceTest extends \PHPUnit_Framework_TestCase
         $this->_customerBuilder->populateWithArray($customerData);
         $this->_customerDetailsBuilder->setCustomer(($this->_customerBuilder->create()))->setAddresses([]);
         $this->_customerAccountService->updateCustomerByEmail($email, $this->_customerDetailsBuilder->create());
-
     }
 
     /**

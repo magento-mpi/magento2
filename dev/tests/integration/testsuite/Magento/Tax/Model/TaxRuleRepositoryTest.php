@@ -7,8 +7,8 @@
  */
 namespace Magento\Tax\Model;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Framework\Api\Filter;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
 {
@@ -137,7 +137,6 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
         $taxRule = $this->taxRuleBuilder->populateWithArray($taxRuleData)->create();
 
         $this->taxRuleRepository->save($taxRule);
-
     }
 
     /**
@@ -161,7 +160,6 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
         //Tax rule service call
         $this->taxRuleRepository->save($taxRule);
         $this->fail('Did not throw expected InputException');
-
     }
 
     /**
@@ -250,7 +248,6 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveUpdatesExistingTaxRule()
     {
-
         $taxRule = $this->createTaxRuleDataObject();
         //Tax rule service call
         $taxRule = $this->taxRuleRepository->save($taxRule);
@@ -322,7 +319,7 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
             'code eq "Default Rule"' => [
                 [$filterBuilder->setField('code')->setValue('Default Rule')->create()],
                 null,
-                ['Default Rule']
+                ['Default Rule'],
             ],
             'customer_tax_class_ids eq 3 AND priority eq 0' => [
                 [
@@ -330,7 +327,7 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
                     $filterBuilder->setField('priority')->setValue('0')->create(),
                 ],
                 [],
-                ['Default Rule', 'Higher Rate Rule']
+                ['Default Rule', 'Higher Rate Rule'],
             ],
             'code eq "Default Rule" OR code eq "Higher Rate Rule"' => [
                 [],
@@ -338,15 +335,15 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
                     $filterBuilder->setField('code')->setValue('Default Rule')->create(),
                     $filterBuilder->setField('code')->setValue('Higher Rate Rule')->create(),
                 ],
-                ['Default Rule', 'Higher Rate Rule']
+                ['Default Rule', 'Higher Rate Rule'],
             ],
             'code like "%Rule"' => [
                 [
                     $filterBuilder->setField('code')->setValue('%Rule')->setConditionType('like')
-                        ->create()
+                        ->create(),
                 ],
                 [],
-                ['Default Rule', 'Higher Rate Rule']
+                ['Default Rule', 'Higher Rate Rule'],
             ],
         ];
     }

@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Mtf\Page\BackendPage;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\BackendPage;
 
 /**
  * Class SalesOrder

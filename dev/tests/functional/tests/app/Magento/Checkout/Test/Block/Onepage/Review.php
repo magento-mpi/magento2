@@ -9,10 +9,10 @@
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
-use Mtf\Block\BlockFactory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Review

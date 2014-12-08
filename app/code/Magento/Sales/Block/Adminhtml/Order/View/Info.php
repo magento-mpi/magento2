@@ -192,7 +192,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
                 $sortOrder = $this->_prepareAccountDataSortOrder($accountData, $sortOrder);
                 $accountData[$sortOrder] = [
                     'label' => $attribute->getFrontendLabel(),
-                    'value' => $this->escapeHtml($value, ['br'])
+                    'value' => $this->escapeHtml($value, ['br']),
                 ];
             }
         }

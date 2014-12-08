@@ -23,7 +23,7 @@ class EditAddress extends \Magento\Multishipping\Controller\Checkout\Address
             )->setSuccessUrl(
                 $this->_url->getUrl('*/*/selectBilling')
             )->setErrorUrl(
-                $this->_url->getUrl('*/*/*', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/*', ['id' => $this->getRequest()->getParam('id')])
             )->setBackUrl(
                 $this->_url->getUrl('*/*/selectBilling')
             );

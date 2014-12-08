@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 ?>
-<div class="pbridge items" id="payment_form_<?php echo $this->getMethodCode() ?>" data-payment="<?php echo $this->getMethodCode() ?>" data-mage-init='{"pbridge": {"method": "<?php echo $this->getMethodCode() ?>", "reviewUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/review', array('_current' => true, '_secure' => true)); ?>", "frameUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/iframe', array('_current' => true, '_secure' => true)); ?>"}}' style="display: none;">
+<div class="pbridge items" id="payment_form_<?php echo $this->getMethodCode() ?>" data-payment="<?php echo $this->getMethodCode() ?>" data-mage-init='{"pbridge": {"method": "<?php echo $this->getMethodCode() ?>", "reviewUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/review', ['_current' => true, '_secure' => true]); ?>", "frameUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/iframe', ['_current' => true, '_secure' => true]); ?>"}}' style="display: none;">
     <span class="pbridge-reload">
         <a href="#"><?php echo __('Reload Form');?></a>
     </span>

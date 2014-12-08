@@ -38,7 +38,7 @@ class AttributeMapper implements AttributeMapperInterface
     {
         $isUnassignable = !in_array($attribute->getAttributeCode(), $this->unassignableAttributes);
 
-        return array(
+        return [
             'text' => $attribute->getAttributeCode(),
             'id' => $attribute->getAttributeId(),
             'cls' => $isUnassignable ? 'leaf' : 'system-leaf',
@@ -48,6 +48,6 @@ class AttributeMapper implements AttributeMapperInterface
             'is_user_defined' => $attribute->getIsUserDefined(),
             'is_unassignable' => $isUnassignable,
             'entity_id' => $attribute->getEntityAttributeId()
-        );
+        ];
     }
 }

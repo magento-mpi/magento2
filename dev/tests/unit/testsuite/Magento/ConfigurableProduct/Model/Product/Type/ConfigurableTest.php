@@ -47,55 +47,55 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
-        $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
+        $coreDataMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
+        $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', [], [], '', false);
         $filesystem = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false);
         $this->_typeConfigurableFactory = $this->getMock(
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\ConfigurableFactory',
             ['create', 'saveProducts'],
-            array(),
+            [],
             '',
             false
         );
-        $entityFactoryMock = $this->getMock('Magento\Eav\Model\EntityFactory', array(), array(), '', false);
-        $setFactoryMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\SetFactory', array(), array(), '', false);
+        $entityFactoryMock = $this->getMock('Magento\Eav\Model\EntityFactory', [], [], '', false);
+        $setFactoryMock = $this->getMock('Magento\Eav\Model\Entity\Attribute\SetFactory', [], [], '', false);
         $attributeFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\AttributeFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_configurableAttributeFactoryMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_productCollectionFactory = $this->getMock(
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_attributeCollectionFactory = $this->getMock(
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_model = $this->_objectHelper->getObject(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
-            array(
+            [
                 'productFactory' => $productFactoryMock,
                 'typeConfigurableFactory' => $this->_typeConfigurableFactory,
                 'entityFactory' => $entityFactoryMock,
@@ -110,7 +110,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
                 'filesystem' => $filesystem,
                 'coreRegistry' => $coreRegistry,
                 'logger' => $logger
-            )
+            ]
         );
     }
 
@@ -130,12 +130,12 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             'attribute_id' => 111,
             'position' => 0,
             'label' => 'Some Super Attribute',
-            'values' => []
+            'values' => [],
         ]];
 
         $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')
             ->setMethods(['getIsDuplicate', 'dataHasChangedFor', 'getConfigurableAttributesData', 'getStoreId',
-                'getId', 'getData', 'hasData', 'getAssociatedProductIds', '__wakeup', '__sleep'
+                'getId', 'getData', 'hasData', 'getAssociatedProductIds', '__wakeup', '__sleep',
             ])->disableOriginalConstructor()
             ->getMock();
         $product->expects($this->any())->method('dataHasChangedFor')->will($this->returnValue('false'));
@@ -191,7 +191,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $attribute = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array(
+            [
                 'getIsGlobal',
                 'getIsVisible',
                 'getIsConfigurable',
@@ -199,8 +199,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
                 'getIsUserDefined',
                 '__wakeup',
                 '__sleep'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -234,7 +234,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($attributeCollection));
         $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')
             ->setMethods(['dataHasChangedFor', 'getConfigurableAttributesData', 'getStoreId',
-                          'getId', 'getData', 'hasData', 'getAssociatedProductIds', '__wakeup', '__sleep'
+                          'getId', 'getData', 'hasData', 'getAssociatedProductIds', '__wakeup', '__sleep',
             ])->disableOriginalConstructor()
             ->getMock();
         $attributeData = [1 => [
@@ -243,7 +243,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             'attribute_id' => 111,
             'position' => 0,
             'label' => 'Some Super Attribute',
-            'values' => []
+            'values' => [],
         ]];
         $product->expects($this->any())->method('getConfigurableAttributesData')
             ->will($this->returnValue($attributeData));
@@ -262,7 +262,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             'Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Product\Collection'
         )->setMethods(
             ['setFlag', 'setProductFilter', 'addStoreFilter', 'addAttributeToSelect', 'addFilterByRequiredOptions',
-             'setStoreId']
+             'setStoreId', ]
         )->disableOriginalConstructor()
             ->getMock();
         $productCollection->expects($this->any())->method('addAttributeToSelect')->will($this->returnSelf());
@@ -285,30 +285,30 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $attributeSource = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getAllOptions')
+            ['getAllOptions']
         );
         $attributeSource->expects($this->any())->method('getAllOptions')->will($this->returnValue([]));
 
         $attributeFrontend = $this->getMockForAbstractClass(
             'Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFrontend',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getLabel')
+            ['getLabel']
         );
         $attributeFrontend->expects($this->any())->method('getLabel')->will($this->returnValue('Label'));
 
         $eavAttribute = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getFrontend', 'getSource', 'getStoreLabel', '__wakeup', 'setStoreId', '__sleep'),
-            array(),
+            ['getFrontend', 'getSource', 'getStoreLabel', '__wakeup', 'setStoreId', '__sleep'],
+            [],
             '',
             false
         );
@@ -346,9 +346,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
      */
     public function getConfigurableAttributesAsArrayDataProvider()
     {
-        return array(
-            array(5, 5),
-            array(null, 0),
-        );
+        return [
+            [5, 5],
+            [null, 0],
+        ];
     }
 }

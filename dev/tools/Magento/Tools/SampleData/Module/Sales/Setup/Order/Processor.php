@@ -136,7 +136,7 @@ class Processor
                 'rule_data',
                 'currently_saved_addresses',
                 'current_invoice',
-                'current_shipment'
+                'current_shipment',
             ];
             $this->unsetRegistryData($registryItems);
         }
@@ -146,7 +146,7 @@ class Processor
      * @param array $data
      * @return \Magento\Sales\Model\AdminOrder\Create
      */
-    protected function processQuote($data = array())
+    protected function processQuote($data = [])
     {
         $orderCreateModel = $this->createOrderFactory->create(
             ['quoteSession' => $this->sessionQuoteFactory->create()]
@@ -214,7 +214,7 @@ class Processor
         if (!$order) {
             return false;
         }
-        $invoice = $this->serviceOrderFactory->create(array('order' => $order))
+        $invoice = $this->serviceOrderFactory->create(['order' => $order])
             ->prepareInvoice($invoiceData);
         return $invoice;
     }
@@ -248,7 +248,7 @@ class Processor
     protected function refundOrder(\Magento\Sales\Model\Order\Item $orderItem, $storeCreditAmount = '')
     {
         $creditmemoData = [
-            $orderItem->getId() => $orderItem->getQtyToRefund()
+            $orderItem->getId() => $orderItem->getQtyToRefund(),
         ];
         if (!empty($storeCreditAmount)) {
             $creditmemoData['refund_customerbalance_return_enable'] = '1';

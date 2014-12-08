@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Category;
 
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\catalog\Service\V1\Data\Category as CategoryDataObject;
+use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 class Mapper
 {

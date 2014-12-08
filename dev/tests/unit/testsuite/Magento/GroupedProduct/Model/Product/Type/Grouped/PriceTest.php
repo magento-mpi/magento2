@@ -21,12 +21,12 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->finalPriceModel = $helper->getObject(
             'Magento\GroupedProduct\Model\Product\Type\Grouped\Price',
-            array()
+            []
         );
     }
 
@@ -106,8 +106,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
 
         $productTypeMock = $this->getMock(
             'Magento\GroupedProduct\Model\Product\Type\Grouped',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -157,32 +157,32 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         $optionMock = $this->getMock(
             'Magento\Catalog\Model\Product\Option',
-            array('getValue', '__wakeup'),
-            array(),
+            ['getValue', '__wakeup'],
+            [],
             '',
             false
         );
         /* quantity of options */
         $optionMock->expects($this->any())->method('getValue')->will($this->returnValue(5));
 
-        return array(
-            'custom_option_null' => array(
-                'associatedProducts' => array(),
-                'options' => array(array(), array()),
+        return [
+            'custom_option_null' => [
+                'associatedProducts' => [],
+                'options' => [[], []],
                 'expectedPriceCall' => 14, /* product call number to check final price formed correctly */
-                'expectedFinalPrice' => 10 /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
-            ),
-            'custom_option_exist' => array(
+                'expectedFinalPrice' => 10, /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
+            ],
+            'custom_option_exist' => [
                 'associatedProducts' => $this->generateAssociatedProducts(),
-                'options' => array(
-                    array('associated_product_1', false),
-                    array('associated_product_2', $optionMock),
-                    array('associated_product_3', $optionMock)
-                ),
+                'options' => [
+                    ['associated_product_1', false],
+                    ['associated_product_2', $optionMock],
+                    ['associated_product_3', $optionMock],
+                ],
                 'expectedPriceCall' => 17, /* product call number to check final price formed correctly */
-                'expectedFinalPrice' => 35 /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
-            )
-        );
+                'expectedFinalPrice' => 35, /* 10(product price) + 2(options count) * 5(qty) * 5(option price) */
+            ]
+        ];
     }
 
     /**
@@ -194,8 +194,8 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         $childProductMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getId', 'getFinalPrice', '__wakeup'),
-            array(),
+            ['getId', 'getFinalPrice', '__wakeup'],
+            [],
             '',
             false
         );

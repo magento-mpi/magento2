@@ -77,7 +77,7 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
         $trackNumber = 'US1111CA';
         $expected = [
             'title' => $carrierTitle,
-            'number' => $trackNumber
+            'number' => $trackNumber,
         ];
         $this->model->setCarierTitle($carrierTitle);
         $this->model->setTrackNumber($trackNumber);

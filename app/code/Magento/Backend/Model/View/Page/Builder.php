@@ -7,10 +7,10 @@
  */
 namespace Magento\Backend\Model\View\Page;
 
-use Magento\Framework\App;
-use Magento\Framework\View;
-use Magento\Framework\Event;
 use Magento\Backend\Model\View\Layout;
+use Magento\Framework\App;
+use Magento\Framework\Event;
+use Magento\Framework\View;
 
 class Builder extends View\Page\Builder
 {

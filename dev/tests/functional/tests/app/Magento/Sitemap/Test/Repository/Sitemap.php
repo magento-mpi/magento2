@@ -26,7 +26,7 @@ class Sitemap extends AbstractRepository
     {
         $this->_data['default'] = [
             'sitemap_filename' => 'sitemap.xml',
-            'sitemap_path' => '/'
+            'sitemap_path' => '/',
         ];
     }
 }

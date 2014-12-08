@@ -91,7 +91,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
         $method = strtolower($method);
 
         if (!isset($this->_handlers[$method])) {
-            $this->_handlers[$method] = array();
+            $this->_handlers[$method] = [];
         }
 
         $this->_handlers[$method][] = $handler;
@@ -107,7 +107,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
     public function getHandlers($method)
     {
         $method = strtolower($method);
-        return isset($this->_handlers[$method]) ? $this->_handlers[$method] : array();
+        return isset($this->_handlers[$method]) ? $this->_handlers[$method] : [];
     }
 
     /**
@@ -161,7 +161,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
         $attributeHtml = $this->process(
             'productAttribute',
             $attributeHtml,
-            array('product' => $product, 'attribute' => $attributeName)
+            ['product' => $product, 'attribute' => $attributeName]
         );
 
         return $attributeHtml;
@@ -194,7 +194,7 @@ class Output extends \Magento\Framework\App\Helper\AbstractHelper
         $attributeHtml = $this->process(
             'categoryAttribute',
             $attributeHtml,
-            array('category' => $category, 'attribute' => $attributeName)
+            ['category' => $category, 'attribute' => $attributeName]
         );
         return $attributeHtml;
     }

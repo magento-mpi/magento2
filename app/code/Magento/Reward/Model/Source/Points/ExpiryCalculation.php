@@ -19,9 +19,9 @@ class ExpiryCalculation implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'static', 'label' => __('Static')),
-            array('value' => 'dynamic', 'label' => __('Dynamic'))
-        );
+        return [
+            ['value' => 'static', 'label' => __('Static')],
+            ['value' => 'dynamic', 'label' => __('Dynamic')]
+        ];
     }
 }

@@ -46,7 +46,6 @@ class Edit extends \Magento\Newsletter\Controller\Adminhtml\Queue
             $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
 
-
         $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');

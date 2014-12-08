@@ -313,12 +313,12 @@ class Mapper
      */
     public function getBuckets()
     {
-        $buckets = array();
+        $buckets = [];
         foreach ($this->aggregations as $bucketData) {
             $arguments = [
                 'name' => $bucketData['name'],
                 'field' => $bucketData['field'],
-                'metrics' => $this->mapMetrics($bucketData)
+                'metrics' => $this->mapMetrics($bucketData),
             ];
             switch ($bucketData['type']) {
                 case BucketInterface::TYPE_TERM:
@@ -384,7 +384,7 @@ class Mapper
      */
     private function mapRanges(array $bucketData)
     {
-        $rangeObjects = array();
+        $rangeObjects = [];
         if (isset($bucketData['range'])) {
             $ranges = $bucketData['range'];
             foreach ($ranges as $range) {

@@ -7,7 +7,6 @@
  */
 namespace Magento\Wishlist\Model;
 
-
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -326,4 +325,3 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->observer->processAddToCart($eventObserver);
     }
 }
- 

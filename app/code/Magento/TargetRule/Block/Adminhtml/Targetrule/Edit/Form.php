@@ -31,7 +31,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Helper\Data $backendData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendData = $backendData;
         $this->_formFactory = $formFactory;
@@ -54,13 +54,13 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected function _prepareForm()
     {
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->_backendData->getUrl('adminhtml/*/save'),
-                    'method' => 'post'
-                )
-            )
+                    'method' => 'post',
+                ],
+            ]
         );
         $form->setUseContainer(true);
         $this->setForm($form);

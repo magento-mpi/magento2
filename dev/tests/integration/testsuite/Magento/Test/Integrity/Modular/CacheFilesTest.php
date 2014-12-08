@@ -23,7 +23,7 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Cache\Config\Reader $reader */
         $reader = $objectManager->create(
             'Magento\Framework\Cache\Config\Reader',
-            array('validationState' => $validationStateMock)
+            ['validationState' => $validationStateMock]
         );
         try {
             $reader->read($area);
@@ -34,6 +34,6 @@ class CacheFilesTest extends \PHPUnit_Framework_TestCase
 
     public function cacheConfigDataProvider()
     {
-        return array('global' => array('global'), 'adminhtml' => array('adminhtml'), 'frontend' => array('frontend'));
+        return ['global' => ['global'], 'adminhtml' => ['adminhtml'], 'frontend' => ['frontend']];
     }
 }

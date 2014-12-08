@@ -27,7 +27,7 @@ class Delete extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('adminhtml/*/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

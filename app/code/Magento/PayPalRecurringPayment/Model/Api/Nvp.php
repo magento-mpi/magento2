@@ -17,7 +17,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      *
      * @var string[]
      */
-    protected $_createRecurringPaymentRequest = array(
+    protected $_createRecurringPaymentRequest = [
         'TOKEN',
         'SUBSCRIBERNAME',
         'PROFILESTARTDATE',
@@ -37,36 +37,36 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         'SHIPPINGAMT',
         'TAXAMT',
         'INITAMT',
-        'FAILEDINITAMTACTION'
-    );
+        'FAILEDINITAMTACTION',
+    ];
 
     /**
      * CreateRecurringPayment response map
      *
      * @var string[]
      */
-    protected $_createRecurringPaymentResponse = array('PROFILEID', 'PROFILESTATUS');
+    protected $_createRecurringPaymentResponse = ['PROFILEID', 'PROFILESTATUS'];
 
     /**
      * Request/response for ManageRecurringPaymentStatus map
      *
      * @var string[]
      */
-    protected $_manageRecurringPaymentStatusRequest = array('PROFILEID', 'ACTION');
+    protected $_manageRecurringPaymentStatusRequest = ['PROFILEID', 'ACTION'];
 
     /**
      * Request for GetRecurringPaymentDetails
      *
      * @var string[]
      */
-    protected $_getRecurringPaymentDetailsRequest = array('PROFILEID');
+    protected $_getRecurringPaymentDetailsRequest = ['PROFILEID'];
 
     /**
      * Response for GetRecurringPaymentDetails
      *
      * @var string[]
      */
-    protected $_getRecurringPaymentDetailsResponse = array('STATUS', /* TODO: lot of other stuff */);
+    protected $_getRecurringPaymentDetailsResponse = ['STATUS'/* TODO: lot of other stuff */];
 
     /**
      * @var \Magento\RecurringPayment\Model\QuoteImporter
@@ -97,7 +97,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Framework\Model\ExceptionFactory $frameworkExceptionFactory,
         \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
         \Magento\RecurringPayment\Model\QuoteImporter $quoteImporter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $customerAddress,

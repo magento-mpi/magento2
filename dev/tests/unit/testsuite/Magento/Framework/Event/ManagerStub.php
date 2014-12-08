@@ -20,7 +20,7 @@ class ManagerStub implements \Magento\Framework\Event\ManagerInterface
      * @param array $params
      * @return null
      */
-    public function dispatch($eventName, array $params = array())
+    public function dispatch($eventName, array $params = [])
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before':

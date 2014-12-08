@@ -8,9 +8,9 @@
 
 namespace Magento\Wishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
 

@@ -125,7 +125,7 @@ class Product extends Form
                 }
                 $data[] = [
                     'title' => $label->getText(),
-                    'value' => str_replace('$', '', $values[$key]->getText())
+                    'value' => str_replace('$', '', $values[$key]->getText()),
                 ];
             }
 

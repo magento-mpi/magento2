@@ -22,19 +22,19 @@ class ProductAttribute extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['configurable_attribute'] = $this->_data['default'];
 
-        $this->_data['new_attribute'] = array(
+        $this->_data['new_attribute'] = [
             'config' => $defaultConfig,
             'data' => $this->buildNewAttributeData($defaultData),
-        );
+        ];
     }
 
     /**

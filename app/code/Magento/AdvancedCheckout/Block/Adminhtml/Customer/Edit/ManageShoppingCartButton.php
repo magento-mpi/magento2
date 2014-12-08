@@ -81,7 +81,7 @@ class ManageShoppingCartButton implements ButtonProviderInterface
             $data =  [
                 'label' => __('Manage Shopping Cart'),
                 'on_click' => 'setLocation(\'' . $this->getManageShoppingCartUrl() . '\')',
-                'sort_order' => 70
+                'sort_order' => 70,
             ];
         }
         return $data;
@@ -92,7 +92,7 @@ class ManageShoppingCartButton implements ButtonProviderInterface
      */
     public function getManageShoppingCartUrl()
     {
-        return $this->urlBuilder->getUrl('checkout/index', array('customer' => $this->getCustomerId()));
+        return $this->urlBuilder->getUrl('checkout/index', ['customer' => $this->getCustomerId()]);
     }
 
     /**

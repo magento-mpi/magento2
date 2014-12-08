@@ -72,7 +72,7 @@ class PrepareProductRecurringPaymentOptions
         }
 
         /** @var \Magento\RecurringPayment\Model\RecurringPayment $payment */
-        $payment = $this->_recurringPaymentFactory->create(array('locale' => $this->_locale));
+        $payment = $this->_recurringPaymentFactory->create(['locale' => $this->_locale]);
         $payment->setStore($this->_storeManager->getStore())->importBuyRequest($buyRequest)->importProduct($product);
         if (!$payment) {
             return;
@@ -81,19 +81,19 @@ class PrepareProductRecurringPaymentOptions
         // add the start datetime as product custom option
         $product->addCustomOption(
             \Magento\RecurringPayment\Model\RecurringPayment::PRODUCT_OPTIONS_KEY,
-            serialize(array('start_datetime' => $payment->getStartDatetime()))
+            serialize(['start_datetime' => $payment->getStartDatetime()])
         );
 
         // duplicate as 'additional_options' to render with the product statically
-        $infoOptions = array(
-            array(
+        $infoOptions = [
+            [
                 'label' => $this->_fields->getFieldLabel('start_datetime'),
-                'value' => $payment->exportStartDatetime()
-            )
-        );
+                'value' => $payment->exportStartDatetime(),
+            ],
+        ];
 
         foreach ($payment->exportScheduleInfo() as $info) {
-            $infoOptions[] = array('label' => $info->getTitle(), 'value' => $info->getSchedule());
+            $infoOptions[] = ['label' => $info->getTitle(), 'value' => $info->getSchedule()];
         }
         $product->addCustomOption('additional_options', serialize($infoOptions));
     }

@@ -125,12 +125,12 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
         $optionData = $this->loadDataById($option->getId());
-        $data = array(
+        $data = [
             'option_id' => $option->getId(),
             'review_id' => $option->getReviewId(),
             'percent' => $optionData['value'] / 5 * 100,
-            'value' => $optionData['value']
-        );
+            'value' => $optionData['value'],
+        ];
 
         if (!$option->getDoUpdate()) {
             $data['remote_ip'] = $this->_remoteAddress->getRemoteAddress();
@@ -143,7 +143,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter->beginTransaction();
         try {
             if ($option->getDoUpdate()) {
-                $condition = array('vote_id = ?' => $option->getVoteId(), 'review_id = ?' => $option->getReviewId());
+                $condition = ['vote_id = ?' => $option->getVoteId(), 'review_id = ?' => $option->getReviewId()];
                 $adapter->update($this->_ratingVoteTable, $data, $condition);
                 $this->aggregate($option);
             } else {
@@ -185,51 +185,51 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $select = $readAdapter->select()->from(
             $this->_aggregateTable,
-            array('store_id', 'primary_id')
+            ['store_id', 'primary_id']
         )->where(
             'rating_id = :rating_id'
         )->where(
             'entity_pk_value = :pk_value'
         );
-        $bind = array(':rating_id' => $ratingId, ':pk_value' => $entityPkValue);
+        $bind = [':rating_id' => $ratingId, ':pk_value' => $entityPkValue];
         $oldData = $readAdapter->fetchPairs($select, $bind);
 
         $appVoteCountCond = $readAdapter->getCheckSql('review.status_id=1', 'vote.vote_id', 'NULL');
         $appVoteValueSumCond = $readAdapter->getCheckSql('review.status_id=1', 'vote.value', '0');
 
         $select = $readAdapter->select()->from(
-            array('vote' => $this->_ratingVoteTable),
-            array(
+            ['vote' => $this->_ratingVoteTable],
+            [
                 'vote_count' => new \Zend_Db_Expr('COUNT(vote.vote_id)'),
                 'vote_value_sum' => new \Zend_Db_Expr('SUM(vote.value)'),
                 'app_vote_count' => new \Zend_Db_Expr("COUNT({$appVoteCountCond})"),
                 'app_vote_value_sum' => new \Zend_Db_Expr("SUM({$appVoteValueSumCond})")
-            )
+            ]
         )->join(
-            array('review' => $this->_reviewTable),
+            ['review' => $this->_reviewTable],
             'vote.review_id=review.review_id',
-            array()
+            []
         )->joinLeft(
-            array('store' => $this->_reviewStoreTable),
+            ['store' => $this->_reviewStoreTable],
             'vote.review_id=store.review_id',
             'store_id'
         )->join(
-            array('rstore' => $this->_ratingStoreTable),
+            ['rstore' => $this->_ratingStoreTable],
             'vote.rating_id=rstore.rating_id AND rstore.store_id=store.store_id',
-            array()
+            []
         )->where(
             'vote.rating_id = :rating_id'
         )->where(
             'vote.entity_pk_value = :pk_value'
         )->group(
-            array('vote.rating_id', 'vote.entity_pk_value', 'store.store_id')
+            ['vote.rating_id', 'vote.entity_pk_value', 'store.store_id']
         );
 
         $perStoreInfo = $readAdapter->fetchAll($select, $bind);
 
-        $usedStores = array();
+        $usedStores = [];
         foreach ($perStoreInfo as $row) {
-            $saveData = array(
+            $saveData = [
                 'rating_id' => $ratingId,
                 'entity_pk_value' => $entityPkValue,
                 'vote_count' => $row['vote_count'],
@@ -239,11 +239,11 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $row['app_vote_count'] /
                 5 *
                 100 : 0,
-                'store_id' => $row['store_id']
-            );
+                'store_id' => $row['store_id'],
+            ];
 
             if (isset($oldData[$row['store_id']])) {
-                $condition = array('primary_id = ?' => $oldData[$row['store_id']]);
+                $condition = ['primary_id = ?' => $oldData[$row['store_id']]];
                 $writeAdapter->update($this->_aggregateTable, $saveData, $condition);
             } else {
                 $writeAdapter->insert($this->_aggregateTable, $saveData);
@@ -255,7 +255,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $toDelete = array_diff(array_keys($oldData), $usedStores);
 
         foreach ($toDelete as $storeId) {
-            $condition = array('primary_id = ?' => $oldData[$storeId]);
+            $condition = ['primary_id = ?' => $oldData[$storeId]];
             $writeAdapter->delete($this->_aggregateTable, $condition);
         }
     }
@@ -274,7 +274,7 @@ class Option extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select = $adapter->select();
             $select->from($this->_ratingOptionTable)->where('option_id = :option_id');
 
-            $data = $adapter->fetchRow($select, array(':option_id' => $optionId));
+            $data = $adapter->fetchRow($select, [':option_id' => $optionId]);
 
             $this->_optionData = $data;
             $this->_optionId = $optionId;

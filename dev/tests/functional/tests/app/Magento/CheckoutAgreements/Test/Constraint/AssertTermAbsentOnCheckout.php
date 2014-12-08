@@ -8,16 +8,14 @@
 
 namespace Magento\CheckoutAgreements\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Constraint\AbstractConstraint;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertTermAbsentOnCheckout

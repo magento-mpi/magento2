@@ -28,12 +28,12 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         $this->shellFactoryMock = $this->getMock(
             'Magento\Indexer\Model\ShellFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Console\Response', [], [], '', false);
         $this->entryPoint = new \Magento\Indexer\App\Shell(
             'indexer.php',
             $this->shellFactoryMock,
@@ -47,7 +47,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function testProcessRequest($shellHasErrors)
     {
-        $shell = $this->getMock('Magento\Indexer\Model\Shell', array(), array(), '', false);
+        $shell = $this->getMock('Magento\Indexer\Model\Shell', [], [], '', false);
         $shell->expects($this->once())->method('hasErrors')->will($this->returnValue($shellHasErrors));
         $shell->expects($this->once())->method('run');
         $this->shellFactoryMock->expects($this->any())->method('create')->will($this->returnValue($shell));
@@ -60,12 +60,12 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function processRequestDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     public function testCatchException()
     {
-        $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', array(), array(), '', false);
-        $this->assertFalse($this->entryPoint->catchException($bootstrap, new \Exception));
+        $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false);
+        $this->assertFalse($this->entryPoint->catchException($bootstrap, new \Exception()));
     }
 }

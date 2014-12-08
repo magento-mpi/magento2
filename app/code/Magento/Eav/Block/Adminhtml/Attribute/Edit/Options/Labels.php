@@ -32,7 +32,7 @@ class Labels extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_registry = $registry;

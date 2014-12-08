@@ -64,7 +64,7 @@ class PostcodeTest extends AbstractFormTestCase
         $this->directoryHelper->expects($this->once())
             ->method('isZipCodeOptional')
             ->willReturnMap([
-                [$countryId, $isOptional]
+                [$countryId, $isOptional],
             ]);
 
         $object = $this->getClass($value);

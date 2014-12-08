@@ -41,7 +41,7 @@ class SourceClassWithNamespace extends ParentClassWithNamespace
         $param1 = '',
         $param2 = '\\',
         $param3 = '\'',
-        array $array = array()
+        array $array = []
     ) {
     }
 
@@ -94,7 +94,7 @@ class SourceClassWithNamespace extends ParentClassWithNamespace
         $param1 = '',
         $param2 = '\\',
         $param3 = '\'',
-        array $array = array()
+        array $array = []
     ) {
     }
 

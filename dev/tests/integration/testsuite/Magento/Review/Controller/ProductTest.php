@@ -26,6 +26,6 @@ class ProductTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function listActionDesignDataProvider()
     {
-        return array('custom product design' => array(2, 'Magento/blank'));
+        return ['custom product design' => [2, 'Magento/blank']];
     }
 }

@@ -17,13 +17,13 @@ class FullTest extends \PHPUnit_Framework_TestCase
     {
         $indexerFactoryMock = $this->getMock(
             'Magento\CatalogInventory\Model\Resource\Indexer\StockFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
-        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $adapterMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
 
         $exceptionMessage = 'exception message';

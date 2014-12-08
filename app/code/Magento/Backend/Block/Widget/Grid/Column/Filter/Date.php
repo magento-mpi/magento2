@@ -34,7 +34,7 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilt
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->mathRandom = $mathRandom;
         $this->_localeResolver = $localeResolver;

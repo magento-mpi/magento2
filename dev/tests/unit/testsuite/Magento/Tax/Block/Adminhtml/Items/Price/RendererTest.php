@@ -7,7 +7,6 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Items\Price;
 
-use Magento\Framework\Object;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -129,5 +128,4 @@ class RendererTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($totalAmount, $this->renderer->getTotalAmount($itemMock));
     }
-
 }

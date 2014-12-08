@@ -35,7 +35,7 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
         <?php else: ?>
             <?php echo $element->getLabelHtml() ?>
             <div class="control">
-                <?php echo ($addOn) ? '<div class="addon">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
+                <?php echo($addOn) ? '<div class="addon">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
                 <?php echo $note ?>
             </div>
         <?php endif; ?>

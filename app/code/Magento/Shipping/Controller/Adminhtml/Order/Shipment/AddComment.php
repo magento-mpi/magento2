@@ -8,8 +8,8 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
 class AddComment extends \Magento\Backend\App\Action
 {

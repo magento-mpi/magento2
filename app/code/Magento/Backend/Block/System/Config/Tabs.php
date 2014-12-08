@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * System configuration tabs block
  *
@@ -71,7 +70,7 @@ class Tabs extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
         \Magento\Backend\Helper\Data $backendHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendHelper = $backendHelper;
         parent::__construct($context, $data);
@@ -102,7 +101,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      */
     public function getSectionUrl(\Magento\Backend\Model\Config\Structure\Element\Section $section)
     {
-        return $this->getUrl('*/*/*', array('_current' => true, 'section' => $section->getId()));
+        return $this->getUrl('*/*/*', ['_current' => true, 'section' => $section->getId()]);
     }
 
     /**

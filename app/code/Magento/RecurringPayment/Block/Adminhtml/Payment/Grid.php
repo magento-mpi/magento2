@@ -47,7 +47,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\RecurringPayment\Model\States $recurringStates,
         \Magento\RecurringPayment\Block\Fields $fields,
         \Magento\RecurringPayment\Model\Method\PaymentMethodsList $payments,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentCollection = $paymentCollection;
         $this->recurringStates = $recurringStates;
@@ -91,74 +91,74 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'reference_id',
-            array(
+            [
                 'header' => $this->_fields->getFieldLabel('reference_id'),
                 'index' => 'reference_id',
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'width' => 1
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'store_id',
-                array(
+                [
                     'header' => __('Store'),
                     'index' => 'store_id',
                     'type' => 'store',
                     'store_view' => true,
                     'display_deleted' => true
-                )
+                ]
             );
         }
 
         $this->addColumn(
             'state',
-            array(
+            [
                 'header' => $this->_fields->getFieldLabel('state'),
                 'index' => 'state',
                 'type' => 'options',
                 'options' => $this->recurringStates->toOptionArray(),
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'width' => 1
-            )
+            ]
         );
 
         $this->addColumn(
             'created_at',
-            array(
+            [
                 'header' => $this->_fields->getFieldLabel('created_at'),
                 'index' => 'created_at',
                 'type' => 'datetime',
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'width' => 1
-            )
+            ]
         );
 
         $this->addColumn(
             'updated_at',
-            array(
+            [
                 'header' => $this->_fields->getFieldLabel('updated_at'),
                 'index' => 'updated_at',
                 'type' => 'datetime',
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'width' => 1
-            )
+            ]
         );
 
         $this->addColumn(
             'method_code',
-            array(
+            [
                 'header' => $this->_fields->getFieldLabel('method_code'),
                 'index' => 'method_code',
                 'type' => 'options',
                 'options' => $this->payments->toOptionArray()
-            )
+            ]
         );
 
         $this->addColumn(
             'schedule_description',
-            array('header' => $this->_fields->getFieldLabel('schedule_description'), 'index' => 'schedule_description')
+            ['header' => $this->_fields->getFieldLabel('schedule_description'), 'index' => 'schedule_description']
         );
 
         return parent::_prepareColumns();
@@ -172,7 +172,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('sales/recurringPayment/view', array('payment' => $row->getId()));
+        return $this->getUrl('sales/recurringPayment/view', ['payment' => $row->getId()]);
     }
 
     /**
@@ -182,6 +182,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('sales/*/grid', array('_current' => true));
+        return $this->getUrl('sales/*/grid', ['_current' => true]);
     }
 }

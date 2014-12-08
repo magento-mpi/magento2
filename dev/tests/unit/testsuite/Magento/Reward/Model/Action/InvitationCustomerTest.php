@@ -57,15 +57,15 @@ class InvitationCustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'The invitation to  converted into a customer.'
-            ),
-            array(
-                'args' => array('email' => 'test@mail.com'),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'The invitation to  converted into a customer.',
+            ],
+            [
+                'args' => ['email' => 'test@mail.com'],
                 'expectedResult' => 'The invitation to test@mail.com converted into a customer.'
-            )
-        );
+            ]
+        ];
     }
 }

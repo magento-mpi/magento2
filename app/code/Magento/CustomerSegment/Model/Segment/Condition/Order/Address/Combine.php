@@ -24,7 +24,7 @@ class Combine extends AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Combine');
@@ -39,11 +39,11 @@ class Combine extends AbstractCombine
     {
         $result = array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
-                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+            [
+                ['value' => $this->getType(), 'label' => __('Conditions Combination')],
                 $this->_conditionFactory->create('Order\Address\Type')->getNewChildSelectOptions(),
                 $this->_conditionFactory->create('Order\Address\Attributes')->getNewChildSelectOptions()
-            )
+            ]
         );
         return $result;
     }

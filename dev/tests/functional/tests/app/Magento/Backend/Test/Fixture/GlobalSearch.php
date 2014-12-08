@@ -17,13 +17,13 @@ use Mtf\Fixture\InjectableFixture;
 class GlobalSearch extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'query' => 'catalogProductSimple::default::name'
+        'query' => 'catalogProductSimple::default::name',
     ];
 
     protected $query = [
         'attribute_code' => 'query',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Backend\Test\Fixture\GlobalSearch\Query'
+        'source' => 'Magento\Backend\Test\Fixture\GlobalSearch\Query',
     ];
 
     public function getQuery()

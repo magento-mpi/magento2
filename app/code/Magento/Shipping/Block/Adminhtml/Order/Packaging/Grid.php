@@ -36,7 +36,7 @@ class Grid extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shipmentItemFactory = $shipmentItemFactory;
         $this->_coreRegistry = $registry;

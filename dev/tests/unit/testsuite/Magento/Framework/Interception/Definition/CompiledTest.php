@@ -12,7 +12,7 @@ class CompiledTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_definitions = array('type' => 'definitions');
+    protected $_definitions = ['type' => 'definitions'];
 
     /**
      * @covers \Magento\Framework\Interception\Definition\Compiled::getMethodList

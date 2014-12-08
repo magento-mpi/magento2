@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 
 /**
  * Class StockDataFilter

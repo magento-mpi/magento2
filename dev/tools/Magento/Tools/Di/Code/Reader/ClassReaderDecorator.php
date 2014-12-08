@@ -9,7 +9,7 @@
 
 namespace Magento\Tools\Di\Code\Reader;
 
-use \Magento\Tools\Di\Compiler\ConstructorArgument;
+use Magento\Tools\Di\Compiler\ConstructorArgument;
 
 class ClassReaderDecorator implements \Magento\Framework\Code\Reader\ClassReaderInterface
 {

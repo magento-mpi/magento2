@@ -14,9 +14,9 @@ class Status extends \Magento\Framework\Model\AbstractModel implements \Magento\
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING, 'label' => __('Ordered')),
-            array('value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED, 'label' => __('Invoiced'))
-        );
+        return [
+            ['value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING, 'label' => __('Ordered')],
+            ['value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED, 'label' => __('Invoiced')]
+        ];
     }
 }

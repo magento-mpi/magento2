@@ -26,8 +26,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );
@@ -77,7 +77,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result = [
             [
                 'value' => 0,
-                'label' => 'Virtual'
+                'label' => 'Virtual',
             ],
             [
                 'value' => 1,
@@ -86,7 +86,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => 2,
                 'label' => 'Combined'
-            ]
+            ],
         ];
 
         $this->assertEquals($result, $this->_model->getAllOptions());

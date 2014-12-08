@@ -21,11 +21,11 @@ class Fpt extends Price
      */
     protected $mapTypePrices = [
         'weee' => [
-            'selector' => '[class="weee"] .price'
+            'selector' => '[class="weee"] .price',
         ],
         'weee_total' => [
-            'selector' => '[class="weee"] [data-label="Total"] .price'
-        ]
+            'selector' => '[class="weee"] [data-label="Total"] .price',
+        ],
     ];
 
     /**

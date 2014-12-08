@@ -41,7 +41,7 @@ class Index extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
 
         $nodeModel = $this->_objectManager->create(
             'Magento\VersionsCms\Model\Hierarchy\Node',
-            array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+            ['data' => ['scope' => $this->_scope, 'scope_id' => $this->_scopeId]]
         );
 
         // restore data if exists

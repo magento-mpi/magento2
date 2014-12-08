@@ -25,7 +25,7 @@ class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\Factory $factoryElement,
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('links');
@@ -39,7 +39,7 @@ class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
     public function getElementHtml()
     {
         $values = $this->getValues();
-        $links = array();
+        $links = [];
         if ($values) {
             foreach ($values as $option) {
                 $links[] = $this->_optionToHtml($option);
@@ -66,8 +66,8 @@ class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _optionToHtml(array $option)
     {
-        $allowedAttribute = array('href', 'target', 'title', 'style');
-        $attributes = array();
+        $allowedAttribute = ['href', 'target', 'title', 'style'];
+        $attributes = [];
         foreach ($option as $title => $value) {
             if (!in_array($title, $allowedAttribute)) {
                 continue;
@@ -92,7 +92,7 @@ class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'rel',
             'rev',
             'accesskey',
@@ -113,6 +113,6 @@ class Links extends \Magento\Framework\Data\Form\Element\AbstractElement
             'onkeydown',
             'onkeypress',
             'onkeyup'
-        );
+        ];
     }
 }

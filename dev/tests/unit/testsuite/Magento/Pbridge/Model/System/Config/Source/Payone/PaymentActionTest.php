@@ -8,8 +8,8 @@
 
 namespace Magento\Pbridge\Model\System\Config\Source\Payone;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Payment\Model\Method\AbstractMethod;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class PaymentActionTest extends \PHPUnit_Framework_TestCase
 {

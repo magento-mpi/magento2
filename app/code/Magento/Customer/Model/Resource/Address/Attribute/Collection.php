@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer Address EAV additional attribute resource collection
  *

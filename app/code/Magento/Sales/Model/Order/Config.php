@@ -140,7 +140,7 @@ class Config
      */
     public function getStates()
     {
-        $states = array();
+        $states = [];
         foreach ($this->_getCollection() as $item) {
             $states[$item->getState()] = __($item->getData('label'));
         }
@@ -158,14 +158,14 @@ class Config
      */
     public function getStateStatuses($state, $addLabels = true)
     {
-        $key = md5(serialize(array($state, $addLabels)));
+        $key = md5(serialize([$state, $addLabels]));
         if (isset($this->stateStatuses[$key])) {
             return $this->stateStatuses[$key];
         }
-        $statuses = array();
+        $statuses = [];
 
         if (!is_array($state)) {
-            $state = array($state);
+            $state = [$state];
         }
         foreach ($state as $_state) {
             $stateNode = $this->_getState($_state);

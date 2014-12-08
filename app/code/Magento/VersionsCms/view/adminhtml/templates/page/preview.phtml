@@ -25,7 +25,7 @@ require(['jquery','prototype'], function(jQuery){
     var previewForm = $('preview_form'),
      loadingMask = $('loading-mask'),
      previewIframe = $('preview_iframe'),
-     publishUrlTemplate = '<?php echo $this->getUrl('*/*/publish', array('revision_id' => '{{value}}'))?>',
+     publishUrlTemplate = '<?php echo $this->getUrl('*/*/publish', ['revision_id' => '{{value}}'])?>',
      publishUrl = '';
 
     preview = function () {

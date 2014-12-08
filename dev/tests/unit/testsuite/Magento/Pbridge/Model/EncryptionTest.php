@@ -7,8 +7,8 @@
  */
 namespace Magento\Pbridge\Model;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class EncryptionTest tests Magento\Pbridge\Model\Encryption

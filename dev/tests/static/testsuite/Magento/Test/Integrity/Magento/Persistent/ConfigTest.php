@@ -101,10 +101,10 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'welcome': This element is not expected.",
-            "Element 'models': This element is not expected."
-        );
+            "Element 'models': This element is not expected.",
+        ];
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 }

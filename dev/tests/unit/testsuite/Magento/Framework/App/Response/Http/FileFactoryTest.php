@@ -33,8 +33,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileSystemMock = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryWrite'),
-            array(),
+            ['getDirectoryWrite'],
+            [],
             '',
             false
         );
@@ -49,7 +49,6 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
         )->withAnyParameters()->will(
             $this->returnValue($this->_dirMock)
         );
-
 
         $this->_fileSystemMock->expects(
             $this->any()
@@ -83,7 +82,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateIfContentDoesntHaveRequiredKeys()
     {
-        $this->_model->create('fileName', array());
+        $this->_model->create('fileName', []);
     }
 
     /**
@@ -93,7 +92,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateIfFileNotExist()
     {
         $file = 'some_file';
-        $content = array('type' => 'filename', 'value' => $file);
+        $content = ['type' => 'filename', 'value' => $file];
 
         $this->_model->create('fileName', $content);
     }

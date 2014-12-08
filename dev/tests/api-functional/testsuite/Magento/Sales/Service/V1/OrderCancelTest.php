@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract,
-    Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class OrderCancelTest extends WebapiAbstract
 {
@@ -27,13 +27,13 @@ class OrderCancelTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/order/' . $order->getId() . '/cancel',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'cancel'
-            ]
+                'operation' => self::SERVICE_NAME . 'cancel',
+            ],
         ];
         $requestData = ['id' => $order->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);

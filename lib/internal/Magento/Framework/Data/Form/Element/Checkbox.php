@@ -26,7 +26,7 @@ class Checkbox extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('checkbox');
@@ -38,7 +38,7 @@ class Checkbox extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -49,7 +49,7 @@ class Checkbox extends AbstractElement
             'disabled',
             'tabindex',
             'data-form-part'
-        );
+        ];
     }
 
     /**

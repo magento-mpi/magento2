@@ -48,7 +48,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
     {
         $this->addColumn(
             'period',
-            array(
+            [
                 'header' => __('Interval'),
                 'index' => 'period',
                 'sortable' => false,
@@ -56,37 +56,37 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'renderer' => 'Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date',
                 'totals_label' => __('Total'),
                 'subtotals_label' => __('Subtotal'),
-                'html_decorators' => array('nobr'),
+                'html_decorators' => ['nobr'],
                 'header_css_class' => 'col-period',
                 'column_css_class' => 'col-period'
-            )
+            ]
         );
 
         $this->addColumn(
             'coupon_code',
-            array(
+            [
                 'header' => __('Coupon Code'),
                 'sortable' => false,
                 'index' => 'coupon_code',
                 'header_css_class' => 'col-code',
                 'column_css_class' => 'col-code'
-            )
+            ]
         );
 
         $this->addColumn(
             'rule_name',
-            array(
+            [
                 'header' => __('Price Rule'),
                 'sortable' => false,
                 'index' => 'rule_name',
                 'header_css_class' => 'col-rule',
                 'column_css_class' => 'col-rule'
-            )
+            ]
         );
 
         $this->addColumn(
             'coupon_uses',
-            array(
+            [
                 'header' => __('Uses'),
                 'sortable' => false,
                 'index' => 'coupon_uses',
@@ -94,7 +94,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'type' => 'number',
                 'header_css_class' => 'col-users',
                 'column_css_class' => 'col-users'
-            )
+            ]
         );
 
         if ($this->getFilterData()->getStoreIds()) {
@@ -105,7 +105,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
 
         $this->addColumn(
             'subtotal_amount',
-            array(
+            [
                 'header' => __('Sales Subtotal'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -115,12 +115,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-sales',
                 'column_css_class' => 'col-sales'
-            )
+            ]
         );
 
         $this->addColumn(
             'discount_amount',
-            array(
+            [
                 'header' => __('Sales Discount'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -130,12 +130,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-sales-discount',
                 'column_css_class' => 'col-sales-discount'
-            )
+            ]
         );
 
         $this->addColumn(
             'total_amount',
-            array(
+            [
                 'header' => __('Sales Total'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -145,12 +145,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-total-amount',
                 'column_css_class' => 'col-total-amount'
-            )
+            ]
         );
 
         $this->addColumn(
             'subtotal_amount_actual',
-            array(
+            [
                 'header' => __('Subtotal'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -160,12 +160,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-subtotal',
                 'column_css_class' => 'col-subtotal'
-            )
+            ]
         );
 
         $this->addColumn(
             'discount_amount_actual',
-            array(
+            [
                 'header' => __('Discount'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -175,12 +175,12 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-discount',
                 'column_css_class' => 'col-discount'
-            )
+            ]
         );
 
         $this->addColumn(
             'total_amount_actual',
-            array(
+            [
                 'header' => __('Total'),
                 'sortable' => false,
                 'type' => 'currency',
@@ -190,7 +190,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
                 'rate' => $rate,
                 'header_css_class' => 'col-total',
                 'column_css_class' => 'col-total'
-            )
+            ]
         );
 
         $this->addExportType('*/*/exportCouponsCsv', __('CSV'));

@@ -26,7 +26,7 @@ class Fixture
      */
     public function getDirectoryFiles($subPath)
     {
-        $result = array();
+        $result = [];
         $dir = $this->getPath($subPath);
         if (!is_dir($dir)) {
             return $result;

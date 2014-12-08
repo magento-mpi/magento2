@@ -16,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $pageLayouts = array();
+        $pageLayouts = [];
         $xpath = new \DOMXPath($source);
 
         /** @var $layout DOMNode */

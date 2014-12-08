@@ -67,18 +67,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addStoreFilter($store, $withAdmin = true)
     {
         if ($store instanceof \Magento\Store\Model\Store) {
-            $store = array($store->getId());
+            $store = [$store->getId()];
         }
 
         if (!is_array($store)) {
-            $store = array($store);
+            $store = [$store];
         }
 
         if ($withAdmin) {
             $store[] = \Magento\Store\Model\Store::DEFAULT_STORE_ID;
         }
 
-        $this->addFilter('store', array('in' => $store), 'public');
+        $this->addFilter('store', ['in' => $store], 'public');
 
         return $this;
     }
@@ -107,9 +107,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if ($this->getFilter('store')) {
             $this->getSelect()->join(
-                array('store_table' => $this->getTable('cms_block_store')),
+                ['store_table' => $this->getTable('cms_block_store')],
                 'main_table.block_id = store_table.block_id',
-                array()
+                []
             )->group(
                 'main_table.block_id'
             );

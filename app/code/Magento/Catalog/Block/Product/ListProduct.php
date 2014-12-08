@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Block\Product;
 
-use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Category;
+use Magento\Catalog\Model\Product;
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\View\Block\IdentityInterface;
 
@@ -63,7 +63,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Catalog\Model\Layer\Resolver $layerResolver,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogLayer = $layerResolver->get();
         $this->_postDataHelper = $postDataHelper;
@@ -192,7 +192,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         $this->setChild('toolbar', $toolbar);
         $this->_eventManager->dispatch(
             'catalog_block_product_list_collection',
-            array('collection' => $this->_getProductCollection())
+            ['collection' => $this->_getProductCollection()]
         );
 
         $this->_getProductCollection()->load();
@@ -310,7 +310,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->_getProductCollection() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }
@@ -332,7 +332,7 @@ class ListProduct extends AbstractProduct implements IdentityInterface
         $url = $this->getAddToCartUrl($product);
         $data = [
             'product' => $product->getEntityId(),
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url)
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->_postDataHelper->getEncodedUrl($url),
         ];
         return $this->_postDataHelper->getPostData($url, $data);
     }

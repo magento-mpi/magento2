@@ -8,8 +8,8 @@
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Class MatchedCustomers

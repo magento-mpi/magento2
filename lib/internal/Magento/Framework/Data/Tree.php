@@ -204,6 +204,6 @@ class Tree
                 return $_node->getPath();
             }
         }
-        return array();
+        return [];
     }
 }

@@ -42,12 +42,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var string[]
      */
-    protected $_allowedFormats = array(
+    protected $_allowedFormats = [
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_FULL,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_LONG,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_MEDIUM,
-        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
-    );
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT,
+    ];
 
     /**
      * Core store config
@@ -197,7 +197,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getCacheTypes()
     {
-        $types = array();
+        $types = [];
         foreach ($this->_cacheConfig->getTypes() as $type => $node) {
             if (array_key_exists('label', $node)) {
                 $types[$type] = $node['label'];
@@ -214,7 +214,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $options Additional options used during encoding
      * @return string
      */
-    public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
+    public function jsonEncode($valueToEncode, $cycleCheck = false, $options = [])
     {
         $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
         $this->translateInline->processResponseBody($json, true);

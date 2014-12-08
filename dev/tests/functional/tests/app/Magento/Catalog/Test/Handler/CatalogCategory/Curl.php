@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Handler\CatalogCategory;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
@@ -77,8 +77,8 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
         $parentCategoryId = $data['general']['parent_id'];
 
         $url = $_ENV['app_backend_url'] . 'catalog/category/save/store/0/parent/' . $parentCategoryId . '/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -97,7 +97,7 @@ class Curl extends AbstractCurl implements CatalogCategoryInterface
     public function getBlockId($landingName)
     {
         $url = $_ENV['app_backend_url'] . 'catalog/category';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', [], []);
         $response = $curl->read();
         $curl->close();

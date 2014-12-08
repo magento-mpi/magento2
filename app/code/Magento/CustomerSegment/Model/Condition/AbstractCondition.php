@@ -24,7 +24,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceSegment = $resourceSegment;
         parent::__construct($context, $data);
@@ -37,7 +37,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -48,9 +48,9 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         if (null === $this->_defaultOperatorInputByType) {
             parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
-            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
-            $this->_defaultOperatorInputByType['multiselect'] = array('==', '!=', '[]', '![]');
+            $this->_defaultOperatorInputByType['numeric'] = ['==', '!=', '>=', '>', '<=', '<'];
+            $this->_defaultOperatorInputByType['string'] = ['==', '!=', '{}', '!{}'];
+            $this->_defaultOperatorInputByType['multiselect'] = ['==', '!=', '[]', '![]'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -113,9 +113,9 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         $storeTable = $this->getResource()->getTable('store');
         $select->join(
-            array('store' => $storeTable),
+            ['store' => $storeTable],
             $storeIdField . '=store.store_id',
-            array()
+            []
         )->where(
             'store.website_id=?',
             $website

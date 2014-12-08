@@ -33,7 +33,7 @@ class Date extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('text');
@@ -52,7 +52,6 @@ class Date extends AbstractElement
      */
     protected function _toTimestamp($value)
     {
-
         $value = (int)$value;
         if ($value > 3155760000) {
             $value = 0;
@@ -163,16 +162,16 @@ class Date extends AbstractElement
 
         $dataInit = 'data-mage-init="' . $this->_escape(
             json_encode(
-                array(
-                    'calendar' => array(
+                [
+                    'calendar' => [
                         'dateFormat' => $dateFormat,
                         'showsTime' => !empty($timeFormat),
                         'timeFormat' => $timeFormat,
                         'buttonImage' => $this->getImage(),
                         'buttonText' => 'Select Date',
-                        'disabled' => $this->getDisabled()
-                    )
-                )
+                        'disabled' => $this->getDisabled(),
+                    ],
+                ]
             )
         ) . '"';
 

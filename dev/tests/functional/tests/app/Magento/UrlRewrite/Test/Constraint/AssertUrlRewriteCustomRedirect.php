@@ -8,10 +8,10 @@
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
-use Mtf\Client\Browser;
 use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertUrlRewriteCustomRedirect

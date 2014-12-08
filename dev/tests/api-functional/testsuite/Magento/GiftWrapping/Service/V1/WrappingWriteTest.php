@@ -7,12 +7,12 @@
  */
 namespace Magento\GiftWrapping\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\GiftWrapping\Service\V1\WrappingWrite as WrappingService;
-use Magento\GiftWrapping\Service\V1\WrappingRead as WrappingReadService;
-use Magento\GiftWrapping\Service\V1\Data\WrappingBuilder;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\GiftWrapping\Service\V1\Data\WrappingBuilder;
+use Magento\GiftWrapping\Service\V1\WrappingRead as WrappingReadService;
+use Magento\GiftWrapping\Service\V1\WrappingWrite as WrappingService;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WrappingWriteTest extends WebapiAbstract
 {
@@ -21,7 +21,7 @@ class WrappingWriteTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
 
     /** @var \Magento\Framework\ObjectManagerInterface */
-    private  $objectManager;
+    private $objectManager;
 
     /** @var WrappingBuilder */
     private $wrappingBuilder;
@@ -158,13 +158,13 @@ class WrappingWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $wrapping->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'delete'
-            ]
+                'operation' => self::SERVICE_NAME . 'delete',
+            ],
         ];
         $requestData = ['id' => $wrapping->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -189,13 +189,13 @@ class WrappingWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ]
+                'operation' => self::SERVICE_NAME . 'create',
+            ],
         ];
 
         $requestData = ['data' => $dataObject->__toArray()];
@@ -214,13 +214,13 @@ class WrappingWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'update'
-            ]
+                'operation' => self::SERVICE_NAME . 'update',
+            ],
         ];
 
         $requestData = ['data' => $dataObject->__toArray(), 'id' => $id];

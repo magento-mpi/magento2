@@ -24,7 +24,7 @@ class AssertConfigurableProductForm extends AssertProductForm
     protected $skippedFixtureFields = [
         'id',
         'affected_attribute_set',
-        'checkout_data'
+        'checkout_data',
     ];
 
     /**
@@ -56,7 +56,7 @@ class AssertConfigurableProductForm extends AssertProductForm
      * @var array
      */
     protected $skippedVariationMatrixFields = [
-        'configurable_attribute'
+        'configurable_attribute',
     ];
 
     /**
@@ -88,7 +88,6 @@ class AssertConfigurableProductForm extends AssertProductForm
             $attributeData[$attributeKey] = array_diff_key($attribute, array_flip($this->skippedAttributeFields));
         }
         $data['configurable_attributes_data']['attributes_data'] = $this->sortDataByPath($attributeData, '::label');
-
 
         // prepare and filter values, reset keys in variation matrix
         $variationsMatrix = $data['configurable_attributes_data']['matrix'];

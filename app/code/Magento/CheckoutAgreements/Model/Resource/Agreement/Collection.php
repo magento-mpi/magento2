@@ -15,7 +15,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     /**
      * @var array
      */
-    protected $_map = array('fields' => array('agreement_id' => 'main_table.agreement_id'));
+    protected $_map = ['fields' => ['agreement_id' => 'main_table.agreement_id']];
 
     /**
      * Is store filter with admin store
@@ -44,9 +44,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         // check and prepare data
         if ($store instanceof \Magento\Store\Model\Store) {
-            $store = array($store->getId());
+            $store = [$store->getId()];
         } elseif (is_numeric($store)) {
-            $store = array($store);
+            $store = [$store];
         }
 
         $alias = 'store_table_' . implode('_', $store);
@@ -54,16 +54,16 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             return $this;
         }
 
-        $storeFilter = array($store);
+        $storeFilter = [$store];
         if ($this->_isStoreFilterWithAdmin) {
             $storeFilter[] = 0;
         }
 
         // add filter
         $this->getSelect()->join(
-            array($alias => $this->getTable('checkout_agreement_store')),
+            [$alias => $this->getTable('checkout_agreement_store')],
             'main_table.agreement_id = ' . $alias . '.agreement_id',
-            array()
+            []
         )->where(
             $alias . '.store_id IN (?)',
             $storeFilter

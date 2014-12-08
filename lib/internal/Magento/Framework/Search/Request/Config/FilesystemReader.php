@@ -14,13 +14,13 @@ class FilesystemReader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/requests/request' => '@name',
         '/requests/request/queries/query' => '@name',
         '/requests/request/filters/filter' => '@name',
         '/requests/request/aggregation/bucket' => '@name',
         '/requests/request/dimensions/dimension' => '@name',
-    );
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -38,7 +38,7 @@ class FilesystemReader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Search\Request\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'search_request.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

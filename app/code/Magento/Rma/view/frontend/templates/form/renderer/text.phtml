@@ -13,9 +13,11 @@
 /* @var $this \Magento\CustomAttributeManagement\Block\Form\Renderer\Text */
 $elementId = $this->getHtmlId() . '${_index_}';
 ?>
-<div id="<?php echo $elementId?>" class="field <?php echo $this->getHtmlId()?> <?php echo $elementId?><?php if ($this->isRequired()) echo ' required' ?>">
+<div id="<?php echo $elementId?>" class="field <?php echo $this->getHtmlId()?> <?php echo $elementId?><?php if ($this->isRequired()) {
+    echo ' required' ?>">
     <label for="items:<?php echo $this->getHtmlId()?>${_index_}" class="label"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
-        <input type="text" id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]" value="<?php echo $this->getEscapedValue() ?>" class="input-text<?php echo $this->getHtmlClass(); ?><?php echo  ($this->getFieldName() == 'qty_requested') ? ' check-count' : ''?>">
+        <input type="text" id="items:<?php echo $this->getHtmlId()?>${_index_}" name="items[${_index_}][<?php echo $this->getFieldName()?>]" value="<?php echo $this->getEscapedValue() ?>" class="input-text<?php echo $this->getHtmlClass();
+} ?><?php echo($this->getFieldName() == 'qty_requested') ? ' check-count' : ''?>">
     </div>
 </div>

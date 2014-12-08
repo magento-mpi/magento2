@@ -7,16 +7,15 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\DataProvider\Manager;
-use Magento\Framework\View\Element\Template;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\Component\Filter\FilterAbstract;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\Component\Filter\FilterAbstract;
+use Magento\Ui\Component\Filter\FilterPool as FilterPoolProvider;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Class FilterPool
@@ -119,7 +118,7 @@ class FilterPool extends AbstractView
             if (isset($metaData[$field]['filter_type'])) {
                 $filters[$field] = [
                     'label' => $metaData[$field]['label'],
-                    'current_display_value' => $value
+                    'current_display_value' => $value,
                 ];
             }
         }

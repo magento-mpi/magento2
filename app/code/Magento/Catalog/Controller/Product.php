@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Controller;
 
+use Magento\Catalog\Controller\Product\View\ViewInterface;
 use Magento\Catalog\Model\Product as ModelProduct;
-use \Magento\Catalog\Controller\Product\View\ViewInterface;
 
 class Product extends \Magento\Framework\App\Action\Action implements ViewInterface
 {

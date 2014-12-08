@@ -8,11 +8,11 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Cms\Model\Wysiwyg as WysiwygModel;
-use Magento\Framework\Registry;
+use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Logger;
+use Magento\Framework\Registry;
 
 class Builder
 {

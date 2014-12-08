@@ -157,7 +157,6 @@ class AddCommentTest extends \PHPUnit_Framework_TestCase
             ->with('invoice_id')
             ->willReturn($invoiceId);
 
-
         $invoiceMock = $this->getMockBuilder('Magento\Sales\Model\Order\Invoice')
             ->disableOriginalConstructor()
             ->setMethods([])

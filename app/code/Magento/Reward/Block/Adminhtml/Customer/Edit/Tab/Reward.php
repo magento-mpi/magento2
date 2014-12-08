@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward tab block
  *
@@ -40,7 +39,7 @@ class Reward extends \Magento\Backend\Block\Template implements \Magento\Ui\Comp
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_rewardData = $rewardData;
@@ -127,13 +126,13 @@ class Reward extends \Magento\Backend\Block\Template implements \Magento\Ui\Comp
         $accordion = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Accordion');
         $accordion->addItem(
             'reward_points_history',
-            array(
+            [
                 'title' => __('Reward Points History'),
                 'open' => false,
                 'class' => '',
                 'ajax' => true,
-                'content_url' => $this->getUrl('adminhtml/customer_reward/history', array('_current' => true))
-            )
+                'content_url' => $this->getUrl('adminhtml/customer_reward/history', ['_current' => true])
+            ]
         );
         $this->setChild('history_accordion', $accordion);
 

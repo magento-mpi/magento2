@@ -39,21 +39,21 @@ $installer->getConnection()->addForeignKey(
 $installer->getConnection()->addColumn(
     $tableName,
     'name',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'comment' => 'Wish List Name',
         'default' => null
-    )
+    ]
 );
 
 $installer->getConnection()->addColumn(
     $tableName,
     'visibility',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'nullable' => true,
         'default' => 0,
         'comment' => 'Wish list visibility type'
-    )
+    ]
 );

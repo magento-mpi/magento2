@@ -72,7 +72,7 @@ class DummyTestCase extends \PHPUnit_Framework_TestCase
         $this->_testPropertyInteger = 10;
         $this->_testPropertyFloat = 1.97;
         $this->_testPropertyString = 'string';
-        $this->_testPropertyArray = array('test', 20);
+        $this->_testPropertyArray = ['test', 20];
         self::$testPublicStatic = 'static public';
         self::$_testProtectedStatic = 'static protected';
         self::$_testPrivateStatic = 'static private';

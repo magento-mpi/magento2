@@ -100,7 +100,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_cacheTypeList = array('type1', 'type2');
+    protected $_cacheTypeList = ['type1', 'type2'];
 
     /**
      * @return void
@@ -110,22 +110,22 @@ class StateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_backendSession = $this->getMock(
             'Magento\Backend\Model\Session',
-            array('setData', 'getData', 'unsetData'),
-            array(),
+            ['setData', 'getData', 'unsetData'],
+            [],
             '',
             false
         );
         $this->_areaEmulator = $this->getMock(
             'Magento\DesignEditor\Model\AreaEmulator',
-            array('emulateLayoutArea'),
-            array(),
+            ['emulateLayoutArea'],
+            [],
             '',
             false
         );
         $this->_urlModelFactory = $this->getMock(
             'Magento\DesignEditor\Model\Url\Factory',
-            array('replaceClassName'),
-            array(),
+            ['replaceClassName'],
+            [],
             '',
             false
         );
@@ -135,8 +135,8 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
         $this->_dataHelper = $this->getMock(
             'Magento\DesignEditor\Helper\Data',
-            array('getDisabledCacheTypes'),
-            array(),
+            ['getDisabledCacheTypes'],
+            [],
             '',
             false
         );
@@ -168,13 +168,13 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme', array('getId', '__wakeup'), array(), '', false);
+        $this->_theme = $this->getMock('Magento\Core\Model\Theme', ['getId', '__wakeup'], [], '', false);
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(self::THEME_ID));
 
         $this->_themeContext = $this->getMock(
             'Magento\DesignEditor\Model\Theme\Context',
-            array('getEditableTheme', 'getVisibleTheme', 'reset', 'setEditableThemeById'),
-            array(),
+            ['getEditableTheme', 'getVisibleTheme', 'reset', 'setEditableThemeById'],
+            [],
             '',
             false
         );
@@ -280,7 +280,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testUpdateNavigationMode()
     {
         $this->_setAdditionalExpectations();
-        $request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
 
         $request->expects($this->once())->method('getPathInfo')->will($this->returnValue('/'));
 
@@ -304,7 +304,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_areaEmulator->expects($this->once())->method('emulateLayoutArea')->with(self::AREA_CODE);
-        $controller = $this->getMock('Magento\Backend\Controller\Adminhtml\Action', array(), array(), '', false);
+        $controller = $this->getMock('Magento\Backend\Controller\Adminhtml\Action', [], [], '', false);
 
         $this->_model->update(self::AREA_CODE, $request, $controller);
     }

@@ -8,8 +8,8 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\LayoutUpdatesType;
 
-use Mtf\Client\Element;
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

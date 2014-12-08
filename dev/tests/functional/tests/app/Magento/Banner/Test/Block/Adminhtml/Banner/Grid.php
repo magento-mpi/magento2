@@ -8,7 +8,6 @@
 
 namespace Magento\Banner\Test\Block\Adminhtml\Banner;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -38,7 +37,7 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'banner' => [
-            'selector' => 'input[name="banner_name"]'
+            'selector' => 'input[name="banner_name"]',
         ],
         'visibility' => [
             'selector' => 'select[name="visible_in"]',

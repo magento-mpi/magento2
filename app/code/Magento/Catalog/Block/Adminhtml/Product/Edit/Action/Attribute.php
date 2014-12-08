@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml catalog product action attribute update
  *
@@ -34,7 +33,7 @@ class Attribute extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         ActionAttribute $helperActionAttribute,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helperActionAttribute = $helperActionAttribute;
         parent::__construct($context, $data);
@@ -48,36 +47,36 @@ class Attribute extends \Magento\Backend\Block\Widget
         $this->getToolbar()->addChild(
             'back_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getUrl(
                     'catalog/product/',
-                    array('store' => $this->getRequest()->getParam('store', 0))
+                    ['store' => $this->getRequest()->getParam('store', 0)]
                 ) . '\')',
                 'class' => 'back'
-            )
+            ]
         );
 
         $this->getToolbar()->addChild(
             'reset_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Reset'),
-                'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('_current' => true)) . '\')',
+                'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', ['_current' => true]) . '\')',
                 'class' => 'reset'
-            )
+            ]
         );
 
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#attributes-edit-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#attributes-edit-form']],
+                ]
+            ]
         );
     }
 
@@ -139,7 +138,7 @@ class Attribute extends \Magento\Backend\Block\Widget
     public function getSaveUrl()
     {
         $helper = $this->_helperActionAttribute;
-        return $this->getUrl('*/*/save', array('store' => $helper->getSelectedStoreId()));
+        return $this->getUrl('*/*/save', ['store' => $helper->getSelectedStoreId()]);
     }
 
     /**
@@ -149,6 +148,6 @@ class Attribute extends \Magento\Backend\Block\Widget
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('catalog/*/validate', array('_current' => true));
+        return $this->getUrl('catalog/*/validate', ['_current' => true]);
     }
 }

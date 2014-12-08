@@ -34,7 +34,7 @@ class AbstractFilter extends \Magento\Backend\Block\AbstractBlock implements
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceHelper = $resourceHelper;
         parent::__construct($context, $data);
@@ -100,8 +100,8 @@ class AbstractFilter extends \Magento\Backend\Block\AbstractBlock implements
      */
     public function getCondition()
     {
-        $likeExpression = $this->_resourceHelper->addLikeEscape($this->getValue(), array('position' => 'any'));
-        return array('like' => $likeExpression);
+        $likeExpression = $this->_resourceHelper->addLikeEscape($this->getValue(), ['position' => 'any']);
+        return ['like' => $likeExpression];
     }
 
     /**

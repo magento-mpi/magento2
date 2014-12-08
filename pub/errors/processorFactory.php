@@ -13,7 +13,7 @@ require_once 'processor.php';
 /**
  * Error processor factory
  */
-class ProcessorFactory
+class processorFactory
 {
     /**
      * Create Processor

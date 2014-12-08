@@ -8,7 +8,7 @@
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-use \Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 class TokensDialog extends \Magento\Integration\Controller\Adminhtml\Integration
 {

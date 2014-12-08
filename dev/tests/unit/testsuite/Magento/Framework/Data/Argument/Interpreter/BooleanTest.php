@@ -31,7 +31,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluateException()
     {
-        $this->_model->evaluate(array());
+        $this->_model->evaluate([]);
     }
 
     public function testEvaluate()
@@ -47,7 +47,7 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($expected)
         );
-        $actual = $this->_model->evaluate(array('value' => $input));
+        $actual = $this->_model->evaluate(['value' => $input]);
         $this->assertSame($expected, $actual);
     }
 }

@@ -31,7 +31,7 @@ class Compressor
     public function compress(array $definitions)
     {
         $signatureList = new Compressor\UniqueList();
-        $resultDefinitions = array();
+        $resultDefinitions = [];
         foreach ($definitions as $className => $definition) {
             $resultDefinitions[$className] = null;
             if ($definition && count($definition)) {
@@ -43,6 +43,6 @@ class Compressor
         foreach ($signatures as $key => $signature) {
             $signatures[$key] = $this->_serializer->serialize($signature);
         }
-        return $this->_serializer->serialize(array($signatures, $resultDefinitions));
+        return $this->_serializer->serialize([$signatures, $resultDefinitions]);
     }
 }

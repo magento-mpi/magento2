@@ -8,7 +8,6 @@
 
 namespace Magento\Tax\Api\Data;
 
-use Magento\Customer\Api\Data\AddressInterface as CustomerAddress;
 
 interface QuoteDetailsInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {

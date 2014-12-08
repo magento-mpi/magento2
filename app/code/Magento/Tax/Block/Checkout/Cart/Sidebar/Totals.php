@@ -40,7 +40,7 @@ class Totals extends SidebarTotals
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxData = $taxHelper;
         $this->_taxConfig = $taxConfig;

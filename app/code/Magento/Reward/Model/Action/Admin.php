@@ -31,7 +31,7 @@ class Admin extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         return __('Updated by moderator');
     }

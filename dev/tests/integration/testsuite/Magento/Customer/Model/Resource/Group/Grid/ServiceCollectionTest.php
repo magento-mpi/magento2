@@ -47,7 +47,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testArrayFilter()
     {
-        $this->collection->addFieldToFilter(array('code'), array(array('NOT LOGGED IN')));
+        $this->collection->addFieldToFilter(['code'], [['NOT LOGGED IN']]);
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(1, count($items));
@@ -59,7 +59,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testOrArrayFilter()
     {
-        $this->collection->addFieldToFilter(array('code', 'code'), array('General', 'Retailer'));
+        $this->collection->addFieldToFilter(['code', 'code'], ['General', 'Retailer']);
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(2, count($items));
@@ -87,7 +87,7 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testSingleLikeFilter()
     {
-        $this->collection->addFieldToFilter('code', array('like' => 'NOT%'));
+        $this->collection->addFieldToFilter('code', ['like' => 'NOT%']);
         $this->collection->loadData();
         $items = $this->collection->getItems();
         $this->assertEquals(1, count($items));
@@ -103,6 +103,6 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddToFilterException()
     {
-        $this->collection->addFieldToFilter(array(), 'not_array');
+        $this->collection->addFieldToFilter([], 'not_array');
     }
 }

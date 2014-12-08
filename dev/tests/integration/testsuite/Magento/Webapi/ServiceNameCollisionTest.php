@@ -28,7 +28,7 @@ class ServiceNameCollisionTest extends \PHPUnit_Framework_TestCase
         $helper = $objectManager->get('Magento\Webapi\Helper\Data');
         /** @var \Magento\Webapi\Model\Config $webapiConfig */
         $webapiConfig = $objectManager->get('Magento\Webapi\Model\Config');
-        $serviceNames = array();
+        $serviceNames = [];
 
         foreach (array_keys($webapiConfig->getServices()['services']) as $serviceClassName) {
             $newServiceName = $helper->getServiceName($serviceClassName);

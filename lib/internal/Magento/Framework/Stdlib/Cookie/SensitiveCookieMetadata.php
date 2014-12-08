@@ -36,7 +36,6 @@ class SensitiveCookieMetadata extends CookieMetadata
         parent::__construct($metadata);
     }
 
-
     /**
      * {@inheritdoc}
      */

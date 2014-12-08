@@ -53,7 +53,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
             $row->getId() .
             '][order_item_id]" value="' .
             $row->getOrderItemId() .
-            '" class="rma-action-links-' . $row->getId() .'" />';
+            '" class="rma-action-links-' . $row->getId() . '" />';
 
         return $out;
     }

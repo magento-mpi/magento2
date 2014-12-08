@@ -36,7 +36,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_customerSession = $customerSession;
@@ -53,7 +53,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAmountSettingsJson($product)
     {
-        $result = array('min' => 0, 'max' => 0);
+        $result = ['min' => 0, 'max' => 0];
         if ($product->getAllowOpenAmount()) {
             if ($v = $product->getOpenAmountMin()) {
                 $result['min'] = $v;
@@ -113,7 +113,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAmounts($product)
     {
-        $result = array();
+        $result = [];
         foreach ($product->getGiftcardAmounts() as $amount) {
             $result[] = $this->priceCurrency->round($amount['website_value']);
         }

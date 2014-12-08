@@ -34,8 +34,8 @@ class AttributeFactory
      * @param array $arguments
      * @return mixed
      */
-    public function createAttribute($className, $arguments = array())
+    public function createAttribute($className, $arguments = [])
     {
-        return $this->_objectManager->create($className, array('data' => $arguments));
+        return $this->_objectManager->create($className, ['data' => $arguments]);
     }
 }

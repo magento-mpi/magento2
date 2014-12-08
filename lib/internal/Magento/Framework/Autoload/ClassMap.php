@@ -27,7 +27,7 @@ class ClassMap
      *
      * @var array
      */
-    protected $_map = array();
+    protected $_map = [];
 
     /**
      * Set base directory absolute path

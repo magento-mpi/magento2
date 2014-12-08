@@ -18,4 +18,3 @@ $giftCardAccount = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
 $giftCardAccount->loadByCode('giftcardaccount_fixture');
 $giftCardAccount->addToCart(true, $quote);
-

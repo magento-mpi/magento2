@@ -27,7 +27,7 @@ class Group extends AbstractGroup
      */
     protected function _sortValues($data)
     {
-        usort($data, array($this, '_sortGroupPrices'));
+        usort($data, [$this, '_sortGroupPrices']);
         return $data;
     }
 
@@ -61,11 +61,11 @@ class Group extends AbstractGroup
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'label' => __('Add Group Price'),
                 'onclick' => 'return groupPriceControl.addItem()',
-                'class' => 'add'
-            )
+                'class' => 'add',
+            ]
         );
         $button->setName('add_group_price_item_button');
 

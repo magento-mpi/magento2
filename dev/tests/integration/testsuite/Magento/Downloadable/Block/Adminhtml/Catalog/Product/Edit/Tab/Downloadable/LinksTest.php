@@ -38,7 +38,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Framework\View\Element\Text',
             '',
-            array('data' => array('text' => $expected))
+            ['data' => ['text' => $expected]]
         );
         $block->unsetChild('upload_button');
         $layout->addBlock($text, 'upload_button', 'links');
@@ -57,7 +57,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Registry'
         )->register(
             'product',
-            new \Magento\Framework\Object(array('type_id' => 'simple'))
+            new \Magento\Framework\Object(['type_id' => 'simple'])
         );
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -87,7 +87,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Registry'
         )->register(
             'product',
-            new \Magento\Framework\Object(array('type_id' => $productType, 'id' => '1', 'links_title' => $linksTitle))
+            new \Magento\Framework\Object(['type_id' => $productType, 'id' => '1', 'links_title' => $linksTitle])
         );
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -104,13 +104,13 @@ class LinksTest extends \PHPUnit_Framework_TestCase
      */
     public function productLinksTitleDataProvider()
     {
-        return array(
-            array('simple', null, 'Links Title Test'),
-            array('simple', 'Links Title', 'Links Title Test'),
-            array('virtual', null, 'Links Title Test'),
-            array('virtual', 'Links Title', 'Links Title Test'),
-            array('downloadable', null, null),
-            array('downloadable', 'Links Title', 'Links Title')
-        );
+        return [
+            ['simple', null, 'Links Title Test'],
+            ['simple', 'Links Title', 'Links Title Test'],
+            ['virtual', null, 'Links Title Test'],
+            ['virtual', 'Links Title', 'Links Title Test'],
+            ['downloadable', null, null],
+            ['downloadable', 'Links Title', 'Links Title']
+        ];
     }
 }

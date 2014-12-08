@@ -34,7 +34,7 @@ class Links extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cacheTypeList = $cacheTypeList;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

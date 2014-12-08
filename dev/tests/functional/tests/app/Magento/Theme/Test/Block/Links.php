@@ -10,7 +10,6 @@
 namespace Magento\Theme\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

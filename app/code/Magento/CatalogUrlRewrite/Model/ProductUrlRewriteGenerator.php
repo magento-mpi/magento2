@@ -8,10 +8,10 @@
 namespace Magento\CatalogUrlRewrite\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
-use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator;
-use Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\Product\CanonicalUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\CategoriesUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\Product\CurrentUrlRewritesRegenerator;
+use Magento\CatalogUrlRewrite\Service\V1\StoreViewService;
 use Magento\Store\Model\Store;
 
 class ProductUrlRewriteGenerator

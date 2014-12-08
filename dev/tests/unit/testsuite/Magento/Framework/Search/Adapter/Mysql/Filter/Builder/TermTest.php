@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class TermTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Search\Request\Filter\Term|\PHPUnit_Framework_MockObject_MockObject
      */

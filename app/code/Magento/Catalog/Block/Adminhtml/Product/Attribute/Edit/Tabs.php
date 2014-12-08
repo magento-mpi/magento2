@@ -33,28 +33,28 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'main',
-            array(
+            [
                 'label' => __('Properties'),
                 'title' => __('Properties'),
                 'content' => $this->getChildHtml('main'),
                 'active' => true
-            )
+            ]
         );
         $this->addTab(
             'labels',
-            array(
+            [
                 'label' => __('Manage Labels'),
                 'title' => __('Manage Labels'),
                 'content' => $this->getChildHtml('labels')
-            )
+            ]
         );
         $this->addTab(
             'front',
-            array(
+            [
                 'label' => __('Frontend Properties'),
                 'title' => __('Frontend Properties'),
                 'content' => $this->getChildHtml('front')
-            )
+            ]
         );
 
         return parent::_beforeToHtml();

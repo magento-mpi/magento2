@@ -33,7 +33,7 @@ class Delete extends \Magento\Email\Controller\Adminhtml\Email\Template
                 // display error  message
                 $this->messageManager->addError(__('The email template is currently being used.'));
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $template->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $template->getId()]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
@@ -49,7 +49,7 @@ class Delete extends \Magento\Email\Controller\Adminhtml\Email\Template
                     $this->getRequest()->getParams()
                 );
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $template->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $template->getId()]);
                 return;
             }
         }

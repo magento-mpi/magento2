@@ -27,11 +27,11 @@ class SitemapGrid extends Grid
             'selector' => '#sitemapGrid_filter_sitemap_filename',
         ],
         'sitemap_path' => [
-            'selector' => '#sitemapGrid_filter_sitemap_path'
+            'selector' => '#sitemapGrid_filter_sitemap_path',
         ],
         'sitemap_id' => [
-            'selector' => '#sitemapGrid_filter_sitemap_id'
-        ]
+            'selector' => '#sitemapGrid_filter_sitemap_id',
+        ],
     ];
 
     /**

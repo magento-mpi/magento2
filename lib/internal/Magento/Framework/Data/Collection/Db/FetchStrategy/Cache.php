@@ -31,7 +31,7 @@ class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
     /**
      * @var array
      */
-    protected $_cacheTags = array();
+    protected $_cacheTags = [];
 
     /**
      * @var int|bool|null
@@ -51,7 +51,7 @@ class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
         \Magento\Framework\Cache\FrontendInterface $cache,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         $cacheIdPrefix = '',
-        array $cacheTags = array(),
+        array $cacheTags = [],
         $cacheLifetime = null
     ) {
         $this->_cache = $cache;
@@ -64,7 +64,7 @@ class Cache implements \Magento\Framework\Data\Collection\Db\FetchStrategyInterf
     /**
      * {@inheritdoc}
      */
-    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array())
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = [])
     {
         $cacheId = $this->_getSelectCacheId($select);
         $result = $this->_cache->load($cacheId);

@@ -15,7 +15,7 @@ $installer->appendClassAliasReplace(
     'instance_type',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('instance_id')
+    ['instance_id']
 );
 $installer->doUpdateClassAliases();
 

@@ -52,7 +52,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      */
     public function getMaxInvitationsPerSendDataProvider()
     {
-        return array(array(1, 1), array(3, 3), array(100, 100), array(0, 1));
+        return [[1, 1], [3, 3], [100, 100], [0, 1]];
     }
 
     /**
@@ -80,7 +80,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
 
         if (!$this->_rememberedConfig) {
-            $this->_rememberedConfig = array('path' => $path, 'old_value' => $oldValue);
+            $this->_rememberedConfig = ['path' => $path, 'old_value' => $oldValue];
         }
         return $this;
     }

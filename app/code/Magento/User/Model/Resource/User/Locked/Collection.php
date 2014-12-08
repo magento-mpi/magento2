@@ -23,6 +23,6 @@ class Collection extends \Magento\User\Model\Resource\User\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('lock_expires', array('notnull' => true));
+        $this->addFieldToFilter('lock_expires', ['notnull' => true]);
     }
 }

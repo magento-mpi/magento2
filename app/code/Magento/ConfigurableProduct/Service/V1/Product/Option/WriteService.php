@@ -9,18 +9,18 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\ConfigurableProduct\Service\V1\Data\Option;
-use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
-use Magento\Eav\Model\Config as EavConfig;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Type as ProductType;
-use Magento\Store\Model\Store;
-use Magento\Framework\StoreManagerInterface;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
+use Magento\ConfigurableProduct\Service\V1\Data\Option;
+use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
+use Magento\Eav\Model\Config as EavConfig;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\Store;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)

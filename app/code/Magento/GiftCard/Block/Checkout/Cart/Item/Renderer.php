@@ -40,7 +40,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardConfiguration,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftCardConfiguration = $giftCardConfiguration;
         parent::__construct(

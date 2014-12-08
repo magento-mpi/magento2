@@ -34,7 +34,7 @@ class Tax extends \Zend_Gdata_App_Extension_Element
      * @param array $taxInfo as described in product requirements
      * @see http://code.google.com/intl/ru/apis/shopping/content/getting-started/requirements-products.html#tax
      */
-    public function __construct(array $taxInfo = array())
+    public function __construct(array $taxInfo = [])
     {
         $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         parent::__construct('tax', $this->_rootNamespace, $this->lookupNamespace($this->_rootNamespace));

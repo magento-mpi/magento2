@@ -41,16 +41,16 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function factoryDataProvider()
     {
-        return array(
-            array(null, 'Magento\Catalog\Model\Product\Type\Simple'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'),
-            array(
+        return [
+            [null, 'Magento\Catalog\Model\Product\Type\Simple'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Simple'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Virtual'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Type'],
+            [
                 \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
                 'Magento\Downloadable\Model\Product\Type'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -74,13 +74,13 @@ class TypeTest extends \PHPUnit_Framework_TestCase
      */
     public function factoryReturnsSingletonDataProvider()
     {
-        return array(
-            array(null),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
-            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
-        );
+        return [
+            [null],
+            [\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE],
+            [\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL],
+            [\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE],
+            [\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE]
+        ];
     }
 
     /**
@@ -96,16 +96,16 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function priceFactoryDataProvider()
     {
-        return array(
-            array(null, 'Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'),
-            array(
+        return [
+            [null, 'Magento\Catalog\Model\Product\Type\Price'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 'Magento\Catalog\Model\Product\Type\Price'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL, 'Magento\Catalog\Model\Product\Type\Price'],
+            [\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE, 'Magento\Bundle\Model\Product\Price'],
+            [
                 \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE,
                 'Magento\Downloadable\Model\Product\Price'
-            )
-        );
+            ]
+        ];
     }
 
     public function testGetOptionArray()
@@ -149,12 +149,12 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function getOptionTextDataProvider()
     {
-        return array(
-            array(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL),
-            array(\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE),
-            array(\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE)
-        );
+        return [
+            [\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE],
+            [\Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL],
+            [\Magento\Catalog\Model\Product\Type::TYPE_BUNDLE],
+            [\Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE]
+        ];
     }
 
     public function testGetTypes()
@@ -183,7 +183,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $types = $this->_productType->getTypesByPriority();
         // collect the types and priority in the same order as the method returns
-        $result = array();
+        $result = [];
         foreach ($types as $typeId => $type) {
             if (!isset($type['index_priority'])) {
                 // possible bug: index_priority is not defined for each type
@@ -212,7 +212,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     protected function _assertOptions($options)
     {
         $this->assertInternalType('array', $options);
-        $types = array();
+        $types = [];
         foreach ($options as $option) {
             $this->assertArrayHasKey('value', $option);
             $this->assertArrayHasKey('label', $option);

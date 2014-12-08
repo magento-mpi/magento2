@@ -29,40 +29,40 @@ class Configurable extends \Magento\CatalogInventory\Model\Resource\Indexer\Stoc
     {
         $writer = $this->_getWriteAdapter();
         $idxTable = $usePrimaryTable ? $this->getMainTable() : $this->getIdxTable();
-        $select = $writer->select()->from(array('e' => $this->getTable('catalog_product_entity')), array('entity_id'));
+        $select = $writer->select()->from(['e' => $this->getTable('catalog_product_entity')], ['entity_id']);
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns(
             'cw.website_id'
         )->join(
-            array('cis' => $this->getTable('cataloginventory_stock')),
+            ['cis' => $this->getTable('cataloginventory_stock')],
             '',
-            array('stock_id')
+            ['stock_id']
         )->joinLeft(
-            array('cisi' => $this->getTable('cataloginventory_stock_item')),
+            ['cisi' => $this->getTable('cataloginventory_stock_item')],
             'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
-            array()
+            []
         )->joinLeft(
-            array('l' => $this->getTable('catalog_product_super_link')),
+            ['l' => $this->getTable('catalog_product_super_link')],
             'l.parent_id = e.entity_id',
-            array()
+            []
         )->join(
-            array('le' => $this->getTable('catalog_product_entity')),
+            ['le' => $this->getTable('catalog_product_entity')],
             'le.entity_id = l.product_id',
-            array()
+            []
         )->joinLeft(
-            array('i' => $idxTable),
+            ['i' => $idxTable],
             'i.product_id = l.product_id AND cw.website_id = i.website_id AND cis.stock_id = i.stock_id',
-            array()
+            []
         )->columns(
-            array('qty' => new \Zend_Db_Expr('0'))
+            ['qty' => new \Zend_Db_Expr('0')]
         )->where(
             'cw.website_id != 0'
         )->where(
             'e.type_id = ?',
             $this->getTypeId()
         )->group(
-            array('e.entity_id', 'cw.website_id', 'cis.stock_id')
+            ['e.entity_id', 'cw.website_id', 'cis.stock_id']
         );
 
         $psExpr = $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id');
@@ -83,9 +83,9 @@ class Configurable extends \Magento\CatalogInventory\Model\Resource\Indexer\Stoc
         }
 
         $optExpr = $writer->getCheckSql("{$psCond} AND le.required_options = 0", 'i.stock_status', 0);
-        $stockStatusExpr = $writer->getLeastSql(array("MAX({$optExpr})", "MIN({$statusExpr})"));
+        $stockStatusExpr = $writer->getLeastSql(["MAX({$optExpr})", "MIN({$statusExpr})"]);
 
-        $select->columns(array('status' => $stockStatusExpr));
+        $select->columns(['status' => $stockStatusExpr]);
 
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);

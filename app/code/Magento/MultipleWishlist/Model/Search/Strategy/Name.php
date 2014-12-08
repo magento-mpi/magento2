@@ -75,9 +75,9 @@ class Name implements \Magento\MultipleWishlist\Model\Search\Strategy\StrategyIn
         /* @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $customers = $this->_customerCollectionFactory->create();
         $customers->addAttributeToFilter(
-            array(array('attribute' => 'firstname', 'like' => '%' . $this->_firstname . '%'))
+            [['attribute' => 'firstname', 'like' => '%' . $this->_firstname . '%']]
         )->addAttributeToFilter(
-            array(array('attribute' => 'lastname', 'like' => '%' . $this->_lastname . '%'))
+            [['attribute' => 'lastname', 'like' => '%' . $this->_lastname . '%']]
         );
 
         $collection->filterByCustomerIds($customers->getAllIds());

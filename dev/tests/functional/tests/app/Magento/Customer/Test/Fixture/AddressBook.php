@@ -48,7 +48,7 @@ class AddressBook extends \Mtf\Fixture\DataFixture
             return false;
         }
         $data = $this->_addressFixture->getData();
-        $this->_data = array('fields' => array('address_id' => array(
+        $this->_data = ['fields' => ['address_id' => [
             'value' => $data['fields']['firstname']['value'] . ' '
                 . $data['fields']['lastname']['value'] . ', '
                 . $data['fields']['street']['value'] . ', '
@@ -56,8 +56,8 @@ class AddressBook extends \Mtf\Fixture\DataFixture
                 . $data['fields']['region_id']['value'] . ' '
                 . $data['fields']['postcode']['value'] . ', '
                 . $data['fields']['country_id']['value'],
-            'input' => 'select'
-        )));
+            'input' => 'select',
+        ]]];
 
         return $result;
     }

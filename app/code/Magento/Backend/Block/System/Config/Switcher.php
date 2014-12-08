@@ -26,7 +26,7 @@ class Switcher extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         parent::__construct($context, $data);
@@ -52,13 +52,13 @@ class Switcher extends \Magento\Backend\Block\Template
         $curWebsite = $this->getRequest()->getParam('website');
         $curStore = $this->getRequest()->getParam('store');
 
-        $options = array();
-        $options['default'] = array(
+        $options = [];
+        $options['default'] = [
             'label' => __('Default Config'),
-            'url' => $this->getUrl('*/*/*', array('section' => $section)),
+            'url' => $this->getUrl('*/*/*', ['section' => $section]),
             'selected' => !$curWebsite && !$curStore,
-            'style' => 'background:#ccc; font-weight:bold;'
-        );
+            'style' => 'background:#ccc; font-weight:bold;',
+        ];
 
         foreach ($this->_systemStore->getWebsiteCollection() as $website) {
             $options = $this->_processWebsite(
@@ -105,37 +105,37 @@ class Switcher extends \Magento\Backend\Block\Template
                 }
                 if (!$websiteShow) {
                     $websiteShow = true;
-                    $options['website_' . $website->getCode()] = array(
+                    $options['website_' . $website->getCode()] = [
                         'label' => $website->getName(),
                         'url' => $this->getUrl(
                             '*/*/*',
-                            array('section' => $section, 'website' => $website->getCode())
+                            ['section' => $section, 'website' => $website->getCode()]
                         ),
                         'selected' => !$curStore && $curWebsite == $website->getCode(),
-                        'style' => 'padding-left:16px; background:#DDD; font-weight:bold;'
-                    );
+                        'style' => 'padding-left:16px; background:#DDD; font-weight:bold;',
+                    ];
                 }
                 if (!$groupShow) {
                     $groupShow = true;
-                    $options['group_' . $group->getId() . '_open'] = array(
+                    $options['group_' . $group->getId() . '_open'] = [
                         'is_group' => true,
                         'is_close' => false,
                         'label' => $group->getName(),
-                        'style' => 'padding-left:32px;'
-                    );
+                        'style' => 'padding-left:32px;',
+                    ];
                 }
-                $options['store_' . $store->getCode()] = array(
+                $options['store_' . $store->getCode()] = [
                     'label' => $store->getName(),
                     'url' => $this->getUrl(
                         '*/*/*',
-                        array('section' => $section, 'website' => $website->getCode(), 'store' => $store->getCode())
+                        ['section' => $section, 'website' => $website->getCode(), 'store' => $store->getCode()]
                     ),
                     'selected' => $curStore == $store->getCode(),
-                    'style' => ''
-                );
+                    'style' => '',
+                ];
             }
             if ($groupShow) {
-                $options['group_' . $group->getId() . '_close'] = array('is_group' => true, 'is_close' => true);
+                $options['group_' . $group->getId() . '_close'] = ['is_group' => true, 'is_close' => true];
             }
         }
         return $options;

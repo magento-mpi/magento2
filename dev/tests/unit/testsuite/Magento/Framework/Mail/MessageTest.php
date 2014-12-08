@@ -18,7 +18,7 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_messageMock = $this->getMock(
             '\Magento\Framework\Mail\Message',
-            array('getBodyText', 'getBodyHtml', 'setBodyText', 'setBodyHtml')
+            ['getBodyText', 'getBodyHtml', 'setBodyText', 'setBodyHtml']
         );
     }
 
@@ -46,16 +46,16 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setBodyDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'messageType' => 'text/plain',
-                'method' => 'setBodyText'
-            ),
-            array(
+                'method' => 'setBodyText',
+            ],
+            [
                 'messageType' => 'text/html',
                 'method' => 'setBodyHtml'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -81,15 +81,15 @@ class MessageTest extends \PHPUnit_Framework_TestCase
      */
     public function getBodyDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'messageType' => 'text/plain',
-                'method' => 'getBodyText'
-            ),
-            array(
+                'method' => 'getBodyText',
+            ],
+            [
                 'messageType' => 'text/html',
                 'method' => 'getBodyHtml'
-            )
-        );
+            ]
+        ];
     }
 }

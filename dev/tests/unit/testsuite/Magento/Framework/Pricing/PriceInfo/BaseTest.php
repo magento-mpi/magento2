@@ -80,22 +80,22 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return [
             'case with empty quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 1
+                'createCount' => 1,
             ],
             'case with existing price' => [
                 'entryParams' => [
                     ['priceCode' => 'testCode'],
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 2
+                'createCount' => 2,
             ],
             'case with quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 1
+                'createCount' => 1,
             ],
         ];
     }

@@ -8,9 +8,8 @@
 namespace Magento\Doc\Document\Content;
 
 use Magento\Doc\Document\Content\Collector\Base;
-
-use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\FileList\Factory;
 
 /**

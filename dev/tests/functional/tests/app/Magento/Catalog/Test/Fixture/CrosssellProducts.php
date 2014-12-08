@@ -8,10 +8,8 @@
 
 namespace Magento\Catalog\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
+use Mtf\Factory\Factory;
 
 class CrosssellProducts extends AssignProducts
 {
@@ -43,7 +41,7 @@ class CrosssellProducts extends AssignProducts
             /** @var $product \Magento\Catalog\Test\Fixture\Product */
             $productsArray['product_' . $key] = [
                 'sku' => $product->getSku(),
-                'name' => $product->getName()
+                'name' => $product->getName(),
             ];
         }
         $this->_data['fields']['cross_sell_products']['value'] = $productsArray;

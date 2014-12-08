@@ -41,18 +41,18 @@ class Observer
 
         $grid->addColumnAfter(
             'is_filterable',
-            array(
-                    'header'=>__('Use in Layered Navigation'),
-                    'sortable'=>true,
-                    'index'=>'is_filterable',
+            [
+                    'header' => __('Use in Layered Navigation'),
+                    'sortable' => true,
+                    'index' => 'is_filterable',
                     'type' => 'options',
-                    'options' => array(
+                    'options' => [
                         '1' => __('Filterable (with results)'),
                         '2' => __('Filterable (no results)'),
                         '0' => __('No'),
-                    ),
+                    ],
                     'align' => 'center',
-            ),
+            ],
             'is_searchable'
         );
     }

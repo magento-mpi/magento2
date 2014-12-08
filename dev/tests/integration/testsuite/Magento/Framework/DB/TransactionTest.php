@@ -27,14 +27,13 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
     {
         $first = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Group');
         $first->setData(
-            array('website_id' => 1, 'name' => 'test 1', 'root_category_id' => 1, 'default_store_id' => 1)
+            ['website_id' => 1, 'name' => 'test 1', 'root_category_id' => 1, 'default_store_id' => 1]
         );
 
         $second = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Group');
         $second->setData(
-            array('website_id' => 1, 'name' => 'test 2', 'root_category_id' => 1, 'default_store_id' => 1)
+            ['website_id' => 1, 'name' => 'test 2', 'root_category_id' => 1, 'default_store_id' => 1]
         );
-
 
         $first->save();
         $this->_model->addObject($first)->addObject($second, 'second');

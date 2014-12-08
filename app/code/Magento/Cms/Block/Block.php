@@ -33,7 +33,7 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
 
     /**
      * Construct
-     * 
+     *
      * @param \Magento\Framework\View\Element\Context $context
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Framework\StoreManagerInterface $storeManager
@@ -45,7 +45,7 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_filterProvider = $filterProvider;
@@ -81,6 +81,6 @@ class Block extends \Magento\Framework\View\Element\AbstractBlock implements \Ma
      */
     public function getIdentities()
     {
-        return array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId());
+        return [\Magento\Cms\Model\Block::CACHE_TAG . '_' . $this->getBlockId()];
     }
 }

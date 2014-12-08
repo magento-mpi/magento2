@@ -11,7 +11,8 @@ use Magento\Framework\App\Resource;
 use Magento\Setup\Module\Setup\ResourceConfig;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
-class ResourceFactory {
+class ResourceFactory
+{
     /**
      * Zend Framework's service locator
      *
@@ -37,10 +38,10 @@ class ResourceFactory {
     {
         $connectionFactory = $this->serviceLocator->get('Magento\Setup\Module\ConnectionFactory');
         $resource = new Resource(
-            new ResourceConfig,
+            new ResourceConfig(),
             $connectionFactory,
             $deploymentConfig
         );
         return $resource;
     }
-} 
+}

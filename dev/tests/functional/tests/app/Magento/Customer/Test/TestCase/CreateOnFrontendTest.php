@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Test\TestCase;
 
+use Magento\Customer\Test\Block\Address\Edit as AddressEditForm;
+use Magento\Customer\Test\Fixture\Address;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Customer\Test\Fixture\Address;
-use Magento\Customer\Test\Block\Address\Edit as AddressEditForm;
 
 /**
  * Create Customer on frontend and set default billing address

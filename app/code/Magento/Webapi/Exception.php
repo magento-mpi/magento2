@@ -85,7 +85,7 @@ class Exception extends \RuntimeException
         $message,
         $code = 0,
         $httpCode = self::HTTP_BAD_REQUEST,
-        array $details = array(),
+        array $details = [],
         $name = '',
         $errors = null,
         $stackTrace = null

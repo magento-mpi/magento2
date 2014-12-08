@@ -116,28 +116,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareIndexdataDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
-                array(
-                    'index' => array(),
+                [
+                    'index' => [],
                     'separator' => '--'
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'element1--element2--element3--element4',
-                array(
-                    'index' => array(
+                [
+                    'index' => [
                         'element1',
                         'element2',
-                        array(
+                        [
                             'element3',
                             'element4',
-                        )
-                    ),
+                        ],
+                    ],
                     'separator' => '--'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

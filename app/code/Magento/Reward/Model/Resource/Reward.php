@@ -43,7 +43,7 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'website_id = :website_id'
         );
-        $bind = array(':customer_id' => $customerId, ':website_id' => $websiteId);
+        $bind = [':customer_id' => $customerId, ':website_id' => $websiteId];
         if ($data = $this->_getReadAdapter()->fetchRow($select, $bind)) {
             $reward->addData($data);
         }
@@ -63,7 +63,7 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!$object->getId() || !is_array($data)) {
             return $this;
         }
-        $where = array($this->getIdFieldName() . '=?' => $object->getId());
+        $where = [$this->getIdFieldName() . '=?' => $object->getId()];
         $this->_getWriteAdapter()->update($this->getMainTable(), $data, $where);
         return $this;
     }
@@ -82,8 +82,8 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($websiteId) {
             $adapter->update(
                 $this->getMainTable(),
-                array('website_id' => null, 'website_currency_code' => $baseCurrencyCode),
-                array('website_id = ?' => $websiteId)
+                ['website_id' => null, 'website_currency_code' => $baseCurrencyCode],
+                ['website_id = ?' => $websiteId]
             );
         }
         return $this;
@@ -100,7 +100,7 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($customerId) {
             $this->_getWriteAdapter()->delete(
                 $this->getMainTable(),
-                array('customer_id = ?' => $customerId, new \Zend_Db_Expr('website_id IS NULL'))
+                ['customer_id = ?' => $customerId, new \Zend_Db_Expr('website_id IS NULL')]
             );
         }
         return $this;
@@ -117,8 +117,8 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getWriteAdapter()->insertOnDuplicate(
             $this->getTable('magento_reward_salesrule'),
-            array('rule_id' => $ruleId, 'points_delta' => $pointsDelta),
-            array('points_delta')
+            ['rule_id' => $ruleId, 'points_delta' => $pointsDelta],
+            ['points_delta']
         );
     }
 
@@ -130,7 +130,7 @@ class Reward extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getRewardSalesrule($rule)
     {
-        $data = array();
+        $data = [];
         $select = $this->_getReadAdapter()->select()->from(
             $this->getTable('magento_reward_salesrule')
         )->where(

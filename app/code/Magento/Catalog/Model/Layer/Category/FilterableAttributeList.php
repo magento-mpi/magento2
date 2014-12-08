@@ -9,7 +9,6 @@
 
 namespace Magento\Catalog\Model\Layer\Category;
 
-
 use Magento\Catalog\Model\Layer\FilterableAttributeListInterface;
 
 class FilterableAttributeList implements FilterableAttributeListInterface
@@ -55,7 +54,7 @@ class FilterableAttributeList implements FilterableAttributeListInterface
     {
         $setIds = $this->layer->getProductCollection()->getSetIds();
         if (!$setIds) {
-            return array();
+            return [];
         }
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->collectionFactory->create();

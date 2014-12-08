@@ -8,9 +8,9 @@
 
 namespace Magento\Cms\Test\TestCase;
 
+use Magento\Cms\Test\Fixture\CmsPage;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
-use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\TestCase\Injectable;
 
 /**
@@ -72,7 +72,7 @@ class DeleteCmsPageEntityTest extends Injectable
         // Preconditions
         $cmsPage->persist();
         $filter = [
-            'title' => $cmsPage->getTitle()
+            'title' => $cmsPage->getTitle(),
         ];
 
         // Steps

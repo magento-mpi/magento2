@@ -23,7 +23,7 @@ class EventManager
      *
      * @var array
      */
-    protected $_subscribers = array();
+    protected $_subscribers = [];
 
     /**
      * Constructor
@@ -42,11 +42,11 @@ class EventManager
      * @param array $parameters Parameters to be passed to each subscriber
      * @param bool $reverseOrder Whether subscribers should be notified in reverse order
      */
-    public function fireEvent($eventName, array $parameters = array(), $reverseOrder = false)
+    public function fireEvent($eventName, array $parameters = [], $reverseOrder = false)
     {
         $subscribers = $reverseOrder ? array_reverse($this->_subscribers) : $this->_subscribers;
         foreach ($subscribers as $subscriberInstance) {
-            $callback = array($subscriberInstance, $eventName);
+            $callback = [$subscriberInstance, $eventName];
             if (is_callable($callback)) {
                 call_user_func_array($callback, $parameters);
             }

@@ -8,7 +8,6 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;

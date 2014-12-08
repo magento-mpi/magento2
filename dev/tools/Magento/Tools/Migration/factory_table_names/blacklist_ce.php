@@ -14,7 +14,7 @@
  * c) not available by used as dead code
  */
 
-return array(
+return [
     'c',
     'l',
     'sc',
@@ -32,4 +32,4 @@ return array(
     'entity_attribute',
     'directory_currency',
     'sales_bestsellers_aggregated_'
-);
+];

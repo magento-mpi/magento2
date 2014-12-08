@@ -76,10 +76,8 @@ class FulltextIndexRebuild
     public function afterExecuteFull(\Magento\CatalogSearch\Model\Indexer\Fulltext $subject)
     {
         if ($this->_searchHelper->isThirdPartyEngineAvailable()) {
-
             $engine = $this->_engineProvider->get();
             if ($engine->allowCommit()) {
-
                 if ($engine->getIndexNeedsOptimization()) {
                     $engine->optimizeIndex();
                 } else {
@@ -89,7 +87,7 @@ class FulltextIndexRebuild
                 /**
                  * Cleaning MAXPRICE cache
                  */
-                $this->_cache->clean(array(\Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG));
+                $this->_cache->clean([\Magento\Solr\Model\Layer\Category\Filter\Price::CACHE_TAG]);
             }
         }
     }

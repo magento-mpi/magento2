@@ -19,8 +19,8 @@ class Save extends \Magento\Backend\Controller\Adminhtml\System\Design
     protected function _filterPostData($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            array('date_from' => $this->dateFilter, 'date_to' => $this->dateFilter),
-            array(),
+            ['date_from' => $this->dateFilter, 'date_to' => $this->dateFilter],
+            [],
             $data
         );
         $data = $inputFilter->getUnescaped();

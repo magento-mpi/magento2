@@ -9,10 +9,10 @@
  */
 namespace Magento\TestFramework\Authentication;
 
-use Zend\Stdlib\Exception\LogicException;
+use Magento\TestFramework\Authentication\Rest\OauthClient;
 use Magento\TestFramework\Helper\Bootstrap;
 use OAuth\Common\Consumer\Credentials;
-use Magento\TestFramework\Authentication\Rest\OauthClient;
+use Zend\Stdlib\Exception\LogicException;
 
 class OauthHelper
 {
@@ -50,13 +50,13 @@ class OauthHelper
         $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
-        return array(
+        return [
             'key' => $consumer->getKey(),
             'secret' => $consumer->getSecret(),
             'verifier' => $verifier,
             'consumer' => $consumer,
             'token' => $token
-        );
+        ];
     }
 
     /**
@@ -84,11 +84,11 @@ class OauthHelper
         );
 
         /** TODO: Reconsider return format. It is not aligned with method name. */
-        return array(
+        return [
             'key' => $accessToken->getAccessToken(),
             'secret' => $accessToken->getAccessTokenSecret(),
             'oauth_client' => $oAuthClient
-        );
+        ];
     }
 
     /**
@@ -123,12 +123,12 @@ class OauthHelper
             /** @var $oAuthClient OauthClient */
             $oAuthClient = new OauthClient($credentials);
 
-            self::$_apiCredentials = array(
+            self::$_apiCredentials = [
                 'key' => $accessToken->getToken(),
                 'secret' => $accessToken->getSecret(),
                 'oauth_client' => $oAuthClient,
-                'integration' => $integration
-            );
+                'integration' => $integration,
+            ];
         }
         return self::$_apiCredentials;
     }
@@ -178,7 +178,7 @@ class OauthHelper
         /** @var $integrationService \Magento\Integration\Service\V1\IntegrationInterface */
         $integrationService = $objectManager->get('Magento\Integration\Service\V1\IntegrationInterface');
 
-        $params = array('name' => 'Integration' . microtime());
+        $params = ['name' => 'Integration' . microtime()];
 
         if ($resources === null || $resources == 'all') {
             $params['all_resources'] = true;

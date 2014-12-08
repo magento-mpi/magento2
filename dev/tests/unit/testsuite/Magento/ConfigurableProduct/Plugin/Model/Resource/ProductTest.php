@@ -1,15 +1,15 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\ConfigurableProduct\Plugin\Model\Resource;
 
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Catalog\Model\Product\Type;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {

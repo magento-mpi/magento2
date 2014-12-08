@@ -14,11 +14,11 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/entity' => 'name',
         '/config/entityType' => ['entity', 'name'],
-        '/config/fileFormat' => 'name'
-    );
+        '/config/fileFormat' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -36,7 +36,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\ImportExport\Model\Export\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'export.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

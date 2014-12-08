@@ -8,7 +8,6 @@
 namespace Magento\ImportExport\Model\Import;
 
 use Magento\Framework\Filesystem\Directory\Write;
-use Magento\ImportExport\Model\Import\AbstractSource;
 
 /**
  * Import adapter model

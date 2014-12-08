@@ -57,7 +57,7 @@ class Catalog extends \Magento\Framework\Object
      */
     public function load()
     {
-        $result = array();
+        $result = [];
         if (!$this->hasStart() || !$this->hasLimit() || !$this->hasQuery()) {
             $this->setResults($result);
             return $this;
@@ -74,13 +74,13 @@ class Catalog extends \Magento\Framework\Object
 
         foreach ($collection as $product) {
             $description = strip_tags($product->getDescription());
-            $result[] = array(
+            $result[] = [
                 'id' => 'product/1/' . $product->getId(),
                 'type' => __('Product'),
                 'name' => $product->getName(),
                 'description' => $this->string->substr($description, 0, 30),
-                'url' => $this->_adminhtmlData->getUrl('catalog/product/edit', array('id' => $product->getId()))
-            );
+                'url' => $this->_adminhtmlData->getUrl('catalog/product/edit', ['id' => $product->getId()]),
+            ];
         }
 
         $this->setResults($result);

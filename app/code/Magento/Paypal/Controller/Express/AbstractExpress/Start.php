@@ -8,7 +8,7 @@
  */
 namespace Magento\Paypal\Controller\Express\AbstractExpress;
 
-use \Magento\Checkout\Model\Type\Onepage;
+use Magento\Checkout\Model\Type\Onepage;
 
 class Start extends \Magento\Paypal\Controller\Express\AbstractExpress
 {
@@ -41,13 +41,12 @@ class Start extends \Magento\Paypal\Controller\Express\AbstractExpress
                     $this->_getQuote()->getStoreId()
                 )
             ) {
-
                 $this->messageManager->addNotice(
                     __('To proceed to Checkout, please log in using your email address.')
                 );
 
                 $this->_objectManager->get('Magento\Checkout\Helper\ExpressRedirect')->redirectLogin($this);
-                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
+                $this->_customerSession->setBeforeAuthUrl($this->_url->getUrl('*/*/*', ['_current' => true]));
 
                 return;
             }

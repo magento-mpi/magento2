@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateSimpleProductEntity

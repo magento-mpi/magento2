@@ -33,7 +33,7 @@ class Place extends \Magento\Authorizenet\Controller\Directpost\Payment
                 $this->getRequest()->getParams()
             );
         } else {
-            $result = array('error_messages' => __('Please choose a payment method.'), 'goto_section' => 'payment');
+            $result = ['error_messages' => __('Please choose a payment method.'), 'goto_section' => 'payment'];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

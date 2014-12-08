@@ -8,7 +8,6 @@
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
-use Mtf\Client\Element;
 
 /**
  * Class EventDate

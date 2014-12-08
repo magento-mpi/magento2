@@ -101,7 +101,7 @@ class Switcher extends \Magento\Backend\Block\Template
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\GroupFactory $storeGroupFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_websiteFactory = $websiteFactory;

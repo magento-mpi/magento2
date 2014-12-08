@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports invitation customer report collection
  *
@@ -27,21 +26,21 @@ class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
     {
         $this->_reset();
         $this->getSelect()->join(
-            array('invitation' => $this->getTable('magento_invitation')),
+            ['invitation' => $this->getTable('magento_invitation')],
             'invitation.customer_id = e.entity_id',
-            array(
+            [
                 'sent' => new \Zend_Db_Expr('COUNT(invitation.invitation_id)'),
                 'accepted' => new \Zend_Db_Expr('COUNT(invitation.referral_id) ')
-            )
+            ]
         )->group(
             'e.entity_id'
         );
 
-        $this->_joinFields['invitation_store_id'] = array('table' => 'invitation', 'field' => 'store_id');
-        $this->_joinFields['invitation_date'] = array('table' => 'invitation', 'field' => 'invitation_date');
+        $this->_joinFields['invitation_store_id'] = ['table' => 'invitation', 'field' => 'store_id'];
+        $this->_joinFields['invitation_date'] = ['table' => 'invitation', 'field' => 'invitation_date'];
 
         // Filter by date range
-        $this->addFieldToFilter('invitation_date', array('from' => $fromDate, 'to' => $toDate, 'time' => true));
+        $this->addFieldToFilter('invitation_date', ['from' => $fromDate, 'to' => $toDate, 'time' => true]);
 
         // Add customer name
         $this->addNameToSelect();
@@ -63,7 +62,7 @@ class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
     public function setStoreIds($storeIds)
     {
         if ($storeIds) {
-            $this->addFieldToFilter('invitation_store_id', array('in' => (array)$storeIds));
+            $this->addFieldToFilter('invitation_store_id', ['in' => (array)$storeIds]);
         }
         return $this;
     }

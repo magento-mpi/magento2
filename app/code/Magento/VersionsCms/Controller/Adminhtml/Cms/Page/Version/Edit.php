@@ -74,7 +74,7 @@ class Edit extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Edit
 
         if (!$version->getId()) {
             $this->messageManager->addError(__('We could not load the specified revision.'));
-            $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_redirect('adminhtml/cms_page/edit', ['page_id' => $this->getRequest()->getParam('page_id')]);
             return;
         }
 

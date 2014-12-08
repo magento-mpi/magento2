@@ -116,7 +116,6 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
      */
     protected $rmaDataMapperMock;
 
-
     /**
      * test setUp
      */
@@ -232,7 +231,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
                         ['Magento\Rma\Model\Rma', [], $this->rmaModelMock],
                         ['Magento\Sales\Model\Order', [], $this->orderMock],
                         ['Magento\Rma\Model\Rma\Source\Status', [], $this->sourceStatusMock],
-                        ['Magento\Rma\Model\Rma\Status\History', [], $this->statusHistoryMock]
+                        ['Magento\Rma\Model\Rma\Status\History', [], $this->statusHistoryMock],
                     ]
                 )
             );
@@ -247,7 +246,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
             'comment' => [
                 'comment' => $commentText,
                 'is_visible_on_front' => $visibleOnFront,
-            ]
+            ],
         ];
         $this->requestMock->expects($this->once())
             ->method('isPost')
@@ -262,7 +261,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
                         'comment' => [
                             'comment' => $commentText,
                             'is_visible_on_front' => $visibleOnFront,
-                        ]
+                        ],
                     ]
                 )
             );

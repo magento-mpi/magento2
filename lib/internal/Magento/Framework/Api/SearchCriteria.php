@@ -8,8 +8,6 @@
 
 namespace Magento\Framework\Api;
 
-use Magento\Framework\Api\AbstractExtensibleObject;
-use Magento\Framework\Api\SearchCriteriaInterface;
 
 /**
  * Data Object for SearchCriteria

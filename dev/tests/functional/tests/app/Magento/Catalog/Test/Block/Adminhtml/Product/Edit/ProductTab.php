@@ -9,8 +9,6 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit;
 
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Client\Element\Locator;
 
 /**

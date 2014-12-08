@@ -20,16 +20,16 @@ class PaymentAction implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '', 'label' => __('Ogone Default Operation')),
-            array(
+        return [
+            ['value' => '', 'label' => __('Ogone Default Operation')],
+            [
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE,
                 'label' => __('Authorization')
-            ),
-            array(
+            ],
+            [
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
                 'label' => __('Direct Sale')
-            )
-        );
+            ]
+        ];
     }
 }

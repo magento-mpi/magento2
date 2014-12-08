@@ -7,8 +7,8 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer giftregistry list block
@@ -55,7 +55,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
@@ -85,7 +85,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -158,7 +158,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getItemsUrl($item)
     {
-        return $this->getUrl('giftregistry/index/items', array('id' => $item->getEntityId()));
+        return $this->getUrl('giftregistry/index/items', ['id' => $item->getEntityId()]);
     }
 
     /**
@@ -169,7 +169,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getShareUrl($item)
     {
-        return $this->getUrl('giftregistry/index/share', array('id' => $item->getEntityId()));
+        return $this->getUrl('giftregistry/index/share', ['id' => $item->getEntityId()]);
     }
 
     /**
@@ -180,7 +180,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getEditUrl($item)
     {
-        return $this->getUrl('giftregistry/index/edit', array('entity_id' => $item->getEntityId()));
+        return $this->getUrl('giftregistry/index/edit', ['entity_id' => $item->getEntityId()]);
     }
 
     /**
@@ -191,7 +191,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getDeleteUrl($item)
     {
-        return $this->getUrl('giftregistry/index/delete', array('id' => $item->getEntityId()));
+        return $this->getUrl('giftregistry/index/delete', ['id' => $item->getEntityId()]);
     }
 
     /**

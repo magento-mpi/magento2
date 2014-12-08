@@ -8,9 +8,9 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductReviewMassActionSuccessMessage

@@ -10,8 +10,8 @@ namespace Magento\CatalogUrlRewrite\Model\Category\Plugin;
 use Magento\CatalogUrlRewrite\Model\Category\ProductFactory;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\UrlRewrite\Model\StorageInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Storage
 {
@@ -49,7 +49,7 @@ class Storage
             $toSave[] = [
                 'url_rewrite_id' => $record->getUrlRewriteId(),
                 'category_id' => $metadata['category_id'],
-                'product_id' => $record->getEntityId()
+                'product_id' => $record->getEntityId(),
             ];
         }
         if ($toSave) {

@@ -8,12 +8,12 @@
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Store\Test\Fixture\Website;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
-use Magento\Backend\Test\Page\Adminhtml\EditWebsite;
 use Magento\Backend\Test\Page\Adminhtml\DeleteWebsite;
+use Magento\Backend\Test\Page\Adminhtml\EditWebsite;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
+use Magento\Store\Test\Fixture\Website;
+use Mtf\TestCase\Injectable;
 
 /**
  * Delete Website (Store Management)

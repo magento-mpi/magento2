@@ -21,7 +21,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->catalogPrice = new \Magento\GiftCard\Model\Product\CatalogPrice();
     }
 
@@ -29,8 +29,8 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
     {
         $priceModelMock = $this->getMock(
             'Magento\Catalog\Model\Product\Type\Price',
-            array('getMinAmount'),
-            array(),
+            ['getMinAmount'],
+            [],
             '',
             false
         );

@@ -27,7 +27,7 @@ class ParentClass
         $param1 = '',
         $param2 = '\\',
         $param3 = '\'',
-        array $array = array()
+        array $array = []
     ) {
     }
 
@@ -47,7 +47,7 @@ class ParentClass
         $param1 = '',
         $param2 = '\\',
         $param3 = '\'',
-        array $array = array()
+        array $array = []
     ) {
     }
 
@@ -68,7 +68,7 @@ class ParentClass
         $param1 = '',
         $param2 = '\\',
         $param3 = '\'',
-        array $array = array()
+        array $array = []
     ) {
     }
 

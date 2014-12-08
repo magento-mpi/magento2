@@ -32,7 +32,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Newsletter\Model\Resource\Template\Collection $templateCollection,
-        array $data = array()
+        array $data = []
     ) {
         $this->_templateCollection = $templateCollection;
         parent::__construct($context, $backendHelper, $data);
@@ -60,86 +60,86 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'template_code',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'template_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
         $this->addColumn(
             'code',
-            array(
+            [
                 'header' => __('Template'),
                 'index' => 'template_code',
                 'header_css_class' => 'col-template',
                 'column_css_class' => 'col-template'
-            )
+            ]
         );
 
         $this->addColumn(
             'added_at',
-            array(
+            [
                 'header' => __('Added'),
                 'index' => 'added_at',
                 'gmtoffset' => true,
                 'type' => 'datetime',
                 'header_css_class' => 'col-added col-date',
                 'column_css_class' => 'col-added col-date'
-            )
+            ]
         );
 
         $this->addColumn(
             'modified_at',
-            array(
+            [
                 'header' => __('Updated'),
                 'index' => 'modified_at',
                 'gmtoffset' => true,
                 'type' => 'datetime',
                 'header_css_class' => 'col-updated col-date',
                 'column_css_class' => 'col-updated col-date'
-            )
+            ]
         );
 
         $this->addColumn(
             'subject',
-            array(
+            [
                 'header' => __('Subject'),
                 'index' => 'template_subject',
                 'header_css_class' => 'col-subject',
                 'column_css_class' => 'col-subject'
-            )
+            ]
         );
 
         $this->addColumn(
             'sender',
-            array(
+            [
                 'header' => __('Sender'),
                 'index' => 'template_sender_email',
                 'renderer' => 'Magento\Newsletter\Block\Adminhtml\Template\Grid\Renderer\Sender',
                 'header_css_class' => 'col-sender',
                 'column_css_class' => 'col-sender'
-            )
+            ]
         );
 
         $this->addColumn(
             'type',
-            array(
+            [
                 'header' => __('Template Type'),
                 'index' => 'template_type',
                 'type' => 'options',
-                'options' => array(
+                'options' => [
                     \Magento\Newsletter\Model\Template::TYPE_HTML => 'html',
-                    \Magento\Newsletter\Model\Template::TYPE_TEXT => 'text'
-                ),
+                    \Magento\Newsletter\Model\Template::TYPE_TEXT => 'text',
+                ],
                 'header_css_class' => 'col-type',
                 'column_css_class' => 'col-type'
-            )
+            ]
         );
 
         $this->addColumn(
             'action',
-            array(
+            [
                 'header' => __('Action'),
                 'index' => 'template_id',
                 'sortable' => false,
@@ -148,7 +148,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'renderer' => 'Magento\Newsletter\Block\Adminhtml\Template\Grid\Renderer\Action',
                 'header_css_class' => 'col-actions',
                 'column_css_class' => 'col-actions'
-            )
+            ]
         );
 
         return $this;
@@ -162,6 +162,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('*/*/edit', array('id' => $row->getId()));
+        return $this->getUrl('*/*/edit', ['id' => $row->getId()]);
     }
 }

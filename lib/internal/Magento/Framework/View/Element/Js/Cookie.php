@@ -37,7 +37,7 @@ class Cookie extends Template
         Context $context,
         ConfigInterface $cookieConfig,
         \Magento\Framework\Validator\Ip $ipValidator,
-        array $data = array()
+        array $data = []
     ) {
         $this->sessionConfig = $cookieConfig;
         $this->ipValidator = $ipValidator;

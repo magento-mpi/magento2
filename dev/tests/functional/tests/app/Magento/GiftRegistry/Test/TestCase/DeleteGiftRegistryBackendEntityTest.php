@@ -8,16 +8,16 @@
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteGiftRegistryEntity from Customer Account(Backend)

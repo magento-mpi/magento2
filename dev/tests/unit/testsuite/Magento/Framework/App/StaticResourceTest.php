@@ -56,15 +56,15 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->state = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
-        $this->response = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
-        $this->request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', array(), array(), '', false);
-        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', array(), array(), '', false);
-        $this->moduleList = $this->getMock('Magento\Framework\Module\ModuleList', array(), array(), '', false);
+        $this->state = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $this->response = $this->getMock('Magento\Core\Model\File\Storage\Response', [], [], '', false);
+        $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->publisher = $this->getMock('Magento\Framework\App\View\Asset\Publisher', [], [], '', false);
+        $this->assetRepo = $this->getMock('Magento\Framework\View\Asset\Repository', [], [], '', false);
+        $this->moduleList = $this->getMock('Magento\Framework\Module\ModuleList', [], [], '', false);
         $this->objectManager = $this->getMockForAbstractClass('Magento\Framework\ObjectManagerInterface');
         $this->configLoader = $this->getMock(
-            'Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false
+            'Magento\Framework\App\ObjectManager\ConfigLoader', [], [], '', false
         );
         $this->object = new \Magento\Framework\App\StaticResource(
             $this->state,
@@ -119,10 +119,10 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
         $this->configLoader->expects($this->once())
             ->method('load')
             ->with('area')
-            ->will($this->returnValue(array('config')));
+            ->will($this->returnValue(['config']));
         $this->objectManager->expects($this->once())
             ->method('configure')
-            ->with(array('config'));
+            ->with(['config']);
         $this->request->expects($this->once())
             ->method('get')
             ->with('resource')
@@ -149,26 +149,26 @@ class StaticResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function launchDataProvider()
     {
-        return array(
-            'developer mode with non-modular resource' => array(
+        return [
+            'developer mode with non-modular resource' => [
                 \Magento\Framework\App\State::MODE_DEVELOPER,
                 'area/Magento/theme/locale/dir/file.js',
                 'dir',
                 false,
                 'dir/file.js',
-                array('area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'Magento/theme'),
-            ),
-            'default mode with modular resource' => array(
+                ['area' => 'area', 'locale' => 'locale', 'module' => '', 'theme' => 'Magento/theme'],
+            ],
+            'default mode with modular resource' => [
                 \Magento\Framework\App\State::MODE_DEFAULT,
                 'area/Magento/theme/locale/Namespace_Module/dir/file.js',
                 'Namespace_Module',
                 true,
                 'dir/file.js',
-                array(
+                [
                     'area' => 'area', 'locale' => 'locale', 'module' => 'Namespace_Module', 'theme' => 'Magento/theme'
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**

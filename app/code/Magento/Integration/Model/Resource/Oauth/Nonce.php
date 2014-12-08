@@ -64,6 +64,6 @@ class Nonce extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $consumerId
         );
         $row = $adapter->fetchRow($select);
-        return $row ? $row : array();
+        return $row ? $row : [];
     }
 }

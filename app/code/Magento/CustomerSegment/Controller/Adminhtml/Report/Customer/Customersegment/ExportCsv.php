@@ -30,7 +30,7 @@ class ExportCsv extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Cus
                 DirectoryList::VAR_DIR
             );
         } else {
-            $this->_redirect('*/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', ['_current' => true]);
             return;
         }
     }

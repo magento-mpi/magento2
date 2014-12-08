@@ -44,9 +44,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $count = 0;
         foreach ($this->document as $field) {
-             $this->assertEquals($field->getName(), "$count");
-             $this->assertEquals($field->getValue(), $count);
-             $count++;
+            $this->assertEquals($field->getName(), "$count");
+            $this->assertEquals($field->getValue(), $count);
+            $count++;
         }
     }
 

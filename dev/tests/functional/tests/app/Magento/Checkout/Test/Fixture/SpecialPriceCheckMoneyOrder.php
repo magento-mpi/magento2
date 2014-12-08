@@ -59,8 +59,8 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         // Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '$30.57'
-            ]
+                'grand_total' => '$30.57',
+            ],
         ];
     }
 
@@ -72,7 +72,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         // Configuration
         $this->_persistConfiguration([
             'flat_rate',
-            'enable_mysql_search'
+            'enable_mysql_search',
          ]);
 
         // Tax
@@ -92,7 +92,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
 
         $this->products = [
             $this->simpleProduct,
-            $this->configurableProduct
+            $this->configurableProduct,
         ];
 
         //Checkout data

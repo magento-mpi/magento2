@@ -51,7 +51,7 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
                     );
                     $this->_eventManager->dispatch(
                         'catalog_product_compare_remove_product',
-                        array('product' => $item)
+                        ['product' => $item]
                     );
                     $helper->calculate();
                 }

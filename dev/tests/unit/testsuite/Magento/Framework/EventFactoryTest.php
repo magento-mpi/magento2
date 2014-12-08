@@ -33,7 +33,7 @@ class EventFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCreate()
     {
-        $arguments = array('property' => 'value');
+        $arguments = ['property' => 'value'];
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(

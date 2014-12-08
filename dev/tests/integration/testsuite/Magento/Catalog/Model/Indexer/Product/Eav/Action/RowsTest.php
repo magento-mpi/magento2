@@ -39,8 +39,8 @@ class RowsTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($attr->isIndexable());
 
         $this->_productAction->updateAttributes(
-            array(1),
-            array('weight' => 11),
+            [1],
+            ['weight' => 11],
             1
         );
 

@@ -25,14 +25,14 @@ class IndexTest extends \Magento\Theme\Controller\Adminhtml\System\Design\ThemeT
         $menuModel->expects($this->once())
             ->method('getParentItems')
             ->with($this->equalTo('Magento_Theme::system_design_theme'))
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
-        $menuBlock = $this->getMock('\Magento\Backend\Block\Menu', array(), array(), '', false);
+        $menuBlock = $this->getMock('\Magento\Backend\Block\Menu', [], [], '', false);
         $menuBlock->expects($this->once())
             ->method('getMenuModel')
             ->will($this->returnValue($menuModel));
 
-        $layout = $this->getMock('\Magento\Framework\View\LayoutInterface', array(), array(), '', false);
+        $layout = $this->getMock('\Magento\Framework\View\LayoutInterface', [], [], '', false);
         $layout->expects($this->any())
             ->method('getBlock')
             ->with($this->equalTo('menu'))

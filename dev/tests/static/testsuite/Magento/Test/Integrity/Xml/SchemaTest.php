@@ -35,7 +35,7 @@ class SchemaTest extends \PHPUnit_Framework_TestCase
                     . 'xsi:noNamespaceSchemaLocation="../../../lib/internal/Magento/Framework/etc/something.xsd"'
                 );
 
-                $schemaFile = dirname($filename).'/'.$schemaLocations[1];
+                $schemaFile = dirname($filename) . '/' . $schemaLocations[1];
 
                 $this->assertFileExists($schemaFile, "$filename refers to an invalid schema $schemaFile.");
 

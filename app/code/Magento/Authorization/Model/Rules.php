@@ -40,7 +40,7 @@ class Rules extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Authorization\Model\Resource\Rules $resource,
         \Magento\Authorization\Model\Resource\Permissions\Collection $resourceCollection,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

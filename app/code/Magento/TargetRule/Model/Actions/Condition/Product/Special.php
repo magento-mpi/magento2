@@ -33,7 +33,7 @@ class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -57,13 +57,13 @@ class Special extends \Magento\Rule\Model\Condition\Product\AbstractProduct
      */
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array(
+        $conditions = [
+            [
                 'value' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
-                'label' => __('Price (percentage)')
-            )
-        );
+                'label' => __('Price (percentage)'),
+            ],
+        ];
 
-        return array('value' => $conditions, 'label' => __('Product Special'));
+        return ['value' => $conditions, 'label' => __('Product Special')];
     }
 }

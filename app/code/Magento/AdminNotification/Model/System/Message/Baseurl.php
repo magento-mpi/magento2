@@ -62,7 +62,7 @@ class Baseurl implements \Magento\Framework\Notification\MessageInterface
         if ($defaultSecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER ||
             $defaultUnsecure == \Magento\Store\Model\Store::BASE_URL_PLACEHOLDER
         ) {
-            $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', array('section' => 'web'));
+            $output = $this->_urlBuilder->getUrl('adminhtml/system_config/edit', ['section' => 'web']);
         } else {
             /** @var $dataCollection \Magento\Core\Model\Resource\Config\Data\Collection */
             $dataCollection = $this->_configValueFactory->create()->getCollection();
@@ -74,14 +74,14 @@ class Baseurl implements \Magento\Framework\Notification\MessageInterface
                     $code = $this->_storeManager->getStore($data->getScopeId())->getCode();
                     $output = $this->_urlBuilder->getUrl(
                         'adminhtml/system_config/edit',
-                        array('section' => 'web', 'store' => $code)
+                        ['section' => 'web', 'store' => $code]
                     );
                     break;
                 } elseif ($data->getScope() == 'websites') {
                     $code = $this->_storeManager->getWebsite($data->getScopeId())->getCode();
                     $output = $this->_urlBuilder->getUrl(
                         'adminhtml/system_config/edit',
-                        array('section' => 'web', 'website' => $code)
+                        ['section' => 'web', 'website' => $code]
                     );
                     break;
                 }

@@ -7,13 +7,13 @@
  */
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Plugin\Aggregation\Category;
 
-use Magento\Framework\Search\Request\BucketInterface;
-use Magento\Framework\DB\Select;
-use Magento\Framework\App\Resource;
-use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\Search\Request\Dimension;
-use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Catalog\Model\Layer\Resolver;
+use Magento\Framework\App\Resource;
+use Magento\Framework\App\ScopeResolverInterface;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\DB\Select;
+use Magento\Framework\Search\Request\BucketInterface;
+use Magento\Framework\Search\Request\Dimension;
 
 class DataProvider
 {
@@ -80,9 +80,9 @@ class DataProvider
 
             if (!empty($currenCategory)) {
                 $derivedTable->join(
-                    array('category' => $this->resource->getTableName('catalog_category_entity')),
+                    ['category' => $this->resource->getTableName('catalog_category_entity')],
                     'main_table.category_id = category.entity_id',
-                    array()
+                    []
                 )->where('`category`.`path` LIKE ?', $currenCategory->getPath() . '%')
                 ->where('`category`.`level` > ?', $currenCategory->getLevel());
             }

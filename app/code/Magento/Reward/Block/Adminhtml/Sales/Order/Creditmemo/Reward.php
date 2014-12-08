@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward points refund block in creditmemo
  *
@@ -38,7 +37,7 @@ class Reward extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->rewardData = $rewardData;

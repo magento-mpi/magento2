@@ -11,7 +11,7 @@ namespace Magento\CatalogRule\Test\TestCase;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
- * Test Creation for Create CatalogPriceRuleEntity 
+ * Test Creation for Create CatalogPriceRuleEntity
  *
  * Test Flow:
  * 1. Log in as default admin user.

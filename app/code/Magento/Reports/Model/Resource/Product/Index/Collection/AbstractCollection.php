@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports Product Index Abstract Product Resource Collection
  *
@@ -50,7 +49,7 @@ abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Produc
      * @param \Magento\Customer\Api\GroupManagementInterface $groupManagement
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -117,9 +116,9 @@ abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Produc
     {
         if (!$this->getFlag('is_idx_table_joined')) {
             $this->joinTable(
-                array('idx_table' => $this->_getTableName()),
+                ['idx_table' => $this->_getTableName()],
                 'product_id=entity_id',
-                array('product_id' => 'product_id', 'item_store_id' => 'store_id', 'added_at' => 'added_at'),
+                ['product_id' => 'product_id', 'item_store_id' => 'store_id', 'added_at' => 'added_at'],
                 $this->_getWhereCondition()
             );
             $this->setFlag('is_idx_table_joined', true);
@@ -164,7 +163,7 @@ abstract class AbstractCollection extends \Magento\Catalog\Model\Resource\Produc
      */
     protected function _getWhereCondition()
     {
-        $condition = array();
+        $condition = [];
 
         if ($this->_customerSession->isLoggedIn()) {
             $condition['customer_id'] = $this->_customerSession->getCustomerId();

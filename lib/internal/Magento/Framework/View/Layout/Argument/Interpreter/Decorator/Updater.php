@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter\Decorator;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Interpreter decorator that passes value, computed by subject of decoration, through the sequence of "updaters"
@@ -41,7 +41,7 @@ class Updater implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        $updaters = !empty($data['updater']) ? $data['updater'] : array();
+        $updaters = !empty($data['updater']) ? $data['updater'] : [];
         unset($data['updater']);
         if (!is_array($updaters)) {
             throw new \InvalidArgumentException('Layout argument updaters are expected to be an array of classes.');

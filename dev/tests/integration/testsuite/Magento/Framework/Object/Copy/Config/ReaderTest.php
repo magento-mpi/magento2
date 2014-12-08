@@ -9,7 +9,6 @@
  */
 namespace Magento\Framework\Object\Copy\Config;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
@@ -32,7 +31,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->model = $objectManager->create(
             'Magento\Framework\Object\Copy\Config\Reader',
-            array('fileResolver' => $this->fileResolver)
+            ['fileResolver' => $this->fileResolver]
         );
     }
 
@@ -50,21 +49,21 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $fileList = [
             file_get_contents(__DIR__ . '/_files/partialFieldsetFirst.xml'),
-            file_get_contents(__DIR__ . '/_files/partialFieldsetSecond.xml')
+            file_get_contents(__DIR__ . '/_files/partialFieldsetSecond.xml'),
         ];
         $this->fileResolver->expects($this->once())
             ->method('get')
             ->with('fieldset.xml', 'global')
             ->willReturn($fileList);
-        $expected = array(
-            'global' => array(
-                'sales_convert_quote_item' => array(
-                    'event_id' => array('to_order_item' => "*"),
-                    'event_name' => array('to_order_item' => "*"),
-                    'event_description' => array('to_order_item' => "complexDesciption")
-                )
-            )
-        );
+        $expected = [
+            'global' => [
+                'sales_convert_quote_item' => [
+                    'event_id' => ['to_order_item' => "*"],
+                    'event_name' => ['to_order_item' => "*"],
+                    'event_description' => ['to_order_item' => "complexDesciption"],
+                ],
+            ],
+        ];
         $this->assertEquals($expected, $this->model->read('global'));
     }
 }

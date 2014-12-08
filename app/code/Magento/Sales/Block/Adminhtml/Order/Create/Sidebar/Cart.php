@@ -103,10 +103,10 @@ class Cart extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractS
         $this->addChild(
             'empty_customer_cart_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Clear Shopping Cart'),
                 'onclick' => 'order.clearShoppingCart(\'' . $deleteAllConfirmString . '\')'
-            )
+            ]
         );
 
         return parent::_prepareLayout();

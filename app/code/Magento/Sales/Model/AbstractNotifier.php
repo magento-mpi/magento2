@@ -8,10 +8,10 @@
 
 namespace Magento\Sales\Model;
 
-use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender;
 use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception;
+use Magento\Sales\Model\Order\Email\Sender;
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 
 /**
  * Class Notifier

@@ -32,7 +32,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_design = $design;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -56,7 +56,7 @@ class Exceptions extends \Magento\Backend\Model\Config\Backend\Serialized\ArrayS
             }
 
             // Validate that all values have come
-            foreach (array('search', 'value') as $fieldName) {
+            foreach (['search', 'value'] as $fieldName) {
                 if (!isset($row[$fieldName])) {
                     throw new \Magento\Framework\Model\Exception(__("Exception does not contain field '{$fieldName}'"));
                 }

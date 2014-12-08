@@ -38,7 +38,7 @@ class RouterList implements RouterListInterface
                 return (!isset($item['disable']) || !$item['disable']) && $item['class'];
             }
         );
-        uasort($this->routerList, array($this, 'compareRoutersSortOrder'));
+        uasort($this->routerList, [$this, 'compareRoutersSortOrder']);
     }
 
     /**

@@ -35,7 +35,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getBlockArguments()
     {
-        return array('urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false));
+        return ['urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false)];
     }
 
     /**
@@ -44,7 +44,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSetFrameUrl()
     {
-        $arguments = array('urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false));
+        $arguments = ['urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false)];
 
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
@@ -59,22 +59,21 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout()
     {
         $buttonTitle = 'Back';
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
-        $buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
+        $buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', [], [], '', false);
         $arguments = $this->_getBlockArguments();
         $arguments['eventManager'] = $eventManager;
         $arguments['buttonList'] = $buttonList;
 
-
         /** @var $block \Magento\DesignEditor\Block\Adminhtml\Editor\Container */
         $block = $this->_helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Container', $arguments);
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
-        $expectedButtonData = array(
+        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
+        $expectedButtonData = [
                 'label' => $buttonTitle,
                 'onclick' => 'setLocation(\'\')',
-                'class' => 'back'
-        );
+                'class' => 'back',
+        ];
         $buttonList->expects($this->once())->method('add')->with('back_button', $expectedButtonData, 0, 0, 'toolbar');
         $block->setLayout($layout);
     }

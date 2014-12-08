@@ -111,7 +111,7 @@ class SaveShippingTest extends \PHPUnit_Framework_TestCase
         $valueMap = [
             ['Magento\Checkout\Model\Type\Onepage', $this->onePage],
             ['Magento\Checkout\Model\Session', $this->checkoutSession],
-            ['Magento\Core\Helper\Data', $this->coreHelper]
+            ['Magento\Core\Helper\Data', $this->coreHelper],
         ];
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManager\ObjectManager', [], [], '', false);
         $this->objectManagerMock->expects($this->any())
@@ -161,11 +161,11 @@ class SaveShippingTest extends \PHPUnit_Framework_TestCase
             'goto_section' => 'shipping_method',
             'update_section' => [
                 'name' => 'shipping-method',
-                'html' => null
+                'html' => null,
             ],
             'update_progress' => [
-                'html' => 'some_html'
-            ]
+                'html' => 'some_html',
+            ],
         ];
         $this->quote->expects($this->once())
             ->method('hasItems')
@@ -231,7 +231,7 @@ class SaveShippingTest extends \PHPUnit_Framework_TestCase
         $errorMessage = 'error_message';
         $expectedResult = [
             'error' => -1,
-            'message' => $errorMessage
+            'message' => $errorMessage,
         ];
 
         $this->scopeConfig->expects($this->once())

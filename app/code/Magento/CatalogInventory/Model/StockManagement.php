@@ -7,11 +7,11 @@
  */
 namespace Magento\CatalogInventory\Model;
 
-use Magento\CatalogInventory\Api\StockManagementInterface;
-use Magento\CatalogInventory\Api\Data\StockItemInterface;
-use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
-use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockManagementInterface;
+use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
 
 /**
  * Class StockManagement

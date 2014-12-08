@@ -89,7 +89,6 @@ class Theme
         }
 
         return $data;
-
     }
 
     /**

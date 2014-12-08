@@ -44,25 +44,25 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $select = $adapter->select();
         $select->from(
-            array('m' => $this->getMainTable())
+            ['m' => $this->getMainTable()]
         )->joinInner(
-            array('d' => $infoTable),
+            ['d' => $infoTable],
             $adapter->quoteInto(
                 'm.type_id = d.type_id AND d.store_id = ?',
                 \Magento\Store\Model\Store::DEFAULT_STORE_ID
             ),
-            array()
+            []
         )->joinLeft(
-            array('s' => $infoTable),
+            ['s' => $infoTable],
             $adapter->quoteInto('s.type_id = m.type_id AND s.store_id = ?', (int)$storeId),
-            array(
+            [
                 'label' => $adapter->getCheckSql('s.label IS NULL', 'd.label', 's.label'),
                 'is_listed' => $adapter->getCheckSql('s.is_listed IS NULL', 'd.is_listed', 's.is_listed'),
                 'sort_order' => $adapter->getCheckSql('s.sort_order IS NULL', 'd.sort_order', 's.sort_order')
-            )
+            ]
         );
 
-        $this->getSelect()->reset()->from(array('main_table' => $select));
+        $this->getSelect()->reset()->from(['main_table' => $select]);
 
         $this->_isTableJoined = true;
 
@@ -105,7 +105,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $result = $this->_toOptionArray('type_id', 'label');
         if ($withEmpty) {
-            $result = array_merge(array(array('value' => '', 'label' => __('-- All --'))), $result);
+            $result = array_merge([['value' => '', 'label' => __('-- All --')]], $result);
         }
         return $result;
     }

@@ -9,7 +9,6 @@
 namespace Magento\Setup\Model;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Symfony\Component\Process\PhpExecutableFinder;
 
 /**
  * Class SampleData

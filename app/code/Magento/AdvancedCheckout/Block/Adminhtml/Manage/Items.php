@@ -50,7 +50,7 @@ class Items extends \Magento\Backend\Block\Template
         \Magento\Framework\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;

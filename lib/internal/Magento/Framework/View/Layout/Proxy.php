@@ -62,7 +62,7 @@ class Proxy extends \Magento\Framework\View\Layout
      */
     public function __sleep()
     {
-        return array('_subject', '_isShared');
+        return ['_subject', '_isShared'];
     }
 
     /**
@@ -344,7 +344,7 @@ class Proxy extends \Magento\Framework\View\Layout
      * @param  array $attributes
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    public function createBlock($type, $name = '', array $attributes = array())
+    public function createBlock($type, $name = '', array $attributes = [])
     {
         return $this->getSubject()->createBlock($type, $name, $attributes);
     }
@@ -373,7 +373,7 @@ class Proxy extends \Magento\Framework\View\Layout
      * @param string $alias
      * @return void
      */
-    public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
+    public function addContainer($name, $label, array $options = [], $parent = '', $alias = '')
     {
         $this->getSubject()->addContainer($name, $label, $options, $parent, $alias);
     }
@@ -496,7 +496,7 @@ class Proxy extends \Magento\Framework\View\Layout
      * @param array $data
      * @return $this
      */
-    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template, $data = array())
+    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template, $data = [])
     {
         return $this->getSubject()->addAdjustableRenderer(
             $namespace,
@@ -530,7 +530,7 @@ class Proxy extends \Magento\Framework\View\Layout
      * @param array $data
      * @return void
      */
-    public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
+    public function executeRenderer($namespace, $staticType, $dynamicType, $data = [])
     {
         $this->getSubject()->executeRenderer($namespace, $staticType, $dynamicType, $data);
     }
@@ -541,7 +541,7 @@ class Proxy extends \Magento\Framework\View\Layout
      * @param string|array $messageGroups
      * @return void
      */
-    public function initMessages($messageGroups = array())
+    public function initMessages($messageGroups = [])
     {
         $this->getSubject()->initMessages($messageGroups);
     }

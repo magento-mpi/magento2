@@ -9,13 +9,13 @@
  */
 
 use Magento\Framework\App\Cache\Frontend\Factory;
-use Magento\Framework\Module\ModuleList\DeploymentConfig;
 use Magento\Framework\App\ObjectManagerFactory;
+use Magento\Framework\Module\ModuleList\DeploymentConfig;
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
 $mediaDirectory = null;
-$allowedResources = array();
+$allowedResources = [];
 $configCacheFile = dirname(__DIR__) . '/var/resource_config.json';
 $relativeFilename = null;
 
@@ -55,8 +55,8 @@ if ($mediaDirectory) {
 
     if (is_readable($request->getFilePath())) {
         $transfer = new \Magento\Framework\File\Transfer\Adapter\Http(
-            new \Magento\Framework\Controller\Response\Http,
-            new \Magento\Framework\File\Mime
+            new \Magento\Framework\Controller\Response\Http(),
+            new \Magento\Framework\File\Mime()
         );
         $transfer->send($request->getFilePath());
         exit;
@@ -66,7 +66,7 @@ if ($mediaDirectory) {
 $params = $_SERVER;
 if (empty($mediaDirectory)) {
     $params[ObjectManagerFactory::INIT_PARAM_DEPLOYMENT_CONFIG] = [
-        DeploymentConfig::CONFIG_KEY => ['Magento_Core' => 1]
+        DeploymentConfig::CONFIG_KEY => ['Magento_Core' => 1],
     ];
     $params[Factory::PARAM_CACHE_FORCED_OPTIONS] = ['frontend_options' => ['disable_save' => true]];
 }

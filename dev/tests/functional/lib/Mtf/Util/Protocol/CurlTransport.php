@@ -38,7 +38,7 @@ class CurlTransport implements CurlInterface
         'maxredirects' => CURLOPT_MAXREDIRS,
         'proxy' => CURLOPT_PROXY,
         'ssl_cert' => CURLOPT_SSLCERT,
-        'userpwd' => CURLOPT_USERPWD
+        'userpwd' => CURLOPT_USERPWD,
     ];
 
     /**

@@ -17,7 +17,7 @@ class Manager implements ManagerInterface
      *
      * @var array
      */
-    protected $_events = array();
+    protected $_events = [];
 
     /**
      * Event invoker
@@ -53,15 +53,15 @@ class Manager implements ManagerInterface
      * @param array $data
      * @return void
      */
-    public function dispatch($eventName, array $data = array())
+    public function dispatch($eventName, array $data = [])
     {
-        \Magento\Framework\Profiler::start('EVENT:' . $eventName, array('group' => 'EVENT', 'name' => $eventName));
+        \Magento\Framework\Profiler::start('EVENT:' . $eventName, ['group' => 'EVENT', 'name' => $eventName]);
         foreach ($this->_eventConfig->getObservers($eventName) as $observerConfig) {
             $event = new \Magento\Framework\Event($data);
             $event->setName($eventName);
 
             $wrapper = new Observer();
-            $wrapper->setData(array_merge(array('event' => $event), $data));
+            $wrapper->setData(array_merge(['event' => $event], $data));
 
             \Magento\Framework\Profiler::start('OBSERVER:' . $observerConfig['name']);
             $this->_invoker->dispatch($observerConfig, $wrapper);

@@ -8,10 +8,9 @@
 
 namespace Magento\Wishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Client\Browser;
 
 /**
  * Test Creation for Adding products from Wishlist to Cart

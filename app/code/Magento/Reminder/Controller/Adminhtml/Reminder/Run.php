@@ -27,6 +27,6 @@ class Run extends \Magento\Reminder\Controller\Adminhtml\Reminder
             $this->messageManager->addException($e, __('Reminder rule matching error.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));
+        $this->_redirect('adminhtml/*/edit', ['id' => $model->getId(), 'active_tab' => 'matched_customers']);
     }
 }

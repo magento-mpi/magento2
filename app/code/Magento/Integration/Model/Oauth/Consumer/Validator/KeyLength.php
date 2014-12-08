@@ -24,7 +24,7 @@ class KeyLength extends \Zend_Validate_StringLength
      *
      * @param  integer|array|\Zend_Config $options
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         if (!is_array($options)) {
             $options = func_get_args();
@@ -62,7 +62,7 @@ class KeyLength extends \Zend_Validate_StringLength
      *
      * @var array
      */
-    protected $_messageVariables = array('min' => '_min', 'max' => '_max', 'name' => '_name');
+    protected $_messageVariables = ['min' => '_min', 'max' => '_max', 'name' => '_name'];
 
     /**
      * Set length

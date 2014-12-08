@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -59,39 +59,39 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->coreCacheMock = $this->getMock('Magento\Framework\App\Cache', array('clean'), array(), '', false);
+        $this->coreCacheMock = $this->getMock('Magento\Framework\App\Cache', ['clean'], [], '', false);
         $this->appConfigMock = $this->getMock(
             'Magento\CatalogPermissions\App\Backend\Config',
-            array('isEnabled'),
-            array(),
+            ['isEnabled'],
+            [],
             '',
             false
         );
         $this->indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'invalidate'),
-            array(),
+            ['getId', 'invalidate'],
+            [],
             '',
             false
         );
         $this->configLoaderMock = $this->getMock(
             'Magento\Backend\Model\Config\Loader',
-            array('getConfigByPath'),
-            array(),
+            ['getConfigByPath'],
+            [],
             '',
             false
         );
         $this->storeManagerMock = $this->getMock(
             'Magento\Store\Model\StoreManager',
-            array('getStore', 'getWebsite'),
-            array(),
+            ['getStore', 'getWebsite'],
+            [],
             '',
             false
         );
         $backendConfigMock = $this->backendConfigMock = $this->getMock(
             'Magento\Backend\Model\Config',
-            array('getStore', 'getWebsite', 'getSection'),
-            array(),
+            ['getStore', 'getWebsite', 'getSection'],
+            [],
             '',
             false
         );
@@ -126,7 +126,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
             0,
             false
         )->will(
-            $this->returnValue(array('test' => 1))
+            $this->returnValue(['test' => 1])
         );
         $this->appConfigMock->expects($this->never())->method('isEnabled');
 
@@ -181,7 +181,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'clean'
         )->with(
-            array(\Magento\Catalog\Model\Category::CACHE_TAG)
+            [\Magento\Catalog\Model\Category::CACHE_TAG]
         );
 
         $this->indexerMock->expects($this->once())->method('invalidate');
@@ -199,7 +199,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
      */
     protected function getStore()
     {
-        $store = $this->getMock('Magento\Store\Model\Store', array('getId', '__wakeup'), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', ['getId', '__wakeup'], [], '', false);
         return $store;
     }
 
@@ -208,7 +208,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
      */
     protected function getWebsite()
     {
-        $website = $this->getMock('Magento\Store\Model\Website', array('getId', '__wakeup'), array(), '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', ['getId', '__wakeup'], [], '', false);
         return $website;
     }
 
@@ -232,7 +232,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnCallback(
                 function () use (&$counter) {
-                    return ++$counter % 2 ? array('test' => 1) : array('test' => 2);
+                    return ++$counter % 2 ? ['test' => 1] : ['test' => 2];
                 }
             )
         );

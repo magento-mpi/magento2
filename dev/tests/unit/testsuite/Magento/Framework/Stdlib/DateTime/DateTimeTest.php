@@ -25,8 +25,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $this->localeDate = $this->getMock(
             'Magento\Framework\Stdlib\DateTime\Timezone',
-            array('getConfigTimezone', 'date'),
-            array(),
+            ['getConfigTimezone', 'date'],
+            [],
             '',
             false
         );
@@ -35,7 +35,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->dateTime = $objectManager->getObject(
             'Magento\Framework\Stdlib\DateTime\DateTime',
-            array('localeDate' => $this->localeDate)
+            ['localeDate' => $this->localeDate]
         );
     }
 

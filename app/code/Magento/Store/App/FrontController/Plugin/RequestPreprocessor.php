@@ -72,7 +72,7 @@ class RequestPreprocessor
                 $uri = parse_url($baseUrl);
                 if (!$this->_isBaseUrlCorrect($uri, $request)) {
                     $redirectUrl = $this->_url->getRedirectUrl(
-                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), array('_nosid' => true))
+                        $this->_url->getUrl(ltrim($request->getPathInfo(), '/'), ['_nosid' => true])
                     );
                     $redirectCode = (int)$this->_scopeConfig->getValue(
                         'web/url/redirect_to_base',

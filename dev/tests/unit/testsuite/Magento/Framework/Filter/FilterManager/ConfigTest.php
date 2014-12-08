@@ -16,16 +16,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_config = new \Magento\Framework\Filter\FilterManager\Config(array('test' => 'test'));
+        $this->_config = new \Magento\Framework\Filter\FilterManager\Config(['test' => 'test']);
     }
 
     public function testGetFactories()
     {
-        $expectedConfig = array(
+        $expectedConfig = [
             'test' => 'test',
             'Magento\Framework\Filter\Factory',
-            'Magento\Framework\Filter\ZendFactory'
-        );
+            'Magento\Framework\Filter\ZendFactory',
+        ];
         $this->assertEquals($expectedConfig, $this->_config->getFactories());
     }
 }

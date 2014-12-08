@@ -467,7 +467,7 @@ class DefaultModel extends \Zend_Captcha_Image implements \Magento\Captcha\Model
     {
         $this->_session->setData(
             $this->_getFormIdKey(self::SESSION_WORD),
-            array('data' => $word, 'expires' => time() + $this->getTimeout())
+            ['data' => $word, 'expires' => time() + $this->getTimeout()]
         );
         $this->_word = $word;
         return $this;

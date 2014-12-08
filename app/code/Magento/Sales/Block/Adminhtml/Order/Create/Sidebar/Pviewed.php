@@ -48,7 +48,7 @@ class Pviewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Reports\Model\EventFactory $eventFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eventFactory = $eventFactory;
         $this->_productFactory = $productFactory;
@@ -86,7 +86,7 @@ class Pviewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
     {
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
-            $stores = array();
+            $stores = [];
             $website = $this->_storeManager->getStore($this->getStoreId())->getWebsite();
             foreach ($website->getStores() as $store) {
                 $stores[] = $store->getId();
@@ -99,7 +99,7 @@ class Pviewed extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
                 $this->getCustomerId(),
                 0
             );
-            $productIds = array();
+            $productIds = [];
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
             }

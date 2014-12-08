@@ -8,17 +8,17 @@
 
 /** @var $this \Magento\WebsiteRestriction\Model\Resource\Setup */
 
-$cmsPages = array(
-    array(
+$cmsPages = [
+    [
         'title' => '503 Service Unavailable',
         'identifier' => 'service-unavailable',
         'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
 <p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
         'is_active' => '1',
-        'stores' => array(0),
-        'sort_order' => 0
-    ),
-    array(
+        'stores' => [0],
+        'sort_order' => 0,
+    ],
+    [
         'title' => 'Welcome to our Exclusive Online Store',
         'identifier' => 'private-sales',
         'content' => '<div class="private-sales-index">
@@ -30,10 +30,10 @@ $cmsPages = array(
 </div>
 </div>',
         'is_active' => '1',
-        'stores' => array(0),
+        'stores' => [0],
         'sort_order' => 0
-    )
-);
+    ],
+];
 
 /**
  * Insert default and system pages

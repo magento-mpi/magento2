@@ -23,7 +23,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\GoogleShopping\Model\Observer $observer */
         $observer = $objectManager->get('Magento\GoogleShopping\Model\Observer');
-        $dummyEventData = $this->getMock('\Magento\Framework\Event\Observer', array(), array(), '', false);
+        $dummyEventData = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $result = $observer->checkSynchronizationOperations($dummyEventData);
 
         $this->assertSame($observer, $result);

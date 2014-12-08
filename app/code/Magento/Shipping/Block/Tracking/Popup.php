@@ -24,7 +24,7 @@ class Popup extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         parent::__construct($context, $data);

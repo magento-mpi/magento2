@@ -8,10 +8,10 @@
 
 namespace Magento\Widget\Test\Constraint;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 
 /**
  * Check that created widget does NOT displayed on frontend on Home page

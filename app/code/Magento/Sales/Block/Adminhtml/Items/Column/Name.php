@@ -26,7 +26,7 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -40,7 +40,7 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn
     {
         $remainder = '';
         $value = $this->truncateString($value, 55, '', $remainder);
-        $result = array('value' => nl2br($value), 'remainder' => nl2br($remainder));
+        $result = ['value' => nl2br($value), 'remainder' => nl2br($remainder)];
 
         return $result;
     }

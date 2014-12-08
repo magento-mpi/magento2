@@ -36,18 +36,18 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_factoryMock = $this->getMock(
-            'Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false
+            'Magento\Framework\Data\Form\Element\Factory', [], [], '', false
         );
         $this->_collectionFactoryMock = $this->getMock(
-            'Magento\Framework\Data\Form\Element\CollectionFactory', array(), array(), '', false
+            'Magento\Framework\Data\Form\Element\CollectionFactory', [], [], '', false
         );
-        $this->_escaperMock = $this->getMock('Magento\Framework\Escaper', array(), array(), '', false);
+        $this->_escaperMock = $this->getMock('Magento\Framework\Escaper', [], [], '', false);
 
-        $this->_model = $this->getMockForAbstractClass('Magento\Framework\Data\Form\Element\AbstractElement', array(
+        $this->_model = $this->getMockForAbstractClass('Magento\Framework\Data\Form\Element\AbstractElement', [
             $this->_factoryMock,
             $this->_collectionFactoryMock,
             $this->_escaperMock
-        ));
+        ]);
     }
 
     /**
@@ -57,7 +57,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     {
         $elementId = 11;
         $elementMock = $this->getMockForAbstractClass(
-            'Magento\Framework\Data\Form\Element\AbstractElement', array(), '', false, true, true, array('getId')
+            'Magento\Framework\Data\Form\Element\AbstractElement', [], '', false, true, true, ['getId']
         );
         $elementMock->expects($this->once())
             ->method('getId')
@@ -65,8 +65,8 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
 
         $formMock = $this->getMock(
             'Magento\Framework\Data\Form\AbstractForm',
-            array('checkElementId', 'addElementToCollection'),
-            array(),
+            ['checkElementId', 'addElementToCollection'],
+            [],
             '',
             false
         );
@@ -77,7 +77,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
             ->method('addElementToCollection')
             ->with($elementMock);
 
-        $collectionMock = $this->getMock('Magento\Framework\Data\Form\Element\Collection', array(), array(), '', false);
+        $collectionMock = $this->getMock('Magento\Framework\Data\Form\Element\Collection', [], [], '', false);
 
         $this->_collectionFactoryMock->expects($this->any())
             ->method('create')
@@ -97,7 +97,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $htmlId = 'some_id';
 
         $formMock = $this->getMock(
-            'Magento\Framework\Data\Form\AbstractForm', array('getHtmlIdPrefix', 'getHtmlIdSuffix'), array(), '', false
+            'Magento\Framework\Data\Form\AbstractForm', ['getHtmlIdPrefix', 'getHtmlIdSuffix'], [], '', false
         );
         $formMock->expects($this->any())
             ->method('getHtmlIdPrefix')
@@ -118,8 +118,8 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     {
         $formMock = $this->getMock(
             'Magento\Framework\Data\Form\AbstractForm',
-            array('getFieldNameSuffix', 'addSuffixToName'),
-            array(),
+            ['getFieldNameSuffix', 'addSuffixToName'],
+            [],
             '',
             false
         );
@@ -142,8 +142,8 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
 
         $formMock = $this->getMock(
             'Magento\Framework\Data\Form\AbstractForm',
-            array('getFieldNameSuffix', 'addSuffixToName'),
-            array(),
+            ['getFieldNameSuffix', 'addSuffixToName'],
+            [],
             '',
             false
         );
@@ -167,14 +167,14 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $elementId = 'element_id';
 
         $formMock = $this->getMock(
-            'Magento\Framework\Data\Form\AbstractForm', array('removeField'), array(), '', false
+            'Magento\Framework\Data\Form\AbstractForm', ['removeField'], [], '', false
         );
         $formMock->expects($this->once())
             ->method('removeField')
             ->with($elementId);
 
         $collectionMock = $this->getMock(
-            '\Magento\Framework\Data\Form\Element\Collection', array('remove'), array(), '', false
+            '\Magento\Framework\Data\Form\Element\Collection', ['remove'], [], '', false
         );
         $collectionMock->expects($this->once())
             ->method('remove')
@@ -193,7 +193,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetHtmlAttributes()
     {
-        $htmlAttributes = array(
+        $htmlAttributes = [
             'type',
             'title',
             'class',
@@ -204,8 +204,8 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
             'readonly',
             'tabindex',
             'placeholder',
-            'data-form-part'
-        );
+            'data-form-part',
+        ];
         $this->assertEquals($htmlAttributes, $this->_model->getHtmlAttributes());
     }
 
@@ -258,7 +258,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $value = '<a href="#hash_tag">my \'quoted\' string</a>';
         $expectedValue = '&lt;a href=&quot;#hash_tag&quot;&gt;my \'quoted\' string&lt;/a&gt;';
 
-        $filterMock = $this->getMock('Magento\Framework\Object', array('filter'), array(), '', false);
+        $filterMock = $this->getMock('Magento\Framework\Object', ['filter'], [], '', false);
         $filterMock->expects($this->once())
             ->method('filter')
             ->with($value)
@@ -278,7 +278,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     public function testGetElementHtml(array $initialData, $expectedValue)
     {
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
 
         $this->_model->setData($initialData);
@@ -296,7 +296,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $idSuffix = isset($initialData['id_suffix']) ? $initialData['id_suffix'] : null;
         $this->_model->setData($initialData);
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
         $this->assertEquals($expectedValue, $this->_model->getLabelHtml($idSuffix));
     }
@@ -311,7 +311,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setData($initialData);
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
         $this->assertEquals($expectedValue, $this->_model->getDefaultHtml());
     }
@@ -323,7 +323,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setRequired(true);
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
         $expectedHtml = '<span class="field-row">' . "\n"
             . '<input id="" name=""  data-ui-id="form-element-" value="" class=" required-entry"/></span>' . "\n";
@@ -362,7 +362,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testSerialize(array $initialData, $expectedValue)
     {
-        $attributes = array();
+        $attributes = [];
         if (isset($initialData['attributes'])) {
             $attributes = $initialData['attributes'];
             unset($initialData['attributes']);
@@ -377,7 +377,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
     public function testGetHtmlContainerIdWithoutId()
     {
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
         $this->assertEquals('', $this->_model->getHtmlContainerId());
     }
@@ -390,7 +390,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $containerId = 'some-id';
         $this->_model->setContainerId($containerId);
         $this->_model->setForm(
-            $this->getMock('Magento\Framework\Data\Form\AbstractForm', array(), array(), '', false)
+            $this->getMock('Magento\Framework\Data\Form\AbstractForm', [], [], '', false)
         );
         $this->assertEquals($containerId, $this->_model->getHtmlContainerId());
     }
@@ -403,7 +403,7 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
         $id = 'id';
         $prefix = 'prefix_';
         $formMock = $this->getMock(
-            'Magento\Framework\Data\Form\AbstractForm', array('getFieldContainerIdPrefix'), array(), '', false
+            'Magento\Framework\Data\Form\AbstractForm', ['getFieldContainerIdPrefix'], [], '', false
         );
         $formMock->expects($this->once())
             ->method('getFieldContainerIdPrefix')
@@ -436,52 +436,52 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function addElementValuesDataProvider()
     {
-        return array(
-            array(
-                array(
-                    'initial_values' => array(
+        return [
+            [
+                [
+                    'initial_values' => [
                         'key_1' => 'value_1',
                         'key_2' => 'value_2',
-                        'key_3' => 'value_3'
-                    ),
-                    'add_values' => array(
+                        'key_3' => 'value_3',
+                    ],
+                    'add_values' => [
                         'key_1' => 'value_4',
                         'key_2' => 'value_5',
                         'key_3' => 'value_6',
-                        'key_4' => 'value_7'
-                    ),
-                    'overwrite' => false
-                ),
-                array(
+                        'key_4' => 'value_7',
+                    ],
+                    'overwrite' => false,
+                ],
+                [
                     'key_1' => 'value_1',
                     'key_2' => 'value_2',
                     'key_3' => 'value_3',
                     'key_4' => 'value_7'
-                )
-            ),
-            array(
-                array(
-                    'initial_values' => array(
+                ],
+            ],
+            [
+                [
+                    'initial_values' => [
                         'key_1' => 'value_1',
                         'key_2' => 'value_2',
-                        'key_3' => 'value_3'
-                    ),
-                    'add_values' => array(
+                        'key_3' => 'value_3',
+                    ],
+                    'add_values' => [
                         'key_1' => 'value_4',
                         'key_2' => 'value_5',
                         'key_3' => 'value_6',
-                        'key_4' => 'value_7'
-                    ),
-                    'overwrite' => true
-                ),
-                array(
+                        'key_4' => 'value_7',
+                    ],
+                    'overwrite' => true,
+                ],
+                [
                     'key_1' => 'value_4',
                     'key_2' => 'value_5',
                     'key_3' => 'value_6',
                     'key_4' => 'value_7'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     /**
@@ -489,33 +489,33 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function serializeDataProvider()
     {
-        return array(
-            array(
-                array(),
-                ''
-            ),
-            array(
-                array(
-                    'attributes' => array('disabled'),
-                    'disabled' => true
-                ),
+        return [
+            [
+                [],
+                '',
+            ],
+            [
+                [
+                    'attributes' => ['disabled'],
+                    'disabled' => true,
+                ],
                 'disabled="disabled"'
-            ),
-            array(
-                array(
-                    'attributes' => array('checked'),
-                    'checked' => true
-                ),
+            ],
+            [
+                [
+                    'attributes' => ['checked'],
+                    'checked' => true,
+                ],
                 'checked="checked"'
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'data-locked' => 1,
-                    'attributes' => array('attribute_1')
-                ),
+                    'attributes' => ['attribute_1'],
+                ],
                 'data-locked="1"'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -523,42 +523,42 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDefaultHtmlDataProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
                 '<span class="field-row">' . "\n"
-                    . '<input id="" name=""  data-ui-id="form-element-" value="" /></span>' . "\n"
-            ),
-            array(
-                array('default_html' => 'some default html'),
+                    . '<input id="" name=""  data-ui-id="form-element-" value="" /></span>' . "\n",
+            ],
+            [
+                ['default_html' => 'some default html'],
                 'some default html'
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'label' => 'some label',
                     'html_id' => 'html-id',
                     'name' => 'some-name',
                     'value' => 'some-value',
-                ),
+                ],
                 '<span class="field-row">' . "\n"
                     . '<label class="label" for="html-id" data-ui-id="form-element-some-namelabel">'
                     . '<span>some label</span></label>' . "\n"
                     . '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
                     . '</span>' . "\n"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'label' => 'some label',
                     'html_id' => 'html-id',
                     'name' => 'some-name',
                     'value' => 'some-value',
-                    'no_span' => true
-                ),
+                    'no_span' => true,
+                ],
                 '<label class="label" for="html-id" data-ui-id="form-element-some-namelabel">'
                     . '<span>some label</span></label>' . "\n"
                     . '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -566,35 +566,35 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function getLabelHtmlDataProvider()
     {
-        return array(
-            array(
-                array(),
+        return [
+            [
+                [],
+                '',
+            ],
+            [
+                [
+                    'id_suffix' => 'suffix',
+                ],
                 ''
-            ),
-            array(
-                array(
-                    'id_suffix' => 'suffix'
-                ),
-                ''
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'label' => 'some-label',
-                    'html_id' => 'some-html-id'
-                ),
+                    'html_id' => 'some-html-id',
+                ],
                 '<label class="label" for="some-html-id" data-ui-id="form-element-label">'
                     . '<span>some-label</span></label>' . "\n"
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'id_suffix' => 'suffix',
                     'label' => 'some-label',
-                    'html_id' => 'some-html-id'
-                ),
+                    'html_id' => 'some-html-id',
+                ],
                 '<label class="label" for="some-html-idsuffix" data-ui-id="form-element-label">'
                     . '<span>some-label</span></label>' . "\n"
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -602,48 +602,48 @@ class AbstractElementTest extends \PHPUnit_Framework_TestCase
      */
     public function getElementHtmlDataProvider()
     {
-        return array(
-            array(
-                array(),
-                '<input id="" name=""  data-ui-id="form-element-" value="" />'
-            ),
-            array(
-                array(
-                    'html_id' => 'html-id',
-                    'name' => 'some-name',
-                    'value' => 'some-value'
-                ),
-                '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
-            ),
-            array(
-                array(
+        return [
+            [
+                [],
+                '<input id="" name=""  data-ui-id="form-element-" value="" />',
+            ],
+            [
+                [
                     'html_id' => 'html-id',
                     'name' => 'some-name',
                     'value' => 'some-value',
-                    'before_element_html' => 'some-html'
-                ),
+                ],
+                '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
+            ],
+            [
+                [
+                    'html_id' => 'html-id',
+                    'name' => 'some-name',
+                    'value' => 'some-value',
+                    'before_element_html' => 'some-html',
+                ],
                 '<label class="addbefore" for="html-id">some-html</label>'
                     . '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'html_id' => 'html-id',
                     'name' => 'some-name',
                     'value' => 'some-value',
-                    'after_element_js' => 'some-js'
-                ),
+                    'after_element_js' => 'some-js',
+                ],
                 '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />some-js'
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'html_id' => 'html-id',
                     'name' => 'some-name',
                     'value' => 'some-value',
-                    'after_element_html' => 'some-html'
-                ),
+                    'after_element_html' => 'some-html',
+                ],
                 '<input id="html-id" name="some-name"  data-ui-id="form-element-some-name" value="some-value" />'
                     . '<label class="addafter" for="html-id">some-html</label>'
-            )
-        );
+            ]
+        ];
     }
 }

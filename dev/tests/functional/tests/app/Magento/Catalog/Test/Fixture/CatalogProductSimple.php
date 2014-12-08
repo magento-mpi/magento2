@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -578,41 +578,41 @@ class CatalogProductSimple extends InjectableFixture
     protected $stock_data = [
         'attribute_code' => 'stock_data',
         'backend_type' => 'virtual',
-        'group' => 'advanced-inventory'
+        'group' => 'advanced-inventory',
     ];
 
     protected $checkout_data = [
         'attribute_code' => 'checkout_data',
         'backend_type' => 'virtual',
         'group' => null,
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CheckoutData',
     ];
 
     protected $cross_sell_products = [
         'attribute_code' => 'cross_sell_products',
         'backend_type' => 'virtual',
         'group' => 'crosssells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\CrossSellProducts',
     ];
 
     protected $up_sell_products = [
         'attribute_code' => 'up_sell_products',
         'backend_type' => 'virtual',
         'group' => 'upsells',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\UpSellProducts',
     ];
 
     protected $related_products = [
         'attribute_code' => 'related_products',
         'backend_type' => 'virtual',
         'group' => 'related-products',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\RelatedProducts',
     ];
 
     protected $recurring_payment = [
         'attribute_code' => 'recurring_payment',
         'backend_type' => 'virtual',
-        'group' => 'advanced-pricing'
+        'group' => 'advanced-pricing',
     ];
 
     protected $is_virtual = [
@@ -632,7 +632,7 @@ class CatalogProductSimple extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'product-details',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Fpt'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\Fpt',
     ];
 
     public function getCategoryIds()

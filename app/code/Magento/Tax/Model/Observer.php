@@ -131,14 +131,14 @@ class Observer
         $getTaxesForItems = $order->getItemAppliedTaxes();
         $taxes = $order->getAppliedTaxes();
 
-        $ratesIdQuoteItemId = array();
+        $ratesIdQuoteItemId = [];
         if (!is_array($getTaxesForItems)) {
-            $getTaxesForItems = array();
+            $getTaxesForItems = [];
         }
         foreach ($getTaxesForItems as $quoteItemId => $taxesArray) {
             foreach ($taxesArray as $rates) {
                 if (count($rates['rates']) == 1) {
-                    $ratesIdQuoteItemId[$rates['id']][] = array(
+                    $ratesIdQuoteItemId[$rates['id']][] = [
                         'id' => $rates['item_id'],
                         'percent' => $rates['percent'],
                         'code' => $rates['rates'][0]['code'],
@@ -148,14 +148,14 @@ class Observer
                         'base_amount' => $rates['base_amount'],
                         'real_amount' => $rates['amount'],
                         'real_base_amount' => $rates['base_amount'],
-                    );
+                    ];
                 } else {
                     $percentDelta = $rates['percent'];
                     $percentSum = 0;
                     foreach ($rates['rates'] as $rate) {
                         $real_amount = $rates['amount'] * $rate['percent'] / $rates['percent'];
                         $real_base_amount = $rates['base_amount'] * $rate['percent'] / $rates['percent'];
-                        $ratesIdQuoteItemId[$rates['id']][] = array(
+                        $ratesIdQuoteItemId[$rates['id']][] = [
                             'id' => $rates['item_id'],
                             'percent' => $rate['percent'],
                             'code' => $rate['code'],
@@ -165,7 +165,7 @@ class Observer
                             'base_amount' => $rates['base_amount'],
                             'real_amount' => $real_amount,
                             'real_base_amount' => $real_base_amount,
-                        );
+                        ];
                         $percentSum += $rate['percent'];
                     }
 
@@ -195,7 +195,7 @@ class Observer
                 $priority = isset($tax['priority']) ? $tax['priority'] : 0;
                 $position = isset($tax['position']) ? $tax['position'] : 0;
                 $process = isset($row['process']) ? $row['process'] : 0;
-                $data = array(
+                $data = [
                     'order_id' => $order->getId(),
                     'code' => $tax['code'],
                     'title' => $tax['title'],
@@ -206,8 +206,8 @@ class Observer
                     'amount' => $row['amount'],
                     'base_amount' => $row['base_amount'],
                     'process' => $process,
-                    'base_real_amount' => $baseRealAmount
-                );
+                    'base_real_amount' => $baseRealAmount,
+                ];
 
                 /** @var $orderTax \Magento\Tax\Model\Sales\Order\Tax */
                 $orderTax = $this->_orderTaxFactory->create();
@@ -228,7 +228,7 @@ class Observer
                                 $associatedItemId = $item->getId();
                             }
 
-                            $data = array(
+                            $data = [
                                 'item_id' => $itemId,
                                 'tax_id' => $result->getTaxId(),
                                 'tax_percent' => $quoteItemId['percent'],
@@ -238,7 +238,7 @@ class Observer
                                 'real_amount' => $quoteItemId['real_amount'],
                                 'real_base_amount' => $quoteItemId['real_base_amount'],
                                 'taxable_item_type' => $quoteItemId['item_type'],
-                            );
+                            ];
                             /** @var $taxItem \Magento\Tax\Model\Sales\Order\Tax\Item */
                             $taxItem = $this->_taxItemFactory->create();
                             $taxItem->setData($data)->save();

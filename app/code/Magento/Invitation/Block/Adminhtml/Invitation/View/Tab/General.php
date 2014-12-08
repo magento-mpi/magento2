@@ -62,7 +62,7 @@ class General extends \Magento\Backend\Block\Template implements \Magento\Backen
         \Magento\Framework\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         CustomerGroupRepository $customerGroupRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

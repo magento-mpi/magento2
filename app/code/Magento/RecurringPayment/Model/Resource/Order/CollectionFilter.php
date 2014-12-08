@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Flat sales order collection
  */
@@ -23,11 +22,11 @@ class CollectionFilter
      */
     public function byIds($collection, $ids)
     {
-        $ids = is_array($ids) ? $ids : array($ids);
+        $ids = is_array($ids) ? $ids : [$ids];
         $collection->getSelect()->joinInner(
-            array('rpo' => $collection->getTable('recurring_payment_order')),
+            ['rpo' => $collection->getTable('recurring_payment_order')],
             'main_table.entity_id = rpo.order_id',
-            array()
+            []
         )->where(
             'rpo.payment_id IN(?)',
             $ids

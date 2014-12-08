@@ -25,12 +25,12 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
 <?php echo $this->getToolbarHtml() ?>
 <?php echo $this->getAdditionalHtml() ?>
 <?php if ($this->getMode() == 'grid') {
-    $viewMode ='grid';
+    $viewMode = 'grid';
     $image = 'category_page_grid';
     $showDescription = false;
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::SHORT_VIEW;
 } else {
-    $viewMode ='list';
+    $viewMode = 'list';
     $image = 'category_page_list';
     $showDescription = true;
     $templateType = \Magento\Catalog\Block\Product\ReviewRendererInterface::FULL_VIEW;
@@ -41,7 +41,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
     <?php $iterator = 1; ?>
     <ol class="products list items">
         <?php foreach ($_productCollection as $_product): ?>
-        <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
+        <?php echo($iterator++ == 1) ? '<li class="item product">' : '</li><li class="item product">' ?>
             <div class="product">
                 <?php // Product Image ?>
                 <a href="<?php echo $_product->getProductUrl() ?>" class="product photo">
@@ -50,7 +50,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                 <div class="product details">
                 <?php
 
-                    $info = array();
+                    $info = [];
                     $info['name'] = '<strong class="product name">'
                                     . ' <a href="' . $_product->getProductUrl() . '" title="'
                                     . $this->stripTags($_product->getName(), null, true) . '">'
@@ -84,7 +84,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                         $info['description'] = '';
                     }
 
-                    $details = $this->getInfoOrder() ? : array('name','price','review','description','actions');
+                    $details = $this->getInfoOrder() ?: ['name','price','review','description','actions'];
                     foreach ($details as $detail) {
                         echo $info[$detail];
                     }
@@ -92,7 +92,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
 
                 </div>
             </div>
-        <?php echo ($iterator==count($_productCollection)+1) ? '</li>' : '' ?>
+        <?php echo($iterator == count($_productCollection)+1) ? '</li>' : '' ?>
         <?php endforeach; ?>
     </ol>
 </div>

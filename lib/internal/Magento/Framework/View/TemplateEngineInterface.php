@@ -26,6 +26,6 @@ interface TemplateEngineInterface
     public function render(
         \Magento\Framework\View\Element\BlockInterface $block,
         $templateFile,
-        array $dictionary = array()
+        array $dictionary = []
     );
 }

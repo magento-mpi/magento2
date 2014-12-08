@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Service\V1;
 
-use Magento\Rma\Model\RmaRepository;
-use Magento\Rma\Model\Rma\PermissionChecker;
 use Magento\Framework\Exception\StateException;
+use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\RmaRepository;
 
 class TrackWrite implements TrackWriteInterface
 {

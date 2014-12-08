@@ -34,13 +34,13 @@ class CreditmemoEmailTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'notify'
-            ]
+                'operation' => self::SERVICE_NAME . 'notify',
+            ],
         ];
         $requestData = ['id' => $creditmemo->getId()];
         $this->_webApiCall($serviceInfo, $requestData);

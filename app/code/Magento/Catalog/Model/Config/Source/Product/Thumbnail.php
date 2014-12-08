@@ -24,9 +24,9 @@ class Thumbnail implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => self::OPTION_USE_OWN_IMAGE, 'label' => __('Product Thumbnail Itself')),
-            array('value' => self::OPTION_USE_PARENT_IMAGE, 'label' => __('Parent Product Thumbnail'))
-        );
+        return [
+            ['value' => self::OPTION_USE_OWN_IMAGE, 'label' => __('Product Thumbnail Itself')],
+            ['value' => self::OPTION_USE_PARENT_IMAGE, 'label' => __('Parent Product Thumbnail')]
+        ];
     }
 }

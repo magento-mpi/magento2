@@ -41,7 +41,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct(
@@ -84,7 +84,7 @@ class Link extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
 
             $links = $entry->getLink();
             if (!is_array($links)) {
-                $links = array();
+                $links = [];
             }
             $link = $entry->getService()->newLink();
             $link->setHref($url);

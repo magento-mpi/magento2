@@ -55,7 +55,7 @@ class Row extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    private $eventLabelsList = array();
+    private $eventLabelsList = [];
 
     /**
      * Cast amount relation
@@ -64,7 +64,7 @@ class Row extends \Magento\Framework\Model\AbstractModel
      */
     private $castAmountRelation = [
         'fee_amount' => 'fee_debit_or_credit',
-        'gross_transaction_amount' => 'transaction_debit_or_credit'
+        'gross_transaction_amount' => 'transaction_debit_or_credit',
     ];
 
     /**
@@ -86,14 +86,13 @@ class Row extends \Magento\Framework\Model\AbstractModel
      */
     public function getReferenceType($code)
     {
-        $types = array(
+        $types = [
             'ODR' => __('Order ID'),
             'PAP' => __('Preapproved Payment ID'),
             'TXN' => __('Transaction ID'),
             'SUB' => __('Subscription ID'),
-        );
+        ];
         return !empty($types[$code]) ? $types[$code] : $code;
-
     }
 
     /**
@@ -117,7 +116,7 @@ class Row extends \Magento\Framework\Model\AbstractModel
      */
     public function getDebitCreditText($code)
     {
-        $options = array('CR' => __('Credit'), 'DR' => __('Debit'));
+        $options = ['CR' => __('Credit'), 'DR' => __('Debit')];
 
         return !empty($options[$code]) ? $options[$code] : $code;
     }
@@ -155,7 +154,7 @@ class Row extends \Magento\Framework\Model\AbstractModel
     public function getTransactionEvents()
     {
         if (empty($this->eventLabelsList)) {
-            $this->eventLabelsList = array(
+            $this->eventLabelsList = [
                 'T1502' => __('ACH Deposit (Hold for Dispute or Other Investigation)'),
                 'T1104' => __('ACH Deposit (Reversal)'),
                 'T0302' => __('ACH Funding for Funds Recovery from Account Balance'),
@@ -236,8 +235,8 @@ class Row extends \Magento\Framework\Model\AbstractModel
                 'T1302' => __('Void'),
                 'T0007' => __('Website Payments Standard Payment'),
                 'T1701' => __('WorldLink Withdrawal'),
-                'T0004' => __('eBay Auction Payment')
-            );
+                'T0004' => __('eBay Auction Payment'),
+            ];
         }
 
         return $this->eventLabelsList;

@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Payment;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Sales\Api\Data\TransactionInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Payment transaction model

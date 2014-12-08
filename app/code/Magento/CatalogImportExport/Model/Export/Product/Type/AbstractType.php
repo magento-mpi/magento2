@@ -21,21 +21,21 @@ abstract class AbstractType
      *
      * @var array
      */
-    protected $_attributeOverrides = array();
+    protected $_attributeOverrides = [];
 
     /**
      * Array of attributes codes which are disabled for export.
      *
      * @var string[]
      */
-    protected $_disabledAttrs = array();
+    protected $_disabledAttrs = [];
 
     /**
      * Attributes with index (not label) value.
      *
      * @var string[]
      */
-    protected $_indexValueAttributes = array();
+    protected $_indexValueAttributes = [];
 
     /**
      * Return disabled attributes codes.

@@ -28,7 +28,7 @@ class PrintAction extends \Magento\Rma\Controller\Adminhtml\Rma
                 $dateModel = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime');
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
-                $pdf = $pdfModel->getPdf(array($rmaModel));
+                $pdf = $pdfModel->getPdf([$rmaModel]);
                 return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),

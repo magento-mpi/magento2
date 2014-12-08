@@ -103,7 +103,7 @@ class ProcessOrderCreationDataTest extends \PHPUnit_Framework_TestCase
         $orderCreateModel->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
 
         $request = [
-            'payment' => ['another_option' => true]
+            'payment' => ['another_option' => true],
         ];
 
         $eventMock = $this->getMock('\Magento\Framework\Event', ['getOrderCreateModel', 'getRequest'], [], '', false);
@@ -141,7 +141,7 @@ class ProcessOrderCreationDataTest extends \PHPUnit_Framework_TestCase
         $orderCreateModel->expects($this->once())->method('getQuote')->will($this->returnValue($quoteMock));
 
         $request = [
-            'payment' => ['use_reward_points' => true]
+            'payment' => ['use_reward_points' => true],
         ];
 
         $eventMock = $this->getMock('\Magento\Framework\Event', ['getOrderCreateModel', 'getRequest'], [], '', false);
@@ -170,4 +170,3 @@ class ProcessOrderCreationDataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

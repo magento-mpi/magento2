@@ -8,7 +8,6 @@
 
 namespace Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\Customers;
 
-use Mtf\Client\Element;
 
 /**
  * Customer grid on "Matched Customers" tab.
@@ -22,10 +21,10 @@ class CustomersGrid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'email' => [
-            'selector' => 'input[name="grid_email"]'
+            'selector' => 'input[name="grid_email"]',
         ],
         'coupon' => [
-            'selector' => 'input[name="grid_code"]'
-        ]
+            'selector' => 'input[name="grid_code"]',
+        ],
     ];
 }

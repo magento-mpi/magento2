@@ -71,7 +71,7 @@ class Transaction extends Entity implements TransactionResourceInterface
                 new \Zend_Db_Expr('parent_id IS NULL'),
                 'payment_id = ?' => (int)$paymentId,
                 'order_id = ?' => (int)$orderId,
-                'parent_txn_id = ?' => $txnId
+                'parent_txn_id = ?' => $txnId,
             ];
             $adapter->update($this->getMainTable(), ['parent_id' => $id], $where);
         }

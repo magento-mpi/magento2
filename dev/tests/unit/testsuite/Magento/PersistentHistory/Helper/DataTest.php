@@ -134,4 +134,3 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->subject->isCustomerAndSegmentsPersist($this->storeMock));
     }
 }
- 

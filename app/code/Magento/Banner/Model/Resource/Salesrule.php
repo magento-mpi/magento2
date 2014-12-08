@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Banner Salesrule Resource Model
  *

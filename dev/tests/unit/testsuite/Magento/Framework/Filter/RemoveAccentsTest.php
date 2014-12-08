@@ -27,9 +27,9 @@ class RemoveAccentsTest extends \PHPUnit_Framework_TestCase
      */
     public function removeAccentsDataProvider()
     {
-        return array(
-            'general conversion' => array('ABCDEFGHIJKLMNOPQRSTUVWXYZ', false, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-            'conversion with german specifics' => array('äöüÄÖÜß', true, 'aeoeueAeOeUess')
-        );
+        return [
+            'general conversion' => ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', false, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'],
+            'conversion with german specifics' => ['äöüÄÖÜß', true, 'aeoeueAeOeUess']
+        ];
     }
 }

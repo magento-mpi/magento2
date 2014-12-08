@@ -8,9 +8,9 @@
 
 namespace Magento\Multishipping\Test\TestCase;
 
+use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Multishipping\Test\Fixture\GuestPaypalDirect;
 
 /**
  * Test multiple address page checkout with different configurations.

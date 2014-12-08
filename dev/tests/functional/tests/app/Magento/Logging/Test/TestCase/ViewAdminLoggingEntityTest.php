@@ -8,10 +8,10 @@
 
 namespace Magento\Logging\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Backend\Test\Page\Adminhtml\SystemConfig;
-use Magento\Logging\Test\Page\Adminhtml\Logging as LoggingIndex;
 use Magento\Logging\Test\Fixture\Logging;
+use Magento\Logging\Test\Page\Adminhtml\Logging as LoggingIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for ViewAdminLoggingEntity

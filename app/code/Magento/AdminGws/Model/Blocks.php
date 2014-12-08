@@ -236,10 +236,10 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         if ($setDisabled) {
             $element = $observer->getEvent()->getBlock()->getForm()->getElement('display_state_array');
             $element->setDisabled(
-                array(
+                [
                     \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
-                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE
-                )
+                    \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
+                ]
             );
         }
     }
@@ -320,7 +320,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         $block->setMassactionIdField(false);
         $column = $block->getColumn('action');
         if ($column) {
-            $column->setActions(array());
+            $column->setActions([]);
         }
 
         return $this;
@@ -393,8 +393,8 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
             $row = $block->getChildBlock('row');
             if ($this->_role->getIsWebsiteLevel()) {
                 $websiteIds = $this->_role->getWebsiteIds();
-                $block->setAdditionConfigData(array('limited_website_ids' => $websiteIds));
-            } else if ($this->_role->getIsStoreLevel()) {
+                $block->setAdditionConfigData(['limited_website_ids' => $websiteIds]);
+            } elseif ($this->_role->getIsStoreLevel()) {
                 $block->getCategory()->setPermissionsReadonly(true);
                 $addButton = $block->getChildBlock('add_button');
                 if ($addButton) {
@@ -439,7 +439,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         $nodes = $block->getNodes();
         if ($nodes) {
             if (is_array($nodes)) {
-                $nodesAssoc = array();
+                $nodesAssoc = [];
                 foreach ($nodes as $node) {
                     $nodesAssoc[$node['node_id']] = $node;
                 }

@@ -24,17 +24,17 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Action
     public function render(\Magento\Framework\Object $row)
     {
         if ($row->isValidForSend()) {
-            $actions[] = array(
-                'url' => $this->getUrl('*/queue/edit', array('template_id' => $row->getId())),
-                'caption' => __('Queue Newsletter...')
-            );
+            $actions[] = [
+                'url' => $this->getUrl('*/queue/edit', ['template_id' => $row->getId()]),
+                'caption' => __('Queue Newsletter...'),
+            ];
         }
 
-        $actions[] = array(
-            'url' => $this->getUrl('*/*/preview', array('id' => $row->getId())),
+        $actions[] = [
+            'url' => $this->getUrl('*/*/preview', ['id' => $row->getId()]),
             'popup' => true,
-            'caption' => __('Preview')
-        );
+            'caption' => __('Preview'),
+        ];
 
         $this->getColumn()->setActions($actions);
 

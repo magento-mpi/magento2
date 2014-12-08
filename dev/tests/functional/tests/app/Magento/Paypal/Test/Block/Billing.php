@@ -9,7 +9,6 @@
 namespace Magento\Paypal\Test\Block;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Billing

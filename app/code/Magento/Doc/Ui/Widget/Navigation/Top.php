@@ -50,7 +50,7 @@ class Top extends Template
         }
         $htmlLi .= '>';
 
-        $html = array();
+        $html = [];
         $html[] = $htmlLi;
 
         if (isset($item['path'])) {
@@ -92,7 +92,7 @@ class Top extends Template
                 'id' => 'home',
                 'label' => 'Home',
                 'path' => '',
-                'position' => 10
+                'position' => 10,
             ],
 
             'api' => [
@@ -104,21 +104,21 @@ class Top extends Template
                         'id' => 'reference',
                         'label' => 'Reference API',
                         'path' => 'api/reference',
-                        'position' => 10
+                        'position' => 10,
                     ],
                     'framework' => [
                         'id' => 'framework',
                         'label' => 'Framework API',
                         'path' => 'api/framework',
-                        'position' => 20
+                        'position' => 20,
                     ],
                     'module' => [
                         'id' => 'module',
                         'label' => 'Modules API',
                         'path' => 'api/module',
-                        'position' => 30
-                    ]
-                ]
+                        'position' => 30,
+                    ],
+                ],
             ],
 
             'guide' => [
@@ -130,45 +130,45 @@ class Top extends Template
                         'id' => 'developer',
                         'label' => 'Developers Guide',
                         'path' => 'guide/developer',
-                        'position' => 10
+                        'position' => 10,
                     ],
                     'frontend' => [
                         'id' => 'frontend',
                         'label' => 'Frontend Guide',
                         'path' => 'guide/frontend',
-                        'position' => 20
+                        'position' => 20,
                     ],
                     'administrator' => [
                         'id' => 'administrator',
                         'label' => 'Administrator Guide',
                         'path' => 'guide/administrator',
-                        'position' => 30
+                        'position' => 30,
                     ],
                     'installation' => [
                         'id' => 'installation',
                         'label' => 'Installation Guide',
                         'path' => 'guide/installation',
-                        'position' => 40
+                        'position' => 40,
                     ],
                     'upgrade' => [
                         'id' => 'upgrade',
                         'label' => 'Upgrade Guide',
                         'path' => 'guide/upgrade',
-                        'position' => 50
+                        'position' => 50,
                     ],
                     'migration' => [
                         'id' => 'migration',
                         'label' => 'Migration Guide',
                         'path' => 'guide/migration',
-                        'position' => 60
+                        'position' => 60,
                     ],
                     'extension' => [
                         'id' => 'extension',
                         'label' => 'Extension Guide',
                         'path' => 'guide/extension',
-                        'position' => 60
-                    ]
-                ]
+                        'position' => 60,
+                    ],
+                ],
             ],
 
             'tools' => [
@@ -179,9 +179,9 @@ class Top extends Template
                     'Export' => [
                         'id' => 'Export',
                         'label' => 'Export',
-                        'position' => 40
-                    ]
-                ]
+                        'position' => 40,
+                    ],
+                ],
             ],
 
             'help' => [
@@ -193,15 +193,15 @@ class Top extends Template
                         'id' => 'dictionary',
                         'label' => 'Dictionary',
                         'path' => 'help/dictionary',
-                        'position' => 10
+                        'position' => 10,
                     ],
                     'howto' => [
                         'id' => 'howto',
                         'label' => 'How-to',
                         'path' => 'help/howto',
-                        'position' => 20
-                    ]
-                ]
+                        'position' => 20,
+                    ],
+                ],
             ],
         ];
 

@@ -7,7 +7,6 @@
  */
 namespace Magento\Downloadable\Helper;
 
-
 function function_exists()
 {
     return DownloadTest::$functionExists;

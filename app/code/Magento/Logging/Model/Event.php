@@ -39,7 +39,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
@@ -75,7 +75,7 @@ class Event extends \Magento\Framework\Model\AbstractModel
         /**
          * Prepare short details data
          */
-        $info = array();
+        $info = [];
         $info['general'] = $this->getInfo();
         if ($this->getAdditionalInfo()) {
             $info['additional'] = $this->getAdditionalInfo();

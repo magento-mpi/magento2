@@ -8,11 +8,11 @@
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Fixture\FixtureFactory;
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Cms\Test\Fixture\CmsBlock;
 use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Fixture\CmsBlock;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertCmsBlockOnCategoryPage
@@ -49,7 +49,7 @@ class AssertCmsBlockOnCategoryPage extends AbstractConstraint
                 'dataSet' => 'default_subcategory',
                 'data' => [
                     'display_mode' => 'Static block and products',
-                    'landing_page' => $cmsBlock->getTitle()
+                    'landing_page' => $cmsBlock->getTitle(),
                 ]
             ]
         );

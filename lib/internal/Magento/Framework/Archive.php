@@ -40,7 +40,7 @@ class Archive
      *
      * @var array
      */
-    protected $_formats = array(
+    protected $_formats = [
         'tar' => 'tar',
         'gz' => 'gz',
         'gzip' => 'gz',
@@ -53,8 +53,8 @@ class Archive
         'tbz' => 'tar.bz',
         'tbzip' => 'tar.bz',
         'tbz2' => 'tar.bz',
-        'tbzip2' => 'tar.bz'
-    );
+        'tbzip2' => 'tar.bz',
+    ];
 
     /**
      * Create object of current archiver by $extension.

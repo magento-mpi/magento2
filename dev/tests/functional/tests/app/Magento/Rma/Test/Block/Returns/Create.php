@@ -8,9 +8,7 @@
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Block\Form;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

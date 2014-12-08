@@ -23,9 +23,9 @@ class Banner extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
+        $this->_data['default'] = ['config' => $defaultConfig, 'data' => $defaultData];
 
         $this->_data[self::TEXT_BANNER] = $this->getTextBanner();
     }
@@ -35,25 +35,25 @@ class Banner extends AbstractRepository
      */
     protected function getTextBanner()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     // Banner Name = banner1
-                    'name' => array(
-                        'value' => 'Banner %isolation%'
-                    ),
+                    'name' => [
+                        'value' => 'Banner %isolation%',
+                    ],
                     // Active = yes
-                    'is_enabled' => array(
-                        'value' => '1'
-                    ),
+                    'is_enabled' => [
+                        'value' => '1',
+                    ],
                     // Content = text/insert variable
-                    'store_contents' => array(
-                        'value' => array(
-                            '0' => 'My Banner %isolation%'
-                        )
-                    )
-                )
-            )
-        );
+                    'store_contents' => [
+                        'value' => [
+                            '0' => 'My Banner %isolation%',
+                        ],
+                    ],
+                ],
+            ]
+        ];
     }
 }

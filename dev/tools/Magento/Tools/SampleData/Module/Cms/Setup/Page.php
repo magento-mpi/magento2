@@ -8,9 +8,9 @@
 
 namespace Magento\Tools\SampleData\Module\Cms\Setup;
 
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Launches setup of sample data for CMS Page
@@ -54,9 +54,9 @@ class Page implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Tools\SampleData\Logger $logger,
-        $fixtures = array(
+        $fixtures = [
             'Cms/Page/pages.csv',
-        )
+        ]
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
@@ -75,12 +75,12 @@ class Page implements SetupInterface
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 $this->pageFactory->create()
                     ->load($row['identifier'], 'identifier')
                     ->addData($row)
-                    ->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID))
+                    ->setStores([\Magento\Store\Model\Store::DEFAULT_STORE_ID])
                     ->save();
                 $this->logger->log('.');
             }

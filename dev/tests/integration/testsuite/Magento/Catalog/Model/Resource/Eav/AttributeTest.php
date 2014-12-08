@@ -34,7 +34,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->setFrontendLabel(
             'test'
         );
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('frontend_label' => uniqid()));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['frontend_label' => uniqid()]);
         $crud->testCrud();
     }
 }

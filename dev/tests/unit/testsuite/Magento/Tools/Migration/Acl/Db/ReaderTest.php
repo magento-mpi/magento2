@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\Acl\Db;
 
-
 require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Reader.php';
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,12 +26,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_adapterMock = $this->getMockForAbstractClass(
             'Zend_Db_Adapter_Abstract',
-            array(),
+            [],
             '',
             false,
             false,
             false,
-            array('select', 'fetchPairs')
+            ['select', 'fetchPairs']
         );
         $this->_model = new \Magento\Tools\Migration\Acl\Db\Reader($this->_adapterMock, 'dummy');
     }
@@ -45,8 +44,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testFetchAll()
     {
-        $expected = array('all' => 10, 'catalog' => 100);
-        $selectMock = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $expected = ['all' => 10, 'catalog' => 100];
+        $selectMock = $this->getMock('Zend_Db_Select', [], [], '', false);
         $this->_adapterMock->expects($this->once())->method('select')->will($this->returnValue($selectMock));
         $selectMock->expects($this->once())->method('from')->will($this->returnSelf());
         $selectMock->expects($this->once())->method('columns')->will($this->returnSelf());

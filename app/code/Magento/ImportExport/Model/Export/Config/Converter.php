@@ -18,7 +18,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array('entities' => array(), 'fileFormats' => array());
+        $output = ['entities' => [], 'fileFormats' => []];
         /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
         /** @var \DOMNode $entityConfig */
@@ -29,13 +29,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $model = $attributes->getNamedItem('model')->nodeValue;
             $entityAttributeFilterType = $attributes->getNamedItem('entityAttributeFilterType')->nodeValue;
 
-            $output['entities'][$name] = array(
+            $output['entities'][$name] = [
                 'name' => $name,
                 'label' => $label,
                 'model' => $model,
                 'types' => [],
-                'entityAttributeFilterType' => $entityAttributeFilterType
-            );
+                'entityAttributeFilterType' => $entityAttributeFilterType,
+            ];
         }
 
         /** @var \DOMNodeList $entityTypes */
@@ -48,7 +48,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $entity = $attributes->getNamedItem('entity')->nodeValue;
 
             if (isset($output['entities'][$entity])) {
-                $output['entities'][$entity]['types'][$name] = array('name' => $name, 'model' => $model);
+                $output['entities'][$entity]['types'][$name] = ['name' => $name, 'model' => $model];
             }
         }
 
@@ -61,7 +61,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $model = $attributes->getNamedItem('model')->nodeValue;
             $label = $attributes->getNamedItem('label')->nodeValue;
 
-            $output['fileFormats'][$name] = array('name' => $name, 'model' => $model, 'label' => $label);
+            $output['fileFormats'][$name] = ['name' => $name, 'model' => $model, 'label' => $label];
         }
         return $output;
     }

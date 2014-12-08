@@ -36,22 +36,22 @@ class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\Abs
             $this->_map['fields']['version_id'] = 'ver_table.version_id';
             $this->_map['fields']['versionuser_user_id'] = 'ver_table.user_id';
 
-            $columns = array(
+            $columns = [
                 'version_id' => 'ver_table.version_id',
                 'access_level',
                 'version_user_id' => 'ver_table.user_id',
                 'label',
-                'version_number'
-            );
+                'version_number',
+            ];
 
             if (is_array($cols)) {
                 $columns = array_merge($columns, $cols);
-            } else if ($cols) {
+            } elseif ($cols) {
                 $columns[] = $cols;
             }
 
             $this->getSelect()->joinInner(
-                array('ver_table' => $this->getTable('magento_versionscms_page_version')),
+                ['ver_table' => $this->getTable('magento_versionscms_page_version')],
                 'ver_table.version_id = main_table.version_id',
                 $columns
             );
@@ -75,7 +75,7 @@ class Collection extends \Magento\VersionsCms\Model\Resource\Page\Collection\Abs
         }
 
         if (is_array($version)) {
-            $version = array('in' => $version);
+            $version = ['in' => $version];
         }
 
         $this->addFieldTofilter('version_id', $version);

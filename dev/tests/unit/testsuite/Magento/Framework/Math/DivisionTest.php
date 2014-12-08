@@ -24,12 +24,12 @@ class DivisionTest extends \PHPUnit_Framework_TestCase
      */
     public function getExactDivisionDataProvider()
     {
-        return array(
-            array(17, 3 , 2),
-            array(7.7, 2 , 1.7),
-            array(17.8, 3.2 , 1.8),
-            array(11.7, 1.7 , 1.5),
-            array(8, 2, 0)
-        );
+        return [
+            [17, 3 , 2],
+            [7.7, 2 , 1.7],
+            [17.8, 3.2 , 1.8],
+            [11.7, 1.7 , 1.5],
+            [8, 2, 0]
+        ];
     }
 }

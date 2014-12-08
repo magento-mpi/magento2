@@ -45,9 +45,9 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
      */
     public function displayDataProvider()
     {
-        return array(
-            array('statFile' => __DIR__ . '/_files/timers.php', 'expectedHtmlFile' => __DIR__ . '/_files/output.html')
-        );
+        return [
+            ['statFile' => __DIR__ . '/_files/timers.php', 'expectedHtmlFile' => __DIR__ . '/_files/output.html']
+        ];
     }
 
     /**
@@ -62,8 +62,8 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
         if (preg_match('/Code Profiler \(Memory usage: real - (\d+), emalloc - (\d+)\)/', $actualHtml, $matches)) {
             list(, $realMemory, $emallocMemory) = $matches;
             $expectedHtml = str_replace(
-                array('%real_memory%', '%emalloc_memory%'),
-                array($realMemory, $emallocMemory),
+                ['%real_memory%', '%emalloc_memory%'],
+                [$realMemory, $emallocMemory],
                 $expectedHtml
             );
         }

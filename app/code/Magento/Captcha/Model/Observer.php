@@ -206,7 +206,7 @@ class Observer
                 $this->messageManager->addError(__('Incorrect CAPTCHA'));
                 $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                 $this->_session->setCustomerFormData($controller->getRequest()->getPost());
-                $url = $this->_urlManager->getUrl('*/*/create', array('_nosecret' => true));
+                $url = $this->_urlManager->getUrl('*/*/create', ['_nosecret' => true]);
                 $controller->getResponse()->setRedirect($this->redirect->error($url));
             }
         }
@@ -229,7 +229,7 @@ class Observer
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
-                    $result = array('error' => 1, 'message' => __('Incorrect CAPTCHA'));
+                    $result = ['error' => 1, 'message' => __('Incorrect CAPTCHA')];
                     $controller->getResponse()->representJson($this->_coreData->jsonEncode($result));
                 }
             }
@@ -253,7 +253,7 @@ class Observer
                 $controller = $observer->getControllerAction();
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
-                    $result = array('error' => 1, 'message' => __('Incorrect CAPTCHA'));
+                    $result = ['error' => 1, 'message' => __('Incorrect CAPTCHA')];
                     $controller->getResponse()->representJson($this->_coreData->jsonEncode($result));
                 }
             }
@@ -304,7 +304,7 @@ class Observer
                     $this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
                     $this->messageManager->addError(__('Incorrect CAPTCHA'));
                     $controller->getResponse()->setRedirect(
-                        $controller->getUrl('*/*/forgotpassword', array('_nosecret' => true))
+                        $controller->getUrl('*/*/forgotpassword', ['_nosecret' => true])
                     );
                 }
             }

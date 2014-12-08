@@ -9,8 +9,8 @@
 namespace Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Create and return Category

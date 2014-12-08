@@ -33,7 +33,7 @@ class AbstractType extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Catalog\Model\Config\Source\Product\Options\Price $optionPrice,
-        array $data = array()
+        array $data = []
     ) {
         $this->_optionPrice = $optionPrice;
         parent::__construct($context, $data);
@@ -51,7 +51,7 @@ class AbstractType extends \Magento\Backend\Block\Widget
                 $this->getNameInLayout() . '.option_price_type',
                 $this->getNameInLayout()
             )->setData(
-                array('id' => 'product_option_${option_id}_price_type', 'class' => 'select product-option-price-type')
+                ['id' => 'product_option_${option_id}_price_type', 'class' => 'select product-option-price-type']
             )
         );
 

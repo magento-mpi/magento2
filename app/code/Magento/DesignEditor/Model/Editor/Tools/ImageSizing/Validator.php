@@ -47,27 +47,27 @@ class Validator
      *
      * @var string[]
      */
-    protected $_allowedTypes = array(
+    protected $_allowedTypes = [
         self::FIELD_WHITE_BORDER,
         self::FIELD_IMAGE_TYPE,
         self::FIELD_IMAGE_WIDTH,
         self::FIELD_IMAGE_RATIO,
-        self::FIELD_IMAGE_HEIGHT
-    );
+        self::FIELD_IMAGE_HEIGHT,
+    ];
 
     /**
      * Clean data
      *
      * @var array
      */
-    protected $_cleanData = array();
+    protected $_cleanData = [];
 
     /**
      * List of controls for validate grouped by type
      *
      * @var array
      */
-    protected $_fields = array();
+    protected $_fields = [];
 
     /**
      * Validate data
@@ -80,7 +80,7 @@ class Validator
     {
         $this->_initFieldByTypes($controls);
 
-        $this->_cleanData = array();
+        $this->_cleanData = [];
         foreach ($this->_allowedTypes as $type) {
             if (isset($this->_fields[$type])) {
                 $validators = $this->_getValidators($type);
@@ -98,7 +98,7 @@ class Validator
      */
     protected function _initFieldByTypes(array $controls)
     {
-        $this->_fields = array();
+        $this->_fields = [];
         foreach ($controls as $control) {
             foreach ($control['components'] as $name => $component) {
                 if (in_array($component['type'], $this->_allowedTypes)) {
@@ -153,39 +153,39 @@ class Validator
      */
     protected function _getValidators($type)
     {
-        $validators = array();
+        $validators = [];
         switch ($type) {
             case self::FIELD_WHITE_BORDER:
-                $validators = array(
-                    array('class' => 'Zend_Validate_Int', 'options' => array()),
-                    array(
+                $validators = [
+                    ['class' => 'Zend_Validate_Int', 'options' => []],
+                    [
                         'class' => 'Zend_Validate_Between',
-                        'options' => array('min' => 0, 'max' => 1, 'inclusive' => true)
-                    )
-                );
+                        'options' => ['min' => 0, 'max' => 1, 'inclusive' => true]
+                    ],
+                ];
                 break;
             case self::FIELD_IMAGE_WIDTH:
             case self::FIELD_IMAGE_HEIGHT:
-                $validators = array(
-                    array('class' => 'Zend_Validate_Regex', 'options' => array('pattern' => '/[0-9]*/')),
-                    array(
+                $validators = [
+                    ['class' => 'Zend_Validate_Regex', 'options' => ['pattern' => '/[0-9]*/']],
+                    [
                         'class' => 'Zend_Validate_Between',
-                        'options' => array('min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true)
-                    )
-                );
+                        'options' => ['min' => 0, 'max' => self::MAX_SIZE_VALUE, 'inclusive' => true]
+                    ],
+                ];
                 break;
             case self::FIELD_IMAGE_RATIO:
-                $validators = array(
-                    array('class' => 'Zend_Validate_InArray', 'options' => array('haystack' => array('0', '1')))
-                );
+                $validators = [
+                    ['class' => 'Zend_Validate_InArray', 'options' => ['haystack' => ['0', '1']]],
+                ];
                 break;
             case self::FIELD_IMAGE_TYPE:
-                $validators = array(
-                    array(
+                $validators = [
+                    [
                         'class' => 'Zend_Validate_InArray',
-                        'options' => array('haystack' => array('image', 'small_image', 'thumbnail'))
-                    )
-                );
+                        'options' => ['haystack' => ['image', 'small_image', 'thumbnail']],
+                    ],
+                ];
                 break;
         }
         $this->_instantiateValidators($validators);

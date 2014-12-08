@@ -16,7 +16,6 @@ use Magento\Backend\App\Action;
  */
 class Account extends Action
 {
-
     /**
      * @return bool
      */

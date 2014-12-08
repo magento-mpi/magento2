@@ -30,6 +30,6 @@ class DeleteOrphanPoints extends \Magento\Reward\Controller\Adminhtml\Customer\R
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('customer/index/edit', array('_current' => true));
+        $this->_redirect('customer/index/edit', ['_current' => true]);
     }
 }

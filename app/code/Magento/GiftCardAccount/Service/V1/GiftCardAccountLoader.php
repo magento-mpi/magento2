@@ -8,7 +8,7 @@
 
 namespace Magento\GiftCardAccount\Service\V1;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class GiftCardAccountLoader

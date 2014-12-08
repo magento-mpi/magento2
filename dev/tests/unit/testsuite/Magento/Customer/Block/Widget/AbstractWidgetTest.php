@@ -26,10 +26,10 @@ class AbstractWidgetTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_addressHelper = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
+        $this->_addressHelper = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
 
         $this->_block = new AbstractWidget(
-            $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false),
+            $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false),
             $this->_addressHelper,
             $this->getMockBuilder('\Magento\Customer\Api\CustomerMetadataInterface')->getMockForAbstractClass()
         );
@@ -60,7 +60,7 @@ class AbstractWidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function getConfigDataProvider()
     {
-        return array(array('key', 'value'), array(null, null));
+        return [['key', 'value'], [null, null]];
     }
 
     /**
@@ -122,11 +122,11 @@ class AbstractWidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function getFieldIdDataProvider()
     {
-        return array(
-            array(self::FORMAT_S, 'Id', 'Id', 'is_string'),
-            array(self::FORMAT_D, '123', '123', 'is_numeric'),
-            array(self::FORMAT_D, 'Id', '0', 'is_numeric')
-        );
+        return [
+            [self::FORMAT_S, 'Id', 'Id', 'is_string'],
+            [self::FORMAT_D, '123', '123', 'is_numeric'],
+            [self::FORMAT_D, 'Id', '0', 'is_numeric']
+        ];
     }
 
     /**
@@ -152,10 +152,10 @@ class AbstractWidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function getFieldNameDataProvider()
     {
-        return array(
-            array(self::FORMAT_S, 'Name', 'Name', 'is_string'),
-            array(self::FORMAT_D, '123', '123', 'is_numeric'),
-            array(self::FORMAT_D, 'Name', '0', 'is_numeric')
-        );
+        return [
+            [self::FORMAT_S, 'Name', 'Name', 'is_string'],
+            [self::FORMAT_D, '123', '123', 'is_numeric'],
+            [self::FORMAT_D, 'Name', '0', 'is_numeric']
+        ];
     }
 }

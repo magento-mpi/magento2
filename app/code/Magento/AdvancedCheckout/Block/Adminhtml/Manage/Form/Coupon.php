@@ -29,7 +29,7 @@ class Coupon extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -65,11 +65,11 @@ class Coupon extends \Magento\Backend\Block\Template
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'apply_coupon',
                 'label' => __('Apply'),
-                'onclick' => "checkoutObj.applyCoupon($('coupon_code').value)"
-            )
+                'onclick' => "checkoutObj.applyCoupon($('coupon_code').value)",
+            ]
         )->toHtml();
     }
 

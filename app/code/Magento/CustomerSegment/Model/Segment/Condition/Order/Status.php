@@ -46,7 +46,7 @@ class Status extends AbstractCondition
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderConfig = $orderConfig;
         $this->_eavConfig = $eavConfig;
@@ -62,7 +62,7 @@ class Status extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('sales_order_save_commit_after');
+        return ['sales_order_save_commit_after'];
     }
 
     /**
@@ -72,7 +72,7 @@ class Status extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Order Status'));
+        return ['value' => $this->getType(), 'label' => __('Order Status')];
     }
 
     /**
@@ -92,7 +92,7 @@ class Status extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array_merge(array(self::VALUE_ANY => __('Any')), $this->_orderConfig->getStatuses()));
+        $this->setValueOption(array_merge([self::VALUE_ANY => __('Any')], $this->_orderConfig->getStatuses()));
         return $this;
     }
 

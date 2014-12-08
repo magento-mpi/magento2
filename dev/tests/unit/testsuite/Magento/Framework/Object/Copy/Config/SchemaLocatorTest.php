@@ -12,7 +12,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Object\Copy\Config\SchemaLocator
      */
@@ -28,8 +27,8 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
             }));
         $fileSystemMock = $this->getMock(
             'Magento\Framework\Filesystem',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

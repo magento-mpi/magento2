@@ -52,7 +52,7 @@ class Index extends \Magento\Checkout\Controller\Cart
         }
 
         // Compose array of messages to add
-        $messages = array();
+        $messages = [];
         /** @var \Magento\Framework\Message\MessageInterface $message  */
         foreach ($this->cart->getQuote()->getMessages() as $message) {
             if ($message) {

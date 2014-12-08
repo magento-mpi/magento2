@@ -61,7 +61,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
         \Magento\Webapi\Helper\Data $webapiData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rootResource = $rootResource;
         $this->_resourceProvider = $resourceProvider;
@@ -165,7 +165,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     public function isTreeEmpty()
     {
-        return $this->_selectedResources === array();
+        return $this->_selectedResources === [];
     }
 
     /**
@@ -176,7 +176,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
      */
     protected function _getAllResourceIds(array $resources)
     {
-        $resourceIds = array();
+        $resourceIds = [];
         foreach ($resources as $resource) {
             $resourceIds[] = $resource['id'];
             if (isset($resource['children'])) {

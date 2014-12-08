@@ -8,9 +8,9 @@
 
 namespace Magento\Weee\Pricing\Render;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\Pricing\Render\AbstractAdjustment;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\Pricing\Render\AbstractAdjustment;
+use Magento\Framework\View\Element\Template;
 use Magento\Weee\Model\Tax;
 
 /**

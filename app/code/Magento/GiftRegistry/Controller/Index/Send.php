@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Send extends \Magento\GiftRegistry\Controller\Index
 {
@@ -20,7 +20,7 @@ class Send extends \Magento\GiftRegistry\Controller\Index
     public function execute()
     {
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            $this->_redirect('*/*/share', array('_current' => true));
+            $this->_redirect('*/*/share', ['_current' => true]);
             return;
         }
 
@@ -35,7 +35,7 @@ class Send extends \Magento\GiftRegistry\Controller\Index
             } else {
                 $this->messageManager->addError($result->getErrorMessage());
                 $this->_getSession()->setSharingForm($this->getRequest()->getPost());
-                $this->_redirect('*/*/share', array('_current' => true));
+                $this->_redirect('*/*/share', ['_current' => true]);
                 return;
             }
         } catch (Exception $e) {

@@ -65,7 +65,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $customerMetadataService = $this->getMockForAbstractClass(
             'Magento\Customer\Service\V1\CustomerMetadataServiceInterface',
-            array(),
+            [],
             '',
             false
         );
@@ -76,7 +76,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue([
                 new \Magento\Framework\Object(['attribute_code' => 'zip']),
-                new \Magento\Framework\Object(['attribute_code' => 'locale'])
+                new \Magento\Framework\Object(['attribute_code' => 'locale']),
             ])
         );
         $valueBuilder = $this->_objectManager->getObject('Magento\Framework\Api\AttributeDataBuilder');
@@ -118,7 +118,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
         $actualAttributes = \Magento\Framework\Convert\ConvertArray::toFlatArray($customer->__toArray());
         $this->assertEquals(
-            array(
+            [
                 'id' => self::ID,
                 'confirmation' => self::CONFIRMATION,
                 'created_at' => self::CREATED_AT,
@@ -134,25 +134,25 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
                 'store_id' => self::STORE_ID,
                 'suffix' => self::SUFFIX,
                 'taxvat' => self::TAXVAT,
-                'website_id' => self::WEBSITE_ID
-            ),
+                'website_id' => self::WEBSITE_ID,
+            ],
             $actualAttributes
         );
     }
 
     public function testInvalidCustomAttributes()
     {
-        $customAttributes= [
+        $customAttributes = [
             'custom_attribute1' => [
                 AttributeValue::ATTRIBUTE_CODE => 'custom_attribute1',
-                AttributeValue::VALUE => 'value1'
+                AttributeValue::VALUE => 'value1',
             ],
             'custom_attribute2' => [
                 AttributeValue::ATTRIBUTE_CODE => 'custom_attribute1',
-                AttributeValue::VALUE => 'value2'
-            ]
+                AttributeValue::VALUE => 'value2',
+            ],
         ];
-        $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
+        $customerData = ['attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes];
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         $this->assertEquals(
             [],
@@ -163,17 +163,17 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCustomAttributes()
     {
-        $customAttributes= [
+        $customAttributes = [
             'zip' => [
                 AttributeValue::ATTRIBUTE_CODE => 'zip',
-                AttributeValue::VALUE => 'value1'
+                AttributeValue::VALUE => 'value1',
             ],
             'locale' => [
                 AttributeValue::ATTRIBUTE_CODE => 'locale',
-                AttributeValue::VALUE => 'value2'
-            ]
+                AttributeValue::VALUE => 'value2',
+            ],
         ];
-        $customerData = array('attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes);
+        $customerData = ['attribute1' => 'value1', Customer::CUSTOM_ATTRIBUTES_KEY => $customAttributes];
         $customerDataObject = $this->_customerBuilder->populateWithArray($customerData)->create();
         foreach ($customerDataObject->getCustomAttributes() as $attributeValue) {
             $this->assertEquals(
@@ -186,13 +186,13 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testPopulateFromPrototypeVsArray()
     {
         $customerFromArray = $this->_customerBuilder->populateWithArray(
-            array(
+            [
                 Customer::FIRSTNAME => self::FIRSTNAME,
                 Customer::LASTNAME => self::LASTNAME,
                 Customer::EMAIL => self::EMAIL,
                 Customer::ID => self::ID,
-                'entity_id' => self::ID
-            )
+                'entity_id' => self::ID,
+            ]
         )->create();
         $customerFromPrototype = $this->_customerBuilder->populate($customerFromArray)->create();
 
@@ -202,12 +202,12 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     public function testPopulateFromCustomerIdInArray()
     {
         $customer = $this->_customerBuilder->populateWithArray(
-            array(
+            [
                 Customer::FIRSTNAME => self::FIRSTNAME,
                 Customer::LASTNAME => self::LASTNAME,
                 Customer::EMAIL => self::EMAIL,
-                Customer::ID => self::ID
-            )
+                Customer::ID => self::ID,
+            ]
         )->create();
 
         $this->assertEquals(self::FIRSTNAME, $customer->getFirstname());
@@ -223,7 +223,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     private function _createCustomerData()
     {
-        return array(
+        return [
             self::ATTRIBUTE_CODE => self::ATTRIBUTE_VALUE,
             'id' => self::ID,
             'firstname' => self::FIRSTNAME,
@@ -241,6 +241,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'suffix' => self::SUFFIX,
             'taxvat' => self::TAXVAT,
             'website_id' => self::WEBSITE_ID
-        );
+        ];
     }
 }

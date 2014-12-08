@@ -60,19 +60,19 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->configMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
-        $this->versionMock = $this->getMock('Magento\Framework\App\PageCache\Version', array(), array(), '', false);
-        $this->kernelMock = $this->getMock('Magento\Framework\App\PageCache\Kernel', array(), array(), '', false);
-        $this->stateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->configMock = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
+        $this->versionMock = $this->getMock('Magento\Framework\App\PageCache\Version', [], [], '', false);
+        $this->kernelMock = $this->getMock('Magento\Framework\App\PageCache\Kernel', [], [], '', false);
+        $this->stateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
         $this->frontControllerMock = $this->getMock(
             'Magento\Framework\App\FrontControllerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
-        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $response = $this->responseMock;
         $this->closure = function () use ($response) {
             return $response;
@@ -228,9 +228,9 @@ class BuiltinPluginTest extends \PHPUnit_Framework_TestCase
 
     public function dataProvider()
     {
-        return array(
-            'developer_mode' => array(\Magento\Framework\App\State::MODE_DEVELOPER),
-            'production' => array(\Magento\Framework\App\State::MODE_PRODUCTION),
-        );
+        return [
+            'developer_mode' => [\Magento\Framework\App\State::MODE_DEVELOPER],
+            'production' => [\Magento\Framework\App\State::MODE_PRODUCTION],
+        ];
     }
 }

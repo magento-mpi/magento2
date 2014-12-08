@@ -23,4 +23,4 @@ class AuthenticationExceptionTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertSame('An authentication error occurred.', $authenticationException->getMessage());
     }
-} 
+}

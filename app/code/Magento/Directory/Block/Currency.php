@@ -40,7 +40,7 @@ class Currency extends \Magento\Framework\View\Element\Template
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_postDataHelper = $postDataHelper;
@@ -119,7 +119,6 @@ class Currency extends \Magento\Framework\View\Element\Template
     public function getCurrentCurrencyCode()
     {
         if (is_null($this->_getData('current_currency_code'))) {
-
             // do not use $this->_storeManager->getStore()->getCurrentCurrencyCode() because of probability
             // to get an invalid (without base rate) currency from code saved in session
             $this->setData('current_currency_code', $this->_storeManager->getStore()->getCurrentCurrency()->getCode());

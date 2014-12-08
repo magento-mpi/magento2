@@ -30,7 +30,7 @@ class Factory
      */
     public function createCleanCommand($days)
     {
-        return $this->_objectManager->create('Magento\Log\Model\Shell\Command\Clean', array('days' => $days));
+        return $this->_objectManager->create('Magento\Log\Model\Shell\Command\Clean', ['days' => $days]);
     }
 
     /**

@@ -51,20 +51,20 @@ class RequestPreprocessorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $this->_requestMock = $this->getMock('\Magento\Framework\App\Request\Http', [], [], '', false);
         $this->closureMock = function () {
             return 'Expected';
         };
-        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $this->_urlMock = $this->getMock('\Magento\Framework\Url', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManager', [], [], '', false);
+        $this->_urlMock = $this->getMock('\Magento\Framework\Url', [], [], '', false);
         $this->_scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->subjectMock = $this->getMock('Magento\Framework\App\FrontController', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\FrontController', [], [], '', false);
         $this->_model = new \Magento\Store\App\FrontController\Plugin\RequestPreprocessor(
             $this->_storeManagerMock,
             $this->_urlMock,
             $this->_scopeConfigMock,
-            $this->getMock('\Magento\Framework\App\ResponseFactory', array(), array(), '', false)
+            $this->getMock('\Magento\Framework\App\ResponseFactory', [], [], '', false)
         );
     }
 

@@ -23,14 +23,14 @@ class Throws implements ParserInterface, DependenciesCollectorInterface
      *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * Save throw token key
      *
      * @var array
      */
-    protected $throws = array();
+    protected $throws = [];
 
     /**
      * @param Tokens $tokens

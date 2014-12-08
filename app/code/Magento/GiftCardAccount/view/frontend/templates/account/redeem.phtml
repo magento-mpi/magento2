@@ -17,7 +17,7 @@
     </span>
     <form class="form form-giftcard-redeem" id="giftcard-form" action="<?php echo $this->getUrl('*/*/*') ?>" method="post"
         data-mage-init='{"giftCard": {"giftCardCodeSelector": "#giftcard-code", "checkStatus": ".action.check",
-            "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>",
+            "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  ['_secure' => true]) ?>",
             "giftCardStatusId": "#giftcard-balance-lookup", "giftCardSpinnerId": "#gc-please-wait", "messages": ".page.messages .messages"}}'>
         <div id="giftcard-balance-lookup" class="giftcard ballance"></div>
         <fieldset class="fieldset">

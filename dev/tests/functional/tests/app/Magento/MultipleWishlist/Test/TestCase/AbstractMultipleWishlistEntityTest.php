@@ -8,19 +8,19 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
+use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Client\Driver\Selenium\Browser;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Client\Driver\Selenium\Browser;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
-use Magento\Wishlist\Test\Page\WishlistIndex;
 
 /**
  * Abstract Class AbstractMultipleWishlistEntityTest

@@ -8,9 +8,9 @@
 
 namespace Magento\Invitation\Test\Fixture\Invitation;
 
+use Magento\Store\Test\Fixture\Store;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Store\Test\Fixture\Store;
 
 /**
  * Prepare StoreId.

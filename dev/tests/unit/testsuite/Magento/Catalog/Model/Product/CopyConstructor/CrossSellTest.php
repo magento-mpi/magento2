@@ -38,20 +38,20 @@ class CrossSellTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new \Magento\Catalog\Model\Product\CopyConstructor\CrossSell();
 
-        $this->_productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->_productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
 
         $this->_duplicateMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('setCrossSellLinkData', '__wakeup'),
-            array(),
+            ['setCrossSellLinkData', '__wakeup'],
+            [],
             '',
             false
         );
 
         $this->_linkMock = $this->getMock(
             '\Magento\Catalog\Model\Product\Link',
-            array('__wakeup', 'getAttributes', 'getCrossSellLinkCollection', 'useCrossSellLinks'),
-            array(),
+            ['__wakeup', 'getAttributes', 'getCrossSellLinkCollection', 'useCrossSellLinks'],
+            [],
             '',
             false
         );
@@ -68,9 +68,9 @@ class CrossSellTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $expectedData = array('100500' => array('some' => 'data'));
+        $expectedData = ['100500' => ['some' => 'data']];
 
-        $attributes = array('attributeOne' => array('code' => 'one'), 'attributeTwo' => array('code' => 'two'));
+        $attributes = ['attributeOne' => ['code' => 'one'], 'attributeTwo' => ['code' => 'two']];
 
         $this->_linkMock->expects($this->once())->method('useCrossSellLinks');
 
@@ -78,8 +78,8 @@ class CrossSellTest extends \PHPUnit_Framework_TestCase
 
         $productLinkMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Link',
-            array('__wakeup', 'getLinkedProductId', 'toArray'),
-            array(),
+            ['__wakeup', 'getLinkedProductId', 'toArray'],
+            [],
             '',
             false
         );
@@ -90,14 +90,14 @@ class CrossSellTest extends \PHPUnit_Framework_TestCase
         )->method(
             'toArray'
         )->with(
-            array('one', 'two')
+            ['one', 'two']
         )->will(
-            $this->returnValue(array('some' => 'data'))
+            $this->returnValue(['some' => 'data'])
         );
 
         $collectionMock = $helper->getCollectionMock(
             '\Magento\Catalog\Model\Resource\Product\Link\Collection',
-            array($productLinkMock)
+            [$productLinkMock]
         );
         $this->_productMock->expects(
             $this->once()

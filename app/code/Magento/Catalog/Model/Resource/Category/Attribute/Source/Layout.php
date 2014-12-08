@@ -22,7 +22,7 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     /**
      * @param array $cmsLayouts
      */
-    public function __construct(array $cmsLayouts = array())
+    public function __construct(array $cmsLayouts = [])
     {
         $this->_cmsLayouts = $cmsLayouts;
     }
@@ -36,9 +36,9 @@ class Layout extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
     {
         if (!$this->_options) {
             foreach ($this->_cmsLayouts as $layoutName => $layoutConfig) {
-                $this->_options[] = array('value' => $layoutName, 'label' => $layoutConfig);
+                $this->_options[] = ['value' => $layoutName, 'label' => $layoutConfig];
             }
-            array_unshift($this->_options, array('value' => '', 'label' => __('No layout updates')));
+            array_unshift($this->_options, ['value' => '', 'label' => __('No layout updates')]);
         }
         return $this->_options;
     }

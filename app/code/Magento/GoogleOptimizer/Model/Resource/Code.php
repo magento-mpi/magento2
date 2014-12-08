@@ -35,8 +35,8 @@ class Code extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()->from(
-            array('t_def' => $this->getMainTable()),
-            array('entity_id', 'entity_type', 'experiment_script', 'code_id')
+            ['t_def' => $this->getMainTable()],
+            ['entity_id', 'entity_type', 'experiment_script', 'code_id']
         )->where(
             't_def.entity_id=?',
             $entityId

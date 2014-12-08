@@ -39,7 +39,7 @@ class Success extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\RecurringPayment\Model\Resource\Payment\CollectionFactory $recurringPaymentCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
@@ -55,7 +55,7 @@ class Success extends \Magento\Framework\View\Element\Template
      */
     public function getPaymentUrl(\Magento\Framework\Object $payment)
     {
-        return $this->getUrl('sales/recurringPayment/view', array('payment' => $payment->getId()));
+        return $this->getUrl('sales/recurringPayment/view', ['payment' => $payment->getId()]);
     }
 
     /**
@@ -80,9 +80,9 @@ class Success extends \Magento\Framework\View\Element\Template
         if ($paymentIds && is_array($paymentIds)) {
             $collection = $this->_recurringPaymentCollectionFactory->create()->addFieldToFilter(
                 'payment_id',
-                array('in' => $paymentIds)
+                ['in' => $paymentIds]
             );
-            $payments = array();
+            $payments = [];
             foreach ($collection as $payment) {
                 $payments[] = $payment;
             }

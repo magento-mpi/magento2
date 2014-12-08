@@ -64,7 +64,7 @@ class Proxy implements \Magento\Framework\App\Route\ConfigInterface
      */
     public function __sleep()
     {
-        return array('_subject', '_isShared');
+        return ['_subject', '_isShared'];
     }
 
     /**

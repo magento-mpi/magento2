@@ -31,9 +31,9 @@ class BackendCustomerCreateTest extends Functional
         //Data
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
-        $searchData = array(
-            'email' => $customerFixture->getEmail()
-        );
+        $searchData = [
+            'email' => $customerFixture->getEmail(),
+        ];
         //Pages
         $customerPage = Factory::getPageFactory()->getCustomerIndex();
         $customerCreatePage = Factory::getPageFactory()->getCustomerIndexNew();

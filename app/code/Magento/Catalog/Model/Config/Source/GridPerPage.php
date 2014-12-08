@@ -36,9 +36,9 @@ class GridPerPage implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_options as $option) {
-            $result[] = array('value' => $option, 'label' => $option);
+            $result[] = ['value' => $option, 'label' => $option];
         }
         return $result;
     }

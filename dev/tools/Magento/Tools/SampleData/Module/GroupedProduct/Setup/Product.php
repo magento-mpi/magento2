@@ -8,9 +8,9 @@
 namespace Magento\Tools\SampleData\Module\GroupedProduct\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup grouped product
@@ -42,12 +42,12 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
-            'GroupedProduct/yoga_grouped.csv'
-        )
+        $fixtures = [
+            'GroupedProduct/yoga_grouped.csv',
+        ]
     ) {
         $gallery->setFixtures([
-            'GroupedProduct/images_yoga_grouped.csv'
+            'GroupedProduct/images_yoga_grouped.csv',
         ]);
         parent::__construct(
             $productFactory,

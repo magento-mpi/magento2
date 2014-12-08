@@ -28,7 +28,7 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $responseMock->expects(
             $this->at(0)
         )->method(
@@ -51,16 +51,16 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         );
 
         $scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->_cmsHelperMock = $this->getMock('Magento\Cms\Helper\Page', array(), array(), '', false);
-        $valueMap = array(
-            array(
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->_cmsHelperMock = $this->getMock('Magento\Cms\Helper\Page', [], [], '', false);
+        $valueMap = [
+            [
                 'Magento\Framework\App\Config\ScopeConfigInterface',
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $scopeConfigMock
-            ),
-            array('Magento\Cms\Helper\Page', $this->_cmsHelperMock)
-        );
+                $scopeConfigMock,
+            ],
+            ['Magento\Cms\Helper\Page', $this->_cmsHelperMock],
+        ];
         $objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($valueMap));
         $scopeConfigMock->expects(
             $this->once()
@@ -73,7 +73,7 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
         );
         $this->_controller = $helper->getObject(
             'Magento\Cms\Controller\Noroute\Index',
-            array('response' => $responseMock, 'objectManager' => $objectManagerMock, 'request' => $this->_requestMock)
+            ['response' => $responseMock, 'objectManager' => $objectManagerMock, 'request' => $this->_requestMock]
         );
     }
 
@@ -90,6 +90,6 @@ class NorouteTest extends \PHPUnit_Framework_TestCase
 
     public function indexActionDataProvider()
     {
-        return array('renderPage_return_true' => array(true), 'renderPage_return_false' => array(false));
+        return ['renderPage_return_true' => [true], 'renderPage_return_false' => [false]];
     }
 }

@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions;
+use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\Page;
 
 /**
  * Class CatalogCategoryEdit
@@ -75,7 +75,7 @@ class CatalogCategoryEdit extends Page
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function open(array $params = array())
+    public function open(array $params = [])
     {
         parent::open();
         $this->getTemplateBlock()->waitLoader();

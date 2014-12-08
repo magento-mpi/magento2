@@ -8,7 +8,7 @@
  */
 namespace Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
-use \Magento\Framework\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 class UpdatePayment extends \Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment
 {
@@ -36,7 +36,7 @@ class UpdatePayment extends \Magento\RecurringPayment\Controller\Adminhtml\Recur
             $this->_logger->logException($e);
         }
         if ($payment) {
-            $this->_redirect('sales/*/view', array(self::PARAM_PAYMENT => $payment->getId()));
+            $this->_redirect('sales/*/view', [self::PARAM_PAYMENT => $payment->getId()]);
         } else {
             $this->_redirect('sales/*/');
         }

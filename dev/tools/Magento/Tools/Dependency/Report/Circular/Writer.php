@@ -27,18 +27,18 @@ class Writer extends AbstractWriter
      */
     protected function prepareData($config)
     {
-        $data[] = array('Circular dependencies:', 'Total number of chains');
-        $data[] = array('', $config->getDependenciesCount());
-        $data[] = array();
+        $data[] = ['Circular dependencies:', 'Total number of chains'];
+        $data[] = ['', $config->getDependenciesCount()];
+        $data[] = [];
 
         if ($config->getDependenciesCount()) {
-            $data[] = array('Circular dependencies for each module:', '');
+            $data[] = ['Circular dependencies for each module:', ''];
             foreach ($config->getModules() as $module) {
-                $data[] = array($module->getName(), $module->getChainsCount());
+                $data[] = [$module->getName(), $module->getChainsCount()];
                 foreach ($module->getChains() as $chain) {
-                    $data[] = array(implode(self::MODULES_SEPARATOR, $chain->getModules()));
+                    $data[] = [implode(self::MODULES_SEPARATOR, $chain->getModules())];
                 }
-                $data[] = array();
+                $data[] = [];
             }
         }
         array_pop($data);

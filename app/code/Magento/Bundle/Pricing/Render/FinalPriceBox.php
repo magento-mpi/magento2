@@ -8,8 +8,8 @@
 
 namespace Magento\Bundle\Pricing\Render;
 
-use Magento\Catalog\Pricing\Render as CatalogRender;
 use Magento\Bundle\Pricing\Price;
+use Magento\Catalog\Pricing\Render as CatalogRender;
 
 /**
  * Class for final_price rendering

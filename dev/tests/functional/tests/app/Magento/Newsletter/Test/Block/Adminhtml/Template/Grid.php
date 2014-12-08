@@ -23,8 +23,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => 'input[name="code"]'
-        ]
+            'selector' => 'input[name="code"]',
+        ],
     ];
 
     /**

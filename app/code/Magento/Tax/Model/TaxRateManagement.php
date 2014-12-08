@@ -8,11 +8,11 @@
 
 namespace Magento\Tax\Model;
 
-use Magento\Tax\Api\TaxRateManagementInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterBuilder;
-use Magento\Tax\Api\TaxRuleRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Tax\Api\TaxRateManagementInterface;
 use Magento\Tax\Api\TaxRateRepositoryInterface;
+use Magento\Tax\Api\TaxRuleRepositoryInterface;
 
 class TaxRateManagement implements TaxRateManagementInterface
 {

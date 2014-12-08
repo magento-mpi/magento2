@@ -43,8 +43,8 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $this->itemMock = $this->getMock(
             'Magento\Sales\Model\Order\Item',
-            array('getProductType', 'getProductOptions', '__wakeup'),
-            array(),
+            ['getProductType', 'getProductOptions', '__wakeup'],
+            [],
             '',
             false
         );
@@ -53,13 +53,13 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         };
         $this->productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $this->subjectMock = $this->getMock('Magento\Sales\Model\Order\Admin\Item', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Order\Admin\Item', [], [], '', false);
         $this->configurable = new \Magento\ConfigurableProduct\Model\Order\Admin\Item\Plugin\Configurable(
             $this->productFactoryMock
         );
@@ -79,7 +79,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getProductOptions'
         )->will(
-            $this->returnValue(array('simple_name' => 'simpleName'))
+            $this->returnValue(['simple_name' => 'simpleName'])
         );
         $this->assertEquals(
             'simpleName',
@@ -111,7 +111,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getProductOptions'
         )->will(
-            $this->returnValue(array('simple_sku' => 'simpleName'))
+            $this->returnValue(['simple_sku' => 'simpleName'])
         );
         $this->assertEquals(
             'simpleName',
@@ -143,7 +143,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getProductOptions'
         )->will(
-            $this->returnValue(array('simple_sku' => 'simpleName'))
+            $this->returnValue(['simple_sku' => 'simpleName'])
         );
         $this->productFactoryMock->expects(
             $this->once()

@@ -114,7 +114,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
         if ($suite instanceof \PHPUnit_Framework_TestSuite_DataProvider) {
             return;
         }
-        $this->_eventManager->fireEvent('endTestSuite', array($suite), true);
+        $this->_eventManager->fireEvent('endTestSuite', [$suite], true);
     }
 
     /**
@@ -125,7 +125,7 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
         if (!$test instanceof \PHPUnit_Framework_TestCase || $test instanceof \PHPUnit_Framework_Warning) {
             return;
         }
-        $this->_eventManager->fireEvent('startTest', array($test));
+        $this->_eventManager->fireEvent('startTest', [$test]);
     }
 
     /**
@@ -137,6 +137,6 @@ class PhpUnit implements \PHPUnit_Framework_TestListener
         if (!$test instanceof \PHPUnit_Framework_TestCase || $test instanceof \PHPUnit_Framework_Warning) {
             return;
         }
-        $this->_eventManager->fireEvent('endTest', array($test), true);
+        $this->_eventManager->fireEvent('endTest', [$test], true);
     }
 }

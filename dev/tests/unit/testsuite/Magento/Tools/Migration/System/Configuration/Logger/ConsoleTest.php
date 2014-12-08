@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration\Logger;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/System/Configuration/AbstractLogger.php';

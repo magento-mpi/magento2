@@ -39,11 +39,11 @@ class Mapper
      */
     public function transform(array $config)
     {
-        $output = array();
+        $output = [];
         $output['comment'] = $config['comment'];
 
-        $tabsConfig = isset($config['tabs']) ? $config['tabs'] : array();
-        $sectionsConfig = isset($config['sections']) ? $config['sections'] : array();
+        $tabsConfig = isset($config['tabs']) ? $config['tabs'] : [];
+        $sectionsConfig = isset($config['sections']) ? $config['sections'] : [];
 
         /** @var array $nodes  */
         $nodes = $this->_tabMapper->transform($tabsConfig);

@@ -79,4 +79,3 @@ class PageTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 }
- 

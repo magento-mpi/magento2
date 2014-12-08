@@ -34,7 +34,7 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSimpleData()
     {
-        return array('value' => self::SIMPLE_VALUE, 'dependPath' => array('section_2', 'group_3', 'field_4'));
+        return ['value' => self::SIMPLE_VALUE, 'dependPath' => ['section_2', 'group_3', 'field_4']];
     }
 
     /**
@@ -44,11 +44,11 @@ class FieldTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getComplexData()
     {
-        return array(
+        return [
             'value' => self::COMPLEX_VALUE1 . ',' . self::COMPLEX_VALUE2 . ',' . self::COMPLEX_VALUE3,
             'separator' => ',',
-            'dependPath' => array('section_5', 'group_6', 'group_7', 'field_8')
-        );
+            'dependPath' => ['section_5', 'group_6', 'group_7', 'field_8']
+        ];
     }
 
     /**
@@ -92,12 +92,12 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function dataProvider()
     {
-        return array(
-            array($this->_getSimpleData(), true),
-            array($this->_getSimpleData(), false),
-            array($this->_getComplexData(), true),
-            array($this->_getComplexData(), false)
-        );
+        return [
+            [$this->_getSimpleData(), true],
+            [$this->_getSimpleData(), false],
+            [$this->_getComplexData(), true],
+            [$this->_getComplexData(), false]
+        ];
     }
 
     /**
@@ -114,16 +114,16 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function isValueSatisfyDataProvider()
     {
-        return array(
-            array($this->_getSimpleData(), true, self::SIMPLE_VALUE, false),
-            array($this->_getSimpleData(), false, self::SIMPLE_VALUE, true),
-            array($this->_getSimpleData(), true, self::COMPLEX_VALUE1, true),
-            array($this->_getSimpleData(), false, self::COMPLEX_VALUE2, false),
-            array($this->_getComplexData(), true, self::COMPLEX_VALUE1, false),
-            array($this->_getComplexData(), false, self::COMPLEX_VALUE2, true),
-            array($this->_getComplexData(), true, self::SIMPLE_VALUE, true),
-            array($this->_getComplexData(), false, self::SIMPLE_VALUE, false)
-        );
+        return [
+            [$this->_getSimpleData(), true, self::SIMPLE_VALUE, false],
+            [$this->_getSimpleData(), false, self::SIMPLE_VALUE, true],
+            [$this->_getSimpleData(), true, self::COMPLEX_VALUE1, true],
+            [$this->_getSimpleData(), false, self::COMPLEX_VALUE2, false],
+            [$this->_getComplexData(), true, self::COMPLEX_VALUE1, false],
+            [$this->_getComplexData(), false, self::COMPLEX_VALUE2, true],
+            [$this->_getComplexData(), true, self::SIMPLE_VALUE, true],
+            [$this->_getComplexData(), false, self::SIMPLE_VALUE, false]
+        ];
     }
 
     /**
@@ -139,12 +139,12 @@ class FieldTest extends \PHPUnit_Framework_TestCase
 
     public function getValuesDataProvider()
     {
-        $complexDataValues = array(self::COMPLEX_VALUE1, self::COMPLEX_VALUE2, self::COMPLEX_VALUE3);
-        return array(
-            array($this->_getSimpleData(), true, array(self::SIMPLE_VALUE)),
-            array($this->_getSimpleData(), false, array(self::SIMPLE_VALUE)),
-            array($this->_getComplexData(), true, $complexDataValues),
-            array($this->_getComplexData(), false, $complexDataValues)
-        );
+        $complexDataValues = [self::COMPLEX_VALUE1, self::COMPLEX_VALUE2, self::COMPLEX_VALUE3];
+        return [
+            [$this->_getSimpleData(), true, [self::SIMPLE_VALUE]],
+            [$this->_getSimpleData(), false, [self::SIMPLE_VALUE]],
+            [$this->_getComplexData(), true, $complexDataValues],
+            [$this->_getComplexData(), false, $complexDataValues]
+        ];
     }
 }

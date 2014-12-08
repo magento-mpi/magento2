@@ -14,7 +14,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
  */
 class Price extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-
     /**
      * Resource instance
      *

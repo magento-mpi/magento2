@@ -10,7 +10,7 @@ namespace Magento\Checkout\Service\V1\Data\Cart;
 
 /**
  * Shopping cart item data object.
- * 
+ *
  * @codeCoverageIgnore
  */
 class Item extends \Magento\Framework\Api\AbstractExtensibleObject
@@ -19,7 +19,7 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
      * Item ID.
      */
     const ITEM_ID = 'item_id';
-    
+
     /**
      * Product SKU.
      */

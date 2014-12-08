@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Item\Price;
 
-use Magento\Checkout\Block\Item\Price\Renderer;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
 {

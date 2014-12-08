@@ -27,11 +27,11 @@ class Operation extends \Magento\Backend\Block\Widget\Grid\Container
 
         $this->buttonList->add(
             'add_new_import',
-            array(
+            [
                 'label' => __('Add Scheduled Import'),
-                'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', array('type' => 'import')) . "')",
+                'onclick' => "setLocation('" . $this->getUrl('adminhtml/*/new', ['type' => 'import']) . "')",
                 'class' => 'add primary add-scheduled-import'
-            )
+            ]
         );
 
         $this->_blockGroup = 'Magento_ScheduledImportExport';
@@ -46,6 +46,6 @@ class Operation extends \Magento\Backend\Block\Widget\Grid\Container
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('adminhtml/*/new', array('type' => 'export'));
+        return $this->getUrl('adminhtml/*/new', ['type' => 'export']);
     }
 }

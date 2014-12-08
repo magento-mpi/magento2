@@ -43,7 +43,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
 
     public function testReadListsWrongPattern()
     {
-        $this->assertSame(array(), Files::init()->readLists(__DIR__ . '/_files/no_good.txt'));
+        $this->assertSame([], Files::init()->readLists(__DIR__ . '/_files/no_good.txt'));
     }
 
     /**

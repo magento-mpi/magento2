@@ -58,7 +58,7 @@ class Config
                 $this->_integrations = unserialize($integrations);
             } else {
                 $this->_integrations = $this->_configReader->read();
-                $this->_configCacheType->save(serialize($this->_integrations), self::CACHE_ID, array(Type::CACHE_TAG));
+                $this->_configCacheType->save(serialize($this->_integrations), self::CACHE_ID, [Type::CACHE_TAG]);
             }
         }
         return $this->_integrations;

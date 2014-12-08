@@ -32,7 +32,7 @@ class Simple implements RuleInterface
      * @param string $pattern
      * @param array $optionalParams
      */
-    public function __construct($pattern, array $optionalParams = array())
+    public function __construct($pattern, array $optionalParams = [])
     {
         $this->pattern = $pattern;
         $this->optionalParams = $optionalParams;
@@ -52,7 +52,7 @@ class Simple implements RuleInterface
             foreach ($matches[1] as $placeholder) {
                 if (empty($params[$placeholder])) {
                     if (in_array($placeholder, $this->optionalParams)) {
-                        return array();
+                        return [];
                     } else {
                         throw new \InvalidArgumentException("Required parameter '{$placeholder}' was not passed");
                     }
@@ -60,6 +60,6 @@ class Simple implements RuleInterface
                 $pattern = str_replace('<' . $placeholder . '>', $params[$placeholder], $pattern);
             }
         }
-        return array($pattern);
+        return [$pattern];
     }
 }

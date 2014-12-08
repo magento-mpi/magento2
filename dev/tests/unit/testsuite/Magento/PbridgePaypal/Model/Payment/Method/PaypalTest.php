@@ -42,26 +42,26 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     protected function assertPreConditions()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', array(), array(), '', false);
-        $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', array(), array(), '', false);
-        $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false);
+        $this->_methodInstance = $this->getMock('Magento\Payment\Model\Method\Cc', [], [], '', false);
+        $this->_paymentData = $this->getMock('Magento\Payment\Helper\Data', [], [], '', false);
+        $this->_pbridgeData = $this->getMock('Magento\Pbridge\Helper\Data', [], [], '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_paypalConfig = $this->getMock('Magento\Paypal\Model\Config', ['getBuildNotationCode'], [], '', false);
-        $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', array('create'), array(), '', false);
+        $paymentFactory = $this->getMock('Magento\Payment\Model\Method\Factory', ['create'], [], '', false);
         $paymentFactory->expects($this->once())
             ->method('create')
             ->with('paypal class name')
             ->will($this->returnValue($this->_methodInstance));
         $this->_model = $helper->getObject(
             'Magento\PbridgePaypal\Model\Payment\Method\Paypal',
-            array(
+            [
                 'paymentFactory' => $paymentFactory,
                 'paypalClassName' => 'paypal class name',
                 'paymentData' => $this->_paymentData,
                 'pbridgeData' => $this->_pbridgeData,
                 'scopeConfig' => $this->_scopeConfig,
                 'paypalConfig' => $this->_paypalConfig
-            )
+            ]
         );
     }
 
@@ -69,11 +69,11 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     {
         $this->_methodInstance->expects($this->at(0))
             ->method('__call')
-            ->with('anyMethod', array('args'))
+            ->with('anyMethod', ['args'])
             ->will($this->returnSelf());
         $this->_methodInstance->expects($this->at(1))
             ->method('__call')
-            ->with('anyOtherMethod', array('other args'))
+            ->with('anyOtherMethod', ['other args'])
             ->will($this->returnValue('some value'));
         $this->assertSame($this->_model, $this->_model->anyMethod('args'));
         $this->assertSame('some value', $this->_model->anyOtherMethod('other args'));
@@ -146,8 +146,8 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
     {
         $pbridgeMethodInstance = $this->getMock(
             'Magento\Pbridge\Model\Payment\Method\Pbridge',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -163,11 +163,11 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
 
     public function testSetStoreObject()
     {
-        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $store->expects($this->once())->method('getId')->will($this->returnValue('store id'));
         $this->_methodInstance->expects($this->once())->method('setData')->with('store', $store);
         $this->_pbridgeData->expects($this->once())->method('setStoreId')->with('store id');
-        $this->_methodInstance->expects($this->once())->method('__call')->with('setStore', array($store));
+        $this->_methodInstance->expects($this->once())->method('__call')->with('setStore', [$store]);
         $this->assertSame($this->_model, $this->_model->setStore($store));
     }
 
@@ -176,7 +176,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
         $store = 'store id';
         $this->_methodInstance->expects($this->once())->method('setData')->with('store', $store);
         $this->_pbridgeData->expects($this->once())->method('setStoreId')->with('store id');
-        $this->_methodInstance->expects($this->once())->method('__call')->with('setStore', array($store));
+        $this->_methodInstance->expects($this->once())->method('__call')->with('setStore', [$store]);
         $this->assertSame($this->_model, $this->_model->setStore($store));
     }
 
@@ -208,7 +208,7 @@ class PaypalTest extends \PHPUnit_Framework_TestCase
      */
     public function getConfigDataDataProvider()
     {
-        return array(array(null), array('any store id'));
+        return [[null], ['any store id']];
     }
 
     public function testCanUseInternal()

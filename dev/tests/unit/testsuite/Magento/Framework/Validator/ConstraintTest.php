@@ -31,7 +31,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
         $this->_validatorMock = $this->getMockBuilder(
             'Magento\Framework\Validator\AbstractValidator'
         )->setMethods(
-            array('isValid', 'getMessages')
+            ['isValid', 'getMessages']
         )->getMock();
         $this->_constraint = new \Magento\Framework\Validator\Constraint($this->_validatorMock);
     }
@@ -56,7 +56,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      * @param bool $expectedResult
      * @param array $expectedMessages
      */
-    public function testIsValid($value, $expectedResult, $expectedMessages = array())
+    public function testIsValid($value, $expectedResult, $expectedMessages = [])
     {
         $this->_validatorMock->expects(
             $this->once()
@@ -91,7 +91,7 @@ class ConstraintTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        return array(array('test', true), array('test', false, array('foo')));
+        return [['test', true], ['test', false, ['foo']]];
     }
 
     /**

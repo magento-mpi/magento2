@@ -30,7 +30,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\W
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = ['global'];
 
     /**
      * @param \Magento\WebsiteRestriction\Model\Config\Reader $reader
@@ -57,7 +57,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\W
      */
     public function getGenericActions()
     {
-        return $this->get('generic', array());
+        return $this->get('generic', []);
     }
 
     /**
@@ -67,7 +67,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\W
      */
     public function getRegisterActions()
     {
-        return $this->get('register', array());
+        return $this->get('register', []);
     }
 
     /**

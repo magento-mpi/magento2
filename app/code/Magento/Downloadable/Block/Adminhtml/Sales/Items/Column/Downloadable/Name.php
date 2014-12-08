@@ -47,7 +47,7 @@ class Name extends \Magento\Sales\Block\Adminhtml\Items\Column\Name
         \Magento\Catalog\Model\Product\OptionFactory $optionFactory,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;

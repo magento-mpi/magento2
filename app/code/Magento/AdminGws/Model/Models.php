@@ -858,7 +858,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreGroupAccess($model->getId())) {
             $this->_role->setStoreGroupIds(
-                array_unique(array_merge($this->_role->getStoreGroupIds(), array($model->getId())))
+                array_unique(array_merge($this->_role->getStoreGroupIds(), [$model->getId()]))
             );
         }
     }
@@ -876,7 +876,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
         }
         $model = $observer->getEvent()->getStoreGroup();
         if ($model->getId() && !$this->_role->hasStoreAccess($model->getId())) {
-            $this->_role->setStoreIds(array_unique(array_merge($this->_role->getStoreIds(), array($model->getId()))));
+            $this->_role->setStoreIds(array_unique(array_merge($this->_role->getStoreIds(), [$model->getId()])));
         }
     }
 
@@ -1313,13 +1313,12 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
      */
     public function giftRegistryTypeSaveBefore($model)
     {
-
         // it's not allowed to create not form super user
         if (!$model->getId()) {
             $this->_throwSave();
         }
 
-        $model->setData(array('meta_xml' => $model->getOrigData('meta_xml'), 'code' => $model->getOrigData('model')));
+        $model->setData(['meta_xml' => $model->getOrigData('meta_xml'), 'code' => $model->getOrigData('model')]);
     }
 
     /**

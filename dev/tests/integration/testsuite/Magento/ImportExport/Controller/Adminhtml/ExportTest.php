@@ -26,12 +26,12 @@ class ExportTest extends \Magento\Backend\Utility\Controller
      */
     public function getEntityTypesDataProvider()
     {
-        return array(
-            'products' => array('$entityType' => 'catalog_product'),
-            'customers' => array('$entityType' => 'customer'),
+        return [
+            'products' => ['$entityType' => 'catalog_product'],
+            'customers' => ['$entityType' => 'customer'],
             // customer entities
-            'customers_customer_entities' => array('$entityType' => 'customer', '$customerEntityType' => 'customer')
-        );
+            'customers_customer_entities' => ['$entityType' => 'customer', '$customerEntityType' => 'customer']
+        ];
     }
 
     protected function setUp()
@@ -62,7 +62,6 @@ class ExportTest extends \Magento\Backend\Utility\Controller
      */
     public function testGetFilterAction($entityType, $customerEntityType = null)
     {
-
         $this->getRequest()->setParam('isAjax', true);
 
         // Provide X_REQUESTED_WITH header in response to mark next action as ajax

@@ -52,10 +52,10 @@ class WeightTest extends \PHPUnit_Framework_TestCase
      */
     public static function virtualTypesDataProvider()
     {
-        return array(
-            array('Magento\Catalog\Model\Product\Type\Virtual'),
-            array('Magento\Downloadable\Model\Product\Type')
-        );
+        return [
+            ['Magento\Catalog\Model\Product\Type\Virtual'],
+            ['Magento\Downloadable\Model\Product\Type']
+        ];
     }
 
     /**
@@ -86,6 +86,6 @@ class WeightTest extends \PHPUnit_Framework_TestCase
      */
     public static function physicalTypesDataProvider()
     {
-        return array(array('Magento\Catalog\Model\Product\Type\Simple'), array('Magento\Bundle\Model\Product\Type'));
+        return [['Magento\Catalog\Model\Product\Type\Simple'], ['Magento\Bundle\Model\Product\Type']];
     }
 }

@@ -36,5 +36,5 @@ interface AdapterInterface
      * @param array $arguments
      * @return array|string|int|float|bool
      */
-    public function call($serviceInfo, $arguments = array());
+    public function call($serviceInfo, $arguments = []);
 }

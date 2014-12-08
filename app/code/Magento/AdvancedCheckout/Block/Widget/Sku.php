@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Order by SKU Widget Block
  *

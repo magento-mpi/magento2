@@ -34,7 +34,7 @@ class Content extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
         $setupObject = new \Magento\Framework\Object();
 
         $setupObject->setData(
-            array(
+            [
                 'newFolderPrompt' => __('New Folder Name:'),
                 'deleteFolderConfirmationMessage' => __('Are you sure you want to delete this folder?'),
                 'deleteFileConfirmationMessage' => __('Are you sure you want to delete this file?'),
@@ -45,8 +45,8 @@ class Content extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
                 'deleteFolderUrl' => $this->getDeletefolderUrl(),
                 'deleteFilesUrl' => $this->getDeleteFilesUrl(),
                 'headerText' => $this->getHeaderText(),
-                'showBreadcrumbs' => false
-            )
+                'showBreadcrumbs' => false,
+            ]
         );
 
         return $this->_coreHelper->jsonEncode($setupObject);

@@ -19,14 +19,14 @@ abstract class AbstractShell
      *
      * @var string[]
      */
-    protected $_rawArgs = array();
+    protected $_rawArgs = [];
 
     /**
      * Parsed input arguments
      *
      * @var array
      */
-    protected $_args = array();
+    protected $_args = [];
 
     /**
      * Entry point - script filename that is executed
@@ -84,7 +84,7 @@ abstract class AbstractShell
         if ($this->rootDirectory->isFile($htaccess)) {
             // parse htaccess file
             $data = $this->rootDirectory->readFile($htaccess);
-            $matches = array();
+            $matches = [];
             preg_match_all('#^\s+?php_value\s+([a-z_]+)\s+(.+)$#siUm', $data, $matches, PREG_SET_ORDER);
             if ($matches) {
                 foreach ($matches as $match) {
@@ -110,7 +110,7 @@ abstract class AbstractShell
     {
         $current = null;
         foreach ($this->_rawArgs as $arg) {
-            $match = array();
+            $match = [];
             if (preg_match(
                 '#^--([\w\d_-]{1,})(=(.*))?$#',
                 $arg,
@@ -132,7 +132,7 @@ abstract class AbstractShell
                 if ($current) {
                     $this->_args[$current] = $arg;
                     $current = null;
-                } else if (preg_match('#^([\w\d_]{1,})$#', $arg, $match)) {
+                } elseif (preg_match('#^([\w\d_]{1,})$#', $arg, $match)) {
                     $this->_args[$match[1]] = true;
                 }
             }

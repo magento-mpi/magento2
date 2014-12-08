@@ -83,7 +83,7 @@ class View extends \Magento\Framework\Object
     public function __construct(
         \Magento\Catalog\Helper\Image $helperImage,
         \Magento\Framework\View\ConfigInterface $viewConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helperImage = $helperImage;
         $this->_viewConfig = $viewConfig;

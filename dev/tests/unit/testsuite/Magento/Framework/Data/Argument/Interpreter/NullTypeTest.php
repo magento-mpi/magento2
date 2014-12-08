@@ -12,6 +12,6 @@ class NullTypeTest extends \PHPUnit_Framework_TestCase
     public function testEvaluate()
     {
         $object = new NullType();
-        $this->assertNull($object->evaluate(array('unused')));
+        $this->assertNull($object->evaluate(['unused']));
     }
 }

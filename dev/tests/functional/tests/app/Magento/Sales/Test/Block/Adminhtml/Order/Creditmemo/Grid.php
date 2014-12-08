@@ -20,11 +20,11 @@ class Grid extends GridInterface
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_creditmemos_filter_increment_id'
-        )
-    );
+    protected $filters = [
+        'id' => [
+            'selector' => '#order_creditmemos_filter_increment_id',
+        ],
+    ];
 
     /**
      * Amount refunded

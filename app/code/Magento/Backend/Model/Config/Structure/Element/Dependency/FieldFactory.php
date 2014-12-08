@@ -28,7 +28,7 @@ class FieldFactory
      * @param array $arguments
      * @return Field
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Field',

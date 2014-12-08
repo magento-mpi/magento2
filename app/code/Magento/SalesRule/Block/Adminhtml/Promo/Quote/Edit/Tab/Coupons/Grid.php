@@ -38,7 +38,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_salesRuleCoupon = $salesRuleCoupon;
@@ -83,35 +83,35 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('code', array('header' => __('Coupon Code'), 'index' => 'code'));
+        $this->addColumn('code', ['header' => __('Coupon Code'), 'index' => 'code']);
 
         $this->addColumn(
             'created_at',
-            array(
+            [
                 'header' => __('Created'),
                 'index' => 'created_at',
                 'type' => 'datetime',
                 'align' => 'center',
                 'width' => '160'
-            )
+            ]
         );
 
         $this->addColumn(
             'used',
-            array(
+            [
                 'header' => __('Uses'),
                 'index' => 'times_used',
                 'width' => '100',
                 'type' => 'options',
-                'options' => array(__('No'), __('Yes')),
+                'options' => [__('No'), __('Yes')],
                 'renderer' => 'Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid\Column\Renderer\Used',
-                'filter_condition_callback' => array($this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback')
-            )
+                'filter_condition_callback' => [$this->_salesRuleCoupon->create(), 'addIsUsedFilterCallback']
+            ]
         );
 
         $this->addColumn(
             'times_used',
-            array('header' => __('Times Used'), 'index' => 'times_used', 'width' => '50', 'type' => 'number')
+            ['header' => __('Times Used'), 'index' => 'times_used', 'width' => '50', 'type' => 'number']
         );
 
         $this->addExportType('*/*/exportCouponsCsv', __('CSV'));
@@ -133,12 +133,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->getMassactionBlock()->addItem(
             'delete',
-            array(
+            [
                 'label' => __('Delete'),
-                'url' => $this->getUrl('sales_rule/*/couponsMassDelete', array('_current' => true)),
+                'url' => $this->getUrl('sales_rule/*/couponsMassDelete', ['_current' => true]),
                 'confirm' => __('Are you sure you want to delete the selected coupon(s)?'),
                 'complete' => 'refreshCouponCodesGrid'
-            )
+            ]
         );
 
         return $this;
@@ -151,6 +151,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('sales_rule/*/couponsGrid', array('_current' => true));
+        return $this->getUrl('sales_rule/*/couponsGrid', ['_current' => true]);
     }
 }

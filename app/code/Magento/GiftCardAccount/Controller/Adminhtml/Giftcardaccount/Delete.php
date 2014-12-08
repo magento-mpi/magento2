@@ -34,7 +34,7 @@ class Delete extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccou
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $id));
+                $this->_redirect('adminhtml/*/edit', ['id' => $id]);
                 return;
             }
         }

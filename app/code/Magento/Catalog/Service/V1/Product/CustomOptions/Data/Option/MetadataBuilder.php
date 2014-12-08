@@ -25,7 +25,7 @@ class MetadataBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
         Metadata::IMAGE_SIZE_X,
         Metadata::IMAGE_SIZE_Y,
         Metadata::MAX_CHARACTERS,
-        Metadata::OPTION_TYPE_ID
+        Metadata::OPTION_TYPE_ID,
     ];
 
     /**
@@ -38,7 +38,7 @@ class MetadataBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
         \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeDataBuilder $valueBuilder,
         \Magento\Framework\Api\Config\MetadataConfig $metadataService,
-        array $customAttributeCodes = array()
+        array $customAttributeCodes = []
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->customAttributeCodes = array_merge($this->customAttributeCodes, $customAttributeCodes);

@@ -20,7 +20,7 @@ class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Framework\
 
     public function __construct()
     {
-        $this->_mock = $this->getMock('SomeClass', array('get', 'put'));
+        $this->_mock = $this->getMock('SomeClass', ['get', 'put']);
     }
 
     public function getRealMock()

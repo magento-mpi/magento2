@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductTemplateNotInGrid

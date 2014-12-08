@@ -41,12 +41,12 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         $currentCustomer = $objectManager->create(
             'Magento\Customer\Helper\Session\CurrentCustomer',
-            array('customerSession' => $this->_customerSession)
+            ['customerSession' => $this->_customerSession]
         );
         $this->_block = $layout->createBlock(
             'Magento\Customer\Block\Address\Edit',
             '',
-            array('customerSession' => $this->_customerSession, 'currentCustomer' => $currentCustomer)
+            ['customerSession' => $this->_customerSession, 'currentCustomer' => $currentCustomer]
         );
     }
 

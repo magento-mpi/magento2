@@ -8,8 +8,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Shipment;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportCsv extends \Magento\Backend\App\Action
 {

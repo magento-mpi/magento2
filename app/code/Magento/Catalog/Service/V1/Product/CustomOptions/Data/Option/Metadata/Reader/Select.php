@@ -9,8 +9,8 @@
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Reader;
 
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
-use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ReaderInterface;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\MetadataBuilder;
 
 class Select implements ReaderInterface
 {
@@ -41,7 +41,7 @@ class Select implements ReaderInterface
                     Metadata::SKU => $value->getSku(),
                     Metadata::TITLE => $value->getTitle(),
                     Metadata::SORT_ORDER => $value->getSortOrder(),
-                    Metadata::OPTION_TYPE_ID => $value->getId()
+                    Metadata::OPTION_TYPE_ID => $value->getId(),
                 ]
             )->create();
         }

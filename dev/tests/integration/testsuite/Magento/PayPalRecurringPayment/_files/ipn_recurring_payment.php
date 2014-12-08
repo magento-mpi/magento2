@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'mc_gross' => '100.00',
     'invoice' => '100000001',
     'payment_status' => 'Completed',
@@ -16,4 +16,4 @@ return array(
     'txn_type' => 'recurring_payment',
     'recurring_payment_id' => 'I-C76MC3FM2HBX',
     'rp_invoice_id' => '5-33949e201adc4b03fbbceafccba893ce'
-);
+];

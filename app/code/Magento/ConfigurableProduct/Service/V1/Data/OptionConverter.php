@@ -10,7 +10,6 @@ namespace Magento\ConfigurableProduct\Service\V1\Data;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory;
 use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueBuilder;
-use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\ConfigurableProduct\Service\V1\Data\Option\ValueConverter;
 
 class OptionConverter
@@ -80,7 +79,7 @@ class OptionConverter
             Option::TYPE => $configurableAttribute->getProductAttribute()->getFrontend()->getInputType(),
             Option::POSITION => $configurableAttribute->getPosition(),
             Option::USE_DEFAULT => $configurableAttribute->getData('use_default'),
-            Option::VALUES => $values
+            Option::VALUES => $values,
         ];
 
         return $this->optionBuilder->populateWithArray($data)->create();

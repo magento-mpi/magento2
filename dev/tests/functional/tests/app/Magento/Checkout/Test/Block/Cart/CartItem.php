@@ -67,7 +67,7 @@ class CartItem extends AbstractCartItem
     {
         return $this->_rootElement->find($this->productName)->getText();
     }
-    
+
     /**
      * Get product price
      *
@@ -151,7 +151,7 @@ class CartItem extends AbstractCartItem
                 $value = $values[$key]->getText();
                 $options[] = [
                     'title' => $title->getText(),
-                    'value' => $this->escapeCurrencyForOption($value)
+                    'value' => $this->escapeCurrencyForOption($value),
                 ];
             }
         }

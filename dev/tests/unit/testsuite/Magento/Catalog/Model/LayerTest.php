@@ -300,7 +300,7 @@ class LayerTest extends \PHPUnit_Framework_TestCase
     public function testSetNewCurrentCategoryIfCategoryIsNotFound()
     {
         $this->categoryRepository->expects($this->once())->method('get')
-            ->will($this->throwException(new NoSuchEntityException));
+            ->will($this->throwException(new NoSuchEntityException()));
 
         $this->model->setCurrentCategory(1);
     }

@@ -22,7 +22,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Abstract
      */
     public function getCondition()
     {
-        return array();
+        return [];
     }
 
     /**

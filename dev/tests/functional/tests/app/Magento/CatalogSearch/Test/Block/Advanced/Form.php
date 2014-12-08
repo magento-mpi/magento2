@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogSearch\Test\Block\Advanced;
 
+use Mtf\Block\Form as ParentForm;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Block\Form as ParentForm;
 
 /**
  * Advanced search form.

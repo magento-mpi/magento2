@@ -26,7 +26,7 @@ class DocBlockTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_object = new \Magento\TestFramework\Bootstrap\DocBlock(__DIR__);
-        $this->_application = $this->getMock('Magento\TestFramework\Application', array(), array(), '', false);
+        $this->_application = $this->getMock('Magento\TestFramework\Application', [], [], '', false);
     }
 
     protected function tearDown()

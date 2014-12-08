@@ -20,6 +20,6 @@ class AuthorizationAmounts implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array();
+        return [];
     }
 }

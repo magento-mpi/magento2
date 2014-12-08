@@ -9,8 +9,8 @@
 namespace Magento\User\Test\TestCase;
 
 use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Mtf\ObjectManager;
+use Mtf\TestCase\Functional;
 
 /**
  * Class UserWithRestrictedRole

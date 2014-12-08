@@ -153,7 +153,6 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
         return false;
     }
 
-
     /**
      * Check if payment profiles enabled
      * @return bool
@@ -187,7 +186,7 @@ class Profile extends \Magento\Pbridge\Block\Iframe\AbstractIframe implements Ta
                 'css_url' => null,
                 'customer_id' => $this->getCustomerIdentifier(),
                 'customer_name' => $this->getCustomerName(),
-                'customer_email' => $this->getCustomerEmail()
+                'customer_email' => $this->getCustomerEmail(),
             ]
         );
     }

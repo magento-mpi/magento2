@@ -38,7 +38,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
      *
      * @var array
      */
-    protected $_setupCache = array();
+    protected $_setupCache = [];
 
     /**
      * Modules configuration reader
@@ -164,14 +164,14 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
     protected function _getAvailableDataFiles($actionType, $fromVersion, $toVersion)
     {
         $modName = (string)$this->_moduleConfig['name'];
-        $files = array();
+        $files = [];
 
         $filesDir = $this->_modulesReader->getModuleDir('data', $modName) . '/' . $this->_resourceName;
         $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
         if ($this->modulesDir->isDirectory($modulesDirPath) && $this->modulesDir->isReadable($modulesDirPath)) {
             $regExp = sprintf('#%s-(.*)\.php$#i', $actionType);
             foreach ($this->modulesDir->read($modulesDirPath) as $file) {
-                $matches = array();
+                $matches = [];
                 if (preg_match($regExp, $file, $matches)) {
                     $files[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
                 }
@@ -179,7 +179,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
         }
 
         if (empty($files)) {
-            return array();
+            return [];
         }
 
         return $this->_getModifySqlFiles($actionType, $fromVersion, $toVersion, $files);
@@ -214,7 +214,6 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
                     case 'sql':
                         $sql = $this->modulesDir->readFile($this->modulesDir->getRelativePath($fileName));
                         if (!empty($sql)) {
-
                             $result = $this->run($sql);
                         } else {
                             $result = true;
@@ -277,7 +276,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
                     if (version_compare($version, $toVersion) !== self::VERSION_COMPARE_GREATER) {
                         $arrRes[0] = [
                             'toVersion' => $version,
-                            'fileName'  => $file
+                            'fileName'  => $file,
                         ];
                     }
                 }
@@ -301,7 +300,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
                     ) {
                         $arrRes[] = [
                             'toVersion' => $infoTo,
-                            'fileName'  => $file
+                            'fileName'  => $file,
                         ];
                     }
                 }
@@ -331,7 +330,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
         $table = $this->getTable($table);
         if (empty($this->_setupCache[$table][$parentId][$rowId])) {
             $adapter = $this->getConnection();
-            $bind = array('id_field' => $rowId);
+            $bind = ['id_field' => $rowId];
             $select = $adapter->select()->from($table)->where($adapter->quoteIdentifier($idField) . '= :id_field');
             if (null !== $parentField) {
                 $select->where($adapter->quoteIdentifier($parentField) . '= :parent_id');
@@ -362,7 +361,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
     {
         $table = $this->getTable($table);
         $adapter = $this->getConnection();
-        $where = array($adapter->quoteIdentifier($idField) . '=?' => $rowId);
+        $where = [$adapter->quoteIdentifier($idField) . '=?' => $rowId];
         if (!is_null($parentField)) {
             $where[$adapter->quoteIdentifier($parentField) . '=?'] = $parentId;
         }
@@ -394,11 +393,11 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
         if (is_array($field)) {
             $data = $field;
         } else {
-            $data = array($field => $value);
+            $data = [$field => $value];
         }
 
         $adapter = $this->getConnection();
-        $where = array($adapter->quoteIdentifier($idField) . '=?' => $rowId);
+        $where = [$adapter->quoteIdentifier($idField) . '=?' => $rowId];
         $adapter->update($table, $data, $where);
 
         if (isset($this->_setupCache[$table][$parentId][$rowId])) {
@@ -458,7 +457,7 @@ class DataSetup extends \Magento\Framework\Module\Setup implements \Magento\Fram
      * @param array $data
      * @return \Magento\Framework\Module\Setup\Migration
      */
-    public function createMigrationSetup(array $data = array())
+    public function createMigrationSetup(array $data = [])
     {
         return $this->_migrationFactory->create($data);
     }

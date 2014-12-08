@@ -8,7 +8,6 @@
 namespace Magento\Checkout\Block\Cart\Sidebar;
 
 use Magento\Checkout\Block\Cart\AbstractCart;
-use Magento\Framework\View\Block\IdentityInterface;
 
 /**
  * Sidebar totals block

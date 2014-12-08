@@ -53,7 +53,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
             $model->setInfoInstance($paymentInfo);
         }
         $this->assertNotEmpty($model->getTitle());
-        foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
+        foreach ([$model->getFormBlockType(), $model->getInfoBlockType()] as $blockClass) {
             $message = "Block class: {$blockClass}";
             /** @var $block \Magento\Framework\View\Element\Template */
             $block = $blockFactory->createBlock($blockClass);
@@ -92,9 +92,9 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $helper \Magento\Payment\Helper\Data */
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Payment\Helper\Data');
-        $result = array();
+        $result = [];
         foreach ($helper->getPaymentMethods() as $code => $method) {
-            $result[] = array($code, $method['model']);
+            $result[] = [$code, $method['model']];
         }
         return $result;
     }

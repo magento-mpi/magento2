@@ -22,13 +22,13 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         parent::setUp();
 
-        $registryData = array(
+        $registryData = [
             'store_type' => 'group',
             'store_data' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Store\Model\Store'
             ),
-            'store_action' => 'add'
-        );
+            'store_action' => 'add',
+        ];
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         foreach ($registryData as $key => $value) {

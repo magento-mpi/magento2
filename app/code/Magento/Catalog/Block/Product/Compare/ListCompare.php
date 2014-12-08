@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Block\Product\Compare;
 
+use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Context;
 use Magento\Framework\App\Action\Action;
-use Magento\Catalog\Model\Product;
 
 /**
  * Catalog products compare block
@@ -99,7 +99,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_itemCollectionFactory = $itemCollectionFactory;
@@ -125,7 +125,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         $continueUrl = $this->_coreData->urlEncode($this->getUrl('customer/account'));
         $urlParamName = Action::PARAM_NAME_URL_ENCODED;
 
-        $continueUrlParams = array($urlParamName => $continueUrl);
+        $continueUrlParams = [$urlParamName => $continueUrl];
 
         return $this->_wishlistHelper->getAddParams($product, $continueUrlParams);
     }
@@ -203,7 +203,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
         if ($attribute->getSourceModel() || in_array(
             $attribute->getFrontendInput(),
-            array('select', 'boolean', 'multiselect')
+            ['select', 'boolean', 'multiselect']
         )
         ) {
             //$value = $attribute->getSource()->getOptionText($product->getData($attribute->getAttributeCode()));
@@ -221,7 +221,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('*/*/*', array('_current' => true, 'print' => 1));
+        return $this->getUrl('*/*/*', ['_current' => true, 'print' => 1]);
     }
 
     /**

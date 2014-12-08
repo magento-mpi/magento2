@@ -37,7 +37,7 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
         \Magento\Captcha\Helper\Data $captchaData,
         \Magento\Backend\Model\UrlInterface $url,
         \Magento\Backend\App\ConfigInterface $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $captchaData, $data);
         $this->_url = $url;
@@ -53,7 +53,7 @@ class DefaultCaptcha extends \Magento\Captcha\Block\Captcha\DefaultCaptcha
     {
         return $this->_url->getUrl(
             'adminhtml/refresh/refresh',
-            array('_secure' => $this->_config->isSetFlag('web/secure/use_in_adminhtml'), '_nosecret' => true)
+            ['_secure' => $this->_config->isSetFlag('web/secure/use_in_adminhtml'), '_nosecret' => true]
         );
     }
 }

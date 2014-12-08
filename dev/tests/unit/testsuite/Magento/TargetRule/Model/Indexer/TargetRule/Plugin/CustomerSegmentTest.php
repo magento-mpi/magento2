@@ -52,7 +52,7 @@ class CustomerSegmentTest extends \PHPUnit_Framework_TestCase
 
     public function testCustomerSegmentChanges()
     {
-        $subjectMock = $this->getMock('Magento\CustomerSegment\Model\Segment', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\CustomerSegment\Model\Segment', [], [], '', false);
         $this->_productRuleMock->expects($this->exactly(2))
             ->method('markIndexerAsInvalid');
 

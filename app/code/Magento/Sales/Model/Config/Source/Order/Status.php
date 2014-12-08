@@ -18,14 +18,14 @@ class Status implements \Magento\Framework\Option\ArrayInterface
     /**
      * @var string[]
      */
-    protected $_stateStatuses = array(
+    protected $_stateStatuses = [
         \Magento\Sales\Model\Order::STATE_NEW,
         \Magento\Sales\Model\Order::STATE_PROCESSING,
         \Magento\Sales\Model\Order::STATE_COMPLETE,
         \Magento\Sales\Model\Order::STATE_CLOSED,
         \Magento\Sales\Model\Order::STATE_CANCELED,
-        \Magento\Sales\Model\Order::STATE_HOLDED
-    );
+        \Magento\Sales\Model\Order::STATE_HOLDED,
+    ];
 
     /**
      * @var \Magento\Sales\Model\Order\Config

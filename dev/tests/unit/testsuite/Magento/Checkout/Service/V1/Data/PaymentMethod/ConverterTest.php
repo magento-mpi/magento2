@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Data\PaymentMethod;
 
-use \Magento\Checkout\Service\V1\Data\PaymentMethod;
+use Magento\Checkout\Service\V1\Data\PaymentMethod;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -50,7 +50,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $data = [
             PaymentMethod::TITLE => 'paymentTitle',
-            PaymentMethod::CODE => 'paymentCode'
+            PaymentMethod::CODE => 'paymentCode',
         ];
 
         $this->paymentMethodBuilderMock->expects($this->once())

@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Test\Fixture\CustomerInjectable;
 
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Class Address

@@ -33,26 +33,26 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     {
         $this->addColumn(
             'entity_id',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'entity_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
-        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Name'), 'index' => 'name']);
 
-        $this->addColumn('sku', array('header' => __('SKU'), 'width' => 80, 'index' => 'sku'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'width' => 80, 'index' => 'sku']);
         $this->addColumn(
             'status',
-            array(
+            [
                 'header' => __('Status'),
                 'width' => 50,
                 'index' => 'status',
                 'type' => 'options',
                 'options' => $this->_status->getOptionArray()
-            )
+            ]
         );
         return $this;
     }
@@ -64,7 +64,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/productGrid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/productGrid', ['_current' => true]);
     }
 
     /**
@@ -75,6 +75,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array('product' => $row->getId())) . 'category';
+        return $this->getUrl('adminhtml/*/edit', ['product' => $row->getId()]) . 'category';
     }
 }

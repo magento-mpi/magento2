@@ -9,8 +9,6 @@
 namespace Magento\ImportExport\Test\Block\Adminhtml\Export;
 
 use Magento\Backend\Test\Block\Widget\Grid;
-use Mtf\Client\Element\Locator;
-use Mtf\Client\Element;
 
 /**
  * Class Filter
@@ -25,10 +23,10 @@ class Filter extends Grid
      */
     protected $filters = [
         'frontend_label' => [
-            'selector' => 'input[name="frontend_label"]'
+            'selector' => 'input[name="frontend_label"]',
         ],
         'attribute_code' => [
-            'selector' => 'input[name="attribute_code"]'
+            'selector' => 'input[name="attribute_code"]',
         ],
     ];
 }

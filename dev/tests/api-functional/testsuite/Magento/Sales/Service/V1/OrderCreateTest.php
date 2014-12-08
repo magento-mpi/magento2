@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
+use Magento\Sales\Api\Data\OrderInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Sales\Api\Data\OrderInterface;
 
 class OrderCreateTest extends WebapiAbstract
 {
@@ -75,7 +75,6 @@ class OrderCreateTest extends WebapiAbstract
         $orderAddressBilling->setCountryId(1);
         $orderAddressBilling->setAddressType('billing');
 
-
         $orderAddressShipping = $orderAddressFactory->create(
             ['data' => $this->getDataStructure('Magento\Sales\Api\Data\OrderAddressInterface')]
         );
@@ -94,12 +93,11 @@ class OrderCreateTest extends WebapiAbstract
         $orderData['shipping_address'] = $orderAddressShipping->getData();
         $orderData['shipping_address']['street'] = ['Street'];
         return $orderData;
-
     }
 
     protected function getDataStructure($className)
     {
-        $refClass = new \ReflectionClass ($className);
+        $refClass = new \ReflectionClass($className);
         $constants = $refClass->getConstants();
         $data = array_fill_keys($constants, null);
         unset($data['custom_attributes']);
@@ -113,13 +111,13 @@ class OrderCreateTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
         $this->assertNotEmpty($this->_webApiCall($serviceInfo, ['entity' => $order]));
 

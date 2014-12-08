@@ -62,11 +62,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addValuesToResult()
     {
         $this->getSelect()->join(
-            array('value_table' => $this->getTable('core_variable_value')),
+            ['value_table' => $this->getTable('core_variable_value')],
             'value_table.variable_id = main_table.variable_id',
-            array('value_table.value')
+            ['value_table.value']
         );
-        $this->addFieldToFilter('value_table.store_id', array('eq' => $this->getStoreId()));
+        $this->addFieldToFilter('value_table.store_id', ['eq' => $this->getStoreId()]);
         return $this;
     }
 

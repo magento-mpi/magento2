@@ -32,20 +32,20 @@ class ReaderPoolTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_defaultReaderMock = $this->getMock(
-            'Magento\Store\Model\Config\Reader\DefaultReader', array(), array(), '', false
+            'Magento\Store\Model\Config\Reader\DefaultReader', [], [], '', false
         );
         $this->_websiteReaderMock = $this->getMock(
-            'Magento\Store\Model\Config\Reader\Website', array(), array(), '', false
+            'Magento\Store\Model\Config\Reader\Website', [], [], '', false
         );
         $this->_storeReaderMock = $this->getMock(
-            'Magento\Store\Model\Config\Reader\Store', array(), array(), '', false
+            'Magento\Store\Model\Config\Reader\Store', [], [], '', false
         );
 
-        $this->_model = new \Magento\Store\Model\Config\Reader\ReaderPool(array(
+        $this->_model = new \Magento\Store\Model\Config\Reader\ReaderPool([
             'default' => $this->_defaultReaderMock,
             'website' => $this->_websiteReaderMock,
             'store' => $this->_storeReaderMock,
-        ));
+        ]);
     }
 
     /**
@@ -64,19 +64,19 @@ class ReaderPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function getReaderDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'scope' => 'default',
-                'expectedResult' => 'Magento\Store\Model\Config\Reader\DefaultReader'
-            ),
-            array(
+                'expectedResult' => 'Magento\Store\Model\Config\Reader\DefaultReader',
+            ],
+            [
                 'scope' => 'website',
                 'expectedResult' => 'Magento\Store\Model\Config\Reader\Website'
-            ),
-            array(
+            ],
+            [
                 'scope' => 'store',
                 'expectedResult' => 'Magento\Store\Model\Config\Reader\Store'
-            ),
-        );
+            ],
+        ];
     }
 }

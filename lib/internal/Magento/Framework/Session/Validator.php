@@ -60,7 +60,7 @@ class Validator implements ValidatorInterface
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         $scopeType,
-        array $skippedUserAgentList = array()
+        array $skippedUserAgentList = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_remoteAddress = $remoteAddress;
@@ -81,7 +81,7 @@ class Validator implements ValidatorInterface
             $_SESSION[self::VALIDATOR_KEY] = $this->_getSessionEnvironment();
         } else {
             if (!$this->_validate()) {
-                $session->destroy(array('clear_storage' => false));
+                $session->destroy(['clear_storage' => false]);
                 // throw core session exception
                 throw new Exception('');
             }
@@ -147,12 +147,12 @@ class Validator implements ValidatorInterface
      */
     protected function _getSessionEnvironment()
     {
-        $parts = array(
+        $parts = [
             self::VALIDATOR_REMOTE_ADDR_KEY => '',
             self::VALIDATOR_HTTP_VIA_KEY => '',
             self::VALIDATOR_HTTP_X_FORWARDED_FOR_KEY => '',
-            self::VALIDATOR_HTTP_USER_AGENT_KEY => ''
-        );
+            self::VALIDATOR_HTTP_USER_AGENT_KEY => '',
+        ];
 
         // collect ip data
         if ($this->_remoteAddress->getRemoteAddress()) {

@@ -121,7 +121,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $serviceSecure = $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_SECURE];
             }
             $result[self::KEY_SERVICES][$serviceClass][$serviceMethod][self::KEY_SECURE] = $serviceSecure || $secure;
-
         }
         return $result;
     }

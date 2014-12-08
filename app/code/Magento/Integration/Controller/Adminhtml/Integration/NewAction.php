@@ -25,7 +25,7 @@ class NewAction extends \Magento\Integration\Controller\Adminhtml\Integration
         $restoredIntegration = $this->_getSession()->getIntegrationData();
         if ($restoredIntegration) {
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $restoredIntegration);
-            $this->_getSession()->setIntegrationData(array());
+            $this->_getSession()->setIntegrationData([]);
         }
         $this->_view->renderLayout();
     }

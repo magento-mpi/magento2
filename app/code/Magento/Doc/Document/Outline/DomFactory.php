@@ -8,8 +8,8 @@
 
 namespace Magento\Doc\Document\Outline;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Doc\Document\DomInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class DomFactory

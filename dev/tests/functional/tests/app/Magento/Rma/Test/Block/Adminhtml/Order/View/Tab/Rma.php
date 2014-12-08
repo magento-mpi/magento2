@@ -25,9 +25,9 @@ class Rma extends \Magento\Backend\Test\Block\Widget\Grid
     /**
      * {@inheritdoc}
      */
-    protected $filters = array(
-        'id' => array(
-            'selector' => '#order_rma_filter_increment_id_to'
-        ),
-    );
+    protected $filters = [
+        'id' => [
+            'selector' => '#order_rma_filter_increment_id_to',
+        ],
+    ];
 }

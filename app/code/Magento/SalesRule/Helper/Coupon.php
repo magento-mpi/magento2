@@ -75,11 +75,11 @@ class Coupon extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getFormatsList()
     {
-        return array(
+        return [
             self::COUPON_FORMAT_ALPHANUMERIC => __('Alphanumeric'),
             self::COUPON_FORMAT_ALPHABETICAL => __('Alphabetical'),
             self::COUPON_FORMAT_NUMERIC => __('Numeric')
-        );
+        ];
     }
 
     /**

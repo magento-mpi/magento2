@@ -43,11 +43,11 @@ class Customer extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreat
     public function getButtonsHtml()
     {
         if ($this->_authorization->isAllowed('Magento_Customer::manage')) {
-            $addButtonData = array(
+            $addButtonData = [
                 'label' => __('Create New Customer'),
                 'onclick' => 'order.setCustomerId(false)',
-                'class' => 'primary'
-            );
+                'class' => 'primary',
+            ];
             return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData($addButtonData)
                 ->toHtml();

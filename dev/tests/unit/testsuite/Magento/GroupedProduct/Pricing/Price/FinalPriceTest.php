@@ -43,8 +43,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
 
-        $this->finalPrice = new \Magento\GroupedProduct\Pricing\Price\FinalPrice
-        (
+        $this->finalPrice = new \Magento\GroupedProduct\Pricing\Price\FinalPrice(
             $this->saleableItemMock,
             null,
             $this->calculatorMock,

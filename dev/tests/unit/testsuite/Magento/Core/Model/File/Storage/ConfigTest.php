@@ -16,14 +16,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testSave()
     {
-        $config = array();
-        $fileStorageMock = $this->getMock('Magento\Core\Model\File\Storage', array(), array(), '', false);
+        $config = [];
+        $fileStorageMock = $this->getMock('Magento\Core\Model\File\Storage', [], [], '', false);
         $fileStorageMock->expects($this->once())->method('getScriptConfig')->will($this->returnValue($config));
 
         $file = $this->getMock(
             'Magento\Framework\Filesystem\File\Write',
-            array('lock', 'write', 'unlock', 'close'),
-            array(),
+            ['lock', 'write', 'unlock', 'close'],
+            [],
             '',
             false
         );
@@ -33,8 +33,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $file->expects($this->once())->method('close');
         $directory = $this->getMock(
             'Magento\Framework\Filesystem\Direcoty\Write',
-            array('openFile', 'getRelativePath'),
-            array(),
+            ['openFile', 'getRelativePath'],
+            [],
             '',
             false
         );
@@ -42,8 +42,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $directory->expects($this->once())->method('openFile')->with('cacheFile')->will($this->returnValue($file));
         $filesystem = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryWrite'),
-            array(),
+            ['getDirectoryWrite'],
+            [],
             '',
             false
         );

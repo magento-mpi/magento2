@@ -8,8 +8,6 @@
 
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
 
-use Magento\Customer\Model\Attribute;
-use Magento\Framework\DB\Ddl\Table;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

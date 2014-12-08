@@ -29,7 +29,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
         $this->markTestSkipped('MAGETWO-26083');
         $files = $this->getCsvFiles($placePath);
 
-        $failures = array();
+        $failures = [];
         if (!empty($files)) {
             $failures = $this->checkModuleFiles($files);
         }

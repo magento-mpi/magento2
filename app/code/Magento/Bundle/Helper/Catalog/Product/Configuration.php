@@ -107,7 +107,7 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
      */
     public function getBundleOptions(ItemInterface $item)
     {
-        $options = array();
+        $options = [];
         $product = $item->getProduct();
 
         /** @var \Magento\Bundle\Model\Product\Type $typeInstance */
@@ -115,7 +115,7 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
 
         // get bundle options
         $optionsQuoteItemOption = $item->getOptionByCode('bundle_option_ids');
-        $bundleOptionsIds = $optionsQuoteItemOption ? unserialize($optionsQuoteItemOption->getValue()) : array();
+        $bundleOptionsIds = $optionsQuoteItemOption ? unserialize($optionsQuoteItemOption->getValue()) : [];
         if ($bundleOptionsIds) {
             /** @var \Magento\Bundle\Model\Resource\Option\Collection $optionsCollection */
             $optionsCollection = $typeInstance->getOptionsByIds($bundleOptionsIds, $product);
@@ -131,7 +131,7 @@ class Configuration extends AbstractHelper implements ConfigurationInterface
                 $bundleOptions = $optionsCollection->appendSelections($selectionsCollection, true);
                 foreach ($bundleOptions as $bundleOption) {
                     if ($bundleOption->getSelections()) {
-                        $option = array('label' => $bundleOption->getTitle(), 'value' => array());
+                        $option = ['label' => $bundleOption->getTitle(), 'value' => []];
 
                         $bundleSelections = $bundleOption->getSelections();
 

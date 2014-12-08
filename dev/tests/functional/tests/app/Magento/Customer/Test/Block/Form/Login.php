@@ -9,7 +9,6 @@
 namespace Magento\Customer\Test\Block\Form;
 
 use Mtf\Block\Form;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 

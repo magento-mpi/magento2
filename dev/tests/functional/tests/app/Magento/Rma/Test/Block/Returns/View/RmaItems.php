@@ -8,9 +8,9 @@
 
 namespace Magento\Rma\Test\Block\Returns\View;
 
+use Magento\Backend\Test\Block\Widget\Form;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form;
 
 /**
  * Rma items.

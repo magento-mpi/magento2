@@ -33,7 +33,7 @@ class TriggerFactory
      * @param array $data
      * @return \Magento\Framework\DB\Ddl\Trigger
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create(self::INSTANCE_NAME, $data);
     }

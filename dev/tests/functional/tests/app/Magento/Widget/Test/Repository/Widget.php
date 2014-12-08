@@ -27,7 +27,7 @@ class Widget extends AbstractRepository
         $this->_data['default'] = [
             'title' => 'Test Frontend App',
             'store_ids' => [
-                '0' => 'All Store Views'
+                '0' => 'All Store Views',
             ],
             'widget_instance' => [
                 '0' => [
@@ -36,14 +36,14 @@ class Widget extends AbstractRepository
                         'layout_handle' => 'default',
                         'for' => 'all',
                         'block' => 'content',
-                        'template' => 'widget/block.phtml'
-                    ]
-                ]
+                        'template' => 'widget/block.phtml',
+                    ],
+                ],
             ],
             'parameters' => [
-                'display_mode' => 'catalogrule'
+                'display_mode' => 'catalogrule',
             ],
-            'theme_id' => '2'
+            'theme_id' => '2',
         ];
 
         $this->_data['cms_page_link'] = [
@@ -55,9 +55,9 @@ class Widget extends AbstractRepository
                     'page_group' => 'All Pages',
                     'all_pages' => [
                         'block' => 'Main Content Area',
-                        'template' => 'CMS Page Link Block Template'
-                    ]
-                ]
+                        'template' => 'CMS Page Link Block Template',
+                    ],
+                ],
             ],
             'parameters' => [
                 'display_mode' => 'fixed',
@@ -68,9 +68,9 @@ class Widget extends AbstractRepository
             'theme_id' => 'Magento Blank',
             'widgetOptions' => [
                 '0' => [
-                    'type_id' => 'cmsPageLink'
-                ]
-            ]
+                    'type_id' => 'cmsPageLink',
+                ],
+            ],
         ];
     }
 }

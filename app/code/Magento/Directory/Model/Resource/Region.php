@@ -66,21 +66,21 @@ class Region extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $condition = $adapter->quoteInto('lrn.locale = ?', $locale);
         $select->joinLeft(
-            array('lrn' => $this->_regionNameTable),
+            ['lrn' => $this->_regionNameTable],
             "{$regionField} = lrn.region_id AND {$condition}",
-            array()
+            []
         );
 
         if ($locale != $systemLocale) {
             $nameExpr = $adapter->getCheckSql('lrn.region_id is null', 'srn.name', 'lrn.name');
             $condition = $adapter->quoteInto('srn.locale = ?', $systemLocale);
             $select->joinLeft(
-                array('srn' => $this->_regionNameTable),
+                ['srn' => $this->_regionNameTable],
                 "{$regionField} = srn.region_id AND {$condition}",
-                array('name' => $nameExpr)
+                ['name' => $nameExpr]
             );
         } else {
-            $select->columns(array('name'), 'lrn');
+            $select->columns(['name'], 'lrn');
         }
 
         return $select;
@@ -101,11 +101,11 @@ class Region extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $locale = $this->_localeResolver->getLocaleCode();
         $joinCondition = $adapter->quoteInto('rname.region_id = region.region_id AND rname.locale = ?', $locale);
         $select = $adapter->select()->from(
-            array('region' => $this->getMainTable())
+            ['region' => $this->getMainTable()]
         )->joinLeft(
-            array('rname' => $this->_regionNameTable),
+            ['rname' => $this->_regionNameTable],
             $joinCondition,
-            array('name')
+            ['name']
         )->where(
             'region.country_id = ?',
             $countryId

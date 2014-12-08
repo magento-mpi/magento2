@@ -9,8 +9,8 @@ namespace Magento\CatalogInventory\Model;
 
 use Magento\CatalogInventory\Api\StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockStateInterface;
-use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
 use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
+use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
 
 /**
  * Interface StockState

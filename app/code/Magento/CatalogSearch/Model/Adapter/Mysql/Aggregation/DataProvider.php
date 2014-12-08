@@ -10,14 +10,13 @@ namespace Magento\CatalogSearch\Model\Adapter\Mysql\Aggregation;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Session;
 use Magento\Eav\Model\Config;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\App\Resource;
+use Magento\Framework\App\ScopeResolverInterface;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\Store\Model\Store;
-use Magento\Framework\App\ScopeResolverInterface;
 
 class DataProvider implements DataProviderInterface
 {
@@ -80,7 +79,6 @@ class DataProvider implements DataProviderInterface
                 ->columns([BucketInterface::FIELD_VALUE => 'main_table.min_price'])
                 ->where('main_table.customer_group_id = ?', $this->customerSession->getCustomerGroupId())
                 ->where('main_table.website_id = ?', $store->getWebsiteId());
-
         } else {
             $currentScopeId = $this->scopeResolver->getScope($currentScope)
                 ->getId();

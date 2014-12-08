@@ -41,7 +41,7 @@ class Search
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $collection */
         $collection = $this->_wishlistCollectionFactory->create();
-        $collection->addFieldToFilter('visibility', array('eq' => 1));
+        $collection->addFieldToFilter('visibility', ['eq' => 1]);
         $strategy->filterCollection($collection);
         return $collection;
     }

@@ -8,11 +8,11 @@
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Store\Test\Fixture\Website;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditWebsite;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Store\Test\Fixture\Website;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Update Website (Store Management)

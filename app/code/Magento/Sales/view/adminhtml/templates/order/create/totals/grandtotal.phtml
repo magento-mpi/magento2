@@ -10,7 +10,7 @@
  * @see \Magento\Tax\Block\Checkout\Grandtotal
  */
 ?>
-<?php if ($this->includeTax() && $this->getTotalExclTax()>=0):?>
+<?php if ($this->includeTax() && $this->getTotalExclTax() >= 0):?>
 <tr class="row-totals">
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <strong><?php echo __('Grand Total Excl. Tax')?></strong>

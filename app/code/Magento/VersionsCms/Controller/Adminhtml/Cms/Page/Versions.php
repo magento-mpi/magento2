@@ -8,8 +8,8 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page;
 
-use \Magento\VersionsCms\Model\PageLoader;
-use \Magento\Backend\App\Action\Context;
+use Magento\Backend\App\Action\Context;
+use Magento\VersionsCms\Model\PageLoader;
 
 class Versions extends \Magento\Backend\App\Action
 {

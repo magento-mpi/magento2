@@ -33,13 +33,13 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     {
         $itemId = 1;
         $name = 'Test';
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
-        $item = $this->_webApiCall($serviceInfo, array());
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
+        $item = $this->_webApiCall($serviceInfo, []);
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
@@ -51,13 +51,13 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     {
         $itemId = 1;
         $name = 'Test';
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            )
-        );
-        $item = $this->_webApiCall($serviceInfo, array('request' => array('name' => $name)));
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
+        ];
+        $item = $this->_webApiCall($serviceInfo, ['request' => ['name' => $name]]);
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
@@ -69,13 +69,13 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     {
         $itemId = 1;
         $name = 'Test';
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId . '/nested',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            )
-        );
-        $item = $this->_webApiCall($serviceInfo, array('request' => array('details' => array('name' => $name))));
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
+        ];
+        $item = $this->_webApiCall($serviceInfo, ['request' => ['details' => ['name' => $name]]]);
         $this->assertEquals($itemId, $item['entity_id'], 'id field returned incorrectly');
         $this->assertEquals($name, $item['name'], 'name field returned incorrectly');
     }
@@ -83,28 +83,28 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
     public function testScalarResponse()
     {
         $id = 2;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => "{$this->_restResourcePath}scalar/{$id}",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
         $this->assertEquals($id, $this->_webApiCall($serviceInfo), 'Scalar service output is serialized incorrectly.');
     }
 
     public function testExtensibleCall()
     {
         $id = 2;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => "{$this->_restResourcePath}extensibleDataObject/{$id}",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
+        ];
 
         $name = 'Magento';
         $requestData = [
-          'name' => $name
+          'name' => $name,
         ];
         $item = $this->_webApiCall($serviceInfo, ['request' => $requestData]);
         $this->assertEquals($id, $item['entity_id'], 'id field returned incorrectly');

@@ -55,7 +55,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit',
             '',
-            array('coreRegistry' => $this->coreRegistry)
+            ['coreRegistry' => $this->coreRegistry]
         );
     }
 

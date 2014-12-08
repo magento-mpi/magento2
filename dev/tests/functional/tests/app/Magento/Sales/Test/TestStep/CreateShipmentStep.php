@@ -8,12 +8,12 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentNew;
+use Magento\Shipping\Test\Page\Adminhtml\OrderShipmentView;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class CreateShipmentStep

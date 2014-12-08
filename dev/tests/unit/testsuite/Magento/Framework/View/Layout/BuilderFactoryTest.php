@@ -40,12 +40,11 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
                 'typeMap' => [
                     [
                         'type' => 'invalid_type',
-                        'class' => 'Magento\Framework\View\Layout\BuilderFactory'
-                    ]
+                        'class' => 'Magento\Framework\View\Layout\BuilderFactory',
+                    ],
                 ]
             ]
         );
-
     }
 
     /**
@@ -74,7 +73,7 @@ class BuilderFactoryTest extends \PHPUnit_Framework_TestCase
             'layout_type' => [
                 'type' => \Magento\Framework\View\Layout\BuilderFactory::TYPE_LAYOUT,
                 'arguments' => ['key' => 'val'],
-                'layoutBuilderClass' => 'Magento\Framework\View\Layout\Builder'
+                'layoutBuilderClass' => 'Magento\Framework\View\Layout\Builder',
             ]
         ];
     }

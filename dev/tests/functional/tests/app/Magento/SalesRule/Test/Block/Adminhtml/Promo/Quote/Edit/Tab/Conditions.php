@@ -7,12 +7,12 @@
  */
 namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\SalesRule\Test\Fixture\SalesRule;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Conditions

@@ -59,7 +59,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('addFilter')
             ->with(
                 $this->equalTo('store'),
-                $this->equalTo(array('in' => [$storeId])),
+                $this->equalTo(['in' => [$storeId]]),
                 $this->equalTo('public')
             );
         $this->collection->addFieldToFilter('store_id', $storeId);

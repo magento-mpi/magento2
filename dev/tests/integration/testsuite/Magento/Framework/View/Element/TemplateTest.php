@@ -17,14 +17,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $params = array('layout' => $objectManager->create('Magento\Framework\View\Layout', array()));
+        $params = ['layout' => $objectManager->create('Magento\Framework\View\Layout', [])];
         $context = $objectManager->create('Magento\Framework\View\Element\Template\Context', $params);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock(
             'Magento\Framework\View\Element\Template',
             '',
-            array('context' => $context, 'data' => array('module_name' => 'Magento_View'))
+            ['context' => $context, 'data' => ['module_name' => 'Magento_View']]
         );
     }
 
@@ -35,7 +35,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Framework\View\Element\Template',
             '',
-            array('data' => array('template' => 'value'))
+            ['data' => ['template' => 'value']]
         );
         $this->assertEquals('value', $block->getTemplate());
     }
@@ -86,7 +86,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testGetObjectData()
     {
-        $object = new \Magento\Framework\Object(array('key' => 'value'));
+        $object = new \Magento\Framework\Object(['key' => 'value']);
         $this->assertEquals('value', $this->_block->getObjectData($object, 'key'));
     }
 

@@ -127,7 +127,7 @@ class LinkManagementTest extends \PHPUnit_Framework_TestCase
                     'setIsDefined',
                     'setPrice',
                     'setPriceType',
-                    'create'
+                    'create',
                 ]
             )
             ->disableOriginalConstructor()
@@ -287,7 +287,7 @@ class LinkManagementTest extends \PHPUnit_Framework_TestCase
         $linkedProductMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $linkedProductMock->expects($this->any())->method('getId')->will($this->returnValue(13));
         $linkedProductMock->expects($this->once())->method('isComposite')->will($this->returnValue(true));
-         $this->productRepository
+        $this->productRepository
             ->expects($this->once())
             ->method('get')
             ->with('linked_product_sku')

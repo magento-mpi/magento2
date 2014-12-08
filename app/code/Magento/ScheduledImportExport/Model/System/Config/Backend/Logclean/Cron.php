@@ -40,7 +40,7 @@ class Cron extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configValueFactory = $configValueFactory;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -61,13 +61,13 @@ class Cron extends \Magento\Framework\App\Config\Value
         $frequencyWeekly = \Magento\Cron\Model\Config\Source\Frequency::CRON_WEEKLY;
         $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
-        $cronExprArray = array(
+        $cronExprArray = [
             intval($time[1]),                                   // Minute
             intval($time[0]),                                   // Hour
             $frequency == $frequencyMonthly ? '1' : '*',        // Day of the Month
             '*',                                                // Month of the Year
-            $frequency == $frequencyWeekly ? '1' : '*'          // Day of the Week
-        );
+            $frequency == $frequencyWeekly ? '1' : '*',          // Day of the Week
+        ];
 
         $cronExprString = join(' ', $cronExprArray);
 

@@ -28,8 +28,8 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configValueFactory = $this->getMock(
             'Magento\Framework\App\Config\ValueFactory',
-            array('create', 'getCollection'),
-            array(),
+            ['create', 'getCollection'],
+            [],
             '',
             false
         );
@@ -37,8 +37,8 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_configCollection = $this->getMock(
             'Magento\Core\Model\Resource\Config\Data\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -54,7 +54,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $configDataMock = $this->getMock('Magento\Framework\App\Config\Value', array(), array(), '', false);
+        $configDataMock = $this->getMock('Magento\Framework\App\Config\Value', [], [], '', false);
         $this->_configValueFactory->expects(
             $this->once()
         )->method(
@@ -76,7 +76,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
             'getItems'
         )->will(
             $this->returnValue(
-                array(new \Magento\Framework\Object(array('path' => 'section', 'value' => 10, 'config_id' => 20)))
+                [new \Magento\Framework\Object(['path' => 'section', 'value' => 10, 'config_id' => 20])]
             )
         );
     }
@@ -90,13 +90,13 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetConfigByPathInFullMode()
     {
-        $expected = array('section' => array('path' => 'section', 'value' => 10, 'config_id' => 20));
+        $expected = ['section' => ['path' => 'section', 'value' => 10, 'config_id' => 20]];
         $this->assertEquals($expected, $this->_model->getConfigByPath('section', 'scope', 'scopeId', true));
     }
 
     public function testGetConfigByPath()
     {
-        $expected = array('section' => 10);
+        $expected = ['section' => 10];
         $this->assertEquals($expected, $this->_model->getConfigByPath('section', 'scope', 'scopeId', false));
     }
 }

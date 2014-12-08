@@ -27,7 +27,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
@@ -81,7 +81,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
         $actionCaption = '';
         $this->_transformActionData($action, $actionCaption, $row);
 
-        $htmlAttibutes = array('value' => $this->escapeHtml($this->_jsonEncoder->encode($action)));
+        $htmlAttibutes = ['value' => $this->escapeHtml($this->_jsonEncoder->encode($action))];
         $actionAttributes->setData($htmlAttibutes);
         return '<option ' . $actionAttributes->serialize() . '>' . $actionCaption . '</option>';
     }
@@ -137,7 +137,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 
                 case 'url':
                     if (is_array($action['url']) && isset($action['field'])) {
-                        $params = array($action['field'] => $this->_getValue($row));
+                        $params = [$action['field'] => $this->_getValue($row)];
                         if (isset($action['url']['params'])) {
                             $params = array_merge($action['url']['params'], $params);
                         }

@@ -16,19 +16,25 @@ $elementName = $this->getElement()->getName() . '[images]';
          $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getImageTypes())
      ) ?>"
     >
-    <?php if (!$this->getElement()->getReadonly()) { ?>
+    <?php if (!$this->getElement()->getReadonly()) {
+    ?>
         <div class="image image-placeholder">
-            <?php echo $this->getUploaderHtml(); ?>
+            <?php echo $this->getUploaderHtml();
+    ?>
             <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
-            <p class="image-placeholder-text"><?php echo __('Click here or drag and drop to add images'); ?></p>
+            <p class="image-placeholder-text"><?php echo __('Click here or drag and drop to add images');
+    ?></p>
         </div>
-    <?php } ?>
-    <?php foreach ($this->getImageTypes() as $typeData) { ?>
+    <?php 
+} ?>
+    <?php foreach ($this->getImageTypes() as $typeData) {
+    ?>
         <input name="<?php echo $this->escapeHtml($typeData['name']) ?>"
                class="image-<?php echo $this->escapeHtml($typeData['code']) ?>"
                type="hidden"
                value="<?php echo $this->escapeHtml($typeData['value']) ?>"/>
-    <?php } ?>
+    <?php 
+} ?>
 
 
     <script id="<?php echo $this->getHtmlId() ?>-template" type="text/x-jquery-tmpl">
@@ -41,11 +47,13 @@ $elementName = $this->getElement()->getName() . '[images]';
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][disabled]" value="${disabled}"/>
             <input type="hidden" name="<?php echo $elementName ?>[${file_id}][removed]" value="" class="is-removed"/>
             <ul class="type-labels" style="display: none">
-                <?php foreach ($this->getImageTypes() as $typeData) { ?>
+                <?php foreach ($this->getImageTypes() as $typeData) {
+    ?>
                     <li class="type-<?php echo $this->escapeHtml(
                         $typeData['code']
                     ) ?>"><?php echo $this->escapeHtml($typeData['label']) ?></li>
-                <?php } ?>
+                <?php 
+} ?>
             </ul>
             <img class="spacer" src="<?php echo $this->getViewFileUrl('images/spacer.gif')?>"/>
             <img class="product-image" src="${url}" alt="${label}"/>
@@ -93,7 +101,8 @@ $elementName = $this->getElement()->getName() . '[images]';
                         </label>
                         <div class="control">
                             <ul class="multiselect-alt">
-                                <?php foreach ($this->getMediaAttributes() as $attribute) { ?>
+                                <?php foreach ($this->getMediaAttributes() as $attribute) {
+    ?>
                                     <li class="item">
                                         <label>
                                             <input class="image-type"
@@ -104,7 +113,8 @@ $elementName = $this->getElement()->getName() . '[images]';
                                             <?php echo $this->escapeHtml($attribute->getFrontendLabel()) ?>
                                         </label>
                                     </li>
-                                <?php } ?>
+                                <?php 
+} ?>
                             </ul>
                         </div>
                     </div>

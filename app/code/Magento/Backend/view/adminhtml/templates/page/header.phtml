@@ -8,7 +8,7 @@
 
 /** @var $this \Magento\Backend\Block\Page\Header */
 ?>
-<?php switch($this->getShowPart()):
+<?php switch ($this->getShowPart()):
     case 'logo': ?>
         <?php $edition = $this->getEdition() ? 'data-edition="' . $this->getEdition() . '"' : ''; ?>
         <a href="<?php echo $this->getHomeLink() ?>" <?php echo $edition; ?> class="logo" title="<?php echo __('Magento Admin Panel') ?>"><span><?php echo __('Magento Admin Panel') ?></span></a>

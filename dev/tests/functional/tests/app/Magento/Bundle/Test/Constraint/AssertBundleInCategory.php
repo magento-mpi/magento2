@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductInCategory

@@ -73,7 +73,7 @@ class CacheConfig extends AbstractSegment
      */
     public function getCacheFrontendSettings()
     {
-        return isset($this->data[self::KEY_FRONTEND]) ? $this->data[self::KEY_FRONTEND] : array();
+        return isset($this->data[self::KEY_FRONTEND]) ? $this->data[self::KEY_FRONTEND] : [];
     }
 
     /**

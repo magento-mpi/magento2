@@ -8,13 +8,11 @@
 
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use \Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Crosssell

@@ -44,13 +44,13 @@ class QuoteItem
         /** @var $quoteItem \Magento\Sales\Model\Quote\Item */
         $quoteItem = $item;
 
-        $keys = array(
+        $keys = [
             'giftcard_sender_name',
             'giftcard_sender_email',
             'giftcard_recipient_name',
             'giftcard_recipient_email',
-            'giftcard_message'
-        );
+            'giftcard_message',
+        ];
         $productOptions = $orderItem->getProductOptions();
         foreach ($keys as $key) {
             $option = $quoteItem->getProduct()->getCustomOption($key);

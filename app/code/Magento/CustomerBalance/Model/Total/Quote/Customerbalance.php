@@ -130,11 +130,11 @@ class Customerbalance extends \Magento\Sales\Model\Quote\Address\Total\AbstractT
         }
         if ($address->getCustomerBalanceAmount()) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Store Credit'),
-                    'value' => -$address->getCustomerBalanceAmount()
-                )
+                    'value' => -$address->getCustomerBalanceAmount(),
+                ]
             );
         }
         return $this;

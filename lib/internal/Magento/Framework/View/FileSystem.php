@@ -69,7 +69,7 @@ class FileSystem
      * @param array $params
      * @return string
      */
-    public function getFilename($fileId, array $params = array())
+    public function getFilename($fileId, array $params = [])
     {
         list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
             $this->normalizePath($fileId)
@@ -90,7 +90,7 @@ class FileSystem
      * @param array $params
      * @return string
      */
-    public function getLocaleFileName($file, array $params = array())
+    public function getLocaleFileName($file, array $params = [])
     {
         $this->_assetRepo->updateDesignParams($params);
         return $this->_localeFileResolution
@@ -104,7 +104,7 @@ class FileSystem
      * @param array $params
      * @return string|false
      */
-    public function getTemplateFileName($fileId, array $params = array())
+    public function getTemplateFileName($fileId, array $params = [])
     {
         list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
             $this->normalizePath($fileId)
@@ -124,7 +124,7 @@ class FileSystem
      * @param array $params
      * @return string
      */
-    public function getStaticFileName($fileId, array $params = array())
+    public function getStaticFileName($fileId, array $params = [])
     {
         list($module, $filePath) = \Magento\Framework\View\Asset\Repository::extractModule(
             $this->normalizePath($fileId)
@@ -148,7 +148,7 @@ class FileSystem
     public static function normalizePath($path)
     {
         $parts = explode('/', $path);
-        $result = array();
+        $result = [];
 
         foreach ($parts as $part) {
             if ('..' === $part) {
@@ -223,6 +223,6 @@ class FileSystem
             array_shift($one);
             array_shift($two);
         }
-        return array(implode('/', $one), implode('/', $two));
+        return [implode('/', $one), implode('/', $two)];
     }
 }

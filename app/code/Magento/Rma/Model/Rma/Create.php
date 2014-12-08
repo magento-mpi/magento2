@@ -48,7 +48,7 @@ class Create extends \Magento\Framework\Object
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;

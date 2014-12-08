@@ -32,7 +32,7 @@ class Methods extends \Magento\Payment\Block\Form\Container
         \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Payment\Model\Checks\SpecificationFactory $methodSpecificationFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $paymentHelper, $methodSpecificationFactory, $data);

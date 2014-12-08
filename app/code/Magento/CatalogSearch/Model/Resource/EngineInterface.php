@@ -48,7 +48,6 @@ interface EngineInterface
      */
     public function allowAdvancedIndex();
 
-
     /**
      * Proepare attribute value to store in index
      *

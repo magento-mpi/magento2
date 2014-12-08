@@ -20,7 +20,7 @@ class Edit extends \Magento\Cms\Controller\Adminhtml\Page\Edit
     /**
      * @var array
      */
-    protected $_handles = array();
+    protected $_handles = [];
 
     /**
      * @var \Magento\VersionsCms\Model\Config

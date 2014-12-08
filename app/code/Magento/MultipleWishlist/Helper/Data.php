@@ -19,7 +19,7 @@ class Data extends \Magento\Wishlist\Helper\Data
      *
      * @var array
      */
-    protected $_defaultWishlistsByCustomer = array();
+    protected $_defaultWishlistsByCustomer = [];
 
     /**
      * Item collection factory

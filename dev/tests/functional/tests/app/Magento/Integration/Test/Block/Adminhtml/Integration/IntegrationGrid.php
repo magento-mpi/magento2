@@ -31,7 +31,7 @@ class IntegrationGrid extends Grid
         'status' => [
             'selector' => 'input[name="status"]',
             'input' => 'select',
-        ]
+        ],
     ];
 
     /**

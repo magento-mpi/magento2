@@ -14,13 +14,13 @@ namespace Magento\CatalogEvent\Block\Adminhtml\Catalog\Category\Edit;
 use Magento\Backend\Block\Template\Context;
 use Magento\Backend\Helper\Data as BackendHelperData;
 use Magento\Catalog\Block\Adminhtml\Category\AbstractCategory;
+use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Helper\Data;
 use Magento\CatalogEvent\Model\Event;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
 use Magento\Framework\Registry;
-use Magento\Catalog\Model\CategoryFactory;
 
 class Buttons extends AbstractCategory
 {
@@ -59,7 +59,7 @@ class Buttons extends AbstractCategory
         CollectionFactory $eventCollectionFactory,
         Data $catalogeventHelper,
         BackendHelperData $backendHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendHelper = $backendHelper;
         $this->_catalogeventHelper = $catalogeventHelper;
@@ -103,32 +103,32 @@ class Buttons extends AbstractCategory
             if ($this->getEvent() && $this->getEvent()->getId()) {
                 $url = $this->_backendHelper->getUrl(
                     'adminhtml/catalog_event/edit',
-                    array('id' => $this->getEvent()->getId(), 'category' => 1)
+                    ['id' => $this->getEvent()->getId(), 'category' => 1]
                 );
                 $this->getParentBlock()->getChildBlock(
                     'form'
                 )->addAdditionalButton(
                     'edit_event',
-                    array(
+                    [
                         'label' => __('Edit Event...'),
                         'class' => 'save',
                         'onclick' => 'setLocation(\'' . $url . '\')'
-                    )
+                    ]
                 );
             } else {
                 $url = $this->_backendHelper->getUrl(
                     'adminhtml/catalog_event/new',
-                    array('category_id' => $this->getCategoryId(), 'category' => 1)
+                    ['category_id' => $this->getCategoryId(), 'category' => 1]
                 );
                 $this->getParentBlock()->getChildBlock(
                     'form'
                 )->addAdditionalButton(
                     'add_event',
-                    array(
+                    [
                         'label' => __('Add Event...'),
                         'class' => 'add',
                         'onclick' => 'setLocation(\'' . $url . '\')'
-                    )
+                    ]
                 );
             }
         }

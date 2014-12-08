@@ -24,7 +24,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_stat = $this->getMock('Magento\Framework\Profiler\Driver\Standard\Stat');
-        $this->_driver = new \Magento\Framework\Profiler\Driver\Standard(array('stat' => $this->_stat));
+        $this->_driver = new \Magento\Framework\Profiler\Driver\Standard(['stat' => $this->_stat]);
     }
 
     protected function tearDown()
@@ -92,14 +92,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
     public function testInitOutputs()
     {
         $outputFactory = $this->getMock('Magento\Framework\Profiler\Driver\Standard\Output\Factory');
-        $config = array(
-            'outputs' => array(
-                'outputTypeOne' => array('baseDir' => '/custom/base/dir'),
-                'outputTypeTwo' => array('type' => 'specificOutputTypeTwo')
-            ),
+        $config = [
+            'outputs' => [
+                'outputTypeOne' => ['baseDir' => '/custom/base/dir'],
+                'outputTypeTwo' => ['type' => 'specificOutputTypeTwo'],
+            ],
             'baseDir' => '/base/dir',
-            'outputFactory' => $outputFactory
-        );
+            'outputFactory' => $outputFactory,
+        ];
 
         $outputOne = $this->getMock('Magento\Framework\Profiler\Driver\Standard\OutputInterface');
         $outputTwo = $this->getMock('Magento\Framework\Profiler\Driver\Standard\OutputInterface');
@@ -109,7 +109,7 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            array('baseDir' => '/custom/base/dir', 'type' => 'outputTypeOne')
+            ['baseDir' => '/custom/base/dir', 'type' => 'outputTypeOne']
         )->will(
             $this->returnValue($outputOne)
         );
@@ -119,14 +119,14 @@ class StandardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            array('type' => 'specificOutputTypeTwo', 'baseDir' => '/base/dir')
+            ['type' => 'specificOutputTypeTwo', 'baseDir' => '/base/dir']
         )->will(
             $this->returnValue($outputTwo)
         );
 
         $driver = new \Magento\Framework\Profiler\Driver\Standard($config);
         $this->assertAttributeCount(2, '_outputs', $driver);
-        $this->assertAttributeEquals(array($outputOne, $outputTwo), '_outputs', $driver);
+        $this->assertAttributeEquals([$outputOne, $outputTwo], '_outputs', $driver);
     }
 
     /**

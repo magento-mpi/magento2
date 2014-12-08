@@ -20,16 +20,15 @@ class PageTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderPage()
     {
-
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $httpContext = $objectManager->get('Magento\Framework\App\Http\Context');
         $httpContext->setValue(Context::CONTEXT_AUTH, false, false);
         $objectManager->get('Magento\Framework\App\State')->setAreaCode('frontend');
-        $arguments = array(
+        $arguments = [
             'request' => $objectManager->get('Magento\TestFramework\Request'),
-            'response' => $objectManager->get('Magento\TestFramework\Response')
-        );
+            'response' => $objectManager->get('Magento\TestFramework\Response'),
+        ];
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Action\Context',
             $arguments
@@ -42,7 +41,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $result = $pageHelper->renderPage(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Framework\App\Action\Action',
-                array('context' => $context)
+                ['context' => $context]
             ),
             $page->getId()
         );

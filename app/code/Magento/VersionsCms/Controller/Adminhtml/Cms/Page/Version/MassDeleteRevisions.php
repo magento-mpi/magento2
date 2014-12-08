@@ -82,6 +82,6 @@ class MassDeleteRevisions extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'revisions'));
+        $this->_redirect('adminhtml/*/edit', ['_current' => true, 'tab' => 'revisions']);
     }
 }

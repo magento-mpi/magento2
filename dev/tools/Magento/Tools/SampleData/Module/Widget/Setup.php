@@ -8,8 +8,8 @@
 
 namespace Magento\Tools\SampleData\Module\Widget;
 
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\PostInstaller;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Launches setup of sample data for Widget module

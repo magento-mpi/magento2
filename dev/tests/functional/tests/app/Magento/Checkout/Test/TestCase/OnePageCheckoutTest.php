@@ -8,10 +8,10 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\TestCase\Scenario;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Mtf\TestCase\Scenario;
 
 /**
  * OnePageCheckout within offline Payment Methods

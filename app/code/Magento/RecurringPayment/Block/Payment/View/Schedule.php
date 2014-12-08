@@ -29,7 +29,7 @@ class Schedule extends \Magento\RecurringPayment\Block\Payment\View
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $data);
         $this->_fields = $fields;
@@ -45,17 +45,17 @@ class Schedule extends \Magento\RecurringPayment\Block\Payment\View
         parent::_prepareLayout();
 
         $this->_shouldRenderInfo = true;
-        foreach (array('start_datetime', 'suspension_threshold') as $key) {
+        foreach (['start_datetime', 'suspension_threshold'] as $key) {
             $this->_addInfo(
-                array(
+                [
                     'label' => $this->_fields->getFieldLabel($key),
-                    'value' => $this->_recurringPayment->renderData($key)
-                )
+                    'value' => $this->_recurringPayment->renderData($key),
+                ]
             );
         }
 
         foreach ($this->_recurringPayment->exportScheduleInfo() as $info) {
-            $this->_addInfo(array('label' => $info->getTitle(), 'value' => $info->getSchedule()));
+            $this->_addInfo(['label' => $info->getTitle(), 'value' => $info->getSchedule()]);
         }
     }
 }

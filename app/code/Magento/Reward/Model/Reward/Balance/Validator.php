@@ -8,7 +8,6 @@
 namespace Magento\Reward\Model\Reward\Balance;
 
 use Magento\Sales\Model\Order;
-use Magento\Reward\Model\Reward\Balance\Exception;
 
 class Validator
 {

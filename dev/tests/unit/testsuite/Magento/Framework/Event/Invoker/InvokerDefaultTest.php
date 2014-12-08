@@ -38,20 +38,20 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
     {
         $this->_observerFactoryMock = $this->getMock(
             'Magento\Framework\Event\ObserverFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_listenerMock = $this->getMock(
             'Magento_Some_Model_Observer_Some',
-            array('method_name'),
-            array(),
+            ['method_name'],
+            [],
             '',
             false
         );
-        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
 
         $this->_invokerDefault = new \Magento\Framework\Event\Invoker\InvokerDefault(
             $this->_observerFactoryMock,
@@ -64,7 +64,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         $this->_observerFactoryMock->expects($this->never())->method('get');
         $this->_observerFactoryMock->expects($this->never())->method('create');
 
-        $this->_invokerDefault->dispatch(array('disabled' => true), $this->_observerMock);
+        $this->_invokerDefault->dispatch(['disabled' => true], $this->_observerMock);
     }
 
     public function testDispatchWithNonSharedInstance()
@@ -82,7 +82,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_invokerDefault->dispatch(
-            array('shared' => false, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'),
+            ['shared' => false, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'],
             $this->_observerMock
         );
     }
@@ -102,7 +102,7 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_invokerDefault->dispatch(
-            array('shared' => true, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'),
+            ['shared' => true, 'instance' => 'class_name', 'method' => 'method_name', 'name' => 'observer'],
             $this->_observerMock
         );
     }
@@ -141,12 +141,12 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_invokerDefault->dispatch(
-            array(
+            [
                 'shared' => $shared,
                 'instance' => 'class_name',
                 'method' => 'unknown_method_name',
-                'name' => 'observer'
-            ),
+                'name' => 'observer',
+            ],
             $this->_observerMock
         );
     }
@@ -184,12 +184,12 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_invokerDefault->dispatch(
-            array(
+            [
                 'shared' => $shared,
                 'instance' => 'class_name',
                 'method' => 'unknown_method_name',
-                'name' => 'observer'
-            ),
+                'name' => 'observer',
+            ],
             $this->_observerMock
         );
     }
@@ -199,6 +199,6 @@ class InvokerDefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderForMethodIsNotDefined()
     {
-        return array('shared' => array(true), 'non shared' => array(false));
+        return ['shared' => [true], 'non shared' => [false]];
     }
 }

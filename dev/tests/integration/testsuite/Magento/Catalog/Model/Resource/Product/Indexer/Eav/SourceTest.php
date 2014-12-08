@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Catalog\Model\Resource\Product\Indexer\Eav;
+
 /**
  * @magentoDataFixture Magento/ConfigurableProduct/_files/product_configurable.php
  */

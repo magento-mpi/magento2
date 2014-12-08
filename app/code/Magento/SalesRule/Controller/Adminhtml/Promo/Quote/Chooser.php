@@ -21,7 +21,7 @@ class Chooser extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
         $chooserBlock = $this->_view->getLayout()->createBlock(
             'Magento\SalesRule\Block\Adminhtml\Promo\Widget\Chooser',
             '',
-            array('data' => array('id' => $uniqId))
+            ['data' => ['id' => $uniqId]]
         );
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }

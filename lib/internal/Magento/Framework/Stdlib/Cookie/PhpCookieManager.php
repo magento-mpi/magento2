@@ -31,13 +31,11 @@ class PhpCookieManager implements CookieManagerInterface
     const EXPIRE_AT_END_OF_SESSION_TIME = 0;
     /**#@-*/
 
-
     /**#@+
      * Constant for metadata array key
      */
     const KEY_EXPIRE_TIME = 'expiry';
     /**#@-*/
-
 
     /**
      * @var CookieScopeInterface
@@ -120,7 +118,6 @@ class PhpCookieManager implements CookieManagerInterface
         );
 
         if (!$phpSetcookieSuccess) {
-
             $params['name'] = $name;
             if ($value == '') {
                 throw new FailureToSendException('Unable to delete the cookie with cookieName = %name', $params);

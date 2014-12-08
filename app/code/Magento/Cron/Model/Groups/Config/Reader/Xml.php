@@ -17,7 +17,7 @@ class Xml extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/group' => 'id');
+    protected $_idAttributes = ['/config/group' => 'id'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -35,7 +35,7 @@ class Xml extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Cron\Model\Groups\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'cron_groups.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

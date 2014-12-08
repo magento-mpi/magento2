@@ -17,10 +17,10 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
-            array($logger)
+            [$logger]
         );
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Service\V1\CustomerAccountService'
@@ -58,9 +58,9 @@ class ReturnsTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function isResponseContainDataProvider()
     {
-        return array(
-            array('rma/returns/addlabel', 'class="col carrier">CarrierTitle</td>'),
-            array('rma/returns/dellabel', 'class="col carrier">CarrierTitle</td>')
-        );
+        return [
+            ['rma/returns/addlabel', 'class="col carrier">CarrierTitle</td>'],
+            ['rma/returns/dellabel', 'class="col carrier">CarrierTitle</td>']
+        ];
     }
 }

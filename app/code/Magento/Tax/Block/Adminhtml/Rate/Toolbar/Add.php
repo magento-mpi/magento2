@@ -42,7 +42,7 @@ class Add extends \Magento\Backend\Block\Template implements \Magento\Backend\Bl
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
         \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
-        array $data = array()
+        array $data = []
     ) {
         $this->buttonList = $buttonList;
         $this->toolbar = $toolbar;
@@ -74,11 +74,11 @@ class Add extends \Magento\Backend\Block\Template implements \Magento\Backend\Bl
     {
         $this->buttonList->add(
             'add',
-            array(
+            [
                 'label' => __('Add New Tax Rate'),
                 'onclick' => 'window.location.href=\'' . $this->getUrl('tax/rate/add') . '\'',
                 'class' => 'add primary add-tax-rate'
-            )
+            ]
         );
 
         $this->toolbar->pushButtons($this, $this->buttonList);

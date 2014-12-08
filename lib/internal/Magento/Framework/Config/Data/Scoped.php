@@ -42,14 +42,14 @@ class Scoped extends \Magento\Framework\Config\Data
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array();
+    protected $_scopePriorityScheme = [];
 
     /**
      * Loaded scopes
      *
      * @var array
      */
-    protected $_loadedScopes = array();
+    protected $_loadedScopes = [];
 
     /**
      * Constructor

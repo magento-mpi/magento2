@@ -37,14 +37,14 @@ class GiftCardProduct extends InjectableFixture
         'sku' => 'sku_test_product_giftcard_%isolation%',
         'giftcard_type' => 'Virtual',
         'giftcard_amounts' => [
-            1 => ['price' => 120,],
-            2 => ['price' => 150,]
+            1 => ['price' => 120],
+            2 => ['price' => 150],
         ],
         'quantity_and_stock_status' => [
             'qty' => 333.0000,
             'is_in_stock' => 'In Stock',
         ],
-        'attribute_set_id' => ['dataSet' => 'default']
+        'attribute_set_id' => ['dataSet' => 'default'],
     ];
 
     protected $name = [
@@ -142,7 +142,7 @@ class GiftCardProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'autosettings'
+        'group' => 'autosettings',
     ];
 
     protected $is_redeemable = [

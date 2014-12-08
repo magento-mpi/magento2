@@ -32,7 +32,7 @@ class Delete extends \Magento\Customer\Controller\Adminhtml\Group
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
+                $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', ['id' => $id]));
                 return;
             }
         }

@@ -8,8 +8,8 @@
 namespace Magento\Tools\SampleData\Module\Review\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Review
@@ -120,7 +120,7 @@ class Review implements SetupInterface
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $row) {
             $storeId = [$this->storeManager->getStoreId()];
             $this->createRating($row['rating_code'], $storeId);
@@ -180,7 +180,7 @@ class Review implements SetupInterface
         )->setStoreId(
             $this->storeManager->getStoreId()
         )->setStores(
-            array($this->storeManager->getStoreId())
+            [$this->storeManager->getStoreId()]
         );
         return $review;
     }
@@ -244,7 +244,7 @@ class Review implements SetupInterface
                 2 => '2',
                 3 => '3',
                 4 => '4',
-                5 => '5'
+                5 => '5',
             ];
             foreach ($options as $key => $optionCode) {
                 $optionModel = $this->ratingOptionsFactory->create();

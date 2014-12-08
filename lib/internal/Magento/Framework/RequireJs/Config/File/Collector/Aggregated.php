@@ -82,7 +82,7 @@ class Aggregated implements CollectorInterface
         if (empty($filePath)) {
             throw new \InvalidArgumentException('File path must be specified');
         }
-        $files = array();
+        $files = [];
         if ($this->libDirectory->isExist($filePath)) {
             $filename = $this->libDirectory->getAbsolutePath($filePath);
             $files[] = $this->fileFactory->create($filename);

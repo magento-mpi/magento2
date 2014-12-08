@@ -8,8 +8,8 @@
 
 namespace Magento\TargetRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTargetRuleSuccessSaveMessage

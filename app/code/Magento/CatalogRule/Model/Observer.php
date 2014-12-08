@@ -11,18 +11,16 @@
  */
 namespace Magento\CatalogRule\Model;
 
-use Magento\Backend\Model\Session as BackendModelSession;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Resource\Product\Collection as ProductCollection;
-use Magento\CatalogRule\Model\Rule;
 use Magento\CatalogRule\Model\Rule\Product\Price;
-use Magento\Framework\Registry;
-use Magento\Framework\StoreManagerInterface;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Model\Session as CustomerModelSession;
 use Magento\Framework\Event\Observer as EventObserver;
+use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Framework\StoreManagerInterface;
 
 class Observer
 {
@@ -32,7 +30,7 @@ class Observer
      *
      * @var array
      */
-    protected $_rulePrices = array();
+    protected $_rulePrices = [];
 
     /**
      * Core registry
@@ -211,7 +209,7 @@ class Observer
      */
     public function flushPriceCache()
     {
-        $this->_rulePrices = array();
+        $this->_rulePrices = [];
     }
 
     /**
@@ -269,10 +267,10 @@ class Observer
             $date = $this->_localeDate->scopeTimeStamp($store);
         }
 
-        $productIds = array();
+        $productIds = [];
         /* @var $product Product */
         foreach ($collection as $product) {
-            $key = implode('|', array($date, $websiteId, $groupId, $product->getId()));
+            $key = implode('|', [$date, $websiteId, $groupId, $product->getId()]);
             if (!isset($this->_rulePrices[$key])) {
                 $productIds[] = $product->getId();
             }
@@ -286,7 +284,7 @@ class Observer
                 $productIds
             );
             foreach ($productIds as $productId) {
-                $key = implode('|', array($date, $websiteId, $groupId, $productId));
+                $key = implode('|', [$date, $websiteId, $groupId, $productId]);
                 $this->_rulePrices[$key] = isset($rulePrices[$productId]) ? $rulePrices[$productId] : false;
             }
         }

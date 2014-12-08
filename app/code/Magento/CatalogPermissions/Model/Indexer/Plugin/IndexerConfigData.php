@@ -63,7 +63,7 @@ class IndexerConfigData
         if (!$path && isset($data[$indexerId])) {
             unset($data[$indexerId]);
         } elseif ($path) {
-            list($firstKey, ) = explode('/', $path);
+            list($firstKey,) = explode('/', $path);
             if ($firstKey == $indexerId) {
                 $data = $default;
             }

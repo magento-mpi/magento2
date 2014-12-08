@@ -23,7 +23,7 @@ class BannersGrid extends Grid
      */
     protected $filters = [
         'banner_name' => [
-            'selector' => 'input[name="banner_name"]'
-        ]
+            'selector' => 'input[name="banner_name"]',
+        ],
     ];
 }

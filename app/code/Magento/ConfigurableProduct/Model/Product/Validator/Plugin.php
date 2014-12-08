@@ -8,11 +8,11 @@
 namespace Magento\ConfigurableProduct\Model\Product\Validator;
 
 use Closure;
-use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\ProductFactory;
-use Magento\Framework\Event\Manager;
 use Magento\Core\Helper;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Event\Manager;
 
 /**
  * Configurable product validation
@@ -91,12 +91,11 @@ class Plugin
      */
     protected function _validateProductVariations(Product $parentProduct, array $products, RequestInterface $request)
     {
-
         $this->eventManager->dispatch(
             'catalog_product_validate_variations_before',
-            array('product' => $parentProduct, 'variations' => $products)
+            ['product' => $parentProduct, 'variations' => $products]
         );
-        $validationResult = array();
+        $validationResult = [];
         foreach ($products as $productData) {
             $product = $this->productFactory->create();
             $product->setData('_edit_mode', true);

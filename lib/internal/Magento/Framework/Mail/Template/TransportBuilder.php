@@ -201,7 +201,7 @@ class TransportBuilder
     public function getTransport()
     {
         $this->prepareMessage();
-        $mailTransport = $this->_mailTransportFactory->create(array('message' => clone $this->message));
+        $mailTransport = $this->_mailTransportFactory->create(['message' => clone $this->message]);
         $this->reset();
 
         return $mailTransport;
@@ -245,10 +245,10 @@ class TransportBuilder
     protected function prepareMessage()
     {
         $template = $this->getTemplate();
-        $types = array(
+        $types = [
             \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT => \Magento\Framework\Mail\MessageInterface::TYPE_TEXT,
-            \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => \Magento\Framework\Mail\MessageInterface::TYPE_HTML
-        );
+            \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML => \Magento\Framework\Mail\MessageInterface::TYPE_HTML,
+        ];
 
         $body = $template->processTemplate();
         $this->message->setMessageType(

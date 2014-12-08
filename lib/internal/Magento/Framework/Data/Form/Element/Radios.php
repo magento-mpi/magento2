@@ -27,7 +27,7 @@ class Radios extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('radios');
@@ -68,7 +68,7 @@ class Radios extends AbstractElement
      */
     protected function _optionToHtml($option, $selected)
     {
-        $html = '<input type="radio"' . $this->serialize(array('name', 'class', 'style'));
+        $html = '<input type="radio"' . $this->serialize(['name', 'class', 'style']);
         if (is_array($option)) {
             $html .= 'value="' . $this->_escape(
                 $option['value']
@@ -85,7 +85,7 @@ class Radios extends AbstractElement
                 '</label>';
         } elseif ($option instanceof \Magento\Framework\Object) {
             $html .= 'id="' . $this->getHtmlId() . $option->getValue() . '"' . $option->serialize(
-                array('label', 'title', 'value', 'class', 'style')
+                ['label', 'title', 'value', 'class', 'style']
             );
             if (in_array($option->getValue(), $selected)) {
                 $html .= ' checked="checked"';

@@ -42,7 +42,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
 
         $this->model = $this->objectManager->create(
             'Magento\Framework\Mview\View\Changelog',
-            array('resource' => $this->resource)
+            ['resource' => $this->resource]
         );
         $this->model->setViewId('test_view_id_1');
         $this->model->create();
@@ -61,7 +61,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\Mview\View\Changelog $model */
         $model = $this->objectManager->create(
             'Magento\Framework\Mview\View\Changelog',
-            array('resource' => $this->resource)
+            ['resource' => $this->resource]
         );
         $model->setViewId('test_view_id_2');
         $changelogName = $this->resource->getTableName($model->getName());
@@ -79,13 +79,13 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->objectManager->create(
             'Magento\Framework\Mview\View\Changelog',
-            array('resource' => $this->resource)
+            ['resource' => $this->resource]
         );
         $model->setViewId('test_view_id_2');
         $model->create();
         $this->assertEquals(0, $model->getVersion());
         $changelogName = $this->resource->getTableName($model->getName());
-        $this->connection->insert($changelogName, array($model->getColumnName() => mt_rand(1, 200)));
+        $this->connection->insert($changelogName, [$model->getColumnName() => mt_rand(1, 200)]);
         $this->assertEquals($this->connection->lastInsertId($changelogName, 'version_id'), $model->getVersion());
         $model->drop();
     }
@@ -98,7 +98,7 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->model->getVersion());
         //the same that a table is empty
         $changelogName = $this->resource->getTableName($this->model->getName());
-        $this->connection->insert($changelogName, array('version_id' => 1, 'entity_id' => 1));
+        $this->connection->insert($changelogName, ['version_id' => 1, 'entity_id' => 1]);
         $this->assertEquals(1, $this->model->getVersion());
         $this->model->clear(1);
         $this->assertEquals(1, $this->model->getVersion()); //the same that a table is empty
@@ -112,13 +112,13 @@ class ChangelogTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->model->getVersion());
         //the same that a table is empty
         $changelogName = $this->resource->getTableName($this->model->getName());
-        $testChengelogData = array(
-            array('version_id' => 1, 'entity_id' => 1),
-            array('version_id' => 2, 'entity_id' => 1),
-            array('version_id' => 3, 'entity_id' => 2),
-            array('version_id' => 4, 'entity_id' => 3),
-            array('version_id' => 5, 'entity_id' => 1)
-        );
+        $testChengelogData = [
+            ['version_id' => 1, 'entity_id' => 1],
+            ['version_id' => 2, 'entity_id' => 1],
+            ['version_id' => 3, 'entity_id' => 2],
+            ['version_id' => 4, 'entity_id' => 3],
+            ['version_id' => 5, 'entity_id' => 1],
+        ];
         foreach ($testChengelogData as $data) {
             $this->connection->insert($changelogName, $data);
         }

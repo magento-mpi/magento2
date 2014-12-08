@@ -151,11 +151,11 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getTypeIds()
     {
-        return array(
+        return [
             \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS,
             \Magento\TargetRule\Model\Rule::UP_SELLS,
             \Magento\TargetRule\Model\Rule::CROSS_SELLS
-        );
+        ];
     }
 
     /**
@@ -180,22 +180,22 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'customer_group_id = :customer_group_id'
         );
 
-        $segmentsIds = array_merge(array(0), $this->_getSegmentsIdsFromCurrentCustomer());
-        $bind = array(
+        $segmentsIds = array_merge([0], $this->_getSegmentsIdsFromCurrentCustomer());
+        $bind = [
             ':type_id' => $object->getType(),
             ':entity_id' => $object->getProduct()->getEntityId(),
             ':store_id' => $object->getStoreId(),
-            ':customer_group_id' => $object->getCustomerGroupId()
-        );
+            ':customer_group_id' => $object->getCustomerGroupId(),
+        ];
 
         $segmentsList = $adapter->fetchAll($select, $bind);
 
-        $foundSegmentIndexes = array();
+        $foundSegmentIndexes = [];
         foreach ($segmentsList as $segment) {
             $foundSegmentIndexes[] = $segment['customer_segment_id'];
         }
 
-        $productIds = array();
+        $productIds = [];
         foreach ($segmentsIds as $segmentId) {
             if (in_array($segmentId, $foundSegmentIndexes)) {
                 $productIds = array_merge(
@@ -233,7 +233,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _matchProductIdsBySegmentId($object, $segmentId)
     {
         $limit = $object->getLimit() + $this->getOverfillLimit();
-        $productIds = array();
+        $productIds = [];
         $ruleCollection = $object->getRuleCollection();
         if ($this->_customerSegmentData->isEnabled()) {
             $ruleCollection->addSegmentFilter($segmentId);
@@ -246,7 +246,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if (!$rule->checkDateForStore($object->getStoreId())) {
                 continue;
             }
-            $excludeProductIds = array_merge(array($object->getProduct()->getEntityId()), $productIds);
+            $excludeProductIds = array_merge([$object->getProduct()->getEntityId()], $productIds);
             $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $excludeProductIds);
             $productIds = array_merge($productIds, $resultIds);
         }
@@ -291,7 +291,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param array $excludeProductIds
      * @return array
      */
-    protected function _getProductIdsByRule($rule, $object, $limit, $excludeProductIds = array())
+    protected function _getProductIdsByRule($rule, $object, $limit, $excludeProductIds = [])
     {
         $rule->afterLoad();
 
@@ -308,7 +308,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $actionBind = $rule->getActionSelectBind();
 
         if (is_null($actionSelect)) {
-            $actionBind = array();
+            $actionBind = [];
             $actionSelect = $rule->getActions()->getConditionForCollection($collection, $object, $actionBind);
             $rule->setActionSelect((string)$actionSelect)->setActionSelectBind($actionBind)->save();
         }
@@ -317,7 +317,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $collection->getSelect()->where($actionSelect);
         }
         if ($excludeProductIds) {
-            $collection->addFieldToFilter('entity_id', array('nin' => $excludeProductIds));
+            $collection->addFieldToFilter('entity_id', ['nin' => $excludeProductIds]);
         }
 
         $select = $collection->getSelect();
@@ -340,9 +340,9 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _prepareRuleActionSelectBind($object, $actionBind)
     {
-        $bind = array();
+        $bind = [];
         if (!is_array($actionBind)) {
-            $actionBind = array();
+            $actionBind = [];
         }
 
         foreach ($actionBind as $bindData) {
@@ -356,7 +356,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if (!empty($bindData['callback'])) {
                 $callbacks = $bindData['callback'];
                 if (!is_array($callbacks)) {
-                    $callbacks = array($callbacks);
+                    $callbacks = [$callbacks];
                 }
                 foreach ($callbacks as $callback) {
                     if (is_array($callback)) {
@@ -386,14 +386,14 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function saveFlag($object, $segmentId = null)
     {
-        $data = array(
+        $data = [
             'type_id' => $object->getType(),
             'entity_id' => $object->getProduct()->getEntityId(),
             'store_id' => $object->getStoreId(),
             'customer_group_id' => $object->getCustomerGroupId(),
             'customer_segment_id' => $segmentId,
-            'flag' => 1
-        );
+            'flag' => 1,
+        ];
 
         $this->_getWriteAdapter()->insertOnDuplicate($this->getMainTable(), $data);
 
@@ -468,7 +468,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param array $callback
      * @return string
      */
-    public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = array())
+    public function getOperatorBindCondition($field, $attribute, $operator, &$bind, $callback = [])
     {
         $field = $this->_getReadAdapter()->quoteIdentifier($field);
         $bindName = ':targetrule_bind_' . $this->_bindIncrement++;
@@ -493,14 +493,14 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             case '()':
                 $condition = $this->getReadConnection()->prepareSqlCondition(
                     $bindName,
-                    array('finset' => new \Zend_Db_Expr($field))
+                    ['finset' => new \Zend_Db_Expr($field)]
                 );
                 break;
 
             case '!()':
                 $condition = $this->getReadConnection()->prepareSqlCondition(
                     $bindName,
-                    array('finset' => new \Zend_Db_Expr($field))
+                    ['finset' => new \Zend_Db_Expr($field)]
                 );
                 $condition = sprintf('NOT (%s)', $condition);
                 break;
@@ -510,7 +510,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 break;
         }
 
-        $bind[] = array('bind' => $bindName, 'field' => $attribute, 'callback' => $callback);
+        $bind[] = ['bind' => $bindName, 'field' => $attribute, 'callback' => $callback];
 
         return $condition;
     }
@@ -577,10 +577,10 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $this->_indexPool->get($typeId)->cleanIndex($store);
             }
 
-            $where = is_null($store) ? '' : array('store_id IN(?)' => $store);
+            $where = is_null($store) ? '' : ['store_id IN(?)' => $store];
             $adapter->delete($this->getMainTable(), $where);
         } else {
-            $where = array('type_id=?' => $typeId);
+            $where = ['type_id=?' => $typeId];
             if (!is_null($store)) {
                 $where['store_id IN(?)'] = $store;
             }
@@ -603,7 +603,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_indexPool->get($typeId)->deleteProductFromIndex($productId);
         }
         if (!is_null($productId)) {
-            $where = array('entity_id = ?' => $productId);
+            $where = ['entity_id = ?' => $productId];
             $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
         }
         return $this;
@@ -620,7 +620,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getWriteAdapter();
 
-        $where = array('entity_id IN(?)' => $productIds);
+        $where = ['entity_id IN(?)' => $productIds];
 
         if (is_null($typeId)) {
             foreach ($this->getTypeIds() as $typeId) {
@@ -643,7 +643,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param array|int|string $ruleIds
      * @return $this
      */
-    public function removeProductIndex($productId = null, $ruleIds = array())
+    public function removeProductIndex($productId = null, $ruleIds = [])
     {
         $this->_rule->unbindRuleFromEntity($ruleIds, $productId, 'product');
         return $this;
@@ -681,7 +681,7 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _getSegmentsIdsFromCurrentCustomer()
     {
-        $segmentIds = array();
+        $segmentIds = [];
         if ($this->_customerSegmentData->isEnabled()) {
             $customer = $this->_coreRegistry->registry('segment_customer');
             if (!$customer) {

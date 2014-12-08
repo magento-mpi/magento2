@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customer and Customer Address Attributes Edit JavaScript Block
  *
@@ -38,7 +37,7 @@ class Js extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\CustomerCustomAttributes\Helper\Data $customerData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_customerData = $customerData;

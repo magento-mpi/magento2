@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-
 class BackendConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetKey()

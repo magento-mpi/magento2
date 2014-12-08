@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Api;
 
-
 interface MetadataObjectInterface
 {
     /**

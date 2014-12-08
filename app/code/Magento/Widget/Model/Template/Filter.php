@@ -103,7 +103,7 @@ class Filter extends \Magento\Cms\Model\Template\Filter
         }
 
         // define widget block and check the type is instance of Widget Interface
-        $widget = $this->_layout->createBlock($type, $name, array('data' => $params));
+        $widget = $this->_layout->createBlock($type, $name, ['data' => $params]);
         if (!$widget instanceof \Magento\Widget\Block\BlockInterface) {
             return '';
         }

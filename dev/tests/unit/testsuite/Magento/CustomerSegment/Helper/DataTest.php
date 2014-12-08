@@ -31,16 +31,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
+        $this->_formKeyMock = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
         $this->_scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection',
-            array('toOptionArray'),
-            array(),
+            ['toOptionArray'],
+            [],
             '',
             false
         );
-        $helperContext = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,
             $this->_scopeConfig,
@@ -79,13 +79,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'toOptionArray'
         )->will(
-            $this->returnValue(array(10 => 'Devs', 20 => 'QAs'))
+            $this->returnValue([10 => 'Devs', 20 => 'QAs'])
         );
 
         $fieldset = $this->getMock(
             'Magento\Framework\Data\Form\Element\Fieldset',
-            array('addField'),
-            array(),
+            ['addField'],
+            [],
             '',
             false
         );
@@ -106,8 +106,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $form = $this->getMock(
             'Magento\Framework\Data\Form',
-            array('getElement', 'getHtmlIdPrefix'),
-            array(),
+            ['getElement', 'getHtmlIdPrefix'],
+            [],
             '',
             false
         );
@@ -126,8 +126,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
-            array('addFieldMap', 'addFieldDependence'),
-            array(),
+            ['addFieldMap', 'addFieldDependence'],
+            [],
             '',
             false
         );
@@ -168,10 +168,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function addSegmentFieldsToFormDataProvider()
     {
-        return array(
-            'all segments' => array(array()),
-            'specific segments' => array(array('customer_segment_ids' => array(123, 456)))
-        );
+        return [
+            'all segments' => [[]],
+            'specific segments' => [['customer_segment_ids' => [123, 456]]]
+        ];
     }
 
     public function testAddSegmentFieldsToFormDisabled()
@@ -188,11 +188,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_segmentCollection->expects($this->never())->method('toOptionArray');
 
-        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -200,13 +200,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $factory,
             $collectionFactory,
             $this->_formKeyMock,
-            array('html_id_prefix' => 'pfx_')
+            ['html_id_prefix' => 'pfx_']
         );
         $data = new \Magento\Framework\Object();
         $dependencies = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
-            array('addFieldMap', 'addFieldDependence'),
-            array(),
+            ['addFieldMap', 'addFieldDependence'],
+            [],
             '',
             false
         );

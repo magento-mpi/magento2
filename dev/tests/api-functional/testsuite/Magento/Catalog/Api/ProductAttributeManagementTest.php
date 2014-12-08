@@ -8,9 +8,9 @@
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Webapi\Exception as HTTPExceptionCodes;
-use \Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\Helper\Bootstrap;
+use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -25,12 +25,12 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeSetId . '/attributes',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributes'
+                'operation' => self::SERVICE_NAME . 'GetAttributes',
             ],
         ];
         $attributes = $this->_webApiCall($serviceInfo, ['attributeSetId' => $attributeSetId]);
@@ -138,17 +138,16 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' =>
-                    self::RESOURCE_PATH .
+                'resourcePath' => self::RESOURCE_PATH .
                     '/' . $payload['attributeSetId'] .
                     '/attributes/' .
                     $payload['attributeCode'],
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Unassign'
+                'operation' => self::SERVICE_NAME . 'Unassign',
             ],
         ];
         $this->assertTrue($this->_webApiCall(
@@ -176,12 +175,12 @@ class ProductAttributeManagementTest extends \Magento\TestFramework\TestCase\Web
         return [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/attributes',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Assign'
+                'operation' => self::SERVICE_NAME . 'Assign',
             ],
         ];
     }

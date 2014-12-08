@@ -27,7 +27,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     public function testCollectQuote()
     {
-        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
         $helperMock->expects($this->any())->method('getWrappingTaxClass')->will($this->returnValue(2));
         $addressMock = $this->_prepareData();
 
@@ -45,23 +45,23 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMockBuilder(
             'Magento\Catalog\Model\Product'
         )->disableOriginalConstructor()->setMethods(
-            array('isVirtual', '__wakeup')
+            ['isVirtual', '__wakeup']
         )->getMock();
         $storeMock = $this->getMockBuilder(
             'Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('convertPrice', 'getId', '__wakeup')
+            ['convertPrice', 'getId', '__wakeup']
         )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
-            array('load', 'setStoreId', 'getBasePrice', '__wakeup'),
-            array(),
+            ['load', 'setStoreId', 'getBasePrice', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            array(
+            [
                 'getAddressType',
                 'getQuote',
                 '__wakeup',
@@ -69,8 +69,8 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
                 'setGwItemsBaseTaxAmount',
                 'setGwItemsTaxAmount',
                 'getExtraTaxableDetails',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -78,13 +78,13 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnValue(10));
         $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
         $quote = new \Magento\Framework\Object(
-            array(
+            [
                 'isMultishipping' => false,
                 'store' => $storeMock,
                 'billingAddress' => null,
                 'customerTaxClassId' => null,
                 'tax_class_id' => 2,
-            )
+            ]
         );
 
         $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
@@ -99,7 +99,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
                 'getProduct',
                 'getQty',
             ],
-            array(),
+            [],
             '',
             false
         );
@@ -120,7 +120,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAllNonNominalItems'
         )->will(
-            $this->returnValue(array($item))
+            $this->returnValue([$item])
         );
 
         $expected = [

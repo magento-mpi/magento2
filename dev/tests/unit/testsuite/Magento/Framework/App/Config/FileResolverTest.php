@@ -41,22 +41,22 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $this->iteratorFactory = $this->getMock(
             'Magento\Framework\Config\FileIteratorFactory',
-            array(),
-            array('getPath'),
+            [],
+            ['getPath'],
             '',
             false
         );
         $this->filesystem = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryRead'),
-            array(),
+            ['getDirectoryRead'],
+            [],
             '',
             false
         );
         $this->moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array(),
-            array('getConfigurationFiles'),
+            [],
+            ['getConfigurationFiles'],
             '',
             false
         );
@@ -80,8 +80,8 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $scope = 'primary';
         $directory = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array('search', 'getRelativePath'),
-            array(),
+            ['search', 'getRelativePath'],
+            [],
             '',
             false
         );
@@ -167,10 +167,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function providerGet()
     {
-        return array(
-            array('di.xml', array('di.xml', 'anotherfolder/di.xml')),
-            array('no_files.xml', array()),
-            array('one_file.xml', array('one_file.xml'))
-        );
+        return [
+            ['di.xml', ['di.xml', 'anotherfolder/di.xml']],
+            ['no_files.xml', []],
+            ['one_file.xml', ['one_file.xml']]
+        ];
     }
 }

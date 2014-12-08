@@ -8,9 +8,9 @@
 
 namespace Magento\SalesRule\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class DeleteAllSalesRuleStep

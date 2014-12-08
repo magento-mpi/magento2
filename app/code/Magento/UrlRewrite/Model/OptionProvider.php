@@ -31,10 +31,10 @@ class OptionProvider implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             0 => __('No'),
             self::TEMPORARY => __('Temporary (302)'),
             self::PERMANENT => __('Permanent (301)'),
-        );
+        ];
     }
 }

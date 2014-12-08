@@ -7,6 +7,6 @@
  */
 /** @var $this \Magento\Rma\Block\Order\Button */
 ?>
-<?php if($this->helper('Magento\Rma\Helper\Data')->canCreateRma($this->getOrder())): ?>
+<?php if ($this->helper('Magento\Rma\Helper\Data')->canCreateRma($this->getOrder())): ?>
     <a href="<?php echo $this->helper('Magento\Rma\Helper\Data')->getReturnCreateUrl($this->getOrder()) ?>" class="action return"><span><?php echo __('Return') ?></span></a>
 <?php endif;?>

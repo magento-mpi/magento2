@@ -77,7 +77,7 @@ class Matrix extends \Magento\Backend\Block\Template
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix,
         ProductRepositoryInterface $productRepository,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_configurableType = $configurableType;
@@ -133,7 +133,7 @@ class Matrix extends \Magento\Backend\Block\Template
      */
     public function getEditProductUrl($id)
     {
-        return $this->getUrl('catalog/*/edit', array('id' => $id));
+        return $this->getUrl('catalog/*/edit', ['id' => $id]);
     }
 
     /**
@@ -152,10 +152,10 @@ class Matrix extends \Magento\Backend\Block\Template
                     if (isset($configurableData[$key])) {
                         $attributes[$key] = array_replace_recursive($attribute, $configurableData[$key]);
                         $attributes[$key]['values'] = array_merge(
-                            isset($attribute['values']) ? $attribute['values'] : array(),
+                            isset($attribute['values']) ? $attribute['values'] : [],
                             isset($configurableData[$key]['values'])
                             ? array_filter($configurableData[$key]['values'])
-                            : array()
+                            : []
                         );
                     }
                 }
@@ -182,9 +182,9 @@ class Matrix extends \Magento\Backend\Block\Template
      */
     public function getAssociatedProducts()
     {
-        $productByUsedAttributes = array();
+        $productByUsedAttributes = [];
         foreach ($this->_getAssociatedProducts() as $product) {
-            $keys = array();
+            $keys = [];
             foreach ($this->getUsedAttributes() as $attribute) {
                 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                 $keys[] = $product->getData($attribute->getAttributeCode());
@@ -208,7 +208,7 @@ class Matrix extends \Magento\Backend\Block\Template
             // form data overrides any relations stored in database
             return $this->_configurableType->getUsedProducts($product);
         }
-        $products = array();
+        $products = [];
         foreach ($ids as $productId) {
             try {
                 $products[] = $this->productRepository->getById($productId);

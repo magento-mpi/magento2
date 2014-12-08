@@ -7,12 +7,12 @@
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\NotifySender;
-use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Invoice;
-use Magento\Sales\Model\Order\Email\Container\Template;
-use Magento\Sales\Model\Order\Email\Container\InvoiceIdentity;
 use Magento\Payment\Helper\Data as PaymentHelper;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Email\Container\InvoiceIdentity;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\NotifySender;
+use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Resource\Order\Invoice as InvoiceResource;
 
 class InvoiceSender extends NotifySender
@@ -64,7 +64,7 @@ class InvoiceSender extends NotifySender
                 'comment' => $comment,
                 'billing' => $order->getBillingAddress(),
                 'payment_html' => $this->getPaymentHtml($order),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
         $result = $this->checkAndSend($order, $notify);

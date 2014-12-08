@@ -19,12 +19,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function mapResources(array $resources)
     {
-        $output = array();
+        $output = [];
         foreach ($resources as $resource) {
-            $item = array();
+            $item = [];
             $item['attr']['data-id'] = $resource['id'];
             $item['data'] = $resource['title'];
-            $item['children'] = array();
+            $item['children'] = [];
             if (isset($resource['children'])) {
                 $item['state'] = 'open';
                 $item['children'] = $this->mapResources($resource['children']);

@@ -23,12 +23,12 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $this->_attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_model = new \Magento\Eav\Model\Entity\Attribute\Backend\ArrayBackend($logger);
         $this->_model->setAttribute($this->_attribute);
     }
@@ -39,13 +39,13 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     public function testValidate($data)
     {
         $this->_attribute->expects($this->atLeastOnce())->method('getAttributeCode')->will($this->returnValue('code'));
-        $product = new \Magento\Framework\Object(array('code' => $data));
+        $product = new \Magento\Framework\Object(['code' => $data]);
         $this->_model->validate($product);
         $this->assertEquals('1,2,3', $product->getCode());
     }
 
     public static function attributeValueDataProvider()
     {
-        return array(array(array(1, 2, 3)), array('1,2,3'));
+        return [[[1, 2, 3]], ['1,2,3']];
     }
 }

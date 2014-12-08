@@ -7,21 +7,21 @@
  */
 namespace Magento\Checkout\Controller;
 
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\RequestInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
-use Magento\Customer\Api\AccountManagementInterface;
 
 class Onepage extends Action
 {
     /**
      * @var array
      */
-    protected $_sectionUpdateFunctions = array(
+    protected $_sectionUpdateFunctions = [
         'payment-method' => '_getPaymentMethodsHtml',
         'shipping-method' => '_getShippingMethodsHtml',
-        'review' => '_getReviewHtml'
-    );
+        'review' => '_getReviewHtml',
+    ];
 
     /**
      * @var \Magento\Sales\Model\Order
@@ -145,7 +145,7 @@ class Onepage extends Action
             true
         ) && !in_array(
             $action,
-            array('index', 'progress')
+            ['index', 'progress']
         )
         ) {
             $this->_ajaxRedirectResponse();

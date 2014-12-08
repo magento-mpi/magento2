@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price;
 use Magento\Catalog\Model\Product\Option\Value;
+use Magento\Catalog\Pricing\Price;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 
 /**
@@ -56,7 +56,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
                 $requiredMinimalOptions[] = [
                     'option_id' => $optionItem->getId(),
                     'type' => $optionItem->getType(),
-                    'min' => $min
+                    'min' => $min,
                 ];
             }
         }
@@ -134,7 +134,7 @@ class CustomOptionPrice extends AbstractPrice implements CustomOptionPriceInterf
                     $price = $optionValue->getPrice($optionValue->getPriceType() == Value::TYPE_PERCENT);
                     $this->priceOptions[$optionValue->getId()][$price] = [
                         'base_amount' => $price,
-                        'adjustment' => $this->getCustomAmount($price)->getValue()
+                        'adjustment' => $this->getCustomAmount($price)->getValue(),
                     ];
                 }
             }

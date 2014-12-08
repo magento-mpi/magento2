@@ -70,11 +70,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidConfigFilesDataProvider()
     {
-        return array(
-            array('config_absent_attribute_name_attrname.xml'),
-            array('config_absent_attribute_group_attrname.xml'),
-            array('config_absent_static_attribute_attrname.xml'),
-            array('config_absent_custom_attribute_attrname.xml')
-        );
+        return [
+            ['config_absent_attribute_name_attrname.xml'],
+            ['config_absent_attribute_group_attrname.xml'],
+            ['config_absent_static_attribute_attrname.xml'],
+            ['config_absent_custom_attribute_attrname.xml']
+        ];
     }
 }

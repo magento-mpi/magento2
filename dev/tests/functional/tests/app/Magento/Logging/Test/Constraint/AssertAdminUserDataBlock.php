@@ -8,9 +8,9 @@
 
 namespace Magento\Logging\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Logging\Test\Page\Adminhtml\Details;
 use Magento\Logging\Test\Fixture\Logging;
+use Magento\Logging\Test\Page\Adminhtml\Details;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertAdminUserDataBlock
@@ -56,7 +56,7 @@ class AssertAdminUserDataBlock extends AbstractConstraint
         if (!empty($result)) {
             foreach ($result as $key => $value) {
                 $errorMessages[] = "Data in " . $key . " field is not equal.\nExpected: " . $fixtureData[$key]
-                    . "\nActual: " . $value ;
+                    . "\nActual: " . $value;
             }
         }
         return $errorMessages;

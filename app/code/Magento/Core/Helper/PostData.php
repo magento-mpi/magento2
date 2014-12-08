@@ -20,12 +20,12 @@ class PostData extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $data
      * @return string
      */
-    public function getPostData($url, array $data = array())
+    public function getPostData($url, array $data = [])
     {
         if (!isset($data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED])) {
             $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getEncodedUrl();
         }
-        return json_encode(array('action' => $url, 'data' => $data));
+        return json_encode(['action' => $url, 'data' => $data]);
     }
 
     /**

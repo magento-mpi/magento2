@@ -9,7 +9,6 @@ namespace Magento\Search\Model;
 
 class QueryResult
 {
-
     /**
      * @var string
      */

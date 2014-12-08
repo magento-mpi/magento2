@@ -34,7 +34,7 @@ class RemoveAccents implements \Zend_Filter_Interface
         static $replacements;
 
         if (empty($replacements[$this->german])) {
-            $substitutions = array(
+            $substitutions = [
                 // single ISO-8859-1 letters
                 192 => 'A',
                 193 => 'A',
@@ -155,23 +155,23 @@ class RemoveAccents implements \Zend_Filter_Interface
                 230 => 'ae',
                 140 => 'Oe',
                 156 => 'oe',
-                223 => 'ss'
-            );
+                223 => 'ss',
+            ];
 
             if ($this->german) {
                 // umlauts
-                $germanReplacements = array(
+                $germanReplacements = [
                     196 => 'Ae',
                     228 => 'ae',
                     214 => 'Oe',
                     246 => 'oe',
                     220 => 'Ue',
-                    252 => 'ue'
-                );
+                    252 => 'ue',
+                ];
                 $substitutions = $germanReplacements + $substitutions;
             }
 
-            $replacements[$this->german] = array();
+            $replacements[$this->german] = [];
             foreach ($substitutions as $code => $value) {
                 $replacements[$this->german][$code < 256 ? chr($code) : '&#' . $code . ';'] = $value;
             }

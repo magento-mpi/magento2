@@ -47,7 +47,7 @@ class Theme implements RuleInterface
                 'Parameter "theme" should be specified and should implement the theme interface.'
             );
         }
-        $result = array();
+        $result = [];
         /** @var $theme ThemeInterface */
         $theme = $params['theme'];
         unset($params['theme']);

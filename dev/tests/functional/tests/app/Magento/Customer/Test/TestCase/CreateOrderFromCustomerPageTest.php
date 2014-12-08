@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\TestCase\Scenario;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Mtf\TestCase\Scenario;
 
 /**
  * Test Creation for CreateOrderFromCustomerPage

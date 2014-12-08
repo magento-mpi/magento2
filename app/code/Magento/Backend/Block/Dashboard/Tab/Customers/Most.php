@@ -29,7 +29,7 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -57,12 +57,12 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
         if ($this->getParam('store')) {
             $collection->addAttributeToFilter('store_id', $this->getParam('store'));
             $storeFilter = 1;
-        } else if ($this->getParam('website')) {
+        } elseif ($this->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
-        } else if ($this->getParam('group')) {
+            $collection->addAttributeToFilter('store_id', ['in' => $storeIds]);
+        } elseif ($this->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
-            $collection->addAttributeToFilter('store_id', array('in' => $storeIds));
+            $collection->addAttributeToFilter('store_id', ['in' => $storeIds]);
         }
 
         $collection->addSumAvgTotals($storeFilter)->orderByTotalAmount();
@@ -77,11 +77,11 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array('header' => __('Customer'), 'sortable' => false, 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Customer'), 'sortable' => false, 'index' => 'name']);
 
         $this->addColumn(
             'orders_count',
-            array('header' => __('Orders'), 'sortable' => false, 'index' => 'orders_count', 'type' => 'number')
+            ['header' => __('Orders'), 'sortable' => false, 'index' => 'orders_count', 'type' => 'number']
         );
 
         $baseCurrencyCode = (string)$this->_storeManager->getStore(
@@ -90,26 +90,26 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
 
         $this->addColumn(
             'orders_avg_amount',
-            array(
+            [
                 'header' => __('Average'),
                 'align' => 'right',
                 'sortable' => false,
                 'type' => 'currency',
                 'currency_code' => $baseCurrencyCode,
                 'index' => 'orders_avg_amount'
-            )
+            ]
         );
 
         $this->addColumn(
             'orders_sum_amount',
-            array(
+            [
                 'header' => __('Total'),
                 'align' => 'right',
                 'sortable' => false,
                 'type' => 'currency',
                 'currency_code' => $baseCurrencyCode,
                 'index' => 'orders_sum_amount'
-            )
+            ]
         );
 
         $this->setFilterVisibility(false);
@@ -123,6 +123,6 @@ class Most extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('customer/index/edit', array('id' => $row->getCustomerId()));
+        return $this->getUrl('customer/index/edit', ['id' => $row->getCustomerId()]);
     }
 }

@@ -8,7 +8,6 @@
 
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment;
 
-use Magento\CustomerSegment\Block\Adminhtml\Customersegment\Grid;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Object;
 

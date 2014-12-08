@@ -18,21 +18,21 @@ class WordsFinder
      *
      * @var array
      */
-    protected $_binaryExtensions = array('jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip');
+    protected $_binaryExtensions = ['jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip'];
 
     /**
      * Words to search for
      *
      * @var array
      */
-    protected $_words = array();
+    protected $_words = [];
 
     /**
      * Map of whitelisted paths to whitelisted words
      *
      * @var array
      */
-    protected $_whitelist = array();
+    protected $_whitelist = [];
 
     /**
      * Path to base dir, used to calculate relative paths
@@ -55,7 +55,7 @@ class WordsFinder
 
         // Load config files
         if (!is_array($configFiles)) {
-            $configFiles = array($configFiles);
+            $configFiles = [$configFiles];
         }
         foreach ($configFiles as $configFile) {
             $this->_loadConfig($configFile);
@@ -68,7 +68,7 @@ class WordsFinder
             $configFile = str_replace('\\', '/', realpath($configFile));
             if (strncmp($basePath, $configFile, $basePathLen) === 0) {
                 // File is inside base dir
-                $this->_whitelist[$this->_getRelPath($configFile)] = array();
+                $this->_whitelist[$this->_getRelPath($configFile)] = [];
             }
         }
 
@@ -109,7 +109,7 @@ class WordsFinder
      */
     protected function _extractWords(\SimpleXMLElement $configXml)
     {
-        $words = array();
+        $words = [];
         $nodes = $configXml->xpath('//config/words/word');
         foreach ($nodes as $node) {
             $words[] = (string)$node;
@@ -131,7 +131,7 @@ class WordsFinder
     protected function _extractWhitelist(\SimpleXMLElement $configXml)
     {
         // Load whitelist entries
-        $whitelist = array();
+        $whitelist = [];
         $nodes = $configXml->xpath('//config/whitelist/item');
         foreach ($nodes as $node) {
             $path = $node->xpath('path');
@@ -143,7 +143,7 @@ class WordsFinder
             $path = (string)$path[0];
 
             // Words
-            $words = array();
+            $words = [];
             $wordNodes = $node->xpath('word');
             if ($wordNodes) {
                 foreach ($wordNodes as $wordNode) {
@@ -171,7 +171,7 @@ class WordsFinder
     protected function _normalizeWhitelistPaths()
     {
         $whitelist = $this->_whitelist;
-        $this->_whitelist = array();
+        $this->_whitelist = [];
         foreach ($whitelist as $whitelistFile => $whitelistWords) {
             $whitelistFile = str_replace('\\', '/', $whitelistFile);
             $this->_whitelist[$whitelistFile] = $whitelistWords;
@@ -189,7 +189,7 @@ class WordsFinder
     {
         $foundWords = $this->_findWords($file);
         if (!$foundWords) {
-            return array();
+            return [];
         }
 
         $relPath = substr($file, strlen($this->_baseDir) + 1);
@@ -210,7 +210,7 @@ class WordsFinder
         $relPath = $this->_getRelPath($file);
         $contents = $checkContents ? file_get_contents($file) : '';
 
-        $foundWords = array();
+        $foundWords = [];
         foreach ($this->_words as $word) {
             if (stripos($relPath, $word) !== false || stripos($contents, $word) !== false) {
                 $foundWords[] = $word;
@@ -247,7 +247,7 @@ class WordsFinder
 
             if (!$whitelistWords) {
                 // All words are permitted there
-                return array();
+                return [];
             }
             $foundWords = array_diff($foundWords, $whitelistWords);
         }

@@ -56,12 +56,12 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     /**
      * @var \Magento\Sales\Model\Quote\Item\AbstractItem[]
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * List of custom options
@@ -96,7 +96,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->productRepository = $productRepository;
@@ -228,7 +228,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $messagesExists = $this->getMessage(false);
         if (!is_array($messages)) {
-            $messages = array($messages);
+            $messages = [$messages];
         }
         foreach ($messages as $message) {
             if (!in_array($message, $messagesExists)) {
@@ -289,7 +289,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $this->unsMessage();
         // For older compatibility, when we kept message inside data array
-        $this->_messages = array();
+        $this->_messages = [];
         return $this;
     }
 
@@ -619,8 +619,8 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
     {
         $this->setId(null);
         $this->_parentItem = null;
-        $this->_children = array();
-        $this->_messages = array();
+        $this->_children = [];
+        $this->_messages = [];
         return $this;
     }
 

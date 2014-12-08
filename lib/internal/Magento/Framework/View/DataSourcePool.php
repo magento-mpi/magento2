@@ -26,14 +26,14 @@ class DataSourcePool
      *
      * @var array
      */
-    protected $dataSources = array();
+    protected $dataSources = [];
 
     /**
      * Assignments
      *
      * @var array
      */
-    protected $assignments = array();
+    protected $assignments = [];
 
     /**
      * Constructors
@@ -56,7 +56,6 @@ class DataSourcePool
     public function add($name, $class)
     {
         if (!isset($this->dataSources[$name])) {
-
             if (!class_exists($class)) {
                 throw new \InvalidArgumentException(__('Invalid Data Source class name: ' . $class));
             }
@@ -108,6 +107,6 @@ class DataSourcePool
      */
     public function getNamespaceData($namespace)
     {
-        return isset($this->assignments[$namespace]) ? $this->assignments[$namespace] : array();
+        return isset($this->assignments[$namespace]) ? $this->assignments[$namespace] : [];
     }
 }

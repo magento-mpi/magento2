@@ -18,214 +18,214 @@ $table = $this->getConnection()->newTable(
     'payment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Payment Id'
 )->addColumn(
     'state',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     20,
-    array('nullable' => false),
+    ['nullable' => false],
     'State'
 )->addColumn(
     'customer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Customer Id'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Store Id'
 )->addColumn(
     'method_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'Method Code'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+    ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
     'Created At'
 )->addColumn(
     'updated_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_UPDATE),
+    ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_UPDATE],
     'Updated At'
 )->addColumn(
     'reference_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Reference Id'
 )->addColumn(
     'subscriber_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     150,
-    array(),
+    [],
     'Subscriber Name'
 )->addColumn(
     'start_datetime',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Start Datetime'
 )->addColumn(
     'internal_reference_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     42,
-    array('nullable' => false),
+    ['nullable' => false],
     'Internal Reference Id'
 )->addColumn(
     'schedule_description',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Schedule Description'
 )->addColumn(
     'suspension_threshold',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Suspension Threshold'
 )->addColumn(
     'bill_failed_later',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Bill Failed Later'
 )->addColumn(
     'period_unit',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     20,
-    array('nullable' => false),
+    ['nullable' => false],
     'Period Unit'
 )->addColumn(
     'period_frequency',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Period Frequency'
 )->addColumn(
     'period_max_cycles',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Period Max Cycles'
 )->addColumn(
     'billing_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array('nullable' => false, 'default' => '0.0000'),
+    ['nullable' => false, 'default' => '0.0000'],
     'Billing Amount'
 )->addColumn(
     'trial_period_unit',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     20,
-    array(),
+    [],
     'Trial Period Unit'
 )->addColumn(
     'trial_period_frequency',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Trial Period Frequency'
 )->addColumn(
     'trial_period_max_cycles',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Trial Period Max Cycles'
 )->addColumn(
     'trial_billing_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     null,
-    array(),
+    [],
     'Trial Billing Amount'
 )->addColumn(
     'currency_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     3,
-    array('nullable' => false),
+    ['nullable' => false],
     'Currency Code'
 )->addColumn(
     'shipping_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array(),
+    [],
     'Shipping Amount'
 )->addColumn(
     'tax_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array(),
+    [],
     'Tax Amount'
 )->addColumn(
     'init_amount',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    array(),
+    [],
     'Init Amount'
 )->addColumn(
     'init_may_fail',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Init May Fail'
 )->addColumn(
     'order_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array('nullable' => false),
+    ['nullable' => false],
     'Order Info'
 )->addColumn(
     'order_item_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array('nullable' => false),
+    ['nullable' => false],
     'Order Item Info'
 )->addColumn(
     'billing_address_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array('nullable' => false),
+    ['nullable' => false],
     'Billing Address Info'
 )->addColumn(
     'shipping_address_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Shipping Address Info'
 )->addColumn(
     'payment_vendor_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Payment Vendor Info'
 )->addColumn(
     'additional_info',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Additional Info'
 )->addIndex(
     $this->getIdxName(
         'recurring_payment',
-        array('internal_reference_id'),
+        ['internal_reference_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('internal_reference_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['internal_reference_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $this->getIdxName('recurring_payment', array('customer_id')),
-    array('customer_id')
+    $this->getIdxName('recurring_payment', ['customer_id']),
+    ['customer_id']
 )->addIndex(
-    $this->getIdxName('recurring_payment', array('store_id')),
-    array('store_id')
+    $this->getIdxName('recurring_payment', ['store_id']),
+    ['store_id']
 )->addForeignKey(
     $this->getFkName('recurring_payment', 'customer_id', 'customer_entity', 'entity_id'),
     'customer_id',
@@ -254,31 +254,31 @@ $table = $this->getConnection()->newTable(
     'link_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Link Id'
 )->addColumn(
     'payment_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Payment Id'
 )->addColumn(
     'order_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Order Id'
 )->addIndex(
     $this->getIdxName(
         'recurring_payment_order',
-        array('payment_id', 'order_id'),
+        ['payment_id', 'order_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('payment_id', 'order_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['payment_id', 'order_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $this->getIdxName('recurring_payment_order', array('order_id')),
-    array('order_id')
+    $this->getIdxName('recurring_payment_order', ['order_id']),
+    ['order_id']
 )->addForeignKey(
     $this->getFkName('recurring_payment_order', 'order_id', 'sales_order', 'entity_id'),
     'order_id',

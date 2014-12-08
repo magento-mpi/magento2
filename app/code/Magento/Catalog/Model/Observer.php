@@ -139,12 +139,12 @@ class Observer
             $block->addIdentity(\Magento\Catalog\Model\Category::CACHE_TAG . '_' . $category->getId());
 
             $tree = $parentCategoryNode->getTree();
-            $categoryData = array(
+            $categoryData = [
                 'name' => $category->getName(),
                 'id' => $nodeId,
                 'url' => $this->_catalogCategory->getCategoryUrl($category),
-                'is_active' => $this->_isActiveMenuCategory($category)
-            );
+                'is_active' => $this->_isActiveMenuCategory($category),
+            ];
             $categoryNode = new \Magento\Framework\Data\Tree\Node($categoryData, 'id', $tree, $parentCategoryNode);
             $parentCategoryNode->addChild($categoryNode);
 

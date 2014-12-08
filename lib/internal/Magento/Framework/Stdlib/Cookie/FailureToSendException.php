@@ -16,5 +16,4 @@ use Magento\Framework\Exception\LocalizedException;
  */
 class FailureToSendException extends LocalizedException
 {
-
 }

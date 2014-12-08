@@ -17,6 +17,6 @@ class MassPrintCreditMemos extends \Magento\SalesArchive\Controller\Adminhtml\Ar
      */
     public function execute()
     {
-        $this->_forward('pdfcreditmemos', 'order', null, array('origin' => 'archive'));
+        $this->_forward('pdfcreditmemos', 'order', null, ['origin' => 'archive']);
     }
 }

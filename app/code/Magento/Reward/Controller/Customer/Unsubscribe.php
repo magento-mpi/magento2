@@ -18,7 +18,7 @@ class Unsubscribe extends \Magento\Reward\Controller\Customer
     public function execute()
     {
         $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update', 'warning'))) {
+        if (!in_array($notification, ['update', 'warning'])) {
             $this->_forward('noroute');
         }
 

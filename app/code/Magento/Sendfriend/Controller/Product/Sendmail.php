@@ -43,7 +43,7 @@ class Sendmail extends \Magento\Sendfriend\Controller\Product
     public function execute()
     {
         if (!$this->_formKeyValidator->validate($this->getRequest())) {
-            return $this->_redirect('*/*/send', array('_current' => true));
+            return $this->_redirect('*/*/send', ['_current' => true]);
         }
 
         $product = $this->_initProduct();
@@ -100,7 +100,7 @@ class Sendmail extends \Magento\Sendfriend\Controller\Product
         // save form data
         $catalogSession->setSendfriendFormData($data);
 
-        $url = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*/send', array('_current' => true));
+        $url = $this->_objectManager->create('Magento\Framework\UrlInterface')->getUrl('*/*/send', ['_current' => true]);
         $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 }

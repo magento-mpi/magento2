@@ -17,10 +17,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Directory\Model\Currency\Import\Config(
-            array(
-                'service_one' => array('class' => 'Service_One', 'label' => 'Service One'),
-                'service_two' => array('class' => 'Service_Two', 'label' => 'Service Two')
-            )
+            [
+                'service_one' => ['class' => 'Service_One', 'label' => 'Service One'],
+                'service_two' => ['class' => 'Service_Two', 'label' => 'Service Two'],
+            ]
         );
     }
 
@@ -37,37 +37,37 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function constructorExceptionDataProvider()
     {
-        return array(
-            'numeric name' => array(
-                array(0 => array('label' => 'Test Label', 'class' => 'Test_Class')),
-                'Name for a currency import service has to be specified'
-            ),
-            'empty name' => array(
-                array('' => array('label' => 'Test Label', 'class' => 'Test_Class')),
-                'Name for a currency import service has to be specified'
-            ),
-            'missing class' => array(
-                array('test' => array('label' => 'Test Label')),
-                'Class for a currency import service has to be specified'
-            ),
-            'empty class' => array(
-                array('test' => array('label' => 'Test Label', 'class' => '')),
-                'Class for a currency import service has to be specified'
-            ),
-            'missing label' => array(
-                array('test' => array('class' => 'Test_Class')),
-                'Label for a currency import service has to be specified'
-            ),
-            'empty label' => array(
-                array('test' => array('class' => 'Test_Class', 'label' => '')),
-                'Label for a currency import service has to be specified'
-            )
-        );
+        return [
+            'numeric name' => [
+                [0 => ['label' => 'Test Label', 'class' => 'Test_Class']],
+                'Name for a currency import service has to be specified',
+            ],
+            'empty name' => [
+                ['' => ['label' => 'Test Label', 'class' => 'Test_Class']],
+                'Name for a currency import service has to be specified',
+            ],
+            'missing class' => [
+                ['test' => ['label' => 'Test Label']],
+                'Class for a currency import service has to be specified',
+            ],
+            'empty class' => [
+                ['test' => ['label' => 'Test Label', 'class' => '']],
+                'Class for a currency import service has to be specified',
+            ],
+            'missing label' => [
+                ['test' => ['class' => 'Test_Class']],
+                'Label for a currency import service has to be specified',
+            ],
+            'empty label' => [
+                ['test' => ['class' => 'Test_Class', 'label' => '']],
+                'Label for a currency import service has to be specified',
+            ]
+        ];
     }
 
     public function testGetAvailableServices()
     {
-        $this->assertEquals(array('service_one', 'service_two'), $this->_model->getAvailableServices());
+        $this->assertEquals(['service_one', 'service_two'], $this->_model->getAvailableServices());
     }
 
     /**
@@ -82,7 +82,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getServiceClassDataProvider()
     {
-        return array('known' => array('service_one', 'Service_One'), 'unknown' => array('unknown', null));
+        return ['known' => ['service_one', 'Service_One'], 'unknown' => ['unknown', null]];
     }
 
     /**
@@ -97,6 +97,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getServiceLabelDataProvider()
     {
-        return array('known' => array('service_one', 'Service One'), 'unknown' => array('unknown', null));
+        return ['known' => ['service_one', 'Service One'], 'unknown' => ['unknown', null]];
     }
 }

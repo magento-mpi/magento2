@@ -12,9 +12,9 @@ try {
     $totalStartTime = microtime(true);
 
     $shell = new Zend_Console_Getopt(
-        array(
+        [
             'profile-s' => 'Profile configuration file',
-        )
+        ]
     );
 
     \Magento\ToolkitFramework\Helper\Cli::setOpt($shell);

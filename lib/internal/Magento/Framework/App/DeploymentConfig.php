@@ -8,8 +8,6 @@
 
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\DeploymentConfig\DbConfig;
-use Magento\Framework\App\DeploymentConfig\ResourceConfig;
 
 /**
  * Application deployment configuration

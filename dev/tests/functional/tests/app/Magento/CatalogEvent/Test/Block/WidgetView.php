@@ -21,6 +21,6 @@ class WidgetView extends \Magento\Widget\Test\Block\WidgetView
      * @var array
      */
     protected $widgetSelectors = [
-        'catalogEventCarousel' => '(.//*/a/span[contains(.,"%s")])[last()]'
+        'catalogEventCarousel' => '(.//*/a/span[contains(.,"%s")])[last()]',
     ];
 }

@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\Backup\Filesystem\Rollback;
 
-class Fs extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
+class Ftp extends \Magento\Framework\Backup\Filesystem\Rollback\AbstractRollback
 {
     /**
      * Mock Files rollback implementation via ftp

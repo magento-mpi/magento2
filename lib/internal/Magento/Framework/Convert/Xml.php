@@ -21,7 +21,7 @@ class Xml
      */
     public function xmlToAssoc(\SimpleXMLElement $xml)
     {
-        $array = array();
+        $array = [];
         foreach ($xml as $key => $value) {
             if (isset($value->{$key})) {
                 $i = 0;

@@ -35,9 +35,9 @@ class Config extends \Magento\Framework\Config\Data
         );
 
         if (!is_array($allFields)) {
-            return array();
+            return [];
         }
-        $lockedFields = array();
+        $lockedFields = [];
         foreach (array_keys($allFields) as $fieldCode) {
             $lockedFields[$fieldCode] = $fieldCode;
         }
@@ -53,7 +53,7 @@ class Config extends \Magento\Framework\Config\Data
      */
     public function getEntityAttributesLockedFields($entityCode)
     {
-        $lockedFields = array();
+        $lockedFields = [];
 
         $entityAttributes = $this->get($entityCode . '/attributes');
         foreach ($entityAttributes as $attributeCode => $attributeData) {

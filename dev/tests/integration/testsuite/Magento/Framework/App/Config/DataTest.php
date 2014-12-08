@@ -45,7 +45,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected static function _refreshConfiguration()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\CacheInterface')
-            ->clean(array(\Magento\Framework\App\Config::CACHE_TAG));
+            ->clean([\Magento\Framework\App\Config::CACHE_TAG]);
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize();
     }
 
@@ -99,16 +99,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetFieldsetDataValue()
     {
         $this->assertNull($this->_model->getFieldsetDataValue('key'));
-        $this->_model->setFieldsetData(array('key' => 'value'));
+        $this->_model->setFieldsetData(['key' => 'value']);
         $this->assertEquals('value', $this->_model->getFieldsetDataValue('key'));
     }
 
     public function testCRUD()
     {
         $this->_model->setData(
-            array('scope' => 'default', 'scope_id' => 0, 'path' => 'test/config/path', 'value' => 'test value')
+            ['scope' => 'default', 'scope_id' => 0, 'path' => 'test/config/path', 'value' => 'test value']
         );
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('value' => 'new value'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['value' => 'new value']);
         $crud->testCrud();
     }
 

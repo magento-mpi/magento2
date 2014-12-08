@@ -35,7 +35,7 @@ class ProductTypesConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create(
             'Magento\Catalog\Model\ProductTypes\Config\Reader',
-            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+            ['fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock]
         );
     }
 

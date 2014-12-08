@@ -27,7 +27,7 @@ class Multiline extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('text');
@@ -39,7 +39,7 @@ class Multiline extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -49,7 +49,7 @@ class Multiline extends AbstractElement
             'disabled',
             'maxlength',
             'data-form-part'
-        );
+        ];
     }
 
     /**

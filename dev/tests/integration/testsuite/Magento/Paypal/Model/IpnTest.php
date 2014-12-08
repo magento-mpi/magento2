@@ -60,7 +60,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
         /** @var  $ipnFactory \Magento\Paypal\Model\IpnFactory */
         $ipnFactory = $this->_objectManager->create('Magento\Paypal\Model\IpnFactory');
 
-        $model = $ipnFactory->create(array('data' => $ipnData, 'curlFactory' => $this->_createMockedHttpAdapter()));
+        $model = $ipnFactory->create(['data' => $ipnData, 'curlFactory' => $this->_createMockedHttpAdapter()]);
         $model->processIpnRequest();
 
         $order = $this->_objectManager->create('Magento\Sales\Model\Order');
@@ -93,7 +93,7 @@ class IpnTest extends \PHPUnit_Framework_TestCase
      */
     public static function currencyProvider()
     {
-        return array(array('USD'), array('EUR'));
+        return [['USD'], ['EUR']];
     }
 
     /**
@@ -103,8 +103,8 @@ class IpnTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createMockedHttpAdapter()
     {
-        $factory = $this->getMock('Magento\Framework\HTTP\Adapter\CurlFactory', array('create'), array(), '', false);
-        $adapter = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', array('read', 'write'), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\HTTP\Adapter\CurlFactory', ['create'], [], '', false);
+        $adapter = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', ['read', 'write'], [], '', false);
 
         $adapter->expects($this->once())->method('read')->with()->will($this->returnValue("\nVERIFIED"));
 

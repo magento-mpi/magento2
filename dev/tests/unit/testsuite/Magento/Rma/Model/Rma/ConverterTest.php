@@ -58,7 +58,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Api\ExtensibleDataObjectConverter'
         )->setMethods(['toFlatArray'])->disableOriginalConstructor()->getMock();
 
-
         $this->converter = $this->objectManagerHelper->getObject(
             'Magento\Rma\Model\Rma\Converter',
             [

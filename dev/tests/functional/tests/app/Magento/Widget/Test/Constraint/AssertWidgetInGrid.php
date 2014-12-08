@@ -8,9 +8,9 @@
 
 namespace Magento\Widget\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Widget\Test\Fixture\Widget;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertWidgetInGrid

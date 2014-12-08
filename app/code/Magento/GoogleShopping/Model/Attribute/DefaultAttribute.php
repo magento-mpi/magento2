@@ -88,7 +88,7 @@ class DefaultAttribute extends \Magento\GoogleShopping\Model\Attribute
      */
     public function getGcontentAttributeType($attribute)
     {
-        $typesMapping = array('price' => self::ATTRIBUTE_TYPE_FLOAT, 'decimal' => self::ATTRIBUTE_TYPE_INT);
+        $typesMapping = ['price' => self::ATTRIBUTE_TYPE_FLOAT, 'decimal' => self::ATTRIBUTE_TYPE_INT];
         if (isset($typesMapping[$attribute->getFrontendInput()])) {
             return $typesMapping[$attribute->getFrontendInput()];
         } elseif (isset($typesMapping[$attribute->getBackendType()])) {

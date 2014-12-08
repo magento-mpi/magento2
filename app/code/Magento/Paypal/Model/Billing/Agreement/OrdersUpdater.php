@@ -31,7 +31,7 @@ class OrdersUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterIn
     public function __construct(
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registryManager = isset($data['registry']) ? $data['registry'] : $coreRegistry;
         $this->_agreementResource = $agreementResource;

@@ -180,7 +180,6 @@ class Customer extends \Magento\Framework\Api\AbstractExtensibleObject
         return (bool)$this->_get(self::IS_GUEST);
     }
 
-
     /**
      * Get  taxvat value
      *

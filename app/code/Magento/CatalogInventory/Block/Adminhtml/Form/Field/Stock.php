@@ -50,7 +50,7 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Data\Form\Element\TextFactory $factoryText,
-        array $data = array()
+        array $data = []
     ) {
         $this->_factoryText = $factoryText;
         $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
@@ -237,7 +237,7 @@ class Stock extends \Magento\Framework\Data\Form\Element\Select
                             filler.call($('#' + generalTabField));
                             filler.call($('#' + advancedTabField));
                         });
-                        
+
                         $(window).load(disabler);
                     });
                 })

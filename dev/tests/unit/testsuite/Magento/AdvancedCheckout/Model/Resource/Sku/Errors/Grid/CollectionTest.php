@@ -33,13 +33,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $collection = $objectManager->getObject('\Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection',
-            array(
+            [
                 'entityFactory' => $entity,
                 'cart' => $cart,
                 'productModel' => $product,
                 'coreHelper' => $helper,
                 'stockRegistry' => $registryMock
-            )
+            ]
         );
         $collection->loadData();
 
@@ -51,7 +51,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 $this->assertEquals(null, $product->getTypeId());
             }
         }
-
     }
 
     /**
@@ -64,7 +63,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $cartMock = $this->getMockBuilder(
             'Magento\AdvancedCheckout\Model\Cart'
         )->disableOriginalConstructor()->setMethods(
-            array('getFailedItems', 'getStore')
+            ['getFailedItems', 'getStore']
         )->getMock();
         $cartMock->expects(
             $this->any()
@@ -72,18 +71,18 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'getFailedItems'
         )->will(
             $this->returnValue(
-                array(
-                    array(
-                        "item" => array("id" => $productId, "is_qty_disabled" => "false", "sku" => $sku, "qty" => "1"),
+                [
+                    [
+                        "item" => ["id" => $productId, "is_qty_disabled" => "false", "sku" => $sku, "qty" => "1"],
                         "code" => "failed_configure",
-                        "orig_qty" => "7"
-                    ),
-                    array(
-                        "item" => array("sku" => 'invalid', "qty" => "1"),
+                        "orig_qty" => "7",
+                    ],
+                    [
+                        "item" => ["sku" => 'invalid', "qty" => "1"],
                         "code" => "failed_sku",
                         "orig_qty" => "1"
-                    )
-                )
+                    ],
+                ]
             )
         );
         $storeMock = $this->getStoreMock($storeId);
@@ -99,7 +98,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function getStoreMock($websiteId)
     {
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->any())->method('getWebsiteId')->will($this->returnValue($websiteId));
 
         return $storeMock;
@@ -114,34 +113,34 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = $this->getMockForAbstractClass(
             'Zend_Db_Adapter_Abstract',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('query', 'fetchRow')
+            ['query', 'fetchRow']
         );
-        $adapter->expects($this->once())->method('fetchRow')->will($this->returnValue(array(
+        $adapter->expects($this->once())->method('fetchRow')->will($this->returnValue([
             'entity_id' => $productId,
             'entity_type_id' => '4',
             'attribute_set_id' => '4',
             'type_id' => $typeId,
             'sku' => $sku,
-            'price' => '10.00'
-        )));
+            'price' => '10.00',
+        ]));
 
         $resourceMock = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('__wakeup', 'getIdFieldName', '_getReadAdapter', '_getLoadSelect'));
+            ['__wakeup', 'getIdFieldName', '_getReadAdapter', '_getLoadSelect']);
         $resourceMock->expects($this->once())->method('_getReadAdapter')->will($this->returnValue($adapter));
 
         $productMock = $this->getMock('Magento\Catalog\Model\Product',
-            array('__wakeup', '_beforeLoad', '_afterLoad', '_getResource'), array(), '', false);
+            ['__wakeup', '_beforeLoad', '_afterLoad', '_getResource'], [], '', false);
         $productMock->setPriceCalculation(false);
         $productMock->expects($this->once())->method('_getResource')->will($this->returnValue($resourceMock));
 
@@ -158,7 +157,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $coreHelperMock = $this->getMockBuilder(
             'Magento\Core\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('formatPrice')
+            ['formatPrice']
         )->getMock();
         $coreHelperMock->expects($this->any())->method('formatPrice')->will($this->returnArgument(0));
 
@@ -172,7 +171,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     protected function getEntityFactoryMock()
     {
-        $entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
 
         return $entityFactoryMock;
     }

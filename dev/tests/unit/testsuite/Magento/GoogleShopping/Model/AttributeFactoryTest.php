@@ -17,7 +17,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
     protected function _createObjectManager()
     {
         return $this->getMockBuilder('Magento\Framework\ObjectManagerInterface')
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMockForAbstractClass();
     }
 
@@ -45,7 +45,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
         return $this->getMockBuilder(
             'Magento\GoogleShopping\Model\Attribute\DefaultAttribute'
         )->disableOriginalConstructor()->setMethods(
-            array('__wakeup')
+            ['__wakeup']
         )->getMock();
     }
 
@@ -77,11 +77,11 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createAttributeDataProvider()
     {
-        return array(
-            array('name', 'Name'),
-            array('first_second', 'First_Second'),
-            array('first_second_third', 'First_Second_Third')
-        );
+        return [
+            ['name', 'Name'],
+            ['first_second', 'First_Second'],
+            ['first_second_third', 'First_Second_Third']
+        ];
     }
 
     /**
@@ -120,7 +120,7 @@ class AttributeFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createAttributeDefaultDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     public function testCreate()

@@ -8,8 +8,8 @@
 
 namespace Magento\Rule\Model\Condition\Sql;
 
-use \Magento\Rule\Model\Condition\Combine;
-use \Magento\Rule\Model\Condition\AbstractCondition;
+use Magento\Rule\Model\Condition\AbstractCondition;
+use Magento\Rule\Model\Condition\Combine;
 
 /**
  * Class SQL Builder
@@ -71,7 +71,7 @@ class Builder
      * @param array $tables
      * @return array
      */
-    protected function _getChildCombineTablesToJoin(Combine $combine, $tables = array())
+    protected function _getChildCombineTablesToJoin(Combine $combine, $tables = [])
     {
         foreach ($combine->getConditions() as $condition) {
             if ($condition->getConditions()) {

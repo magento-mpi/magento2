@@ -31,7 +31,7 @@ class Messages extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $data);
@@ -120,13 +120,13 @@ class Messages extends \Magento\Backend\Block\Template
     public function getSystemMessageDialogJson()
     {
         return $this->_coreHelper->jsonEncode(
-            array(
-                'systemMessageDialog' => array(
+            [
+                'systemMessageDialog' => [
                     'autoOpen' => false,
                     'width' => 600,
-                    'ajaxUrl' => $this->_getMessagesUrl()
-                )
-            )
+                    'ajaxUrl' => $this->_getMessagesUrl(),
+                ],
+            ]
         );
     }
 }

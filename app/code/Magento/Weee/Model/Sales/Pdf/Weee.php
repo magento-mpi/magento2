@@ -26,7 +26,7 @@ class Weee extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
         \Magento\Weee\Helper\Data $_weeeData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_weeeData = $_weeeData;
         parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
@@ -53,18 +53,18 @@ class Weee extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
 
         // If we have no Weee, check if we still need to display it
         if (!$weeeTotal && !filter_var($this->getDisplayZero(), FILTER_VALIDATE_BOOLEAN)) {
-            return array();
+            return [];
         }
 
         // Display the Weee total amount
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
-        $totals = array(
-            array(
+        $totals = [
+            [
                 'amount' => $this->getOrder()->formatPriceTxt($weeeTotal),
                 'label' => __($this->getTitle()) . ':',
-                'font_size' => $fontSize
-            )
-        );
+                'font_size' => $fontSize,
+            ],
+        ];
 
         return $totals;
     }

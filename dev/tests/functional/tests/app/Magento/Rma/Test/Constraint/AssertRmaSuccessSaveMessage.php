@@ -8,8 +8,8 @@
 
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert success message appears after submitting new return request.

@@ -192,7 +192,7 @@ class OauthClient extends AbstractService
             unset($parameters['oauth_callback']);
         }
 
-        $parameters = array_merge($parameters, array('oauth_token' => $token->getAccessToken()));
+        $parameters = array_merge($parameters, ['oauth_token' => $token->getAccessToken()]);
         $parameters = array_merge($parameters, $bodyParams);
         $parameters['oauth_signature'] = $this->signature->getSignature($uri, $parameters, $method);
 
@@ -224,9 +224,9 @@ class OauthClient extends AbstractService
         $tokenObj->setAccessToken($token);
         $tokenObj->setAccessTokenSecret($tokenSecret);
         $tokenObj->setEndOfLife(StdOAuth1Token::EOL_NEVER_EXPIRES);
-        return array(
+        return [
             'Authorization: ' . $this->buildAuthorizationHeaderForAPIRequest($method, $uri, $tokenObj, $bodyParams)
-        );
+        ];
     }
 
     /**
@@ -237,9 +237,9 @@ class OauthClient extends AbstractService
      */
     public function buildBearerTokenAuthorizationHeader($token)
     {
-        return array(
+        return [
             'Authorization: Bearer ' . $token
-        );
+        ];
     }
 
     /**
@@ -252,24 +252,23 @@ class OauthClient extends AbstractService
      */
     public function validateAccessToken($token, $method = 'GET')
     {
-
         //Need to add Accept header else Magento errors out with 503
-        $extraAuthenticationHeaders = array('Accept' => 'application/json');
+        $extraAuthenticationHeaders = ['Accept' => 'application/json'];
 
         $this->signature->setTokenSecret($token->getAccessTokenSecret());
 
-        $authorizationHeader = array(
+        $authorizationHeader = [
             'Authorization' => $this->buildAuthorizationHeaderForAPIRequest(
                 $method,
                 $this->getTestApiEndpoint(),
                 $token,
-                array()
-            )
-        );
+                []
+            ),
+        ];
 
         $headers = array_merge($authorizationHeader, $extraAuthenticationHeaders);
 
-        $responseBody = $this->httpClient->retrieveResponse($this->getTestApiEndpoint(), array(), $headers, $method);
+        $responseBody = $this->httpClient->retrieveResponse($this->getTestApiEndpoint(), [], $headers, $method);
 
         return json_decode($responseBody);
     }

@@ -538,7 +538,7 @@ class Observer
         $expressionTransferObject->setExpression($expressionTransferObject->getExpression() . ' - (%s)');
         $arguments = $expressionTransferObject->getArguments();
         $arguments[] = $adapter->getCheckSql(
-            $adapter->prepareSqlCondition('main_table.base_gift_cards_refunded', array('null' => null)),
+            $adapter->prepareSqlCondition('main_table.base_gift_cards_refunded', ['null' => null]),
             0,
             sprintf(
                 'main_table.base_gift_cards_refunded - %s - %s',

@@ -29,7 +29,7 @@ class SaveHandlerFactory
      *
      * @var array
      */
-    protected $handlers = array();
+    protected $handlers = [];
 
     /**
      * Constructor
@@ -37,7 +37,7 @@ class SaveHandlerFactory
      * @param \Magento\Framework\ObjectManagerInterface $objectManger
      * @param array $handlers
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManger, array $handlers = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManger, array $handlers = [])
     {
         $this->objectManager = $objectManger;
         if (!empty($handlers)) {
@@ -53,7 +53,7 @@ class SaveHandlerFactory
      * @return \SessionHandler
      * @throws \LogicException
      */
-    public function create($saveMethod, $params = array())
+    public function create($saveMethod, $params = [])
     {
         $sessionHandler = self::PHP_NATIVE_HANDLER;
         if (isset($this->handlers[$saveMethod])) {

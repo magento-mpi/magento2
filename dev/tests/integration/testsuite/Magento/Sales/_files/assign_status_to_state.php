@@ -11,7 +11,7 @@ $status = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('M
 $status->setData(
     [
         'status' => 'fake_status_do_not_use_it',
-        'label' => 'Fake status do not use it'
+        'label' => 'Fake status do not use it',
     ]
 );
 $status->save();

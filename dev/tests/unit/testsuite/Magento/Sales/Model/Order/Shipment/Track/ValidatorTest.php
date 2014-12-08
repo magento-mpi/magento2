@@ -37,7 +37,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new \Magento\Sales\Model\Order\Shipment\Track\Validator();
     }
 
-
     /**
      * Run test validate
      *
@@ -71,7 +70,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                     ['parent_id', true],
                     ['order_id', true],
                     ['track_number', true],
-                    ['carrier_code', true]
+                    ['carrier_code', true],
                 ],
                 [
                     'parent_id' => 25,
@@ -79,14 +78,14 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                     'track_number' => 125,
                     'carrier_code' => 'custom'
                 ],
-                []
+                [],
             ],
             [
                 [
                     ['parent_id', true],
                     ['order_id', false],
                     ['track_number', true],
-                    ['carrier_code', false]
+                    ['carrier_code', false],
                 ],
                 [
                     'parent_id' => 0,
@@ -104,4 +103,3 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 

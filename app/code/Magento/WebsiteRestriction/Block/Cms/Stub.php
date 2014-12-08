@@ -41,7 +41,7 @@ class Stub extends \Magento\Cms\Block\Page
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $page, $filterProvider, $storeManager, $pageFactory, $pageConfig, $data);
         $this->_coreRegistry = $registry;

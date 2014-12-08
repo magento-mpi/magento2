@@ -8,12 +8,12 @@
 
 namespace Magento\CatalogRule\Test\Handler\CatalogRule;
 
-use Mtf\System\Config;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport;
 use Magento\Backend\Test\Handler\Conditions;
 use Magento\CatalogRule\Test\Handler\CatalogRule;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
@@ -31,12 +31,12 @@ class Curl extends Conditions implements CatalogRuleInterface
         'Conditions combination' => [
             'type' => 'Magento\CatalogRule\Model\Rule\Condition\Combine',
             'aggregator' => 'all',
-            'value' => 1
+            'value' => 1,
         ],
         'Category' => [
             'type' => 'Magento\CatalogRule\Model\Rule\Condition\Product',
             'attribute' => 'category_ids',
-        ]
+        ],
     ];
 
     /**
@@ -49,16 +49,16 @@ class Curl extends Conditions implements CatalogRuleInterface
             'By Percentage of the Original Price' => 'by_percent',
             'By Fixed Amount' => 'by_fixed',
             'To Percentage of the Original Price' => 'to_percent',
-            'To Fixed Amount' => 'to_fixed'
+            'To Fixed Amount' => 'to_fixed',
         ],
         'is_active' => [
             'Active' => 1,
-            'Inactive' => 0
+            'Inactive' => 0,
         ],
         'stop_rules_processing' => [
             'Yes' => 1,
-            'No' => 0
-        ]
+            'No' => 0,
+        ],
     ];
 
     /**
@@ -67,7 +67,7 @@ class Curl extends Conditions implements CatalogRuleInterface
      * @var array
      */
     protected $websiteIds = [
-        'Main Website' => 1
+        'Main Website' => 1,
     ];
 
     /**
@@ -79,7 +79,7 @@ class Curl extends Conditions implements CatalogRuleInterface
         'NOT LOGGED IN' => 0,
         'General' => 1,
         'Wholesale' => 2,
-        'Retailer' => 3
+        'Retailer' => 3,
     ];
 
     /**
@@ -93,9 +93,9 @@ class Curl extends Conditions implements CatalogRuleInterface
     {
         $data = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . 'catalog_rule/promo_catalog/save/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 
@@ -156,7 +156,7 @@ class Curl extends Conditions implements CatalogRuleInterface
     {
         // Sort data in grid to define category price rule id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'catalog_rule/promo_catalog/index/sort/rule_id/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
         $curl->close();

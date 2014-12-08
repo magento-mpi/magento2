@@ -65,11 +65,11 @@ class Config
         $url = $this->_assetRepo->getUrl(
             'mage/adminhtml/wysiwyg/tiny_mce/plugins/magentowidget/editor_plugin.js'
         );
-        $settings = array(
+        $settings = [
             'widget_plugin_src' => $url,
             'widget_placeholders' => $this->_widgetFactory->create()->getPlaceholderImageUrls(),
-            'widget_window_url' => $this->getWidgetWindowUrl($config)
-        );
+            'widget_window_url' => $this->getWidgetWindowUrl($config),
+        ];
 
         return $settings;
     }
@@ -82,9 +82,9 @@ class Config
      */
     public function getWidgetWindowUrl($config)
     {
-        $params = array();
+        $params = [];
 
-        $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : array();
+        $skipped = is_array($config->getData('skip_widgets')) ? $config->getData('skip_widgets') : [];
         if ($config->hasData('widget_filters')) {
             $all = $this->_widgetFactory->create()->getWidgets();
             $filtered = $this->_widgetFactory->create()->getWidgets($config->getData('widget_filters'));
@@ -109,7 +109,7 @@ class Config
      */
     public function encodeWidgetsToQuery($widgets)
     {
-        $widgets = is_array($widgets) ? $widgets : array($widgets);
+        $widgets = is_array($widgets) ? $widgets : [$widgets];
         $param = implode(',', $widgets);
         return $this->_coreHelper->urlEncode($param);
     }

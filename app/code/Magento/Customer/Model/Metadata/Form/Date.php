@@ -27,7 +27,7 @@ class Date extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = $attribute->getStoreLabel();
 

@@ -24,7 +24,7 @@ $customerAddress->setData(
         'lastname' => 'Smith',
         'firstname' => 'John',
         'parent_id' => 1,
-        'region_id' => 1
+        'region_id' => 1,
     ]
 )->setCustomerId(1);
 $customerAddress->save();

@@ -55,9 +55,9 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
             '_messageTemplates'
         );
         $property->setAccessible(true);
-        $defaultMess = array(
-            'protectedExtension' => __('File with an extension "%value%" is protected and cannot be uploaded')
-        );
+        $defaultMess = [
+            'protectedExtension' => __('File with an extension "%value%" is protected and cannot be uploaded'),
+        ];
         $this->assertEquals($defaultMess, $property->getValue($this->_model));
 
         $property = new \ReflectionProperty(
@@ -65,7 +65,7 @@ class NotProtectedExtensionTest extends \PHPUnit_Framework_TestCase
             '_protectedFileExtensions'
         );
         $property->setAccessible(true);
-        $protectedList = array('exe', 'php', 'jar');
+        $protectedList = ['exe', 'php', 'jar'];
         $this->assertEquals($protectedList, $property->getValue($this->_model));
     }
 

@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -42,18 +42,17 @@ class WriteServiceTest extends WebapiAbstract
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
         $quote->load('test_order_1', 'reserved_order_id');
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $quote->getId() . '/billing-address',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'SetAddress',
-            ),
-        );
-
+            ],
+        ];
 
         $addressData = [
             'firstname' => 'John',
@@ -74,7 +73,7 @@ class WriteServiceTest extends WebapiAbstract
         ];
         $requestData = [
             "cartId" => $quote->getId(),
-            'addressData' => $addressData
+            'addressData' => $addressData,
         ];
 
         $addressId = $this->_webApiCall($serviceInfo, $requestData);

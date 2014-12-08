@@ -7,10 +7,10 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
-/** 
- * Cart read service interface. 
+/**
+ * Cart read service interface.
  */
 interface ReadServiceInterface
 {

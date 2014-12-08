@@ -133,7 +133,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Product'
         )->disableOriginalConstructor()->setMethods(
             ['getStoreId', 'getEntityId', 'getId', 'getUrlKey', 'setRequestPath', 'hasUrlDataObject', 'getRequestPath',
-                'getCategoryId', 'getDoNotUseCategoryId', '__wakeup']
+                'getCategoryId', 'getDoNotUseCategoryId', '__wakeup', ]
         )->getMock();
         $product->expects($this->any())->method('getStoreId')->will($this->returnValue($storeId));
         $product->expects($this->any())->method('getCategoryId')->will($this->returnValue($categoryId));

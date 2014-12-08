@@ -9,12 +9,11 @@ namespace Magento\Ui\Component;
 
 use Magento\Framework\View\Asset\Repository;
 use Magento\Framework\View\Element\Template;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\Component\Paging;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\ContentType\ContentTypeFactory;
 
 class PagingTest extends \PHPUnit_Framework_TestCase
 {
@@ -163,15 +162,13 @@ class PagingTest extends \PHPUnit_Framework_TestCase
 
         $configurationMock->expects($this->at(0))->method('getData')->with('current')->willReturn($paramsPage);
 
-
-
         $configurationMock->expects($this->at(1))->method('getData')->with('pageSize')->willReturn($paramsSize);
         $this->renderContextMock->expects($this->atLeastOnce())
             ->method('getRequestParam')
             ->willReturnMap(
                 [
                     ['page', $paramsPage, $paramsPage],
-                    ['limit', $paramsSize, $paramsSize]
+                    ['limit', $paramsSize, $paramsSize],
                 ]
             );
 

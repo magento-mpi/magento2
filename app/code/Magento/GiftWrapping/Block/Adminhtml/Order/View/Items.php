@@ -22,7 +22,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\View\AbstractVie
      */
     public function getItemsInfo()
     {
-        $data = array();
+        $data = [];
         foreach ($this->getOrder()->getAllItems() as $item) {
             if ($this->getDisplayWrappingBothPrices()) {
                 $temp['price_excl_tax'] = $this->_preparePrices($item->getGwBasePrice(), $item->getGwPrice());

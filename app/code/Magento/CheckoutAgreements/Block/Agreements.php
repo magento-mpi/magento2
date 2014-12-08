@@ -22,7 +22,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\CheckoutAgreements\Model\Resource\Agreement\CollectionFactory $agreementCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_agreementCollectionFactory = $agreementCollectionFactory;
         parent::__construct($context, $data);
@@ -35,7 +35,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
     {
         if (!$this->hasAgreements()) {
             if (!$this->_scopeConfig->isSetFlag('checkout/options/enable_agreements', \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
-                $agreements = array();
+                $agreements = [];
             } else {
                 /** @var \Magento\CheckoutAgreements\Model\Resource\Agreement\Collection $agreements */
                 $agreements = $this->_agreementCollectionFactory->create()->addStoreFilter(

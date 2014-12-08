@@ -8,7 +8,7 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class View extends \Magento\Backend\App\Action
 {

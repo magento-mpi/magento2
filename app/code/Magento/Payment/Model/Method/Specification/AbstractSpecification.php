@@ -7,8 +7,8 @@
  */
 namespace Magento\Payment\Model\Method\Specification;
 
-use Magento\Payment\Model\Method\SpecificationInterface;
 use Magento\Payment\Model\Config as PaymentConfig;
+use Magento\Payment\Model\Method\SpecificationInterface;
 
 /**
  * Abstract specification
@@ -20,7 +20,7 @@ abstract class AbstractSpecification implements SpecificationInterface
      *
      * @var array
      */
-    protected $methodsInfo = array();
+    protected $methodsInfo = [];
 
     /**
      * Construct

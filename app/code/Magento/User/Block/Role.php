@@ -70,7 +70,7 @@ class Role extends \Magento\Backend\Block\Widget\Grid\Container
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('permissions_role_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('permissions_role_html_before', ['block' => $this]);
         return parent::_toHtml();
     }
 }

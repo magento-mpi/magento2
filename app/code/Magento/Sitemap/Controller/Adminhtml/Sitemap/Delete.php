@@ -8,7 +8,7 @@
  */
 namespace Magento\Sitemap\Controller\Adminhtml\Sitemap;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Delete extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
@@ -53,7 +53,7 @@ class Delete extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('adminhtml/*/edit', array('sitemap_id' => $id));
+                $this->_redirect('adminhtml/*/edit', ['sitemap_id' => $id]);
                 return;
             }
         }

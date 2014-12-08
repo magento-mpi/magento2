@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\Acl\Db\Logger;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/Acl/Db/AbstractLogger.php';
@@ -42,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function getLoggerDataProvider()
     {
-        return array(array('console', null), array('file', realpath(__DIR__ . '/../../../../../') . '/tmp'));
+        return [['console', null], ['file', realpath(__DIR__ . '/../../../../../') . '/tmp']];
     }
 
     /**

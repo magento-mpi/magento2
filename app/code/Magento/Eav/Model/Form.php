@@ -317,8 +317,8 @@ abstract class Form
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes = array();
-            $this->_userAttributes = array();
+            $this->_attributes = [];
+            $this->_userAttributes = [];
             /** @var $attribute \Magento\Eav\Model\Attribute */
             foreach ($this->_getFilteredFormAttributeCollection() as $attribute) {
                 $this->_attributes[$attribute->getAttributeCode()] = $attribute;
@@ -432,7 +432,7 @@ abstract class Form
      */
     public function extractData(RequestInterface $request, $scope = null, $scopeOnly = true)
     {
-        $data = array();
+        $data = [];
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);
@@ -454,16 +454,16 @@ abstract class Form
         if (is_null($this->_validator)) {
             $configFiles = $this->_modulesReader->getConfigurationFiles('validation.xml');
             /** @var $validatorFactory \Magento\Framework\Validator\Config */
-            $validatorFactory = $this->_validatorConfigFactory->create(array('configFiles' => $configFiles));
+            $validatorFactory = $this->_validatorConfigFactory->create(['configFiles' => $configFiles]);
             $builder = $validatorFactory->createValidatorBuilder('eav_entity', 'form');
 
             $builder->addConfiguration(
                 'eav_data_validator',
-                array('method' => 'setAttributes', 'arguments' => array($this->getAllowedAttributes()))
+                ['method' => 'setAttributes', 'arguments' => [$this->getAllowedAttributes()]]
             );
             $builder->addConfiguration(
                 'eav_data_validator',
-                array('method' => 'setData', 'arguments' => array($data))
+                ['method' => 'setData', 'arguments' => [$data]]
             );
             $this->_validator = $builder->createValidator();
         }
@@ -480,7 +480,7 @@ abstract class Form
     {
         $validator = $this->_getValidator($data);
         if (!$validator->isValid($this->getEntity())) {
-            $messages = array();
+            $messages = [];
             foreach ($validator->getMessages() as $errorMessages) {
                 $messages = array_merge($messages, (array)$errorMessages);
             }
@@ -538,7 +538,7 @@ abstract class Form
      */
     public function outputData($format = \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT)
     {
-        $data = array();
+        $data = [];
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->getAllowedAttributes() as $attribute) {
             $dataModel = $this->_getAttributeDataModel($attribute);

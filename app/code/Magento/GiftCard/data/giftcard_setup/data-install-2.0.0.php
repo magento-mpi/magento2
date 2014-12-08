@@ -392,7 +392,7 @@ $attributesOrder = [
     'giftcard_amounts' => 32,
     'allow_open_amount' => 33,
     'open_amount_min' => 34,
-    'open_amount_max' => 35
+    'open_amount_max' => 35,
 ];
 
 foreach ($attributesOrder as $key => $order) {

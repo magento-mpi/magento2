@@ -32,7 +32,7 @@ class GroupRegistryTest extends \PHPUnit_Framework_TestCase
     /**
      * Find the group with a given code.
      *
-     * @param string $code 
+     * @param string $code
      * @return int
      */
     protected function _findGroupIdWithCode($code)

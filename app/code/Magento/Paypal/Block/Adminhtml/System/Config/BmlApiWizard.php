@@ -25,11 +25,11 @@ class BmlApiWizard extends ApiWizard
     {
         $originalData = $element->getOriginalData();
         $this->addData(
-            array(
+            [
                 'button_label' => __($originalData['button_label']),
                 'button_url' => $originalData['button_url'],
                 'html_id' => $element->getHtmlId(),
-            )
+            ]
         );
         return $this->_toHtml();
     }

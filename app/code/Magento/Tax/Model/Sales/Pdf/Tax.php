@@ -26,7 +26,7 @@ class Tax extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($taxHelper, $taxCalculation, $ordersFactory, $data);
@@ -47,10 +47,10 @@ class Tax extends \Magento\Sales\Model\Order\Pdf\Total\DefaultTotal
     {
         $store = $this->getOrder()->getStore();
         if ($this->_taxConfig->displaySalesTaxWithGrandTotal($store)) {
-            return array();
+            return [];
         }
 
-        $totals = array();
+        $totals = [];
 
         if ($this->_taxConfig->displaySalesFullSummary($store)) {
             $totals = $this->getFullTaxInfo();

@@ -20,10 +20,10 @@ class SaveTest extends \Magento\Theme\Controller\Adminhtml\System\Design\ThemeTe
      */
     public function testSaveAction()
     {
-        $themeData = array('theme_id' => 123);
+        $themeData = ['theme_id' => 123];
         $customCssContent = 'custom css content';
-        $jsRemovedFiles = array(3, 4);
-        $jsOrder = array(1 => '1', 2 => 'test');
+        $jsRemovedFiles = [3, 4];
+        $jsOrder = [1 => '1', 2 => 'test'];
 
         $this->_request->expects($this->at(0))
             ->method('getParam')
@@ -54,19 +54,19 @@ class SaveTest extends \Magento\Theme\Controller\Adminhtml\System\Design\ThemeTe
 
         $themeMock = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('save', 'load', 'setCustomization', 'getThemeImage', '__wakeup'),
-            array(),
+            ['save', 'load', 'setCustomization', 'getThemeImage', '__wakeup'],
+            [],
             '',
             false
         );
 
-        $themeImage = $this->getMock('Magento\Core\Model\Theme\Image', array(), array(), '', false);
+        $themeImage = $this->getMock('Magento\Core\Model\Theme\Image', [], [], '', false);
         $themeMock->expects($this->any())->method('getThemeImage')->will($this->returnValue($themeImage));
 
         $themeFactory = $this->getMock(
             'Magento\Framework\View\Design\Theme\FlyweightFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );

@@ -22,13 +22,13 @@ $segment->load('Developers', 'name');
 /** @var \Magento\Banner\Model\Banner $banner */
 $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Banner\Model\Banner');
 $banner->setData(
-    array(
+    [
         'name' => 'Get 50% Off on Development IDEs',
         'is_enabled' => \Magento\Banner\Model\Banner::STATUS_ENABLED,
-        'types' => array()/*Any Banner Type*/,
-        'store_contents' => array('<img src="http://example.com/banner_50_percent_off_on_ide.png" />'),
-        'banner_sales_rules' => array($rule->getId()),
-        'customer_segment_ids' => array($segment->getId())
-    )
+        'types' => []/*Any Banner Type*/,
+        'store_contents' => ['<img src="http://example.com/banner_50_percent_off_on_ide.png" />'],
+        'banner_sales_rules' => [$rule->getId()],
+        'customer_segment_ids' => [$segment->getId()],
+    ]
 );
 $banner->save();

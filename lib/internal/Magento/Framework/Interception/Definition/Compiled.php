@@ -3,7 +3,7 @@
  * Compiled method plugin definitions. Must be used in production for maximum performance
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -18,7 +18,7 @@ class Compiled implements DefinitionInterface
      *
      * @var array
      */
-    protected $_definitions = array();
+    protected $_definitions = [];
 
     /**
      * @param array $definitions

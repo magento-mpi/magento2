@@ -9,9 +9,9 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\Catalog\Model\Product\Type as ProductType;
 use Magento\Catalog\Model\ProductRepository;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory as ConfigurableAttributeFactory;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\TestFramework\Helper\ObjectManager;
@@ -539,7 +539,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $optionValueData = [
             'index' => 1,
             'price' => 12,
-            'percent' => true
+            'percent' => true,
         ];
         $optionValue = $this->optionValueBuilder->populateWithArray($optionValueData)->create();
         $data = [
@@ -549,7 +549,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             Option::POSITION => 1,
             Option::TYPE => 'select',
             Option::USE_DEFAULT => true,
-            Option::VALUES => [$optionValue]
+            Option::VALUES => [$optionValue],
         ];
 
         return $this->optionBuilder->populateWithArray($data)->create();

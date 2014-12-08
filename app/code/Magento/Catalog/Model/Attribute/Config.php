@@ -32,6 +32,6 @@ class Config
      */
     public function getAttributeNames($groupName)
     {
-        return $this->_dataStorage->get($groupName, array());
+        return $this->_dataStorage->get($groupName, []);
     }
 }

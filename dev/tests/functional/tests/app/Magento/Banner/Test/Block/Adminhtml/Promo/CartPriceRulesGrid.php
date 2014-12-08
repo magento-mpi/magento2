@@ -23,10 +23,10 @@ class CartPriceRulesGrid extends Grid
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="salesrule_name"]'
+            'selector' => 'input[name="salesrule_name"]',
         ],
         'id' => [
-            'selector' => 'input[name="salesrule_rule_id"]'
-        ]
+            'selector' => 'input[name="salesrule_rule_id"]',
+        ],
     ];
 }

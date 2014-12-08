@@ -57,10 +57,10 @@ abstract class AbstractAction
     public function getIndexers()
     {
         if (is_null($this->_types)) {
-            $this->_types = array(
+            $this->_types = [
                 'source' => $this->_eavSourceFactory->create(),
-                'decimal' => $this->_eavDecimalFactory->create()
-            );
+                'decimal' => $this->_eavDecimalFactory->create(),
+            ];
         }
 
         return $this->_types;

@@ -42,10 +42,10 @@ class LoadThemeList extends \Magento\DesignEditor\Controller\Adminhtml\System\De
             $availableThemeBlock->setIsFirstEntrance($this->_isFirstEntrance());
             $availableThemeBlock->setHasThemeAssigned($this->_customizationConfig->hasThemeAssigned());
 
-            $response = array('content' => $this->_view->getLayout()->getOutput());
+            $response = ['content' => $this->_view->getLayout()->getOutput()];
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
+            $response = ['error' => __('Sorry, but we can\'t load the theme list.')];
         }
         $this->getResponse()->representJson($coreHelper->jsonEncode($response));
     }

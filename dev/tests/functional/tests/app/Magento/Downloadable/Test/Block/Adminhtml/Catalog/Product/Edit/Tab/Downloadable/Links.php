@@ -62,7 +62,7 @@ class Links extends Form
      */
     public function getRowBlock($index, Element $element = null)
     {
-        $element = $element ? : $this->_rootElement;
+        $element = $element ?: $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\LinkRow',
             ['element' => $element->find(sprintf($this->rowBlock, ++$index), Locator::SELECTOR_XPATH)]
@@ -78,7 +78,7 @@ class Links extends Form
      */
     public function fillLinks(array $fields, Element $element = null)
     {
-        $element = $element ? : $this->_rootElement;
+        $element = $element ?: $this->_rootElement;
         if (!$element->find($this->title, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showLinks, Locator::SELECTOR_XPATH)->click();
         }
@@ -105,7 +105,7 @@ class Links extends Form
      */
     public function getDataLinks(array $fields = null, Element $element = null)
     {
-        $element = $element ? : $this->_rootElement;
+        $element = $element ?: $this->_rootElement;
         if (!$element->find($this->title, Locator::SELECTOR_XPATH)->isVisible()) {
             $element->find($this->showLinks, Locator::SELECTOR_XPATH)->click();
         }

@@ -33,16 +33,16 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'load', 'invalidate'),
-            array(),
+            ['getId', 'load', 'invalidate'],
+            [],
             '',
             false
         );
 
         $this->appConfigMock = $this->getMock(
             'Magento\CatalogPermissions\App\Backend\Config',
-            array('isEnabled'),
-            array(),
+            ['isEnabled'],
+            [],
             '',
             false
         );
@@ -59,8 +59,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -73,8 +73,8 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -91,16 +91,16 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $customerGroupMock = $this->getMock(
             'Magento\Customer\Model\Data\Group',
-            array('getId'),
-            array(),
+            ['getId'],
+            [],
             '',
             false
         );
@@ -118,16 +118,16 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $customerGroupService = $this->getMock(
             'Magento\Customer\Model\Resource\GroupRepository',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $customerGroupMock = $this->getMock(
             'Magento\Customer\Model\Data\Group',
-            array('getId'),
-            array(),
+            ['getId'],
+            [],
             '',
             false
         );

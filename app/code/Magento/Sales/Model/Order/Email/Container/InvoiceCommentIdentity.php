@@ -16,7 +16,6 @@ class InvoiceCommentIdentity extends Container implements IdentityInterface
     const XML_PATH_EMAIL_IDENTITY = 'sales_email/invoice_comment/identity';
     const XML_PATH_EMAIL_ENABLED = 'sales_email/invoice_comment/enabled';
 
-
     /**
      * @return bool
      */

@@ -8,9 +8,8 @@
 
 namespace Magento\Framework\View\Asset;
 
+use Magento\Framework\UrlInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\Asset\File;
-use \Magento\Framework\UrlInterface;
 use Magento\Framework\Filesystem;
 
 /**
@@ -144,7 +143,7 @@ class Repository
      * @param array $params
      * @return File
      */
-    public function createAsset($fileId, array $params = array())
+    public function createAsset($fileId, array $params = [])
     {
         $this->updateDesignParams($params);
         list($module, $filePath) = self::extractModule($fileId);
@@ -176,7 +175,7 @@ class Repository
      */
     public function getStaticViewFileContext()
     {
-        $params = array();
+        $params = [];
         $this->updateDesignParams($params);
         $themePath = $this->design->getThemePath($params['themeModel']);
         return $this->getFallbackContext(
@@ -204,9 +203,9 @@ class Repository
     {
         $secureKey = null === $isSecure ? 'null' : (int)$isSecure;
         $baseDirType = DirectoryList::STATIC_VIEW;
-        $id = implode('|', array($baseDirType, $urlType, $secureKey, $area, $themePath, $locale));
+        $id = implode('|', [$baseDirType, $urlType, $secureKey, $area, $themePath, $locale]);
         if (!isset($this->fallbackContext[$id])) {
-            $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType, '_secure' => $isSecure));
+            $url = $this->baseUrl->getBaseUrl(['_type' => $urlType, '_secure' => $isSecure]);
             $this->fallbackContext[$id] = new \Magento\Framework\View\Asset\File\FallbackContext(
                 $url,
                 $area,
@@ -274,9 +273,9 @@ class Repository
      */
     private function getFileContext($baseDirType, $urlType, $dirPath)
     {
-        $id = implode('|', array($baseDirType, $urlType, $dirPath));
+        $id = implode('|', [$baseDirType, $urlType, $dirPath]);
         if (!isset($this->fileContext[$id])) {
-            $url = $this->baseUrl->getBaseUrl(array('_type' => $urlType));
+            $url = $this->baseUrl->getBaseUrl(['_type' => $urlType]);
             $this->fileContext[$id] = new \Magento\Framework\View\Asset\File\Context($url, $baseDirType, $dirPath);
         }
         return $this->fileContext[$id];
@@ -349,12 +348,12 @@ class Repository
     public static function extractModule($fileId)
     {
         if (strpos($fileId, self::FILE_ID_SEPARATOR) === false) {
-            return array('', $fileId);
+            return ['', $fileId];
         }
         $result = explode(self::FILE_ID_SEPARATOR, $fileId, 2);
         if (empty($result[0])) {
             throw new \Magento\Framework\Exception('Scope separator "::" cannot be used without scope identifier.');
         }
-        return array($result[0], $result[1]);
+        return [$result[0], $result[1]];
     }
 }

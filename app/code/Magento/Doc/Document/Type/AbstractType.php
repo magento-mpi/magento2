@@ -35,6 +35,5 @@ abstract class AbstractType
         } else {
             return str_replace('_', '/', $item->getData('name')) . '.html';
         }
-
     }
 }

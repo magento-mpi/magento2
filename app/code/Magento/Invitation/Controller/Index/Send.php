@@ -38,7 +38,7 @@ class Send extends \Magento\Invitation\Controller\Index
                 }
                 try {
                     $invitation = $this->invitationFactory->create()->setData(
-                        array('email' => $email, 'customer' => $customer, 'message' => $message)
+                        ['email' => $email, 'customer' => $customer, 'message' => $message]
                     )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));

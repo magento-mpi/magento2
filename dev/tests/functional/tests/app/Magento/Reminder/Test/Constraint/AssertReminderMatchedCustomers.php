@@ -8,18 +8,18 @@
 
 namespace Magento\Reminder\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
-use Magento\Reminder\Test\Page\Adminhtml\ReminderView;
-use Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\Customers as TabMatchedCustomers;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Reminder\Test\Fixture\Reminder;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\Customers as TabMatchedCustomers;
+use Magento\Reminder\Test\Fixture\Reminder;
+use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
+use Magento\Reminder\Test\Page\Adminhtml\ReminderView;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\ObjectManager;
 
 /**
  * Open created reminder and assert customer in Matched Customers grid.
@@ -114,7 +114,7 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
         foreach ($matchedCustomers as $customer) {
             $filter = [
                 'email' => $customer['email'],
-                'coupon' => $salesRuleCoupon
+                'coupon' => $salesRuleCoupon,
             ];
 
             \PHPUnit_Framework_Assert::assertTrue(
@@ -137,7 +137,7 @@ class AssertReminderMatchedCustomers extends AbstractConstraint
         return [
             [
                 'email' => $this->matchedCustomer->getEmail(),
-                'is_matched' => true
+                'is_matched' => true,
             ],
             [
                 'email' => $this->unmatchedCustomer->getEmail(),

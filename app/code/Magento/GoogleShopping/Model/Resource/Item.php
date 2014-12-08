@@ -54,7 +54,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
             );
 
             $data = $read->fetchRow($select);
-            $data = is_array($data) ? $data : array();
+            $data = is_array($data) ? $data : [];
             $model->addData($data);
         }
         return $this;

@@ -32,7 +32,7 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        $data = array()
+        $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

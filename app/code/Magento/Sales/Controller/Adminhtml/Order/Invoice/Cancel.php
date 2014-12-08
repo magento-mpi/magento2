@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 use Magento\Backend\App\Action;
 
 class Cancel extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View
@@ -41,6 +41,6 @@ class Cancel extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice
         } catch (\Exception $e) {
             $this->messageManager->addError(__('Invoice canceling error'));
         }
-        $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
+        $this->_redirect('sales/*/view', ['invoice_id' => $invoice->getId()]);
     }
 }

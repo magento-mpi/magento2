@@ -7,8 +7,8 @@
  */
 namespace Magento\Test\Tools\Layout\Reference;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Tools\Layout\Formatter;
 use Magento\Tools\Layout\Reference\Processor;
 
@@ -65,7 +65,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetReferences()
     {
-        $this->_processor->getReferences(array($this->_testDir . 'layoutValid.xml'));
+        $this->_processor->getReferences([$this->_testDir . 'layoutValid.xml']);
         $this->_processor->writeToFile();
         $expected = <<<EOF
 <?xml version="1.0"?>
@@ -84,7 +84,7 @@ EOF;
 
     public function testGetReferencesWithConflictNames()
     {
-        $this->_processor->getReferences(array($this->_testDir . 'layoutInvalid.xml'));
+        $this->_processor->getReferences([$this->_testDir . 'layoutInvalid.xml']);
         $this->_processor->writeToFile();
         $expected = <<<EOF
 <?xml version="1.0"?>
@@ -107,7 +107,7 @@ EOF;
         $testFile = $this->_varDir . 'layoutValid.xml';
         copy($this->_testDir . 'layoutValid.xml', $testFile);
 
-        $layouts = array($testFile);
+        $layouts = [$testFile];
         $this->_processor->getReferences($layouts);
         $this->_processor->writeToFile();
         $expected = <<<EOF

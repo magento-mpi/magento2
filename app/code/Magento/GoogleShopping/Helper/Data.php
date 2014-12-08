@@ -91,7 +91,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function parseGdataExceptionMessage($message, $product = null)
     {
-        $result = array();
+        $result = [];
         foreach (explode("\n", $message) as $row) {
             if (trim($row) == '') {
                 continue;

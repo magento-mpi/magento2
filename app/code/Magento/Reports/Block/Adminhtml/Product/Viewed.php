@@ -32,7 +32,7 @@ class Viewed extends \Magento\Backend\Block\Widget\Grid\Container
         $this->buttonList->remove('add');
         $this->addButton(
             'filter_form_submit',
-            array('label' => __('Show Report'), 'onclick' => 'filterFormSubmit()', 'class' => 'primary')
+            ['label' => __('Show Report'), 'onclick' => 'filterFormSubmit()', 'class' => 'primary']
         );
     }
 
@@ -44,6 +44,6 @@ class Viewed extends \Magento\Backend\Block\Widget\Grid\Container
     public function getFilterUrl()
     {
         $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('*/*/viewed', array('_current' => true));
+        return $this->getUrl('*/*/viewed', ['_current' => true]);
     }
 }

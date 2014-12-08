@@ -22,7 +22,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Weee\Helper\Data $weeeData,
-        array $data = array()
+        array $data = []
     ) {
         $this->weeeData = $weeeData;
         parent::__construct($context, $data);
@@ -53,11 +53,11 @@ class Totals extends \Magento\Framework\View\Element\Template
         if ($weeeTotal) {
             // Add our total information to the set of other totals
             $total = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => $this->getNameInLayout(),
                     'label' => __('FPT'),
-                    'value' => $weeeTotal
-                )
+                    'value' => $weeeTotal,
+                ]
             );
             if ($this->getBeforeCondition()) {
                 $this->getParentBlock()->addTotalBefore($total, $this->getBeforeCondition());

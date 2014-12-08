@@ -48,7 +48,7 @@ class DbConfig extends AbstractSegment
                     self::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                     self::KEY_ACTIVE => '1',
                 ],
-            ]
+            ],
         ];
         $data = $this->update($data);
         $this->checkData($data);
@@ -113,6 +113,6 @@ class DbConfig extends AbstractSegment
      */
     public function getConnections()
     {
-        return isset($this->data['connection']) ? $this->data['connection'] : array();
+        return isset($this->data['connection']) ? $this->data['connection'] : [];
     }
 }

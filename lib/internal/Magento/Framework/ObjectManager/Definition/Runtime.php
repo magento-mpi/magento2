@@ -14,7 +14,7 @@ class Runtime implements \Magento\Framework\ObjectManager\DefinitionInterface
     /**
      * @var array
      */
-    protected $_definitions = array();
+    protected $_definitions = [];
 
     /**
      * @param \Magento\Framework\Code\Reader\ClassReader $reader
@@ -55,6 +55,6 @@ class Runtime implements \Magento\Framework\ObjectManager\DefinitionInterface
      */
     public function getClasses()
     {
-        return array();
+        return [];
     }
 }

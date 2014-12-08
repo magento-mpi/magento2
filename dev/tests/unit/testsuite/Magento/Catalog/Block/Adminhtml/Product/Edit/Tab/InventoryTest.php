@@ -569,7 +569,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'ModuleEnabled' => true
+                'ModuleEnabled' => true,
             ],
             [
                 'ModuleEnabled' => false
@@ -588,7 +588,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
             [
                 'stockId' => 99,
                 'methods' => ['getField'],
-                'result' => 'call-method'
+                'result' => 'call-method',
             ],
             [
                 'stockId' => null,
@@ -614,7 +614,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
             [
                 'stockId' => 99,
                 'methods' => ['getUseConfigField'],
-                'result' => 'call-method'
+                'result' => 'call-method',
             ],
             [
                 'stockId' => null,
@@ -639,7 +639,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'id' => 99,
-                'result' => false
+                'result' => false,
             ],
             [
                 'id' => null,

@@ -8,9 +8,9 @@
 
 namespace Magento\Sitemap\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Fixture\Sitemap;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSitemapNotInGrid
@@ -37,7 +37,7 @@ class AssertSitemapNotInGrid extends AbstractConstraint
         $filter = [
             'sitemap_filename' => $sitemap->getSitemapFilename(),
             'sitemap_path' => $sitemap->getSitemapPath(),
-            'sitemap_id' => $sitemap->getSitemapId()
+            'sitemap_id' => $sitemap->getSitemapId(),
         ];
         \PHPUnit_Framework_Assert::assertFalse(
             $sitemapPageGrid->getSitemapGrid()->isRowVisible($filter),

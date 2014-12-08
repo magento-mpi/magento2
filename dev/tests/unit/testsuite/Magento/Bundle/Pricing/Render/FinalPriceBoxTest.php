@@ -61,7 +61,6 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($result, $this->model->showRangePrice());
     }
 
-
     /**
      * @return array
      */

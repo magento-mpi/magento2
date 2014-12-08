@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Eav\Api\Data\AttributeOptionInterface;
 use Magento\Eav\Api\Data\AttributeOptionLabelInterface;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
 {
@@ -29,22 +29,22 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
             [
                 AttributeOptionInterface::VALUE => '0',
                 AttributeOptionInterface::LABEL => 'Out of Stock',
-            ]
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getItems'
+                'operation' => self::SERVICE_NAME . 'getItems',
             ],
         ];
 
-        $response = $this->_webApiCall($serviceInfo, array('attributeCode' => $testAttributeCode));
+        $response = $this->_webApiCall($serviceInfo, ['attributeCode' => $testAttributeCode]);
 
         $this->assertTrue(is_array($response));
         $this->assertEquals($expectedOptions, $response);
@@ -59,27 +59,27 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'add'
-            ]
+                'operation' => self::SERVICE_NAME . 'add',
+            ],
         ];
 
-        $optionData = array (
+        $optionData = [
             AttributeOptionInterface::LABEL => 'new color',
             AttributeOptionInterface::VALUE => 'grey',
             AttributeOptionInterface::SORT_ORDER => 100,
             AttributeOptionInterface::IS_DEFAULT => true,
-            AttributeOptionInterface::STORE_LABELS => array (
-                array (
+            AttributeOptionInterface::STORE_LABELS => [
+                [
                     AttributeOptionLabelInterface::LABEL => 'DE label',
                     AttributeOptionLabelInterface::STORE_ID => 1,
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $response = $this->_webApiCall(
             $serviceInfo,
@@ -114,13 +114,13 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode . '/options/' . $optionId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'delete',
-            ]
+            ],
         ];
         $this->assertTrue($this->_webApiCall(
             $serviceInfo,
@@ -142,15 +142,14 @@ class ProductAttributeOptionManagementInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $testAttributeCode . '/options',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getItems'
+                'operation' => self::SERVICE_NAME . 'getItems',
             ],
         ];
-        return $this->_webApiCall($serviceInfo, array('attributeCode' => $testAttributeCode));
+        return $this->_webApiCall($serviceInfo, ['attributeCode' => $testAttributeCode]);
     }
-
 }

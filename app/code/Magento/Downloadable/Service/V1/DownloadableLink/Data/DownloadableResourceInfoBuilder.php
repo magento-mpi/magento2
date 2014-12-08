@@ -47,7 +47,7 @@ class DownloadableResourceInfoBuilder extends ExtensibleObjectBuilder
         $allowedValues = ['url', 'file'];
         if (!in_array($value, $allowedValues)) {
             $values = '\'' . implode('\' and \'', $allowedValues) . '\'';
-            throw new \Magento\Framework\Exception\InputException('Allowed type values are '. $values);
+            throw new \Magento\Framework\Exception\InputException('Allowed type values are ' . $values);
         }
         return $this->_set(DownloadableResourceInfo::TYPE, $value);
     }

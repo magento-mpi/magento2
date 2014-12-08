@@ -22,8 +22,8 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'id' => [
-            'selector' => '#order_invoices_filter_increment_id'
-        ]
+            'selector' => '#order_invoices_filter_increment_id',
+        ],
     ];
 
     /**

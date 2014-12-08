@@ -17,7 +17,7 @@ abstract class AbstractFactory implements FactoryInterface
      *
      * @var array
      */
-    protected $invokableClasses = array();
+    protected $invokableClasses = [];
 
     /**
      * Whether or not to share by default; default to false
@@ -31,7 +31,7 @@ abstract class AbstractFactory implements FactoryInterface
      *
      * @var array
      */
-    protected $shared = array();
+    protected $shared = [];
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
@@ -41,7 +41,7 @@ abstract class AbstractFactory implements FactoryInterface
     /**
      * @var \Zend_Filter_Interface[]
      */
-    protected $sharedInstances = array();
+    protected $sharedInstances = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManger
@@ -80,7 +80,7 @@ abstract class AbstractFactory implements FactoryInterface
      * @param array $arguments
      * @return \Zend_Filter_Interface
      */
-    public function createFilter($alias, array $arguments = array())
+    public function createFilter($alias, array $arguments = [])
     {
         $addToShared = !$arguments || isset(
             $this->sharedInstances[$alias]

@@ -190,7 +190,7 @@ class Observer
         $collectionCountSelect = clone $collectionCountSubSelect;
         $collectionCountSelect->reset();
         // Since UNION ALL leaves duplicates count select can be a sum of counts for 2 parts
-        $collectionCountSelect->from(array('u' => $collectionCountSubSelect), 'SUM(part_total)');
+        $collectionCountSelect->from(['u' => $collectionCountSubSelect], 'SUM(part_total)');
         $collection->setSelectCountSql($collectionCountSelect);
 
         $collectionSelect->reset();

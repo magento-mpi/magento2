@@ -33,7 +33,7 @@ class Tools extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_themeContext = $themeContext;
         parent::__construct($context, $data);
@@ -46,40 +46,40 @@ class Tools extends \Magento\Backend\Block\Template
      */
     public function getTabs()
     {
-        return array(
-            array(
+        return [
+            [
                 'is_hidden' => false,
                 'is_disabled' => false,
                 'id' => 'vde-tab-quick-styles',
                 'label' => __('Quick Styles'),
                 'content_block' => 'design_editor_tools_quick-styles',
-                'class' => 'item-design'
-            ),
-            array(
+                'class' => 'item-design',
+            ],
+            [
                 'is_hidden' => true,
                 'is_disabled' => false,
                 'id' => 'vde-tab-block',
                 'label' => __('Block'),
                 'content_block' => 'design_editor_tools_block',
                 'class' => 'item-block'
-            ),
-            array(
+            ],
+            [
                 'is_hidden' => true,
                 'is_disabled' => false,
                 'id' => 'vde-tab-settings',
                 'label' => __('Settings'),
                 'content_block' => 'design_editor_tools_settings',
                 'class' => 'item-settings'
-            ),
-            array(
+            ],
+            [
                 'is_hidden' => false,
                 'is_disabled' => false,
                 'id' => 'vde-tab-code',
                 'label' => __('Advanced'),
                 'content_block' => 'design_editor_tools_code',
                 'class' => 'item-code'
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -89,7 +89,7 @@ class Tools extends \Magento\Backend\Block\Template
      */
     public function getTabContents()
     {
-        $contents = array();
+        $contents = [];
         foreach ($this->getTabs() as $tab) {
             $contents[] = $this->getChildHtml($tab['content_block']);
         }
@@ -105,7 +105,7 @@ class Tools extends \Magento\Backend\Block\Template
     {
         /** @var $tabHandleBlock \Magento\Backend\Block\Template */
         $tabHandleBlock = $this->getChildBlock(self::TAB_HANDLE_BLOCK_ALIAS);
-        $handles = array();
+        $handles = [];
         foreach ($this->getTabs() as $tab) {
             $href = '#' . $tab['id'];
             $handles[] = $tabHandleBlock->setIsHidden(
@@ -135,7 +135,7 @@ class Tools extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/system_design_editor_tools/saveQuickStyles',
-            array('theme_id' => $this->_themeContext->getEditableTheme()->getId())
+            ['theme_id' => $this->_themeContext->getEditableTheme()->getId()]
         );
     }
 }

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customers Report collection
  */
@@ -84,7 +83,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
      * @param mixed $connection
      * @param string $modelName
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -171,9 +170,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         }
 
         $this->getSelect()->joinLeft(
-            array('orders' => $this->getTable('sales_order')),
+            ['orders' => $this->getTable('sales_order')],
             "orders.customer_id = e.entity_id" . $dateFilter,
-            array()
+            []
         );
 
         return $this;
@@ -187,7 +186,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     public function addOrdersCount()
     {
         $this->getSelect()->columns(
-            array("orders_count" => "COUNT(orders.entity_id)")
+            ["orders_count" => "COUNT(orders.entity_id)"]
         )->where(
             'orders.state <> ?',
             \Magento\Sales\Model\Order::STATE_CANCELED
@@ -219,9 +218,9 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             "orders.base_subtotal - {$baseSubtotalCanceled} - {$baseSubtotalRefunded}";
 
         $this->getSelect()->columns(
-            array("orders_avg_amount" => "AVG({$expr})")
+            ["orders_avg_amount" => "AVG({$expr})"]
         )->columns(
-            array("orders_sum_amount" => "SUM({$expr})")
+            ["orders_sum_amount" => "SUM({$expr})"]
         );
 
         return $this;
@@ -272,13 +271,13 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
 
             $select = $this->getConnection()->select();
             $select->from(
-                array('orders' => $this->getTable('sales_order')),
-                array(
+                ['orders' => $this->getTable('sales_order')],
+                [
                     'orders_avg_amount' => "AVG({$totalExpr})",
                     'orders_sum_amount' => "SUM({$totalExpr})",
                     'orders_count' => 'COUNT(orders.entity_id)',
                     'customer_id'
-                )
+                ]
             )->where(
                 'orders.state <> ?',
                 \Magento\Sales\Model\Order::STATE_CANCELED

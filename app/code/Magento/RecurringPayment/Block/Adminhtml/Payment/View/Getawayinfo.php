@@ -37,7 +37,7 @@ class Getawayinfo extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -52,7 +52,7 @@ class Getawayinfo extends \Magento\Backend\Block\Widget
     public function getRecurringPaymentGetawayInformation()
     {
         $recurringPayment = $this->_coreRegistry->registry('current_recurring_payment');
-        $information = array();
+        $information = [];
         foreach ($recurringPayment->getData() as $key => $value) {
             $information[$this->_fields->getFieldLabel($key)] = $value;
         }

@@ -52,32 +52,32 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
     {
         $this->_websiteMock = $this->getMock(
             'Magento\Store\Model\Website',
-            array('getCode', 'getId', '__wakeup'),
-            array(),
+            ['getCode', 'getId', '__wakeup'],
+            [],
             '',
             false,
             false
         );
         $this->_groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('getCode', 'getId', '__wakeup'),
-            array(),
+            ['getCode', 'getId', '__wakeup'],
+            [],
             '',
             false,
             false
         );
         $this->_storeFactoryMock = $this->getMock(
             'Magento\Store\Model\StoreFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false,
             false
         );
         $this->_websiteFactoryMock = $this->getMock(
             'Magento\Store\Model\WebsiteFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false,
             false
@@ -91,8 +91,8 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
         );
         $this->_groupFactoryMock = $this->getMock(
             'Magento\Store\Model\GroupFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false,
             false
@@ -106,8 +106,8 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
         );
         $this->_storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('setId', 'setCode', 'getCode', '__sleep', '__wakeup'),
-            array(),
+            ['setId', 'setCode', 'getCode', '__sleep', '__wakeup'],
+            [],
             '',
             false,
             false
@@ -141,7 +141,7 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
     {
         $withDefault = true;
         $codeKey = true;
-        $this->assertEquals(array(), $this->_model->getStores($withDefault, $codeKey));
+        $this->assertEquals([], $this->_model->getStores($withDefault, $codeKey));
     }
 
     public function testGetWebsite()
@@ -174,7 +174,7 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
         $this->_websiteMock->expects($this->never())->method('getCode');
         $this->_websiteMock->expects($this->never())->method('getId');
         $result = $this->_model->getWebsites($withDefault, $codeKey);
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
     }
 
     public function testGetGroup()
@@ -202,7 +202,7 @@ class DefaultStorageTest extends \PHPUnit_Framework_TestCase
         $this->_groupMock->expects($this->never())->method('getCode');
         $this->_groupMock->expects($this->never())->method('getId');
         $result = $this->_model->getGroups($withDefault, $codeKey);
-        $this->assertEquals(array(), $result);
+        $this->assertEquals([], $result);
     }
 
     public function testGetDefaultStoreView()

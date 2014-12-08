@@ -36,7 +36,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Helper\View $customerView,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerView = $customerView;

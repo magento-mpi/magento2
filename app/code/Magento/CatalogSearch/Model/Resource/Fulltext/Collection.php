@@ -163,7 +163,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
-        $this->queryText = trim($this->queryText .' ' . $query);
+        $this->queryText = trim($this->queryText . ' ' . $query);
         return $this;
     }
 
@@ -179,7 +179,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
         $this->requestBuilder->bind(
             'price_dynamic_algorithm',
-            $this->_scopeConfig ->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory::XML_PATH_RANGE_CALCULATION,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )

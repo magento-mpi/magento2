@@ -18,7 +18,7 @@ abstract class AbstractImport implements \Magento\Directory\Model\Currency\Impor
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -93,13 +93,13 @@ abstract class AbstractImport implements \Magento\Directory\Model\Currency\Impor
      */
     public function fetchRates()
     {
-        $data = array();
+        $data = [];
         $currencies = $this->_getCurrencyCodes();
         $defaultCurrencies = $this->_getDefaultCurrencyCodes();
         @set_time_limit(0);
         foreach ($defaultCurrencies as $currencyFrom) {
             if (!isset($data[$currencyFrom])) {
-                $data[$currencyFrom] = array();
+                $data[$currencyFrom] = [];
             }
 
             foreach ($currencies as $currencyTo) {

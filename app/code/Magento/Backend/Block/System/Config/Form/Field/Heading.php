@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Renderer for sub-heading in fieldset
  *

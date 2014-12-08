@@ -7,6 +7,7 @@
  */
 
 namespace Magento\Customer\Block\Adminhtml\Group;
+
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Controller\RegistryConstants;

@@ -75,7 +75,7 @@ class FileFactory extends \Magento\Framework\App\Response\Http\FileFactory
      * @return \Magento\Framework\App\ResponseInterface
      * @TODO move method
      */
-    protected function _redirect($path, $arguments = array())
+    protected function _redirect($path, $arguments = [])
     {
         $this->_session->setIsUrlNotice(
             $this->_flag->get('', \Magento\Backend\App\AbstractAction::FLAG_IS_URLS_CHECKED)

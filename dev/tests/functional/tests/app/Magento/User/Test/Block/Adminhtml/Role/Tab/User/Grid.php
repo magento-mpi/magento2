@@ -23,8 +23,8 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'username' => [
-            'selector' => 'input[name="role_user_username"]'
-        ]
+            'selector' => 'input[name="role_user_username"]',
+        ],
     ];
 
     /**

@@ -43,7 +43,7 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Catalog\Model\Product $product,
         \Magento\Sales\Model\Quote\Item\OptionFactory $quoteItemOptionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_option = $option;
         $this->_product = $product;
@@ -63,14 +63,14 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
         $this->_shouldRenderInfo = true;
         $key = 'order_item_info';
 
-        foreach (array(
+        foreach ([
             'name' => __('Product Name'),
             'sku' => __('SKU'),
-            'qty' => __('Quantity')
-        ) as $itemKey => $label) {
+            'qty' => __('Quantity'),
+        ] as $itemKey => $label) {
             $value = $this->_recurringPayment->getInfoValue($key, $itemKey);
             if ($value) {
-                $this->_addInfo(array('label' => $label, 'value' => $value));
+                $this->_addInfo(['label' => $label, 'value' => $value]);
             }
         }
 
@@ -113,11 +113,11 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
             if ('file' == $option->getType()) {
                 $skipHtmlEscaping = true;
 
-                $downloadParams = array(
+                $downloadParams = [
                     'id' => $this->_recurringPayment->getId(),
                     'option_id' => $option->getId(),
-                    'key' => $request['options'][$option->getId()]['secret_key']
-                );
+                    'key' => $request['options'][$option->getId()]['secret_key'],
+                ];
                 $group->setCustomOptionDownloadUrl(
                     'sales/download/downloadProfileCustomOption'
                 )->setCustomOptionUrlParams(
@@ -128,11 +128,11 @@ class Item extends \Magento\RecurringPayment\Block\Payment\View
             $optionValue = $group->prepareForCart();
 
             $this->_addInfo(
-                array(
+                [
                     'label' => $option->getTitle(),
                     'value' => $group->getFormattedOptionValue($optionValue),
-                    'skip_html_escaping' => $skipHtmlEscaping
-                )
+                    'skip_html_escaping' => $skipHtmlEscaping,
+                ]
             );
         }
     }

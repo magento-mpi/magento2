@@ -9,7 +9,6 @@ namespace Magento\CatalogInventory\Block\Adminhtml\Form\Field;
 
 class CustomergroupTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\CatalogInventory\Block\Adminhtml\Form\Field\Customergroup
      */

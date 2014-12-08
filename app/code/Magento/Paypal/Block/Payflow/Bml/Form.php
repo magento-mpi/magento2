@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Paypal\Block\Payflow\Bml;
 
 use Magento\Paypal\Model\Config;

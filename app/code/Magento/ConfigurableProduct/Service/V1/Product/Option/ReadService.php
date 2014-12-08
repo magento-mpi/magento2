@@ -10,12 +10,12 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\System\Config\Source\Inputtype as InputType;
 use Magento\Catalog\Service\V1\Data\Product;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\ConfigurableProduct\Service\V1\Data\Option;
 use Magento\ConfigurableProduct\Service\V1\Data\OptionConverter;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Webapi\Exception;
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
 
 class ReadService implements ReadServiceInterface
 {

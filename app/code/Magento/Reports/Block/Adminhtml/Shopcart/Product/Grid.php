@@ -29,7 +29,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Quote\CollectionFactory $quotesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_quotesFactory = $quotesFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -65,30 +65,30 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
     {
         $this->addColumn(
             'entity_id',
-            array(
+            [
                 'header' => __('ID'),
                 'align' => 'right',
                 'index' => 'entity_id',
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id'
-            )
+            ]
         );
 
         $this->addColumn(
             'name',
-            array(
+            [
                 'header' => __('Product'),
                 'index' => 'name',
                 'header_css_class' => 'col-product',
                 'column_css_class' => 'col-product'
-            )
+            ]
         );
 
         $currencyCode = $this->getCurrentCurrencyCode();
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'type' => 'currency',
                 'currency_code' => $currencyCode,
@@ -97,29 +97,29 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
                 'rate' => $this->getRate($currencyCode),
                 'header_css_class' => 'col-price',
                 'column_css_class' => 'col-price'
-            )
+            ]
         );
 
         $this->addColumn(
             'carts',
-            array(
+            [
                 'header' => __('Carts'),
                 'align' => 'right',
                 'index' => 'carts',
                 'header_css_class' => 'col-carts',
                 'column_css_class' => 'col-carts'
-            )
+            ]
         );
 
         $this->addColumn(
             'orders',
-            array(
+            [
                 'header' => __('Orders'),
                 'align' => 'right',
                 'index' => 'orders',
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
 
         $this->setFilterVisibility(false);
@@ -137,6 +137,6 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getEntityId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getEntityId()]);
     }
 }

@@ -37,9 +37,9 @@ class Country implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $_allowed = $this->_config->getAllowedCountries();
-        $result = array();
+        $result = [];
         foreach ($_allowed as $iso => $info) {
-            $result[] = array('value' => $iso, 'label' => $info['name']);
+            $result[] = ['value' => $iso, 'label' => $info['name']];
         }
         return $result;
     }

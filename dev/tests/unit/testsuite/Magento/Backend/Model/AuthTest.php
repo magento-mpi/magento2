@@ -38,8 +38,8 @@ class AuthTest extends \PHPUnit_Framework_TestCase
     {
         $this->_eventManagerMock = $this->getMock('\Magento\Framework\Event\ManagerInterface');
         $this->_credentialStorage = $this->getMock('\Magento\Backend\Model\Auth\Credential\StorageInterface');
-        $this->_modelFactoryMock = $this->getMock('\Magento\Core\Model\Factory', array(), array(), '', false);
-        $objectManager= new ObjectManager($this);
+        $this->_modelFactoryMock = $this->getMock('\Magento\Core\Model\Factory', [], [], '', false);
+        $objectManager = new ObjectManager($this);
         $this->_model = $objectManager->getObject(
             'Magento\Backend\Model\Auth',
             [
@@ -61,7 +61,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with('Magento\Backend\Model\Auth\Credential\StorageInterface')
             ->will($this->returnValue($this->_credentialStorage));
-        $exceptionMock = new \Magento\Framework\Model\Exception;
+        $exceptionMock = new \Magento\Framework\Model\Exception();
         $this->_credentialStorage
             ->expects($this->once())
             ->method('login')

@@ -15,7 +15,7 @@
 function getLines($fileName)
 {
     // return an array of non-commented out lines
-    $returns = array();
+    $returns = [];
     if (file_exists($fileName)) {
         // read in the lines from the file
         $lines = file($fileName);
@@ -63,5 +63,5 @@ function normalizeDirectorySeparators($subject)
  */
 function joinPaths($path, $file)
 {
-    return join('/', array(rtrim($path, '/'), ltrim($file, '/')));
+    return join('/', [rtrim($path, '/'), ltrim($file, '/')]);
 }

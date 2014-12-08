@@ -86,7 +86,7 @@ class SalesRuleRefund
     {
         $rewardModel = $this->getRewardModel([
             'website_id' => $this->storeManager->getStore($order->getStoreId())->getWebsiteId(),
-            'customer_id' => $order->getCustomerId()
+            'customer_id' => $order->getCustomerId(),
         ]);
         $rewardModel->loadByCustomer();
 
@@ -134,7 +134,7 @@ class SalesRuleRefund
      * @param array $data
      * @return \Magento\Reward\Model\Reward
      */
-    protected function getRewardModel($data = array())
+    protected function getRewardModel($data = [])
     {
         return $this->rewardFactory->create(['data' => $data]);
     }

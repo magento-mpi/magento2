@@ -7,11 +7,11 @@
  */
 namespace Magento\Customer\Helper;
 
-use Magento\Directory\Model\Country\Format;
-use Magento\Customer\Api\Data\AttributeMetadataInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Customer\Api\Data\AttributeMetadataInterface;
+use Magento\Directory\Model\Country\Format;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Customer address helper
@@ -52,19 +52,19 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * Customer Number of Lines in a Street Address per website
      *
      * @var array
      */
-    protected $_streetLines = array();
+    protected $_streetLines = [];
 
     /**
      * @var array
      */
-    protected $_formatTemplate = array();
+    protected $_formatTemplate = [];
 
     /** @var \Magento\Framework\View\Element\BlockFactory */
     protected $_blockFactory;
@@ -148,7 +148,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
     public function getRenderer($renderer)
     {
         if (is_string($renderer) && $renderer) {
-            return $this->_blockFactory->createBlock($renderer, array());
+            return $this->_blockFactory->createBlock($renderer, []);
         } else {
             return $renderer;
         }
@@ -251,7 +251,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
                 ? $this->_attributes[$attributeCode]
                 : $this->_addressMetadataService->getAttributeMetadata($attributeCode);
             $class = $attribute ? $attribute->getFrontendClass() : '';
-            if (in_array($attributeCode, array('firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'))) {
+            if (in_array($attributeCode, ['firstname', 'middlename', 'lastname', 'prefix', 'suffix', 'taxvat'])) {
                 if ($class && !$attribute->isVisible()) {
                     // address attribute is not visible thus its validation rules are not applied
                     $class = '';
@@ -287,7 +287,7 @@ class Address extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function convertStreetLines($origStreets, $toCount)
     {
-        $lines = array();
+        $lines = [];
         if (!empty($origStreets) && $toCount > 0) {
             $countArgs = (int)floor(count($origStreets) / $toCount);
             $modulo = count($origStreets) % $toCount;

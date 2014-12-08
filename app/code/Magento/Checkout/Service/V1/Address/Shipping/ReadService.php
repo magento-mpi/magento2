@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Address\Shipping;
 
-use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /** Quote billing address read service object. */
 class ReadService implements ReadServiceInterface

@@ -9,8 +9,8 @@ namespace Magento\TargetRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
-use Magento\Indexer\Model\CacheContext;
 use Magento\Framework\Module\Manager as ModuleManager;
+use Magento\Indexer\Model\CacheContext;
 
 /**
  * TargetRule Rule Resource Model
@@ -24,13 +24,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'product' => array(
+    protected $_associatedEntitiesMap = [
+        'product' => [
             'associations_table' => 'magento_targetrule_product',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'product_id'
-        )
-    );
+            'entity_id_field' => 'product_id',
+        ],
+    ];
 
     /**
      * @var ModuleManager
@@ -92,7 +92,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         )->query()->fetchAll(
             \Zend_Db::FETCH_COLUMN
         );
-        return empty($ids) ? array() : $ids;
+        return empty($ids) ? [] : $ids;
     }
 
     /**
@@ -105,26 +105,26 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     public function saveCustomerSegments($ruleId, $segmentIds)
     {
         if (empty($segmentIds)) {
-            $segmentIds = array();
+            $segmentIds = [];
         }
         $adapter = $this->_getWriteAdapter();
         foreach ($segmentIds as $segmentId) {
             if (!empty($segmentId)) {
                 $adapter->insertOnDuplicate(
                     $this->getTable('magento_targetrule_customersegment'),
-                    array('rule_id' => $ruleId, 'segment_id' => $segmentId),
-                    array()
+                    ['rule_id' => $ruleId, 'segment_id' => $segmentId],
+                    []
                 );
             }
         }
 
         if (empty($segmentIds)) {
-            $segmentIds = array(0);
+            $segmentIds = [0];
         }
 
         $adapter->delete(
             $this->getTable('magento_targetrule_customersegment'),
-            array('rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds)
+            ['rule_id = ?' => $ruleId, 'segment_id NOT IN (?)' => $segmentIds]
         );
         return $this;
     }
@@ -150,7 +150,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         parent::_afterSave($object);
-        $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : array(0);
+        $segmentIds = $object->getUseCustomerSegment() ? $object->getCustomerSegmentIds() : [0];
         $this->saveCustomerSegments($object->getId(), $segmentIds);
 
         return $this;

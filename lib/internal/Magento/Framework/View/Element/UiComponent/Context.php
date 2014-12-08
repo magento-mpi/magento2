@@ -7,10 +7,10 @@
  */
 namespace Magento\Framework\View\Element\UiComponent;
 
-use Magento\Framework\Registry;
-use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * Class Context

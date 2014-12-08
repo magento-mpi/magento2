@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -66,9 +66,9 @@ abstract class Validator
      */
     protected function getValidatorErrors($errors, $fileInfo, $option)
     {
-        $result = array();
+        $result = [];
         foreach ($errors as $errorCode) {
-            switch($errorCode) {
+            switch ($errorCode) {
                 case \Zend_Validate_File_ExcludeExtension::FALSE_EXTENSION:
                     $result[] = __(
                         "The file '%1' for '%2' has an invalid extension.",
@@ -128,7 +128,7 @@ abstract class Validator
      */
     protected function buildImageValidator($object, $option, $fileFullPath = null)
     {
-        $dimensions = array();
+        $dimensions = [];
 
         if ($option->getImageSizeX() > 0) {
             $dimensions['maxwidth'] = $option->getImageSizeX();
@@ -155,7 +155,7 @@ abstract class Validator
         }
 
         $object->addValidator(
-            new \Zend_Validate_File_FilesSize(array('max' => $this->fileSize->getMaxFileSize()))
+            new \Zend_Validate_File_FilesSize(['max' => $this->fileSize->getMaxFileSize()])
         );
         return $object;
     }

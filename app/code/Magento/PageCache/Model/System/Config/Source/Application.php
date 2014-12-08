@@ -24,10 +24,10 @@ class Application implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\PageCache\Model\Config::BUILT_IN, 'label' => __('Built-in Application')),
-            array('value' => \Magento\PageCache\Model\Config::VARNISH, 'label' => __('Varnish Caching'))
-        );
+        return [
+            ['value' => \Magento\PageCache\Model\Config::BUILT_IN, 'label' => __('Built-in Application')],
+            ['value' => \Magento\PageCache\Model\Config::VARNISH, 'label' => __('Varnish Caching')]
+        ];
     }
 
     /**
@@ -37,9 +37,9 @@ class Application implements \Magento\Framework\Option\ArrayInterface
      */
     public function toArray()
     {
-        return array(
+        return [
             \Magento\PageCache\Model\Config::BUILT_IN => __('Built-in Application'),
             \Magento\PageCache\Model\Config::VARNISH => __('Varnish Caching')
-        );
+        ];
     }
 }

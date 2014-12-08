@@ -81,9 +81,9 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $ignoredUserAgents = array(),
-        array $ignores = array(),
-        array $data = array()
+        array $ignoredUserAgents = [],
+        array $ignores = [],
+        array $data = []
     ) {
         $this->session = $session;
         $this->httpHeader = $httpHeader;
@@ -142,7 +142,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
             $this->setSessionId($this->session->getSessionId());
             $this->setLastVisitAt($this->dateTime->now());
             $this->save();
-            $this->_eventManager->dispatch('visitor_init', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_init', ['visitor' => $this]);
             $this->session->setVisitorData($this->getData());
         }
         return $this;
@@ -164,7 +164,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
 
         try {
             $this->save();
-            $this->_eventManager->dispatch('visitor_activity_save', array('visitor' => $this));
+            $this->_eventManager->dispatch('visitor_activity_save', ['visitor' => $this]);
             $this->session->setVisitorData($this->getData());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
@@ -256,7 +256,6 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         }
         return $this;
     }
-
 
     /**
      * Return clean time in seconds for visitor's outdated records

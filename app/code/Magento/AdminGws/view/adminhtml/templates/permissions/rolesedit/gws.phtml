@@ -20,7 +20,7 @@
                 <select id="gws_is_all" name="gws_is_all" onchange="$('gws_container').toggle()" class="select">
                     <option value="0"><?php echo __('Custom') ?></option>
                     <?php if ($this->canAssignGwsAll()): ?>
-                    <option value="1" <?php echo ($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo __('All') ?></option>
+                    <option value="1" <?php echo($this->getGwsIsAll() ? 'selected="selected"' : '') ?>><?php echo __('All') ?></option>
                     <?php endif; ?>
                 </select>
             </div>
@@ -32,14 +32,14 @@
                     <ul>
                         <?php foreach ($this->getWebsites() as $websiteId => $website): ?>
                         <li>
-                            <input class="gws_website" type="checkbox" name="gws_websites[]" value="<?php echo $websiteId ?>" id="gws_website_<?php echo $websiteId ?>" <?php echo (in_array($websiteId, $this->getRole()->getGwsWebsites()) ? 'checked="checked" ' : '') ?>/><label for="gws_website_<?php echo $websiteId ?>">
+                            <input class="gws_website" type="checkbox" name="gws_websites[]" value="<?php echo $websiteId ?>" id="gws_website_<?php echo $websiteId ?>" <?php echo(in_array($websiteId, $this->getRole()->getGwsWebsites()) ? 'checked="checked" ' : '') ?>/><label for="gws_website_<?php echo $websiteId ?>">
                             <?php echo $this->escapeHtml($website->getName()) ?>
                         </label>
                             <?php if (count($website->getGroups())): ?>
                             <ul id="gws_website_<?php echo $websiteId ?>_groups">
                                 <?php foreach ($website->getGroups() as $group): ?>
                                 <li>
-                                    <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo (in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
+                                    <input class="gws_store_group validate-one-gws-store" type="checkbox" name="gws_store_groups[]" value="<?php echo $group->getId() ?>" id="gws_store_group_<?php echo $group->getId() ?>" <?php echo(in_array($group->getId(), $this->getRole()->getGwsStoreGroups()) ? 'checked="checked" ' : '') ?>/><label for="gws_store_group_<?php echo $group->getId() ?>">
                                     <?php echo $this->escapeHtml($group->getName()) ?>
                                 </label>
                                 </li>
@@ -134,7 +134,7 @@ require([
         rwc = new gwsController();
         rwc.isClick = false;
         rwc.isWebsiteChecked();
-        rwc.isClick = true;        
+        rwc.isClick = true;
 });
 </script>
     </fieldset>

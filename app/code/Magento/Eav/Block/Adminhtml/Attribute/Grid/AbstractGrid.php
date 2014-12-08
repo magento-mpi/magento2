@@ -43,53 +43,53 @@ abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->addColumn(
             'attribute_code',
-            array(
+            [
                 'header' => __('Attribute Code'),
                 'sortable' => true,
                 'index' => 'attribute_code',
                 'header_css_class' => 'col-attr-code',
                 'column_css_class' => 'col-attr-code'
-            )
+            ]
         );
 
         $this->addColumn(
             'frontend_label',
-            array(
+            [
                 'header' => __('Attribute Label'),
                 'sortable' => true,
                 'index' => 'frontend_label',
                 'header_css_class' => 'col-label',
                 'column_css_class' => 'col-label'
-            )
+            ]
         );
 
         $this->addColumn(
             'is_required',
-            array(
+            [
                 'header' => __('Required'),
                 'sortable' => true,
                 'index' => 'is_required',
                 'type' => 'options',
-                'options' => array('1' => __('Yes'), '0' => __('No')),
+                'options' => ['1' => __('Yes'), '0' => __('No')],
                 'header_css_class' => 'col-required',
                 'column_css_class' => 'col-required'
-            )
+            ]
         );
 
         $this->addColumn(
             'is_user_defined',
-            array(
+            [
                 'header' => __('System'),
                 'sortable' => true,
                 'index' => 'is_user_defined',
                 'type' => 'options',
-                'options' => array(
+                'options' => [
                     '0' => __('Yes'),   // intended reverted use
                     '1' => __('No'),    // intended reverted use
-                ),
+                ],
                 'header_css_class' => 'col-system',
                 'column_css_class' => 'col-system'
-            )
+            ]
         );
 
         return $this;
@@ -103,6 +103,6 @@ abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl($this->_module . '/*/edit', array('attribute_id' => $row->getAttributeId()));
+        return $this->getUrl($this->_module . '/*/edit', ['attribute_id' => $row->getAttributeId()]);
     }
 }

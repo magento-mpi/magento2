@@ -39,11 +39,11 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             if (!$productId) {
                 continue;
             }
-            $data[$productId] = array(
+            $data[$productId] = [
                 'id' => $productId,
                 'position' => $position++,
                 'qty' => '0',
-            );
+            ];
         }
         return $data;
     }

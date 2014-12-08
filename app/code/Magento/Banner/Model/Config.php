@@ -16,12 +16,12 @@ class Config implements \Magento\Framework\Option\ArrayInterface
     /**
      * @var array
      */
-    protected $_bannerTypes = array();
+    protected $_bannerTypes = [];
 
     /**
      * @param array $bannerTypes
      */
-    public function __construct(array $bannerTypes = array())
+    public function __construct(array $bannerTypes = [])
     {
         $this->_bannerTypes = $bannerTypes;
     }
@@ -36,7 +36,7 @@ class Config implements \Magento\Framework\Option\ArrayInterface
      */
     public function getTypes($sorted = true, $withEmpty = false)
     {
-        $result = array();
+        $result = [];
         foreach ($this->_bannerTypes as $type => $label) {
             $result[$type] = __($label);
         }
@@ -44,7 +44,7 @@ class Config implements \Magento\Framework\Option\ArrayInterface
             asort($result);
         }
         if ($withEmpty) {
-            return array_merge(array('' => __('-- None --')), $result);
+            return array_merge(['' => __('-- None --')], $result);
         }
         return $result;
     }
@@ -62,9 +62,9 @@ class Config implements \Magento\Framework\Option\ArrayInterface
         if ($simplified) {
             return $types;
         }
-        $result = array();
+        $result = [];
         foreach ($types as $key => $label) {
-            $result[] = array('value' => $key, 'label' => $label);
+            $result[] = ['value' => $key, 'label' => $label];
         }
         return $result;
     }
@@ -78,7 +78,7 @@ class Config implements \Magento\Framework\Option\ArrayInterface
     public function explodeTypes($types)
     {
         $availableTypes = $this->getTypes(false);
-        $result = array();
+        $result = [];
         if ($types) {
             if (is_string($types)) {
                 $types = explode(',', $types);

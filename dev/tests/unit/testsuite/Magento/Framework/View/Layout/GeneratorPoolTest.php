@@ -49,7 +49,7 @@ class GeneratorPoolTest extends \PHPUnit_Framework_TestCase
         $this->readerContextMock = $this->getMockBuilder('Magento\Framework\View\Layout\Reader\Context')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->scheduledStructure = new ScheduledStructure;
+        $this->scheduledStructure = new ScheduledStructure();
         $this->readerContextMock->expects($this->any())->method('getScheduledStructure')
             ->willReturn($this->scheduledStructure);
 
@@ -98,7 +98,7 @@ class GeneratorPoolTest extends \PHPUnit_Framework_TestCase
         $moveMap = [];
         foreach ($schedule['move'] as $elementName => $move) {
             $this->scheduledStructure->setElementToMove($elementName, $move);
-            list ($destination, $sibling, $isAfter) = $move;
+            list($destination, $sibling, $isAfter) = $move;
             $moveMap[] = [$destination, $elementName, $sibling, $isAfter];
         }
         $invocation = $this->structureMock->expects($this->any())->method('reorderChildElement');
@@ -137,16 +137,16 @@ class GeneratorPoolTest extends \PHPUnit_Framework_TestCase
                         'first.element',
                         'second.element',
                         'third.element',
-                        'remove.element'
+                        'remove.element',
                     ],
                     'move' => [
-                        'third.element' => ['second.element', 'sibling', false, 'alias']
+                        'third.element' => ['second.element', 'sibling', false, 'alias'],
                     ],
-                    'remove' => ['remove.element']
+                    'remove' => ['remove.element'],
                 ],
                 'expectedScheduledElements' => [
-                    'first.element' => [], 'second.element' => [], 'third.element' => []
-                ]
+                    'first.element' => [], 'second.element' => [], 'third.element' => [],
+                ],
             ],
         ];
     }

@@ -28,7 +28,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
         $password = 'password';
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getPassword', 'getPasswordConfirm'))
+            ->setMethods(['getPassword', 'getPasswordConfirm'])
             ->getMock();
 
         $object->expects($this->once())->method('getPassword')->will($this->returnValue($password));
@@ -40,11 +40,11 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
 
     public function passwordNegativeDataProvider()
     {
-        return array(
-            'less-then-6-char' => array('less6'),
-            'with-space-prefix' => array(' normal_password'),
-            'with-space-suffix' => array('normal_password '),
-        );
+        return [
+            'less-then-6-char' => ['less6'],
+            'with-space-prefix' => [' normal_password'],
+            'with-space-suffix' => ['normal_password '],
+        ];
     }
 
     /**
@@ -55,7 +55,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
     {
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getPassword'))
+            ->setMethods(['getPassword'])
             ->getMock();
 
         $object->expects($this->once())->method('getPassword')->will($this->returnValue($password));
@@ -70,7 +70,7 @@ class PasswordTest extends \PHPUnit_Framework_TestCase
         $passwordHash = 'password-hash';
         $object = $this->getMockBuilder('Magento\Framework\Object')
             ->disableOriginalConstructor()
-            ->setMethods(array('getPassword', 'setPasswordHash', 'hashPassword'))
+            ->setMethods(['getPassword', 'setPasswordHash', 'hashPassword'])
             ->getMock();
 
         $object->expects($this->once())->method('getPassword')->will($this->returnValue($password));

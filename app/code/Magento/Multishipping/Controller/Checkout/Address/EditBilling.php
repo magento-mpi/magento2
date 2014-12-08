@@ -24,9 +24,9 @@ class EditBilling extends \Magento\Multishipping\Controller\Checkout\Address
             $addressForm->setTitle(
                 __('Edit Billing Address')
             )->setSuccessUrl(
-                $this->_url->getUrl('*/*/saveBilling', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/saveBilling', ['id' => $this->getRequest()->getParam('id')])
             )->setErrorUrl(
-                $this->_url->getUrl('*/*/*', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/*', ['id' => $this->getRequest()->getParam('id')])
             )->setBackUrl(
                 $this->_url->getUrl('*/checkout/overview')
             );

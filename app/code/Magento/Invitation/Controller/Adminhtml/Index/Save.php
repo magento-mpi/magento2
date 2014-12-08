@@ -50,12 +50,12 @@ class Save extends \Magento\Invitation\Controller\Adminhtml\Index
                 try {
                     /** @var \Magento\Invitation\Model\Invitation $invitation */
                     $invitation = $this->_invitationFactory->create()->setData(
-                        array(
+                        [
                             'email' => $email,
                             'store_id' => $storeId,
                             'message' => $this->getRequest()->getParam('message'),
-                            'group_id' => $this->getRequest()->getParam('group_id')
-                        )
+                            'group_id' => $this->getRequest()->getParam('group_id'),
+                        ]
                     )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $sentCount++;

@@ -17,16 +17,16 @@ class ImportTest extends \PHPUnit_Framework_TestCase
          */
         $processorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
-            array('markIndexerAsInvalid'),
-            array(),
+            ['markIndexerAsInvalid'],
+            [],
             '',
             false
         );
 
-        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\ImportExport\Model\Import', [], [], '', false);
         $processorMock->expects($this->once())->method('markIndexerAsInvalid');
 
-        $someData = array(1, 2, 3);
+        $someData = [1, 2, 3];
 
         $model = new \Magento\CatalogImportExport\Model\Indexer\Product\Flat\Plugin\Import($processorMock);
         $this->assertEquals($someData, $model->afterImportSource($subjectMock, $someData));

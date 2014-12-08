@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\I18n;
 
-use Magento\Tools\I18n\Context;
 
 class ContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -37,11 +36,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderContextByPath()
     {
-        return array(
-            array(array(Context::CONTEXT_TYPE_MODULE, 'Magento_Module'), '/app/code/Magento/Module/Block/Test.php'),
-            array(array(Context::CONTEXT_TYPE_THEME, 'area/theme/test.phtml'), '/app/design/area/theme/test.phtml'),
-            array(array(Context::CONTEXT_TYPE_LIB, 'lib/web/module/test.phtml'), '/lib/web/module/test.phtml'),
-        );
+        return [
+            [[Context::CONTEXT_TYPE_MODULE, 'Magento_Module'], '/app/code/Magento/Module/Block/Test.php'],
+            [[Context::CONTEXT_TYPE_THEME, 'area/theme/test.phtml'], '/app/design/area/theme/test.phtml'],
+            [[Context::CONTEXT_TYPE_LIB, 'lib/web/module/test.phtml'], '/lib/web/module/test.phtml'],
+        ];
     }
 
     /**
@@ -68,11 +67,11 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderPathToLocaleDirectoryByContext()
     {
-        return array(
-            array('app/code/Magento/Module/i18n/', array(Context::CONTEXT_TYPE_MODULE, 'Magento_Module')),
-            array('app/design/theme/test.phtml/i18n/', array(Context::CONTEXT_TYPE_THEME, 'theme/test.phtml')),
-            array('lib/web/i18n/', array(Context::CONTEXT_TYPE_LIB, 'lib/web/module/test.phtml')),
-        );
+        return [
+            ['app/code/Magento/Module/i18n/', [Context::CONTEXT_TYPE_MODULE, 'Magento_Module']],
+            ['app/design/theme/test.phtml/i18n/', [Context::CONTEXT_TYPE_THEME, 'theme/test.phtml']],
+            ['lib/web/i18n/', [Context::CONTEXT_TYPE_LIB, 'lib/web/module/test.phtml']],
+        ];
     }
 
     /**

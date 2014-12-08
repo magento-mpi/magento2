@@ -26,9 +26,9 @@ class BundleFixed extends Bundle
         $this->_data['checkout'] = [
             'prices' => [
                 'price_from' => 110,
-                'price_to' => 120
+                'price_to' => 120,
             ],
-            'selection' => [0]
+            'selection' => [0],
         ];
         parent::_initData();
         $this->_data['fields'] = array_merge_recursive(
@@ -38,46 +38,46 @@ class BundleFixed extends Bundle
                     'value' => 'Fixed',
                     'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'price_type' => [
                     'value' => 'Fixed',
                     'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'price' => [
                     'value' => 100,
-                    'group' => static::GROUP_PRODUCT_DETAILS
+                    'group' => static::GROUP_PRODUCT_DETAILS,
                 ],
                 'tax_class_id' => [
                     'value' => 'Taxable Goods',
                     'input_value' => '2',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'weight_type' => [
                     'value' => 'Fixed',
                     'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'weight' => [
                     'value' => '1',
-                    'group' => static::GROUP_PRODUCT_DETAILS
+                    'group' => static::GROUP_PRODUCT_DETAILS,
                 ],
                 'product_website_1' => [
                     'value' => 'Yes',
                     'input_value' => [1],
                     'group' => static::GROUP_PRODUCT_WEBSITE,
                     'input' => 'checkbox',
-                    'input_name' => 'website_ids'
+                    'input_name' => 'website_ids',
                 ],
                 'shipment_type' => [
                     'value' => 'Separately',
                     'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'bundle_selections' => [
                     'value' => [
@@ -95,8 +95,8 @@ class BundleFixed extends Bundle
                                             'selection_price_value' => 10,
                                             'selection_price_type' => 'Fixed',
                                             'selection_qty' => 1,
-                                            'product_id' => '%item1_simple1::getProductId%'
-                                        ]
+                                            'product_id' => '%item1_simple1::getProductId%',
+                                        ],
                                     ],
                                     [
                                         'search_data' => [
@@ -106,14 +106,14 @@ class BundleFixed extends Bundle
                                             'selection_price_value' => 20,
                                             'selection_price_type' => 'Percent',
                                             'selection_qty' => 1,
-                                            'product_id' => '%item1_virtual2::getProductId%'
+                                            'product_id' => '%item1_virtual2::getProductId%',
                                         ]
-                                    ]
-                                ]
-                            ]
-                        ]
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
-                    'group' => static::GROUP
+                    'group' => static::GROUP,
                 ]
             ]
         );

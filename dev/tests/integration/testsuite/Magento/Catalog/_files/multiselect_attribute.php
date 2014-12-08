@@ -10,14 +10,14 @@
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Eav\Attribute'
 );
 $attribute->setData(
-    array(
+    [
         'attribute_code' => 'multiselect_attribute',
         'entity_type_id' => $installer->getEntityTypeId('catalog_product'),
         'is_global' => 1,
@@ -36,21 +36,21 @@ $attribute->setData(
         'is_visible_on_front' => 0,
         'used_in_product_listing' => 0,
         'used_for_sort_by' => 0,
-        'frontend_label' => array('Multiselect Attribute'),
+        'frontend_label' => ['Multiselect Attribute'],
         'backend_type' => 'int',
-        'option' => array(
-            'value' => array(
-                'option_1' => array('Option 1'),
-                'option_2' => array('Option 2'),
-                'option_3' => array('Option 3')
-            ),
-            'order' => array(
+        'option' => [
+            'value' => [
+                'option_1' => ['Option 1'],
+                'option_2' => ['Option 2'],
+                'option_3' => ['Option 3'],
+            ],
+            'order' => [
                 'option_1' => 1,
                 'option_2' => 2,
-                'option_3' => 3
-            )
-        )
-    )
+                'option_3' => 3,
+            ],
+        ],
+    ]
 );
 $attribute->save();
 

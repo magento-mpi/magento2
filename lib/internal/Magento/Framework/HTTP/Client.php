@@ -44,7 +44,7 @@ class Client
     /**
      * Detects frontend type.
      * Priority is given to CURL
-     * 
+     *
      * @return string/bool
      */
     protected static function detectFrontend()

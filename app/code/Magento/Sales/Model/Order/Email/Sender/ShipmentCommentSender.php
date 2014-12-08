@@ -7,11 +7,11 @@
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\NotifySender;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Shipment;
 use Magento\Sales\Model\Order\Email\Container\ShipmentCommentIdentity;
 use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\NotifySender;
+use Magento\Sales\Model\Order\Shipment;
 
 class ShipmentCommentSender extends NotifySender
 {
@@ -45,7 +45,7 @@ class ShipmentCommentSender extends NotifySender
                 'shipment' => $shipment,
                 'comment' => $comment,
                 'billing' => $order->getBillingAddress(),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
         return $this->checkAndSend($order, $notify);

@@ -8,9 +8,9 @@
 
 namespace Magento\Msrp\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Price\FinalPrice;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 
 /**
  * MSRP price model

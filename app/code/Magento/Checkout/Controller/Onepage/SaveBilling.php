@@ -34,7 +34,7 @@ class SaveBilling extends \Magento\Checkout\Controller\Onepage
                 $result['goto_section'] = 'payment';
                 $result['update_section'] = [
                     'name' => 'payment-method',
-                    'html' => $this->_getPaymentMethodsHtml()
+                    'html' => $this->_getPaymentMethodsHtml(),
                 ];
             } elseif (isset($data['use_for_shipping']) && $data['use_for_shipping'] == 1) {
                 if (!$quote->validateMinimumAmount()) {
@@ -44,13 +44,13 @@ class SaveBilling extends \Magento\Checkout\Controller\Onepage
                             'sales/minimum_order/error_message',
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                             $quote->getStoreId()
-                        )
+                        ),
                     ];
                 } else {
                     $result['goto_section'] = 'shipping_method';
                     $result['update_section'] = [
                         'name' => 'shipping-method',
-                        'html' => $this->_getShippingMethodsHtml()
+                        'html' => $this->_getShippingMethodsHtml(),
                     ];
 
                     $result['allow_sections'] = ['shipping'];

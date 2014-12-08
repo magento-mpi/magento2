@@ -56,7 +56,7 @@ class Management extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         $this->currentCustomer = $currentCustomer;
@@ -152,7 +152,7 @@ class Management extends \Magento\Framework\View\Element\Template
      */
     public function getWishlistManagementUrl(\Magento\Wishlist\Model\Wishlist $wishlist)
     {
-        return $this->getUrl('wishlist/*/*', array('wishlist_id' => $wishlist->getId()));
+        return $this->getUrl('wishlist/*/*', ['wishlist_id' => $wishlist->getId()]);
     }
 
     /**
@@ -173,7 +173,7 @@ class Management extends \Magento\Framework\View\Element\Template
      */
     public function getEditUrl($wishlistId)
     {
-        return $this->getUrl('wishlist/index/editwishlist', array('wishlist_id' => $wishlistId));
+        return $this->getUrl('wishlist/index/editwishlist', ['wishlist_id' => $wishlistId]);
     }
 
     /**
@@ -183,7 +183,7 @@ class Management extends \Magento\Framework\View\Element\Template
      */
     public function getCopySelectedUrl()
     {
-        return $this->getUrl('wishlist/index/copyitems', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/copyitems', ['wishlist_id' => '%wishlist_id%']);
     }
 
     /**
@@ -193,7 +193,7 @@ class Management extends \Magento\Framework\View\Element\Template
      */
     public function getMoveSelectedUrl()
     {
-        return $this->getUrl('wishlist/index/moveitems', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/moveitems', ['wishlist_id' => '%wishlist_id%']);
     }
 
     /**

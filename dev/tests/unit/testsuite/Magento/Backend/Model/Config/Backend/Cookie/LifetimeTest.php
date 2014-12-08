@@ -9,8 +9,8 @@
  */
 namespace Magento\Backend\Model\Config\Backend\Cookie;
 
-use \Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator;
+use Magento\Framework\Session\Config\Validator\CookieLifetimeValidator;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class LifetimeTest extends \PHPUnit_Framework_TestCase
 {

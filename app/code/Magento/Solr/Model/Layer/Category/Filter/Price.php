@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
+
 use Magento\Framework\Search\Dynamic\IntervalFactory;
 
 /**
@@ -237,7 +238,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
                     ) ? $separator[1] . '-' . $separator[2] : $value) . $this->_getAdditionalRequestData(),
                     'count' => $count,
                     'from' => $separator[1],
-                    'to' => $separator[2]
+                    'to' => $separator[2],
                 ];
             }
 

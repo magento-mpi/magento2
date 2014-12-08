@@ -8,9 +8,9 @@
 
 namespace Magento\Bundle\Test\TestCase;
 
+use Magento\Bundle\Test\Fixture\Bundle;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Bundle\Test\Fixture\Bundle;
 
 /**
  * Class EditBundleTest
@@ -58,7 +58,7 @@ class EditBundleTest extends Functional
         $productGridPage->open();
         $gridBlock->searchAndOpen([
             'sku' => $product->getSku(),
-            'type' => 'Bundle Product'
+            'type' => 'Bundle Product',
         ]);
         $productForm->fill($editProduct);
         $editProductPage->getFormPageActions()->save();

@@ -41,11 +41,11 @@ class Pool
      */
     public function getPreProcessors($sourceContentType, $targetContentType)
     {
-        $result = array();
+        $result = [];
         if ($sourceContentType == 'less') {
             if ($targetContentType == 'css') {
                 $result[] = $this->objectManager->get('Magento\Framework\Css\PreProcessor\Less');
-            } else if ($targetContentType == 'less') {
+            } elseif ($targetContentType == 'less') {
                 /**
                  * @bug This logic is duplicated at \Magento\Framework\Less\FileGenerator::generateLessFileTree()
                  * If you need to extend or modify behavior of LESS preprocessing, you must account for both places

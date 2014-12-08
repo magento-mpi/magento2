@@ -42,7 +42,7 @@ class ConfigurableProductInjectable extends AbstractRepository
             ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'default'],
         ];
 
         $this->_data['product_with_size'] = [
@@ -114,7 +114,7 @@ class ConfigurableProductInjectable extends AbstractRepository
             ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'default'],
         ];
 
         $this->_data['with_one_option'] = [
@@ -132,7 +132,7 @@ class ConfigurableProductInjectable extends AbstractRepository
             ],
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'with_one_option']
+            'checkout_data' => ['preset' => 'with_one_option'],
         ];
 
         $this->_data['with_out_of_stock_item'] = [

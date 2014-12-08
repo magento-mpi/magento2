@@ -24,11 +24,11 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $xmlstr = $this->getXml();
         $result = $this->_model->xmlToAssoc(new \SimpleXMLElement($xmlstr));
         $this->assertEquals(
-            array(
+            [
                 'one' => '1',
-                'two' => array('three' => '3', 'four'  => '4'),
-                'five' => array(0 => '5', 1  => '6'),
-            ),
+                'two' => ['three' => '3', 'four'  => '4'],
+                'five' => [0 => '5', 1  => '6'],
+            ],
             $result
         );
     }

@@ -7,9 +7,9 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
 use Magento\Customer\Api\Data\CustomerDataBuilder as CustomerDataObjectBuilder;
+use Magento\Customer\Api\Data\CustomerInterface as CustomerDataObject;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\StoreManagerInterface;
 
 /**
@@ -206,7 +206,7 @@ class Converter
      */
     protected function _populateBuilderWithAttributes(Customer $customerModel)
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($customerModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $customerModel->getDataUsingMethod($attrCode);

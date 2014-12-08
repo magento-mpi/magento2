@@ -8,9 +8,9 @@
 
 namespace Magento\Directory\Test\TestCase;
 
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Client\Element\Locator;
 
 /**
  * Currency

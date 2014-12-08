@@ -5,9 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'types' => array(
-        'type_one' => array(
+return [
+    'types' => [
+        'type_one' => [
             'name' => 'type_one',
             'label' => 'Label One',
             'model' => 'Instance_Type',
@@ -18,9 +18,9 @@ return array(
             'sort_order' => 100,
             'price_model' => 'Instance_Type_One',
             'price_indexer' => 'Instance_Type_Two',
-            'stock_indexer' => 'Instance_Type_Three'
-        ),
-        'type_two' => array(
+            'stock_indexer' => 'Instance_Type_Three',
+        ],
+        'type_two' => [
             'name' => 'type_two',
             'label' => false,
             'model' => 'Instance_Type',
@@ -29,10 +29,10 @@ return array(
             'can_use_qty_decimals' => true,
             'is_qty' => false,
             'sort_order' => 0,
-            'allowed_selection_types' => array('type_two' => 'type_two'),
-            'custom_attributes' => array('some_name' => 'some_value')
-        ),
-        'type_three' => array(
+            'allowed_selection_types' => ['type_two' => 'type_two'],
+            'custom_attributes' => ['some_name' => 'some_value'],
+        ],
+        'type_three' => [
             'name' => 'type_three',
             'label' => 'Label Three',
             'model' => 'Instance_Type',
@@ -43,8 +43,8 @@ return array(
             'sort_order' => 5,
             'price_model' => 'Instance_Type_Three',
             'price_indexer' => 'Instance_Type_Three',
-            'stock_indexer' => 'Instance_Type_Three'
-        )
-    ),
-    'composableTypes' => array('type_one' => 'type_one', 'type_three' => 'type_three')
-);
+            'stock_indexer' => 'Instance_Type_Three',
+        ],
+    ],
+    'composableTypes' => ['type_one' => 'type_one', 'type_three' => 'type_three']
+];

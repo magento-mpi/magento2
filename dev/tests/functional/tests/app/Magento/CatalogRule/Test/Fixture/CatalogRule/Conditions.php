@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogRule\Test\Fixture\CatalogRule;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Conditions

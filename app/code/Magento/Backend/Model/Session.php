@@ -1,7 +1,7 @@
 <?php
 /**
  * Backend user session
- * 
+ *
  * {license_notice}
  *
  * @copyright   {copyright}

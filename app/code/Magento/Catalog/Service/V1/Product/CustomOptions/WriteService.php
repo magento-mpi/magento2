@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions;
 
-use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\CouldNotSaveException;
-use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
 use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\OptionBuilder;
+use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -99,14 +99,14 @@ class WriteService implements WriteServiceInterface
         $newID = current($newID);
         /** @var \Magento\Catalog\Model\Product\Option $newOption */
         $newOption = $currentOptions[$newID];
-        $data= array(
+        $data = [
             Data\Option::OPTION_ID => $newOption->getId(),
             Data\Option::TITLE => $newOption->getTitle(),
             Data\Option::TYPE => $newOption->getType(),
             Data\Option::IS_REQUIRE => $newOption->getIsRequire(),
             Data\Option::SORT_ORDER => $newOption->getSortOrder(),
-            Data\Option::METADATA => $this->optionMetadataReader->read($newOption)
-        );
+            Data\Option::METADATA => $this->optionMetadataReader->read($newOption),
+        ];
         $optionDataObject = $this->optionBuilder->populateWithArray($data)->create();
         return $optionDataObject;
     }

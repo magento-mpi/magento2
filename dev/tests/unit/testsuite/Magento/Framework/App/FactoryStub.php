@@ -19,7 +19,7 @@ class FactoryStub implements \Magento\Framework\ObjectManager\FactoryInterface
      * @param array $globalArguments
      * @throws \BadMethodCallException
      */
-    public function __construct($config, $objectManager = null, $definitions = null, $globalArguments = array())
+    public function __construct($config, $objectManager = null, $definitions = null, $globalArguments = [])
     {
         throw new \BadMethodCallException(__METHOD__);
     }
@@ -32,7 +32,7 @@ class FactoryStub implements \Magento\Framework\ObjectManager\FactoryInterface
      * @return object
      * @throws \BadMethodCallException
      */
-    public function create($requestedType, array $arguments = array())
+    public function create($requestedType, array $arguments = [])
     {
         throw new \BadMethodCallException(__METHOD__);
     }

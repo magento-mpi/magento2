@@ -9,9 +9,9 @@
 namespace Magento\Sales\Test\Constraint;
 
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertReorderStatusIsCorrect

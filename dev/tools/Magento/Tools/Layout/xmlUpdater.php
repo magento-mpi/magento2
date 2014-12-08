@@ -11,11 +11,11 @@ require __DIR__ . '/Formatter.php';
 
 try {
     $opt = new \Zend_Console_Getopt(
-        array(
+        [
             'file|f=s' => 'File to process(required)',
             'processor|p=s' => 'Processor file (required)',
-            'overwrite|o' => 'Overwrite file'
-        )
+            'overwrite|o' => 'Overwrite file',
+        ]
     );
     $opt->parse();
 

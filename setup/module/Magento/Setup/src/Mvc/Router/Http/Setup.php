@@ -10,10 +10,10 @@ namespace Magento\Setup\Mvc\Router\Http;
 
 use Traversable;
 use Zend\Mvc\Router\Exception;
-use Zend\Stdlib\ArrayUtils;
-use Zend\Stdlib\RequestInterface as Request;
 use Zend\Mvc\Router\Http\Regex as ZendRegex;
 use Zend\Mvc\Router\Http\RouteMatch;
+use Zend\Stdlib\ArrayUtils;
+use Zend\Stdlib\RequestInterface as Request;
 
 /**
  * Setup route.
@@ -23,7 +23,7 @@ class Setup extends ZendRegex
     /**
      * {@inheritdoc}
      */
-    public static function factory($options = array())
+    public static function factory($options = [])
     {
         if ($options instanceof Traversable) {
             $options = ArrayUtils::iteratorToArray($options);
@@ -46,7 +46,7 @@ class Setup extends ZendRegex
         }
 
         if (!isset($options['defaults'])) {
-            $options['defaults'] = array();
+            $options['defaults'] = [];
         }
 
         return new static($options['regex'], $options['spec'], $options['defaults']);

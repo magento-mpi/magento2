@@ -54,7 +54,7 @@ class CatalogCategory extends AbstractRepository
             'url_key' => 'root-category-%isolation%',
             'parent_id' => 1,
             'is_active' => 'Yes',
-            'include_in_menu' => 'Yes'
+            'include_in_menu' => 'Yes',
         ];
 
         $this->_data['root_subcategory'] = [
@@ -62,7 +62,7 @@ class CatalogCategory extends AbstractRepository
             'url_key' => 'root-sub-category-%isolation%',
             'parent_id' => ['dataSet' => 'root_category'],
             'is_active' => 'Yes',
-            'include_in_menu' => 'Yes'
+            'include_in_menu' => 'Yes',
         ];
     }
 }

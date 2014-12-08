@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -281,4 +281,3 @@ class QuoteRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->model->delete($this->quoteMock);
     }
 }
-

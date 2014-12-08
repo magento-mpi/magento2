@@ -108,7 +108,7 @@ abstract class AbstractFile implements WriterInterface
      */
     protected function _buildPackFilesData(Dictionary $dictionary)
     {
-        $files = array();
+        $files = [];
         foreach ($dictionary->getPhrases() as $key => $phrase) {
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
                 throw new \RuntimeException(

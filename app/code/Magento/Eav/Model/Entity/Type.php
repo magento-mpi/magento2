@@ -52,7 +52,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_attributesBySet = array();
+    protected $_attributesBySet = [];
 
     /**
      * Collection of sets
@@ -101,7 +101,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_attributeFactory = $attributeFactory;

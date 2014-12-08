@@ -38,28 +38,28 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
     {
         $this->fullMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\FullFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->rowsMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\RowsFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup')
+            ['getId', 'load', 'isInvalid', 'isWorking', '__wakeup']
         );
 
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
@@ -73,7 +73,7 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexer()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerRegistryMock->expects($this->once())
             ->method('get')
@@ -82,8 +82,8 @@ class FulltextTest extends \PHPUnit_Framework_TestCase
 
         $rowMock = $this->getMock(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Rows',
-            array('reindex'),
-            array(),
+            ['reindex'],
+            [],
             '',
             false
         );

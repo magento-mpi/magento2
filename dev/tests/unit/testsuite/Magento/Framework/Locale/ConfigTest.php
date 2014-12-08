@@ -72,7 +72,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Framework\Locale\Config */
     private $configObject;
 
-
     public function testGetAllowedLocalesNoDataArray()
     {
         $this->configObject = (new \Magento\TestFramework\Helper\ObjectManager($this))
@@ -179,7 +178,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->assertNotContains($absentCurrency, $retrievedCurrenciesWithAdditions);
         }
     }
-
 
     public function testGetAllowedCurrenciesGivenRedundantDataArray()
     {

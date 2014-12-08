@@ -85,7 +85,7 @@ interface AdapterInterface
      * @param  string|array|null $queries if "all" specified and $docIDs are empty, then all documents will be removed
      * @return \Magento\Solr\Model\AdapterInterface
      */
-    public function deleteDocs($docIDs = array(), $queries = null);
+    public function deleteDocs($docIDs = [], $queries = null);
 
     /**
      * Retrieve last query number of found results

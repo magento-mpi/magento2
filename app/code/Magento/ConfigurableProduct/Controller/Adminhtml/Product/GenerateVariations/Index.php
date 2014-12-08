@@ -74,7 +74,7 @@ class Index extends Action
         }
 
         foreach ($productData['configurable_attributes_data'] as &$attributeData) {
-            $values = array();
+            $values = [];
             foreach ($attributeData['values'] as $valueId => $priceData) {
                 if (isset($priceData['label'])) {
                     $attribute = $this->attributeFactory->create();
@@ -82,10 +82,10 @@ class Index extends Action
                     $optionsBefore = $attribute->getSource()->getAllOptions(false);
 
                     $attribute->setOption(
-                        array(
-                            'value' => array('option_0' => array($priceData['label'])),
-                            'order' => array('option_0' => count($optionsBefore) + 1)
-                        )
+                        [
+                            'value' => ['option_0' => [$priceData['label']]],
+                            'order' => ['option_0' => count($optionsBefore) + 1],
+                        ]
                     );
                     $attribute->save();
 
@@ -115,7 +115,7 @@ class Index extends Action
     public function execute()
     {
         $this->_saveAttributeOptions();
-        $this->getRequest()->setParam('variations-matrix', array());
+        $this->getRequest()->setParam('variations-matrix', []);
         $this->initializationHelper->initialize($this->productBuilder->build($this->getRequest()));
         $this->_view->loadLayout();
         $this->_view->renderLayout();

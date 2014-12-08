@@ -25,7 +25,6 @@ class Converter
         $this->productRepository = $productRepository;
     }
 
-
     /**
      * Convert option data to array
      * @param \Magento\Catalog\Api\Data\ProductCustomOptionInterface $option

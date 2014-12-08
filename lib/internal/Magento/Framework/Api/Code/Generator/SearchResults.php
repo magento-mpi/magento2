@@ -54,9 +54,9 @@ class SearchResults extends EntityAbstract
                     [
                         'name' => 'return',
                         'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . '[]',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
         return [$getItems];
     }

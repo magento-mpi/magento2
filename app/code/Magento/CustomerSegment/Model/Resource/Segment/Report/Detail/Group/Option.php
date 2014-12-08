@@ -29,7 +29,7 @@ class Option implements \Magento\Framework\Option\ArrayInterface
     {
         return $this->_resourceCollection->addFieldToFilter(
             'customer_group_id',
-            array('gt' => 0)
+            ['gt' => 0]
         )->load()->toOptionHash();
     }
 }

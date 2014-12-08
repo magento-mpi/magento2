@@ -32,7 +32,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $sessionMock = $this->getMockBuilder(
             'Magento\Backend\Model\Session\Quote'
         )->disableOriginalConstructor()->setMethods(
-            array('getCustomerId', 'getQuote', 'getStoreId', 'getStore')
+            ['getCustomerId', 'getQuote', 'getStoreId', 'getStore']
         )->getMock();
         $sessionMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(1));
 
@@ -44,7 +44,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $storeMock = $this->getMockBuilder(
             '\Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('getCurrentCurrencyCode')
+            ['getCurrentCurrencyCode']
         )->getMock();
         $storeMock->expects($this->any())->method('getCurrentCurrencyCode')->will($this->returnValue('USD'));
         $sessionMock->expects($this->any())->method('getStore')->will($this->returnValue($storeMock));
@@ -54,7 +54,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_orderCreateBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\Create\Form',
             'order_create_block' . rand(),
-            array('sessionQuote' => $sessionMock)
+            ['sessionQuote' => $sessionMock]
         );
         parent::setUp();
     }
@@ -114,11 +114,11 @@ ORDER_DATA_JSON;
         )->setRegion(
             new V1\Data\Region(
                 $regionBuilder1->populateWithArray(
-                    array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
+                    ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
                 )
             )
         )->setStreet(
-            array('Green str, 67')
+            ['Green str, 67']
         )->setTelephone(
             '3468676'
         )->setCity(
@@ -144,11 +144,11 @@ ORDER_DATA_JSON;
         )->setRegion(
             new V1\Data\Region(
                 $regionBuilder2->populateWithArray(
-                    array('region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1)
+                    ['region_code' => 'AL', 'region' => 'Alabama', 'region_id' => 1]
                 )
             )
         )->setStreet(
-            array('Black str, 48')
+            ['Black str, 48']
         )->setCity(
             'CityX'
         )->setTelephone(
@@ -159,6 +159,6 @@ ORDER_DATA_JSON;
             'Smith'
         )->create();
 
-        return $addressService->saveAddresses(1, array($addressData1, $addressData2));
+        return $addressService->saveAddresses(1, [$addressData1, $addressData2]);
     }
 }

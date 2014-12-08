@@ -28,13 +28,13 @@ class Image extends File
         $imageProp = @getimagesize($value['tmp_name']);
 
         if (!$this->_isUploadedFile($value['tmp_name']) || !$imageProp) {
-            return array(__('"%1" is not a valid file.', $label));
+            return [__('"%1" is not a valid file.', $label)];
         }
 
-        $allowImageTypes = array(1 => 'gif', 2 => 'jpg', 3 => 'png');
+        $allowImageTypes = [1 => 'gif', 2 => 'jpg', 3 => 'png'];
 
         if (!isset($allowImageTypes[$imageProp[2]])) {
-            return array(__('"%1" is not a valid image format.', $label));
+            return [__('"%1" is not a valid image format.', $label)];
         }
 
         // modify image name
@@ -47,7 +47,7 @@ class Image extends File
             $rules,
             'max_file_size'
         );
-        $errors = array();
+        $errors = [];
         if (!is_null($maxFileSize)) {
             $size = $value['size'];
             if ($maxFileSize < $size) {

@@ -98,7 +98,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
@@ -136,7 +136,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
             $this->setData('apply_to', $this->getOrigData('apply_to'));
         }
 
-        $events = array();
+        $events = [];
         if ($this->getIsActive()) {
             $events = $this->collectMatchedEvents();
         }
@@ -178,7 +178,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function collectMatchedEvents($conditionsCombine = null)
     {
-        $events = array();
+        $events = [];
         if ($conditionsCombine === null) {
             $conditionsCombine = $this->getConditions();
         }
@@ -189,7 +189,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         $children = $conditionsCombine->getConditions();
         if ($children) {
             if (!is_array($children)) {
-                $children = array($children);
+                $children = [$children];
             }
             foreach ($children as $child) {
                 $events = array_merge($events, $this->collectMatchedEvents($child));
@@ -197,7 +197,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         }
 
         if ($this->getApplyToo() != self::APPLY_TO_REGISTERED) {
-            $events = array_merge($events, array('visitor_init'));
+            $events = array_merge($events, ['visitor_init']);
         }
 
         $events = array_unique($events);
@@ -214,7 +214,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionModels($conditions = null)
     {
-        $models = array();
+        $models = [];
 
         if (is_null($conditions)) {
             $conditions = $this->getConditions();
@@ -277,7 +277,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
             $customerId = $customer;
         }
 
-        $params = array();
+        $params = [];
         if (strpos($sql, ':customer_id')) {
             $params['customer_id'] = $customerId;
         }

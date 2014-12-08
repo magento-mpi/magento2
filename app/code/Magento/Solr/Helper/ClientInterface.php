@@ -17,7 +17,7 @@ interface ClientInterface
      * @param array $options
      * @return mixed
      */
-    public function prepareClientOptions($options = array());
+    public function prepareClientOptions($options = []);
 
     /**
      * Retrieve supported by Solr languages including locale codes (language codes) that are specified in configuration

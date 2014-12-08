@@ -8,9 +8,9 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 
 class CreatePassword extends \Magento\Customer\Controller\Account
 {

@@ -104,7 +104,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
 
         $valueGroup = [
             'groupElementValue' => 'GroupElementLabel',
-            'selectedGroupElementValue' => 'SelectedGroupElementLabel'
+            'selectedGroupElementValue' => 'SelectedGroupElementLabel',
         ];
         $labelGroup = 'groupLabel';
 
@@ -142,7 +142,6 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $selectClass = 'testClass';
         $selectTitle = 'testTitle';
         $selectName = 'testName';
-
 
         $options = [
             'testValue' => 'testLabel',

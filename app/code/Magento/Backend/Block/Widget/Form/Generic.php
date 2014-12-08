@@ -39,7 +39,7 @@ class Generic extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_formFactory = $formFactory;

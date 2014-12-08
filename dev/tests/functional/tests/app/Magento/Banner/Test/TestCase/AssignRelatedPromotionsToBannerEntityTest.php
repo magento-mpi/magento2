@@ -8,18 +8,18 @@
 
 namespace Magento\Banner\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\Banner\Test\Fixture\Widget;
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
-use Magento\Banner\Test\Page\Adminhtml\BannerNew;
+use Magento\Banner\Test\Fixture\Widget;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Banner\Test\Page\Adminhtml\BannerNew;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
+use Magento\Cms\Test\Fixture\CmsPage;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for assign Related Cart and Catalog Rules to BannerEntity
@@ -253,7 +253,7 @@ class AssignRelatedPromotionsToBannerEntityTest extends Injectable
                 'data' => [
                     'parameters' => [
                         'banner_ids' => $banner->getBannerId(),
-                        'display_mode' => 'fixed'
+                        'display_mode' => 'fixed',
                     ],
                 ]
             ]

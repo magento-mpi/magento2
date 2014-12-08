@@ -19,7 +19,7 @@ class Parameter extends \Magento\Framework\Filter\Template\Tokenizer\AbstractTok
      */
     public function tokenize()
     {
-        $parameters = array();
+        $parameters = [];
         $parameterName = '';
         while ($this->next()) {
             if ($this->isWhiteSpace()) {
@@ -47,7 +47,6 @@ class Parameter extends \Magento\Framework\Filter\Template\Tokenizer\AbstractTok
             return $value;
         }
         $quoteStart = $this->char() == "'" || $this->char() == '"';
-
 
         if ($quoteStart) {
             $breakSymbol = $this->char();

@@ -26,7 +26,7 @@ class Logger
     /**
      * @var array
      */
-    protected $_loggers = array();
+    protected $_loggers = [];
 
     /**
      * @var \Magento\Framework\Filesystem
@@ -66,7 +66,7 @@ class Logger
             $writerClass = 'Zend_Log_Writer_Stream';
         }
         /** @var $writer \Zend_Log_Writer_Stream */
-        $writer = $writerClass::factory(array('stream' => $file));
+        $writer = $writerClass::factory(['stream' => $file]);
         $writer->setFormatter(
             new \Zend_Log_Formatter_Simple('%timestamp% %priorityName% (%priority%): %message%' . PHP_EOL)
         );
@@ -81,7 +81,7 @@ class Logger
      */
     public function unsetLoggers()
     {
-        $this->_loggers = array();
+        $this->_loggers = [];
         return $this;
     }
 

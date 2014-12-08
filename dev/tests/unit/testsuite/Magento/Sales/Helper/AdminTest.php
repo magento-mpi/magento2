@@ -249,7 +249,6 @@ class AdminTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-
     /**
      * @param string $itemKey
      * @param string $type

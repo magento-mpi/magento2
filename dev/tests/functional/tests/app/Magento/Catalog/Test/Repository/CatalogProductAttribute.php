@@ -31,7 +31,7 @@ class CatalogProductAttribute extends AbstractRepository
             'frontend_label' => 'attribute_text%isolation%',
             'attribute_code' => 'attribute_text%isolation%',
             'frontend_input' => 'Text Field',
-            'is_required' => 'No'
+            'is_required' => 'No',
         ];
 
         $this->_data['attribute_type_dropdown'] = [
@@ -55,8 +55,8 @@ class CatalogProductAttribute extends AbstractRepository
                     'is_default' => 'No',
                     'admin' => 'green',
                     'view' => 'option_2_%isolation%',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['attribute_type_dropdown_two_options'] = [
@@ -75,8 +75,8 @@ class CatalogProductAttribute extends AbstractRepository
                     'is_default' => 'No',
                     'admin' => 'white',
                     'view' => 'option_1_%isolation%',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['attribute_type_dropdown_one_option'] = [
@@ -91,7 +91,7 @@ class CatalogProductAttribute extends AbstractRepository
                     'admin' => 'black',
                     'view' => 'option_0_%isolation%',
                 ],
-            ]
+            ],
         ];
 
         $this->_data['color'] = [
@@ -110,8 +110,8 @@ class CatalogProductAttribute extends AbstractRepository
                     'is_default' => 'No',
                     'admin' => 'white',
                     'view' => 'white_%isolation%',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['size'] = [
@@ -130,13 +130,13 @@ class CatalogProductAttribute extends AbstractRepository
                     'is_default' => 'No',
                     'admin' => 'xxl',
                     'view' => 'xxl_%isolation%',
-                ]
-            ]
+                ],
+            ],
         ];
 
         $this->_data['attribute_type_fpt'] = [
             'frontend_label' => 'fpt_%isolation%',
-            'frontend_input' => 'Fixed Product Tax'
+            'frontend_input' => 'Fixed Product Tax',
         ];
     }
 }

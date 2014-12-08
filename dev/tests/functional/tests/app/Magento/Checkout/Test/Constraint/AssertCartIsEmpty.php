@@ -8,11 +8,10 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
+use Magento\Checkout\Test\Fixture\Cart;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Checkout\Test\Fixture\Cart;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCartIsEmpty

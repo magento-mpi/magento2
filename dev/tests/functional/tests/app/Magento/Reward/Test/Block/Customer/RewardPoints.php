@@ -8,10 +8,10 @@
 
 namespace Magento\Reward\Test\Block\Customer;
 
+use Magento\Reward\Test\Block\Customer\RewardPoints\RewardPointsInformation;
+use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
 use Magento\Reward\Test\Fixture\Reward;
 use Mtf\Block\Block;
-use Magento\Reward\Test\Block\Customer\RewardPoints\Subscription;
-use Magento\Reward\Test\Block\Customer\RewardPoints\RewardPointsInformation;
 
 /**
  * Class RewardPoints

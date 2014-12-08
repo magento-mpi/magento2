@@ -44,6 +44,6 @@ class SpecificationFactory
     public function create($data)
     {
         $specifications = array_intersect_key($this->mapping, array_flip((array)$data));
-        return $this->compositeFactory->create(array('list' => $specifications));
+        return $this->compositeFactory->create(['list' => $specifications]);
     }
 }

@@ -101,12 +101,12 @@ class Save extends AbstractConfig
      */
     protected function _processNestedGroups($group)
     {
-        $data = array();
+        $data = [];
 
         if (isset($group['fields']) && is_array($group['fields'])) {
             foreach ($group['fields'] as $fieldName => $field) {
                 if (!empty($field['value'])) {
-                    $data['fields'][$fieldName] = array('value' => $field['value']);
+                    $data['fields'][$fieldName] = ['value' => $field['value']];
                 }
             }
         }
@@ -160,14 +160,14 @@ class Save extends AbstractConfig
             $website = $this->getRequest()->getParam('website');
             $store = $this->getRequest()->getParam('store');
 
-            $configData = array(
+            $configData = [
                 'section' => $section,
                 'website' => $website,
                 'store' => $store,
-                'groups' => $this->_getGroupsForSave()
-            );
+                'groups' => $this->_getGroupsForSave(),
+            ];
             /** @var \Magento\Backend\Model\Config $configModel  */
-            $configModel = $this->_configFactory->create(array('data' => $configData));
+            $configModel = $this->_configFactory->create(['data' => $configData]);
             $configModel->save();
 
             $this->messageManager->addSuccess(__('You saved the configuration.'));

@@ -15,8 +15,8 @@ class ListTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->getMock(
             'Magento\Catalog\Block\Product\ListProduct',
-            array('getChildBlock'),
-            array(),
+            ['getChildBlock'],
+            [],
             '',
             false
         );

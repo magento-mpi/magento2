@@ -19,11 +19,11 @@ class Algorithm implements \Magento\Framework\Option\ArrayInterface
      */
     public function __construct()
     {
-        $this->_options = array(
-            array('value' => \Magento\Tax\Model\Calculation::CALC_UNIT_BASE, 'label' => __('Unit Price')),
-            array('value' => \Magento\Tax\Model\Calculation::CALC_ROW_BASE, 'label' => __('Row Total')),
-            array('value' => \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE, 'label' => __('Total'))
-        );
+        $this->_options = [
+            ['value' => \Magento\Tax\Model\Calculation::CALC_UNIT_BASE, 'label' => __('Unit Price')],
+            ['value' => \Magento\Tax\Model\Calculation::CALC_ROW_BASE, 'label' => __('Row Total')],
+            ['value' => \Magento\Tax\Model\Calculation::CALC_TOTAL_BASE, 'label' => __('Total')],
+        ];
     }
 
     /**

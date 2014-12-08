@@ -7,7 +7,7 @@
  */
 namespace Magento\AdminGws\Model;
 
-use \Magento\Backend\Block\Widget\ContainerInterface;
+use Magento\Backend\Block\Widget\ContainerInterface;
 
 /**
  * Class Containers
@@ -62,7 +62,7 @@ class Containers implements CallbackProcessorInterface
      * @param array $buttons
      * @return void
      */
-    private function removeButtonsStoreAccess(ContainerInterface $container, $registryKey, $buttons = array())
+    private function removeButtonsStoreAccess(ContainerInterface $container, $registryKey, $buttons = [])
     {
         /* @var $model \Magento\Framework\Model\AbstractModel */
         $model = $this->registry->registry($registryKey);
@@ -383,7 +383,7 @@ class Containers implements CallbackProcessorInterface
      */
     public function removeCmsPageButtons(ContainerInterface $container)
     {
-        $this->removeButtonsStoreAccess($container, 'cms_page', array('save', 'saveandcontinue', 'delete'));
+        $this->removeButtonsStoreAccess($container, 'cms_page', ['save', 'saveandcontinue', 'delete']);
     }
 
     /**
@@ -394,7 +394,7 @@ class Containers implements CallbackProcessorInterface
      */
     public function removeCmsBlockButtons(ContainerInterface $container)
     {
-        $this->removeButtonsStoreAccess($container, 'cms_block', array('save', 'saveandcontinue', 'delete'));
+        $this->removeButtonsStoreAccess($container, 'cms_block', ['save', 'saveandcontinue', 'delete']);
     }
 
     /**

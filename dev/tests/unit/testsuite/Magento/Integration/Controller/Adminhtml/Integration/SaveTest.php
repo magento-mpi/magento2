@@ -23,10 +23,9 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
                 'getPost'
             )->will(
                 $this->returnValue(
-                    array(
-                        \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID
-                            => self::INTEGRATION_ID
-                    )
+                    [
+                        \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID => self::INTEGRATION_ID,
+                    ]
                 )
             );
         $this->_requestMock->expects($this->any())->method('getParam')->will($this->returnValue(self::INTEGRATION_ID));
@@ -107,7 +106,7 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
     {
         $integration = $this->_getSampleIntegrationData();
         //No id when New Integration is Post-ed
-        $integration->unsetData(array(IntegrationModel::ID, 'id'));
+        $integration->unsetData([IntegrationModel::ID, 'id']);
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -153,7 +152,7 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
         $exceptionMessage = 'Service could not be saved.';
         $integration = $this->_getSampleIntegrationData();
         // No id when New Integration is Post-ed
-        $integration->unsetData(array(IntegrationModel::ID, 'id'));
+        $integration->unsetData([IntegrationModel::ID, 'id']);
         $this->_requestMock->expects(
             $this->any()
         )->method(

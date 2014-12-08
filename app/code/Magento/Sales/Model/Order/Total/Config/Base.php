@@ -24,7 +24,7 @@ class Base extends \Magento\Sales\Model\Config\Ordered
      *
      * @var array
      */
-    protected $_totalModels = array();
+    protected $_totalModels = [];
 
     /**
      * Configuration path where to collect registered totals

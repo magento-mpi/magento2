@@ -28,27 +28,26 @@ $product->setTypeId('simple')
     ->setName('Simple Product')
     ->setSku('simple')
     ->setPrice(10)
-    ->setStockData(array(
+    ->setStockData([
     'use_config_manage_stock' => 1,
     'qty' => 100,
     'is_qty_decimal' => 0,
     'is_in_stock' => 100,
-))
+])
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
     ->save();
 $product->load(1);
 
-$billingData = array(
+$billingData = [
     'firstname' => 'testname',
     'lastname' => 'lastname',
     'company' => '',
     'email' => 'test@com.com',
-    'street' =>
-    array(
+    'street' => [
         0 => 'test1',
         1 => '',
-    ),
+    ],
     'city' => 'Test',
     'region_id' => '1',
     'region' => '',
@@ -59,10 +58,10 @@ $billingData = array(
     'confirm_password' => '',
     'save_in_address_book' => '1',
     'use_for_shipping' => '1',
-);
+];
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Quote\Address', array('data' => $billingData));
+    ->create('Magento\Sales\Model\Quote\Address', ['data' => $billingData]);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -97,8 +96,8 @@ $quote->setCustomerEmail('admin@example.com');
 
 /** @var $service \Magento\Sales\Model\Service\Quote */
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Sales\Model\Service\Quote', array('quote' => $quote));
-$service->setOrderData(array('increment_id' => '100000002'));
+    ->create('Magento\Sales\Model\Service\Quote', ['quote' => $quote]);
+$service->setOrderData(['increment_id' => '100000002']);
 $service->submitAllWithDataObject();
 
 $order = $service->getOrder();

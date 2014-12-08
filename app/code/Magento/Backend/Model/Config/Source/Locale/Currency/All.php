@@ -38,7 +38,7 @@ class All implements \Magento\Framework\Option\ArrayInterface
         }
         $options = $this->_options;
         if (!$isMultiselect) {
-            array_unshift($options, array('value' => '', 'label' => ''));
+            array_unshift($options, ['value' => '', 'label' => '']);
         }
 
         return $options;

@@ -7,10 +7,10 @@
  */
 namespace Magento\GiftWrapping\Helper;
 
+use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\GiftWrapping\Model\System\Config\Source\Display\Type as DisplayType;
 use Magento\Tax\Api\TaxCalculationInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 
 /**
  * Gift wrapping default helper
@@ -409,7 +409,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getTotals($dataObject)
     {
-        $totals = array();
+        $totals = [];
 
         $displayWrappingBothPrices = false;
         $displayWrappingIncludeTaxPrice = false;
@@ -539,7 +539,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($value == 0 && $baseValue == 0) {
             return;
         }
-        $total = array('code' => $code, 'value' => $value, 'base_value' => $baseValue, 'label' => $label);
+        $total = ['code' => $code, 'value' => $value, 'base_value' => $baseValue, 'label' => $label];
         $totals[] = $total;
     }
 

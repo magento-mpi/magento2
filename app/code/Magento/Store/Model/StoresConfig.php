@@ -45,7 +45,7 @@ class StoresConfig
     public function getStoresConfigByPath($path)
     {
         $stores = $this->_storeManager->getStores(true);
-        $storeValues = array();
+        $storeValues = [];
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             try {

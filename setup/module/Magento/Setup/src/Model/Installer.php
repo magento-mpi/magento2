@@ -8,30 +8,30 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\App\DeploymentConfig\Writer;
-use Magento\Setup\Module\SetupFactory;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
-use Magento\Framework\Module\ModuleList\DeploymentConfig;
-use Magento\Store\Model\Store;
-use Magento\Framework\Math\Random;
-use Magento\Setup\Module\ConnectionFactory;
-use Magento\Framework\Shell;
-use Magento\Framework\Shell\CommandRenderer;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\MaintenanceMode;
-use Magento\Framework\Filesystem;
-use Magento\Framework\Filesystem\FilesystemException;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
-use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
+use Magento\Framework\App\DeploymentConfig\SessionConfig;
+use Magento\Framework\App\DeploymentConfig\Writer;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Module\ModuleList\DeploymentConfig;
+use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Shell;
+use Magento\Framework\Shell\CommandRenderer;
+use Magento\Setup\Module\ConnectionFactory;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Magento\Setup\Module\SetupFactory;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Store\Model\Store;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -180,7 +180,7 @@ class Installer
      *
      * @var array
      */
-    private $installInfo = array();
+    private $installInfo = [];
 
     /**
      * A materialized string of initialization parameters to pass on any script that's run externally by this model
@@ -238,13 +238,13 @@ class Installer
         $this->log = $log;
         $this->random = $random;
         $this->connectionFactory = $connectionFactory;
-        $this->shellRenderer = new CommandRenderer;
+        $this->shellRenderer = new CommandRenderer();
         $this->shell = new Shell($this->shellRenderer);
         $this->maintenanceMode = $maintenanceMode;
         $this->filesystem = $filesystem;
         $this->execParams = urldecode(http_build_query($serviceManager->get(InitParamListener::BOOTSTRAP_PARAM)));
         $this->sampleData = $sampleData;
-        $this->installInfo[self::INFO_MESSAGE] = array();
+        $this->installInfo[self::INFO_MESSAGE] = [];
     }
 
     /**
@@ -269,7 +269,7 @@ class Installer
             $script[] = [
                 'Creating sales order increment prefix...',
                 'installOrderIncrementPrefix',
-                [$request[self::SALES_ORDER_INCREMENT_PREFIX]]
+                [$request[self::SALES_ORDER_INCREMENT_PREFIX]],
             ];
         }
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
@@ -331,9 +331,9 @@ class Installer
      */
     private function createBackendConfig($data)
     {
-        $backendConfigData = array(
-            ConfigMapper::$paramMap[ConfigMapper::KEY_BACKEND_FRONTNAME] => $data[ConfigMapper::KEY_BACKEND_FRONTNAME]
-        );
+        $backendConfigData = [
+            ConfigMapper::$paramMap[ConfigMapper::KEY_BACKEND_FRONTNAME] => $data[ConfigMapper::KEY_BACKEND_FRONTNAME],
+        ];
         return new BackendConfig($backendConfigData);
     }
 
@@ -346,7 +346,7 @@ class Installer
     private function createEncryptConfig($data)
     {
         $cryptConfigData =
-            array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]);
+            [ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $data[ConfigMapper::KEY_ENCRYPTION_KEY]];
         return new EncryptConfig($cryptConfigData);
     }
 
@@ -360,8 +360,7 @@ class Installer
     {
         $defaultConnection = [
             ConfigMapper::$paramMap[ConfigMapper::KEY_DB_HOST] => $data[ConfigMapper::KEY_DB_HOST],
-            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_INIT_STATEMENTS] =>
-                isset($data[ConfigMapper::KEY_DB_INIT_STATEMENTS]) ? $data[ConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
+            ConfigMapper::$paramMap[ConfigMapper::KEY_DB_INIT_STATEMENTS] => isset($data[ConfigMapper::KEY_DB_INIT_STATEMENTS]) ? $data[ConfigMapper::KEY_DB_INIT_STATEMENTS] : null,
             ConfigMapper::$paramMap[ConfigMapper::KEY_DB_MODEL] => isset($data[ConfigMapper::KEY_DB_MODEL]) ?
                 $data[ConfigMapper::KEY_DB_MODEL] : null,
             ConfigMapper::$paramMap[ConfigMapper::KEY_DB_NAME] => $data[ConfigMapper::KEY_DB_NAME],
@@ -370,13 +369,13 @@ class Installer
             ConfigMapper::$paramMap[ConfigMapper::KEY_DB_USER] => $data[ConfigMapper::KEY_DB_USER],
         ];
 
-        $dbConfigData = array(
+        $dbConfigData = [
             ConfigMapper::$paramMap[ConfigMapper::KEY_DB_PREFIX] => isset($data[ConfigMapper::KEY_DB_PREFIX]) ?
                     $data[ConfigMapper::KEY_DB_PREFIX] : null,
             'connection' => [
                 'default' => $defaultConnection,
-            ]
-        );
+            ],
+        ];
         return new DbConfig($dbConfigData);
     }
 
@@ -388,8 +387,7 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_SESSION_SAVE] =>
-            isset($data[ConfigMapper::KEY_SESSION_SAVE]) ? $data[ConfigMapper::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = [ConfigMapper::$paramMap[ConfigMapper::KEY_SESSION_SAVE] => isset($data[ConfigMapper::KEY_SESSION_SAVE]) ? $data[ConfigMapper::KEY_SESSION_SAVE] : null];
         return new SessionConfig($sessionConfigData);
     }
 
@@ -401,7 +399,7 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(ConfigMapper::$paramMap[ConfigMapper::KEY_DATE] => $data[ConfigMapper::KEY_DATE]);
+        $installConfigData = [ConfigMapper::$paramMap[ConfigMapper::KEY_DATE] => $data[ConfigMapper::KEY_DATE]];
         return new InstallConfig($installConfigData);
     }
 
@@ -723,7 +721,6 @@ class Installer
     {
         return $this->installInfo;
     }
-
 
     /**
      * Deletes the database and creates it again

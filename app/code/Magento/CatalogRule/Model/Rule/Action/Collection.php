@@ -19,7 +19,7 @@ class Collection extends \Magento\Rule\Model\Action\Collection
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Rule\Model\ActionFactory $actionFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($assetRepo, $layout, $actionFactory, $data);
         $this->setType('Magento\CatalogRule\Model\Rule\Action\Collection');
@@ -33,9 +33,9 @@ class Collection extends \Magento\Rule\Model\Action\Collection
         $actions = parent::getNewChildSelectOptions();
         $actions = array_merge_recursive(
             $actions,
-            array(
-                array('value' => 'Magento\CatalogRule\Model\Rule\Action\Product', 'label' => __('Update the Product'))
-            )
+            [
+                ['value' => 'Magento\CatalogRule\Model\Rule\Action\Product', 'label' => __('Update the Product')]
+            ]
         );
         return $actions;
     }

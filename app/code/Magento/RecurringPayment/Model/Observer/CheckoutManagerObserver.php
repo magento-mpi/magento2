@@ -71,7 +71,7 @@ class CheckoutManagerObserver
     public function addRecurringPaymentIdsToSession()
     {
         if ($this->_recurringPayments) {
-            $ids = array();
+            $ids = [];
             foreach ($this->_recurringPayments as $payment) {
                 $ids[] = $payment->getId();
             }

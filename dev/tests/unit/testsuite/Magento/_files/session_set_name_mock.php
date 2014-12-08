@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Session;
 
-use \Magento\Backend\Model\SessionTest;
+use Magento\Backend\Model\SessionTest;
 
 function session_name($name)
 {

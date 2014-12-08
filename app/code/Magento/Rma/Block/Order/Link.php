@@ -42,7 +42,7 @@ class Link extends \Magento\Sales\Block\Order\Link
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Helper\Data $rmaHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;

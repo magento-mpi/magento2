@@ -8,9 +8,9 @@
 
 namespace Magento\Paypal\Test\Block;
 
+use Magento\Paypal\Test\Fixture\Customer;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\Paypal\Test\Fixture\Customer;
 
 /**
  * Class Login

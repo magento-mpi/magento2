@@ -42,11 +42,11 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder implements
      */
     public function getOrderTotalData()
     {
-        return array(
+        return [
             'can_display_total_due' => true,
             'can_display_total_paid' => true,
             'can_display_total_refunded' => true
-        );
+        ];
     }
 
     /**
@@ -56,7 +56,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder implements
      */
     public function getOrderInfoData()
     {
-        return array('no_use_order_link' => true);
+        return ['no_use_order_link' => true];
     }
 
     /**
@@ -107,7 +107,7 @@ class Info extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder implements
      */
     public function getViewUrl($orderId)
     {
-        return $this->getUrl('sales/*/*', array('order_id' => $orderId));
+        return $this->getUrl('sales/*/*', ['order_id' => $orderId]);
     }
 
     /**

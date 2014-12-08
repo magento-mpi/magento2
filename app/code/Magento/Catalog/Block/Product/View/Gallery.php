@@ -35,7 +35,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getGalleryUrl($image = null)
     {
-        $params = array('id' => $this->getProduct()->getId());
+        $params = ['id' => $this->getProduct()->getId()];
         if ($image) {
             $params['image'] = $image->getValueId();
         }

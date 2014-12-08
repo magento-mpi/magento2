@@ -8,8 +8,6 @@
 namespace Magento\Ui\Component\Layout\Tabs;
 
 use Magento\Ui\Component\AbstractView;
-use Magento\Framework\View\Element\Template;
-use Magento\Ui\DataProvider\Metadata;
 
 /**
  * Class Tab

@@ -134,7 +134,7 @@ class Data extends AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getUrl($route = '', $params = array())
+    public function getUrl($route = '', $params = [])
     {
         return $this->_backendUrl->getUrl($route, $params);
     }
@@ -158,7 +158,7 @@ class Data extends AbstractHelper
      */
     public function prepareFilterString($filterString)
     {
-        $data = array();
+        $data = [];
         $filterString = base64_decode($filterString);
         parse_str($filterString, $data);
         array_walk_recursive(

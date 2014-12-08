@@ -23,52 +23,52 @@ $table = $connection->newTable(
     'website_id',
     Table::TYPE_SMALLINT,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Website Id'
 )->addColumn(
     'code',
     Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Code'
 )->addColumn(
     'name',
     Table::TYPE_TEXT,
     64,
-    array(),
+    [],
     'Website Name'
 )->addColumn(
     'sort_order',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Sort Order'
 )->addColumn(
     'default_group_id',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Default Group Id'
 )->addColumn(
     'is_default',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'default' => '0'),
+    ['unsigned' => true, 'default' => '0'],
     'Defines Is Website Default'
 )->addIndex(
     $installer->getIdxName(
         'store_website',
-        array('code'),
+        ['code'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('code'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['code'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $installer->getIdxName('store_website', array('sort_order')),
-    array('sort_order')
+    $installer->getIdxName('store_website', ['sort_order']),
+    ['sort_order']
 )->addIndex(
-    $installer->getIdxName('store_website', array('default_group_id')),
-    array('default_group_id')
+    $installer->getIdxName('store_website', ['default_group_id']),
+    ['default_group_id']
 )->setComment(
     'Websites'
 );
@@ -83,38 +83,38 @@ $table = $connection->newTable(
     'group_id',
     Table::TYPE_SMALLINT,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Group Id'
 )->addColumn(
     'website_id',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Website Id'
 )->addColumn(
     'name',
     Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Store Group Name'
 )->addColumn(
     'root_category_id',
     Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Root Category Id'
 )->addColumn(
     'default_store_id',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Default Store Id'
 )->addIndex(
-    $installer->getIdxName('store_group', array('website_id')),
-    array('website_id')
+    $installer->getIdxName('store_group', ['website_id']),
+    ['website_id']
 )->addIndex(
-    $installer->getIdxName('store_group', array('default_store_id')),
-    array('default_store_id')
+    $installer->getIdxName('store_group', ['default_store_id']),
+    ['default_store_id']
 )->addForeignKey(
     $installer->getFkName('store_group', 'website_id', 'store_website', 'website_id'),
     'website_id',
@@ -136,57 +136,57 @@ $table = $connection->newTable(
     'store_id',
     Table::TYPE_SMALLINT,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Store Id'
 )->addColumn(
     'code',
     Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Code'
 )->addColumn(
     'website_id',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Website Id'
 )->addColumn(
     'group_id',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Group Id'
 )->addColumn(
     'name',
     Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Store Name'
 )->addColumn(
     'sort_order',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Store Sort Order'
 )->addColumn(
     'is_active',
     Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Store Activity'
 )->addIndex(
-    $installer->getIdxName('store', array('code'), \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
-    array('code'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    $installer->getIdxName('store', ['code'], \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE),
+    ['code'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $installer->getIdxName('store', array('website_id')),
-    array('website_id')
+    $installer->getIdxName('store', ['website_id']),
+    ['website_id']
 )->addIndex(
-    $installer->getIdxName('store', array('is_active', 'sort_order')),
-    array('is_active', 'sort_order')
+    $installer->getIdxName('store', ['is_active', 'sort_order']),
+    ['is_active', 'sort_order']
 )->addIndex(
-    $installer->getIdxName('store', array('group_id')),
-    array('group_id')
+    $installer->getIdxName('store', ['group_id']),
+    ['group_id']
 )->addForeignKey(
     $installer->getFkName('store', 'group_id', 'store_group', 'group_id'),
     'group_id',
@@ -211,25 +211,25 @@ $connection->createTable($table);
  */
 $connection->insertForce(
     $installer->getTable('store_website'),
-    array(
+    [
         'website_id' => 0,
         'code' => 'admin',
         'name' => 'Admin',
         'sort_order' => 0,
         'default_group_id' => 0,
         'is_default' => 0
-    )
+    ]
 );
 $connection->insertForce(
     $installer->getTable('store_website'),
-    array(
+    [
         'website_id' => 1,
         'code' => 'base',
         'name' => 'Main Website',
         'sort_order' => 0,
         'default_group_id' => 1,
         'is_default' => 1
-    )
+    ]
 );
 
 /**
@@ -237,17 +237,17 @@ $connection->insertForce(
  */
 $connection->insertForce(
     $installer->getTable('store_group'),
-    array('group_id' => 0, 'website_id' => 0, 'name' => 'Default', 'root_category_id' => 0, 'default_store_id' => 0)
+    ['group_id' => 0, 'website_id' => 0, 'name' => 'Default', 'root_category_id' => 0, 'default_store_id' => 0]
 );
 $connection->insertForce(
     $installer->getTable('store_group'),
-    array(
+    [
         'group_id' => 1,
         'website_id' => 1,
         'name' => 'Main Website Store',
         'root_category_id' => 2,
         'default_store_id' => 1
-    )
+    ]
 );
 
 /**
@@ -255,7 +255,7 @@ $connection->insertForce(
  */
 $connection->insertForce(
     $installer->getTable('store'),
-    array(
+    [
         'store_id' => 0,
         'code' => 'admin',
         'website_id' => 0,
@@ -263,11 +263,11 @@ $connection->insertForce(
         'name' => 'Admin',
         'sort_order' => 0,
         'is_active' => 1
-    )
+    ]
 );
 $connection->insertForce(
     $installer->getTable('store'),
-    array(
+    [
         'store_id' => 1,
         'code' => 'default',
         'website_id' => 1,
@@ -275,7 +275,7 @@ $connection->insertForce(
         'name' => 'Default Store View',
         'sort_order' => 0,
         'is_active' => 1
-    )
+    ]
 );
 
 $installer->endSetup();

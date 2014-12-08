@@ -24,7 +24,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         parent::__construct($context, $backendHelper, $data);

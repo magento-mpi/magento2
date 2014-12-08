@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Application Maintenance Mode

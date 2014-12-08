@@ -40,10 +40,10 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
-        $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', array(), array(), '', false);
+        $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', [], [], '', false);
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array(
+            [
                 '__wakeup',
                 'setIsRecurring',
                 'isObjectNew',
@@ -54,8 +54,8 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
                 'unsRecurringPayment',
                 'setMsrpEnabled',
                 'setMsrpDisplayActualPriceType'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -123,7 +123,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->once())->method('setPrice')->with('0.0');
 
         $this->requestMock->expects($this->once())->method('getParam')->with('store')->will($this->returnValue(10));
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue(5));
         $this->storeManagerMock->expects(
             $this->once()
@@ -140,7 +140,7 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setGiftcardAmounts'
         )->with(
-            array(array('website_id' => 5, 'price' => 0.0, 'delete' => ''))
+            [['website_id' => 5, 'price' => 0.0, 'delete' => '']]
         );
         $this->productMock->expects(
             $this->once()

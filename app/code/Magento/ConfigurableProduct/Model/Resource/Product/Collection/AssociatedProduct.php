@@ -166,7 +166,7 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
             $allowedProductTypes
         )->addFieldToFilter(
             'entity_id',
-            array('neq' => $this->getProduct()->getId())
+            ['neq' => $this->getProduct()->getId()]
         )->addFilterByRequiredOptions()->joinAttribute(
             'name',
             'catalog_product/name',
@@ -174,9 +174,9 @@ class AssociatedProduct extends \Magento\Catalog\Model\Resource\Product\Collecti
             null,
             'inner'
         )->joinTable(
-            array('cisi' => 'cataloginventory_stock_item'),
+            ['cisi' => 'cataloginventory_stock_item'],
             'product_id=entity_id',
-            array('qty' => 'qty', 'inventory_in_stock' => 'is_in_stock'),
+            ['qty' => 'qty', 'inventory_in_stock' => 'is_in_stock'],
             null,
             'left'
         );

@@ -29,7 +29,7 @@ class Coupons extends \Magento\Backend\Block\Text\ListText implements \Magento\B
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

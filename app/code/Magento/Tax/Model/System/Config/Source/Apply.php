@@ -19,10 +19,10 @@ class Apply implements \Magento\Framework\Option\ArrayInterface
      */
     public function __construct()
     {
-        $this->_options = array(
-            array('value' => 0, 'label' => __('Before Discount')),
-            array('value' => 1, 'label' => __('After Discount'))
-        );
+        $this->_options = [
+            ['value' => 0, 'label' => __('Before Discount')],
+            ['value' => 1, 'label' => __('After Discount')],
+        ];
     }
 
     /**

@@ -23,11 +23,11 @@ class UserGrid extends Grid
      */
     protected $filters = [
         'username' => [
-            'selector' => '#permissionsUserGrid_filter_username'
+            'selector' => '#permissionsUserGrid_filter_username',
         ],
         'email' => [
-            'selector' => '#permissionsUserGrid_filter_email'
-        ]
+            'selector' => '#permissionsUserGrid_filter_email',
+        ],
     ];
 
     /**

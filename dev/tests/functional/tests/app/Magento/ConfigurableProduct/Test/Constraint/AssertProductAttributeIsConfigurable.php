@@ -8,11 +8,11 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config as TabVariation;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert check whether the attribute is used to create a configurable products.

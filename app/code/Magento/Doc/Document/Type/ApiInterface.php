@@ -14,5 +14,4 @@ namespace Magento\Doc\Document\Type;
  */
 interface ApiInterface
 {
-
 }

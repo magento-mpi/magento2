@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
+use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Sales\Total\Quote\SetupUtil;
-use Magento\Tax\Model\Calculation;
 
 /**
  * This test case test the scenario where there are two tax rules with different priority

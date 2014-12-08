@@ -17,7 +17,7 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $aclResourceConfig = array('config' => array('acl' => array('resources' => array())));
+        $aclResourceConfig = ['config' => ['acl' => ['resources' => []]]];
         $xpath = new \DOMXPath($source);
         /** @var $resourceNode \DOMNode */
         foreach ($xpath->query('/config/acl/resources/resource') as $resourceNode) {
@@ -36,7 +36,7 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertResourceNode(\DOMNode $resourceNode)
     {
-        $resourceData = array();
+        $resourceData = [];
         $resourceAttributes = $resourceNode->attributes;
         $idNode = $resourceAttributes->getNamedItem('id');
         if (is_null($idNode)) {
@@ -56,7 +56,7 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
         $disabledNode = $resourceAttributes->getNamedItem('disabled');
         $resourceData['disabled'] = !is_null($disabledNode) && $disabledNode->nodeValue == 'true' ? true : false;
         // convert child resource nodes if needed
-        $resourceData['children'] = array();
+        $resourceData['children'] = [];
         /** @var $childNode \DOMNode */
         foreach ($resourceNode->childNodes as $childNode) {
             if ($childNode->nodeName == 'resource') {

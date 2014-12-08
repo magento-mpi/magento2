@@ -8,7 +8,7 @@
  */
 namespace Magento\MultipleWishlist\Controller\Search;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 
 class View extends \Magento\MultipleWishlist\Controller\Search
 {

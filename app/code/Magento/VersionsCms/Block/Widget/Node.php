@@ -48,7 +48,7 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
@@ -140,11 +140,11 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
      */
     protected function _getInstanceData($key)
     {
-        $dataKeys = array(
+        $dataKeys = [
             $key . '_' . $this->_getStoreId(),
             $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-            $key
-        );
+            $key,
+        ];
         foreach ($dataKeys as $value) {
             if ($this->getData($value) !== null) {
                 return $this->getData($value);

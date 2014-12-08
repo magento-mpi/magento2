@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\Acl;
 
-
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
@@ -82,7 +81,7 @@ class GeneratorSaveTest extends \PHPUnit_Framework_TestCase
         $resource3->setAttribute('sortOrder', '10');
         $resource2->appendChild($resource3);
 
-        $this->_model->setParsedDomList(array($this->_originFile => $dom));
+        $this->_model->setParsedDomList([$this->_originFile => $dom]);
     }
 
     protected function tearDown()
@@ -105,14 +104,14 @@ class GeneratorSaveTest extends \PHPUnit_Framework_TestCase
             'parseString'
         )->with(
             $dom->saveXml(),
-            array(
+            [
                 'indent' => true,
                 'input-xml' => true,
                 'output-xml' => true,
                 'add-xml-space' => false,
                 'indent-spaces' => 4,
                 'wrap' => 1000
-            )
+            ]
         )->will(
             $this->returnCallback(
                 function ($string) {

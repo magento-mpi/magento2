@@ -23,10 +23,10 @@ class ProTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $args = $objectHelper->getConstructArguments(
             'Magento\Paypal\Model\Pro',
-            array('infoFactory' => $this->getMock('Magento\Paypal\Model\InfoFactory'))
+            ['infoFactory' => $this->getMock('Magento\Paypal\Model\InfoFactory')]
         );
         /** @var $pro \Magento\Paypal\Model\Pro */
-        $this->_pro = $this->getMock('Magento\Paypal\Model\Pro', array('_isPaymentReviewRequired'), $args);
+        $this->_pro = $this->getMock('Magento\Paypal\Model\Pro', ['_isPaymentReviewRequired'], $args);
     }
 
     /**
@@ -47,7 +47,7 @@ class ProTest extends \PHPUnit_Framework_TestCase
         $payment = $this->getMockBuilder(
             'Magento\Payment\Model\Info'
         )->disableOriginalConstructor()->setMethods(
-            array('getAdditionalInformation', '__wakeup')
+            ['getAdditionalInformation', '__wakeup']
         )->getMock();
         $payment->expects(
             $this->once()
@@ -67,11 +67,11 @@ class ProTest extends \PHPUnit_Framework_TestCase
      */
     public function canReviewPaymentDataProvider()
     {
-        return array(
-            array(\Magento\Paypal\Model\Info::PAYMENTSTATUS_REVIEW, true, false),
-            array(\Magento\Paypal\Model\Info::PAYMENTSTATUS_REVIEW, false, false),
-            array('another_pending_reason', false, false),
-            array('another_pending_reason', true, true)
-        );
+        return [
+            [\Magento\Paypal\Model\Info::PAYMENTSTATUS_REVIEW, true, false],
+            [\Magento\Paypal\Model\Info::PAYMENTSTATUS_REVIEW, false, false],
+            ['another_pending_reason', false, false],
+            ['another_pending_reason', true, true]
+        ];
     }
 }

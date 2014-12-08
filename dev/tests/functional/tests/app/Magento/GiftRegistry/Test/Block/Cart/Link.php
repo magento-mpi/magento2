@@ -8,9 +8,9 @@
 
 namespace Magento\GiftRegistry\Test\Block\Cart;
 
-use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Block\Cart;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Link

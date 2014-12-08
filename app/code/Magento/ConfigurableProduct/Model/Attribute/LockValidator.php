@@ -38,13 +38,13 @@ class LockValidator implements LockValidatorInterface
         $attrTable = $this->resource->getTableName('catalog_product_super_attribute');
         $productTable = $this->resource->getTableName('catalog_product_entity');
 
-        $bind = array('attribute_id' => $object->getAttributeId());
+        $bind = ['attribute_id' => $object->getAttributeId()];
         $select = clone $adapter->select();
         $select->reset()->from(
-            array('main_table' => $attrTable),
-            array('psa_count' => 'COUNT(product_super_attribute_id)')
+            ['main_table' => $attrTable],
+            ['psa_count' => 'COUNT(product_super_attribute_id)']
         )->join(
-            array('entity' => $productTable),
+            ['entity' => $productTable],
             'main_table.product_id = entity.entity_id'
         )->where(
             'main_table.attribute_id = :attribute_id'

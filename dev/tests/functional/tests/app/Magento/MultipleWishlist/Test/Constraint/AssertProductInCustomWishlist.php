@@ -10,7 +10,6 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Wishlist\Test\Page\WishlistIndex;
 use Mtf\Constraint\AbstractConstraint;

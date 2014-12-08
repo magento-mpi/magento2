@@ -37,7 +37,7 @@ class Deploy
         if (!file_exists($vendorPathConfig)) {
             return;
         }
-        $vendorPath = include($vendorPathConfig);
+        $vendorPath = include $vendorPathConfig;
         $vendorsMagentoDir = $this->directoryList->getPath(DirectoryList::ROOT) . '/' . $vendorPath . '/magento';
         if (!file_exists($vendorsMagentoDir)) {
             return;
@@ -45,7 +45,7 @@ class Deploy
         $vendorsMagentoMedia = $vendorsMagentoDir . '/sample-data-media';
         if (file_exists($vendorsMagentoMedia)) {
             $mediaDir = $this->directoryList->getPath(DirectoryList::MEDIA);
-            $this->copyAll($vendorsMagentoMedia, $mediaDir, array('/composer.json', '/.git'));
+            $this->copyAll($vendorsMagentoMedia, $mediaDir, ['/composer.json', '/.git']);
         }
     }
 
@@ -57,7 +57,7 @@ class Deploy
      * @param array $exclude
      * @return void
      */
-    protected function copyAll($from, $to, $exclude = array())
+    protected function copyAll($from, $to, $exclude = [])
     {
         $iterator = new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($from));
         /** @var \SplFileInfo $file */

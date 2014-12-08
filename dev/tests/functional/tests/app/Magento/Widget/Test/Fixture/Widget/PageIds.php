@@ -8,9 +8,9 @@
 
 namespace Magento\Widget\Test\Fixture\Widget;
 
+use Magento\Cms\Test\Fixture\CmsPage;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Fixture\CmsPage;
 
 /**
  * Prepare Cms page

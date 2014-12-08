@@ -18,13 +18,13 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      *
      * @var string[]
      */
-    private $_backendPrefixes = array();
+    private $_backendPrefixes = [];
 
     /**
      * @param \Magento\Framework\Cache\FrontendInterface $frontend
      * @param string[] $backendPrefixes Backend class prefixes to be striped for profiling informativeness
      */
-    public function __construct(\Magento\Framework\Cache\FrontendInterface $frontend, $backendPrefixes = array())
+    public function __construct(\Magento\Framework\Cache\FrontendInterface $frontend, $backendPrefixes = [])
     {
         parent::__construct($frontend);
         $this->_backendPrefixes = $backendPrefixes;
@@ -38,12 +38,12 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      */
     protected function _getProfilerTags($operation)
     {
-        return array(
+        return [
             'group' => 'cache',
             'operation' => 'cache:' . $operation,
             'frontend_type' => get_class($this->getLowLevelFrontend()),
             'backend_type' => $this->_getBackendType()
-        );
+        ];
     }
 
     /**
@@ -90,7 +90,7 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
      *
      * {@inheritdoc}
      */
-    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
         \Magento\Framework\Profiler::start('cache_save', $this->_getProfilerTags('save'));
         $result = parent::save($data, $identifier, $tags, $lifeTime);
@@ -112,7 +112,7 @@ class Profiler extends \Magento\Framework\Cache\Frontend\Decorator\Bare
     /**
      * {@inheritdoc}
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
         \Magento\Framework\Profiler::start('cache_clean', $this->_getProfilerTags('clean'));
         $result = parent::clean($mode, $tags);

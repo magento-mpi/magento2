@@ -19,7 +19,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Indexer\Model\Shell',
-            array('entryPoint' => $entryPoint)
+            ['entryPoint' => $entryPoint]
         );
     }
 
@@ -55,7 +55,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testRunIndexList()
     {
         $model = $this->getModel('testme.php');
-        $model->setRawArgs(array('testme.php', '--', 'status'));
+        $model->setRawArgs(['testme.php', '--', 'status']);
         $result = $this->runModel($model);
 
         $this->assertNotContains('testme.php', $result);
@@ -80,7 +80,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testHasErrors($param, $expectedHasErrors)
     {
         $model = $this->getModel('testme.php');
-        $model->setRawArgs(array('testme.php', '--', $param));
+        $model->setRawArgs(['testme.php', '--', $param]);
         $this->runModel($model);
 
         $this->assertEquals($expectedHasErrors, $model->hasErrors());
@@ -91,9 +91,9 @@ class ShellTest extends \PHPUnit_Framework_TestCase
      */
     public function hasErrorsDataProvider()
     {
-        return array(
-            'execution without issues' => array('info', false),
-            'issue with wrong index' => array('--reindex=wrong_index_code', true)
-        );
+        return [
+            'execution without issues' => ['info', false],
+            'issue with wrong index' => ['--reindex=wrong_index_code', true]
+        ];
     }
 }

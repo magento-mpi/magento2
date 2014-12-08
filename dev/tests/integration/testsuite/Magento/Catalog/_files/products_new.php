@@ -25,9 +25,9 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->setNewsFromDate(
     date('Y-m-d', strtotime('-2 day'))
 )->setNewsNewsToDate(

@@ -81,7 +81,7 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
 
         if (!$this->getDataObject()->getExistsStoreValueFlag($attributeCode)) {
             return true;
-        } else if ($this->getElement()->getValue() == $defaultValue &&
+        } elseif ($this->getElement()->getValue() == $defaultValue &&
             $this->getDataObject()->getStoreId() != $this->_getDefaultStoreId()
         ) {
             return false;

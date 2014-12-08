@@ -65,4 +65,4 @@ class ObserverFactoryTest extends \PHPUnit_Framework_TestCase
         $result = $this->observerFactory->create($className, $arguments);
         $this->assertEquals($observerMock, $result);
     }
-} 
+}

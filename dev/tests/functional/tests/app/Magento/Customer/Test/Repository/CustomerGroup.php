@@ -8,7 +8,6 @@
 
 namespace Magento\Customer\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -20,12 +19,12 @@ class CustomerGroup extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['valid_vat_id_domestic'] = $this->getValidDomestic($this->_data['default']);
         $this->_data['valid_vat_id_union'] = $this->getValidUnion($this->_data['default']);

@@ -8,10 +8,10 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductReviewInGrid
@@ -40,7 +40,7 @@ class AssertProductReviewInGrid extends AbstractConstraint
         'visible_in' => 'select_stores',
         'type',
         'name',
-        'sku'
+        'sku',
     ];
 
     /**

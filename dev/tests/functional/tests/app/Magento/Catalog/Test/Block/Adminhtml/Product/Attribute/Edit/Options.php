@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
 
+use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab\Options\Option;
 use Mtf\Client\Driver\Selenium\Element;
 use Mtf\ObjectManager;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab\Options\Option;
 
 /**
  * Options element.

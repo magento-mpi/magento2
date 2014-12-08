@@ -15,7 +15,6 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
      */
     protected $resultJsonFactory;
 
-
     /**
      * @var \Magento\Framework\View\Result\PageFactory
      */
@@ -100,11 +99,11 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Category
                 'content' => $resultPage->getLayout()->getBlock('category.edit')->getFormHtml()
                     . $resultPage->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
-                'messages' => $resultPage->getLayout()->getMessagesBlock()->getGroupedHtml()
+                'messages' => $resultPage->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ]);
             $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
-                array('response' => $eventResponse, 'controller' => $this)
+                ['response' => $eventResponse, 'controller' => $this]
             );
             /** @var \Magento\Framework\Controller\Result\JSON $resultJson */
             $resultJson = $this->resultJsonFactory->create();

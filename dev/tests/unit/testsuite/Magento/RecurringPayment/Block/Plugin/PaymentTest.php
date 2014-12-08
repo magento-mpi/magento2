@@ -25,13 +25,13 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->sessionMock = $this->getMock('Magento\Checkout\Model\Session', array(), array(), '', false);
+        $this->sessionMock = $this->getMock('Magento\Checkout\Model\Session', [], [], '', false);
         $this->filterMock = $this->getMock('Magento\RecurringPayment\Model\Quote\Filter');
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->payment = $this->objectManagerHelper->getObject(
             'Magento\RecurringPayment\Block\Plugin\Payment',
-            array('session' => $this->sessionMock, 'filter' => $this->filterMock)
+            ['session' => $this->sessionMock, 'filter' => $this->filterMock]
         );
     }
 
@@ -52,8 +52,8 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey(
             'hasRecurringItems',
             $this->payment->afterGetOptions(
-                $this->getMock('\Magento\Checkout\Block\Onepage\Payment', array(), array(), '', false),
-                array()
+                $this->getMock('\Magento\Checkout\Block\Onepage\Payment', [], [], '', false),
+                []
             )
         );
     }

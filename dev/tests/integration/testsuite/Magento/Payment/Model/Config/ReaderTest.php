@@ -30,40 +30,40 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_model = $objectManager->create(
             'Magento\Payment\Model\Config\Reader',
-            array('fileResolver' => $this->_fileResolverMock)
+            ['fileResolver' => $this->_fileResolverMock]
         );
     }
 
     public function testRead()
     {
-        $fileList = array(file_get_contents(__DIR__ . '/../_files/payment.xml'));
+        $fileList = [file_get_contents(__DIR__ . '/../_files/payment.xml')];
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($fileList));
         $result = $this->_model->read('global');
-        $expected = array(
-            'credit_cards' => array('SO' => 'Solo', 'SM' => 'Switch/Maestro'),
-            'groups' => array('any_payment' => 'Any Payment'),
-            'methods' => array('checkmo' => array('allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1))
-        );
+        $expected = [
+            'credit_cards' => ['SO' => 'Solo', 'SM' => 'Switch/Maestro'],
+            'groups' => ['any_payment' => 'Any Payment'],
+            'methods' => ['checkmo' => ['allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1]],
+        ];
         $this->assertEquals($expected, $result);
     }
 
     public function testMergeCompleteAndPartial()
     {
-        $fileList = array(
+        $fileList = [
             file_get_contents(__DIR__ . '/../_files/payment.xml'),
-            file_get_contents(__DIR__ . '/../_files/payment2.xml')
-        );
+            file_get_contents(__DIR__ . '/../_files/payment2.xml'),
+        ];
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($fileList));
 
         $result = $this->_model->read('global');
-        $expected = array(
-            'credit_cards' => array('AE' => 'American Express', 'SM' => 'Switch/Maestro', 'SO' => 'Solo'),
-            'groups' => array('any_payment' => 'Any Payment Methods', 'offline' => 'Offline Payment Methods'),
-            'methods' => array(
-                'checkmo' => array('allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1),
-                'deny-method' => array('allow_multiple_address' => 0)
-            )
-        );
+        $expected = [
+            'credit_cards' => ['AE' => 'American Express', 'SM' => 'Switch/Maestro', 'SO' => 'Solo'],
+            'groups' => ['any_payment' => 'Any Payment Methods', 'offline' => 'Offline Payment Methods'],
+            'methods' => [
+                'checkmo' => ['allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1],
+                'deny-method' => ['allow_multiple_address' => 0],
+            ],
+        ];
         $this->assertEquals($expected, $result);
     }
 }

@@ -7,10 +7,10 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
-use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\Framework\Event\Observer as EventObserver;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Observer
 {

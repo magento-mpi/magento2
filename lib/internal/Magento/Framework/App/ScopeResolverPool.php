@@ -13,7 +13,7 @@ class ScopeResolverPool
     /**
      * @var array
      */
-    protected $_scopeResolvers = array();
+    protected $_scopeResolvers = [];
 
     /**
      * @param \Magento\Framework\App\ScopeResolverInterface[] $scopeResolvers

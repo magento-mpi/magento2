@@ -25,23 +25,23 @@ class WeightTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
 
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
+        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
 
         $form = new \Magento\Framework\Data\Form($factory, $collectionFactory, $formKey);
 
         $helper = $this->getMock(
             'Magento\Catalog\Helper\Product',
-            array('getTypeSwitcherControlLabel'),
-            array(),
+            ['getTypeSwitcherControlLabel'],
+            [],
             '',
             false,
             false
@@ -56,8 +56,8 @@ class WeightTest extends \PHPUnit_Framework_TestCase
 
         $this->_virtual = $this->getMock(
             'Magento\Framework\Data\Form\Element\Checkbox',
-            array('setId', 'setName', 'setLabel', 'setForm'),
-            array(),
+            ['setId', 'setName', 'setLabel', 'setForm'],
+            [],
             '',
             false,
             false
@@ -75,7 +75,7 @@ class WeightTest extends \PHPUnit_Framework_TestCase
             $this->returnSelf()
         );
 
-        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factory = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $factory->expects(
             $this->once()
         )->method(
@@ -88,7 +88,7 @@ class WeightTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $objectManager->getObject(
             '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
-            array('factoryElement' => $factory, 'factoryCollection' => $collectionFactory, 'helper' => $helper)
+            ['factoryElement' => $factory, 'factoryCollection' => $collectionFactory, 'helper' => $helper]
         );
 
         $this->_model->setForm($form);

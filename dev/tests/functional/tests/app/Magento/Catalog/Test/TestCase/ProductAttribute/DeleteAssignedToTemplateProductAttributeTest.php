@@ -8,11 +8,10 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Delete Attribute Set (Product Template)
@@ -77,7 +76,7 @@ class DeleteAssignedToTemplateProductAttributeTest extends Injectable
             'attribute_code' => $productTemplate
                 ->getDataFieldConfig('assigned_attributes')['source']
                 ->getAttributes()[0]
-                ->getAttributeCode()
+                ->getAttributeCode(),
         ];
 
         $this->attributeIndex->open();

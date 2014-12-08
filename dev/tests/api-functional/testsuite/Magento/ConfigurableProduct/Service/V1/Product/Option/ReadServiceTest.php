@@ -74,10 +74,10 @@ class ReadServiceTest extends WebapiAbstract
         $this->assertTrue(is_array($option));
         $this->assertNotEmpty($option);
 
-        $expectedValues = array(
+        $expectedValues = [
             ['price' => 5, 'percent' => 0],
-            ['price' => 5, 'percent' => 0]
-        );
+            ['price' => 5, 'percent' => 0],
+        ];
 
         $this->assertCount(count($expectedValues), $option['values']);
 
@@ -98,7 +98,7 @@ class ReadServiceTest extends WebapiAbstract
 
     public function testGetTypes()
     {
-        $expectedTypes = array('multiselect', 'select');
+        $expectedTypes = ['multiselect', 'select'];
         $result = $this->getTypes();
         $this->assertEquals($expectedTypes, $result);
     }
@@ -135,13 +135,13 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . $optionId,
-                'httpMethod'   => Config::HTTP_METHOD_GET
+                'httpMethod'   => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service'        => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation'      => self::SERVICE_READ_NAME . 'get'
-            ]
+                'operation'      => self::SERVICE_READ_NAME . 'get',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }
@@ -155,13 +155,13 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku', $productSku, self::RESOURCE_PATH) . 'all',
-                'httpMethod'   => Config::HTTP_METHOD_GET
+                'httpMethod'   => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service'        => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation'      => self::SERVICE_READ_NAME . 'getList'
-            ]
+                'operation'      => self::SERVICE_READ_NAME . 'getList',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
@@ -174,13 +174,13 @@ class ReadServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => str_replace(':productSku/', '', self::RESOURCE_PATH) . 'types',
-                'httpMethod'   => Config::HTTP_METHOD_GET
+                'httpMethod'   => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service'        => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation'      => self::SERVICE_READ_NAME . 'getTypes'
-            ]
+                'operation'      => self::SERVICE_READ_NAME . 'getTypes',
+            ],
         ];
         return $this->_webApiCall($serviceInfo);
     }

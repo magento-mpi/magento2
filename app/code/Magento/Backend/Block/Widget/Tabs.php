@@ -19,7 +19,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      *
      * @var array
      */
-    protected $_tabs = array();
+    protected $_tabs = [];
 
     /**
      * Active tab key
@@ -58,7 +58,7 @@ class Tabs extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authSession = $authSession;
         parent::__construct($context, $data);
@@ -235,7 +235,7 @@ class Tabs extends \Magento\Backend\Block\Widget
             $this->_setActiveTab($activeTabId);
         }
 
-        $_new = array();
+        $_new = [];
         foreach ($this->_tabs as $key => $tab) {
             foreach ($this->_tabs as $k => $t) {
                 if ($t->getAfter() == $key) {
@@ -270,7 +270,7 @@ class Tabs extends \Magento\Backend\Block\Widget
     public function getTabsIds()
     {
         if (empty($this->_tabs)) {
-            return array();
+            return [];
         }
 
         return array_keys($this->_tabs);
@@ -395,7 +395,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      */
     public function bindShadowTabs($tabOneId, $tabTwoId)
     {
-        $tabs = array();
+        $tabs = [];
         $args = func_get_args();
         if (!empty($args) && count($args) > 1) {
             foreach ($args as $tabId) {
@@ -408,11 +408,11 @@ class Tabs extends \Magento\Backend\Block\Widget
                 foreach ($tabs as $tabToId) {
                     if ($tabId !== $tabToId) {
                         if (!$this->_tabs[$tabToId]->getData('shadow_tabs')) {
-                            $this->_tabs[$tabToId]->setData('shadow_tabs', array());
+                            $this->_tabs[$tabToId]->setData('shadow_tabs', []);
                         }
                         $this->_tabs[$tabToId]->setData(
                             'shadow_tabs',
-                            array_merge($this->_tabs[$tabToId]->getData('shadow_tabs'), array($blockId . '_' . $tabId))
+                            array_merge($this->_tabs[$tabToId]->getData('shadow_tabs'), [$blockId . '_' . $tabId])
                         );
                     }
                 }
@@ -428,7 +428,7 @@ class Tabs extends \Magento\Backend\Block\Widget
      */
     public function getAllShadowTabs($asJson = true)
     {
-        $result = array();
+        $result = [];
         if (!empty($this->_tabs)) {
             $blockId = $this->getId();
             foreach (array_keys($this->_tabs) as $tabId) {
@@ -455,7 +455,7 @@ class Tabs extends \Magento\Backend\Block\Widget
     {
         if (isset($this->_tabs[$tab]) && $this->_tabs[$tab] instanceof \Magento\Framework\Object) {
             if ($key == 'url') {
-                $value = $this->getUrl($value, array('_current' => true, '_use_rewrite' => true));
+                $value = $this->getUrl($value, ['_current' => true, '_use_rewrite' => true]);
             }
             $this->_tabs[$tab]->setData($key, $value);
         }

@@ -50,7 +50,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      *
      * @var string[]
      */
-    protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
+    protected $_ignoredAttributes = ['website_id', 'store_id', 'default_billing', 'default_shipping'];
 
     /**
      * Customer collection wrapper
@@ -93,7 +93,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory $storageFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageFactory = $storageFactory;
         parent::__construct(
@@ -136,7 +136,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         $this->_customerStorage = isset(
             $data['customer_storage']
         ) ? $data['customer_storage'] : $this->_storageFactory->create(
-            array('data' => $data)
+            ['data' => $data]
         );
 
         return $this;

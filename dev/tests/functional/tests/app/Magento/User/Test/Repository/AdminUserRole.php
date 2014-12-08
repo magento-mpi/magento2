@@ -27,7 +27,7 @@ class AdminUserRole extends AbstractRepository
     {
         $this->_data['default'] = [
             'rolename' => 'RoleName%isolation%',
-            'resource_access' => 'All'
+            'resource_access' => 'All',
         ];
 
         $this->_data['Administrators'] = [
@@ -59,7 +59,7 @@ class AdminUserRole extends AbstractRepository
                 'Ship' => 'Magento_Sales::ship',
                 'Comment' => 'Magento_Sales::comment',
                 'Send Sales Emails' => 'Magento_Sales::emails',
-            ]
+            ],
         ];
     }
 }

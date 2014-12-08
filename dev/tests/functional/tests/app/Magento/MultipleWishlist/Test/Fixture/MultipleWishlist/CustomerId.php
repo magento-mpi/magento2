@@ -8,8 +8,8 @@
 
 namespace Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable\CustomerId as Customer;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CustomerId

@@ -31,9 +31,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
         $address->load('admin@example.com', 'email');
 
-        $entity = new \Magento\Framework\Object(array('id' => $address->getId()));
+        $entity = new \Magento\Framework\Object(['id' => $address->getId()]);
         $this->assertEmpty($entity->getData('fixture_address_attribute'));
-        $this->_model->attachDataToEntities(array($entity));
+        $this->_model->attachDataToEntities([$entity]);
         $this->assertEquals('fixture_attribute_custom_value', $entity->getData('fixture_address_attribute'));
     }
 }

@@ -28,16 +28,16 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_configReader = $objectManager->create(
             'Magento\Webapi\Model\Config\Reader',
-            array('fileResolver' => $this->_fileResolverMock)
+            ['fileResolver' => $this->_fileResolverMock]
         );
     }
 
     public function testRead()
     {
-        $configFiles = array(
+        $configFiles = [
             file_get_contents(realpath(__DIR__ . '/_files/webapiA.xml')),
-            file_get_contents(realpath(__DIR__ . '/_files/webapiB.xml'))
-        );
+            file_get_contents(realpath(__DIR__ . '/_files/webapiB.xml')),
+        ];
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($configFiles));
 
         $expectedResult = require __DIR__ . '/_files/webapi.php';

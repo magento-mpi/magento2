@@ -21,13 +21,13 @@ class SearchTermsGrid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'query_text' => [
-            'selector' => 'input[name="query_text"]'
+            'selector' => 'input[name="query_text"]',
         ],
         'num_results' => [
-            'selector' => 'input[name="num_results[from]"]'
+            'selector' => 'input[name="num_results[from]"]',
         ],
         'popularity' => [
-            'selector' => 'input[name="popularity[from]"]'
+            'selector' => 'input[name="popularity[from]"]',
         ],
     ];
 

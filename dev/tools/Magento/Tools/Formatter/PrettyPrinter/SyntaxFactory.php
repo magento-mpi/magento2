@@ -24,8 +24,8 @@ use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseAndOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseOrOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BitwiseXorOperator;
-use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanAndOperator;
+use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanNotOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\BooleanOrOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\CastArrayOperator;
 use Magento\Tools\Formatter\PrettyPrinter\Operator\CastBoolOperator;
@@ -75,6 +75,7 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\ClosureReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ClosureUseReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\DecimalNumberReference;
+use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\EmptyReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\EncapsedReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\EvalReference;
@@ -92,7 +93,6 @@ use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodCall;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\MethodConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NamespaceConstantReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\NewReference;
-use Magento\Tools\Formatter\PrettyPrinter\Reference\DirConstReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\ParameterReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\PrintReference;
 use Magento\Tools\Formatter\PrettyPrinter\Reference\PropertyCall;
@@ -154,7 +154,7 @@ class SyntaxFactory
      *
      * @var array
      */
-    protected $nodeMap = array();
+    protected $nodeMap = [];
 
     /**
      * This method returns an instance of a statement class used to process the given node.

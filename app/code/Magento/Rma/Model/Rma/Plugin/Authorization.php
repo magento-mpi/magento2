@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Model\Rma\Plugin;
 
-use Magento\Rma\Model\RmaRepository;
+use Magento\Authorization\Model\UserContextInterface;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Rma\Model\Rma;
-use \Magento\Authorization\Model\UserContextInterface;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Rma\Model\RmaRepository;
 
 class Authorization
 {

@@ -27,9 +27,9 @@ class SolrFactory implements \Magento\Solr\Model\FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createClient(array $options = array())
+    public function createClient(array $options = [])
     {
-        return $this->_objectManager->create('SolrClient', array('options' => $options));
+        return $this->_objectManager->create('SolrClient', ['options' => $options]);
     }
 
     /**

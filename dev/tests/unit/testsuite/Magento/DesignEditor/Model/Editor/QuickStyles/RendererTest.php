@@ -22,12 +22,12 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $rendererModel = $this->getMock(
             'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer',
             null,
-            array(),
+            [],
             '',
             false
         );
 
-        $objectManager = $this->getMock('Magento\Framework\Object', array('get', 'toCss'), array(), '', false);
+        $objectManager = $this->getMock('Magento\Framework\Object', ['get', 'toCss'], [], '', false);
 
         $objectManager->expects($this->exactly(4))->method('get')->will($this->returnValue($objectManager));
 
@@ -45,51 +45,51 @@ class RendererTest extends \PHPUnit_Framework_TestCase
      */
     public function sampleData()
     {
-        return array(
-            array(
+        return [
+            [
                 'expected_result' => "css_string\ncss_string\ncss_string\ncss_string\n",
-                'data' => array(
-                    'header-background' => array(
+                'data' => [
+                    'header-background' => [
                         'type' => 'background',
-                        'components' => array(
-                            'header-background:color-picker' => array(
+                        'components' => [
+                            'header-background:color-picker' => [
                                 'type' => 'color-picker',
                                 'default' => 'transparent',
                                 'selector' => '.header',
                                 'attribute' => 'background-color',
-                                'value' => '#FFFFFF'
-                            ),
-                            'header-background:background-uploader' => array(
+                                'value' => '#FFFFFF',
+                            ],
+                            'header-background:background-uploader' => [
                                 'type' => 'background-uploader',
-                                'components' => array(
-                                    'header-background:image-uploader' => array(
+                                'components' => [
+                                    'header-background:image-uploader' => [
                                         'type' => 'image-uploader',
                                         'default' => 'bg.gif',
                                         'selector' => '.header',
                                         'attribute' => 'background-image',
-                                        'value' => '../image.jpg'
-                                    ),
-                                    'header-background:tile' => array(
+                                        'value' => '../image.jpg',
+                                    ],
+                                    'header-background:tile' => [
                                         'type' => 'checkbox',
                                         'default' => 'no-repeat',
-                                        'options' => array('no-repeat', 'repeat', 'repeat-x', 'repeat-y', 'inherit'),
+                                        'options' => ['no-repeat', 'repeat', 'repeat-x', 'repeat-y', 'inherit'],
                                         'selector' => '.header',
                                         'attribute' => 'background-repeat',
-                                        'value' => 'checked'
-                                    )
-                                )
-                            )
-                        )
-                    ),
-                    'menu-background' => array(
+                                        'value' => 'checked',
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                    'menu-background' => [
                         'type' => 'color-picker',
                         'default' => '#f8f8f8',
                         'selector' => '.menu',
                         'attribute' => 'color',
-                        'value' => '#000000'
-                    )
-                )
-            )
-        );
+                        'value' => '#000000',
+                    ],
+                ],
+            ]
+        ];
     }
 }

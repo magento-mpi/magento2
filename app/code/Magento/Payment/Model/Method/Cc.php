@@ -68,7 +68,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\Module\ModuleListInterface $moduleList,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);
         $this->_moduleList = $moduleList;
@@ -166,8 +166,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
                 $ccNumber
             )
             ) {
-
-                $ccTypeRegExpList = array(
+                $ccTypeRegExpList = [
                     //Solo, Switch or Maestro. International safe
                     'SO' => '/(^(6334)[5-9](\d{11}$|\d{13,14}$))|(^(6767)(\d{12}$|\d{14,15}$))/',
                     'SM' => '/(^(5[0678])\d{11,18}$)|(^(6[^05])\d{11,18}$)|(^(601)[^1]\d{9,16}$)|(^(6011)\d{9,11}$)' .
@@ -192,8 +191,8 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
                     '|3[8-9][0-9]{14}|6011(0[0-9]{11}|[2-4][0-9]{11}|74[0-9]{10}|7[7-9][0-9]{10}' .
                     '|8[6-9][0-9]{10}|9[0-9]{11})|62(2(12[6-9][0-9]{10}|1[3-9][0-9]{11}|[2-8][0-9]{12}' .
                     '|9[0-1][0-9]{11}|92[0-5][0-9]{10})|[4-6][0-9]{13}|8[2-8][0-9]{12})|6(4[4-9][0-9]{13}' .
-                    '|5[0-9]{14}))$/'
-                );
+                    '|5[0-9]{14}))$/',
+                ];
 
                 $ccNumAndTypeMatches = isset(
                     $ccTypeRegExpList[$info->getCcType()]
@@ -255,7 +254,7 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function getVerificationRegEx()
     {
-        $verificationExpList = array(
+        $verificationExpList = [
             'VI' => '/^[0-9]{3}$/',
             'MC' => '/^[0-9]{3}$/',
             'AE' => '/^[0-9]{4}$/',
@@ -264,8 +263,8 @@ class Cc extends \Magento\Payment\Model\Method\AbstractMethod
             'SM' => '/^[0-9]{3,4}$/',
             'SO' => '/^[0-9]{3,4}$/',
             'OT' => '/^[0-9]{3,4}$/',
-            'JCB' => '/^[0-9]{3,4}$/'
-        );
+            'JCB' => '/^[0-9]{3,4}$/',
+        ];
         return $verificationExpList;
     }
 

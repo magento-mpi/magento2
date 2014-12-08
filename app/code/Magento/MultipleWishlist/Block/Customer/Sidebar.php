@@ -32,7 +32,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\MultipleWishlist\Helper\Data $multipleWishlistHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_multipleWishlistHelper = $multipleWishlistHelper;
         parent::__construct(

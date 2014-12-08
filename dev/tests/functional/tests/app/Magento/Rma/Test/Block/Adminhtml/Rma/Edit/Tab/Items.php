@@ -8,9 +8,9 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
+use Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items\Item;
 
 /**
  * Items block on edit rma backend page.

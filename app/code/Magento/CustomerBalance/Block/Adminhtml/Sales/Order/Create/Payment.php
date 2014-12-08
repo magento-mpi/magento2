@@ -58,7 +58,7 @@ class Payment extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;

@@ -11,8 +11,8 @@ namespace Magento\Customer\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
-use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
 
 /**
  * Class CreateCustomer.
@@ -30,13 +30,13 @@ class CreateCustomer extends Curl
     public function persist(FixtureInterface $fixture = null)
     {
         $data = $fixture->getData('fields');
-        $fields = array();
+        $fields = [];
         foreach ($data as $key => $field) {
             $fields[$key] = $field['value'];
         }
         $url = $_ENV['app_frontend_url'] . 'customer/account/createpost/?nocookie=true';
         $curl = new CurlTransport();
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $fields);
         $response = $curl->read();
         $curl->close();
 

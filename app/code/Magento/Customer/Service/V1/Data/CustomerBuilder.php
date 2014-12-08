@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\ExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
+use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for the Customer Service Data Object

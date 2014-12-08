@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Delete extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
 {
@@ -25,7 +25,7 @@ class Delete extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
             $this->messageManager->addSuccess(__('You deleted the gift registry type.'));
         } catch (Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+            $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't delete this gift registry type."));

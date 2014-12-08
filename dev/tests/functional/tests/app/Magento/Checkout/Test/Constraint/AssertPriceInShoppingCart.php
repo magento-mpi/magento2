@@ -8,12 +8,12 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Checkout\Test\Fixture\Cart\Items;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertPriceInShoppingCart
@@ -54,10 +54,10 @@ class AssertPriceInShoppingCart extends AbstractAssertForm
             $cartItem = $checkoutCart->getCartBlock()->getCartItem($product);
 
             $productsData[$productName] = [
-                'price' => $checkoutItem['price']
+                'price' => $checkoutItem['price'],
             ];
             $cartData[$productName] = [
-                'price' => $cartItem->getPrice()
+                'price' => $cartItem->getPrice(),
             ];
         }
 

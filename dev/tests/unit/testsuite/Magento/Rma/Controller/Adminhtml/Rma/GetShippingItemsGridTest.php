@@ -43,7 +43,6 @@ class GetShippingItemsGridTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
 
-
         $this->responseMock->expects($this->once())
             ->method('setBody')
             ->with($response);

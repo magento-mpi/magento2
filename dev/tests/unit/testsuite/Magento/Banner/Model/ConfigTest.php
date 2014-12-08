@@ -26,7 +26,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'right_column',
             'footer',
             'header',
-            'content_area'
+            'content_area',
         ];
 
         $this->config = new Config(
@@ -41,7 +41,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'right_column' => 'right_column',
             'footer' => 'footer',
             'header' => 'header',
-            'content_area' =>'content_area'
+            'content_area' => 'content_area',
         ];
 
         $this->config = new Config(
@@ -96,10 +96,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'right_column',
                     'footer',
                     'header',
-                    'content_area'
+                    'content_area',
                 ],
                 null,
-                null
+                null,
             ],
             [
                 [
@@ -108,7 +108,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'right_column',
                     'footer',
                     'header',
-                    'content_area'
+                    'content_area',
                 ],
                 false, true
             ],
@@ -118,7 +118,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     '2' => 'footer',
                     '3' => 'header',
                     '0' => 'left_column',
-                    '1' => 'right_column'
+                    '1' => 'right_column',
                 ],
                 true, false
             ]
@@ -132,54 +132,54 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 [
                     '0' => [
                         'value' => 4,
-                        'label' => 'content_area'
+                        'label' => 'content_area',
                     ],
                     '1' => [
                         'value' => 2,
-                        'label' => 'footer'
+                        'label' => 'footer',
                     ],
                     '2' => [
                         'value' => 3,
-                        'label' => 'header'
+                        'label' => 'header',
                     ],
                     '3' => [
                         'value' => 0,
-                        'label' => 'left_column'
+                        'label' => 'left_column',
                     ],
                     '4' => [
                         'value' => 1,
-                        'label' => 'right_column'
-                    ]
+                        'label' => 'right_column',
+                    ],
                 ],
                 null,
-                null
+                null,
             ],
             [
                 [
                     '0' => [
                         'value' => '',
-                        'label' => '-- None --'
+                        'label' => '-- None --',
                     ],
                     '1' => [
                         'value' => 0,
-                        'label' => 'content_area'
+                        'label' => 'content_area',
                     ],
                     '2' => [
                         'value' => 1,
-                        'label' => 'footer'
+                        'label' => 'footer',
                     ],
                     '3' => [
                         'value' => 2,
-                        'label' => 'header'
+                        'label' => 'header',
                     ],
                     '4' => [
                         'value' => 3,
-                        'label' => 'left_column'
+                        'label' => 'left_column',
                     ],
                     '5' => [
                         'value' => 4,
-                        'label' => 'right_column'
-                    ]
+                        'label' => 'right_column',
+                    ],
                 ],
                 false, true
             ],
@@ -189,7 +189,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     '2' => 'footer',
                     '3' => 'header',
                     '0' => 'left_column',
-                    '1' => 'right_column'
+                    '1' => 'right_column',
                 ],
                 true, false
             ]
@@ -201,9 +201,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'content_area'
+                    'content_area',
                 ],
-                'content_area'
+                'content_area',
             ],
             [
                 [
@@ -211,7 +211,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'left_column',
                     'right_column',
                     'header',
-                    'footer'
+                    'footer',
                 ],
                 [
                     'content_area',

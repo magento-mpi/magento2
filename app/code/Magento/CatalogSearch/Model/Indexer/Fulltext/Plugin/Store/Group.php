@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Store;
 
-use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
 use Magento\CatalogSearch\Model\Indexer\Fulltext;
+use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
 
 class Group extends AbstractPlugin
 {

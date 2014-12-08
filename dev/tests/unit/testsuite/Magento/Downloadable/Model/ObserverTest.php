@@ -8,7 +8,6 @@
 
 namespace Magento\Downloadable\Model;
 
-use Magento\Downloadable\Model\Observer;
 use Magento\Downloadable\Model\Product\Type;
 use Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory;
 use Magento\Store\Model\ScopeInterface;
@@ -141,7 +140,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->observer = (new ObjectManagerHelper($this))->getObject(
             '\Magento\Downloadable\Model\Observer',
-            array(
+            [
                 'coreData'          => $this->coreData,
                 'scopeConfig'       => $this->scopeConfig,
                 'purchasedFactory'  => $this->purchasedFactory,
@@ -150,7 +149,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'checkoutSession'   => $this->checkoutSession,
                 'itemsFactory'      => $this->itemsFactory,
                 'objectCopyService' => $this->objectCopyService
-            )
+            ]
         );
     }
 

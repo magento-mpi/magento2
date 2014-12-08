@@ -77,7 +77,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\GoogleShopping\Helper\Data $googleShoppingHelper,
         \Magento\GoogleShopping\Model\Resource\Type $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_attributeFactory = $attributeFactory;
@@ -137,7 +137,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      */
     protected function _getAttributesMapByProduct(CatalogModelProduct $product)
     {
-        $result = array();
+        $result = [];
         $group = $this->_config->getAttributeGroupsFlat();
         foreach ($this->_getAttributesCollection() as $attribute) {
             $productAttribute = $this->_gsProduct->getProductAttribute($product, $attribute->getAttributeId());
@@ -159,13 +159,13 @@ class Type extends \Magento\Framework\Model\AbstractModel
                         }
                         // add group attribute to parent attribute
                         $result[$group[$name]]->addData(
-                            array(
+                            [
                                 'group_attribute_' . $name => $this->_attributeFactory->createAttribute(
                                     $name
                                 )->addData(
                                     $attribute->getData()
-                                )
-                            )
+                                ),
+                            ]
                         );
                         unset($group[$name]);
                     } else {
@@ -189,7 +189,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
     protected function _getBaseAttributes()
     {
         $names = $this->_config->getBaseAttributes();
-        $attributes = array();
+        $attributes = [];
         foreach ($names as $name) {
             $attributes[$name] = $this->_attributeFactory->createAttribute($name);
         }
@@ -209,7 +209,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         foreach ($group as $child => $parent) {
             if (isset($attributes[$parent]) && !isset($attributes[$parent]['group_attribute_' . $child])) {
                 $attributes[$parent]->addData(
-                    array('group_attribute_' . $child => $this->_attributeFactory->createAttribute($child))
+                    ['group_attribute_' . $child => $this->_attributeFactory->createAttribute($child)]
                 );
             }
         }
@@ -244,14 +244,14 @@ class Type extends \Magento\Framework\Model\AbstractModel
     protected function _removeNonexistentAttributes($entry, $existAttributes)
     {
         // attributes which can't be removed
-        $ignoredAttributes = array(
+        $ignoredAttributes = [
             "id",
             "image_link",
             "content_language",
             "target_country",
             "expiration_date",
-            "adult"
-        );
+            "adult",
+        ];
 
         $contentAttributes = $entry->getContentAttributes();
         foreach ($contentAttributes as $contentAttribute) {

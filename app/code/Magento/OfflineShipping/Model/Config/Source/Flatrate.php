@@ -14,10 +14,10 @@ class Flatrate implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '', 'label' => __('None')),
-            array('value' => 'O', 'label' => __('Per Order')),
-            array('value' => 'I', 'label' => __('Per Item'))
-        );
+        return [
+            ['value' => '', 'label' => __('None')],
+            ['value' => 'O', 'label' => __('Per Order')],
+            ['value' => 'I', 'label' => __('Per Item')]
+        ];
     }
 }

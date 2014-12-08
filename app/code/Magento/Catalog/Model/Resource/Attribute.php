@@ -90,11 +90,11 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
         ) {
             $attributeStoreIds = array_keys($this->_storeManager->getStores());
             if (!empty($attributeStoreIds)) {
-                $delCondition = array(
+                $delCondition = [
                     'entity_type_id=?' => $object->getEntityTypeId(),
                     'attribute_id = ?' => $object->getId(),
-                    'store_id IN(?)' => $attributeStoreIds
-                );
+                    'store_id IN(?)' => $attributeStoreIds,
+                ];
                 $this->_getWriteAdapter()->delete($object->getBackendTable(), $delCondition);
             }
         }
@@ -147,16 +147,16 @@ class Attribute extends \Magento\Eav\Model\Resource\Entity\Attribute
                     $result['attribute_set_id']
                 );
 
-                $clearCondition = array(
+                $clearCondition = [
                     'entity_type_id =?' => $attribute->getEntityTypeId(),
                     'attribute_id =?' => $attribute->getId(),
-                    'entity_id IN (?)' => $select
-                );
+                    'entity_id IN (?)' => $select,
+                ];
                 $this->_getWriteAdapter()->delete($backendTable, $clearCondition);
             }
         }
 
-        $condition = array('entity_attribute_id = ?' => $object->getEntityAttributeId());
+        $condition = ['entity_attribute_id = ?' => $object->getEntityAttributeId()];
         $this->_getWriteAdapter()->delete($this->getTable('eav_entity_attribute'), $condition);
 
         return $this;

@@ -25,19 +25,19 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEmpty($this->_model->getPrices());
         $this->_model->addPrice(100);
-        $this->assertEquals(array(100), $this->_model->getPrices());
+        $this->assertEquals([100], $this->_model->getPrices());
     }
 
     public function testGetLabel()
     {
         $this->assertEmpty($this->_model->getLabel());
-        $this->_model->setProductAttribute(new \Magento\Framework\Object(array('store_label' => 'Store Label')));
+        $this->_model->setProductAttribute(new \Magento\Framework\Object(['store_label' => 'Store Label']));
         $this->assertEquals('Store Label', $this->_model->getLabel());
 
         $this->_model->setUseDefault(
             1
         )->setProductAttribute(
-            new \Magento\Framework\Object(array('store_label' => 'Other Label'))
+            new \Magento\Framework\Object(['store_label' => 'Other Label'])
         );
         $this->assertEquals('Other Label', $this->_model->getLabel());
     }

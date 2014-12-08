@@ -23,7 +23,7 @@ class Delete extends \Magento\User\Controller\Adminhtml\User\Role
 
         if (in_array($rid, $currentUser->getRoles())) {
             $this->messageManager->addError(__('You cannot delete self-assigned roles.'));
-            $this->_redirect('adminhtml/*/editrole', array('rid' => $rid));
+            $this->_redirect('adminhtml/*/editrole', ['rid' => $rid]);
             return;
         }
 

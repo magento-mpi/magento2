@@ -67,7 +67,7 @@ class RenderTest extends \PHPUnit_Framework_TestCase
                 'data' => [
                     'price_render' => 'test_price_render',
                     'price_type_code' => 'test_price_type_code',
-                    'module_name' => 'test_module_name'
+                    'module_name' => 'test_module_name',
                 ]
             ]
         );

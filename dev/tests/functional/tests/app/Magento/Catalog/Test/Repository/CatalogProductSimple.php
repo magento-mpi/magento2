@@ -103,7 +103,7 @@ class CatalogProductSimple extends AbstractRepository
             'attribute_set_id' => ['dataSet' => 'default'],
             'price' => ['value' => 100, 'preset' => '-'],
             'website_ids' => ['Main Website'],
-            'checkout_data' => ['preset' => 'two_products']
+            'checkout_data' => ['preset' => 'two_products'],
         ];
 
         $this->_data['40_dollar_product'] = [
@@ -164,7 +164,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 100, 'preset' => ''],
             'weight' => 100,
             'website_ids' => ['Main Website'],
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_ids' => ['presets' => 'default_subcategory'],
         ];
 
         $this->_data['simple_for_composite_products'] = [
@@ -183,10 +183,10 @@ class CatalogProductSimple extends AbstractRepository
             'stock_data' => [
                 'manage_stock' => 'Yes',
                 'qty' => '111',
-                'is_in_stock' => 'In Stock'
+                'is_in_stock' => 'In Stock',
             ],
             'url_key' => 'simple-for-composite-products%isolation%',
-            'visibility' => 'Catalog, Search'
+            'visibility' => 'Catalog, Search',
         ];
 
         $this->_data['simple_for_salesrule_2'] = [
@@ -196,7 +196,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 50, 'preset' => ''],
             'weight' => 50,
             'website_ids' => ['Main Website'],
-            'category_ids' => ['presets' => 'default_subcategory']
+            'category_ids' => ['presets' => 'default_subcategory'],
         ];
 
         $this->_data['product_with_special_price_and_category'] = [
@@ -304,7 +304,7 @@ class CatalogProductSimple extends AbstractRepository
             'sku' => 'sku_simple_product_%isolation%',
             'price' => ['value' => 100, 'preset' => '-'],
             'weight' => 1,
-            'special_price' => 9
+            'special_price' => 9,
         ];
 
         $this->_data['simple_with_group_price'] = [
@@ -359,7 +359,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 300, 'preset' => '-'],
             'weight' => 1,
             'custom_options' => ['preset' => 'two_options'],
-            'checkout_data' => ['preset' => 'with_two_custom_option']
+            'checkout_data' => ['preset' => 'with_two_custom_option'],
         ];
 
         $this->_data['with_one_custom_option_and_category'] = [
@@ -481,7 +481,7 @@ class CatalogProductSimple extends AbstractRepository
             'weight' => 1,
             'custom_options' => ['preset' => 'drop_down_with_one_option_percent_price'],
             'checkout_data' => ['preset' => 'drop_down_with_one_option_percent_price'],
-            'website_ids' => ['Main Website']
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['simple_with_qty_increments'] = [
@@ -516,7 +516,7 @@ class CatalogProductSimple extends AbstractRepository
                 'is_in_stock' => 'In Stock',
             ],
             'tier_price' => ['preset' => 'default'],
-            'website_ids' => ['Main Website']
+            'website_ids' => ['Main Website'],
         ];
 
         $this->_data['with_recurring_payment'] = [
@@ -536,8 +536,8 @@ class CatalogProductSimple extends AbstractRepository
             'is_recurring' => "Yes",
             'recurring_payment' => [
                 'period_unit' => 'week',
-                'period_frequency' => 1
-            ]
+                'period_frequency' => 1,
+            ],
         ];
 
         $this->_data['with_msrp'] = [
@@ -555,7 +555,7 @@ class CatalogProductSimple extends AbstractRepository
             'visibility' => 'Catalog, Search',
             'checkout_data' => ['preset' => 'order_default'],
             'msrp' => 600.00,
-            'msrp_display_actual_price_type' => 'Before Order Confirmation'
+            'msrp_display_actual_price_type' => 'Before Order Confirmation',
         ];
 
         $this->_data['with_one_custom_option_and_category'] = [
@@ -597,7 +597,7 @@ class CatalogProductSimple extends AbstractRepository
             'weight' => 1,
             'custom_options' => ['preset' => 'drop_down_with_one_option_fixed_price'],
             'checkout_data' => ['preset' => 'drop_down_with_one_option_fixed_price'],
-            'fpt' => ['preset' => 'one_fpt_for_all_states']
+            'fpt' => ['preset' => 'one_fpt_for_all_states'],
         ];
 
         $this->_data['with_special_price_and_fpt'] = [
@@ -610,7 +610,7 @@ class CatalogProductSimple extends AbstractRepository
             'price' => ['value' => 110, 'preset' => '-'],
             'special_price' => 100,
             'weight' => 1,
-            'fpt' => ['preset' => 'one_fpt_for_all_states']
+            'fpt' => ['preset' => 'one_fpt_for_all_states'],
         ];
     }
 }

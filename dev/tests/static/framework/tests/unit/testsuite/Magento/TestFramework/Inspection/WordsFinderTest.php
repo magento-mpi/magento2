@@ -23,13 +23,13 @@ class WordsFinderTest extends \PHPUnit_Framework_TestCase
     public function constructorExceptionDataProvider()
     {
         $fixturePath = __DIR__ . '/_files/';
-        return array(
-            'non-existing config file' => array($fixturePath . 'non-existing.xml', $fixturePath),
-            'non-existing base dir' => array($fixturePath . 'config.xml', $fixturePath . 'non-existing-dir'),
-            'broken config' => array($fixturePath . 'broken_config.xml', $fixturePath),
-            'empty words config' => array($fixturePath . 'empty_words_config.xml', $fixturePath),
-            'empty whitelisted path' => array($fixturePath . 'empty_whitelisted_path.xml', $fixturePath)
-        );
+        return [
+            'non-existing config file' => [$fixturePath . 'non-existing.xml', $fixturePath],
+            'non-existing base dir' => [$fixturePath . 'config.xml', $fixturePath . 'non-existing-dir'],
+            'broken config' => [$fixturePath . 'broken_config.xml', $fixturePath],
+            'empty words config' => [$fixturePath . 'empty_words_config.xml', $fixturePath],
+            'empty whitelisted path' => [$fixturePath . 'empty_whitelisted_path.xml', $fixturePath]
+        ];
     }
 
     /**
@@ -56,35 +56,35 @@ class WordsFinderTest extends \PHPUnit_Framework_TestCase
         $mainConfig = __DIR__ . '/_files/config.xml';
         $additionalConfig = __DIR__ . '/_files/config_additional.xml';
         $basePath = __DIR__ . '/_files/words_finder/';
-        return array(
-            'usual file' => array($mainConfig, $basePath . 'buffy.php', array('demon', 'vampire')),
-            'whitelisted file' => array($mainConfig, $basePath . 'twilight/eclipse.php', array()),
-            'partially whitelisted file' => array($mainConfig, $basePath . 'twilight/newmoon.php', array('demon')),
-            'filename with bad word' => array(
+        return [
+            'usual file' => [$mainConfig, $basePath . 'buffy.php', ['demon', 'vampire']],
+            'whitelisted file' => [$mainConfig, $basePath . 'twilight/eclipse.php', []],
+            'partially whitelisted file' => [$mainConfig, $basePath . 'twilight/newmoon.php', ['demon']],
+            'filename with bad word' => [
                 $mainConfig,
                 $basePath . 'interview_with_the_vampire.php',
-                array('vampire')
-            ),
-            'binary file, having name with bad word' => array(
+                ['vampire'],
+            ],
+            'binary file, having name with bad word' => [
                 $mainConfig,
                 $basePath . 'interview_with_the_vampire.zip',
-                array('vampire')
-            ),
-            'words in multiple configs' => array(
-                array($mainConfig, $additionalConfig),
+                ['vampire'],
+            ],
+            'words in multiple configs' => [
+                [$mainConfig, $additionalConfig],
                 $basePath . 'buffy.php',
-                array('demon', 'vampire', 'darkness')
-            ),
-            'whitelisted paths in multiple configs' => array(
-                array($mainConfig, $additionalConfig),
+                ['demon', 'vampire', 'darkness'],
+            ],
+            'whitelisted paths in multiple configs' => [
+                [$mainConfig, $additionalConfig],
                 $basePath . 'twilight/newmoon.php',
-                array('demon')
-            ),
-            'config must be whitelisted automatically' => array(
+                ['demon'],
+            ],
+            'config must be whitelisted automatically' => [
                 $basePath . 'self_tested_config.xml',
                 $basePath . 'self_tested_config.xml',
-                array()
-            )
-        );
+                [],
+            ]
+        ];
     }
 }

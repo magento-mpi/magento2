@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Mtf\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Block\Form;
 use Mtf\Fixture\FixtureInterface;
 
 /**

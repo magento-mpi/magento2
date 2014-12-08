@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
@@ -56,7 +56,7 @@ class CustomerDetailsBuilder extends ExtensibleObjectBuilder
      */
     protected function _setDataValues(array $data)
     {
-        $newData = array();
+        $newData = [];
         if (isset($data[CustomerDetails::KEY_CUSTOMER])) {
             $newData[CustomerDetails::KEY_CUSTOMER] = $this->_customerBuilder->populateWithArray(
                 $data[CustomerDetails::KEY_CUSTOMER]
@@ -64,7 +64,7 @@ class CustomerDetailsBuilder extends ExtensibleObjectBuilder
         }
 
         if (isset($data[CustomerDetails::KEY_ADDRESSES])) {
-            $newData[CustomerDetails::KEY_ADDRESSES] = array();
+            $newData[CustomerDetails::KEY_ADDRESSES] = [];
             $addresses = $data[CustomerDetails::KEY_ADDRESSES];
             foreach ($addresses as $address) {
                 $newData[CustomerDetails::KEY_ADDRESSES][] = $this->_addressBuilder->populateWithArray(

@@ -47,20 +47,20 @@ class Routine
      *
      * @var array
      */
-    public static $fileTypes = array(
-        'xml'   => array(
+    public static $fileTypes = [
+        'xml'   => [
             '*.xml', '*.xml.template', '*.xml.additional', '*.xml.dist', '*.xml.sample', '*.xml.erb',
-            '*.xsd', '*.mxml', '*.jmx', '*.jtl', '*.xsl'
-        ),
-        'php'   => array('*.php', '*.php.dist', '*.php.sample'),
-        'phtml' => array('*.phtml'),
-        'html'  => array('*.html', '*.htm'),
-        'css'   => array('*.css'),
-        'js'    => array('*.js'),
-        'less'  => array('*.less'),
-        'flex'  => array('*.as'),
-        'sql'   => array('*.sql'),
-    );
+            '*.xsd', '*.mxml', '*.jmx', '*.jtl', '*.xsl',
+        ],
+        'php'   => ['*.php', '*.php.dist', '*.php.sample'],
+        'phtml' => ['*.phtml'],
+        'html'  => ['*.html', '*.htm'],
+        'css'   => ['*.css'],
+        'js'    => ['*.js'],
+        'less'  => ['*.less'],
+        'flex'  => ['*.as'],
+        'sql'   => ['*.sql'],
+    ];
 
     /**
      * Length of working directory
@@ -84,7 +84,6 @@ class Routine
      */
     protected static $_skippedCount = 0;
 
-
     /**
      * Walk through all file inside folder and sub folder. Filter found files by pattern.
      *
@@ -102,11 +101,11 @@ class Routine
         }
 
         if (!is_array($paths)) {
-            $paths = array($paths);
+            $paths = [$paths];
         }
 
         if (!is_array($fileMasks)) {
-            $fileMasks = array($fileMasks);
+            $fileMasks = [$fileMasks];
         }
 
         foreach ($paths as $resource) {
@@ -156,7 +155,7 @@ class Routine
      */
     protected static function _setSkippedPaths($workingDir, $list)
     {
-        $paths = array();
+        $paths = [];
         foreach ($list as $globPattern) {
             $path = $workingDir . '/' . $globPattern;
             $subPaths = glob($path, GLOB_BRACE);
@@ -242,7 +241,7 @@ class Routine
     public static function updateLicense($directories, $fileType, $license, $recursive = true)
     {
         $fileMasks = self::$fileTypes[$fileType];
-        $foundFiles = array();
+        $foundFiles = [];
         self::globSearch($directories, $fileMasks, $foundFiles, $recursive);
 
         foreach ($foundFiles as $filename) {
@@ -254,21 +253,21 @@ class Routine
                 self::$_errorsCount += 1;
                 continue;
             }
-            $placeholders = array(
+            $placeholders = [
                 ' * {license_notice}',
                 '{copyright}',
                 '{license_link}',
-            );
+            ];
 
-            $changeset = array(
+            $changeset = [
                 self::prepareLicenseNotice($license->getNotice(), $fileType),
                 $license->getCopyright(),
-                $license->getLink()
-            );
+                $license->getLink(),
+            ];
 
             $docBlock = str_replace($placeholders, $changeset, $matches[1]);
 
-            $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1'. $docBlock . '$2', $contents, 1);
+            $newContents = preg_replace('#(/\*\*).*(\*/.*)#Us', '$1' . $docBlock . '$2', $contents, 1);
             if ($contents !== $newContents) {
                 if (!self::$dryRun) {
                     file_put_contents($filename, $newContents);
@@ -321,7 +320,7 @@ class Routine
             }
         }
 
-        $licenseObject = new $licenseFullyQualifiedClassName;
+        $licenseObject = new $licenseFullyQualifiedClassName();
 
         if (!$licenseObject instanceof \Magento\Tools\License\LicenseAbstract) {
             throw new \Exception("License class does not have correct interface: {$licenseFullyQualifiedClassName}.\n");
@@ -349,11 +348,11 @@ class Routine
         self::$_skippedCount = 0;
 
         // set black list
-        self::$skipFiles = array();
-        self::$skipDirectories = array();
+        self::$skipFiles = [];
+        self::$skipDirectories = [];
         self::_setSkippedPaths($workingDir, $blackList);
 
-        $licenseInstances = array();
+        $licenseInstances = [];
         foreach ($config as $path => $types) {
             // whether to scan directory recursively
             $recursive = (isset($types['_recursive']) ? $types['_recursive'] : true);
@@ -365,7 +364,7 @@ class Routine
                     $licenseInstances[$licenseType] = Routine::createLicenseInstance($licenseType);
                 }
                 Routine::updateLicense(
-                    array($workingDir . ($path ? '/' . $path : '')),
+                    [$workingDir . ($path ? '/' . $path : '')],
                     $fileType,
                     $licenseInstances[$licenseType],
                     $recursive

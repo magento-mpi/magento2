@@ -37,14 +37,14 @@ class Item extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_filesArray = array();
+    protected $_filesArray = [];
 
     /**
      * Rma item errors
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Image url
@@ -108,7 +108,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\RequestFactory $requestFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaFactory = $rmaFactory;
         $this->_statusFactory = $statusFactory;
@@ -277,7 +277,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
         $itemForm->setFormCode('default')->setEntity($this);
         $itemData = $itemForm->extractData($httpRequest);
 
-        $files = array();
+        $files = [];
         foreach ($itemData as $code => &$value) {
             if (is_array($value) && empty($value)) {
                 if (array_key_exists($code . '_' . $key, $_FILES)) {
@@ -309,7 +309,7 @@ class Item extends \Magento\Framework\Model\AbstractModel
      */
     public function getOptions()
     {
-        $result = array();
+        $result = [];
         $options = unserialize($this->getProductOptions());
         if ($options) {
             if (isset($options['options'])) {

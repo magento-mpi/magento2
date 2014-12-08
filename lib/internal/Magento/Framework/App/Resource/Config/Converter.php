@@ -20,13 +20,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $resources */
         $resources = $source->getElementsByTagName('resource');
         /** @var \DOMNode $resourceConfig */
         foreach ($resources as $resourceConfig) {
             $resourceName = $resourceConfig->attributes->getNamedItem('name')->nodeValue;
-            $resourceData = array();
+            $resourceData = [];
             foreach ($resourceConfig->attributes as $attribute) {
                 $resourceData[$attribute->nodeName] = $attribute->nodeValue;
             }

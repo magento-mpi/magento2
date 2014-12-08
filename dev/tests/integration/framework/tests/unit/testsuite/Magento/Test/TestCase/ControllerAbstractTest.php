@@ -19,7 +19,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
 
     protected function setUp()
     {
-        $this->messageManager = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
+        $this->messageManager = $this->getMock('\Magento\Framework\Message\Manager', [], [], '', false);
         $request = new \Magento\TestFramework\Request(
             $this->getMock('Magento\Framework\App\Route\ConfigInterface\Proxy', [], [], '', false),
             $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface', [], [], '', false),
@@ -33,8 +33,8 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
 
         $this->_objectManager = $this->getMock(
             'Magento\TestFramework\ObjectManager',
-            array('get', 'create'),
-            array(),
+            ['get', 'create'],
+            [],
             '',
             false
         );
@@ -42,11 +42,11 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->method('get')
             ->will(
                 $this->returnValueMap(
-                    array(
-                        array('Magento\Framework\App\RequestInterface', $request),
-                        array('Magento\Framework\App\ResponseInterface', $response),
-                        array('Magento\Framework\Message\Manager', $this->messageManager),
-                    )
+                    [
+                        ['Magento\Framework\App\RequestInterface', $request],
+                        ['Magento\Framework\App\ResponseInterface', $response],
+                        ['Magento\Framework\Message\Manager', $this->messageManager],
+                    ]
                 )
             );
     }
@@ -62,8 +62,8 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         if (!$this->_bootstrap) {
             $this->_bootstrap = $this->getMock(
                 'Magento\TestFramework\Bootstrap',
-                array('getAllOptions'),
-                array(),
+                ['getAllOptions'],
+                [],
                 '',
                 false
             );
@@ -136,7 +136,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     {
         $this->addSessionMessages();
         /** @var \PHPUnit_Framework_MockObject_MockObject|\PHPUnit_Framework_Constraint $constraint */
-        $constraint = $this->getMock('PHPUnit_Framework_Constraint', array('toString', 'matches'));
+        $constraint = $this->getMock('PHPUnit_Framework_Constraint', ['toString', 'matches']);
         $constraint->expects(
             $this->once()
         )->method('matches')
@@ -147,20 +147,20 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
 
     public function assertSessionMessagesDataProvider()
     {
-        return array(
-            'message waning type filtering' => array(
-                array('some_warning'),
-                \Magento\Framework\Message\MessageInterface::TYPE_WARNING
-            ),
-            'message error type filtering' => array(
-                array('error_one', 'error_two'),
-                \Magento\Framework\Message\MessageInterface::TYPE_ERROR
-            ),
-            'message success type filtering'    => array(
-                array('success!'),
-                \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
-            ),
-        );
+        return [
+            'message waning type filtering' => [
+                ['some_warning'],
+                \Magento\Framework\Message\MessageInterface::TYPE_WARNING,
+            ],
+            'message error type filtering' => [
+                ['error_one', 'error_two'],
+                \Magento\Framework\Message\MessageInterface::TYPE_ERROR,
+            ],
+            'message success type filtering'    => [
+                ['success!'],
+                \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS,
+            ],
+        ];
     }
 
     public function testAssertSessionMessagesAll()

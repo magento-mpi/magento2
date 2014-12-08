@@ -7,10 +7,8 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\View\Layout;
-use Magento\Framework\View\Element\BlockInterface;
 use Magento\Framework\View\Element\BlockFactory;
-use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\View\Element\BlockInterface;
 
 /**
  * Class BlockPool
@@ -28,7 +26,7 @@ class BlockPool
      *
      * @var array
      */
-    protected $blocks = array();
+    protected $blocks = [];
 
     /**
      * Constructor
@@ -49,7 +47,7 @@ class BlockPool
      * @return BlockPool
      * @throws \InvalidArgumentException
      */
-    public function add($name, $class, array $arguments = array())
+    public function add($name, $class, array $arguments = [])
     {
         if (!class_exists($class)) {
             throw new \InvalidArgumentException(__('Invalid Block class name: ' . $class));

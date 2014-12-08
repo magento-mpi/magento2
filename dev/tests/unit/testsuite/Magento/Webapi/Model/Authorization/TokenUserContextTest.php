@@ -193,7 +193,7 @@ class TokenUserContextTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getId', '__wakeup'])
             ->getMock();
 
-        switch($userType) {
+        switch ($userType) {
             case UserContextInterface::USER_TYPE_INTEGRATION:
                 $integration->expects($this->once())
                     ->method('getId')

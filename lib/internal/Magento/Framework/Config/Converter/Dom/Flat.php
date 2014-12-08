@@ -54,7 +54,7 @@ class Flat
      */
     public function convert(\DOMNode $source, $basePath = '')
     {
-        $value = array();
+        $value = [];
         /** @var \DOMNode $node */
         foreach ($source->childNodes as $node) {
             if ($node->nodeType == XML_ELEMENT_NODE) {
@@ -76,7 +76,7 @@ class Flat
                 if ($isArrayNode) {
                     if ($isNumericArrayNode) {
                         $value[$nodeName][] = $nodeData;
-                    } else if (isset($nodeData[$arrayKeyAttribute])) {
+                    } elseif (isset($nodeData[$arrayKeyAttribute])) {
                         $arrayKeyValue = $nodeData[$arrayKeyAttribute];
                         $value[$nodeName][$arrayKeyValue] = $nodeData;
                     } else {
@@ -118,8 +118,8 @@ class Flat
      */
     protected function getNodeAttributes(\DOMNode $node)
     {
-        $result = array();
-        $attributes = $node->attributes ?: array();
+        $result = [];
+        $attributes = $node->attributes ?: [];
         /** @var \DOMNode $attribute */
         foreach ($attributes as $attribute) {
             if ($attribute->nodeType == XML_ATTRIBUTE_NODE) {

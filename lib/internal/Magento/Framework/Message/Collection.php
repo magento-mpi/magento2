@@ -17,7 +17,7 @@ class Collection
      *
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * @var MessageInterface
@@ -33,7 +33,7 @@ class Collection
     public function addMessage(MessageInterface $message)
     {
         if (!isset($this->messages[$message->getType()])) {
-            $this->messages[$message->getType()] = array();
+            $this->messages[$message->getType()] = [];
         }
         $this->messages[$message->getType()][] = $message;
         $this->lastAddedMessage = $message;
@@ -120,7 +120,7 @@ class Collection
      */
     public function getItems()
     {
-        $result = array();
+        $result = [];
         foreach ($this->messages as $messages) {
             $result = array_merge($result, $messages);
         }
@@ -136,7 +136,7 @@ class Collection
      */
     public function getItemsByType($type)
     {
-        return isset($this->messages[$type]) ? $this->messages[$type] : array();
+        return isset($this->messages[$type]) ? $this->messages[$type] : [];
     }
 
     /**

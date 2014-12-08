@@ -45,7 +45,7 @@ abstract class AbstractAction
      *
      * @var array
      */
-    protected $_indexers = array();
+    protected $_indexers = [];
 
     /**
      * Flag that defines if need to use "_idx" index table suffix instead of "_tmp"
@@ -185,11 +185,11 @@ abstract class AbstractAction
     protected function _deleteOldRelations($tableName)
     {
         $select = $this->_connection->select()
-            ->from(array('s' => $tableName))
+            ->from(['s' => $tableName])
             ->joinLeft(
-                array('w' => $this->_getTable('catalog_product_website')),
+                ['w' => $this->_getTable('catalog_product_website')],
                 's.product_id = w.product_id AND s.website_id = w.website_id',
-                array()
+                []
             )
             ->where('w.product_id IS NULL');
 
@@ -203,22 +203,22 @@ abstract class AbstractAction
      * @param array $productIds
      * @return array Affected ids
      */
-    protected function _reindexRows($productIds = array())
+    protected function _reindexRows($productIds = [])
     {
         $adapter = $this->_getConnection();
         if (!is_array($productIds)) {
-            $productIds = array($productIds);
+            $productIds = [$productIds];
         }
         $parentIds = $this->getRelationsByChild($productIds);
         $processIds = $parentIds ? array_merge($parentIds, $productIds) : $productIds;
 
         // retrieve product types by processIds
         $select = $adapter->select()
-            ->from($this->_getTable('catalog_product_entity'), array('entity_id', 'type_id'))
+            ->from($this->_getTable('catalog_product_entity'), ['entity_id', 'type_id'])
             ->where('entity_id IN(?)', $processIds);
         $pairs = $adapter->fetchPairs($select);
 
-        $byType = array();
+        $byType = [];
         foreach ($pairs as $productId => $typeId) {
             $byType[$typeId][$productId] = $productId;
         }

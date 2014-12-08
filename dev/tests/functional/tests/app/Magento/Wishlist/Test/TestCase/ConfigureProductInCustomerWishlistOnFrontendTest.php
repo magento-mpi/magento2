@@ -43,7 +43,7 @@ class ConfigureProductInCustomerWishlistOnFrontendTest extends AbstractWishlistT
     {
         $customer->persist();
 
-        return ['customer' =>$customer];
+        return ['customer' => $customer];
     }
 
     /**

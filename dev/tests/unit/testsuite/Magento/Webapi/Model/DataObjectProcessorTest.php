@@ -39,7 +39,7 @@ class DataObjectProcessorTest extends \PHPUnit_Framework_TestCase
             'id' => '1',
             'address' => 'someAddress',
             'default_shipping' => 'true',
-            'required_billing' => 'false'
+            'required_billing' => 'false',
         ];
 
         $testDataObjectType = 'Magento\Webapi\Model\Files\TestDataInterface';

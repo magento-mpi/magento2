@@ -16,8 +16,8 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function testButtons()
     {
-        $themeMock = $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, array(), '', false);
-        $buttonMock = $this->getMock('StdClass', array('toHtml'));
+        $themeMock = $this->getMock('Magento\DesignEditor\Block\Adminhtml\Theme', null, [], '', false);
+        $buttonMock = $this->getMock('StdClass', ['toHtml']);
 
         $buttonMock->expects($this->once())->method('toHtml')->will($this->returnValue('Block html data'));
 

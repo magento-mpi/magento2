@@ -23,11 +23,11 @@ abstract class AbstractCache extends \Magento\Framework\Object
      *
      * @param array $data
      */
-    public function __construct($data = array())
+    public function __construct($data = [])
     {
         parent::__construct($data);
 
-        $this->setComponents(array());
+        $this->setComponents([]);
         $this->setIsAllowedToSave(true);
     }
 
@@ -41,7 +41,7 @@ abstract class AbstractCache extends \Magento\Framework\Object
     {
         $comps = $this->getComponents();
         if (is_readable($component)) {
-            $comps[$component] = array('mtime' => filemtime($component));
+            $comps[$component] = ['mtime' => filemtime($component)];
         }
         $this->setComponents($comps);
 

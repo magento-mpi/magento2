@@ -17,10 +17,10 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/integrations/integration' => 'name',
-        '/integrations/integration/resources/resource' => 'name'
-    );
+        '/integrations/integration/resources/resource' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -38,7 +38,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'integration\api.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

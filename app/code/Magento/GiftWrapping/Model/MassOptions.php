@@ -20,10 +20,10 @@ class MassOptions implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('label' => '', 'value' => ''),
-            array('label' => __('Enabled'), 'value' => '1'),
-            array('label' => __('Disabled'), 'value' => '0')
-        );
+        return [
+            ['label' => '', 'value' => ''],
+            ['label' => __('Enabled'), 'value' => '1'],
+            ['label' => __('Disabled'), 'value' => '0']
+        ];
     }
 }

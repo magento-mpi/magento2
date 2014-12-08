@@ -49,6 +49,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function allowedTypesDataProvider()
     {
-        return array(array('db'), array('snapshot'), array('filesystem'), array('media'), array('nomedia'));
+        return [['db'], ['snapshot'], ['filesystem'], ['media'], ['nomedia']];
     }
 }

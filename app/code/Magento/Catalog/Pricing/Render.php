@@ -10,9 +10,9 @@ namespace Magento\Catalog\Pricing;
 
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\Registry;
 use Magento\Framework\Pricing\Render as PricingRender;
+use Magento\Framework\Registry;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Catalog Price Render

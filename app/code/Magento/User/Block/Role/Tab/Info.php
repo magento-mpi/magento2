@@ -64,25 +64,25 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic implements \Magent
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Role Information')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Role Information')]);
 
         $fieldset->addField(
             'role_name',
             'text',
-            array(
+            [
                 'name' => 'rolename',
                 'label' => __('Role Name'),
                 'id' => 'role_name',
                 'class' => 'required-entry',
                 'required' => true
-            )
+            ]
         );
 
-        $fieldset->addField('role_id', 'hidden', array('name' => 'role_id', 'id' => 'role_id'));
+        $fieldset->addField('role_id', 'hidden', ['name' => 'role_id', 'id' => 'role_id']);
 
-        $fieldset->addField('in_role_user', 'hidden', array('name' => 'in_role_user', 'id' => 'in_role_userz'));
+        $fieldset->addField('in_role_user', 'hidden', ['name' => 'in_role_user', 'id' => 'in_role_userz']);
 
-        $fieldset->addField('in_role_user_old', 'hidden', array('name' => 'in_role_user_old'));
+        $fieldset->addField('in_role_user_old', 'hidden', ['name' => 'in_role_user_old']);
 
         $form->setValues($this->getRole()->getData());
         $this->setForm($form);

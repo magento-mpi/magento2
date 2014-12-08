@@ -17,7 +17,7 @@ class DataSource extends \Magento\Framework\Data\Collection
      *
      * @var array
      */
-    protected $_calls = array();
+    protected $_calls = [];
 
     /**
      * Return current updater calls

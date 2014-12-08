@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Media;
 
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry;
-use \Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContent;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntry;
+use Magento\Catalog\Service\V1\Product\Attribute\Media\Data\GalleryEntryContent;
 
 /**
  * @deprecated

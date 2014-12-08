@@ -30,16 +30,16 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/page_layouts.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 
-        $expectedResult = array(
-            'empty' => array(
+        $expectedResult = [
+            'empty' => [
                 'label' => 'Empty',
                 'code' => 'empty',
-            ),
-            '1column' => array(
+            ],
+            '1column' => [
                 'label' => '1 column',
                 'code' => '1column',
-            )
-        );
+            ],
+        ];
         $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);
     }
 }

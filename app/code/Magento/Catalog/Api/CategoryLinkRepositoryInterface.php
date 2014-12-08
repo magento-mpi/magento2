@@ -33,7 +33,6 @@ interface CategoryLinkRepositoryInterface
      */
     public function delete(\Magento\Catalog\Api\Data\CategoryProductLinkInterface $productLink);
 
-
     /**
      * Remove the product assignment from the category by category id and sku
      *

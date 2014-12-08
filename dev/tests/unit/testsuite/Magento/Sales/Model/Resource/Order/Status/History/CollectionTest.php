@@ -132,7 +132,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                     [
                         ['entity_name', $entityType, 'sql-string'],
                         ['is_customer_notified', 0, 'sql-string'],
-                        ['parent_id', $orderId, 'sql-string']
+                        ['parent_id', $orderId, 'sql-string'],
                     ]
                 )
             );
@@ -140,4 +140,3 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->historyItemMock, $result);
     }
 }
- 

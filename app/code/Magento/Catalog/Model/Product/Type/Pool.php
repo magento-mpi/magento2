@@ -38,7 +38,7 @@ class Pool
      * @return \Magento\Catalog\Model\Product\Type\AbstractType
      * @throws \Magento\Framework\Model\Exception
      */
-    public function get($className, array $data = array())
+    public function get($className, array $data = [])
     {
         $product = $this->_objectManager->get($className, $data);
 

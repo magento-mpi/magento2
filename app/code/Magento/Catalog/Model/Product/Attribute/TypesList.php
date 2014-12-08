@@ -8,10 +8,6 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
-use Magento\Catalog\Model\Product\Attribute\InputtypeFactory;
-use Magento\Catalog\Model\Product\Attribute\MetadataServiceInterface;
-use Magento\Catalog\Model\Product\Attribute\TypeBuilder;
-
 class TypesList implements \Magento\Catalog\Api\ProductAttributeTypesListInterface
 {
     /**

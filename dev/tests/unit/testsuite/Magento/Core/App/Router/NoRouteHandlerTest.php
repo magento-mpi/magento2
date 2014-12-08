@@ -102,4 +102,4 @@ class NoRouteHandlerTest extends \Magento\Test\BaseTestCase
         // Test
         $this->assertTrue($this->model->process($this->requestMock));
     }
-} 
+}

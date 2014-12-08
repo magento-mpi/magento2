@@ -33,12 +33,12 @@ class Website implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->_options) {
-            $this->_options = array();
+            $this->_options = [];
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $id = $website->getId();
                 $name = $website->getName();
                 if ($id != 0) {
-                    $this->_options[] = array('value' => $id, 'label' => $name);
+                    $this->_options[] = ['value' => $id, 'label' => $name];
                 }
             }
         }

@@ -39,7 +39,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
     public function __construct(
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\LayoutInterface $layout,
-        array $data = array()
+        array $data = []
     ) {
         $this->_assetRepo = $assetRepo;
         $this->_layout = $layout;
@@ -71,14 +71,14 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      * @return array
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function asArray(array $arrAttributes = array())
+    public function asArray(array $arrAttributes = [])
     {
-        $out = array(
+        $out = [
             'type' => $this->getType(),
             'attribute' => $this->getAttribute(),
             'operator' => $this->getOperator(),
-            'value' => $this->getValue()
-        );
+            'value' => $this->getValue(),
+        ];
         return $out;
     }
 
@@ -109,12 +109,12 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
     public function loadArray(array $arr)
     {
         $this->addData(
-            array(
+            [
                 'type' => $arr['type'],
                 'attribute' => $arr['attribute'],
                 'operator' => $arr['operator'],
-                'value' => $arr['value']
-            )
+                'value' => $arr['value'],
+            ]
         );
         $this->loadAttributeOptions();
         $this->loadOperatorOptions();
@@ -127,7 +127,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array());
+        $this->setAttributeOption([]);
         return $this;
     }
 
@@ -136,9 +136,9 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function getAttributeSelectOptions()
     {
-        $opt = array();
+        $opt = [];
         foreach ($this->getAttributeOption() as $key => $value) {
-            $opt[] = array('value' => $key, 'label' => $value);
+            $opt[] = ['value' => $key, 'label' => $value];
         }
         return $opt;
     }
@@ -156,7 +156,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function loadOperatorOptions()
     {
-        $this->setOperatorOption(array('=' => __('to'), '+=' => __('by')));
+        $this->setOperatorOption(['=' => __('to'), '+=' => __('by')]);
         return $this;
     }
 
@@ -165,9 +165,9 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function getOperatorSelectOptions()
     {
-        $opt = array();
+        $opt = [];
         foreach ($this->getOperatorOption() as $k => $v) {
-            $opt[] = array('value' => $k, 'label' => $v);
+            $opt[] = ['value' => $k, 'label' => $v];
         }
         return $opt;
     }
@@ -185,7 +185,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array());
+        $this->setValueOption([]);
         return $this;
     }
 
@@ -194,9 +194,9 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function getValueSelectOptions()
     {
-        $opt = array();
+        $opt = [];
         foreach ($this->getValueOption() as $key => $value) {
-            $opt[] = array('value' => $key, 'label' => $value);
+            $opt[] = ['value' => $key, 'label' => $value];
         }
         return $opt;
     }
@@ -215,7 +215,7 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => '', 'label' => __('Please choose an action to add.')));
+        return [['value' => '', 'label' => __('Please choose an action to add.')]];
     }
 
     /**
@@ -251,11 +251,11 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
         return $this->getForm()->addField(
             'action:' . $this->getId() . ':type',
             'hidden',
-            array(
+            [
                 'name' => $this->elementName . '[actions][' . $this->getId() . '][type]',
                 'value' => $this->getType(),
                 'no_span' => true
-            )
+            ]
         );
     }
 
@@ -267,12 +267,12 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
         return $this->getForm()->addField(
             'action:' . $this->getId() . ':attribute',
             'select',
-            array(
+            [
                 'name' => $this->elementName . '[actions][' . $this->getId() . '][attribute]',
                 'values' => $this->getAttributeSelectOptions(),
                 'value' => $this->getAttribute(),
                 'value_name' => $this->getAttributeName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable')
         );
@@ -286,12 +286,12 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
         return $this->getForm()->addField(
             'action:' . $this->getId() . ':operator',
             'select',
-            array(
+            [
                 'name' => $this->elementName . '[actions][' . $this->getId() . '][operator]',
                 'values' => $this->getOperatorSelectOptions(),
                 'value' => $this->getOperator(),
                 'value_name' => $this->getOperatorName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable')
         );
@@ -305,11 +305,11 @@ abstract class AbstractAction extends \Magento\Framework\Object implements Actio
         return $this->getForm()->addField(
             'action:' . $this->getId() . ':value',
             'text',
-            array(
+            [
                 'name' => $this->elementName . '[actions][' . $this->getId() . '][value]',
                 'value' => $this->getValue(),
                 'value_name' => $this->getValueName()
-            )
+            ]
         )->setRenderer(
             $this->_layout->getBlockSingleton('Magento\Rule\Block\Editable')
         );

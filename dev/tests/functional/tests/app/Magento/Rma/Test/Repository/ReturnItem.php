@@ -18,27 +18,27 @@ class ReturnItem extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['rma'] = $this->_getRma();
     }
 
     protected function _getRma()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
+        return [
+            'data' => [
+                'fields' => [
                     'qty_requested' => '1',
                     'resolution' => 'Refund',
                     'condition' => 'Opened',
-                    'reason' => 'Wrong Size'
-                )
-            )
-        );
+                    'reason' => 'Wrong Size',
+                ],
+            ]
+        ];
     }
 }

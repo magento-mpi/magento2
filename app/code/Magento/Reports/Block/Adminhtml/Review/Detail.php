@@ -27,7 +27,7 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFactory = $productFactory;
         parent::__construct($context, $data);

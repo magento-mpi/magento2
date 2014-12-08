@@ -35,7 +35,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function validXmlFileDataProvider()
     {
-        return array(array('sales_valid.xml'));
+        return [['sales_valid.xml']];
     }
 
     /**
@@ -51,7 +51,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         $dom->schemaValidate($this->_xsdFile);
         $errors = libxml_get_errors();
 
-        $actualErrors = array();
+        $actualErrors = [];
         foreach ($errors as $error) {
             $actualErrors[] = $error->message;
         }
@@ -64,18 +64,18 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidXmlFileDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'sales_invalid.xml',
-                array(
+                [
                     "Element 'section', attribute 'wrongName': The attribute 'wrongName' is not allowed.\n",
                     "Element 'section': The attribute 'name' is required but missing.\n",
                     "Element 'wrongGroup': This element is not expected. Expected is ( group ).\n"
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'sales_invalid_duplicates.xml',
-                array(
+                [
                     "Element 'renderer': Duplicate key-sequence ['r1']" .
                     " in unique identity-constraint 'uniqueRendererName'.\n",
                     "Element 'item': Duplicate key-sequence ['i1'] in unique identity-constraint 'uniqueItemName'.\n",
@@ -84,23 +84,23 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                     " in unique identity-constraint 'uniqueSectionName'.\n",
                     "Element 'available_product_type': Duplicate key-sequence ['a1']" .
                     " in unique identity-constraint 'uniqueProductTypeName'.\n"
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 'sales_invalid_without_attributes.xml',
-                array(
+                [
                     "Element 'section': The attribute 'name' is required but missing.\n",
                     "Element 'group': The attribute 'name' is required but missing.\n",
                     "Element 'item': The attribute 'name' is required but missing.\n",
                     "Element 'renderer': The attribute 'name' is required but missing.\n",
                     "Element 'renderer': The attribute 'instance' is required but missing.\n",
                     "Element 'available_product_type': The attribute 'name' is required but missing.\n"
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 'sales_invalid_root_node.xml',
-                array("Element 'wrong': This element is not expected. Expected is one of ( section, order ).\n")
-            )
-        );
+                ["Element 'wrong': This element is not expected. Expected is one of ( section, order ).\n"]
+            ]
+        ];
     }
 }

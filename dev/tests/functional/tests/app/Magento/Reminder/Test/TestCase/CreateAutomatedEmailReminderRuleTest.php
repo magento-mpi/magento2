@@ -8,12 +8,12 @@
 
 namespace Magento\Reminder\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reminder\Test\Fixture\Reminder;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderView;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Reminder\Test\Fixture\Reminder;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Preconditions:

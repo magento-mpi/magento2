@@ -27,8 +27,8 @@ class WidgetOptions extends AbstractWidgetOptions
             'orderBySku' => [
                 [
                     'link_display' => 'Yes',
-                    'link_text' => 'text%isolation%'
-                ]
+                    'link_text' => 'text%isolation%',
+                ],
             ],
         ];
 

@@ -7,8 +7,8 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Framework\Model\Exception;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Model\Exception;
 
 /**
  * Cart items attributes subselection condition
@@ -28,7 +28,7 @@ class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Attributes');
@@ -42,7 +42,7 @@ class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Numeric Attribute'));
+        return ['value' => $this->getType(), 'label' => __('Numeric Attribute')];
     }
 
     /**
@@ -53,13 +53,13 @@ class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(
-            array(
+            [
                 'weight' => __('weight'),
                 'row_weight' => __('row weight'),
                 'qty' => __('quantity'),
                 'price' => __('base price'),
-                'base_cost' => __('base cost')
-            )
+                'base_cost' => __('base cost'),
+            ]
         );
         return $this;
     }
@@ -94,9 +94,9 @@ class Attributes extends \Magento\Reminder\Model\Condition\AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $quoteItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
+        $select->joinInner(['quote' => $quoteTable], 'item.quote_id = quote.entity_id', []);
 
         switch ($this->getAttribute()) {
             case 'weight':

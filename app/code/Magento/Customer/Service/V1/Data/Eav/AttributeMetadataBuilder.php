@@ -7,9 +7,9 @@
  */
 namespace Magento\Customer\Service\V1\Data\Eav;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
 use Magento\Framework\Api\ExtensibleObjectBuilder;
-use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
@@ -48,8 +48,8 @@ class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements Attrib
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
         $this->_optionBuilder = $optionBuilder;
         $this->_validationRuleBuilder = $validationRuleBuilder;
-        $this->data[AttributeMetadata::OPTIONS] = array();
-        $this->data[AttributeMetadata::VALIDATION_RULES] = array();
+        $this->data[AttributeMetadata::OPTIONS] = [];
+        $this->data[AttributeMetadata::VALIDATION_RULES] = [];
     }
 
     /**
@@ -243,13 +243,13 @@ class AttributeMetadataBuilder extends ExtensibleObjectBuilder implements Attrib
     protected function _setDataValues(array $data)
     {
         if (array_key_exists(AttributeMetadata::OPTIONS, $data)) {
-            $options = array();
+            $options = [];
             if (is_array($data[AttributeMetadata::OPTIONS])) {
                 foreach ($data[AttributeMetadata::OPTIONS] as $key => $option) {
                     $options[$key] = $this->_optionBuilder->populateWithArray($option)->create();
                 }
             }
-            $validationRules = array();
+            $validationRules = [];
             if (is_array($data[AttributeMetadata::VALIDATION_RULES])) {
                 foreach ($data[AttributeMetadata::VALIDATION_RULES] as $key => $value) {
                     $validationRules[$key] = $this->_validationRuleBuilder->populateWithArray($value)->create();

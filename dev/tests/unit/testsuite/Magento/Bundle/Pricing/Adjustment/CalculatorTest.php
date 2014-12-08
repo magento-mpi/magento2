@@ -10,7 +10,6 @@ namespace Magento\Bundle\Pricing\Adjustment;
 use Magento\Bundle\Model\Product\Price as ProductPrice;
 use Magento\Bundle\Pricing\Price;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Bundle\Pricing\Adjustment\Calculator;
 
 /**
  * Test for \Magento\Bundle\Pricing\Adjustment\Calculator
@@ -126,7 +125,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $option->expects($this->any())->method('getSelections')
             ->will($this->returnValue(null));
         $bundleProduct = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
-        $this->assertSame(array(), $this->model->createSelectionPriceList($option, $bundleProduct));
+        $this->assertSame([], $this->model->createSelectionPriceList($option, $bundleProduct));
     }
 
     /**
@@ -253,7 +252,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         return [
             'amountForBundle' => [
                 'adjustmentsAmounts' => ['tax' => 102],
-                'amount' => 782
+                'amount' => 782,
             ],
             'optionList' => [
                 // first option with single choice of product
@@ -272,30 +271,30 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                             'data' => ['price' => 70.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
-                                'amount' => 18
-                            ]
+                                'amount' => 18,
+                            ],
                         ],
                         'second product selection' => [
                             'data' => ['price' => 80.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 18],
-                                'amount' => 28
-                            ]
+                                'amount' => 28,
+                            ],
                         ],
                         'third product selection with the lowest price' => [
                             'data' => ['price' => 50.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
-                                'amount' => 8
-                            ]
-                        ]
+                                'amount' => 8,
+                            ],
+                        ],
                     ]
                 ],
             ],
             'expectedResult' => [
                 'isMinAmount' => true,
                 'fullAmount' => 790.,
-                'adjustments' => ['tax' => 110, 'weee' => 10]
+                'adjustments' => ['tax' => 110, 'weee' => 10],
             ]
         ];
     }
@@ -310,7 +309,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         return [
             'amountForBundle' => [
                 'adjustmentsAmounts' => ['tax' => 102],
-                'amount' => 782
+                'amount' => 782,
             ],
             'optionList' => [
                 // first option with single choice of product
@@ -329,16 +328,16 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                             'data' => ['price' => 50.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8, 'weee' => 10],
-                                'amount' => 8
-                            ]
+                                'amount' => 8,
+                            ],
                         ],
                         'second product selection' => [
                             'data' => ['price' => 80.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 18],
-                                'amount' => 8
-                            ]
-                        ]
+                                'amount' => 8,
+                            ],
+                        ],
                     ]
                 ],
                 // second option with multiselection
@@ -357,30 +356,30 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                             'data' => ['price' => 20.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8],
-                                'amount' => 8
-                            ]
+                                'amount' => 8,
+                            ],
                         ],
                         'second product selection' => [
                             'data' => ['price' => 110.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 28],
-                                'amount' => 28
-                            ]
+                                'amount' => 28,
+                            ],
                         ],
                         'third product selection' => [
                             'data' => ['price' => 50.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 18],
-                                'amount' => 18
-                            ]
+                                'amount' => 18,
+                            ],
                         ],
                     ]
-                ]
+                ],
             ],
             'expectedResult' => [
                 'isMinAmount' => false,
                 'fullAmount' => 844.,
-                'adjustments' => ['tax' => 164, 'weee' => 10]
+                'adjustments' => ['tax' => 164, 'weee' => 10],
             ]
         ];
     }
@@ -395,7 +394,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         return [
             'amountForBundle' => [
                 'adjustmentsAmounts' => ['tax' => 102],
-                'amount' => 782
+                'amount' => 782,
             ],
             'optionList' => [
                 // first option with single choice of product
@@ -415,7 +414,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
             'expectedResult' => [
                 'isMinAmount' => true,
                 'fullAmount' => 782.,
-                'adjustments' => ['tax' => 102]
+                'adjustments' => ['tax' => 102],
             ]
         ];
     }
@@ -430,7 +429,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         return [
             'amountForBundle' => [
                 'adjustmentsAmounts' => [],
-                'amount' => null
+                'amount' => null,
             ],
             'optionList' => [
                 // first option
@@ -449,15 +448,15 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                             'data' => ['price' => 20.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8],
-                                'amount' => 8
-                            ]
+                                'amount' => 8,
+                            ],
                         ],
                         'second product selection' => [
                             'data' => ['price' => 30.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 10],
-                                'amount' => 12
-                            ]
+                                'amount' => 12,
+                            ],
                         ],
                     ]
                 ],
@@ -477,23 +476,23 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
                             'data' => ['price' => 25.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 8],
-                                'amount' => 9
-                            ]
+                                'amount' => 9,
+                            ],
                         ],
                         'second product selection' => [
                             'data' => ['price' => 35.],
                             'amount' => [
                                 'adjustmentsAmounts' => ['tax' => 10],
-                                'amount' => 10
-                            ]
+                                'amount' => 10,
+                            ],
                         ],
                     ]
-                ]
+                ],
             ],
             'expectedResult' => [
                 'isMinAmount' => true,
                 'fullAmount' => 8.,
-                'adjustments' => ['tax' => 8]
+                'adjustments' => ['tax' => 8],
             ]
         ];
     }

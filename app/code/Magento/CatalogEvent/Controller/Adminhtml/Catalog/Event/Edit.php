@@ -48,7 +48,7 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
                 $switchBlock->setDefaultStoreName(
                     __('Default Values')
                 )->setSwitchUrl(
-                    $this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null))
+                    $this->getUrl('adminhtml/*/*', ['_current' => true, 'store' => null])
                 );
             }
         }

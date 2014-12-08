@@ -8,10 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Data\Eav\Category;
 
-
 use Magento\Catalog\Model\Product as ProductModel;
-use Magento\Catalog\Service\V1\Data\Eav\Category\Product as CategoryProduct;
 use Magento\Catalog\Service\V1\Data\Converter;
+use Magento\Catalog\Service\V1\Data\Eav\Category\Product as CategoryProduct;
 
 /**
  * @codeCoverageIgnore

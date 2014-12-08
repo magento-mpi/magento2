@@ -25,7 +25,7 @@ class Uses implements ParserInterface
      *
      * @var array
      */
-    protected $uses = array();
+    protected $uses = [];
 
     /**
      * Check if uses present in content

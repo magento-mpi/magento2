@@ -12,7 +12,6 @@ use Magento\Catalog\Model\Resource\Product\CollectionFactory;
 
 class ItemCollectionProvider implements ItemCollectionProviderInterface
 {
-
     /**
      * @var CollectionFactory
      */

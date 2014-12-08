@@ -8,9 +8,9 @@
 
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Model\Calculation\Rate as TaxRateModel;
+use Magento\Tax\Model\Calculation\RateFactory as TaxRateModelFactory;
 
 class RateRegistry
 {

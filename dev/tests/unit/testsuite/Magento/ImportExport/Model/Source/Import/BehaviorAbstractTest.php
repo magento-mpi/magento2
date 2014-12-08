@@ -18,17 +18,17 @@ class BehaviorAbstractTest extends \Magento\ImportExport\Model\Source\Import\Abs
      *
      * @var array
      */
-    protected $_sourceArray = array('key_1' => 'label_1', 'key_2' => 'label_2');
+    protected $_sourceArray = ['key_1' => 'label_1', 'key_2' => 'label_2'];
 
     /**
      * Expected options (without first empty record)
      *
      * @var array
      */
-    protected $_expectedOptions = array(
-        array('value' => 'key_1', 'label' => 'label_1'),
-        array('value' => 'key_2', 'label' => 'label_2')
-    );
+    protected $_expectedOptions = [
+        ['value' => 'key_1', 'label' => 'label_1'],
+        ['value' => 'key_2', 'label' => 'label_2'],
+    ];
 
     protected function setUp()
     {
@@ -36,12 +36,12 @@ class BehaviorAbstractTest extends \Magento\ImportExport\Model\Source\Import\Abs
 
         $model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Source\Import\AbstractBehavior',
-            array(array()),
+            [[]],
             '',
             false,
             true,
             true,
-            array('toArray')
+            ['toArray']
         );
         $model->expects($this->any())->method('toArray')->will($this->returnValue($this->_sourceArray));
 

@@ -75,7 +75,7 @@ class Authentication
             list($user, $pass) = explode(':', base64_decode(substr($auth, strpos($auth, " ") + 1)));
         }
 
-        return array($user, $pass);
+        return [$user, $pass];
     }
 
     /**

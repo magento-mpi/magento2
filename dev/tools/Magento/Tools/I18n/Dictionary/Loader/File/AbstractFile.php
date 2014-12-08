@@ -60,12 +60,12 @@ abstract class AbstractFile implements FileInterface
             $data = array_pad($data, 4, null);
             $dictionary->addPhrase(
                 $this->_createPhrase(
-                    array(
+                    [
                         'phrase' => $data[0],
                         'translation' => $data[1],
                         'context_type' => $data[2],
-                        'context_value' => $data[3]
-                    )
+                        'context_value' => $data[3],
+                    ]
                 )
             );
         }

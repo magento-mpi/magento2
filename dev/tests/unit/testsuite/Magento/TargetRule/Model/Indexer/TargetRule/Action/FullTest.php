@@ -17,25 +17,25 @@ class FullTest extends \PHPUnit_Framework_TestCase
     {
         $ruleFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\RuleFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $collectionFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\Resource\Rule\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
-        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
 
         $collectionFactoryMock->expects($this->any())
             ->method('create')
-            ->will($this->returnValue(array(1, 2)));
+            ->will($this->returnValue([1, 2]));
 
         $resourceMock->expects($this->at(2))
             ->method('saveProductIndex')

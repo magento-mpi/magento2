@@ -216,7 +216,7 @@ class Save extends \Magento\Framework\Object
     public function getAllowQuoteItems()
     {
         if (!is_array($this->_session->getAllowQuoteItemsGiftMessage())) {
-            $this->setAllowQuoteItems(array());
+            $this->setAllowQuoteItems([]);
         }
 
         return $this->_session->getAllowQuoteItemsGiftMessage();
@@ -229,7 +229,7 @@ class Save extends \Magento\Framework\Object
      */
     public function getAllowQuoteItemsProducts()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getAllowQuoteItems() as $itemId) {
             $item = $this->_getQuote()->getItemById($itemId);
             if (!$item) {
@@ -279,7 +279,7 @@ class Save extends \Magento\Framework\Object
     public function importAllowQuoteItemsFromProducts($products)
     {
         $allowedItems = $this->getAllowQuoteItems();
-        $deleteAllowedItems = array();
+        $deleteAllowedItems = [];
         foreach ($products as $productId => $data) {
             $product = $this->productRepository->getById($productId, false, $this->_session->getStore()->getId());
             $item = $this->_getQuote()->getItemByProduct($product);
@@ -308,9 +308,8 @@ class Save extends \Magento\Framework\Object
     public function importAllowQuoteItemsFromItems($items)
     {
         $allowedItems = $this->getAllowQuoteItems();
-        $deleteAllowedItems = array();
+        $deleteAllowedItems = [];
         foreach ($items as $itemId => $data) {
-
             $item = $this->_getQuote()->getItemById($itemId);
 
             if (!$item) {
@@ -343,7 +342,7 @@ class Save extends \Magento\Framework\Object
             'main' => 'quote',
             'item' => 'quote_item',
             'order' => 'order',
-            'order_item' => 'order_item'
+            'order_item' => 'order_item',
         ];
 
         if (isset($map[$type])) {

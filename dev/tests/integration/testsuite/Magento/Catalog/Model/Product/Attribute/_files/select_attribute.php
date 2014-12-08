@@ -18,7 +18,7 @@ $defaultSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->creat
 );
 $defaultSet->load($defaultSetId);
 $defaultGroupId = $defaultSet->getDefaultGroupId();
-$optionData = array('value' => array('option_1' => array(0 => 'Fixture Option')), 'order' => array('option_1' => 1));
+$optionData = ['value' => ['option_1' => [0 => 'Fixture Option']], 'order' => ['option_1' => 1]];
 
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
 $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

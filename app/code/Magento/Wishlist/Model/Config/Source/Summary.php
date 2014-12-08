@@ -14,9 +14,9 @@ class Summary implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 0, 'label' => __('Display number of items in wish list')),
-            array('value' => 1, 'label' => __('Display item quantities'))
-        );
+        return [
+            ['value' => 0, 'label' => __('Display number of items in wish list')],
+            ['value' => 1, 'label' => __('Display item quantities')]
+        ];
     }
 }

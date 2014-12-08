@@ -8,7 +8,6 @@
 
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Catalog\Pricing\Price\RegularPrice;
 
 /**
@@ -273,7 +272,6 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
         $convertedValue = 100.02;
         $expectedPrice = $useRegularPrice ? $convertedValue : $discountedPrice;
 
-
         $this->bundleMock->expects($this->once())
             ->method('getPriceType')
             ->will($this->returnValue(\Magento\Bundle\Model\Product\Price::PRICE_TYPE_FIXED));
@@ -305,14 +303,14 @@ class BundleSelectionPriceTest extends \PHPUnit_Framework_TestCase
     {
         return [
             'useRegularPrice' => [
-                true
+                true,
             ],
             'notUseRegularPrice' => [
-                false
+                false,
             ],
         ];
     }
-    
+
     public function testGetProductFixedBundle()
     {
         $this->bundleMock->expects($this->any())

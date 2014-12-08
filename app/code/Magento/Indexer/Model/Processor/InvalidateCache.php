@@ -52,7 +52,7 @@ class InvalidateCache
     public function afterUpdateMview(\Magento\Indexer\Model\Processor $subject)
     {
         if ($this->moduleManager->isEnabled('Magento_PageCache')) {
-            $this->eventManager->dispatch('clean_cache_after_reindex', array('object' => $this->context));
+            $this->eventManager->dispatch('clean_cache_after_reindex', ['object' => $this->context]);
         }
     }
 }

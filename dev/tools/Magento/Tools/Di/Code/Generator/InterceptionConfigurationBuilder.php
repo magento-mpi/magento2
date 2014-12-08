@@ -10,8 +10,6 @@
 namespace Magento\Tools\Di\Code\Generator;
 
 use Magento\Framework\App\Area;
-use Magento\Framework\ObjectManager\Config;
-use Magento\Tools\Di\Code\Scanner;
 use Magento\Framework\Interception\Config\Config as InterceptionConfig;
 use Magento\Tools\Di\Code\Reader\Type;
 
@@ -144,7 +142,6 @@ class InterceptionConfigurationBuilder
                 $pluginInstances[] = $plugin['instance'];
             }
             $filteredData[$instance] = $pluginInstances;
-
         }
 
         return $filteredData;

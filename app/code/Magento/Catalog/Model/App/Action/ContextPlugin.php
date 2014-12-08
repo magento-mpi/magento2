@@ -29,7 +29,7 @@ class ContextPlugin
      * @var \Magento\Catalog\Helper\Product\ProductList
      */
     protected $productListHelper;
-    
+
     /**
      * @param \Magento\Catalog\Model\Product\ProductList\Toolbar $toolbarModel
      * @param \Magento\Framework\App\Http\Context $httpContext

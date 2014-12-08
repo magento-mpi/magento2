@@ -53,7 +53,7 @@ class Language implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $languages = array();
+        $languages = [];
         foreach ($this->_helper->getLanguageCodes() as $languageCode) {
             $localeCode = $this->_helper->convertLanguageCodeToLocaleCode($languageCode);
             $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $languageCode);
@@ -66,7 +66,7 @@ class Language implements \Magento\Framework\Option\ArrayInterface
                 $languageCode
             );
 
-            $languages[] = array('value' => $languageCode, 'label' => $label);
+            $languages[] = ['value' => $languageCode, 'label' => $label];
         }
         return $languages;
     }

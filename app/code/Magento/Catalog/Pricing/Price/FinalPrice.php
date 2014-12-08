@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 

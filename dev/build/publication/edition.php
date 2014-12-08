@@ -13,14 +13,14 @@ define(
 );
 require __DIR__ . '/functions.php';
 try {
-    $options = getopt('', array('dir:', 'edition:', 'internal'));
+    $options = getopt('', ['dir:', 'edition:', 'internal']);
     assertCondition(isset($options['dir']), USAGE);
     $dir = $options['dir'];
     assertCondition($dir && is_dir($dir), "The specified directory doesn't exist: {$options['dir']}");
     $dir = rtrim(str_replace('\\', '/', $dir), '/');
     assertCondition(isset($options['edition']), USAGE);
 
-    $lists = array('no-edition.txt');
+    $lists = ['no-edition.txt'];
     $includeLists = [];
 
     $baseDir = __DIR__ . '/../../../';

@@ -28,7 +28,6 @@ class DefaultTotals extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals
      */
     protected $priceCurrency;
 
-
     /**
      * Retrieve quote session object
      *

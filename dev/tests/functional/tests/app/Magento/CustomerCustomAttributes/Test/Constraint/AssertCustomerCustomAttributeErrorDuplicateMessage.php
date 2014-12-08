@@ -8,8 +8,8 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that after customer attribute error duplicate message appears

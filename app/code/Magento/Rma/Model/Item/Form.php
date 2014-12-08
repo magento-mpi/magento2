@@ -83,7 +83,7 @@ class Form extends \Magento\Eav\Model\Form
      */
     public function validateData(array $data)
     {
-        $errors = array();
+        $errors = [];
         foreach ($this->getAttributes() as $attribute) {
             if ($attribute->getAttributeCode() == 'reason_other') {
                 continue;

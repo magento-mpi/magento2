@@ -61,7 +61,7 @@ class Phrase
      * @param string $text
      * @param array $arguments
      */
-    public function __construct($text, array $arguments = array())
+    public function __construct($text, array $arguments = [])
     {
         $this->_text = (string)$text;
         $this->_arguments = $arguments;

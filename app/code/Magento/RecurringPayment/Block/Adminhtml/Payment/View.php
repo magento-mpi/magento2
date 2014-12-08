@@ -28,7 +28,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -43,7 +43,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     {
         $this->buttonList->add(
             'back',
-            array('label' => __('Back'), 'onclick' => "setLocation('{$this->getUrl('*/*/')}')", 'class' => 'back')
+            ['label' => __('Back'), 'onclick' => "setLocation('{$this->getUrl('*/*/')}')", 'class' => 'back']
         );
 
         $payment = $this->_coreRegistry->registry('current_recurring_payment');
@@ -51,53 +51,53 @@ class View extends \Magento\Backend\Block\Widget\Container
 
         // cancel
         if ($payment->canCancel()) {
-            $url = $this->getUrl('*/*/updateState', array('payment' => $payment->getId(), 'action' => 'cancel'));
+            $url = $this->getUrl('*/*/updateState', ['payment' => $payment->getId(), 'action' => 'cancel']);
             $this->buttonList->add(
                 'cancel',
-                array(
+                [
                     'label' => __('Cancel'),
                     'onclick' => "confirmSetLocation('{$confirmationMessage}', '{$url}')",
                     'class' => 'delete'
-                )
+                ]
             );
         }
 
         // suspend
         if ($payment->canSuspend()) {
-            $url = $this->getUrl('*/*/updateState', array('payment' => $payment->getId(), 'action' => 'suspend'));
+            $url = $this->getUrl('*/*/updateState', ['payment' => $payment->getId(), 'action' => 'suspend']);
             $this->buttonList->add(
                 'suspend',
-                array(
+                [
                     'label' => __('Suspend'),
                     'onclick' => "confirmSetLocation('{$confirmationMessage}', '{$url}')",
                     'class' => 'delete'
-                )
+                ]
             );
         }
 
         // activate
         if ($payment->canActivate()) {
-            $url = $this->getUrl('*/*/updateState', array('payment' => $payment->getId(), 'action' => 'activate'));
+            $url = $this->getUrl('*/*/updateState', ['payment' => $payment->getId(), 'action' => 'activate']);
             $this->buttonList->add(
                 'activate',
-                array(
+                [
                     'label' => __('Activate'),
                     'onclick' => "confirmSetLocation('{$confirmationMessage}', '{$url}')",
                     'class' => 'add'
-                )
+                ]
             );
         }
 
         // get update
         if ($payment->canFetchUpdate()) {
-            $url = $this->getUrl('*/*/updatePayment', array('payment' => $payment->getId()));
+            $url = $this->getUrl('*/*/updatePayment', ['payment' => $payment->getId()]);
             $this->buttonList->add(
                 'update',
-                array(
+                [
                     'label' => __('Get Update'),
                     'onclick' => "confirmSetLocation('{$confirmationMessage}', '{$url}')",
                     'class' => 'add'
-                )
+                ]
             );
         }
 

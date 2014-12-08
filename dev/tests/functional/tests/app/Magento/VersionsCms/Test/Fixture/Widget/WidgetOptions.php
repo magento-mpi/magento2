@@ -27,8 +27,8 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                     'anchor_text' => 'CustomText_%isolation%',
                     'title' => 'CustomTitle_%isolation%',
                     'node' => '%node_name%',
-                    'entities' => ['cmsHierarchy::cmsHierarchy']
-                ]
+                    'entities' => ['cmsHierarchy::cmsHierarchy'],
+                ],
             ],
         ];
 

@@ -46,12 +46,12 @@ class CancelTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->_session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
 
         $this->_agreement = $this->getMock(
             'Magento\Paypal\Model\Billing\Agreement',
-            array('load', 'getId', 'getCustomerId', 'getReferenceId', 'canCancel', 'cancel', '__wakeup'),
-            array(),
+            ['load', 'getId', 'getCustomerId', 'getReferenceId', 'canCancel', 'cancel', '__wakeup'],
+            [],
             '',
             false
         );
@@ -65,7 +65,7 @@ class CancelTest extends \PHPUnit_Framework_TestCase
         )->method(
             'get'
         )->will(
-            $this->returnValueMap(array(array('Magento\Customer\Model\Session', $this->_session)))
+            $this->returnValueMap([['Magento\Customer\Model\Session', $this->_session]])
         );
         $this->_objectManager->expects(
             $this->once()
@@ -86,16 +86,16 @@ class CancelTest extends \PHPUnit_Framework_TestCase
 
         $this->_messageManager = $this->getMock('Magento\Framework\Message\ManagerInterface');
 
-        $context = $this->getMock('Magento\Framework\App\Action\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Action\Context', [], [], '', false);
         $context->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManager));
         $context->expects($this->any())->method('getRequest')->will($this->returnValue($this->_request));
         $context->expects($this->any())->method('getResponse')->will($this->returnValue($response));
         $context->expects($this->any())->method('getRedirect')->will($this->returnValue($redirect));
         $context->expects($this->any())->method('getMessageManager')->will($this->returnValue($this->_messageManager));
 
-        $this->_registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->_registry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
-        $title = $this->getMock('Magento\Framework\App\Action\Title', array(), array(), '', false);
+        $title = $this->getMock('Magento\Framework\App\Action\Title', [], [], '', false);
 
         $this->_controller = new Cancel($context, $this->_registry, $title);
     }

@@ -28,7 +28,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
         $blockMock = $this->getMockBuilder(
             '\Magento\Framework\View\Element\BlockInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('setTitle', 'toHtml')
+            ['setTitle', 'toHtml']
         )->getMock();
         $blockMock->expects($this->any())->method('setTitle');
 
@@ -78,7 +78,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function hasPrimaryAddressDataProvider()
     {
-        return array('0' => array(0, false), '1' => array(1, true), '5' => array(5, false));
+        return ['0' => [0, false], '1' => [1, true], '5' => [5, false]];
     }
 
     /**
@@ -111,7 +111,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getAdditionalAddressesDataProvider()
     {
-        return array('0' => array(0, false), '5' => array(5, false));
+        return ['0' => [0, false], '5' => [5, false]];
     }
 
     /**
@@ -167,7 +167,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getDefaultBillingDataProvider()
     {
-        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
+        return ['0' => [0, null], '1' => [1, 1], '5' => [5, null]];
     }
 
     /**
@@ -186,7 +186,7 @@ class BookTest extends \PHPUnit_Framework_TestCase
 
     public function getDefaultShippingDataProvider()
     {
-        return array('0' => array(0, null), '1' => array(1, 1), '5' => array(5, null));
+        return ['0' => [0, null], '1' => [1, 1], '5' => [5, null]];
     }
 
     /**

@@ -50,7 +50,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_integrationMock = $this->getMockBuilder(
             'Magento\Integration\Model\Integration'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'getData',
                 'getId',
                 'getName',
@@ -60,16 +60,16 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 'loadByName',
                 'save',
                 'delete',
-                '__wakeup'
-            )
+                '__wakeup',
+            ]
         )->getMock();
-        $this->_integrationData = array(
+        $this->_integrationData = [
             Integration::ID => self::VALUE_INTEGRATION_ID,
             Integration::NAME => self::VALUE_INTEGRATION_NAME,
             Integration::EMAIL => self::VALUE_INTEGRATION_EMAIL,
             Integration::EMAIL => self::VALUE_INTEGRATION_ENDPOINT,
-            Integration::SETUP_TYPE => self::VALUE_INTEGRATION_SETUP_BACKEND
-        );
+            Integration::SETUP_TYPE => self::VALUE_INTEGRATION_SETUP_BACKEND,
+        ];
         $this->_integrationFactory->expects(
             $this->any()
         )->method(
@@ -100,7 +100,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_emptyIntegrationMock = $this->getMockBuilder(
             'Magento\Integration\Model\Integration'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'getData',
                 'getId',
                 'getName',
@@ -110,8 +110,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 'loadByName',
                 'save',
                 'delete',
-                '__wakeup'
-            )
+                '__wakeup',
+            ]
         )->getMock();
         $this->_emptyIntegrationMock->expects($this->any())->method('getId')->will($this->returnValue(null));
     }
@@ -231,12 +231,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         );
         $this->_integrationMock->expects($this->once())->method('save')->will($this->returnSelf());
         $this->_setValidIntegrationData();
-        $integrationData = array(
+        $integrationData = [
             'integration_id' => self::VALUE_INTEGRATION_ID,
             'name' => self::VALUE_INTEGRATION_ANOTHER_NAME,
             'email' => self::VALUE_INTEGRATION_EMAIL,
-            'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
-        );
+            'endpoint' => self::VALUE_INTEGRATION_ENDPOINT,
+        ];
         $this->_integrationMock->expects($this->any())->method('getData')->will($this->returnValue($integrationData));
 
         $updatedData = $this->_service->update($integrationData)->getData();
@@ -265,12 +265,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         );
         $this->_integrationMock->expects($this->never())->method('save')->will($this->returnSelf());
         $this->_setValidIntegrationData();
-        $integrationData = array(
+        $integrationData = [
             'integration_id' => self::VALUE_INTEGRATION_ID,
             'name' => self::VALUE_INTEGRATION_ANOTHER_NAME,
             'email' => self::VALUE_INTEGRATION_EMAIL,
-            'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
-        );
+            'endpoint' => self::VALUE_INTEGRATION_ENDPOINT,
+        ];
         $this->_service->update($integrationData);
     }
 
@@ -482,7 +482,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationMock = $this->getMockBuilder(
             'Magento\Integration\Model\Integration'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'getData',
                 'getId',
                 'getName',
@@ -492,8 +492,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
                 'loadByName',
                 'save',
                 'delete',
-                '__wakeup'
-            )
+                '__wakeup',
+            ]
         )->getMock();
         $integrationMock->expects($this->any())->method('getId')->will($this->returnValue($integrationId));
         $integrationMock->expects($this->any())->method('getName')->will($this->returnValue($name));

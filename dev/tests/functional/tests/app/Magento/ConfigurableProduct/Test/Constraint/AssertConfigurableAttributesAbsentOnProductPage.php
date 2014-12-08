@@ -8,11 +8,11 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Constraint\AbstractConstraint;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that deleted configurable attributes are absent on product page on frontend.

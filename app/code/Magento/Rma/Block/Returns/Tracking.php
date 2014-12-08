@@ -38,7 +38,7 @@ class Tracking extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -67,7 +67,7 @@ class Tracking extends \Magento\Framework\View\Element\Template
         if ($this->getRma()) {
             return $this->getRma()->getTrackingNumbers();
         }
-        return array();
+        return [];
     }
 
     /**
@@ -78,7 +78,7 @@ class Tracking extends \Magento\Framework\View\Element\Template
     public function getDeleteLabelUrl()
     {
         if ($this->getRma()) {
-            return $this->getUrl('*/*/delLabel/', array('entity_id' => $this->getRma()->getEntityId()));
+            return $this->getUrl('*/*/delLabel/', ['entity_id' => $this->getRma()->getEntityId()]);
         }
         return '';
     }

@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class MassDeleteTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var \Magento\Framework\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     private $messageManager;
 

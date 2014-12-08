@@ -20,7 +20,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testAfterGetOptionArray(array $expected, array $data)
     {
         $moduleManagerMock = $this->getMock(
-            'Magento\Framework\Module\Manager', array('isOutputEnabled'), array(), '', false
+            'Magento\Framework\Module\Manager', ['isOutputEnabled'], [], '', false
         );
         $moduleManagerMock->expects($this->once())
             ->method('isOutputEnabled')
@@ -39,35 +39,35 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function afterGetOptionArrayDataProvider()
     {
-        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
-        return array(
-            array(
-                array(
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
+        return [
+            [
+                [
                     'configurable' => true,
-                    'not_configurable' => true
-                ),
-                array(
+                    'not_configurable' => true,
+                ],
+                [
                     'is_module_output_enabled' => true,
                     'subject' => $productTypeMock,
-                    'result' => array(
+                    'result' => [
                         'configurable' => true,
-                        'not_configurable' => true
-                    )
-                )
-            ),
-            array(
-                array(
-                    'not_configurable' => true
-                ),
-                array(
+                        'not_configurable' => true,
+                    ]
+                ],
+            ],
+            [
+                [
+                    'not_configurable' => true,
+                ],
+                [
                     'is_module_output_enabled' => false,
                     'subject' => $productTypeMock,
-                    'result' => array(
+                    'result' => [
                         'configurable' => true,
-                        'not_configurable' => true
-                    )
-                )
-            )
-        );
+                        'not_configurable' => true,
+                    ]
+                ]
+            ]
+        ];
     }
 }

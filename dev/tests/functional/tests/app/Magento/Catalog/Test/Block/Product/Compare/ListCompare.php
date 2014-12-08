@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Block\Product\Compare;
 
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;

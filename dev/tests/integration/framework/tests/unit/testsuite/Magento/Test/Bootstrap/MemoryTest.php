@@ -32,15 +32,15 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->_memoryLimit = $this->getMock(
             'Magento\TestFramework\MemoryLimit',
-            array('printStats'),
-            array(),
+            ['printStats'],
+            [],
             '',
             false
         );
-        $this->_activationPolicy = $this->getMock('stdClass', array('register_shutdown_function'));
+        $this->_activationPolicy = $this->getMock('stdClass', ['register_shutdown_function']);
         $this->_object = new \Magento\TestFramework\Bootstrap\Memory(
             $this->_memoryLimit,
-            array($this->_activationPolicy, 'register_shutdown_function')
+            [$this->_activationPolicy, 'register_shutdown_function']
         );
     }
 
@@ -81,7 +81,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'register_shutdown_function'
         )->with(
-            $this->identicalTo(array($this->_object, 'displayStats'))
+            $this->identicalTo([$this->_object, 'displayStats'])
         );
         $this->_object->activateStatsDisplaying();
     }
@@ -93,7 +93,7 @@ class MemoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'register_shutdown_function'
         )->with(
-            $this->identicalTo(array($this->_memoryLimit, 'validateUsage'))
+            $this->identicalTo([$this->_memoryLimit, 'validateUsage'])
         );
         $this->_object->activateLimitValidation();
     }

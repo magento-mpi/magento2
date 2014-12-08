@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'region' => 'CA',
     'postcode' => '11111',
     'lastname' => 'lastname',
@@ -16,4 +16,4 @@ return array(
     'email' => 'admin@example.com',
     'telephone' => '11111111',
     'country_id' => 'US'
-);
+];

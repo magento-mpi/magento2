@@ -61,7 +61,7 @@ class IntegrationConfig
                 $this->_configCacheType->save(
                     serialize($this->_integrations),
                     self::CACHE_ID,
-                    array(TypeIntegration::CACHE_TAG)
+                    [TypeIntegration::CACHE_TAG]
                 );
             }
         }

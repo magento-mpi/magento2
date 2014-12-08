@@ -37,11 +37,11 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $block->setFilterData(new \Magento\Framework\Object());
         $html = $block->toHtml();
 
-        $expectedStrings = array(
+        $expectedStrings = [
             'FormElementDependenceController',
             'sales_report_rules_list',
-            'sales_report_price_rule_type'
-        );
+            'sales_report_price_rule_type',
+        ];
         foreach ($expectedStrings as $expectedString) {
             $this->assertContains($expectedString, $html);
         }

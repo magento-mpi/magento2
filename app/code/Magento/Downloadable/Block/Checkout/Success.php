@@ -40,7 +40,7 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -81,6 +81,6 @@ class Success extends \Magento\Checkout\Block\Onepage\Success
      */
     public function getDownloadableProductsUrl()
     {
-        return $this->getUrl('downloadable/customer/products', array('_secure' => true));
+        return $this->getUrl('downloadable/customer/products', ['_secure' => true]);
     }
 }

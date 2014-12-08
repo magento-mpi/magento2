@@ -8,12 +8,12 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AssertCrossSellsProductsSection

@@ -35,7 +35,7 @@ class DefaultStockqtyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->stockState = $this->getMock(
             'Magento\CatalogInventory\Api\StockStateInterface',
             [],
@@ -63,8 +63,8 @@ class DefaultStockqtyTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTags = array('catalog_product_1');
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productTags = ['catalog_product_1'];
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTags));
         $this->registryMock->expects($this->once())
             ->method('registry')
@@ -169,7 +169,7 @@ class DefaultStockqtyTest extends \PHPUnit_Framework_TestCase
                 'product id' => 5,
                 'website id' => 0,
                 'default qty' => null,
-                'expected qty' => 100
+                'expected qty' => 100,
             ],
             [
                 'product qty' => 100,

@@ -46,7 +46,7 @@ class Factory
     {
         return $this->objectManager->create(
             'Magento\Framework\View\File',
-            array('filename' => $filename, 'module' => $module, 'theme' => $theme, 'isBase' => $isBase)
+            ['filename' => $filename, 'module' => $module, 'theme' => $theme, 'isBase' => $isBase]
         );
     }
 }

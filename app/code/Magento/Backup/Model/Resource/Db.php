@@ -25,7 +25,7 @@ class Db
      *
      * @var array
      */
-    protected $_foreignKeys = array();
+    protected $_foreignKeys = [];
 
     /**
      * Backup resource helper
@@ -55,7 +55,7 @@ class Db
      */
     public function clear()
     {
-        $this->_foreignKeys = array();
+        $this->_foreignKeys = [];
     }
 
     /**

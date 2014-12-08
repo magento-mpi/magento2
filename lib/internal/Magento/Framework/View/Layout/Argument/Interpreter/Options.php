@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Layout\Argument\Interpreter;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\Data\Argument\InterpreterInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Interpreter that retrieves options from an option source model
@@ -46,12 +46,12 @@ class Options implements InterpreterInterface
                 sprintf("Instance of the options source model is expected, got %s instead.", get_class($modelInstance))
             );
         }
-        $result = array();
+        $result = [];
         foreach ($modelInstance->toOptionArray() as $value => $label) {
             if (is_array($label)) {
                 $result[] = $label;
             } else {
-                $result[] = array('value' => $value, 'label' => $label);
+                $result[] = ['value' => $value, 'label' => $label];
             }
         }
         return $result;

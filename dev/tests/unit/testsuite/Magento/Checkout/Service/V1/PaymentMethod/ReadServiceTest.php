@@ -116,7 +116,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $methodList = [
             $this->getMock('\Magento\Payment\Model\MethodInterface'),
-            $this->getMock('\Magento\Payment\Model\MethodInterface')
+            $this->getMock('\Magento\Payment\Model\MethodInterface'),
         ];
 
         $this->methodListMock->expects($this->once())
@@ -132,7 +132,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = [
             $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false),
-            $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false)
+            $this->getMock('\Magento\Checkout\Service\V1\Data\PaymentMethod', [], [], '', false),
         ];
 
         $this->assertEquals($expectedResult, $this->service->getList($cartId));

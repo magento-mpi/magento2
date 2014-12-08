@@ -45,7 +45,7 @@ class AssertTaxReportNotInGrid extends AbstractConstraint
             'tax' => $taxRule->getTaxRate()[0],
             'rate' => $taxRule->getDataFieldConfig('tax_rate')['source']->getFixture()[0]->getRate(),
             'orders' => count($order->getEntityId()['products']),
-            'tax_amount' => $taxAmount
+            'tax_amount' => $taxAmount,
         ];
 
         \PHPUnit_Framework_Assert::assertFalse(

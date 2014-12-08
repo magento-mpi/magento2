@@ -80,7 +80,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $item->setData($key, $value);
         }
 
-        $items = array($item);
+        $items = [$item];
         $taxDetails = $this->getMock('Magento\Tax\Api\Data\TaxDetailsInterface');
         $taxDetails->expects($this->any())
             ->method('getItems')
@@ -90,7 +90,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',
                 'reinitStores', 'getDefaultStoreView', 'setIsSingleStoreModeAllowed', 'getGroup', 'getGroups',
-                'clearWebsiteCache', 'setCurrentStore'])
+                'clearWebsiteCache', 'setCurrentStore', ])
             ->getMock();
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')->disableOriginalConstructor()->getMock();
         $storeManager->expects($this->any())
@@ -127,7 +127,6 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())
             ->method('create')
             ->will($this->returnValue($calculator));
-
 
         $taxCalculationService = $this->getMock('\Magento\Tax\Api\TaxCalculationInterface');
 
@@ -265,7 +264,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getAssociatedTaxables',
                           'getQuote', 'getBillingAddress', 'getRegionId',
-                          '__wakeup'])
+                          '__wakeup', ])
             ->getMock();
         $item
             ->expects($this->any())
@@ -278,7 +277,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         $address
             ->expects($this->any())
             ->method('getAssociatedTaxables')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $address
             ->expects($this->any())
             ->method('getRegionId')
@@ -312,7 +311,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'default' => [
                 'itemData' => [
                     "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
-                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1", "converted_price" => 100
+                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1", "converted_price" => 100,
                 ],
                 '$appliedRates' => [
                     [
@@ -321,12 +320,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                                 "code" => "US-NY-*-Rate ",
                                 "title" => "US-NY-*-Rate ",
                                 "percent" => 20,
-                                "rate_id" => 1
-                            ]
+                                "rate_id" => 1,
+                            ],
                         ],
                         "percent" => 20,
-                        "id" => "US-NY-*-Rate 1"
-                    ]
+                        "id" => "US-NY-*-Rate 1",
+                    ],
                 ],
                 'taxDetailsData' => [
                     "subtotal" => 100,
@@ -337,8 +336,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                             "amount" => 20,
                             "percent" => 20,
                             "rates" => ["_data" => ["percent" => 20]],
-                            "tax_rate_key" => "US-NY-*-Rate 1"
-                        ]
+                            "tax_rate_key" => "US-NY-*-Rate 1",
+                        ],
                     ],
                     'items' => [
                         "sequence-1" => [
@@ -350,21 +349,21 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                                 'price_incl_tax' => 120,
                                 'row_total' => 100,
                                 'row_total_incl_tax' => 120,
-                                'tax_calculation_item_id' => "sequence-1"
-                            ]
-                        ]
-                    ]
+                                'tax_calculation_item_id' => "sequence-1",
+                            ],
+                        ],
+                    ],
                 ],
                 'quoteDetailsData' => [
                     "billing_address" => [
-                        "street" => array("123 Main Street"),
+                        "street" => ["123 Main Street"],
                         "postcode" => "10012",
                         "country_id" => "US",
                         "region" => ["region_id" => 43],
                         "city" => "New York",
                     ],
                     'shipping_address' => [
-                        "street" => array("123 Main Street"),
+                        "street" => ["123 Main Street"],
                         "postcode" => "10012",
                         "country_id" => "US",
                         "region" => ["region_id" => 43],
@@ -377,23 +376,23 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                             'type' => 'product',
                             'quantity' => 1,
                             'unit_price' => 100,
-                            'tax_class_key' => array("_data" => array("type" => "id", "value" => 2)),
+                            'tax_class_key' => ["_data" => ["type" => "id", "value" => 2]],
                             'tax_included = false',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'addressData' => [
                     "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
                     "city" => "New York", "region" => "New York", "region_id" => "43", "postcode" => "10012",
                     "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
                     "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
-                    "base_shipping_amount" => 0
+                    "base_shipping_amount" => 0,
                 ],
                 'verifyData' => [
                     "tax_amount" => 20.0,
                     "subtotal" => 100,
                     "shipping_amount" => 0,
-                    "subtotal_incl_tax" => 120.0
+                    "subtotal_incl_tax" => 120.0,
                 ],
             ],
         ];
@@ -541,7 +540,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             $item->setData($key, $value);
         }
 
-        $items = array($item);
+        $items = [$item];
         $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
 
         $address = $this->getMockBuilder('\Magento\Sales\Model\Quote\Address')
@@ -569,7 +568,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'default' => [
                 'itemData' => [
                     "qty" => 1, "price" => 100, "tax_percent" => 20, "product_type" => "simple",
-                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1"
+                    "code" => "sequence-1", "tax_calculation_item_id" => "sequence-1",
                 ],
                 'addressData' => [
                     "address_id" => 2, "address_type" => "shipping", "street" => "123 Main Street",
@@ -577,8 +576,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
                     "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
                     "base_shipping_amount" => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         return $data;
@@ -620,7 +619,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['convertPrice', '__wakeup'])
             ->getMock();
         $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
-        $items = array();
+        $items = [];
 
         $address = $this->getMock(
             '\Magento\Sales\Model\Quote\Address',
@@ -686,8 +685,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     "country_id" => "US", "telephone" => "111-111-1111", "same_as_billing" => "1",
                     "shipping_method" => "freeshipping_freeshipping", "weight" => 1, "shipping_amount" => 0,
                     "base_shipping_amount" => 0,
-                ]
-            ]
+                ],
+            ],
         ];
 
         return $data;
@@ -717,7 +716,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getAllNonNominalItems',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )->getMock();
 

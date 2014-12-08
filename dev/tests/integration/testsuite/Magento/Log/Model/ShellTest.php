@@ -19,7 +19,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Log\Model\Shell',
-            array('entryPoint' => $entryPoint)
+            ['entryPoint' => $entryPoint]
         );
     }
 
@@ -55,7 +55,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     public function testRunLogStatus()
     {
         $model = $this->_getModel('testme.php');
-        $model->setRawArgs(array('testme.php', 'status'));
+        $model->setRawArgs(['testme.php', 'status']);
         $result = $this->_run($model);
 
         $this->assertNotContains('testme.php', $result);

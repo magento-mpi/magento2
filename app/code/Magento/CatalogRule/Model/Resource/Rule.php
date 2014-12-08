@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog rules resource model
  *
@@ -15,7 +14,6 @@
 namespace Magento\CatalogRule\Model\Resource;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogRule\Model\Rule as ModelRule;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
@@ -36,18 +34,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'catalogrule_website',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'website_id'
-        ),
-        'customer_group' => array(
+            'entity_id_field' => 'website_id',
+        ],
+        'customer_group' => [
             'associations_table' => 'catalogrule_customer_group',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'customer_group_id'
-        )
-    );
+            'entity_id_field' => 'customer_group_id',
+        ],
+    ];
 
     /**
      * Catalog rule data
@@ -191,15 +189,15 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $write = $this->_getWriteAdapter();
         $write->delete(
             $this->getTable('catalogrule_product'),
-            array('rule_id=?' => $rule->getId())
+            ['rule_id=?' => $rule->getId()]
         );
         $write->delete(
             $this->getTable('catalogrule_customer_group'),
-            array('rule_id=?' => $rule->getId())
+            ['rule_id=?' => $rule->getId()]
         );
         $write->delete(
             $this->getTable('catalogrule_group_website'),
-            array('rule_id=?' => $rule->getId())
+            ['rule_id=?' => $rule->getId()]
         );
         return parent::_afterDelete($rule);
     }
@@ -216,7 +214,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function getRulePrice($date, $wId, $gId, $pId)
     {
-        $data = $this->getRulePrices($date, $wId, $gId, array($pId));
+        $data = $this->getRulePrices($date, $wId, $gId, [$pId]);
         if (isset($data[$pId])) {
             return $data[$pId];
         }
@@ -239,7 +237,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('catalogrule_product_price'),
-            array('product_id', 'rule_price')
+            ['product_id', 'rule_price']
         )->where(
             'rule_date = ?',
             $this->dateTime->formatDate($date, false)

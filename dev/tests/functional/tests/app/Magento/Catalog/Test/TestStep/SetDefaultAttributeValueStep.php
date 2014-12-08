@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\TestStep;
 
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestStep\TestStepInterface;
 

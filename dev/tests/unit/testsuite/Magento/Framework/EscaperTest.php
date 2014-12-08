@@ -41,18 +41,18 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
             'array data' => [
                 'data' => ['one', '<two>three</two>'],
                 'expected' => ['one', '&lt;two&gt;three&lt;/two&gt;'],
-                null
+                null,
             ],
             'string data conversion' => [
                 'data' => '<two>three</two>',
                 'expected' => '&lt;two&gt;three&lt;/two&gt;',
-                null
+                null,
             ],
             'string data no conversion' => ['data' => 'one', 'expected' => 'one'],
             'string data with allowed tags' => [
                 'data' => '<span><b>some text in tags</b></span>',
                 'expected' => '<span><b>some text in tags</b></span>',
-                'allowedTags' => ['span', 'b']
+                'allowedTags' => ['span', 'b'],
             ]
         ];
     }
@@ -87,7 +87,7 @@ class EscaperTest extends \PHPUnit_Framework_TestCase
         $data = "Text with 'single' and \"double\" quotes";
         $expected = [
             "Text with &#039;single&#039; and &quot;double&quot; quotes",
-            "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes"
+            "Text with \\&#039;single\\&#039; and \\&quot;double\\&quot; quotes",
         ];
         $this->assertEquals($expected[0], $this->_escaper->escapeQuote($data));
         $this->assertEquals($expected[1], $this->_escaper->escapeQuote($data, true));

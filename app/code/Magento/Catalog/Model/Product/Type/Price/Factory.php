@@ -38,7 +38,7 @@ class Factory
      * @return \Magento\Catalog\Model\Product\Type\Price
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $price = $this->_objectManager->create($className, $data);
 

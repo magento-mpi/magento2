@@ -46,19 +46,19 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             'scope'
         )->will(
             $this->returnValue(
-                array(
+                [
                     file_get_contents(__DIR__ . '/_files/formats_one.xml'),
-                    file_get_contents(__DIR__ . '/_files/formats_two.xml')
-                )
+                    file_get_contents(__DIR__ . '/_files/formats_two.xml'),
+                ]
             )
         );
 
-        $this->_converter = $this->getMock('Magento\Customer\Model\Address\Config\Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Customer\Model\Address\Config\Converter', ['convert']);
 
         $moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getModuleDir'),
-            array(),
+            ['getModuleDir'],
+            [],
             '',
             false
         );

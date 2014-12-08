@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\Acl;
 
-
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Generator.php';
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Formatter.php';
@@ -68,14 +67,14 @@ class GeneratorRemoveTest extends \PHPUnit_Framework_TestCase
         $domNotEmpty = new \DOMDocument();
         $domNotEmpty->load($this->_notEmptyFile);
 
-        $adminhtmlDomList = array($this->_emptyFile => $domEmpty, $this->_notEmptyFile => $domNotEmpty);
+        $adminhtmlDomList = [$this->_emptyFile => $domEmpty, $this->_notEmptyFile => $domNotEmpty];
 
         $this->_model->setAdminhtmlDomList($adminhtmlDomList);
-        $expected = array(
-            'removed' => array($this->_emptyFile),
-            'not_removed' => array($this->_notEmptyFile),
-            'artifacts' => array('AclXPathToAclId.log' => json_encode(array()))
-        );
+        $expected = [
+            'removed' => [$this->_emptyFile],
+            'not_removed' => [$this->_notEmptyFile],
+            'artifacts' => ['AclXPathToAclId.log' => json_encode([])],
+        ];
 
         $result = $this->_model->removeAdminhtmlFiles();
         $this->assertEquals($expected, $result);

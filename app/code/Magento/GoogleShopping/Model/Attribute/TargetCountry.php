@@ -43,7 +43,7 @@ class TargetCountry extends \Magento\GoogleShopping\Model\Attribute\DefaultAttri
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $config;
         parent::__construct(

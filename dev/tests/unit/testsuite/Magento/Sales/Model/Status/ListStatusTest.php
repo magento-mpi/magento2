@@ -30,15 +30,14 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
                 'origin' => $origin,
                 'code' => $code,
                 'message' => $message,
-                'additionalData' => $additionalData
-            ]
+                'additionalData' => $additionalData,
+            ],
         ];
         $result = $this->listStatus->addItem($origin, $code, $message, $additionalData);
         $items = $this->listStatus->getItems();
         $this->assertEquals($mockItems, $items);
         $this->assertInstanceOf('\Magento\Sales\Model\Status\ListStatus', $result);
     }
-
 
     public function testRemovePresentAndAbsentItems()
     {
@@ -83,11 +82,10 @@ class ListStatusTest extends \PHPUnit_Framework_TestCase
                 'origin' => $origin . $i,
                 'code' => $code,
                 'message' => $message . $i,
-                'additionalData' => $additionalData
+                'additionalData' => $additionalData,
             ];
             $this->listStatus->addItem($origin . $i, $code, $message . $i, $additionalData);
         }
         return $mockItems;
     }
 }
-

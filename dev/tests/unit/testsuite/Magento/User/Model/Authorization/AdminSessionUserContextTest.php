@@ -79,7 +79,6 @@ class AdminSessionUserContextTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($userId));
 
         if ($userId) {
-
             $this->adminSession->expects($this->once())
                 ->method('getUser')
                 ->will($this->returnSelf());

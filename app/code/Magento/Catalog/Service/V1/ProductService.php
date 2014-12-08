@@ -8,12 +8,11 @@
 namespace Magento\Catalog\Service\V1;
 
 use Magento\Catalog\Controller\Adminhtml\Product;
-use Magento\Catalog\Service\V1\Data\Converter;
-use Magento\Framework\Api\SearchCriteria;
-use Magento\Catalog\Service\V1\Data\Product as ProductData;
-use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Catalog\Service\V1\Data\Converter;
 use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
+use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SortOrder;
 
 /**
@@ -230,7 +229,7 @@ class ProductService implements ProductServiceInterface
         $collection->setCurPage($searchCriteria->getCurrentPage());
         $collection->setPageSize($searchCriteria->getPageSize());
 
-        $products = array();
+        $products = [];
         /** @var \Magento\Catalog\Model\Product $productModel */
         foreach ($collection as $productModel) {
             $productBuilder = $this->converter->createProductBuilderFromModel($productModel);
@@ -257,7 +256,7 @@ class ProductService implements ProductServiceInterface
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
             $field = $this->translateField($filter->getField());
-            $fields[] = array('attribute' => $field, $condition => $filter->getValue());
+            $fields[] = ['attribute' => $field, $condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields);

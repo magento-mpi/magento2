@@ -20,8 +20,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
              */
             function ($file) {
                 $xml = simplexml_load_file($file);
-                $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: array();
-                $errors = array();
+                $nodes = $xml->xpath(\Magento\Test\Integrity\Magento\AdminGws\ConfigTest::CLASSES_XPATH) ?: [];
+                $errors = [];
                 /** @var SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     if (preg_match('/\_\_/', $node->getName())) {

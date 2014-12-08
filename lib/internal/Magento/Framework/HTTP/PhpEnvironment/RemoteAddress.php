@@ -35,7 +35,7 @@ class RemoteAddress
      * @param \Magento\Framework\App\RequestInterface $httpRequest
      * @param array $alternativeHeaders
      */
-    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, array $alternativeHeaders = array())
+    public function __construct(\Magento\Framework\App\RequestInterface $httpRequest, array $alternativeHeaders = [])
     {
         $this->request = $httpRequest;
         $this->alternativeHeaders = $alternativeHeaders;

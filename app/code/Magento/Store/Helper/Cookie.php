@@ -54,7 +54,7 @@ class Cookie extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context);
         $this->_scopeConfig = $scopeConfig;
@@ -107,7 +107,7 @@ class Cookie extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $serializedList = $this->_request->getCookie(self::IS_USER_ALLOWED_SAVE_COOKIE, false);
         $unSerializedList = json_decode($serializedList, true);
-        return is_array($unSerializedList) ? $unSerializedList : array();
+        return is_array($unSerializedList) ? $unSerializedList : [];
     }
 
     /**

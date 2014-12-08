@@ -50,7 +50,7 @@ class Comments extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $invoiceCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $memoCollectionFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $shipmentCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_invoiceCollectionFactory = $invoiceCollectionFactory;
@@ -94,9 +94,9 @@ class Comments extends \Magento\Framework\View\Element\Template
             $entity = $this->getEntity();
             if ($entity instanceof \Magento\Sales\Model\Order\Invoice) {
                 $this->_commentCollection = $this->_invoiceCollectionFactory->create();
-            } else if ($entity instanceof \Magento\Sales\Model\Order\Creditmemo) {
+            } elseif ($entity instanceof \Magento\Sales\Model\Order\Creditmemo) {
                 $this->_commentCollection = $this->_memoCollectionFactory->create();
-            } else if ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
+            } elseif ($entity instanceof \Magento\Sales\Model\Order\Shipment) {
                 $this->_commentCollection = $this->_shipmentCollectionFactory->create();
             } else {
                 throw new \Magento\Framework\Model\Exception(__('We found an invalid entity model.'));

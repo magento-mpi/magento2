@@ -134,7 +134,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $exception  = new \Exception('Expected Exception');
         $this->modelMock->expects($this->any())
             ->method('getId')
-            ->will($this->throwException($exception ));
+            ->will($this->throwException($exception));
         $this->adapterMock->expects($this->once())
             ->method('beginTransaction');
         $this->adapterMock->expects($this->once())

@@ -19,9 +19,9 @@ class Contentdisposition implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'attachment', 'label' => __('attachment')),
-            array('value' => 'inline', 'label' => __('inline'))
-        );
+        return [
+            ['value' => 'attachment', 'label' => __('attachment')],
+            ['value' => 'inline', 'label' => __('inline')]
+        ];
     }
 }

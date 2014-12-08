@@ -38,10 +38,10 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     {
         $product = new \Magento\Framework\Object();
         $product->setTierPrice(
-            array(
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5)
-            )
+            [
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8],
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5],
+            ]
         );
         $this->assertTrue($this->_model->validate($product));
     }
@@ -53,10 +53,10 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     {
         $product = new \Magento\Framework\Object();
         $product->setTierPrice(
-            array(
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8)
-            )
+            [
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8],
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8],
+            ]
         );
 
         $this->_model->validate($product);
@@ -69,11 +69,11 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
     {
         $product = new \Magento\Framework\Object();
         $product->setTierPrice(
-            array(
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
-                array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5),
-                array('website_id' => 1, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5)
-            )
+            [
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8],
+                ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5],
+                ['website_id' => 1, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5],
+            ]
         );
 
         $this->_model->validate($product);
@@ -81,11 +81,11 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
 
     public function testPreparePriceData()
     {
-        $data = array(
-            array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8),
-            array('website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5),
-            array('website_id' => 1, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5)
-        );
+        $data = [
+            ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 2, 'price' => 8],
+            ['website_id' => 0, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5],
+            ['website_id' => 1, 'cust_group' => 1, 'price_qty' => 5, 'price' => 5],
+        ];
 
         $newData = $this->_model->preparePriceData($data, \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE, 1);
         $this->assertEquals(2, count($newData));
@@ -119,12 +119,12 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
         $product->unlockAttributes();
         $product->setOrigData();
         $product->setTierPrice(
-            array(
-                array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 2, 'price' => 7, 'delete' => true),
-                array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 5, 'price' => 4),
-                array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 10, 'price' => 3),
-                array('website_id' => 0, 'cust_group' => 32000, 'price_qty' => 20, 'price' => 2)
-            )
+            [
+                ['website_id' => 0, 'cust_group' => 32000, 'price_qty' => 2, 'price' => 7, 'delete' => true],
+                ['website_id' => 0, 'cust_group' => 32000, 'price_qty' => 5, 'price' => 4],
+                ['website_id' => 0, 'cust_group' => 32000, 'price_qty' => 10, 'price' => 3],
+                ['website_id' => 0, 'cust_group' => 32000, 'price_qty' => 20, 'price' => 2],
+            ]
         );
 
         $this->_model->afterSave($product);
@@ -157,7 +157,7 @@ class TierpriceTest extends \PHPUnit_Framework_TestCase
         );
         $product->load(1);
         $product->setOrigData();
-        $product->setTierPrice(array());
+        $product->setTierPrice([]);
         $this->_model->afterSave($product);
 
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

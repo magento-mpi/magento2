@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration;
 
-use Magento\Tools\Migration\System\Configuration\AbstractLogger;
-use Magento\Tools\Migration\System\Configuration\Formatter;
 use Magento\Tools\Migration\System\FileManager;
 
 class Generator
@@ -51,7 +49,6 @@ class Generator
         $this->_xmlFormatter = $xmlFormatter;
         $this->_logger = $logger;
 
-
         $this->_basePath = realpath(__DIR__ . '/../../../../../../../');
         $this->_fileSchemaPath = $this->_basePath . '/app/code/Mage/Backend/etc/system_file.xsd';
     }
@@ -74,14 +71,14 @@ class Generator
 
         $output = $this->_xmlFormatter->parseString(
             $domDocument->saveXml(),
-            array(
+            [
                 'indent' => true,
                 'input-xml' => true,
                 'output-xml' => true,
                 'add-xml-space' => false,
                 'indent-spaces' => 4,
                 'wrap' => 1000
-            )
+            ]
         );
         $newFileName = $this->_getPathToSave($fileName);
         $this->_fileManager->write($newFileName, $output);
@@ -123,11 +120,11 @@ class Generator
             $element->appendChild($cdataSection);
         }
 
-        foreach ($this->_getValue($config, '@attributes', array()) as $attributeName => $attributeValue) {
+        foreach ($this->_getValue($config, '@attributes', []) as $attributeName => $attributeValue) {
             $element->setAttribute($attributeName, $attributeValue);
         }
 
-        foreach ($this->_getValue($config, 'parameters', array()) as $paramConfig) {
+        foreach ($this->_getValue($config, 'parameters', []) as $paramConfig) {
             if ($this->_getValue($paramConfig, 'name') == '#text') {
                 $element->nodeValue = $this->_getValue($paramConfig, 'value', '');
                 continue;
@@ -140,18 +137,18 @@ class Generator
                 $childElement->appendChild($childCDataSection);
             }
 
-            foreach ($this->_getValue($paramConfig, '@attributes', array()) as $attributeName => $attributeValue) {
+            foreach ($this->_getValue($paramConfig, '@attributes', []) as $attributeName => $attributeValue) {
                 $childElement->setAttribute($attributeName, $attributeValue);
             }
 
-            foreach ($this->_getValue($paramConfig, 'subConfig', array()) as $subConfig) {
+            foreach ($this->_getValue($paramConfig, 'subConfig', []) as $subConfig) {
                 $childElement->appendChild($this->_createElement($subConfig, $dom));
             }
 
             $element->appendChild($childElement);
         }
 
-        foreach ($this->_getValue($config, 'subConfig', array()) as $subConfig) {
+        foreach ($this->_getValue($config, 'subConfig', []) as $subConfig) {
             $element->appendChild($this->_createElement($subConfig, $dom));
         }
 

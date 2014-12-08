@@ -14,7 +14,6 @@ namespace Magento\Tax\Model\Calculation;
  */
 class RowBaseCalculatorTest extends RowBaseAndTotalBaseCalculatorTestCase
 {
-
     /** @var RowBaseCalculator | \PHPUnit_Framework_MockObject_MockObject */
     protected $rowBaseCalculator;
 

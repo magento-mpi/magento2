@@ -26,13 +26,13 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Tab\Main\Layout',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'widget_instance' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                         'Magento\Widget\Model\Widget\Instance'
-                    )
-                )
-            )
+                    ),
+                ]
+            ]
         );
         $this->_block->setLayout(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\View\LayoutInterface')

@@ -14,10 +14,10 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string[] $usedGroups all payment groups used in store configuration
      */
-    protected static $_usedGroups = array();
+    protected static $_usedGroups = [];
 
     /** @var string[] $_registeredGroups all registered payment groups */
-    protected static $_registeredGroups = array();
+    protected static $_registeredGroups = [];
 
     public static function setUpBeforeClass()
     {
@@ -33,7 +33,7 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
         /**
          * @var string[] $configFiles
          */
-        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('config.xml', array(), false);
+        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('config.xml', [], false);
         /**
          * @var string $file
          */
@@ -61,7 +61,7 @@ class ReferentialTest extends \PHPUnit_Framework_TestCase
         /**
          * @var string[] $configFiles
          */
-        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('payment.xml', array(), false);
+        $configFiles = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('payment.xml', [], false);
         /**
          * @var string $file
          */

@@ -171,7 +171,7 @@ class RewardPointsRefund
         $creditmemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);
         $this->eventManager->dispatch(
             'rewarded_amount_after_refund_calculation',
-            array('creditmemo' => $creditmemo)
+            ['creditmemo' => $creditmemo]
         );
         $rewardedAmountAfterRefund = $creditmemo->getRewardedAmountAfterRefund();
 
@@ -230,9 +230,9 @@ class RewardPointsRefund
          * Config option deduct_automatically is not considered here because points for refunded amount that
          * were not been voided automatically need to be counted in possible future automatic deductions.
          */
-        $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, array(
+        $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, [
             'points_voided' => $rewardPointsVoided + $rewardPointsAmountToVoid
-        ));
+        ]);
     }
 
     /**

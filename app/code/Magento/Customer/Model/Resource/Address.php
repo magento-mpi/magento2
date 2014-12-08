@@ -9,7 +9,7 @@
  */
 namespace Magento\Customer\Model\Resource;
 
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 class Address extends \Magento\Eav\Model\Entity\AbstractEntity
 {
@@ -43,7 +43,7 @@ class Address extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        $data = array()
+        $data = []
     ) {
         $this->_validatorFactory = $validatorFactory;
         $this->_customerFactory = $customerFactory;

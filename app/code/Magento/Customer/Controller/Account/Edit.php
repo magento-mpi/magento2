@@ -8,10 +8,10 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 
 class Edit extends \Magento\Customer\Controller\Account
 {

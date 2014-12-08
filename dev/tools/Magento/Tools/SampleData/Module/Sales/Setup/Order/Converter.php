@@ -118,7 +118,7 @@ class Converter
         $customerDetails = $this->customerAccount->getCustomerDetailsByEmail($email);
         $account = [
             'email' => $customerDetails->getCustomer()->getEmail(),
-            'group_id' => $customerDetails->getCustomer()->getGroupId()
+            'group_id' => $customerDetails->getCustomer()->getGroupId(),
         ];
         foreach ($customerDetails->getAddresses() as $customerAddress) {
             if ($customerAddress->isDefaultBilling()) {
@@ -153,7 +153,7 @@ class Converter
             'postcode' => $addressData->getPostcode(),
             'telephone' => $addressData->getTelephone(),
             'fax' => $addressData->getFax(),
-            'vat_id' => $addressData->getVatId()
+            'vat_id' => $addressData->getVatId(),
         ];
         return array_filter($addressData);
     }
@@ -170,8 +170,7 @@ class Converter
         if (isset($productValues['configurable_options'])) {
             $productData['super_attribute'] = $this->getProductAttributes($productValues['configurable_options']);
         }
-        return array($productId => $productData);
-
+        return [$productId => $productData];
     }
 
     /**

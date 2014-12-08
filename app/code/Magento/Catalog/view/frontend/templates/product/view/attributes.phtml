@@ -16,7 +16,7 @@
     $_helper = $this->helper('Magento\Catalog\Helper\Output');
     $_product = $this->getProduct()
 ?>
-<?php if($_additional = $this->getAdditionalData()): ?>
+<?php if ($_additional = $this->getAdditionalData()): ?>
     <div class="additional-attributes-wrapper table-wrapper">
         <table class="data table additional-attributes" id="product-attribute-specs-table">
             <caption class="table-caption"><?php echo __('Additional Information') ?></caption>

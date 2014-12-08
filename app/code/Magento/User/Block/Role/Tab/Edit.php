@@ -67,7 +67,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
         \Magento\Authorization\Model\Acl\AclRetriever $aclRetriever,
         \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_aclRetriever = $aclRetriever;
         $this->_rootResource = $rootResource;
@@ -149,7 +149,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form implements \Magento\Backen
     {
         $resources = $this->_aclResourceProvider->getAclResources();
         $rootArray = $this->_integrationData->mapResources(
-            isset($resources[1]['children']) ? $resources[1]['children'] : array()
+            isset($resources[1]['children']) ? $resources[1]['children'] : []
         );
         return $rootArray;
     }

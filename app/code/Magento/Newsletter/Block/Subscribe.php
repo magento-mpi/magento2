@@ -30,7 +30,7 @@ class Subscribe extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Newsletter\Model\Session $newsletterSession,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_newsletterSession = $newsletterSession;
@@ -65,6 +65,6 @@ class Subscribe extends \Magento\Framework\View\Element\Template
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('newsletter/subscriber/new', array('_secure' => true));
+        return $this->getUrl('newsletter/subscriber/new', ['_secure' => true]);
     }
 }

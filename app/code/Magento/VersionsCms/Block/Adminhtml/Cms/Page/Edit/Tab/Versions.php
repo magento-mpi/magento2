@@ -67,7 +67,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cmsData = $cmsData;
@@ -137,44 +137,44 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
     {
         $this->addColumn(
             'label',
-            array(
+            [
                 'header' => __('Version Label'),
                 'index' => 'label',
                 'type' => 'options',
                 'options' => $this->getCollection()->getAsArray('label', 'label')
-            )
+            ]
         );
 
         $this->addColumn(
             'owner',
-            array(
+            [
                 'header' => __('Owner'),
                 'index' => 'username',
                 'type' => 'options',
                 'options' => $this->getCollection()->getUsersArray(false),
                 'width' => 250
-            )
+            ]
         );
 
         $this->addColumn(
             'access_level',
-            array(
+            [
                 'header' => __('Access Level'),
                 'index' => 'access_level',
                 'type' => 'options',
                 'width' => 100,
                 'options' => $this->_cmsData->getVersionAccessLevels()
-            )
+            ]
         );
 
         $this->addColumn(
             'revisions',
-            array('header' => __('Quantity'), 'index' => 'revisions_count', 'type' => 'number')
+            ['header' => __('Quantity'), 'index' => 'revisions_count', 'type' => 'number']
         );
 
         $this->addColumn(
             'created_at',
-            array('width' => 150, 'header' => __('Created'), 'index' => 'created_at', 'type' => 'datetime')
+            ['width' => 150, 'header' => __('Created'), 'index' => 'created_at', 'type' => 'datetime']
         );
 
         return parent::_prepareColumns();
@@ -187,7 +187,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/versions', array('_current' => true));
+        return $this->getUrl('adminhtml/*/versions', ['_current' => true]);
     }
 
     /**
@@ -250,12 +250,12 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
 
             $this->getMassactionBlock()->addItem(
                 'delete',
-                array(
+                [
                     'label' => __('Delete'),
-                    'url' => $this->getUrl('adminhtml/*/massDeleteVersions', array('_current' => true)),
+                    'url' => $this->getUrl('adminhtml/*/massDeleteVersions', ['_current' => true]),
                     'confirm' => __('Are you sure?'),
                     'selected' => true
-                )
+                ]
             );
         }
         return $this;
@@ -271,7 +271,7 @@ class Versions extends \Magento\Backend\Block\Widget\Grid\Extended implements
     {
         return $this->getUrl(
             'adminhtml/cms_page_version/edit',
-            array('page_id' => $row->getPageId(), 'version_id' => $row->getVersionId())
+            ['page_id' => $row->getPageId(), 'version_id' => $row->getVersionId()]
         );
     }
 }

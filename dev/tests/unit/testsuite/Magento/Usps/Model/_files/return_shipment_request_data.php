@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'data' => array(
+return [
+    'data' => [
         'shipper_contact_person_name' => 'testO',
         'shipper_contact_person_first_name' => 'test ',
         'shipper_contact_person_last_name' => 'O',
@@ -39,9 +39,9 @@ return array(
         'base_currency_code' => 'USD',
         'store_id' => '1',
         'reference_data' => '#100000001 P',
-        'packages' => array(
-            1 => array(
-                'params' => array(
+        'packages' => [
+            1 => [
+                'params' => [
                     'container' => '',
                     'weight' => 5,
                     'custom_value' => '',
@@ -52,21 +52,21 @@ return array(
                     'dimension_units' => 'INCH',
                     'content_type' => '',
                     'content_type_other' => '',
-                    'delivery_confirmation' => 'True'
-                ),
-                'items' => array(
-                    '2' => array(
+                    'delivery_confirmation' => 'True',
+                ],
+                'items' => [
+                    '2' => [
                         'qty' => '1',
                         'customs_value' => '5',
                         'price' => '5.0000',
                         'name' => 'prod1',
                         'weight' => '5.0000',
                         'product_id' => '1',
-                        'order_item_id' => 2
-                    )
-                )
-            )
-        ),
-        'order_shipment' => null
-    )
-);
+                        'order_item_id' => 2,
+                    ],
+                ],
+            ],
+        ],
+        'order_shipment' => null,
+    ]
+];

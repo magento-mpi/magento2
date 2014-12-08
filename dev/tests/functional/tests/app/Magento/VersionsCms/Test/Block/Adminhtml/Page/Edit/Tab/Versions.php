@@ -8,8 +8,8 @@
 
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Page\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Class Versions

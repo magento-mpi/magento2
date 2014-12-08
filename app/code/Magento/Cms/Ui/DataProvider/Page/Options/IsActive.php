@@ -41,7 +41,7 @@ class IsActive implements OptionsInterface
         foreach ($newOptions as $key => $value) {
             $newOptions[$key] = [
                 'label' => $value,
-                'value' => $key
+                'value' => $key,
             ];
         }
 

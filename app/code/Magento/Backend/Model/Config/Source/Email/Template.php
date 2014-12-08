@@ -34,7 +34,7 @@ class Template extends \Magento\Framework\Object implements \Magento\Framework\O
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Email\Model\Resource\Template\CollectionFactory $templatesFactory,
         \Magento\Email\Model\Template\Config $emailConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_coreRegistry = $coreRegistry;
@@ -59,7 +59,7 @@ class Template extends \Magento\Framework\Object implements \Magento\Framework\O
         $templateId = str_replace('/', '_', $this->getPath());
         $templateLabel = $this->_emailConfig->getTemplateLabel($templateId);
         $templateLabel = __('%1 (Default)', $templateLabel);
-        array_unshift($options, array('value' => $templateId, 'label' => $templateLabel));
+        array_unshift($options, ['value' => $templateId, 'label' => $templateLabel]);
         return $options;
     }
 }

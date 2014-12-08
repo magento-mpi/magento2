@@ -75,4 +75,4 @@ class VarnishPluginTest extends \PHPUnit_Framework_TestCase
             [false, $this->never(), $this->never(), $this->never()]
         ];
     }
-} 
+}

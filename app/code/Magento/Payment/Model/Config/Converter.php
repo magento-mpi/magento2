@@ -17,11 +17,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     public function convert($source)
     {
         $xpath = new \DOMXPath($source);
-        return array(
+        return [
             'credit_cards' => $this->convertCreditCards($xpath),
             'groups' => $this->convertGroups($xpath),
             'methods' => $this->convertMethods($xpath)
-        );
+        ];
     }
 
     /**
@@ -32,10 +32,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function convertCreditCards(\DOMXPath $xpath)
     {
-        $creditCards = array();
+        $creditCards = [];
         /** @var \DOMNode $type */
         foreach ($xpath->query('/payment/credit_cards/type') as $type) {
-            $typeArray = array();
+            $typeArray = [];
 
             /** @var $typeSubNode \DOMNode */
             foreach ($type->childNodes as $typeSubNode) {
@@ -53,8 +53,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $ccId = $typeAttributes->getNamedItem('id')->nodeValue;
             $creditCards[$ccId] = $typeArray;
         }
-        uasort($creditCards, array($this, '_compareCcTypes'));
-        $config = array();
+        uasort($creditCards, [$this, '_compareCcTypes']);
+        $config = [];
         foreach ($creditCards as $code => $data) {
             $config[$code] = $data['name'];
         }
@@ -83,7 +83,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function convertGroups(\DOMXPath $xpath)
     {
-        $config = array();
+        $config = [];
         /** @var \DOMNode $group */
         foreach ($xpath->query('/payment/groups/group') as $group) {
             $groupAttributes = $group->attributes;
@@ -111,7 +111,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function convertMethods(\DOMXPath $xpath)
     {
-        $config = array();
+        $config = [];
         /** @var \DOMNode $method */
         foreach ($xpath->query('/payment/methods/method') as $method) {
             $name = $method->attributes->getNamedItem('name')->nodeValue;

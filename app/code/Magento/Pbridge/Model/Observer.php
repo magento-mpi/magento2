@@ -211,10 +211,10 @@ class Observer
                         ->setRedirectUrlSuccess($payment->getMethodInstance()->getRedirectUrlSuccess())
                         ->setRedirectUrlError($payment->getMethodInstance()->getRedirectUrlError());
                     $html = $block->getIframeBlock()->toHtml();
-                    $result['update_section'] = array(
+                    $result['update_section'] = [
                         'name' => 'pbridgeiframe',
-                        'html' => $html
-                    );
+                        'html' => $html,
+                    ];
                     $result['redirect'] = false;
                     $result['success'] = false;
                     $controller->getResponse()->clearHeader('Location');

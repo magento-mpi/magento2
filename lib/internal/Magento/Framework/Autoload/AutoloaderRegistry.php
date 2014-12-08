@@ -7,14 +7,13 @@
  */
 namespace Magento\Framework\Autoload;
 
-use \Magento\Framework\Autoload\AutoloaderInterface;
+use Magento\Framework\Autoload\AutoloaderInterface;
 
 /**
  * Registry to store a static member autoloader
  */
 class AutoloaderRegistry
 {
-
     /**
      * @var AutoloaderInterface
      */

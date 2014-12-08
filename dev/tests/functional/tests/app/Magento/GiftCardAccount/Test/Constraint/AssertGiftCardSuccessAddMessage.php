@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftCardSuccessAddMessage

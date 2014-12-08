@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
-use \Magento\Catalog\Api\Data\ProductLinkTypeInterface;
+use Magento\Catalog\Api\Data\ProductLinkTypeInterface;
 
 class Type extends \Magento\Framework\Api\AbstractExtensibleObject implements ProductLinkTypeInterface
 {

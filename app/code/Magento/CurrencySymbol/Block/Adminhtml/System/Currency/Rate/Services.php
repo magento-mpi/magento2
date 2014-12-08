@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Manage currency import services block
  *
@@ -34,7 +33,7 @@ class Services extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Model\Currency\Import\Source\ServiceFactory $srcCurrencyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_srcCurrencyFactory = $srcCurrencyFactory;
         parent::__construct($context, $data);

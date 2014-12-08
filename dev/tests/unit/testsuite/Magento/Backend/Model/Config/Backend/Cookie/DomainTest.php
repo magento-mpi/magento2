@@ -95,7 +95,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
         $this->domain->setValue($value);
         try {
             $this->domain->beforeSave();
-            if ($callGetMessages ) {
+            if ($callGetMessages) {
                 $this->fail('Failed to throw exception');
             }
         } catch (Exception $e) {

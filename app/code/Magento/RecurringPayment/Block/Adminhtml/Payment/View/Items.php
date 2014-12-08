@@ -33,12 +33,11 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\Framework\Registry $registry,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $stockRegistry, $stockConfiguration, $registry, $data);
     }
-
 
     /**
      * Retrieve required options from parent

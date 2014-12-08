@@ -22,18 +22,17 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->getObject('Magento\GiftCard\Model\Source\Status');
     }
 
-
     public function testToOptionArray()
     {
         $expected = [
             [
                 'value' => '1',
-                'label' => 'Ordered'
+                'label' => 'Ordered',
             ],
             [
                 'value' => '9',
                 'label' => 'Invoiced'
-            ]
+            ],
 
         ];
 

@@ -8,18 +8,18 @@
 
 namespace Magento\Tax\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
-use Mtf\ObjectManager;
-use Magento\Core\Test\Fixture\ConfigData;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
+use Magento\Core\Test\Fixture\ConfigData;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test TaxWithCrossBorderTest

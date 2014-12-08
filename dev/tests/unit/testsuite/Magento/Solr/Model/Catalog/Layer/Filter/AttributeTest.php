@@ -79,8 +79,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->_filterItem = $this->getMock(
             '\Magento\Catalog\Model\Layer\Filter\Item',
-            array('setFilter', 'setLabel', 'setValue', 'setCount'),
-            array(),
+            ['setFilter', 'setLabel', 'setValue', 'setCount'],
+            [],
             '',
             false
         );
@@ -90,8 +90,8 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_filterItem->expects($this->any())->method('setCount')->will($this->returnSelf());
         $this->_filterItemFactory = $this->getMock(
             '\Magento\Catalog\Model\Layer\Filter\ItemFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -102,20 +102,20 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_filterItem)
         );
-        $this->_store = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManager = $this->getMock(
             '\Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_storeManager->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
-        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->_layer = $this->getMock('\Magento\Catalog\Model\Layer', [], [], '', false);
         $this->_productCollection = $this->getMock(
             '\Magento\Solr\Model\Resource\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -126,19 +126,19 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_productCollection)
         );
-        $this->_state = $this->getMock('\Magento\Catalog\Model\Layer\State', array(), array(), '', false);
+        $this->_state = $this->getMock('\Magento\Catalog\Model\Layer\State', [], [], '', false);
         $this->_layer->expects($this->any())->method('getState')->will($this->returnValue($this->_state));
         $this->_attributeFactory = $this->getMock(
             '\Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_attributeItem = $this->getMock(
             '\Magento\Catalog\Model\Resource\Layer\Filter\Attribute',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -149,16 +149,16 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_attributeItem)
         );
-        $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', array(), array(), '', false);
+        $this->_string = $this->getMock('\Magento\Framework\Stdlib\String', [], [], '', false);
         $this->_resourceEngine = $this->getMock(
             'Magento\Solr\Model\Resource\Solr\Engine',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         /** @var \Magento\Framework\Filter\StripTags|\PHPUnit_Framework_MockObject_MockObject $tagFilter */
-        $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', array(), array(), '', false);
+        $tagFilter = $this->getMock('\Magento\Framework\Filter\StripTags', [], [], '', false);
         $tagFilter->expects($this->any())->method('filter')->will($this->returnArgument(0));
 
         $this->_dataBuilder = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Filter\Item\DataBuilder')
@@ -187,20 +187,20 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     public function testApply($submittedValue, $expectedFilterApplied, $expectedAttributeId = null)
     {
         // Call expectations
-        $options = array(
-            array('label' => 'attribute_label1', 'value' => 'attribute_id1'),
-            array('label' => 'attribute_label2', 'value' => 'attribute_id2')
-        );
+        $options = [
+            ['label' => 'attribute_label1', 'value' => 'attribute_id1'],
+            ['label' => 'attribute_label2', 'value' => 'attribute_id2'],
+        ];
         $sourceModel = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\Source\AbstractSource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $sourceModel->expects($this->atLeastOnce())->method('getAllOptions')->will($this->returnValue($options));
 
-        $attributeModel = $this->getMock('\Magento\Catalog\Model\Resource\Eav\Attribute', array(), array(), '', false);
+        $attributeModel = $this->getMock('\Magento\Catalog\Model\Resource\Eav\Attribute', [], [], '', false);
         $attributeModel->expects($this->atLeastOnce())->method('getSource')->will($this->returnValue($sourceModel));
         $this->_model->setData('attribute_model', $attributeModel);
 
@@ -216,7 +216,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         );
 
         // Parameters for the method
-        $filterBlock = $this->getMock('\Magento\Catalog\Block\Layer\Filter\Attribute', array(), array(), '', false);
+        $filterBlock = $this->getMock('\Magento\Catalog\Block\Layer\Filter\Attribute', [], [], '', false);
 
         $request = $this->getMockForAbstractClass('\Magento\Framework\App\RequestInterface');
         $request->expects(
@@ -237,7 +237,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'addFqFilter'
             )->with(
-                array('attribute_search_field' => array($expectedAttributeId))
+                ['attribute_search_field' => [$expectedAttributeId]]
             );
         } else {
             $this->_state->expects($this->never())->method('addFilter');
@@ -249,9 +249,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     public function applyDataProvider()
     {
-        return array(
-            'existing attribute' => array('attribute_label2', true, 'attribute_id2'),
-            'non-existing attribute' => array('spoofing_content', false)
-        );
+        return [
+            'existing attribute' => ['attribute_label2', true, 'attribute_id2'],
+            'non-existing attribute' => ['spoofing_content', false]
+        ];
     }
 }

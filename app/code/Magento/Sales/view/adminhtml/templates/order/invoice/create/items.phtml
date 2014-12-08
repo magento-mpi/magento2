@@ -9,7 +9,7 @@
 
 <div class="fieldset-wrapper">
     <div class="fieldset-wrapper-title">
-        <?php $_itemsGridLabel = $this->getForcedShipmentCreate()?'Items to Invoice and Ship':'Items to Invoice'; ?>
+        <?php $_itemsGridLabel = $this->getForcedShipmentCreate() ? 'Items to Invoice and Ship' : 'Items to Invoice'; ?>
         <span class="title"><?php echo __('%1', $_itemsGridLabel) ?></span>
     </div>
     <div class="grid">
@@ -36,9 +36,13 @@
             </tfoot>
             <?php endif; ?>
             <?php $_items = $this->getInvoice()->getAllItems() ?>
-            <?php $_i=0;foreach ($_items as $_item): ?>
-            <?php if ($_item->getOrderItem()->getParentItem()) continue; else $_i++; ?>
-                <tbody class="<?php echo $_i%2?'even':'odd' ?>">
+            <?php $_i = 0; foreach ($_items as $_item): ?>
+            <?php if ($_item->getOrderItem()->getParentItem()) {
+    continue;
+} else {
+    $_i++;
+} ?>
+                <tbody class="<?php echo $_i%2 ? 'even' : 'odd' ?>">
                     <?php echo $this->getItemHtml($_item) ?>
                     <?php echo $this->getItemExtraInfoHtml($_item->getOrderItem()) ?>
                 </tbody>

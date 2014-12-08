@@ -8,9 +8,9 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
 use Magento\GiftRegistry\TEst\Fixture\GiftRegistryType;
+use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftRegistryTypeInGrid

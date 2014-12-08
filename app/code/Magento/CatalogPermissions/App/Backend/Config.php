@@ -60,7 +60,7 @@ class Config implements ConfigInterface
             ConfigInterface::XML_PATH_GRANT_CATALOG_CATEGORY_VIEW . '_groups',
             'default'
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -84,7 +84,7 @@ class Config implements ConfigInterface
             ConfigInterface::XML_PATH_GRANT_CATALOG_PRODUCT_PRICE . '_groups',
             'default'
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -105,7 +105,7 @@ class Config implements ConfigInterface
     public function getCheckoutItemsGroups()
     {
         $groups = $this->coreConfig->getValue(ConfigInterface::XML_PATH_GRANT_CHECKOUT_ITEMS . '_groups', 'default');
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -116,7 +116,7 @@ class Config implements ConfigInterface
     public function getCatalogSearchDenyGroups()
     {
         $groups = $this->coreConfig->getValue(ConfigInterface::XML_PATH_DENY_CATALOG_SEARCH, 'default');
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**

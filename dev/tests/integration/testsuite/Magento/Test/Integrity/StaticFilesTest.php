@@ -85,7 +85,6 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
                 }
                 $fallbackModule = $module;
                 $relatedPath = \Magento\Framework\View\FileSystem::getRelatedPath($filePath, $relatedResource);
-
             }
             // the $relatedPath will be suitable for feeding to the fallback system
             $this->assertNotEmpty(
@@ -211,11 +210,11 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function referencesFromPhtmlFilesDataProvider()
     {
-        $result = array();
+        $result = [];
         foreach (\Magento\Framework\Test\Utility\Files::init()->getPhtmlFiles(true, false) as $info) {
             list($area, $themePath, , , $file) = $info;
             foreach ($this->collectGetViewFileUrl($file) as $fileId) {
-                $result[] = array($file, $area, $themePath, $fileId);
+                $result[] = [$file, $area, $themePath, $fileId];
             }
         }
         return $result;
@@ -229,7 +228,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      */
     private function collectGetViewFileUrl($file)
     {
-        $result = array();
+        $result = [];
         if (preg_match_all('/\$this->getViewFileUrl\(\'([^\']+?)\'\)/', file_get_contents($file), $matches)) {
             foreach ($matches[1] as $fileId) {
                 $result[] = $fileId;
@@ -259,12 +258,12 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function referencesFromLayoutFilesDataProvider()
     {
-        $result = array();
-        $files = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(array('with_metainfo' => true), false);
+        $result = [];
+        $files = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(['with_metainfo' => true], false);
         foreach ($files as $metaInfo) {
-            list($area, $themePath, , ,$file) = $metaInfo;
+            list($area, $themePath, , , $file) = $metaInfo;
             foreach ($this->collectFileIdsFromLayout($file) as $fileId) {
-                $result[] = array($file, $area, $themePath, $fileId);
+                $result[] = [$file, $area, $themePath, $fileId];
             }
         }
         return $result;
@@ -280,7 +279,7 @@ class StaticFilesTest extends \PHPUnit_Framework_TestCase
     {
         $xml = simplexml_load_file($file);
         $elements = $xml->xpath('//head/css|link|script');
-        $result = array();
+        $result = [];
         if ($elements) {
             foreach ($elements as $node) {
                 $result[] = (string)$node;

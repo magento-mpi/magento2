@@ -51,7 +51,7 @@ class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustome
                 . "\nExpected: " . $totalInGrid
                 . "\nActual: " . $totalOnTab;
         }
-        
+
         \PHPUnit_Framework_Assert::assertEmpty($errors, $errors);
     }
 

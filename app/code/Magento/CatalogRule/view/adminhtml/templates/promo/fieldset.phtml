@@ -8,7 +8,7 @@
 ?>
 <?php $_element = $this->getElement() ?>
 <div class="rule-tree">
-    <fieldset id="<?php echo $_element->getHtmlId() ?>" <?php echo $_element->serialize(array('class')) ?> class="fieldset">
+    <fieldset id="<?php echo $_element->getHtmlId() ?>" <?php echo $_element->serialize(['class']) ?> class="fieldset">
         <legend class="legend"><span><?php echo $_element->getLegend() ?></span></legend>
         <br>
     <?php if ($_element->getComment()): ?>

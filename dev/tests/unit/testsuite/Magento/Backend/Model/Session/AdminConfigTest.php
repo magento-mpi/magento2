@@ -40,7 +40,6 @@ class AdminConfigTest extends \PHPUnit_Framework_TestCase
      */
     private $filesystemMock;
 
-
     protected function setUp()
     {
         $this->requestMock = $this->getMock(

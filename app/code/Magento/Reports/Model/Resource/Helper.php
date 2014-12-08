@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports Mysql resource helper model
  *
@@ -67,13 +66,13 @@ class Helper extends \Magento\Framework\DB\Helper implements \Magento\Reports\Mo
                 break;
         }
 
-        $columns = array(
+        $columns = [
             'period' => 't.period',
             'store_id' => 't.store_id',
             'product_id' => 't.product_id',
             'product_name' => 't.product_name',
-            'product_price' => 't.product_price'
-        );
+            'product_price' => 't.product_price',
+        ];
 
         if ($type == 'day') {
             $columns['id'] = 't.id';  // to speed-up insert on duplicate key update
@@ -82,12 +81,12 @@ class Helper extends \Magento\Framework\DB\Helper implements \Magento\Reports\Mo
         $cols = array_keys($columns);
         $cols['total_qty'] = new \Zend_Db_Expr('SUM(t.' . $column . ')');
         $periodSubSelect->from(
-            array('t' => $mainTable),
+            ['t' => $mainTable],
             $cols
         )->group(
-            array('t.store_id', $periodCol, 't.product_id')
+            ['t.store_id', $periodCol, 't.product_id']
         )->order(
-            array('t.store_id', $periodCol, 'total_qty DESC')
+            ['t.store_id', $periodCol, 'total_qty DESC']
         );
 
         $cols = $columns;

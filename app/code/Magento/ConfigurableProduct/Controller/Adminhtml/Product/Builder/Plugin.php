@@ -77,7 +77,7 @@ class Plugin
             $configProduct = $this->productFactory->create();
             $configProduct->setStoreId(0)->load($request->getParam('product'))->setTypeId($request->getParam('type'));
 
-            $data = array();
+            $data = [];
             foreach ($configProduct->getTypeInstance()->getEditableAttributes($configProduct) as $attribute) {
                 /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
                 if (!$attribute->getIsUnique() &&

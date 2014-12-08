@@ -12,7 +12,6 @@ $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Ma
 $registry->unregister('isSecureArea');
 $registry->register('isSecureArea', true);
 
-
 /** @var $simpleProduct \Magento\Catalog\Model\Product */
 $simpleProduct = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
 $simpleProduct->load(2);

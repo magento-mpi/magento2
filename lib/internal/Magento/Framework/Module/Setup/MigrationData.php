@@ -19,14 +19,14 @@ class MigrationData
      *
      * @var string[]
      */
-    protected $_requiredParams = array('plain', 'wiki', 'xml', 'serialized');
+    protected $_requiredParams = ['plain', 'wiki', 'xml', 'serialized'];
 
     /**
      * List of replace patterns
      *
      * @var string[]
      */
-    protected $_patterns = array();
+    protected $_patterns = [];
 
     /**
      * @param array $data

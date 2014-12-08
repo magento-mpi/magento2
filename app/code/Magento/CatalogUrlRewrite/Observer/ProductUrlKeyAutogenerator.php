@@ -8,8 +8,8 @@
 namespace Magento\CatalogUrlRewrite\Observer;
 
 use Magento\Catalog\Model\Product;
-use Magento\Framework\Event\Observer;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
+use Magento\Framework\Event\Observer;
 
 class ProductUrlKeyAutogenerator
 {

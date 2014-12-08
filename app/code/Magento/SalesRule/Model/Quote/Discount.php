@@ -7,9 +7,9 @@
  */
 namespace Magento\SalesRule\Model\Quote;
 
+use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Sales\Model\Quote\Address;
 use Magento\Sales\Model\Quote\Item\AbstractItem;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 {
@@ -74,16 +74,16 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             return $this;
         }
 
-        $eventArgs = array(
+        $eventArgs = [
             'website_id' => $store->getWebsiteId(),
             'customer_group_id' => $quote->getCustomerGroupId(),
-            'coupon_code' => $quote->getCouponCode()
-        );
+            'coupon_code' => $quote->getCouponCode(),
+        ];
 
         $this->_calculator->init($store->getWebsiteId(), $quote->getCustomerGroupId(), $quote->getCouponCode());
         $this->_calculator->initTotals($items, $address);
 
-        $address->setDiscountDescription(array());
+        $address->setDiscountDescription([]);
 
         $items = $this->_calculator->sortItemsByPriority($items);
         /** @var \Magento\Sales\Model\Quote\Item $item */
@@ -207,7 +207,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
             if (strlen($description)) {
                 $title = __('Discount (%1)', $description);
             }
-            $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => $amount));
+            $address->addTotal(['code' => $this->getCode(), 'title' => $title, 'value' => $amount]);
         }
         return $this;
     }

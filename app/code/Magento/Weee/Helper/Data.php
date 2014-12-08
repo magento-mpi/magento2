@@ -39,7 +39,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @var array
      */
-    protected $_storeDisplayConfig = array();
+    protected $_storeDisplayConfig = [];
 
     /**
      * Core registry
@@ -314,7 +314,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         if ($item instanceof \Magento\Sales\Model\Quote\Item\AbstractItem) {
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
-                $result = array();
+                $result = [];
                 foreach ($item->getChildren() as $child) {
                     $childData = $this->getApplied($child);
                     if (is_array($childData)) {
@@ -331,7 +331,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
          */
         $data = $item->getWeeeTaxApplied();
         if (empty($data)) {
-            return array();
+            return [];
         }
         return unserialize($item->getWeeeTaxApplied());
     }
@@ -363,7 +363,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->isEnabled($store)) {
             return $this->getProductWeeeAttributes($product, null, null, null, $this->typeOfDisplay(1));
         }
-        return array();
+        return [];
     }
 
     /**
@@ -399,7 +399,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 $calculateTaxes ? $calculateTaxes : $this->typeOfDisplay(1)
             );
         }
-        return array();
+        return [];
     }
 
     /**

@@ -26,7 +26,7 @@ class Composite implements RowCustomizerInterface
      * @param ObjectManagerInterface $objectManager
      * @param array $customizers
      */
-    public function __construct(ObjectManagerInterface $objectManager, $customizers = array())
+    public function __construct(ObjectManagerInterface $objectManager, $customizers = [])
     {
         $this->objectManager = $objectManager;
         $this->customizers = $customizers;

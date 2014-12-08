@@ -28,12 +28,12 @@ class Page extends \Magento\Backend\Block\Template
             if ($pageGrid) {
                 $pageGrid->addColumnAfter(
                     'versioned',
-                    array(
+                    [
                         'index' => 'under_version_control',
                         'header' => __('Version Control'),
                         'type' => 'options',
-                        'options' => array(__('No'), __('Yes'))
-                    ),
+                        'options' => [__('No'), __('Yes')]
+                    ],
                     'page_actions'
                 );
             }

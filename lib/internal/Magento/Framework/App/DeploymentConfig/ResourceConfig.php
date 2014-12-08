@@ -31,7 +31,7 @@ class ResourceConfig extends AbstractSegment
         $this->data = [
             'default_setup' => [
                 self::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         if (!$this->validate($data)) {
             throw new \InvalidArgumentException('Invalid resource configuration.');

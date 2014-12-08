@@ -7,7 +7,6 @@
  */
 namespace Magento\UrlRewrite\Model\Storage;
 
-use Magento\Framework\App\Resource;
 use Magento\UrlRewrite\Model\StorageInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 

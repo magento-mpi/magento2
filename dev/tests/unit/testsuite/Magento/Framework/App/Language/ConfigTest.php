@@ -24,7 +24,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 ['vendor' => 'oxford-university', 'package' => 'en_us'],
-                ['vendor' => 'oxford-university', 'package' => 'en_gb']
+                ['vendor' => 'oxford-university', 'package' => 'en_gb'],
             ],
             $languageConfig->getUses()
         );

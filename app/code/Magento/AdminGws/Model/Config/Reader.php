@@ -15,12 +15,12 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/group' => 'name',
         '/config/group/callback' => 'class',
         '/config/aclDeny/level' => 'name',
-        '/config/aclDeny/level/rule' => 'name'
-    );
+        '/config/aclDeny/level/rule' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -38,7 +38,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'admingws.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

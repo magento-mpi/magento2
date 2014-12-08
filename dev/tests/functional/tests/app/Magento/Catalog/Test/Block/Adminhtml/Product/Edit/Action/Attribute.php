@@ -8,9 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Action;
 
-use Mtf\Fixture;
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Form;
+use Mtf\Client\Element;
 
 /**
  * Class Attribute

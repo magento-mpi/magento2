@@ -23,7 +23,7 @@ class Backend extends \Magento\Framework\Validator\AbstractValidator
      */
     public function isValid($entity)
     {
-        $this->_messages = array();
+        $this->_messages = [];
         if (!$entity instanceof \Magento\Framework\Model\AbstractModel) {
             throw new \InvalidArgumentException('Model must be extended from \Magento\Framework\Model\AbstractModel');
         }

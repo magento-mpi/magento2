@@ -8,9 +8,9 @@
  */
 namespace Magento\Eav\Model\Attribute;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\StateException;
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 
 class GroupRepository implements \Magento\Eav\Api\AttributeGroupRepositoryInterface
 {

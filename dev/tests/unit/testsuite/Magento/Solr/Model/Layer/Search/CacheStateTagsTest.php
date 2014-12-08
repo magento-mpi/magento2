@@ -22,14 +22,14 @@ class CacheStateTagsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetListComposesListWithCacheTagsForGivenCategory()
     {
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects($this->any())->method('getId')->will($this->returnValue(1));
-        $expectedResult = array(
+        $expectedResult = [
             'CUSTOM_CACHE_TAG',
             'catalog_category1',
             'catalog_category1_SEARCH',
             'SEARCH_QUERY',
-        );
-        $this->assertEquals($expectedResult, $this->model->getList($categoryMock, array('CUSTOM_CACHE_TAG')));
+        ];
+        $this->assertEquals($expectedResult, $this->model->getList($categoryMock, ['CUSTOM_CACHE_TAG']));
     }
 }

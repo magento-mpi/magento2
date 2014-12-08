@@ -30,7 +30,7 @@ class Upload extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save the gift wrapping."));

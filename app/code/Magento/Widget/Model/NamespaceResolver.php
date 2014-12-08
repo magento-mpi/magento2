@@ -40,7 +40,7 @@ class NamespaceResolver
     public function determineOmittedNamespace($name, $asFullModuleName = false)
     {
         if (null === $this->_moduleNamespaces) {
-            $this->_moduleNamespaces = array();
+            $this->_moduleNamespaces = [];
             foreach ($this->_moduleList->getNames() as $moduleName) {
                 $module = strtolower($moduleName);
                 $this->_moduleNamespaces[substr($module, 0, strpos($module, '_'))][$module] = $moduleName;

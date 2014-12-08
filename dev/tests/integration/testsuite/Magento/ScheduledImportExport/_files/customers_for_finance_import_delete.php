@@ -11,7 +11,7 @@ $defaultWebsiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()-
 
 /** @var $website \Magento\Store\Model\Website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');
-$website->setData(array('code' => 'base2', 'name' => 'Test Website', 'default_group_id' => '1', 'is_default' => '0'));
+$website->setData(['code' => 'base2', 'name' => 'Test Website', 'default_group_id' => '1', 'is_default' => '0']);
 $website->save();
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
     'Magento\Framework\StoreManagerInterface'
@@ -30,8 +30,8 @@ $objectManager->get(
     $website
 );
 
-$expectedBalances = array();
-$expectedRewards = array();
+$expectedBalances = [];
+$expectedRewards = [];
 
 //Create customer
 /** @var $customer \Magento\Customer\Model\Customer */

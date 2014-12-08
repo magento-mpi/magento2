@@ -37,7 +37,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->router = $this->getMock('Magento\Framework\App\RouterInterface');
-        $this->routerList = $this->getMock('Magento\Framework\App\RouterList', array(), array(), '', false);
+        $this->routerList = $this->getMock('Magento\Framework\App\RouterList', [], [], '', false);
         $this->model = new \Magento\Framework\App\FrontController($this->routerList);
     }
 
@@ -73,7 +73,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
             ->method('valid')
             ->will($this->returnValue(true));
 
-        $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $controllerInstance = $this->getMock('Magento\Framework\App\ActionInterface');
         $controllerInstance->expects($this->any())
             ->method('getResponse')
@@ -108,7 +108,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
             ->method('valid')
             ->will($this->returnValue(true));
 
-        $response = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $response = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
         $controllerInstance = $this->getMock('Magento\Framework\App\ActionInterface');
         $controllerInstance->expects($this->any())
             ->method('getResponse')
@@ -120,7 +120,7 @@ class FrontControllerTest extends \PHPUnit_Framework_TestCase
         $this->router->expects($this->at(0))
             ->method('match')
             ->with($this->request)
-            ->will($this->throwException(new Action\NotFoundException));
+            ->will($this->throwException(new Action\NotFoundException()));
         $this->router->expects($this->at(1))
             ->method('match')
             ->with($this->request)

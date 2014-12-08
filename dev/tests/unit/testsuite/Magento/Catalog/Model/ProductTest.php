@@ -126,8 +126,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $this->productFlatProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -136,13 +136,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->productTypeInstanceMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $this->productPriceProcessor = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Price\Processor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
-        $stateMock = $this->getMock('Magento\FrameworkApp\State', array('getAreaCode'), array(), '', false);
+        $stateMock = $this->getMock('Magento\FrameworkApp\State', ['getAreaCode'], [], '', false);
         $stateMock->expects($this->any())
             ->method('getAreaCode')
             ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
@@ -160,7 +160,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $contextMock = $this->getMock(
             '\Magento\Framework\Model\Context',
-            array('getEventDispatcher', 'getCacheManager', 'getAppState', 'getActionValidator'), array(), '', false
+            ['getEventDispatcher', 'getCacheManager', 'getAppState', 'getActionValidator'], [], '', false
         );
         $contextMock->expects($this->any())->method('getAppState')->will($this->returnValue($stateMock));
         $contextMock->expects($this->any())->method('getEventDispatcher')->will($this->returnValue($eventManagerMock));
@@ -223,7 +223,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'stockItemBuilder' => $this->stockItemBuilderMock,
                 'indexerRegistry' => $this->indexerRegistryMock,
                 'categoryRepository' => $this->categoryRepository,
-                'data' => array('id' => 1)
+                'data' => ['id' => 1]
             ]
         );
     }
@@ -389,24 +389,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function getIdentitiesProvider()
     {
-        return array(
-            array(
-                array('catalog_product_1'),
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1)),
-                array('id' => 1, 'name' => 'value', 'category_ids' => array(1))
-            ),
-            array(
-                array('catalog_product_1', 'catalog_category_product_1'),
+        return [
+            [
+                ['catalog_product_1'],
+                ['id' => 1, 'name' => 'value', 'category_ids' => [1]],
+                ['id' => 1, 'name' => 'value', 'category_ids' => [1]],
+            ],
+            [
+                ['catalog_product_1', 'catalog_category_product_1'],
                 null,
-                array(
+                [
                     'id' => 1,
                     'name' => 'value',
-                    'category_ids' => array(1),
-                    'affected_category_ids' => array(1),
+                    'category_ids' => [1],
+                    'affected_category_ids' => [1],
                     'is_changed_categories' => true
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 
     /**
@@ -546,7 +546,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testFromArray()
     {
         $data = [
-            'stock_item' => ['stock-item-data']
+            'stock_item' => ['stock-item-data'],
         ];
 
         $stockItemMock = $this->getMockForAbstractClass(

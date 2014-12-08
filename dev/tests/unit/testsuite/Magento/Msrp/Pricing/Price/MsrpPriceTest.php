@@ -8,7 +8,7 @@
 
 namespace Magento\Msrp\Pricing\Price;
 
-use \Magento\Framework\Pricing\PriceInfoInterface;
+use Magento\Framework\Pricing\PriceInfoInterface;
 
 /**
  * Class MsrpPriceTest

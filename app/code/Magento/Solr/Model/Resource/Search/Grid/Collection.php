@@ -61,7 +61,7 @@ class Collection extends \Magento\Search\Model\Resource\Query\Collection
         parent::_initSelect();
         $queryId = $this->getQuery()->getId();
         if ($queryId) {
-            $this->addFieldToFilter('query_id', array('nin' => $queryId));
+            $this->addFieldToFilter('query_id', ['nin' => $queryId]);
         }
         return $this;
     }

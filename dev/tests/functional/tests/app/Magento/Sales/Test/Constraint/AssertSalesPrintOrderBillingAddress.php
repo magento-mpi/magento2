@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\SalesGuestPrint;
 use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\Sales\Test\Page\SalesGuestPrint;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that BillingAddress printed correctly on sales guest print page.

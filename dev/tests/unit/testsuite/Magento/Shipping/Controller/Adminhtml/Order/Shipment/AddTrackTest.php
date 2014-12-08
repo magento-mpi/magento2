@@ -8,7 +8,7 @@
 
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 /**
  * Class AddTrackTest
@@ -180,7 +180,7 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['order_id', null, $orderId], ['shipment_id', null, $shipmentId],
-                        ['shipment', null, $shipmentData], ['tracking', null, $tracking]
+                        ['shipment', null, $shipmentData], ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -191,7 +191,7 @@ class AddTrackTest extends \PHPUnit_Framework_TestCase
                     [
                         ['carrier', $carrier],
                         ['number', $number],
-                        ['title', $title]
+                        ['title', $title],
                     ]
                 )
             );

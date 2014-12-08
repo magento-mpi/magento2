@@ -47,6 +47,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function wrongXmlDataProvider()
     {
-        return array(array('<?xml version="1.0"?><config>'));
+        return [['<?xml version="1.0"?><config>']];
     }
 }

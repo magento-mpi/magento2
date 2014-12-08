@@ -18,8 +18,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $factoryMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Mapper\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -27,8 +27,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
         $mapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Mapper\Dependencies',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false

@@ -75,7 +75,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'jsonEncode'
         )->will(
-            $this->returnCallback(array($this, 'callbackJsonEncode'), $this->returnArgument(0))
+            $this->returnCallback([$this, 'callbackJsonEncode'], $this->returnArgument(0))
         );
         /** Init output buffering to catch output via echo function. */
         ob_start();
@@ -114,7 +114,7 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'jsonEncode'
         )->will(
-            $this->returnCallback(array($this, 'callbackJsonEncode'), $this->returnArgument(0))
+            $this->returnCallback([$this, 'callbackJsonEncode'], $this->returnArgument(0))
         );
         ob_start();
         $this->_errorProcessor->render('Message', 'Message trace.', 401);
@@ -213,8 +213,8 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForSendResponseExceptions()
     {
-        return array(
-            'NoSuchEntityException' => array(
+        return [
+            'NoSuchEntityException' => [
                 new NoSuchEntityException(
                     NoSuchEntityException::MESSAGE_DOUBLE_FIELDS,
                     [
@@ -232,29 +232,29 @@ class ErrorProcessorTest extends \PHPUnit_Framework_TestCase
                     'field2Name' => 'resource_id',
                     'field2Value' => 'resource10',
                 ],
-            ),
-            'NoSuchEntityException (Empty message)' => array(
+            ],
+            'NoSuchEntityException (Empty message)' => [
                 new NoSuchEntityException(),
                 WebapiException::HTTP_NOT_FOUND,
                 'No such entity.',
-                []
-            ),
-            'AuthorizationException' => array(
+                [],
+            ],
+            'AuthorizationException' => [
                 new AuthorizationException(
                     AuthorizationException::NOT_AUTHORIZED,
                     ['consumer_id' => '3', 'resources' => '4']
                 ),
                 WebapiException::HTTP_UNAUTHORIZED,
                 AuthorizationException::NOT_AUTHORIZED,
-                ['consumer_id' => '3', 'resources' => '4']
-            ),
-            'Exception' => array(
+                ['consumer_id' => '3', 'resources' => '4'],
+            ],
+            'Exception' => [
                 new \Exception('Non service exception', 5678),
                 WebapiException::HTTP_INTERNAL_ERROR,
                 'Internal Error. Details are available in Magento log file. Report ID:',
-                []
-            )
-        );
+                [],
+            ]
+        ];
     }
 
     /**

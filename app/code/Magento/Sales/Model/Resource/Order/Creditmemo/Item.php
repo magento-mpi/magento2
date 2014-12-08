@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Creditmemo;
 
-use Magento\Sales\Model\Spi\CreditmemoItemResourceInterface;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
+use Magento\Sales\Model\Spi\CreditmemoItemResourceInterface;
 
 /**
  * Flat sales order creditmemo item resource

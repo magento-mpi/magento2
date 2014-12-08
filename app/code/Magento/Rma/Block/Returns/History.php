@@ -33,7 +33,7 @@ class History extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
@@ -101,7 +101,7 @@ class History extends \Magento\Framework\View\Element\Template
      */
     public function getViewUrl($return)
     {
-        return $this->getUrl('*/*/view', array('entity_id' => $return->getId()));
+        return $this->getUrl('*/*/view', ['entity_id' => $return->getId()]);
     }
 
     /**

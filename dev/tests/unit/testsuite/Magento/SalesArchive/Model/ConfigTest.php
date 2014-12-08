@@ -8,7 +8,6 @@
 
 namespace Magento\SalesArchive\Model;
 
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -88,5 +87,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($empty));
         $this->assertEquals($empty, $this->config->getArchiveOrderStatuses());
     }
-
 }

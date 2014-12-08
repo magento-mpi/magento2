@@ -8,7 +8,6 @@
 
 namespace Magento\Msrp\Helper;
 
-use \Magento\Framework\Pricing\PriceInfoInterface;
 
 /**
  * Class DataTest

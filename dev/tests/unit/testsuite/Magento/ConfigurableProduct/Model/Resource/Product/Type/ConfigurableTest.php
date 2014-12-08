@@ -8,7 +8,7 @@
 
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConfigurableTest extends \PHPUnit_Framework_TestCase
 {
@@ -60,11 +60,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
         $typeInstance = $this->getMockBuilder('Magento\ConfigurableProduct\Model\Product\Type\Configurable')
             ->disableOriginalConstructor()->getMock();
-        $typeInstance->expects($this->once())->method('getUsedProductIds')->will($this->returnValue(array(1)));
+        $typeInstance->expects($this->once())->method('getUsedProductIds')->will($this->returnValue([1]));
 
         $mainProduct->expects($this->once())->method('getTypeInstance')->will($this->returnValue($typeInstance));
 
-        $this->configurable->saveProducts($mainProduct, array(1,2,3));
+        $this->configurable->saveProducts($mainProduct, [1, 2, 3]);
     }
 
     public function testSaveProductsForDuplicate()
@@ -77,6 +77,6 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $mainProduct->expects($this->once())->method('getIsDuplicate')->will($this->returnValue(true));
         $mainProduct->expects($this->never())->method('getTypeInstance')->will($this->returnSelf());
 
-        $this->configurable->saveProducts($mainProduct, array(1,2,3));
+        $this->configurable->saveProducts($mainProduct, [1, 2, 3]);
     }
 }

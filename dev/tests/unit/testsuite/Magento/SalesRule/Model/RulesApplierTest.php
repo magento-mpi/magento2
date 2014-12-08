@@ -54,7 +54,6 @@ class RulesApplierTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-
         $this->rulesApplier = new \Magento\SalesRule\Model\RulesApplier(
             $this->calculatorFactory,
             $this->eventManager,

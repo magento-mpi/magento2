@@ -41,20 +41,20 @@ class PopupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->request = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
-        $this->factory = $this->getMock('Magento\Catalog\Model\ProductFactory', array('create'), array(), '', false);
-        $this->registry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $this->view = $this->getMock('Magento\Framework\App\ViewInterface', array(), array(), '', false);
+        $this->request = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
+        $this->factory = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
+        $this->registry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $this->view = $this->getMock('Magento\Framework\App\ViewInterface', [], [], '', false);
 
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->action = $this->objectManager->getObject(
             '\Magento\GroupedProduct\Controller\Adminhtml\Edit\Popup',
-            array(
+            [
                 'request' => $this->request,
                 'factory' => $this->factory,
                 'registry' => $this->registry,
                 'view' => $this->view
-            )
+            ]
         );
     }
 
@@ -66,8 +66,8 @@ class PopupTest extends \PHPUnit_Framework_TestCase
         $setId = 0;
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('setStoreId', 'setTypeId', 'setData', '__wakeup'),
-            array(),
+            ['setStoreId', 'setTypeId', 'setData', '__wakeup'],
+            [],
             '',
             false
         );
@@ -106,8 +106,8 @@ class PopupTest extends \PHPUnit_Framework_TestCase
         $productId = 399;
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('setStoreId', 'setTypeId', 'setData', 'load', '__wakeup'),
-            array(),
+            ['setStoreId', 'setTypeId', 'setData', 'load', '__wakeup'],
+            [],
             '',
             false
         );

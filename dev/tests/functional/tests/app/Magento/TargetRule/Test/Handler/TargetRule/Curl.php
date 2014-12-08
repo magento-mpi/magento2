@@ -9,12 +9,12 @@
 namespace Magento\TargetRule\Test\Handler\TargetRule;
 
 use Magento\Backend\Test\Handler\Conditions;
-use Mtf\Fixture\FixtureInterface;
 use Magento\TargetRule\Test\Fixture\TargetRule;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class Curl
@@ -31,19 +31,19 @@ class Curl extends Conditions implements TargetRuleInterface
         'Conditions combination' => [
             'type' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
             'aggregator' => 'all',
-            'value' => 1
+            'value' => 1,
         ],
         'Attribute Set' => [
             'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
-            'attribute' => 'attribute_set_id'
+            'attribute' => 'attribute_set_id',
         ],
         'Price (percentage)' => [
             'type' => 'Magento\TargetRule\Model\Actions\Condition\Product\Special\Price',
         ],
         'Category' => [
             'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
-            'attribute' => 'category_ids'
-        ]
+            'attribute' => 'category_ids',
+        ],
     ];
 
     /**
@@ -54,17 +54,17 @@ class Curl extends Conditions implements TargetRuleInterface
     protected $mappingData = [
         'is_active' => [
             'Active' => 1,
-            'Inactive' => 0
+            'Inactive' => 0,
         ],
         'apply_to' => [
             'Related Products' => 1,
             'Up-sells' => 2,
-            'Cross-sells' => 3
+            'Cross-sells' => 3,
         ],
         'use_customer_segment' => [
             'All' => 0,
-            'Specified' => 1
-        ]
+            'Specified' => 1,
+        ],
     ];
 
     /**

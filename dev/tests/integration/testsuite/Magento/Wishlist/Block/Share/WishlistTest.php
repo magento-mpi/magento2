@@ -55,4 +55,3 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals((int)$expectedCustomer->getDefaultShipping(), (int)$actualCustomer->getDefaultShipping());
     }
 }
- 

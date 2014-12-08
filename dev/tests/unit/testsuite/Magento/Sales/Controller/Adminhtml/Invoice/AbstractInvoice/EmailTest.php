@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\App\Action\Context;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class EmailTest

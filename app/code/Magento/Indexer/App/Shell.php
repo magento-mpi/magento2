@@ -51,7 +51,7 @@ class Shell implements \Magento\Framework\AppInterface
     public function launch()
     {
         /** @var $shell \Magento\Indexer\Model\Shell */
-        $shell = $this->shellFactory->create(array('entryPoint' => $this->entryFileName));
+        $shell = $this->shellFactory->create(['entryPoint' => $this->entryFileName]);
         $shell->run();
         if ($shell->hasErrors()) {
             $this->response->setCode(-1);

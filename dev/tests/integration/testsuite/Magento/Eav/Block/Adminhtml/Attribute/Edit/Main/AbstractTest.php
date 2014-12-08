@@ -33,7 +33,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $block = $this->getMockForAbstractClass(
             'Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain',
-            array(
+            [
                 $objectManager->get('Magento\Backend\Block\Template\Context'),
                 $objectManager->get('Magento\Framework\Registry'),
                 $objectManager->get('Magento\Framework\Data\FormFactory'),
@@ -41,7 +41,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Backend\Model\Config\Source\YesnoFactory'),
                 $objectManager->get('Magento\Eav\Model\Adminhtml\System\Config\Source\InputtypeFactory'),
                 $objectManager->get('Magento\Eav\Model\Entity\Attribute\Config')
-            )
+            ]
         )->setLayout(
             $objectManager->create('Magento\Framework\View\Layout')
         );

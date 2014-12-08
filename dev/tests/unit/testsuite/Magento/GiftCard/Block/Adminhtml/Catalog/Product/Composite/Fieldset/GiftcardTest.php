@@ -11,7 +11,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Giftcard
      */

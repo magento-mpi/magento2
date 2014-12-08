@@ -7,8 +7,8 @@
  */
 namespace Magento\Captcha\Helper;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Captcha image model
@@ -44,7 +44,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * List uses Models of Captcha
      * @var array
      */
-    protected $_captcha = array();
+    protected $_captcha = [];
 
     /**
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -135,14 +135,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getFonts()
     {
         $fontsConfig = $this->_config->getValue(\Magento\Captcha\Helper\Data::XML_PATH_CAPTCHA_FONTS, 'default');
-        $fonts = array();
+        $fonts = [];
         if ($fontsConfig) {
             $libDir = $this->_filesystem->getDirectoryRead(DirectoryList::LIB_INTERNAL);
             foreach ($fontsConfig as $fontName => $fontConfig) {
-                $fonts[$fontName] = array(
+                $fonts[$fontName] = [
                     'label' => $fontConfig['label'],
-                    'path' => $libDir->getAbsolutePath($fontConfig['path'])
-                );
+                    'path' => $libDir->getAbsolutePath($fontConfig['path']),
+                ];
             }
         }
         return $fonts;

@@ -51,11 +51,11 @@ class BlockTest extends \PHPUnit_Framework_TestCase
                                     $methodName,
                                     [
                                         'test_argument' => $argumentData
-                                    ]
-                                ]
+                                    ],
+                                ],
                             ]
-                        ]
-                    ]
+                        ],
+                    ],
                 ]
             )
         );
@@ -69,10 +69,10 @@ class BlockTest extends \PHPUnit_Framework_TestCase
                             'class' => $class,
                             'template' => $testTemplate,
                             'ttl' => $testTtl,
-                            'group' => $testGroup
+                            'group' => $testGroup,
                         ],
                         'arguments' => ['data' => $argumentData]
-                    ]
+                    ],
                 ]
             )
         );
@@ -158,9 +158,9 @@ class BlockTest extends \PHPUnit_Framework_TestCase
      */
     public function provider()
     {
-        return array(
-            array('test_group', '', 'testTtl', $this->once(), $this->never(), $this->once()),
-            array('', 'test_template', '', $this->never(), $this->once(), $this->never())
-        );
+        return [
+            ['test_group', '', 'testTtl', $this->once(), $this->never(), $this->once()],
+            ['', 'test_template', '', $this->never(), $this->once(), $this->never()]
+        ];
     }
 }

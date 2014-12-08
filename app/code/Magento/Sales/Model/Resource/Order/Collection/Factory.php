@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +28,7 @@ class Factory
      * @return AbstractCollection
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $instance = $this->_objectManager->create($className, $data);
 

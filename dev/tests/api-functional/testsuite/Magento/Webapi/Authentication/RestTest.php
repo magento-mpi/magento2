@@ -9,7 +9,6 @@
  */
 namespace Magento\Webapi\Authentication;
 
-
 require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 /**
  * @magentoApiDataFixture consumerFixture
@@ -17,7 +16,7 @@ require_once __DIR__ . '/../../../../lib/OAuth/bootstrap.php';
 class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
     /** @var \Magento\TestFramework\Authentication\Rest\OauthClient[] */
-    protected $_oAuthClients = array();
+    protected $_oAuthClients = [];
 
     /** @var \Magento\Integration\Model\Oauth\Consumer */
     protected static $_consumer;
@@ -59,7 +58,7 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     protected function tearDown()
     {
         parent::tearDown();
-        $this->_oAuthClients = array();
+        $this->_oAuthClients = [];
         if (isset(self::$_consumer)) {
             self::$_consumer->delete();
             self::$_token->delete();

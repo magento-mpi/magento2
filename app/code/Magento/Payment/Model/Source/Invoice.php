@@ -19,12 +19,12 @@ class Invoice implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
-                'label' => __('Yes')
-            ),
-            array('value' => '', 'label' => __('No'))
-        );
+                'label' => __('Yes'),
+            ],
+            ['value' => '', 'label' => __('No')]
+        ];
     }
 }

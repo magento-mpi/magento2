@@ -21,9 +21,9 @@ class RouterTest extends \PHPUnit_Framework_TestCase
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\ActionFactory'),
             new \Magento\Framework\Event\ManagerInterfaceStub(
                 $this->getMockForAbstractClass('Magento\Framework\Event\InvokerInterface'),
-                $this->getMock('Magento\Framework\Event\Config', array(), array(), '', false),
-                $this->getMock('Magento\Framework\EventFactory', array(), array(), '', false),
-                $this->getMock('Magento\Framework\Event\ObserverFactory', array(), array(), '', false)
+                $this->getMock('Magento\Framework\Event\Config', [], [], '', false),
+                $this->getMock('Magento\Framework\EventFactory', [], [], '', false),
+                $this->getMock('Magento\Framework\Event\ObserverFactory', [], [], '', false)
             ),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\UrlInterface'),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Cms\Model\PageFactory'),
@@ -64,7 +64,7 @@ class ManagerStub extends Manager
      * @param array $params
      * @return null
      */
-    public function dispatch($eventName, array $params = array())
+    public function dispatch($eventName, array $params = [])
     {
         switch ($eventName) {
             case 'cms_controller_router_match_before':

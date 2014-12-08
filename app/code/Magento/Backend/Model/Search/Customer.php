@@ -112,13 +112,13 @@ class Customer extends \Magento\Framework\Object
                     break;
                 }
             }
-            $result[] = array(
+            $result[] = [
                 'id' => 'customer/1/' . $customer->getId(),
                 'type' => __('Customer'),
                 'name' => $this->_customerViewHelper->getCustomerName($customer),
                 'description' => $company,
-                'url' => $this->_adminhtmlData->getUrl('customer/index/edit', array('id' => $customer->getId()))
-            );
+                'url' => $this->_adminhtmlData->getUrl('customer/index/edit', ['id' => $customer->getId()]),
+            ];
         }
         $this->setResults($result);
         return $this;

@@ -50,7 +50,7 @@ class Csv extends AbstractFile
         }
         $dictionary = $this->_dictionaryLoader->load($file);
 
-        $merged = array();
+        $merged = [];
         foreach ($dictionary->getPhrases() as $phrase) {
             $merged[$phrase->getPhrase()] = $phrase;
         }

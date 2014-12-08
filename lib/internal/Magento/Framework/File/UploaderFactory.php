@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,7 +30,7 @@ class UploaderFactory
      * @param array $data
      * @return Uploader
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create('Magento\Framework\File\Uploader', $data);
     }

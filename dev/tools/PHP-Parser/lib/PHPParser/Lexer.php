@@ -13,13 +13,14 @@ class PHPParser_Lexer
     /**
      * Creates a Lexer.
      */
-    public function __construct() {
+    public function __construct()
+    {
         // map from internal tokens to PHPParser tokens
         $this->tokenMap = $this->createTokenMap();
 
         // map of tokens to drop while lexing (the map is only used for isset lookup,
         // that's why the value is simply set to 1; the value is never actually used.)
-        $this->dropTokens = array_fill_keys(array(T_WHITESPACE, T_OPEN_TAG), 1);
+        $this->dropTokens = array_fill_keys([T_WHITESPACE, T_OPEN_TAG], 1);
     }
 
     /**
@@ -29,7 +30,8 @@ class PHPParser_Lexer
      *
      * @throws PHPParser_Error on lexing errors (unterminated comment or unexpected character)
      */
-    public function startLexing($code) {
+    public function startLexing($code)
+    {
         $this->resetErrors();
         $this->tokens = @token_get_all($code);
         $this->handleErrors();
@@ -39,12 +41,14 @@ class PHPParser_Lexer
         $this->line =  1;
     }
 
-    protected function resetErrors() {
+    protected function resetErrors()
+    {
         // clear error_get_last() by forcing an undefined variable error
         @$undefinedVariable;
     }
 
-    protected function handleErrors() {
+    protected function handleErrors()
+    {
         $error = error_get_last();
 
         if (preg_match(
@@ -79,9 +83,10 @@ class PHPParser_Lexer
      *
      * @return int Token id
      */
-    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null) {
-        $startAttributes = array();
-        $endAttributes   = array();
+    public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null)
+    {
+        $startAttributes = [];
+        $endAttributes   = [];
 
         while (isset($this->tokens[++$this->pos])) {
             $token = $this->tokens[$this->pos];
@@ -126,7 +131,8 @@ class PHPParser_Lexer
      *
      * @return string Remaining text
      */
-    public function handleHaltCompiler() {
+    public function handleHaltCompiler()
+    {
         // get the length of the text before the T_HALT_COMPILER token
         $textBefore = '';
         for ($i = 0; $i <= $this->pos; ++$i) {
@@ -163,8 +169,9 @@ class PHPParser_Lexer
      *
      * @return array The token map
      */
-    protected function createTokenMap() {
-        $tokenMap = array();
+    protected function createTokenMap()
+    {
+        $tokenMap = [];
 
         // 256 is the minimum possible token number, as everything below
         // it is an ASCII value
@@ -173,10 +180,10 @@ class PHPParser_Lexer
             if (T_DOUBLE_COLON === $i) {
                 $tokenMap[$i] = PHPParser_Parser::T_PAAMAYIM_NEKUDOTAYIM;
             // T_OPEN_TAG_WITH_ECHO with dropped T_OPEN_TAG results in T_ECHO
-            } elseif(T_OPEN_TAG_WITH_ECHO === $i) {
+            } elseif (T_OPEN_TAG_WITH_ECHO === $i) {
                 $tokenMap[$i] = PHPParser_Parser::T_ECHO;
             // T_CLOSE_TAG is equivalent to ';'
-            } elseif(T_CLOSE_TAG === $i) {
+            } elseif (T_CLOSE_TAG === $i) {
                 $tokenMap[$i] = ord(';');
             // and the others can be mapped directly
             } elseif ('UNKNOWN' !== ($name = token_name($i))

@@ -38,7 +38,6 @@ class DeniedJson extends \Magento\Backend\Controller\Adminhtml\Auth
             'ajaxExpired' => 1,
             'ajaxRedirect' => $this->_helper->getHomePageUrl()
         ];
-
     }
 
     /**

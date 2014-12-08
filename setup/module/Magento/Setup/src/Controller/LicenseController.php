@@ -7,9 +7,9 @@
  */
 namespace Magento\Setup\Controller;
 
+use Magento\Setup\Model\License;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\License;
 
 /**
  * Class LicenseController

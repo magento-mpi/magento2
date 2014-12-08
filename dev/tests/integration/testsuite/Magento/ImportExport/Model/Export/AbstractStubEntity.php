@@ -18,9 +18,9 @@ abstract class AbstractStubEntity extends \Magento\ImportExport\Model\Export\Abs
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory $resourceColFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
-        $this->_disabledAttrs = array('default_billing', 'default_shipping');
+        $this->_disabledAttrs = ['default_billing', 'default_shipping'];
     }
 }

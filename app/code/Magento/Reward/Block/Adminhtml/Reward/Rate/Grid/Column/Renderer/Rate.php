@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward rate grid renderer
  *
@@ -36,7 +35,7 @@ class Rate extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRe
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward\Rate $rate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_rate = $rate;

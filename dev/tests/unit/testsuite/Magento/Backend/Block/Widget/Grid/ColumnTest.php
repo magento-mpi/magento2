@@ -30,20 +30,20 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false, false);
         $this->_blockMock = $this->getMock(
             'Magento\Framework\View\Element\Template',
-            array('setColumn', 'getHtml'),
-            array(),
+            ['setColumn', 'getHtml'],
+            [],
             '',
             false,
             false
         );
 
-        $arguments = array(
+        $arguments = [
             'layout' => $this->_layoutMock,
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
-        );
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false),
+        ];
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
         $this->_block->setId('id');
@@ -95,7 +95,7 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function getSortableDataProvider()
     {
-        return array('zero' => array('0'), 'false' => array(false), 'null' => array(null));
+        return ['zero' => ['0'], 'false' => [false], 'null' => [null]];
     }
 
     /**
@@ -370,11 +370,11 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
      */
     public function testColumnIsGrouped($groupedData, $expected)
     {
-        $arguments = array(
+        $arguments = [
             'layout' => $this->_layoutMock,
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false),
-            'data' => $groupedData
-        );
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false),
+            'data' => $groupedData,
+        ];
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $block = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Grid\Column', $arguments);
@@ -383,6 +383,6 @@ class ColumnTest extends \PHPUnit_Framework_TestCase
 
     public function columnGroupedDataProvider()
     {
-        return array(array(array(), false), array(array('grouped' => 0), false), array(array('grouped' => 1), true));
+        return [[[], false], [['grouped' => 0], false], [['grouped' => 1], true]];
     }
 }

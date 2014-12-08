@@ -31,26 +31,26 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_storageMock = $this->getMockBuilder(
             'Magento\Logging\Model\Config\Data'
         )->setMethods(
-            array('get')
+            ['get']
         )->disableOriginalConstructor()->getMock();
 
-        $loggingConfig = array(
-            'actions' => array(
-                'test_action_withlabel' => array('label' => 'Test Action Label'),
-                'test_action_withoutlabel' => array()
-            ),
-            'test' => array('label' => 'Test Label'),
-            'configured_log_group' => array(
+        $loggingConfig = [
+            'actions' => [
+                'test_action_withlabel' => ['label' => 'Test Action Label'],
+                'test_action_withoutlabel' => [],
+            ],
+            'test' => ['label' => 'Test Label'],
+            'configured_log_group' => [
                 'label' => 'Log Group With Configuration',
-                'actions' => array(
-                    'adminhtml_checkout_index' => array(
+                'actions' => [
+                    'adminhtml_checkout_index' => [
                         'log_name' => 'configured_log_group',
                         'action' => 'view',
-                        'expected_models' => array('Magento\Sales\Model\Quote' => array())
-                    )
-                )
-            )
-        );
+                        'expected_models' => ['Magento\Sales\Model\Quote' => []],
+                    ],
+                ],
+            ],
+        ];
         $this->_storageMock->expects(
             $this->once()
         )->method(
@@ -68,7 +68,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testLabels()
     {
-        $expected = array('test' => 'Test Label', 'configured_log_group' => 'Log Group With Configuration');
+        $expected = ['test' => 'Test Label', 'configured_log_group' => 'Log Group With Configuration'];
         $result = $this->_model->getLabels();
         $this->assertEquals($expected, $result);
     }
@@ -88,7 +88,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSystemConfigValues()
     {
-        $config = array('enterprise_checkout' => 1, 'customer' => 1);
+        $config = ['enterprise_checkout' => 1, 'customer' => 1];
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
@@ -103,7 +103,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSystemConfigValuesNegative()
     {
-        $expected = array('test' => 1, 'configured_log_group' => 1);
+        $expected = ['test' => 1, 'configured_log_group' => 1];
         $this->_scopeConfigMock->expects(
             $this->once()
         )->method(
@@ -118,7 +118,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testHasSystemConfigValues()
     {
-        $config = array('enterprise_checkout' => 1, 'customer' => 1);
+        $config = ['enterprise_checkout' => 1, 'customer' => 1];
 
         $this->_scopeConfigMock->expects(
             $this->once()
@@ -136,7 +136,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEventGroupLogged()
     {
-        $config = array('enterprise_checkout' => 1, 'customer' => 1);
+        $config = ['enterprise_checkout' => 1, 'customer' => 1];
 
         $this->_scopeConfigMock->expects(
             $this->once()
@@ -154,11 +154,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetEventByFullActionName()
     {
-        $expected = array(
+        $expected = [
             'log_name' => 'configured_log_group',
             'action' => 'view',
-            'expected_models' => array('Magento\Sales\Model\Quote' => array())
-        );
+            'expected_models' => ['Magento\Sales\Model\Quote' => []],
+        ];
         $this->assertEquals($expected, $this->_model->getEventByFullActionName('adminhtml_checkout_index'));
     }
 }

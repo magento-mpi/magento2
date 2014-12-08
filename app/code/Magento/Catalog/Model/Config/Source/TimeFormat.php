@@ -16,9 +16,9 @@ class TimeFormat implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '12h', 'label' => __('12h AM/PM')),
-            array('value' => '24h', 'label' => __('24h'))
-        );
+        return [
+            ['value' => '12h', 'label' => __('12h AM/PM')],
+            ['value' => '24h', 'label' => __('24h')]
+        ];
     }
 }

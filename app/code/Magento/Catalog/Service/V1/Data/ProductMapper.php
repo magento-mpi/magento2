@@ -48,7 +48,7 @@ class ProductMapper
     public function toModel(
         Product $product,
         \Magento\Catalog\Model\Product $productModel = null,
-        $customAttributesToSkip = array()
+        $customAttributesToSkip = []
     ) {
         /** @var \Magento\Catalog\Model\Product $productModel */
         $productModel = $productModel ?: $this->productFactory->create();

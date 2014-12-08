@@ -16,7 +16,7 @@ $this->installForms();
 
 //Add Product's Attribute
 /** @var \Magento\Catalog\Model\Resource\Setup $this */
-$installer = $this->getCatalogSetup(array('resourceName' => 'catalog_setup'));
+$installer = $this->getCatalogSetup(['resourceName' => 'catalog_setup']);
 
 /**
  * Prepare database before module installation
@@ -26,7 +26,7 @@ $installer->startSetup();
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'is_returnable',
-    array(
+    [
         'group' => 'Autosettings',
         'type' => 'int',
         'backend' => '',
@@ -47,13 +47,13 @@ $installer->addAttribute(
         'unique' => false,
         'apply_to' => implode($this->getRefundableProducts(), ','),
         'input_renderer' => 'Magento\Rma\Block\Adminhtml\Product\Renderer'
-    )
+    ]
 );
 
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'use_config_is_returnable',
-    array(
+    [
         'type' => 'int',
         'backend' => '',
         'frontend' => '',
@@ -72,71 +72,71 @@ $installer->addAttribute(
         'visible_on_front' => false,
         'unique' => false,
         'apply_to' => implode($this->getRefundableProducts(), ',')
-    )
+    ]
 );
 
 $installer->addAttribute(
     'rma_item',
     'qty_returned',
-    array(
+    [
         'type' => 'static',
         'label' => 'Qty of returned items',
         'input' => 'text',
         'visible' => false,
         'sort_order' => 45,
         'position' => 45
-    )
+    ]
 );
 
 $installer->addAttribute(
     'rma_item',
     'product_admin_name',
-    array(
+    [
         'type' => 'static',
         'label' => 'Product Name For Backend',
         'input' => 'text',
         'visible' => false,
         'sort_order' => 46,
         'position' => 46
-    )
+    ]
 );
 $installer->addAttribute(
     'rma_item',
     'product_admin_sku',
-    array(
+    [
         'type' => 'static',
         'label' => 'Product Sku For Backend',
         'input' => 'text',
         'visible' => false,
         'sort_order' => 47,
         'position' => 47
-    )
+    ]
 );
 $installer->addAttribute(
     'rma_item',
     'product_options',
-    array(
+    [
         'type' => 'static',
         'label' => 'Product Options',
         'input' => 'text',
         'visible' => false,
         'sort_order' => 48,
         'position' => 48
-    )
+    ]
 );
 
 /* setting is_qty_decimal field in rma_item_entity table as a static attribute */
 $installer->addAttribute(
     'rma_item',
     'is_qty_decimal',
-    array(
+    [
         'type' => 'static',
         'label' => 'Is item quantity decimal',
         'input' => 'text',
         'visible' => false,
         'sort_order' => 15,
         'position' => 15
-    )
+    ]
 );
 
 $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'is_returnable');
@@ -145,7 +145,7 @@ $installer->removeAttribute(\Magento\Catalog\Model\Product::ENTITY, 'use_config_
 $installer->addAttribute(
     \Magento\Catalog\Model\Product::ENTITY,
     'is_returnable',
-    array(
+    [
         'group' => 'Autosettings',
         'frontend' => '',
         'label' => 'Enable RMA',
@@ -164,7 +164,7 @@ $installer->addAttribute(
         'unique' => false,
         'apply_to' => implode(',', $this->getRefundableProducts()),
         'input_renderer' => 'Magento\Rma\Block\Adminhtml\Product\Renderer'
-    )
+    ]
 );
 
 /** @var $installer \Magento\Framework\Module\Setup\Migration */
@@ -175,7 +175,7 @@ $installer->appendClassAliasReplace(
     'data_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('attribute_id')
+    ['attribute_id']
 );
 $installer->doUpdateClassAliases();
 

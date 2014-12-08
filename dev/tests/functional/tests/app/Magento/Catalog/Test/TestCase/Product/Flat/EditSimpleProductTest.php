@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product\Flat;
 
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
+use Mtf\Factory\Factory;
 
 /**
  * Edit product with enabled flat

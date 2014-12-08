@@ -12,7 +12,6 @@ use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\Category\ProductLink;
 use Magento\Catalog\Service\V1\Data\Category\ProductLinkBuilder;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface

@@ -8,8 +8,8 @@
 namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Catalog\Model\Product;
-use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 

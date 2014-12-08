@@ -185,7 +185,7 @@ class Observer
     {
         $controllerAction = $observer->getControllerAction();
         $controllerActionName = $this->_request->getActionName();
-        $forbiddenActionNames = array('new', 'applyRules', 'save', 'delete', 'run');
+        $forbiddenActionNames = ['new', 'applyRules', 'save', 'delete', 'run'];
 
         if (in_array(
             $controllerActionName,

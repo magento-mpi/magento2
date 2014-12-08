@@ -31,7 +31,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      *
      * @var string[]
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * @var \Magento\Core\Model\File\Storage\Directory\DatabaseFactory
@@ -67,7 +67,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $connectionName = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_directoryFactory = $directoryFactory;
         $this->_mediaHelper = $mediaHelper;
@@ -94,7 +94,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     {
         if (is_null($this->_directoryModel)) {
             $this->_directoryModel = $this->_directoryFactory->create(
-                array('connectionName' => $this->getConnectionName())
+                ['connectionName' => $this->getConnectionName()]
             );
         }
 
@@ -228,7 +228,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
                 ) && strlen(
                     $file['directory']
                 ) ? $this->_directoryFactory->create(
-                    array('connectionName' => $this->getConnectionName())
+                    ['connectionName' => $this->getConnectionName()]
                 )->loadByPath(
                     $file['directory']
                 )->getId() : null;

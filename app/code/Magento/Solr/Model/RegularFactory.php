@@ -27,9 +27,9 @@ class RegularFactory implements \Magento\Solr\Model\FactoryInterface
     /**
      * {@inheritdoc}
      */
-    public function createClient(array $options = array())
+    public function createClient(array $options = [])
     {
-        return $this->_objectManager->create('Magento\Solr\Model\Client\Solr', array('options' => $options));
+        return $this->_objectManager->create('Magento\Solr\Model\Client\Solr', ['options' => $options]);
     }
 
     /**

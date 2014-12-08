@@ -8,14 +8,14 @@
 
 namespace Magento\VersionsCms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Fixture\Revision;
-use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsRevisionEdit;
+use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for PublishCmsPageRevisionEntity

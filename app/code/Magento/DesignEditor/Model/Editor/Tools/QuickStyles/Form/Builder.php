@@ -66,7 +66,7 @@ class Builder
      * @return Form
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $isFilePresent = true;
         try {
@@ -85,14 +85,14 @@ class Builder
 
         if ($isFilePresent) {
             /** @var $form Form */
-            $form = $this->_formFactory->create(array('data' => $data));
+            $form = $this->_formFactory->create(['data' => $data]);
 
             $this->_addElementTypes($form);
 
             $columns = $this->_initColumns($form, $data['tab']);
             $this->_populateColumns($columns, $data['tab']);
         } else {
-            $form = $this->_formFactory->create(array('data' => array('action' => '#')));
+            $form = $this->_formFactory->create(['data' => ['action' => '#']]);
         }
 
         if ($this->_isFormEmpty($form)) {
@@ -100,7 +100,7 @@ class Builder
             $form->addField(
                 $data['tab'] . '-tab-error',
                 'note',
-                array('after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'),
+                ['after_element_html' => '<p class="error-notice">' . $hintMessage . '</p>'],
                 '^'
             );
         }
@@ -137,18 +137,18 @@ class Builder
     protected function _initColumns($form, $tab)
     {
         /** @var $columnLeft \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
-        $columnLeft = $form->addField('column-left-' . $tab, 'column', array());
+        $columnLeft = $form->addField('column-left-' . $tab, 'column', []);
         $columnLeft->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnMiddle \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
-        $columnMiddle = $form->addField('column-middle-' . $tab, 'column', array());
+        $columnMiddle = $form->addField('column-middle-' . $tab, 'column', []);
         $columnMiddle->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
         /** @var $columnRight \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Column */
-        $columnRight = $form->addField('column-right-' . $tab, 'column', array());
+        $columnRight = $form->addField('column-right-' . $tab, 'column', []);
         $columnRight->setRendererFactory($this->_rendererFactory)->setElementsFactory($this->_elementsFactory);
 
-        $columns = array('left' => $columnLeft, 'middle' => $columnMiddle, 'right' => $columnRight);
+        $columns = ['left' => $columnLeft, 'middle' => $columnMiddle, 'right' => $columnRight];
 
         return $columns;
     }
@@ -190,7 +190,7 @@ class Builder
     {
         $label = __($positionData['title']);
 
-        $config = array('name' => $htmlId, 'label' => $label);
+        $config = ['name' => $htmlId, 'label' => $label];
         if (isset($control['components'])) {
             $config['components'] = $control['components'];
             $config['title'] = $label;

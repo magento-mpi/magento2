@@ -40,9 +40,9 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function validateWithTimestampOutOfSystemRangeDataProvider()
     {
-        return array(
-            array(array('min' => 2000, 'max' => 2030), array('timestamp' => PHP_INT_MAX, 'to_date' => PHP_INT_MAX)),
-            array(array('min' => 2000, 'max' => 2030), array('timestamp' => 0, 'to_date' => PHP_INT_MAX))
-        );
+        return [
+            [['min' => 2000, 'max' => 2030], ['timestamp' => PHP_INT_MAX, 'to_date' => PHP_INT_MAX]],
+            [['min' => 2000, 'max' => 2030], ['timestamp' => 0, 'to_date' => PHP_INT_MAX]]
+        ];
     }
 }

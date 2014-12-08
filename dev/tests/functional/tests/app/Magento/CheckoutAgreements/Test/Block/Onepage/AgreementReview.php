@@ -8,9 +8,9 @@
 
 namespace Magento\CheckoutAgreements\Test\Block\Onepage;
 
-use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Block\Onepage\Review;
 use Magento\CheckoutAgreements\Test\Fixture\CheckoutAgreement;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class AgreementReview

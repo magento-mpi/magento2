@@ -37,7 +37,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
             ->setRoleId(1)
             ->setPermission('allow');
 
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('permission' => 'deny'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['permission' => 'deny']);
         $crud->testCrud();
     }
 
@@ -56,7 +56,7 @@ class RulesTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetAllowForAllResources()
     {
-        $resources = array('Magento_Adminhtml::all');
+        $resources = ['Magento_Adminhtml::all'];
         $this->_model->setRoleId(1)->setResources($resources)->saveRel();
         $expectedPermissions = ['Magento_Adminhtml::all'];
         $this->_checkExistingPermissions($expectedPermissions);

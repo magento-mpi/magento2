@@ -8,10 +8,10 @@
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Magento\Customer\Test\Fixture\VatGroup;
 use Magento\Customer\Test\Page;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Enabling automatic assignment of customers to appropriate VAT group

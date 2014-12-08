@@ -39,27 +39,27 @@ class LoginTest extends \PHPUnit_Framework_TestCase
         $this->customerUrl = $this->getMockBuilder(
             'Magento\Customer\Model\Url'
         )->disableOriginalConstructor()->setMethods(
-            array('getRegisterUrl')
+            ['getRegisterUrl']
         )->getMock();
         $this->checkoutData = $this->getMockBuilder(
             'Magento\Checkout\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('isContextCheckout')
+            ['isContextCheckout']
         )->getMock();
         $this->coreUrl = $this->getMockBuilder(
             'Magento\Core\Helper\Url'
         )->disableOriginalConstructor()->setMethods(
-            array('addRequestParam')
+            ['addRequestParam']
         )->getMock();
 
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->block = $this->objectManager->getObject(
             'Magento\Customer\Block\Form\Login',
-            array(
+            [
                 'customerUrl' => $this->customerUrl,
                 'checkoutData' => $this->checkoutData,
                 'coreUrl' => $this->coreUrl
-            )
+            ]
         );
     }
 
@@ -78,7 +78,7 @@ class LoginTest extends \PHPUnit_Framework_TestCase
             'addRequestParam'
         )->with(
             $expectedUrl,
-            array('context' => 'checkout')
+            ['context' => 'checkout']
         )->will(
             $this->returnValue($expectedUrl)
         );
@@ -97,7 +97,7 @@ class LoginTest extends \PHPUnit_Framework_TestCase
             'addRequestParam'
         )->with(
             $expectedUrl,
-            array('context' => 'checkout')
+            ['context' => 'checkout']
         )->will(
             $this->returnValue($expectedUrl)
         );

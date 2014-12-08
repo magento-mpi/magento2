@@ -42,7 +42,7 @@ interface AllSoapAndRestInterface
      * @param string $sortOrder
      * @return \Magento\TestModule1\Service\V2\Entity\Item[]
      */
-    public function items($filters = array(), $sortOrder = 'ASC');
+    public function items($filters = [], $sortOrder = 'ASC');
 
     /**
      * Delete an item.

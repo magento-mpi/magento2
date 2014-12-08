@@ -28,7 +28,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         parent::setUp();
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\Entity\AbstractEav',
-            array(),
+            [],
             '',
             false
         );
@@ -47,16 +47,16 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
         );
         $attributeCollection->addFieldToFilter(
             'attribute_code',
-            array('in' => array($indexAttributeCode, 'group_id'))
+            ['in' => [$indexAttributeCode, 'group_id']]
         );
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($attributeCollection as $attribute) {
             $index = $attribute->getAttributeCode() == $indexAttributeCode ? 'value' : 'label';
-            $expectedOptions = array();
+            $expectedOptions = [];
             foreach ($attribute->getSource()->getAllOptions(false) as $option) {
                 $expectedOptions[strtolower($option[$index])] = $option['value'];
             }
-            $actualOptions = $this->_model->getAttributeOptions($attribute, array($indexAttributeCode));
+            $actualOptions = $this->_model->getAttributeOptions($attribute, [$indexAttributeCode]);
             sort($expectedOptions);
             sort($actualOptions);
             $this->assertEquals($expectedOptions, $actualOptions);

@@ -13,8 +13,8 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
     {
         $attributeModel = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );

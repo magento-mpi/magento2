@@ -66,13 +66,13 @@ class Helper
         $productData = $this->request->getPost('product');
 
         if ($productData) {
-            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : array();
+            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : [];
             $productData['stock_data'] = $this->stockFilter->filter($stockData);
         }
 
-        foreach (array('category_ids', 'website_ids') as $field) {
+        foreach (['category_ids', 'website_ids'] as $field) {
             if (!isset($productData[$field])) {
-                $productData[$field] = array();
+                $productData[$field] = [];
             }
         }
 
@@ -89,7 +89,7 @@ class Helper
         }
 
         if ($this->storeManager->hasSingleStore()) {
-            $product->setWebsiteIds(array($this->storeManager->getStore(true)->getWebsite()->getId()));
+            $product->setWebsiteIds([$this->storeManager->getStore(true)->getWebsite()->getId()]);
         }
 
         /**
@@ -103,8 +103,8 @@ class Helper
         }
 
         $links = $this->request->getPost('links');
-        $links = is_array($links) ? $links : array();
-        $linkTypes = array('related', 'upsell', 'crosssell');
+        $links = is_array($links) ? $links : [];
+        $linkTypes = ['related', 'upsell', 'crosssell'];
         foreach ($linkTypes as $type) {
             if (isset($links[$type])) {
                 $links[$type] = $this->jsHelper->decodeGridSerializedInput($links[$type]);

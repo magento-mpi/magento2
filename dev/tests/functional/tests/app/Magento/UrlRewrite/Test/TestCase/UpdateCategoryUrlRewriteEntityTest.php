@@ -9,11 +9,11 @@
 namespace Magento\UrlRewrite\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Mtf\TestCase\Injectable;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
-use Mtf\Fixture\FixtureFactory;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateCategoryUrlRewritesEntity

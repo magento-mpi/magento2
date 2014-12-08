@@ -12,7 +12,7 @@ class ArrayFilter extends \Zend_Filter
     /**
      * @var array
      */
-    protected $_columnFilters = array();
+    protected $_columnFilters = [];
 
     /**
      * {@inheritdoc}
@@ -41,7 +41,7 @@ class ArrayFilter extends \Zend_Filter
      */
     public function filter($array)
     {
-        $out = array();
+        $out = [];
         foreach ($array as $column => $value) {
             $value = parent::filter($value);
             if (isset($this->_columnFilters[$column])) {

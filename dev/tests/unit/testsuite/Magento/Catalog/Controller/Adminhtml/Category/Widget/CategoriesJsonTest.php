@@ -57,13 +57,13 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->viewMock = $this->getMock('Magento\Backend\Model\View', array('getLayout'), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->viewMock = $this->getMock('Magento\Backend\Model\View', ['getLayout'], [], '', false);
         $this->objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -71,15 +71,15 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->getMock(
             'Magento\Backend\App\Action\Context',
-            array('getRequest', 'getResponse', 'getMessageManager', 'getSession'),
+            ['getRequest', 'getResponse', 'getMessageManager', 'getSession'],
             $helper->getConstructArguments(
                 'Magento\Backend\App\Action\Context',
-                array(
+                [
                     'response' => $this->responseMock,
                     'request' => $this->requestMock,
                     'view' => $this->viewMock,
                     'objectManager' => $this->objectManagerMock
-                )
+                ]
             )
         );
 
@@ -94,7 +94,7 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->willReturn($this->resultJson);
 
-        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', array('createBlock'), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Core\Model\Layout', ['createBlock'], [], '', false);
 
         $layoutFactory = $this->getMockBuilder('Magento\Framework\View\LayoutFactory')
             ->disableOriginalConstructor()
@@ -106,7 +106,7 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
 
         $context->expects($this->once())->method('getRequest')->will($this->returnValue($this->requestMock));
         $context->expects($this->once())->method('getResponse')->will($this->returnValue($this->responseMock));
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->controller = new \Magento\Catalog\Controller\Adminhtml\Category\Widget\CategoriesJson(
             $context, $layoutFactory, $resultJsonFactory, $this->registryMock
         );
@@ -115,7 +115,7 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
     protected function _getTreeBlock()
     {
         $this->chooserBlockMock = $this->getMock(
-            'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', array(), array(), '', false
+            'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser', [], [], '', false
         );
         $this->layoutMock->expects($this->once())->method('createBlock')->will(
             $this->returnValue($this->chooserBlockMock)
@@ -128,7 +128,7 @@ class CategoriesJsonTest extends \PHPUnit_Framework_TestCase
         $testCategoryId = 1;
 
         $this->requestMock->expects($this->any())->method('getPost')->will($this->returnValue($testCategoryId));
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects($this->once())->method('load')->will($this->returnValue($categoryMock));
         $categoryMock->expects($this->once())->method('getId')->will($this->returnValue($testCategoryId));
         $this->objectManagerMock->expects($this->once())->method('create')

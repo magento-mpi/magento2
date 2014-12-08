@@ -31,7 +31,7 @@ class CatalogSearchQuery extends AbstractRepository
             'store_id' => 'Main Website/Main Website Store/Default Store View',
             'synonym_for' => 'Synonym word %isolation%',
             'redirect' => 'http://example.com/',
-            'display_in_terms' => 'No'
+            'display_in_terms' => 'No',
         ];
     }
 }

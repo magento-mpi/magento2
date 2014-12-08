@@ -59,7 +59,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\Eav\Model\Form\ElementFactory $elementFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_fieldsetFactory = $fieldsetFactory;
@@ -153,7 +153,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
         )->setSortOrder();
 
         // copy fieldsets
-        $fieldsetMap = array();
+        $fieldsetMap = [];
         foreach ($fieldsetCollection as $skeletonFieldset) {
             $this->_fieldsetFactory->create()->setTypeId(
                 $this->getId()

@@ -43,7 +43,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;

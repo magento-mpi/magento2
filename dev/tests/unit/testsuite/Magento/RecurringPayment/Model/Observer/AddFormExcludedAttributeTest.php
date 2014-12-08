@@ -20,7 +20,6 @@ class AddFormExcludedAttributeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_testModel;
 
-
     /**
      * @var \Magento\Framework\Event
      */
@@ -33,14 +32,14 @@ class AddFormExcludedAttributeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_observer = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
 
         $this->_testModel = new \Magento\RecurringPayment\Model\Observer\AddFormExcludedAttribute();
 
         $this->_event = $this->getMock(
             'Magento\Framework\Event',
-            array('getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'),
-            array(),
+            ['getProductElement', 'getProduct', 'getResult', 'getBuyRequest', 'getQuote', 'getApi', 'getObject'],
+            [],
             '',
             false
         );
@@ -52,15 +51,15 @@ class AddFormExcludedAttributeTest extends \PHPUnit_Framework_TestCase
     {
         $block = $this->getMock(
             'Magento\Backend\Block\Template',
-            array('getFormExcludedFieldList', 'setFormExcludedFieldList'),
-            array(),
+            ['getFormExcludedFieldList', 'setFormExcludedFieldList'],
+            [],
             '',
             false
         );
-        $block->expects($this->once())->method('getFormExcludedFieldList')->will($this->returnValue(array('field')));
-        $block->expects($this->once())->method('setFormExcludedFieldList')->with(array('field', 'recurring_payment'));
+        $block->expects($this->once())->method('getFormExcludedFieldList')->will($this->returnValue(['field']));
+        $block->expects($this->once())->method('setFormExcludedFieldList')->with(['field', 'recurring_payment']);
 
         $this->_event->expects($this->once())->method('getObject')->will($this->returnValue($block));
         $this->_testModel->execute($this->_observer);
     }
-} 
+}

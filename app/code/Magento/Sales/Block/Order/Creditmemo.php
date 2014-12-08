@@ -43,7 +43,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->httpContext = $httpContext;
@@ -111,7 +111,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getInvoiceUrl($order)
     {
-        return $this->getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/invoice', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -120,7 +120,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getShipmentUrl($order)
     {
-        return $this->getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/shipment', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -129,7 +129,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/view', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -138,7 +138,7 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getPrintCreditmemoUrl($creditmemo)
     {
-        return $this->getUrl('*/*/printCreditmemo', array('creditmemo_id' => $creditmemo->getId()));
+        return $this->getUrl('*/*/printCreditmemo', ['creditmemo_id' => $creditmemo->getId()]);
     }
 
     /**
@@ -147,6 +147,6 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
      */
     public function getPrintAllCreditmemosUrl($order)
     {
-        return $this->getUrl('*/*/printCreditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printCreditmemo', ['order_id' => $order->getId()]);
     }
 }

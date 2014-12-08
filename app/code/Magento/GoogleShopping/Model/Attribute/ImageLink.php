@@ -41,7 +41,7 @@ class ImageLink extends \Magento\GoogleShopping\Model\Attribute\DefaultAttribute
         \Magento\GoogleShopping\Model\Resource\Attribute $resource,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogProduct = $catalogProduct;
         parent::__construct(

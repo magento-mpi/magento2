@@ -62,15 +62,14 @@ class EmailLinkTest extends \PHPUnit_Framework_TestCase
     public function testGetLink()
     {
         $this->urlBuilder->expects($this->atLeastOnce())->method('getUrl')
-            ->with($this->equalTo(array(
+            ->with($this->equalTo([
                 'type' => 'wishlist',
                 'data' => 'OCx0ZXN0QGV4YW1wbGUuY29t',
                 '_secure' => false,
                 'wishlist_id' => 5,
-                'sharing_code' => 'somesharingcode'
-            )))
+                'sharing_code' => 'somesharingcode',
+            ]))
             ->will($this->returnValue('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5'));
         $this->assertEquals('http://url.com/rss/feed/index/type/wishlist/wishlist_id/5', $this->link->getLink());
     }
-
 }

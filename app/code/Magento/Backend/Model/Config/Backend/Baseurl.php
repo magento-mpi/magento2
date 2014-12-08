@@ -30,7 +30,7 @@ class Baseurl extends \Magento\Framework\App\Config\Value
         \Magento\Framework\View\Asset\MergeService $mergeService,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_mergeService = $mergeService;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -66,10 +66,10 @@ class Baseurl extends \Magento\Framework\App\Config\Value
      */
     private function _validateUnsecure($value)
     {
-        $placeholders = array('{{unsecure_base_url}}');
+        $placeholders = ['{{unsecure_base_url}}'];
         switch ($this->getPath()) {
             case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_URL:
-                $this->_assertValuesOrUrl(array('{{base_url}}'), $value);
+                $this->_assertValuesOrUrl(['{{base_url}}'], $value);
                 break;
             case \Magento\Store\Model\Store::XML_PATH_UNSECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);
@@ -92,10 +92,10 @@ class Baseurl extends \Magento\Framework\App\Config\Value
      */
     private function _validateSecure($value)
     {
-        $placeholders = array('{{unsecure_base_url}}', '{{secure_base_url}}');
+        $placeholders = ['{{unsecure_base_url}}', '{{secure_base_url}}'];
         switch ($this->getPath()) {
             case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_URL:
-                $this->_assertValuesOrUrl(array('{{base_url}}', '{{unsecure_base_url}}'), $value);
+                $this->_assertValuesOrUrl(['{{base_url}}', '{{unsecure_base_url}}'], $value);
                 break;
             case \Magento\Store\Model\Store::XML_PATH_SECURE_BASE_LINK_URL:
                 $this->_assertStartsWithValuesOrUrl($placeholders, $value);

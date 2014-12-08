@@ -8,7 +8,7 @@
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-use \Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 class TokensExchange extends \Magento\Integration\Controller\Adminhtml\Integration
 {
@@ -56,11 +56,11 @@ class TokensExchange extends \Magento\Integration\Controller\Adminhtml\Integrati
             $this->_view->renderLayout();
             $popupContent = $this->_response->getBody();
             /** Initialize response body */
-            $result = array(
+            $result = [
                 IntegrationModel::IDENTITY_LINK_URL => $integration->getIdentityLinkUrl(),
                 IntegrationModel::CONSUMER_ID => $integration->getConsumerId(),
-                'popup_content' => $popupContent
-            );
+                'popup_content' => $popupContent,
+            ];
             $this->getResponse()->representJson($this->_coreHelper->jsonEncode($result));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());

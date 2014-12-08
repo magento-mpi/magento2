@@ -19,11 +19,11 @@ class Javascript extends \Magento\Framework\View\Element\Template
      */
     public function getScriptOptions()
     {
-        $params = array(
-            'url' => $this->getUrl('page_cache/block/render/', array('_current' => true)),
+        $params = [
+            'url' => $this->getUrl('page_cache/block/render/', ['_current' => true]),
             'handles' => $this->_layout->getUpdate()->getHandles(),
-            'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
-        );
+            'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME,
+        ];
         return json_encode($params);
     }
 }

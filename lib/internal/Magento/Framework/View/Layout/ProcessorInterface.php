@@ -98,7 +98,7 @@ interface ProcessorInterface
      * @throws \Magento\Framework\Exception
      * @return ProcessorInterface
      */
-    public function load($handles = array());
+    public function load($handles = []);
 
     /**
      * Get layout updates as \Magento\Framework\View\Layout\Element object

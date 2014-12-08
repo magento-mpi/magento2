@@ -8,7 +8,6 @@
 
 namespace Magento\Integration\Test\Block\Adminhtml\Integration\Edit;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions;
 
 /**

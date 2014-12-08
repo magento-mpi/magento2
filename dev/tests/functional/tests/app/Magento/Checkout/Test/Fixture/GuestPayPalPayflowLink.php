@@ -41,8 +41,8 @@ class GuestPayPalPayflowLink extends Checkout
         $this->_data = [
             'totals' => [
                 'grand_total' => '156.81',
-                'comment_history' => 'Authorized amount of $156.81'
-            ]
+                'comment_history' => 'Authorized amount of $156.81',
+            ],
         ];
     }
 
@@ -58,7 +58,7 @@ class GuestPayPalPayflowLink extends Checkout
             'paypal_payflow_link',
             'default_tax_config',
             'display_price',
-            'display_shopping_cart'
+            'display_shopping_cart',
         ]);
 
         //Tax
@@ -81,7 +81,7 @@ class GuestPayPalPayflowLink extends Checkout
         $this->products = [
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         ];
 
         //Checkout data

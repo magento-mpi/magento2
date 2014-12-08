@@ -32,7 +32,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->priceModifierMock = $this->getMock('Magento\Catalog\Model\Product\PriceModifierInterface');
     }
 
@@ -40,7 +40,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->compositeModel = new \Magento\Catalog\Model\Product\PriceModifier\Composite(
             $this->objectManagerMock,
-            array('some_class_name')
+            ['some_class_name']
         );
         $this->objectManagerMock->expects(
             $this->once()
@@ -68,7 +68,7 @@ class CompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->compositeModel = new \Magento\Catalog\Model\Product\PriceModifier\Composite(
             $this->objectManagerMock,
-            array()
+            []
         );
         $this->objectManagerMock->expects($this->never())->method('get');
         $this->assertEquals(100, $this->compositeModel->modifyPrice(100, $this->productMock));

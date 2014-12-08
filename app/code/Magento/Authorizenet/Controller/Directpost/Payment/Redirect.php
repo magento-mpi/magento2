@@ -18,7 +18,7 @@ class Redirect extends \Magento\Authorizenet\Controller\Directpost\Payment
     public function execute()
     {
         $redirectParams = $this->getRequest()->getParams();
-        $params = array();
+        $params = [];
         if (!empty($redirectParams['success']) && isset(
             $redirectParams['x_invoice_num']
         ) && isset(

@@ -36,11 +36,11 @@ class Save extends \Magento\GoogleOptimizer\Model\Observer\AbstractSave
      */
     protected function _getCodeData()
     {
-        return array(
+        return [
             'entity_type' => \Magento\GoogleOptimizer\Model\Code::ENTITY_TYPE_PAGE,
             'entity_id' => $this->_page->getId(),
             'store_id' => 0,
             'experiment_script' => $this->_params['experiment_script']
-        );
+        ];
     }
 }

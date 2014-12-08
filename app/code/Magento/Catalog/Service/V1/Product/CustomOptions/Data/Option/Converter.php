@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface as MetadataConverter;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface as MetadataConverter;
 
 class Converter
 {
@@ -38,7 +38,7 @@ class Converter
             'title' => $option->getTitle(),
             'type' => $option->getType(),
             'sort_order' => $option->getSortOrder(),
-            'is_require' => $option->getIsRequire()
+            'is_require' => $option->getIsRequire(),
         ];
         $output = array_merge($output, $this->metadataConverter->convert($option));
         return $output;

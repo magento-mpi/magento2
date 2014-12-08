@@ -21,7 +21,7 @@ class DeleteFolder extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
             $path = $this->getStorage()->getCmsWysiwygImages()->getCurrentPath();
             $this->getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

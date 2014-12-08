@@ -17,7 +17,7 @@ class Bar extends \Magento\Backend\Block\Dashboard\AbstractDashboard
     /**
      * @var array
      */
-    protected $_totals = array();
+    protected $_totals = [];
 
     /**
      * @var \Magento\Directory\Model\Currency|null
@@ -52,7 +52,7 @@ class Bar extends \Magento\Backend\Block\Dashboard\AbstractDashboard
             $value = $this->format($value);
         }
         $decimals = '';
-        $this->_totals[] = array('label' => $label, 'value' => $value, 'decimals' => $decimals);
+        $this->_totals[] = ['label' => $label, 'value' => $value, 'decimals' => $decimals];
 
         return $this;
     }

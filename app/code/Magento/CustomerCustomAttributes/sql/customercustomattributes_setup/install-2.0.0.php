@@ -18,7 +18,7 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Entity Id'
 )->addForeignKey(
     $installer->getFkName(
@@ -46,7 +46,7 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Entity Id'
 )->addForeignKey(
     $installer->getFkName(
@@ -74,7 +74,7 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Entity Id'
 )->addForeignKey(
     $installer->getFkName(
@@ -102,7 +102,7 @@ $table = $installer->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true, 'default' => '0'],
     'Entity Id'
 )->addForeignKey(
     $installer->getFkName(

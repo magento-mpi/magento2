@@ -36,7 +36,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $this->addFieldToFilter('scope', $scope);
         $this->addFieldToFilter('scope_id', $scopeId);
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
+        $this->addFieldToFilter('path', ['like' => $section . '/%']);
         return $this;
     }
 
@@ -48,7 +48,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addPathFilter($section)
     {
-        $this->addFieldToFilter('path', array('like' => $section . '/%'));
+        $this->addFieldToFilter('path', ['like' => $section . '/%']);
         return $this;
     }
 
@@ -60,7 +60,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addValueFilter($value)
     {
-        $this->addFieldToFilter('value', array('like' => $value));
+        $this->addFieldToFilter('value', ['like' => $value]);
         return $this;
     }
 }

@@ -28,7 +28,7 @@ class ItemsUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInt
     public function __construct(
         \Magento\SalesArchive\Model\Config $config,
         \Magento\Framework\AuthorizationInterface $authorization,
-        $data = array()
+        $data = []
     ) {
         $this->_salesArchiveConfig = $config;
         $this->_authorizationModel = $authorization;

@@ -25,7 +25,7 @@ class Categories
      *
      * @var array
      */
-    protected $_categories = array();
+    protected $_categories = [];
 
     /**
      * Categories count
@@ -39,7 +39,6 @@ class Categories
      */
     public function __construct()
     {
-
         $rootCategoryId = $this->getObjectManager()->create(
             'Magento\Store\Model\StoreManager'
         )->getDefaultStoreView()->getRootCategoryId();
@@ -63,7 +62,7 @@ class Categories
             $structure = explode('/', $category->getPath());
             $pathSize = count($structure);
             if ($pathSize > 1) {
-                $path = array();
+                $path = [];
                 for ($i = 1; $i < $pathSize; $i++) {
                     $path[] = $category->load($structure[$i])->getName();
                 }

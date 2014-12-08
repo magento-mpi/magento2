@@ -10,7 +10,6 @@
  */
 namespace Magento\Captcha\Controller\Refresh;
 
-use Magento\Framework\App\Action\AbstractAction;
 use Magento\Framework\App\Action\Context;
 
 class Index extends \Magento\Framework\App\Action\Action
@@ -39,7 +38,7 @@ class Index extends \Magento\Framework\App\Action\Action
         $captchaModel = $this->captchaHelper->getCaptcha($formId);
         $block = $this->_view->getLayout()->createBlock($captchaModel->getBlockName());
         $block->setFormId($formId)->setIsAjax(true)->toHtml();
-        $this->_response->representJson(json_encode(array('imgSrc' => $captchaModel->getImgSrc())));
+        $this->_response->representJson(json_encode(['imgSrc' => $captchaModel->getImgSrc()]));
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
     }
 }

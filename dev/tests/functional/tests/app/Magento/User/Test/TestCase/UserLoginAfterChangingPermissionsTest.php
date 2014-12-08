@@ -8,6 +8,7 @@
 
 namespace Magento\User\Test\TestCase;
 
+use Magento\Backend\Test\Page\Adminhtml\Dashboard;
 use Magento\User\Test\Fixture\AdminUserRole;
 use Magento\User\Test\Fixture\User;
 use Magento\User\Test\Page\Adminhtml\UserEdit;
@@ -16,7 +17,6 @@ use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
-use Magento\Backend\Test\Page\Adminhtml\Dashboard;
 
 /**
  * Test that user can login from the first attempt just after his permissions were changed.

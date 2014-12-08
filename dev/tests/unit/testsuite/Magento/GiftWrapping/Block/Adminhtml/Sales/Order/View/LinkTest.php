@@ -13,8 +13,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $giftWrappingData = $this->getMock(
             'Magento\GiftWrapping\Helper\Data',
-            array('isGiftWrappingAvailableForItems'),
-            array(),
+            ['isGiftWrappingAvailableForItems'],
+            [],
             '',
             false
         );
@@ -23,12 +23,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(1))
             ->will($this->returnValue(true));
 
-        $typeInstance = $this->getMock('Magento\Catalog\Model\Product\Type\Simple', array(), array(), '', false);
+        $typeInstance = $this->getMock('Magento\Catalog\Model\Product\Type\Simple', [], [], '', false);
 
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getTypeInstance', 'getGiftWrappingAvailable', '__wakeup'),
-            array(),
+            ['getTypeInstance', 'getGiftWrappingAvailable', '__wakeup'],
+            [],
             '',
             false
         );
@@ -37,8 +37,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $orderItem = $this->getMock(
             'Magento\Sales\Model\Quote\Item',
-            array('getProduct', 'getStoreId', '__wakeup'),
-            array(),
+            ['getProduct', 'getStoreId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -47,8 +47,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $block1 = $this->getMock(
             'Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create\Giftoptions',
-            array('getItem'),
-            array(),
+            ['getItem'],
+            [],
             '',
             false
         );
@@ -56,8 +56,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getParentName', 'getBlock'),
-            array(),
+            ['getParentName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -71,12 +71,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($block1));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $objectManager->getObject('Magento\Backend\Block\Template\Context', array('layout' => $layout));
+        $context = $objectManager->getObject('Magento\Backend\Block\Template\Context', ['layout' => $layout]);
 
         /** @var \Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create\Link $websiteModel */
         $block = $objectManager->getObject(
             'Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create\Link',
-            array('context' => $context, 'giftWrappingData' => $giftWrappingData)
+            ['context' => $context, 'giftWrappingData' => $giftWrappingData]
         );
         $block->setNameInLayout('nameInLayout');
 

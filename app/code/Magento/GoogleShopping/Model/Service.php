@@ -71,7 +71,7 @@ class Service extends \Magento\Framework\Object
         \Magento\Framework\Registry $coreRegistry,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\Framework\Gdata\Gshopping\ContentFactory $contentFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_logAdapterFactory = $logAdapterFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -112,7 +112,7 @@ class Service extends \Magento\Framework\Object
                     \Zend_Gdata_ClientLogin::CLIENTLOGIN_URI,
                     $type
                 );
-                $configTimeout = array('timeout' => 60);
+                $configTimeout = ['timeout' => 60];
                 $client->setConfig($configTimeout);
                 $this->_coreRegistry->register($this->_clientRegistryId, $client);
             }
@@ -153,7 +153,7 @@ class Service extends \Magento\Framework\Object
 
             if ($this->getConfig()->getIsDebug($storeId)) {
                 $this->_service->setLogAdapter(
-                    $this->_logAdapterFactory->create(array('fileName' => 'googleshopping.log')),
+                    $this->_logAdapterFactory->create(['fileName' => 'googleshopping.log']),
                     'log'
                 )->setDebug(
                     true
@@ -195,7 +195,7 @@ class Service extends \Magento\Framework\Object
     {
         $accountId = $this->getConfig()->getAccountId($storeId);
         $client = $this->getClient($storeId);
-        $service = $this->_contentFactory->create(array('client' => $client, 'accountId' => $accountId));
+        $service = $this->_contentFactory->create(['client' => $client, 'accountId' => $accountId]);
         return $service;
     }
 }

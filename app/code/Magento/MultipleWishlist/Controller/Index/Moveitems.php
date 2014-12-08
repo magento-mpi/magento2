@@ -8,12 +8,12 @@
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
+use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\MultipleWishlist\Controller\IndexInterface;
 use Magento\MultipleWishlist\Model\ItemManager;
 use Magento\Wishlist\Controller\WishlistProviderInterface;
-use Magento\Customer\Model\Session;
 
 class Moveitems extends \Magento\Framework\App\Action\Action implements IndexInterface
 {
@@ -97,17 +97,17 @@ class Moveitems extends \Magento\Framework\App\Action\Action implements IndexInt
         if (!$wishlist) {
             throw new NotFoundException();
         }
-        $itemIds = $this->getRequest()->getParam('selected', array());
-        $moved = array();
-        $failed = array();
-        $notFound = array();
-        $notAllowed = array();
-        $alreadyPresent = array();
+        $itemIds = $this->getRequest()->getParam('selected', []);
+        $moved = [];
+        $failed = [];
+        $notFound = [];
+        $notAllowed = [];
+        $alreadyPresent = [];
         if (count($itemIds)) {
             /** @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlists */
             $wishlists = $this->wishlistColFactory->create();
             $wishlists->filterByCustomerId($this->customerSession->getCustomerId());
-            $qtys = $this->getRequest()->getParam('qty', array());
+            $qtys = $this->getRequest()->getParam('qty', []);
 
             foreach ($itemIds as $id => $value) {
                 try {

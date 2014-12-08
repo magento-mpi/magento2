@@ -8,9 +8,9 @@
  */
 namespace Magento\Catalog\Api;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class CategoryRepositoryTest extends WebapiAbstract
 {
@@ -33,7 +33,7 @@ class CategoryRepositoryTest extends WebapiAbstract
             'include_in_menu' => true,
             'name' => 'Category 1',
             'id' => 333,
-            'is_active' => true
+            'is_active' => true,
         ];
 
         $result = $this->getInfoCategory($this->modelId);
@@ -65,13 +65,13 @@ class CategoryRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
     }
@@ -84,9 +84,9 @@ class CategoryRepositoryTest extends WebapiAbstract
             [
                 $this->getSimpleCategoryData(
                     [
-                        'name' => 'Test Category Name'
+                        'name' => 'Test Category Name',
                     ]
-                )
+                ),
             ]
         ];
     }
@@ -131,10 +131,10 @@ class CategoryRepositoryTest extends WebapiAbstract
 
     public function deleteSystemOrRootDataProvider()
     {
-        return array(
+        return [
             [\Magento\Catalog\Model\Category::TREE_ROOT_ID],
             [2] //Default root category
-        );
+        ];
     }
 
     /**
@@ -148,9 +148,9 @@ class CategoryRepositoryTest extends WebapiAbstract
             'custom_attributes' => [
                 [
                     'attribute_code' => 'description',
-                    'value' => "Update Category Description Test"
-                ]
-            ]
+                    'value' => "Update Category Description Test",
+                ],
+            ],
         ];
         $result = $this->updateCategory($categoryId, $categoryData);
         $this->assertEquals($categoryId, $result['id']);
@@ -161,7 +161,7 @@ class CategoryRepositoryTest extends WebapiAbstract
         $this->assertEquals("Update Category Description Test", $category->getDescription());
     }
 
-    protected function getSimpleCategoryData($categoryData = array())
+    protected function getSimpleCategoryData($categoryData = [])
     {
         return [
             'path' => '2',
@@ -184,7 +184,7 @@ class CategoryRepositoryTest extends WebapiAbstract
                 ['attribute_code' => 'custom_design', 'value' => ''],
                 ['attribute_code' => 'custom_design_from', 'value' => ''],
                 ['attribute_code' => 'custom_design_to', 'value' => ''],
-                ['attribute_code' => 'page_layout', 'value' => '']
+                ['attribute_code' => 'page_layout', 'value' => ''],
             ]
         ];
     }
@@ -202,7 +202,7 @@ class CategoryRepositoryTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         $requestData = ['category' => $category];
@@ -220,13 +220,13 @@ class CategoryRepositoryTest extends WebapiAbstract
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                    'httpMethod' => Config::HTTP_METHOD_DELETE
+                    'httpMethod' => Config::HTTP_METHOD_DELETE,
                 ],
                 'soap' => [
                     'service' => self::SERVICE_NAME,
                     'serviceVersion' => 'V1',
-                    'operation' => self::SERVICE_NAME . 'DeleteByIdentifier'
-                ]
+                    'operation' => self::SERVICE_NAME . 'DeleteByIdentifier',
+                ],
             ];
         return $this->_webApiCall($serviceInfo, ['categoryId' => $id]);
     }
@@ -237,21 +237,20 @@ class CategoryRepositoryTest extends WebapiAbstract
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $id,
-                    'httpMethod' => Config::HTTP_METHOD_PUT
+                    'httpMethod' => Config::HTTP_METHOD_PUT,
                 ],
                 'soap' => [
                     'service' => self::SERVICE_NAME,
                     'serviceVersion' => 'V1',
-                    'operation' => self::SERVICE_NAME . 'Save'
-                ]
+                    'operation' => self::SERVICE_NAME . 'Save',
+                ],
             ];
 
-            if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-                $data['id'] = $id;
-                return $this->_webApiCall($serviceInfo, ['id' => $id, 'category' => $data]);
-            } else {
-                return $this->_webApiCall($serviceInfo, ['category' => $data]);
-            }
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $data['id'] = $id;
+            return $this->_webApiCall($serviceInfo, ['id' => $id, 'category' => $data]);
+        } else {
+            return $this->_webApiCall($serviceInfo, ['category' => $data]);
+        }
     }
-
 }

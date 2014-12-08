@@ -7,8 +7,8 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method;
 
-use Magento\Payment\Model\MethodInterface;
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+use Magento\Payment\Model\MethodInterface;
 
 /**
  * Paypal dummy payment method model
@@ -69,7 +69,7 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
         $this->_paypalConfig = $paypalConfig;
         $this->_paypalMethodInstance = $paymentFactory->create(
             $paypalClassName,
-            array('pbridgeData' => $pbridgeData, 'paypal' => $this)
+            ['pbridgeData' => $pbridgeData, 'paypal' => $this]
         );
     }
 
@@ -82,7 +82,7 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
      */
     public function __call($method, $args)
     {
-        $return = call_user_func_array(array($this->_paypalMethodInstance, $method), $args);
+        $return = call_user_func_array([$this->_paypalMethodInstance, $method], $args);
         return $return === $this->_paypalMethodInstance ? $this : $return;
     }
 
@@ -107,7 +107,7 @@ class Paypal implements MethodInterface, PaymentMethodChecksInterface
             $this->_pbridgeMethodInstance = $this->_paymentData->getMethodInstance('pbridge');
             $this->_pbridgeMethodInstance->setOriginalMethodInstance($this);
             $this->_pbridgeMethodInstance->setAdditionalRequestParameters(
-                array('BNCODE' => $this->_paypalConfig->getBuildNotationCode())
+                ['BNCODE' => $this->_paypalConfig->getBuildNotationCode()]
             );
         }
         return $this->_pbridgeMethodInstance;

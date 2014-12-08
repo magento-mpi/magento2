@@ -7,8 +7,8 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
-use Magento\Catalog\Model\Product;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Model\Product;
 use Magento\Catalog\Service\V1\Data\Converter;
 
 class ReadService implements ReadServiceInterface

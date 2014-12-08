@@ -11,7 +11,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard
      */
@@ -80,7 +79,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeValueDataProvider()
     {
-        return array(array(true, 'test', ''), array(false, 'test', 'value-scope="test"'));
+        return [[true, 'test', ''], [false, 'test', 'value-scope="test"']];
     }
 
     /**
@@ -90,7 +89,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNew($prodId, $result)
     {
-
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()

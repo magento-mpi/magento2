@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product options block
  *
@@ -77,7 +76,7 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_catalogData = $catalogData;
@@ -163,7 +162,7 @@ class Options extends \Magento\Framework\View\Element\Template
             'prices' => [
                 'oldPrice' => [
                     'amount' => $this->_coreData->currency($option->getPrice(false), false, false),
-                    'adjustments' => []
+                    'adjustments' => [],
                 ],
                 'basePrice' => [
                     'amount' => $this->_catalogData->getTaxPrice(
@@ -176,7 +175,7 @@ class Options extends \Magento\Framework\View\Element\Template
                         null,
                         null,
                         false
-                    )
+                    ),
                 ],
                 'finalPrice' => [
                     'amount' => $this->_catalogData->getTaxPrice(
@@ -189,10 +188,10 @@ class Options extends \Magento\Framework\View\Element\Template
                         null,
                         null,
                         false
-                    )
-                ]
+                    ),
+                ],
             ],
-            'type' => $option->getPriceType()
+            'type' => $option->getPriceType(),
         ];
         return $data;
     }
@@ -204,12 +203,12 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     public function getJsonConfig()
     {
-        $config = array();
+        $config = [];
         foreach ($this->getOptions() as $option) {
             /* @var $option \Magento\Catalog\Model\Product\Option */
             $priceValue = 0;
             if ($option->getGroupByType() == \Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT) {
-                $_tmpPriceValues = array();
+                $_tmpPriceValues = [];
                 foreach ($option->getValues() as $value) {
                     /* @var $value \Magento\Catalog\Model\Product\Option\Value */
                     $id = $value->getId();

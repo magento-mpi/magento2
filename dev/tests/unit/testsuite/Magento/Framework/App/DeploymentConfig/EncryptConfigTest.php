@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-
 class EncryptConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetKey()

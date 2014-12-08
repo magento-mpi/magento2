@@ -8,8 +8,8 @@
 namespace Magento\Sales\Model;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Quote model

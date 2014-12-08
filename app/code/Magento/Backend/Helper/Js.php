@@ -36,7 +36,7 @@ class Js
     public function decodeGridSerializedInput($encoded)
     {
         $isSimplified = false === strpos($encoded, '=');
-        $result = array();
+        $result = [];
         parse_str($encoded, $decoded);
         foreach ($decoded as $key => $value) {
             if (is_numeric($key)) {

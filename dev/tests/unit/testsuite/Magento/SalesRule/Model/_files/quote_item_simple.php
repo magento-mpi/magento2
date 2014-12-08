@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'id' => '18',
     'item_id' => '18',
     'quote_id' => '1',
@@ -67,7 +67,7 @@ return array(
     'gw_price' => null,
     'gw_base_tax_amount' => null,
     'gw_tax_amount' => null,
-    'qty_options' => array(),
+    'qty_options' => [],
     'product' => null,
     'tax_class_id' => '2',
     'is_recurring' => '0',
@@ -77,4 +77,4 @@ return array(
     'calculation_price' => 10,
     'converted_price' => 10,
     'base_original_price' => 10
-);
+];

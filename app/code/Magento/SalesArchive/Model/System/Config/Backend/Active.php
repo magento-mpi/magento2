@@ -39,7 +39,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_archive = $archive;
         $this->_orderCollection = $orderCollection;
@@ -51,7 +51,7 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
      *
      * @var array
      */
-    protected $_cacheTags = array(\Magento\Backend\Block\Menu::CACHE_TAGS);
+    protected $_cacheTags = [\Magento\Backend\Block\Menu::CACHE_TAGS];
 
     /**
      * Clean cache, value was changed
@@ -94,6 +94,6 @@ class Active extends \Magento\Backend\Model\Config\Backend\Cache implements
      */
     public function getIdentities()
     {
-        return array(\Magento\Backend\Block\Menu::CACHE_TAGS);
+        return [\Magento\Backend\Block\Menu::CACHE_TAGS];
     }
 }

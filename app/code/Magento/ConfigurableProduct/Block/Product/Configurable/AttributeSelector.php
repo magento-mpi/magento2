@@ -31,11 +31,11 @@ class AttributeSelector extends \Magento\Backend\Block\Template
      */
     public function getSuggestWidgetOptions()
     {
-        return array(
+        return [
             'source' => $this->getUrl('*/product_attribute/suggestConfigurableAttributes'),
             'minLength' => 0,
             'className' => 'category-select',
             'showAll' => true
-        );
+        ];
     }
 }

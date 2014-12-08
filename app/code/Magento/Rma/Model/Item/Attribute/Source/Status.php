@@ -21,14 +21,14 @@ class Status extends \Magento\Rma\Model\Rma\Source\Status
      */
     protected function _getAvailableValues()
     {
-        return array(
+        return [
             self::STATE_PENDING,
             self::STATE_AUTHORIZED,
             self::STATE_RECEIVED,
             self::STATE_APPROVED,
             self::STATE_REJECTED,
             self::STATE_DENIED
-        );
+        ];
     }
 
     /**
@@ -50,6 +50,6 @@ class Status extends \Magento\Rma\Model\Rma\Source\Status
      */
     public function isFinalStatus($status)
     {
-        return in_array($status, array(self::STATE_APPROVED, self::STATE_REJECTED, self::STATE_DENIED)) ? true : false;
+        return in_array($status, [self::STATE_APPROVED, self::STATE_REJECTED, self::STATE_DENIED]) ? true : false;
     }
 }

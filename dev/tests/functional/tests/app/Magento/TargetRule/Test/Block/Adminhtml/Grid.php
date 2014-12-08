@@ -30,7 +30,7 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'id' => [
-            'selector' => '.filter [name="rule_id"]'
+            'selector' => '.filter [name="rule_id"]',
         ],
         'name' => [
             'selector' => '.filter [name="name"]',

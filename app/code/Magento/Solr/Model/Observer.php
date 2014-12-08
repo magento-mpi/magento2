@@ -81,11 +81,11 @@ class Observer
         $fieldset->addField(
             'search_weight',
             'select',
-            array(
+            [
                 'name' => 'search_weight',
                 'label' => __('Search Weight'),
                 'values' => $this->_sourceWeight->getOptions()
-            ),
+            ],
             'is_searchable'
         );
         /**
@@ -111,7 +111,7 @@ class Observer
         $relatedQueries = $searchQuryModel->getSelectedQueriesGrid();
 
         if (strlen($relatedQueries) == 0) {
-            $relatedQueries = array();
+            $relatedQueries = [];
         } else {
             $relatedQueries = explode('&', $relatedQueries);
         }
@@ -147,7 +147,7 @@ class Observer
                 true
             )->load();
 
-            $optionsOrder = array();
+            $optionsOrder = [];
             foreach ($optionCollection as $option) {
                 /** @var \Magento\Eav\Model\Entity\Attribute\Option $option */
                 $optionsOrder[] = $option->getOptionId();

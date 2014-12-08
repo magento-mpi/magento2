@@ -8,7 +8,6 @@
 
 namespace Magento\Backend\Test\Handler;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 
 /**

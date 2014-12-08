@@ -35,7 +35,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="real_shipment_id"]'
+            'selector' => 'input[name="real_shipment_id"]',
         ],
         'qty_from' => [
             'selector' => '[name="total_qty[from]"]',

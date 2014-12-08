@@ -86,7 +86,7 @@ class MassOperations
         \Magento\Framework\Logger $logger,
         \Magento\GoogleShopping\Helper\Data $gleShoppingData,
         \Magento\GoogleShopping\Helper\Category $gleShoppingCategory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_itemFactory = $itemFactory;
@@ -149,7 +149,7 @@ class MassOperations
     public function addProducts($productIds, $storeId)
     {
         $totalAdded = 0;
-        $errors = array();
+        $errors = [];
         if (is_array($productIds)) {
             foreach ($productIds as $productId) {
                 if ($this->_flag && $this->_flag->isExpired()) {
@@ -162,8 +162,7 @@ class MassOperations
                     // The product was added successfully
                     $totalAdded++;
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $noEntityException) {
-                }
-                catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
+                } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
                     throw $e;
                 } catch (\Zend_Gdata_App_Exception $e) {
                     $errors[] = $this->_gleShoppingData->parseGdataExceptionMessage($e->getMessage(), $product);
@@ -226,7 +225,7 @@ class MassOperations
         $totalUpdated = 0;
         $totalDeleted = 0;
         $totalFailed = 0;
-        $errors = array();
+        $errors = [];
 
         $itemsCollection = $this->_getItemsCollection($items);
 
@@ -311,7 +310,7 @@ class MassOperations
     {
         $totalDeleted = 0;
         $itemsCollection = $this->_getItemsCollection($items);
-        $errors = array();
+        $errors = [];
         if ($itemsCollection) {
             if (count($itemsCollection) < 1) {
                 return $this;
@@ -366,7 +365,7 @@ class MassOperations
         $itemsCollection = null;
         if ($items instanceof ItemCollection) {
             $itemsCollection = $items;
-        } else if (is_array($items)) {
+        } elseif (is_array($items)) {
             $itemsCollection = $this->_collectionFactory->create()->addFieldToFilter('item_id', $items);
         }
 

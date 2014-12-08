@@ -15,20 +15,20 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetValueElement()
     {
-        $layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $context = $objectManager->create('Magento\Rule\Model\Condition\Context', array('layout' => $layoutMock));
+        $context = $objectManager->create('Magento\Rule\Model\Condition\Context', ['layout' => $layoutMock]);
 
         /** @var \Magento\Rule\Model\Condition\AbstractCondition $model */
         $model = $this->getMockForAbstractClass(
             'Magento\Rule\Model\Condition\AbstractCondition',
-            array($context),
+            [$context],
             '',
             true,
             true,
             true,
-            array('getValueElementRenderer')
+            ['getValueElementRenderer']
         );
         $editableBlock = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Rule\Block\Editable'

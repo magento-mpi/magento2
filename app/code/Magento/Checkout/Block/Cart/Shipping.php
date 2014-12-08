@@ -21,14 +21,14 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
      * Estimate Rates
      * @var array
      */
-    protected $_rates = array();
+    protected $_rates = [];
 
     /**
      * Address Model
      *
      * @var array
      */
-    protected $_address = array();
+    protected $_address = [];
 
     /**
      * @var \Magento\Directory\Block\Data
@@ -61,7 +61,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Directory\Block\Data $directoryBlock,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_directoryBlock = $directoryBlock;
@@ -238,7 +238,7 @@ class Shipping extends \Magento\Checkout\Block\Cart\AbstractCart
     public function getCarriers()
     {
         if (null === $this->_carriers) {
-            $this->_carriers = array();
+            $this->_carriers = [];
             $this->getEstimateRates();
             foreach ($this->_rates as $rateGroup) {
                 if (!empty($rateGroup)) {

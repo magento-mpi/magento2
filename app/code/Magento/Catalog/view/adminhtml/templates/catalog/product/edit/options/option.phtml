@@ -86,14 +86,14 @@ require([
 jQuery(function ($) {
     var fieldSet = $('#Custom_Options');
     fieldSet.customOptions(<?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode(
-        array(
+        [
             'fieldId' => $this->getFieldId(),
             'productGridUrl' => $this->getProductGridUrl(),
             'formKey' => $this->getFormKey(),
             'customOptionsUrl' => $this->getCustomOptionsUrl(),
             'isReadonly' => $this->isReadonly(),
-            'itemCount' => $this->getItemCount()
-        )
+            'itemCount' => $this->getItemCount(),
+        ]
     )?>);
     //adding data to templates
     <?php /** @var $_value \Magento\Framework\Object */ ?>

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'sku' => 'simple',
     '_custom_option_type' => 'date_time',
     '_custom_option_title' => 'Test Field Title',
@@ -15,4 +15,4 @@ return array(
     '_custom_option_sku' => 'option-sku',
     '_custom_option_max_characters' => 100,
     '_custom_option_sort_order' => 0
-);
+];

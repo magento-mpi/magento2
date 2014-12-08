@@ -8,11 +8,11 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 use Magento\Shipping\Test\Constraint\AssertShipmentItems;
 use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
-use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertArchiveShipmentItems

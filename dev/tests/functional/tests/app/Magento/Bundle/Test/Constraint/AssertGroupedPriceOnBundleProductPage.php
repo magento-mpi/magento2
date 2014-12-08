@@ -8,9 +8,9 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Block\Product\View;
 use Magento\Catalog\Test\Constraint\AssertProductGroupedPriceOnProductPage;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGroupedPriceOnBundleProductPage
@@ -31,7 +31,7 @@ class AssertGroupedPriceOnBundleProductPage extends AssertProductGroupedPriceOnP
                 'price_regular_price' => $view->getPriceBlock()->getPrice(),
                 'price_from' => $view->getPriceBlock()->getPriceFrom(),
             ],
-            'fixture' => $product->getDataFieldConfig('price')['source']->getPreset()['price_from']
+            'fixture' => $product->getDataFieldConfig('price')['source']->getPreset()['price_from'],
         ];
 
         $groupPrice['onPage'] = isset($groupPrice['onPage']['price_regular_price'])

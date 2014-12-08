@@ -8,9 +8,9 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGroupedProductInItemsOrderedGrid

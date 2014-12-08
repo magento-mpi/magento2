@@ -22,13 +22,13 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $expectedResult = array(
-            array(
+        $expectedResult = [
+            [
                 'value' => \Magento\Payment\Model\Method\AbstractMethod::ACTION_AUTHORIZE_CAPTURE,
-                'label' => __('Yes')
-            ),
-            array('value' => '', 'label' => __('No'))
-        );
+                'label' => __('Yes'),
+            ],
+            ['value' => '', 'label' => __('No')],
+        ];
 
         $this->assertEquals($expectedResult, $this->_model->toOptionArray());
     }

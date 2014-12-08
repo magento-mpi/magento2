@@ -64,5 +64,5 @@ interface RedirectInterface
      * @param array $arguments
      * @return void
      */
-    public function redirect(\Magento\Framework\App\ResponseInterface $response, $path, $arguments = array());
+    public function redirect(\Magento\Framework\App\ResponseInterface $response, $path, $arguments = []);
 }

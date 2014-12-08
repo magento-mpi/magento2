@@ -10,9 +10,9 @@
 
 namespace Magento\Backend\Test\Block\System\Config;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\FormPageActions as AbstractPageActions;
 use Magento\Store\Test\Fixture\Store;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class PageActions

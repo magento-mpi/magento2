@@ -49,12 +49,12 @@ class SaveAndContinueButton extends GenericButton implements ButtonProviderInter
             $data = [
                 'label' => __('Save and Continue Edit'),
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array(
-                        'button' => array('event' => 'saveAndContinueEdit')
-                    )
-                ),
-                'sort_order' => 80
+                'data_attribute' => [
+                    'mage-init' => [
+                        'button' => ['event' => 'saveAndContinueEdit'],
+                    ],
+                ],
+                'sort_order' => 80,
             ];
         }
         return $data;

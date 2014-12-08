@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link;
 
-use \Magento\Catalog\Model\Product\LinkTypeProvider;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Model\Product\LinkTypeProvider;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class LinkTypeResolver
 {

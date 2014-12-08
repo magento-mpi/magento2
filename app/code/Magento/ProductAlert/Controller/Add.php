@@ -7,8 +7,8 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\RequestInterface;
 
 class Add extends \Magento\Framework\App\Action\Action
 {

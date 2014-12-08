@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
-use \Magento\Framework\Exception\StateException;
+use Magento\Framework\Exception\StateException;
 
 class SetManagement implements \Magento\Catalog\Api\AttributeSetManagementInterface
 {

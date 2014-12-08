@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Report Customers Review collection
  *
@@ -85,7 +84,7 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
         /** @var $lastnameAttr \Magento\Eav\Model\Entity\Attribute */
         $lastnameAttr = $this->_customerResource->getAttribute('lastname');
 
-        $firstnameCondition = array('table_customer_firstname.entity_id = detail.customer_id');
+        $firstnameCondition = ['table_customer_firstname.entity_id = detail.customer_id'];
 
         if ($firstnameAttr->getBackend()->isStatic()) {
             $firstnameField = 'firstname';
@@ -98,13 +97,12 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
         }
 
         $this->getSelect()->joinInner(
-            array('table_customer_firstname' => $firstnameAttr->getBackend()->getTable()),
+            ['table_customer_firstname' => $firstnameAttr->getBackend()->getTable()],
             implode(' AND ', $firstnameCondition),
-            array()
+            []
         );
 
-
-        $lastnameCondition = array('table_customer_lastname.entity_id = detail.customer_id');
+        $lastnameCondition = ['table_customer_lastname.entity_id = detail.customer_id'];
         if ($lastnameAttr->getBackend()->isStatic()) {
             $lastnameField = 'lastname';
         } else {
@@ -117,21 +115,21 @@ class Collection extends \Magento\Review\Model\Resource\Review\Collection
 
         //Prepare fullname field result
         $customerFullname = $adapter->getConcatSql(
-            array("table_customer_firstname.{$firstnameField}", "table_customer_lastname.{$lastnameField}"),
+            ["table_customer_firstname.{$firstnameField}", "table_customer_lastname.{$lastnameField}"],
             ' '
         );
         $this->getSelect()->reset(
             \Zend_Db_Select::COLUMNS
         )->joinInner(
-            array('table_customer_lastname' => $lastnameAttr->getBackend()->getTable()),
+            ['table_customer_lastname' => $lastnameAttr->getBackend()->getTable()],
             implode(' AND ', $lastnameCondition),
-            array()
+            []
         )->columns(
-            array(
+            [
                 'customer_id' => 'detail.customer_id',
                 'customer_name' => $customerFullname,
-                'review_cnt' => 'COUNT(main_table.review_id)'
-            )
+                'review_cnt' => 'COUNT(main_table.review_id)',
+            ]
         )->group(
             'detail.customer_id'
         );

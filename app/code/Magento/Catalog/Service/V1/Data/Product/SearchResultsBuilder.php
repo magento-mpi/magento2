@@ -8,12 +8,12 @@
 
 namespace Magento\Catalog\Service\V1\Data\Product;
 
+use Magento\Catalog\Service\V1\Data\ProductBuilder;
+use Magento\Framework\Api\AbstractSearchResultsBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\AbstractSearchResultsBuilder;
-use Magento\Catalog\Service\V1\Data\ProductBuilder;
 
 /**
  * Builder for the SearchResults Service Data Object

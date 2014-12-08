@@ -25,7 +25,7 @@ class Config extends \Magento\Framework\Config\Data
      *
      * @var array
      */
-    protected $_types = array();
+    protected $_types = [];
 
     /**
      * Current store instance
@@ -40,7 +40,7 @@ class Config extends \Magento\Framework\Config\Data
      *
      * @var array
      */
-    protected $_defaultTypes = array();
+    protected $_defaultTypes = [];
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -114,7 +114,7 @@ class Config extends \Magento\Framework\Config\Data
         $store = $this->getStore();
         $storeId = $store->getId();
         if (!isset($this->_types[$storeId])) {
-            $this->_types[$storeId] = array();
+            $this->_types[$storeId] = [];
             foreach ($this->get() as $typeCode => $typeConfig) {
                 $path = sprintf('%s%s', self::XML_PATH_ADDRESS_TEMPLATE, $typeCode);
                 $type = new \Magento\Framework\Object();

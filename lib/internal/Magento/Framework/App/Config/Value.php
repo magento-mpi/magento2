@@ -58,7 +58,7 @@ class Value extends \Magento\Framework\Model\AbstractModel implements \Magento\F
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $config;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

@@ -36,7 +36,7 @@ class Factory
     {
         return $this->_objectManager->create(
             'Magento\Webapi\Model\Soap\Wsdl',
-            array('name' => $wsdlName, 'uri' => $endpointUrl)
+            ['name' => $wsdlName, 'uri' => $endpointUrl]
         );
     }
 }

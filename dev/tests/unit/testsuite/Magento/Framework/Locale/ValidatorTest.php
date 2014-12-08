@@ -22,7 +22,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAllowedLocales'
         )->will(
-            $this->returnValue(array('en_US', 'de_DE', 'es_ES'))
+            $this->returnValue(['en_US', 'de_DE', 'es_ES'])
         );
 
         $this->_validatorModel = new \Magento\Framework\Locale\Validator($localeConfigMock);
@@ -33,10 +33,10 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidDataProvider()
     {
-        return array(
-            'case1' => array('locale' => 'en_US', 'valid' => true),
-            'case2' => array('locale' => 'pp_PP', 'valid' => false)
-        );
+        return [
+            'case1' => ['locale' => 'en_US', 'valid' => true],
+            'case2' => ['locale' => 'pp_PP', 'valid' => false]
+        ];
     }
 
     /**

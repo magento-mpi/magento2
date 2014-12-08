@@ -13,7 +13,6 @@ use Magento\Catalog\Service\V1\Data\Category;
 use Magento\Catalog\Service\V1\Data\CategoryBuilder;
 use Magento\Catalog\Service\V1\Data\Eav\Category\Info\ConverterFactory;
 use Magento\Catalog\Service\V1\Data\Eav\Category\Info\MetadataBuilder;
-use Magento\Framework\App\ObjectManager;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface

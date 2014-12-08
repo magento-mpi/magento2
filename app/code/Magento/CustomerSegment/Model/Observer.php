@@ -99,12 +99,12 @@ class Observer
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(
-            array(
-                array(
+            [
+                [
                     'label' => __('Customer Segment'),
-                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
-                )
-            )
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment',
+                ],
+            ]
         );
     }
 
@@ -168,7 +168,7 @@ class Observer
         if ($customerData && $customerData->getId()) {
             $customer = $this->customerFactory->create(
                 [
-                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                 ]
             );
             $website = $quote->getStore()->getWebsite();
@@ -189,12 +189,12 @@ class Observer
         $fieldset->addField(
             'is_used_for_customer_segment',
             'select',
-            array(
+            [
                 'name' => 'is_used_for_customer_segment',
                 'label' => __('Use in Customer Segment'),
                 'title' => __('Use in Customer Segment'),
                 'values' => $this->_configSourceYesno->toOptionArray()
-            )
+            ]
         );
     }
 

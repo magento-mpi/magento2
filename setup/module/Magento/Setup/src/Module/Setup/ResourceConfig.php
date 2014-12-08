@@ -12,7 +12,6 @@ namespace Magento\Setup\Module\Setup;
  */
 class ResourceConfig implements \Magento\Framework\App\Resource\ConfigInterface
 {
-
     /**
      * {@inheritdoc}
      */

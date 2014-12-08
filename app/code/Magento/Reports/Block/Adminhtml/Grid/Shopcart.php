@@ -26,7 +26,7 @@ class Shopcart extends \Magento\Backend\Block\Widget\Grid\Extended
      *
      * @var array
      */
-    protected $_storeIds = array();
+    protected $_storeIds = [];
 
     /**
      * StoreIds setter

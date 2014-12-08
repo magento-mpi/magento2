@@ -14,7 +14,7 @@
  */
 ?>
 <?php $_items = $this->getItems()?>
-<?php if($_items): ?>
+<?php if ($_items): ?>
 <div class="block block-reorder">
     <div class="block-title">
         <strong id="block-reorder-heading" role="heading" aria-level="2"><?php echo __('My Orders') ?></strong>
@@ -69,7 +69,7 @@ jQuery('#reorder-validate-detail').mage('validation', {
         error.appendTo('#cart-sidebar-reorder-advice-container');
     }
 });
-    
+
 });
 </script>
 </div>

@@ -23,7 +23,7 @@ class Html extends AbstractOutput
      */
     public function display(Stat $stat)
     {
-        $out = array();
+        $out = [];
         $out[] = '<table border="1" cellspacing="0" cellpadding="2">';
         $out[] = '<caption>' . $this->_renderCaption() . '</caption>';
         $out[] = '<tr>';

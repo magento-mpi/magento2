@@ -43,7 +43,7 @@ class Rma extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => null
+        'group' => null,
     ];
 
     protected $is_active = [

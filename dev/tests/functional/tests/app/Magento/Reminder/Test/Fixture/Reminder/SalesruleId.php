@@ -8,9 +8,9 @@
 
 namespace Magento\Reminder\Test\Fixture\Reminder;
 
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
  * Source sales rule.

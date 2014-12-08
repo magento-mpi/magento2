@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Options;
 
-use \Magento\Store\Model\Store;
+use Magento\Store\Model\Store;
 
 class Ajax extends \Magento\Backend\Block\AbstractBlock
 {
@@ -55,7 +55,7 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
@@ -71,7 +71,7 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _toHtml()
     {
-        $results = array();
+        $results = [];
         /** @var $optionsBlock \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option */
         $optionsBlock = $this->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option'
@@ -94,7 +94,7 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
             }
         }
 
-        $output = array();
+        $output = [];
         foreach ($results as $resultObject) {
             $output[] = $resultObject->getData();
         }

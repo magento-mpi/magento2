@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class InvoiceCreateTest
@@ -41,13 +41,13 @@ class InvoiceCreateTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
         $orderItems = $order->getAllItems();
         $data = [
@@ -120,8 +120,8 @@ class InvoiceCreateTest extends WebapiAbstract
                     'rowTotal' => null,
                     'rowTotalInclTax' => null,
                     'sku' => 'sku' . uniqid(),
-                    'taxAmount' => null
-                ]
+                    'taxAmount' => null,
+                ],
             ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['entity' => $data]);

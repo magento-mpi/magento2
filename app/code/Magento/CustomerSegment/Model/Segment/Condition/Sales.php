@@ -21,7 +21,7 @@ class Sales extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Sales');
@@ -35,27 +35,27 @@ class Sales extends \Magento\CustomerSegment\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
-            'value' => array(
-                array(
+        return [
+            'value' => [
+                [
                      // order address combo
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Order\Address',
-                    'label' => __('Order Address')
-                ),
-                array(
+                    'label' => __('Order Address'),
+                ],
+                [
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Salesamount',
                     'label' => __('Sales Amount')
-                ),
-                array(
+                ],
+                [
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Ordersnumber',
                     'label' => __('Number of Orders')
-                ),
-                array(
+                ],
+                [
                     'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Sales\Purchasedquantity',
                     'label' => __('Purchased Quantity')
-                )
-            ),
+                ],
+            ],
             'label' => __('Sales')
-        );
+        ];
     }
 }

@@ -57,7 +57,6 @@ class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
             $giftRegistryAddSelect->getGiftRegistryTypeBlock()->isGiftRegistryVisible($giftRegistryType->getLabel()),
             'Gift registry \'' . $giftRegistryType->getLabel() . '\' is not present in dropdown.'
         );
-
     }
 
     /**

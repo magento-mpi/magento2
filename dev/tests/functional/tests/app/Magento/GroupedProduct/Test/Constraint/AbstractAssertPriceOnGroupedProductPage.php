@@ -8,12 +8,12 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Constraint\AssertPriceOnProductPageInterface;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that displayed grouped price on product page equals passed from fixture.

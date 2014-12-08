@@ -21,10 +21,10 @@ class Boolean extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sel
      */
     public function getOptions()
     {
-        return array(
-            array('value' => '', 'label' => ''),
-            array('value' => '0', 'label' => __('No')),
-            array('value' => '1', 'label' => __('Yes'))
-        );
+        return [
+            ['value' => '', 'label' => ''],
+            ['value' => '0', 'label' => __('No')],
+            ['value' => '1', 'label' => __('Yes')]
+        ];
     }
 }

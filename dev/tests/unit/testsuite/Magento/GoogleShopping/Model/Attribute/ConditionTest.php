@@ -95,7 +95,7 @@ class ConditionTest extends \PHPUnit_Framework_TestCase
             [
                 $conditionValue,
                 $conditionType,
-                $conditionName
+                $conditionName,
             ],
             [
                 $googleShoppingAttribute->getText(),

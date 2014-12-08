@@ -54,8 +54,8 @@ class Xml extends AbstractAdapter
         if ($xml) {
             $nodes = $xml->xpath('//*[@translate]');
             unset($xml);
-            return is_array($nodes) ? $nodes : array();
+            return is_array($nodes) ? $nodes : [];
         }
-        return array();
+        return [];
     }
 }

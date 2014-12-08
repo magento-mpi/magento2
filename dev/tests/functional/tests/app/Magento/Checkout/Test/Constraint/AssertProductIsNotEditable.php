@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductIsNotEditable

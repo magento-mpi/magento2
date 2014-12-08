@@ -10,8 +10,8 @@
 namespace Magento\Framework\Validator;
 
 use Magento\Framework\Validator\Constraint\Option;
-use Magento\Framework\Validator\Constraint\OptionInterface;
 use Magento\Framework\Validator\Constraint\Option\Callback;
+use Magento\Framework\Validator\Constraint\OptionInterface;
 
 class Config extends \Magento\Framework\Config\AbstractXml
 {
@@ -75,7 +75,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
 
         $builder = $this->_builderFactory->create(
             $builderClass,
-            array('constraints' => $this->_data[$entityName][$groupName]['constraints'])
+            ['constraints' => $this->_data[$entityName][$groupName]['constraints']]
         );
         if (!$builder instanceof \Magento\Framework\Validator\Builder) {
             throw new \InvalidArgumentException(
@@ -109,7 +109,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractData(\DOMDocument $dom)
     {
-        $result = array();
+        $result = [];
 
         /** @var \DOMElement $entity */
         foreach ($dom->getElementsByTagName('entity') as $entity) {
@@ -126,12 +126,12 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractEntityGroupsConstraintsData(\DOMElement $entity)
     {
-        $result = array();
+        $result = [];
         $rulesConstraints = $this->_extractRulesConstraintsData($entity);
 
         /** @var \DOMElement $group */
         foreach ($entity->getElementsByTagName('group') as $group) {
-            $groupConstraints = array();
+            $groupConstraints = [];
 
             /** @var \DOMElement $use */
             foreach ($group->getElementsByTagName('use') as $use) {
@@ -141,7 +141,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
                 }
             }
 
-            $result[$group->getAttribute('name')] = array('constraints' => $groupConstraints);
+            $result[$group->getAttribute('name')] = ['constraints' => $groupConstraints];
             if ($group->hasAttribute('builder')) {
                 $result[$group->getAttribute('name')]['builder'] = $group->getAttribute('builder');
             }
@@ -161,7 +161,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractRulesConstraintsData(\DOMElement $entity)
     {
-        $rules = array();
+        $rules = [];
         /** @var \DOMElement $rule */
         foreach ($entity->getElementsByTagName('rule') as $rule) {
             $ruleName = $rule->getAttribute('name');
@@ -172,13 +172,13 @@ class Config extends \Magento\Framework\Config\AbstractXml
                 foreach ($propertyConstraints->getElementsByTagName('property') as $property) {
                     /** @var \DOMElement $constraint */
                     foreach ($property->getElementsByTagName('constraint') as $constraint) {
-                        $rules[$ruleName][] = array(
+                        $rules[$ruleName][] = [
                             'alias' => $constraint->getAttribute('alias'),
                             'class' => $constraint->getAttribute('class'),
                             'options' => $this->_extractConstraintOptions($constraint),
                             'property' => $property->getAttribute('name'),
-                            'type' => self::CONSTRAINT_TYPE_PROPERTY
-                        );
+                            'type' => self::CONSTRAINT_TYPE_PROPERTY,
+                        ];
                     }
                 }
             }
@@ -187,12 +187,12 @@ class Config extends \Magento\Framework\Config\AbstractXml
             foreach ($rule->getElementsByTagName('entity_constraints') as $entityConstraints) {
                 /** @var \DOMElement $constraint */
                 foreach ($entityConstraints->getElementsByTagName('constraint') as $constraint) {
-                    $rules[$ruleName][] = array(
+                    $rules[$ruleName][] = [
                         'alias' => $constraint->getAttribute('alias'),
                         'class' => $constraint->getAttribute('class'),
                         'options' => $this->_extractConstraintOptions($constraint),
-                        'type' => self::CONSTRAINT_TYPE_ENTITY
-                    );
+                        'type' => self::CONSTRAINT_TYPE_ENTITY,
+                    ];
                 }
             }
         }
@@ -211,7 +211,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
         if (!$constraint->hasChildNodes()) {
             return null;
         }
-        $options = array();
+        $options = [];
         $children = $this->_collectChildren($constraint);
 
         /**
@@ -263,7 +263,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _collectChildren($element)
     {
-        $children = array();
+        $children = [];
         /** @var $node \DOMElement */
         foreach ($element->childNodes as $node) {
             if (!$node instanceof \DOMElement) {
@@ -271,7 +271,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
             }
             $nodeName = strtolower($node->nodeName);
             if (!array_key_exists($nodeName, $children)) {
-                $children[$nodeName] = array();
+                $children[$nodeName] = [];
             }
             $children[$nodeName][] = $node;
         }
@@ -287,7 +287,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
     protected function _readArguments($children)
     {
         if (array_key_exists('argument', $children)) {
-            $arguments = array();
+            $arguments = [];
             /** @var $node \DOMElement */
             foreach ($children['argument'] as $node) {
                 $nodeChildren = $this->_collectChildren($node);
@@ -316,11 +316,11 @@ class Config extends \Magento\Framework\Config\AbstractXml
     protected function _readCallback($children)
     {
         if (array_key_exists('callback', $children)) {
-            $callbacks = array();
+            $callbacks = [];
             /** @var $callbackData \DOMElement */
             foreach ($children['callback'] as $callbackData) {
                 $callbacks[] = new Callback(
-                    array(trim($callbackData->getAttribute('class')), trim($callbackData->getAttribute('method'))),
+                    [trim($callbackData->getAttribute('class')), trim($callbackData->getAttribute('method'))],
                     null,
                     true
                 );
@@ -339,7 +339,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
     protected function _readOptions($children)
     {
         if (array_key_exists('option', $children)) {
-            $data = array();
+            $data = [];
             /** @var $option \DOMElement */
             foreach ($children['option'] as $option) {
                 $value = trim($option->textContent);
@@ -377,12 +377,12 @@ class Config extends \Magento\Framework\Config\AbstractXml
     protected function _readMethods($children)
     {
         if (array_key_exists('method', $children)) {
-            $methods = array();
+            $methods = [];
             /** @var $method \DOMElement */
             foreach ($children['method'] as $method) {
                 $children = $this->_collectChildren($method);
                 $methodName = $method->getAttribute('name');
-                $methodOptions = array('method' => $methodName);
+                $methodOptions = ['method' => $methodName];
                 $arguments = $this->_readArguments($children);
                 if ($arguments) {
                     $methodOptions['arguments'] = $arguments;
@@ -411,7 +411,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getInitialXml()
     {
-        return '<?xml version="1.0" encoding="UTF-8"?>'.
+        return '<?xml version="1.0" encoding="UTF-8"?>' .
                '<validation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"></validation>';
     }
 
@@ -422,7 +422,7 @@ class Config extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getIdAttributes()
     {
-        return array(
+        return [
             '/validation/entity' => 'name',
             '/validation/entity/rules/rule' => 'name',
             '/validation/entity/rules/rule/entity_constraints/constraint' => 'class',
@@ -430,6 +430,6 @@ class Config extends \Magento\Framework\Config\AbstractXml
             '/validation/entity/rules/rule/property_constraints/property' => 'name',
             '/validation/entity/groups/group' => 'name',
             '/validation/entity/groups/group/uses/use' => 'rule'
-        );
+        ];
     }
 }

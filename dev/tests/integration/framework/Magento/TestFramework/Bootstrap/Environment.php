@@ -34,7 +34,7 @@ class Environment
     public function emulateSession(&$sessionVariables)
     {
         // prevent session_start, because it may rely on cookies
-        $sessionVariables = array();
+        $sessionVariables = [];
         // application relies on a non-empty session ID
         session_id(uniqid());
     }

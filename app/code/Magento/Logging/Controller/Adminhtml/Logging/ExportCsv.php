@@ -8,8 +8,8 @@
  */
 namespace Magento\Logging\Controller\Adminhtml\Logging;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportCsv extends \Magento\Logging\Controller\Adminhtml\Logging
 {

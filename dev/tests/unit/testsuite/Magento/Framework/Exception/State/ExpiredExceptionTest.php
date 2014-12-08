@@ -22,7 +22,7 @@ class ExpiredExceptionTest extends \PHPUnit_Framework_TestCase
         $message =  'message %1 %2';
         $params = [
             'parameter1',
-            'parameter2'
+            'parameter2',
         ];
         $cause = new \Exception();
         $stateException = new ExpiredException($message, $params, $cause);

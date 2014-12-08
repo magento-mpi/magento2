@@ -39,7 +39,7 @@ class QuoteImporter
             throw new \Exception('Quote totals must be collected before this operation.');
         }
 
-        $result = array();
+        $result = [];
         foreach ($quote->getAllVisibleItems() as $item) {
             $product = $item->getProduct();
             if (is_object(

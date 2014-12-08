@@ -26,13 +26,13 @@ class Configure extends \Magento\Framework\View\Element\Template
         $block = $this->getLayout()->getBlock('product.info');
         if ($block) {
             $block->setSubmitRouteData(
-                array(
+                [
                     'route' => 'checkout/cart/updateFailedItemOptions',
-                    'params' => array(
+                    'params' => [
                         'id' => $this->getRequest()->getParam('id'),
-                        'sku' => $this->getRequest()->getParam('sku')
-                    )
-                )
+                        'sku' => $this->getRequest()->getParam('sku'),
+                    ],
+                ]
             );
         }
 

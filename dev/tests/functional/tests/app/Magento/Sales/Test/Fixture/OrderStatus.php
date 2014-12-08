@@ -27,7 +27,7 @@ class OrderStatus extends InjectableFixture
 
     protected $defaultDataSet = [
         'status' => 'order_status%isolation%',
-        'label' => 'orderLabel%isolation%'
+        'label' => 'orderLabel%isolation%',
     ];
 
     protected $status = [

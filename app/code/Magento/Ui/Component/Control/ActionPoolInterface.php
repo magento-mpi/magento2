@@ -8,7 +8,6 @@
 namespace Magento\Ui\Component\Control;
 
 use Magento\Framework\View\Element\UiComponentInterface;
-use Magento\Framework\View\LayoutInterface;
 
 /**
  * Interface ActionPoolInterface

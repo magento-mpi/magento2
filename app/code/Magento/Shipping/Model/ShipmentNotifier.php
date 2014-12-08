@@ -8,9 +8,9 @@
 
 namespace Magento\Shipping\Model;
 
-use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 use Magento\Framework\Logger;
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 
 /**
  * Class ShipmentNotifier

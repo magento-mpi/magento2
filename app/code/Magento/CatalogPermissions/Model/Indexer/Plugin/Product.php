@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -17,7 +17,7 @@ class Product extends AbstractProduct
      */
     public function afterSave(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex(array($product->getId()));
+        $this->reindex([$product->getId()]);
         return $product;
     }
 
@@ -29,7 +29,7 @@ class Product extends AbstractProduct
      */
     public function afterDelete(\Magento\Catalog\Model\Product $product)
     {
-        $this->reindex(array($product->getId()));
+        $this->reindex([$product->getId()]);
         return $product;
     }
 }

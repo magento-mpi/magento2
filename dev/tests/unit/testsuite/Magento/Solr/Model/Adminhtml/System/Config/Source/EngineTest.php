@@ -36,7 +36,7 @@ class EngineTest extends \PHPUnit_Framework_TestCase
     {
         $options = $this->_model->toOptionArray();
         $this->assertNotEmpty($options);
-        $labels = array('MySql Fulltext', 'Solr');
+        $labels = ['MySql Fulltext', 'Solr'];
         foreach ($options as $option) {
             $this->assertArrayHasKey('label', $option);
             $this->assertArrayHasKey('value', $option);

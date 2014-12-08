@@ -74,7 +74,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->windowSize = [
             'width' => 1200,
-            'height' => 800
+            'height' => 800,
         ];
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -103,11 +103,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetConfig($data, $isAuthorizationAllowed, $expectedResults)
     {
         $wysiwygPluginSettings = [
-            'wysiwygPluginSettings' => 'wysiwyg is here'
+            'wysiwygPluginSettings' => 'wysiwyg is here',
         ];
 
         $pluginSettings = [
-            'pluginSettings' => 'plugins are here'
+            'pluginSettings' => 'plugins are here',
         ];
 
         $this->backendUrlMock->expects($this->atLeastOnce())
@@ -146,19 +146,19 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'add_variables IS FALSE, add_widgets IS FALSE, isAuthorizationAllowed IS FALSE' => [
                 'data' => [
                     'add_variables' => false,
-                    'add_widgets' => false
+                    'add_widgets' => false,
                 ],
                 'isAuthorizationAllowed' => false,
-                'expectedResults' => [null, null, null]
+                'expectedResults' => [null, null, null],
             ],
             'add_variables IS TRUE, add_widgets IS TRUE, isAuthorizationAllowed IS TRUE' => [
                 'data' => [
                     'someData' => 'important data',
                     'add_variables' => true,
-                    'add_widgets' => true
+                    'add_widgets' => true,
                 ],
                 'isAuthorizationAllowed' => true,
-                'expectedResults' => ['important data', 'wysiwyg is here', 'plugins are here']
+                'expectedResults' => ['important data', 'wysiwyg is here', 'plugins are here'],
             ]
         ];
     }

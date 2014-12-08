@@ -18,6 +18,6 @@ class Registration implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(1 => __('By Invitation Only'), 0 => __('Available to All'));
+        return [1 => __('By Invitation Only'), 0 => __('Available to All')];
     }
 }

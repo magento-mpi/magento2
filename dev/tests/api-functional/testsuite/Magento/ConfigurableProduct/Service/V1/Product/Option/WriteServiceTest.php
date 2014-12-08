@@ -27,13 +27,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
         ];
         $option = [
             'attribute_id' => 'test_configurable',
@@ -43,8 +43,8 @@ class WriteServiceTest extends WebapiAbstract
                 [
                     'index' => 1,
                     'price' => '3',
-                    'percent' => 0
-                ]
+                    'percent' => 0,
+                ],
             ],
         ];
 
@@ -65,17 +65,17 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options' . '/' . $optionId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'update'
-            ]
+                'operation' => self::SERVICE_NAME . 'update',
+            ],
         ];
 
         $option = [
-            'label' => 'Update Test Configurable'
+            'label' => 'Update Test Configurable',
         ];
         $this->assertTrue($this->_webApiCall($serviceInfo,
             [
@@ -98,13 +98,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/all',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => $readServiceName,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => $readServiceName . 'getList'
-            ]
+                'operation' => $readServiceName . 'getList',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }
@@ -135,13 +135,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productSku . '/options/' . $optionId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'remove'
-            ]
+                'operation' => self::SERVICE_NAME . 'remove',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'optionId' => $optionId]);
     }
@@ -156,13 +156,13 @@ class WriteServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/configurable-products/' . $productSku . '/options/all',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => $serviceName,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => $serviceName . 'getList'
-            ]
+                'operation' => $serviceName . 'getList',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
     }

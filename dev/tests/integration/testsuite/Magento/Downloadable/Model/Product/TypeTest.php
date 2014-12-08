@@ -36,7 +36,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         );
         $product->load(1);
         $product->setOrigData();
-        $downloadableData = array();
+        $downloadableData = [];
 
         $links = $this->_model->getLinks($product);
         $this->assertNotEmpty($links);

@@ -78,7 +78,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $productMock->expects($this->any())->method('setRequiredOptions')->with($this->equalTo(true))->will(
             $this->returnSelf()
         );
-        $productMock->expects($this->any())->method('getDownloadableData')->will($this->returnValue(array()));
+        $productMock->expects($this->any())->method('getDownloadableData')->will($this->returnValue([]));
         $productMock->expects($this->any())->method('setTypeHasOptions')->with($this->equalTo(false));
         $productMock->expects($this->any())->method('setLinksExist')->with($this->equalTo(false));
         $productMock->expects($this->any())->method('canAffectOptions')->with($this->equalTo(true));
@@ -90,10 +90,10 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $eavConfigMock->expects($this->any())
             ->method('getEntityAttributeCodes')
             ->with($this->equalTo($entityTypeMock), $this->equalTo($productMock))
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $this->_model = $objectHelper->getObject(
             'Magento\Downloadable\Model\Product\Type',
-            array(
+            [
                 'eventManager' => $eventManager,
                 'downloadableFile' => $downloadableFile,
                 'coreData' => $coreData,
@@ -109,7 +109,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'sampleFactory' => $sampleFactory,
                 'linkFactory' => $linkFactory,
                 'eavConfig' => $eavConfigMock
-            )
+            ]
         );
     }
 

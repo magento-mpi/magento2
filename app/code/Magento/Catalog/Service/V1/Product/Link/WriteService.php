@@ -5,15 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Catalog\Service\V1\Product\Link;
 
-use \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
-use \Magento\Framework\Exception\CouldNotSaveException;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Catalog\Model\Resource\Product as ProductResource;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool;
+use Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks as LinksInitializer;
+use Magento\Catalog\Model\Resource\Product as ProductResource;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
+use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Product\ProductLoader;
 
 class WriteService implements WriteServiceInterface

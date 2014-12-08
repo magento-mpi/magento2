@@ -17,7 +17,7 @@ class Collection
      *
      * @var AssetInterface[]
      */
-    protected $assets = array();
+    protected $assets = [];
 
     /**
      * Add an instance, identified by a unique identifier, to the list

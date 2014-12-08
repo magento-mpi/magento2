@@ -38,20 +38,20 @@ class JsTest extends \PHPUnit_Framework_TestCase
 
     public function testParse()
     {
-        $expectedResult = array(
-            array(
+        $expectedResult = [
+            [
                 'phrase' => 'Phrase 1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 2,
-                'quote' => Phrase::QUOTE_SINGLE
-            ),
-            array(
+                'quote' => Phrase::QUOTE_SINGLE,
+            ],
+            [
                 'phrase' => 'Phrase 2 %1',
                 'file' => $this->_testFile,
                 'line' => $this->_stringsCount - 1,
                 'quote' => Phrase::QUOTE_DOUBLE
-            )
-        );
+            ],
+        ];
 
         $this->_adapter->parse($this->_testFile);
 

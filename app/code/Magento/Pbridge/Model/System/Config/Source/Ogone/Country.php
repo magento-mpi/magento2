@@ -15,19 +15,19 @@ class Country
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => 'AT',
-                'label' => __('Austria')
-            ),
-            array(
+                'label' => __('Austria'),
+            ],
+            [
                 'value' => 'DE',
                 'label' => __('Germany')
-            ),
-            array(
+            ],
+            [
                 'value' => 'NL',
                 'label' => __('Netherlands')
-            ),
-        );
+            ],
+        ];
     }
 }

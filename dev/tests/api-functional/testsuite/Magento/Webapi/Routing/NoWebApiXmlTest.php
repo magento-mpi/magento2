@@ -37,13 +37,13 @@ class NoWebApiXmlTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsRestOnly();
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            )
-        );
-        $requestData = array('id' => $itemId);
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+        ];
+        $requestData = ['id' => $itemId];
         $this->_assertNoRestRouteException($serviceInfo, $requestData);
     }
 
@@ -53,9 +53,9 @@ class NoWebApiXmlTest extends \Magento\Webapi\Routing\BaseService
     public function testItems()
     {
         $this->_markTestAsRestOnly();
-        $serviceInfo = array(
-            'rest' => array('resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET)
-        );
+        $serviceInfo = [
+            'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET],
+        ];
         $this->_assertNoRestRouteException($serviceInfo);
     }
 
@@ -66,10 +66,10 @@ class NoWebApiXmlTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsRestOnly();
         $createdItemName = 'createdItemName';
-        $serviceInfo = array(
-            'rest' => array('resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST)
-        );
-        $requestData = array('name' => $createdItemName);
+        $serviceInfo = [
+            'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
+        ];
+        $requestData = ['name' => $createdItemName];
         $this->_assertNoRestRouteException($serviceInfo, $requestData);
     }
 
@@ -80,13 +80,13 @@ class NoWebApiXmlTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsRestOnly();
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            )
-        );
-        $requestData = array('id' => $itemId);
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
+        ];
+        $requestData = ['id' => $itemId];
         $this->_assertNoRestRouteException($serviceInfo, $requestData);
     }
 
@@ -97,13 +97,13 @@ class NoWebApiXmlTest extends \Magento\Webapi\Routing\BaseService
     {
         $this->_markTestAsRestOnly();
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            )
-        );
-        $requestData = array('id' => $itemId);
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+        ];
+        $requestData = ['id' => $itemId];
         $this->_assertNoRestRouteException($serviceInfo, $requestData);
     }
 }

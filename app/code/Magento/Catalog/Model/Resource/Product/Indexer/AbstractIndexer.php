@@ -68,10 +68,10 @@ abstract class AbstractIndexer extends \Magento\Indexer\Model\Resource\AbstractR
         if ($attribute->isScopeGlobal()) {
             $alias = 'ta_' . $attrCode;
             $select->{$joinType}(
-                array($alias => $attributeTable),
+                [$alias => $attributeTable],
                 "{$alias}.entity_id = {$entity} AND {$alias}.attribute_id = {$attributeId}" .
                 " AND {$alias}.store_id = 0",
-                array()
+                []
             );
             $expression = new \Zend_Db_Expr("{$alias}.value");
         } else {
@@ -79,16 +79,16 @@ abstract class AbstractIndexer extends \Magento\Indexer\Model\Resource\AbstractR
             $sAlias = 'tas_' . $attrCode;
 
             $select->{$joinType}(
-                array($dAlias => $attributeTable),
+                [$dAlias => $attributeTable],
                 "{$dAlias}.entity_id = {$entity} AND {$dAlias}.attribute_id = {$attributeId}" .
                 " AND {$dAlias}.store_id = 0",
-                array()
+                []
             );
             $select->joinLeft(
-                array($sAlias => $attributeTable),
+                [$sAlias => $attributeTable],
                 "{$sAlias}.entity_id = {$entity} AND {$sAlias}.attribute_id = {$attributeId}" .
                 " AND {$sAlias}.store_id = {$store}",
-                array()
+                []
             );
             $expression = $adapter->getCheckSql(
                 $adapter->getIfNullSql("{$sAlias}.value_id", -1) . ' > 0',
@@ -123,17 +123,17 @@ abstract class AbstractIndexer extends \Magento\Indexer\Model\Resource\AbstractR
             $joinCondition = 'cw.website_id = ' . $joinCondition;
         }
 
-        $select->join(array('cw' => $this->getTable('store_website')), $joinCondition, array());
+        $select->join(['cw' => $this->getTable('store_website')], $joinCondition, []);
 
         if ($store) {
             $select->join(
-                array('csg' => $this->getTable('store_group')),
+                ['csg' => $this->getTable('store_group')],
                 'csg.group_id = cw.default_group_id',
-                array()
+                []
             )->join(
-                array('cs' => $this->getTable('store')),
+                ['cs' => $this->getTable('store')],
                 'cs.store_id = csg.default_store_id',
-                array()
+                []
             );
         }
 
@@ -152,9 +152,9 @@ abstract class AbstractIndexer extends \Magento\Indexer\Model\Resource\AbstractR
     protected function _addProductWebsiteJoinToSelect($select, $website, $product)
     {
         $select->join(
-            array('pw' => $this->getTable('catalog_product_website')),
+            ['pw' => $this->getTable('catalog_product_website')],
             "pw.product_id = {$product} AND pw.website_id = {$website}",
-            array()
+            []
         );
 
         return $this;
@@ -189,10 +189,10 @@ abstract class AbstractIndexer extends \Magento\Indexer\Model\Resource\AbstractR
     public function getRelationsByParent($parentIds)
     {
         if (!is_array($parentIds)) {
-            $parentIds = array($parentIds);
+            $parentIds = [$parentIds];
         }
 
-        $result = array();
+        $result = [];
         if (!empty($parentIds)) {
             $write = $this->_getWriteAdapter();
             $select = $write->select()->from(

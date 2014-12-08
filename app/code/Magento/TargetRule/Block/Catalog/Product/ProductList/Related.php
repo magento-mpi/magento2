@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * TargetRule Catalog Product List Related Block
  *
@@ -38,7 +37,7 @@ class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abst
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Checkout\Model\Cart $cart,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cart = $cart;
         parent::__construct(
@@ -72,7 +71,7 @@ class Related extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abst
     {
         if (is_null($this->_excludeProductIds)) {
             $cartProductIds = $this->_cart->getProductIds();
-            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
+            $this->_excludeProductIds = array_merge($cartProductIds, [$this->getProduct()->getEntityId()]);
         }
         return $this->_excludeProductIds;
     }

@@ -8,7 +8,7 @@
 
 namespace Magento\CatalogSearch\Model\Layer\Catalog;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
 {

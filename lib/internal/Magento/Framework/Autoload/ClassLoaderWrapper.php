@@ -7,8 +7,7 @@
  */
 namespace Magento\Framework\Autoload;
 
-use \Composer\Autoload\ClassLoader;
-use Magento\Framework\Autoload\AutoloaderInterface;
+use Composer\Autoload\ClassLoader;
 
 /**
  * Wrapper designed to insulate the autoloader class provided by Composer

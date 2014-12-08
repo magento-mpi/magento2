@@ -31,17 +31,17 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
-        $this->_category = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
-        $event = $this->getMock('Magento\Framework\Event', array('getCategory'), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', [], [], '', false);
+        $this->_category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
+        $event = $this->getMock('Magento\Framework\Event', ['getCategory'], [], '', false);
         $event->expects($this->once())->method('getCategory')->will($this->returnValue($this->_category));
-        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Model\Observer\Category\Delete',
-            array('modelCode' => $this->_codeMock)
+            ['modelCode' => $this->_codeMock]
         );
     }
 

@@ -23,8 +23,8 @@ class Save extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
     {
         if (isset($data['catalogevent'])) {
             $inputFilter = new \Zend_Filter_Input(
-                array('date_start' => $this->_dateTimeFilter, 'date_end' => $this->_dateTimeFilter),
-                array(),
+                ['date_start' => $this->_dateTimeFilter, 'date_end' => $this->_dateTimeFilter],
+                [],
                 $data['catalogevent']
             );
             $data['catalogevent'] = $inputFilter->getUnescaped();
@@ -53,7 +53,7 @@ class Save extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
 
         if (!isset($postData['catalogevent'])) {
             $this->messageManager->addError(__('Something went wrong while saving this event.'));
-            $this->_redirect('adminhtml/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', ['_current' => true]);
             return;
         }
 
@@ -71,8 +71,8 @@ class Save extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
 
         $isUploaded = true;
         try {
-            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', ['fileId' => 'image']);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);
             $uploader->setAllowCreateFolders(true);
             $uploader->setFilesDispersion(false);
@@ -86,7 +86,7 @@ class Save extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
                 $this->messageManager->addError($errorMessage);
             }
             $this->_getSession()->setEventData($event->getData());
-            $this->_redirect('adminhtml/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', ['_current' => true]);
             return;
         }
 
@@ -106,14 +106,14 @@ class Save extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
 
             $this->messageManager->addSuccess(__('You saved the event.'));
             if ($this->getRequest()->getParam('back') == 'edit') {
-                $this->_redirect('adminhtml/*/edit', array('_current' => true, 'id' => $event->getId()));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true, 'id' => $event->getId()]);
             } else {
                 $this->_redirect('adminhtml/*/');
             }
         } catch (\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $this->_getSession()->setEventData($event->getData());
-            $this->_redirect('adminhtml/*/edit', array('_current' => true));
+            $this->_redirect('adminhtml/*/edit', ['_current' => true]);
         }
     }
 }

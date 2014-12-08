@@ -154,7 +154,7 @@ abstract class AbstractHelper
      * @param   array $params
      * @return  string
      */
-    protected function _getUrl($route, $params = array())
+    protected function _getUrl($route, $params = [])
     {
         return $this->_urlBuilder->getUrl($route, $params);
     }

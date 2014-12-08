@@ -8,11 +8,11 @@
 
 namespace Magento\GroupedProduct\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateGroupedProductEntity

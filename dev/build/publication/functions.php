@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-require_once(__DIR__ . '/../../tools/Magento/Tools/Composer/Package/Version.php');
+require_once __DIR__ . '/../../tools/Magento/Tools/Composer/Package/Version.php';
 
 /**
  * Execute a command with automatic escaping of arguments

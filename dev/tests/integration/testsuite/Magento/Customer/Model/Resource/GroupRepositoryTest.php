@@ -218,7 +218,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
             'eq' => [
                 [$builder->setField(GroupInterface::CODE)->setValue('General')->create()],
                 null,
-                [1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]]
+                [1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]],
             ],
             'and' => [
                 [
@@ -227,7 +227,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
                     $builder->setField(GroupInterface::ID)->setValue('1')->create(),
                 ],
                 [],
-                [1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]]
+                [1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3]],
             ],
             'or' => [
                 [],
@@ -238,18 +238,18 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3],
                     2 => [GroupInterface::CODE => 'Wholesale', GroupInterface::TAX_CLASS_ID => 3]
-                ]
+                ],
             ],
             'like' => [
                 [
                     $builder->setField(GroupInterface::CODE)->setValue('er')->setConditionType('like')
-                        ->create()
+                        ->create(),
                 ],
                 [],
                 [
                     1 => [GroupInterface::CODE => 'General', GroupInterface::TAX_CLASS_ID => 3],
                     3 => [GroupInterface::CODE => 'Retailer', GroupInterface::TAX_CLASS_ID => 3]
-                ]
+                ],
             ],
         ];
     }

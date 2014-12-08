@@ -23,7 +23,7 @@ class Delete extends \Magento\Reminder\Controller\Adminhtml\Reminder
             $this->messageManager->addSuccess(__('You deleted the reminder rule.'));
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+            $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
             return;
         } catch (\Exception $e) {
             $this->messageManager->addError(__('We could not delete the reminder rule.'));

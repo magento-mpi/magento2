@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Model\Order;
 
-
 class Customer
 {
     /**

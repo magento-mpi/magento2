@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category\Edit;
 
-use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Factory\Factory;
 
 /**
  * Class CategoryForm

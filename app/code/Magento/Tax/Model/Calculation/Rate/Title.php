@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax Rate Title Model
  *

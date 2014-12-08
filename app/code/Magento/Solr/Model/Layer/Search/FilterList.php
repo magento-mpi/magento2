@@ -26,7 +26,7 @@ class FilterList extends \Magento\Catalog\Model\Layer\FilterList
         \Magento\Framework\ObjectManagerInterface $objectManager,
         FilterableAttributeList $filterableAttributes,
         \Magento\Solr\Helper\Data $helper,
-        array $filters = array()
+        array $filters = []
     ) {
         $this->helper = $helper;
         if ($helper->getIsEngineAvailableForNavigation(false)) {

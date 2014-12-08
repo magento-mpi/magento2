@@ -38,7 +38,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product'
 )->setSku(
@@ -46,7 +46,7 @@ $product->setTypeId(
 )->setPrice(
     10
 )->setCategoryIds(
-    array(3)
+    [3]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

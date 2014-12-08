@@ -6,4 +6,4 @@
  * @license     {license_link}
  */
 
-return array('_website' => 'website1', '_email' => '');
+return ['_website' => 'website1', '_email' => ''];

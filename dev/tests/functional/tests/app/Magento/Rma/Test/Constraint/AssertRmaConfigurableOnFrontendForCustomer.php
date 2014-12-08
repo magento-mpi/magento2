@@ -8,10 +8,9 @@
 
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Magento\Rma\Test\Fixture\Rma;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Magento\Rma\Test\Fixture\Rma;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert that rma with item as configurable product is correct display on frontend (MyAccount - My Returns).

@@ -9,7 +9,6 @@
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit;
 
 use Magento\Backend\Test\Block\FormPageActions as ParentFormPageActions;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class FormPageActions

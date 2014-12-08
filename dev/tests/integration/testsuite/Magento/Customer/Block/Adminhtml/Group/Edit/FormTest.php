@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Block\Adminhtml\Group\Edit;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**

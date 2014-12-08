@@ -69,32 +69,32 @@ class CurrentCustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
-        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->customerDataBuilderMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
-            array('create', 'setGroupId'),
-            array(),
+            ['create', 'setGroupId'],
+            [],
             '',
             false
         );
         $this->customerDataMock = $this->getMock(
             'Magento\Customer\Api\Data\CustomerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->customerRepositoryMock = $this->getMock(
             'Magento\Customer\Api\CustomerRepositoryInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
-        $this->viewMock = $this->getMock('Magento\Framework\App\View', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
+        $this->viewMock = $this->getMock('Magento\Framework\App\View', [], [], '', false);
 
         $this->currentCustomer = new \Magento\Customer\Helper\Session\CurrentCustomer(
             $this->customerSessionMock,

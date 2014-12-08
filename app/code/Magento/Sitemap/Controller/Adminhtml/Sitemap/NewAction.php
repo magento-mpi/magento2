@@ -8,7 +8,6 @@
  */
 namespace Magento\Sitemap\Controller\Adminhtml\Sitemap;
 
-use \Magento\Backend\App\Action;
 
 class NewAction extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 {

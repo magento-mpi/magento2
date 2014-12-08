@@ -20,12 +20,12 @@ class Http extends \Magento\Framework\Object implements \Magento\Framework\Optio
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_503,
-                'label' => __('503 Service Unavailable')
-            ),
-            array('value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200, 'label' => __('200 OK'))
-        );
+                'label' => __('503 Service Unavailable'),
+            ],
+            ['value' => \Magento\WebsiteRestriction\Model\Mode::HTTP_200, 'label' => __('200 OK')]
+        ];
     }
 }

@@ -7,12 +7,12 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Items\Price;
 
-use Magento\Tax\Helper\Data as TaxHelper;
-use Magento\Tax\Block\Item\Price\Renderer as ItemPriceRenderer;
+use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Item;
 use Magento\Sales\Model\Quote\Item\AbstractItem as QuoteItem;
-use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
-use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Tax\Block\Item\Price\Renderer as ItemPriceRenderer;
+use Magento\Tax\Helper\Data as TaxHelper;
 
 /**
  * Sales Order items price column renderer
@@ -51,7 +51,7 @@ class Renderer extends \Magento\Backend\Block\Template
         \Magento\Sales\Block\Adminhtml\Items\Column\DefaultColumn $defaultColumnRenderer,
         TaxHelper $taxHelper,
         ItemPriceRenderer $itemPriceRenderer,
-        array $data = array()
+        array $data = []
     ) {
         $this->defaultColumnRenderer = $defaultColumnRenderer;
         $this->itemPriceRenderer = $itemPriceRenderer;

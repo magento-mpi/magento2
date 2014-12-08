@@ -44,26 +44,26 @@ class Factory
         /** @var \Magento\Framework\Validator\Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(
             'Magento\Framework\Validator\Builder',
-            array(
-                'constraints' => array(
-                    array(
+            [
+                'constraints' => [
+                    [
                         'alias' => 'Regex',
                         'type' => '',
                         'class' => 'Magento\Framework\Validator\Regex',
-                        'options' => array(
-                            'arguments' => array('pattern' => '/^[0-9a-f]{6}$/i'),
-                            'methods' => array(
-                                array(
+                        'options' => [
+                            'arguments' => ['pattern' => '/^[0-9a-f]{6}$/i'],
+                            'methods' => [
+                                [
                                     'method' => 'setMessages',
-                                    'arguments' => array(
-                                        array(Regex::NOT_MATCH => $message, Regex::INVALID => $message)
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+                                    'arguments' => [
+                                        [Regex::NOT_MATCH => $message, Regex::INVALID => $message],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            ]
         );
         return $builder->createValidator();
     }
@@ -80,23 +80,23 @@ class Factory
         /** @var \Magento\Framework\Validator\Builder $builder */
         $builder = $this->_validatorBuilderFactory->create(
             'Magento\Framework\Validator\Builder',
-            array(
-                'constraints' => array(
-                    array(
+            [
+                'constraints' => [
+                    [
                         'alias' => 'Int',
                         'type' => '',
                         'class' => 'Magento\Framework\Validator\Int',
-                        'options' => array(
-                            'methods' => array(
-                                array(
+                        'options' => [
+                            'methods' => [
+                                [
                                     'method' => 'setMessages',
-                                    'arguments' => array(array(Int::NOT_INT => $message, Int::INVALID => $message))
-                                )
-                            )
-                        )
-                    )
-                )
-            )
+                                    'arguments' => [[Int::NOT_INT => $message, Int::INVALID => $message]],
+                                ],
+                            ],
+                        ],
+                    ],
+                ]
+            ]
         );
         return $builder->createValidator();
     }

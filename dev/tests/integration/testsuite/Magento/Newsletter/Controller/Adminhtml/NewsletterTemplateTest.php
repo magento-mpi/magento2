@@ -20,13 +20,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
     protected function setUp()
     {
         parent::setUp();
-        $post = array(
+        $post = [
             'code' => 'test data',
             'subject' => 'test data2',
             'sender_email' => 'sender@email.com',
             'sender_name' => 'Test Sender Name',
-            'text' => 'Template Content'
-        );
+            'text' => 'Template Content',
+        ];
         $this->getRequest()->setPost($post);
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Newsletter\Model\Template'
@@ -59,7 +59,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')),
+            $this->equalTo(['The newsletter template has been saved.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -83,7 +83,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')),
+            $this->equalTo(['The newsletter template has been saved.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -94,13 +94,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionTemplateWithInvalidDataAndVerifySuccessMessage()
     {
-        $post = array(
+        $post = [
             'code' => 'test data',
             'subject' => 'test data2',
             'sender_email' => 'sender_email.com',
             'sender_name' => 'Test Sender Name',
-            'text' => 'Template Content'
-        );
+            'text' => 'Template Content',
+        ];
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/newsletter/template/save');
 
@@ -137,7 +137,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been deleted.')),
+            $this->equalTo(['The newsletter template has been deleted.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }

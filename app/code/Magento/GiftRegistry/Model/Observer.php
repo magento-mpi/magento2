@@ -216,8 +216,8 @@ class Observer
     {
         $order = $observer->getEvent()->getOrder();
         $item = $this->itemFactory->create();
-        $giftRegistries = array();
-        $updatedQty = array();
+        $giftRegistries = [];
+        $updatedQty = [];
 
         foreach ($order->getAllVisibleItems() as $orderItem) {
             if ($registryItemId = $orderItem->getGiftregistryItemId()) {
@@ -227,10 +227,10 @@ class Observer
                     $item->setQtyFulfilled($newQty)->save();
                     $giftRegistries[] = $item->getEntityId();
 
-                    $updatedQty[$registryItemId] = array(
+                    $updatedQty[$registryItemId] = [
                         'ordered' => $orderItem->getQtyOrdered(),
-                        'fulfilled' => $newQty
-                    );
+                        'fulfilled' => $newQty,
+                    ];
                 }
             }
         }
@@ -302,7 +302,7 @@ class Observer
         $options = $this->optionFactory->create();
         $optionCollection = $options->getCollection()->addProductFilter($productId);
 
-        $itemsArray = array();
+        $itemsArray = [];
         foreach ($optionCollection->getItems() as $optionItem) {
             $itemsArray[$optionItem->getItemId()] = $optionItem->getItemId();
         }

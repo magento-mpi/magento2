@@ -24,13 +24,13 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => '.col-coupon_code',
         ],
         'rule_name' => [
-            'selector' => '.col-rule_name'
+            'selector' => '.col-rule_name',
         ],
         'subtotal' => [
-            'selector' => '.col-subtotal'
+            'selector' => '.col-subtotal',
         ],
         'discount' => [
-            'selector' => '.col-discount'
-        ]
+            'selector' => '.col-discount',
+        ],
     ];
 }

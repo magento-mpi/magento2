@@ -41,7 +41,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ratingFactory = $ratingFactory;
         $this->_coreRegistry = $registry;

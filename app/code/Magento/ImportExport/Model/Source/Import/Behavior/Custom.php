@@ -17,11 +17,11 @@ class Custom extends \Magento\ImportExport\Model\Source\Import\AbstractBehavior
      */
     public function toArray()
     {
-        return array(
+        return [
             \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE => __('Add/Update Complex Data'),
             \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE => __('Delete Entities'),
             \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM => __('Custom Action')
-        );
+        ];
     }
 
     /**

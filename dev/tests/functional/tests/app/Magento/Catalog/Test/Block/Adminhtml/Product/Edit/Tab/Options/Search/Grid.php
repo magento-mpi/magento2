@@ -37,7 +37,7 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'sku' => [
-            'selector' => 'input[name=sku]'
+            'selector' => 'input[name=sku]',
         ],
     ];
 

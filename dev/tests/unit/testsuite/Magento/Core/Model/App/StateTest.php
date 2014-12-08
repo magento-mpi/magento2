@@ -18,7 +18,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testConstructor($mode)
     {
         $model = new \Magento\Framework\App\State(
-            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', [], '', false),
             $mode
         );
         $this->assertEquals($mode, $model->getMode());
@@ -29,11 +29,11 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public static function constructorDataProvider()
     {
-        return array(
-            'default mode' => array(\Magento\Framework\App\State::MODE_DEFAULT),
-            'production mode' => array(\Magento\Framework\App\State::MODE_PRODUCTION),
-            'developer mode' => array(\Magento\Framework\App\State::MODE_DEVELOPER)
-        );
+        return [
+            'default mode' => [\Magento\Framework\App\State::MODE_DEFAULT],
+            'production mode' => [\Magento\Framework\App\State::MODE_PRODUCTION],
+            'developer mode' => [\Magento\Framework\App\State::MODE_DEVELOPER]
+        ];
     }
 
     /**
@@ -43,7 +43,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
     public function testConstructorException()
     {
         new \Magento\Framework\App\State(
-            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', array(), '', false),
+            $this->getMockForAbstractClass('Magento\Framework\Config\ScopeInterface', [], '', false),
             "unknown mode"
         );
     }

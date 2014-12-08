@@ -55,7 +55,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Cms\Model\Resource\Page $resourcePage,
         \Magento\Cms\Helper\Page $cmsPage,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_resourcePage = $resourcePage;
@@ -74,7 +74,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             $this->_href = '';
             if ($this->getData('href')) {
                 $this->_href = $this->getData('href');
-            } else if ($this->getData('page_id')) {
+            } elseif ($this->getData('page_id')) {
                 $this->_href = $this->_cmsPage->getPageUrl($this->getData('page_id'));
             }
         }
@@ -95,7 +95,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
             if ($this->getData('title') !== null) {
                 // compare to null used here bc user can specify blank title
                 $this->_title = $this->getData('title');
-            } else if ($this->getData('page_id')) {
+            } elseif ($this->getData('page_id')) {
                 $this->_title = $this->_resourcePage->getCmsPageTitleById($this->getData('page_id'));
             } elseif ($this->getData('href')) {
                 $this->_title = $this->_resourcePage->setStore($this->_storeManager->getStore())

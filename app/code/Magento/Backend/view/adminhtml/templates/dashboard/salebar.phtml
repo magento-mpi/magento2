@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 ?>
-<?php if( sizeof($this->getTotals()) > 0 ): ?>
-    <?php foreach( $this->getTotals() as $_total ): ?>
+<?php if (sizeof($this->getTotals()) > 0): ?>
+    <?php foreach ($this->getTotals() as $_total): ?>
     <div class="dashboard-item dashboard-item-primary">
         <header class="dashboard-item-header">
             <h3 class="title"><?php echo $_total['label'] ?></h3>

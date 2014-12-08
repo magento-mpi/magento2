@@ -101,7 +101,7 @@ class Image
         Image\Uploader $uploader,
         Image\PathInterface $themeImagePath,
         \Magento\Framework\Logger $logger,
-        array $imageParams = array(self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT),
+        array $imageParams = [self::PREVIEW_IMAGE_WIDTH, self::PREVIEW_IMAGE_HEIGHT],
         ThemeInterface $theme = null
     ) {
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
@@ -128,7 +128,7 @@ class Image
         $image->constrainOnly(true);
         $image->keepFrame(true);
         $image->keepAspectRatio(true);
-        $image->backgroundColor(array(255, 255, 255));
+        $image->backgroundColor([255, 255, 255]);
         $image->resize($imageWidth, $imageHeight);
 
         $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());

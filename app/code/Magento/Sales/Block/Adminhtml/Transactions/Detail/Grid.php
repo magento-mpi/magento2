@@ -40,7 +40,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Data\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -68,7 +68,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $collection = $this->_collectionFactory->create();
         foreach ($this->getTransactionAdditionalInfo() as $key => $value) {
-            $data = new \Magento\Framework\Object(array('key' => $key, 'value' => $value));
+            $data = new \Magento\Framework\Object(['key' => $key, 'value' => $value]);
             $collection->addItem($data);
         }
 
@@ -85,19 +85,19 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'key',
-            array(
+            [
                 'header' => __('Key'),
                 'index' => 'key',
                 'sortable' => false,
                 'type' => 'text',
                 'header_css_class' => 'col-key',
                 'column_css_class' => 'col-key'
-            )
+            ]
         );
 
         $this->addColumn(
             'value',
-            array(
+            [
                 'header' => __('Value'),
                 'index' => 'value',
                 'sortable' => false,
@@ -105,7 +105,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'escape' => true,
                 'header_css_class' => 'col-value',
                 'column_css_class' => 'col-value'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -123,6 +123,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         )->getAdditionalInformation(
             \Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS
         );
-        return is_array($info) ? $info : array();
+        return is_array($info) ? $info : [];
     }
 }

@@ -12,7 +12,7 @@ class SearchDataProvider implements SearchDataProviderInterface
     /**
      * {@inheritdoc}
      */
-    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = array())
+    public function getSearchData(QueryInterface $query, $limit = null, $additionalFilters = [])
     {
         return [];
     }

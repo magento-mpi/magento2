@@ -27,7 +27,7 @@ class Textarea extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('textarea');
@@ -43,7 +43,7 @@ class Textarea extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'title',
             'class',
             'style',
@@ -56,7 +56,7 @@ class Textarea extends AbstractElement
             'onkeyup',
             'tabindex',
             'data-form-part'
-        );
+        ];
     }
 
     /**

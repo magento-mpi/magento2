@@ -63,38 +63,38 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->configurableTypeMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $methods = array('setTypeId', 'getAttributes', 'addData', 'setWebsiteIds', '__wakeup');
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $methods = ['setTypeId', 'getAttributes', 'addData', 'setWebsiteIds', '__wakeup'];
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methods, [], '', false);
         $product = $this->productMock;
-        $attributeMethods = array(
+        $attributeMethods = [
             'getId',
             'getFrontend',
             'getAttributeCode',
             '__wakeup',
             'setIsRequired',
-            'getIsUnique'
-        );
+            'getIsUnique',
+        ];
         $this->attributeMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Eav\Attribute',
             $attributeMethods,
-            array(),
+            [],
             '',
             false
         );
-        $configMethods = array(
+        $configMethods = [
             'setStoreId',
             'getTypeInstance',
             'getIdFieldName',
@@ -103,26 +103,26 @@ class PluginTest extends \PHPUnit_Framework_TestCase
             '__wakeup',
             'load',
             'setTypeId',
-            'getEditableAttributes'
-        );
+            'getEditableAttributes',
+        ];
         $this->configurableMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\Product\Type\Configurable',
             $configMethods,
-            array(),
+            [],
             '',
             false
         );
         $this->frontendAttrMock = $this->getMock(
             'Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->subjectMock = $this->getMock(
             'Magento\Catalog\Controller\Adminhtml\Product\Builder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -142,14 +142,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     public function testAroundBuild()
     {
         $this->requestMock->expects($this->once())->method('has')->with('attributes')->will($this->returnValue(true));
-        $valueMap = array(
-            array('attributes', null, array('attributes')),
-            array('popup', null, true),
-            array('required', null, '1,2'),
-            array('product', null, 'product'),
-            array('id', false, false),
-            array('type', null, 'store_type')
-        );
+        $valueMap = [
+            ['attributes', null, ['attributes']],
+            ['popup', null, true],
+            ['required', null, '1,2'],
+            ['product', null, 'product'],
+            ['id', false, false],
+            ['type', null, 'store_type'],
+        ];
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
         $this->productMock->expects(
             $this->once()
@@ -165,7 +165,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setUsedProductAttributeIds'
         )->with(
-            array('attributes')
+            ['attributes']
         )->will(
             $this->returnSelf()
         );
@@ -174,7 +174,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAttributes'
         )->will(
-            $this->returnValue(array($this->attributeMock))
+            $this->returnValue([$this->attributeMock])
         );
         $this->attributeMock->expects($this->once())->method('getId')->will($this->returnValue(1));
         $this->attributeMock->expects($this->once())->method('setIsRequired')->with(1)->will($this->returnSelf());
@@ -204,7 +204,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->configurableMock
         )->will(
-            $this->returnValue(array($this->attributeMock))
+            $this->returnValue([$this->attributeMock])
         );
         $this->configurableMock->expects(
             $this->once()
@@ -244,7 +244,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         )->method(
             'addData'
         )->with(
-            array($attributeCode => 'attribute_data')
+            [$attributeCode => 'attribute_data']
         )->will(
             $this->returnSelf()
         );
@@ -273,12 +273,12 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundBuildWhenProductNotHaveAttributeAndRequiredParameters()
     {
-        $valueMap = array(
-            array('attributes', null, null),
-            array('popup', null, false),
-            array('product', null, 'product'),
-            array('id', false, false)
-        );
+        $valueMap = [
+            ['attributes', null, null],
+            ['popup', null, false],
+            ['product', null, 'product'],
+            ['id', false, false],
+        ];
         $this->requestMock->expects($this->once())->method('has')->with('attributes')->will($this->returnValue(true));
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
         $this->productMock->expects(
@@ -300,7 +300,7 @@ class PluginTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundBuildWhenAttributesAreEmpty()
     {
-        $valueMap = array(array('popup', null, false), array('product', null, 'product'), array('id', false, false));
+        $valueMap = [['popup', null, false], ['product', null, 'product'], ['id', false, false]];
         $this->requestMock->expects($this->once())->method('has')->with('attributes')->will($this->returnValue(false));
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($valueMap));
         $this->productMock->expects($this->never())->method('setTypeId');

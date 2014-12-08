@@ -26,7 +26,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      *
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -61,13 +61,13 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             if ($this->isTotals()) {
                 $this->_selectedColumns = $this->getAggregatedColumns();
             } else {
-                $this->_selectedColumns = array(
+                $this->_selectedColumns = [
                     'period' => sprintf('MAX(%s)', $adapter->getDateFormatSql('period', '%Y-%m-%d')),
                     'qty_ordered' => 'SUM(qty_ordered)',
                     'product_id' => 'product_id',
                     'product_name' => 'MAX(product_name)',
-                    'product_price' => 'MAX(product_price)'
-                );
+                    'product_price' => 'MAX(product_price)',
+                ];
                 if ('year' == $this->_period) {
                     $this->_selectedColumns['period'] = $adapter->getDateFormatSql('period', '%Y');
                 } elseif ('month' == $this->_period) {
@@ -136,7 +136,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             //exclude removed products
             $subSelect = $this->getConnection()->select();
             $subSelect->from(
-                array('existed_products' => $this->getTable('catalog_product_entity')),
+                ['existed_products' => $this->getTable('catalog_product_entity')],
                 new \Zend_Db_Expr('1)')
             );
 
@@ -165,7 +165,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             $select->from($mainTable, $this->_getSelectedColumns());
         }
         if (!$this->isTotals()) {
-            $select->group(array('period', 'product_id'));
+            $select->group(['period', 'product_id']);
         }
         $select->where('rating_pos <= ?', $this->_ratingLimit);
 
@@ -194,17 +194,17 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
     public function addStoreRestrictions($storeIds)
     {
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
         $currentStoreIds = $this->_storesIds;
         if (isset(
             $currentStoreIds
-        ) && $currentStoreIds != \Magento\Store\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != array(
+        ) && $currentStoreIds != \Magento\Store\Model\Store::DEFAULT_STORE_ID && $currentStoreIds != [
             \Magento\Store\Model\Store::DEFAULT_STORE_ID
-        )
+        ]
         ) {
             if (!is_array($currentStoreIds)) {
-                $currentStoreIds = array($currentStoreIds);
+                $currentStoreIds = [$currentStoreIds];
             }
             $this->_storesIds = array_intersect($currentStoreIds, $storeIds);
         } else {
@@ -228,14 +228,13 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
         if ($this->_period) {
             //
-            $selectUnions = array();
+            $selectUnions = [];
 
             // apply date boundaries (before calling $this->_applyDateRangeFilter())
             $dtFormat = \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT;
             $periodFrom = !is_null($this->_from) ? new \Magento\Framework\Stdlib\DateTime\Date($this->_from, $dtFormat) : null;
             $periodTo = !is_null($this->_to) ? new \Magento\Framework\Stdlib\DateTime\Date($this->_to, $dtFormat) : null;
             if ('year' == $this->_period) {
-
                 if ($periodFrom) {
                     // not the first day of the year
                     if ($periodFrom->toValue(\Zend_Date::MONTH) != 1 || $periodFrom->toValue(\Zend_Date::DAY) != 1) {
@@ -366,7 +365,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
             // add unions to select
             if ($selectUnions) {
-                $unionParts = array();
+                $unionParts = [];
                 $cloneSelect = clone $this->getSelect();
                 $unionParts[] = '(' . $cloneSelect . ')';
                 foreach ($selectUnions as $union) {
@@ -381,7 +380,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 $this->getSelect()->reset()->from($cloneSelect, $this->getAggregatedColumns());
             } else {
                 // add sorting
-                $this->getSelect()->order(array('period ASC', 'qty_ordered DESC'));
+                $this->getSelect()->order(['period ASC', 'qty_ordered DESC']);
             }
         }
 

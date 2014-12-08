@@ -58,7 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\Config $salesConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFactory = $productFactory;
         $this->_catalogConfig = $catalogConfig;
@@ -121,10 +121,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', ['in' => $productIds]);
             } else {
                 if ($productIds) {
-                    $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
+                    $this->getCollection()->addFieldToFilter('entity_id', ['nin' => $productIds]);
                 }
             }
         } else {
@@ -169,26 +169,26 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'entity_id',
-            array(
+            [
                 'header' => __('ID'),
                 'sortable' => true,
                 'header_css_class' => 'col-id',
                 'column_css_class' => 'col-id',
                 'index' => 'entity_id'
-            )
+            ]
         );
         $this->addColumn(
             'name',
-            array(
+            [
                 'header' => __('Product'),
                 'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
                 'index' => 'name'
-            )
+            ]
         );
-        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'index' => 'sku']);
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'column_css_class' => 'price',
                 'type' => 'currency',
@@ -196,12 +196,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'rate' => $this->getStore()->getBaseCurrency()->getRate($this->getStore()->getCurrentCurrencyCode()),
                 'index' => 'price',
                 'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
-            )
+            ]
         );
 
         $this->addColumn(
             'in_products',
-            array(
+            [
                 'header' => __('Select'),
                 'type' => 'checkbox',
                 'name' => 'in_products',
@@ -209,12 +209,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'align' => 'center',
                 'index' => 'entity_id',
                 'sortable' => false
-            )
+            ]
         );
 
         $this->addColumn(
             'qty',
-            array(
+            [
                 'filter' => false,
                 'sortable' => false,
                 'header' => __('Quantity'),
@@ -224,7 +224,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'type' => 'input',
                 'validate_class' => 'validate-number',
                 'index' => 'qty'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -239,7 +239,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl(
             'sales/*/loadBlock',
-            array('block' => 'search_grid', '_current' => true, 'collapse' => null)
+            ['block' => 'search_grid', '_current' => true, 'collapse' => null]
         );
     }
 
@@ -250,7 +250,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _getSelectedProducts()
     {
-        $products = $this->getRequest()->getPost('products', array());
+        $products = $this->getRequest()->getPost('products', []);
 
         return $products;
     }

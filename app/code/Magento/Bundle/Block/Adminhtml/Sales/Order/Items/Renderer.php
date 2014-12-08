@@ -28,7 +28,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -40,7 +40,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
      */
     public function getChilds($item)
     {
-        $itemsArray = array();
+        $itemsArray = [];
 
         $items = null;
         if ($item instanceof \Magento\Sales\Model\Order\Invoice\Item) {
@@ -163,7 +163,7 @@ class Renderer extends \Magento\Sales\Block\Adminhtml\Items\Renderer\DefaultRend
      */
     public function getOrderOptions()
     {
-        $result = array();
+        $result = [];
         $options = $this->getOrderItem()->getProductOptions();
         if ($options) {
             if (isset($options['options'])) {

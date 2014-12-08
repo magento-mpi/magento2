@@ -75,7 +75,7 @@ class Rcompared extends AbstractAccordion
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $compareListFactory,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_reportsEventResource = $reportsEventResource;
@@ -108,7 +108,7 @@ class Rcompared extends AbstractAccordion
     public function getItemsCollection()
     {
         if (!$this->hasData('items_collection')) {
-            $skipProducts = array();
+            $skipProducts = [];
             $collection = $this->_compareListFactory->create();
             $collection->useProductItem(true)
                 ->setStoreId($this->_getStore()->getId())
@@ -158,6 +158,6 @@ class Rcompared extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewRecentlyCompared', array('_current' => true));
+        return $this->getUrl('checkout/*/viewRecentlyCompared', ['_current' => true]);
     }
 }

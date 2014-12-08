@@ -43,24 +43,24 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
         $this->stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\State',
-            array('isFlatEnabled'),
-            array(),
+            ['isFlatEnabled'],
+            [],
             '',
             false
         );
         $this->closureMock = function () {
             return false;
         };
-        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Store', [], [], '', false);
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
         $this->model = new StoreView($this->indexerRegistryMock, $this->stateMock);
     }
@@ -71,8 +71,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockIndexerMethods();
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -84,8 +84,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
     {
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -97,8 +97,8 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
         $this->mockConfigFlatEnabledNeever();
         $storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('isObjectNew', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['isObjectNew', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );

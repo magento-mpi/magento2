@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Block\Category\Rss;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class LinkTest
@@ -34,7 +34,6 @@ class LinkTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $scopeConfigInterface;
-
 
     /**
      * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
@@ -77,10 +76,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function isRssAllowedDataProvider()
     {
-        return array(
-            array(true),
-            array(false)
-        );
+        return [
+            [true],
+            [false]
+        ];
     }
 
     public function testGetLabel()
@@ -103,10 +102,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function isTopCategoryDataProvider()
     {
-        return array(
-            array(true, '2'),
-            array(false, '1')
-        );
+        return [
+            [true, '2'],
+            [false, '1']
+        ];
     }
 
     public function testGetLink()

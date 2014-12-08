@@ -43,7 +43,7 @@ class Layout implements \Magento\Framework\Option\ArrayInterface
     public function getOptions()
     {
         if ($this->_options === null) {
-            $this->_options = array();
+            $this->_options = [];
             foreach ($this->_config->getPageLayouts() as $layout) {
                 $this->_options[$layout->getCode()] = $layout->getLabel();
                 if ($layout->getIsDefault()) {
@@ -63,14 +63,14 @@ class Layout implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray($withEmpty = false)
     {
-        $options = array();
+        $options = [];
 
         foreach ($this->getOptions() as $value => $label) {
-            $options[] = array('label' => $label, 'value' => $value);
+            $options[] = ['label' => $label, 'value' => $value];
         }
 
         if ($withEmpty) {
-            array_unshift($options, array('value' => '', 'label' => __('-- Please Select --')));
+            array_unshift($options, ['value' => '', 'label' => __('-- Please Select --')]);
         }
 
         return $options;

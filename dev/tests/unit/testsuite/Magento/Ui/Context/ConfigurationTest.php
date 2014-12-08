@@ -69,4 +69,3 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->parentName, $this->configurationModel->getParentName());
     }
 }
- 

@@ -31,7 +31,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $expected = array('someData' => array('someValue', 'someKey' => 'someValue'));
+        $expected = ['someData' => ['someValue', 'someKey' => 'someValue']];
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($expected)));
         $configData = new \Magento\Sales\Model\Config\Data($this->_readerMock, $this->_cacheMock);
 

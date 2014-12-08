@@ -19,20 +19,20 @@ $customerTable = $installer->getTable('customer_entity');
 $connection->addColumn(
     $oauthTokenTable,
     'user_type',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'comment' => 'User type'
-    )
+    ]
 );
 $connection->modifyColumn(
     $oauthTokenTable,
     'consumer_id',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => true,
         'comment' => 'Oauth Consumer ID'
-    )
+    ]
 );
 $connection->addForeignKey(
     $installer->getFkName($oauthTokenTable, 'admin_id', $adminTable, 'user_id'),

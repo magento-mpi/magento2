@@ -197,7 +197,7 @@ class Block implements Layout\GeneratorInterface
         $profilerKey = 'BLOCK_ACTION:' . $block->getNameInLayout() . '>' . $methodName;
         \Magento\Framework\Profiler::start($profilerKey);
         $args = $this->evaluateArguments($actionArguments);
-        call_user_func_array(array($block, $methodName), $args);
+        call_user_func_array([$block, $methodName], $args);
         \Magento\Framework\Profiler::stop($profilerKey);
     }
 
@@ -209,7 +209,7 @@ class Block implements Layout\GeneratorInterface
      */
     protected function evaluateArguments(array $arguments)
     {
-        $result = array();
+        $result = [];
         foreach ($arguments as $argumentName => $argumentData) {
             $result[$argumentName] = $this->argumentInterpreter->evaluate($argumentData);
         }

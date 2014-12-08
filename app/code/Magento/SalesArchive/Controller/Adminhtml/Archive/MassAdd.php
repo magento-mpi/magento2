@@ -17,7 +17,7 @@ class MassAdd extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
+        $orderIds = $this->getRequest()->getPost('order_ids', []);
         $archivedIds = $this->_archiveModel->archiveOrdersById($orderIds);
 
         $archivedCount = count($archivedIds);

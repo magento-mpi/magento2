@@ -26,7 +26,7 @@ class Files
      *
      * @var array
      */
-    protected static $_cache = array();
+    protected static $_cache = [];
 
     /**
      * @var string
@@ -110,11 +110,11 @@ class Files
         if (!isset(self::$_cache[$key])) {
             $namespace = '*';
             $module = '*';
-            $files = array();
+            $files = [];
             if ($appCode) {
                 $files = array_merge(
                     glob($this->_path . '/app/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/app/code/{$namespace}/{$module}"), '*.php')
+                    self::getFiles(["{$this->_path}/app/code/{$namespace}/{$module}"], '*.php')
                 );
             }
             if ($otherCode) {
@@ -122,8 +122,8 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'),
-                    self::getFiles(array("{$this->_path}/dev/tools/Magento/Tools/SampleData"), '*.php')
+                    self::getFiles(["{$this->_path}/lib/internal/Magento"], '*.php'),
+                    self::getFiles(["{$this->_path}/dev/tools/Magento/Tools/SampleData"], '*.php')
                 );
             }
             if ($templates) {
@@ -157,18 +157,18 @@ class Files
     ) {
         $key = __METHOD__ . "/{$this->_path}/{$appCode}/{$devTests}/{$devTools}/{$lib}";
         if (!isset(self::$_cache[$key])) {
-            $files = array();
+            $files = [];
             if ($appCode) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/app/code/Magento"), '*.php'));
+                $files = array_merge($files, self::getFiles(["{$this->_path}/app/code/Magento"], '*.php'));
             }
             if ($devTests) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tests"), '*.php'));
+                $files = array_merge($files, self::getFiles(["{$this->_path}/dev/tests"], '*.php'));
             }
             if ($devTools) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/dev/tools/Magento"), '*.php'));
+                $files = array_merge($files, self::getFiles(["{$this->_path}/dev/tools/Magento"], '*.php'));
             }
             if ($lib) {
-                $files = array_merge($files, self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'));
+                $files = array_merge($files, self::getFiles(["{$this->_path}/lib/internal/Magento"], '*.php'));
             }
             self::$_cache[$key] = $files;
         }
@@ -205,13 +205,13 @@ class Files
     {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$cacheKey])) {
-            $globPaths = array(
+            $globPaths = [
                 'app/etc/config.xml',
                 'app/etc/*/config.xml',
                 'app/code/*/*/etc/config.xml',
-                'app/code/*/*/etc/config.*.xml' // Module DB-specific configs, e.g. config.mysql4.xml
-            );
-            $files = array();
+                'app/code/*/*/etc/config.*.xml', // Module DB-specific configs, e.g. config.mysql4.xml
+            ];
+            $files = [];
             foreach ($globPaths as $globPath) {
                 $files = array_merge($files, glob($this->_path . '/' . $globPath));
             }
@@ -233,7 +233,7 @@ class Files
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
-        $excludedFileNames = array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
+        $excludedFileNames = ['wsdl.xml', 'wsdl2.xml', 'wsi.xml'],
         $asDataSet = true
     ) {
         $cacheKey = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
@@ -290,17 +290,17 @@ class Files
      * @param bool $asDataSet
      * @return array
      */
-    public function getLayoutFiles($incomingParams = array(), $asDataSet = true)
+    public function getLayoutFiles($incomingParams = [], $asDataSet = true)
     {
-        $params = array(
+        $params = [
             'namespace' => '*',
             'module' => '*',
             'area' => '*',
             'theme_path' => '*/*',
             'include_code' => true,
             'include_design' => true,
-            'with_metainfo' => false
-        );
+            'with_metainfo' => false,
+        ];
         foreach (array_keys($params) as $key) {
             if (isset($incomingParams[$key])) {
                 $params[$key] = $incomingParams[$key];
@@ -309,13 +309,13 @@ class Files
         $cacheKey = md5($this->_path . '|' . implode('|', $params));
 
         if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
-            $files = array();
+            $files = [];
             $area = $params['area'];
             $namespace = $params['namespace'];
             $module = $params['module'];
             if ($params['include_code']) {
                 $this->_accumulateFilesByPatterns(
-                    array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/layout"),
+                    ["{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/layout"],
                     '*.xml',
                     $files,
                     $params['with_metainfo'] ? '_parseModuleLayout' : false
@@ -323,7 +323,7 @@ class Files
             }
             if ($params['include_design']) {
                 $this->_accumulateFilesByPatterns(
-                    array("{$this->_path}/app/design/{$area}/{$params['theme_path']}/{$namespace}_{$module}/layout"),
+                    ["{$this->_path}/app/design/{$area}/{$params['theme_path']}/{$namespace}_{$module}/layout"],
                     '*.xml',
                     $files,
                     $params['with_metainfo'] ? '_parseThemeLayout' : false
@@ -353,7 +353,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath, $file);
+        return [$area, '', $namespace . '_' . $module, $filePath, $file];
     }
 
     /**
@@ -369,15 +369,15 @@ class Files
         $invariant = '/^' . $appDesign . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/layout\/';
         if (preg_match($invariant . 'override\/base\/(.+)$/i', $file, $matches)) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+            return [$area, $themeNS . '/' . $themeCode, $module, $filePath];
         }
         if (preg_match($invariant . 'override\/theme\/[a-z\d_]+\/[a-z\d_]+\/(.+)$/i', $file, $matches)) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, $module, $filePath);
+            return [$area, $themeNS . '/' . $themeCode, $module, $filePath];
         }
         preg_match($invariant . '(.+)$/i', $file, $matches);
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
+        return [$area, $themeNS . '/' . $themeCode, $module, $filePath, $file];
     }
 
     /**
@@ -395,9 +395,9 @@ class Files
      * @param bool $asDataSet
      * @return array
      */
-    public function getPageTypeFiles($incomingParams = array(), $asDataSet = true)
+    public function getPageTypeFiles($incomingParams = [], $asDataSet = true)
     {
-        $params = array('namespace' => '*', 'module' => '*', 'area' => '*', 'theme_path' => '*/*');
+        $params = ['namespace' => '*', 'module' => '*', 'area' => '*', 'theme_path' => '*/*'];
         foreach (array_keys($params) as $key) {
             if (isset($incomingParams[$key])) {
                 $params[$key] = $incomingParams[$key];
@@ -406,9 +406,9 @@ class Files
         $cacheKey = md5($this->_path . '|' . implode('|', $params));
 
         if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
-            $files = array();
+            $files = [];
             $files = self::getFiles(
-                array("{$this->_path}/app/code/{$params['namespace']}/{$params['module']}" . "/etc/{$params['area']}"),
+                ["{$this->_path}/app/code/{$params['namespace']}/{$params['module']}" . "/etc/{$params['area']}"],
                 'page_types.xml'
             );
 
@@ -437,12 +437,12 @@ class Files
         $area = '*';
         $themePath = '*/*';
         $files = self::getFiles(
-            array(
+            [
                 "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/web",
                 "{$this->_path}/app/design/{$area}/{$themePath}/web",
                 "{$this->_path}/app/design/{$area}/{$themePath}/{$module}/web",
-                "{$this->_path}/lib/web/{mage,varien}"
-            ),
+                "{$this->_path}/lib/web/{mage,varien}",
+            ],
             '*.js'
         );
         $result = self::composeDataSets($files);
@@ -467,33 +467,33 @@ class Files
         $area = '*';
         $themePath = '*/*';
         $locale = '*';
-        $result = array();
+        $result = [];
         $this->_accumulateFilesByPatterns(
-            array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/web"),
+            ["{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/web"],
             $filePattern,
             $result,
             '_parseModuleStatic'
         );
         $this->_accumulateFilesByPatterns(
-            array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/web/i18n/{$locale}"),
+            ["{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/web/i18n/{$locale}"],
             $filePattern,
             $result,
             '_parseModuleLocaleStatic'
         );
         $this->_accumulateFilesByPatterns(
-            array(
+            [
                 "{$this->_path}/app/design/{$area}/{$themePath}/web",
                 "{$this->_path}/app/design/{$area}/{$themePath}/{$module}/web",
-            ),
+            ],
             $filePattern,
             $result,
             '_parseThemeStatic'
         );
         $this->_accumulateFilesByPatterns(
-            array(
+            [
                 "{$this->_path}/app/design/{$area}/{$themePath}/web/i18n/{$locale}",
                 "{$this->_path}/app/design/{$area}/{$themePath}/{$module}/web/i18n/{$locale}",
-            ),
+            ],
             $filePattern,
             $result,
             '_parseThemeLocaleStatic'
@@ -509,8 +509,8 @@ class Files
      */
     public function getStaticLibraryFiles()
     {
-        $result = array();
-        $this->_accumulateFilesByPatterns(array("{$this->_path}/lib/web"), '*', $result, '_parseLibStatic');
+        $result = [];
+        $this->_accumulateFilesByPatterns(["{$this->_path}/lib/web"], '*', $result, '_parseLibStatic');
         return $result;
     }
 
@@ -564,7 +564,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', '', $namespace . '_' . $module, $filePath, $file);
+        return [$area, '', '', $namespace . '_' . $module, $filePath, $file];
     }
 
     /**
@@ -583,7 +583,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $locale, $filePath) = $matches;
-        return array($area, '', $locale, $namespace . '_' . $module, $filePath, $file);
+        return [$area, '', $locale, $namespace . '_' . $module, $filePath, $file];
     }
 
     /**
@@ -602,7 +602,7 @@ class Files
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, '', $module, $filePath, $file);
+            return [$area, $themeNS . '/' . $themeCode, '', $module, $filePath, $file];
         }
 
         preg_match(
@@ -611,7 +611,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, '', '', $filePath, $file);
+        return [$area, $themeNS . '/' . $themeCode, '', '', $filePath, $file];
     }
 
     /**
@@ -625,12 +625,12 @@ class Files
     {
         $design = preg_quote("{$path}/app/design/", '/');
         if (preg_match(
-            '/^' . $design. '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
+            '/^' . $design . '([a-z\d]+)\/([a-z\d]+)\/([a-z\d_]+)\/([a-z\d]+_[a-z\d]+)\/web\/i18n\/([a-z_]+)\/(.+)$/i',
             $file,
             $matches
         )) {
             list(, $area, $themeNS, $themeCode, $module, $locale, $filePath) = $matches;
-            return array($area, $themeNS . '/' . $themeCode, $locale, $module, $filePath, $file);
+            return [$area, $themeNS . '/' . $themeCode, $locale, $module, $filePath, $file];
         }
 
         preg_match(
@@ -639,7 +639,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $locale, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $locale, '', $filePath, $file);
+        return [$area, $themeNS . '/' . $themeCode, $locale, '', $filePath, $file];
     }
 
     /**
@@ -656,18 +656,18 @@ class Files
         }
         $namespace = $module =  '*';
         $themePath = '*/*';
-        $paths = array(
+        $paths = [
             "{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}",
             "{$this->_path}/app/design/{$area}/{$themePath}",
-            "{$this->_path}/lib/web/varien"
-        );
+            "{$this->_path}/lib/web/varien",
+        ];
         $files = self::getFiles($paths, '*.js');
 
         if ($area == 'adminhtml') {
-            $adminhtmlPaths = array("{$this->_path}/lib/web/mage/{adminhtml,backend}");
+            $adminhtmlPaths = ["{$this->_path}/lib/web/mage/{adminhtml,backend}"];
             $files = array_merge($files, self::getFiles($adminhtmlPaths, '*.js'));
         } else {
-            $frontendPaths = array("{$this->_path}/lib/web/mage");
+            $frontendPaths = ["{$this->_path}/lib/web/mage"];
             /* current structure of /lib/web/mage directory contains frontend javascript in the root,
                backend javascript in subdirectories. That's why script shouldn't go recursive throught subdirectories
                to get js files for frontend */
@@ -693,15 +693,15 @@ class Files
             $module = '*';
             $area = '*';
             $themePath = '*/*';
-            $result = array();
+            $result = [];
             $this->_accumulateFilesByPatterns(
-                array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/templates"),
+                ["{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/templates"],
                 '*.phtml',
                 $result,
                 $withMetaInfo ? '_parseModuleTemplate' : false
             );
             $this->_accumulateFilesByPatterns(
-                array("{$this->_path}/app/design/{$area}/{$themePath}/{$namespace}_{$module}/templates"),
+                ["{$this->_path}/app/design/{$area}/{$themePath}/{$namespace}_{$module}/templates"],
                 '*.phtml',
                 $result,
                 $withMetaInfo ? '_parseThemeTemplate' : false
@@ -729,7 +729,7 @@ class Files
             $matches
         );
         list(, $namespace, $module, $area, $filePath) = $matches;
-        return array($area, '', $namespace . '_' . $module, $filePath, $file);
+        return [$area, '', $namespace . '_' . $module, $filePath, $file];
     }
 
     /**
@@ -748,7 +748,7 @@ class Files
             $matches
         );
         list(, $area, $themeNS, $themeCode, $module, $filePath) = $matches;
-        return array($area, $themeNS . '/' . $themeCode, $module, $filePath, $file);
+        return [$area, $themeNS . '/' . $themeCode, $module, $filePath, $file];
     }
 
     /**
@@ -762,7 +762,7 @@ class Files
         if (isset(self::$_cache[$key])) {
             return self::$_cache[$key];
         }
-        $files = self::getFiles(array($this->_path . '/app/code/*/*/view/email'), '*.html');
+        $files = self::getFiles([$this->_path . '/app/code/*/*/view/email'], '*.html');
         $result = self::composeDataSets($files);
         self::$_cache[$key] = $result;
         return $result;
@@ -782,12 +782,12 @@ class Files
         }
 
         $subFiles = self::getFiles(
-            array(
+            [
                 $this->_path . '/app',
                 $this->_path . '/dev',
                 $this->_path . '/lib',
-                $this->_path . '/pub'
-            ),
+                $this->_path . '/pub',
+            ],
             '*'
         );
 
@@ -816,7 +816,7 @@ class Files
      */
     public static function getFiles(array $dirPatterns, $fileNamePattern, $recursive = true)
     {
-        $result = array();
+        $result = [];
         foreach ($dirPatterns as $oneDirPattern) {
             $entriesInDir = glob("{$oneDirPattern}/{$fileNamePattern}", GLOB_NOSORT | GLOB_BRACE);
             $subDirs = glob("{$oneDirPattern}/*", GLOB_ONLYDIR | GLOB_NOSORT | GLOB_BRACE);
@@ -869,7 +869,7 @@ class Files
         $className = array_pop($classParts);
         $namespace = implode('\\', $classParts);
         $path = implode('/', explode('\\', $class)) . '.php';
-        $directories = array(
+        $directories = [
             '/app/code/',
             '/lib/internal/',
             '/dev/tools/',
@@ -884,8 +884,8 @@ class Files
             '/dev/tests/static/testsuite/',
             '/dev/tests/functional/tests/app/',
             '/dev/tests/unit/framework/',
-            '/dev/tests/unit/testsuite/'
-        );
+            '/dev/tests/unit/testsuite/',
+        ];
 
         foreach ($directories as $dir) {
             $fullPath = $this->_path . $dir . $path;
@@ -894,7 +894,7 @@ class Files
              * of file names
              * Note that realpath() automatically changes directory separator to the OS-native
              */
-            if (realpath($fullPath) == str_replace(array('/', '\\'), DIRECTORY_SEPARATOR, $fullPath)) {
+            if (realpath($fullPath) == str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fullPath)) {
                 $fileContent = file_get_contents($fullPath);
                 if (strpos(
                     $fileContent,
@@ -927,9 +927,9 @@ class Files
         }
 
         $iterator = new \DirectoryIterator($this->_path . '/app/code/');
-        $result = array();
+        $result = [];
         foreach ($iterator as $file) {
-            if (!$file->isDot() && !in_array($file->getFilename(), array('Zend')) && $file->isDir()) {
+            if (!$file->isDot() && !in_array($file->getFilename(), ['Zend']) && $file->isDir()) {
                 $result[] = $file->getFilename();
             }
         }
@@ -973,7 +973,7 @@ class Files
     {
         $key = __METHOD__ . "/{$module}";
         if (!isset(self::$_cache[$key])) {
-            $files = self::getFiles(array("{$this->_path}/app/code/Magento/{$module}"), '*.php');
+            $files = self::getFiles(["{$this->_path}/app/code/Magento/{$module}"], '*.php');
             self::$_cache[$key] = $files;
         }
 
@@ -995,7 +995,7 @@ class Files
     {
         $key = __METHOD__ . '|' . $this->_path . '|' . serialize(func_get_args());
         if (!isset(self::$_cache[$key])) {
-            $files = self::getFiles(array("{$this->_path}/app/{$appDir}"), 'composer.json');
+            $files = self::getFiles(["{$this->_path}/app/{$appDir}"], 'composer.json');
             self::$_cache[$key] = $files;
         }
 
@@ -1017,13 +1017,13 @@ class Files
      */
     public static function readLists($globPattern)
     {
-        $patterns = array();
+        $patterns = [];
         foreach (glob($globPattern) as $list) {
             $patterns = array_merge($patterns, file($list, FILE_IGNORE_NEW_LINES));
         }
 
         // Expand glob patterns
-        $result = array();
+        $result = [];
         foreach ($patterns as $pattern) {
             if (0 === strpos($pattern, '#')) {
                 continue;

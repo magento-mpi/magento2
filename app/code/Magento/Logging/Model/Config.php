@@ -25,7 +25,7 @@ class Config
      *
      * @var array
      */
-    protected $_labels = array();
+    protected $_labels = [];
 
     /**
      * Configuration for event groups from System Configuration
@@ -170,7 +170,7 @@ class Config
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
         if (null === $this->_systemConfigValues) {
-            $this->_systemConfigValues = array();
+            $this->_systemConfigValues = [];
             foreach (array_keys($this->getLabels()) as $key) {
                 $this->_systemConfigValues[$key] = 1;
             }

@@ -24,7 +24,7 @@ class UrlGenerator extends \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
     public function __construct(
         \Magento\Backend\Model\UrlInterface $backendUrl,
         \Magento\Framework\AuthorizationInterface $authorization,
-        array $args = array()
+        array $args = []
     ) {
         $this->_authorization = $authorization;
         parent::__construct($backendUrl, $args);

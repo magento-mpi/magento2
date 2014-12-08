@@ -22,7 +22,7 @@ class ReservedAttributeList
      * @param array $reservedAttributes
      * @param array $allowedAttributes
      */
-    public function __construct($productModel, array $reservedAttributes = array(), array $allowedAttributes = array())
+    public function __construct($productModel, array $reservedAttributes = [], array $allowedAttributes = [])
     {
         $methods = get_class_methods($productModel);
         foreach ($methods as $method) {

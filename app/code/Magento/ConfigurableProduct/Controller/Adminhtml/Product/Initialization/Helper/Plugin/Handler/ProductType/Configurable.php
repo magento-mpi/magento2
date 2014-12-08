@@ -28,15 +28,15 @@ class Configurable implements HandlerInterface
         $type = $product->getTypeInstance();
         $originalAttributes = $type->getConfigurableAttributesAsArray($product);
         // Organize main information about original product attributes in assoc array form
-        $originalAttributesMainInfo = array();
+        $originalAttributesMainInfo = [];
         if (is_array($originalAttributes)) {
             foreach ($originalAttributes as $originalAttribute) {
-                $originalAttributesMainInfo[$originalAttribute['id']] = array();
+                $originalAttributesMainInfo[$originalAttribute['id']] = [];
                 foreach ($originalAttribute['values'] as $value) {
-                    $originalAttributesMainInfo[$originalAttribute['id']][$value['value_index']] = array(
+                    $originalAttributesMainInfo[$originalAttribute['id']][$value['value_index']] = [
                         'is_percent' => $value['is_percent'],
-                        'pricing_value' => $value['pricing_value']
-                    );
+                        'pricing_value' => $value['pricing_value'],
+                    ];
                 }
             }
         }

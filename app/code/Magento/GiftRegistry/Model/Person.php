@@ -56,7 +56,7 @@ class Person extends \Magento\Framework\Model\AbstractModel
         \Magento\GiftRegistry\Model\Resource\Person $resource,
         Entity $entity,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->entity = $entity;
@@ -79,7 +79,7 @@ class Person extends \Magento\Framework\Model\AbstractModel
     public function validate()
     {
         // not Checking entityId !!!
-        $errors = array();
+        $errors = [];
 
         if (!\Zend_Validate::is($this->getFirstname(), 'NotEmpty')) {
             $errors[] = __('Please enter the first name.');

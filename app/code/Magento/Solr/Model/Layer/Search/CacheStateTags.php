@@ -9,7 +9,6 @@
 
 namespace Magento\Solr\Model\Layer\Search;
 
-
 class CacheStateTags extends \Magento\Solr\Model\Layer\Category\CacheStateTags
 {
     /**
@@ -17,7 +16,7 @@ class CacheStateTags extends \Magento\Solr\Model\Layer\Category\CacheStateTags
      * @param array $additionalTags
      * @return array|void
      */
-    public function getList(\Magento\Catalog\Model\Category $category, array $additionalTags = array())
+    public function getList(\Magento\Catalog\Model\Category $category, array $additionalTags = [])
     {
         $tags = parent::getList($category, $additionalTags);
         $tags[] = \Magento\Search\Model\Query::CACHE_TAG;

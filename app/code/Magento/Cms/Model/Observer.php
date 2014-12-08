@@ -77,7 +77,7 @@ class Observer
         if ($pageUrl) {
             $redirect->setRedirectUrl($pageUrl);
         } else {
-            $redirect->setRedirect(true)->setPath('cms/index/noCookies')->setArguments(array());
+            $redirect->setRedirect(true)->setPath('cms/index/noCookies')->setArguments([]);
         }
         return $this;
     }

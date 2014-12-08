@@ -43,8 +43,8 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryMock = $this->getMock(
             'Magento\Framework\Module\Updater\SetupFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -52,20 +52,19 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->_resourceResolver = $this->getMock('Magento\Framework\Module\ResourceResolverInterface');
         $this->_resourceSetupMock = $this->getMock(
             'Magento\Catalog\Model\Resource\Setup',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_moduleListMock->expects($this->any())->method('getNames')->will($this->returnValue(['Test_Module']));
 
-        $resourceList = array('catalog_setup');
+        $resourceList = ['catalog_setup'];
         $this->_resourceResolver->expects($this->any())
             ->method('getResourceList')
             ->with('Test_Module')
-            ->will($this->returnValue($resourceList))
-        ;
+            ->will($this->returnValue($resourceList));
 
         $this->moduleManager = $this->getMock('\Magento\Framework\Module\Manager', [], [], '', false);
 
@@ -100,8 +99,7 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->_factoryMock->expects($this->any())
             ->method('create')
             ->with('catalog_setup', 'Test_Module')
-            ->will($this->returnValue($this->_resourceSetupMock))
-        ;
+            ->will($this->returnValue($this->_resourceSetupMock));
         $this->_resourceSetupMock->expects($this->once())
             ->method('applyDataUpdates');
 

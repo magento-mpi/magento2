@@ -42,7 +42,7 @@ class Customer extends \Magento\Framework\App\Config\Value
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
@@ -66,7 +66,7 @@ class Customer extends \Magento\Framework\App\Config\Value
      */
     protected function _getAttributeObjects()
     {
-        return array($this->_eavConfig->getAttribute('customer', $this->_getAttributeCode()));
+        return [$this->_eavConfig->getAttribute('customer', $this->_getAttributeCode())];
     }
 
     /**
@@ -78,12 +78,12 @@ class Customer extends \Magento\Framework\App\Config\Value
     {
         $result = parent::afterSave();
 
-        $valueConfig = array(
-            '' => array('is_required' => 0, 'is_visible' => 0),
-            'opt' => array('is_required' => 0, 'is_visible' => 1),
-            '1' => array('is_required' => 0, 'is_visible' => 1),
-            'req' => array('is_required' => 1, 'is_visible' => 1)
-        );
+        $valueConfig = [
+            '' => ['is_required' => 0, 'is_visible' => 0],
+            'opt' => ['is_required' => 0, 'is_visible' => 1],
+            '1' => ['is_required' => 0, 'is_visible' => 1],
+            'req' => ['is_required' => 1, 'is_visible' => 1],
+        ];
 
         $value = $this->getValue();
         if (isset($valueConfig[$value])) {

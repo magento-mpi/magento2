@@ -45,7 +45,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paypalData = $paypalData;
         $this->currentCustomer = $currentCustomer;

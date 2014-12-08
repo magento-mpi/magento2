@@ -61,7 +61,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_storeMock)
         );
 
-        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
+        $areaListMock = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
         $configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $areaListMock->expects($this->any())->method('getFrontName')->will($this->returnValue('soap'));
 
@@ -79,8 +79,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
 
         $this->_typeProcessor = $this->getMock(
             'Magento\Framework\Reflection\TypeProcessor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

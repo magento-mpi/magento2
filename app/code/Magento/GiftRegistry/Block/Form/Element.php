@@ -49,7 +49,7 @@ class Element extends \Magento\Framework\View\Element\Template
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
@@ -173,7 +173,7 @@ class Element extends \Magento\Framework\View\Element\Template
      * @param string $class
      * @return string
      */
-    public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
+    public function getSelectHtml($name, $id, $options = [], $value = null, $class = '')
     {
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
@@ -294,13 +294,13 @@ class Element extends \Magento\Framework\View\Element\Template
      */
     public function convertArrayToOptions($selectOptions, $withEmpty = false)
     {
-        $options = array();
+        $options = [];
         if ($withEmpty) {
-            $options[] = array('value' => '', 'label' => __('-- Please select --'));
+            $options[] = ['value' => '', 'label' => __('-- Please select --')];
         }
         if (is_array($selectOptions)) {
             foreach ($selectOptions as $code => $option) {
-                $options[] = array('label' => $option['label'], 'value' => $option['code']);
+                $options[] = ['label' => $option['label'], 'value' => $option['code']];
             }
         }
         return $options;

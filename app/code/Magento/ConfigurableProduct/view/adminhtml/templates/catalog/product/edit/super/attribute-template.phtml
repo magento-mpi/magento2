@@ -91,24 +91,25 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                     <td class="col-change-price" data-column="change-price">
                                         <?php
                                         $pricingValue = '';
-                                        $isPercent = false;
-                                        $include = false;
-                                        $valueIndex = $option['value'];
-                                        foreach ($attribute['values'] as $priceValue) {
-                                            if ($valueIndex == $priceValue['value_index']) {
-                                                $pricingValue = $priceValue['pricing_value'];
-                                                $isPercent = (bool)$priceValue['is_percent'];
-                                                $include = true;
-                                                if (isset($priceValue['include'])) {
-                                                    $include = $include && (bool)$priceValue['include'];
-                                                }
-                                                break;
-                                            }
+                                $isPercent = false;
+                                $include = false;
+                                $valueIndex = $option['value'];
+                                foreach ($attribute['values'] as $priceValue) {
+                                    if ($valueIndex == $priceValue['value_index']) {
+                                        $pricingValue = $priceValue['pricing_value'];
+                                        $isPercent = (bool)$priceValue['is_percent'];
+                                        $include = true;
+                                        if (isset($priceValue['include'])) {
+                                            $include = $include && (bool)$priceValue['include'];
                                         }
-                                        ?>
+                                        break;
+                                    }
+                                }
+                                ?>
                                         <input type="hidden"
                                                name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][value_index]"
-                                               value="<?php echo $this->escapeHtml($valueIndex); ?>">
+                                               value="<?php echo $this->escapeHtml($valueIndex);
+                                ?>">
 
                                         <div class="field field-change-pricing">
                                             <div class="control">
@@ -117,12 +118,14 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                                         <div class="control">
                                                             <input type="text" class="pricing-value validate-number"
                                                                    name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][pricing_value]"
-                                                                   value="<?php echo $this->escapeHtml($pricingValue); ?>">
+                                                                   value="<?php echo $this->escapeHtml($pricingValue);
+                                ?>">
                                                         </div>
                                                     </div>
                                                     <div class="field field-pricing-measure">
                                                         <div class="actions dropdown actions-select">
-                                                            <input name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]" type="hidden" value="<?php echo $isPercent ? 1 : 0; ?>"/>
+                                                            <input name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][is_percent]" type="hidden" value="<?php echo $isPercent ? 1 : 0;
+                                ?>"/>
                                                             <button type="button" class="action toggle" data-toggle="dropdown" data-mage-init='{"dropdown":{}}'>
                                                                 <span><?php echo $isPercent ? __('%') : $this->getBaseCurrency()->getSymbol() ?></span>
                                                             </button>
@@ -143,17 +146,21 @@ $id = $this->escapeHtml($attribute['attribute_id']);
                                         <div class="field choice">
                                             <input type="checkbox" class="include"
                                                    name="<?php echo $namePrefix ?>[<?php echo $valueIndex ?>][include]"
-                                                   value="1" <?php echo $include ? 'checked="checked"' : ''; ?> />
+                                                   value="1" <?php echo $include ? 'checked="checked"' : '';
+                                ?> />
                                         </div>
                                     </td>
                                     <td class="col-actions" data-column="actions">
                                         <button type="button" class="action-locked" disabled="disabled"
-                                                data-action="delete" title="<?php echo __('Delete'); ?>">
-                                            <span><?php echo __('Delete'); ?></span>
+                                                data-action="delete" title="<?php echo __('Delete');
+                                ?>">
+                                            <span><?php echo __('Delete');
+                                ?></span>
                                         </button>
                                     </td>
                                 </tr>
-                                <?php } ?>
+                                <?php 
+                            } ?>
                             </tbody>
                             <tfoot>
                                 <tr>

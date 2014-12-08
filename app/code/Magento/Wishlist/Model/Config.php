@@ -52,8 +52,8 @@ class Config
             self::XML_PATH_SHARING_TEXT_LIMIT,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         );
-        $this->_sharingEmailLimit = $emailLimitInConfig ? : self::SHARING_EMAIL_LIMIT;
-        $this->_sharignTextLimit = $textLimitInConfig ? : self::SHARING_TEXT_LIMIT;
+        $this->_sharingEmailLimit = $emailLimitInConfig ?: self::SHARING_EMAIL_LIMIT;
+        $this->_sharignTextLimit = $textLimitInConfig ?: self::SHARING_TEXT_LIMIT;
         $this->_catalogConfig = $catalogConfig;
         $this->_attributeConfig = $attributeConfig;
     }

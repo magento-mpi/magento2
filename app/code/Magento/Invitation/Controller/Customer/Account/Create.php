@@ -8,10 +8,10 @@
  */
 namespace Magento\Invitation\Controller\Customer\Account;
 
+use Magento\Customer\Controller\Account;
 use Magento\Customer\Model\Session;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\Model\Exception;
-use Magento\Customer\Controller\Account;
 use Magento\Invitation\Model\InvitationProvider;
 
 class Create extends Account

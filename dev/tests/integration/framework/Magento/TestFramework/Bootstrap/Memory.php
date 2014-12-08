@@ -57,7 +57,7 @@ class Memory
      */
     public function activateStatsDisplaying()
     {
-        call_user_func($this->_activationPolicy, array($this, 'displayStats'));
+        call_user_func($this->_activationPolicy, [$this, 'displayStats']);
     }
 
     /**
@@ -65,6 +65,6 @@ class Memory
      */
     public function activateLimitValidation()
     {
-        call_user_func($this->_activationPolicy, array($this->_memoryLimit, 'validateUsage'));
+        call_user_func($this->_activationPolicy, [$this->_memoryLimit, 'validateUsage']);
     }
 }

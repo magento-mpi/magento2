@@ -22,7 +22,7 @@ class ConfigFixtureTest extends \PHPUnit_Framework_TestCase
     {
         $this->_object = $this->getMock(
             'Magento\TestFramework\Annotation\ConfigFixture',
-            array('_getConfigValue', '_setConfigValue')
+            ['_getConfigValue', '_setConfigValue']
         );
     }
 

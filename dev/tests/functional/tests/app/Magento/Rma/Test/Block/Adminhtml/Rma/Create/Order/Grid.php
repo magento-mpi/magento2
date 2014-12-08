@@ -20,8 +20,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => '#magento_rma_rma_create_order_grid_filter_real_order_id'
-        ]
+            'selector' => '#magento_rma_rma_create_order_grid_filter_real_order_id',
+        ],
     ];
 
     /**

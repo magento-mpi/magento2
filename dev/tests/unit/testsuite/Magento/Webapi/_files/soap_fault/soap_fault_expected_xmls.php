@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
+return [
     'expectedResultArrayDataDetails' => '<?xml version="1.0" encoding="utf-8" ?>
     <env:Envelope xmlns:env="http://www.w3.org/2003/05/soap-envelope" xmlns:m="{wsdl_url}">
         <env:Body>
@@ -88,4 +88,4 @@ return array(
             </env:Fault>
         </env:Body>
     </env:Envelope>'
-);
+];

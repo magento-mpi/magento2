@@ -29,7 +29,7 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
      */
     public function getVisibleStatusIds()
     {
-        return array(self::STATUS_ENABLED);
+        return [self::STATUS_ENABLED];
     }
 
     /**
@@ -40,7 +40,7 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
      */
     public function getSaleableStatusIds()
     {
-        return array(self::STATUS_ENABLED);
+        return [self::STATUS_ENABLED];
     }
 
     /**
@@ -50,7 +50,7 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
      */
     public static function getOptionArray()
     {
-        return array(self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled'));
+        return [self::STATUS_ENABLED => __('Enabled'), self::STATUS_DISABLED => __('Disabled')];
     }
 
     /**
@@ -60,10 +60,10 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
      */
     public function getAllOptions()
     {
-        $result = array();
+        $result = [];
 
         foreach (self::getOptionArray() as $index => $value) {
-            $result[] = array('value' => $index, 'label' => $value);
+            $result[] = ['value' => $index, 'label' => $value];
         }
 
         return $result;
@@ -99,11 +99,11 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
             $tableName = $attributeCode . '_t';
 
             $collection->getSelect()->joinLeft(
-                array($tableName => $attributeTable),
+                [$tableName => $attributeTable],
                 "e.entity_id={$tableName}.entity_id" .
                 " AND {$tableName}.attribute_id='{$attributeId}'" .
                 " AND {$tableName}.store_id='0'",
-                array()
+                []
             );
 
             $valueExpr = $tableName . '.value';
@@ -112,17 +112,17 @@ class Status extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource i
             $valueTable2 = $attributeCode . '_t2';
 
             $collection->getSelect()->joinLeft(
-                array($valueTable1 => $attributeTable),
+                [$valueTable1 => $attributeTable],
                 "e.entity_id={$valueTable1}.entity_id" .
                 " AND {$valueTable1}.attribute_id='{$attributeId}'" .
                 " AND {$valueTable1}.store_id='0'",
-                array()
+                []
             )->joinLeft(
-                array($valueTable2 => $attributeTable),
+                [$valueTable2 => $attributeTable],
                 "e.entity_id={$valueTable2}.entity_id" .
                 " AND {$valueTable2}.attribute_id='{$attributeId}'" .
                 " AND {$valueTable2}.store_id='{$collection->getStoreId()}'",
-                array()
+                []
             );
 
             $valueExpr = $collection->getConnection()->getCheckSql(

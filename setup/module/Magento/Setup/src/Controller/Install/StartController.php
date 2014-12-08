@@ -8,15 +8,15 @@
 
 namespace Magento\Setup\Controller\Install;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Magento\Setup\Model\WebLogger;
-use Zend\Json\Json;
-use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\InstallerFactory;
-use Magento\Setup\Model\Installer;
-use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
+use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
+use Magento\Setup\Model\WebLogger;
 use Magento\Setup\Module\Setup\ConfigMapper;
+use Zend\Json\Json;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 
 /**
  * UI Controller that handles installation
@@ -82,7 +82,7 @@ class StartController extends AbstractActionController
             );
             $this->json->setVariable('success', true);
             $this->json->setVariable('messages', $this->installer->getInstallInfo()[Installer::INFO_MESSAGE]);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->log->logError($e);
             $this->json->setVariable('success', false);
         }
@@ -100,7 +100,7 @@ class StartController extends AbstractActionController
         $result = [];
         $result[ConfigMapper::KEY_DB_HOST] = isset($source['db']['host']) ? $source['db']['host'] : '';
         $result[ConfigMapper::KEY_DB_NAME] = isset($source['db']['name']) ? $source['db']['name'] : '';
-        $result[ConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] :'';
+        $result[ConfigMapper::KEY_DB_USER] = isset($source['db']['user']) ? $source['db']['user'] : '';
         $result[ConfigMapper::KEY_DB_PASS] = isset($source['db']['password']) ? $source['db']['password'] : '';
         $result[ConfigMapper::KEY_DB_PREFIX] = isset($source['db']['tablePrefix']) ? $source['db']['tablePrefix'] : '';
         $result[ConfigMapper::KEY_BACKEND_FRONTNAME] = isset($source['config']['address']['admin'])

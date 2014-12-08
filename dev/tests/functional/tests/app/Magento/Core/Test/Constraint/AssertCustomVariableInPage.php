@@ -8,12 +8,12 @@
 
 namespace Magento\Core\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Store\Test\Fixture\Store;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Core\Test\Fixture\SystemVariable;
+use Magento\Store\Test\Fixture\Store;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Class AssertCustomVariableInPage
@@ -55,8 +55,8 @@ class AssertCustomVariableInPage extends AbstractConstraint
                 'dataSet' => 'default',
                 'data' => [
                     'content' => [
-                        'content' => '{{customVar code=' . $customVariable->getCode() . '}}'
-                    ]
+                        'content' => '{{customVar code=' . $customVariable->getCode() . '}}',
+                    ],
                 ],
             ]
         );

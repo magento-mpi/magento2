@@ -36,7 +36,7 @@ class Plugin
 
     public function beforeG(Intercepted $subject, $param1)
     {
-        return array('<P:bG>' . $param1 . '</P:bG>');
+        return ['<P:bG>' . $param1 . '</P:bG>'];
     }
 
     public function aroundG(Intercepted $subject, \Closure $next, $param1)

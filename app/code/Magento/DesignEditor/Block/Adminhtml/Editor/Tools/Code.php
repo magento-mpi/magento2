@@ -29,31 +29,31 @@ class Code extends \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Tabs\Abstr
      */
     public function getTabs()
     {
-        return array(
-            array(
+        return [
+            [
                 'is_active' => true,
                 'id' => 'vde-tab-css',
                 'title' => strtoupper(__('CSS')),
-                'content_block' => 'design_editor_tools_code_css'
-            ),
-            array(
+                'content_block' => 'design_editor_tools_code_css',
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-js',
                 'title' => strtoupper(__('JS')),
                 'content_block' => 'design_editor_tools_code_js'
-            ),
-            array(
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-custom',
                 'title' => strtoupper(__('Custom CSS')),
                 'content_block' => 'design_editor_tools_code_custom'
-            ),
-            array(
+            ],
+            [
                 'is_active' => false,
                 'id' => 'vde-tab-image-sizing',
                 'title' => strtoupper(__('Image Sizing')),
                 'content_block' => 'design_editor_tools_code_image_sizing'
-            )
-        );
+            ]
+        ];
     }
 }

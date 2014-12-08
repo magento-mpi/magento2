@@ -17,7 +17,7 @@ $bundleProduct->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Bundle Product'
 )->setSku(
@@ -31,29 +31,29 @@ $bundleProduct->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array(
+    [
         'use_config_manage_stock' => 0,
         'manage_stock' => 0,
         'use_config_enable_qty_increments' => 1,
         'use_config_qty_increments' => 1,
-        'is_in_stock' => 0
-    )
+        'is_in_stock' => 0,
+    ]
 )->setBundleOptionsData(
-    array(
-        array(
+    [
+        [
             'title' => 'Bundle Product Items',
             'default_title' => 'Bundle Product Items',
             'type' => 'select',
             'required' => 1,
             'delete' => '',
             'position' => 0,
-            'option_id' => ''
-        )
-    )
+            'option_id' => '',
+        ],
+    ]
 )->setBundleSelectionsData(
-    array(
-        array(
-            array(
+    [
+        [
+            [
                 'product_id' => 1, // fixture product
                 'selection_qty' => 1,
                 'selection_can_change_qty' => 1,
@@ -63,10 +63,10 @@ $bundleProduct->setTypeId(
                 'selection_price_value' => 0.0,
                 'option_id' => '',
                 'selection_id' => '',
-                'is_default' => 1
-            )
-        )
-    )
+                'is_default' => 1,
+            ],
+        ],
+    ]
 )->setCanSaveBundleSelections(
     true
 )->setAffectBundleProductSelections(
@@ -84,8 +84,8 @@ $typeInstance->setStoreFilter($product->getStoreId(), $product);
 $optionCollection = $typeInstance->getOptionsCollection($product);
 $selectionCollection = $typeInstance->getSelectionsCollection($typeInstance->getOptionsIds($product), $product);
 
-$bundleOptions = array();
-$bundleOptionsQty = array();
+$bundleOptions = [];
+$bundleOptionsQty = [];
 /** @var $option \Magento\Bundle\Model\Option */
 foreach ($optionCollection as $option) {
     /** @var $selection \Magento\Bundle\Model\Selection */
@@ -95,7 +95,7 @@ foreach ($optionCollection as $option) {
 }
 
 $requestInfo = new \Magento\Framework\Object(
-    array('qty' => 1, 'bundle_option' => $bundleOptions, 'bundle_option_qty' => $bundleOptionsQty)
+    ['qty' => 1, 'bundle_option' => $bundleOptions, 'bundle_option_qty' => $bundleOptionsQty]
 );
 $product->setSkipCheckRequiredOption(true);
 

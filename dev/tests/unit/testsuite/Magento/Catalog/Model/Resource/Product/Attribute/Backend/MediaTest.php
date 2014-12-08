@@ -93,7 +93,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->readAdapter->expects($this->once())->method('select')->will($this->returnValue($this->select));
         $this->select->expects($this->at(0))->method('from')->with(
             [
-                'main' => $getTableReturnValue
+                'main' => $getTableReturnValue,
             ],
             [
                 'value_id',
@@ -142,4 +142,3 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($resultRow, $this->resource->loadGallery($this->product, $this->model));
     }
 }
- 

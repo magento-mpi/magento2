@@ -28,7 +28,7 @@ class Storecredit extends AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Storecredit');
@@ -42,7 +42,7 @@ class Storecredit extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('customer_balance_save_commit_after');
+        return ['customer_balance_save_commit_after'];
     }
 
     /**
@@ -52,7 +52,7 @@ class Storecredit extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(), 'label' => __('Store Credit')));
+        return [['value' => $this->getType(), 'label' => __('Store Credit')]];
     }
 
     /**
@@ -84,7 +84,7 @@ class Storecredit extends AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from($table, array(new \Zend_Db_Expr(1)));
+        $select->from($table, [new \Zend_Db_Expr(1)]);
         $select->where($this->_createCustomerFilter($customer, 'customer_id'));
         $select->where('website_id=?', $website);
         $select->where("amount {$operator} ?", $this->getValue());

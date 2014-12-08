@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'data' => array(
+return [
+    'data' => [
         'dest_country_id' => 'US',
         'dest_region_id' => '12',
         'dest_region_code' => 'CA',
@@ -35,6 +35,6 @@ return array(
         'girth' => null,
         'height' => null,
         'length' => null,
-        'width' => null
-    )
-);
+        'width' => null,
+    ]
+];

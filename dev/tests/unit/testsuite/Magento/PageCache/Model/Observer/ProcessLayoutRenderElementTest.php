@@ -38,8 +38,8 @@ class ProcessLayoutRenderElementTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock(
             'Magento\PageCache\Model\Config',
-            array('getType', 'isEnabled'),
-            array(),
+            ['getType', 'isEnabled'],
+            [],
             '',
             false
         );
@@ -47,28 +47,28 @@ class ProcessLayoutRenderElementTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\PageCache\Model\Observer\ProcessLayoutRenderElement($this->_configMock);
         $this->_observerMock = $this->getMock(
             'Magento\Framework\Event\Observer',
-            array('getEvent'),
-            array(),
+            ['getEvent'],
+            [],
             '',
             false
         );
         $this->_layoutMock = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('isCacheable', 'getBlock', 'getUpdate', 'getHandles'),
-            array(),
+            ['isCacheable', 'getBlock', 'getUpdate', 'getHandles'],
+            [],
             '',
             false
         );
         $this->_blockMock = $this->getMockForAbstractClass(
             'Magento\Framework\View\Element\AbstractBlock',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getData', 'isScopePrivate', 'getNameInLayout', 'getUrl')
+            ['getData', 'isScopePrivate', 'getNameInLayout', 'getUrl']
         );
-        $this->_transport = new \Magento\Framework\Object(array('output' => 'test output html'));
+        $this->_transport = new \Magento\Framework\Object(['output' => 'test output html']);
     }
 
     /**
@@ -88,8 +88,8 @@ class ProcessLayoutRenderElementTest extends \PHPUnit_Framework_TestCase
     ) {
         $eventMock = $this->getMock(
             'Magento\Framework\Event',
-            array('getLayout', 'getElementName', 'getTransport'),
-            array(),
+            ['getLayout', 'getElementName', 'getTransport'],
+            [],
             '',
             false
         );
@@ -103,7 +103,7 @@ class ProcessLayoutRenderElementTest extends \PHPUnit_Framework_TestCase
             $this->_layoutMock->expects($this->once())->method('isCacheable')->will($this->returnValue(true));
 
             $this->_layoutMock->expects($this->any())->method('getUpdate')->will($this->returnSelf());
-            $this->_layoutMock->expects($this->any())->method('getHandles')->will($this->returnValue(array()));
+            $this->_layoutMock->expects($this->any())->method('getHandles')->will($this->returnValue([]));
             $this->_layoutMock->expects(
                 $this->once()
             )->method(
@@ -151,43 +151,43 @@ class ProcessLayoutRenderElementTest extends \PHPUnit_Framework_TestCase
      */
     public function processLayoutRenderDataProvider()
     {
-        return array(
-            'full_page type and Varnish enabled, public scope, ttl is set' => array(
+        return [
+            'full_page type and Varnish enabled, public scope, ttl is set' => [
                 true,
                 true,
                 false,
                 360,
-                '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />'
-            ),
-            'full_page type and Varnish enabled, public scope, ttl is not set' => array(
+                '<esi:include src="page_cache/block/wrapesi/with/handles/and/other/stuff" />',
+            ],
+            'full_page type and Varnish enabled, public scope, ttl is not set' => [
                 true,
                 true,
                 false,
                 null,
-                'test output html'
-            ),
-            'full_page type enabled, Varnish disabled, public scope, ttl is set' => array(
+                'test output html',
+            ],
+            'full_page type enabled, Varnish disabled, public scope, ttl is set' => [
                 true,
                 false,
                 false,
                 360,
-                'test output html'
-            ),
-            'full_page type enabled, Varnish disabled, public scope, ttl is not set' => array(
+                'test output html',
+            ],
+            'full_page type enabled, Varnish disabled, public scope, ttl is not set' => [
                 true,
                 false,
                 false,
                 null,
-                'test output html'
-            ),
-            'full_page type enabled, Varnish disabled, private scope, ttl is not set' => array(
+                'test output html',
+            ],
+            'full_page type enabled, Varnish disabled, private scope, ttl is not set' => [
                 true,
                 false,
                 true,
                 null,
-                '<!-- BLOCK testBlockName -->test output html<!-- /BLOCK testBlockName -->'
-            ),
-            'full_page type is disabled, Varnish enabled' => array(false, true, false, null, 'test output html')
-        );
+                '<!-- BLOCK testBlockName -->test output html<!-- /BLOCK testBlockName -->',
+            ],
+            'full_page type is disabled, Varnish enabled' => [false, true, false, null, 'test output html']
+        ];
     }
 }

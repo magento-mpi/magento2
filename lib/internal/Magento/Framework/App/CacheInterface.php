@@ -35,7 +35,7 @@ interface CacheInterface
      * @param int $lifeTime
      * @return bool
      */
-    public function save($data, $identifier, $tags = array(), $lifeTime = null);
+    public function save($data, $identifier, $tags = [], $lifeTime = null);
 
     /**
      * Remove cached data by identifier
@@ -51,5 +51,5 @@ interface CacheInterface
      * @param array $tags
      * @return bool
      */
-    public function clean($tags = array());
+    public function clean($tags = []);
 }

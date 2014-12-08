@@ -9,7 +9,7 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 class EntryResolver
 {

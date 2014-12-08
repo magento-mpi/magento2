@@ -28,7 +28,7 @@ class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Logging\Model\Resource\EventFactory $eventFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->eventFactory = $eventFactory;
         parent::__construct($context, $resourceHelper, $data);
@@ -41,9 +41,9 @@ class User extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     public function _getOptions()
     {
-        $options = array(array('value' => '', 'label' => __('All Users')));
+        $options = [['value' => '', 'label' => __('All Users')]];
         foreach ($this->eventFactory->create()->getUserNames() as $username) {
-            $options[] = array('value' => $username, 'label' => $username);
+            $options[] = ['value' => $username, 'label' => $username];
         }
         return $options;
     }

@@ -89,7 +89,7 @@ class Jmeter implements \Magento\TestFramework\Performance\Scenario\HandlerInter
     protected function _buildScenarioCmd(\Magento\TestFramework\Performance\Scenario $scenario, $reportFile = null)
     {
         $command = 'jmeter -n -t %s';
-        $arguments = array($scenario->getFile());
+        $arguments = [$scenario->getFile()];
         if ($reportFile) {
             $command .= ' -l %s';
             $arguments[] = $reportFile;
@@ -98,7 +98,7 @@ class Jmeter implements \Magento\TestFramework\Performance\Scenario\HandlerInter
             $command .= ' %s';
             $arguments[] = "-J{$key}={$value}";
         }
-        return array($command, $arguments);
+        return [$command, $arguments];
     }
 
     /**
@@ -110,7 +110,7 @@ class Jmeter implements \Magento\TestFramework\Performance\Scenario\HandlerInter
      */
     protected function _getReportErrors($reportFile)
     {
-        $result = array();
+        $result = [];
         $reportXml = simplexml_load_file($reportFile);
         $failedAssertions = $reportXml->xpath(
             '/testResults/*/assertionResult[failure[text()="true"] or error[text()="true"]]'

@@ -1,15 +1,15 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Setup\Controller\Data;
 
+use Magento\Setup\Model\PhpExtensions;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\PhpExtensions;
 
 class PhpExtensionsController extends AbstractActionController
 {

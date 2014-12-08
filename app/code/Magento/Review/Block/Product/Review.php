@@ -7,7 +7,6 @@
  */
 namespace Magento\Review\Block\Product;
 
-use Magento\Review\Model\Resource\Review\Collection as ReviewCollection;
 
 /**
  * Product Review Tab
@@ -40,9 +39,8 @@ class Review extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
-
         $this->_coreRegistry = $registry;
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct($context, $data);
@@ -68,7 +66,7 @@ class Review extends \Magento\Framework\View\Element\Template
      */
     public function getProductReviewUrl()
     {
-        return $this->getUrl('review/product/listAjax', array('id' => $this->getProductId()));
+        return $this->getUrl('review/product/listAjax', ['id' => $this->getProductId()]);
     }
 
     /**

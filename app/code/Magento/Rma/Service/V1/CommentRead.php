@@ -8,13 +8,13 @@
 
 namespace Magento\Rma\Service\V1;
 
-use Magento\Rma\Model\Rma\Status\HistoryRepository;
-use Magento\Rma\Service\V1\Data\RmaStatusHistoryMapper;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterBuilder;
-use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
+use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\Rma\Status\HistoryRepository;
 use Magento\Rma\Model\RmaRepository;
+use Magento\Rma\Service\V1\Data\RmaStatusHistoryMapper;
+use Magento\Rma\Service\V1\Data\RmaStatusHistorySearchResultsBuilder;
 
 class CommentRead implements CommentReadInterface
 {

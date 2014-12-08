@@ -27,9 +27,9 @@ class RateTest extends \PHPUnit_Framework_TestCase
         $this->objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName', 'beginTransaction',
-                'rollBack'),
-            array(),
+            ['_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName', 'beginTransaction',
+                'rollBack'],
+            [],
             '',
             false
         );
@@ -49,7 +49,7 @@ class RateTest extends \PHPUnit_Framework_TestCase
         $this->setExpectedException('\Magento\Framework\Model\Exception', $exceptionMessage);
         $rate = $this->objectHelper->getObject(
             'Magento\Tax\Model\Calculation\Rate',
-            array('resource' => $this->resourceMock)
+            ['resource' => $this->resourceMock]
         );
         $rate->setData($data)->beforeSave();
     }
@@ -65,33 +65,32 @@ class RateTest extends \PHPUnit_Framework_TestCase
             'fill all required fields 1' => [
                 'exceptionMessage' => 'Please fill all required fields with valid information.',
                 'data' => ['zip_is_range' => true, 'zip_from' => '0111', 'zip_to' => '',
-                    'code' => '', 'tax_country_id' => '', 'rate' => '', 'tax_postcode' => '']
+                    'code' => '', 'tax_country_id' => '', 'rate' => '', 'tax_postcode' => '', ],
             ],
             'fill all required fields 2' => [
                 'exceptionMessage' => 'Please fill all required fields with valid information.',
                 'data' => ['zip_is_range' => '', 'zip_from' => '', 'zip_to' => '',
-                    'code' => '', 'tax_country_id' => '', 'rate' => '0.2', 'tax_postcode' => '1234']],
+                    'code' => '', 'tax_country_id' => '', 'rate' => '0.2', 'tax_postcode' => '1234', ], ],
             'positive number' => [
                 'exceptionMessage' => 'Rate Percent should be a positive number.',
                 'data' => ['zip_is_range' => '', 'zip_from' => '', 'zip_to' => '', 'code' => 'code',
-                    'tax_country_id' => 'US', 'rate' => '-1', 'tax_postcode' => '1234']
+                    'tax_country_id' => 'US', 'rate' => '-1', 'tax_postcode' => '1234', ],
             ],
             'zip code length' => [
                 'exceptionMessage' => 'Maximum zip code length is 9.',
                 'data' => ['zip_is_range' => true, 'zip_from' => '1234567890', 'zip_to' => '1234',
-                    'code' => 'code', 'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234']
+                    'code' => 'code', 'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234', ],
             ],
             'contain characters' => [
                 'exceptionMessage' => 'Zip code should not contain characters other than digits.',
                 'data' => ['zip_is_range' => true, 'zip_from' => 'foo', 'zip_to' => '1234', 'code' => 'code',
-                    'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234']
+                    'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234', ],
             ],
             'equal or greater' => [
                 'exceptionMessage' => 'Range To should be equal or greater than Range From.',
                 'data' => ['zip_is_range' => true, 'zip_from' => '321', 'zip_to' => '123', 'code' => 'code',
-                    'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234']
+                    'tax_country_id' => 'US', 'rate' => '1.1', 'tax_postcode' => '1234', ],
             ],
         ];
     }
-
 }

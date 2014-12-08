@@ -9,7 +9,6 @@
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Revision\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

@@ -55,7 +55,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_customer = $customer;
@@ -72,8 +72,8 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     public function getDefaultOperatorInputByType()
     {
         if (null === $this->_defaultOperatorInputByType) {
-            $this->_defaultOperatorInputByType = array('multiselect' => array('==', '!=', '()', '!()'));
-            $this->_arrayInputTypes = array('multiselect');
+            $this->_defaultOperatorInputByType = ['multiselect' => ['==', '!=', '()', '!()']];
+            $this->_arrayInputTypes = ['multiselect'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -112,7 +112,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         return $this->_adminhtmlData->getUrl(
             'customersegment/index/chooserGrid',
-            array('value_element_id' => $this->_valueElement->getId(), 'form' => $this->getJsFormObject())
+            ['value_element_id' => $this->_valueElement->getId(), 'form' => $this->getJsFormObject()]
         );
     }
 
@@ -154,12 +154,12 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         parent::loadOperatorOptions();
         $this->setOperatorOption(
-            array(
+            [
                 '==' => __('matches'),
                 '!=' => __('does not match'),
                 '()' => __('is one of'),
-                '!()' => __('is not one of')
-            )
+                '!()' => __('is not one of'),
+            ]
         );
         return $this;
     }
@@ -195,7 +195,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
         }
 
         $quoteWebsiteId = $object->getQuote()->getStore()->getWebsite()->getId();
-        $segments = array();
+        $segments = [];
         if (!$customer->getId()) {
             $visitorSegmentIds = $this->_customerSession->getCustomerSegmentIds();
             if (is_array($visitorSegmentIds) && isset($visitorSegmentIds[$quoteWebsiteId])) {

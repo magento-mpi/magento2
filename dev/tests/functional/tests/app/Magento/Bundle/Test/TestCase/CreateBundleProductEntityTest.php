@@ -8,14 +8,14 @@
 
 namespace Magento\Bundle\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Mtf\TestCase\Injectable;
 
 /**
- * Test Creation for CreateBundleProductEntity 
+ * Test Creation for CreateBundleProductEntity
  *
  * Test Flow:
  * 1. Login as admin

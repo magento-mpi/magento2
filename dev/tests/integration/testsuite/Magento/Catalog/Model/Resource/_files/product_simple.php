@@ -14,7 +14,7 @@ $product->isObjectNew(true);
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(2)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(1))
+    ->setWebsiteIds([1])
     ->setName('Simple Products')
     ->setSku('simple products')
     ->setPrice(10)
@@ -22,20 +22,20 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setShortDescription("Short description")
     ->setTaxClassId(0)
     ->setTierPrice(
-        array(
-            array(
+        [
+            [
                 'website_id' => 0,
                 'cust_group' => Group::NOT_LOGGED_IN_ID,
                 'price_qty'  => 2,
                 'price'      => 8,
-            ),
-            array(
+            ],
+            [
                 'website_id' => 0,
                 'cust_group' => Group::CUST_GROUP_ALL,
                 'price_qty'  => 21,
                 'price'      => 81,
-            )
-        )
+            ],
+        ]
     )
     ->setDescription('Description with <b>html tag</b>')
     ->setMetaTitle('meta title')

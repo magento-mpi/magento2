@@ -31,7 +31,7 @@ class DefaultOrder extends \Magento\Framework\View\Element\Template
      */
     public function getItemOptions()
     {
-        $result = array();
+        $result = [];
         if ($options = $this->getItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);

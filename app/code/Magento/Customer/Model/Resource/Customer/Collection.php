@@ -42,7 +42,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      * @param \Magento\Framework\Object\Copy\Config $fieldsetConfig
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param string $modelName
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -93,8 +93,8 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
     public function groupByEmail()
     {
         $this->getSelect()->from(
-            array('email' => $this->getEntity()->getEntityTable()),
-            array('email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)'))
+            ['email' => $this->getEntity()->getEntityTable()],
+            ['email_count' => new \Zend_Db_Expr('COUNT(email.entity_id)')]
         )->where(
             'email.entity_id = e.entity_id'
         )->group(
@@ -111,7 +111,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
      */
     public function addNameToSelect()
     {
-        $fields = array();
+        $fields = [];
         $customerAccount = $this->_fieldsetConfig->getFieldset('customer_account');
         foreach ($customerAccount as $code => $field) {
             if (isset($field['name'])) {
@@ -120,11 +120,11 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
         }
 
         $adapter = $this->getConnection();
-        $concatenate = array();
+        $concatenate = [];
         if (isset($fields['prefix'])) {
             $concatenate[] = $adapter->getCheckSql(
                 '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
-                $adapter->getConcatSql(array('LTRIM(RTRIM({{prefix}}))', '\' \'')),
+                $adapter->getConcatSql(['LTRIM(RTRIM({{prefix}}))', '\' \'']),
                 '\'\''
             );
         }
@@ -133,7 +133,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
         if (isset($fields['middlename'])) {
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
-                $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
+                $adapter->getConcatSql(['LTRIM(RTRIM({{middlename}}))', '\' \'']),
                 '\'\''
             );
         }
@@ -141,7 +141,7 @@ class Collection extends \Magento\Eav\Model\Entity\Collection\AbstractCollection
         if (isset($fields['suffix'])) {
             $concatenate[] = $adapter->getCheckSql(
                 '{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
-                $adapter->getConcatSql(array('\' \'', 'LTRIM(RTRIM({{suffix}}))')),
+                $adapter->getConcatSql(['\' \'', 'LTRIM(RTRIM({{suffix}}))']),
                 '\'\''
             );
         }

@@ -32,19 +32,19 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $methodsProduct = array(
+        $methodsProduct = [
             'getId',
             'setQty',
             'getTypeInstance',
             'getPreconfiguredValues',
             'getTypeId',
-            '__wakeup'
-        );
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methodsProduct, array(), '', false);
+            '__wakeup',
+        ];
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $methodsProduct, [], '', false);
         $this->typeInstanceMock = $this->getMock(
             'Magento\GroupedProduct\Model\Product\Type\Grouped',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -57,24 +57,23 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         );
         $this->configuredValueMock = $this->getMock(
             'Magento\Framework\Object',
-            array('getSuperGroup'),
-            array(),
+            ['getSuperGroup'],
+            [],
             '',
             false
         );
         $layout = $this->getMock('Magento\Framework\View\LayoutInterface');
         $this->groupedView = $helper->getObject(
             'Magento\GroupedProduct\Block\Product\View\Type\Grouped',
-            array(
-                'data' => array('product' => $this->productMock),
+            [
+                'data' => ['product' => $this->productMock],
                 'layout' => $layout
-            )
+            ]
         );
     }
 
     public function testGetAssociatedProducts()
     {
-
         $this->typeInstanceMock->expects(
             $this->once()
         )->method(
@@ -94,8 +93,8 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetPreconfiguredValue($id)
     {
-        $configValue = array('id_one' => 2);
-        $associatedProduct = array('key' => $this->productMock);
+        $configValue = ['id_one' => 2];
+        $associatedProduct = ['key' => $this->productMock];
         $this->configuredValueMock->expects(
             $this->once()
         )->method(
@@ -121,7 +120,6 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($associatedProduct)
         );
 
-
         $this->productMock->expects($this->any())->method('getId')->will($this->returnValue($id));
         $this->productMock->expects($this->any())->method('setQty')->with(2);
         $this->groupedView->setPreconfiguredValue();
@@ -129,7 +127,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     public function setPreconfiguredValueDataProvider()
     {
-        return array('item_id_exist_in_config' => array('id_one'), 'item_id_not_exist_in_config' => array('id_two'));
+        return ['item_id_exist_in_config' => ['id_one'], 'item_id_not_exist_in_config' => ['id_two']];
     }
 
     public function testSetPreconfiguredValueIfSuperGroupNotExist()
@@ -145,5 +143,4 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         $this->typeInstanceMock->expects($this->never())->method('getAssociatedProducts');
         $this->groupedView->setPreconfiguredValue();
     }
-
 }

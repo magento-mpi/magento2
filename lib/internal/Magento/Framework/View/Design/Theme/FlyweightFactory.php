@@ -24,14 +24,14 @@ class FlyweightFactory
      *
      * @var \Magento\Framework\View\Design\ThemeInterface[]
      */
-    protected $themes = array();
+    protected $themes = [];
 
     /**
      * Themes by path
      *
      * @var \Magento\Framework\View\Design\ThemeInterface[]
      */
-    protected $themesByPath = array();
+    protected $themesByPath = [];
 
     /**
      * Constructor

@@ -10,7 +10,6 @@
 namespace Magento\Review\Test\Block\Product;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element;
 
 /**
  * Class View

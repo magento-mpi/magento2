@@ -8,7 +8,6 @@
 
 namespace Magento\RecurringPayment\Controller\Adminhtml;
 
-use Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
 class RecurringPaymentTest extends \Magento\Backend\Utility\Controller
 {

@@ -8,7 +8,6 @@
 
 namespace Magento\SalesArchive\Model\Order\Invoice;
 
-
 class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**

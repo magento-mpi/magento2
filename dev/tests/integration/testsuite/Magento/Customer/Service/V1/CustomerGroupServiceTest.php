@@ -9,12 +9,12 @@
  */
 namespace Magento\Customer\Service\V1;
 
+use Magento\Customer\Model\Group;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
+use Magento\Framework\Api\Filter;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\Helper\Bootstrap;
-use Magento\Framework\Api\Filter;
-use Magento\Customer\Model\Group;
 
 class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +30,6 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         $this->_objectManager = Bootstrap::getObjectManager();
         $this->_groupService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
     }
@@ -170,7 +169,6 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($updates->getTaxClassId(), $updatedGroup->getTaxClassId());
     }
 
-
     /**
      * @param $testGroup
      * @param $storeId
@@ -181,7 +179,6 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertDefaultGroupMatches($testGroup, $storeId);
     }
-
 
     /**
      * @return array
@@ -263,7 +260,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
             'eq' => [
                 [$builder->setField(CustomerGroup::CODE)->setValue('General')->create()],
                 null,
-                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
+                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
             ],
             'and' => [
                 [
@@ -272,7 +269,7 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
                     $builder->setField(CustomerGroup::ID)->setValue('1')->create(),
                 ],
                 [],
-                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]]
+                [1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3]],
             ],
             'or' => [
                 [],
@@ -283,18 +280,18 @@ class CustomerGroupServiceTest extends \PHPUnit_Framework_TestCase
                 [
                     1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
                     2 => [CustomerGroup::CODE => 'Wholesale', CustomerGroup::TAX_CLASS_ID => 3]
-                ]
+                ],
             ],
             'like' => [
                 [
                     $builder->setField(CustomerGroup::CODE)->setValue('er')->setConditionType('like')
-                        ->create()
+                        ->create(),
                 ],
                 [],
                 [
                     1 => [CustomerGroup::CODE => 'General', CustomerGroup::TAX_CLASS_ID => 3],
                     3 => [CustomerGroup::CODE => 'Retailer', CustomerGroup::TAX_CLASS_ID => 3]
-                ]
+                ],
             ],
         ];
     }

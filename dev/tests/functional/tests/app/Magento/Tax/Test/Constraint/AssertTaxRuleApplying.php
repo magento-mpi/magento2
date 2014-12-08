@@ -8,15 +8,15 @@
 
 namespace Magento\Tax\Test\Constraint;
 
-use Mtf\Client\Browser;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Tax\Test\Fixture\TaxRule;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureFactory;
 

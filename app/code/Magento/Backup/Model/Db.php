@@ -51,7 +51,7 @@ class Db implements \Magento\Framework\Backup\Db\BackupDbInterface
      *
      * @var array
      */
-    protected $_ignoreDataTablesList = array('importexport/importdata');
+    protected $_ignoreDataTablesList = ['importexport/importdata'];
 
     /**
      * Retrieve resource model
@@ -190,7 +190,7 @@ class Db implements \Magento\Framework\Backup\Db\BackupDbInterface
      */
     public function getIgnoreDataTablesList()
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->_ignoreDataTablesList as $table) {
             $result[] = $this->_resource->getTableName($table);

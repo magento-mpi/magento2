@@ -27,7 +27,7 @@ class AbstractRenderer extends \Magento\Backend\Block\Widget\Grid\Column\Rendere
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Rma\Model\Item\Status $itemStatus,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemStatus = $itemStatus;
         parent::__construct($context, $data);

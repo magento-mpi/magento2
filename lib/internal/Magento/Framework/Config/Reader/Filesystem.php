@@ -55,7 +55,7 @@ class Filesystem implements \Magento\Framework\Config\ReaderInterface
      *
      * @var array
      */
-    protected $_idAttributes = array();
+    protected $_idAttributes = [];
 
     /**
      * Class of dom configuration document used for merge
@@ -89,7 +89,7 @@ class Filesystem implements \Magento\Framework\Config\ReaderInterface
         \Magento\Framework\Config\SchemaLocatorInterface $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName,
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {
@@ -116,7 +116,7 @@ class Filesystem implements \Magento\Framework\Config\ReaderInterface
         $scope = $scope ?: $this->_defaultScope;
         $fileList = $this->_fileResolver->get($this->_fileName, $scope);
         if (!count($fileList)) {
-            return array();
+            return [];
         }
         $output = $this->_readFiles($fileList);
 
@@ -146,14 +146,14 @@ class Filesystem implements \Magento\Framework\Config\ReaderInterface
             }
         }
         if ($this->_isValidated) {
-            $errors = array();
+            $errors = [];
             if ($configMerger && !$configMerger->validate($this->_schemaFile, $errors)) {
                 $message = "Invalid Document \n";
                 throw new \Magento\Framework\Exception($message . implode("\n", $errors));
             }
         }
 
-        $output = array();
+        $output = [];
         if ($configMerger) {
             $output = $this->_converter->convert($configMerger->getDom());
         }

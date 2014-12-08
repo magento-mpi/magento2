@@ -8,8 +8,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class PrintAction extends \Magento\Backend\App\Action
 {
@@ -51,7 +51,7 @@ class PrintAction extends \Magento\Backend\App\Action
                 $pdf = $this->_objectManager->create(
                     'Magento\Sales\Model\Order\Pdf\Creditmemo'
                 )->getPdf(
-                    array($creditmemo)
+                    [$creditmemo]
                 );
                 $date = $this->_objectManager->get('Magento\Framework\Stdlib\DateTime\DateTime')->date('Y-m-d_H-i-s');
                 return $this->_fileFactory->create(

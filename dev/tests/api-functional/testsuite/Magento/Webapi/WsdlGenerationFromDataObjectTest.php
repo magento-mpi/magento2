@@ -19,7 +19,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     protected $_baseUrl = TESTS_BASE_URL;
 
     /** @var string */
-    protected $_storeCode ;
+    protected $_storeCode;
 
     /** @var string */
     protected $_soapUrl;
@@ -70,7 +70,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
      */
     protected function _convertXmlToString($xml)
     {
-        return str_replace(array('    ', "\n", "\r", "&#13;", "&#10;"), '', $xml);
+        return str_replace(['    ', "\n", "\r", "&#13;", "&#10;"], '', $xml);
     }
 
     /**
@@ -101,7 +101,7 @@ class WsdlGenerationFromDataObjectTest extends \Magento\TestFramework\TestCase\W
     {
         /** @var \Magento\TestFramework\TestCase\Webapi\Adapter\Soap $soapAdapter */
         $soapAdapter = $this->_getWebApiAdapter(self::ADAPTER_SOAP);
-        $wsdlUrl = $soapAdapter->generateWsdlUrl(array());
+        $wsdlUrl = $soapAdapter->generateWsdlUrl([]);
         return $wsdlUrl;
     }
 

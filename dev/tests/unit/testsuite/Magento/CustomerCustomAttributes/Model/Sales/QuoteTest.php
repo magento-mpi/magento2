@@ -122,7 +122,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->quote->isSaveAllowed());
     }
 
-
     public function testBeforeSave()
     {
         $salesMock = $this->getMock('Magento\Framework\Model\AbstractModel', [], [], '', false);

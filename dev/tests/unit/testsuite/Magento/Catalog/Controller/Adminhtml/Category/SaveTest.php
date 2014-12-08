@@ -217,7 +217,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $products = [['any_product']];
         $postData = [
             'general' => ['general-data'],
-            'category_products' => json_encode($products)
+            'category_products' => json_encode($products),
         ];
         /**
          * @var \Magento\Backend\Model\View\Result\Redirect
@@ -395,7 +395,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValueMap(
                     [
-                        ['Magento\Catalog\Model\Category', $categoryMock]
+                        ['Magento\Catalog\Model\Category', $categoryMock],
                     ]
                 )
             );
@@ -428,7 +428,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['category', $categoryMock],
-                        ['current_category', $categoryMock]
+                        ['current_category', $categoryMock],
                     ]
                 )
             );
@@ -443,7 +443,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                         [$postData],
                         ['use_config', ['attribute']],
                         ['use_default', ['default-attribute']],
-                        ['return_session_messages_only', true]
+                        ['return_session_messages_only', true],
                     ]
                 )
             );
@@ -549,7 +549,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 [
                     'messages' => 'grouped-html',
                     'error' => false,
-                    'category' => ['category-data']
+                    'category' => ['category-data'],
                 ]
             )
             ->will($this->returnValue('result-execute'));

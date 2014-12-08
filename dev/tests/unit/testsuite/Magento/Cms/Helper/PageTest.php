@@ -139,7 +139,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                     'getCustomPageLayout',
                     'getCustomLayoutUpdateXml',
                     'getLayoutUpdateXml',
-                    'getContentHeading'
+                    'getContentHeading',
                 ]
             )
             ->getMock();
@@ -246,7 +246,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $defaultGroup = 'defaultGroup';
         $pageLoadResultCollection = [
             null,
-            $this->pageMock
+            $this->pageMock,
         ];
 
         $this->pageMock->expects($this->any())
@@ -400,7 +400,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'handle' => 'DOES NOT MATTER',
                 'customLayoutUpdateXml' => 'DOES NOT MATTER',
                 'layoutUpdate' => 'DOES NOT MATTER',
-                'expectedResult' => false
+                'expectedResult' => false,
             ],
             'page->load IS SUCCESSFUL BUT internalPageId IS EMPTY' => [
                 'pageId' => 123,
@@ -410,7 +410,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'handle' => 'DOES NOT MATTER',
                 'customLayoutUpdateXml' => 'DOES NOT MATTER',
                 'layoutUpdate' => 'DOES NOT MATTER',
-                'expectedResult' => false
+                'expectedResult' => false,
             ],
             'getPageLayout() AND getLayoutUpdateXml() ARE USED' => [
                 'pageId' => 123,
@@ -420,7 +420,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'handle' => 'pageLayout',
                 'customLayoutUpdateXml' => '',
                 'layoutUpdate' => 'layoutUpdateXml',
-                'expectedResult' => true
+                'expectedResult' => true,
             ],
             'getCustomPageLayout() AND getCustomLayoutUpdateXml() ARE USED' => [
                 'pageId' => 123,
@@ -430,7 +430,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'handle' => 'customPageLayout',
                 'customLayoutUpdateXml' => 'customLayoutUpdateXml',
                 'layoutUpdate' => 'customLayoutUpdateXml',
-                'expectedResult' => true
+                'expectedResult' => true,
             ]
         ];
     }
@@ -455,7 +455,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
         $url = '/some/url';
         $pageLoadResultCollection = [
             null,
-            $this->pageMock
+            $this->pageMock,
         ];
 
         $this->pageFactoryMock->expects($this->any())
@@ -496,19 +496,19 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 'pageId' => 123,
                 'internalPageId' => 234,
                 'pageLoadResultIndex' => 0,
-                'expectedResult' => null
+                'expectedResult' => null,
             ],
             'page->load() IS SUCCESSFUL BUT internalId IS EMPTY' => [
                 'pageId' => 123,
                 'internalPageId' => null,
                 'pageLoadResultIndex' => 1,
-                'expectedResult' => null
+                'expectedResult' => null,
             ],
             'SUCCESS' => [
                 'pageId' => 123,
                 'internalPageId' => 234,
                 'pageLoadResultIndex' => 1,
-                'expectedResult' => '/some/url'
+                'expectedResult' => '/some/url',
             ]
         ];
     }

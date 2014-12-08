@@ -8,18 +8,18 @@
 
 namespace Magento\Sales\Test\Handler\OrderInjectable;
 
-use Mtf\System\Config;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Handler\Curl as AbstractCurl;
-use Magento\Bundle\Test\Fixture\BundleProduct;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
-use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Create new order via curl.
@@ -50,8 +50,8 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
             'California' => '12',
         ],
         'country_id' => [
-            'United States' => 'US'
-        ]
+            'United States' => 'US',
+        ],
     ];
 
     /**
@@ -101,11 +101,11 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
         $result['shipping_data_address'] = $this->prepareShippingData($result['order_data']);
         $result['shipping_data_method_get'] = [
             'payment' => $data['payment_auth_expiration'],
-            'collect_shipping_rates' => 1
+            'collect_shipping_rates' => 1,
         ];
         $result['shipping_data_method_set'] = [
             'order' => ['shipping_method' => $data['shipping_method']],
-            'payment' => $data['payment_auth_expiration']
+            'payment' => $data['payment_auth_expiration'],
         ];
 
         return $result;
@@ -281,9 +281,9 @@ class Curl extends AbstractCurl implements OrderInjectableInterface
                 'currency' => $data['order_currency_code'],
                 'account' => [
                     'group_id' => $customerGroupId,
-                    'email' => $this->customer->getEmail()
+                    'email' => $this->customer->getEmail(),
                 ],
-                'shipping_method' => $data['shipping_method']
+                'shipping_method' => $data['shipping_method'],
             ],
             'item' => $this->prepareOrderProductsData($data['entity_id']),
             'billing_address' => $this->prepareBillingAddress($data['billing_address_id']),

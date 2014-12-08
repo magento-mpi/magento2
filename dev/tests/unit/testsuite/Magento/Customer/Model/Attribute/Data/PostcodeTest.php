@@ -74,7 +74,7 @@ class PostcodeTest extends \PHPUnit_Framework_TestCase
         $this->directoryHelperMock->expects($this->once())
             ->method('isZipCodeOptional')
             ->willReturnMap([
-                [$countryId, $isOptional]
+                [$countryId, $isOptional],
             ]);
 
         $object = new Postcode(

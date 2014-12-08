@@ -50,9 +50,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             $this->_outputConfig,
             $this->_moduleList,
             $this->moduleResource,
-            array(
+            [
                 'Module_Two' => self::XML_PATH_OUTPUT_ENABLED,
-            )
+            ]
         );
     }
 
@@ -83,14 +83,13 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_outputConfig->expects($this->once())
             ->method('isEnabled')
             ->with('Module_One')
-            ->will($this->returnValue($configValue))
-        ;
+            ->will($this->returnValue($configValue));
         $this->assertEquals($expectedResult, $this->_model->isOutputEnabled('Module_One'));
     }
 
     public function isOutputEnabledGenericConfigPathDataProvider()
     {
-        return array('output disabled' => array(true, false), 'output enabled' => array(false, true));
+        return ['output disabled' => [true, false], 'output enabled' => [false, true]];
     }
 
     /**
@@ -104,17 +103,16 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_outputConfig->expects($this->at(0))
             ->method('isSetFlag')
             ->with(self::XML_PATH_OUTPUT_ENABLED)
-            ->will($this->returnValue($configValue))
-        ;
+            ->will($this->returnValue($configValue));
         $this->assertEquals($expectedResult, $this->_model->isOutputEnabled('Module_Two'));
     }
 
     public function isOutputEnabledCustomConfigPathDataProvider()
     {
-        return array(
-            'path literal, output disabled' => array(false, false),
-            'path literal, output enabled'  => array(true, true),
-        );
+        return [
+            'path literal, output disabled' => [false, false],
+            'path literal, output enabled'  => [true, true],
+        ];
     }
 
     /**

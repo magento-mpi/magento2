@@ -26,8 +26,8 @@ class ElementFactoryTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_attributeMetadata = $this->getMock(
             'Magento\Customer\Model\Data\AttributeMetadata',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -45,7 +45,7 @@ class ElementFactoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('Magento\Customer\Model\Attribute\Data\Postcode')
         );
 
-        $dataModel = $this->getMock('Magento\Customer\Model\Metadata\Form\Text', array(), array(), '', false);
+        $dataModel = $this->getMock('Magento\Customer\Model\Metadata\Form\Text', [], [], '', false);
         $this->_objectManager->expects($this->once())->method('create')->will($this->returnValue($dataModel));
 
         $actual = $this->_elementFactory->create($this->_attributeMetadata, '95131', $this->_entityTypeCode);
@@ -63,13 +63,13 @@ class ElementFactoryTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('text')
         );
 
-        $dataModel = $this->getMock('Magento\Customer\Model\Metadata\Form\Text', array(), array(), '', false);
-        $params = array(
+        $dataModel = $this->getMock('Magento\Customer\Model\Metadata\Form\Text', [], [], '', false);
+        $params = [
             'entityTypeCode' => $this->_entityTypeCode,
             'value' => 'Some Text',
             'isAjax' => false,
-            'attribute' => $this->_attributeMetadata
-        );
+            'attribute' => $this->_attributeMetadata,
+        ];
         $this->_objectManager->expects(
             $this->once()
         )->method(

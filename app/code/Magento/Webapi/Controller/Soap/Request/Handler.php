@@ -8,15 +8,14 @@
 namespace Magento\Webapi\Controller\Soap\Request;
 
 use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Framework\AuthorizationInterface;
 use Magento\Framework\Exception\AuthorizationException;
 use Magento\Framework\Reflection\DataObjectProcessor;
-use Magento\Framework\Api\SimpleDataObjectConverter;
 use Magento\Webapi\Controller\ServiceArgsSerializer;
 use Magento\Webapi\Controller\Soap\Request as SoapRequest;
 use Magento\Webapi\Exception as WebapiException;
 use Magento\Webapi\Model\Soap\Config as SoapConfig;
-use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Handler of requests to SOAP server.
@@ -118,7 +117,7 @@ class Handler
         }
         $service = $this->_objectManager->get($serviceClass);
         $inputData = $this->_prepareRequestData($serviceClass, $serviceMethod, $arguments);
-        $outputData = call_user_func_array(array($service, $serviceMethod), $inputData);
+        $outputData = call_user_func_array([$service, $serviceMethod], $inputData);
         return $this->_prepareResponseData($outputData, $serviceClass, $serviceMethod);
     }
 
@@ -170,6 +169,6 @@ class Handler
         } else {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
         }
-        return array(self::RESULT_NODE_NAME => $result);
+        return [self::RESULT_NODE_NAME => $result];
     }
 }

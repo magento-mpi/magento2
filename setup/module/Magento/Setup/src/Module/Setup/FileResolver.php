@@ -8,8 +8,8 @@
 
 namespace Magento\Setup\Module\Setup;
 
-use Zend\Stdlib\Glob;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Zend\Stdlib\Glob;
 
 class FileResolver
 {

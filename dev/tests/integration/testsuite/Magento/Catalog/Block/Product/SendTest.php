@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Model\Session;
+use Magento\TestFramework\Helper\Bootstrap;
 
 class SendTest extends \PHPUnit_Framework_TestCase
 {

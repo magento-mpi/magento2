@@ -63,7 +63,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     protected $subjectMock;
 
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */

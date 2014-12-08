@@ -9,8 +9,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell\Grid as UpsellGrid;
+use Mtf\Client\Element;
 
 /**
  * Class Upsell

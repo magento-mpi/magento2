@@ -24,11 +24,11 @@ class InfoTest extends \Magento\Backend\Utility\Controller
         $infoBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\View\Info',
             'info_block' . mt_rand(),
-            array()
+            []
         );
 
         $result = $infoBlock->getCustomerAccountData();
-        $this->assertEquals(array(), $result, 'Customer has additional account data.');
+        $this->assertEquals([], $result, 'Customer has additional account data.');
     }
 
     /**
@@ -41,7 +41,7 @@ class InfoTest extends \Magento\Backend\Utility\Controller
         $customerGroupBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\View\Info',
             'info_block' . mt_rand(),
-            array('registry' => $this->_putOrderIntoRegistry())
+            ['registry' => $this->_putOrderIntoRegistry()]
         );
 
         $result = $customerGroupBlock->getCustomerGroupName();
@@ -56,23 +56,23 @@ class InfoTest extends \Magento\Backend\Utility\Controller
     {
         $layout = $this->_objectManager->get('Magento\Framework\View\LayoutInterface');
 
-        $orderData = array(
-            'customer_' . FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME => self::ORDER_USER_DEFINED_ATTRIBUTE_VALUE
-        );
+        $orderData = [
+            'customer_' . FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_NAME => self::ORDER_USER_DEFINED_ATTRIBUTE_VALUE,
+        ];
         /** @var \Magento\Sales\Block\Adminhtml\Order\View\Info $customerGroupBlock */
         $customerGroupBlock = $layout->createBlock(
             'Magento\Sales\Block\Adminhtml\Order\View\Info',
             'info_block' . mt_rand(),
-            array('registry' => $this->_putOrderIntoRegistry($orderData))
+            ['registry' => $this->_putOrderIntoRegistry($orderData)]
         );
 
         $this->assertEquals(
-            array(
-                200 => array(
+            [
+                200 => [
                     'label' => FIXTURE_ATTRIBUTE_USER_DEFINED_CUSTOMER_FRONTEND_LABEL,
-                    'value' => self::ORDER_USER_DEFINED_ATTRIBUTE_VALUE
-                )
-            ),
+                    'value' => self::ORDER_USER_DEFINED_ATTRIBUTE_VALUE,
+                ],
+            ],
             $customerGroupBlock->getCustomerAccountData()
         );
     }
@@ -81,7 +81,7 @@ class InfoTest extends \Magento\Backend\Utility\Controller
      * @param array $additionalOrderData
      * @return \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _putOrderIntoRegistry(array $additionalOrderData = array())
+    protected function _putOrderIntoRegistry(array $additionalOrderData = [])
     {
         $registry = $this->getMockBuilder('Magento\Framework\Registry')->disableOriginalConstructor()->getMock();
 
@@ -90,7 +90,7 @@ class InfoTest extends \Magento\Backend\Utility\Controller
         )->load(
             '100000001'
         )->setData(
-            array_merge(array('customer_group_id' => 0), $additionalOrderData)
+            array_merge(['customer_group_id' => 0], $additionalOrderData)
         );
 
         $registry->expects($this->any())->method('registry')->with('current_order')->will($this->returnValue($order));

@@ -32,7 +32,7 @@ class AbstractWidget extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerMetadataInterface $customerMetadata,
-        array $data = array()
+        array $data = []
     ) {
         $this->_addressHelper = $addressHelper;
         $this->customerMetadata = $customerMetadata;

@@ -8,10 +8,10 @@
 
 namespace Magento\Integration\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Integration\Test\Fixture\Integration;
 use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertIntegrationForm

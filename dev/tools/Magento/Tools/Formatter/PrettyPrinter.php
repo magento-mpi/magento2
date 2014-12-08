@@ -18,8 +18,8 @@ use PHPParser_Node_Expr_MethodCall;
 use PHPParser_Node_Expr_New;
 use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr_Variable;
-use PHPParser_Node_Scalar_Encapsed;
 use PHPParser_Node_Scalar_DNumber;
+use PHPParser_Node_Scalar_Encapsed;
 use PHPParser_Node_Scalar_LNumber;
 use PHPParser_Node_Scalar_String;
 use PHPParser_Node_Stmt_Class;
@@ -199,7 +199,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
             $count = 0;
             $result = preg_replace(
                 '~\\nuse (.*);\\n\\nuse ~',
-                self::EOL . 'use $1;' . self::EOL .'use ',
+                self::EOL . 'use $1;' . self::EOL . 'use ',
                 $result, 1, $count
             );
         } while ($count > 0);
@@ -406,7 +406,7 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
         // detect closures as arguments and force multi line if detected
         $multiline = false;
         // loop through all the nodes to get the printout
-        $pNodes = array();
+        $pNodes = [];
         foreach ($nodes as $node) {
             $pNodes[] = $this->p($node);
             // if the node a forced multiline or a heredoc, then flag it multiline
@@ -465,9 +465,9 @@ class PrettyPrinter extends PHPParser_PrettyPrinter_Default
      */
     protected function pStmts(array $nodes, $indent = true)
     {
-        $pNodes = array();
+        $pNodes = [];
         foreach ($nodes as $node) {
-            $comments = $this->pComments($node->getAttribute('comments', array()));
+            $comments = $this->pComments($node->getAttribute('comments', []));
             // there is a special case with comments before a case statement where the comment is attached to the
             // case and not the previous block; therefore, have to deal with it with the following ugliness
             if ('Stmt_Case' == $node->getType() && strlen($comments) > 0) {

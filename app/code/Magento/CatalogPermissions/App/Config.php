@@ -70,7 +70,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -101,7 +101,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -132,7 +132,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**
@@ -148,7 +148,7 @@ class Config implements ConfigInterface
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        return $groups ? explode(',', $groups) : array();
+        return $groups ? explode(',', $groups) : [];
     }
 
     /**

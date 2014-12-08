@@ -8,10 +8,10 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Adminhtml\Sales\Order\Create\Sidebar\Wishlist;
 
-use Mtf\Client\Element\Locator;
-use Mtf\Fixture\InjectableFixture;
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Class Items

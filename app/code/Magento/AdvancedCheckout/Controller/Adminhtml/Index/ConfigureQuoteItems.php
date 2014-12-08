@@ -40,7 +40,7 @@ class ConfigureQuoteItems extends \Magento\AdvancedCheckout\Controller\Adminhtml
             $optionCollection = $this->_objectManager->create(
                 'Magento\Sales\Model\Quote\Item\Option'
             )->getCollection()->addItemFilter(
-                array($quoteItemId)
+                [$quoteItemId]
             );
             $quoteItem->setOptions($optionCollection->getOptionsByItem($quoteItem));
 

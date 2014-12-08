@@ -40,8 +40,8 @@ class VoidTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Paypal\Model\Payflowpro $instance */
         $instance = $this->getMock(
             'Magento\Paypal\Model\Payflowpro',
-            array('_postRequest'),
-            array(
+            ['_postRequest'],
+            [
                 $eventManager,
                 $paymentData,
                 $scopeConfig,
@@ -54,19 +54,19 @@ class VoidTest extends \PHPUnit_Framework_TestCase
                 $configFactory,
                 $mathRandom,
                 $httpClientFactoryMock
-            )
+            ]
         );
 
         $response = new \Magento\Framework\Object(
-            array(
+            [
                 'result' => '0',
                 'pnref' => 'V19A3D27B61E',
                 'respmsg' => 'Approved',
                 'authcode' => '510PNI',
                 'hostcode' => 'A',
                 'request_id' => 'f930d3dc6824c1f7230c5529dc37ae5e',
-                'result_code' => '0'
-            )
+                'result_code' => '0',
+            ]
         );
 
         $instance->expects($this->any())->method('_postRequest')->will($this->returnValue($response));

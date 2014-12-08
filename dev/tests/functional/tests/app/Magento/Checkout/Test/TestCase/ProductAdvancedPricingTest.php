@@ -8,10 +8,10 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Class ProductAdvancedPricingTest

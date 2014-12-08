@@ -17,7 +17,7 @@ class PropertyGroup extends Collection
      *
      * @var array
      */
-    protected $properties = array();
+    protected $properties = [];
 
     /**
      * Constructor

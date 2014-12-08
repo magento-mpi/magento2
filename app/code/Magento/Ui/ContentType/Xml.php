@@ -75,7 +75,7 @@ class Xml implements ContentTypeInterface
     {
         $result = [
             'configuration' => $view->getRenderContext()->getStorage()->getComponentsData($view->getName())->getData(),
-            'data' => []
+            'data' => [],
         ];
         foreach ($view->getRenderContext()->getStorage()->getData($view->getName()) as $key => $value) {
             if (is_object($value)) {

@@ -67,7 +67,7 @@ class Lock extends \Magento\Framework\Model\AbstractModel
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_backendAuthSession = $backendAuthSession;
@@ -226,12 +226,12 @@ class Lock extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->setData(
-            array(
+            [
                 'user_id' => $this->_getSession()->getUser()->getId(),
                 'user_name' => $this->_getSession()->getUser()->getName(),
                 'session_id' => $this->_getSession()->getSessionId(),
-                'started_at' => time()
-            )
+                'started_at' => time(),
+            ]
         );
         $this->save();
 

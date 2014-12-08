@@ -35,14 +35,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($this->getFlag('add_websites_to_result') && $this->_items) {
             $select = $this->getConnection()->select()->from(
                 $this->getTable('magento_giftwrapping_website'),
-                array('wrapping_id', 'website_id')
+                ['wrapping_id', 'website_id']
             )->where(
                 'wrapping_id IN (?)',
                 array_keys($this->_items)
             );
             $websites = $this->getConnection()->fetchAll($select);
             foreach ($this->_items as $item) {
-                $websiteIds = array();
+                $websiteIds = [];
                 foreach ($websites as $website) {
                     if ($item->getId() == $website['wrapping_id']) {
                         $websiteIds[] = $website['website_id'];
@@ -80,9 +80,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (!$this->getFlag('is_website_table_joined')) {
             $this->setFlag('is_website_table_joined', true);
             $this->getSelect()->joinInner(
-                array('website' => $this->getTable('magento_giftwrapping_website')),
+                ['website' => $this->getTable('magento_giftwrapping_website')],
                 'main_table.wrapping_id = website.wrapping_id',
-                array()
+                []
             );
         }
 
@@ -130,7 +130,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function toOptionArray()
     {
         return array_merge(
-            array(array('value' => '', 'label' => __('Please select'))),
+            [['value' => '', 'label' => __('Please select')]],
             $this->_toOptionArray('wrapping_id', 'design')
         );
     }
@@ -145,21 +145,21 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $adapter = $this->getConnection();
         $select = $adapter->select();
-        $select->from(array('m' => $this->getMainTable()), array('*'));
+        $select->from(['m' => $this->getMainTable()], ['*']);
 
         $select->joinLeft(
-            array('d' => $this->getTable('magento_giftwrapping_store_attributes')),
+            ['d' => $this->getTable('magento_giftwrapping_store_attributes')],
             'd.wrapping_id = m.wrapping_id AND d.store_id = 0',
-            array('')
+            ['']
         );
 
         $select->joinLeft(
-            array('s' => $this->getTable('magento_giftwrapping_store_attributes')),
+            ['s' => $this->getTable('magento_giftwrapping_store_attributes')],
             's.wrapping_id = m.wrapping_id AND s.store_id = ' . $storeId,
-            array('design' => $adapter->getIfNullSql('s.design', 'd.design'))
+            ['design' => $adapter->getIfNullSql('s.design', 'd.design')]
         );
 
-        $this->getSelect()->reset()->from(array('main_table' => $select), array('*'));
+        $this->getSelect()->reset()->from(['main_table' => $select], ['*']);
 
         return $this;
     }

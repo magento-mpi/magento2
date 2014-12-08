@@ -47,7 +47,7 @@ class Link extends \Magento\Framework\View\Element\Template
         'onmouseout',
         'onkeypress',
         'onkeydown',
-        'onkeyup' // %events
+        'onkeyup', // %events
     ];
 
     /**
@@ -57,7 +57,7 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     public function getLinkAttributes()
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->allowedAttributes as $attribute) {
             $value = $this->getDataUsingMethod($attribute);
             if (!is_null($value)) {
@@ -81,9 +81,9 @@ class Link extends \Magento\Framework\View\Element\Template
      * @param   string $quote
      * @return  string
      */
-    public function serialize($attributes = array(), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
+    public function serialize($attributes = [], $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
     {
-        $data = array();
+        $data = [];
         foreach ($attributes as $key => $value) {
             $data[] = $key . $valueSeparator . $quote . $value . $quote;
         }

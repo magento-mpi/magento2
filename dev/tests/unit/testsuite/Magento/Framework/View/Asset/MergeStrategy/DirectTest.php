@@ -8,7 +8,6 @@
 namespace Magento\Framework\View\Asset\MergeStrategy;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Filesystem\Directory\Write;
 
 class DirectTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,14 +34,13 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cssUrlResolver = $this->getMock('\Magento\Framework\View\Url\CssResolver');
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
         $this->writeDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\WriteInterface');
         $filesystem->expects($this->any())
             ->method('getDirectoryWrite')
             ->with(DirectoryList::STATIC_VIEW)
-            ->will($this->returnValue($this->writeDir))
-        ;
-        $this->resultAsset = $this->getMock('\Magento\Framework\View\Asset\File', array(), array(), '', false);
+            ->will($this->returnValue($this->writeDir));
+        $this->resultAsset = $this->getMock('\Magento\Framework\View\Asset\File', [], [], '', false);
         $this->object = new Direct($filesystem, $this->cssUrlResolver);
     }
 
@@ -50,13 +48,13 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     {
         $this->resultAsset->expects($this->once())->method('getPath')->will($this->returnValue('foo/result'));
         $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', '');
-        $this->object->merge(array(), $this->resultAsset);
+        $this->object->merge([], $this->resultAsset);
     }
 
     public function testMergeGeneric()
     {
         $this->resultAsset->expects($this->once())->method('getPath')->will($this->returnValue('foo/result'));
-        $assets = $this->prepareAssetsToMerge(array(' one', 'two')); // note leading space intentionally
+        $assets = $this->prepareAssetsToMerge([' one', 'two']); // note leading space intentionally
         $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', 'onetwo');
         $this->object->merge($assets, $this->resultAsset);
     }
@@ -65,19 +63,16 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     {
         $this->resultAsset->expects($this->exactly(3))
             ->method('getPath')
-            ->will($this->returnValue('foo/result'))
-        ;
+            ->will($this->returnValue('foo/result'));
         $this->resultAsset->expects($this->any())->method('getContentType')->will($this->returnValue('css'));
-        $assets = $this->prepareAssetsToMerge(array('one', 'two'));
+        $assets = $this->prepareAssetsToMerge(['one', 'two']);
         $this->cssUrlResolver->expects($this->exactly(2))
             ->method('relocateRelativeUrls')
-            ->will($this->onConsecutiveCalls('1', '2'))
-        ;
+            ->will($this->onConsecutiveCalls('1', '2'));
         $this->cssUrlResolver->expects($this->once())
             ->method('aggregateImportDirectives')
             ->with('12')
-            ->will($this->returnValue('1020'))
-        ;
+            ->will($this->returnValue('1020'));
         $this->writeDir->expects($this->once())->method('writeFile')->with('foo/result', '1020');
         $this->object->merge($assets, $this->resultAsset);
     }
@@ -90,7 +85,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
      */
     private function prepareAssetsToMerge(array $data)
     {
-        $result = array();
+        $result = [];
         foreach ($data as $content) {
             $asset = $this->getMockForAbstractClass('Magento\Framework\View\Asset\LocalInterface');
             $asset->expects($this->once())->method('getContent')->will($this->returnValue($content));

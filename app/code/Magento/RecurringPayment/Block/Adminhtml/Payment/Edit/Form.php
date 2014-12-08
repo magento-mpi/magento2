@@ -62,7 +62,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\RecurringPayment\Block\Fields $recurringPaymentFields,
         \Magento\RecurringPayment\Model\PeriodUnits $periodUnits,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formFactory = $formFactory;
         $this->_recurringPaymentFields = $recurringPaymentFields;
@@ -136,40 +136,40 @@ class Form extends \Magento\Backend\Block\AbstractBlock
             )->setFieldNameSuffix(
                 $this->_parentElement->getName()
             );
-            $form->addField('', 'hidden', array('name' => ''));
+            $form->addField('', 'hidden', ['name' => '']);
         }
 
-        $noYes = array(__('No'), __('Yes'));
+        $noYes = [__('No'), __('Yes')];
 
         // schedule
         $schedule = $form->addFieldset(
             'schedule_fieldset',
-            array('legend' => __('Schedule'), 'disabled' => $this->_isReadOnly)
+            ['legend' => __('Schedule'), 'disabled' => $this->_isReadOnly]
         );
         $schedule->addField(
             'start_date_is_editable',
             'select',
-            array(
+            [
                 'name' => 'start_date_is_editable',
                 'label' => __('Customer Can Define Start Date'),
                 'comment' => __('Select whether buyer can define the date when billing for the payment begins.'),
                 'options' => $noYes,
                 'disabled' => $this->_isReadOnly
-            )
+            ]
         );
         $this->_addField($schedule, 'schedule_description');
         $this->_addField($schedule, 'suspension_threshold');
-        $this->_addField($schedule, 'bill_failed_later', array('options' => $noYes), 'select');
+        $this->_addField($schedule, 'bill_failed_later', ['options' => $noYes], 'select');
 
         // billing
         $billing = $form->addFieldset(
             'billing_fieldset',
-            array('legend' => __('Billing'), 'disabled' => $this->_isReadOnly)
+            ['legend' => __('Billing'), 'disabled' => $this->_isReadOnly]
         );
         $this->_addField(
             $billing,
             'period_unit',
-            array('options' => $this->_getPeriodUnitOptions(__('-- Please Select --'))),
+            ['options' => $this->_getPeriodUnitOptions(__('-- Please Select --'))],
             'select'
         );
         $this->_addField($billing, 'period_frequency');
@@ -178,12 +178,12 @@ class Form extends \Magento\Backend\Block\AbstractBlock
         // trial
         $trial = $form->addFieldset(
             'trial_fieldset',
-            array('legend' => __('Trial Period'), 'disabled' => $this->_isReadOnly)
+            ['legend' => __('Trial Period'), 'disabled' => $this->_isReadOnly]
         );
         $this->_addField(
             $trial,
             'trial_period_unit',
-            array('options' => $this->_getPeriodUnitOptions(__('-- Not Selected --'))),
+            ['options' => $this->_getPeriodUnitOptions(__('-- Not Selected --'))],
             'select'
         );
         $this->_addField($trial, 'trial_period_frequency');
@@ -193,10 +193,10 @@ class Form extends \Magento\Backend\Block\AbstractBlock
         // initial fees
         $initial = $form->addFieldset(
             'initial_fieldset',
-            array('legend' => __('Initial Fees'), 'disabled' => $this->_isReadOnly)
+            ['legend' => __('Initial Fees'), 'disabled' => $this->_isReadOnly]
         );
         $this->_addField($initial, 'init_amount');
-        $this->_addField($initial, 'init_may_fail', array('options' => $noYes), 'select');
+        $this->_addField($initial, 'init_may_fail', ['options' => $noYes], 'select');
 
         return $form;
     }
@@ -211,18 +211,18 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      * @param string $type
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    protected function _addField($formOrFieldset, $elementName, $options = array(), $type = 'text')
+    protected function _addField($formOrFieldset, $elementName, $options = [], $type = 'text')
     {
         $options = array_merge(
             $options,
-            array(
+            [
                 'name' => $elementName,
                 'label' => $this->_recurringPaymentFields->getFieldLabel($elementName),
                 'note' => $this->_recurringPaymentFields->getFieldComment($elementName),
                 'disabled' => $this->_isReadOnly
-            )
+            ]
         );
-        if (in_array($elementName, array('period_unit', 'period_frequency'))) {
+        if (in_array($elementName, ['period_unit', 'period_frequency'])) {
             $options['required'] = true;
         }
         return $formOrFieldset->addField($elementName, $type, $options);
@@ -236,7 +236,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _getPeriodUnitOptions($emptyLabel)
     {
-        return array_merge(array('' => $emptyLabel), $this->_periodUnits->toOptionArray());
+        return array_merge(['' => $emptyLabel], $this->_periodUnits->toOptionArray());
     }
 
     /**

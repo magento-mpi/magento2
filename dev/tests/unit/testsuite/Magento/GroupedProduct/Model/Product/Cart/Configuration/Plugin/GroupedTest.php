@@ -31,11 +31,11 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->subjectMock = $this->getMock(
             'Magento\Catalog\Model\Product\CartConfiguration',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -47,7 +47,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundIsProductConfiguredWhenProductGrouped()
     {
-        $config = array('super_group' => 'product');
+        $config = ['super_group' => 'product'];
         $this->productMock->expects(
             $this->once()
         )->method(
@@ -68,7 +68,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundIsProductConfiguredWhenProductIsNotGrouped()
     {
-        $config = array('super_group' => 'product');
+        $config = ['super_group' => 'product'];
         $this->productMock->expects($this->once())->method('getTypeId')->will($this->returnValue('product'));
         $this->assertEquals(
             'Expected',

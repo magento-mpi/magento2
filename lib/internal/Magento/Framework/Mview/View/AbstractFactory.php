@@ -33,7 +33,7 @@ abstract class AbstractFactory
      * @param array $data
      * @return CollectionInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->objectManager->create(static::INSTANCE_NAME, $data);
     }

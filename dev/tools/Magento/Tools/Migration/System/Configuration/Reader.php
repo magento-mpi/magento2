@@ -64,7 +64,7 @@ class Reader
         $files = $this->_fileManager->getFileList(
             $this->_basePath . '/' . \Magento\Tools\Migration\System\Configuration\Reader::SYSTEM_CONFIG_PATH_PATTERN
         );
-        $result = array();
+        $result = [];
         foreach ($files as $fileName) {
             $result[$fileName] = $this->_mapper->transform(
                 $this->_parser->parse($this->_getDOMDocument($this->_fileManager->getContents($fileName)))

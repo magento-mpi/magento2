@@ -37,7 +37,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Api\AddressRepositoryInterface $addressRepository,
         \Magento\Customer\Model\Address\Mapper $addressConverter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -62,7 +62,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         if ($this->_getData('redirect_url_success')) {
             return $this->_getData('redirect_url_success');
         }
-        return $this->getUrl('magento_pbridge/pbridge/success', array('_current' => true, '_secure' => true));
+        return $this->getUrl('magento_pbridge/pbridge/success', ['_current' => true, '_secure' => true]);
     }
 
     /**
@@ -75,7 +75,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
         if ($this->_getData('redirect_url_error')) {
             return $this->_getData('redirect_url_error');
         }
-        return $this->getUrl('magento_pbridge/pbridge/error', array('_current' => true, '_secure' => true));
+        return $this->getUrl('magento_pbridge/pbridge/error', ['_current' => true, '_secure' => true]);
     }
 
     /**
@@ -87,7 +87,7 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      */
     public function getSourceUrl()
     {
-        $requestParams = array(
+        $requestParams = [
             'notify_url' => $this->getUrl('magento_pbridge/PbridgeIpn/'),
             'redirect_url_success' => $this->getRedirectUrlSuccess(),
             'redirect_url_error' => $this->getRedirectUrlError(),
@@ -99,8 +99,8 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
             'customer_id' => $this->getCustomerIdentifier(),
             'customer_name' => $this->getCustomerName(),
             'customer_email' => $this->getCustomerEmail(),
-            'client_ip' => $this->_request->getClientIp(false)
-        );
+            'client_ip' => $this->_request->getClientIp(false),
+        ];
 
         $sourceUrl = $this->_pbridgeData->getGatewayFormUrl($requestParams, $this->getQuote());
         return $sourceUrl;

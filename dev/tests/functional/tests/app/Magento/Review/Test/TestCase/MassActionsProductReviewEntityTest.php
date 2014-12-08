@@ -8,12 +8,11 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Magento\Review\Test\Page\Adminhtml\RatingIndex;
-use Magento\Review\Test\Page\Adminhtml\RatingEdit;
-use Mtf\TestCase\Injectable;
 use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
+use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test creation for MassActions ProductReviewEntity

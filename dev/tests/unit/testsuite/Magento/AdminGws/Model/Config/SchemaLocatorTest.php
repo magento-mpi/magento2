@@ -21,7 +21,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_moduleReaderMock = $this->getMock('Magento\Framework\Module\Dir\Reader', array(), array(), '', false);
+        $this->_moduleReaderMock = $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false);
         $this->_moduleReaderMock->expects(
             $this->any()
         )->method(

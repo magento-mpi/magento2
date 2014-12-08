@@ -29,5 +29,5 @@ interface ToolInterface
      *
      * @return int
      */
-    public function run(array $whiteList, array $blackList = array(), array $extensions = array());
+    public function run(array $whiteList, array $blackList = [], array $extensions = []);
 }

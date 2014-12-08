@@ -50,7 +50,7 @@ class Cert extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_certFactory = $certFactory;
         $this->_encryptor = $encryptor;

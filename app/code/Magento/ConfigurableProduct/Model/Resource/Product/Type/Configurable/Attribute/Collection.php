@@ -9,8 +9,8 @@
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
 
-use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Price\Data as PriceData;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
 
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
@@ -166,16 +166,16 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _afterLoad()
     {
         parent::_afterLoad();
-        \Magento\Framework\Profiler::start('TTT1:' . __METHOD__, array('group' => 'TTT1', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TTT1:' . __METHOD__, ['group' => 'TTT1', 'method' => __METHOD__]);
         $this->_addProductAttributes();
         \Magento\Framework\Profiler::stop('TTT1:' . __METHOD__);
-        \Magento\Framework\Profiler::start('TTT2:' . __METHOD__, array('group' => 'TTT2', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TTT2:' . __METHOD__, ['group' => 'TTT2', 'method' => __METHOD__]);
         $this->_addAssociatedProductFilters();
         \Magento\Framework\Profiler::stop('TTT2:' . __METHOD__);
-        \Magento\Framework\Profiler::start('TTT3:' . __METHOD__, array('group' => 'TTT3', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TTT3:' . __METHOD__, ['group' => 'TTT3', 'method' => __METHOD__]);
         $this->_loadLabels();
         \Magento\Framework\Profiler::stop('TTT3:' . __METHOD__);
-        \Magento\Framework\Profiler::start('TTT4:' . __METHOD__, array('group' => 'TTT4', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TTT4:' . __METHOD__, ['group' => 'TTT4', 'method' => __METHOD__]);
         $this->_loadPrices();
         \Magento\Framework\Profiler::stop('TTT4:' . __METHOD__);
         return $this;
@@ -229,14 +229,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $labelCheck = $this->getConnection()->getCheckSql('store.value IS NULL', 'def.value', 'store.value');
 
             $select = $this->getConnection()->select()->from(
-                array('def' => $this->_labelTable)
+                ['def' => $this->_labelTable]
             )->joinLeft(
-                array('store' => $this->_labelTable),
+                ['store' => $this->_labelTable],
                 $this->getConnection()->quoteInto(
                     'store.product_super_attribute_id = def.product_super_attribute_id AND store.store_id = ?',
                     $this->getStoreId()
                 ),
-                array('use_default' => $useDefaultCheck, 'label' => $labelCheck)
+                ['use_default' => $useDefaultCheck, 'label' => $labelCheck]
             )->where(
                 'def.product_super_attribute_id IN (?)',
                 array_keys($this->_items)
@@ -262,7 +262,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _loadPrices()
     {
         if ($this->count()) {
-
             $values = $this->getPriceValues();
 
             foreach ($values as $data) {
@@ -286,24 +285,24 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             return $cachedPriceData;
         }
 
-        $pricings = array(0 => array());
+        $pricings = [0 => []];
 
         if ($this->_catalogData->isPriceGlobal()) {
             $websiteId = 0;
         } else {
             $websiteId = (int) $this->_storeManager->getStore($this->getStoreId())->getWebsiteId();
-            $pricing[$websiteId] = array();
+            $pricing[$websiteId] = [];
         }
 
         $select = $this->getConnection()->select()->from(
-            array('price' => $this->_priceTable)
+            ['price' => $this->_priceTable]
         )->where(
             'price.product_super_attribute_id IN (?)',
             array_keys($this->_items)
         );
 
         if ($websiteId > 0) {
-            $select->where('price.website_id IN(?)', array(0, $websiteId));
+            $select->where('price.website_id IN(?)', [0, $websiteId]);
         } else {
             $select->where('price.website_id = ?', 0);
         }
@@ -314,7 +313,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $pricings[(int)$row['website_id']][] = $row;
         }
 
-        $values = array();
+        $values = [];
         $usedProducts = $this->getProductType()->getUsedProducts($this->getProduct());
         if ($usedProducts) {
             foreach ($this->_items as $item) {
@@ -330,7 +329,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                         if (!empty($option['value']) && $option['value'] == $attributeCodeValue) {
                             // If option available in associated product
                             if (!isset($values[$item->getId() . ':' . $option['value']])) {
-                                $values[$itemId . ':' . $option['value']] = array(
+                                $values[$itemId . ':' . $option['value']] = [
                                     'product_super_attribute_id' => $itemId,
                                     'value_index' => $option['value'],
                                     'label' => $option['label'],
@@ -338,8 +337,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                                     'store_label' => $option['label'],
                                     'is_percent' => 0,
                                     'pricing_value' => null,
-                                    'use_default_value' => true
-                                );
+                                    'use_default_value' => true,
+                                ];
                             }
                         }
                     }
@@ -390,7 +389,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
         $options = $productAttribute->getSource()->getSpecificOptions(array_unique($attributeValues));
         return $options;
-
     }
 
     /**

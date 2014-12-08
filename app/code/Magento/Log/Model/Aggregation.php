@@ -43,7 +43,7 @@ class Aggregation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -99,12 +99,12 @@ class Aggregation extends \Magento\Framework\Model\AbstractModel
         while ($date < $end) {
             $to = $date + 3600;
             $counts = $this->_getCounts($this->_date($date), $this->_date($to), $store);
-            $data = array(
+            $data = [
                 'store_id' => $store,
                 'visitor_count' => $counts['visitors'],
                 'customer_count' => $counts['customers'],
-                'add_date' => $this->_date($date)
-            );
+                'add_date' => $this->_date($date),
+            ];
 
             if ($counts['visitors'] || $counts['customers']) {
                 $this->_save($data, $this->_date($date), $this->_date($to));

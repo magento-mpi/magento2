@@ -24,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -46,13 +46,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->add(
             'save_and_continue_edit',
-            array(
+            [
                 'class' => 'save',
                 'label' => __('Save and Continue Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
-                )
-            ),
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form']],
+                ]
+            ],
             3
         );
 
@@ -115,7 +115,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($wrapping) {
             $url = $this->getUrl(
                 'adminhtml/*/save',
-                array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId())
+                ['id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()]
             );
         } else {
             $url = $this->getUrl('adminhtml/*/save');
@@ -131,7 +131,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getUploadUrl()
     {
         $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
-        $params = array();
+        $params = [];
         if ($wrapping) {
             $params['store'] = $wrapping->getStoreId();
             if ($wrapping->getId()) {

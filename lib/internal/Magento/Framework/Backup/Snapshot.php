@@ -13,8 +13,8 @@
  */
 namespace Magento\Framework\Backup;
 
-use Magento\Framework\Filesystem as AppFilesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem as AppFilesystem;
 
 class Snapshot extends Filesystem
 {
@@ -118,8 +118,7 @@ class Snapshot extends Filesystem
             ->setBackupExtension('gz')
             ->setTime($this->getTime())
             ->setBackupsDir($this->_filesystem->getDirectoryWrite(DirectoryList::VAR_DIR)->getAbsolutePath())
-            ->setResourceModel($this->getResourceModel())
-        ;
+            ->setResourceModel($this->getResourceModel());
     }
 
     /**

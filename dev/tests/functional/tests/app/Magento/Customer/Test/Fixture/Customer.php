@@ -119,10 +119,10 @@ class Customer extends DataFixture
      */
     protected function _initData()
     {
-        $this->_defaultConfig = array(
-            'grid_filter' => array('email'),
-            'constraint' => 'Success'
-        );
+        $this->_defaultConfig = [
+            'grid_filter' => ['email'],
+            'constraint' => 'Success',
+        ];
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCustomerCustomer($this->_dataConfig, $this->_data);
@@ -160,14 +160,14 @@ class Customer extends DataFixture
      */
     public function updateCustomerGroup($value, $inputValue)
     {
-        $data = array(
-            'fields' => array(
-                'group_id' => array(
+        $data = [
+            'fields' => [
+                'group_id' => [
                     'value' => $value,
-                    'input_value' => $inputValue
-                )
-            )
-        );
+                    'input_value' => $inputValue,
+                ],
+            ],
+        ];
         $this->_data = array_replace_recursive($this->_data, $data);
     }
 }

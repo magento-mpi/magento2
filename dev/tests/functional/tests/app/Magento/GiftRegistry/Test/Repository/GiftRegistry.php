@@ -40,11 +40,11 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                ]
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
 
         $this->_data['baby_registry'] = [
@@ -62,12 +62,12 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                    'role' => 'Mother'
-                ]
+                    'role' => 'Mother',
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
 
         $this->_data['wedding'] = [
@@ -86,12 +86,12 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                    'role' => 'Groom'
-                ]
+                    'role' => 'Groom',
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
 
         $this->_data['birthday_private'] = [
@@ -108,11 +108,11 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                ]
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
 
         $this->_data['baby_registry_inactive'] = [
@@ -130,12 +130,12 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                    'role' => 'Mother'
-                ]
+                    'role' => 'Mother',
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
 
         $this->_data['wedding_inactive_private'] = [
@@ -154,12 +154,12 @@ class GiftRegistry extends AbstractRepository
                     'email' => 'email@test%isolation%.com',
                     'firstname' => 'FirstName%isolation%',
                     'lastname' => 'LastName%isolation%',
-                    'role' => 'Groom'
-                ]
+                    'role' => 'Groom',
+                ],
             ],
             'address' => [
-                'dataSet' => 'US_address_without_email'
-            ]
+                'dataSet' => 'US_address_without_email',
+            ],
         ];
     }
 }

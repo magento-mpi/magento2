@@ -8,7 +8,7 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class NewAction extends \Magento\Backend\App\Action
 {
@@ -50,7 +50,6 @@ class NewAction extends \Magento\Backend\App\Action
         $this->shipmentLoader->setTracking($this->getRequest()->getParam('tracking'));
         $shipment = $this->shipmentLoader->load();
         if ($shipment) {
-
             $comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             if ($comment) {
                 $shipment->setCommentText($comment);
@@ -62,7 +61,7 @@ class NewAction extends \Magento\Backend\App\Action
             $this->_view->getPage()->getConfig()->getTitle()->prepend(__('New Shipment'));
             $this->_view->renderLayout();
         } else {
-            $this->_redirect('*/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
+            $this->_redirect('*/order/view', ['order_id' => $this->getRequest()->getParam('order_id')]);
         }
     }
 }

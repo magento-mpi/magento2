@@ -7,8 +7,8 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\Framework\Model\Exception;
 use Magento\Framework\Event\Observer as EventObserver;
+use Magento\Framework\Model\Exception;
 
 /**
  * Theme Observer model
@@ -70,7 +70,7 @@ class Observer
         if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
             throw new Exception(__('Theme isn\'t deletable.'));
         }
-        $this->_themeImageFactory->create(array('theme' => $theme))->removePreviewImage();
+        $this->_themeImageFactory->create(['theme' => $theme])->removePreviewImage();
         $this->_updateCollection->addThemeFilter($theme->getId())->delete();
     }
 
@@ -86,7 +86,7 @@ class Observer
         if ($theme instanceof \Magento\Framework\View\Design\ThemeInterface) {
             /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
             if ($this->_themeConfig->isThemeAssignedToStore($theme)) {
-                $this->_eventDispatcher->dispatch('assigned_theme_changed', array('theme' => $this));
+                $this->_eventDispatcher->dispatch('assigned_theme_changed', ['theme' => $this]);
             }
         }
     }

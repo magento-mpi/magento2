@@ -9,7 +9,6 @@
 namespace Magento\Customer\Api;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Model\CustomerRegistry;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -116,8 +115,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/password',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $requestData = ['currentPassword' => 'test@123', 'newPassword' => '123@test'];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
@@ -125,8 +124,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/customers/login',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
+            ],
         ];
         $requestData = ['email' => $this->customerData[CustomerInterface::EMAIL], 'password' => '123@test'];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
@@ -149,8 +148,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $requestData = ['customer' => $updatedCustomerData];
 
@@ -179,8 +178,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $customerDetailsResponse = $this->_webApiCall($serviceInfo);
 
@@ -196,8 +195,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/activate',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $requestData = ['confirmationKey' => $this->customerData[CustomerInterface::CONFIRMATION]];
         $customerResponseData = $this->_webApiCall($serviceInfo, $requestData);
@@ -228,8 +227,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => "/V1/customers/me/billingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $requestData = ['customerId' => $fixtureCustomerId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
@@ -249,8 +248,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'rest' => [
                 'resourcePath' => "/V1/customers/me/shippingAddress",
                 'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
-                'token' => $this->token
-            ]
+                'token' => $this->token,
+            ],
         ];
         $requestData = ['customerId' => $fixtureCustomerId];
         $addressData = $this->_webApiCall($serviceInfo, $requestData);
@@ -299,7 +298,7 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
             'country_id' => 'US',
             'postcode' => '47676',
             'telephone' => '3234676',
-            'street' => ['Black str, 48',],
+            'street' => ['Black str, 48'],
             'id' => 2,
             'default_billing' => false,
             'default_shipping' => false,
@@ -336,8 +335,8 @@ class AccountManagementMeTest extends \Magento\TestFramework\TestCase\WebapiAbst
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
         $requestData = ['username' => $username, 'password' => $password];
         $this->token = $this->_webApiCall($serviceInfo, $requestData);

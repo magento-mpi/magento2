@@ -22,7 +22,7 @@ class Layer extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_productCollections = array();
+    protected $_productCollections = [];
 
     /**
      * Key which can be used for load/save aggregation data
@@ -104,7 +104,7 @@ class Layer extends \Magento\Framework\Object
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layerStateFactory = $layerStateFactory;
         $this->_attributeCollectionFactory = $attributeCollectionFactory;

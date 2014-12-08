@@ -10,7 +10,7 @@ $addressData = include __DIR__ . '/../../../Magento/Sales/_files/address_data.ph
 /** @var $billingAddress \Magento\Sales\Model\Order\Address */
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $billingAddress->setAddressType('billing');
 

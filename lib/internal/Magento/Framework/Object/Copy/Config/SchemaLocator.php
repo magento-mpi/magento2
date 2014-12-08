@@ -9,8 +9,8 @@
  */
 namespace Magento\Framework\Object\Copy\Config;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 class SchemaLocator implements \Magento\Framework\Config\SchemaLocatorInterface
 {

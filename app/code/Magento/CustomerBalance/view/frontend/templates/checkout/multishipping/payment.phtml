@@ -18,7 +18,7 @@
                    "usedAmount":"<?php echo (float)$this->getQuote()->getBaseCustomerBalAmountUsed(); ?>",
                    "balance":"<?php echo (float)$this->getBalance(); ?>"
                }'
-               <?php echo ($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
+               <?php echo($this->isCustomerBalanceUsed() ? 'checked' : '') ?>/>
 
         <?php $balance = $this->helper('Magento\Core\Helper\Data')->currency($this->getBalance()); ?>
         <label for="use-customer-balance" class="label">

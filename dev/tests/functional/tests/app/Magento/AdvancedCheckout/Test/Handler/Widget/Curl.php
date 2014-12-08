@@ -20,7 +20,7 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
      */
     protected $additionalMappingData = [
         'code' => [
-            'Order by SKU' => 'order_by_sku'
+            'Order by SKU' => 'order_by_sku',
         ],
     ];
 

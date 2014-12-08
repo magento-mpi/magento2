@@ -34,7 +34,7 @@ class Save extends \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled
             )
             ) {
                 $this->messageManager->addError(__("We couldn't save the scheduled operation."));
-                $this->_redirect('adminhtml/*/*', array('_current' => true));
+                $this->_redirect('adminhtml/*/*', ['_current' => true]);
 
                 return;
             }

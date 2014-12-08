@@ -18,5 +18,4 @@ namespace Magento\Backend\Block\Widget\Button;
  */
 class Item extends \Magento\Framework\Object
 {
-
 }

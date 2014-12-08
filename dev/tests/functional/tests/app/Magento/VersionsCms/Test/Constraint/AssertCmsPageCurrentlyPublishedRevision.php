@@ -9,10 +9,10 @@
 namespace Magento\VersionsCms\Test\Constraint;
 
 use Magento\Cms\Test\Fixture\CmsPage;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
 use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\VersionsCms\Test\Fixture\Revision;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertCmsPageCurrentlyPublishedRevision

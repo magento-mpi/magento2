@@ -9,7 +9,7 @@
  */
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
-use \Magento\ImportExport\Model\Import as ImportModel;
+use Magento\ImportExport\Model\Import as ImportModel;
 
 class Import extends AbstractPlugin
 {

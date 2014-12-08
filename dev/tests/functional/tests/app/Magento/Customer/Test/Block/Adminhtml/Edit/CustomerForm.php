@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Test\Block\Adminhtml\Edit;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 
 /**

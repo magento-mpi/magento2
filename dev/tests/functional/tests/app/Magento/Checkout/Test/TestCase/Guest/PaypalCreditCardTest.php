@@ -7,12 +7,12 @@
  */
 namespace Magento\Checkout\Test\TestCase\Guest;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
 use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcAdvanced;
 use Magento\Paypal\Test\Block\Form\PayflowAdvanced\CcLink;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Class PaypalCreditCardTest

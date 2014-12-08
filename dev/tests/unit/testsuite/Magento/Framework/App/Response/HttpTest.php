@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\App\Response;
 
-use Magento\Framework\Stdlib\Cookie\PublicCookieMetadata;
 use Magento\Framework\Stdlib\Cookie\CookieMetadata;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
@@ -26,7 +25,6 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
     protected $cookieMetadataFactoryMock;
-
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\App\Http\Context
@@ -61,7 +59,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHeaderWhenHeaderNameIsEqualsName()
     {
-        $expected = array('name' => 'Name', 'value' => 'value', 'replace' => false);
+        $expected = ['name' => 'Name', 'value' => 'value', 'replace' => false];
         $actual = $this->model->getHeader('Name');
         $this->assertEquals($expected, $actual);
     }

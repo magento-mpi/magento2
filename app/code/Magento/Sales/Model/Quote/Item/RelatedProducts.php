@@ -20,7 +20,7 @@ class RelatedProducts
     /**
      * @param array $relatedProductTypes
      */
-    public function __construct($relatedProductTypes = array())
+    public function __construct($relatedProductTypes = [])
     {
         $this->_relatedProductTypes = $relatedProductTypes;
     }
@@ -33,7 +33,7 @@ class RelatedProducts
      */
     public function getRelatedProductIds(array $quoteItems)
     {
-        $productIds = array();
+        $productIds = [];
         /** @var $quoteItems \Magento\Sales\Model\Quote\Item[] */
         foreach ($quoteItems as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');

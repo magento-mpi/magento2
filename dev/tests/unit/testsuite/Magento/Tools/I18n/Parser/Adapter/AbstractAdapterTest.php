@@ -18,12 +18,12 @@ class AbstractAdapterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_adapterMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Parser\Adapter\AbstractAdapter',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('_parse')
+            ['_parse']
         );
     }
 

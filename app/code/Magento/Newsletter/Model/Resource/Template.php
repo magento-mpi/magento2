@@ -59,7 +59,7 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
             )->where(
                 'template_actual = :template_actual'
             );
-            $data = $read->fetchRow($select, array('template_actual' => 1));
+            $data = $read->fetchRow($select, ['template_actual' => 1]);
 
             if ($data) {
                 $object->setData($data);
@@ -87,7 +87,7 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'template_id = :template_id'
             );
 
-            $countOfQueue = $this->_getReadAdapter()->fetchOne($select, array('template_id' => $template->getId()));
+            $countOfQueue = $this->_getReadAdapter()->fetchOne($select, ['template_id' => $template->getId()]);
 
             return $countOfQueue > 0;
         } elseif ($template->getIsSystem()) {
@@ -106,11 +106,11 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function checkCodeUsage(\Magento\Newsletter\Model\Template $template)
     {
         if ($template->getTemplateActual() != 0 || is_null($template->getTemplateActual())) {
-            $bind = array(
+            $bind = [
                 'template_id' => $template->getId(),
                 'template_code' => $template->getTemplateCode(),
-                'template_actual' => 1
-            );
+                'template_actual' => 1,
+            ];
             $select = $this->_getReadAdapter()->select()->from(
                 $this->getMainTable(),
                 new \Zend_Db_Expr('COUNT(template_id)')

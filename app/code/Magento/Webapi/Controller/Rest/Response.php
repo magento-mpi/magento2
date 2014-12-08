@@ -78,9 +78,9 @@ class Response extends \Magento\Webapi\Controller\Response
         /** @var \Exception $exception */
         foreach ($this->getException() as $exception) {
             $maskedException = $this->_errorProcessor->maskException($exception);
-            $messageData = array(
+            $messageData = [
                 'message' => $maskedException->getMessage(),
-            );
+            ];
             if ($maskedException->getErrors()) {
                 $messageData['errors'] = [];
                 foreach ($maskedException->getErrors() as $errorMessage) {
@@ -119,7 +119,7 @@ class Response extends \Magento\Webapi\Controller\Response
     {
         $this->_render($outputData);
         if ($this->getMessages()) {
-            $this->_render(array('messages' => $this->getMessages()));
+            $this->_render(['messages' => $this->getMessages()]);
         }
         return $this;
     }

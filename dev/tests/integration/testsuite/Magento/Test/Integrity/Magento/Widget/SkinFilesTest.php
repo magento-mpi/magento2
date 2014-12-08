@@ -18,7 +18,7 @@ class SkinFilesTest extends \PHPUnit_Framework_TestCase
         $assetRepo = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
             ->get('Magento\Framework\View\Asset\Repository');
         $this->assertFileExists(
-            $assetRepo->createAsset($skinImage, array('area' => 'adminhtml'))->getSourceFile()
+            $assetRepo->createAsset($skinImage, ['area' => 'adminhtml'])->getSourceFile()
         );
     }
 
@@ -27,7 +27,7 @@ class SkinFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function widgetPlaceholderImagesDataProvider()
     {
-        $result = array();
+        $result = [];
         /** @var $model \Magento\Widget\Model\Widget */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
@@ -37,7 +37,7 @@ class SkinFilesTest extends \PHPUnit_Framework_TestCase
             );
             $config = $instance->setType($row['type'])->getWidgetConfigAsArray();
             if (isset($config['placeholder_image'])) {
-                $result[] = array((string)$config['placeholder_image']);
+                $result[] = [(string)$config['placeholder_image']];
             }
         }
         return $result;

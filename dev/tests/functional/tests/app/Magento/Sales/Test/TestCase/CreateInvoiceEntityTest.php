@@ -8,10 +8,10 @@
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
  * Test Creation for CreateInvoiceEntity

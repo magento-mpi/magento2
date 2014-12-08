@@ -113,9 +113,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addSubscriberInfo()
     {
         $this->getSelect()->joinLeft(
-            array('subscriber' => $this->getTable('newsletter_subscriber')),
+            ['subscriber' => $this->getTable('newsletter_subscriber')],
             'main_table.subscriber_id = subscriber.subscriber_id',
-            array('subscriber_email', 'customer_id', 'subscriber_status')
+            ['subscriber_email', 'customer_id', 'subscriber_status']
         );
         $this->addFilterToMap('subscriber_id', 'main_table.subscriber_id');
         $this->_subscribersInfoJoinedFlag = true;
@@ -131,13 +131,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addQueueInfo()
     {
         $this->getSelect()->joinLeft(
-            array('queue' => $this->getTable('newsletter_queue')),
+            ['queue' => $this->getTable('newsletter_queue')],
             'main_table.queue_id = queue.queue_id',
-            array('queue_start_at', 'queue_finish_at')
+            ['queue_start_at', 'queue_finish_at']
         )->joinLeft(
-            array('template' => $this->getTable('newsletter_template')),
+            ['template' => $this->getTable('newsletter_template')],
             'queue.template_id = template.template_id',
-            array('template_subject', 'template_code', 'template_sender_name', 'template_sender_email')
+            ['template_subject', 'template_code', 'template_sender_name', 'template_sender_email']
         );
         return $this;
     }

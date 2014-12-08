@@ -30,7 +30,7 @@ interface ClientInterface
     public function setHeaders($headers);
 
     /**
-     * Add header to request 
+     * Add header to request
      * @param string $name
      * @param string $value
      * @return void

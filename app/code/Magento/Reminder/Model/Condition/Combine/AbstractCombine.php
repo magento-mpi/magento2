@@ -29,7 +29,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_ruleResource = $ruleResource;
@@ -44,8 +44,8 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     {
         if (null === $this->_defaultOperatorInputByType) {
             parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
-            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+            $this->_defaultOperatorInputByType['numeric'] = ['==', '!=', '>=', '>', '<=', '<'];
+            $this->_defaultOperatorInputByType['string'] = ['==', '!=', '{}', '!{}'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -103,7 +103,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     {
         $select = $this->getResource()->createSelect();
         $table = $this->getResource()->getTable('customer_entity');
-        $select->from($table, array(new \Zend_Db_Expr(1)));
+        $select->from($table, [new \Zend_Db_Expr(1)]);
         $select->where($this->_createCustomerFilter($customer, 'entity_id'));
         return $select;
     }
@@ -185,7 +185,7 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
      */
     protected function _getSubfilterMap()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -200,9 +200,9 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     {
         $storeTable = $this->getResource()->getTable('store');
         $select->join(
-            array('store' => $storeTable),
+            ['store' => $storeTable],
             $storeIdField . '=store.store_id',
-            array()
+            []
         )->where(
             'store.website_id=?',
             $website

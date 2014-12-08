@@ -9,9 +9,9 @@
  */
 namespace Magento\Rss\App\Action\Plugin;
 
+use Magento\Backend\App\AbstractAction;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\App\ResponseInterface;
-use Magento\Backend\App\AbstractAction;
 
 /**
  * Class BackendAuthentication
@@ -37,9 +37,9 @@ class BackendAuthentication extends \Magento\Backend\App\Action\Plugin\Authentic
     /**
      * @var array
      */
-    protected $aclResources = array(
-        'feed' => 'Magento_Rss::rss'
-    );
+    protected $aclResources = [
+        'feed' => 'Magento_Rss::rss',
+    ];
 
     /**
      * @param \Magento\Backend\Model\Auth $auth

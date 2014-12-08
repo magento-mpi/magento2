@@ -55,7 +55,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
         $frontendCache = $this->getMockForAbstractClass(
             'Magento\Framework\Cache\FrontendInterface',
-            array(),
+            [],
             '',
             false
         );
@@ -66,16 +66,16 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $locale = $objectManager->getObject(
             '\Magento\Framework\Locale',
-            array('locale' => \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE)
+            ['locale' => \Magento\Framework\Locale\ResolverInterface::DEFAULT_LOCALE]
         );
         $localeResolver = $this->getMock('\Magento\Framework\Locale\ResolverInterface');
         $localeResolver->expects($this->any())->method('getLocale')->will($this->returnValue($locale));
         $timezone = $objectManager->getObject(
             '\Magento\Framework\Stdlib\DateTime\Timezone',
-            array('localeResolver' => $localeResolver)
+            ['localeResolver' => $localeResolver]
         );
 
-        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\View\Element\Template\Context', [], [], '', false);
         $context->expects($this->any())->method('getLocaleDate')->will($this->returnValue($timezone));
 
         $this->attribute = $this->getMockBuilder('\Magento\Customer\Api\Data\AttributeMetadataInterface')
@@ -90,9 +90,9 @@ class DobTest extends \PHPUnit_Framework_TestCase
 
         $this->_block = new Dob(
             $context,
-            $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Helper\Address', [], [], '', false),
             $this->customerMetadata,
-            $this->getMock('Magento\Framework\View\Element\Html\Date', array(), array(), '', false)
+            $this->getMock('Magento\Framework\View\Element\Html\Date', [], [], '', false)
         );
     }
 
@@ -113,7 +113,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function isEnabledDataProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 
     public function testIsEnabledWithException()
@@ -165,7 +165,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function isRequiredDataProvider()
     {
-        return array(array(true, true), array(false, false));
+        return [[true, true], [false, false]];
     }
 
     /**
@@ -187,7 +187,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function setDateDataProvider()
     {
-        return array(array(self::DATE, strtotime(self::DATE), self::DATE), array(false, false, false));
+        return [[self::DATE, strtotime(self::DATE), self::DATE], [false, false, false]];
     }
 
     /**
@@ -207,7 +207,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getDayDataProvider()
     {
-        return array(array(self::DATE, self::DAY), array(false, ''));
+        return [[self::DATE, self::DAY], [false, '']];
     }
 
     /**
@@ -227,7 +227,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getMonthDataProvider()
     {
-        return array(array(self::DATE, self::MONTH), array(false, ''));
+        return [[self::DATE, self::MONTH], [false, '']];
     }
 
     /**
@@ -247,7 +247,7 @@ class DobTest extends \PHPUnit_Framework_TestCase
      */
     public function getYearDataProvider()
     {
-        return array(array(self::DATE, self::YEAR), array(false, ''));
+        return [[self::DATE, self::YEAR], [false, '']];
     }
 
     /**
@@ -328,20 +328,20 @@ class DobTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValue(strtotime(self::MIN_DATE)));
 
-        return array(
-            array(
-                array(
-                    $validationRule
-                ),
-                date('Y/m/d', strtotime(self::MIN_DATE))
-            ),
-            array(
-                array(
-                    $emptyValidationRule
-                ),
+        return [
+            [
+                [
+                    $validationRule,
+                ],
+                date('Y/m/d', strtotime(self::MIN_DATE)),
+            ],
+            [
+                [
+                    $emptyValidationRule,
+                ],
                 null
-            )
-        );
+            ]
+        ];
     }
 
     public function testGetMinDateRangeWithException()
@@ -398,20 +398,20 @@ class DobTest extends \PHPUnit_Framework_TestCase
         $validationRule->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue(strtotime(self::MAX_DATE)));
-        return array(
-            array(
-                array(
-                    $validationRule
-                ),
-                date('Y/m/d', strtotime(self::MAX_DATE))
-            ),
-            array(
-                array(
-                    $emptyValidationRule
-                ),
+        return [
+            [
+                [
+                    $validationRule,
+                ],
+                date('Y/m/d', strtotime(self::MAX_DATE)),
+            ],
+            [
+                [
+                    $emptyValidationRule,
+                ],
                 null
-            )
-        );
+            ]
+        ];
     }
 
     public function testGetMaxDateRangeWithException()

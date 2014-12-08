@@ -25,7 +25,7 @@ class Custbalance extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\
         $custbalance = $address->getCustbalanceAmount();
         if ($custbalance != 0) {
             $address->addTotal(
-                array('code' => 'custbalance', 'title' => __('Store Credit'), 'value' => -$custbalance)
+                ['code' => 'custbalance', 'title' => __('Store Credit'), 'value' => -$custbalance]
             );
         }
         return $this;

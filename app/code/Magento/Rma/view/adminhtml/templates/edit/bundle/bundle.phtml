@@ -53,7 +53,7 @@
                         <?php else: ?>
                         <input type="checkbox" disabled="disabled" />
                         <?php endif; ?>
-                        <label for="checkbox_rma_bundle_item_id_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" <?php echo ($_item->getIsOrdered()) ? 'style="color:#999999"' : ''?>><?php echo $_item->getName() ?></label>
+                        <label for="checkbox_rma_bundle_item_id_<?php echo $this->getParentId() ?>_<?php echo $_item->getId() ?>" <?php echo($_item->getIsOrdered()) ? 'style="color:#999999"' : ''?>><?php echo $_item->getName() ?></label>
                     </li>
                 <?php endforeach; ?>
             </ul>

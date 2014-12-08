@@ -36,7 +36,7 @@ class Banners extends Template
     public function __construct(
         Template\Context $context,
         Config $paypalConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_section = isset($data['section']) ? (string)$data['section'] : '';
         $this->_position = isset($data['position']) ? (int)$data['position'] : 0;

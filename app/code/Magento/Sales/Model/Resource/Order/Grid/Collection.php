@@ -64,7 +64,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Collection
 
             $countSelect = clone $this->getSelect();
             $countSelect->reset();
-            $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
+            $countSelect->from(['a' => $unionSelect], 'COUNT(*)');
         } else {
             $countSelect = parent::getSelectCountSql();
         }

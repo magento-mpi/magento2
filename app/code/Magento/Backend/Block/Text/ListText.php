@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml text list block
  *

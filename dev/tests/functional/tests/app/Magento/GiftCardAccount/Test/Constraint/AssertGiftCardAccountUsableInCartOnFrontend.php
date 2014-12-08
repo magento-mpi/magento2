@@ -8,11 +8,11 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGiftCardAccountUsableInCartOnFrontend
@@ -52,7 +52,6 @@ class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
             $checkoutCart->getMessagesBlock()->waitSuccessMessage(),
             'Gift card is not usable on frontend.'
         );
-
     }
 
     /**

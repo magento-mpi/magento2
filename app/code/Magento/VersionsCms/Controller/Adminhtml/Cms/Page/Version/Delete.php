@@ -62,7 +62,7 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Delete
                 $version->delete();
                 // display success message
                 $this->messageManager->addSuccess(__('You have deleted the version.'));
-                $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $version->getPageId()));
+                $this->_redirect('adminhtml/cms_page/edit', ['page_id' => $version->getPageId()]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 // display error message
@@ -76,13 +76,13 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Delete
 
             // go back to edit form
             if ($error) {
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }
         // display error message
         $this->messageManager->addError(__("We can't find a version to delete."));
         // go to grid
-        $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
+        $this->_redirect('adminhtml/cms_page/edit', ['_current' => true]);
     }
 }

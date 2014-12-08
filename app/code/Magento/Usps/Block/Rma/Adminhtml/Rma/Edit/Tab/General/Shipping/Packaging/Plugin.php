@@ -71,7 +71,7 @@ class Plugin
         if ($carrier && isset($size[0]['value'])) {
             if ($size[0]['value'] == Carrier::SIZE_LARGE && in_array(
                 key($subject->getContainers()),
-                array(Carrier::CONTAINER_NONRECTANGULAR, Carrier::CONTAINER_VARIABLE)
+                [Carrier::CONTAINER_NONRECTANGULAR, Carrier::CONTAINER_VARIABLE]
             )
             ) {
                 $girthEnabled = true;
@@ -79,13 +79,13 @@ class Plugin
 
             if (in_array(
                 key($subject->getContainers()),
-                array(Carrier::CONTAINER_NONRECTANGULAR, Carrier::CONTAINER_RECTANGULAR, Carrier::CONTAINER_VARIABLE)
+                [Carrier::CONTAINER_NONRECTANGULAR, Carrier::CONTAINER_RECTANGULAR, Carrier::CONTAINER_VARIABLE]
             )
             ) {
                 $sizeEnabled = true;
             }
         }
 
-        return array($girthEnabled, $sizeEnabled);
+        return [$girthEnabled, $sizeEnabled];
     }
 }

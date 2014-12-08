@@ -7,7 +7,6 @@
  */
 namespace Magento\Doc\Document\Outline;
 
-use Magento\Framework\Config\ValidationStateInterface;
 use Magento\Doc\Document\Filter;
 
 /**
@@ -22,7 +21,7 @@ class Reader
      * @var array
      */
     protected $idAttributes = [
-        '/outline/content/item' => 'name'
+        '/outline/content/item' => 'name',
     ];
 
     /**
@@ -176,7 +175,7 @@ class Reader
                         [
                             'xml' => $content,
                             'idAttributes' => $this->idAttributes,
-                            'schemaFile' => $this->perFileSchema
+                            'schemaFile' => $this->perFileSchema,
                         ]
                     );
                 } else {
@@ -187,7 +186,7 @@ class Reader
             }
         }
         if ($this->isValidated) {
-            $errors = array();
+            $errors = [];
             if ($configMerger && !$configMerger->validate($this->schemaFile, $errors)) {
                 $message = "Invalid Document \n";
                 throw new \Magento\Framework\Exception($message . implode("\n", $errors));

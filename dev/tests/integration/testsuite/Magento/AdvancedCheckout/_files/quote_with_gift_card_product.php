@@ -13,7 +13,7 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->load(1);
 
 $requestInfo = new \Magento\Framework\Object(
-    array(
+    [
         'qty' => 1,
         'giftcard_amount' => 'custom',
         'custom_giftcard_amount' => 200,
@@ -21,8 +21,8 @@ $requestInfo = new \Magento\Framework\Object(
         'giftcard_sender_email' => 'aerfg@sergserg.com',
         'giftcard_recipient_name' => 'Recipient',
         'giftcard_recipient_email' => 'awefaef@dsrthb.com',
-        'giftcard_message' => 'message'
-    )
+        'giftcard_message' => 'message',
+    ]
 );
 
 /** @var $cart \Magento\Checkout\Model\Cart */

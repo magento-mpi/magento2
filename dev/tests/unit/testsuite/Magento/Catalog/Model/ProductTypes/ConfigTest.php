@@ -28,8 +28,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->readerMock = $this->getMock(
             'Magento\Catalog\Model\ProductTypes\Config\Reader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -51,21 +51,21 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getTypeDataProvider()
     {
-        return array(
-            'global_key_exist' => array(array('types' => array('global' => 'value')), 'value'),
-            'return_default_value' => array(array('types' => array('some_key' => 'value')), array())
-        );
+        return [
+            'global_key_exist' => [['types' => ['global' => 'value']], 'value'],
+            'return_default_value' => [['types' => ['some_key' => 'value']], []]
+        ];
     }
 
     public function testGetAll()
     {
-        $expected = array('Expected Data');
+        $expected = ['Expected Data'];
         $this->cacheMock->expects(
             $this->once()
         )->method(
             'load'
         )->will(
-            $this->returnValue(serialize(array('types' => $expected)))
+            $this->returnValue(serialize(['types' => $expected]))
         );
         $this->model = new \Magento\Catalog\Model\ProductTypes\Config($this->readerMock, $this->cacheMock, 'cache_id');
         $this->assertEquals($expected, $this->model->getAll());
@@ -73,7 +73,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testIsProductSet()
     {
-        $this->cacheMock->expects($this->once())->method('load')->will($this->returnValue(serialize(array())));
+        $this->cacheMock->expects($this->once())->method('load')->will($this->returnValue(serialize([])));
         $this->model = new \Magento\Catalog\Model\ProductTypes\Config($this->readerMock, $this->cacheMock, 'cache_id');
 
         $this->assertEquals(false, $this->model->isProductSet('typeId'));

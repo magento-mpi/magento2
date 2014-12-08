@@ -26,21 +26,21 @@ class CompressionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected static $_cacheStorage = array();
+    protected static $_cacheStorage = [];
 
     protected function setUp()
     {
-        $options = array(
+        $options = [
             'concrete_backend' => $this->getMock('Zend_Cache_Backend_File'),
-            'compression_threshold' => strlen($this->_testString)
-        );
+            'compression_threshold' => strlen($this->_testString),
+        ];
         $this->_decorator = new \Magento\Framework\Cache\Backend\Decorator\Compression($options);
     }
 
     protected function tearDown()
     {
         unset($this->_decorator);
-        self::$_cacheStorage = array();
+        self::$_cacheStorage = [];
     }
 
     public function testCompressData()
@@ -106,12 +106,12 @@ class CompressionTest extends \PHPUnit_Framework_TestCase
     {
         $cacheId = 'cacheId' . rand(1, 100);
 
-        $backend = $this->getMock('Zend_Cache_Backend_File', array('save', 'load'));
-        $backend->expects($this->once())->method('save')->will($this->returnCallback(array(__CLASS__, 'mockSave')));
+        $backend = $this->getMock('Zend_Cache_Backend_File', ['save', 'load']);
+        $backend->expects($this->once())->method('save')->will($this->returnCallback([__CLASS__, 'mockSave']));
 
-        $backend->expects($this->once())->method('load')->will($this->returnCallback(array(__CLASS__, 'mockLoad')));
+        $backend->expects($this->once())->method('load')->will($this->returnCallback([__CLASS__, 'mockLoad']));
 
-        $options = array('concrete_backend' => $backend, 'compression_threshold' => strlen($this->_testString));
+        $options = ['concrete_backend' => $backend, 'compression_threshold' => strlen($this->_testString)];
 
         $decorator = new \Magento\Framework\Cache\Backend\Decorator\Compression($options);
 

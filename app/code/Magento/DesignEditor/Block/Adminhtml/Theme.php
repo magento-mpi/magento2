@@ -22,7 +22,7 @@ class Theme extends \Magento\Backend\Block\Template
      *
      * @var Button[]
      */
-    protected $_buttons = array();
+    protected $_buttons = [];
 
     /**
      * @var \Magento\Core\Helper\Data
@@ -37,7 +37,7 @@ class Theme extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $data);
@@ -62,7 +62,7 @@ class Theme extends \Magento\Backend\Block\Template
      */
     public function clearButtons()
     {
-        $this->_buttons = array();
+        $this->_buttons = [];
         return $this;
     }
 
@@ -88,7 +88,7 @@ class Theme extends \Magento\Backend\Block\Template
      */
     public function getStoresTitles()
     {
-        $storesTitles = array();
+        $storesTitles = [];
         /** @var $store \Magento\Store\Model\Store */
         foreach ($this->getTheme()->getAssignedStores() as $store) {
             $storesTitles[] = $store->getName();
@@ -104,7 +104,7 @@ class Theme extends \Magento\Backend\Block\Template
     public function getOptionsJson()
     {
         $theme = $this->getTheme();
-        $options = array('theme_id' => $theme->getId(), 'theme_title' => $theme->getThemeTitle());
+        $options = ['theme_id' => $theme->getId(), 'theme_title' => $theme->getThemeTitle()];
 
         /** @var $helper \Magento\Core\Helper\Data */
         $helper = $this->_coreHelper;
@@ -120,7 +120,7 @@ class Theme extends \Magento\Backend\Block\Template
     {
         /** @var $saveButton Button */
         $saveButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
-        $saveButton->setData(array('label' => __('Save'), 'class' => 'action-save'));
+        $saveButton->setData(['label' => __('Save'), 'class' => 'action-save']);
         return $saveButton;
     }
 }

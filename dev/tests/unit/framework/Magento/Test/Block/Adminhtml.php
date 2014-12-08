@@ -110,7 +110,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         )->method(
             'translate'
         )->will(
-            $this->returnCallback(array($this, 'translateCallback'))
+            $this->returnCallback([$this, 'translateCallback'])
         );
 
         $this->_context = new \Magento\Backend\Block\Template\Context(

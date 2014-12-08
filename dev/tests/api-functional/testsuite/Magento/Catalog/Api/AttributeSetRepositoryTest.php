@@ -21,20 +21,20 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $attributeSetId = $attributeSet->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1Get',
-            ),
-        );
-        $arguments = array(
+            ],
+        ];
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $result = $this->_webApiCall($serviceInfo, $arguments);
         $this->assertNotNull($result);
         $this->assertEquals($attributeSet->getId(), $result['attribute_set_id']);
@@ -50,20 +50,20 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetId = 9999;
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1Get',
-            ),
-        );
-        $arguments = array(
+            ],
+        ];
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $arguments);
     }
 
@@ -74,29 +74,29 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetName = 'empty_attribute_set';
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/' . $attributeSet->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1Save',
-            ),
-        );
+            ],
+        ];
 
         $updatedSortOrder = $attributeSet->getSortOrder() + 200;
 
-        $arguments = array(
-            'attributeSet' => array(
+        $arguments = [
+            'attributeSet' => [
                 'attribute_set_id' => $attributeSet->getId(),
                 // name is the same, because it is used by fixture rollback script
                 'attribute_set_name' => $attributeSet->getAttributeSetName(),
                 'entity_type_id' => $attributeSet->getEntityTypeId(),
                 'sort_order' => $updatedSortOrder,
-            ),
-        );
+            ],
+        ];
         $result = $this->_webApiCall($serviceInfo, $arguments);
         $this->assertNotNull($result);
         // Reload attribute set data
@@ -117,21 +117,21 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $attributeSetId = $attributeSet->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1DeleteById',
-            ),
-        );
+            ],
+        ];
 
-        $arguments = array(
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $arguments));
         $this->assertNull($this->getAttributeSetByName($attributeSetName));
     }
@@ -143,21 +143,21 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetId = 9999;
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1DeleteById',
-            ),
-        );
+            ],
+        ];
 
-        $arguments = array(
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $arguments);
     }
 
@@ -174,26 +174,26 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                             [
                                 'field' => 'entity_type_code',
                                 'value' => 'catalog_product',
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
-            ]
+                'page_size' => 2,
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/attribute-sets/sets/list',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
-            'soap' => array(
+            'soap' => [
                 'service' => 'catalogAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'catalogAttributeSetRepositoryV1GetList',
-            ),
+            ],
         ];
 
         $response = $this->_webApiCall($serviceInfo, $searchCriteria);

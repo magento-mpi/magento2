@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogSearch\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

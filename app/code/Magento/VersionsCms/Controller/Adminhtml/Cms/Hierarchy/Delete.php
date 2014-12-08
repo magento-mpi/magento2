@@ -28,7 +28,7 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             $this->messageManager->addError(__('Please correct the scope.'));
         } else {
             if (!is_array($scopes)) {
-                $scopes = array($scopes);
+                $scopes = [$scopes];
             }
             try {
                 /* @var $nodeModel \Magento\VersionsCms\Model\Hierarchy\Node */
@@ -38,7 +38,7 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
                     $nodeModel->setScope($scope);
                     $nodeModel->setScopeId($scopeId);
                     $nodeModel->deleteByScope($scope, $scopeId);
-                    $nodeModel->collectTree(array(), array());
+                    $nodeModel->collectTree([], []);
                 }
                 $this->messageManager->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
             } catch (\Magento\Framework\Model\Exception $e) {
@@ -48,7 +48,7 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
             }
         }
 
-        $this->_redirect('adminhtml/*/index', array('website' => $this->_website, 'store' => $this->_store));
+        $this->_redirect('adminhtml/*/index', ['website' => $this->_website, 'store' => $this->_store]);
         return;
     }
 }

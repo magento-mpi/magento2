@@ -38,7 +38,7 @@ class StructurePlugin
         'payment_es',
         'payment_hk',
         'payment_nz',
-        'payment_de'
+        'payment_de',
     ];
 
     /**

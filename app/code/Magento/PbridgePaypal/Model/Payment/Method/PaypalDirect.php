@@ -62,7 +62,7 @@ class PaypalDirect extends \Magento\Paypal\Model\Direct
         \Magento\Pbridge\Helper\Data $pbridgeData,
         Paypal $paypal,
         $formBlock = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_formBlockType = $formBlock;

@@ -48,7 +48,6 @@ class OrderCommentIdentity extends Container implements IdentityInterface
         return $this->getConfigValue(self::XML_PATH_EMAIL_COPY_METHOD, $this->getStore()->getStoreId());
     }
 
-
     /**
      * @return mixed
      */

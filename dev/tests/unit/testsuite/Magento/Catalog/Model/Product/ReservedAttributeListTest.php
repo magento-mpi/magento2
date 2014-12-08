@@ -13,7 +13,7 @@ class ReservedAttributeListTest extends \PHPUnit_Framework_TestCase
      * @var ReservedAttributeList
      */
     protected $model;
-    
+
     protected function setUp()
     {
         $this->model = new ReservedAttributeList('Magento\Catalog\Model\Product', ['some_value'], ['some_attribute']);

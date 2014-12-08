@@ -22,7 +22,7 @@ class Collector extends \Magento\Sales\Model\Config\Ordered
      *
      * @var array
      */
-    protected $_retrievers = array();
+    protected $_retrievers = [];
 
     /**
      * Corresponding store object

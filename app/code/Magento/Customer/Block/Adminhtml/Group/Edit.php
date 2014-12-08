@@ -7,9 +7,9 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Group;
 
-use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Customer\Api\GroupRepositoryInterface;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Customer group edit block
@@ -47,7 +47,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         \Magento\Framework\Registry $registry,
         GroupRepositoryInterface $groupRepository,
         GroupManagementInterface $groupManagement,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         $this->groupRepository = $groupRepository;

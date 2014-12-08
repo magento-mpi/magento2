@@ -8,8 +8,8 @@
 namespace Magento\Tools\SampleData\Module\Tax\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Tax
@@ -95,7 +95,7 @@ class Tax implements SetupInterface
         $fixtureFile = 'Tax/tax_rate.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $data) {
             $this->taxRateBuilder->setCode($data['code'])
                 ->setTaxCountryId($data['tax_country_id'])
@@ -110,7 +110,7 @@ class Tax implements SetupInterface
         $fixtureFile = 'Tax/tax_rule.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $data) {
             $taxRate = $this->taxRateFactory->create()->loadByCode($data['tax_rate']);
             $this->ruleBuilder->setCode($data['code'])

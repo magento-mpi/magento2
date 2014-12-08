@@ -38,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_systemStore = $systemStore;
@@ -61,39 +61,39 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $customer = $this->_customerFactory->create()->load($this->getRequest()->getParam('id'));
 
         /** @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
-        $fieldset = $form->addFieldset('storecreidt_fieldset', array('legend' => __('Update Balance')));
+        $fieldset = $form->addFieldset('storecreidt_fieldset', ['legend' => __('Update Balance')]);
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField(
                 'website_id',
                 'select',
-                array(
+                [
                     'name' => 'website_id',
                     'label' => __('Website'),
                     'title' => __('Website'),
                     'values' => $this->_systemStore->getWebsiteValuesForForm(),
                     'onchange' => 'updateEmailWebsites()',
                     'data-form-part' => $this->getData('target_form')
-                )
+                ]
             );
         }
 
         $fieldset->addField(
             'amount_delta',
             'text',
-            array(
+            [
                 'name' => 'amount_delta',
                 'label' => __('Update Balance'),
                 'title' => __('Update Balance'),
                 'comment' => __('An amount on which to change the balance'),
                 'data-form-part' => $this->getData('target_form')
-            )
+            ]
         );
 
         $fieldset->addField(
             'notify_by_email',
             'checkbox',
-            array(
+            [
                 'name' => 'notify_by_email',
                 'label' => __('Notify Customer by Email'),
                 'title' => __('Notify Customer by Email'),
@@ -102,19 +102,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     ->isSingleStoreMode() ? '<script type="text/javascript">' .
                     "\n                \$('{$prefix}notify_by_email').disableSendemail = function() {\n                    \$('{$prefix}store_id').disabled = (this.checked) ? false : true;\n                }.bind(\$('{$prefix}notify_by_email'));\n                Event.observe('{$prefix}notify_by_email', 'click', \$('{$prefix}notify_by_email').disableSendemail);\n                \$('{$prefix}notify_by_email').disableSendemail();\n                " .
                     '</script>' : ''
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $field = $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'name' => 'store_id',
                     'label' => __('Send Email Notification From the Following Store View'),
                     'title' => __('Send Email Notification From the Following Store View'),
                     'data-form-part' => $this->getData('target_form')
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -125,13 +125,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'comment',
             'text',
-            array(
+            [
                 'name' => 'comment',
                 'label' => __('Comment'),
                 'title' => __('Comment'),
                 'comment' => __('Comment'),
                 'data-form-part' => $this->getData('target_form')
-            )
+            ]
         );
 
         if ($customer->isReadonly()) {

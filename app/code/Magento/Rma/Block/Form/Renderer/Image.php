@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Rma Item Form Renderer Block for select
  */

@@ -9,7 +9,7 @@ namespace Magento\Catalog\Model\Product\Initialization\Helper;
 
 class ProductLinks
 {
-     /**
+    /**
      * Init product links data (related, upsell, cross sell)
      *
      * @param \Magento\Catalog\Model\Product $product

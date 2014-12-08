@@ -27,9 +27,9 @@ class Tablerate implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $arr = array();
+        $arr = [];
         foreach ($this->_carrierTablerate->getCode('condition_name') as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => $v);
+            $arr[] = ['value' => $k, 'label' => $v];
         }
         return $arr;
     }

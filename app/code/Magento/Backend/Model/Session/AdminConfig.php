@@ -10,10 +10,9 @@
 namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Session\Config;
-use Magento\Framework\UrlInterface;
-use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Magento Backend session configuration

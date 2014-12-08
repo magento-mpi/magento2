@@ -46,7 +46,7 @@ class Group implements \Magento\Framework\Option\ArrayInterface
         if (!$this->_options) {
             $groups = $this->_groupManagement->getLoggedInGroups();
             $this->_options = $this->_converter->toOptionArray($groups, 'id', 'code');
-            array_unshift($this->_options, array('value' => '', 'label' => __('-- Please Select --')));
+            array_unshift($this->_options, ['value' => '', 'label' => __('-- Please Select --')]);
         }
         return $this->_options;
     }

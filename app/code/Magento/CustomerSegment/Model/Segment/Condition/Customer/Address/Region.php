@@ -44,7 +44,7 @@ class Region extends AbstractCondition
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_conditionFactory = $conditionFactory;
@@ -70,7 +70,7 @@ class Region extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(), 'label' => __('Has State/Province')));
+        return [['value' => $this->getType(), 'label' => __('Has State/Province')]];
     }
 
     /**
@@ -104,7 +104,7 @@ class Region extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('1' => __('has'), '0' => __('does not have')));
+        $this->setValueOption(['1' => __('has'), '0' => __('does not have')]);
         return $this;
     }
 
@@ -122,7 +122,7 @@ class Region extends AbstractCondition
         $attribute = $this->_eavConfig->getAttribute('customer_address', 'region');
         $select = $this->getResource()->createSelect();
         $ifNull = $this->getResource()->getReadConnection()->getCheckSql("caev.value IS {$inversion} NULL", 0, 1);
-        $select->from(array('caev' => $attribute->getBackendTable()), "({$ifNull})");
+        $select->from(['caev' => $attribute->getBackendTable()], "({$ifNull})");
         $select->where(
             'caev.attribute_id = ?',
             $attribute->getId()

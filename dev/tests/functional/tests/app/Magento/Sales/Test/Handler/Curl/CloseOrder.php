@@ -10,10 +10,10 @@ namespace Magento\Sales\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CloseOrder
@@ -66,11 +66,11 @@ class CloseOrder extends Curl
      * @param array $data
      * @return string $response
      */
-    protected function _executeCurl($url, $data = array())
+    protected function _executeCurl($url, $data = [])
     {
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
         return $response;
@@ -84,7 +84,7 @@ class CloseOrder extends Curl
      */
     protected function _prepareData($elements)
     {
-        $data = array();
+        $data = [];
         foreach ($elements as $element) {
             foreach ($element as $key) {
                 $data[$key] = '1';
@@ -104,7 +104,7 @@ class CloseOrder extends Curl
     {
         //Go to the Sales Order page and find the link for the order id to pass to the url
         $url = $_ENV['app_backend_url'] . $this->salesOrderUrl;
-        $data = array();
+        $data = [];
         $response = $this->_executeCurl($url, $data);
 
         $searchUrl = '#sales/order/view/order_id/[0-9]+/#';
@@ -115,7 +115,7 @@ class CloseOrder extends Curl
 
         //Click Ship button and create a new shipment page
         $url = $_ENV['app_backend_url'] . $this->startShipmentUrl . $orderId;
-        $data = array();
+        $data = [];
         $response = $this->_executeCurl($url, $data);
 
         //Get the dynamic field names
@@ -143,7 +143,7 @@ class CloseOrder extends Curl
         if (self::PAYMENT_ACTION_SALE !== $paymentAction) {
             //Click Invoice button and create a new invoice page
             $url = $_ENV['app_backend_url'] . $this->startInvoiceUrl . $orderId;
-            $data = array();
+            $data = [];
             $this->_executeCurl($url, $data);
 
             //Get the dynamic field names

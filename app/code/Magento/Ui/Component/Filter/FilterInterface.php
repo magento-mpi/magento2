@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component\Filter;
 
-use Magento\Ui\Component\Form\Element\DataType\DataTypeInterface;
 
 /**
  * Interface FilterInterface

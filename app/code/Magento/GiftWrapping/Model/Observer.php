@@ -64,7 +64,7 @@ class Observer
     protected function _saveOrderInfo($entity, $data)
     {
         if (is_array($data)) {
-            $wrappingInfo = array();
+            $wrappingInfo = [];
             if (isset($data['design'])) {
                 $wrapping = $this->_wrappingFactory->create()->load($data['design']);
                 $wrappingInfo['gw_id'] = $wrapping->getId();

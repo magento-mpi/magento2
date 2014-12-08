@@ -37,7 +37,7 @@ class Container extends \Magento\Framework\View\Element\Html\Select
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_layoutProcessorFactory = $layoutProcessorFactory;
         $this->_themesFactory = $themesFactory;
@@ -67,11 +67,11 @@ class Container extends \Magento\Framework\View\Element\Html\Select
     protected function _beforeToHtml()
     {
         if (!$this->getOptions()) {
-            $layoutMergeParams = array('theme' => $this->_getThemeInstance($this->getTheme()));
+            $layoutMergeParams = ['theme' => $this->_getThemeInstance($this->getTheme())];
             /** @var $layoutProcessor \Magento\Framework\View\Layout\ProcessorInterface */
             $layoutProcessor = $this->_layoutProcessorFactory->create($layoutMergeParams);
-            $layoutProcessor->addPageHandles(array($this->getLayoutHandle()));
-            $layoutProcessor->addPageHandles(array('default'));
+            $layoutProcessor->addPageHandles([$this->getLayoutHandle()]);
+            $layoutProcessor->addPageHandles(['default']);
             $layoutProcessor->load();
 
             $pageLayoutProcessor = $this->_layoutProcessorFactory->create($layoutMergeParams);

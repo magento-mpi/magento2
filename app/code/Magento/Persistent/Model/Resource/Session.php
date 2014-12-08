@@ -73,7 +73,7 @@ class Session extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!$object->getLoadExpired()) {
             $tableName = $this->getMainTable();
             $select->join(
-                array('customer' => $this->getTable('customer_entity')),
+                ['customer' => $this->getTable('customer_entity')],
                 'customer.entity_id = ' . $tableName . '.customer_id'
             )->where(
                 $tableName . '.updated_at >= ?',
@@ -92,7 +92,7 @@ class Session extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function deleteByCustomerId($customerId)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(), array('customer_id = ?' => $customerId));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), ['customer_id = ?' => $customerId]);
         return $this;
     }
 
@@ -120,7 +120,7 @@ class Session extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_getWriteAdapter()->delete(
             $this->getMainTable(),
-            array('website_id = ?' => $websiteId, 'updated_at < ?' => $expiredBefore)
+            ['website_id = ?' => $websiteId, 'updated_at < ?' => $expiredBefore]
         );
         return $this;
     }

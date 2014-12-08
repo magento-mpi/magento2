@@ -12,7 +12,7 @@ namespace Magento\Webapi\Controller\Rest;
 class Router
 {
     /** @var array */
-    protected $_routes = array();
+    protected $_routes = [];
 
     /** @var \Magento\Webapi\Model\Rest\Config */
     protected $_apiConfig;

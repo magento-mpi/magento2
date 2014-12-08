@@ -60,7 +60,7 @@ class Tunnel extends \Magento\Backend\Controller\Adminhtml\Dashboard
                         )->setParameterGet(
                             $params
                         )->setConfig(
-                            array('timeout' => 5)
+                            ['timeout' => 5]
                         )->request(
                             'GET'
                         );

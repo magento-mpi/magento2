@@ -9,8 +9,8 @@
 namespace Magento\GiftWrapping\Service\V1;
 
 use Magento\GiftWrapping\Model\WrappingRepository;
-use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 use Magento\GiftWrapping\Service\V1\Data\WrappingConverter;
+use Magento\GiftWrapping\Service\V1\Data\WrappingMapper;
 
 class WrappingTest extends \PHPUnit_Framework_TestCase
 {

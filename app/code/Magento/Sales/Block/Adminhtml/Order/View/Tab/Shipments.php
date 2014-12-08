@@ -30,10 +30,10 @@ class Shipments extends \Magento\Framework\View\Element\Text\ListText implements
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
-         $this->_coreRegistry = $coreRegistry;
-         parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $data);
     }
 
     /**

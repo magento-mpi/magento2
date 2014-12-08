@@ -55,7 +55,7 @@ class Success extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;
@@ -111,14 +111,14 @@ class Success extends \Magento\Framework\View\Element\Template
                 $isVisible = !in_array($order->getStatus(), $this->_orderConfig->getInvisibleOnFrontStatuses());
                 $canView = $this->httpContext->getValue(Context::CONTEXT_AUTH) && $isVisible;
                 $this->addData(
-                    array(
+                    [
                         'is_order_visible' => $isVisible,
-                        'view_order_url' => $this->getUrl('sales/order/view/', array('order_id' => $orderId)),
-                        'print_url' => $this->getUrl('sales/order/print', array('order_id'=> $orderId)),
+                        'view_order_url' => $this->getUrl('sales/order/view/', ['order_id' => $orderId]),
+                        'print_url' => $this->getUrl('sales/order/print', ['order_id' => $orderId]),
                         'can_print_order' => $isVisible,
                         'can_view_order'  => $canView,
                         'order_id'  => $order->getIncrementId(),
-                    )
+                    ]
                 );
             }
         }

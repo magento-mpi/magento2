@@ -8,8 +8,8 @@
 
 namespace Magento\VersionsCms\Test\Block\Adminhtml\Cms\Page\Version\Edit;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element;
 
 /**
  * Class RevisionsGrid

@@ -45,7 +45,7 @@ class FormFactory
      * @return \Magento\Framework\Data\Form
      * @throws \Magento\Framework\Exception
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         /** @var $form \Magento\Framework\Data\Form */
         $form = $this->_objectManager->create($this->_instanceName, $data);

@@ -62,7 +62,6 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue($outputStockData['manage_stock']));
         }
 
-
         $this->assertEquals($outputStockData, $this->stockDataFilter->filter($inputStockData));
     }
 
@@ -73,41 +72,41 @@ class StockDataFilterTest extends \PHPUnit_Framework_TestCase
      */
     public function filterDataProvider()
     {
-        return array(
-            'case1' => array(
-                'inputStockData' => array(),
-                'outputStockData' => array('use_config_manage_stock' => 0, 'is_decimal_divided' => 0)
-            ),
-            'case2' => array(
-                'inputStockData' => array('use_config_manage_stock' => 1),
-                'outputStockData' => array(
+        return [
+            'case1' => [
+                'inputStockData' => [],
+                'outputStockData' => ['use_config_manage_stock' => 0, 'is_decimal_divided' => 0],
+            ],
+            'case2' => [
+                'inputStockData' => ['use_config_manage_stock' => 1],
+                'outputStockData' => [
                     'use_config_manage_stock' => 1,
                     'manage_stock' => 1,
-                    'is_decimal_divided' => 0
-                )
-            ),
-            'case3' => array(
-                'inputStockData' => array(
-                    'qty' => StockDataFilter::MAX_QTY_VALUE + 1
-                ),
-                'outputStockData' => array(
+                    'is_decimal_divided' => 0,
+                ],
+            ],
+            'case3' => [
+                'inputStockData' => [
+                    'qty' => StockDataFilter::MAX_QTY_VALUE + 1,
+                ],
+                'outputStockData' => [
                     'qty' => StockDataFilter::MAX_QTY_VALUE,
                     'is_decimal_divided' => 0,
-                    'use_config_manage_stock' => 0
-                )
-            ),
-            'case4' => array(
-                'inputStockData' => array('min_qty' => -1),
-                'outputStockData' => array('min_qty' => 0, 'is_decimal_divided' => 0, 'use_config_manage_stock' => 0)
-            ),
-            'case5' => array(
-                'inputStockData' => array('is_qty_decimal' => 0),
-                'outputStockData' => array(
+                    'use_config_manage_stock' => 0,
+                ],
+            ],
+            'case4' => [
+                'inputStockData' => ['min_qty' => -1],
+                'outputStockData' => ['min_qty' => 0, 'is_decimal_divided' => 0, 'use_config_manage_stock' => 0],
+            ],
+            'case5' => [
+                'inputStockData' => ['is_qty_decimal' => 0],
+                'outputStockData' => [
                     'is_qty_decimal' => 0,
                     'is_decimal_divided' => 0,
-                    'use_config_manage_stock' => 0
-                )
-            )
-        );
+                    'use_config_manage_stock' => 0,
+                ],
+            ]
+        ];
     }
 }

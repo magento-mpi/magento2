@@ -182,7 +182,7 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function getStatementsDataProvider()
     {
-        return array(array('SQL', array('SQL;')), array('SQL;', array('SQL;')));
+        return [['SQL', ['SQL;']], ['SQL;', ['SQL;']]];
     }
 
     /**
@@ -201,6 +201,6 @@ class TriggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStatements()
     {
-        $this->assertEquals(array(), $this->_object->getStatements());
+        $this->assertEquals([], $this->_object->getStatements());
     }
 }

@@ -16,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class DecimalTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Catalog\Model\Layer\Filter\FilterInterface|MockObject */
     private $filter;
 

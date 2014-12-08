@@ -42,7 +42,7 @@ class UpdateState extends \Magento\RecurringPayment\Controller\RecurringPayment
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
-            $this->_redirect('*/*/view', array('payment' => $payment->getId()));
+            $this->_redirect('*/*/view', ['payment' => $payment->getId()]);
         } else {
             $this->_redirect('*/*/');
         }

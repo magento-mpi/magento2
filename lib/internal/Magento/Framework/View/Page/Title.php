@@ -9,7 +9,6 @@
 namespace Magento\Framework\View\Page;
 
 use Magento\Framework\App;
-use Magento\Framework\View;
 
 /**
  * Page title

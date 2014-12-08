@@ -42,10 +42,10 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
 
     public function saveRewardPointsDataProvider()
     {
-        return array(
-            'points delta is not set' => array('$pointsDelta' => '', '$expectedBalance' => null),
-            'points delta is positive' => array('$pointsDelta' => 100, '$expectedBalance' => 100)
-        );
+        return [
+            'points delta is not set' => ['$pointsDelta' => '', '$expectedBalance' => null],
+            'points delta is positive' => ['$pointsDelta' => 100, '$expectedBalance' => 100]
+        ];
     }
 
     /**
@@ -54,17 +54,17 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _saveRewardPoints(CustomerInterface $customer, $pointsDelta = '')
     {
-        $reward = array('points_delta' => $pointsDelta);
+        $reward = ['points_delta' => $pointsDelta];
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setPost(array('reward' => $reward));
+        $request->setPost(['reward' => $reward]);
 
-        $event = new \Magento\Framework\Event(array('request' => $request, 'customer' => $customer));
+        $event = new \Magento\Framework\Event(['request' => $request, 'customer' => $customer]);
 
-        $eventObserver = new \Magento\Framework\Event\Observer(array('event' => $event));
+        $eventObserver = new \Magento\Framework\Event\Observer(['event' => $event]);
 
         $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reward\Model\Observer\SaveRewardPoints'

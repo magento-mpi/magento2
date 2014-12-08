@@ -34,7 +34,7 @@ class Edit extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsConfig = $cmsConfig;
@@ -62,21 +62,21 @@ class Edit extends \Magento\Backend\Block\Template
                         $this->getToolbar()->addChild(
                             'preview',
                             'Magento\Backend\Block\Widget\Button',
-                            array(
+                            [
                                 'label' => __('Preview'),
                                 'class' => 'preview',
-                                'data_attribute' => array(
-                                    'mage-init' => array(
-                                        'button' => array(
+                                'data_attribute' => [
+                                    'mage-init' => [
+                                        'button' => [
                                             'event' => 'preview',
                                             'target' => '#edit_form',
-                                            'eventData' => array(
-                                                'action' => $this->getUrl('adminhtml/cms_page_revision/preview')
-                                            )
-                                        )
-                                    )
-                                )
-                            )
+                                            'eventData' => [
+                                                'action' => $this->getUrl('adminhtml/cms_page_revision/preview'),
+                                            ],
+                                        ],
+                                    ],
+                                ]
+                            ]
                         );
                     }
 

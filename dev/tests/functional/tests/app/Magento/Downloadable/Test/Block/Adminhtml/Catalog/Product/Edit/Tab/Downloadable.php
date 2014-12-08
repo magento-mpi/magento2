@@ -8,8 +8,8 @@
 
 namespace Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -43,7 +43,7 @@ class Downloadable extends Tab
      */
     public function getDownloadableBlock($type, Element $element = null)
     {
-        $element = $element ? : $this->_rootElement;
+        $element = $element ?: $this->_rootElement;
         return $this->blockFactory->create(
             'Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable\\' . $type,
             ['element' => $element->find($this->downloadableBlock, Locator::SELECTOR_XPATH)]

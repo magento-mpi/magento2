@@ -199,7 +199,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
             ->method('setTemplateOptions')
             ->with([
                 'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                'store' => 1
+                'store' => 1,
             ])
             ->will($this->returnSelf());
 

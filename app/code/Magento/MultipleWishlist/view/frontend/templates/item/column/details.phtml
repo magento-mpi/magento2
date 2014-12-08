@@ -12,11 +12,11 @@
     $layout = $this->getLayout();
 ?>
 <strong class="product name"><a href="<?php echo $this->getProductUrl($this->getItem()); ?>"><?php echo $this->escapeHtml($product->getName()) ?></a></strong>
-<?php if($product->getShortDescription()): ?>
+<?php if ($product->getShortDescription()): ?>
     <div class="description">
         <?php echo $this->escapeHtml($this->stripTags($product->getShortDescription()));?>
     </div>
 <?php endif; ?>
-<?php foreach($this->getChildNames() as $childName):?>
+<?php foreach ($this->getChildNames() as $childName):?>
     <?php echo $layout->renderElement($childName, false);?>
 <?php endforeach;?>

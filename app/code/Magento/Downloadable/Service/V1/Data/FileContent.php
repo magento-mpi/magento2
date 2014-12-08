@@ -7,7 +7,7 @@
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
-use \Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 
 /**
  * @codeCoverageIgnore

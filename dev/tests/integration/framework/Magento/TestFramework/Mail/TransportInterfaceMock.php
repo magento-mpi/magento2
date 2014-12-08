@@ -8,7 +8,6 @@
 
 namespace Magento\TestFramework\Mail;
 
-
 class TransportInterfaceMock implements \Magento\Framework\Mail\TransportInterface
 {
     /**

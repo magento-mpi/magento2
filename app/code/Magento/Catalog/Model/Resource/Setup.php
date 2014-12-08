@@ -63,7 +63,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Category
      */
-    public function createCategory($data = array())
+    public function createCategory($data = [])
     {
         return $this->_categoryFactory->create($data);
     }
@@ -74,7 +74,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Eav\Attribute
      */
-    public function createEavAttributeResource($data = array())
+    public function createEavAttributeResource($data = [])
     {
         return $this->_eavAttributeResourceFactory->create($data);
     }
@@ -86,33 +86,33 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      */
     public function getDefaultEntities()
     {
-        return array(
-            'catalog_category' => array(
+        return [
+            'catalog_category' => [
                 'entity_model' => 'Magento\Catalog\Model\Resource\Category',
                 'attribute_model' => 'Magento\Catalog\Model\Resource\Eav\Attribute',
                 'table' => 'catalog_category_entity',
                 'additional_attribute_table' => 'catalog_eav_attribute',
                 'entity_attribute_collection' => 'Magento\Catalog\Model\Resource\Category\Attribute\Collection',
                 'default_group' => 'General Information',
-                'attributes' => array(
-                    'name' => array(
+                'attributes' => [
+                    'name' => [
                         'type' => 'varchar',
                         'label' => 'Name',
                         'input' => 'text',
                         'sort_order' => 1,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'is_active' => array(
+                        'group' => 'General Information',
+                    ],
+                    'is_active' => [
                         'type' => 'int',
                         'label' => 'Is Active',
                         'input' => 'select',
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                         'sort_order' => 2,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'description' => array(
+                        'group' => 'General Information',
+                    ],
+                    'description' => [
                         'type' => 'text',
                         'label' => 'Description',
                         'input' => 'textarea',
@@ -121,9 +121,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'wysiwyg_enabled' => true,
                         'is_html_allowed_on_front' => true,
-                        'group' => 'General Information'
-                    ),
-                    'image' => array(
+                        'group' => 'General Information',
+                    ],
+                    'image' => [
                         'type' => 'varchar',
                         'label' => 'Image',
                         'input' => 'image',
@@ -131,36 +131,36 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 5,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'meta_title' => array(
+                        'group' => 'General Information',
+                    ],
+                    'meta_title' => [
                         'type' => 'varchar',
                         'label' => 'Page Title',
                         'input' => 'text',
                         'required' => false,
                         'sort_order' => 6,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'meta_keywords' => array(
+                        'group' => 'General Information',
+                    ],
+                    'meta_keywords' => [
                         'type' => 'text',
                         'label' => 'Meta Keywords',
                         'input' => 'textarea',
                         'required' => false,
                         'sort_order' => 7,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'meta_description' => array(
+                        'group' => 'General Information',
+                    ],
+                    'meta_description' => [
                         'type' => 'text',
                         'label' => 'Meta Description',
                         'input' => 'textarea',
                         'required' => false,
                         'sort_order' => 8,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'display_mode' => array(
+                        'group' => 'General Information',
+                    ],
+                    'display_mode' => [
                         'type' => 'varchar',
                         'label' => 'Display Mode',
                         'input' => 'select',
@@ -168,9 +168,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 10,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Display Settings'
-                    ),
-                    'landing_page' => array(
+                        'group' => 'Display Settings',
+                    ],
+                    'landing_page' => [
                         'type' => 'int',
                         'label' => 'CMS Block',
                         'input' => 'select',
@@ -178,55 +178,55 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 20,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Display Settings'
-                    ),
-                    'is_anchor' => array(
+                        'group' => 'Display Settings',
+                    ],
+                    'is_anchor' => [
                         'type' => 'int',
                         'label' => 'Is Anchor',
                         'input' => 'select',
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Boolean',
                         'required' => false,
                         'sort_order' => 30,
-                        'group' => 'Display Settings'
-                    ),
-                    'path' => array(
+                        'group' => 'Display Settings',
+                    ],
+                    'path' => [
                         'type' => 'static',
                         'label' => 'Path',
                         'required' => false,
                         'sort_order' => 12,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'position' => array(
+                        'group' => 'General Information',
+                    ],
+                    'position' => [
                         'type' => 'static',
                         'label' => 'Position',
                         'required' => false,
                         'sort_order' => 13,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'all_children' => array(
+                        'group' => 'General Information',
+                    ],
+                    'all_children' => [
                         'type' => 'text',
                         'required' => false,
                         'sort_order' => 14,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'path_in_store' => array(
+                        'group' => 'General Information',
+                    ],
+                    'path_in_store' => [
                         'type' => 'text',
                         'required' => false,
                         'sort_order' => 15,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'children' => array(
+                        'group' => 'General Information',
+                    ],
+                    'children' => [
                         'type' => 'text',
                         'required' => false,
                         'sort_order' => 16,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'custom_design' => array(
+                        'group' => 'General Information',
+                    ],
+                    'custom_design' => [
                         'type' => 'varchar',
                         'label' => 'Custom Design',
                         'input' => 'select',
@@ -234,9 +234,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 10,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'custom_design_from' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'custom_design_from' => [
                         'type' => 'datetime',
                         'label' => 'Active From',
                         'input' => 'date',
@@ -244,9 +244,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 30,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'custom_design_to' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'custom_design_to' => [
                         'type' => 'datetime',
                         'label' => 'Active To',
                         'input' => 'date',
@@ -254,9 +254,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 40,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'page_layout' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'page_layout' => [
                         'type' => 'varchar',
                         'label' => 'Page Layout',
                         'input' => 'select',
@@ -264,9 +264,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 50,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'custom_layout_update' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'custom_layout_update' => [
                         'type' => 'text',
                         'label' => 'Custom Layout Update',
                         'input' => 'textarea',
@@ -274,25 +274,25 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 60,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'level' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'level' => [
                         'type' => 'static',
                         'label' => 'Level',
                         'required' => false,
                         'sort_order' => 24,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'children_count' => array(
+                        'group' => 'General Information',
+                    ],
+                    'children_count' => [
                         'type' => 'static',
                         'label' => 'Children Count',
                         'required' => false,
                         'sort_order' => 25,
                         'visible' => false,
-                        'group' => 'General Information'
-                    ),
-                    'available_sort_by' => array(
+                        'group' => 'General Information',
+                    ],
+                    'available_sort_by' => [
                         'type' => 'text',
                         'label' => 'Available Product Listing Sort By',
                         'input' => 'multiselect',
@@ -301,9 +301,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 40,
                         'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Category\Helper\Sortby\Available',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Display Settings'
-                    ),
-                    'default_sort_by' => array(
+                        'group' => 'Display Settings',
+                    ],
+                    'default_sort_by' => [
                         'type' => 'varchar',
                         'label' => 'Default Product Listing Sort By',
                         'input' => 'select',
@@ -312,9 +312,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 50,
                         'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Category\Helper\Sortby\DefaultSortby',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Display Settings'
-                    ),
-                    'include_in_menu' => array(
+                        'group' => 'Display Settings',
+                    ],
+                    'include_in_menu' => [
                         'type' => 'int',
                         'label' => 'Include in Navigation Menu',
                         'input' => 'select',
@@ -322,9 +322,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'default' => '1',
                         'sort_order' => 10,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'General Information'
-                    ),
-                    'custom_use_parent_settings' => array(
+                        'group' => 'General Information',
+                    ],
+                    'custom_use_parent_settings' => [
                         'type' => 'int',
                         'label' => 'Use Parent Category Settings',
                         'input' => 'select',
@@ -332,9 +332,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 5,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'custom_apply_to_products' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'custom_apply_to_products' => [
                         'type' => 'int',
                         'label' => 'Apply To Products',
                         'input' => 'select',
@@ -342,9 +342,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 6,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Custom Design'
-                    ),
-                    'filter_price_range' => array(
+                        'group' => 'Custom Design',
+                    ],
+                    'filter_price_range' => [
                         'type' => 'decimal',
                         'label' => 'Layered Navigation Price Step',
                         'input' => 'text',
@@ -352,18 +352,18 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 51,
                         'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Category\Helper\Pricestep',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Display Settings'
-                    )
-                )
-            ),
-            'catalog_product' => array(
+                        'group' => 'Display Settings',
+                    ],
+                ],
+            ],
+            'catalog_product' => [
                 'entity_model' => 'Magento\Catalog\Model\Resource\Product',
                 'attribute_model' => 'Magento\Catalog\Model\Resource\Eav\Attribute',
                 'table' => 'catalog_product_entity',
                 'additional_attribute_table' => 'catalog_eav_attribute',
                 'entity_attribute_collection' => 'Magento\Catalog\Model\Resource\Product\Attribute\Collection',
-                'attributes' => array(
-                    'name' => array(
+                'attributes' => [
+                    'name' => [
                         'type' => 'varchar',
                         'label' => 'Name',
                         'input' => 'text',
@@ -373,9 +373,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'searchable' => true,
                         'visible_in_advanced_search' => true,
                         'used_in_product_listing' => true,
-                        'used_for_sort_by' => true
-                    ),
-                    'sku' => array(
+                        'used_for_sort_by' => true,
+                    ],
+                    'sku' => [
                         'type' => 'static',
                         'label' => 'SKU',
                         'input' => 'text',
@@ -385,9 +385,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 2,
                         'searchable' => true,
                         'comparable' => true,
-                        'visible_in_advanced_search' => true
-                    ),
-                    'description' => array(
+                        'visible_in_advanced_search' => true,
+                    ],
+                    'description' => [
                         'type' => 'text',
                         'label' => 'Description',
                         'input' => 'textarea',
@@ -397,9 +397,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'comparable' => true,
                         'wysiwyg_enabled' => true,
                         'is_html_allowed_on_front' => true,
-                        'visible_in_advanced_search' => true
-                    ),
-                    'short_description' => array(
+                        'visible_in_advanced_search' => true,
+                    ],
+                    'short_description' => [
                         'type' => 'text',
                         'label' => 'Short Description',
                         'input' => 'textarea',
@@ -410,9 +410,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'wysiwyg_enabled' => true,
                         'is_html_allowed_on_front' => true,
                         'visible_in_advanced_search' => true,
-                        'used_in_product_listing' => true
-                    ),
-                    'price' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'price' => [
                         'type' => 'decimal',
                         'label' => 'Price',
                         'input' => 'price',
@@ -425,9 +425,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'used_in_product_listing' => true,
                         'used_for_sort_by' => true,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'special_price' => array(
+                        'group' => 'Prices',
+                    ],
+                    'special_price' => [
                         'type' => 'decimal',
                         'label' => 'Special Price',
                         'input' => 'price',
@@ -437,9 +437,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing' => true,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'special_from_date' => array(
+                        'group' => 'Prices',
+                    ],
+                    'special_from_date' => [
                         'type' => 'datetime',
                         'label' => 'Special Price From Date',
                         'input' => 'date',
@@ -449,9 +449,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing' => true,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'special_to_date' => array(
+                        'group' => 'Prices',
+                    ],
+                    'special_to_date' => [
                         'type' => 'datetime',
                         'label' => 'Special Price To Date',
                         'input' => 'date',
@@ -461,9 +461,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'used_in_product_listing' => true,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'cost' => array(
+                        'group' => 'Prices',
+                    ],
+                    'cost' => [
                         'type' => 'decimal',
                         'label' => 'Cost',
                         'input' => 'price',
@@ -473,18 +473,18 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 6,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'weight' => array(
+                        'group' => 'Prices',
+                    ],
+                    'weight' => [
                         'type' => 'decimal',
                         'label' => 'Weight',
                         'input' => 'weight',
                         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Weight',
                         'input_renderer' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
                         'sort_order' => 5,
-                        'apply_to' => 'simple,virtual'
-                    ),
-                    'manufacturer' => array(
+                        'apply_to' => 'simple,virtual',
+                    ],
+                    'manufacturer' => [
                         'type' => 'int',
                         'label' => 'Manufacturer',
                         'input' => 'select',
@@ -494,27 +494,27 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'filterable' => true,
                         'comparable' => true,
                         'visible_in_advanced_search' => true,
-                        'apply_to' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-                    ),
-                    'meta_title' => array(
+                        'apply_to' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+                    ],
+                    'meta_title' => [
                         'type' => 'varchar',
                         'label' => 'Meta Title',
                         'input' => 'text',
                         'required' => false,
                         'sort_order' => 20,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Meta Information'
-                    ),
-                    'meta_keyword' => array(
+                        'group' => 'Meta Information',
+                    ],
+                    'meta_keyword' => [
                         'type' => 'text',
                         'label' => 'Meta Keywords',
                         'input' => 'textarea',
                         'required' => false,
                         'sort_order' => 30,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Meta Information'
-                    ),
-                    'meta_description' => array(
+                        'group' => 'Meta Information',
+                    ],
+                    'meta_description' => [
                         'type' => 'varchar',
                         'label' => 'Meta Description',
                         'input' => 'textarea',
@@ -523,9 +523,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'class' => 'validate-length maximum-length-255',
                         'sort_order' => 40,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Meta Information'
-                    ),
-                    'image' => array(
+                        'group' => 'Meta Information',
+                    ],
+                    'image' => [
                         'type' => 'varchar',
                         'label' => 'Base Image',
                         'input' => 'media_image',
@@ -535,9 +535,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 0,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'used_in_product_listing' => true,
-                        'group' => 'General'
-                    ),
-                    'small_image' => array(
+                        'group' => 'General',
+                    ],
+                    'small_image' => [
                         'type' => 'varchar',
                         'label' => 'Small Image',
                         'input' => 'media_image',
@@ -546,9 +546,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 2,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'used_in_product_listing' => true,
-                        'group' => 'Images'
-                    ),
-                    'thumbnail' => array(
+                        'group' => 'Images',
+                    ],
+                    'thumbnail' => [
                         'type' => 'varchar',
                         'label' => 'Thumbnail',
                         'input' => 'media_image',
@@ -557,19 +557,19 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 3,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'used_in_product_listing' => true,
-                        'group' => 'Images'
-                    ),
-                    'media_gallery' => array(
+                        'group' => 'Images',
+                    ],
+                    'media_gallery' => [
                         'type' => 'varchar',
                         'label' => 'Media Gallery',
                         'input' => 'gallery',
                         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Media',
                         'required' => false,
                         'sort_order' => 4,
-                        'group' => 'Images'
-                    ),
-                    'old_id' => array('type' => 'int', 'required' => false, 'sort_order' => 6, 'visible' => false),
-                    'group_price' => array(
+                        'group' => 'Images',
+                    ],
+                    'old_id' => ['type' => 'int', 'required' => false, 'sort_order' => 6, 'visible' => false],
+                    'group_price' => [
                         'type' => 'decimal',
                         'label' => 'Group Price',
                         'input' => 'text',
@@ -578,9 +578,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 2,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'tier_price' => array(
+                        'group' => 'Prices',
+                    ],
+                    'tier_price' => [
                         'type' => 'decimal',
                         'label' => 'Tier Price',
                         'input' => 'text',
@@ -589,9 +589,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 7,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'color' => array(
+                        'group' => 'Prices',
+                    ],
+                    'color' => [
                         'type' => 'int',
                         'label' => 'Color',
                         'input' => 'select',
@@ -601,9 +601,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'filterable' => true,
                         'comparable' => true,
                         'visible_in_advanced_search' => true,
-                        'apply_to' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-                    ),
-                    'news_from_date' => array(
+                        'apply_to' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+                    ],
+                    'news_from_date' => [
                         'type' => 'datetime',
                         'label' => 'Set Product as New from Date',
                         'input' => 'date',
@@ -611,9 +611,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 7,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
-                        'used_in_product_listing' => true
-                    ),
-                    'news_to_date' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'news_to_date' => [
                         'type' => 'datetime',
                         'label' => 'Set Product as New to Date',
                         'input' => 'date',
@@ -621,17 +621,17 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 8,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
-                        'used_in_product_listing' => true
-                    ),
-                    'gallery' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'gallery' => [
                         'type' => 'varchar',
                         'label' => 'Image Gallery',
                         'input' => 'gallery',
                         'required' => false,
                         'sort_order' => 5,
-                        'group' => 'Images'
-                    ),
-                    'status' => array(
+                        'group' => 'Images',
+                    ],
+                    'status' => [
                         'type' => 'int',
                         'label' => 'Status',
                         'input' => 'select',
@@ -639,9 +639,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 9,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE,
                         'searchable' => true,
-                        'used_in_product_listing' => true
-                    ),
-                    'minimal_price' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'minimal_price' => [
                         'type' => 'decimal',
                         'label' => 'Minimal Price',
                         'input' => 'price',
@@ -650,18 +650,18 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible' => false,
                         'apply_to' => 'simple,virtual',
-                        'group' => 'Prices'
-                    ),
-                    'visibility' => array(
+                        'group' => 'Prices',
+                    ],
+                    'visibility' => [
                         'type' => 'int',
                         'label' => 'Visibility',
                         'input' => 'select',
                         'source' => 'Magento\Catalog\Model\Product\Visibility',
                         'default' => '4',
                         'sort_order' => 12,
-                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE
-                    ),
-                    'custom_design' => array(
+                        'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
+                    ],
+                    'custom_design' => [
                         'type' => 'varchar',
                         'label' => 'Custom Design',
                         'input' => 'select',
@@ -669,9 +669,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 1,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'custom_design_from' => array(
+                        'group' => 'Design',
+                    ],
+                    'custom_design_from' => [
                         'type' => 'datetime',
                         'label' => 'Active From',
                         'input' => 'date',
@@ -679,9 +679,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 2,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'custom_design_to' => array(
+                        'group' => 'Design',
+                    ],
+                    'custom_design_to' => [
                         'type' => 'datetime',
                         'label' => 'Active To',
                         'input' => 'date',
@@ -689,9 +689,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 3,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'custom_layout_update' => array(
+                        'group' => 'Design',
+                    ],
+                    'custom_layout_update' => [
                         'type' => 'text',
                         'label' => 'Custom Layout Update',
                         'input' => 'textarea',
@@ -699,9 +699,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 4,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'page_layout' => array(
+                        'group' => 'Design',
+                    ],
+                    'page_layout' => [
                         'type' => 'varchar',
                         'label' => 'Page Layout',
                         'input' => 'select',
@@ -709,9 +709,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 5,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'category_ids' => array(
+                        'group' => 'Design',
+                    ],
+                    'category_ids' => [
                         'type' => 'static',
                         'label' => 'Categories',
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
@@ -720,9 +720,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'required' => false,
                         'sort_order' => 9,
                         'visible' => true,
-                        'group' => 'General'
-                    ),
-                    'options_container' => array(
+                        'group' => 'General',
+                    ],
+                    'options_container' => [
                         'type' => 'varchar',
                         'label' => 'Display Product Options In',
                         'input' => 'select',
@@ -731,24 +731,24 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'default' => 'container2',
                         'sort_order' => 6,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
-                        'group' => 'Design'
-                    ),
-                    'required_options' => array(
+                        'group' => 'Design',
+                    ],
+                    'required_options' => [
                         'type' => 'static',
                         'input' => 'text',
                         'required' => false,
                         'sort_order' => 14,
                         'visible' => false,
-                        'used_in_product_listing' => true
-                    ),
-                    'has_options' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'has_options' => [
                         'type' => 'static',
                         'input' => 'text',
                         'required' => false,
                         'sort_order' => 15,
-                        'visible' => false
-                    ),
-                    'image_label' => array(
+                        'visible' => false,
+                    ],
+                    'image_label' => [
                         'type' => 'varchar',
                         'label' => 'Image Label',
                         'input' => 'text',
@@ -756,9 +756,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 16,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible' => false,
-                        'used_in_product_listing' => true
-                    ),
-                    'small_image_label' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'small_image_label' => [
                         'type' => 'varchar',
                         'label' => 'Small Image Label',
                         'input' => 'text',
@@ -766,9 +766,9 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 17,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible' => false,
-                        'used_in_product_listing' => true
-                    ),
-                    'thumbnail_label' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'thumbnail_label' => [
                         'type' => 'varchar',
                         'label' => 'Thumbnail Label',
                         'input' => 'text',
@@ -776,23 +776,23 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'sort_order' => 18,
                         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'visible' => false,
-                        'used_in_product_listing' => true
-                    ),
-                    'created_at' => array(
+                        'used_in_product_listing' => true,
+                    ],
+                    'created_at' => [
                         'type' => 'static',
                         'input' => 'text',
                         'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\Time\Created',
                         'sort_order' => 19,
-                        'visible' => false
-                    ),
-                    'updated_at' => array(
+                        'visible' => false,
+                    ],
+                    'updated_at' => [
                         'type' => 'static',
                         'input' => 'text',
                         'backend' => 'Magento\Eav\Model\Entity\Attribute\Backend\Time\Updated',
                         'sort_order' => 20,
-                        'visible' => false
-                    ),
-                    'country_of_manufacture' => array(
+                        'visible' => false,
+                    ],
+                    'country_of_manufacture' => [
                         'type' => 'varchar',
                         'label' => 'Country of Manufacture',
                         'input' => 'select',
@@ -808,8 +808,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'unique' => false,
                         'apply_to' => 'simple,bundle',
                         'group' => 'General',
-                    ),
-                    'quantity_and_stock_status' => array(
+                    ],
+                    'quantity_and_stock_status' => [
                         'group' => 'General',
                         'type' => 'int',
                         'backend' => 'Magento\Catalog\Model\Product\Attribute\Backend\Stock',
@@ -825,11 +825,11 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'searchable' => false,
                         'filterable' => false,
                         'comparable' => false,
-                        'unique' => false
-                    )
-                )
-            )
-        );
+                        'unique' => false,
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -845,7 +845,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $select->from($this->getTable('catalog_category_entity'));
         $select->where('entity_id = :entity_id');
 
-        return $this->getConnection()->fetchRow($select, array('entity_id' => $entityId));
+        return $this->getConnection()->fetchRow($select, ['entity_id' => $entityId]);
     }
 
     /**
@@ -855,7 +855,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param array $path
      * @return string
      */
-    protected function _getCategoryPath($category, $path = array())
+    protected function _getCategoryPath($category, $path = [])
     {
         $path[] = $category['entity_id'];
 

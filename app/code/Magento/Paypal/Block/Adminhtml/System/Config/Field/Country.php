@@ -59,7 +59,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
         \Magento\Backend\Model\Url $url,
         \Magento\Framework\View\Helper\Js $jsHelper,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_url = $url;
@@ -110,7 +110,7 @@ class Country extends \Magento\Backend\Block\System\Config\Form\Field
             'section' => $this->getRequest()->getParam('section'),
             'website' => $this->getRequest()->getParam('website'),
             'store' => $this->getRequest()->getParam('store'),
-            StructurePlugin::REQUEST_PARAM_COUNTRY => '__country__'
+            StructurePlugin::REQUEST_PARAM_COUNTRY => '__country__',
         ];
         $urlString = $this->_escaper->escapeJsQuote($this->_url->getUrl('*/*/*', $urlParams));
         $jsString = '

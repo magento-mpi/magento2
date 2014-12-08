@@ -41,7 +41,7 @@ class ImageUploader extends \Magento\Framework\Object
      *
      * @var string[]
      */
-    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png');
+    protected $_allowedExtensions = ['jpg', 'jpeg', 'gif', 'png'];
 
     /**
      * Generic constructor of change instance
@@ -53,7 +53,7 @@ class ImageUploader extends \Magento\Framework\Object
     public function __construct(
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Framework\Filesystem $filesystem,
-        array $data = array()
+        array $data = []
     ) {
         $this->_uploaderFactory = $uploaderFactory;
         $this->_filesystem = $filesystem;
@@ -111,9 +111,9 @@ class ImageUploader extends \Magento\Framework\Object
      */
     public function uploadFile($key)
     {
-        $result = array();
+        $result = [];
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader = $this->_uploaderFactory->create(array('fileId' => $key));
+        $uploader = $this->_uploaderFactory->create(['fileId' => $key]);
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->setAllowRenameFiles(true);
         $uploader->setAllowCreateFolders(true);
@@ -124,7 +124,7 @@ class ImageUploader extends \Magento\Framework\Object
         }
         $result['css_path'] = implode(
             '/',
-            array('..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName())
+            ['..', self::PATH_PREFIX_QUICK_STYLE, $uploader->getUploadedFileName()]
         );
         $result['name'] = $uploader->getUploadedFileName();
         return $result;

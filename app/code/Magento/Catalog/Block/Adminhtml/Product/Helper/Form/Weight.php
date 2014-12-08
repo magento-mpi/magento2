@@ -45,7 +45,7 @@ class Weight extends \Magento\Framework\Data\Form\Element\Text
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Catalog\Helper\Product $helper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         $this->_virtual = $factoryElement->create('checkbox');

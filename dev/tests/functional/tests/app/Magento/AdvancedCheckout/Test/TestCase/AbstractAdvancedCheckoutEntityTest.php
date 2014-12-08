@@ -8,12 +8,12 @@
 
 namespace Magento\AdvancedCheckout\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
+use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
-use Magento\AdvancedCheckout\Test\Page\CustomerOrderSku;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\TestCase\Injectable;
 
 /**
  * Abstract class for AdvancedCheckoutEntity tests.

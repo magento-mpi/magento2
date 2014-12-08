@@ -36,7 +36,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         $dom->schemaValidate($this->_xsdFilePath);
 
         $errors = libxml_get_errors();
-        $errorMessages = array();
+        $errorMessages = [];
 
         foreach ($errors as $error) {
             $errorMessages[] = $error->message;
@@ -63,35 +63,35 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidXmlFileDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'config_invalid_attribute_group.xml',
-                array(
+                [
                     "Element 'attribute_group': Duplicate key-sequence ['registry'] " .
                     "in unique identity-constraint 'uniqueAttributeGroupName'.\n"
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'config_invalid_attribute_type.xml',
-                array(
+                [
                     "Element 'attribute_type': Duplicate key-sequence ['text'] " .
                     "in unique identity-constraint 'uniqueAttributeTypeName'.\n"
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 'config_invalid_static_attribute.xml',
-                array(
+                [
                     "Element 'static_attribute': Duplicate key-sequence ['event_date'] " .
                     "in unique identity-constraint 'uniqueStaticAttributeName'.\n"
-                )
-            ),
-            array(
+                ]
+            ],
+            [
                 'config_invalid_custom_attribute.xml',
-                array(
+                [
                     "Element 'custom_attribute': Duplicate key-sequence ['custom_event_data'] " .
                     "in unique identity-constraint 'uniqueCustomAttributeName'.\n"
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

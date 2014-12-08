@@ -20,6 +20,6 @@ class Group implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(1 => __('Same as Inviter'), 0 => __('Default Customer Group from System Configuration'));
+        return [1 => __('Same as Inviter'), 0 => __('Default Customer Group from System Configuration')];
     }
 }

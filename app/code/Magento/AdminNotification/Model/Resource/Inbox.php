@@ -66,10 +66,10 @@ class Inbox extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array(
+            [
                 'severity' => 'severity',
                 'count_notice' => new \Zend_Db_Expr('COUNT(' . $this->getIdFieldName() . ')')
-            )
+            ]
         )->group(
             'severity'
         )->where(

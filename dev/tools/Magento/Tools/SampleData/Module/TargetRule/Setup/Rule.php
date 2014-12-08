@@ -7,12 +7,12 @@
  */
 namespace Magento\Tools\SampleData\Module\TargetRule\Setup;
 
-use Magento\Tools\SampleData\SetupInterface;
+use Magento\TargetRule\Model\Actions\Condition\Product\Attributes as TargetRuleActionAttributes;
+use Magento\TargetRule\Model\RuleFactory as RuleFactory;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Helper\PostInstaller;
-use Magento\TargetRule\Model\RuleFactory as RuleFactory;
-use Magento\TargetRule\Model\Actions\Condition\Product\Attributes as TargetRuleActionAttributes;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Setup
@@ -99,7 +99,7 @@ class Rule implements SetupInterface
 
         $types = [
             'Rule' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
-            'Actions' => 'Magento\TargetRule\Model\Actions\Condition\Product\Attributes'
+            'Actions' => 'Magento\TargetRule\Model\Actions\Condition\Product\Attributes',
         ];
         if (empty($types[$ruleType])) {
             return null;
@@ -122,7 +122,7 @@ class Rule implements SetupInterface
         $entityFileAssociation = [
             \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS => 'related',
             \Magento\TargetRule\Model\Rule::UP_SELLS => 'upsell',
-            \Magento\TargetRule\Model\Rule::CROSS_SELLS => 'crosssell'
+            \Magento\TargetRule\Model\Rule::CROSS_SELLS => 'crosssell',
         ];
 
         foreach ($entityFileAssociation as $linkTypeId => $linkType) {
@@ -132,7 +132,7 @@ class Rule implements SetupInterface
                 continue;
             }
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 /** @var \Magento\TargetRule\Model\Rule $rule */
                 $rule = $this->ruleFactory->create();
@@ -178,17 +178,17 @@ class Rule implements SetupInterface
         $combineCondition = [
             'aggregator' => 'all',
             'value' => '1',
-            'new_child' => ''
+            'new_child' => '',
         ];
         $ruleConditions = [
             'conditions' => [
                 1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Rule\Condition\Combine'],
-                '1--1' => $sourceCategory
+                '1--1' => $sourceCategory,
             ],
             'actions' => [
                 1 => $combineCondition + ['type' => 'Magento\TargetRule\Model\Actions\Condition\Combine'],
-                '1--1' => $targetCategory
-            ]
+                '1--1' => $targetCategory,
+            ],
         ];
         if (!empty($row['conditions'])) {
             $index = 2;

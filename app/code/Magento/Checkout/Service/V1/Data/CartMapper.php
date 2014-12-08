@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Data;
 
-use \Magento\Sales\Model\Quote;
-use \Magento\Checkout\Service\V1\Data\Cart;
+use Magento\Checkout\Service\V1\Data\Cart;
+use Magento\Sales\Model\Quote;
 
 /**
  * Cart mapper

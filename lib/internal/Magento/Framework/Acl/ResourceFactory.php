@@ -34,7 +34,7 @@ class ResourceFactory
      * @param array $arguments
      * @return Resource
      */
-    public function createResource(array $arguments = array())
+    public function createResource(array $arguments = [])
     {
         return $this->_objectManager->create(self::RESOURCE_CLASS_NAME, $arguments);
     }

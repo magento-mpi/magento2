@@ -7,9 +7,9 @@
  */
 namespace Magento\Ui\Component\Control;
 
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\UrlInterface;
 use Magento\Framework\Escaper;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\Element\Template\Context;
 
 class ButtonTest extends \PHPUnit_Framework_TestCase
 {

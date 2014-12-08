@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Items Attributes Edit container
  *
@@ -25,14 +24,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getData('action'),
                     'method' => 'post',
-                    'enctype' => 'multipart/form-data'
-                )
-            )
+                    'enctype' => 'multipart/form-data',
+                ],
+            ]
         );
         $form->setUseContainer(true);
         $this->setForm($form);

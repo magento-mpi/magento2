@@ -8,9 +8,9 @@
 
 namespace Magento\Shipping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Shipping\Test\Page\Adminhtml\ShipmentIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertShipmentInShipmentsGrid
@@ -43,7 +43,7 @@ class AssertShipmentInShipmentsGrid extends AbstractConstraint
                 'id' => $shipmentIds,
                 'order_id' => $orderId,
                 'total_qty_from' => $totalQty[$key],
-                'total_qty_to' => $totalQty[$key]
+                'total_qty_to' => $totalQty[$key],
             ];
             \PHPUnit_Framework_Assert::assertTrue(
                 $shipmentIndex->getShipmentsGrid()->isRowVisible($filter),

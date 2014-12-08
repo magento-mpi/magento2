@@ -41,10 +41,10 @@ class PriceCurrencyTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->priceCurrency = $objectManager->getObject('Magento\Directory\Model\PriceCurrency', array(
+        $this->priceCurrency = $objectManager->getObject('Magento\Directory\Model\PriceCurrency', [
             'storeManager' => $this->storeManager,
             'currencyFactory' => $this->currencyFactory
-        ));
+        ]);
     }
 
     public function testConvert()

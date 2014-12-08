@@ -8,9 +8,9 @@
 
 namespace Magento\MultipleWishlist\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Wishlist\Test\Page\WishlistIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Abstract Class AssertMultipleWishlistSuccessSaveMessage

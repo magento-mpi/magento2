@@ -101,7 +101,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
                 'attribute' => '',
                 'operator' => '',
                 'value' => '',
-            ]
+            ],
         ];
 
         $this->conditionObjectMock->expects($this->once())
@@ -129,7 +129,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
                 'attribute' => '',
                 'operator' => '',
                 'value' => '',
-            ]
+            ],
         ];
 
         $this->conditionObjectMock->expects($this->never())

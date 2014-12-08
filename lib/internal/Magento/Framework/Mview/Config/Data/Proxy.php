@@ -60,7 +60,7 @@ class Proxy extends \Magento\Framework\Mview\Config\Data
      */
     public function __sleep()
     {
-        return array('_subject', '_isShared');
+        return ['_subject', '_isShared'];
     }
 
     /**

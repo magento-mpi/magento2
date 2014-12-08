@@ -74,7 +74,7 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
                 $itemData = [
                     Data\OptionType::LABEL => __($type['label']),
                     Data\OptionType::CODE => $type['name'],
-                    Data\OptionType::GROUP => __($option['label'])
+                    Data\OptionType::GROUP => __($option['label']),
                 ];
                 $output[] = $this->optionTypeBuilder->populateWithArray($itemData)->create();
             }
@@ -117,14 +117,14 @@ class ReadService implements \Magento\Catalog\Service\V1\Product\CustomOptions\R
      */
     protected function _createOptionDataObject(\Magento\Catalog\Model\Product\Option $option)
     {
-        $data = array(
+        $data = [
             Data\Option::OPTION_ID => $option->getId(),
             Data\Option::TITLE => $option->getTitle(),
             Data\Option::TYPE => $option->getType(),
             Data\Option::IS_REQUIRE => $option->getIsRequire(),
             Data\Option::SORT_ORDER => $option->getSortOrder(),
-            Data\Option::METADATA => $this->optionMetadataReader->read($option)
-        );
+            Data\Option::METADATA => $this->optionMetadataReader->read($option),
+        ];
         return $this->optionBuilder->populateWithArray($data)->create();
     }
 }

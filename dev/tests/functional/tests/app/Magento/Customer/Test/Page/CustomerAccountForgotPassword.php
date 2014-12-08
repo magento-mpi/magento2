@@ -1,16 +1,16 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\Page;
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\Page;
 
 /**
  */

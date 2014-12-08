@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -124,15 +124,15 @@ class GiftMessageManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testAddWithSaveMessageIdAndEmptyMessageException()
     {
-        $giftMessages = array(
-            'quote' => array(
-                0 => array(
+        $giftMessages = [
+            'quote' => [
+                0 => [
                     'from' => 'sender',
                     'to' => 'recipient',
                     'message' => ' ',
-                )
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->messageFactoryMock->expects($this->once())
             ->method('create')
@@ -154,15 +154,15 @@ class GiftMessageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddWithSaveMessageIdException()
     {
         $entityId = 12;
-        $giftMessages = array(
-                'quote_item' => array(
-                    12 => array(
+        $giftMessages = [
+                'quote_item' => [
+                    12 => [
                     'from' => 'sender',
                     'to' => 'recipient',
                     'message' => 'message',
-                    )
-                ),
-        );
+                    ],
+                ],
+        ];
 
         $this->messageFactoryMock->expects($this->once())
             ->method('create')
@@ -199,15 +199,15 @@ class GiftMessageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddWithQuoteAddress()
     {
         $entityId = 1;
-        $giftMessages = array(
-            'quote_address' => array(
-                1 => array(
+        $giftMessages = [
+            'quote_address' => [
+                1 => [
                     'from' => 'sender',
                     'to' => 'recipient',
                     'message' => 'message',
-                )
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->messageFactoryMock->expects($this->once())
             ->method('create')
@@ -242,16 +242,16 @@ class GiftMessageManagerTest extends \PHPUnit_Framework_TestCase
     public function testAddWithQuoteAddressItem()
     {
         $entityId = 1;
-        $giftMessages = array(
-            'quote_address_item' => array(
-                1 => array(
+        $giftMessages = [
+            'quote_address_item' => [
+                1 => [
                     'from' => 'sender',
                     'to' => 'recipient',
                     'message' => 'message',
                     'address' => 'address',
-                )
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->messageFactoryMock->expects($this->once())
             ->method('create')
@@ -290,4 +290,3 @@ class GiftMessageManagerTest extends \PHPUnit_Framework_TestCase
         $this->model->add($giftMessages, $this->quoteMock);
     }
 }
-

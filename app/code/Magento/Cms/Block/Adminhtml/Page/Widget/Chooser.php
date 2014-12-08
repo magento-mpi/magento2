@@ -97,7 +97,6 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
             $uniqId
         );
 
-
         if ($element->getValue()) {
             $page = $this->_pageFactory->create()->load((int)$element->getValue());
             if ($page->getId()) {

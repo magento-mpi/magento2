@@ -29,6 +29,6 @@ class BlockTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         $this->block->setBlockId($id);
-        $this->assertEquals(array(\Magento\Cms\Model\Block::CACHE_TAG . '_' . $id), $this->block->getIdentities());
+        $this->assertEquals([\Magento\Cms\Model\Block::CACHE_TAG . '_' . $id], $this->block->getIdentities());
     }
 }

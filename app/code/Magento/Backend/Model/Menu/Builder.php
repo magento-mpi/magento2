@@ -16,7 +16,7 @@ class Builder
     /**
      * @var \Magento\Backend\Model\Menu\Builder\AbstractCommand[]
      */
-    protected $_commands = array();
+    protected $_commands = [];
 
     /**
      * @var \Magento\Backend\Model\Menu\Item\Factory
@@ -57,8 +57,8 @@ class Builder
     public function getResult(\Magento\Backend\Model\Menu $menu)
     {
         /** @var $items \Magento\Backend\Model\Menu\Item[] */
-        $params = array();
-        $items = array();
+        $params = [];
+        $items = [];
 
         // Create menu items
         foreach ($this->_commands as $id => $command) {

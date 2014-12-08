@@ -29,4 +29,4 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $validator = new Validator();
         $this->assertEquals(['Order Id is a required field'], $validator->validate($history));
     }
-} 
+}

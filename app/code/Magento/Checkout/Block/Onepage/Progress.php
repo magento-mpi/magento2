@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-use Magento\Customer\Model\Address\Config as AddressConfig;
 use Magento\Sales\Model\Quote\Address;
 
 /**

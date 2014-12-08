@@ -33,7 +33,7 @@ class ProductLinkBuilder extends \Magento\Framework\Api\ExtensibleObjectBuilder
         \Magento\Framework\Api\ObjectFactory $objectFactory,
         AttributeDataBuilder $valueBuilder,
         \Magento\Framework\Api\Config\MetadataConfig $metadataService,
-        array $customAttributesCodes = array()
+        array $customAttributesCodes = []
     ) {
         $this->customAttributes = $customAttributesCodes;
         parent::__construct($objectFactory, $valueBuilder, $metadataService);

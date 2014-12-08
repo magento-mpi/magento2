@@ -52,7 +52,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
 
         $this->orderFactory = $this->getMock('Magento\Sales\Model\OrderFactory', ['create'], [], '', false);
 
-        $arguments = array(
+        $arguments = [
             'orderFactory' => $this->orderFactory,
             'orderResourceFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\OrderFactory',
@@ -88,8 +88,8 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
                 [],
                 '',
                 false
-            )
-        );
+            ),
+        ];
         $this->model = $helperManager->getObject('Magento\Sales\Model\Order\Invoice', $arguments);
         $this->model->setOrder($this->orderMock);
     }
@@ -135,7 +135,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
 
     public function canVoidDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     public function testGetOrder()

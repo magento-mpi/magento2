@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Catalog\Model\Product\Attribute;
- 
+
 class RepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Repository
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -70,7 +70,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultMock;
-    
+
     protected function setUp()
     {
         $this->attributeResourceMock =
@@ -93,7 +93,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->eavAttributeRepositoryMock =
             $this->getMock('Magento\Eav\Api\AttributeRepositoryInterface', [], [], '', false);
         $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
-        $this->validatorFactoryMock =$this->getMock(
+        $this->validatorFactoryMock = $this->getMock(
             'Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\ValidatorFactory',
             [],
             [],

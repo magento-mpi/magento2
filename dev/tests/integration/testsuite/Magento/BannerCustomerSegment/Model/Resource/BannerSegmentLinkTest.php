@@ -37,7 +37,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     public function testSaveLoadBannerSegments($bannerName, $segmentNames)
     {
         $bannerId = $this->_getBannerId($bannerName);
-        $segmentIds = $segmentNames ? $this->_getSegmentIds($segmentNames) : array();
+        $segmentIds = $segmentNames ? $this->_getSegmentIds($segmentNames) : [];
 
         $this->_resourceModel->saveBannerSegments($bannerId, $segmentIds);
 
@@ -48,15 +48,15 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
     public function saveLoadBannerSegmentsDataProvider()
     {
         $bannerForSegment = 'Get 40% Off on Graphic Editors';
-        return array(
-            'initial add single' => array('Test Banner', array('Designers')),
-            'initial add multiple' => array('Test Banner', array('Developers', 'Designers')),
-            'override all' => array($bannerForSegment, array('Developers')),
-            'add missing' => array($bannerForSegment, array('Designers', 'Developers')),
-            'remove all - empty array' => array($bannerForSegment, array()),
-            'remove all - empty string' => array($bannerForSegment, ''),
-            'remove all - null' => array($bannerForSegment, null)
-        );
+        return [
+            'initial add single' => ['Test Banner', ['Designers']],
+            'initial add multiple' => ['Test Banner', ['Developers', 'Designers']],
+            'override all' => [$bannerForSegment, ['Developers']],
+            'add missing' => [$bannerForSegment, ['Designers', 'Developers']],
+            'remove all - empty array' => [$bannerForSegment, []],
+            'remove all - empty string' => [$bannerForSegment, ''],
+            'remove all - null' => [$bannerForSegment, null]
+        ];
     }
 
     /**
@@ -70,7 +70,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddBannerSegmentFilter(array $segmentNames, array $expectedBannerNames)
     {
-        $expectedBannerIds = array();
+        $expectedBannerIds = [];
         foreach ($expectedBannerNames as $bannerName) {
             $expectedBannerIds[] = $this->_getBannerId($bannerName);
         }
@@ -91,21 +91,21 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
 
     public function addBannerSegmentFilterDataProvider()
     {
-        return array(
-            'only banners for everybody' => array(array(), array('Get from 40% to 50% Off on Large Orders')),
-            'banners for everybody + for specific segment' => array(
-                array('Developers'),
-                array('Get from 40% to 50% Off on Large Orders', 'Get 50% Off on Development IDEs')
-            ),
-            'banners for everybody + for specific segments' => array(
-                array('Developers', 'Designers'),
-                array(
+        return [
+            'only banners for everybody' => [[], ['Get from 40% to 50% Off on Large Orders']],
+            'banners for everybody + for specific segment' => [
+                ['Developers'],
+                ['Get from 40% to 50% Off on Large Orders', 'Get 50% Off on Development IDEs'],
+            ],
+            'banners for everybody + for specific segments' => [
+                ['Developers', 'Designers'],
+                [
                     'Get from 40% to 50% Off on Large Orders',
                     'Get 50% Off on Development IDEs',
                     'Get 40% Off on Graphic Editors'
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 
     /**
@@ -130,7 +130,7 @@ class BannerSegmentLinkTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSegmentIds(array $segmentNames)
     {
-        $result = array();
+        $result = [];
         foreach ($segmentNames as $segmentName) {
             /** @var $segment \Magento\CustomerSegment\Model\Segment */
             $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

@@ -29,8 +29,8 @@ class ElementFactory
      * @param array $data
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function create($elementClass, array $data = array())
+    public function create($elementClass, array $data = [])
     {
-        return $this->_objectManager->create($elementClass, array('data' => $data));
+        return $this->_objectManager->create($elementClass, ['data' => $data]);
     }
 }

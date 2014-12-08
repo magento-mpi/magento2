@@ -219,7 +219,6 @@ abstract class AbstractMapper implements MapperInterface
         return $this->resource;
     }
 
-
     /**
      * Standard query builder initialization
      *

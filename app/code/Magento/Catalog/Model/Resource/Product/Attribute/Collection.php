@@ -65,7 +65,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
         )->getTypeId();
         $columns = $this->getConnection()->describeTable($this->getResource()->getMainTable());
         unset($columns['attribute_id']);
-        $retColumns = array();
+        $retColumns = [];
         foreach ($columns as $labelColumn => $columnData) {
             $retColumns[$labelColumn] = $labelColumn;
             if ($columnData['DATA_TYPE'] == \Magento\Framework\DB\Ddl\Table::TYPE_TEXT) {
@@ -73,10 +73,10 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
             }
         }
         $this->getSelect()->from(
-            array('main_table' => $this->getResource()->getMainTable()),
+            ['main_table' => $this->getResource()->getMainTable()],
             $retColumns
         )->join(
-            array('additional_table' => $this->getTable('catalog_eav_attribute')),
+            ['additional_table' => $this->getTable('catalog_eav_attribute')],
             'additional_table.attribute_id = main_table.attribute_id'
         )->where(
             'main_table.entity_type_id = ?',
@@ -106,11 +106,11 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
     {
         $fields = array_merge(
             parent::_getLoadDataFields(),
-            array(
+            [
                 'additional_table.is_global',
                 'additional_table.is_html_allowed_on_front',
                 'additional_table.is_wysiwyg_enabled'
-            )
+            ]
         );
 
         return $fields;
@@ -123,7 +123,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function removePriceFilter()
     {
-        return $this->addFieldToFilter('main_table.attribute_code', array('neq' => 'price'));
+        return $this->addFieldToFilter('main_table.attribute_code', ['neq' => 'price']);
     }
 
     /**
@@ -143,7 +143,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function addIsFilterableFilter()
     {
-        return $this->addFieldToFilter('additional_table.is_filterable', array('gt' => 0));
+        return $this->addFieldToFilter('additional_table.is_filterable', ['gt' => 0]);
     }
 
     /**
@@ -153,7 +153,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function addIsFilterableInSearchFilter()
     {
-        return $this->addFieldToFilter('additional_table.is_filterable_in_search', array('gt' => 0));
+        return $this->addFieldToFilter('additional_table.is_filterable_in_search', ['gt' => 0]);
     }
 
     /**
@@ -184,18 +184,18 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
     public function addToIndexFilter($addRequiredCodes = false)
     {
-        $conditions = array(
+        $conditions = [
             'additional_table.is_searchable = 1',
             'additional_table.is_visible_in_advanced_search = 1',
             'additional_table.is_filterable > 0',
             'additional_table.is_filterable_in_search = 1',
-            'additional_table.used_for_sort_by = 1'
-        );
+            'additional_table.used_for_sort_by = 1',
+        ];
 
         if ($addRequiredCodes) {
             $conditions[] = $this->getConnection()->quoteInto(
                 'main_table.attribute_code IN (?)',
-                array('status', 'visibility')
+                ['status', 'visibility']
             );
         }
 
@@ -214,7 +214,7 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
         $this->getSelect()->where(
             'additional_table.is_searchable = 1 OR ' . $this->getConnection()->quoteInto(
                 'main_table.attribute_code IN (?)',
-                array('status', 'visibility')
+                ['status', 'visibility']
             )
         );
 

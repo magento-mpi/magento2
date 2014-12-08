@@ -24,7 +24,7 @@ class Upload extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
         $singleFile = $this->_objectManager->create(
             'Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService)
+            ['fileService' => $cssService]
         );
         /** @var $serviceModel \Magento\Theme\Model\Uploader\Service */
         $serviceModel = $this->_objectManager->get('Magento\Theme\Model\Uploader\Service');
@@ -35,16 +35,16 @@ class Upload extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
                 \Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code\Custom::FILE_ELEMENT_NAME
             );
             $singleFile->update($editableTheme, $cssFileData['content']);
-            $response = array(
+            $response = [
                 'success' => true,
                 'message' => __('You updated the custom.css file.'),
-                'content' => $cssFileData['content']
-            );
+                'content' => $cssFileData['content'],
+            ];
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot upload the CSS file.'));
+            $response = ['error' => true, 'message' => __('We cannot upload the CSS file.')];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

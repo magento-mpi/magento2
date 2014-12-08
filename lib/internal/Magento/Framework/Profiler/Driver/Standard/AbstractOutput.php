@@ -23,21 +23,21 @@ abstract class AbstractOutput implements OutputInterface
      *
      * @var array
      */
-    protected $_thresholds = array(Stat::TIME => 0.001, Stat::COUNT => 10, Stat::EMALLOC => 10000);
+    protected $_thresholds = [Stat::TIME => 0.001, Stat::COUNT => 10, Stat::EMALLOC => 10000];
 
     /**
      * List of columns to output
      *
      * @var array
      */
-    protected $_columns = array(
+    protected $_columns = [
         'Timer Id' => Stat::ID,
         'Time' => Stat::TIME,
         'Avg' => Stat::AVG,
         'Cnt' => Stat::COUNT,
         'Emalloc' => Stat::EMALLOC,
-        'RealMem' => Stat::REALMEM
-    );
+        'RealMem' => Stat::REALMEM,
+    ];
 
     /**
      * Constructor

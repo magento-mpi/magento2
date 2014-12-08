@@ -179,13 +179,13 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
                     'field' => 'product_id',
                     'type' => 'rangeFilter',
                     'from' => '$pidm_from$',
-                    'to' => '$pidm_to$'
+                    'to' => '$pidm_to$',
                 ],
                 'pidsh' => [
                     'name' => 'pidsh',
                     'field' => 'product_id',
                     'type' => 'termFilter',
-                    'value' => '$pidsh$'
+                    'value' => '$pidsh$',
                 ],
             ],
             'from' => '10',

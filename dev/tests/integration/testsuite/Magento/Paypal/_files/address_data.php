@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'firstname' => 'guest',
     'lastname' => 'guest',
     'email' => 'customer@example.com',
@@ -16,4 +16,4 @@ return array(
     'postcode' => '1',
     'country_id' => 'US',
     'telephone' => '1'
-);
+];

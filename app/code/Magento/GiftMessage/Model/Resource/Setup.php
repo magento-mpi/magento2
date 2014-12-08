@@ -54,7 +54,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */
-    public function createGiftMessageSetup(array $data = array())
+    public function createGiftMessageSetup(array $data = [])
     {
         return $this->_catalogSetupFactory->create($data);
     }

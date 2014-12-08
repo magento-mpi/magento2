@@ -65,7 +65,7 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_date = $date;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -195,7 +195,7 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
      */
     public function getNumeric($value)
     {
-        static $data = array(
+        static $data = [
             'jan' => 1,
             'feb' => 2,
             'mar' => 3,
@@ -214,8 +214,8 @@ class Schedule extends \Magento\Framework\Model\AbstractModel
             'wed' => 3,
             'thu' => 4,
             'fri' => 5,
-            'sat' => 6
-        );
+            'sat' => 6,
+        ];
 
         if (is_numeric($value)) {
             return $value;

@@ -54,7 +54,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             'Magento\Theme\Block\Html\Header',
             ['customerSession' => $customerSession]
         );
-
     }
 
     /**
@@ -73,5 +72,4 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $this->context->setValue(Context::CONTEXT_AUTH, true, false);
         $this->assertEquals('Welcome, John Smith!', $this->block->getWelcome());
     }
-
 }

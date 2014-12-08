@@ -25,15 +25,15 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
 
         $this->writer = $this->getMockForAbstractClass(
             'Magento\Tools\Dependency\Report\Writer\Csv\AbstractWriter',
-            array('writer' => $this->csvMock)
+            ['writer' => $this->csvMock]
         );
     }
 
     public function testWrite()
     {
-        $options = array('report_filename' => 'some_filename');
+        $options = ['report_filename' => 'some_filename'];
         $configMock = $this->getMock('Magento\Tools\Dependency\Report\Data\ConfigInterface');
-        $preparedData = array('foo', 'baz', 'bar');
+        $preparedData = ['foo', 'baz', 'bar'];
 
         $this->writer->expects(
             $this->once()
@@ -67,9 +67,9 @@ class AbstractWriterTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongOptionReportFilename()
     {
-        return array(
-            array(array('report_filename' => '')),
-            array(array('there_are_no_report_filename' => 'some_name'))
-        );
+        return [
+            [['report_filename' => '']],
+            [['there_are_no_report_filename' => 'some_name']]
+        ];
     }
 }

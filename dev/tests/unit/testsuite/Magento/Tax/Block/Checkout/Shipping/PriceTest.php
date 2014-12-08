@@ -7,7 +7,6 @@
  */
 namespace Magento\Tax\Block\Checkout\Shipping;
 
-use Magento\Framework\Object;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
@@ -67,7 +66,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->taxHelper = $this->getMockBuilder('\Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods([
-                'getShippingPrice', 'displayShippingPriceIncludingTax', 'displayShippingBothPrices'
+                'getShippingPrice', 'displayShippingPriceIncludingTax', 'displayShippingBothPrices',
             ])
             ->getMock();
 
@@ -138,7 +137,6 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->priceObj->setShippingRate($shippingRateMock);
         $this->assertEquals($convertedPrice, $this->priceObj->getShippingPriceExclTax());
     }
-
 
     public function testDisplayShippingPriceInclTax()
     {

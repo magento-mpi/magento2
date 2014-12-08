@@ -34,7 +34,7 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Stdlib\String $string,
-        array $data = array()
+        array $data = []
     ) {
         $this->string = $string;
         parent::__construct($context, $data);
@@ -55,7 +55,7 @@ class Wrapline extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
         ) ? $this->getColumn()->getData(
             'lineLength'
         ) : $this->_defaultMaxLineLength;
-        for ($i = 0,$n = floor($this->string->strlen($line) / $lineLength); $i <= $n; $i++) {
+        for ($i = 0, $n = floor($this->string->strlen($line) / $lineLength); $i <= $n; $i++) {
             $wrappedLine .= $this->string->substr($line, $lineLength * $i, $lineLength) . "<br />";
         }
         return $wrappedLine;

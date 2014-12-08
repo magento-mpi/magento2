@@ -48,58 +48,57 @@ class SampleTest extends \PHPUnit_Framework_TestCase
      */
     protected $downloadHelper;
 
-
     protected function setUp()
     {
         $this->objectManagerHelper = new ObjectManagerHelper($this);
 
         $this->request = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array(
+            [
                 'getParam',
                 'getModuleName',
                 'setModuleName',
                 'getActionName',
                 'setActionName',
                 'getCookie'
-            )
+            ]
         );
         $this->response = $this->getMock(
             '\Magento\Framework\App\ResponseInterface',
-            array(
+            [
                 'setHttpResponseCode',
                 'clearBody',
                 'sendHeaders',
                 'sendResponse',
                 'setHeader'
-            )
+            ]
         );
         $this->fileHelper = $this->getMock(
             '\Magento\Downloadable\Helper\File',
-            array(
+            [
                 'getFilePath'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->downloadHelper = $this->getMock(
             'Magento\Downloadable\Helper\Download',
-            array(
+            [
                 'setResource',
                 'getFilename',
                 'getContentType',
                 'output',
                 'getFileSize',
                 'getContentDisposition'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->sampleModel = $this->getMock(
             '\Magento\Downloadable\Controller\Adminhtml\Downloadable\Product\Edit\Sample',
-            array(
+            [
                 'load',
                 'getId',
                 'getSampleType',
@@ -107,28 +106,28 @@ class SampleTest extends \PHPUnit_Framework_TestCase
                 'getBasePath',
                 'getBaseSamplePath',
                 'getSampleFile',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->objectManager = $this->getMock(
             '\Magento\Framework\ObjectManager\ObjectManager',
-            array(
+            [
                 'create',
                 'get'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->sample = $this->objectManagerHelper->getObject(
             'Magento\Downloadable\Controller\Adminhtml\Downloadable\Product\Edit\Sample',
-            array(
+            [
                 'objectManager' => $this->objectManager,
                 'request' => $this->request,
                 'response' => $this->response
-            )
+            ]
         );
     }
 

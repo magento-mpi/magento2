@@ -10,8 +10,8 @@
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Functional;
 use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 class StoreTest extends Functional
 {

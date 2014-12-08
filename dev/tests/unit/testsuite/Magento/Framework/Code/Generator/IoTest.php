@@ -47,8 +47,8 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystemDriverMock = $this->getMock(
             'Magento\Framework\Filesystem\Driver\File',
-            array('isWritable', 'filePutContents', 'createDirectory', 'isExists'),
-            array()
+            ['isWritable', 'filePutContents', 'createDirectory', 'isExists'],
+            []
         );
 
         $this->_object = new \Magento\Framework\Code\Generator\Io(

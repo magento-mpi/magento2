@@ -46,7 +46,7 @@ class ParserFactory
      * @param array $arguments
      * @return \Magento\Framework\Translate\Inline\ParserInterface
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create(self::DEFAULT_INSTANCE_TYPE, $arguments);
     }

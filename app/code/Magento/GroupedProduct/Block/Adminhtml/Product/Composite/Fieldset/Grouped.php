@@ -31,7 +31,7 @@ class Grouped extends \Magento\GroupedProduct\Block\Product\View\Type\Grouped
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct(

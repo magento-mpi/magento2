@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Gift Wrapping Image Helper
  *

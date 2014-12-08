@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class NotifyStockTest
@@ -97,6 +97,5 @@ class NotifyStockTest extends \PHPUnit_Framework_TestCase
 
         $products = $this->notifyStock->getProductsCollection();
         $this->assertEquals($productCollection, $products);
-
     }
 }

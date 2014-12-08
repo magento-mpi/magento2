@@ -12,7 +12,7 @@ class DriverPoolTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetDriver()
     {
-        $object = new DriverPool;
+        $object = new DriverPool();
         foreach ([DriverPool::FILE, DriverPool::HTTP, DriverPool::HTTPS, DriverPool::ZLIB] as $code) {
             $this->assertInstanceOf('\Magento\Framework\Filesystem\DriverInterface', $object->getDriver($code));
         }
@@ -38,6 +38,6 @@ class DriverPoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testCustomDriverException()
     {
-        new DriverPool(['custom' => new \StdClass]);
+        new DriverPool(['custom' => new \StdClass()]);
     }
 }

@@ -9,7 +9,6 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class PaypalExpress
@@ -61,8 +60,8 @@ class PaypalExpress extends Checkout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '10.83'
-            ]
+                'grand_total' => '10.83',
+            ],
         ];
     }
 
@@ -78,7 +77,7 @@ class PaypalExpress extends Checkout
             'paypal_express',
             'default_tax_config',
             'display_price',
-            'display_shopping_cart'
+            'display_shopping_cart',
         ]);
 
         //Tax
@@ -94,7 +93,7 @@ class PaypalExpress extends Checkout
         $simple->persist();
 
         $this->products = [
-            $simple
+            $simple,
         ];
 
         //Checkout data

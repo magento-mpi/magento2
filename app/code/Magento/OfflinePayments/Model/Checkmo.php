@@ -32,7 +32,7 @@ class Checkmo extends \Magento\Payment\Model\Method\AbstractMethod
      */
     public function assignData($data)
     {
-        $details = array();
+        $details = [];
         if ($this->getPayableTo()) {
             $details['payable_to'] = $this->getPayableTo();
         }

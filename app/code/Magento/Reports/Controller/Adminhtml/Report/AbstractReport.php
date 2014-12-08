@@ -81,7 +81,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
     public function _initReportAction($blocks)
     {
         if (!is_array($blocks)) {
-            $blocks = array($blocks);
+            $blocks = [$blocks];
         }
 
         $requestData = $this->_objectManager->get(
@@ -90,8 +90,8 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
             $this->getRequest()->getParam('filter')
         );
         $inputFilter = new \Zend_Filter_Input(
-            array('from' => $this->_dateFilter, 'to' => $this->_dateFilter),
-            array(),
+            ['from' => $this->_dateFilter, 'to' => $this->_dateFilter],
+            [],
             $requestData
         );
         $requestData = $inputFilter->getUnescaped();
@@ -140,7 +140,7 @@ abstract class AbstractReport extends \Magento\Backend\App\Action
         }
 
         $refreshStatsLink = $this->getUrl('reports/report_statistics');
-        $directRefreshLink = $this->getUrl('reports/report_statistics/refreshRecent', array('code' => $refreshCode));
+        $directRefreshLink = $this->getUrl('reports/report_statistics/refreshRecent', ['code' => $refreshCode]);
 
         $this->messageManager->addNotice(
             __(

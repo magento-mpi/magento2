@@ -25,27 +25,27 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_websites = array(1 => 'website1', 2 => 'website2');
+    protected $_websites = [1 => 'website1', 2 => 'website2'];
 
     /**
      * Customers array
      *
      * @var array
      */
-    protected $_customers = array(
-        array('id' => 1, 'email' => 'test1@email.com', 'website_id' => 1),
-        array('id' => 2, 'email' => 'test2@email.com', 'website_id' => 2)
-    );
+    protected $_customers = [
+        ['id' => 1, 'email' => 'test1@email.com', 'website_id' => 1],
+        ['id' => 2, 'email' => 'test2@email.com', 'website_id' => 2],
+    ];
 
     /**
      * Available behaviours
      *
      * @var array
      */
-    protected $_availableBehaviors = array(
+    protected $_availableBehaviors = [
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
-    );
+        \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
+    ];
 
     protected function setUp()
     {
@@ -69,7 +69,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
     protected function _getModelMock()
     {
         $customerCollection = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
         foreach ($this->_customers as $customer) {
             $customerCollection->addItem(new \Magento\Framework\Object($customer));
@@ -102,61 +102,61 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function checkUniqueKeyDataProvider()
     {
-        return array(
-            'valid' => array(
+        return [
+            'valid' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_valid.php',
-                '$errors' => array(),
-                '$isValid' => true
-            ),
-            'no website' => array(
+                '$errors' => [],
+                '$isValid' => true,
+            ],
+            'no website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_website.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, AbstractCustomer::COLUMN_WEBSITE)
-                    )
-                )
-            ),
-            'empty website' => array(
+                '$errors' => [
+                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => [
+                        [1, AbstractCustomer::COLUMN_WEBSITE],
+                    ],
+                ],
+            ],
+            'empty website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_website.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => array(
-                        array(1, AbstractCustomer::COLUMN_WEBSITE)
-                    )
-                )
-            ),
-            'no email' => array(
+                '$errors' => [
+                    AbstractCustomer::ERROR_WEBSITE_IS_EMPTY => [
+                        [1, AbstractCustomer::COLUMN_WEBSITE],
+                    ],
+                ],
+            ],
+            'no email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_no_email.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, AbstractCustomer::COLUMN_EMAIL)
-                    )
-                )
-            ),
-            'empty email' => array(
+                '$errors' => [
+                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => [
+                        [1, AbstractCustomer::COLUMN_EMAIL],
+                    ],
+                ],
+            ],
+            'empty email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_empty_email.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => array(
-                        array(1, AbstractCustomer::COLUMN_EMAIL)
-                    )
-                )
-            ),
-            'invalid email' => array(
+                '$errors' => [
+                    AbstractCustomer::ERROR_EMAIL_IS_EMPTY => [
+                        [1, AbstractCustomer::COLUMN_EMAIL],
+                    ],
+                ],
+            ],
+            'invalid email' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_email.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_INVALID_EMAIL => array(
-                        array(1, AbstractCustomer::COLUMN_EMAIL)
-                    )
-                )
-            ),
-            'invalid website' => array(
+                '$errors' => [
+                    AbstractCustomer::ERROR_INVALID_EMAIL => [
+                        [1, AbstractCustomer::COLUMN_EMAIL],
+                    ],
+                ],
+            ],
+            'invalid website' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_abstract_invalid_website.php',
-                '$errors' => array(
-                    AbstractCustomer::ERROR_INVALID_WEBSITE => array(
-                        array(1, AbstractCustomer::COLUMN_WEBSITE)
-                    )
-                )
-            )
-        );
+                '$errors' => [
+                    AbstractCustomer::ERROR_INVALID_WEBSITE => [
+                        [1, AbstractCustomer::COLUMN_WEBSITE],
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -190,14 +190,14 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertAttributeEquals(0, '_processedEntitiesCount', $this->_model);
 
         // update action
-        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE));
+        $this->_model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE]);
         $this->_clearValidatedRows();
 
-        $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 1));
-        $this->assertAttributeEquals(array(1 => true), '_validatedRows', $this->_model);
+        $this->assertAttributeEquals([], '_validatedRows', $this->_model);
+        $this->assertTrue($this->_model->validateRow([], 1));
+        $this->assertAttributeEquals([1 => true], '_validatedRows', $this->_model);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 1));
+        $this->assertTrue($this->_model->validateRow([], 1));
     }
 
     public function testValidateRowForDelete()
@@ -206,14 +206,14 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
         $this->_model->expects($this->once())->method('_validateRowForDelete');
 
         // delete action
-        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
+        $this->_model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE]);
         $this->_clearValidatedRows();
 
-        $this->assertAttributeEquals(array(), '_validatedRows', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 2));
-        $this->assertAttributeEquals(array(2 => true), '_validatedRows', $this->_model);
+        $this->assertAttributeEquals([], '_validatedRows', $this->_model);
+        $this->assertTrue($this->_model->validateRow([], 2));
+        $this->assertAttributeEquals([2 => true], '_validatedRows', $this->_model);
         $this->assertAttributeEquals(1, '_processedEntitiesCount', $this->_model);
-        $this->assertTrue($this->_model->validateRow(array(), 2));
+        $this->assertTrue($this->_model->validateRow([], 2));
     }
 
     /**
@@ -227,7 +227,7 @@ class AbstractCustomerTest extends \PHPUnit_Framework_TestCase
             '_validatedRows'
         );
         $validatedRows->setAccessible(true);
-        $validatedRows->setValue($this->_model, array());
+        $validatedRows->setValue($this->_model, []);
         $validatedRows->setAccessible(false);
 
         // reset counter

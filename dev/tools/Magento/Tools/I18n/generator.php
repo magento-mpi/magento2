@@ -10,13 +10,13 @@ use Magento\Tools\I18n\ServiceLocator;
 
 try {
     $console = new \Zend_Console_Getopt(
-        array(
+        [
             'directory|d=s' => 'Path to a directory to parse',
             'output-file|o=s' => 'Path (with filename) to output file, '
                 . 'by default output the results into standard output stream',
             'magento|m-s' => 'Indicates whether the specified "directory" path is a Magento root directory,'
-                . ' "no" by default'
-        )
+                . ' "no" by default',
+        ]
     );
     $console->parse();
 
@@ -31,7 +31,7 @@ try {
         throw new \Zend_Console_Getopt_Exception('Directory is a required parameter.', $console->getUsageMessage());
     }
     $outputFilename = $console->getOption('output-file') ?: null;
-    $isMagento = in_array($console->getOption('magento'), array('y', 'yes', 'Y', 'Yes', 'YES', '1'));
+    $isMagento = in_array($console->getOption('magento'), ['y', 'yes', 'Y', 'Yes', 'YES', '1']);
 
     $generator = ServiceLocator::getDictionaryGenerator();
     $generator->generate($directory, $outputFilename, $isMagento);

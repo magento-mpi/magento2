@@ -16,7 +16,7 @@ class Properties extends \Magento\Framework\Validator\AbstractValidator
     /**
      * @var string[]
      */
-    protected $_readOnlyProperties = array();
+    protected $_readOnlyProperties = [];
 
     /**
      * Set read-only properties.
@@ -50,7 +50,7 @@ class Properties extends \Magento\Framework\Validator\AbstractValidator
             }
             foreach ($this->_readOnlyProperties as $property) {
                 if ($this->_hasChanges($value->getData($property), $value->getOrigData($property))) {
-                    $this->_messages[__CLASS__] = array(__("Read-only property cannot be changed."));
+                    $this->_messages[__CLASS__] = [__("Read-only property cannot be changed.")];
                     break;
                 }
             }

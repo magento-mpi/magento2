@@ -16,12 +16,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $arguments = array(
-            'reindexPriceIndexerData' => array(
-                'byDataResult' => array('attribute'),
-                'byDataChange' => array('attribute')
-            )
-        );
+        $arguments = [
+            'reindexPriceIndexerData' => [
+                'byDataResult' => ['attribute'],
+                'byDataChange' => ['attribute'],
+            ],
+        ];
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_productHelper = $objectManager->getObject('Magento\Catalog\Helper\Product', $arguments);
@@ -67,13 +67,13 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(true)
         );
 
-        return array(
-            array($product1, false),
-            array($product2, true),
-            array($product3, true),
-            array(array('attribute' => ''), true),
-            array(array('param' => ''), false),
-            array('test', false)
-        );
+        return [
+            [$product1, false],
+            [$product2, true],
+            [$product3, true],
+            [['attribute' => ''], true],
+            [['param' => ''], false],
+            ['test', false]
+        ];
     }
 }

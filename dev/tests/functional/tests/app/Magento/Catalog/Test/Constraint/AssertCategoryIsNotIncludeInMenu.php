@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCategoryIsNotIncludeInMenu

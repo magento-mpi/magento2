@@ -28,16 +28,15 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('Solr module disabled');
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $this->_clientMock = $this->getMock('Magento\Solr\Model\Client\Solr', array(), array(), '', false, false);
+        $this->_clientMock = $this->getMock('Magento\Solr\Model\Client\Solr', [], [], '', false, false);
         $this->_adapterMock = $this->getMock(
             'Magento\Solr\Model\Adapter\HttpStream',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
-
 
         $this->_factoryObject = new \Magento\Solr\Model\RegularFactory($this->_objectManager);
     }
@@ -47,7 +46,7 @@ class RegularFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetClient()
     {
-        $options = array('attr1' => 'value1', 'attr2' => 'value2');
+        $options = ['attr1' => 'value1', 'attr2' => 'value2'];
         $this->_objectManager->expects(
             $this->once()
         )->method(

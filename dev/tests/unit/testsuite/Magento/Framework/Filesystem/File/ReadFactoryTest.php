@@ -52,7 +52,7 @@ class ReadFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateException()
     {
-        $factory = new ReadFactory(new DriverPool);
+        $factory = new ReadFactory(new DriverPool());
         $factory->create('path');
     }
 }

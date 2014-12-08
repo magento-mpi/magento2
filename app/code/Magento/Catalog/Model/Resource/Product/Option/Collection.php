@@ -93,16 +93,16 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $this->getSelect()->join(
-            array('default_option_title' => $productOptionTitleTable),
+            ['default_option_title' => $productOptionTitleTable],
             'default_option_title.option_id = main_table.option_id',
-            array('default_title' => 'title')
+            ['default_title' => 'title']
         )->joinLeft(
-            array('store_option_title' => $productOptionTitleTable),
+            ['store_option_title' => $productOptionTitleTable],
             'store_option_title.option_id = main_table.option_id AND ' . $adapter->quoteInto(
                 'store_option_title.store_id = ?',
                 $storeId
             ),
-            array('store_title' => 'title', 'title' => $titleExpr)
+            ['store_title' => 'title', 'title' => $titleExpr]
         )->where(
             'default_option_title.store_id = ?',
             \Magento\Store\Model\Store::DEFAULT_STORE_ID
@@ -133,24 +133,24 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $this->getSelect()->joinLeft(
-            array('default_option_price' => $productOptionPriceTable),
+            ['default_option_price' => $productOptionPriceTable],
             'default_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
                 'default_option_price.store_id = ?',
                 \Magento\Store\Model\Store::DEFAULT_STORE_ID
             ),
-            array('default_price' => 'price', 'default_price_type' => 'price_type')
+            ['default_price' => 'price', 'default_price_type' => 'price_type']
         )->joinLeft(
-            array('store_option_price' => $productOptionPriceTable),
+            ['store_option_price' => $productOptionPriceTable],
             'store_option_price.option_id = main_table.option_id AND ' . $adapter->quoteInto(
                 'store_option_price.store_id = ?',
                 $storeId
             ),
-            array(
+            [
                 'store_price' => 'price',
                 'store_price_type' => 'price_type',
                 'price' => $priceExpr,
                 'price_type' => $priceTypeExpr
-            )
+            ]
         );
 
         return $this;
@@ -167,7 +167,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($storeId === null) {
             $storeId = $this->_storeManager->getStore()->getId();
         }
-        $optionIds = array();
+        $optionIds = [];
         foreach ($this as $option) {
             $optionIds[] = $option->getId();
         }
@@ -211,7 +211,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (empty($product)) {
             $this->addFieldToFilter('product_id', '');
         } elseif (is_array($product)) {
-            $this->addFieldToFilter('product_id', array('in' => $product));
+            $this->addFieldToFilter('product_id', ['in' => $product]);
         } elseif ($product instanceof \Magento\Catalog\Model\Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } else {

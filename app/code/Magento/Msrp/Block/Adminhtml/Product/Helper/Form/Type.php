@@ -33,7 +33,7 @@ class Type extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Msrp\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $factoryElement,

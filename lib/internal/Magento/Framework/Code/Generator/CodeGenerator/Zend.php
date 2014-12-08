@@ -18,50 +18,50 @@ class Zend extends \Zend\Code\Generator\ClassGenerator implements
      *
      * @var array
      */
-    protected $_docBlockOptions = array(
+    protected $_docBlockOptions = [
         'shortDescription' => 'setShortDescription',
         'longDescription' => 'setLongDescription',
-        'tags' => 'setTags'
-    );
+        'tags' => 'setTags',
+    ];
 
     /**
      * Possible class property options
      *
      * @var array
      */
-    protected $_propertyOptions = array(
+    protected $_propertyOptions = [
         'name' => 'setName',
         'const' => 'setConst',
         'static' => 'setStatic',
         'visibility' => 'setVisibility',
-        'defaultValue' => 'setDefaultValue'
-    );
+        'defaultValue' => 'setDefaultValue',
+    ];
 
     /**
      * Possible class method options
      *
      * @var array
      */
-    protected $_methodOptions = array(
+    protected $_methodOptions = [
         'name' => 'setName',
         'final' => 'setFinal',
         'static' => 'setStatic',
         'abstract' => 'setAbstract',
         'visibility' => 'setVisibility',
-        'body' => 'setBody'
-    );
+        'body' => 'setBody',
+    ];
 
     /**
      * Possible method parameter options
      *
      * @var array
      */
-    protected $_parameterOptions = array(
+    protected $_parameterOptions = [
         'name' => 'setName',
         'type' => 'setType',
         'defaultValue' => 'setDefaultValue',
-        'passedByReference' => 'setPassedByReference'
-    );
+        'passedByReference' => 'setPassedByReference',
+    ];
 
     /**
      * @param object $object
@@ -112,7 +112,7 @@ class Zend extends \Zend\Code\Generator\ClassGenerator implements
                 $methodOptions['parameters']
             ) > 0
             ) {
-                $parametersArray = array();
+                $parametersArray = [];
                 foreach ($methodOptions['parameters'] as $parameterOptions) {
                     $parameterObject = new \Zend\Code\Generator\ParameterGenerator();
                     $this->_setDataToObject($parameterObject, $parameterOptions, $this->_parameterOptions);

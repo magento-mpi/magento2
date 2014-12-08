@@ -24,7 +24,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($this->getSearchResults() as $item): ?>
+                <?php foreach ($this->getSearchResults() as $item): ?>
                     <tr>
                         <td class="col name" data-th="<?php echo $this->escapeHtml(__('Name')); ?>"><?php echo $this->escapeHtml($item->getRegistrant()) ?></td>
                         <td class="col location" data-th="<?php echo $this->escapeHtml(__('Location')); ?>"><?php echo $this->escapeHtml($item->getEventLocation()) ?></td>

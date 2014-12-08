@@ -8,8 +8,8 @@
 
 namespace Mtf\App\State;
 
-use \Magento\Framework\App\DeploymentConfig\DbConfig;
-use \Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\DeploymentConfig\DbConfig;
+use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Abstract class AbstractState

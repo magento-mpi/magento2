@@ -8,8 +8,8 @@
  */
 namespace Magento\TaxImportExport\Controller\Adminhtml\Rate;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportPost extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
 {
@@ -22,7 +22,7 @@ class ExportPost extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
     {
         /** start csv content and set template */
         $headers = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => __('Code'),
                 'country_name' => __('Country'),
                 'region_name' => __('State'),
@@ -30,15 +30,15 @@ class ExportPost extends \Magento\TaxImportExport\Controller\Adminhtml\Rate
                 'rate' => __('Rate'),
                 'zip_is_range' => __('Zip/Post is Range'),
                 'zip_from' => __('Range From'),
-                'zip_to' => __('Range To')
-            )
+                'zip_to' => __('Range To'),
+            ]
         );
         $template = '"{{code}}","{{country_name}}","{{region_name}}","{{tax_postcode}}","{{rate}}"' .
             ',"{{zip_is_range}}","{{zip_from}}","{{zip_to}}"';
         $content = $headers->toString($template);
 
-        $storeTaxTitleTemplate = array();
-        $taxCalculationRateTitleDict = array();
+        $storeTaxTitleTemplate = [];
+        $taxCalculationRateTitleDict = [];
 
         foreach ($this->_objectManager->create(
             'Magento\Store\Model\Store'

@@ -23,8 +23,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_dataStorage = $this->getMock(
             'Magento\Catalog\Model\Attribute\Config\Data',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAttributeNames()
     {
-        $expectedResult = array('fixture_attribute_one', 'fixture_attribute_two');
+        $expectedResult = ['fixture_attribute_one', 'fixture_attribute_two'];
         $this->_dataStorage->expects(
             $this->once()
         )->method(

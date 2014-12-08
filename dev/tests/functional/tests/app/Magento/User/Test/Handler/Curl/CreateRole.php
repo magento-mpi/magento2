@@ -11,10 +11,10 @@ namespace Magento\User\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class CreateCategory.
@@ -31,7 +31,7 @@ class CreateRole extends Curl
      */
     protected function _preparePostData(array $fields)
     {
-        $data = array();
+        $data = [];
         foreach ($fields as $key => $value) {
             $data[$key] = $value['value'];
         }
@@ -71,7 +71,7 @@ class CreateRole extends Curl
         $filter = base64_encode('role_name=' . $name);
         $url = $_ENV['app_backend_url'] . 'admin/user_role/roleGrid/filter/' . $filter . '/';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
+        $curl->write(CurlInterface::POST, $url, '1.0', [], []);
         $response = $curl->read();
         $curl->close();
         return $response;
@@ -126,7 +126,7 @@ class CreateRole extends Curl
         $data = $this->_preparePostData($fixture->getData('fields'));
 
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();
         $curl->close();
 

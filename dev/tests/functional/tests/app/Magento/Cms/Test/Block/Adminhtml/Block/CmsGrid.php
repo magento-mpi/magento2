@@ -8,7 +8,6 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Block;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
@@ -24,7 +23,7 @@ class CmsGrid extends Grid
      */
     protected $filters = [
         'title' => [
-            'selector' => '#title'
+            'selector' => '#title',
         ],
         'identifier' => [
             'selector' => '#identifier',

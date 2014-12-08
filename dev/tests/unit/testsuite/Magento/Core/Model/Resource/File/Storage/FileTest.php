@@ -39,18 +39,18 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $this->loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->filesystemMock = $this->getMock(
             'Magento\Framework\Filesystem',
-            array('getDirectoryRead'),
-            array(),
+            ['getDirectoryRead'],
+            [],
             '',
             false
         );
         $this->directoryReadMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Read',
-            array('isDirectory', 'readRecursively'),
-            array(),
+            ['isDirectory', 'readRecursively'],
+            [],
             '',
             false
         );
@@ -87,28 +87,28 @@ class FileTest extends \PHPUnit_Framework_TestCase
             'isDirectory'
         )->will(
             $this->returnValueMap(
-                array(
-                    array('/', true),
-                    array('folder_one', true),
-                    array('file_three.txt', false),
-                    array('folder_one/.svn', false),
-                    array('folder_one/file_one.txt', false),
-                    array('folder_one/folder_two', true),
-                    array('folder_one/folder_two/.htaccess', false),
-                    array('folder_one/folder_two/file_two.txt', false)
-                )
+                [
+                    ['/', true],
+                    ['folder_one', true],
+                    ['file_three.txt', false],
+                    ['folder_one/.svn', false],
+                    ['folder_one/file_one.txt', false],
+                    ['folder_one/folder_two', true],
+                    ['folder_one/folder_two/.htaccess', false],
+                    ['folder_one/folder_two/file_two.txt', false],
+                ]
             )
         );
 
-        $paths = array(
+        $paths = [
             'folder_one',
             'file_three.txt',
             'folder_one/.svn',
             'folder_one/file_one.txt',
             'folder_one/folder_two',
             'folder_one/folder_two/.htaccess',
-            'folder_one/folder_two/file_two.txt'
-        );
+            'folder_one/folder_two/file_two.txt',
+        ];
         sort($paths);
         $this->directoryReadMock->expects(
             $this->once()
@@ -120,13 +120,13 @@ class FileTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($paths)
         );
 
-        $expected = array(
-            'files' => array('file_three.txt', 'folder_one/file_one.txt', 'folder_one/folder_two/file_two.txt'),
-            'directories' => array(
-                array('name' => 'folder_one', 'path' => '/'),
-                array('name' => 'folder_two', 'path' => 'folder_one')
-            )
-        );
+        $expected = [
+            'files' => ['file_three.txt', 'folder_one/file_one.txt', 'folder_one/folder_two/file_two.txt'],
+            'directories' => [
+                ['name' => 'folder_one', 'path' => '/'],
+                ['name' => 'folder_two', 'path' => 'folder_one'],
+            ],
+        ];
         $actual = $this->storageFile->getStorageData();
 
         $this->assertEquals($expected, $actual);

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports invitation order report collection
  *
@@ -41,11 +40,11 @@ class Collection extends \Magento\Invitation\Model\Resource\Report\Invitation\Co
         $this->getSelect()->reset(
             \Zend_Db_Select::COLUMNS
         )->columns(
-            array('sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)'))
+            ['sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)')]
         )->columns(
-            array('accepted' => new \Zend_Db_Expr($acceptedExpr))
+            ['accepted' => new \Zend_Db_Expr($acceptedExpr)]
         )->columns(
-            array('canceled' => new \Zend_Db_Expr($canceledExpr))
+            ['canceled' => new \Zend_Db_Expr($canceledExpr)]
         );
 
         return $this;
@@ -93,9 +92,9 @@ class Collection extends \Magento\Invitation\Model\Resource\Report\Invitation\Co
         $select->reset(
             \Zend_Db_Select::COLUMNS
         )->joinRight(
-            array('o' => $this->getTable('sales_order')),
+            ['o' => $this->getTable('sales_order')],
             'o.customer_id = main_table.referral_id AND o.store_id = main_table.store_id',
-            array('cnt' => 'COUNT(main_table.invitation_id)')
+            ['cnt' => 'COUNT(main_table.invitation_id)']
         );
         return $this->getConnection()->fetchOne($select);
     }

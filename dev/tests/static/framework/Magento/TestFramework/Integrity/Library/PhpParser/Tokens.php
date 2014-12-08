@@ -18,21 +18,21 @@ class Tokens
      *
      * @var array
      */
-    protected $tokens = array();
+    protected $tokens = [];
 
     /**
      * Collect dependencies
      *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * Collect all parsers
      *
      * @var ParserInterface[]
      */
-    protected $parsers = array();
+    protected $parsers = [];
 
     /**
      * Parser factory for creating parsers

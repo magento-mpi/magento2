@@ -124,7 +124,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
         $alias,
         $shortcutTemplate,
         \Magento\Checkout\Model\Session $checkoutSession = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paypalData = $paypalData;
         $this->_paypalConfigFactory = $paypalConfigFactory;
@@ -176,7 +176,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
             $this->setImageUrl($config->getExpressCheckoutShortcutImageUrl($this->_localeResolver->getLocaleCode()));
         } else {
             /**@todo refactor checkout model. Move getCheckoutShortcutImageUrl to helper or separate model */
-            $parameters = array('params' => array('quote' => $quote, 'config' => $config));
+            $parameters = ['params' => ['quote' => $quote, 'config' => $config]];
             $checkoutModel = $this->_checkoutFactory->create($this->_checkoutType, $parameters);
             $this->setImageUrl($checkoutModel->getCheckoutShortcutImageUrl());
         }
@@ -187,7 +187,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
             $this->setConfirmationUrl(
                 $this->getUrl(
                     $this->_startAction,
-                    array(\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1)
+                    [\Magento\Paypal\Model\Express\Checkout::PAYMENT_INFO_TRANSPORT_BILLING_AGREEMENT => 1]
                 )
             );
             $this->setConfirmationMessage(

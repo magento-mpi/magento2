@@ -8,11 +8,11 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for MassOrdersUpdate

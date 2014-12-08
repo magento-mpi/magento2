@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductSaveMessage

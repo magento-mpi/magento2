@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward sales order invoice total model
  *

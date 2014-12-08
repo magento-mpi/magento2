@@ -8,13 +8,12 @@
 
 namespace Magento\Checkout\Test\TestCase;
 
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\InjectableFixture;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class DeleteProductFromMiniShoppingCartTest

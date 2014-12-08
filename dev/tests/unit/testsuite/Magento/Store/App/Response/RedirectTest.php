@@ -50,7 +50,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
     {
         $this->_requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array(
+            [
                 'getServer',
                 'getModuleName',
                 'setModuleName',
@@ -58,13 +58,13 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
                 'setActionName',
                 'getParam',
                 'getCookie'
-            )
+            ]
         );
         $this->_storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
         $this->_urlCoderMock = $this->getMock(
             '\Magento\Framework\Encryption\UrlCoder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -89,7 +89,7 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
      */
     public function testSuccessUrl($baseUrl, $successUrl)
     {
-        $testStoreMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $testStoreMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $testStoreMock->expects($this->any())->method('getBaseUrl')->will($this->returnValue($baseUrl));
         $this->_requestMock->expects($this->any())->method('getParam')->will($this->returnValue(null));
         $this->_storeManagerMock->expects($this->any())->method('getStore')
@@ -104,15 +104,15 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
      */
     public function urlAddresses()
     {
-        return array(
-            array(
+        return [
+            [
                 'http://externalurl.com/',
-                'http://internalurl.com/'
-            ),
-            array(
+                'http://internalurl.com/',
+            ],
+            [
                 'http://internalurl.com/',
                 'http://internalurl.com/'
-            )
-        );
+            ]
+        ];
     }
 }

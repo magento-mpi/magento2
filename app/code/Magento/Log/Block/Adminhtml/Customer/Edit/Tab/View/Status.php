@@ -54,7 +54,7 @@ class Status extends \Magento\Backend\Block\Template
         \Magento\Log\Model\Log $modelLog,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->logFactory = $logFactory;
         $this->modelLog = $modelLog;

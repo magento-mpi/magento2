@@ -32,7 +32,7 @@ class Regexceptions extends \Magento\Backend\Block\System\Config\Form\Field\Fiel
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_labelFactory = $labelFactory;
@@ -46,8 +46,8 @@ class Regexceptions extends \Magento\Backend\Block\System\Config\Form\Field\Fiel
      */
     protected function _construct()
     {
-        $this->addColumn('search', array('label' => __('Search String')));
-        $this->addColumn('value', array('label' => __('Design Theme')));
+        $this->addColumn('search', ['label' => __('Search String')]);
+        $this->addColumn('value', ['label' => __('Design Theme')]);
         $this->_addAfter = false;
         $this->_addButtonLabel = __('Add \Exception');
         parent::_construct();

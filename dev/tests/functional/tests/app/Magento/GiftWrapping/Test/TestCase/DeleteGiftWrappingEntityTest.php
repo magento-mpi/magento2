@@ -8,10 +8,10 @@
 
 namespace Magento\GiftWrapping\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
-use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
 use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
+use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteGiftWrappingEntity

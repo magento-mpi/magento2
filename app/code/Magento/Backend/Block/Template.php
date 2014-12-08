@@ -43,7 +43,7 @@ class Template extends \Magento\Framework\View\Element\Template
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Template\Context $context, array $data = [])
     {
         $this->_localeDate = $context->getLocaleDate();
         $this->_authorization = $context->getAuthorization();
@@ -102,7 +102,7 @@ class Template extends \Magento\Framework\View\Element\Template
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_block_html_before', ['block' => $this]);
         return parent::_toHtml();
     }
 

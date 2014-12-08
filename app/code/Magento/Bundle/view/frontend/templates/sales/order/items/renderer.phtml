@@ -9,15 +9,15 @@
 /** @var $this \Magento\Bundle\Block\Sales\Order\Items\Renderer */
 ?>
 <?php $parentItem = $this->getItem() ?>
-<?php $items = array_merge(array($parentItem), $parentItem->getChildrenItems()); ?>
-<?php $_count = count ($items) ?>
+<?php $items = array_merge([$parentItem], $parentItem->getChildrenItems()); ?>
+<?php $_count = count($items) ?>
 <?php $_index = 0 ?>
 
 <?php $_prevOptionId = '' ?>
 
 <?php foreach ($items as $_item): ?>
 
-    <?php if($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
+    <?php if ($this->getItemOptions() || $parentItem->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
         <?php $_showlastRow = true ?>
     <?php else: ?>
         <?php $_showlastRow = false ?>
@@ -107,7 +107,7 @@
 <?php if ($_showlastRow && (($_options = $this->getItemOptions()) || $this->escapeHtml($_item->getDescription()))): ?>
 <tr>
     <td class="col options" colspan="5">
-        <?php if($_options = $this->getItemOptions()): ?>
+        <?php if ($_options = $this->getItemOptions()): ?>
             <dl class="item-options">
                 <?php foreach ($_options as $_option) : ?>
                     <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
@@ -125,7 +125,7 @@
                             <?php endif; ?>
                         </dd>
                     <?php else: ?>
-                        <dd><?php echo $this->escapeHtml( (isset($_option['print_value']) ? $_option['print_value'] : $_option['value']) ) ?></dd>
+                        <dd><?php echo $this->escapeHtml((isset($_option['print_value']) ? $_option['print_value'] : $_option['value'])) ?></dd>
                     <?php endif; ?>
                 <?php endforeach; ?>
             </dl>

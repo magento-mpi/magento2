@@ -5,56 +5,55 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'entities' => array(
-        'product' => array(
+return [
+    'entities' => [
+        'product' => [
             'name' => 'product',
             'label' => 'Label_One',
             'behaviorModel' => 'Model_Basic',
             'model' => 'Model_One',
-            'types' =>
-                array(
-                    'product_type_one' => array(
+            'types' => [
+                    'product_type_one' => [
                         'name' => 'product_type_one',
                         'model' => 'Product_Type_One',
-                    ),
-                    'type_two' => array(
+                    ],
+                    'type_two' => [
                         'name' => 'type_two',
                         'model' => 'Product_Type_Two',
-                    ),
-                ),
-            'relatedIndexers' => array(
-                'simple_index' => array(
+                    ],
+                ],
+            'relatedIndexers' => [
+                'simple_index' => [
                     'name' => 'simple_index',
-                ),
-                'custom_product_index' => array(
+                ],
+                'custom_product_index' => [
                     'name' => 'custom_product_index',
-                ),
-            ),
-        ),
-        'customer' => array(
+                ],
+            ],
+        ],
+        'customer' => [
             'name' => 'customer',
             'label' => 'Label_One',
             'behaviorModel' => 'Model_Basic',
             'model' => 'Model_One',
-            'types' => array(
-                'customer_type_one' => array(
+            'types' => [
+                'customer_type_one' => [
                     'name' => 'customer_type_one',
                     'model' => 'Customer_Type_One',
-                ),
-                'type_two' => array(
+                ],
+                'type_two' => [
                     'name' => 'type_two',
                     'model' => 'Customer_Type_Two',
-                ),
-            ),
-            'relatedIndexers' => array(
-                'simple_index' => array(
+                ],
+            ],
+            'relatedIndexers' => [
+                'simple_index' => [
                     'name' => 'simple_index',
-                ),
-                'custom_customer_index' => array(
+                ],
+                'custom_customer_index' => [
                     'name' => 'custom_customer_index',
-                ),
-            ),
-        ),
-    )
-);
+                ],
+            ],
+        ],
+    ]
+];

@@ -60,7 +60,7 @@ class Converter
      */
     protected function populateBuilderWithAttributes(\Magento\Catalog\Model\Product $productModel)
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($productModel->getAttributes() as $attribute) {
             $attrCode = $attribute->getAttributeCode();
             $value = $productModel->getDataUsingMethod($attrCode) ?: $productModel->getData($attrCode);

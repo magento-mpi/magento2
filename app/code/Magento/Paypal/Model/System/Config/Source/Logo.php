@@ -30,7 +30,7 @@ class Logo implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array('' => __('No Logo'));
+        $result = ['' => __('No Logo')];
         $result += $this->_configFactory->create()->getAdditionalOptionsLogoTypes();
         return $result;
     }

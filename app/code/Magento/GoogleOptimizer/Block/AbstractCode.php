@@ -43,7 +43,7 @@ abstract class AbstractCode extends \Magento\Framework\View\Element\Template
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Framework\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         $this->_registry = $registry;

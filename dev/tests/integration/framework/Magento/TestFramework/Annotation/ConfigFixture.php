@@ -25,14 +25,14 @@ class ConfigFixture
      *
      * @var array
      */
-    private $_globalConfigValues = array();
+    private $_globalConfigValues = [];
 
     /**
      * Original values for store-scoped configuration options that need to be restored
      *
      * @var array
      */
-    private $_storeConfigValues = array();
+    private $_storeConfigValues = [];
 
     /**
      * Retrieve configuration node value
@@ -130,7 +130,7 @@ class ConfigFixture
         foreach ($this->_globalConfigValues as $configPath => $originalValue) {
             $this->_setConfigValue($configPath, $originalValue);
         }
-        $this->_globalConfigValues = array();
+        $this->_globalConfigValues = [];
 
         /* Restore store-scoped values */
         foreach ($this->_storeConfigValues as $storeCode => $originalData) {
@@ -141,7 +141,7 @@ class ConfigFixture
                 $this->_setConfigValue($configPath, $originalValue, $storeCode);
             }
         }
-        $this->_storeConfigValues = array();
+        $this->_storeConfigValues = [];
     }
 
     /**

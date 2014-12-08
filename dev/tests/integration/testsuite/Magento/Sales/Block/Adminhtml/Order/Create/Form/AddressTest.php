@@ -166,7 +166,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'postcode',
             'telephone',
             'fax',
-            'vat_id'
+            'vat_id',
         ];
         $form = $this->_addressBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");

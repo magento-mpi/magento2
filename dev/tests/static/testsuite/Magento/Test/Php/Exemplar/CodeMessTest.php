@@ -98,7 +98,7 @@ class CodeMessTest extends \PHPUnit_Framework_TestCase
             function ($inputFile, $expectedXpaths) {
                 $this->assertNotEquals(
                     \PHP_PMD_TextUI_Command::EXIT_SUCCESS,
-                    self::$_messDetector->run(array($inputFile)),
+                    self::$_messDetector->run([$inputFile]),
                     "PHP Mess Detector has failed to identify problem at the erroneous file {$inputFile}"
                 );
 

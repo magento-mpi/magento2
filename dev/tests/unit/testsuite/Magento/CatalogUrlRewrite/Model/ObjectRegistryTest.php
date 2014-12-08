@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\Object;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class ObjectRegistryTest extends \PHPUnit_Framework_TestCase
 {

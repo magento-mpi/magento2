@@ -33,8 +33,8 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $methods = array(
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $methods = [
             'getCompositeReadonly',
             'setBundleOptionsData',
             'setBundleSelectionsData',
@@ -43,13 +43,13 @@ class BundleTest extends \PHPUnit_Framework_TestCase
             'getProductOptions',
             'setProductOptions',
             'setCanSaveBundleSelections',
-            '__wakeup'
-        );
-        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', $methods, array(), '', false);
+            '__wakeup',
+        ];
+        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', $methods, [], '', false);
         $this->subjectMock = $this->getMock(
             'Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -60,14 +60,14 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
     public function testAfterInitializeIfBundleAnsCustomOptionsAndBundleSelectionsExist()
     {
-        $productOptionsBefore = array(0 => array('key' => 'value'), 1 => array('is_delete' => false));
-        $productOptionsAfter = array(0 => array('key' => 'value', 'is_delete' => 1), 1 => array('is_delete' => 1));
+        $productOptionsBefore = [0 => ['key' => 'value'], 1 => ['is_delete' => false]];
+        $productOptionsAfter = [0 => ['key' => 'value', 'is_delete' => 1], 1 => ['is_delete' => 1]];
         $postValue = 'postValue';
-        $valueMap = array(
-            array('bundle_options', null, $postValue),
-            array('bundle_selections', null, $postValue),
-            array('affect_bundle_product_selections', null, 1)
-        );
+        $valueMap = [
+            ['bundle_options', null, $postValue],
+            ['bundle_selections', null, $postValue],
+            ['affect_bundle_product_selections', null, 1],
+        ];
         $this->requestMock->expects($this->any())->method('getPost')->will($this->returnValueMap($valueMap));
         $this->productMock->expects($this->any())->method('getCompositeReadonly')->will($this->returnValue(false));
         $this->productMock->expects($this->once())->method('setBundleOptionsData')->with($postValue);
@@ -90,11 +90,11 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     public function testAfterInitializeIfBundleSelectionsAndCustomOptionsExist()
     {
         $postValue = 'postValue';
-        $valueMap = array(
-            array('bundle_options', null, $postValue),
-            array('bundle_selections', null, false),
-            array('affect_bundle_product_selections', null, false)
-        );
+        $valueMap = [
+            ['bundle_options', null, $postValue],
+            ['bundle_selections', null, false],
+            ['affect_bundle_product_selections', null, false],
+        ];
         $this->requestMock->expects($this->any())->method('getPost')->will($this->returnValueMap($valueMap));
         $this->productMock->expects($this->any())->method('getCompositeReadonly')->will($this->returnValue(false));
         $this->productMock->expects($this->once())->method('setBundleOptionsData')->with($postValue);
@@ -108,11 +108,11 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     public function testAfterInitializeIfCustomAndBundleOptionNotExist()
     {
         $postValue = 'postValue';
-        $valueMap = array(
-            array('bundle_options', null, false),
-            array('bundle_selections', null, $postValue),
-            array('affect_bundle_product_selections', null, 1)
-        );
+        $valueMap = [
+            ['bundle_options', null, false],
+            ['bundle_selections', null, $postValue],
+            ['affect_bundle_product_selections', null, 1],
+        ];
         $this->requestMock->expects($this->any())->method('getPost')->will($this->returnValueMap($valueMap));
         $this->productMock->expects($this->any())->method('getCompositeReadonly')->will($this->returnValue(false));
         $this->productMock->expects($this->never())->method('setBundleOptionsData');

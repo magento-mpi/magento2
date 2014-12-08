@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCard\Test\TestCase;
 
+use Magento\GiftCard\Test\Fixture\GiftCard;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\GiftCard\Test\Fixture\GiftCard;
 
 /**
  * Class testCreate for creating Gift Card

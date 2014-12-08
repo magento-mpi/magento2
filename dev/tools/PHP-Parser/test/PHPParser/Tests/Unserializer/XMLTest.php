@@ -2,7 +2,8 @@
 
 class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
 {
-    public function testNode() {
+    public function testNode()
+    {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node" xmlns:subNode="http://nikic.github.com/PHPParser/XML/subNode" xmlns:attribute="http://nikic.github.com/PHPParser/XML/attribute" xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
@@ -24,20 +25,21 @@ class PHPParser_Tests_Unserializer_XMLTest extends PHPUnit_Framework_TestCase
 </AST>
 XML;
 
-        $unserializer  = new PHPParser_Unserializer_XML;
+        $unserializer  = new PHPParser_Unserializer_XML();
         $this->assertEquals(
-            new PHPParser_Node_Scalar_String('Test', array(
+            new PHPParser_Node_Scalar_String('Test', [
                 'startLine' => 1,
-                'comments'  => array(
+                'comments'  => [
                     new PHPParser_Comment('// comment' . "\n", 2),
                     new PHPParser_Comment_Doc('/** doc comment */', 3),
-                ),
-            )),
+                ],
+            ]),
             $unserializer->unserialize($xml)
         );
     }
 
-    public function testEmptyNode() {
+    public function testEmptyNode()
+    {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <AST xmlns:node="http://nikic.github.com/PHPParser/XML/node">
@@ -45,15 +47,16 @@ XML;
 </AST>
 XML;
 
-        $unserializer  = new PHPParser_Unserializer_XML;
+        $unserializer  = new PHPParser_Unserializer_XML();
 
         $this->assertEquals(
-            new PHPParser_Node_Scalar_ClassConst,
+            new PHPParser_Node_Scalar_ClassConst(),
             $unserializer->unserialize($xml)
         );
     }
 
-    public function testScalars() {
+    public function testScalars()
+    {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <AST xmlns:scalar="http://nikic.github.com/PHPParser/XML/scalar">
@@ -72,15 +75,15 @@ XML;
  </scalar:array>
 </AST>
 XML;
-        $result = array(
-            array(), array(),
+        $result = [
+            [], [],
             'test', '', '',
             1,
             1, 1.5,
-            true, false, null
-        );
+            true, false, null,
+        ];
 
-        $unserializer  = new PHPParser_Unserializer_XML;
+        $unserializer  = new PHPParser_Unserializer_XML();
         $this->assertEquals($result, $unserializer->unserialize($xml));
     }
 
@@ -88,20 +91,22 @@ XML;
      * @expectedException        DomainException
      * @expectedExceptionMessage AST root element not found
      */
-    public function testWrongRootElementError() {
+    public function testWrongRootElementError()
+    {
         $xml = <<<XML
 <?xml version="1.0" encoding="UTF-8"?>
 <notAST/>
 XML;
 
-        $unserializer = new PHPParser_Unserializer_XML;
+        $unserializer = new PHPParser_Unserializer_XML();
         $unserializer->unserialize($xml);
     }
 
     /**
      * @dataProvider             provideTestErrors
      */
-    public function testErrors($xml, $errorMsg) {
+    public function testErrors($xml, $errorMsg)
+    {
         $this->setExpectedException('DomainException', $errorMsg);
 
         $xml = <<<XML
@@ -114,28 +119,29 @@ XML;
 </AST>
 XML;
 
-        $unserializer = new PHPParser_Unserializer_XML;
+        $unserializer = new PHPParser_Unserializer_XML();
         $unserializer->unserialize($xml);
     }
 
-    public function provideTestErrors() {
-        return array(
-            array('<scalar:true>test</scalar:true>',   '"true" scalar must be empty'),
-            array('<scalar:false>test</scalar:false>', '"false" scalar must be empty'),
-            array('<scalar:null>test</scalar:null>',   '"null" scalar must be empty'),
-            array('<scalar:foo>bar</scalar:foo>',      'Unknown scalar type "foo"'),
-            array('<scalar:int>x</scalar:int>',        '"x" is not a valid int'),
-            array('<scalar:float>x</scalar:float>',    '"x" is not a valid float'),
-            array('',                                  'Expected node or scalar'),
-            array('<foo:bar>test</foo:bar>',           'Unexpected node of type "foo:bar"'),
-            array(
+    public function provideTestErrors()
+    {
+        return [
+            ['<scalar:true>test</scalar:true>',   '"true" scalar must be empty'],
+            ['<scalar:false>test</scalar:false>', '"false" scalar must be empty'],
+            ['<scalar:null>test</scalar:null>',   '"null" scalar must be empty'],
+            ['<scalar:foo>bar</scalar:foo>',      'Unknown scalar type "foo"'],
+            ['<scalar:int>x</scalar:int>',        '"x" is not a valid int'],
+            ['<scalar:float>x</scalar:float>',    '"x" is not a valid float'],
+            ['',                                  'Expected node or scalar'],
+            ['<foo:bar>test</foo:bar>',           'Unexpected node of type "foo:bar"'],
+            [
                 '<node:Scalar_String><foo:bar>test</foo:bar></node:Scalar_String>',
                 'Expected sub node or attribute, got node of type "foo:bar"'
-            ),
-            array(
+            ],
+            [
                 '<node:Scalar_String><subNode:value/></node:Scalar_String>',
                 'Expected node or scalar'
-            ),
-        );
+            ],
+        ];
     }
 }

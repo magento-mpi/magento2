@@ -7,9 +7,9 @@
  */
 namespace Magento\RecurringPayment\Model\Plugin;
 
-use Magento\Sales\Model\Quote;
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
 use Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification;
+use Magento\Sales\Model\Quote;
 
 /**
  * ZeroTotal checker plugin

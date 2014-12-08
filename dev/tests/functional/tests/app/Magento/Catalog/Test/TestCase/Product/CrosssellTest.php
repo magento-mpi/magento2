@@ -8,10 +8,9 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\Client\Element;
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class CrosssellTest

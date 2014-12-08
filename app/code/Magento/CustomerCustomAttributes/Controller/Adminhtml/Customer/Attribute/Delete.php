@@ -31,7 +31,7 @@ class Delete extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Cust
                 $attributeObject->delete();
                 $this->_eventManager->dispatch(
                     'magento_customercustomattributes_attribute_delete',
-                    array('attribute' => $attributeObject)
+                    ['attribute' => $attributeObject]
                 );
 
                 $this->messageManager->addSuccess(__('You deleted the customer attribute.'));
@@ -39,11 +39,11 @@ class Delete extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Cust
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['attribute_id' => $attributeId, '_current' => true]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong deleting the customer attribute.'));
-                $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['attribute_id' => $attributeId, '_current' => true]);
                 return;
             }
         }

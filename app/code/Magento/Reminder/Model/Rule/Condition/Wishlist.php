@@ -49,7 +49,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Wishlist\CombineFactory $combineFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Wishlist');
@@ -86,7 +86,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array());
+        $this->setValueOption([]);
         return $this;
     }
 
@@ -98,7 +98,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(
-            array('==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than'))
+            ['==' => __('for'), '>' => __('for greater than'), '>=' => __('for or greater than')]
         );
         return $this;
     }
@@ -150,9 +150,9 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $wishlistItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
+        $select->joinInner(['list' => $wishlistTable], 'item.wishlist_id = list.wishlist_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
 
@@ -180,7 +180,7 @@ class Wishlist extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $required = $this->_getRequiredValidation();
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
         $operator = $required ? '=' : '<>';
-        $conditions = array();
+        $conditions = [];
 
         foreach ($this->getConditions() as $condition) {
             $sql = $condition->getConditionsSql($customer, $website);

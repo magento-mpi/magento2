@@ -62,7 +62,7 @@ class LayoutPlugin
     public function afterGetOutput(\Magento\Framework\View\Layout $subject, $result)
     {
         if ($subject->isCacheable() && $this->config->isEnabled()) {
-            $tags = array();
+            $tags = [];
             foreach ($subject->getAllBlocks() as $block) {
                 if ($block instanceof \Magento\Framework\View\Block\IdentityInterface) {
                     $isEsiBlock = $block->getTtl() > 0;

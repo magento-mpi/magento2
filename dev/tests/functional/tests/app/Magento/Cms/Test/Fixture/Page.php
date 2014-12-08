@@ -8,9 +8,9 @@
 
 namespace Magento\Cms\Test\Fixture;
 
+use Magento\Cms\Test\Repository\Page as Repository;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Magento\Cms\Test\Repository\Page as Repository;
 
 /**
  * Class Page

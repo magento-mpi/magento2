@@ -8,10 +8,10 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
+use Magento\Framework\Model\Exception;
+use Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender;
+use Magento\Sales\Model\Order\Invoice;
 use Magento\Backend\App\Action;
-use \Magento\Framework\Model\Exception;
-use \Magento\Sales\Model\Order\Email\Sender\InvoiceCommentSender;
-use \Magento\Sales\Model\Order\Invoice;
 use Magento\Framework\Registry;
 
 class AddComment extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice\View

@@ -31,7 +31,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
         $domain->setValue($value);
         try {
             $domain->save();
-            if ($exceptionMessage ) {
+            if ($exceptionMessage) {
                 $this->fail('Failed to throw exception');
             } else {
                 $this->assertNotNull($domain->getId());
@@ -54,7 +54,7 @@ class DomainTest extends \PHPUnit_Framework_TestCase
                 'http://',
                 'Invalid domain name: The input does not match the expected structure for a DNS hostname; '
                 . 'The input does not appear to be a valid URI hostname; '
-                . 'The input does not appear to be a valid local network name'
+                . 'The input does not appear to be a valid local network name',
             ],
             'valid hostname' => ['hostname.com'],
             'empty string' => [''],

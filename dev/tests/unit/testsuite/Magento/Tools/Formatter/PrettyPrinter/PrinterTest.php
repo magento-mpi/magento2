@@ -26,36 +26,36 @@ class PrinterTest extends TestBase
      */
     public function dataArrays()
     {
-        return array(
-            array("<?php class A1 {public \$a = array();}", "<?php\nclass A1\n{\n    public \$a = array();\n}\n"),
-            array(
+        return [
+            ["<?php class A1 {public \$a = array();}", "<?php\nclass A1\n{\n    public \$a = array();\n}\n"],
+            [
                 "<?php class A2 {public \$a2 = array(1,2,3,4,5);}",
                 "<?php\nclass A2\n{\n    public \$a2 = array(1, 2, 3, 4, 5);\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class A3 {public \$a3 = array(1=>'alpha',2=>'beta',3=>'gamma',4=>'hippopotamus',5=>'giraffe');}",
                 "<?php\nclass A3\n{\n    public \$a3 = array(1 => 'alpha', 2 => 'beta', 3 => 'gamma', " .
                 "4 => 'hippopotamus', 5 => 'giraffe');\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class A4 {public \$a3 = array(1=>'alpha1234567890',2=>'beta1234567890',3=>'gamma1234567890'," .
                 "4=>'hippopotamus',5=>'giraffe');}",
                 "<?php\nclass A4\n{\n    public \$a3 = array(\n        1 => 'alpha1234567890',\n" .
                 "        2 => 'beta1234567890',\n        3 => 'gamma1234567890',\n" .
                 "        4 => 'hippopotamus',\n        5 => 'giraffe'\n    );\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class A5 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
                 "<?php\nclass A5\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class A6 {public \$a = array(array('abcdefghijabcdefghijabcdefghij','abcdefghijabcdefghij')," .
                 "array('abcdefghijabcdefghijabcdefghij','abcdefghijabcdefghij'),);}",
                 "<?php\nclass A6\n{\n    public \$a = array(\n        array(" .
                 "'abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')," .
                 "\n        array('abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')\n    );\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -699,27 +699,27 @@ function foo()
 
 FORMATTEDCODESNIPPET18;
 
-        return array(
-            array($originalCodeSnippet0, $formattedCodeSnippet0),
-            array($originalCodeSnippet1, $formattedCodeSnippet1),
-            array($originalCodeSnippet2, $formattedCodeSnippet2),
-            array($originalCodeSnippet3, $formattedCodeSnippet3),
-            array($originalCodeSnippet4, $formattedCodeSnippet4),
-            array($originalCodeSnippet5, $formattedCodeSnippet5),
-            array($originalCodeSnippet6, $formattedCodeSnippet6),
-            array($originalCodeSnippet7, $formattedCodeSnippet7),
-            array($originalCodeSnippet8, $formattedCodeSnippet8),
-            array($originalCodeSnippet9, $formattedCodeSnippet9),
-            array($originalCodeSnippet10, $formattedCodeSnippet10),
-            array($originalCodeSnippet11, $formattedCodeSnippet11),
-            array($originalCodeSnippet12, $formattedCodeSnippet12),
-            array($originalCodeSnippet13, $formattedCodeSnippet13),
-            array($originalCodeSnippet14, $formattedCodeSnippet14),
-            array($originalCodeSnippet15, $formattedCodeSnippet15),
-            array($originalCodeSnippet16, $formattedCodeSnippet16),
-            array($originalCodeSnippet17, $formattedCodeSnippet17),
-            array($originalCodeSnippet18, $formattedCodeSnippet18)
-        );
+        return [
+            [$originalCodeSnippet0, $formattedCodeSnippet0],
+            [$originalCodeSnippet1, $formattedCodeSnippet1],
+            [$originalCodeSnippet2, $formattedCodeSnippet2],
+            [$originalCodeSnippet3, $formattedCodeSnippet3],
+            [$originalCodeSnippet4, $formattedCodeSnippet4],
+            [$originalCodeSnippet5, $formattedCodeSnippet5],
+            [$originalCodeSnippet6, $formattedCodeSnippet6],
+            [$originalCodeSnippet7, $formattedCodeSnippet7],
+            [$originalCodeSnippet8, $formattedCodeSnippet8],
+            [$originalCodeSnippet9, $formattedCodeSnippet9],
+            [$originalCodeSnippet10, $formattedCodeSnippet10],
+            [$originalCodeSnippet11, $formattedCodeSnippet11],
+            [$originalCodeSnippet12, $formattedCodeSnippet12],
+            [$originalCodeSnippet13, $formattedCodeSnippet13],
+            [$originalCodeSnippet14, $formattedCodeSnippet14],
+            [$originalCodeSnippet15, $formattedCodeSnippet15],
+            [$originalCodeSnippet16, $formattedCodeSnippet16],
+            [$originalCodeSnippet17, $formattedCodeSnippet17],
+            [$originalCodeSnippet18, $formattedCodeSnippet18]
+        ];
     }
 
     /**
@@ -734,64 +734,64 @@ FORMATTEDCODESNIPPET18;
 
     public function dataProviderClassDeclaration()
     {
-        return array(
-            array("<?php class NoChildren {}", "<?php\nclass NoChildren\n{\n}\n"),
-            array("<?php class JustParent extends Parent {}", "<?php\nclass JustParent extends Parent\n{\n}\n"),
-            array(
+        return [
+            ["<?php class NoChildren {}", "<?php\nclass NoChildren\n{\n}\n"],
+            ["<?php class JustParent extends Parent {}", "<?php\nclass JustParent extends Parent\n{\n}\n"],
+            [
                 "<?php class JustParent extends Fully\\Qualified\\Parent {}",
                 "<?php\nclass JustParent extends Fully\\Qualified\\Parent\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class JustParent extends \\Fully\\Qualified\\Parent {}",
                 "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class JustParent extends \\Fully\\Qualified\\Parent implements " .
                 "\\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface," .
                 "\\Fully\\Qualified\\Long\\InterfaceName\\Iface {}",
                 "<?php\nclass JustParent extends \\Fully\\Qualified\\Parent implements\n" .
                 "    \\Fully\\Qualified\\Long\\InterfaceName\\HelperInterface,\n" .
                 "    \\Fully\\Qualified\\Long\\InterfaceName\\Iface\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class JustParent implements \\Fully\\Qualified\\HelperInterface {}",
                 "<?php\nclass JustParent implements \\Fully\\Qualified\\HelperInterface\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class JustInterface implements Interface1 {}",
                 "<?php\nclass JustInterface implements Interface1\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class JustInterfaces implements Interface1, Interface2, Interface3 {}",
                 "<?php\nclass JustInterfaces implements Interface1, Interface2, Interface3\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class ParentPlus extends Parent implements Interface1 {}",
                 "<?php\nclass ParentPlus extends Parent implements Interface1\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class ParentPluses extends Parent implements Interface1, Interface2, Interface3 {}",
                 "<?php\nclass ParentPluses extends Parent implements Interface1, Interface2, Interface3\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class BigParentPluses extends Parent implements Interface1, Interface2, Interface3, " .
                 "Interface4,Interface5,Interface6,Interface7 {}",
                 "<?php\nclass BigParentPluses extends Parent implements\n    Interface1,\n    Interface2,\n" .
                 "    Interface3,\n    Interface4,\n    Interface5,\n    Interface6,\n    Interface7\n{\n}\n"
-            ),
-            array("<?php interface NoChildren {}", "<?php\ninterface NoChildren\n{\n}\n"),
-            array(
+            ],
+            ["<?php interface NoChildren {}", "<?php\ninterface NoChildren\n{\n}\n"],
+            [
                 "<?php interface JustParent extends Parent {}",
                 "<?php\ninterface JustParent extends Parent\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php interface BigParent extends Interface1,Interface2,Interface3,Interface4,Interface5" .
                 ",Interface6,Interface7,Interface8,Interface9 {}",
                 "<?php\ninterface BigParent extends\n    Interface1,\n    Interface2,\n    Interface3,\n" .
                 "    Interface4,\n    Interface5,\n    Interface6,\n    Interface7,\n    Interface8,\n    Interface9" .
                 "\n{\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -806,24 +806,24 @@ FORMATTEDCODESNIPPET18;
 
     public function dataProviderNamespace()
     {
-        return array(
-            array(
+        return [
+            [
                 "<?php /** filedoco */namespace LocalNamespace; class LocalClass {}",
-                "<?php\n/** filedoco */\nnamespace LocalNamespace;\n\nclass LocalClass\n{\n}\n"
-            ),
-            array(
+                "<?php\n/** filedoco */\nnamespace LocalNamespace;\n\nclass LocalClass\n{\n}\n",
+            ],
+            [
                 "<?php /** filedoco */namespace LocalNs; use SomethingElse; class LocalC2 {}",
                 "<?php\n/** filedoco */\nnamespace LocalNs;\n\nuse SomethingElse;\n\nclass LocalC2\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php /** filedoco */namespace LocalNs2; use WantingAlias as WAlias; class LocalC3 {}",
                 "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse WantingAlias as WAlias;\n\nclass LocalC3\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php /** filedoco */namespace LocalNs2; use SE1, SE2, SE3; class LocalC4 {}",
                 "<?php\n/** filedoco */\nnamespace LocalNs2;\n\nuse SE1;\nuse SE2;\nuse SE3;\n\nclass LocalC4\n{\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -838,23 +838,23 @@ FORMATTEDCODESNIPPET18;
 
     public function dataProviderProperties()
     {
-        return array(
-            array(
+        return [
+            [
                 "<?php class LocalClass {/** const doco */ const PI=3.14; /** member doc */ private \$foo='bar';}",
                 "<?php\nclass LocalClass\n{\n    /** const doco */\n    const PI = 3.14;\n\n    /** member doc */\n" .
-                "    private \$foo = 'bar';\n}\n"
-            ),
-            array(
+                "    private \$foo = 'bar';\n}\n",
+            ],
+            [
                 "<?php class Local2 {/** const doco */ const PI=3.14,e=2.71828; /** const2 doco */ const mu=1;}",
                 "<?php\nclass Local2\n{\n    /** const doco */\n    const PI = 3.14, e = 2.71828;\n\n" .
                 "    /** const2 doco */\n    const mu = 1;\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class Local3 {public static \$a;protected \$b;private \$c;public \$d,\$e,\$f;}",
                 "<?php\nclass Local3\n{\n    public static \$a;\n\n    protected \$b;\n\n    private \$c;\n\n" .
                 "    public \$d, \$e, \$f;\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -916,33 +916,33 @@ class OM
 
 FORMATTEDMETHOD1;
 
-        return array(
-            array($originalMethod0, $formattedMethod0),
-            array($originalMethod1, $formattedMethod1),
-            array(
+        return [
+            [$originalMethod0, $formattedMethod0],
+            [$originalMethod1, $formattedMethod1],
+            [
                 "<?php class MD {public function alpha() {}}",
                 "<?php\nclass MD\n{\n    public function alpha()\n    {\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class MD2 {public function alpha(\$a) {}}",
                 "<?php\nclass MD2\n{\n    public function alpha(\$a)\n    {\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class MD3 {public function alpha(TestClass \$a) {}}",
                 "<?php\nclass MD3\n{\n    public function alpha(TestClass \$a)\n    {\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class MD4 {public function alpha(TestClass \$a,TestClass \$b) {}}",
                 "<?php\nclass MD4\n{\n    public function alpha(TestClass \$a, TestClass \$b)\n    {\n    }\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php class MD5 {public function alpha(TestClass \$a,TestClass \$b,TestClass \$c,TestClass \$d," .
                 "TestClass \$e,TestClass \$f,TestClass \$g,TestClass \$h) {}}",
                 "<?php\nclass MD5\n{\n    public function alpha(\n        TestClass \$a,\n        TestClass \$b,\n" .
                 "        TestClass \$c,\n        TestClass \$d,\n        TestClass \$e,\n        TestClass \$f,\n" .
                 "        TestClass \$g,\n        TestClass \$h\n    ) {\n    }\n}\n"
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -957,26 +957,26 @@ FORMATTEDMETHOD1;
 
     public function dataFunctionDeclarations()
     {
-        return array(
-            array("<?php function alpha() {}", "<?php\nfunction alpha()\n{\n}\n"),
-            array("<?php function alpha(\$a) {}", "<?php\nfunction alpha(\$a)\n{\n}\n"),
-            array("<?php function alpha(TestClass \$a) {}", "<?php\nfunction alpha(TestClass \$a)\n{\n}\n"),
-            array(
+        return [
+            ["<?php function alpha() {}", "<?php\nfunction alpha()\n{\n}\n"],
+            ["<?php function alpha(\$a) {}", "<?php\nfunction alpha(\$a)\n{\n}\n"],
+            ["<?php function alpha(TestClass \$a) {}", "<?php\nfunction alpha(TestClass \$a)\n{\n}\n"],
+            [
                 "<?php function alpha(TestClass \$a,TestClass \$b) {}",
                 "<?php\nfunction alpha(TestClass \$a, TestClass \$b)\n{\n}\n"
-            ),
-            array(
+            ],
+            [
                 "<?php function alpha(TestClass12345 \$a,TestClass12345 \$b,TestClass12345 \$c,TestClass12345 \$d," .
                 "TestClass12345 \$e,TestClass12345 \$f,TestClass12345 \$g) {}",
                 "<?php\nfunction alpha(\n    TestClass12345 \$a,\n    TestClass12345 \$b,\n" .
                 "    TestClass12345 \$c,\n    TestClass12345 \$d,\n    TestClass12345 \$e,\n" .
                 "    TestClass12345 \$f,\n    TestClass12345 \$g\n) {\n}\n"
-            ),
-            array("<?php static \$a;", "<?php\nstatic \$a;\n"),
-            array(
+            ],
+            ["<?php static \$a;", "<?php\nstatic \$a;\n"],
+            [
                 "<?php static \$a;function a(){global \$a;}",
                 "<?php\nstatic \$a;\nfunction a()\n{\n    global \$a;\n}\n"
-            )
-        );
+            ]
+        ];
     }
 }

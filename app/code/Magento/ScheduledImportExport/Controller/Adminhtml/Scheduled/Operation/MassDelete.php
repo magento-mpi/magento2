@@ -25,7 +25,7 @@ class MassDelete extends \Magento\ScheduledImportExport\Controller\Adminhtml\Sch
                 $operations = $this->_objectManager->create(
                     'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
-                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
+                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), ['in' => $ids]);
                 foreach ($operations as $operation) {
                     $operation->delete();
                 }

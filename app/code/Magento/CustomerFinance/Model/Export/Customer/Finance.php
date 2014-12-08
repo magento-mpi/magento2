@@ -44,7 +44,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      *
      * @var array
      */
-    protected $_websiteIdToCode = array();
+    protected $_websiteIdToCode = [];
 
     /**
      * Array of attributes for export
@@ -58,7 +58,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
      *
      * @var string[]
      */
-    protected $_permanentAttributes = array(self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_FINANCE_WEBSITE);
+    protected $_permanentAttributes = [self::COLUMN_EMAIL, self::COLUMN_WEBSITE, self::COLUMN_FINANCE_WEBSITE];
 
     /**
      * Customers whose address are exported
@@ -109,7 +109,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         \Magento\CustomerFinance\Model\Resource\Customer\CollectionFactory $customerCollectionFactory,
         \Magento\CustomerImportExport\Model\Export\CustomerFactory $eavCustomerFactory,
         \Magento\CustomerFinance\Helper\Data $customerFinanceData,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($scopeConfig, $storeManager, $collectionFactory, $resourceColFactory, $data);
 
@@ -193,7 +193,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
         $validAttributeCodes = $this->_getEntityAttributes();
 
         foreach ($this->_websiteIdToCode as $websiteCode) {
-            $row = array();
+            $row = [];
             foreach ($validAttributeCodes as $code) {
                 $attributeCode = $websiteCode . '_' . $code;
                 $websiteData = $item->getData($attributeCode);
@@ -256,7 +256,7 @@ class Finance extends \Magento\ImportExport\Model\Export\AbstractEntity
     protected function _getEntityAttributes()
     {
         if ($this->_entityAttributes === null) {
-            $this->_entityAttributes = array();
+            $this->_entityAttributes = [];
             foreach ($this->filterAttributeCollection($this->getAttributeCollection()) as $attribute) {
                 /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
                 $this->_entityAttributes[] = $attribute->getAttributeCode();

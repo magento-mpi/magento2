@@ -42,7 +42,7 @@ class Save extends \Magento\Newsletter\Controller\Adminhtml\Queue
 
             if (!in_array(
                 $queue->getQueueStatus(),
-                array(\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE)
+                [\Magento\Newsletter\Model\Queue::STATUS_NEVER, \Magento\Newsletter\Model\Queue::STATUS_PAUSE]
             )
             ) {
                 $this->_redirect('*/*');
@@ -54,7 +54,7 @@ class Save extends \Magento\Newsletter\Controller\Adminhtml\Queue
             }
 
             $queue->setStores(
-                $this->getRequest()->getParam('stores', array())
+                $this->getRequest()->getParam('stores', [])
             )->setNewsletterSubject(
                 $this->getRequest()->getParam('subject')
             )->setNewsletterSenderName(
@@ -86,7 +86,7 @@ class Save extends \Magento\Newsletter\Controller\Adminhtml\Queue
             $this->messageManager->addError($e->getMessage());
             $id = $this->getRequest()->getParam('id');
             if ($id) {
-                $this->_redirect('*/*/edit', array('id' => $id));
+                $this->_redirect('*/*/edit', ['id' => $id]);
             } else {
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             }

@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class CreateOrderStep

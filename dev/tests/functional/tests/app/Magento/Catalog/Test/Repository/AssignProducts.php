@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Test\Repository;
 
-use Magento\Catalog\Test\Fixture;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -20,12 +19,12 @@ class AssignProducts extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
         $this->_data['add_' . $defaultConfig['assignType '] . '_products'] = $this->_data['default'];
         $this->_data['add_' . $defaultConfig['assignType '] . '_product'] = $this->withOneProduct(
             $defaultConfig['assignType ']

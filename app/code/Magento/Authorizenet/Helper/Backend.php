@@ -35,7 +35,7 @@ class Backend extends Data
      * @param array $params
      * @return string
      */
-    protected function _getUrl($route, $params = array())
+    protected function _getUrl($route, $params = [])
     {
         return $this->_urlBuilder->getUrl($route, $params);
     }
@@ -47,7 +47,7 @@ class Backend extends Data
      */
     public function getPlaceOrderAdminUrl()
     {
-        return $this->_getUrl('adminhtml/authorizenet_directpost_payment/place', array());
+        return $this->_getUrl('adminhtml/authorizenet_directpost_payment/place', []);
     }
 
     /**
@@ -58,7 +58,7 @@ class Backend extends Data
      */
     public function getSuccessOrderUrl($params)
     {
-        $param = array();
+        $param = [];
         $route = 'sales/order/view';
         $order = $this->_orderFactory->create()->loadByIncrementId($params['x_invoice_num']);
         $param['order_id'] = $order->getId();

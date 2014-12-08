@@ -8,9 +8,9 @@
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab;
 
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class Conditions

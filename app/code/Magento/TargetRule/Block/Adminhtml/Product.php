@@ -47,7 +47,7 @@ class Product extends \Magento\Backend\Block\Widget
         \Magento\TargetRule\Model\Source\Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_position = $position;
         $this->_coreRegistry = $registry;

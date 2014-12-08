@@ -14,10 +14,10 @@ class Visibility implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No')
-        );
+        ];
     }
 }

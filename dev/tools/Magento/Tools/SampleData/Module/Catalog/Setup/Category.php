@@ -8,8 +8,8 @@
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Category
@@ -96,7 +96,7 @@ class Category implements SetupInterface
             if (!$fileName) {
                 continue;
             }
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 $category = $this->getCategoryByPath($row['path'] . '/' . $row['name']);
                 if (!$category) {
@@ -107,7 +107,7 @@ class Category implements SetupInterface
                         'is_active' => $row['active'],
                         'is_anchor' => $row['is_anchor'],
                         'include_in_menu' => $row['include_in_menu'],
-                        'url_key' => $row['url_key']
+                        'url_key' => $row['url_key'],
                     ];
                     $category = $this->categoryFactory->create();
                     $category->setData($data)
@@ -134,12 +134,12 @@ class Category implements SetupInterface
             'position',
             'display_mode',
             'page_layout',
-            'custom_layout_update'
+            'custom_layout_update',
         ];
 
         foreach ($additionalAttributes as $categoryAttribute) {
             if (!empty($row[$categoryAttribute])) {
-                $attributeData = array($categoryAttribute => $row[$categoryAttribute]);
+                $attributeData = [$categoryAttribute => $row[$categoryAttribute]];
                 $category->addData($attributeData);
             }
         }

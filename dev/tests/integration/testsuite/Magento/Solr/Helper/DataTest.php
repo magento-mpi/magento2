@@ -7,10 +7,10 @@
  */
 namespace Magento\Solr\Helper;
 
-use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Model\TaxRuleFixtureFactory;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Model\Config;
+use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {

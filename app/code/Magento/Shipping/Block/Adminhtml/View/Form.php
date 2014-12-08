@@ -32,7 +32,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_carrierFactory = $carrierFactory;
         parent::__construct($context, $registry, $adminHelper, $data);
@@ -80,7 +80,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Create Shipping Label...'), 'onclick' => 'packaging.showWindow();')
+            ['label' => __('Create Shipping Label...'), 'onclick' => 'packaging.showWindow();']
         )->toHtml();
     }
 
@@ -96,7 +96,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')')
+            ['label' => __('Print Shipping Label'), 'onclick' => 'setLocation(\'' . $url . '\')']
         )->toHtml();
     }
 
@@ -110,7 +110,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Show Packages'), 'onclick' => 'showPackedWindow();')
+            ['label' => __('Show Packages'), 'onclick' => 'showPackedWindow();']
         )->toHtml();
     }
 

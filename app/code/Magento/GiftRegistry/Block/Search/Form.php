@@ -38,7 +38,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->customerSession = $customerSession;
@@ -93,7 +93,7 @@ class Form extends \Magento\Framework\View\Element\Template
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'params-type-id', 'class' => 'select')
+            ['id' => 'params-type-id', 'class' => 'select']
         )->setName(
             'params[type_id]'
         )->setOptions(

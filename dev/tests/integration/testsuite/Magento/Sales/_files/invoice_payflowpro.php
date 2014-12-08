@@ -13,7 +13,7 @@ require 'order_paid_with_payflowpro.php';
 
 $orderService = \Magento\TestFramework\ObjectManager::getInstance()->create(
     'Magento\Sales\Model\Service\Order',
-    array('order' => $order)
+    ['order' => $order]
 );
 $invoice = $orderService->prepareInvoice();
 /** To allow invoice cancelling it should be created without capturing. */

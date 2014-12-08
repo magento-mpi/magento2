@@ -50,7 +50,7 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
     public function _prepareMassaction()
     {
         $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('product')->addItem('import', array('label' => __('Import')));
+        $this->getMassactionBlock()->setFormFieldName('product')->addItem('import', ['label' => __('Import')]);
 
         return $this;
     }

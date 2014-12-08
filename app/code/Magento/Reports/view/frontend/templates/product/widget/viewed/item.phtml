@@ -44,7 +44,7 @@ $rating = 'short';
 
                 <div class="product actions">
                     <div class="primary">
-                        <?php if($item->isSaleable()): ?>
+                        <?php if ($item->isSaleable()): ?>
                             <?php if ($item->getTypeInstance()->hasRequiredOptions($item)): ?>
                                 <button class="action tocart" data-mage-init='{"redirectUrl": {"url": "<?php echo $this->getAddToCartUrl($item) ?>"}}' type="button" title="<?php echo __('Add to Cart') ?>">
                                     <span><?php echo __('Add to Cart') ?></span>
@@ -74,7 +74,7 @@ $rating = 'short';
                                 <span><?php echo __('Add to Wishlist') ?></span>
                             </a>
                         <?php endif; ?>
-                        <?php if($this->getAddToCompareUrl()): ?>
+                        <?php if ($this->getAddToCompareUrl()): ?>
                             <?php
                             $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');
                             ?>

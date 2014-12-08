@@ -17,6 +17,6 @@ class MassPrintAllDocuments extends \Magento\SalesArchive\Controller\Adminhtml\A
      */
     public function execute()
     {
-        $this->_forward('pdfdocs', 'order', null, array('origin' => 'archive'));
+        $this->_forward('pdfdocs', 'order', null, ['origin' => 'archive']);
     }
 }

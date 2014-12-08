@@ -8,10 +8,10 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
-use Magento\Wishlist\Controller\IndexInterface;
 use Magento\Framework\App\Action;
 use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Wishlist\Controller\IndexInterface;
 
 class Update extends Action\Action implements IndexInterface
 {
@@ -130,10 +130,10 @@ class Update extends Action\Action implements IndexInterface
             }
 
             if (isset($post['save_and_share'])) {
-                $this->_redirect('*/*/share', array('wishlist_id' => $wishlist->getId()));
+                $this->_redirect('*/*/share', ['wishlist_id' => $wishlist->getId()]);
                 return;
             }
         }
-        $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
+        $this->_redirect('*', ['wishlist_id' => $wishlist->getId()]);
     }
 }

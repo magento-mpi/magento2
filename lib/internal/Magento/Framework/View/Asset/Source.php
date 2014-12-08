@@ -154,7 +154,7 @@ class Source
             $path = self::TMP_MATERIALIZATION_DIR . '/source/' . $asset->getPath();
             $this->varDir->writeFile($path, $chain->getContent());
         }
-        $result = array($dirCode, $path);
+        $result = [$dirCode, $path];
         $this->cache->save(serialize($result), $cacheId);
         return $result;
     }

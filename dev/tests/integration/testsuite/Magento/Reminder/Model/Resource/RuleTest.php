@@ -20,7 +20,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $beforeYesterday = date('Y-m-d 03:00:00', strtotime('-2 day', time()));
         $customersForNotification = [['customer_id' => '1', 'coupon_id' => null, 'rule_id' => null, 'schedule' => '2',
-                'log_sent_at_max' => $beforeYesterday, 'log_sent_at_min' => $beforeYesterday]];
+                'log_sent_at_max' => $beforeYesterday, 'log_sent_at_min' => $beforeYesterday, ]];
         /** @var \Magento\Framework\App\Resource $resource */
         $resource = Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
         $adapter = $resource->getConnection('core_write');

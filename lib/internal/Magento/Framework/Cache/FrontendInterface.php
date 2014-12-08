@@ -38,7 +38,7 @@ interface FrontendInterface
      * @param int|bool|null $lifeTime
      * @return bool
      */
-    public function save($data, $identifier, array $tags = array(), $lifeTime = null);
+    public function save($data, $identifier, array $tags = [], $lifeTime = null);
 
     /**
      * Remove cache record by its unique identifier
@@ -55,7 +55,7 @@ interface FrontendInterface
      * @param array $tags
      * @return bool
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array());
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = []);
 
     /**
      * Retrieve backend instance

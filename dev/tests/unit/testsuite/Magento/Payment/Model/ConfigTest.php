@@ -8,8 +8,8 @@
 
 namespace Magento\Payment\Model;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $paymentMethodsList = [
         'not_active_method' => ['active' => 0],
         'active_method_no_model' => ['active' => 1],
-        'active_method' => ['active' => 1, 'model' => 'model_name']
+        'active_method' => ['active' => 1, 'model' => 'model_name'],
     ];
 
     /**
@@ -54,7 +54,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $monthList = [
         1 => 'Marsabruary',
-        11 => 'Venusly'
+        11 => 'Venusly',
     ];
 
     /**
@@ -64,7 +64,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $expectedMonthList = [
         1 => '01 - Marsabruary',
-        11 => '11 - Venusly'
+        11 => '11 - Venusly',
     ];
 
     /**

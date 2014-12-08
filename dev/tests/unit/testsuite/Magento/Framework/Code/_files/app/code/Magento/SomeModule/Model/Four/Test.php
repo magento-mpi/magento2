@@ -7,7 +7,6 @@
  */
 namespace Magento\SomeModule\Model\Four;
 
-
 require_once __DIR__ . '/../One/Test.php';
 require_once __DIR__ . '/../ElementFactory.php';
 require_once __DIR__ . '/../Proxy.php';

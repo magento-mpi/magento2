@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Shopingcart Products Report collection
  *

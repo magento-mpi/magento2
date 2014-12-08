@@ -39,7 +39,7 @@ class Button extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_wishlistConfig = $wishlistConfig;

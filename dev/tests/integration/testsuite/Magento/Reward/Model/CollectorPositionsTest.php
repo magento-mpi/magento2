@@ -18,25 +18,25 @@ class CollectorPositionsTest extends \Magento\Sales\Model\AbstractCollectorPosit
      */
     public function collectorPositionDataProvider()
     {
-        return array(
-            'quote collectors' => array(
+        return [
+            'quote collectors' => [
                 'reward',
                 'quote',
-                array(),
-                array('weee', 'discount', 'tax', 'tax_subtotal', 'grand_total', 'giftcardaccount', 'customerbalance')
-            ),
-            'invoice collectors' => array(
+                [],
+                ['weee', 'discount', 'tax', 'tax_subtotal', 'grand_total', 'giftcardaccount', 'customerbalance'],
+            ],
+            'invoice collectors' => [
                 'reward',
                 'invoice',
-                array('giftcardaccount', 'customerbalance'),
-                array('grand_total')
-            ),
-            'creditmemo collectors' => array(
+                ['giftcardaccount', 'customerbalance'],
+                ['grand_total'],
+            ],
+            'creditmemo collectors' => [
                 'reward',
                 'creditmemo',
-                array(),
-                array('weee', 'discount', 'tax', 'grand_total', 'customerbalance', 'giftcardaccount')
-            )
-        );
+                [],
+                ['weee', 'discount', 'tax', 'grand_total', 'customerbalance', 'giftcardaccount'],
+            ]
+        ];
     }
 }

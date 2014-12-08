@@ -8,7 +8,7 @@
  */
 namespace Magento\Rma\Controller\Guest;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class Returns extends \Magento\Rma\Controller\Guest
 {

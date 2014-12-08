@@ -10,12 +10,12 @@
  * Products generation to test base data
  */
 
-$prices = array(5, 10, 15, 20, 50, 100, 150);
+$prices = [5, 10, 15, 20, 50, 100, 150];
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
@@ -78,7 +78,7 @@ foreach ($prices as $price) {
     )->setStoreId(
         1
     )->setWebsiteIds(
-        array(1)
+        [1]
     )->setName(
         'Simple Product ' . $productId
     )->setSku(
@@ -88,7 +88,7 @@ foreach ($prices as $price) {
     )->setWeight(
         18
     )->setCategoryIds(
-        array(4)
+        [4]
     )->setVisibility(
         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
     )->setStatus(

@@ -26,12 +26,12 @@ class FontPicker extends \Magento\Framework\Data\Form\Element\Select
      *
      * @var string[]
      */
-    protected $_defaultOptions = array(
+    protected $_defaultOptions = [
         'Arial, Helvetica, sans-serif',
         'Verdana, Geneva, sans-serif',
         'Tahoma, Geneva, sans-serif',
-        'Georgia, serif'
-    );
+        'Georgia, serif',
+    ];
 
     /**
      * Constructor helper

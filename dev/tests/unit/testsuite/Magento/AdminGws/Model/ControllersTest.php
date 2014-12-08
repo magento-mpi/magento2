@@ -39,27 +39,26 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
+        $this->_roleMock = $this->getMock('Magento\AdminGws\Model\Role', [], [], '', false);
         $this->_objectFactory = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
-        $response = $this->getMock('Magento\Framework\App\ResponseInterface', array(), array(), '', false);
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
+        $response = $this->getMock('Magento\Framework\App\ResponseInterface', [], [], '', false);
 
-        $this->_controllerMock = $this->getMock('\Magento\Backend\App\Action', array(), array(), '', false);
-        $this->_ctrlRequestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_controllerMock = $this->getMock('\Magento\Backend\App\Action', [], [], '', false);
+        $this->_ctrlRequestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
 
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
         $this->_model = $helper->getObject(
             'Magento\AdminGws\Model\Controllers',
-            array(
+            [
                 'role' => $this->_roleMock,
                 'registry' => $coreRegistry,
                 'objectManager' => $this->_objectFactory,
                 'storeManager' => $storeManager,
                 'response' => $response,
                 'request' => $this->_ctrlRequestMock
-            )
+            ]
         );
     }
 
@@ -142,7 +141,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     {
         $this->_ctrlRequestMock->expects($this->once())->method('getActionName')->will($this->returnValue('edit'));
         $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(null));
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
         $this->assertTrue($this->_model->validateRuleEntityAction($this->_controllerMock));
     }
 
@@ -164,7 +163,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         );
         $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(1));
 
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
 
         $this->_objectFactory->expects(
             $this->once()
@@ -181,12 +180,12 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
 
     public function validateRuleEntityActionGetValidModuleClassNameDataProvider()
     {
-        return array(
-            array('promo_catalog', 'Magento\CatalogRule\Model\Rule'),
-            array('promo_quote', 'Magento\SalesRule\Model\Rule'),
-            array('reminder', 'Magento\Reminder\Model\Rule'),
-            array('customersegment', 'Magento\CustomerSegment\Model\Segment')
-        );
+        return [
+            ['promo_catalog', 'Magento\CatalogRule\Model\Rule'],
+            ['promo_quote', 'Magento\SalesRule\Model\Rule'],
+            ['reminder', 'Magento\Reminder\Model\Rule'],
+            ['customersegment', 'Magento\CustomerSegment\Model\Segment']
+        ];
     }
 
     /*
@@ -204,7 +203,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         );
         $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(1));
 
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
 
         $this->_objectFactory->expects($this->exactly(0))->method('create');
 
@@ -226,9 +225,9 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         );
         $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(1));
 
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
 
-        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', [], [], '', false);
         $modelMock->expects($this->once())->method('load')->with(1);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(false));
 
@@ -251,7 +250,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateRuleEntityActionDenyActionIfRoleHasNoExclusiveAccessToAssignedToRuleEntityWebsites()
     {
-        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', [], [], '', false);
 
         $this->_ctrlRequestMock->expects($this->at(0))->method('getActionName')->will($this->returnValue('edit'));
         $this->_ctrlRequestMock->expects(
@@ -261,24 +260,24 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('promo_catalog')
         );
-        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(array(1)));
+        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue([1]));
 
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
         $this->_roleMock->expects(
             $this->once()
         )->method(
             'hasExclusiveAccess'
         )->with(
-            $this->equalTo(array(0 => 1, 2 => 2))
+            $this->equalTo([0 => 1, 2 => 2])
         )->will(
             $this->returnValue(false)
         );
 
         $this->_objectFactory->expects($this->exactly(1))->method('create')->will($this->returnValue($modelMock));
 
-        $modelMock->expects($this->once())->method('load')->with(array(1));
+        $modelMock->expects($this->once())->method('load')->with([1]);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
+        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue([1, 2]));
 
         $this->_ctrlRequestMock->expects($this->at(1))->method('getActionName')->will($this->returnValue('denied'));
         $this->_ctrlRequestMock->expects(
@@ -298,7 +297,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     public function testValidateRuleEntityActionDenyActionIfRoleHasNoAccessToAssignedToRuleEntityWebsites()
     {
         $this->_ctrlRequestMock->expects($this->at(0))->method('getActionName')->will($this->returnValue('edit'));
-        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(array(1)));
+        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue([1]));
         $this->_ctrlRequestMock->expects(
             $this->once()
         )->method(
@@ -307,13 +306,13 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('promo_catalog')
         );
 
-        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
-        $modelMock->expects($this->once())->method('load')->with(array(1));
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', [], [], '', false);
+        $modelMock->expects($this->once())->method('load')->with([1]);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
+        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue([1, 2]));
 
         $this->_objectFactory->expects($this->exactly(1))->method('create')->will($this->returnValue($modelMock));
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
 
         $this->_ctrlRequestMock->expects($this->at(1))->method('getActionName')->will($this->returnValue('denied'));
 
@@ -330,7 +329,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'hasExclusiveAccess'
         )->with(
-            $this->equalTo(array(0 => 1, 2 => 2))
+            $this->equalTo([0 => 1, 2 => 2])
         )->will(
             $this->returnValue(true)
         );
@@ -340,7 +339,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'hasWebsiteAccess'
         )->with(
-            $this->equalTo(array(0 => 1, 2 => 2))
+            $this->equalTo([0 => 1, 2 => 2])
         )->will(
             $this->returnValue(false)
         );
@@ -361,14 +360,14 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('promo_catalog')
         );
-        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue(array(1)));
+        $this->_ctrlRequestMock->expects($this->any())->method('getParam')->will($this->returnValue([1]));
 
-        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue(array(1)));
+        $this->_roleMock->expects($this->once())->method('getWebsiteIds')->will($this->returnValue([1]));
 
-        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', array(), array(), '', false);
-        $modelMock->expects($this->once())->method('load')->with(array(1));
+        $modelMock = $this->getMock('Magento\CatalogRule\Model\Rule', [], [], '', false);
+        $modelMock->expects($this->once())->method('load')->with([1]);
         $modelMock->expects($this->once())->method('getId')->will($this->returnValue(1));
-        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue(array(1, 2)));
+        $modelMock->expects($this->once())->method('getOrigData')->will($this->returnValue([1, 2]));
 
         $this->_objectFactory->expects($this->exactly(1))->method('create')->will($this->returnValue($modelMock));
 
@@ -377,7 +376,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'hasExclusiveAccess'
         )->with(
-            $this->equalTo(array(0 => 1, 2 => 2))
+            $this->equalTo([0 => 1, 2 => 2])
         )->will(
             $this->returnValue(true)
         );
@@ -387,7 +386,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'hasWebsiteAccess'
         )->with(
-            $this->equalTo(array(0 => 1, 2 => 2))
+            $this->equalTo([0 => 1, 2 => 2])
         )->will(
             $this->returnValue(true)
         );

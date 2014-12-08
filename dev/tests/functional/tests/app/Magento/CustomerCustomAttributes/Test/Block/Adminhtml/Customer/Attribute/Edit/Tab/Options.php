@@ -8,9 +8,9 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute\Edit\Tab;
 
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Class Options

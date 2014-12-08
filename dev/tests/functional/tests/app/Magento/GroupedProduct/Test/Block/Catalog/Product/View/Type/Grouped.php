@@ -9,11 +9,11 @@
 namespace Magento\GroupedProduct\Test\Block\Catalog\Product\View\Type;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Mtf\Fixture\InjectableFixture;
 
 /**
@@ -127,7 +127,7 @@ class Grouped extends Block
             $options[] = [
                 'name' => $subProductBlock->find($this->productName)->getText(),
                 'price' => $subProductBlock->find($this->price)->getText(),
-                'qty' => $subProductBlock->find($this->qty)->getValue()
+                'qty' => $subProductBlock->find($this->qty)->getValue(),
             ];
         }
 

@@ -8,9 +8,9 @@
 namespace Magento\Tools\SampleData\Module\Bundle\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup bundle product
@@ -42,12 +42,12 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
-            'Bundle/yoga_bundle.csv'
-        )
+        $fixtures = [
+            'Bundle/yoga_bundle.csv',
+        ]
     ) {
         $gallery->setFixtures([
-            'Bundle/images_yoga_bundle.csv'
+            'Bundle/images_yoga_bundle.csv',
         ]);
         parent::__construct(
             $productFactory,

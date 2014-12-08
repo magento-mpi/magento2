@@ -8,10 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product;
 
+use Magento\Backend\Test\Block\Widget\Form as ParentForm;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Form as ParentForm;
 
 /**
  * Class AffectedAttributeSet

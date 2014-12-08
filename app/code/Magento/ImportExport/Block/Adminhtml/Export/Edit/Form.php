@@ -39,7 +39,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ImportExport\Model\Source\Export\EntityFactory $entityFactory,
         \Magento\ImportExport\Model\Source\Export\FormatFactory $formatFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_entityFactory = $entityFactory;
         $this->_formatFactory = $formatFactory;
@@ -55,38 +55,38 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getUrl('adminhtml/*/getFilter'),
-                    'method' => 'post'
-                )
-            )
+                    'method' => 'post',
+                ],
+            ]
         );
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Export Settings')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Export Settings')]);
         $fieldset->addField(
             'entity',
             'select',
-            array(
+            [
                 'name' => 'entity',
                 'title' => __('Entity Type'),
                 'label' => __('Entity Type'),
                 'required' => false,
                 'onchange' => 'varienExport.getFilter();',
                 'values' => $this->_entityFactory->create()->toOptionArray()
-            )
+            ]
         );
         $fieldset->addField(
             'file_format',
             'select',
-            array(
+            [
                 'name' => 'file_format',
                 'title' => __('Export File Format'),
                 'label' => __('Export File Format'),
                 'required' => false,
                 'values' => $this->_formatFactory->create()->toOptionArray()
-            )
+            ]
         );
 
         $form->setUseContainer(true);

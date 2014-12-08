@@ -37,7 +37,7 @@ class CustomerMetadataServiceCachedTest extends \PHPUnit_Framework_TestCase
             'getAttributes',
             'getAttributeMetadata',
             'getAllAttributesMetadata',
-            'getCustomAttributesMetadata'
+            'getCustomAttributesMetadata',
         ])->disableOriginalConstructor()->getMock();
 
         $this->cachedMetadataService = $this->objectManager->getObject(

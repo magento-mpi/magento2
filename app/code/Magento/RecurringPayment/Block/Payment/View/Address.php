@@ -24,7 +24,7 @@ class Address extends \Magento\RecurringPayment\Block\Payment\View
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $data);
         $this->_addressFactory = $addressFactory;
@@ -50,7 +50,7 @@ class Address extends \Magento\RecurringPayment\Block\Payment\View
             $key = 'billing_address_info';
         }
         $this->setIsAddress(true);
-        $address = $this->_addressFactory->create(array('data' => $this->_recurringPayment->getData($key)));
-        $this->_addInfo(array('value' => preg_replace('/\\n{2,}/', "\n", $address->format('text'))));
+        $address = $this->_addressFactory->create(['data' => $this->_recurringPayment->getData($key)]);
+        $this->_addInfo(['value' => preg_replace('/\\n{2,}/', "\n", $address->format('text'))]);
     }
 }

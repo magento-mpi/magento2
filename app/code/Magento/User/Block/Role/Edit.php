@@ -28,7 +28,7 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $jsonEncoder, $authSession, $data);
@@ -62,14 +62,14 @@ class Edit extends \Magento\Backend\Block\Widget\Tabs
         if ($role->getId()) {
             $this->addTab(
                 'roles',
-                array(
+                [
                     'label' => __('Role Users'),
                     'title' => __('Role Users'),
                     'content' => $this->getLayout()->createBlock(
                         'Magento\User\Block\Role\Tab\Users',
                         'role.users.grid'
                     )->toHtml()
-                )
+                ]
             );
         }
 

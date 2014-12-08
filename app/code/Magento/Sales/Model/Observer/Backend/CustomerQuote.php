@@ -68,11 +68,10 @@ class CustomerQuote
                 try {
                     $quote = $this->quoteRepository->getForCustomer($customer->getId());
                     $quote->setWebsite($website);
-                        $quote->setCustomerGroupId($customer->getGroupId());
-                        $quote->collectTotals();
-                        $this->quoteRepository->save($quote);
+                    $quote->setCustomerGroupId($customer->getGroupId());
+                    $quote->collectTotals();
+                    $this->quoteRepository->save($quote);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                 }
             }
         }

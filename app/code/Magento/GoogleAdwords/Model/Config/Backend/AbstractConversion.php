@@ -42,7 +42,7 @@ abstract class AbstractConversion extends \Magento\Framework\App\Config\Value
         \Magento\GoogleAdwords\Model\Validator\Factory $validatorFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
 

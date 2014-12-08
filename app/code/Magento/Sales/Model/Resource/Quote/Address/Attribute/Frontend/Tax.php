@@ -24,7 +24,7 @@ class Tax extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend
     {
         $amount = $address->getTaxAmount();
         if ($amount != 0) {
-            $address->addTotal(array('code' => 'tax', 'title' => __('Tax'), 'value' => $amount));
+            $address->addTotal(['code' => 'tax', 'title' => __('Tax'), 'value' => $amount]);
         }
         return $this;
     }

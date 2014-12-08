@@ -30,10 +30,10 @@ class Settings implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('label' => __('Yes, for Specified Customer Groups'), 'value' => self::YES_SPECIFIED_GROUPS_VALUE),
-            array('label' => __('Yes, for Everyone'), 'value' => self::YES_VALUE),
-            array('label' => __('No'), 'value' => self::NO_VALUE)
-        );
+        return [
+            ['label' => __('Yes, for Specified Customer Groups'), 'value' => self::YES_SPECIFIED_GROUPS_VALUE],
+            ['label' => __('Yes, for Everyone'), 'value' => self::YES_VALUE],
+            ['label' => __('No'), 'value' => self::NO_VALUE]
+        ];
     }
 }

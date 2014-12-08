@@ -36,7 +36,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->itemFactory = $itemFactory;
@@ -74,16 +74,16 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'product_id',
-            array('header' => __('ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '120px')
+            ['header' => __('ID'), 'index' => 'product_id', 'type' => 'number', 'width' => '120px']
         );
 
-        $this->addColumn('name', array('header' => __('Product'), 'index' => 'product_name'));
+        $this->addColumn('name', ['header' => __('Product'), 'index' => 'product_name']);
 
-        $this->addColumn('sku', array('header' => __('SKU'), 'index' => 'sku', 'width' => '200px'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'index' => 'sku', 'width' => '200px']);
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
@@ -92,38 +92,38 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-            )
+            ]
         );
 
         $this->addColumn(
             'qty',
-            array(
+            [
                 'header' => __('Requested'),
                 'index' => 'qty',
                 'width' => '120px',
                 'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Qty'
-            )
+            ]
         );
 
         $this->addColumn(
             'qty_fulfilled',
-            array('header' => __('Fulfilled'), 'index' => 'qty_fulfilled', 'type' => 'number', 'width' => '120px')
+            ['header' => __('Fulfilled'), 'index' => 'qty_fulfilled', 'type' => 'number', 'width' => '120px']
         );
 
-        $this->addColumn('note', array('header' => __('Note'), 'index' => 'note', 'width' => '120px'));
+        $this->addColumn('note', ['header' => __('Note'), 'index' => 'note', 'width' => '120px']);
 
         $this->addColumn(
             'action',
-            array(
+            [
                 'header' => __('Action'),
                 'width' => '120px',
-                'options' => array(
+                'options' => [
                     0 => __('Action'),
                     'update' => __('Update Quantity'),
-                    'remove' => __('Remove Item')
-                ),
+                    'remove' => __('Remove Item'),
+                ],
                 'renderer' => 'Magento\GiftRegistry\Block\Adminhtml\Widget\Grid\Column\Renderer\Action'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -137,7 +137,7 @@ class Items extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('catalog/product/edit', array('id' => $row->getProductId()));
+        return $this->getUrl('catalog/product/edit', ['id' => $row->getProductId()]);
     }
 
     /**

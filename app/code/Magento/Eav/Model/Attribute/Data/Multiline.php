@@ -28,7 +28,7 @@ class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
         if (!is_array($value)) {
             $value = false;
         } else {
-            $value = array_map(array($this, '_applyInputFilter'), $value);
+            $value = array_map([$this, '_applyInputFilter'], $value);
         }
         return $value;
     }
@@ -42,7 +42,7 @@ class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $lines = $this->processValue($value);
         $attribute = $this->getAttribute();
         $attributeLabel = __($attribute->getStoreLabel());
@@ -125,7 +125,7 @@ class Multiline extends \Magento\Eav\Model\Attribute\Data\Text
         if (!is_array($values)) {
             $values = explode("\n", $values);
         }
-        $values = array_map(array($this, '_applyOutputFilter'), $values);
+        $values = array_map([$this, '_applyOutputFilter'], $values);
         switch ($format) {
             case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY:
                 $output = $values;

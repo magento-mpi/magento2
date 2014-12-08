@@ -36,7 +36,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreData = $coreData;
         parent::__construct(
@@ -124,7 +124,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
                 'price' => $price,
                 'oldPrice' => $price,
                 'inclTaxPrice' => $amount->getValue(),
-                'exclTaxPrice' => $amount->getBaseAmount()
+                'exclTaxPrice' => $amount->getBaseAmount(),
             ];
         }
         return $linksConfig;
@@ -137,7 +137,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getLinkSampleUrl($link)
     {
         $store = $this->getProduct()->getStore();
-        return $store->getUrl('downloadable/download/linkSample', array('link_id' => $link->getId()));
+        return $store->getUrl('downloadable/download/linkSample', ['link_id' => $link->getId()]);
     }
 
     /**

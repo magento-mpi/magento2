@@ -15,7 +15,7 @@
 
 <fieldset id="product_composite_configure_fields_options" class="fieldset <?php echo $this->getIsLastFieldset() ? 'last-fieldset' : '' ?>">
     <legend class="legend"><span><?php echo __('Custom Options') ?></span></legend>
-    <?php foreach($options as $option): ?>
+    <?php foreach ($options as $option): ?>
         <?php echo $this->getOptionHtml($option); ?>
     <?php endforeach;?>
 </fieldset>

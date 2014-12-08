@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogInventory\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 
 /**
  * Class StockItemTest
@@ -56,7 +56,7 @@ class StockItemTest extends WebapiAbstract
         $registry->unregister('isSecureArea');
         $registry->register('isSecureArea', true);
 
-        $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
+        $this->productCollection->addFieldToFilter('entity_id', ['in' => [10, 11, 12]])->delete();
         unset($this->productCollection);
 
         $registry->unregister('isSecureArea');
@@ -73,13 +73,13 @@ class StockItemTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$productSku",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => 'catalogInventoryStockRegistryV1',
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'catalogInventoryStockRegistryV1GetStockItemBySku'
-            ]
+                'operation' => 'catalogInventoryStockRegistryV1GetStockItemBySku',
+            ],
         ];
         $arguments = ['productSku' => $productSku];
         $apiResult = $this->_webApiCall($serviceInfo, $arguments);
@@ -102,13 +102,13 @@ class StockItemTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$productSku",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => 'catalogInventoryStockRegistryV1',
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => 'catalogInventoryStockRegistryV1UpdateStockItemBySku'
-            ]
+                'operation' => 'catalogInventoryStockRegistryV1UpdateStockItemBySku',
+            ],
         ];
 
         $stockItemDetailsDo = $this->objectManager->get(
@@ -159,7 +159,7 @@ class StockItemTest extends WebapiAbstract
                     'use_config_enable_qty_inc' => 1,
                     'enable_qty_increments' => 0,
                     'is_decimal_divided' => 0,
-                    'show_default_notification_message' => false
+                    'show_default_notification_message' => false,
                 ],
                 [
                     'item_id' => '1',
@@ -218,7 +218,7 @@ class StockItemTest extends WebapiAbstract
                     'low_stock_date' => 0,
                     'is_decimal_divided' => '',
                     'stock_status_changed_auto' => 0
-                ]
+                ],
             ],
         ];
     }

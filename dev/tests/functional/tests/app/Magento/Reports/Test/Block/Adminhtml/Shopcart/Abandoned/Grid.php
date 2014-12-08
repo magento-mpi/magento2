@@ -34,11 +34,11 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
         ],
         'created_at' => [
             'selector' => 'input[name="created_at[from]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
         'updated_at' => [
             'selector' => 'input[name="updated_at[from]"]',
-            'input' => 'datepicker'
+            'input' => 'datepicker',
         ],
     ];
 }

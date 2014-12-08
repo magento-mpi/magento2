@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Block\Product;
 
+use Magento\Catalog\Test\Block\AbstractConfigureBlock;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Block\AbstractConfigureBlock;
 
 /**
  * Product view block on the product page.

@@ -45,7 +45,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getId',
-                    'getTitle'
+                    'getTitle',
                 ]
             )
             ->getMock();

@@ -1,16 +1,16 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\Customer\Test\Block\Form;
 
+use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Fixture\Customer;
 
 /**
  */

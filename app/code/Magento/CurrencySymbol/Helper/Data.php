@@ -57,7 +57,7 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getCurrencyOptions($baseCode)
     {
-        $currencyOptions = array();
+        $currencyOptions = [];
         $currencySymbol = $this->_symbolFactory->create();
         if ($currencySymbol) {
             $customCurrencySymbol = $currencySymbol->getCurrencySymbol($baseCode);

@@ -16,12 +16,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $widgets = array();
+        $widgets = [];
         $xpath = new \DOMXPath($source);
         /** @var $widget \DOMNode */
         foreach ($xpath->query('/widgets/widget') as $widget) {
             $widgetAttributes = $widget->attributes;
-            $widgetArray = array('@' => array());
+            $widgetArray = ['@' => []];
             $widgetArray['@']['type'] = $widgetAttributes->getNamedItem('class')->nodeValue;
 
             $isEmailCompatible = $widgetAttributes->getNamedItem('is_email_compatible');
@@ -56,7 +56,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                         break;
                     case 'containers':
                         if (!isset($widgetArray['supported_containers'])) {
-                            $widgetArray['supported_containers'] = array();
+                            $widgetArray['supported_containers'] = [];
                         }
                         foreach ($widgetSubNode->childNodes as $container) {
                             if ($container->nodeName === '#text') {
@@ -95,9 +95,9 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertContainer($source)
     {
-        $supportedContainers = array();
+        $supportedContainers = [];
         $containerAttributes = $source->attributes;
-        $template = array();
+        $template = [];
         foreach ($source->childNodes as $containerTemplate) {
             if (!$containerTemplate instanceof \DOMElement) {
                 continue;
@@ -112,10 +112,10 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 'value'
             )->nodeValue;
         }
-        $supportedContainers[] = array(
+        $supportedContainers[] = [
             'container_name' => $containerAttributes->getNamedItem('name')->nodeValue,
-            'template' => $template
-        );
+            'template' => $template,
+        ];
         return $supportedContainers;
     }
 
@@ -130,12 +130,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertParameter($source)
     {
-        $parameter = array();
+        $parameter = [];
         $sourceAttributes = $source->attributes;
         $xsiType = $sourceAttributes->getNamedItem('type')->nodeValue;
         if ($xsiType == 'block') {
             $parameter['type'] = 'label';
-            $parameter['@'] = array();
+            $parameter['@'] = [];
             $parameter['@']['type'] = 'complex';
             foreach ($source->childNodes as $blockSubNode) {
                 if ($blockSubNode->nodeName == 'block') {
@@ -165,7 +165,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                             $parameter['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
                         }
                         if (!isset($parameter['values'])) {
-                            $parameter['values'] = array();
+                            $parameter['values'] = [];
                         }
                         $parameter['values'][$optionName] = $this->_convertOption($option);
                     }
@@ -222,7 +222,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertDepends($source)
     {
-        $depends = array();
+        $depends = [];
         foreach ($source->childNodes as $childNode) {
             if ($childNode->nodeName == '#text') {
                 continue;
@@ -235,9 +235,9 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $parameterAttributes = $childNode->attributes;
             $depends[$parameterAttributes->getNamedItem(
                 'name'
-            )->nodeValue] = array(
-                'value' => $parameterAttributes->getNamedItem('value')->nodeValue
-            );
+            )->nodeValue] = [
+                'value' => $parameterAttributes->getNamedItem('value')->nodeValue,
+            ];
         }
         return $depends;
     }
@@ -251,7 +251,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertBlock($source)
     {
-        $helperBlock = array();
+        $helperBlock = [];
         $helperBlock['type'] = $source->attributes->getNamedItem('class')->nodeValue;
         foreach ($source->childNodes as $blockSubNode) {
             if ($blockSubNode->nodeName == '#text') {
@@ -275,7 +275,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertData($source)
     {
-        $data = array();
+        $data = [];
         if (!$source->hasChildNodes()) {
             return $data;
         }
@@ -300,7 +300,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _convertOption($source)
     {
-        $option = array();
+        $option = [];
         $optionAttributes = $source->attributes;
         $option['value'] = $optionAttributes->getNamedItem('value')->nodeValue;
         foreach ($source->childNodes as $childNode) {

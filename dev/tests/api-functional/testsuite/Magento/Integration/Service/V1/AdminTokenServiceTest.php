@@ -8,7 +8,6 @@
 
 namespace Magento\Integration\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Framework\Exception\InputException;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;
@@ -62,12 +61,12 @@ class AdminTokenServiceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_ADMIN_TOKEN,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-            ]
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+            ],
         ];
         $requestData = [
             'username' => $adminUserNameFromFixture,
-            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD
+            'password' => \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD,
         ];
         $accessToken = $this->_webApiCall($serviceInfo, $requestData);
 
@@ -88,8 +87,8 @@ class AdminTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_ADMIN_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => '', 'password' => ''];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -106,8 +105,8 @@ class AdminTokenServiceTest extends WebapiAbstract
             $serviceInfo = [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH_CUSTOMER_TOKEN,
-                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
-                ]
+                    'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
+                ],
             ];
             $requestData = ['username' => $customerUserName, 'password' => $password];
             $this->_webApiCall($serviceInfo, $requestData);
@@ -148,15 +147,15 @@ class AdminTokenServiceTest extends WebapiAbstract
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'username',
-                    ]
+                    ],
                 ],
                 [
                     'message' => InputException::REQUIRED_FIELD,
                     'parameters' => [
                         'fieldName' => 'password',
                     ]
-                ]
-            ]
+                ],
+            ],
         ];
         $this->assertEquals($expectedExceptionData, $exceptionData);
     }

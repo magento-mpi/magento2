@@ -28,8 +28,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_dataStorage = $this->getMock(
             'Magento\Email\Model\Template\Config\Data',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
@@ -42,8 +42,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         );
         $this->_moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getModuleDir'),
-            array(),
+            ['getModuleDir'],
+            [],
             '',
             false
         );
@@ -52,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAvailableTemplates()
     {
-        $this->assertEquals(array('template_one', 'template_two'), $this->_model->getAvailableTemplates());
+        $this->assertEquals(['template_one', 'template_two'], $this->_model->getAvailableTemplates());
     }
 
     public function testGetTemplateLabel()
@@ -99,12 +99,12 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getterMethodUnknownTemplateDataProvider()
     {
-        return array(
-            'label getter' => array('getTemplateLabel'),
-            'type getter' => array('getTemplateType'),
-            'module getter' => array('getTemplateModule'),
-            'file getter' => array('getTemplateFilename')
-        );
+        return [
+            'label getter' => ['getTemplateLabel'],
+            'type getter' => ['getTemplateType'],
+            'module getter' => ['getTemplateModule'],
+            'file getter' => ['getTemplateFilename']
+        ];
     }
 
     /**
@@ -113,16 +113,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      * @param array $fixtureFields
      * @dataProvider getterMethodUnknownFieldDataProvider
      */
-    public function testGetterMethodUnknownField($getterMethod, $expectedException, array $fixtureFields = array())
+    public function testGetterMethodUnknownField($getterMethod, $expectedException, array $fixtureFields = [])
     {
         $this->setExpectedException('UnexpectedValueException', $expectedException);
-        $dataStorage = $this->getMock('Magento\Email\Model\Template\Config\Data', array('get'), array(), '', false);
+        $dataStorage = $this->getMock('Magento\Email\Model\Template\Config\Data', ['get'], [], '', false);
         $dataStorage->expects(
             $this->atLeastOnce()
         )->method(
             'get'
         )->will(
-            $this->returnValue(array('fixture' => $fixtureFields))
+            $this->returnValue(['fixture' => $fixtureFields])
         );
         $model = new \Magento\Email\Model\Template\Config($dataStorage, $this->_moduleReader);
         $model->{$getterMethod}('fixture');
@@ -130,22 +130,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getterMethodUnknownFieldDataProvider()
     {
-        return array(
-            'label getter' => array('getTemplateLabel', "Field 'label' is not defined for email template 'fixture'."),
-            'type getter' => array('getTemplateType', "Field 'type' is not defined for email template 'fixture'."),
-            'module getter' => array(
+        return [
+            'label getter' => ['getTemplateLabel', "Field 'label' is not defined for email template 'fixture'."],
+            'type getter' => ['getTemplateType', "Field 'type' is not defined for email template 'fixture'."],
+            'module getter' => [
                 'getTemplateModule',
-                "Field 'module' is not defined for email template 'fixture'."
-            ),
-            'file getter, unknown module' => array(
+                "Field 'module' is not defined for email template 'fixture'.",
+            ],
+            'file getter, unknown module' => [
                 'getTemplateFilename',
-                "Field 'module' is not defined for email template 'fixture'."
-            ),
-            'file getter, unknown file' => array(
+                "Field 'module' is not defined for email template 'fixture'.",
+            ],
+            'file getter, unknown file' => [
                 'getTemplateFilename',
                 "Field 'file' is not defined for email template 'fixture'.",
-                array('module' => 'Fixture_Module')
-            )
-        );
+                ['module' => 'Fixture_Module'],
+            ]
+        ];
     }
 }

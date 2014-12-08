@@ -28,7 +28,7 @@ class Amount extends AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Amount');
@@ -42,7 +42,7 @@ class Amount extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('sales_quote_save_commit_after');
+        return ['sales_quote_save_commit_after'];
     }
 
     /**
@@ -52,11 +52,11 @@ class Amount extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
+        return [
             'value' => $this->getType(),
             'label' => __('Shopping Cart Total'),
             'available_in_guest_mode' => true
-        );
+        ];
     }
 
     /**
@@ -67,14 +67,14 @@ class Amount extends AbstractCondition
     public function loadAttributeOptions()
     {
         $this->setAttributeOption(
-            array(
+            [
                 'subtotal' => __('Subtotal'),
                 'grand_total' => __('Grand Total'),
                 'tax' => __('Tax'),
                 'shipping' => __('Shipping'),
                 'store_credit' => __('Store Credit'),
-                'gift_card' => __('Gift Card')
-            )
+                'gift_card' => __('Gift Card'),
+            ]
         );
         return $this;
     }
@@ -137,7 +137,7 @@ class Amount extends AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)])->where('quote.is_active=1');
         $select->limit(1);
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
 
@@ -170,12 +170,12 @@ class Amount extends AbstractCondition
         if ($joinAddress) {
             $subSelect = $this->getResource()->createSelect();
             $subSelect->from(
-                array('address' => $addressTable),
-                array('quote_id' => 'quote_id', $field => new \Zend_Db_Expr("SUM({$field})"))
+                ['address' => $addressTable],
+                ['quote_id' => 'quote_id', $field => new \Zend_Db_Expr("SUM({$field})")]
             );
 
             $subSelect->group('quote_id');
-            $select->joinInner(array('address' => $subSelect), 'address.quote_id = quote.entity_id', array());
+            $select->joinInner(['address' => $subSelect], 'address.quote_id = quote.entity_id', []);
             $field = "address.{$field}";
         }
 

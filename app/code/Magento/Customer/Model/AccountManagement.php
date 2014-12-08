@@ -10,14 +10,14 @@ namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Helper\View as CustomerViewHelper;
 use Magento\Customer\Model\Config\Share as ConfigShare;
 use Magento\Customer\Model\Customer as CustomerModel;
-use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Metadata\Validator;
-use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Encryption\EncryptorInterface as Encryptor;
 use Magento\Framework\Event\ManagerInterface;
@@ -32,12 +32,11 @@ use Magento\Framework\Logger;
 use Magento\Framework\Mail\Exception as MailException;
 use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\Math\Random;
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String as StringHelper;
 use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
-use Magento\Framework\Reflection\DataObjectProcessor;
-use Magento\Customer\Api\Data\AddressInterface;
 
 /**
  * Handle various customer account actions
@@ -397,10 +396,10 @@ class AccountManagement implements AccountManagementInterface
 
         $this->eventManager->dispatch(
             'customer_customer_authenticated',
-            array('model' => $this->getFullCustomerObject($customer), 'password' => $password)
+            ['model' => $this->getFullCustomerObject($customer), 'password' => $password]
         );
 
-        $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customer));
+        $this->eventManager->dispatch('customer_data_object_login', ['customer' => $customer]);
 
         return $customer;
     }
@@ -785,7 +784,7 @@ class AccountManagement implements AccountManagementInterface
 
         if (strcmp($rpToken, $resetPasswordLinkToken) !== 0) {
             throw new InputMismatchException('Reset password token mismatch.');
-        } else if ($this->isResetPasswordLinkTokenExpired($rpToken, $rpTokenCreatedAt)) {
+        } elseif ($this->isResetPasswordLinkTokenExpired($rpToken, $rpTokenCreatedAt)) {
             throw new ExpiredException('Reset password token expired.');
         }
 
@@ -842,7 +841,7 @@ class AccountManagement implements AccountManagementInterface
             $customer,
             $types[$type],
             self::XML_PATH_REGISTER_EMAIL_IDENTITY,
-            array('customer' => $customerEmailData, 'back_url' => $backUrl, 'store' => $store),
+            ['customer' => $customerEmailData, 'back_url' => $backUrl, 'store' => $store],
             $storeId
         );
 
@@ -870,9 +869,9 @@ class AccountManagement implements AccountManagementInterface
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
-            array('customer' => $customer, 'store' => $this->storeManager->getStore($storeId))
+            ['customer' => $customer, 'store' => $this->storeManager->getStore($storeId)]
         )->setFrom(
             $this->scopeConfig->getValue(
                 self::XML_PATH_FORGOT_EMAIL_IDENTITY,
@@ -915,11 +914,11 @@ class AccountManagement implements AccountManagementInterface
          * 'confirmed'    welcome email, when confirmation is enabled
          * 'confirmation' email with confirmation link
          */
-        $types = array(
+        $types = [
             'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
             'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
-        );
+        ];
         return $types;
     }
 
@@ -933,13 +932,13 @@ class AccountManagement implements AccountManagementInterface
      * @param int|null $storeId
      * @return $this
      */
-    protected function sendEmailTemplate($customer, $template, $sender, $templateParams = array(), $storeId = null)
+    protected function sendEmailTemplate($customer, $template, $sender, $templateParams = [], $storeId = null)
     {
         /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->transportBuilder->setTemplateIdentifier(
             $this->scopeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
             $templateParams
         )->setFrom(
@@ -1068,7 +1067,7 @@ class AccountManagement implements AccountManagementInterface
         $resetUrl = $this->url->getUrl(
             'customer/account/createPassword',
             [
-                '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
+                '_query' => ['id' => $customer->getId(), 'token' => $newPasswordToken],
                 '_store' => $customer->getStoreId()
             ]
         );
@@ -1080,7 +1079,7 @@ class AccountManagement implements AccountManagementInterface
             $customer,
             self::XML_PATH_REMIND_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $customerEmailData, 'store' => $this->storeManager->getStore($customer->getStoreId())),
+            ['customer' => $customerEmailData, 'store' => $this->storeManager->getStore($customer->getStoreId())],
             $customer->getStoreId()
         );
 
@@ -1106,7 +1105,7 @@ class AccountManagement implements AccountManagementInterface
             $customer,
             self::XML_PATH_FORGOT_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $customerEmailData, 'store' => $this->storeManager->getStore($storeId)),
+            ['customer' => $customerEmailData, 'store' => $this->storeManager->getStore($storeId)],
             $storeId
         );
 

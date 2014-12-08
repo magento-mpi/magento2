@@ -17,28 +17,28 @@ $migrationSetup->appendClassAliasReplace(
     'attribute_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('attribute_id')
+    ['attribute_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_attribute',
     'backend_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('attribute_id')
+    ['attribute_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_attribute',
     'frontend_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('attribute_id')
+    ['attribute_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_attribute',
     'source_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('attribute_id')
+    ['attribute_id']
 );
 
 $migrationSetup->appendClassAliasReplace(
@@ -46,28 +46,28 @@ $migrationSetup->appendClassAliasReplace(
     'entity_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('entity_type_id')
+    ['entity_type_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_entity_type',
     'attribute_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('entity_type_id')
+    ['entity_type_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_entity_type',
     'increment_model',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('entity_type_id')
+    ['entity_type_id']
 );
 $migrationSetup->appendClassAliasReplace(
     'eav_entity_type',
     'entity_attribute_collection',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_RESOURCE,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_PLAIN,
-    array('entity_type_id')
+    ['entity_type_id']
 );
 
 $migrationSetup->doUpdateClassAliases();

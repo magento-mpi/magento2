@@ -31,7 +31,7 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->builder = $this->getMockForAbstractClass(
             'Magento\Tools\Dependency\Report\Builder\AbstractBuilder',
-            array('dependenciesParser' => $this->dependenciesParserMock, 'reportWriter' => $this->reportWriterMock)
+            ['dependenciesParser' => $this->dependenciesParserMock, 'reportWriter' => $this->reportWriterMock]
         );
     }
 
@@ -51,7 +51,7 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongParseOptions()
     {
-        return array(array(array('write' => array(1, 2))), array(array('parse' => array(), 'write' => array(1, 2))));
+        return [[['write' => [1, 2]]], [['parse' => [], 'write' => [1, 2]]]];
     }
 
     /**
@@ -70,18 +70,17 @@ class AbstractBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongWriteOptions()
     {
-        return array(array(array('parse' => array(1, 2))), array(array('parse' => array(1, 2), 'write' => array())));
+        return [[['parse' => [1, 2]]], [['parse' => [1, 2], 'write' => []]]];
     }
 
     public function testBuild()
     {
-        $options = array(
-            'parse' => array('files_for_parse' => array(1, 2, 3)),
-            'write' => array('report_filename' => 'some_filename')
-        );
+        $options = [
+            'parse' => ['files_for_parse' => [1, 2, 3]],
+            'write' => ['report_filename' => 'some_filename'],
+        ];
 
-
-        $parseResult = array('foo', 'bar', 'baz');
+        $parseResult = ['foo', 'bar', 'baz'];
         $configMock = $this->getMock('\Magento\Tools\Dependency\Report\Data\ConfigInterface');
 
         $this->dependenciesParserMock->expects(

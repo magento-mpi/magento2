@@ -18,8 +18,8 @@ class Related implements \Magento\Catalog\Model\Product\CopyConstructorInterface
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
-        $data = array();
-        $attributes = array();
+        $data = [];
+        $attributes = [];
 
         $link = $product->getLinkInstance();
         $link->useRelatedLinks();

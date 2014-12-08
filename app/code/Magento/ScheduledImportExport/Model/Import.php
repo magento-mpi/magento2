@@ -13,7 +13,6 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\DirectoryList;
 
 class Import extends \Magento\ImportExport\Model\Import implements
@@ -57,13 +56,13 @@ class Import extends \Magento\ImportExport\Model\Import implements
     public function initialize(\Magento\ScheduledImportExport\Model\Scheduled\Operation $operation)
     {
         $this->setData(
-            array(
+            [
                 'entity' => $operation->getEntityType(),
                 'behavior' => $operation->getBehavior(),
                 'operation_type' => $operation->getOperationType(),
                 'run_at' => $operation->getStartTime(),
-                'scheduled_operation_id' => $operation->getId()
-            )
+                'scheduled_operation_id' => $operation->getId(),
+            ]
         );
         return $this;
     }

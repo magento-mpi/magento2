@@ -102,7 +102,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
                         'status' => $status,
                         'state' => $state,
                         'is_default' => $isDefault,
-                        'visible_on_front' => $visibleOnFront
+                        'visible_on_front' => $visibleOnFront,
                     ]
                 )
             );

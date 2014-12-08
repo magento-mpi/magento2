@@ -29,16 +29,17 @@ $event = $this->getCurrentEvent();
                         <?php
                         $eventInfo = $this->getEventInfo();
                         if (is_bool($eventInfo)) {
-                            echo ($dataArray ? 'true' : 'false');
+                            echo($dataArray ? 'true' : 'false');
                         } elseif (is_array($eventInfo)) {
                             if (isset($eventInfo['general'])) {
                                 if (!is_array($eventInfo['general'])) {
-                                    $eventInfo['general'] = array($eventInfo['general']);
+                                    $eventInfo['general'] = [$eventInfo['general']];
                                 }
                                 echo $this->escapeHtml(implode(', ', $eventInfo['general']));
                             }
                             ?>
-                            <?php if (isset($eventInfo['additional'])): ?><br /><?php endif; ?>
+                            <?php if (isset($eventInfo['additional'])): ?><br /><?php endif;
+                            ?>
                             <?php
                             if (isset($eventInfo['additional'])) {
                                 foreach ($eventInfo['additional'] as $modelName => $modelsData) {
@@ -56,53 +57,76 @@ $event = $this->getCurrentEvent();
                 <tr>
                     <th><?php echo __('Admin User ID'); ?></th>
                     <td>
-                        <?php if ($this->getEventUser()){ ?>
-                        #<?php echo $event->getUserId(); ?>
-                        <?php } else { ?>
+                        <?php if ($this->getEventUser()) {
+    ?>
+                        #<?php echo $event->getUserId();
+    ?>
+                        <?php 
+} else {
+    ?>
                         N/A
-                        <?php } ?>
+                        <?php 
+} ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?php echo __('Admin User Name'); ?></th>
                     <td>
-                        <?php if ($this->getEventUser()){ ?>
-                        <a href="<?php echo $this->getUrl('adminhtml/user/edit', array('user_id' => $event->getUserId())); ?>"><?php echo $this->escapeHtml($event->getUser()); ?></a>
-                        <?php } else { ?>
-                        <?php echo $this->escapeHtml($event->getUser()); ?>
-                        <?php } ?>
+                        <?php if ($this->getEventUser()) {
+    ?>
+                        <a href="<?php echo $this->getUrl('adminhtml/user/edit', ['user_id' => $event->getUserId()]);
+    ?>"><?php echo $this->escapeHtml($event->getUser());
+    ?></a>
+                        <?php 
+} else {
+    ?>
+                        <?php echo $this->escapeHtml($event->getUser());
+    ?>
+                        <?php 
+} ?>
                     </td>
                 </tr>
                 <tr>
                     <th><?php echo __('IP-Address'); ?></th>
                     <td><?php echo $this->getEventIp(); ?></td>
                 </tr>
-                <?php if ($this->getEventXForwardedIp()) { ?>
+                <?php if ($this->getEventXForwardedIp()) {
+    ?>
                 <tr>
-                    <th><?php echo __('X-Forwarded For'); ?></th>
-                    <td><?php echo $this->getEventXForwardedIp(); ?></td>
+                    <th><?php echo __('X-Forwarded For');
+    ?></th>
+                    <td><?php echo $this->getEventXForwardedIp();
+    ?></td>
                 </tr>
-                    <?php } ?>
-                <?php if ($this->getEventError()) { ?>
+                    <?php 
+} ?>
+                <?php if ($this->getEventError()) {
+    ?>
                 <tr>
-                    <th><?php echo __('Error Message'); ?></th>
-                    <td><?php echo $this->getEventError(); ?></td>
+                    <th><?php echo __('Error Message');
+    ?></th>
+                    <td><?php echo $this->getEventError();
+    ?></td>
                 </tr>
-                    <?php } ?>
+                    <?php 
+} ?>
                 </tbody>
             </table>
         </div>
     </fieldset>
 
-    <?php if ($event->hasChanges()){ ?>
+    <?php if ($event->hasChanges()) {
+    ?>
     <fieldset class="fieldset">
         <legend class="legend">
-            <span><?php echo __('Related Changes'); ?></span>
+            <span><?php echo __('Related Changes');
+    ?></span>
         </legend><br />
 
         <div class="field log-details-grid">
             <?php echo $this->getChildHtml('details_grid') ?>
         </div>
     </fieldset>
-    <?php } ?>
+    <?php 
+} ?>
 </div>

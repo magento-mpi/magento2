@@ -222,7 +222,7 @@ class Inline implements \Magento\Framework\Translate\InlineInterface
     {
         return $this->url->getUrl(
             $this->translatorRoute,
-            array('_secure' => $this->scopeResolver->getScope()->isCurrentlySecure())
+            ['_secure' => $this->scopeResolver->getScope()->isCurrentlySecure()]
         );
     }
 

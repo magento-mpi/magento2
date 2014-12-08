@@ -57,7 +57,7 @@ interface ViewInterface
      * @param string $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null);
+    public function addPageLayoutHandles(array $parameters = [], $defaultHandle = null);
 
     /**
      * Generate layout blocks

@@ -80,11 +80,11 @@ class ProTest extends \PHPUnit_Framework_TestCase
 
     public function reviewPaymentActionsDataProvider()
     {
-        return array(
-            array(self::PAYMENT_REVIEW_ACCEPT, true),
-            array(self::PAYMENT_REVIEW_DENY, true),
-            array('something', false)
-        );
+        return [
+            [self::PAYMENT_REVIEW_ACCEPT, true],
+            [self::PAYMENT_REVIEW_DENY, true],
+            ['something', false]
+        ];
     }
 
     /**
@@ -102,9 +102,9 @@ class ProTest extends \PHPUnit_Framework_TestCase
 
     public function fetchTransactionInfoResponseDataProvider()
     {
-        return array(
-            array(['raw_success_response_data' => ['response' => 'something']], ['response' => 'something']),
-            array(['name' => 'something'], [])
-        );
+        return [
+            [['raw_success_response_data' => ['response' => 'something']], ['response' => 'something']],
+            [['name' => 'something'], []]
+        ];
     }
 }

@@ -71,7 +71,7 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         $defaultBillingId = $customer->getDefaultBilling();
         $defaultShippingId = $customer->getDefaultShipping();
 
-        $result = array();
+        $result = [];
         /** @var $address CustomerAddressModel */
         foreach ($addresses as $address) {
             $result[] = $this->addressConverter->createAddressFromModel(
@@ -172,11 +172,11 @@ class CustomerAddressService implements CustomerAddressServiceInterface
         }
 
         $this->customerRegistry->remove($customerId);
-        
+
         if ($inputException->wasErrorAdded()) {
             throw $inputException;
         }
-        $addressIds = array();
+        $addressIds = [];
 
         /** @var \Magento\Customer\Model\Address $addressModel */
         foreach ($addressModels as $addressModel) {

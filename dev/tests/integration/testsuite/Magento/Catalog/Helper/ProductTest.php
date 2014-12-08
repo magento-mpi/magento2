@@ -123,7 +123,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStatuses()
     {
-        $this->assertEquals(array(), $this->_helper->getStatuses());
+        $this->assertEquals([], $this->_helper->getStatuses());
     }
 
     /**
@@ -217,11 +217,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
         );
-        $buyRequest = new \Magento\Framework\Object(array('qty' => 100, 'options' => array('option' => 'value')));
+        $buyRequest = new \Magento\Framework\Object(['qty' => 100, 'options' => ['option' => 'value']]);
         $this->_helper->prepareProductOptions($product, $buyRequest);
         $result = $product->getPreconfiguredValues();
         $this->assertInstanceOf('Magento\Framework\Object', $result);
         $this->assertEquals(100, $result->getQty());
-        $this->assertEquals(array('option' => 'value'), $result->getOptions());
+        $this->assertEquals(['option' => 'value'], $result->getOptions());
     }
 }

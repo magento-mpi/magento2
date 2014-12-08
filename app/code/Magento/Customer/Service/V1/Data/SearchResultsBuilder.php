@@ -8,11 +8,11 @@
 
 namespace Magento\Customer\Service\V1\Data;
 
+use Magento\Framework\Api\AbstractSearchResultsBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\AbstractSearchResultsBuilder;
 
 /**
  * Builder for the SearchResults Service Data Object
@@ -21,7 +21,6 @@ use Magento\Framework\Api\AbstractSearchResultsBuilder;
  */
 class SearchResultsBuilder extends AbstractSearchResultsBuilder
 {
-
     /**
      * Constructor
      *

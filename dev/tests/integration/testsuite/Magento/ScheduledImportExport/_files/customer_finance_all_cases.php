@@ -14,7 +14,7 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
 // customer with reward points and customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test_rp_cb@test.com';
 $registerKey = 'customer_finance_email_rp_cb';
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
@@ -56,7 +56,7 @@ $rewardPoints->save();
 // customer with reward points and without customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test_rp@test.com';
 $registerKey = 'customer_finance_email_rp';
 $objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
@@ -83,7 +83,7 @@ $rewardPoints->save();
 // customer without reward points and with customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test_cb@test.com';
 $registerKey = 'customer_finance_email_cb';
 $objectManager->get('Magento\Framework\Registry')->unregister($registerKey);
@@ -112,7 +112,7 @@ $customerBalance->save();
 // customer without reward points and customer balance
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 $objectManager->get('Magento\Framework\Registry')->unregister($registerKey);

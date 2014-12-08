@@ -44,7 +44,7 @@ class Data extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         PriceCurrencyInterface $priceCurrency,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_localeCurrency = $localeCurrency;
@@ -59,7 +59,7 @@ class Data extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     public function getAvailableCurrencies()
     {
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
-        $codes = array();
+        $codes = [];
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
             $rates = $this->_currencyFactory->create()->getCurrencyRates(
                 $this->_storeManager->getStore()->getBaseCurrency(),

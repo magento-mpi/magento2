@@ -180,20 +180,20 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      *
      * @var string[]
      */
-    protected $_debugReplacePrivateDataKeys = array('user', 'pwd', 'acct', 'expdate', 'cvv2');
+    protected $_debugReplacePrivateDataKeys = ['user', 'pwd', 'acct', 'expdate', 'cvv2'];
 
     /**
      * Centinel cardinal fields map
      *
      * @var string[]
      */
-    protected $_centinelFieldMap = array(
+    protected $_centinelFieldMap = [
         'centinel_mpivendor' => 'MPIVENDOR3DS',
         'centinel_authstatus' => 'AUTHSTATUS3DS',
         'centinel_cavv' => 'CAVV',
         'centinel_eci' => 'ECI',
-        'centinel_xid' => 'XID'
-    );
+        'centinel_xid' => 'XID',
+    ];
 
     /**
      * @var \Magento\Framework\StoreManagerInterface
@@ -245,7 +245,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\HTTP\ZendClientFactory $httpClientFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_configFactory = $configFactory;
@@ -494,13 +494,13 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $payment->setTransactionId($response->getOrigpnref())->setIsTransactionClosed(0);
             if ($response->getOrigresult() == self::RESPONSE_CODE_APPROVED) {
                 $payment->setIsTransactionApproved(true);
-            } else if ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
+            } elseif ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
                 $payment->setIsTransactionDenied(true);
             }
         }
 
         $rawData = $response->getData();
-        return $rawData ? $rawData : array();
+        return $rawData ? $rawData : [];
     }
 
     /**
@@ -511,7 +511,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      */
     protected static function _isTransactionUnderReview($status)
     {
-        if (in_array($status, array(self::RESPONSE_CODE_APPROVED, self::RESPONSE_CODE_DECLINED_BY_MERCHANT))) {
+        if (in_array($status, [self::RESPONSE_CODE_APPROVED, self::RESPONSE_CODE_DECLINED_BY_MERCHANT])) {
             return false;
         }
         return true;
@@ -541,13 +541,13 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
      */
     protected function _postRequest(\Magento\Framework\Object $request)
     {
-        $debugData = array('request' => $request->getData());
+        $debugData = ['request' => $request->getData()];
 
         /** @var \Magento\Framework\HTTP\ZendClient $client */
         $client = $this->_httpClientFactory->create();
         $result = new \Magento\Framework\Object();
 
-        $_config = array('maxredirects' => 5, 'timeout' => 30, 'verifypeer' => $this->getConfigData('verify_peer'));
+        $_config = ['maxredirects' => 5, 'timeout' => 30, 'verifypeer' => $this->getConfigData('verify_peer')];
 
         $_isProxy = $this->getConfigData('use_proxy', false);
         if ($_isProxy) {
@@ -593,8 +593,6 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             throw $e;
         }
 
-
-
         $response = strstr($response->getBody(), 'RESULT');
         $valArray = explode('&', $response);
 
@@ -627,7 +625,7 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         $request->setCvv2($payment->getCcCid());
 
         if ($this->getIsCentinelValidationEnabled()) {
-            $params = array();
+            $params = [];
             $params = $this->getCentinelValidator()->exportCmpiData($params);
             $request = \Magento\Framework\Object\Mapper::accumulateByMap($params, $request, $this->_centinelFieldMap);
         }
@@ -785,7 +783,6 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
         return $this->reviewPayment($payment, self::UPDATEACTION_DECLINED_BY_MERCHANT);
     }
 
-
     /**
      * Perform the payment review
      *
@@ -809,11 +806,11 @@ class Payflowpro extends \Magento\Payment\Model\Method\Cc
             $payment->setTransactionId($response->getOrigpnref())->setIsTransactionClosed(0);
             if ($response->getOrigresult() == self::RESPONSE_CODE_APPROVED) {
                 $payment->setIsTransactionApproved(true);
-            } else if ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
+            } elseif ($response->getOrigresult() == self::RESPONSE_CODE_DECLINED_BY_MERCHANT) {
                 $payment->setIsTransactionDenied(true);
             }
         }
         $rawData = $response->getData();
-        return ($rawData) ? $rawData : array();
+        return ($rawData) ? $rawData : [];
     }
 }

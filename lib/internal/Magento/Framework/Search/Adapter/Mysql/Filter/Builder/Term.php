@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql\Filter\Builder;
 
-use Magento\Framework\App\Resource;
 use Magento\Framework\Search\Adapter\Mysql\ConditionManager;
 use Magento\Framework\Search\Request\FilterInterface as RequestFilterInterface;
 

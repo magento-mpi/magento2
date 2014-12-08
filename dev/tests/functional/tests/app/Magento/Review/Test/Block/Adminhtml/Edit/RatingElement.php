@@ -84,7 +84,7 @@ class RatingElement extends Element
         while ($rating->isVisible()) {
             $ratings[$count] = [
                 'title' => $rating->find('./label/span', Locator::SELECTOR_XPATH)->getText(),
-                'rating' => $this->getRatingVote($rating)
+                'rating' => $this->getRatingVote($rating),
             ];
 
             ++$count;

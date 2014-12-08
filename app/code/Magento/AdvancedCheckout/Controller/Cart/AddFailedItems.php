@@ -18,8 +18,8 @@ class AddFailedItems extends \Magento\AdvancedCheckout\Controller\Cart
     public function execute()
     {
         $failedItemsCart = $this->_getFailedItemsCart()->removeAllAffectedItems();
-        $failedItems = $this->getRequest()->getParam('failed', array());
-        $cartItems = $this->getRequest()->getParam('cart', array());
+        $failedItems = $this->getRequest()->getParam('failed', []);
+        $cartItems = $this->getRequest()->getParam('cart', []);
         $failedItemsCart->updateFailedItems($failedItems, $cartItems);
         $failedItemsCart->saveAffectedProducts();
         $this->_redirect('checkout/cart');

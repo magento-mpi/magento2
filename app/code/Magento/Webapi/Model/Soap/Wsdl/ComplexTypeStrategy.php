@@ -7,8 +7,8 @@
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
-use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy;
 use Zend\Soap\Wsdl;
+use Zend\Soap\Wsdl\ComplexTypeStrategy\AbstractComplexTypeStrategy;
 
 /**
  * Magento-specific Complex type strategy for WSDL auto discovery.
@@ -63,7 +63,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @return string
      * @throws \InvalidArgumentException
      */
-    public function addComplexType($type, $parentCallInfo = array())
+    public function addComplexType($type, $parentCallInfo = [])
     {
         if (($soapType = $this->scanRegisteredTypes($type)) !== null) {
             return $soapType;
@@ -157,25 +157,25 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param array $callInfo
      * @return void
      */
-    protected function _processArrayParameter($type, $callInfo = array())
+    protected function _processArrayParameter($type, $callInfo = [])
     {
         $arrayItemType = $this->_typeProcessor->getArrayItemType($type);
         $arrayTypeName = $this->_typeProcessor->translateArrayTypeName($type);
         if (!$this->_typeProcessor->isTypeSimple($arrayItemType) && !$this->_typeProcessor->isTypeAny($arrayItemType)) {
             $this->addComplexType($arrayItemType, $callInfo);
         }
-        $arrayTypeParameters = array(
-            self::ARRAY_ITEM_KEY_NAME => array(
+        $arrayTypeParameters = [
+            self::ARRAY_ITEM_KEY_NAME => [
                 'type' => $arrayItemType,
                 'required' => false,
                 'isArray' => true,
-                'documentation' => sprintf('An item of %s.', $arrayTypeName)
-            )
-        );
-        $arrayTypeData = array(
+                'documentation' => sprintf('An item of %s.', $arrayTypeName),
+            ],
+        ];
+        $arrayTypeData = [
             'documentation' => sprintf('An array of %s items.', $arrayItemType),
-            'parameters' => $arrayTypeParameters
-        );
+            'parameters' => $arrayTypeParameters,
+        ];
         $this->_typeProcessor->setTypeData($arrayTypeName, $arrayTypeData);
         $this->addComplexType($arrayTypeName, $callInfo);
     }
@@ -213,7 +213,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
      * @param array $callInfo
      * @return void
      */
-    public function addAnnotation(\DOMElement $element, $documentation, $default = null, $callInfo = array())
+    public function addAnnotation(\DOMElement $element, $documentation, $default = null, $callInfo = [])
     {
         $annotationNode = $this->_getDom()->createElement(Wsdl::XSD_NS . ':annotation');
 
@@ -240,9 +240,9 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
                             list($callName, $direction, $condition) = explode(':', $tagValue);
                             $condition = strtolower($condition);
                             if (preg_match('/allCallsExcept\(([a-zA-Z].+)\)/', $callName, $calls)) {
-                                $callInfo[$direction][$condition] = array(
+                                $callInfo[$direction][$condition] = [
                                     'allCallsExcept' => $calls[1],
-                                );
+                                ];
                             } elseif (!isset($callInfo[$direction][$condition]['allCallsExcept'])) {
                                 $this->_overrideCallInfoName($callInfo, $callName);
                                 $callInfo[$direction][$condition]['calls'][] = $callName;
@@ -368,7 +368,7 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
                         $allExceptNode = $this->_getDom()->createElement(self::APP_INF_NS . ':allCallsExcept');
                         $allExceptNode->appendChild($this->_getDom()->createTextNode($info['allCallsExcept']));
                         $callInfoNode->appendChild($allExceptNode);
-                    } else if (isset($info['calls'])) {
+                    } elseif (isset($info['calls'])) {
                         foreach ($info['calls'] as $callName) {
                             $callNode = $this->_getDom()->createElement(self::APP_INF_NS . ':callName');
                             $callNode->appendChild($this->_getDom()->createTextNode($callName));
@@ -413,9 +413,9 @@ class ComplexTypeStrategy extends AbstractComplexTypeStrategy
     protected function _processSeeLink(\DOMElement $appInfoNode, $tagValue)
     {
         if (preg_match('|([http://]?.+):(.+):(.+)|i', $tagValue, $matches)) {
-            $seeLink = array('url' => $matches[1], 'title' => $matches[2], 'for' => $matches[3]);
+            $seeLink = ['url' => $matches[1], 'title' => $matches[2], 'for' => $matches[3]];
             $seeLinkNode = $this->_getDom()->createElement(self::APP_INF_NS . ':seeLink');
-            foreach (array('url', 'title', 'for') as $subNodeName) {
+            foreach (['url', 'title', 'for'] as $subNodeName) {
                 if (isset($seeLink[$subNodeName])) {
                     $seeLinkSubNode = $this->_getDom()->createElement(self::APP_INF_NS . ':' . $subNodeName);
                     $seeLinkSubNode->appendChild($this->_getDom()->createTextNode($seeLink[$subNodeName]));

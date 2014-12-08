@@ -19,11 +19,11 @@ class UploadFile extends \Magento\AdvancedCheckout\Controller\Sku
     {
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
-        $rows = $helper->isSkuFileUploaded($this->getRequest()) ? $helper->processSkuFileUploading() : array();
+        $rows = $helper->isSkuFileUploaded($this->getRequest()) ? $helper->processSkuFileUploading() : [];
 
         $items = $this->getRequest()->getPost('items');
         if (!is_array($items)) {
-            $items = array();
+            $items = [];
         }
         foreach ($rows as $row) {
             $items[] = $row;

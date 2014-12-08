@@ -24,13 +24,13 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(
-            array(
-                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-                    DirectoryList::THEMES => array(
-                        'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design'
-                    )
-                )
-            )
+            [
+                Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+                    DirectoryList::THEMES => [
+                        'path' => dirname(dirname(__DIR__)) . '/Core/Model/_files/design',
+                    ],
+                ],
+            ]
         );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
             ->setAreaCode('frontend');
@@ -47,21 +47,21 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     public function testGetTemplateFileName()
     {
         $expected = '%s/frontend/Test/default/Magento_Catalog/templates/theme_template.phtml';
-        $actual = $this->_model->getTemplateFileName('Magento_Catalog::theme_template.phtml', array());
+        $actual = $this->_model->getTemplateFileName('Magento_Catalog::theme_template.phtml', []);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetFileNameAccordingToLocale()
     {
         $expected = '%s/frontend/Test/default/web/i18n/fr_FR/logo.gif';
-        $actual = $this->_model->getStaticFileName('logo.gif', array('locale' => 'fr_FR'));
+        $actual = $this->_model->getStaticFileName('logo.gif', ['locale' => 'fr_FR']);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }
 
     public function testGetViewFile()
     {
         $expected = '%s/frontend/Vendor/custom_theme/Fixture_Module/web/fixture_script.js';
-        $params = array('theme' => 'Vendor/custom_theme');
+        $params = ['theme' => 'Vendor/custom_theme'];
         $actual = $this->_model->getStaticFileName('Fixture_Module::fixture_script.js', $params);
         $this->_testExpectedVersusActualFilename($expected, $actual);
     }

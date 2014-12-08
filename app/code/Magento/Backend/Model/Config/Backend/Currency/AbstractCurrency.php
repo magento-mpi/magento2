@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * \Directory currency abstract backend model
  *
@@ -43,7 +42,7 @@ abstract class AbstractCurrency extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

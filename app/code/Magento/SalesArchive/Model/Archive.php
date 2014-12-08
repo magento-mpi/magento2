@@ -119,7 +119,7 @@ class Archive
             $this->_resourceArchive->rollBack();
             throw $e;
         }
-        $this->_eventManager->dispatch('magento_salesarchive_archive_archive_orders', array('order_ids' => $orderIds));
+        $this->_eventManager->dispatch('magento_salesarchive_archive_archive_orders', ['order_ids' => $orderIds]);
         return $this;
     }
 
@@ -184,10 +184,9 @@ class Archive
             }
             $this->_eventManager->dispatch(
                 'magento_salesarchive_archive_archive_orders',
-                array('order_ids' => $orderIds)
+                ['order_ids' => $orderIds]
             );
         }
-
 
         return $orderIds;
     }

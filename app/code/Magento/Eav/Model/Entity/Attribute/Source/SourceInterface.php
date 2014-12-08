@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Entity attribute select source interface
  *

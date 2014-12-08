@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product options abstract type block
  *
@@ -52,7 +51,7 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\Catalog\Helper\Data $catalogData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_catalogHelper = $catalogData;
@@ -110,10 +109,10 @@ abstract class AbstractOptions extends \Magento\Framework\View\Element\Template
     {
         if ($option = $this->getOption()) {
             return $this->_formatPrice(
-                array(
+                [
                     'is_percent' => $option->getPriceType() == 'percent',
-                    'pricing_value' => $option->getPrice($option->getPriceType() == 'percent')
-                )
+                    'pricing_value' => $option->getPrice($option->getPriceType() == 'percent'),
+                ]
             );
         }
         return '';

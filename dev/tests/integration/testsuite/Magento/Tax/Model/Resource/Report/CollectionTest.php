@@ -18,7 +18,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_collection = $objectManager->create('Magento\Tax\Model\Resource\Report\Collection');
-        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter(array(1));
+        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter([1]);
     }
 
     /**
@@ -27,10 +27,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItems()
     {
-        $expectedResult = array(
-            array('code' => 'tax_code', 'percent' => 10, 'orders_count' => 1, 'tax_base_amount_sum' => 20)
-        );
-        $actualResult = array();
+        $expectedResult = [
+            ['code' => 'tax_code', 'percent' => 10, 'orders_count' => 1, 'tax_base_amount_sum' => 20],
+        ];
+        $actualResult = [];
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);

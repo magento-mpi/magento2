@@ -28,10 +28,10 @@ class Transactions extends \Magento\Framework\View\Element\Text\ListText impleme
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\AuthorizationInterface $authorization,
-        array $data = array()
+        array $data = []
     ) {
-         $this->_authorization = $authorization;
-         parent::__construct($context, $data);
+        $this->_authorization = $authorization;
+        parent::__construct($context, $data);
     }
 
     /**

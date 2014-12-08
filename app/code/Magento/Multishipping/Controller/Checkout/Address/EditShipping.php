@@ -24,7 +24,7 @@ class EditShipping extends \Magento\Multishipping\Controller\Checkout\Address
             $addressForm->setTitle(
                 __('Edit Shipping Address')
             )->setSuccessUrl(
-                $this->_url->getUrl('*/*/editShippingPost', array('id' => $this->getRequest()->getParam('id')))
+                $this->_url->getUrl('*/*/editShippingPost', ['id' => $this->getRequest()->getParam('id')])
             )->setErrorUrl(
                 $this->_url->getUrl('*/*/*')
             );

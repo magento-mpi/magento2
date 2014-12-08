@@ -102,9 +102,9 @@ document.observe("dom:loaded", function() {
                                         <?php endforeach; ?>
                                     </select>
                                 </td>
-                                <td><input type="text" class="input-text validate-greater-than-zero<?php echo ' '.$girthClass?>" name="container_girth" <?php echo $girthDisable?>/></td>
+                                <td><input type="text" class="input-text validate-greater-than-zero<?php echo ' ' . $girthClass?>" name="container_girth" <?php echo $girthDisable?>/></td>
                                 <td>
-                                    <select name="container_girth_dimension_units" class="options-units-dimensions measures<?php echo ' '.$girthClass?>" onchange="packaging.changeMeasures(this);" <?php echo $girthDisable?>>
+                                    <select name="container_girth_dimension_units" class="options-units-dimensions measures<?php echo ' ' . $girthClass?>" onchange="packaging.changeMeasures(this);" <?php echo $girthDisable?>>
                                         <option value="<?php echo Zend_Measure_Length::INCH ?>" selected="selected" ><?php echo __('in') ?></option>
                                         <option value="<?php echo Zend_Measure_Length::CENTIMETER ?>" ><?php echo __('cm') ?></option>
                                     </select>

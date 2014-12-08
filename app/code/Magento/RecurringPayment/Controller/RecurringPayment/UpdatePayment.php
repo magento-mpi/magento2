@@ -34,7 +34,7 @@ class UpdatePayment extends \Magento\RecurringPayment\Controller\RecurringPaymen
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         if ($payment) {
-            $this->_redirect('*/*/view', array('payment' => $payment->getId()));
+            $this->_redirect('*/*/view', ['payment' => $payment->getId()]);
         } else {
             $this->_redirect('*/*/');
         }

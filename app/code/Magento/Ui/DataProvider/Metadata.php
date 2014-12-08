@@ -267,12 +267,12 @@ class Metadata implements \Iterator, \ArrayAccess
                 );
                 $options[] = [
                     'label' => __('Please, select...'),
-                    'value' => null
+                    'value' => null,
                 ];
                 foreach ($rawOptions as $rawOption) {
                     $options[] = [
                         'label' => $rawOption[$field['reference']['neededField']],
-                        'value' => $rawOption[$field['reference']['targetField']]
+                        'value' => $rawOption[$field['reference']['targetField']],
 
                     ];
                 }
@@ -303,14 +303,14 @@ class Metadata implements \Iterator, \ArrayAccess
             'customEntry' => [],
             'size' => ['eav_map' => 'scope_multiline_count'],
             'tooltip' => [],
-            'fieldGroup' => []
+            'fieldGroup' => [],
         ];
 
         foreach ($attributeCodes as $code => $info) {
             if (!isset($field[$code])) {
                 if (isset($this->attributes[$name]) && isset($info['eav_map'])) {
                     $field[$code] = $this->attributes[$name][$info['eav_map']];
-                } else if (empty($field[$code]) && !empty($info['default'])) {
+                } elseif (empty($field[$code]) && !empty($info['default'])) {
                     $field[$code] = $info['default'];
                 }
             }

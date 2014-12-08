@@ -41,7 +41,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Webapi\Model\Soap\Wsdl',
-            array('name' => $wsdlName, 'uri' => $endpointUrl)
+            ['name' => $wsdlName, 'uri' => $endpointUrl]
         );
         $this->_soapWsdlFactory->create($wsdlName, $endpointUrl);
     }

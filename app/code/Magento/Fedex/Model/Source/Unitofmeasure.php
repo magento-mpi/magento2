@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Fedex\Model\Source;
 
 class Unitofmeasure extends Generic

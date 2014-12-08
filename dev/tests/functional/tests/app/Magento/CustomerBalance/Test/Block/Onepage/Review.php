@@ -8,7 +8,6 @@
 
 namespace Magento\CustomerBalance\Test\Block\Onepage;
 
-use Mtf\Client\Element;
 
 /**
  * Class Review

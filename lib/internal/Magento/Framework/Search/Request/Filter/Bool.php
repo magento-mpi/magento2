@@ -24,21 +24,21 @@ class Bool implements FilterInterface
      *
      * @var array
      */
-    protected $must = array();
+    protected $must = [];
 
     /**
      * Filter names to which result set SHOULD satisfy
      *
      * @var array
      */
-    protected $should = array();
+    protected $should = [];
 
     /**
      * Filter names to which result set MUST NOT satisfy
      *
      * @var array
      */
-    protected $mustNot = array();
+    protected $mustNot = [];
 
     /**
      * @param string $name

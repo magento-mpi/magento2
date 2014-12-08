@@ -10,8 +10,8 @@ namespace Magento\Customer\Service\V1\Data;
 
 use Magento\Customer\Service\V1\AddressMetadataServiceInterface;
 use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Builder for the Address Service Data Object
@@ -97,8 +97,8 @@ class AddressBuilder extends ExtensibleObjectBuilder
         if (array_key_exists(Address::KEY_REGION, $data)) {
             if (!is_array($data[Address::KEY_REGION])) {
                 // Region data has been submitted as individual keys of Address object. Let's extract it.
-                $regionData = array();
-                foreach (array(Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID) as $attrCode) {
+                $regionData = [];
+                foreach ([Region::KEY_REGION, Region::KEY_REGION_CODE, Region::KEY_REGION_ID] as $attrCode) {
                     if (isset($data[$attrCode])) {
                         $regionData[$attrCode] = $data[$attrCode];
                     }

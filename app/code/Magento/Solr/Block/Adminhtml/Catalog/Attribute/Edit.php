@@ -29,7 +29,7 @@ class Edit extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Solr\Helper\Data $searchData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_searchData = $searchData;
         parent::__construct($context, $data);

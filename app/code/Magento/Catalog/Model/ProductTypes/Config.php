@@ -30,7 +30,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function getType($name)
     {
-        return $this->get('types/' . $name, array());
+        return $this->get('types/' . $name, []);
     }
 
     /**
@@ -61,7 +61,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function getComposableTypes()
     {
-        return $this->get('composableTypes', array());
+        return $this->get('composableTypes', []);
     }
 
     /**
@@ -73,7 +73,7 @@ class Config extends \Magento\Framework\Config\Data implements \Magento\Catalog\
      */
     public function filter($attributeName, $value = 'true')
     {
-        $availableProductTypes = array();
+        $availableProductTypes = [];
         foreach ($this->getAll() as $type) {
             if (!isset(
                 $type['custom_attributes'][$attributeName]

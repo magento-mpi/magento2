@@ -25,7 +25,7 @@ $_weeeHelper = $this->helper('Magento\Weee\Helper\Data');
     <span class="cart-tax-info" id="subtotal-item-tax-details<?php echo $_item->getId(); ?>" style="display: none;">
         <?php if ($this->displayPriceWithWeeeDetails()): ?>
             <?php foreach ($this->helper('Magento\Weee\Helper\Data')->getApplied($_item) as $tax): ?>
-                <span class="weee" data-label="<?php echo $tax['title']; ?>"><?php echo $this->formatPrice($tax['row_amount_incl_tax'],true,true); ?></span>
+                <span class="weee" data-label="<?php echo $tax['title']; ?>"><?php echo $this->formatPrice($tax['row_amount_incl_tax'], true, true); ?></span>
             <?php endforeach; ?>
         <?php endif; ?>
     </span>

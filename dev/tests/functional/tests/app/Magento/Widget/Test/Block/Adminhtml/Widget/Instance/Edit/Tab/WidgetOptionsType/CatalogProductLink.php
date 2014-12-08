@@ -8,8 +8,6 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit\Tab\WidgetOptionsType\CatalogProductLink\Grid;
 use Mtf\Fixture\InjectableFixture;
 

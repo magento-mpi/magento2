@@ -14,7 +14,6 @@ use Magento\Catalog\Model\Layer\Filter\AbstractFilter;
  */
 class Attribute extends AbstractFilter
 {
-
     /**
      * @var \Magento\Framework\Filter\StripTags
      */

@@ -64,7 +64,7 @@ class View extends \Magento\Catalog\Block\Product\View
     {
         return $this->getUrl(
             'magento_giftregistry/index/cart',
-            array('entity' => $this->getRequest()->getParam('entity'))
+            ['entity' => $this->getRequest()->getParam('entity')]
         );
     }
 

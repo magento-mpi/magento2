@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\AbstractController;
 
-use \Magento\Framework\App\Action;
+use Magento\Framework\App\Action;
 
 abstract class Reorder extends Action\Action
 {

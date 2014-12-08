@@ -62,6 +62,5 @@ class WrappingMapperTest extends \PHPUnit_Framework_TestCase
         $this->wrappingBuilderMock->expects($this->once())->method('create')->will($this->returnValue($wrappingDto));
 
         $this->assertSame($wrappingDto, $this->wrappingMapper->extractDto($wrappingModel));
-
     }
 }

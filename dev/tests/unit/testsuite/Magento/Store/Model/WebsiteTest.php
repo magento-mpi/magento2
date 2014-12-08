@@ -15,8 +15,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $websiteCollection = $this->getMock(
             'Magento\Store\Model\Resource\Website\Collection',
-            array('getSize'),
-            array(),
+            ['getSize'],
+            [],
             '',
             false
         );
@@ -24,8 +24,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         $websiteFactory = $this->getMock(
             'Magento\Store\Model\WebsiteFactory',
-            array('create', 'getCollection', '__wakeup'),
-            array(),
+            ['create', 'getCollection', '__wakeup'],
+            [],
             '',
             false
         );
@@ -35,7 +35,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Store\Model\Website $websiteModel */
         $websiteModel = $objectManager->getObject(
             'Magento\Store\Model\Website',
-            array('websiteFactory' => $websiteFactory)
+            ['websiteFactory' => $websiteFactory]
         );
         $websiteModel->setId(2);
         $this->assertTrue($websiteModel->isCanDelete());

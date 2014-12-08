@@ -35,7 +35,7 @@ class ConfigFilesTest extends \PHPUnit_Framework_TestCase
         $validationStateMock->expects($this->any())->method('isValidated')->will($this->returnValue(true));
         $this->_model = $objectManager->create(
             'Magento\WebsiteRestriction\Model\Config\Reader',
-            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+            ['fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock]
         );
     }
 

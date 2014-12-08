@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 use Magento\Catalog\Test\Constraint\AssertProductCompareSuccessAddMessage;
+use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 
 /**
  * Test creation for adding CompareProducts

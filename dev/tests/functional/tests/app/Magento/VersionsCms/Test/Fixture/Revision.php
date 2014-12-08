@@ -106,7 +106,7 @@ class Revision extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'design'
+        'group' => 'design',
     ];
 
     protected $custom_theme = [

@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Transactions;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class View extends \Magento\Sales\Controller\Adminhtml\Transactions
 {

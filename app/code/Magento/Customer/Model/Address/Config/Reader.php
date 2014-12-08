@@ -29,7 +29,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
             $schemaLocator,
             $validationState,
             'address_formats.xml',
-            array('/config/format' => 'code')
+            ['/config/format' => 'code']
         );
     }
 }

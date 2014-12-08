@@ -11,11 +11,11 @@
  */
 namespace Magento\Search\Block;
 
-use Magento\Search\Model\Resource\Query\CollectionFactory;
 use Magento\Framework\UrlFactory;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
+use Magento\Search\Model\Resource\Query\CollectionFactory;
 
 class Term extends Template
 {
@@ -58,7 +58,7 @@ class Term extends Template
         Context $context,
         CollectionFactory $queryCollectionFactory,
         UrlFactory $urlFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_urlFactory = $urlFactory;
@@ -73,7 +73,7 @@ class Term extends Template
     protected function _loadTerms()
     {
         if (empty($this->_terms)) {
-            $this->_terms = array();
+            $this->_terms = [];
             $terms = $this->_queryCollectionFactory->create()->setPopularQueryFilter(
                 $this->_storeManager->getStore()->getId()
             )->setPageSize(
@@ -83,7 +83,6 @@ class Term extends Template
             if (count($terms) == 0) {
                 return $this;
             }
-
 
             $this->_maxPopularity = reset($terms)->getPopularity();
             $this->_minPopularity = end($terms)->getPopularity();

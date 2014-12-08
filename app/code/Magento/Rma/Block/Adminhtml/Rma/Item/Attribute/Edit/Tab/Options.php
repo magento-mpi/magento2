@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * RMA Item Attributes edit form options tab
  *

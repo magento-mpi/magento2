@@ -22,7 +22,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     public function testFilter()
     {
         $template = 'My name is "{{first name}}" and my date of birth is {{dob}}.';
-        $values = array('first name' => 'User', 'dob' => 'Feb 29, 2000');
+        $values = ['first name' => 'User', 'dob' => 'Feb 29, 2000'];
         $this->_filter->setData($values);
         $actual = $this->_filter->filter($template);
         $expected = 'My name is "User" and my date of birth is Feb 29, 2000.';
@@ -37,7 +37,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     public function testSetTags($startTag, $endTag)
     {
         $this->_filter->setTags($startTag, $endTag);
-        $this->_filter->setData(array('pi' => '3.14'));
+        $this->_filter->setData(['pi' => '3.14']);
         $template = "PI = {$startTag}pi{$endTag}";
         $actual = $this->_filter->filter($template);
         $expected = 'PI = 3.14';
@@ -49,6 +49,6 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
      */
     public function setTagsDataProvider()
     {
-        return array('(brackets)' => array('(', ')'), '#hash#' => array('#', '#'));
+        return ['(brackets)' => ['(', ')'], '#hash#' => ['#', '#']];
     }
 }

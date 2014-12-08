@@ -3,7 +3,7 @@
  * Url security information
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -21,14 +21,14 @@ class SecurityInfo implements \Magento\Framework\Url\SecurityInfoInterface
      *
      * @var array
      */
-    protected $_secureUrlList = array();
+    protected $_secureUrlList = [];
 
     /**
      * List of already checked urls
      *
      * @var array
      */
-    protected $_secureUrlCache = array();
+    protected $_secureUrlCache = [];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -36,7 +36,7 @@ class SecurityInfo implements \Magento\Framework\Url\SecurityInfoInterface
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $secureUrlList = array()
+        array $secureUrlList = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_secureUrlList = $secureUrlList;

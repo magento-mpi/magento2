@@ -38,28 +38,28 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->fullMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Product\Action\FullFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->rowsMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Category\Action\RowsFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup')
+            ['getId', 'load', 'isInvalid', 'isWorking', '__wakeup']
         );
 
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
@@ -73,15 +73,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
         $this->prepareIndexer();
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Category\Action\Rows',
-            array('execute'),
-            array(),
+            ['execute'],
+            [],
             '',
             false
         );
@@ -95,15 +95,15 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerNotWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
         $this->prepareIndexer();
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Category\Action\Rows',
-            array('execute'),
-            array(),
+            ['execute'],
+            [],
             '',
             false
         );

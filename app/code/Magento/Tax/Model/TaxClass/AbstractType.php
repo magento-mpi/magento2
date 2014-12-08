@@ -29,7 +29,7 @@ abstract class AbstractType extends \Magento\Framework\Object implements \Magent
      * @param \Magento\Tax\Model\Calculation\Rule $calculationRule
      * @param array $data
      */
-    public function __construct(\Magento\Tax\Model\Calculation\Rule $calculationRule, array $data = array())
+    public function __construct(\Magento\Tax\Model\Calculation\Rule $calculationRule, array $data = [])
     {
         parent::__construct($data);
         $this->_calculationRule = $calculationRule;

@@ -15,7 +15,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/group' => 'id', '/config/group/job' => 'name');
+    protected $_idAttributes = ['/config/group' => 'id', '/config/group/job' => 'name'];
 
     /**
      * Path to tough XSD for merged file validation
@@ -32,7 +32,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testCrontabConfigFiles()
     {
-        $invalidFiles = array();
+        $invalidFiles = [];
 
         $files = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('crontab.xml');
         $mergedConfig = new \Magento\Framework\Config\Dom(
@@ -55,7 +55,7 @@ class CrontabConfigFilesTest extends \PHPUnit_Framework_TestCase
             $this->fail('Found broken files: ' . implode("\n", $invalidFiles));
         }
 
-        $errors = array();
+        $errors = [];
         $mergedConfig->validate($this->_mergedSchemaFile, $errors);
         if ($errors) {
             $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors));

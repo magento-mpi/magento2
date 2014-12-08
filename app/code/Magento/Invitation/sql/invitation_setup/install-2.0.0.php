@@ -20,80 +20,80 @@ $table = $installer->getConnection()->newTable(
     'invitation_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Invitation Id'
 )->addColumn(
     'customer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Customer Id'
 )->addColumn(
     'invitation_date',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array(),
+    [],
     'Invitation Date'
 )->addColumn(
     'email',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Email'
 )->addColumn(
     'referral_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Referral Id'
 )->addColumn(
     'protection_code',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array(),
+    [],
     'Protection Code'
 )->addColumn(
     'signup_date',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array(),
+    [],
     'Signup Date'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Store Id'
 )->addColumn(
     'group_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true),
+    ['unsigned' => true],
     'Group Id'
 )->addColumn(
     'message',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Message'
 )->addColumn(
     'status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     8,
-    array('nullable' => false, 'default' => 'new'),
+    ['nullable' => false, 'default' => 'new'],
     'Status'
 )->addIndex(
-    $installer->getIdxName('magento_invitation', array('customer_id')),
-    array('customer_id')
+    $installer->getIdxName('magento_invitation', ['customer_id']),
+    ['customer_id']
 )->addIndex(
-    $installer->getIdxName('magento_invitation', array('referral_id')),
-    array('referral_id')
+    $installer->getIdxName('magento_invitation', ['referral_id']),
+    ['referral_id']
 )->addIndex(
-    $installer->getIdxName('magento_invitation', array('store_id')),
-    array('store_id')
+    $installer->getIdxName('magento_invitation', ['store_id']),
+    ['store_id']
 )->addIndex(
-    $installer->getIdxName('magento_invitation', array('group_id')),
-    array('group_id')
+    $installer->getIdxName('magento_invitation', ['group_id']),
+    ['group_id']
 )->addForeignKey(
     $installer->getFkName('magento_invitation', 'group_id', 'customer_group', 'customer_group_id'),
     'group_id',
@@ -136,29 +136,29 @@ $table = $installer->getConnection()->newTable(
     'history_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'History Id'
 )->addColumn(
     'invitation_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Invitation Id'
 )->addColumn(
     'invitation_date',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array(),
+    [],
     'Invitation Date'
 )->addColumn(
     'status',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     8,
-    array('nullable' => false, 'default' => 'new'),
+    ['nullable' => false, 'default' => 'new'],
     'Invitation Status'
 )->addIndex(
-    $installer->getIdxName('magento_invitation_status_history', array('invitation_id')),
-    array('invitation_id')
+    $installer->getIdxName('magento_invitation_status_history', ['invitation_id']),
+    ['invitation_id']
 )->addForeignKey(
     $installer->getFkName('magento_invitation_status_history', 'invitation_id', 'magento_invitation', 'invitation_id'),
     'invitation_id',
@@ -180,31 +180,31 @@ $table = $installer->getConnection()->newTable(
     'track_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Track Id'
 )->addColumn(
     'inviter_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Inviter Id'
 )->addColumn(
     'referral_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Referral Id'
 )->addIndex(
     $installer->getIdxName(
         'magento_invitation_track',
-        array('inviter_id', 'referral_id'),
+        ['inviter_id', 'referral_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('inviter_id', 'referral_id'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+    ['inviter_id', 'referral_id'],
+    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
 )->addIndex(
-    $installer->getIdxName('magento_invitation_track', array('referral_id')),
-    array('referral_id')
+    $installer->getIdxName('magento_invitation_track', ['referral_id']),
+    ['referral_id']
 )->addForeignKey(
     $installer->getFkName('magento_invitation_track', 'inviter_id', 'customer_entity', 'entity_id'),
     'inviter_id',

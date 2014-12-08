@@ -21,7 +21,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             'Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Grid'
         );
         $block->toHtml();
-        foreach (array('code', 'label', 'store_id', 'theme', 'is_system') as $key) {
+        foreach (['code', 'label', 'store_id', 'theme', 'is_system'] as $key) {
             $this->assertInstanceOf('Magento\Backend\Block\Widget\Grid\Column', $block->getColumn($key));
         }
         $this->assertNotEmpty($block->getColumn('theme')->getOptions());

@@ -55,7 +55,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [$storeId, $this->store],
-                        [null, $this->store]
+                        [null, $this->store],
                     ]
                 )
             );
@@ -76,7 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [$storeId, $this->store],
-                        [null, $this->store]
+                        [null, $this->store],
                     ]
                 )
             );
@@ -235,4 +235,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($data, $this->rmaConfig->getCustomerEmailRecipient(null));
     }
 }
- 

@@ -76,7 +76,7 @@ class AttributeRepository implements CategoryAttributeRepositoryInterface
                 $this->filterBuilder
                     ->setField('attribute_set_id')
                     ->setValue(\Magento\Catalog\Api\Data\CategoryAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
-                    ->create()
+                    ->create(),
             ]
         );
 

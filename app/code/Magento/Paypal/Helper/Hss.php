@@ -17,11 +17,11 @@ class Hss extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var string[]
      */
-    protected $_hssMethods = array(
+    protected $_hssMethods = [
         \Magento\Paypal\Model\Config::METHOD_HOSTEDPRO,
         \Magento\Paypal\Model\Config::METHOD_PAYFLOWLINK,
-        \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED
-    );
+        \Magento\Paypal\Model\Config::METHOD_PAYFLOWADVANCED,
+    ];
 
     /**
      * @var \Magento\Checkout\Model\Session

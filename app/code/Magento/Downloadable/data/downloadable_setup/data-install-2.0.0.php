@@ -122,7 +122,7 @@ $fieldList = [
     'cost',
     'tier_price',
     'group_price',
-    'weight'
+    'weight',
 ];
 
 // make these attributes applicable to downloadable products

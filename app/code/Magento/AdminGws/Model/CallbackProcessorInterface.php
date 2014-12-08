@@ -12,5 +12,4 @@ namespace Magento\AdminGws\Model;
 
 interface CallbackProcessorInterface
 {
-
 }

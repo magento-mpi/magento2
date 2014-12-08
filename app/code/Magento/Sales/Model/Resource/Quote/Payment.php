@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Resource\Quote;
 
-use \Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Quote payment resource model
@@ -19,7 +19,7 @@ class Payment extends AbstractDb
      *
      * @var array
      */
-    protected $_serializableFields = array('additional_information' => array(null, array()));
+    protected $_serializableFields = ['additional_information' => [null, []]];
 
     /**
      * @param \Magento\Framework\App\Resource $resource

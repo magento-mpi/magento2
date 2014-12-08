@@ -27,7 +27,7 @@ class AttributeSetManagementTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->repositoryMock = $this->getMock('Magento\Eav\Api\AttributeSetRepositoryInterface');
-        $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
+        $this->eavConfigMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
 
         $this->model = new AttributeSetManagement(
             $this->eavConfigMock,
@@ -40,7 +40,7 @@ class AttributeSetManagementTest extends \PHPUnit_Framework_TestCase
         $skeletonId = 1;
         $entityTypeCode = 'catalog_product';
         $entityTypeId = 4;
-        $entityTypeMock = $this->getMock('Magento\Eav\Model\Entity\Type', array(), array(), '', false);
+        $entityTypeMock = $this->getMock('Magento\Eav\Model\Entity\Type', [], [], '', false);
         $entityTypeMock->expects($this->any())->method('getId')->will($this->returnValue($entityTypeId));
         $this->eavConfigMock->expects($this->once())
             ->method('getEntityType')
@@ -48,8 +48,8 @@ class AttributeSetManagementTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($entityTypeMock));
         $attributeSetMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Set',
-            array('validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'),
-            array(),
+            ['validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'],
+            [],
             '',
             false
         );
@@ -73,8 +73,8 @@ class AttributeSetManagementTest extends \PHPUnit_Framework_TestCase
         $entityTypeCode = 'catalog_product';
         $attributeSetMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Set',
-            array('validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'),
-            array(),
+            ['validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'],
+            [],
             '',
             false
         );
@@ -94,8 +94,8 @@ class AttributeSetManagementTest extends \PHPUnit_Framework_TestCase
         $entityTypeCode = 'catalog_product';
         $attributeSetMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\Set',
-            array('validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'),
-            array(),
+            ['validate', 'getId', 'setEntityTypeId', 'initFromSkeleton'],
+            [],
             '',
             false
         );

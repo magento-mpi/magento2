@@ -7,7 +7,6 @@
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Tax\Model\Config;
 use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\Bootstrap;
 
@@ -173,7 +172,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected function verifyAppliedTaxes($appliedTaxes, $expectedAppliedTaxes)
     {
         foreach ($expectedAppliedTaxes as $taxRateKey => $expectedTaxRate) {
-            $this->assertTrue(isset($appliedTaxes[$taxRateKey]), 'Missing tax rate ' . $taxRateKey );
+            $this->assertTrue(isset($appliedTaxes[$taxRateKey]), 'Missing tax rate ' . $taxRateKey);
             $this->verifyAppliedTax($appliedTaxes[$taxRateKey], $expectedTaxRate);
         }
         return $this;

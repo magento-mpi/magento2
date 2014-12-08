@@ -67,7 +67,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         $basePrice = $this->getBasePrice($product, $qty);
         $finalPrice = $basePrice;
         $product->setFinalPrice($finalPrice);
-        $this->_eventManager->dispatch('catalog_product_get_final_price', array('product' => $product, 'qty' => $qty));
+        $this->_eventManager->dispatch('catalog_product_get_final_price', ['product' => $product, 'qty' => $qty]);
         $finalPrice = $product->getData('final_price');
 
         $finalPrice += $this->getTotalConfigurableItemsPrice($product, $finalPrice);
@@ -92,7 +92,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         $product->getTypeInstance()->setStoreFilter($product->getStore(), $product);
         $attributes = $product->getTypeInstance()->getConfigurableAttributes($product);
 
-        $selectedAttributes = array();
+        $selectedAttributes = [];
         if ($product->getCustomOption('attributes')) {
             $selectedAttributes = unserialize($product->getCustomOption('attributes')->getValue());
         }
@@ -100,7 +100,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
         foreach ($attributes as $attribute) {
             $attributeId = $attribute->getProductAttribute()->getId();
             $value = $this->_getValueByIndex(
-                $attribute->getPrices() ? $attribute->getPrices() : array(),
+                $attribute->getPrices() ? $attribute->getPrices() : [],
                 isset($selectedAttributes[$attributeId]) ? $selectedAttributes[$attributeId] : null
             );
             $product->setParentId(true);

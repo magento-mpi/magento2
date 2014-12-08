@@ -33,7 +33,7 @@ class ConfigFactory
      * @param array $arguments
      * @return Config
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create('Magento\Framework\App\Language\Config', $arguments);
     }

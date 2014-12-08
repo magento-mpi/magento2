@@ -11,11 +11,10 @@
  */
 namespace Magento\Framework\Filesystem;
 
-use \Magento\TestFramework\Helper\ObjectManager;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Filesystem\FileResolver
      */

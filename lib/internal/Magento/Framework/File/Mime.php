@@ -15,7 +15,7 @@ class Mime
      *
      * @var array
      */
-    protected $mimeTypes = array(
+    protected $mimeTypes = [
         'txt'  => 'text/plain',
         'htm'  => 'text/html',
         'html' => 'text/html',
@@ -57,8 +57,8 @@ class Mime
         'psd'  => 'image/vnd.adobe.photoshop',
         'ai'   => 'application/postscript',
         'eps'  => 'application/postscript',
-        'ps'   => 'application/postscript'
-    );
+        'ps'   => 'application/postscript',
+    ];
 
     /**
      * Get mime type of a file

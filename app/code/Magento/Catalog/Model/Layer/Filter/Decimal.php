@@ -15,7 +15,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
 
 class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-
     /**
      * Resource instance
      *
@@ -49,7 +48,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalFactory $dataProviderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_requestVar = 'decimal';
         $this->priceCurrency = $priceCurrency;

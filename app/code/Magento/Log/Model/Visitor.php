@@ -77,7 +77,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->session = $session;
         $this->storeManager = $storeManager;
@@ -118,7 +118,7 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
     {
         $clean = true;
         $this->addData(
-            array(
+            [
                 'server_addr' => $this->serverAddress->getServerAddress(true),
                 'remote_addr' => $this->remoteAddress->getRemoteAddress(true),
                 'http_secure' => $this->storeManager->getStore()->isCurrentlySecure(),
@@ -127,8 +127,8 @@ class Visitor extends \Magento\Framework\Model\AbstractModel
                 'http_accept_language' => $this->httpHeader->getHttpAcceptLanguage($clean),
                 'http_accept_charset' => $this->httpHeader->getHttpAcceptCharset($clean),
                 'request_uri' => $this->httpHeader->getRequestUri($clean),
-                'http_referer' => $this->httpHeader->getHttpReferer($clean)
-            )
+                'http_referer' => $this->httpHeader->getHttpReferer($clean),
+            ]
         );
 
         return $this;

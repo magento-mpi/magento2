@@ -8,7 +8,6 @@
 namespace Magento\PayPalRecurringPayment\Model;
 
 use Exception;
-
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 /**
@@ -47,7 +46,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
         \Magento\Framework\HTTP\Adapter\CurlFactory $curlFactory,
         \Magento\RecurringPayment\Model\PaymentFactory $recurringPaymentFactory,
         OrderSender $orderSender,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($configFactory, $logAdapterFactory, $curlFactory, $data);
         $this->_recurringPaymentFactory = $recurringPaymentFactory;
@@ -86,7 +85,7 @@ class Ipn extends \Magento\Paypal\Model\AbstractIpn implements \Magento\Paypal\M
     {
         $recurringPayment = $this->_getRecurringPayment();
         $methodCode = $recurringPayment->getMethodCode();
-        $parameters = array('params' => array($methodCode, $recurringPayment->getStoreId()));
+        $parameters = ['params' => [$methodCode, $recurringPayment->getStoreId()]];
         $this->_config = $this->_configFactory->create($parameters);
         if (!$this->_config->isMethodActive($methodCode) || !$this->_config->isMethodAvailable()) {
             throw new Exception(sprintf('Method "%s" is not available.', $methodCode));

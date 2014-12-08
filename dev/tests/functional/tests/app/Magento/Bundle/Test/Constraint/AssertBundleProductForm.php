@@ -29,11 +29,11 @@ class AssertBundleProductForm extends AssertProductForm
      */
     protected $specialArray = [
         'special_from_date' => [
-            'type' => 'date'
+            'type' => 'date',
         ],
         'special_to_date' => [
-            'type' => 'date'
-        ]
+            'type' => 'date',
+        ],
     ];
 
     /**

@@ -38,7 +38,7 @@ class Factory
      * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
      * @throws \Magento\Catalog\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $indexerPrice = $this->_objectManager->create($className, $data);
 

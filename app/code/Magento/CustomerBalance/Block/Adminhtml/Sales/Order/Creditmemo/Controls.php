@@ -28,7 +28,7 @@ class Controls extends Template
      * @param Registry $registry
      * @param array $data
      */
-    public function __construct(Context $context, Registry $registry, array $data = array())
+    public function __construct(Context $context, Registry $registry, array $data = [])
     {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);

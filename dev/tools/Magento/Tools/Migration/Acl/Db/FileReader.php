@@ -26,7 +26,7 @@ class FileReader
         }
         $data = json_decode(file_get_contents($fileName), true);
 
-        $output = array();
+        $output = [];
         foreach ($data as $key => $value) {
             $newKey = str_replace('config/acl/resources/', '', $key);
             $output[$newKey] = $value;

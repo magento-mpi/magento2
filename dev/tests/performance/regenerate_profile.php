@@ -11,7 +11,7 @@ $bootstrap = require_once __DIR__ . '/framework/bootstrap.php';
 
 try {
     $shell = new Zend_Console_Getopt(
-        array(
+        [
             'files-s' => 'List of files divided by comma(,)',
             'store_views-i' => 'Number of store views',
             'cart_price_rules-i' => 'Number of shopping cart price rules.',
@@ -28,21 +28,21 @@ try {
             'Format: "Category 1/Category .../Category N"',
             'distribute_simple_products-i' => 'Distribute simple products among categories (default: 1 - yes)',
             'simple_category_path-s' => 'Category path for simple products (default: Category 1)' .
-            'Format: "Category 1/Category .../Category N"'
-        )
+            'Format: "Category 1/Category .../Category N"',
+        ]
     );
-    
+
     \Magento\TestFramework\Helper\Cli::setOpt($shell);
-    
+
     $args = $shell->getOptions();
     if (empty($args)) {
         echo $shell->getUsageMessage();
         exit(1);
     }
-    
+
     $files = array_filter(explode(',', trim($shell->getOption('files'))));
     if (empty($files)) {
-        $files = array(
+        $files = [
             __DIR__ . '/testsuite/fixtures/benchmark/store_views.php',
             __DIR__ . '/testsuite/fixtures/benchmark/categories.php',
             __DIR__ . '/testsuite/fixtures/benchmark/eav_variations.php',
@@ -51,24 +51,24 @@ try {
             __DIR__ . '/testsuite/fixtures/benchmark/simple_products.php',
             __DIR__ . '/testsuite/fixtures/benchmark/tax_rates.php',
             __DIR__ . '/testsuite/fixtures/benchmark/customer.php',
-            __DIR__ . '/testsuite/fixtures/shipping_flatrate_enabled.php'
-        );
+            __DIR__ . '/testsuite/fixtures/shipping_flatrate_enabled.php',
+        ];
     }
-    
+
     $logWriter = new \Zend_Log_Writer_Stream('php://output');
     $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
     $logger = new \Zend_Log($logWriter);
-    
+
     $shell = new \Magento\Framework\Shell(new \Magento\Framework\Shell\CommandRenderer(), $logger);
-    
+
     $application = $bootstrap->createApplication($shell);
     $application->reset();
-    
+
     foreach ($files as $fixture) {
         echo 'Applying fixture ' . $fixture . PHP_EOL;
         $application->applyFixture($fixture);
     }
-    
+
     $application->reindex();
 } catch (\Zend_Console_Getopt_Exception $e) {
     fwrite(STDERR, $e->getMessage() . "\n\n" . $e->getUsageMessage() . "\n");

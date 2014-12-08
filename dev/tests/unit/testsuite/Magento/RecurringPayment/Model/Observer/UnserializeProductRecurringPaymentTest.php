@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\RecurringPayment\Model\Observer;
- 
+
 class UnserializeProductRecurringPaymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var UnserializeProductRecurringPayment
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -35,7 +35,7 @@ class UnserializeProductRecurringPaymentTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $collectionMock;
-    
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

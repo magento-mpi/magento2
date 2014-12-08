@@ -7,7 +7,6 @@
  */
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class Giftcardaccount extends \Magento\Backend\App\Action

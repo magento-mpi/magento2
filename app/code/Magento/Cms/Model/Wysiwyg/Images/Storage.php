@@ -161,10 +161,10 @@ class Storage extends \Magento\Framework\Object
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryDatabaseFactory,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        array $resizeParameters = array(),
-        array $extensions = array(),
-        array $dirs = array(),
-        array $data = array()
+        array $resizeParameters = [],
+        array $extensions = [],
+        array $dirs = [],
+        array $data = []
     ) {
         $this->_session = $session;
         $this->_backendUrl = $backendUrl;
@@ -202,7 +202,7 @@ class Storage extends \Magento\Framework\Object
             }
         }
 
-        $conditions = array('reg_exp' => array(), 'plain' => array());
+        $conditions = ['reg_exp' => [], 'plain' => []];
 
         if ($this->_dirs['exclude']) {
             foreach ($this->_dirs['exclude'] as $dir) {
@@ -295,7 +295,7 @@ class Storage extends \Magento\Framework\Object
                 $thumbUrl = $this->getThumbnailUrl($item->getFilename(), true);
                 // generate thumbnail "on the fly" if it does not exists
                 if (!$thumbUrl) {
-                    $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', array('file' => $item->getId()));
+                    $thumbUrl = $this->_backendUrl->getUrl('cms/*/thumbnail', ['file' => $item->getId()]);
                 }
 
                 $size = @getimagesize($item->getFilename());
@@ -366,12 +366,12 @@ class Storage extends \Magento\Framework\Object
                 $this->_directoryDatabaseFactory->create()->createRecursive($relativePath);
             }
 
-            $result = array(
+            $result = [
                 'name' => $name,
                 'short_name' => $this->_cmsWysiwygImages->getShortFilename($name),
                 'path' => $newPath,
-                'id' => $this->_cmsWysiwygImages->convertPathToId($newPath)
-            );
+                'id' => $this->_cmsWysiwygImages->convertPathToId($newPath),
+            ];
             return $result;
         } catch (\Magento\Framework\Filesystem\FilesystemException $e) {
             throw new \Magento\Framework\Model\Exception(__('We cannot create a new directory.'));
@@ -450,7 +450,7 @@ class Storage extends \Magento\Framework\Object
     public function uploadFile($targetPath, $type = null)
     {
         /** @var \Magento\Core\Model\File\Uploader $uploader */
-        $uploader = $this->_uploaderFactory->create(array('fileId' => 'image'));
+        $uploader = $this->_uploaderFactory->create(['fileId' => 'image']);
         $allowed = $this->getAllowedExtensions($type);
         if ($allowed) {
             $uploader->setAllowedExtensions($allowed);
@@ -466,13 +466,13 @@ class Storage extends \Magento\Framework\Object
         // create thumbnail
         $this->resizeFile($targetPath . '/' . $uploader->getUploadedFileName(), true);
 
-        $result['cookie'] = array(
+        $result['cookie'] = [
             'name' => $this->getSession()->getName(),
             'value' => $this->getSession()->getSessionId(),
             'lifetime' => $this->getSession()->getCookieLifetime(),
             'path' => $this->getSession()->getCookiePath(),
-            'domain' => $this->getSession()->getCookieDomain()
-        );
+            'domain' => $this->getSession()->getCookieDomain(),
+        ];
 
         return $result;
     }

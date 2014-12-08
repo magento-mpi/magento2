@@ -7,9 +7,8 @@
  */
 namespace Magento\Weee\Model\Total\Quote;
 
-use Magento\Store\Model\Store;
-use Magento\Tax\Model\Calculation;
 use Magento\Sales\Model\Quote\Address\Total\AbstractTotal;
+use Magento\Store\Model\Store;
 use Magento\Tax\Model\Sales\Total\Quote\CommonTaxCollector;
 
 class WeeeTax extends Weee
@@ -90,7 +89,7 @@ class WeeeTax extends Weee
                     $totalRowValueExclTax += $rowValueExclTax;
                     $baseTotalRowValueExclTax += $baseRowValueExclTax;
 
-                    $productTaxes[] = array(
+                    $productTaxes[] = [
                         'title' => $attributeCode, //TODO: fix this
                         'base_amount' => $baseValueExclTax,
                         'amount' => $valueExclTax,
@@ -100,8 +99,7 @@ class WeeeTax extends Weee
                         'amount_incl_tax' => $valueInclTax,
                         'row_amount_incl_tax' => $rowValueInclTax,
                         'base_row_amount_incl_tax' => $baseRowValueInclTax,
-                    );
-
+                    ];
                 }
                 $item->setWeeeTaxAppliedAmount($totalValueExclTax)
                     ->setBaseWeeeTaxAppliedAmount($baseTotalValueExclTax)
@@ -173,12 +171,12 @@ class WeeeTax extends Weee
         $weeeTotal = $this->weeeData->getTotalAmounts($items, $store);
         if ($weeeTotal) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('FPT'),
                     'value' => $weeeTotal,
-                    'area' => null
-                )
+                    'area' => null,
+                ]
             );
         }
         return $this;

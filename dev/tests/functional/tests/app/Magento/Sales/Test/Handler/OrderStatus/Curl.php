@@ -10,10 +10,10 @@ namespace Magento\Sales\Test\Handler\OrderStatus;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -28,7 +28,7 @@ class Curl extends AbstractCurl implements OrderStatusInterface
      */
     protected $defaultAttributeValues = [
         'is_new' => 1,
-        'store_labels[1]' => ''
+        'store_labels[1]' => '',
     ];
 
     /**
@@ -38,7 +38,7 @@ class Curl extends AbstractCurl implements OrderStatusInterface
      */
     protected $mappingData = [
         'state' => [
-            'Pending' => 'new'
+            'Pending' => 'new',
         ],
         'is_default' => [
             'Yes' => 1,

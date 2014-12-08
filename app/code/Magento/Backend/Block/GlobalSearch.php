@@ -20,16 +20,16 @@ class GlobalSearch extends \Magento\Backend\Block\Template
      */
     public function getWidgetInitOptions()
     {
-        return array(
-            'suggest' => array(
+        return [
+            'suggest' => [
                 'dropdownWrapper' => '<div class="autocomplete-results" ></div >',
                 'template' => '[data-template=search-suggest]',
                 'termAjaxArgument' => 'query',
                 'source' => $this->getUrl('adminhtml/index/globalSearch'),
                 'filterProperty' => 'name',
                 'preventClickPropagation' => false,
-                'minLength' => 2
-            )
-        );
+                'minLength' => 2,
+            ]
+        ];
     }
 }

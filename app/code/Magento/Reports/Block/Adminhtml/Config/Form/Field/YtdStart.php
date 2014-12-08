@@ -22,12 +22,12 @@ class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $_months = array();
+        $_months = [];
         for ($i = 1; $i <= 12; $i++) {
             $_months[$i] = $this->_localeDate->date(mktime(null, null, null, $i))->get(\Zend_Date::MONTH_NAME);
         }
 
-        $_days = array();
+        $_days = [];
         for ($i = 1; $i <= 31; $i++) {
             $_days[$i] = $i < 10 ? '0' . $i : $i;
         }
@@ -35,7 +35,7 @@ class YtdStart extends \Magento\Backend\Block\System\Config\Form\Field
         if ($element->getValue()) {
             $values = explode(',', $element->getValue());
         } else {
-            $values = array();
+            $values = [];
         }
 
         $element->setName($element->getName() . '[]');

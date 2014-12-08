@@ -36,7 +36,7 @@ class Options extends AbstractDb implements OptionsInterface
              * Check if table exist (it protect upgrades. cache settings checked before upgrades)
              */
             if ($adapter->isTableExists($this->getMainTable())) {
-                $select = $adapter->select()->from($this->getMainTable(), array('code', 'value'));
+                $select = $adapter->select()->from($this->getMainTable(), ['code', 'value']);
                 return $adapter->fetchPairs($select);
             }
         }
@@ -57,16 +57,16 @@ class Options extends AbstractDb implements OptionsInterface
             return $this;
         }
 
-        $data = array();
+        $data = [];
         foreach ($options as $code => $value) {
-            $data[] = array($code, $value);
+            $data[] = [$code, $value];
         }
 
         $adapter->beginTransaction();
         try {
             $this->_getWriteAdapter()->delete($this->getMainTable());
             if ($data) {
-                $this->_getWriteAdapter()->insertArray($this->getMainTable(), array('code', 'value'), $data);
+                $this->_getWriteAdapter()->insertArray($this->getMainTable(), ['code', 'value'], $data);
             }
         } catch (\Exception $e) {
             $adapter->rollback();

@@ -71,4 +71,4 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         return (new \Magento\TestFramework\Helper\ObjectManager($this))->getObject(static::CLASS_NAME, $arguments);
     }
-} 
+}

@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Model;
 
-use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Framework\Logger;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 
 /**
  * Class OrderNotifier

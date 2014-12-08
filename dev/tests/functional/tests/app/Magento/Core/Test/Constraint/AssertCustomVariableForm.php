@@ -8,11 +8,11 @@
 
 namespace Magento\Core\Test\Constraint;
 
-use Magento\Store\Test\Fixture\Store;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Core\Test\Fixture\SystemVariable;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Magento\Store\Test\Fixture\Store;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertCustomVariableForm

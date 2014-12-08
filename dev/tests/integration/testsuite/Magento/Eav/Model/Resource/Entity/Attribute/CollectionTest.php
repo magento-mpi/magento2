@@ -31,7 +31,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection->addSetInfo();
 
-        $sets = array();
+        $sets = [];
         foreach ($collection as $attribute) {
             foreach (array_keys($attribute->getAttributeSetInfo()) as $setId) {
                 $sets[$setId] = $setId;
@@ -51,7 +51,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_model->setAttributeGroupFilter($includeGroupId);
         $groups = $this->_getGroups($this->_model);
 
-        $this->assertEquals(array($includeGroupId), $groups);
+        $this->assertEquals([$includeGroupId], $groups);
     }
 
     /**
@@ -64,7 +64,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $collection->addSetInfo();
 
-        $groups = array();
+        $groups = [];
         foreach ($collection as $attribute) {
             foreach ($attribute->getAttributeSetInfo() as $setInfo) {
                 $groupId = $setInfo['group_id'];
@@ -79,6 +79,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $select = $this->_model->getSelect();
         $this->assertEmpty($select->getPart(\Zend_Db_Select::GROUP));
         $this->_model->addAttributeGrouping();
-        $this->assertEquals(array('main_table.attribute_id'), $select->getPart(\Zend_Db_Select::GROUP));
+        $this->assertEquals(['main_table.attribute_id'], $select->getPart(\Zend_Db_Select::GROUP));
     }
 }

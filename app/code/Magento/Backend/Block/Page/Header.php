@@ -41,7 +41,7 @@ class Header extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Helper\Data $backendData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendData = $backendData;
         $this->_authSession = $authSession;

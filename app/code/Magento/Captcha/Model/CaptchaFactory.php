@@ -36,7 +36,7 @@ class CaptchaFactory
     {
         $className = 'Magento\Captcha\Model\\' . ucfirst($captchaType);
 
-        $instance = $this->_objectManager->create($className, array('formId' => $formId));
+        $instance = $this->_objectManager->create($className, ['formId' => $formId]);
         if (!$instance instanceof \Magento\Captcha\Model\ModelInterface) {
             throw new \InvalidArgumentException(
                 $className . ' does not implement \Magento\Captcha\Model\ModelInterface'

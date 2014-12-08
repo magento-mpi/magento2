@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\Tree;
 
-use Magento\Tools\Formatter\Tree\Tree;
-use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
  * This class is used to test the tree functions.

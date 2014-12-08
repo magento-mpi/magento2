@@ -90,5 +90,4 @@ class ClearExpiredCronJobTest extends \PHPUnit_Framework_TestCase
             ->method('create');
         $this->model->execute($this->scheduleMock);
     }
-
 }

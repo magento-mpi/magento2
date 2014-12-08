@@ -49,7 +49,7 @@ class TokensTest extends \PHPUnit_Framework_TestCase
     {
         $parser = $this->getMock('Magento\TestFramework\Integrity\Library\PhpParser\ParserInterface');
 
-        $this->parseFactory->expects($this->any())->method('createParsers')->will($this->returnValue(array($parser)));
+        $this->parseFactory->expects($this->any())->method('createParsers')->will($this->returnValue([$parser]));
 
         $this->tokens = new Tokens($this->content, $this->parseFactory);
         $this->tokens->parseContent();
@@ -77,7 +77,7 @@ class TokensTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getDependencies'
         )->will(
-            $this->returnValue(array('StaticDependency'))
+            $this->returnValue(['StaticDependency'])
         );
 
         $this->parseFactory->expects($this->once())->method('getStaticCalls')->will($this->returnValue($staticCalls));
@@ -86,12 +86,12 @@ class TokensTest extends \PHPUnit_Framework_TestCase
             'Magento\TestFramework\Integrity\Library\PhpParser\Throws'
         )->disableOriginalConstructor()->getMock();
 
-        $throws->expects($this->once())->method('getDependencies')->will($this->returnValue(array('ThrowDependency')));
+        $throws->expects($this->once())->method('getDependencies')->will($this->returnValue(['ThrowDependency']));
 
         $this->parseFactory->expects($this->once())->method('getThrows')->will($this->returnValue($throws));
 
         $this->tokens = new Tokens($this->content, $this->parseFactory);
-        $this->assertEquals(array('StaticDependency', 'ThrowDependency'), $this->tokens->getDependencies());
+        $this->assertEquals(['StaticDependency', 'ThrowDependency'], $this->tokens->getDependencies());
     }
 
     /**
@@ -102,7 +102,7 @@ class TokensTest extends \PHPUnit_Framework_TestCase
     public function testGetPreviousToken()
     {
         $this->tokens = new Tokens($this->content, $this->parseFactory);
-        $this->assertEquals(array(T_ECHO, 'echo', 1), $this->tokens->getPreviousToken(2));
+        $this->assertEquals([T_ECHO, 'echo', 1], $this->tokens->getPreviousToken(2));
     }
 
     /**

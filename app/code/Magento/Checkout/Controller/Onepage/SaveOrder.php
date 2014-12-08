@@ -26,10 +26,10 @@ class SaveOrder extends \Magento\Checkout\Controller\Onepage
             return;
         }
 
-        $result = array();
+        $result = [];
         try {
             $agreementsValidator = $this->_objectManager->get('Magento\Checkout\Model\Agreements\AgreementsValidator');
-            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', array())))) {
+            if (!$agreementsValidator->isValid(array_keys($this->getRequest()->getPost('agreement', [])))) {
                 $result['success'] = false;
                 $result['error'] = true;
                 $result['error_messages'] = __(
@@ -41,15 +41,15 @@ class SaveOrder extends \Magento\Checkout\Controller\Onepage
                 return;
             }
 
-            $data = $this->getRequest()->getPost('payment', array());
+            $data = $this->getRequest()->getPost('payment', []);
             if ($data) {
-                $data['checks'] = array(
+                $data['checks'] = [
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_CHECKOUT,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_COUNTRY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_USE_FOR_CURRENCY,
                     \Magento\Payment\Model\Method\AbstractMethod::CHECK_ORDER_TOTAL_MIN_MAX,
-                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL
-                );
+                    \Magento\Payment\Model\Method\AbstractMethod::CHECK_ZERO_TOTAL,
+                ];
                 $this->getOnepage()->getQuote()->getPayment()->importData($data);
             }
 
@@ -64,7 +64,7 @@ class SaveOrder extends \Magento\Checkout\Controller\Onepage
                 $result['error_messages'] = $message;
             }
             $result['goto_section'] = 'payment';
-            $result['update_section'] = array('name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml());
+            $result['update_section'] = ['name' => 'payment-method', 'html' => $this->_getPaymentMethodsHtml()];
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->_objectManager->get(
@@ -86,10 +86,10 @@ class SaveOrder extends \Magento\Checkout\Controller\Onepage
             if ($updateSection) {
                 if (isset($this->_sectionUpdateFunctions[$updateSection])) {
                     $updateSectionFunction = $this->_sectionUpdateFunctions[$updateSection];
-                    $result['update_section'] = array(
+                    $result['update_section'] = [
                         'name' => $updateSection,
-                        'html' => $this->{$updateSectionFunction}()
-                    );
+                        'html' => $this->{$updateSectionFunction}(),
+                    ];
                 }
                 $this->getOnepage()->getCheckout()->setUpdateSection(null);
             }

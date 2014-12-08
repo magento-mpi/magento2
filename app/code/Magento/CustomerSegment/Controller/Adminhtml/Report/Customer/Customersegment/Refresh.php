@@ -24,13 +24,13 @@ class Refresh extends \Magento\CustomerSegment\Controller\Adminhtml\Report\Custo
                     $segment->matchCustomers();
                 }
                 $this->messageManager->addSuccess(__('Customer Segment data has been refreshed.'));
-                $this->_redirect('*/*/detail', array('_current' => true));
+                $this->_redirect('*/*/detail', ['_current' => true]);
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('*/*/detail', array('_current' => true));
+        $this->_redirect('*/*/detail', ['_current' => true]);
         return;
     }
 }

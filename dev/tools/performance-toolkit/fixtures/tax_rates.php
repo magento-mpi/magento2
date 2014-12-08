@@ -22,12 +22,12 @@ foreach ($collection->getAllIds() as $id) {
  * Import tax rates with import handler
  */
 $filename = realpath(__DIR__ . '/tax_rates.csv');
-$file = array (
+$file = [
     'name' => $filename,
     'type' => 'application/vnd.ms-excel',
     'tmp_name' => $filename,
     'error' => 0,
     'size' => filesize($filename),
-);
+];
 $importHandler = $this->getObjectManager()->create('Magento\TaxImportExport\Model\Rate\CsvImportHandler');
 $importHandler->importFromCsvFile($file);

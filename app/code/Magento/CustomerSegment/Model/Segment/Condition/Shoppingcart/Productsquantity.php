@@ -28,7 +28,7 @@ class Productsquantity extends AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart\Productsquantity');
@@ -42,7 +42,7 @@ class Productsquantity extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('sales_quote_save_commit_after');
+        return ['sales_quote_save_commit_after'];
     }
 
     /**
@@ -52,11 +52,11 @@ class Productsquantity extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(
+        return [
             'value' => $this->getType(),
             'label' => __('Products Quantity'),
             'available_in_guest_mode' => true
-        );
+        ];
     }
 
     /**
@@ -86,7 +86,7 @@ class Productsquantity extends AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)))->where('quote.is_active=1');
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)])->where('quote.is_active=1');
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->limit(1);
         $select->where("quote.items_qty {$operator} ?", $this->getValue());

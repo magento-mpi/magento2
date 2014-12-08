@@ -11,10 +11,10 @@ namespace Magento\Reward\Test\Handler\Reward;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -39,7 +39,7 @@ class Curl extends AbstractCurl implements RewardInterface
         $data['reward']['points_delta'] = $fixture->getPointsDelta();
 
         $url = $_ENV['app_backend_url'] . 'customer/index/save/active_tab/customer_edit_tab_reward/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();

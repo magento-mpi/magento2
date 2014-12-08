@@ -21,7 +21,7 @@ class TemplateEnginePoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factory = $this->getMock('Magento\Framework\View\TemplateEngineFactory', array(), array(), '', false);
+        $this->_factory = $this->getMock('Magento\Framework\View\TemplateEngineFactory', [], [], '', false);
         $this->_model = new TemplateEnginePool($this->_factory);
     }
 

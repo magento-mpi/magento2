@@ -29,13 +29,13 @@ class States implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             self::UNKNOWN => __('Not Initialized'),
             self::PENDING => __('Pending'),
             self::ACTIVE => __('Active'),
             self::SUSPENDED => __('Suspended'),
             self::CANCELED => __('Canceled'),
             self::EXPIRED => __('Expired')
-        );
+        ];
     }
 }

@@ -34,7 +34,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cartHelper = $cartHelper;
         parent::__construct($context, $data);

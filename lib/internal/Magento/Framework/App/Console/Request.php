@@ -19,7 +19,7 @@ class Request implements \Magento\Framework\App\RequestInterface
     /**
      * @param array $parameters
      */
-    public function __construct(array $parameters = array())
+    public function __construct(array $parameters = [])
     {
         $this->setParam($parameters);
     }

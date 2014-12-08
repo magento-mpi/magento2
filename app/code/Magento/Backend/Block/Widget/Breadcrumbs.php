@@ -19,7 +19,7 @@ class Breadcrumbs extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_links = array();
+    protected $_links = [];
 
     /**
      * @var string
@@ -45,7 +45,7 @@ class Breadcrumbs extends \Magento\Backend\Block\Template
         if (empty($title)) {
             $title = $label;
         }
-        $this->_links[] = array('label' => $label, 'title' => $title, 'url' => $url);
+        $this->_links[] = ['label' => $label, 'title' => $title, 'url' => $url];
         return $this;
     }
 

@@ -10,9 +10,8 @@ namespace Magento\CatalogSearch\Model\Layer;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Layer;
-use Magento\Catalog\Model\Resource;
-use Magento\Framework\Object;
 use Magento\Catalog\Model\Layer\ContextInterface;
+use Magento\Catalog\Model\Resource;
 
 class Advanced extends \Magento\Catalog\Model\Layer
 {
@@ -34,7 +33,7 @@ class Advanced extends \Magento\Catalog\Model\Layer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

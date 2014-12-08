@@ -8,8 +8,8 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as ParentGrid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
@@ -53,7 +53,7 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => '#title'
+            'selector' => '#title',
         ],
     ];
 

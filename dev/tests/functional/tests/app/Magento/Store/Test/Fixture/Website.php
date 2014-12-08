@@ -28,7 +28,7 @@ class Website extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Main Website',
         'code' => 'base',
-        'website_id' => '1'
+        'website_id' => '1',
     ];
 
     protected $website_id = [

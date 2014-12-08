@@ -8,11 +8,11 @@
 
 namespace Magento\Review\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
 
 /**

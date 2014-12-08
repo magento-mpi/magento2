@@ -41,7 +41,7 @@ class SimpleProduct extends Product
             'constraint' => 'Success',
             'grid_filter' => ['name'],
             'create_url_params' => ['type' => 'simple', 'set' => static::DEFAULT_ATTRIBUTE_SET_ID],
-            'input_prefix' => 'product'
+            'input_prefix' => 'product',
         ];
 
         $data = $this->_getPreparedData();
@@ -63,24 +63,24 @@ class SimpleProduct extends Product
         return [
             'price' => [
                 'value' => '%' . self::PRICE_VALUE . '%',
-                'group' => static::GROUP_PRODUCT_DETAILS
+                'group' => static::GROUP_PRODUCT_DETAILS,
             ],
             'tax_class_id' => [
                 'value' => 'Taxable Goods',
                 'input_value' => '2',
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input' => 'select'
+                'input' => 'select',
             ],
             'qty' => [
                 'value' => 1000,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name' => 'product[quantity_and_stock_status][qty]'
+                'input_name' => 'product[quantity_and_stock_status][qty]',
             ],
             'quantity_and_stock_status' => [
                 'value' => 'In Stock',
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name' => 'product[quantity_and_stock_status][is_in_stock]'
+                'input_name' => 'product[quantity_and_stock_status][is_in_stock]',
             ],
             'weight' => ['value' => '1', 'group' => static::GROUP_PRODUCT_DETAILS],
             'product_website_1' => [
@@ -88,14 +88,14 @@ class SimpleProduct extends Product
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_WEBSITE,
                 'input' => 'checkbox',
-                'input_name' => 'product[website_ids][]'
+                'input_name' => 'product[website_ids][]',
             ],
             'inventory_manage_stock' => [
                 'value' => 'No',
                 'input_value' => '0',
                 'group' => static::GROUP_PRODUCT_INVENTORY,
                 'input' => 'select',
-                'input_name' => 'product[stock_data][manage_stock]'
+                'input_name' => 'product[stock_data][manage_stock]',
             ],
         ];
     }

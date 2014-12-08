@@ -32,7 +32,7 @@ class Catalog extends Grid
      */
     protected $filters = [
         'rule_id' => [
-            'selector' => '#promo_catalog_grid_filter_rule_id'
+            'selector' => '#promo_catalog_grid_filter_rule_id',
         ],
         'name' => [
             'selector' => '#promo_catalog_grid_filter_name',
@@ -61,7 +61,7 @@ class Catalog extends Grid
      */
     public function getGridRow($ruleName)
     {
-        return $this->getRow(array('name' => $ruleName));
+        return $this->getRow(['name' => $ruleName]);
     }
 
     /**
@@ -85,7 +85,7 @@ class Catalog extends Grid
      */
     public function isRowVisible(array $filter, $isSearchable = true, $isStrict = true)
     {
-        $this->search(array('name' => $filter['name']));
+        $this->search(['name' => $filter['name']]);
         return parent::isRowVisible($filter, $isSearchable, $isStrict);
     }
 }

@@ -25,8 +25,7 @@ $subscriber->setStoreId($currentStore)
     ->setCustomerId(1)
     ->setSubscriberEmail('customer@example.com')
     ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
+    ->save();
 $firstSubscriberId = $subscriber->getId();
 
 $subscriber = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -36,5 +35,4 @@ $subscriber->setStoreId($otherStore)
     ->setCustomerId(0)
     ->setSubscriberEmail('customer_two@example.com')
     ->setSubscriberStatus(\Magento\Newsletter\Model\Subscriber::STATUS_SUBSCRIBED)
-    ->save()
-;
+    ->save();

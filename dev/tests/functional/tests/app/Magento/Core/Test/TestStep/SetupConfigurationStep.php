@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Core\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class SetupConfigurationStep

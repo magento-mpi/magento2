@@ -41,7 +41,7 @@ class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Url\QueryParamsResolverInterface $queryParamsResolver,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_request = $request;
@@ -109,7 +109,7 @@ class RouteParamsResolver extends \Magento\Framework\Object implements \Magento\
         }
 
         if (isset($data['_scope_to_url']) && (bool)$data['_scope_to_url'] === true) {
-            $store = $this->getScope() ? : $this->_storeManager->getStore();
+            $store = $this->getScope() ?: $this->_storeManager->getStore();
             if (!$this->_scopeConfig->getValue(
                 \Magento\Store\Model\Store::XML_PATH_STORE_IN_URL,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE,

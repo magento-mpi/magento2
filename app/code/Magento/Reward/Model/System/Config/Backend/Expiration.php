@@ -50,7 +50,7 @@ class Expiration extends \Magento\Framework\App\Config\Value
         \Magento\Reward\Model\Resource\Reward\HistoryFactory $historyFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_config = $config;
@@ -71,9 +71,9 @@ class Expiration extends \Magento\Framework\App\Config\Value
             return $this;
         }
 
-        $websiteIds = array();
+        $websiteIds = [];
         if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
-            $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
+            $websiteIds = [$this->_storeManager->getWebsite($this->getScopeCode())->getId()];
         } else {
             $collection = $this->_configFactory->create()->addFieldToFilter(
                 'path',
@@ -82,7 +82,7 @@ class Expiration extends \Magento\Framework\App\Config\Value
                 'scope',
                 \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES
             );
-            $websiteScopeIds = array();
+            $websiteScopeIds = [];
             foreach ($collection as $item) {
                 $websiteScopeIds[] = $item->getScopeId();
             }
@@ -110,7 +110,7 @@ class Expiration extends \Magento\Framework\App\Config\Value
         parent::beforeDelete();
         if ($this->getScope() == \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES) {
             $default = (string)$this->_config->getValue(self::XML_PATH_EXPIRATION_DAYS, 'default');
-            $websiteIds = array($this->_storeManager->getWebsite($this->getScopeCode())->getId());
+            $websiteIds = [$this->_storeManager->getWebsite($this->getScopeCode())->getId()];
             $this->_historyFactory->create()->updateExpirationDate($default, $websiteIds);
         }
         return $this;

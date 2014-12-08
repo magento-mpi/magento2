@@ -46,7 +46,7 @@ class ImageFactory
      * @param array $data
      * @return Image
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create($this->_instanceName, $data);
     }

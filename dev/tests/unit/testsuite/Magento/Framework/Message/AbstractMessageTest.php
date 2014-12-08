@@ -22,7 +22,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
         $this->model = $this->getMockBuilder(
             'Magento\Framework\Message\AbstractMessage'
         )->disableOriginalConstructor()->setMethods(
-            array('getType')
+            ['getType']
         )->getMockForAbstractClass();
     }
 
@@ -42,7 +42,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setTextGetTextProvider()
     {
-        return array(array(''), array('some text'));
+        return [[''], ['some text']];
     }
 
     /**
@@ -61,7 +61,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdentifierGetIdentifierProvider()
     {
-        return array(array(''), array('some identifier'));
+        return [[''], ['some identifier']];
     }
 
     /**

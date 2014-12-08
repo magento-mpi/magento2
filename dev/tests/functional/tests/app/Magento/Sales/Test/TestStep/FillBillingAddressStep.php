@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Fill Sales Data.

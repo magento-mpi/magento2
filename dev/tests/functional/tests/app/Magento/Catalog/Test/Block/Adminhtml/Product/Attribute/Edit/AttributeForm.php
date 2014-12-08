@@ -9,11 +9,11 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Catalog Product Attribute form.

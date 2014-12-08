@@ -42,14 +42,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->_uploaderFactory = $this->getMock(
             'Magento\CatalogImportExport\Model\Import\UploaderFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\CatalogImportExport\Model\Import\Product',
-            array('uploaderFactory' => $this->_uploaderFactory)
+            ['uploaderFactory' => $this->_uploaderFactory]
         );
     }
 
@@ -58,19 +58,19 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_assertOptions = array(
+    protected $_assertOptions = [
         'is_require' => '_custom_option_is_required',
         'price' => '_custom_option_price',
         'sku' => '_custom_option_sku',
-        'sort_order' => '_custom_option_sort_order'
-    );
+        'sort_order' => '_custom_option_sort_order',
+    ];
 
     /**
      * Option values for assertion
      *
      * @var array
      */
-    protected $_assertOptionValues = array('title', 'price', 'sku');
+    protected $_assertOptionValues = ['title', 'price', 'sku'];
 
     /**
      * Test if visibility properly saved after import
@@ -79,8 +79,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveProductsVisibility()
     {
-        $existingProductIds = array(10, 11, 12);
-        $productsBeforeImport = array();
+        $existingProductIds = [10, 11, 12];
+        $productsBeforeImport = [];
         foreach ($existingProductIds as $productId) {
             $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Product'
@@ -98,7 +98,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $directory
         );
         $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product')
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product']
         )->setSource(
             $source
         )->isDataValid();
@@ -127,8 +127,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveStockItemQty()
     {
-        $existingProductIds = array(10, 11, 12);
-        $stockItems = array();
+        $existingProductIds = [10, 11, 12];
+        $stockItems = [];
         foreach ($existingProductIds as $productId) {
             /** @var $stockRegistry \Magento\CatalogInventory\Model\StockRegistry */
             $stockRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -147,7 +147,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $directory
         );
         $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product')
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product']
         )->setSource(
             $source
         )->isDataValid();
@@ -156,7 +156,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var $stockItmBeforeImport \Magento\CatalogInventory\Model\Stock\Item */
         foreach ($stockItems as $productId => $stockItmBeforeImport) {
-
             /** @var $stockRegistry \Magento\CatalogInventory\Model\StockRegistry */
             $stockRegistry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\CatalogInventory\Model\StockRegistry'
@@ -193,7 +192,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $directory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
-        $this->_model->setSource($source)->setParameters(array('behavior' => $behavior))->isDataValid();
+        $this->_model->setSource($source)->setParameters(['behavior' => $behavior])->isDataValid();
         $this->_model->importData();
 
         $productModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -245,8 +244,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testSaveDatetimeAttribute()
     {
-        $existingProductIds = array(10, 11, 12);
-        $productsBeforeImport = array();
+        $existingProductIds = [10, 11, 12];
+        $productsBeforeImport = [];
         foreach ($existingProductIds as $productId) {
             $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Product'
@@ -264,7 +263,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $directory
         );
         $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product')
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE, 'entity' => 'catalog_product']
         )->setSource(
             $source
         )->isDataValid();
@@ -300,18 +299,18 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $productData = $this->_csvToArray(file_get_contents($pathToFile));
         $expectedOptionId = 0;
-        $expectedOptions = array();
+        $expectedOptions = [];
         // array of type and title types, key is element ID
-        $expectedData = array();
+        $expectedData = [];
         // array of option data
-        $expectedValues = array();
+        $expectedValues = [];
         // array of option values data
         foreach ($productData['data'] as $data) {
             if (!empty($data['_custom_option_type']) && !empty($data['_custom_option_title'])) {
                 $lastOptionKey = $data['_custom_option_type'] . '|' . $data['_custom_option_title'];
                 $expectedOptionId++;
                 $expectedOptions[$expectedOptionId] = $lastOptionKey;
-                $expectedData[$expectedOptionId] = array();
+                $expectedData[$expectedOptionId] = [];
                 foreach ($this->_assertOptions as $assertKey => $assertFieldName) {
                     if (array_key_exists($assertFieldName, $data)) {
                         $expectedData[$expectedOptionId][$assertKey] = $data[$assertFieldName];
@@ -319,7 +318,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 }
             }
             if (!empty($data['_custom_option_row_title']) && empty($data['_custom_option_store'])) {
-                $optionData = array();
+                $optionData = [];
                 foreach ($this->_assertOptionValues as $assertKey) {
                     $valueKey = \Magento\CatalogImportExport\Model\Import\Product\Option::COLUMN_PREFIX .
                         'row_' .
@@ -330,12 +329,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        return array(
+        return [
             'id' => $expectedOptionId,
             'options' => $expectedOptions,
             'data' => $expectedData,
             'values' => $expectedValues
-        );
+        ];
     }
 
     /**
@@ -365,12 +364,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        return array(
+        return [
             'id' => $expectedOptionId,
             'options' => $expectedOptions,
             'data' => $expectedData,
             'values' => $expectedValues
-        );
+        ];
     }
 
     /**
@@ -382,11 +381,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected function _getActualOptionsData(\Magento\Catalog\Model\Resource\Product\Option\Collection $options)
     {
         $actualOptionId = 0;
-        $actualOptions = array();
+        $actualOptions = [];
         // array of type and title types, key is element ID
-        $actualData = array();
+        $actualData = [];
         // array of option data
-        $actualValues = array();
+        $actualValues = [];
         // array of option values data
         /** @var $option \Magento\Catalog\Model\Product\Option */
         foreach ($options->getItems() as $option) {
@@ -398,12 +397,12 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 $actualValues[$actualOptionId] = $optionValues;
             }
         }
-        return array(
+        return [
             'id' => $actualOptionId,
             'options' => $actualOptions,
             'data' => $actualData,
             'values' => $actualValues
-        );
+        ];
     }
 
     /**
@@ -414,7 +413,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getOptionData(\Magento\Catalog\Model\Product\Option $option)
     {
-        $result = array();
+        $result = [];
         foreach (array_keys($this->_assertOptions) as $assertKey) {
             $result[$assertKey] = $option->getData($assertKey);
         }
@@ -431,10 +430,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $values = $option->getValues();
         if (!empty($values)) {
-            $result = array();
+            $result = [];
             /** @var $value \Magento\Catalog\Model\Product\Option\Value */
             foreach ($values as $value) {
-                $optionData = array();
+                $optionData = [];
                 foreach ($this->_assertOptionValues as $assertKey) {
                     if ($value->hasData($assertKey)) {
                         $optionData[$assertKey] = $value->getData($assertKey);
@@ -455,28 +454,28 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function getBehaviorDataProvider()
     {
-        return array(
-            'Append behavior with existing product' => array(
+        return [
+            'Append behavior with existing product' => [
                 '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
                 '$importFile' => 'product_with_custom_options.csv',
-                '$sku' => 'simple'
-            ),
-            'Append behavior with new product' => array(
+                '$sku' => 'simple',
+            ],
+            'Append behavior with new product' => [
                 '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
                 '$importFile' => 'product_with_custom_options_new.csv',
-                '$sku' => 'simple_new'
-            ),
-            'Replace behavior with existing product' => array(
+                '$sku' => 'simple_new',
+            ],
+            'Replace behavior with existing product' => [
                 '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
                 '$importFile' => 'product_with_custom_options.csv',
-                '$sku' => 'simple'
-            ),
-            'Replace behavior with new product' => array(
+                '$sku' => 'simple',
+            ],
+            'Replace behavior with new product' => [
                 '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
                 '$importFile' => 'product_with_custom_options_new.csv',
-                '$sku' => 'simple_new'
-            )
-        );
+                '$sku' => 'simple_new',
+            ]
+        ];
     }
 
     /**
@@ -496,7 +495,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $attribute->loadByCode('catalog_product', 'media_gallery');
         $data = implode(
             ',',
-            array(
+            [
                 // minimum required set of attributes + media images
                 'sku',
                 '_attribute_set',
@@ -515,11 +514,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 '_media_label',
                 '_media_position',
                 '_media_is_disabled'
-            )
+            ]
         ) . "\n";
         $data .= implode(
             ',',
-            array(
+            [
                 'test_sku',
                 'Default',
                 \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE,
@@ -537,14 +536,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'Image Label',
                 '1',
                 '0'
-            )
+            ]
         ) . "\n";
         $data = 'data://text/plain;base64,' . base64_encode($data);
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $fixture = $objectManager->create(
             'Magento\ImportExport\Model\Import\Source\Csv',
-            array('$fileOrStream' => $data)
+            ['$fileOrStream' => $data]
         );
 
         foreach (\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -555,20 +554,20 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $uploader = $this->getMock(
             'Magento\CatalogImportExport\Model\Import\Uploader',
-            array('init'),
-            array(
+            ['init'],
+            [
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
                 $objectManager->create('Magento\Core\Helper\File\Storage'),
                 $objectManager->create('Magento\Framework\Image\AdapterFactory'),
                 $objectManager->create('Magento\Core\Model\File\Validator\NotProtectedExtension')
-            )
+            ]
         );
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));
 
         $this->_model->setSource(
             $fixture
         )->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND)
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND]
         )->isDataValid();
         $this->_model->importData();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -629,7 +628,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content, $entityId = null)
     {
-        $data = array('header' => array(), 'data' => array());
+        $data = ['header' => [], 'data' => []];
 
         $lines = str_getcsv($content, "\n");
         foreach ($lines as $index => $line) {
@@ -667,7 +666,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $this->_model->setSource(
             $source
         )->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND)
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND]
         )->isDataValid();
         $this->_model->importData();
 
@@ -675,7 +674,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Resource\Product\Collection'
         );
 
-        $products = array();
+        $products = [];
         /** @var $product \Magento\Catalog\Model\Product */
         foreach ($productCollection as $product) {
             $products[$product->getSku()] = $product;
@@ -707,16 +706,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $validationResult = $this->_model->setSource(
             $source
         )->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND)
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND]
         )->isDataValid();
 
         $this->assertFalse($validationResult);
 
         $errors = $this->_model->getErrorMessages();
-        $expectedErrors = array(
+        $expectedErrors = [
             "Please correct the value for 'multiselect_attribute'." => [2],
-            "Orphan rows that will be skipped due default row errors" => [3,4]
-        );
+            "Orphan rows that will be skipped due default row errors" => [3,4],
+        ];
         foreach ($expectedErrors as $message => $invalidRows) {
             $this->assertArrayHasKey($message, $errors);
             $this->assertEquals($invalidRows, $errors[$message]);
@@ -741,7 +740,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             $directory
         );
         $this->_model->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND, 'entity' => 'catalog_product')
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND, 'entity' => 'catalog_product']
         )->setSource(
             $source
         )->isDataValid();
@@ -761,7 +760,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $id = $simpleProduct->getIdBySku('Configurable 03-option_0');
         $simpleProduct->load($id);
         $this->assertEquals('Option Label', $simpleProduct->getAttributeText('attribute_with_option'));
-        $this->assertEquals(array(2, 4), $simpleProduct->getAvailableInCategories());
+        $this->assertEquals([2, 4], $simpleProduct->getAvailableInCategories());
     }
 
     /**
@@ -780,7 +779,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $validationResult = $this->_model->setSource(
             $source
         )->setParameters(
-                array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND)
+                ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND]
             )->isDataValid();
 
         $expectedErrors = ["Product weight is invalid" => [2]];

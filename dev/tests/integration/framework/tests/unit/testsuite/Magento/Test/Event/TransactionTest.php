@@ -32,17 +32,17 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
     {
         $this->_eventManager = $this->getMock(
             'Magento\TestFramework\EventManager',
-            array('fireEvent'),
-            array(array())
+            ['fireEvent'],
+            [[]]
         );
         $this->_adapter = $this->getMock(
             'Magento\TestFramework\Db\Adapter\TransactionInterface',
-            array('beginTransparentTransaction', 'commitTransparentTransaction', 'rollbackTransparentTransaction')
+            ['beginTransparentTransaction', 'commitTransparentTransaction', 'rollbackTransparentTransaction']
         );
         $this->_object = $this->getMock(
             'Magento\TestFramework\Event\Transaction',
-            array('_getAdapter'),
-            array($this->_eventManager)
+            ['_getAdapter'],
+            [$this->_eventManager]
         );
         $this->_object->expects($this->any())->method('_getAdapter')->will($this->returnValue($this->_adapter));
     }
@@ -133,10 +133,10 @@ class TransactionTest extends \PHPUnit_Framework_TestCase
 
     public function startAndRollbackTransactionDataProvider()
     {
-        return array(
-            'method "startTest"' => array('startTest', 'startTestTransactionRequest'),
-            'method "endTest"' => array('endTest', 'endTestTransactionRequest')
-        );
+        return [
+            'method "startTest"' => ['startTest', 'startTestTransactionRequest'],
+            'method "endTest"' => ['endTest', 'endTestTransactionRequest']
+        ];
     }
 
     /**

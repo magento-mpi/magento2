@@ -9,7 +9,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
+return [
     // Blocks with abstract constructor arguments
     'Magento\Email\Block\Adminhtml\Template',
     'Magento\Email\Block\Adminhtml\Template\Edit',
@@ -21,4 +21,4 @@ return array(
     'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers',
     'Magento\LayeredNavigation\Block\Navigation',
     'Magento\LayeredNavigation\Block\Navigation\State',
-);
+];

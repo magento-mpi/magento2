@@ -45,7 +45,7 @@ class Match implements QueryInterface
      *
      * @var array
      */
-    protected $matches = array();
+    protected $matches = [];
 
     /**
      * @param string $name

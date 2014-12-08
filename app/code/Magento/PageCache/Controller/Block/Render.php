@@ -23,7 +23,7 @@ class Render extends \Magento\PageCache\Controller\Block
         }
 
         $blocks = $this->_getBlocks();
-        $data = array();
+        $data = [];
         foreach ($blocks as $blockName => $blockInstance) {
             $data[$blockName] = $blockInstance->toHtml();
         }

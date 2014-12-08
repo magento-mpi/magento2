@@ -9,8 +9,8 @@
  */
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
-use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Framework\Object;
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 class Delete extends Button
 {
@@ -24,7 +24,7 @@ class Delete extends Button
     {
         return sprintf(
             "this.setAttribute('data-url', '%s')",
-            $this->getUrl('*/*/delete', array('id' => $row->getId()))
+            $this->getUrl('*/*/delete', ['id' => $row->getId()])
         );
     }
 

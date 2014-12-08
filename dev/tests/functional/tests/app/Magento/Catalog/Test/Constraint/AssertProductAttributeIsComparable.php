@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\InjectableFixture;

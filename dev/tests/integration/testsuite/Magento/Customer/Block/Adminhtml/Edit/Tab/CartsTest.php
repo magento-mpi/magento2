@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Controller\Adminhtml\Index;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\Carts
@@ -37,7 +36,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManager');
         $this->_context = $this->_objectManager->get(
             'Magento\Backend\Block\Template\Context',
-            array('storeManager' => $storeManager)
+            ['storeManager' => $storeManager]
         );
     }
 
@@ -47,7 +46,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
     public function testGetHtml()
     {
         $customer = $this->_customerRepository->getById(1);
-        $data = array('account' => $customer->__toArray());
+        $data = ['account' => $customer->__toArray()];
         $this->_context->getBackendSession()->setCustomerData($data);
 
         $this->_block = $this->_objectManager->get(
@@ -55,7 +54,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
             '',
-            array('context' => $this->_context)
+            ['context' => $this->_context]
         );
 
         $html = $this->_block->toHtml();
@@ -67,7 +66,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHtmlNoCustomer()
     {
-        $data = array('account' => array());
+        $data = ['account' => []];
         $this->_context->getBackendSession()->setCustomerData($data);
 
         $this->_block = $this->_objectManager->get(
@@ -75,7 +74,7 @@ class CartsTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\Carts',
             '',
-            array('context' => $this->_context)
+            ['context' => $this->_context]
         );
 
         $html = $this->_block->toHtml();

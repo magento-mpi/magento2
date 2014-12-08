@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -152,7 +152,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'textarea',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $enable_googlecheckout = [
@@ -177,7 +177,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'autosettings'
+        'group' => 'autosettings',
     ];
 
     protected $use_config_gift_message_available = [
@@ -186,7 +186,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'checkbox',
-        'group' => 'autosettings'
+        'group' => 'autosettings',
     ];
 
     protected $group_price = [
@@ -196,7 +196,7 @@ class BundleProduct extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\GroupPriceOptions',
     ];
 
     protected $has_options = [
@@ -285,7 +285,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $news_from_date = [
@@ -335,7 +335,7 @@ class BundleProduct extends InjectableFixture
         'default_value' => '',
         'input' => 'price',
         'source' => 'Magento\Bundle\Test\Fixture\BundleProduct\Price',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $price_from = [
@@ -344,7 +344,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $price_to = [
@@ -353,7 +353,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'price',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $price_type = [
@@ -371,7 +371,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'checkbox',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $price_view = [
@@ -380,7 +380,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'advanced-pricing'
+        'group' => 'advanced-pricing',
     ];
 
     protected $quantity_and_stock_status = [
@@ -389,7 +389,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '1',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $required_options = [
@@ -403,7 +403,7 @@ class BundleProduct extends InjectableFixture
     protected $use_config_manage_stock = [
         'attribute_code' => 'use_config_manage_stock',
         'input' => 'checkbox',
-        'group' => 'advanced-inventory'
+        'group' => 'advanced-inventory',
     ];
 
     protected $manage_stock = [
@@ -418,7 +418,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $short_description = [
@@ -427,7 +427,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'textarea',
-        'group' => 'autosettings'
+        'group' => 'autosettings',
     ];
 
     protected $sku = [
@@ -436,7 +436,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $sku_type = [
@@ -445,7 +445,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $weight_type = [
@@ -463,7 +463,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $small_image = [
@@ -544,7 +544,7 @@ class BundleProduct extends InjectableFixture
         'default_value' => '',
         'input' => 'text',
         'group' => 'advanced-pricing',
-        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions'
+        'source' => 'Magento\Catalog\Test\Fixture\CatalogProductSimple\TierPriceOptions',
     ];
 
     protected $updated_at = [
@@ -561,7 +561,7 @@ class BundleProduct extends InjectableFixture
         'is_required' => '0',
         'default_value' => '',
         'input' => 'text',
-        'group' => 'search-engine-optimization'
+        'group' => 'search-engine-optimization',
     ];
 
     protected $url_path = [
@@ -616,21 +616,21 @@ class BundleProduct extends InjectableFixture
     ];
 
     protected $new_variations_attribute_set_id = [
-        'attribute_code' => 'new_variations_attribute_set_id'
+        'attribute_code' => 'new_variations_attribute_set_id',
     ];
 
     protected $affect_bundle_product_selection = [
-        'attribute_code' => 'affect_bundle_product_selection'
+        'attribute_code' => 'affect_bundle_product_selection',
     ];
 
     protected $stock_data = [
         'attribute_code' => 'stock_data',
-        'group' => 'advanced-inventory'
+        'group' => 'advanced-inventory',
     ];
 
     protected $category_id = [
         'attribute_code' => 'category_id',
-        'group' => 'product-details'
+        'group' => 'product-details',
     ];
 
     protected $website_ids = [

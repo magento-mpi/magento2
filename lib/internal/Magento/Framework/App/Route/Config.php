@@ -125,7 +125,7 @@ class Config implements ConfigInterface
     public function getModulesByFrontName($frontName, $scope = null)
     {
         $routes = $this->_getRoutes($scope);
-        $modules = array();
+        $modules = [];
         foreach ($routes as $routeData) {
             if ($routeData['frontName'] == $frontName && isset($routeData['modules'])) {
                 $modules = $routeData['modules'];

@@ -28,7 +28,7 @@ class Info extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wrappingFactory = $wrappingFactory;
         parent::__construct($context, $data);

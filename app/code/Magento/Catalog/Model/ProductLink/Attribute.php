@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
-use \Magento\Catalog\Api\Data\ProductLinkAttributeInterface;
+use Magento\Catalog\Api\Data\ProductLinkAttributeInterface;
 
 class Attribute extends \Magento\Framework\Api\AbstractExtensibleObject implements ProductLinkAttributeInterface
 {

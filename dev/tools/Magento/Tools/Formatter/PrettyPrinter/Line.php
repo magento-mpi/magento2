@@ -25,14 +25,14 @@ class Line
      *
      * @var array
      */
-    protected $lineBreakTokens = array();
+    protected $lineBreakTokens = [];
 
     /**
      * This member holds the actual tokens in the line
      *
      * @var array
      */
-    protected $tokens = array();
+    protected $tokens = [];
 
     /**
      * This method constructs the new line, adding the first token, if specified.
@@ -143,7 +143,7 @@ class Line
     public function getSortedLineBreaks()
     {
         // determine all of the sort orders found in the line
-        $sortOrders = array(0);
+        $sortOrders = [0];
         foreach ($this->lineBreakTokens as $lineBreakToken) {
             $sortOrders[] = $lineBreakToken[Line::ATTRIBUTE_SORT_ORDER];
         }
@@ -204,8 +204,8 @@ class Line
         // reset the internally stored values
         unset($this->tokens);
         unset($this->lineBreakTokens);
-        $this->tokens = array();
-        $this->lineBreakTokens = array();
+        $this->tokens = [];
+        $this->lineBreakTokens = [];
         // save the new tokens
         $this->add($tokens);
     }
@@ -265,7 +265,7 @@ class Line
         $lineBreakId = $lineBreak->getGroupingId();
         // if the key doesn't exist in the array, then add an array so the next part will work
         if (!array_key_exists($lineBreakId, $this->lineBreakTokens)) {
-            $this->lineBreakTokens[$lineBreakId] = array();
+            $this->lineBreakTokens[$lineBreakId] = [];
         }
         // increment the total count
         if (!array_key_exists(self::ATTRIBUTE_TOTAL, $this->lineBreakTokens[$lineBreakId])) {
@@ -282,9 +282,9 @@ class Line
      */
     private function getCurrentLines($level)
     {
-        $currentLines = array();
+        $currentLines = [];
         $index = 0;
-        $lineBreakData = array();
+        $lineBreakData = [];
         // build up the string by compiling the tokens
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array
@@ -329,7 +329,7 @@ class Line
      */
     private function getCurrentLinesBySortOrder($sortOrder, &$lineBreakData)
     {
-        $currentLines = array();
+        $currentLines = [];
         $index = 0;
         // break down the line by only resolving the line breaks based on sort order
         foreach ($this->tokens as $token) {

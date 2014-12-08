@@ -45,10 +45,10 @@ class Type extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getAdditionalAttributeTable($entityTypeId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array('entity_type_id' => $entityTypeId);
+        $bind = ['entity_type_id' => $entityTypeId];
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('additional_attribute_table')
+            ['additional_attribute_table']
         )->where(
             'entity_type_id = :entity_type_id'
         );

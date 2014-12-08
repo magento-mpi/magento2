@@ -9,8 +9,8 @@
 namespace Magento\Banner\Test\Block\Category;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class View

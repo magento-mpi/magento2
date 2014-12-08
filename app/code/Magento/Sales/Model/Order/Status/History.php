@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order\Status;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Sales\Api\Data\OrderStatusHistoryInterface;
 use Magento\Sales\Model\AbstractModel;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order status history comments

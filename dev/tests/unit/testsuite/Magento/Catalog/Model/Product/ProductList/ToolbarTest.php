@@ -134,4 +134,3 @@ class ToolbarTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
-

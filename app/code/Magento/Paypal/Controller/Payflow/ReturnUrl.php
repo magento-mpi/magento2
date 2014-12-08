@@ -24,10 +24,10 @@ class ReturnUrl extends \Magento\Paypal\Controller\Payflow
             $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
 
             if ($order && $order->getIncrementId() == $this->_checkoutSession->getLastRealOrderId()) {
-                $allowedOrderStates = array(
+                $allowedOrderStates = [
                     \Magento\Sales\Model\Order::STATE_PROCESSING,
-                    \Magento\Sales\Model\Order::STATE_COMPLETE
-                );
+                    \Magento\Sales\Model\Order::STATE_COMPLETE,
+                ];
                 if (in_array($order->getState(), $allowedOrderStates)) {
                     $this->_checkoutSession->unsLastRealOrderId();
                     $redirectBlock->setGotoSuccessPage(true);

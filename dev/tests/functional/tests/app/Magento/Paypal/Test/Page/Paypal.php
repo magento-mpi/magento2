@@ -9,10 +9,9 @@
 
 namespace Magento\Paypal\Test\Page;
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
 use Magento\Paypal\Test\Block;
-use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\Page;
 
 /**
  * Class Paypal.

@@ -16,7 +16,7 @@ class Unassign extends \Magento\Backend\Block\Widget\Grid\Column
      */
     public function getFrameCallback()
     {
-        return array($this, 'decorateAction');
+        return [$this, 'decorateAction'];
     }
 
     /**
@@ -33,7 +33,7 @@ class Unassign extends \Magento\Backend\Block\Widget\Grid\Column
         $cell = '';
         $state = $row->getState();
         if (!empty($state)) {
-            $url = $this->getUrl('*/*/unassign', array('status' => $row->getStatus(), 'state' => $row->getState()));
+            $url = $this->getUrl('*/*/unassign', ['status' => $row->getStatus(), 'state' => $row->getState()]);
             $label = __('Unassign');
             $cell = '<a href="' . $url . '">' . $label . '</a>';
         }

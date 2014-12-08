@@ -41,7 +41,6 @@ interface CategoryRepositoryInterface
      */
     public function delete(\Magento\Catalog\Api\Data\CategoryInterface $category);
 
-
     /**
      * Delete category by identifier
      *

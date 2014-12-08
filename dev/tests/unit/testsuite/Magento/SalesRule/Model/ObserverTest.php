@@ -302,7 +302,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-
         $this->collectionFactory->expects($this->once())
             ->method('create')
             ->will($this->returnValue($collection));

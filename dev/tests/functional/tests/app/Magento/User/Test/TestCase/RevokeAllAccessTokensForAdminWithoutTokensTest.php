@@ -9,9 +9,9 @@
 namespace Magento\User\Test\TestCase;
 
 use Magento\User\Test\Fixture\User;
-use Mtf\TestCase\Injectable;
 use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Magento\User\Test\Page\Adminhtml\UserIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Revoke all access tokens for admin without tokens.

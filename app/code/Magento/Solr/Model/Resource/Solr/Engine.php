@@ -35,14 +35,14 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @var string[]
      * @deprecated after 1.11.2.0
      */
-    protected $_advancedStaticIndexFields = array('#visibility');
+    protected $_advancedStaticIndexFields = ['#visibility'];
 
     /**
      * List of obligatory dynamic fields for index
      *
      * @var string[]
      */
-    protected $_advancedDynamicIndexFields = array('#position_category_', '#price_');
+    protected $_advancedDynamicIndexFields = ['#position_category_', '#price_'];
 
     /**
      * Catalog product visibility
@@ -197,7 +197,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param string $entityType 'product'|'cms'
      * @return array
      */
-    public function getIdsByQuery($query, $params = array(), $entityType = 'product')
+    public function getIdsByQuery($query, $params = [], $entityType = 'product')
     {
         return $this->_adapter->getIdsByQuery($query, $params);
     }
@@ -210,7 +210,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param  string $entityType 'product'|'cms'
      * @return array
      */
-    public function getResultForRequest($query, $params = array(), $entityType = 'product')
+    public function getResultForRequest($query, $params = [], $entityType = 'product')
     {
         return $this->_adapter->search($query, $params);
     }
@@ -223,7 +223,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param string $entityType 'product'|'cms'
      * @return array
      */
-    public function getStats($query, $params = array(), $entityType = 'product')
+    public function getStats($query, $params = [], $entityType = 'product')
     {
         return $this->_adapter->getStats($query, $params);
     }
@@ -239,7 +239,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function saveEntityIndex($entityId, $storeId, $index, $entityType = 'product')
     {
-        return $this->saveEntityIndexes($storeId, array($entityId => $index), $entityType);
+        return $this->saveEntityIndexes($storeId, [$entityId => $index], $entityType);
     }
 
     /**
@@ -270,7 +270,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function cleanIndex($storeIds = null, $entityIds = null, $entityType = 'product')
     {
-        if ($storeIds === array() || $entityIds === array()) {
+        if ($storeIds === [] || $entityIds === []) {
             return $this;
         }
 
@@ -280,7 +280,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             $storeIds = (array)$storeIds;
         }
 
-        $queries = array();
+        $queries = [];
         if (empty($entityIds)) {
             foreach ($storeIds as $storeId) {
                 $queries[] = 'store_id:' . $storeId;
@@ -295,7 +295,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             }
         }
 
-        $this->_adapter->deleteDocs(array(), $queries);
+        $this->_adapter->deleteDocs([], $queries);
 
         return $this;
     }
@@ -345,7 +345,8 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      * @param mixed $value
      * @return mixed
      */
-    public function processAttributeValue($attribute, $value) {
+    public function processAttributeValue($attribute, $value)
+    {
         return $value;
     }
 
@@ -537,7 +538,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
      */
     public function addAllowedAdvancedIndexField($productData)
     {
-        $advancedIndex = array();
+        $advancedIndex = [];
 
         foreach ($productData as $field => $value) {
             if (in_array($field, $this->_advancedStaticIndexFields) || $this->_isDynamicField($field)) {

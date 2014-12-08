@@ -8,9 +8,9 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture;
+use Mtf\Factory\Factory;
+use Mtf\System\Config;
 
 /**
  * Guest checkout with Check/Money order payment method, flat shipping method, no tax.
@@ -24,7 +24,7 @@ class CheckMoneyOrderFlat extends Checkout
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders = array())
+    public function __construct(Config $configuration, $placeholders = [])
     {
         parent::__construct($configuration, $placeholders);
 
@@ -40,8 +40,8 @@ class CheckMoneyOrderFlat extends Checkout
         $this->_data = [
             'totals' => [
                 'grand_total' => '$21.00',
-                'sub_total' => '$11.00'
-            ]
+                'sub_total' => '$11.00',
+            ],
         ];
     }
 

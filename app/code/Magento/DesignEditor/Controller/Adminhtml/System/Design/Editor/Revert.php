@@ -48,10 +48,10 @@ class Revert extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Ed
                 default:
                     throw new \Magento\Framework\Exception('Invalid revert mode "%s"', $revertTo);
             }
-            $response = array('message' => $message);
+            $response = ['message' => $message];
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $response = array('error' => true, 'message' => __('Unknown error'));
+            $response = ['error' => true, 'message' => __('Unknown error')];
         }
         /** @var $coreHelper \Magento\Core\Helper\Data */
         $coreHelper = $this->_objectManager->get('Magento\Core\Helper\Data');

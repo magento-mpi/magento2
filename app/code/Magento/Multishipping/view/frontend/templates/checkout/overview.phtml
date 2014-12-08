@@ -12,7 +12,7 @@
         <div class="block-title"><strong><?php echo __('Billing Information') ?></strong></div>
         <div class="block-content">
             <div class="box box-billing-address">
-                <?php $_address=$this->getBillingAddress() ?>
+                <?php $_address = $this->getBillingAddress() ?>
                 <strong class="box-title">
                     <span><?php echo __('Billing Address') ?></span>
                     <a href="<?php echo $this->getEditBillingAddressUrl($_address) ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
@@ -60,7 +60,7 @@
                         <span><?php echo __('Shipping Method') ?></span>
                         <a href="<?php echo $this->getEditShippingUrl() ?>" class="action edit"><span><?php echo __('Change') ?></span></a>
                     </strong>
-                    <?php if($_rate=$this->getShippingAddressRate($_address)): ?>
+                    <?php if ($_rate = $this->getShippingAddressRate($_address)): ?>
                         <div class="box-content">
                             <?php echo $this->escapeHtml($_rate->getCarrierTitle()) ?> (<?php echo $this->escapeHtml($_rate->getMethodTitle()) ?>)
                             <?php $_excl = $this->getShippingPriceExclTax($_address); ?>

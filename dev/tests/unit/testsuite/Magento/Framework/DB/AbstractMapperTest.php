@@ -172,7 +172,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
     public function testAddExpressionFieldToSelect()
     {
         $fields = [
-            'key-attribute' => 'value-attribute'
+            'key-attribute' => 'value-attribute',
         ];
         /** @var \Magento\Framework\DB\AbstractMapper|\PHPUnit_Framework_MockObject_MockObject $mapper */
         $mapper = $this->getMockForAbstractClass(
@@ -272,12 +272,12 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
             [
                 'mapperMethods' => [
                     'my-test-value1' => 'mapMyMapperMethodOne',
-                    'my-test-value2' => 'mapMyMapperMethodTwo'
+                    'my-test-value2' => 'mapMyMapperMethodTwo',
                 ],
                 'criteriaParts' => [
                     'my_mapper_method_one' => 'my-test-value1',
-                    'my_mapper_method_two' => 'my-test-value2'
-                ]
+                    'my_mapper_method_two' => 'my-test-value2',
+                ],
             ]
         ];
     }
@@ -292,7 +292,7 @@ class AbstractMapperTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'field' => 'my-field',
-                'condition' => ['condition']
+                'condition' => ['condition'],
             ],
             [
                 'field' => ['my-field', 'my-field'],

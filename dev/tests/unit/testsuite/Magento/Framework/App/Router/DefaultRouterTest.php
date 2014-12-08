@@ -23,7 +23,7 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
         $actionFactory = $this->getMock('Magento\Framework\App\ActionFactory', [], [], '', false);
         $actionFactory->expects($this->once())->method('create')->with(
             'Magento\Framework\App\Action\Forward',
-            array('request' => $request)
+            ['request' => $request]
         )->will(
             $this->returnValue(
                 $this->getMockForAbstractClass('Magento\Framework\App\Action\AbstractAction', [], '', false)
@@ -35,10 +35,10 @@ class DefaultRouterTest extends \PHPUnit_Framework_TestCase
         $noRouteHandlerList->expects($this->any())->method('getHandlers')->will($this->returnValue([$noRouteHandler]));
         $this->_model = $helper->getObject(
             'Magento\Framework\App\Router\DefaultRouter',
-            array(
+            [
                 'actionFactory' => $actionFactory,
                 'noRouteHandlerList' => $noRouteHandlerList
-            )
+            ]
         );
         $this->assertInstanceOf('Magento\Framework\App\Action\AbstractAction', $this->_model->match($request));
     }

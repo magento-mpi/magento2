@@ -18,7 +18,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_instanceCache = array('hashShort' => array(), 'hashLong' => array());
+    protected $_instanceCache = ['hashShort' => [], 'hashLong' => []];
 
     public function testClearCache()
     {
@@ -38,12 +38,12 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             ));
 
         $cache = $this->getMock('Magento\Framework\App\CacheInterface');
-        $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', array(), array(), '', false);
-        $configCache = $this->getMock('Magento\Framework\App\ObjectManager\ConfigCache', array(), array(), '', false);
+        $configLoader = $this->getMock('Magento\Framework\App\ObjectManager\ConfigLoader', [], [], '', false);
+        $configCache = $this->getMock('Magento\Framework\App\ObjectManager\ConfigCache', [], [], '', false);
         $primaryLoaderMock = $this->getMock(
             'Magento\Framework\App\ObjectManager\ConfigLoader\Primary',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -52,7 +52,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
             $this->returnCallback(
                 function ($className) {
                     if ($className === 'Magento\Framework\Object') {
-                        return $this->getMock('Magento\Framework\Object', array(), array(), '', false);
+                        return $this->getMock('Magento\Framework\Object', [], [], '', false);
                     }
                 }
             )
@@ -61,7 +61,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $model = new \Magento\TestFramework\ObjectManager(
             $factory,
             $configMock,
-            array(
+            [
                 'Magento\Framework\App\Cache\Type\Config' => $cache,
                 'Magento\Framework\App\ObjectManager\ConfigLoader' => $configLoader,
                 'Magento\Framework\App\ObjectManager\ConfigCache' => $configCache,
@@ -70,19 +70,18 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 ),
                 'Magento\Framework\Config\ScopeInterface' => $this->getMock('Magento\Framework\Config\ScopeInterface'),
                 'Magento\Framework\Config\CacheInterface' => $this->getMock('Magento\Framework\Config\CacheInterface'),
-                'Magento\Framework\Cache\FrontendInterface' =>
-                    $this->getMock('Magento\Framework\Cache\FrontendInterface'),
+                'Magento\Framework\Cache\FrontendInterface' => $this->getMock('Magento\Framework\Cache\FrontendInterface'),
                 'Magento\Framework\App\Resource' => $this->getMockBuilder('Magento\Framework\App\Resource')
                         ->disableOriginalConstructor()
                         ->getMock(),
                 'Magento\Framework\App\Resource\Config' => $this->getMock(
                     'Magento\Framework\App\Resource\Config',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 )
-            ),
+            ],
             $primaryLoaderMock
         );
 

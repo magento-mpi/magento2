@@ -24,15 +24,15 @@ $roleCollection = $this->createRoleCollection()
 
 if ($roleCollection->count() == 0) {
     $admGroupRole = $this->createRole()->setData(
-        array(
+        [
             'parent_id' => 0,
             'tree_level' => 1,
             'sort_order' => 1,
             'role_type' => RoleGroup::ROLE_TYPE,
             'user_id' => 0,
             'user_type' => UserContextInterface::USER_TYPE_ADMIN,
-            'role_name' => 'Administrators'
-        )
+            'role_name' => 'Administrators',
+        ]
     )->save();
 } else {
     foreach ($roleCollection as $item) {
@@ -47,12 +47,12 @@ $rulesCollection = $this->createRulesCollection()
 
 if ($rulesCollection->count() == 0) {
     $this->createRules()->setData(
-        array(
+        [
             'role_id' => $admGroupRole->getId(),
             'resource_id' => 'Magento_Adminhtml::all',
             'privileges' => null,
-            'permission' => 'allow'
-        )
+            'permission' => 'allow',
+        ]
     )->save();
 } else {
     /** @var \Magento\Authorization\Model\Rules $rule */

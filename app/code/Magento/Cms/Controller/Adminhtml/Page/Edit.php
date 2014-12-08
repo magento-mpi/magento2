@@ -8,7 +8,7 @@
  */
 namespace Magento\Cms\Controller\Adminhtml\Page;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Edit extends \Magento\Backend\App\Action
 {

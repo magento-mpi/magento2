@@ -42,7 +42,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Framework\App\State $appState
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param mixed $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -102,7 +102,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         $adapter = $this->getConnection();
         $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
         $this->getSelect()->columns(
-            array('wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName)))
+            ['wishlist_name' => $adapter->getIfNullSql('wishlist.name', $adapter->quote($defaultWishlistName))]
         );
 
         $this->addFilterToMap(

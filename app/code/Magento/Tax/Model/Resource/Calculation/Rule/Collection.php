@@ -47,9 +47,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function joinCalculationData($alias)
     {
         $this->getSelect()->joinLeft(
-            array($alias => $this->getTable('tax_calculation')),
+            [$alias => $this->getTable('tax_calculation')],
             "main_table.tax_calculation_rule_id = {$alias}.tax_calculation_rule_id",
-            array()
+            []
         );
         $this->getSelect()->group('main_table.tax_calculation_rule_id');
 
@@ -68,19 +68,19 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _add($itemTable, $primaryJoinField, $secondaryJoinField, $titleField, $dataField)
     {
-        $children = array();
+        $children = [];
         foreach ($this as $rule) {
-            $children[$rule->getId()] = array();
+            $children[$rule->getId()] = [];
         }
         if (!empty($children)) {
             $joinCondition = sprintf('item.%s = calculation.%s', $secondaryJoinField, $primaryJoinField);
             $select = $this->getConnection()->select()->from(
-                array('calculation' => $this->getTable('tax_calculation')),
-                array('calculation.tax_calculation_rule_id')
+                ['calculation' => $this->getTable('tax_calculation')],
+                ['calculation.tax_calculation_rule_id']
             )->join(
-                array('item' => $this->getTable($itemTable)),
+                ['item' => $this->getTable($itemTable)],
                 $joinCondition,
-                array("item.{$titleField}", "item.{$secondaryJoinField}")
+                ["item.{$titleField}", "item.{$secondaryJoinField}"]
             )->where(
                 'calculation.tax_calculation_rule_id IN (?)',
                 array_keys($children)

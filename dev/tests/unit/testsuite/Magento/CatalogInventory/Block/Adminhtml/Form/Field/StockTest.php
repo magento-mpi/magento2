@@ -48,36 +48,36 @@ class StockTest extends \PHPUnit_Framework_TestCase
     {
         $this->_factoryElementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_collectionFactoryMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_qtyMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Text',
-            array('setForm', 'setValue', 'setName'),
-            array(),
+            ['setForm', 'setValue', 'setName'],
+            [],
             '',
             false
         );
-        $this->_factoryTextMock = $this->getMock('Magento\Framework\Data\Form\Element\TextFactory', array('create'));
+        $this->_factoryTextMock = $this->getMock('Magento\Framework\Data\Form\Element\TextFactory', ['create']);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $objectManagerHelper->getObject(
             'Magento\CatalogInventory\Block\Adminhtml\Form\Field\Stock',
-            array(
+            [
                 'factoryElement' => $this->_factoryElementMock,
                 'factoryCollection' => $this->_collectionFactoryMock,
                 'factoryText' => $this->_factoryTextMock,
-                'data' => array('qty' => $this->_qtyMock, 'name' => self::ATTRIBUTE_NAME)
-            )
+                'data' => ['qty' => $this->_qtyMock, 'name' => self::ATTRIBUTE_NAME]
+            ]
         );
     }
 
@@ -95,17 +95,17 @@ class StockTest extends \PHPUnit_Framework_TestCase
         $this->_block->setForm(
             $objectManager->getObject(
                 'Magento\Framework\Data\Form\Element\Text',
-                array(
+                [
                     'factoryElement' => $this->_factoryElementMock,
                     'factoryCollection' => $this->_collectionFactoryMock
-                )
+                ]
             )
         );
     }
 
     public function testSetValue()
     {
-        $value = array('qty' => 1, 'is_in_stock' => 0);
+        $value = ['qty' => 1, 'is_in_stock' => 0];
         $this->_qtyMock->expects($this->once())->method('setValue')->with($this->equalTo(1));
 
         $this->_block->setValue($value);

@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Page\SalesGuestPrint;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Magento\Sales\Test\Page\SalesGuestPrint;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that gift card amount printed correctly on sales guest print page.

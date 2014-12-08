@@ -35,7 +35,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
             ->createBlock('Magento\Theme\Block\Html\Footer');
         $storeId = $objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(
-            array('PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null),
+            ['PAGE_FOOTER', $storeId, 0, $this->_theme->getId(), null],
             $block->getCacheKeyInfo()
         );
     }

@@ -88,4 +88,3 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($this->collection->searchById('node2'), $node2);
     }
 }
- 

@@ -50,7 +50,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
         \Magento\RecurringPayment\Model\Payment $recurringPayment,
         \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Block\Fields $fields,
-        array $data = array()
+        array $data = []
     ) {
         $this->_recurringPayment = $recurringPayment;
         $this->_registry = $registry;
@@ -86,7 +86,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
     protected function _prepareLayout()
     {
         parent::_prepareLayout();
-        $this->_preparePayments(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
+        $this->_preparePayments(['reference_id', 'state', 'created_at', 'updated_at', 'method_code']);
 
         $pager = $this->getLayout()->createBlock(
             'Magento\Theme\Block\Html\Pager'
@@ -98,59 +98,59 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
         $this->setChild('pager', $pager);
 
         $this->setGridColumns(
-            array(
+            [
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'reference_id',
                         'title' => $this->_fields->getFieldLabel('reference_id'),
                         'is_nobr' => true,
-                        'width' => 1
-                    )
+                        'width' => 1,
+                    ]
                 ),
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'state',
-                        'title' => $this->_fields->getFieldLabel('state')
-                    )
+                        'title' => $this->_fields->getFieldLabel('state'),
+                    ]
                 ),
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'created_at',
                         'title' => $this->_fields->getFieldLabel('created_at'),
                         'is_nobr' => true,
                         'width' => 1,
-                        'is_amount' => true
-                    )
+                        'is_amount' => true,
+                    ]
                 ),
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'updated_at',
                         'title' => $this->_fields->getFieldLabel('updated_at'),
                         'is_nobr' => true,
-                        'width' => 1
-                    )
+                        'width' => 1,
+                    ]
                 ),
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'method_code',
                         'title' => $this->_fields->getFieldLabel('method_code'),
                         'is_nobr' => true,
-                        'width' => 1
-                    )
-                )
-            )
+                        'width' => 1,
+                    ]
+                ),
+            ]
         );
 
-        $payments = array();
+        $payments = [];
         $store = $this->_storeManager->getStore();
         foreach ($this->_payments as $payment) {
             $payment->setStore($store);
             $payments[] = new \Magento\Framework\Object(
-                array(
+                [
                     'reference_id' => $payment->getReferenceId(),
                     'reference_id_link_url' => $this->getUrl(
                         'sales/recurringPayment/view/',
-                        array('payment' => $payment->getId())
+                        ['payment' => $payment->getId()]
                     ),
                     'state' => $payment->renderData('state'),
                     'created_at' => $this->formatDate($payment->getData('created_at'), 'medium', true),
@@ -161,8 +161,8 @@ class Grid extends \Magento\RecurringPayment\Block\Payments
                         'short',
                         true
                     ) : '',
-                    'method_code' => $payment->renderData('method_code')
-                )
+                    'method_code' => $payment->renderData('method_code'),
+                ]
             );
         }
         if ($payments) {

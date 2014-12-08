@@ -46,7 +46,7 @@ class Payment extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\RecurringPayment\Model\RecurringPaymentFactory $paymentFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_registry = $registry;
@@ -63,7 +63,7 @@ class Payment extends \Magento\Framework\View\Element\Template
      */
     public function getScheduleInfo()
     {
-        $scheduleInfo = array();
+        $scheduleInfo = [];
         foreach ($this->_payment->exportScheduleInfo() as $info) {
             $scheduleInfo[$info->getTitle()] = $info->getSchedule();
         }

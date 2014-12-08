@@ -17,12 +17,12 @@ class Context
      *
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @var array
      */
-    protected $default = array();
+    protected $default = [];
 
     /**
      * Data setter

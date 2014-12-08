@@ -73,7 +73,7 @@ class Config
         );
 
         if (empty($statuses)) {
-            return array();
+            return [];
         }
 
         return explode(',', $statuses);

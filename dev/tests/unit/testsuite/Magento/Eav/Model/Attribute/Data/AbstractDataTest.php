@@ -71,7 +71,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'index' => 'index',
-                'expectedResult' => 'value'
+                'expectedResult' => 'value',
             ],
             [
                 'index' => null,
@@ -101,7 +101,7 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
         );
         $requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap([
             ['attributeCode', false, $value],
-            [$requestScope, $value]
+            [$requestScope, $value],
         ]));
         $requestMock->expects($this->any())->method('getParams')->will($this->returnValue($params));
 
@@ -123,42 +123,42 @@ class AbstractDataTest extends \PHPUnit_Framework_TestCase
             [
                 'requestScope' => false,
                 'value' => 'value',
-                'params'=> [],
+                'params' => [],
                 'requestScopeOnly' => true,
-                'expectedResult' => 'value'
+                'expectedResult' => 'value',
             ],
             [
                 'requestScope' => 'scope/scope',
                 'value' => 'value',
-                'params'=> ['scope' => ['scope' => ['attributeCode' => 'data']]],
+                'params' => ['scope' => ['scope' => ['attributeCode' => 'data']]],
                 'requestScopeOnly' => true,
                 'expectedResult' => 'data'
             ],
             [
                 'requestScope' => 'scope/scope',
                 'value' => 'value',
-                'params'=> ['scope' => ['scope' => []]],
+                'params' => ['scope' => ['scope' => []]],
                 'requestScopeOnly' => true,
                 'expectedResult' => false
             ],
             [
                 'requestScope' => 'scope/scope',
                 'value' => 'value',
-                'params'=> ['scope'],
+                'params' => ['scope'],
                 'requestScopeOnly' => true,
                 'expectedResult' => false
             ],
             [
                 'requestScope' => 'scope',
                 'value' => 'value',
-                'params'=> ['otherScope' => 1],
+                'params' => ['otherScope' => 1],
                 'requestScopeOnly' => true,
                 'expectedResult' => false
             ],
             [
                 'requestScope' => 'scope',
                 'value' => 'value',
-                'params'=> ['otherScope' => 1],
+                'params' => ['otherScope' => 1],
                 'requestScopeOnly' => false,
                 'expectedResult' => 'value'
             ]

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Unified parent for Pbridge payment methods
  *
@@ -86,7 +85,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Framework\StoreManagerInterface $storeManager,
         $formBlock = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_storeManager = $storeManager;
@@ -233,7 +232,6 @@ class Method extends \Magento\Payment\Model\Method\Cc
         $this->getPbridgeMethodInstance()->validate();
         return $this;
     }
-
 
     /**
      * Authorization method being executed via Payment Bridge

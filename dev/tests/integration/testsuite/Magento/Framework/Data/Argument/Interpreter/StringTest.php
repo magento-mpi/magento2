@@ -27,7 +27,7 @@ class StringTest extends \PHPUnit_Framework_TestCase
         )->method(
             'toBoolean'
         )->will(
-            $this->returnValueMap(array(array('true', true), array('false', false)))
+            $this->returnValueMap([['true', true], ['false', false]])
         );
         $this->_model = new String($this->_booleanUtils);
         $translateRenderer = $this->getMockForAbstractClass('Magento\Framework\Phrase\RendererInterface');
@@ -55,15 +55,15 @@ class StringTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateDataProvider()
     {
-        return array(
-            'no value' => array(array(), ''),
-            'with value' => array(array('value' => 'some value'), 'some value'),
-            'translation required' => array(
-                array('value' => 'some value', 'translate' => 'true'),
-                'some value (translated)'
-            ),
-            'translation not required' => array(array('value' => 'some value', 'translate' => 'false'), 'some value')
-        );
+        return [
+            'no value' => [[], ''],
+            'with value' => [['value' => 'some value'], 'some value'],
+            'translation required' => [
+                ['value' => 'some value', 'translate' => 'true'],
+                'some value (translated)',
+            ],
+            'translation not required' => [['value' => 'some value', 'translate' => 'false'], 'some value']
+        ];
     }
 
     /**
@@ -80,6 +80,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateExceptionDataProvider()
     {
-        return array('not a string' => array(array('value' => 123)));
+        return ['not a string' => [['value' => 123]]];
     }
 }

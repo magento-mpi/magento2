@@ -29,7 +29,7 @@ class SenderResolver implements \Magento\Framework\Mail\Template\SenderResolverI
      */
     public function resolve($sender, $scopeId = null)
     {
-        $result = array();
+        $result = [];
 
         if (!is_array($sender)) {
             $result['name'] = $this->_scopeConfig->getValue(

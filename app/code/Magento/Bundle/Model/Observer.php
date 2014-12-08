@@ -122,7 +122,7 @@ class Observer
         }
         $bundleCollection->addFieldToFilter(
             'entity_id',
-            array('in' => $bundleIds)
+            ['in' => $bundleIds]
         )->setFlag(
             'do_not_use_category_id',
             true

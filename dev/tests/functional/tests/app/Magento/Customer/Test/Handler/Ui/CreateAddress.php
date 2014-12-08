@@ -9,8 +9,8 @@
 
 namespace Magento\Customer\Test\Handler\Ui;
 
-use Mtf\Fixture\FixtureInterface;
 use Mtf\Factory\Factory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * UI handler for creating customer address.

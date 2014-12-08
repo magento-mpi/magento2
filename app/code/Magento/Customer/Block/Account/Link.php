@@ -27,7 +27,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerUrl = $customerUrl;
         parent::__construct($context, $data);

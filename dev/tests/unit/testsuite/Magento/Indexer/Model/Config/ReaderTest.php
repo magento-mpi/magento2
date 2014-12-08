@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,18 +28,18 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileResolverMock = $this->getMock(
             'Magento\Framework\App\Config\FileResolver',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
 
-        $this->_converter = $this->getMock('Magento\Indexer\Model\Config\Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Indexer\Model\Config\Converter', ['convert']);
 
         $moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getModuleDir'),
-            array(),
+            ['getModuleDir'],
+            [],
             '',
             false
         );
@@ -110,21 +110,21 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function readerDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'indexer_one.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_one.xml'),
-                    'indexer_two.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_two.xml')
-                ),
-                'indexer_merged_one.xml'
-            ),
-            array(
-                array(
+                    'indexer_two.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_two.xml'),
+                ],
+                'indexer_merged_one.xml',
+            ],
+            [
+                [
                     'indexer_one.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_one.xml'),
-                    'indexer_three.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_three.xml')
-                ),
+                    'indexer_three.xml' => file_get_contents(__DIR__ . '/../../_files/indexer_three.xml'),
+                ],
                 'indexer_merged_two.xml'
-            )
-        );
+            ]
+        ];
     }
 }

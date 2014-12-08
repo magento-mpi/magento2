@@ -40,23 +40,22 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $fileResolver = $this->getMock(
             'Magento\Email\Model\Template\Config\FileResolver',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_paths = array(
+        $this->_paths = [
             __DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml',
-            __DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml'
-        );
+            __DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml',
+        ];
 
-
-        $this->_converter = $this->getMock('Magento\Email\Model\Template\Config\Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Email\Model\Template\Config\Converter', ['convert']);
 
         $moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getModuleDir'),
-            array(),
+            ['getModuleDir'],
+            [],
             '',
             false
         );
@@ -77,15 +76,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_moduleDirResolver = $this->getMock(
             'Magento\Framework\Module\Dir\ReverseResolver',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_filesystemDirectoryMock = $this->getMock(
             '\Magento\Framework\Filesystem\Directory\Read',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

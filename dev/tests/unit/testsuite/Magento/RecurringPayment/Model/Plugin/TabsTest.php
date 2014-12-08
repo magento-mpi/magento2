@@ -39,7 +39,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $item3 = new \Magento\Framework\Object(['attribute_group_code' => 'data2']);
 
         $collection1 = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
         $collection1->addItem($item1);
         $collection1->addItem($item2);
@@ -47,7 +47,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $collection2 = clone $collection1;
 
         $collection3 = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
         $collection3->addItem($item2);
         $collection3->addItem($item3);

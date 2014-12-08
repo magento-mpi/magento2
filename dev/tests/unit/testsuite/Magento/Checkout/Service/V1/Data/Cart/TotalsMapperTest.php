@@ -23,13 +23,13 @@ class TotalsMapperTest extends \PHPUnit_Framework_TestCase
     {
         $methods = ['getBaseGrandTotal', 'getGrandTotal', 'getBaseSubtotal', 'getSubtotal','getBaseCurrencyCode',
             'getBaseSubtotalWithDiscount', 'getSubtotalWithDiscount', 'getShippingAddress', '__wakeUp',
-            'getQuoteCurrencyCode'];
+            'getQuoteCurrencyCode', ];
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', $methods, [], '', false);
         $methods = [
             'getDiscountAmount', 'getBaseDiscountAmount', 'getShippingAmount', 'getBaseShippingAmount',
             'getShippingDiscountAmount', 'getBaseShippingDiscountAmount', 'getTaxAmount', 'getBaseTaxAmount',
             'getShippingTaxAmount', 'getBaseShippingTaxAmount', 'getSubtotalInclTax', 'getBaseSubtotalTotalInclTax',
-            'getShippingInclTax', 'getBaseShippingInclTax', 'getId', '__wakeUp'
+            'getShippingInclTax', 'getBaseShippingInclTax', 'getId', '__wakeUp',
         ];
 
         $shippingAddressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', $methods, [], '', false);
@@ -59,7 +59,7 @@ class TotalsMapperTest extends \PHPUnit_Framework_TestCase
             Totals::SUBTOTAL_INCL_TAX => 153,
             Totals::BASE_SUBTOTAL_INCL_TAX => 153,
             Totals::SHIPPING_INCL_TAX => 21,
-            Totals::BASE_SHIPPING_INCL_TAX => 21
+            Totals::BASE_SHIPPING_INCL_TAX => 21,
         ];
         $expectedQuoteMethods = [
             'getBaseGrandTotal' => 100,
@@ -84,7 +84,7 @@ class TotalsMapperTest extends \PHPUnit_Framework_TestCase
             'getSubtotalInclTax' => 153,
             'getBaseSubtotalTotalInclTax' => 153,
             'getShippingInclTax' => 21,
-            'getBaseShippingInclTax' => 21
+            'getBaseShippingInclTax' => 21,
         ];
 
         $quoteMock->expects($this->atLeastOnce())->method('getBaseCurrencyCode')->will($this->returnValue('EUR'));

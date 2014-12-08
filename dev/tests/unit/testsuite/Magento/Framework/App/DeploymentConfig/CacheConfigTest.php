@@ -12,8 +12,8 @@ class CacheConfigTest extends \PHPUnit_Framework_TestCase
 {
     private $data = [
         'frontend' => [
-            'default' => []
-        ]
+            'default' => [],
+        ],
     ];
     public function testGetKey()
     {
@@ -32,7 +32,7 @@ class CacheConfigTest extends \PHPUnit_Framework_TestCase
         $data = [
             'default_setup' => [
                 ResourceConfig::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         $object = new ResourceConfig([]);
         $this->assertSame($data, $object->getData());
@@ -53,12 +53,12 @@ class CacheConfigTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'frontend' => [
-                    'default' => 'not setting array'
-                ]
+                    'default' => 'not setting array',
+                ],
             ],
             [
                 'no_frontend' => [
-                    'default' => []
+                    'default' => [],
                 ]
             ],
             [

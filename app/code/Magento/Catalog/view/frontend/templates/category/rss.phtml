@@ -6,6 +6,6 @@
  * @license     {license_link}
  */
 ?>
-<?php if($this->isRssAllowed() && $this->getLink() && $this->isTopCategory()): ?>
+<?php if ($this->isRssAllowed() && $this->getLink() && $this->isTopCategory()): ?>
     <a href="<?php echo $this->getLink() ?>" class="action link rss"><span><?php echo $this->getLabel() ?></span></a>
 <?php endif; ?>

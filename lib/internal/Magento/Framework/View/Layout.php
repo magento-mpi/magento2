@@ -7,10 +7,10 @@
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\View\Layout\Element;
-use Magento\Framework\View\Layout\ScheduledStructure;
 use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\Message\ManagerInterface as MessageManagerInterface;
+use Magento\Framework\View\Layout\Element;
+use Magento\Framework\View\Layout\ScheduledStructure;
 
 /**
  * Layout model
@@ -64,7 +64,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var array
      */
-    protected $_renderElementCache = array();
+    protected $_renderElementCache = [];
 
     /**
      * Layout structure model
@@ -83,7 +83,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      *
      * @var array
      */
-    protected $_renderers = array();
+    protected $_renderers = [];
 
     /**
      * Core event manager proxy
@@ -165,7 +165,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     ) {
         $this->_elementClass = 'Magento\Framework\View\Layout\Element';
         $this->setXml(simplexml_load_string('<layout/>', $this->_elementClass));
-        $this->_renderingOutput = new \Magento\Framework\Object;
+        $this->_renderingOutput = new \Magento\Framework\Object();
 
         $this->_processorFactory = $processorFactory;
         $this->_eventManager = $eventManager;
@@ -191,7 +191,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->generatorPool = $generatorPool;
         return $this;
     }
-    
+
     /**
      * @param Layout\BuilderInterface $builder
      * @return $this
@@ -237,7 +237,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
             $this->_update->__destruct();
             $this->_update = null;
         }
-        $this->_blocks = array();
+        $this->_blocks = [];
         $this->_xml = null;
     }
 
@@ -250,7 +250,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         if (!$this->_update) {
             $theme = $this->themeResolver->get();
-            $this->_update = $this->_processorFactory->create(array('theme' => $theme));
+            $this->_update = $this->_processorFactory->create(['theme' => $theme]);
         }
         return $this->_update;
     }
@@ -264,7 +264,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     {
         $xml = $this->getUpdate()->asSimplexml();
         $this->setXml($xml);
-        $this->structure->importElements(array());
+        $this->structure->importElements([]);
         return $this;
     }
 
@@ -399,7 +399,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     public function getChildBlocks($parentName)
     {
         $this->build();
-        $blocks = array();
+        $blocks = [];
         foreach ($this->structure->getChildren($parentName) as $childName => $alias) {
             $block = $this->getBlock($childName);
             if ($block) {
@@ -445,7 +445,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
         $this->_renderingOutput->setData('output', $this->_renderElementCache[$name]);
         $this->_eventManager->dispatch(
             'core_layout_render_element',
-            array('element_name' => $name, 'layout' => $this, 'transport' => $this->_renderingOutput)
+            ['element_name' => $name, 'layout' => $this, 'transport' => $this->_renderingOutput]
         );
         return $this->_renderingOutput->getData('output');
     }
@@ -657,7 +657,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param array $arguments
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    public function createBlock($type, $name = '', array $arguments = array())
+    public function createBlock($type, $name = '', array $arguments = [])
     {
         $this->build();
         $name = $this->structure->createStructuralElement($name, Element::TYPE_BLOCK, $type);
@@ -674,7 +674,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param array $arguments
      * @return \Magento\Framework\View\Element\AbstractBlock
      */
-    protected function _createBlock($type, $name, array $arguments = array())
+    protected function _createBlock($type, $name, array $arguments = [])
     {
         /** @var \Magento\Framework\View\Layout\Generator\Block $blockGenerator */
         $blockGenerator = $this->generatorPool->getGenerator(Layout\Generator\Block::TYPE);
@@ -724,7 +724,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param string $alias
      * @return void
      */
-    public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '')
+    public function addContainer($name, $label, array $options = [], $parent = '', $alias = '')
     {
         $this->build();
         $name = $this->structure->createStructuralElement($name, Element::TYPE_CONTAINER, $alias);
@@ -903,13 +903,13 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param array $data
      * @return $this
      */
-    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template, $data = array())
+    public function addAdjustableRenderer($namespace, $staticType, $dynamicType, $type, $template, $data = [])
     {
-        $this->_renderers[$namespace][$staticType][$dynamicType] = array(
+        $this->_renderers[$namespace][$staticType][$dynamicType] = [
             'type' => $type,
             'template' => $template,
-            'data' => $data
-        );
+            'data' => $data,
+        ];
         return $this;
     }
 
@@ -940,11 +940,11 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @param array $data
      * @return void
      */
-    public function executeRenderer($namespace, $staticType, $dynamicType, $data = array())
+    public function executeRenderer($namespace, $staticType, $dynamicType, $data = [])
     {
         $this->build();
         if ($options = $this->getRendererOptions($namespace, $staticType, $dynamicType)) {
-            $dictionary = array();
+            $dictionary = [];
             /** @var $block \Magento\Framework\View\Element\Template */
             $block = $this->createBlock($options['type'], '')
                 ->setData($data)
@@ -963,7 +963,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
      * @return void
      * @throws \UnexpectedValueException
      */
-    public function initMessages($messageGroups = array())
+    public function initMessages($messageGroups = [])
     {
         $this->build();
         foreach ($this->_prepareMessageGroup($messageGroups) as $group) {
@@ -982,7 +982,7 @@ class Layout extends \Magento\Framework\Simplexml\Config implements \Magento\Fra
     protected function _prepareMessageGroup($messageGroups)
     {
         if (!is_array($messageGroups)) {
-            $messageGroups = array($messageGroups);
+            $messageGroups = [$messageGroups];
         } elseif (empty($messageGroups)) {
             $messageGroups[] = $this->messageManager->getDefaultGroup();
         }

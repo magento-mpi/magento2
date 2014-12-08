@@ -16,9 +16,9 @@ class DirectoryScanner
      * @param array $patterns
      * @return array
      */
-    public function scan($dir, array $patterns = array())
+    public function scan($dir, array $patterns = [])
     {
-        $output = array();
+        $output = [];
         /** @var $file \DirectoryIterator */
         foreach (new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($dir)) as $file) {
             if ($file->isDir()) {

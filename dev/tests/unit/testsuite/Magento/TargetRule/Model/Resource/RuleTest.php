@@ -74,7 +74,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     public function testSaveCustomerSegments()
     {
         $ruleId = 1;
-        $segmentIds = array(1, 2);
+        $segmentIds = [1, 2];
 
         $this->adapter->expects($this->at(2))
             ->method('insertOnDuplicate')
@@ -90,7 +90,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanCachedDataByProductIds()
     {
-        $productIds = array (1, 2, 3);
+        $productIds = [1, 2, 3];
         $this->moduleManager->expects($this->once())
             ->method('isEnabled')
             ->with('Magento_PageCache')
@@ -103,7 +103,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $this->eventManager->expects($this->once())
             ->method('dispatch')
-            ->with('clean_cache_by_tags', array('object' => $this->context))
+            ->with('clean_cache_by_tags', ['object' => $this->context])
             ->will($this->returnSelf());
 
         $this->resourceRule->cleanCachedDataByProductIds($productIds);

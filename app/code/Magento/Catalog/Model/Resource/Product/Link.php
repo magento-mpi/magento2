@@ -60,16 +60,16 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function saveProductLinks($product, $data, $typeId)
     {
         if (!is_array($data)) {
-            $data = array();
+            $data = [];
         }
 
         $attributes = $this->getAttributesByType($typeId);
         $adapter = $this->_getWriteAdapter();
 
-        $bind = array(':product_id' => (int)$product->getId(), ':link_type_id' => (int)$typeId);
+        $bind = [':product_id' => (int)$product->getId(), ':link_type_id' => (int)$typeId];
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('linked_product_id', 'link_id')
+            ['linked_product_id', 'link_id']
         )->where(
             'product_id = :product_id'
         )->where(
@@ -78,14 +78,14 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $links = $adapter->fetchPairs($select, $bind);
 
-        $deleteIds = array();
+        $deleteIds = [];
         foreach ($links as $linkedProductId => $linkId) {
             if (!isset($data[$linkedProductId])) {
                 $deleteIds[] = (int)$linkId;
             }
         }
         if (!empty($deleteIds)) {
-            $adapter->delete($this->getMainTable(), array('link_id IN (?)' => $deleteIds));
+            $adapter->delete($this->getMainTable(), ['link_id IN (?)' => $deleteIds]);
         }
 
         foreach ($data as $linkedProductId => $linkInfo) {
@@ -94,11 +94,11 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 $linkId = $links[$linkedProductId];
                 unset($links[$linkedProductId]);
             } else {
-                $bind = array(
+                $bind = [
                     'product_id' => $product->getId(),
                     'linked_product_id' => $linkedProductId,
-                    'link_type_id' => $typeId
-                );
+                    'link_type_id' => $typeId,
+                ];
                 $adapter->insert($this->getMainTable(), $bind);
                 $linkId = $adapter->lastInsertId($this->getMainTable());
             }
@@ -111,16 +111,16 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
                             $attributeInfo['type'],
                             $linkInfo[$attributeInfo['code']]
                         );
-                        $bind = array(
+                        $bind = [
                             'product_link_attribute_id' => $attributeInfo['id'],
                             'link_id' => $linkId,
-                            'value' => $value
-                        );
-                        $adapter->insertOnDuplicate($attributeTable, $bind, array('value'));
+                            'value' => $value,
+                        ];
+                        $adapter->insertOnDuplicate($attributeTable, $bind, ['value']);
                     } else {
                         $adapter->delete(
                             $attributeTable,
-                            array('link_id = ?' => $linkId, 'product_link_attribute_id = ?' => $attributeInfo['id'])
+                            ['link_id = ?' => $linkId, 'product_link_attribute_id = ?' => $attributeInfo['id']]
                         );
                     }
                 }
@@ -158,7 +158,7 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->_attributesTable,
-            array('id' => 'product_link_attribute_id', 'code' => 'product_link_attribute_code', 'type' => 'data_type')
+            ['id' => 'product_link_attribute_id', 'code' => 'product_link_attribute_code', 'type' => 'data_type']
         )->where(
             'link_type_id = ?',
             $typeId
@@ -190,18 +190,18 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getChildrenIds($parentId, $typeId)
     {
         $adapter = $this->_getReadAdapter();
-        $childrenIds = array();
-        $bind = array(':product_id' => (int)$parentId, ':link_type_id' => (int)$typeId);
+        $childrenIds = [];
+        $bind = [':product_id' => (int)$parentId, ':link_type_id' => (int)$typeId];
         $select = $adapter->select()->from(
-            array('l' => $this->getMainTable()),
-            array('linked_product_id')
+            ['l' => $this->getMainTable()],
+            ['linked_product_id']
         )->where(
             'product_id = :product_id'
         )->where(
             'link_type_id = :link_type_id'
         );
 
-        $childrenIds[$typeId] = array();
+        $childrenIds[$typeId] = [];
         $result = $adapter->fetchAll($select, $bind);
         foreach ($result as $row) {
             $childrenIds[$typeId][$row['linked_product_id']] = $row['linked_product_id'];
@@ -219,11 +219,11 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getParentIdsByChild($childId, $typeId)
     {
-        $parentIds = array();
+        $parentIds = [];
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('product_id', 'linked_product_id')
+            ['product_id', 'linked_product_id']
         )->where(
             'linked_product_id IN(?)',
             $childId

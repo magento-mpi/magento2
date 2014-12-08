@@ -13,9 +13,9 @@ namespace Magento\Webapi\Routing;
 
 use Magento\Framework\Api\AttributeValue;
 use Magento\TestFramework\Authentication\OauthHelper;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModule1\Service\V1\Entity\ItemBuilder;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
@@ -62,9 +62,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Item'],
         ];
         $requestData = ['itemId' => $itemId];
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -80,16 +80,16 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $customerAttributes = [
             ItemBuilder::CUSTOM_ATTRIBUTE_1 => [
                 AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_1,
-                AttributeValue::VALUE => '12345'
+                AttributeValue::VALUE => '12345',
             ],
             ItemBuilder::CUSTOM_ATTRIBUTE_2 => [
                 AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_2,
-                AttributeValue::VALUE => 12345
+                AttributeValue::VALUE => 12345,
             ],
             ItemBuilder::CUSTOM_ATTRIBUTE_3 => [
                 AttributeValue::ATTRIBUTE_CODE => ItemBuilder::CUSTOM_ATTRIBUTE_3,
-                AttributeValue::VALUE => true
-            ]
+                AttributeValue::VALUE => true,
+            ],
         ];
 
         $attributeValue1 = $this->valueBuilder
@@ -114,9 +114,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemAnyType',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType'],
         ];
         $requestData = $item->__toArray();
         $item = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
@@ -148,7 +148,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $itemArr = [['item_id' => 1, 'name' => 'testProduct1'], ['item_id' => 2, 'name' => 'testProduct2']];
         $serviceInfo = [
             'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_GET],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Items'],
         ];
         $item = $this->_webApiCall($serviceInfo);
         $this->assertEquals($itemArr, $item, 'Items were not retrieved');
@@ -162,7 +162,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $createdItemName = 'createdItemName';
         $serviceInfo = [
             'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create'],
         ];
         $requestData = ['name' => $createdItemName];
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -177,7 +177,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $createdItemName = 'createdItemName';
         $serviceInfo = [
             'rest' => ['resourcePath' => $this->_restResourcePath, 'httpMethod' => RestConfig::HTTP_METHOD_POST],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Create'],
         ];
         $requestData = ['name' => $createdItemName];
 
@@ -203,9 +203,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Update'],
         ];
         $requestData = ['entityItem' => ['itemId' => $itemId, 'name' => 'testName']];
         $item = $this->_webApiCall($serviceInfo, $requestData);
@@ -221,9 +221,9 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'Delete'],
         ];
         $requestData = ['itemId' => $itemId, 'name' => 'testName'];
         $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
@@ -235,8 +235,8 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'overwritten',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
         ];
         $item = $this->_webApiCall($serviceInfo, []);
         $this->assertEquals(['item_id' => -55, 'name' => 'testProduct1'], $item);
@@ -248,8 +248,8 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
+            ],
         ];
         $item = $this->_webApiCall($serviceInfo, []);
         $this->assertEquals(['item_id' => 3, 'name' => 'Default Name'], $item);
@@ -261,8 +261,8 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'testOptionalParam',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
+            ],
         ];
         $item = $this->_webApiCall($serviceInfo, ['name' => 'Ms. LaGrange']);
         $this->assertEquals(['item_id' => 3, 'name' => 'Ms. LaGrange'], $item);

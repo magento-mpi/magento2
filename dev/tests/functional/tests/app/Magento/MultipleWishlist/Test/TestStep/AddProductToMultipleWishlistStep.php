@@ -8,11 +8,11 @@
 
 namespace Magento\MultipleWishlist\Test\TestStep;
 
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Mtf\Client\Browser;
 use Mtf\Fixture\InjectableFixture;
 use Mtf\TestStep\TestStepInterface;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Class AddProductToMultipleWishlistStep

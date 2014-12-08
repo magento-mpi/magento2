@@ -24,7 +24,7 @@ class Id extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRend
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Catalog\Helper\Product $productHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productHelper = $productHelper;
         parent::__construct($context, $data);

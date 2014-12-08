@@ -39,7 +39,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
      */
     public function isValid($value)
     {
-        $messages = array();
+        $messages = [];
         $email = $value->getEmail();
         if (!empty($email) && !\Zend_Validate::is($email, 'EmailAddress')) {
             $messages['invalid_email_format'] = 'Invalid email format';

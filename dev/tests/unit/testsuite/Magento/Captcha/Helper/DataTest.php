@@ -18,7 +18,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
     }
 
     protected function _getHelper($store, $config, $factory)
@@ -29,7 +29,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())->method('getWebsite')->will($this->returnValue($this->_getWebsiteStub()));
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
 
-        $context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
 
         return new \Magento\Captcha\Helper\Data($context, $storeManager, $config, $this->_filesystem, $factory);
     }
@@ -51,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('zend')
         );
 
-        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', [], [], '', false);
         $factoryMock->expects(
             $this->once()
         )->method(
@@ -61,9 +61,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 new \Magento\Captcha\Model\DefaultModel(
-                    $this->getMock('Magento\Framework\Session\SessionManager', array(), array(), '', false),
-                    $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false),
-                    $this->getMock('Magento\Captcha\Model\Resource\LogFactory', array(), array(), '', false),
+                    $this->getMock('Magento\Framework\Session\SessionManager', [], [], '', false),
+                    $this->getMock('Magento\Captcha\Helper\Data', [], [], '', false),
+                    $this->getMock('Magento\Captcha\Model\Resource\LogFactory', [], [], '', false),
                     'user_create'
                 )
             )
@@ -91,7 +91,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('1')
         );
 
-        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', [], [], '', false);
         $object = $this->_getHelper($store, $config, $factoryMock);
         $object->getConfig('enable');
     }
@@ -109,13 +109,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::LIB_INTERNAL)
-            ->will($this->returnValue($libDirMock))
-        ;
+            ->will($this->returnValue($libDirMock));
 
-        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', [], [], '', false);
 
         $config = $this->_getConfigStub();
-        $configData = array('font_code' => array('label' => 'Label', 'path' => $fontPath));
+        $configData = ['font_code' => ['label' => 'Label', 'path' => $fontPath]];
 
         $config->expects(
             $this->any()
@@ -144,12 +143,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetImgDir()
     {
-        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', [], [], '', false);
 
         $dirWriteMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array('changePermissions', 'create', 'getAbsolutePath'),
-            array(),
+            ['changePermissions', 'create', 'getAbsolutePath'],
+            [],
             '',
             false
         );
@@ -187,7 +186,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetImgUrl()
     {
-        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
+        $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', [], [], '', false);
         $object = $this->_getHelper($this->_getStoreStub(), $this->_getConfigStub(), $factoryMock);
         $this->assertEquals($object->getImgUrl(), 'http://localhost/pub/media/captcha/base/');
     }
@@ -210,7 +209,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getWebsiteStub()
     {
-        $website = $this->getMock('Magento\Store\Model\Website', array('getCode', '__wakeup'), array(), '', false);
+        $website = $this->getMock('Magento\Store\Model\Website', ['getCode', '__wakeup'], [], '', false);
 
         $website->expects($this->any())->method('getCode')->will($this->returnValue('base'));
 
@@ -224,7 +223,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getStoreStub()
     {
-        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
 
         $store->expects($this->any())->method('getBaseUrl')->will($this->returnValue('http://localhost/pub/media/'));
 

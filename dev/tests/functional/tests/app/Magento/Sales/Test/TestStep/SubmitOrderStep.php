@@ -8,12 +8,12 @@
 
 namespace Magento\Sales\Test\TestStep;
 
-use Mtf\Fixture\FixtureFactory;
-use Mtf\TestStep\TestStepInterface;
-use Magento\Sales\Test\Page\Adminhtml\OrderView;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Magento\Sales\Test\Page\Adminhtml\OrderView;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Submit Order step.

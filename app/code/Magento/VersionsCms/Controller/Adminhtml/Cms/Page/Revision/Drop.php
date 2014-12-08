@@ -132,7 +132,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
                 'Magento\Framework\View\DesignInterface'
             )->getConfigurationDesignTheme(
                 null,
-                array('store' => $selectedStoreId)
+                ['store' => $selectedStoreId]
             );
             $this->_objectManager->get('Magento\Framework\View\DesignInterface')->setDesignTheme($theme, 'frontend');
 
@@ -164,7 +164,7 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
             'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
-            array($this, 'previewFrontendPage')
+            [$this, 'previewFrontendPage']
         );
     }
 }

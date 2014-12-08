@@ -9,8 +9,8 @@
  */
 namespace Magento\Catalog\Model;
 
-use \Magento\Catalog\Api\ProductTypeListInterface;
-use \Magento\Catalog\Model\ProductTypes\ConfigInterface;
+use Magento\Catalog\Api\ProductTypeListInterface;
+use Magento\Catalog\Model\ProductTypes\ConfigInterface;
 
 class ProductTypeList implements ProductTypeListInterface
 {
@@ -53,12 +53,12 @@ class ProductTypeList implements ProductTypeListInterface
     public function getProductTypes()
     {
         if (is_null($this->productTypes)) {
-            $productTypes = array();
+            $productTypes = [];
             foreach ($this->productTypeConfig->getAll() as $productTypeData) {
                 $productTypes[] = $this->productTypeBuilder->populateWithArray(
                     [
                         'name' => $productTypeData['name'],
-                        'label' => $productTypeData['label']
+                        'label' => $productTypeData['label'],
                     ]
                 )->create();
             }

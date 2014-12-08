@@ -29,14 +29,14 @@ class Helper extends \Magento\Framework\DB\Helper
         $query = $adapter->quoteInto('SHOW TABLE STATUS LIKE ?', $tableName);
         $status = $adapter->fetchRow($query);
         if (!$status) {
-            return array();
+            return [];
         }
 
-        return array(
+        return [
             'name' => $tableName,
             'rows' => $status['Rows'],
             'data_length' => $status['Data_length'],
             'index_length' => $status['Index_length']
-        );
+        ];
     }
 }

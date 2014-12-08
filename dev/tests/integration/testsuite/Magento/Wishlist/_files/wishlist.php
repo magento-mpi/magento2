@@ -11,7 +11,7 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $wishlist = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Wishlist\Model\Wishlist');
 $wishlist->loadByCustomerId($customer->getId(), true);
-$item = $wishlist->addNewItem($product, new \Magento\Framework\Object(array()));
+$item = $wishlist->addNewItem($product, new \Magento\Framework\Object([]));
 //    'product' => '1',
 //    'related_product' => '',
 //    'options' => array(

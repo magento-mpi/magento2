@@ -57,7 +57,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getIdFieldName'])
             ->getMockForAbstractClass();
         $this->resourceCollectionMock = $this->getMock('Magento\Framework\Data\Collection\Db', [], [], '', false);
-        $data = array('status' => static::TEST_STATUS);
+        $data = ['status' => static::TEST_STATUS];
         $this->rmaGrid = new \Magento\Rma\Model\Grid(
             $this->contextMock,
             $this->registryMock,

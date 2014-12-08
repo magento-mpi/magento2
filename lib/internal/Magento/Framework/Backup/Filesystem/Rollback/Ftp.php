@@ -48,7 +48,7 @@ class Ftp extends AbstractRollback
         $this->_cleanupFtp();
         $this->_uploadBackupToFtp($tmpDir);
 
-        $fsHelper->rm($tmpDir, array(), true);
+        $fsHelper->rm($tmpDir, [], true);
     }
 
     /**

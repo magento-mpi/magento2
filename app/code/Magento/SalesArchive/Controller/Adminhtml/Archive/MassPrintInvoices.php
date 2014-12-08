@@ -17,6 +17,6 @@ class MassPrintInvoices extends \Magento\SalesArchive\Controller\Adminhtml\Archi
      */
     public function execute()
     {
-        $this->_forward('pdfinvoices', 'order', null, array('origin' => 'archive'));
+        $this->_forward('pdfinvoices', 'order', null, ['origin' => 'archive']);
     }
 }

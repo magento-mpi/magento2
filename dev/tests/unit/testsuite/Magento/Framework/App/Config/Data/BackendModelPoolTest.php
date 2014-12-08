@@ -67,7 +67,7 @@ class BackendModelPoolTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\App\Config\Data\WrongBackendModel'
         )->will(
             $this->returnValue(
-                $this->getMock('Magento\Framework\App\Config\Data\WrongBackendModel', array(), array(), '', false)
+                $this->getMock('Magento\Framework\App\Config\Data\WrongBackendModel', [], [], '', false)
             )
         );
 

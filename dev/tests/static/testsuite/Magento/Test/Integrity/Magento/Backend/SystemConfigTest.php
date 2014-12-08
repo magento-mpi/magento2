@@ -28,7 +28,7 @@ class SystemConfigTest extends \PHPUnit_Framework_TestCase
                     $this->fail('XML-file has validation errors:' . PHP_EOL . implode(PHP_EOL . PHP_EOL, $errors));
                 }
             },
-            \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('adminhtml/system.xml', array())
+            \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('adminhtml/system.xml', [])
         );
     }
 }

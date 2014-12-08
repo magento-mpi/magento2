@@ -56,9 +56,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             'child' => [
                 'tag' => 'a',
                 'attributes' => [$aAttr['name'] => $aAttr['value']],
-                'content' => $innerText
+                'content' => $innerText,
             ],
-            'content' => $afterText
+            'content' => $afterText,
         ], $this->link->toHtml());
     }
 

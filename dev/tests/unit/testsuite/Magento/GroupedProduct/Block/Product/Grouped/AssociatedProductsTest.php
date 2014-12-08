@@ -21,7 +21,7 @@ class AssociatedProductsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->contextMock = $this->getMock('\Magento\Backend\Block\Template\Context', array(), array(), '', false);
+        $this->contextMock = $this->getMock('\Magento\Backend\Block\Template\Context', [], [], '', false);
         $this->block = new AssociatedProducts($this->contextMock);
     }
 

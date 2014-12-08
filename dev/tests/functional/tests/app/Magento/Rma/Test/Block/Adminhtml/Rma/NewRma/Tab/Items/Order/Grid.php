@@ -5,11 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Grid for choose order item.
@@ -23,8 +23,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'sku' => [
-            'selector' => 'th.col-sku input'
-        ]
+            'selector' => 'th.col-sku input',
+        ],
     ];
 
     /**

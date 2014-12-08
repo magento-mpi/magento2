@@ -26,21 +26,21 @@ class Excel
      *
      * @var array
      */
-    protected $_rowCallback = array();
+    protected $_rowCallback = [];
 
     /**
      * Grid Header Array
      *
      * @var array
      */
-    protected $_dataHeader = array();
+    protected $_dataHeader = [];
 
     /**
      * Grid Footer Array
      *
      * @var array
      */
-    protected $_dataFooter = array();
+    protected $_dataFooter = [];
 
     /**
      * Class Constructor
@@ -48,7 +48,7 @@ class Excel
      * @param \Iterator $iterator
      * @param array $rowCallback
      */
-    public function __construct(\Iterator $iterator, $rowCallback = array())
+    public function __construct(\Iterator $iterator, $rowCallback = [])
     {
         $this->_iterator = $iterator;
         $this->_rowCallback = $rowCallback;
@@ -129,7 +129,7 @@ class Excel
         if ($useCallback && $this->_rowCallback) {
             $row = call_user_func($this->_rowCallback, $row);
         }
-        $xmlData = array();
+        $xmlData = [];
         $xmlData[] = '<Row>';
 
         foreach ($row as $value) {

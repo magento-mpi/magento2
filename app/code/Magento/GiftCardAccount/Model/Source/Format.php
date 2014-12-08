@@ -16,11 +16,11 @@ class Format extends \Magento\Framework\Model\AbstractModel implements \Magento\
      */
     public function getOptions()
     {
-        return array(
+        return [
             \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHANUM => __('Alphanumeric'),
             \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_ALPHA => __('Alphabetical'),
             \Magento\GiftCardAccount\Model\Pool::CODE_FORMAT_NUM => __('Numeric')
-        );
+        ];
     }
 
     /**
@@ -32,14 +32,14 @@ class Format extends \Magento\Framework\Model\AbstractModel implements \Magento\
      */
     public function toOptionArray($addEmpty = false)
     {
-        $result = array();
+        $result = [];
 
         if ($addEmpty) {
-            $result[] = array('value' => '', 'label' => '');
+            $result[] = ['value' => '', 'label' => ''];
         }
 
         foreach ($this->getOptions() as $value => $label) {
-            $result[] = array('value' => $value, 'label' => $label);
+            $result[] = ['value' => $value, 'label' => $label];
         }
 
         return $result;

@@ -10,7 +10,6 @@ namespace Magento\GroupedProduct\Test\Fixture\Cart;
 
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class Item
@@ -50,7 +49,7 @@ class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
         foreach ($associatedProducts as $product) {
             $cartItem['options'][] = [
                 'title' => $product->getName(),
-                'value' => $cartItem['qty'][$product->getSku()]
+                'value' => $cartItem['qty'][$product->getSku()],
             ];
         }
 

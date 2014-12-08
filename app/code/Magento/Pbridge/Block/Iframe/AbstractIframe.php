@@ -174,7 +174,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
             'country_id',
             'telephone',
             'fax',
-            'postcode'
+            'postcode',
         ];
 
         $result = [];

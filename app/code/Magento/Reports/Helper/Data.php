@@ -47,7 +47,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getIntervals($from, $to, $period = self::REPORT_PERIOD_TYPE_DAY)
     {
-        $intervals = array();
+        $intervals = [];
         if (!$from && !$to) {
             return $intervals;
         }

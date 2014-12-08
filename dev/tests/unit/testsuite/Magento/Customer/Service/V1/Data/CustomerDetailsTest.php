@@ -46,7 +46,7 @@ class CustomerDetailsTest extends \PHPUnit_Framework_TestCase
         $customerDetailsBuilder = $objectManager->getObject('Magento\Customer\Service\V1\Data\CustomerDetailsBuilder');
         $customerDetailsBuilder
             ->setCustomer($this->_customerMock)
-            ->setAddresses(array($this->_addressMock, $this->_addressMock)
+            ->setAddresses([$this->_addressMock, $this->_addressMock]
         );
         $this->_customerDetails = new CustomerDetails($customerDetailsBuilder);
     }
@@ -58,6 +58,6 @@ class CustomerDetailsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAddresses()
     {
-        $this->assertEquals(array($this->_addressMock, $this->_addressMock), $this->_customerDetails->getAddresses());
+        $this->assertEquals([$this->_addressMock, $this->_addressMock], $this->_customerDetails->getAddresses());
     }
 }

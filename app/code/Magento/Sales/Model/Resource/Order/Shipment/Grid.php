@@ -7,9 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Shipment;
 
-use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\App\Resource as AppResource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 
 /**
  * Class Grid

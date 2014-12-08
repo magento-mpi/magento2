@@ -24,16 +24,16 @@ class DateFieldsOrder extends Field
      */
     protected function _getElementHtml(AbstractElement $element)
     {
-        $_options = array('d' => __('Day'), 'm' => __('Month'), 'y' => __('Year'));
+        $_options = ['d' => __('Day'), 'm' => __('Month'), 'y' => __('Year')];
 
         $element->setValues($_options)->setClass('select-date')->setName($element->getName() . '[]');
         if ($element->getValue()) {
             $values = explode(',', $element->getValue());
         } else {
-            $values = array();
+            $values = [];
         }
 
-        $_parts = array();
+        $_parts = [];
         $_parts[] = $element->setValue(isset($values[0]) ? $values[0] : null)->getElementHtml();
         $_parts[] = $element->setValue(isset($values[1]) ? $values[1] : null)->getElementHtml();
         $_parts[] = $element->setValue(isset($values[2]) ? $values[2] : null)->getElementHtml();

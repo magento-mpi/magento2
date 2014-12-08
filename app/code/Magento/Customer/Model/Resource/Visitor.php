@@ -57,10 +57,10 @@ class Visitor extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _prepareDataForSave(\Magento\Framework\Model\AbstractModel $visitor)
     {
-        return array(
+        return [
             'session_id' => $visitor->getSessionId(),
             'last_visit_at' => $visitor->getLastVisitAt()
-        );
+        ];
     }
 
     /**
@@ -77,8 +77,8 @@ class Visitor extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $timeLimit = $this->dateTime->formatDate($this->date->gmtTimestamp() - $cleanTime);
         while (true) {
             $select = $readAdapter->select()->from(
-                array('visitor_table' => $this->getTable('customer_visitor')),
-                array('visitor_id' => 'visitor_table.visitor_id')
+                ['visitor_table' => $this->getTable('customer_visitor')],
+                ['visitor_id' => 'visitor_table.visitor_id']
             )->where(
                 'visitor_table.last_visit_at < ?',
                 $timeLimit
@@ -89,7 +89,7 @@ class Visitor extends \Magento\Framework\Model\Resource\Db\AbstractDb
             if (!$visitorIds) {
                 break;
             }
-            $condition = array('visitor_id IN (?)' => $visitorIds);
+            $condition = ['visitor_id IN (?)' => $visitorIds];
             $writeAdapter->delete($this->getTable('customer_visitor'), $condition);
         }
 

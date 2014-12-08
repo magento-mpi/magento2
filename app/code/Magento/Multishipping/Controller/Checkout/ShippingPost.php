@@ -8,7 +8,7 @@
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use \Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class ShippingPost extends \Magento\Multishipping\Controller\Checkout
 {
@@ -21,7 +21,7 @@ class ShippingPost extends \Magento\Multishipping\Controller\Checkout
         try {
             $this->_eventManager->dispatch(
                 'checkout_controller_multishipping_shipping_post',
-                array('request' => $this->getRequest(), 'quote' => $this->_getCheckout()->getQuote())
+                ['request' => $this->getRequest(), 'quote' => $this->_getCheckout()->getQuote()]
             );
             $this->_getCheckout()->setShippingMethods($shippingMethods);
             $this->_getState()->setActiveStep(State::STEP_BILLING);

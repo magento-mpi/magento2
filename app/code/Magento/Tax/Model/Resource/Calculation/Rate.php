@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax rate resource model
  *
@@ -33,7 +32,7 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => array('code'), 'title' => __('Code')));
+        $this->_uniqueFields = [['field' => ['code'], 'title' => __('Code')]];
         return $this;
     }
 
@@ -59,7 +58,7 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('tax_calculation'),
-            array('tax_calculation_rate_id')
+            ['tax_calculation_rate_id']
         )->where(
             'tax_calculation_rate_id = ?',
             $rateId

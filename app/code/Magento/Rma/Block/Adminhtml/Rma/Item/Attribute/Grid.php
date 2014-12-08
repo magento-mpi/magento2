@@ -31,7 +31,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Rma\Model\Resource\Item\Attribute\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -74,27 +74,27 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 
         $this->addColumn(
             'is_visible',
-            array(
+            [
                 'header' => __('Visible to Customer'),
                 'sortable' => true,
                 'index' => 'is_visible',
                 'type' => 'options',
-                'options' => array('0' => __('No'), '1' => __('Yes')),
+                'options' => ['0' => __('No'), '1' => __('Yes')],
                 'header_css_class' => 'col-visible-on-front',
                 'column_css_class' => 'col-visible-on-front'
-            )
+            ]
         );
 
         $this->addColumn(
             'sort_order',
-            array(
+            [
                 'header' => __('Sort Order'),
                 'sortable' => true,
                 'align' => 'center',
                 'index' => 'sort_order',
                 'header_css_class' => 'col-order',
                 'column_css_class' => 'col-order'
-            )
+            ]
         );
 
         return $this;

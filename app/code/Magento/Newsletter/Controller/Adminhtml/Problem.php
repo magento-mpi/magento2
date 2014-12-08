@@ -12,7 +12,6 @@ namespace Magento\Newsletter\Controller\Adminhtml;
  */
 class Problem extends \Magento\Backend\App\Action
 {
-
     /**
      * Check if user has enough privileges
      *

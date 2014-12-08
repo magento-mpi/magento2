@@ -26,7 +26,7 @@ class ChangeTest extends \PHPUnit_Framework_TestCase
         );
         $changeModel->setData($this->_getChangeValidData());
 
-        $crud = new \Magento\TestFramework\Entity($changeModel, array('change_time' => '2012-06-10 20:00:01'));
+        $crud = new \Magento\TestFramework\Entity($changeModel, ['change_time' => '2012-06-10 20:00:01']);
         $crud->testCrud();
     }
 
@@ -44,6 +44,6 @@ class ChangeTest extends \PHPUnit_Framework_TestCase
         );
         $themeModel = $theme->getCollection()->getFirstItem();
 
-        return array('theme_id' => $themeModel->getId(), 'change_time' => '2013-04-10 23:34:19');
+        return ['theme_id' => $themeModel->getId(), 'change_time' => '2013-04-10 23:34:19'];
     }
 }

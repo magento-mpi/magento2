@@ -47,7 +47,7 @@ class Group extends Element
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_addressHelper = $customerAddress;

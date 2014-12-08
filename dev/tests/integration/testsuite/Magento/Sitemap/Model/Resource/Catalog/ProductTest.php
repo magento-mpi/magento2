@@ -29,7 +29,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
-        $this->_checkProductCollection($products, 3, array(1, 4, 5));
+        $this->_checkProductCollection($products, 3, [1, 4, 5]);
 
         // Check that no image attributes were loaded
         foreach ($products as $product) {
@@ -56,7 +56,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
-        $this->_checkProductCollection($products, 3, array(1, 4, 5));
+        $this->_checkProductCollection($products, 3, [1, 4, 5]);
 
         // Check name attribute was loaded
         foreach ($products as $product) {
@@ -124,7 +124,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
         $products = $model->getCollection(\Magento\Store\Model\Store::DISTRO_STORE_ID);
 
-        $this->_checkProductCollection($products, 3, array(1, 4, 5));
+        $this->_checkProductCollection($products, 3, [1, 4, 5]);
 
         // Check name attribute was loaded
         foreach ($products as $product) {

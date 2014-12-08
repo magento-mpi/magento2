@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogInventory\Block;
 
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Block\IdentityInterface;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Product qty increments block
@@ -45,7 +45,7 @@ class Qtyincrements extends Template implements IdentityInterface
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->stockRegistry = $stockRegistry;

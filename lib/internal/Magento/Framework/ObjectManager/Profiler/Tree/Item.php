@@ -28,7 +28,7 @@ class Item
     /**
      * @var array
      */
-    protected $children = array();
+    protected $children = [];
 
     /**
      * @param string $class

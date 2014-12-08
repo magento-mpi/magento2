@@ -8,9 +8,9 @@
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerSegmentInGrid

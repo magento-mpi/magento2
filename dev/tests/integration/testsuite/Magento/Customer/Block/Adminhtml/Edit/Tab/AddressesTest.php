@@ -41,7 +41,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
      */
     private $addressMapper;
 
-
     public function setUp()
     {
         $this->_objectManager = Bootstrap::getObjectManager();
@@ -70,7 +69,7 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     public function testInitFormEmpty()
     {
         $block = $this->_objectManager->create('Magento\Customer\Block\Adminhtml\Edit\Tab\Addresses');
-        $this->_backendSession->setCustomerData(array('account' => array(), 'address' => array()));
+        $this->_backendSession->setCustomerData(['account' => [], 'address' => []]);
 
         /** @var Addresses $block */
         $block = $block->initForm();
@@ -151,10 +150,10 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Api\Data\CustomerInterface $customer */
         $customer = $this->_customerRepository->getById(1);
-        $this->_customerData = array(
+        $this->_customerData = [
             'customer_id' => $customer->getId(),
-            'account' => $this->customerMapper->toFlatArray($customer)
-        );
+            'account' => $this->customerMapper->toFlatArray($customer),
+        ];
         $this->_customerData['account']['id'] = $customer->getId();
         /** @var \Magento\Customer\Api\Data\AddressInterface[] $addresses */
         $addresses = $customer->getAddresses();

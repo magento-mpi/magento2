@@ -8,12 +8,7 @@
 
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Model\Order\Payment;
-use Magento\Sales\Model\Order\Customer;
-use Magento\Sales\Model\Order\Address;
 use Magento\Sales\Model\OrderFactory;
-use Magento\Sales\Model\Quote;
-use Magento\Catalog\Model\Product;
 
 class Builder
 {
@@ -367,8 +362,8 @@ class Builder
                 'customer_note_notify' => $this->customer->getNoteNotify(),
                 'customer_prefix' => $this->customer->getPrefix(),
                 'customer_suffix' => $this->customer->getSuffix(),
-                'customer_taxvat' => $this->customer->getTaxvat()
-            ]
+                'customer_taxvat' => $this->customer->getTaxvat(),
+            ],
         ]);
         $order->setBillingAddress($this->billingAddress)
             ->setShippingAddress($this->shippingAddress);

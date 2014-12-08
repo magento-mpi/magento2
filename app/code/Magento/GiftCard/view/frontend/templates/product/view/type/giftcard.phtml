@@ -69,9 +69,9 @@
                     <div class="control">
                         <textarea name="giftcard_message" id="giftcard-message" class="input-text giftcard-message-max-length"
                             <?php if ($this->getMessageMaxLength()) {
-                                $errorMessage="'". __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength())."'";
-                                echo 'data-validate="{maxlength:' . $this->getMessageMaxLength() . ',messages:{maxlength:'.$errorMessage.'}}"';
-                            } ?>
+    $errorMessage = "'" . __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength()) . "'";
+    echo 'data-validate="{maxlength:' . $this->getMessageMaxLength() . ',messages:{maxlength:' . $errorMessage . '}}"';
+} ?>
                             cols="5" rows="3"><?php echo $this->escapeHtml($this->getDefaultValue('giftcard_message')) ?></textarea>
                     </div>
                 </div>

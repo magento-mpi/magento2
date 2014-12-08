@@ -39,12 +39,12 @@ class FileServiceFactory
      * @return \Magento\Framework\View\Design\Theme\Customization\FileInterface
      * @throws \InvalidArgumentException
      */
-    public function create($type, array $data = array())
+    public function create($type, array $data = [])
     {
         if (empty($this->_types[$type])) {
             throw new \InvalidArgumentException('Unsupported file type');
         }
-        $fileService = $this->_objectManager->get($this->_types[$type], array($data));
+        $fileService = $this->_objectManager->get($this->_types[$type], [$data]);
         if (!$fileService instanceof \Magento\Framework\View\Design\Theme\Customization\FileInterface) {
             throw new \InvalidArgumentException('Service don\'t implement interface');
         }

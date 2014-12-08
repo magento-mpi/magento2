@@ -9,8 +9,8 @@
 namespace Magento\Customer\Test\Constraint;
 
 use Magento\Customer\Test\Fixture\AddressInjectable;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerDefaultAddresses

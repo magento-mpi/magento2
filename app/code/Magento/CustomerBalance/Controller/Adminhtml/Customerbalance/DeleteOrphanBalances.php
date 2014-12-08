@@ -18,6 +18,6 @@ class DeleteOrphanBalances extends \Magento\CustomerBalance\Controller\Adminhtml
     public function execute()
     {
         $this->_balance->deleteBalancesByCustomerId((int)$this->getRequest()->getParam('id'));
-        $this->_redirect('customer/index/edit/', array('_current' => true));
+        $this->_redirect('customer/index/edit/', ['_current' => true]);
     }
 }

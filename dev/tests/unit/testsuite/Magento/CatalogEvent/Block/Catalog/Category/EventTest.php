@@ -22,11 +22,11 @@ class EventTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
 
         $this->block = $objectManager->getObject(
             'Magento\CatalogEvent\Block\Catalog\Category\Event',
-            array('registry' => $this->registryMock)
+            ['registry' => $this->registryMock]
         );
     }
 
@@ -37,8 +37,8 @@ class EventTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $categoryTags = array('catalog_category_1');
-        $category = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryTags = ['catalog_category_1'];
+        $category = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
         $category->expects($this->once())->method('getIdentities')->will($this->returnValue($categoryTags));
         $this->registryMock->expects(
             $this->once()

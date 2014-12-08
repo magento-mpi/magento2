@@ -22,7 +22,7 @@ class Success extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderFactory = $orderFactory;
         parent::__construct($context, $data);

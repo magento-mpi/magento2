@@ -38,29 +38,29 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
             'read'
         )->will(
             $this->returnValue(
-                array(
-                    'Magento\Framework\Interception\Fixture\InterceptedInterface' => array(
-                        'plugins' => array(
-                            'first' => array(
+                [
+                    'Magento\Framework\Interception\Fixture\InterceptedInterface' => [
+                        'plugins' => [
+                            'first' => [
                                 'instance' => 'Magento\Framework\Interception\Fixture\Intercepted\InterfacePlugin',
-                                'sortOrder' => 10
-                            )
-                        )
-                    ),
-                    'Magento\Framework\Interception\Fixture\Intercepted' => array(
-                        'plugins' => array(
-                            'second' => array(
+                                'sortOrder' => 10,
+                            ],
+                        ],
+                    ],
+                    'Magento\Framework\Interception\Fixture\Intercepted' => [
+                        'plugins' => [
+                            'second' => [
                                 'instance' => 'Magento\Framework\Interception\Fixture\Intercepted\Plugin',
-                                'sortOrder' => 20
-                            )
-                        )
-                    )
-                )
+                                'sortOrder' => 20,
+                            ],
+                        ],
+                    ],
+                ]
             )
         );
 
-        $areaList = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
-        $areaList->expects($this->any())->method('getCodes')->will($this->returnValue(array()));
+        $areaList = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
+        $areaList->expects($this->any())->method('getCodes')->will($this->returnValue([]));
         $configScope = new \Magento\Framework\Config\Scope($areaList, 'global');
         $cache = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cache->expects($this->any())->method('load')->will($this->returnValue(false));
@@ -78,7 +78,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\Framework\ObjectManager\ObjectManager(
             $factory,
             $config,
-            array(
+            [
                 'Magento\Framework\Config\CacheInterface' => $cache,
                 'Magento\Framework\Config\ScopeInterface' => $configScope,
                 'Magento\Framework\Config\ReaderInterface' => $this->_configReader,
@@ -87,18 +87,17 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
                 'Magento\Framework\Interception\ObjectManager\Config' => $config,
                 'Magento\Framework\ObjectManager\DefinitionInterface' => $definitions,
                 'Magento\Framework\Interception\DefinitionInterface' => $interceptionDefinitions
-            )
+            ]
         );
         $factory->setObjectManager($this->_objectManager);
         $config->setInterceptionConfig($interceptionConfig);
         $config->extend(
-            array(
-                'preferences' => array(
-                    'Magento\Framework\Interception\PluginListInterface' =>
-                        'Magento\Framework\Interception\PluginList\PluginList',
-                    'Magento\Framework\Interception\ChainInterface' => 'Magento\Framework\Interception\Chain\Chain'
-                )
-            )
+            [
+                'preferences' => [
+                    'Magento\Framework\Interception\PluginListInterface' => 'Magento\Framework\Interception\PluginList\PluginList',
+                    'Magento\Framework\Interception\ChainInterface' => 'Magento\Framework\Interception\Chain\Chain',
+                ],
+            ]
         );
     }
 

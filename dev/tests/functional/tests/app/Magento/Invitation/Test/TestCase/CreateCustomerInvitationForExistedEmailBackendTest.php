@@ -8,11 +8,11 @@
 
 namespace Magento\Invitation\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

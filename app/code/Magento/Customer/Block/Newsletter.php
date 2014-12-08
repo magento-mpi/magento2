@@ -7,8 +7,8 @@
  */
 namespace Magento\Customer\Block;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer front  newsletter manage block
@@ -36,7 +36,7 @@ class Newsletter extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
         AccountManagementInterface $customerAccountManagement,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

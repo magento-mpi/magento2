@@ -8,16 +8,16 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
+use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class AbstractCompareProductsTest

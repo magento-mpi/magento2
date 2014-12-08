@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     '_website' => 'website1',
     '_email' => 'test1@email.com',
     '_entity_id' => '2',
@@ -30,4 +30,4 @@ return array(
     'vat_request_success' => '',
     '_address_default_billing_' => '1',
     '_address_default_shipping_' => '1'
-);
+];

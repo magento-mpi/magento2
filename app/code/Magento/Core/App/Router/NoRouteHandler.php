@@ -38,7 +38,7 @@ class NoRouteHandler implements \Magento\Framework\App\Router\NoRouteHandlerInte
         if ($noRoutePath) {
             $noRoute = explode('/', $noRoutePath);
         } else {
-            $noRoute = array();
+            $noRoute = [];
         }
 
         $moduleName = isset($noRoute[0]) ? $noRoute[0] : 'core';

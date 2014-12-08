@@ -21,7 +21,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      *
      * @var array
      */
-    protected $_buttons = array();
+    protected $_buttons = [];
 
     /**
      * Define block ID

@@ -14,5 +14,4 @@ use Magento\Ui\Component\Filter\FilterAbstract;
  */
 class Store extends FilterAbstract
 {
-
 }

@@ -21,7 +21,7 @@ class FileList
      *
      * @var File[]
      */
-    protected $files = array();
+    protected $files = [];
 
     /**
      * Collator

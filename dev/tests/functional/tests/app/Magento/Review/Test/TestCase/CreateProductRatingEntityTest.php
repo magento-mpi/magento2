@@ -8,10 +8,10 @@
 
 namespace Magento\Review\Test\TestCase;
 
+use Magento\Review\Test\Fixture\Rating;
+use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
 use Magento\Review\Test\Page\Adminhtml\RatingNew;
-use Magento\Review\Test\Page\Adminhtml\RatingEdit;
-use Magento\Review\Test\Fixture\Rating;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 

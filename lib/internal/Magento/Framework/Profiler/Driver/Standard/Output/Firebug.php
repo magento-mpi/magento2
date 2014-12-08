@@ -48,7 +48,7 @@ class Firebug extends AbstractOutput
         $firebugMessage->setHeader(array_keys($this->_columns));
 
         foreach ($this->_getTimerIds($stat) as $timerId) {
-            $row = array();
+            $row = [];
             foreach ($this->_columns as $column) {
                 $row[] = $this->_renderColumnValue($stat->fetch($timerId, $column), $column);
             }

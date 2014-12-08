@@ -67,38 +67,38 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->_string = new \Magento\Framework\Stdlib\String();
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_importFactory = $this->getMock(
             'Magento\ImportExport\Model\ImportFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->_resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManager = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\ImportExport\Model\Export\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_eavConfig = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
+        $this->_eavConfig = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\Entity\AbstractEav',
-            array(
+            [
                 $this->_coreDataMock,
                 $this->_string,
                 $scopeConfig,
@@ -109,7 +109,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
                 $this->_collectionFactory,
                 $this->_eavConfig,
                 $this->_getModelDependencies()
-            )
+            ]
         );
     }
 
@@ -125,7 +125,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelDependencies()
     {
-        $data = array(
+        $data = [
             'data_source_model' => 'not_used',
             'connection' => 'not_used',
             'json_helper' => 'not_used',
@@ -136,8 +136,8 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
             'website_manager' => 'not_used',
             'store_manager' => 'not_used',
             'attribute_collection' => 'not_used',
-            'entity_type_id' => self::ENTITY_TYPE_ID
-        );
+            'entity_type_id' => self::ENTITY_TYPE_ID,
+        ];
 
         return $data;
     }

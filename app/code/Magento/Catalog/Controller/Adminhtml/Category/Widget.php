@@ -44,7 +44,7 @@ class Widget extends \Magento\Backend\App\Action
             [
                 'data' => [
                     'id' => $this->getRequest()->getParam('uniq_id'),
-                    'use_massaction' => $this->getRequest()->getParam('use_massaction', false)
+                    'use_massaction' => $this->getRequest()->getParam('use_massaction', false),
                 ]
             ]
         );

@@ -38,30 +38,30 @@ class FieldTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock = $this->getMock(
             'Magento\Store\Model\StoreManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
 
-        $data = array(
+        $data = [
             'storeManager' => $this->_storeManagerMock,
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
-        );
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false),
+        ];
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form\Field', $data);
 
-        $this->_testData = array(
+        $this->_testData = [
             'htmlId' => 'test_field_id',
             'name' => 'test_name',
             'label' => 'test_label',
-            'elementHTML' => 'test_html'
-        );
+            'elementHTML' => 'test_html',
+        ];
 
         $this->_elementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Text',
-            array(
+            [
                 'getHtmlId',
                 'getName',
                 'getLabel',
@@ -74,8 +74,8 @@ class FieldTest extends \PHPUnit_Framework_TestCase
                 'getCanUseWebsiteValue',
                 'getCanUseDefaultValue',
                 'setDisabled'
-            ),
-            array(),
+            ],
+            [],
             '',
             false,
             false,

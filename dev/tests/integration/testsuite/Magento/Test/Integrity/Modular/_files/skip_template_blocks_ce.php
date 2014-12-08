@@ -9,9 +9,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
+return [
     // Fails because of dependence on registry
     'Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers',
     'Magento\LayeredNavigation\Block\Navigation',
     'Magento\LayeredNavigation\Block\Navigation\State',
-);
+];

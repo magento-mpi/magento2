@@ -17,7 +17,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\SalesRule\Model\Rule\Condition\Product $ruleConditionProduct,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleConditionProduct, $data);
         $this->setType('Magento\SalesRule\Model\Rule\Condition\Product\Subselect')->setValue(null);
@@ -67,7 +67,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array('qty' => __('total quantity'), 'base_row_total' => __('total amount')));
+        $this->setAttributeOption(['qty' => __('total quantity'), 'base_row_total' => __('total amount')]);
         return $this;
     }
 
@@ -89,7 +89,7 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(
-            array(
+            [
                 '==' => __('is'),
                 '!=' => __('is not'),
                 '>=' => __('equals or greater than'),
@@ -97,8 +97,8 @@ class Subselect extends \Magento\SalesRule\Model\Rule\Condition\Product\Combine
                 '>' => __('greater than'),
                 '<' => __('less than'),
                 '()' => __('is one of'),
-                '!()' => __('is not one of')
-            )
+                '!()' => __('is not one of'),
+            ]
         );
         return $this;
     }

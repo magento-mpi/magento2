@@ -44,29 +44,29 @@ class RestrictAdminBillingAgreementUsageTest extends \PHPUnit_Framework_TestCase
 
     public function restrictAdminBillingAgreementUsageDataProvider()
     {
-        return array(
-            array(new \stdClass(), false, true),
-            array(
+        return [
+            [new \stdClass(), false, true],
+            [
                 $this->getMockForAbstractClass(
                     'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
+                    [],
                     '',
                     false
                 ),
                 true,
                 true
-            ),
-            array(
+            ],
+            [
                 $this->getMockForAbstractClass(
                     'Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement',
-                    array(),
+                    [],
                     '',
                     false
                 ),
                 false,
                 false
-            )
-        );
+            ]
+        ];
     }
 
     /**

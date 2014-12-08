@@ -23,7 +23,7 @@ class UrlRewriteCategory extends AbstractRepository
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,

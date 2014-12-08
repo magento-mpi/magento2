@@ -7,9 +7,8 @@
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Creditmemo\Controls;
 
-use PHPUnit_Framework_TestCase;
 use PHPUnit_Framework_MockObject_MockObject;
-use Magento\TestFramework\Helper\ObjectManager;
+use PHPUnit_Framework_TestCase;
 
 /**
  * Unit tests for Refunds balance through admin page class.
@@ -118,13 +117,13 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         $this->mockCreditMemo = $this->getMockBuilder(
             $this->creditMemoClass
         )->disableOriginalConstructor()->setMethods(
-            array($this->getBaseRewardCurrencyAmount, $this->getBaseCustomerBalanceReturnMax)
+            [$this->getBaseRewardCurrencyAmount, $this->getBaseCustomerBalanceReturnMax]
         )->getMock();
         // Create mock registry and set it up to return mock credit memo class
         $this->mockRegistry = $this->getMockBuilder(
             $this->registryClass
         )->disableOriginalConstructor()->setMethods(
-            array($this->registry)
+            [$this->registry]
         )->getMock();
         $this->mockRegistry->expects(
             $this->any()
@@ -136,8 +135,8 @@ class ControlsTest extends PHPUnit_Framework_TestCase
         // Create mock of main class feeding it the mocks created above.
         $this->mockMainClass = $this->getMock(
             $this->controlsClass,
-            array($this->getCreditmemo),
-            array($this->mockContext, $this->mockRegistry),
+            [$this->getCreditmemo],
+            [$this->mockContext, $this->mockRegistry],
             $this->controlsMock,
             true
         );

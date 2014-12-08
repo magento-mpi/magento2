@@ -11,8 +11,8 @@ $installer = $this;
 
 $installer->startSetup();
 // use specific attributes for customer segments
-$attributesOfEntities = array(
-    'customer' => array(
+$attributesOfEntities = [
+    'customer' => [
         'dob',
         'email',
         'firstname',
@@ -21,20 +21,9 @@ $attributesOfEntities = array(
         'gender',
         'default_billing',
         'default_shipping',
-        'created_at'
-    ),
-    'customer_address' => array(
-        'firstname',
-        'lastname',
-        'company',
-        'street',
-        'city',
-        'region_id',
-        'postcode',
-        'country_id',
-        'telephone'
-    ),
-    'order_address' => array(
+        'created_at',
+    ],
+    'customer_address' => [
         'firstname',
         'lastname',
         'company',
@@ -44,9 +33,20 @@ $attributesOfEntities = array(
         'postcode',
         'country_id',
         'telephone',
-        'email'
-    )
-);
+    ],
+    'order_address' => [
+        'firstname',
+        'lastname',
+        'company',
+        'street',
+        'city',
+        'region_id',
+        'postcode',
+        'country_id',
+        'telephone',
+        'email',
+    ],
+];
 
 foreach ($attributesOfEntities as $entityTypeId => $attributes) {
     foreach ($attributes as $attributeCode) {
@@ -72,7 +72,7 @@ $installer->appendClassAliasReplace(
     'conditions_serialized',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_MODEL,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_SERIALIZED,
-    array('segment_id')
+    ['segment_id']
 );
 
 $installer->doUpdateClassAliases();

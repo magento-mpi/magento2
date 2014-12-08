@@ -7,9 +7,9 @@
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
 
-use Magento\Store\Model\Store;
 use Magento\Framework\Model\Exception as CoreException;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Store\Model\Store;
 
 /**
  * Backend controller for the design editor

@@ -9,9 +9,8 @@ namespace Magento\Tools\Dependency;
 
 use Magento\Framework\File\Csv;
 use Magento\Tools\Dependency\Circular as CircularTool;
-use Magento\Tools\Dependency\Parser;
-use Magento\Tools\Dependency\Report\Dependency;
 use Magento\Tools\Dependency\Report\Circular as CircularReport;
+use Magento\Tools\Dependency\Report\Dependency;
 use Magento\Tools\Dependency\Report\Framework;
 
 /**
@@ -97,7 +96,7 @@ class ServiceLocator
             self::$circularDependenciesReportBuilder = new CircularReport\Builder(
                 self::getComposerJsonParser(),
                 new CircularReport\Writer(self::getCsvWriter()),
-                new CircularTool(array(), null)
+                new CircularTool([], null)
             );
         }
         return self::$circularDependenciesReportBuilder;

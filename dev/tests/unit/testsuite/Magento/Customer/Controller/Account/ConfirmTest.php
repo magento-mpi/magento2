@@ -393,7 +393,7 @@ class ConfirmTest extends \PHPUnit_Framework_TestCase
                 null,
                 'http://example.com/back',
                 true,
-                __('Thank you for registering with')
+                __('Thank you for registering with'),
             ],
             [
                 1,

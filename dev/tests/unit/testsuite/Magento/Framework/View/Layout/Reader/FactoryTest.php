@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\View\Layout\Reader;
 
-
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateInvalidArgument()
@@ -53,4 +52,4 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame($object, $factory->create($className, $data));
     }
-} 
+}

@@ -35,8 +35,8 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $createdModel = $this->getMock(
             'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal',
-            array(),
-            array(),
+            [],
+            [],
             (string)$class,
             false
         );
@@ -60,14 +60,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public static function createDataProvider()
     {
-        return array(
-            'default model' => array(
+        return [
+            'default model' => [
                 null,
-                array('param1', 'param2'),
-                'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal'
-            ),
-            'custom model' => array('custom_class', array('param1', 'param2'), 'custom_class')
-        );
+                ['param1', 'param2'],
+                'Magento\Sales\Model\Order\Pdf\Total\DefaultTotal',
+            ],
+            'custom model' => ['custom_class', ['param1', 'param2'], 'custom_class']
+        ];
     }
 
     /**

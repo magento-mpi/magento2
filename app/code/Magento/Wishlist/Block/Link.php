@@ -38,7 +38,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistHelper = $wishlistHelper;
         parent::__construct($context, $data);
@@ -107,7 +107,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
     {
         if ($count > 1) {
             return __('%1 items', $count);
-        } else if ($count == 1) {
+        } elseif ($count == 1) {
             return __('1 item');
         } else {
             return;

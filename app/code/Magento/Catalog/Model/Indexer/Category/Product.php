@@ -82,7 +82,7 @@ class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Framew
      */
     public function executeRow($id)
     {
-        $this->executeAction(array($id));
+        $this->executeAction([$id]);
     }
 
     /**

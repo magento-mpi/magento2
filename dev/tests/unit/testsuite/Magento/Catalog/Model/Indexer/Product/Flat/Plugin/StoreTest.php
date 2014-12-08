@@ -28,17 +28,17 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $this->processorMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\Processor',
-            array('markIndexerAsInvalid'),
-            array(),
+            ['markIndexerAsInvalid'],
+            [],
             '',
             false
         );
 
-        $this->subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('\Magento\Store\Model\Resource\Store', [], [], '', false);
         $this->storeMock = $this->getMock(
             'Magento\Store\Model\Store',
-            array('getId', '__wakeup', 'dataHasChangedFor'),
-            array(),
+            ['getId', '__wakeup', 'dataHasChangedFor'],
+            [],
             '',
             false
         );
@@ -89,7 +89,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function storeGroupDataProvider()
     {
-        return array(array('once', true), array('never', false));
+        return [['once', true], ['never', false]];
     }
 
     /**
@@ -97,6 +97,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
      */
     public function storeDataProvider()
     {
-        return array(array('once', null), array('never', 1));
+        return [['once', null], ['never', 1]];
     }
 }

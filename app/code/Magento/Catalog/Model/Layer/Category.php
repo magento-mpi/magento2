@@ -10,7 +10,6 @@ namespace Magento\Catalog\Model\Layer;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Resource;
-use Magento\Catalog\Model\Layer\ContextInterface;
 
 class Category extends \Magento\Catalog\Model\Layer
 {
@@ -32,7 +31,7 @@ class Category extends \Magento\Catalog\Model\Layer
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

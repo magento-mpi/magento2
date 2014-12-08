@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\Block\Order\Info;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**

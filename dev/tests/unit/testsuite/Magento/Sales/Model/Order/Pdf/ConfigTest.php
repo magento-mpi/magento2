@@ -21,20 +21,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dataStorage = $this->getMock('Magento\Framework\Config\Data', array(), array(), '', false);
+        $this->_dataStorage = $this->getMock('Magento\Framework\Config\Data', [], [], '', false);
         $this->_model = new \Magento\Sales\Model\Order\Pdf\Config($this->_dataStorage);
     }
 
     public function testGetRenderersPerProduct()
     {
-        $configuration = array('product_type_one' => 'Renderer_One', 'product_type_two' => 'Renderer_Two');
+        $configuration = ['product_type_one' => 'Renderer_One', 'product_type_two' => 'Renderer_Two'];
         $this->_dataStorage->expects(
             $this->once()
         )->method(
             'get'
         )->with(
             "renderers/page_type",
-            array()
+            []
         )->will(
             $this->returnValue($configuration)
         );
@@ -44,7 +44,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTotals()
     {
-        $configuration = array('total1' => array('title' => 'Title1'), 'total2' => array('title' => 'Title2'));
+        $configuration = ['total1' => ['title' => 'Title1'], 'total2' => ['title' => 'Title2']];
 
         $this->_dataStorage->expects(
             $this->once()
@@ -52,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'get'
         )->with(
             'totals',
-            array()
+            []
         )->will(
             $this->returnValue($configuration)
         );

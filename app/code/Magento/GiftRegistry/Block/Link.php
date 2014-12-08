@@ -27,7 +27,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\GiftRegistry\Helper\Data $giftHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_giftHelper = $giftHelper;

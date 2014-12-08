@@ -7,7 +7,6 @@
  */
 namespace Magento\Tax\Model;
 
-
 class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -44,7 +43,6 @@ class TaxRuleRepositoryTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $objectManager;
-
 
     protected function setUp()
     {

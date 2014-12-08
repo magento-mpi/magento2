@@ -29,7 +29,7 @@ class Shipping extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Fro
                 $title .= sprintf(' (%s)', $address->getShippingDescription());
             }
             $address->addTotal(
-                array('code' => 'shipping', 'title' => $title, 'value' => $address->getShippingAmount())
+                ['code' => 'shipping', 'title' => $title, 'value' => $address->getShippingAmount()]
             );
         }
         return $this;

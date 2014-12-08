@@ -8,7 +8,6 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 

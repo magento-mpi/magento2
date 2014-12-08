@@ -31,24 +31,24 @@ class CsvfileTest extends \PHPUnit_Framework_TestCase
      */
     public function constructorProvider()
     {
-        return array(
-            'Default config' => array(
-                'config' => array(),
+        return [
+            'Default config' => [
+                'config' => [],
                 'filePath' => '/var/log/profiler.csv',
                 'delimiter' => ',',
-                'enclosure' => '"'
-            ),
-            'Custom config' => array(
-                'config' => array(
+                'enclosure' => '"',
+            ],
+            'Custom config' => [
+                'config' => [
                     'baseDir' => '/var/www/project/',
                     'filePath' => '/log/example.csv',
                     'delimiter' => "\t",
-                    'enclosure' => '"'
-                ),
+                    'enclosure' => '"',
+                ],
                 'filePath' => '/var/www/project/log/example.csv',
                 'delimiter' => "\t",
-                'enclosure' => '"'
-            )
-        );
+                'enclosure' => '"',
+            ]
+        ];
     }
 }

@@ -61,11 +61,11 @@ class CatalogPrice implements \Magento\Catalog\Model\Product\CatalogPriceInterfa
         $this->coreRegistry->register(
             'rule_data',
             new \Magento\Framework\Object(
-                array(
+                [
                     'store_id' => $product->getStoreId(),
                     'website_id' => $product->getWebsiteId(),
-                    'customer_group_id' => $product->getCustomerGroupId()
-                )
+                    'customer_group_id' => $product->getCustomerGroupId(),
+                ]
             )
         );
 

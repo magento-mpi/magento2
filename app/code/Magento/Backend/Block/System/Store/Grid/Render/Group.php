@@ -26,7 +26,7 @@ class Group extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
             'Edit Store'
         ) . '"
             href="' .
-        $this->getUrl('adminhtml/*/editGroup', array('group_id' => $row->getGroupId())) .
+        $this->getUrl('adminhtml/*/editGroup', ['group_id' => $row->getGroupId()]) .
         '">' .
         $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
         '</a>';

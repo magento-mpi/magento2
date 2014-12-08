@@ -12,7 +12,6 @@ use Magento\Catalog\Model\Product as CatalogProduct;
 
 class Product
 {
-
     /**
      * @var Type
      */

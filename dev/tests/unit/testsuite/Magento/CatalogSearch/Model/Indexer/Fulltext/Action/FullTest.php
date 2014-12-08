@@ -65,7 +65,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $objectManagerHelper->getObject(
             'Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full',
-            array(
+            [
                 'resource' => $resource,
                 'catalogProductType' => $catalogProductType,
                 'eavConfig' => $eavConfig,
@@ -80,7 +80,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
                 'localeResolver' => $localeResolver,
                 'localeDate' => $localeDate,
                 'fulltextResource' => $fulltextResource
-            )
+            ]
         );
     }
 

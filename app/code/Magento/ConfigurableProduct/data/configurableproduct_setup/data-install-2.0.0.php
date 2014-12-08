@@ -18,7 +18,7 @@ $attributes = [
     'special_from_date',
     'special_to_date',
     'tier_price',
-    'weight'
+    'weight',
 ];
 foreach ($attributes as $attributeCode) {
     $relatedProductTypes = explode(

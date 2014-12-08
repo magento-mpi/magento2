@@ -8,10 +8,10 @@
 
 namespace Magento\Bundle\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Bundle\Test\Fixture\BundleProduct;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Update BundleProductEntity

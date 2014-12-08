@@ -8,10 +8,10 @@
 
 namespace Magento\Bundle\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertBundleItemsOnProductPage
@@ -87,7 +87,7 @@ class AssertBundleItemsOnProductPage extends AbstractAssertForm
 
                 $optionData['options'][$productKey] = [
                     'title' => $assignedProduct['search_data']['name'],
-                    'price' => number_format($price, 2)
+                    'price' => number_format($price, 2),
                 ];
             }
 

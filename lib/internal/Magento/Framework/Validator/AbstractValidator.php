@@ -26,7 +26,7 @@ abstract class AbstractValidator implements \Magento\Framework\Validator\Validat
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Set default translator instance
@@ -101,7 +101,7 @@ abstract class AbstractValidator implements \Magento\Framework\Validator\Validat
      */
     protected function _clearMessages()
     {
-        $this->_messages = array();
+        $this->_messages = [];
     }
 
     /**

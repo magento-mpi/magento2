@@ -58,7 +58,7 @@ abstract class AbstractData
      *
      * @var array
      */
-    protected $_extractedData = array();
+    protected $_extractedData = [];
 
     /**
      * Date filter format
@@ -256,7 +256,7 @@ abstract class AbstractData
                 $this->_dateFilterFormat = \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT;
             }
             return $this->_localeDate->getDateFormat($this->_dateFilterFormat);
-        } else if ($format === false) {
+        } elseif ($format === false) {
             // reset value
             $this->_dateFilterFormat = null;
             return $this;
@@ -354,7 +354,7 @@ abstract class AbstractData
                     __("'%value%' appears to be a DNS hostname but cannot match TLD against known list")
                     */
                     $validator = new \Zend_Validate_EmailAddress(
-                        ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+                        ['allow' => ['allow' => \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
                     );
                     $validator->setMessage(
                         __('"%1" invalid type entered.', $label),
@@ -435,18 +435,18 @@ abstract class AbstractData
                 case 'url':
                     $parsedUrl = parse_url($value);
                     if ($parsedUrl === false || empty($parsedUrl['scheme']) || empty($parsedUrl['host'])) {
-                        return array(__('"%1" is not a valid URL.', $label));
+                        return [__('"%1" is not a valid URL.', $label)];
                     }
                     $validator = new \Zend_Validate_Hostname();
                     if (!$validator->isValid($parsedUrl['host'])) {
-                        return array(__('"%1" is not a valid URL.', $label));
+                        return [__('"%1" is not a valid URL.', $label)];
                     }
                     break;
                 case 'date':
                     $validator = new \Zend_Validate_Date(
                         [
                             'format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
-                            'locale' => $this->_localeResolver->getLocale()
+                            'locale' => $this->_localeResolver->getLocale(),
                         ]
                     );
                     $validator->setMessage(__('"%1" invalid type entered.', $label), \Zend_Validate_Date::INVALID);
@@ -504,7 +504,7 @@ abstract class AbstractData
                     if (isset($params[$part])) {
                         $params = $params[$part];
                     } else {
-                        $params = array();
+                        $params = [];
                     }
                 }
             } else {

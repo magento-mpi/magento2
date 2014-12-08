@@ -34,7 +34,7 @@ class EntityFactory implements \Magento\Framework\Data\Collection\EntityFactoryI
      * @throws \LogicException
      * @return \Magento\Framework\Object
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $model = $this->_objectManager->create($className, $data);
         //TODO: fix that when this factory used only for \Magento\Core\Model\Abstract

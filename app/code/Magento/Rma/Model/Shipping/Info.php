@@ -17,7 +17,7 @@ class Info extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_trackingInfo = array();
+    protected $_trackingInfo = [];
 
     /**
      * Rma data
@@ -55,7 +55,7 @@ class Info extends \Magento\Framework\Object
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\ShippingFactory $shippingFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_rmaFactory = $rmaFactory;
@@ -95,7 +95,7 @@ class Info extends \Magento\Framework\Object
     public function loadPackage($hash)
     {
         $data = $this->_rmaData->decodeTrackingHash($hash);
-        $package = array();
+        $package = [];
         if (!empty($data)) {
             $this->setData($data['key'], $data['id']);
             $this->setProtectCode($data['hash']);
@@ -139,12 +139,12 @@ class Info extends \Magento\Framework\Object
      */
     public function getTrackingInfoByRma()
     {
-        $shipTrack = array();
+        $shipTrack = [];
         $rma = $this->_initRma();
         if ($rma) {
             $increment_id = $rma->getIncrementId();
             $tracks = $rma->getTrackingNumbers();
-            $trackingInfos = array();
+            $trackingInfos = [];
 
             foreach ($tracks as $track) {
                 $trackingInfos[] = $track->getNumberDetail();
@@ -165,7 +165,7 @@ class Info extends \Magento\Framework\Object
         /** @var $track \Magento\Rma\Model\Shipping */
         $track = $this->_shippingFactory->create()->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
-            $this->_trackingInfo = array(array($track->getNumberDetail()));
+            $this->_trackingInfo = [[$track->getNumberDetail()]];
         }
         return $this->_trackingInfo;
     }

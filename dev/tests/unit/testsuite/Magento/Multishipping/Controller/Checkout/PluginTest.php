@@ -45,4 +45,4 @@ class PluginTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())->method('setIsMultiShipping')->with(0);
         $this->object->beforeExecute($subject);
     }
-} 
+}

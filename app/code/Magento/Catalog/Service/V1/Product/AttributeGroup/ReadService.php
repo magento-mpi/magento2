@@ -9,10 +9,10 @@
 
 namespace Magento\Catalog\Service\V1\Product\AttributeGroup;
 
-use \Magento\Catalog\Service\V1\Data;
-use \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory as AttributeGroupCollectionFactory;
-use \Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Catalog\Service\V1\Data;
+use Magento\Eav\Model\Entity\Attribute\SetFactory as AttributeSetFactory;
+use Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory as AttributeGroupCollectionFactory;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ReadService implements ReadServiceInterface
 {
@@ -59,7 +59,7 @@ class ReadService implements ReadServiceInterface
         $collection->setAttributeSetFilter($attributeSetId);
         $collection->setSortOrder();
 
-        $groups = array();
+        $groups = [];
 
         /** @var $group \Magento\Eav\Model\Entity\Attribute\Group */
         foreach ($collection->getItems() as $group) {

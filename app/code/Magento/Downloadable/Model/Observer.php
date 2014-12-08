@@ -244,15 +244,15 @@ class Observer
 
         /* @var $order \Magento\Sales\Model\Order */
         $status = '';
-        $linkStatuses = array(
+        $linkStatuses = [
             'pending' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING,
             'expired' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_EXPIRED,
             'avail' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_AVAILABLE,
             'payment_pending' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PENDING_PAYMENT,
-            'payment_review' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PAYMENT_REVIEW
-        );
+            'payment_review' => \Magento\Downloadable\Model\Link\Purchased\Item::LINK_STATUS_PAYMENT_REVIEW,
+        ];
 
-        $downloadableItemsStatuses = array();
+        $downloadableItemsStatuses = [];
         $orderItemStatusToEnable = $this->_scopeConfig->getValue(
             \Magento\Downloadable\Model\Link\Purchased\Item::XML_PATH_ORDER_ITEM_STATUS,
             ScopeInterface::SCOPE_STORE,
@@ -265,10 +265,10 @@ class Observer
             || $order->getState() == \Magento\Sales\Model\Order::STATE_CLOSED
             || $order->getState() == \Magento\Sales\Model\Order::STATE_COMPLETE
         ) {
-            $expiredStatuses = array(
+            $expiredStatuses = [
                 \Magento\Sales\Model\Order\Item::STATUS_CANCELED,
-                \Magento\Sales\Model\Order\Item::STATUS_REFUNDED
-            );
+                \Magento\Sales\Model\Order\Item::STATUS_REFUNDED,
+            ];
             foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                     || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
@@ -285,7 +285,7 @@ class Observer
         } elseif ($order->getState() == \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW) {
             $status = $linkStatuses['payment_review'];
         } else {
-            $availableStatuses = array($orderItemStatusToEnable, \Magento\Sales\Model\Order\Item::STATUS_INVOICED);
+            $availableStatuses = [$orderItemStatusToEnable, \Magento\Sales\Model\Order\Item::STATUS_INVOICED];
             foreach ($order->getAllItems() as $item) {
                 if ($item->getProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
                     || $item->getRealProductType() == \Magento\Downloadable\Model\Product\Type::TYPE_DOWNLOADABLE
@@ -320,7 +320,7 @@ class Observer
         if ($downloadableItemsStatuses) {
             $linkPurchased = $this->_createItemsCollection()->addFieldToFilter(
                 'order_item_id',
-                array('in' => array_keys($downloadableItemsStatuses))
+                ['in' => array_keys($downloadableItemsStatuses)]
             );
             foreach ($linkPurchased as $link) {
                 if ($link->getStatus() != $linkStatuses['expired']

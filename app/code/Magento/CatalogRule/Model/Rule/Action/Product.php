@@ -14,7 +14,7 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array('rule_price' => __('Rule price')));
+        $this->setAttributeOption(['rule_price' => __('Rule price')]);
         return $this;
     }
 
@@ -24,12 +24,12 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(
-            array(
+            [
                 'to_fixed' => __('To Fixed Value'),
                 'to_percent' => __('To Percentage'),
                 'by_fixed' => __('By Fixed value'),
-                'by_percent' => __('By Percentage')
-            )
+                'by_percent' => __('By Percentage'),
+            ]
         );
         return $this;
     }

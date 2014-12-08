@@ -12,13 +12,13 @@
         order.setCurrencySymbol('<?php echo $this->getCurrencySymbol($this->getCurrentCurrencyCode()) ?>')
     });
 </script>
-    <?php if($this->getCustomerId()): ?>
+    <?php if ($this->getCustomerId()): ?>
     <div class="order-sidebar">
         <div class="store-switcher order-currency">
             <label for="currency_switcher"><?php echo __('Order Currency:') ?></label>
             <select id="currency_switcher" name="order[currency]" onchange="order.setCurrencyId(this.value); order.setCurrencySymbol(this.options[this.selectedIndex].getAttribute('symbol'));">
                 <?php foreach ($this->getAvailableCurrencies() as $_code): ?>
-                    <option value="<?php echo $_code ?>"<?php if($_code==$this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?> symbol="<?php echo $this->getCurrencySymbol($_code) ?>">
+                    <option value="<?php echo $_code ?>"<?php if ($_code == $this->getCurrentCurrencyCode()): ?> selected="selected"<?php endif; ?> symbol="<?php echo $this->getCurrencySymbol($_code) ?>">
                         <?php echo $this->getCurrencyName($_code) ?>
                     </option>
                 <?php endforeach; ?>
@@ -29,7 +29,7 @@
         </div>
     </div>
     <?php endif; ?>
-    <div class="order-details<?php if($this->getCustomerId()): ?> order-details-existing-customer<?php endif; ?>">
+    <div class="order-details<?php if ($this->getCustomerId()): ?> order-details-existing-customer<?php endif; ?>">
         <div class="order-details-inner">
             <div id="order-additional_area" style="display:none" class="fieldset-wrapper order-additional-area"><?php echo $this->getChildHtml('additional_area') ?></div>
             <div id="order-search" style="display:none" class="fieldset-wrapper order-search-items"><?php echo $this->getChildHtml('search') ?></div>
@@ -55,7 +55,7 @@
                 </div>
             </div>
 
-            <?php if($this->getChildBlock('card_validation')): ?>
+            <?php if ($this->getChildBlock('card_validation')): ?>
                 <div class="order-card-validation" id="order-card_validation">
                     <?php echo $this->getChildHtml('card_validation') ?>
                 </div>

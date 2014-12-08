@@ -8,9 +8,9 @@
 
 namespace Magento\Integration\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
 use Magento\Integration\Test\Fixture\Integration;
+use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertIntegrationResourcesPopup

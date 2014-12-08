@@ -39,9 +39,9 @@ class CircularTest extends \PHPUnit_Framework_TestCase
         $this->builder->build(
             [
                 'parse' => [
-                    'files_for_parse' => [$this->fixtureDir . 'composer4.json', $this->fixtureDir . 'composer5.json']
+                    'files_for_parse' => [$this->fixtureDir . 'composer4.json', $this->fixtureDir . 'composer5.json'],
                 ],
-                'write' => ['report_filename' => $this->sourceFilename]
+                'write' => ['report_filename' => $this->sourceFilename],
             ]
         );
 
@@ -53,7 +53,7 @@ class CircularTest extends \PHPUnit_Framework_TestCase
         $this->builder->build(
             [
                 'parse' => ['files_for_parse' => [$this->fixtureDir . 'composer3.json']],
-                'write' => ['report_filename' => $this->sourceFilename]
+                'write' => ['report_filename' => $this->sourceFilename],
             ]
         );
 

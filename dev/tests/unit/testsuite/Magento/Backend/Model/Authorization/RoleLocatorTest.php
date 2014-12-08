@@ -17,14 +17,14 @@ class RoleLocatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_sessionMock = array();
+    protected $_sessionMock = [];
 
     protected function setUp()
     {
         $this->_sessionMock = $this->getMock(
             'Magento\Backend\Model\Auth\Session',
-            array('getUser', 'getAclRole', 'hasUser'),
-            array(),
+            ['getUser', 'getAclRole', 'hasUser'],
+            [],
             '',
             false
         );

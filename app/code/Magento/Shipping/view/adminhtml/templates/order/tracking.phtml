@@ -74,7 +74,7 @@ require(['prototype'], function(){
     <tr id="track_row_template" class="template no-display">
         <td class="col-carrier">
             <select name="tracking[__index__][carrier_code]" id="trackingC__index__" class="select carrier" disabled="disabled">
-                <?php foreach ($this->getCarriers() as $_code=>$_name): ?>
+                <?php foreach ($this->getCarriers() as $_code => $_name): ?>
                     <option value="<?php echo $_code ?>"><?php echo $this->escapeHtml($_name) ?></option>
                 <?php endforeach; ?>
             </select>

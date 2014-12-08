@@ -41,7 +41,7 @@ abstract class AbstractComposite extends \Magento\Backend\Model\Config\Structure
             $this->_data
         ) && is_array(
             $this->_data['children']
-        ) ? $this->_data['children'] : array();
+        ) ? $this->_data['children'] : [];
         $this->_childrenIterator->setElements($children, $scope);
     }
 

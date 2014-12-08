@@ -62,7 +62,7 @@ class CustomerExtractor
 
         $allowedAttributes = $customerForm->getAllowedAttributes();
         $isGroupIdEmpty = true;
-        $customerData = array();
+        $customerData = [];
         foreach ($allowedAttributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             if ($attributeCode == 'group_id') {

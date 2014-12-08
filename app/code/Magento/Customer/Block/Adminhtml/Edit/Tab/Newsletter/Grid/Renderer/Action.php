@@ -27,7 +27,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -39,21 +39,21 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public function render(\Magento\Framework\Object $row)
     {
-        $actions = array();
+        $actions = [];
 
-        $actions[] = array(
-            '@' => array(
+        $actions[] = [
+            '@' => [
                 'href' => $this->getUrl(
                     'newsletter/template/preview',
-                    array(
+                    [
                         'id' => $row->getTemplateId(),
                         'subscriber' => $this->_coreRegistry->registry('subscriber')->getId()
-                    )
+                    ]
                 ),
-                'target' => '_blank'
-            ),
-            '#' => __('View')
-        );
+                'target' => '_blank',
+            ],
+            '#' => __('View'),
+        ];
 
         return $this->_actionsToHtml($actions);
     }
@@ -73,7 +73,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     protected function _actionsToHtml(array $actions)
     {
-        $html = array();
+        $html = [];
         $attributesObject = new \Magento\Framework\Object();
         foreach ($actions as $action) {
             $attributesObject->setData($action['@']);

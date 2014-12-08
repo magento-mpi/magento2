@@ -20,8 +20,8 @@ class ImageTest extends FileTest
     {
         $imageForm = $this->getMock(
             'Magento\Customer\Model\Metadata\Form\Image',
-            array('_isUploadedFile'),
-            array(
+            ['_isUploadedFile'],
+            [
                 $this->localeMock,
                 $this->loggerMock,
                 $this->attributeMetadataMock,
@@ -33,7 +33,7 @@ class ImageTest extends FileTest
                 $this->fileValidatorMock,
                 $this->fileSystemMock,
                 $this->uploaderFactoryMock
-            )
+            ]
         );
         return $imageForm;
     }
@@ -41,13 +41,13 @@ class ImageTest extends FileTest
     public function validateValueToUploadDataProvider()
     {
         $imagePath = __DIR__ . '/_files/logo.gif';
-        return array(
-            array(
-                array('"realFileName" is not a valid file.'),
-                array('tmp_name' => 'tmp_file', 'name' => 'realFileName'),
-                array('valid' => false)
-            ),
-            array(true, array('tmp_name' => $imagePath, 'name' => 'logo.gif'))
-        );
+        return [
+            [
+                ['"realFileName" is not a valid file.'],
+                ['tmp_name' => 'tmp_file', 'name' => 'realFileName'],
+                ['valid' => false],
+            ],
+            [true, ['tmp_name' => $imagePath, 'name' => 'logo.gif']]
+        ];
     }
 }

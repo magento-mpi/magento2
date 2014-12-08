@@ -177,12 +177,12 @@ abstract class AbstractFactory implements \Magento\Framework\ObjectManager\Facto
             $argument = $isShared
                 ? $this->objectManager->get($argumentType)
                 : $this->objectManager->create($argumentType);
-        } else if (is_array($argument)) {
+        } elseif (is_array($argument)) {
             if (isset($argument['argument'])) {
                 $argument = isset($this->globalArguments[$argument['argument']])
                     ? $this->globalArguments[$argument['argument']]
                     : $paramDefault;
-            } else if (!empty($argument)) {
+            } elseif (!empty($argument)) {
                 $this->parseArray($argument);
             }
         }

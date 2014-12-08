@@ -45,7 +45,6 @@ interface ProductCustomOptionValuesInterface
      */
     public function getSku();
 
-
     /**
      * Get Option type id
      *

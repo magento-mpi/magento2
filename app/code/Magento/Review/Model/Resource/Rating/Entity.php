@@ -40,6 +40,6 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'entity_code = :entity_code'
         );
-        return $adapter->fetchOne($select, array(':entity_code' => $entityCode));
+        return $adapter->fetchOne($select, [':entity_code' => $entityCode]);
     }
 }

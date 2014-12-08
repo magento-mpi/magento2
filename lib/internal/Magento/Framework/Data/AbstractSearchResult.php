@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Data;
 
-use Magento\Framework\Logger;
 
 /**
  * Class AbstractSearchResult
@@ -136,7 +135,7 @@ abstract class AbstractSearchResult extends AbstractDataObject implements Search
         return $this->resultIteratorFactory->create(
             [
                 'searchResult' => $this,
-                'query' => $this->query
+                'query' => $this->query,
             ]
         );
     }

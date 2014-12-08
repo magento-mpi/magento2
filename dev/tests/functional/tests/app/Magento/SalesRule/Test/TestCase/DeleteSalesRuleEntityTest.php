@@ -8,10 +8,10 @@
 
 namespace Magento\SalesRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
-use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
 use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteEdit;
+use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteSalesRuleEntity

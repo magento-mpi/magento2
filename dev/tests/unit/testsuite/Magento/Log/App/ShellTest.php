@@ -28,24 +28,24 @@ class ShellTest extends \PHPUnit_Framework_TestCase
     {
         $this->_shellFactoryMock = $this->getMock(
             'Magento\Log\Model\ShellFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\Framework\App\Console\Response', [], [], '', false);
         $this->_model = new \Magento\Log\App\Shell('shell.php', $this->_shellFactoryMock, $this->_responseMock);
     }
 
     public function testProcessRequest()
     {
-        $shellMock = $this->getMock('Magento\Log\App\Shell', array('run'), array(), '', false);
+        $shellMock = $this->getMock('Magento\Log\App\Shell', ['run'], [], '', false);
         $this->_shellFactoryMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
-            array('entryPoint' => 'shell.php')
+            ['entryPoint' => 'shell.php']
         )->will(
             $this->returnValue($shellMock)
         );
@@ -55,7 +55,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
 
     public function testCatchException()
     {
-        $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', array(), array(), '', false);
-        $this->assertFalse($this->_model->catchException($bootstrap, new \Exception));
+        $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false);
+        $this->assertFalse($this->_model->catchException($bootstrap, new \Exception()));
     }
 }

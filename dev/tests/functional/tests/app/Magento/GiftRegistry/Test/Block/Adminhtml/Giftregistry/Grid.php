@@ -21,8 +21,8 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'label' => [
-            'selector' => 'input[name="label"]'
-        ]
+            'selector' => 'input[name="label"]',
+        ],
     ];
 
     /**

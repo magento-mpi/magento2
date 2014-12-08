@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Eav Form Type Resource Collection
  *
@@ -51,9 +50,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
 
         $this->getSelect()->join(
-            array('form_type_entity' => $this->getTable('eav_form_type_entity')),
+            ['form_type_entity' => $this->getTable('eav_form_type_entity')],
             'main_table.type_id = form_type_entity.type_id',
-            array()
+            []
         )->where(
             'form_type_entity.entity_type_id = ?',
             $entity

@@ -77,8 +77,8 @@ class Tree extends \Magento\Catalog\Controller\Adminhtml\Category
                 'expanded' => (int)$block->getIsWasExpanded(),
                 'store_id' => (int)$block->getStore()->getId(),
                 'category_id' => (int)$category->getId(),
-                'root_visible' => (int)$root->getIsVisible()
-            ]
+                'root_visible' => (int)$root->getIsVisible(),
+            ],
         ]);
     }
 }

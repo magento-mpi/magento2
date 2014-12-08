@@ -8,10 +8,9 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\TestCase\Injectable;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Reports\Test\Page\Adminhtml\Bestsellers;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

@@ -29,6 +29,6 @@ class LogClean extends \Magento\ScheduledImportExport\Controller\Adminhtml\Sched
         } else {
             $this->messageManager->addError(__('Something went wrong deleting the history files.'));
         }
-        $this->_redirect('adminhtml/system_config/edit', array('section' => $this->getRequest()->getParam('section')));
+        $this->_redirect('adminhtml/system_config/edit', ['section' => $this->getRequest()->getParam('section')]);
     }
 }

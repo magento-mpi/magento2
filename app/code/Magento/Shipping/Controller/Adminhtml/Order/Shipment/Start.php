@@ -28,6 +28,6 @@ class Start extends \Magento\Backend\App\Action
         /**
          * Clear old values for shipment qty's
          */
-        $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+        $this->_redirect('*/*/new', ['order_id' => $this->getRequest()->getParam('order_id')]);
     }
 }

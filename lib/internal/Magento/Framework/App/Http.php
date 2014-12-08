@@ -9,14 +9,14 @@
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ObjectManager\ConfigLoader;
 use Magento\Framework\App\Request\Http as RequestHttp;
 use Magento\Framework\App\Response\Http as ResponseHttp;
-use Magento\Framework\Event;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\App\Response\HttpInterface;
+use Magento\Framework\Controller\ResultInterface;
+use Magento\Framework\Event;
+use Magento\Framework\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -133,7 +133,7 @@ class Http implements \Magento\Framework\AppInterface
             throw new \InvalidArgumentException('Invalid return type');
         }
         // This event gives possibility to launch something before sending output (allow cookie setting)
-        $eventParams = array('request' => $this->_request, 'response' => $this->_response);
+        $eventParams = ['request' => $this->_request, 'response' => $this->_response];
         $this->_eventManager->dispatch('controller_front_send_response_before', $eventParams);
         return $this->_response;
     }
@@ -249,7 +249,7 @@ class Http implements \Magento\Framework\AppInterface
      */
     private function handleGenericReport(Bootstrap $bootstrap, \Exception $exception)
     {
-        $reportData = array($exception->getMessage(), $exception->getTraceAsString());
+        $reportData = [$exception->getMessage(), $exception->getTraceAsString()];
         $params = $bootstrap->getParams();
         if (isset($params['REQUEST_URI'])) {
             $reportData['url'] = $params['REQUEST_URI'];

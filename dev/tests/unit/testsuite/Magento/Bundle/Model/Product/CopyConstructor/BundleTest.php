@@ -32,11 +32,11 @@ class BundleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         // Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate
-        $this->product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->duplicate = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('setBundleOptionsData', 'setBundleSelectionsData', '__wakeup'),
-            array(),
+            ['setBundleOptionsData', 'setBundleSelectionsData', '__wakeup'],
+            [],
             '',
             false
         );
@@ -60,29 +60,29 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         //prepare mocks and data samples
         $instance = $this->getMock(
             'Magento\Bundle\Model\Product\Type',
-            array('setStoreFilter', 'getOptionsCollection', 'getSelectionsCollection', 'getOptionsIds'),
-            array(),
+            ['setStoreFilter', 'getOptionsCollection', 'getSelectionsCollection', 'getOptionsIds'],
+            [],
             '',
             false
         );
         $option = $this->getMock(
             'Magento\Bundle\Model\Option',
-            array('getSelections', '__wakeup', 'getData'),
-            array(),
+            ['getSelections', '__wakeup', 'getData'],
+            [],
             '',
             false
         );
-        $options = array($option);
+        $options = [$option];
         $optionCollection = $this->objectManager->getCollectionMock(
             'Magento\Bundle\Model\Resource\Option\Collection',
             $options
         );
-        $optionRawData = array(
-            array('required' => true, 'position' => 100, 'type' => 'someType', 'title' => 'title', 'delete' => '')
-        );
-        $selectionRawData = array(
-            array(
-                array(
+        $optionRawData = [
+            ['required' => true, 'position' => 100, 'type' => 'someType', 'title' => 'title', 'delete' => ''],
+        ];
+        $selectionRawData = [
+            [
+                [
                     'product_id' => 123,
                     'position' => 500,
                     'is_default' => false,
@@ -90,14 +90,14 @@ class BundleTest extends \PHPUnit_Framework_TestCase
                     'selection_price_value' => 'priceVal',
                     'selection_qty' => 21,
                     'selection_can_change_qty' => 11,
-                    'delete' => ''
-                )
-            )
-        );
+                    'delete' => '',
+                ],
+            ],
+        ];
 
         $selection = $this->getMock(
             'Magento\Bundle\Model\Selection',
-            array(
+            [
                 'getProductId',
                 'getPosition',
                 'getIsDefault',
@@ -106,16 +106,16 @@ class BundleTest extends \PHPUnit_Framework_TestCase
                 'getSelectionQty',
                 'getSelectionCanChangeQty',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
-        $selections = array($selection);
+        $selections = [$selection];
         $selectionCollection = $this->getMock(
             'Magento\Bundle\Model\Resource\Selection\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

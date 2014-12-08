@@ -32,7 +32,7 @@ class SessionConfig extends AbstractSegment
             $data = [
                 self::KEY_SAVE => 'files',
             ];
-        } else if ($data[self::KEY_SAVE] !== 'files' && $data[self::KEY_SAVE] !== 'db') {
+        } elseif ($data[self::KEY_SAVE] !== 'files' && $data[self::KEY_SAVE] !== 'db') {
             throw new \InvalidArgumentException("Invalid session_save location {$data[self::KEY_SAVE]}");
         }
 

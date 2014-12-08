@@ -21,18 +21,18 @@ class CodeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
+        $this->_codeModelMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', [], [], '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Helper\Code',
-            array('code' => $this->_codeModelMock)
+            ['code' => $this->_codeModelMock]
         );
     }
 
     public function testLoadingCodeForCategoryEntity()
     {
-        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
 
         $categoryId = 1;
         $storeId = 1;
@@ -60,7 +60,7 @@ class CodeTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadingCodeForProductEntity()
     {
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $categoryId = 1;
         $storeId = 1;
@@ -88,7 +88,7 @@ class CodeTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadingCodeForPageEntity()
     {
-        $pageMock = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
+        $pageMock = $this->getMock('Magento\Cms\Model\Page', [], [], '', false);
 
         $categoryId = 1;
 
@@ -114,7 +114,7 @@ class CodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionNotValidEntityType()
     {
-        $entity = $this->getMock('Magento\Cms\Model\Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento\Cms\Model\Block', [], [], '', false);
 
         $entityId = 1;
 
@@ -133,7 +133,7 @@ class CodeTest extends \PHPUnit_Framework_TestCase
      */
     public function testExceptionEmptyEntity()
     {
-        $entity = $this->getMock('Magento\Cms\Model\Block', array(), array(), '', false);
+        $entity = $this->getMock('Magento\Cms\Model\Block', [], [], '', false);
 
         $entityId = 0;
 

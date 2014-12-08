@@ -86,7 +86,7 @@ class Product extends \Magento\Framework\App\Action\Action
                         'Magento\Framework\UrlInterface'
                     )->getUrl(
                         '*/*/send',
-                        array('_current' => true)
+                        ['_current' => true]
                     )
                 );
                 $this->_objectManager->get(

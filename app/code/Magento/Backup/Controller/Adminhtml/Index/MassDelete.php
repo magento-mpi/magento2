@@ -17,7 +17,7 @@ class MassDelete extends \Magento\Backup\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $backupIds = $this->getRequest()->getParam('ids', array());
+        $backupIds = $this->getRequest()->getParam('ids', []);
 
         if (!is_array($backupIds) || !count($backupIds)) {
             return $this->_redirect('backup/*/index');
@@ -25,7 +25,7 @@ class MassDelete extends \Magento\Backup\Controller\Adminhtml\Index
 
         $resultData = new \Magento\Framework\Object();
         $resultData->setIsSuccess(false);
-        $resultData->setDeleteResult(array());
+        $resultData->setDeleteResult([]);
         $this->_coreRegistry->register('backup_manager', $resultData);
 
         $deleteFailMessage = __('We couldn\'t delete one or more backups.');
@@ -45,7 +45,7 @@ class MassDelete extends \Magento\Backup\Controller\Adminhtml\Index
                 }
 
                 $resultData->setDeleteResult(
-                    array_merge($resultData->getDeleteResult(), array($backupModel->getFileName() . ' ' . $result))
+                    array_merge($resultData->getDeleteResult(), [$backupModel->getFileName() . ' ' . $result])
                 );
             }
 

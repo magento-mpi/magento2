@@ -26,11 +26,11 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', array(), array(), '', false);
+        $this->_initialConfigMock = $this->getMock('Magento\Framework\App\Config\Initial', [], [], '', false);
         $this->_collectionFactory = $this->getMock(
             'Magento\Store\Model\Resource\Config\Collection\ScopedFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -50,25 +50,25 @@ class DefaultReaderTest extends \PHPUnit_Framework_TestCase
         )->with(
             \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
         )->will(
-            $this->returnValue(array('config' => array('key1' => 'default_value1', 'key2' => 'default_value2')))
+            $this->returnValue(['config' => ['key1' => 'default_value1', 'key2' => 'default_value2']])
         );
         $this->_collectionFactory->expects(
             $this->once()
         )->method(
             'create'
         )->with(
-            array('scope' => 'default')
+            ['scope' => 'default']
         )->will(
             $this->returnValue(
-                array(
-                    new \Magento\Framework\Object(array('path' => 'config/key1', 'value' => 'default_db_value1')),
-                    new \Magento\Framework\Object(array('path' => 'config/key3', 'value' => 'default_db_value3'))
-                )
+                [
+                    new \Magento\Framework\Object(['path' => 'config/key1', 'value' => 'default_db_value1']),
+                    new \Magento\Framework\Object(['path' => 'config/key3', 'value' => 'default_db_value3']),
+                ]
             )
         );
-        $expectedData = array(
-            'config' => array('key1' => 'default_db_value1', 'key2' => 'default_value2', 'key3' => 'default_db_value3')
-        );
+        $expectedData = [
+            'config' => ['key1' => 'default_db_value1', 'key2' => 'default_value2', 'key3' => 'default_db_value3'],
+        ];
         $this->assertEquals($expectedData, $this->_model->read());
     }
 }

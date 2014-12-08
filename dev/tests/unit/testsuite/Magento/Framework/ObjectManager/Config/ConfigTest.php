@@ -12,7 +12,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testGetArgumentsEmpty()
     {
         $config = new Config();
-        $this->assertSame(array(), $config->getArguments('An invalid type'));
+        $this->assertSame([], $config->getArguments('An invalid type'));
     }
 
     public function testExtendMergeConfiguration()
@@ -27,8 +27,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     private function _assertFooTypeArguments(Config $config)
     {
-        $expected = array('argName' => 'argValue');
-        $fixture = array('FooType' => array('arguments' => $expected));
+        $expected = ['argName' => 'argValue'];
+        $fixture = ['FooType' => ['arguments' => $expected]];
         $config->extend($fixture);
         $this->assertEquals($expected, $config->getArguments('FooType'));
     }
@@ -36,7 +36,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testExtendWithCacheMock()
     {
         $definitions = $this->getMock('Magento\Framework\ObjectManager\DefinitionInterface');
-        $definitions->expects($this->once())->method('getClasses')->will($this->returnValue(array('FooType')));
+        $definitions->expects($this->once())->method('getClasses')->will($this->returnValue(['FooType']));
 
         $cache = $this->getMock('Magento\Framework\ObjectManager\ConfigCacheInterface');
         $cache->expects($this->once())->method('get')->will($this->returnValue(false));
@@ -56,7 +56,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testExtendIgnoresFirstSlashesOnPreferences()
     {
         $config = new Config();
-        $config->extend(array('preferences' => array('\Some\Interface' => '\Some\Class')));
+        $config->extend(['preferences' => ['\Some\Interface' => '\Some\Class']]);
         $this->assertEquals('Some\Class', $config->getPreference('Some\Interface'));
         $this->assertEquals('Some\Class', $config->getPreference('\Some\Interface'));
     }
@@ -64,21 +64,21 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testExtendIgnoresFirstShashesOnVirtualTypes()
     {
         $config = new Config();
-        $config->extend(array('\SomeVirtualType' => array('type' => '\Some\Class')));
+        $config->extend(['\SomeVirtualType' => ['type' => '\Some\Class']]);
         $this->assertEquals('Some\Class', $config->getInstanceType('SomeVirtualType'));
     }
 
     public function testExtendIgnoresFirstShashes()
     {
         $config = new Config();
-        $config->extend(array('\Some\Class' => array('arguments' => array('someArgument'))));
-        $this->assertEquals(array('someArgument'), $config->getArguments('Some\Class'));
+        $config->extend(['\Some\Class' => ['arguments' => ['someArgument']]]);
+        $this->assertEquals(['someArgument'], $config->getArguments('Some\Class'));
     }
 
     public function testExtendIgnoresFirstShashesForSharing()
     {
         $config = new Config();
-        $config->extend(array('\Some\Class' => array('shared' => true)));
+        $config->extend(['\Some\Class' => ['shared' => true]]);
         $this->assertTrue($config->isShared('Some\Class'));
     }
 }

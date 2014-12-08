@@ -7,7 +7,6 @@
  */
 namespace Magento\TestFramework;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
 
 /**
  * Provides access to the application for the tests

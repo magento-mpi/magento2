@@ -16,7 +16,7 @@ class MaliciousCode implements \Zend_Filter_Interface
      *
      * @var string[]
      */
-    protected $_expressions = array(
+    protected $_expressions = [
         //comments, must be first
         '/(\/\*.*\*\/)/Us',
         //tabs
@@ -32,8 +32,8 @@ class MaliciousCode implements \Zend_Filter_Interface
         //tags
         '/<\/?(script|meta|link|frame|iframe).*>/Uis',
         //base64 usage
-        '/src=[^<]*base64[^<]*(?=\/*\>)/Uis'
-    );
+        '/src=[^<]*base64[^<]*(?=\/*\>)/Uis',
+    ];
 
     /**
      * Filter value

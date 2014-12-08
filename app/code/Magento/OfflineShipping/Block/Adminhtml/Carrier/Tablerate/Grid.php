@@ -51,7 +51,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\OfflineShipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory,
         \Magento\OfflineShipping\Model\Carrier\Tablerate $tablerate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_tablerate = $tablerate;
@@ -142,23 +142,23 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'dest_country',
-            array('header' => __('Country'), 'index' => 'dest_country', 'default' => '*')
+            ['header' => __('Country'), 'index' => 'dest_country', 'default' => '*']
         );
 
         $this->addColumn(
             'dest_region',
-            array('header' => __('Region/State'), 'index' => 'dest_region', 'default' => '*')
+            ['header' => __('Region/State'), 'index' => 'dest_region', 'default' => '*']
         );
 
         $this->addColumn(
             'dest_zip',
-            array('header' => __('Zip/Postal Code'), 'index' => 'dest_zip', 'default' => '*')
+            ['header' => __('Zip/Postal Code'), 'index' => 'dest_zip', 'default' => '*']
         );
 
         $label = $this->_tablerate->getCode('condition_name_short', $this->getConditionName());
-        $this->addColumn('condition_value', array('header' => $label, 'index' => 'condition_value'));
+        $this->addColumn('condition_value', ['header' => $label, 'index' => 'condition_value']);
 
-        $this->addColumn('price', array('header' => __('Shipping Price'), 'index' => 'price'));
+        $this->addColumn('price', ['header' => __('Shipping Price'), 'index' => 'price']);
 
         return parent::_prepareColumns();
     }

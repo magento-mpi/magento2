@@ -8,8 +8,8 @@
 namespace Magento\Webapi\Model\Soap;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Webapi\Model\Config\Converter;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Webapi Config Model for Soap.
@@ -115,7 +115,7 @@ class Config
                         self::KEY_CLASS => $class,
                         self::KEY_METHOD => $method,
                         self::KEY_IS_SECURE => $methodData[self::KEY_IS_SECURE],
-                        self::KEY_ACL_RESOURCES => $methodData[self::KEY_ACL_RESOURCES]
+                        self::KEY_ACL_RESOURCES => $methodData[self::KEY_ACL_RESOURCES],
                     ];
                 }
             }

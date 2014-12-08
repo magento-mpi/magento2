@@ -14,7 +14,7 @@ class TransportBuilder extends \Magento\Framework\Mail\Template\TransportBuilder
      *
      * @var array
      */
-    protected $templateData = array();
+    protected $templateData = [];
 
     /**
      * Set template data

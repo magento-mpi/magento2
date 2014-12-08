@@ -54,10 +54,10 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'template_code = :template_code'
         );
-        $result = $this->_getReadAdapter()->fetchRow($select, array('template_code' => $templateCode));
+        $result = $this->_getReadAdapter()->fetchRow($select, ['template_code' => $templateCode]);
 
         if (!$result) {
-            return array();
+            return [];
         }
         return $result;
     }
@@ -77,7 +77,7 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
             )->where(
                 'template_code = :template_code'
             );
-            $bind = array('template_code' => $template->getTemplateCode());
+            $bind = ['template_code' => $template->getTemplateCode()];
 
             $templateId = $template->getId();
             if ($templateId) {
@@ -119,9 +119,9 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getSystemConfigByPathsAndTemplateId($paths, $templateId)
     {
-        $orWhere = array();
+        $orWhere = [];
         $pathsCounter = 1;
-        $bind = array();
+        $bind = [];
         foreach ($paths as $path) {
             $pathAlias = 'path_' . $pathsCounter;
             $orWhere[] = 'path = :' . $pathAlias;
@@ -131,7 +131,7 @@ class Template extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $bind['template_id'] = $templateId;
         $select = $this->_getReadAdapter()->select()->from(
             $this->getTable('core_config_data'),
-            array('scope', 'scope_id', 'path')
+            ['scope', 'scope_id', 'path']
         )->where(
             'value LIKE :template_id'
         )->where(

@@ -82,7 +82,6 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
                 )
             );
 
-
         $this->model = new \Magento\GiftCard\Pricing\Price\FinalPrice(
             $this->saleableMock,
             1,
@@ -123,7 +122,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
                     ['website_value' => 10.],
                     ['website_value' => 20.],
                 ],
-                'expected' => [5., 10.]
+                'expected' => [5., 10.],
             ],
             'zero_amount' => [
                 'amounts' => [],

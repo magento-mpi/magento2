@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Report Sold Products collection
  *
@@ -59,7 +58,7 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
     protected function _productLimitationJoinWebsite()
     {
         $filters = $this->_productLimitationFilters;
-        $conditions = array('product_website.product_id=e.entity_id');
+        $conditions = ['product_website.product_id=e.entity_id'];
         if (isset($filters['website_ids'])) {
             $conditions[] = $this->getConnection()->quoteInto(
                 'product_website.website_id IN(?)',
@@ -67,8 +66,8 @@ class Collection extends \Magento\Reports\Model\Resource\Product\Collection
             );
 
             $subQuery = $this->getConnection()->select()->from(
-                array('product_website' => $this->getTable('catalog_product_website')),
-                array('product_website.product_id')
+                ['product_website' => $this->getTable('catalog_product_website')],
+                ['product_website.product_id']
             )->where(
                 join(' AND ', $conditions)
             );

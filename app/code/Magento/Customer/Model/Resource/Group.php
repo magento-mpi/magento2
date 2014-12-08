@@ -58,7 +58,7 @@ class Group extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => 'customer_group_code', 'title' => __('Customer Group')));
+        $this->_uniqueFields = [['field' => 'customer_group_code', 'title' => __('Customer Group')]];
 
         return $this;
     }

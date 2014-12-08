@@ -56,7 +56,7 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'param' => 'param',
-                'expectedResult' => false
+                'expectedResult' => false,
             ],
             [
                 'param' => ['param'],
@@ -92,7 +92,7 @@ class MultilineTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ARRAY,
-                'expectedResult' => ['value1', 'value2']
+                'expectedResult' => ['value1', 'value2'],
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_HTML,

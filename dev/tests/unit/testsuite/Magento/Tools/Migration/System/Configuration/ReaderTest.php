@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/System/Configuration/Reader.php';
@@ -46,22 +45,22 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_parserMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Parser',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_mapperMock = $this->getMock(
             'Magento\Tools\Migration\System\Configuration\Mapper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -80,7 +79,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getFileList'
         )->will(
-            $this->returnValue(array('testFile'))
+            $this->returnValue(['testFile'])
         );
         $this->_fileManagerMock->expects(
             $this->once()
@@ -91,7 +90,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('<config><system><tabs></tabs></system></config>')
         );
-        $parsedArray = array('config' => array('system' => array('tabs')));
+        $parsedArray = ['config' => ['system' => ['tabs']]];
         $this->_parserMock->expects(
             $this->once()
         )->method(
@@ -102,7 +101,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($parsedArray)
         );
 
-        $transformedArray = array('value' => 'expected');
+        $transformedArray = ['value' => 'expected'];
         $this->_mapperMock->expects(
             $this->once()
         )->method(
@@ -113,7 +112,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($transformedArray)
         );
 
-
-        $this->assertEquals(array('testFile' => $transformedArray), $this->_model->getConfiguration());
+        $this->assertEquals(['testFile' => $transformedArray], $this->_model->getConfiguration());
     }
 }

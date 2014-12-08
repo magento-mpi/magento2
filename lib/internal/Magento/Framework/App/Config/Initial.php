@@ -21,14 +21,14 @@ class Initial
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Config metadata
      *
      * @var array
      */
-    protected $_metadata = array();
+    protected $_metadata = [];
 
     /**
      * @param \Magento\Framework\App\Config\Initial\Reader $reader
@@ -60,11 +60,11 @@ class Initial
         list($scopeType, $scopeCode) = array_pad(explode('|', $scope), 2, null);
 
         if (\Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT == $scopeType) {
-            return isset($this->_data[$scopeType]) ? $this->_data[$scopeType] : array();
+            return isset($this->_data[$scopeType]) ? $this->_data[$scopeType] : [];
         } elseif ($scopeCode) {
-            return isset($this->_data[$scopeType][$scopeCode]) ? $this->_data[$scopeType][$scopeCode] : array();
+            return isset($this->_data[$scopeType][$scopeCode]) ? $this->_data[$scopeType][$scopeCode] : [];
         }
-        return array();
+        return [];
     }
 
     /**

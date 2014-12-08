@@ -30,7 +30,7 @@ class XmlScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($files as $file) {
             $dom = new \DOMDocument();
             $dom->load($file);
@@ -59,7 +59,7 @@ class XmlScanner implements ScannerInterface
      */
     protected function _filterEntities(array $output)
     {
-        $filteredEntities = array();
+        $filteredEntities = [];
         foreach ($output as $className) {
             $entityName = substr($className, -6) === '\Proxy' ? substr($className, 0, -6) : $className;
             if (false === class_exists($className)) {

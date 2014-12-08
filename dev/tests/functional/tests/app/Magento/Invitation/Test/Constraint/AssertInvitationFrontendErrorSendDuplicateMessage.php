@@ -8,8 +8,8 @@
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Invitation\Test\Page\InvitationIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertInvitationFrontendErrorSendDuplicateMessage

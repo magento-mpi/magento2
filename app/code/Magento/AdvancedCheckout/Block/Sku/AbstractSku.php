@@ -43,7 +43,7 @@ abstract class AbstractSku extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Framework\Math\Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutData = $checkoutData;
         $this->mathRandom = $mathRandom;

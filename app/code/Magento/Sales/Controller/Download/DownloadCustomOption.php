@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Download;
 
-use \Magento\Catalog\Model\Product\Type\AbstractType\AbstractProductType;
+use Magento\Catalog\Model\Product\Type\AbstractType\AbstractProductType;
 
 class DownloadCustomOption extends \Magento\Framework\App\Action\Action
 {

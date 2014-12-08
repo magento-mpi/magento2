@@ -52,13 +52,13 @@
             <?php if ($this->canCreateShipment() && $this->canShipPartiallyItem()): ?>
             <div>
                 <label for="invoice_do_shipment" class="normal"><?php echo __('Create Shipment') ?></label>
-                <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" <?php echo $this->hasInvoiceShipmentTypeMismatch()?' disabled="disabled"':'' ?> />
+                <input type="checkbox" name="invoice[do_shipment]" id="invoice_do_shipment" value="1" <?php echo $this->hasInvoiceShipmentTypeMismatch() ? ' disabled="disabled"' : '' ?> />
             </div>
             <?php if ($this->hasInvoiceShipmentTypeMismatch()): ?>
                 <small><?php echo __('Invoice and shipment types do not match for some items on this order. You can create a shipment only after creating the invoice.') ?></small>
                 <?php endif; ?>
             <?php endif; ?>
-            <div id="tracking" style="display:none;"><?php echo $this->getChildHtml('tracking',false) ?></div>
+            <div id="tracking" style="display:none;"><?php echo $this->getChildHtml('tracking', false) ?></div>
         </div>
     </div>
     <?php endif; ?>

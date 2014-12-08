@@ -20,13 +20,13 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
         $fieldOneExactValue = new \Zend_Validate_Identical('field_one_value');
         $fieldOneExactValue->setMessage("'field_one' does not match expected value");
-        $fieldOneLength = new \Zend_Validate_StringLength(array('min' => 10));
+        $fieldOneLength = new \Zend_Validate_StringLength(['min' => 10]);
 
         $fieldTwoExactValue = new \Zend_Validate_Identical('field_two_value');
         $fieldTwoExactValue->setMessage("'field_two' does not match expected value");
-        $fieldTwoLength = new \Zend_Validate_StringLength(array('min' => 5));
+        $fieldTwoLength = new \Zend_Validate_StringLength(['min' => 5]);
 
-        $entityValidity = new \Zend_Validate_Callback(array($this, 'isEntityValid'));
+        $entityValidity = new \Zend_Validate_Callback([$this, 'isEntityValid']);
         $entityValidity->setMessage('Entity is not valid.');
 
         $this->_model->addRule(
@@ -96,29 +96,29 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
 
     public function validateDataProvider()
     {
-        return array(
-            'only "field_one" is invalid' => array(
-                array('field_one' => 'one_value', 'field_two' => 'field_two_value', 'is_valid' => true),
-                array("'one_value' is less than 10 characters long", "'field_one' does not match expected value")
-            ),
-            'only "field_two" is invalid' => array(
-                array('field_one' => 'field_one_value', 'field_two' => 'two_value', 'is_valid' => true),
-                array("'field_two' does not match expected value")
-            ),
-            'entity as a whole is invalid' => array(
-                array('field_one' => 'field_one_value', 'field_two' => 'field_two_value'),
-                array('Entity is not valid.')
-            ),
-            'errors aggregation' => array(
-                array('field_one' => 'one_value', 'field_two' => 'two'),
-                array(
+        return [
+            'only "field_one" is invalid' => [
+                ['field_one' => 'one_value', 'field_two' => 'field_two_value', 'is_valid' => true],
+                ["'one_value' is less than 10 characters long", "'field_one' does not match expected value"],
+            ],
+            'only "field_two" is invalid' => [
+                ['field_one' => 'field_one_value', 'field_two' => 'two_value', 'is_valid' => true],
+                ["'field_two' does not match expected value"],
+            ],
+            'entity as a whole is invalid' => [
+                ['field_one' => 'field_one_value', 'field_two' => 'field_two_value'],
+                ['Entity is not valid.'],
+            ],
+            'errors aggregation' => [
+                ['field_one' => 'one_value', 'field_two' => 'two'],
+                [
                     "'one_value' is less than 10 characters long",
                     "'field_one' does not match expected value",
                     "'two' is less than 5 characters long",
                     "'field_two' does not match expected value",
                     'Entity is not valid.'
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 }

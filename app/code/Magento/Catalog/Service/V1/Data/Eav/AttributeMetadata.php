@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Data\Eav;
 
-use \Magento\Framework\Api\AbstractExtensibleObject;
+use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\MetadataObjectInterface;
 
 /**

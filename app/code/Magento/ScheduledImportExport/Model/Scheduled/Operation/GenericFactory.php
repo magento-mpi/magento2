@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -30,7 +30,7 @@ class GenericFactory
      * @throws \InvalidArgumentException
      * @return \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface
      */
-    public function create($model, array $data = array())
+    public function create($model, array $data = [])
     {
         $modelInstance = $this->_objectManager->create($model, $data);
         if (false ==

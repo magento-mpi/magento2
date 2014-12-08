@@ -27,7 +27,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Backend\Model\Menu\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'menu.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Backend\Model\Menu\Config\Menu\Dom',
         $defaultScope = 'global'
     ) {

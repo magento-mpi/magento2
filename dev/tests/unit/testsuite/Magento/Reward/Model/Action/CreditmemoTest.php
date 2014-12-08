@@ -42,15 +42,15 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Refunded from order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Refunded from order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Refunded from order #1'
-            )
-        );
+            ]
+        ];
     }
 }

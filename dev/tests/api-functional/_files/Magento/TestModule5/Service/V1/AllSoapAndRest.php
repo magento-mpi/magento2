@@ -23,7 +23,7 @@ class AllSoapAndRest implements \Magento\TestModule5\Service\V1\AllSoapAndRestIn
     {
         $this->builder = $builder;
     }
-    
+
     /**
      * {@inheritdoc}
      */

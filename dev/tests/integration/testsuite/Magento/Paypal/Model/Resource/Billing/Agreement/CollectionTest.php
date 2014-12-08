@@ -37,7 +37,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             'agreement_label' => 'TEST',
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'John',
-            'customer_lastname' => 'Smith'
+            'customer_lastname' => 'Smith',
         ];
         foreach ($expectedData as $field => $expectedValue) {
             $this->assertEquals(

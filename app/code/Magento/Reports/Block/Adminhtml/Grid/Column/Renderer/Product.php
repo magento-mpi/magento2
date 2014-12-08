@@ -26,7 +26,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
 
         return sprintf(
             '<a href="%s">%s</a>',
-            $this->getUrl('review/product/', array('productId' => $id)),
+            $this->getUrl('review/product/', ['productId' => $id]),
             __('Show Reviews')
         );
     }

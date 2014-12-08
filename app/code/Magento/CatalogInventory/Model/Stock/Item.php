@@ -7,14 +7,14 @@
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
+use Magento\Catalog\Model\Product;
 use Magento\CatalogInventory\Api\Data\StockItemInterface;
 use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
-use Magento\Catalog\Model\Product;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Api\MetadataServiceInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog Inventory Stock Item Model

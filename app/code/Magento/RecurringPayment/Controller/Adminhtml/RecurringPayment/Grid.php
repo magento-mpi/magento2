@@ -8,7 +8,7 @@
  */
 namespace Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
-use \Magento\Framework\Model\Exception as CoreException;
+use Magento\Framework\Model\Exception as CoreException;
 
 class Grid extends \Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment
 {

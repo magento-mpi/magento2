@@ -18,7 +18,7 @@ class ErrorHandler
      *
      * @var array
      */
-    protected $errorPhrases = array(
+    protected $errorPhrases = [
         E_ERROR => 'Error',
         E_WARNING => 'Warning',
         E_PARSE => 'Parse Error',
@@ -33,8 +33,8 @@ class ErrorHandler
         E_STRICT => 'Strict Notice',
         E_RECOVERABLE_ERROR => 'Recoverable Error',
         E_DEPRECATED => 'Deprecated Functionality',
-        E_USER_DEPRECATED => 'User Deprecated Functionality'
-    );
+        E_USER_DEPRECATED => 'User Deprecated Functionality',
+    ];
 
     /**
      * Custom error handler

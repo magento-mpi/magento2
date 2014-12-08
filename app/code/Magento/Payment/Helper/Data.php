@@ -7,15 +7,15 @@
  */
 namespace Magento\Payment\Helper;
 
-use Magento\Sales\Model\Quote;
-use Magento\Store\Model\Store;
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\LayoutFactory;
+use Magento\Framework\View\LayoutInterface;
 use Magento\Payment\Block\Form;
 use Magento\Payment\Model\Info;
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\LayoutFactory;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Magento\Payment\Model\MethodInterface;
+use Magento\Sales\Model\Quote;
+use Magento\Store\Model\Store;
 
 /**
  * Payment module base helper
@@ -149,7 +149,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $res[] = $methodInstance;
         }
 
-        uasort($res, array($this, '_sortMethods'));
+        uasort($res, [$this, '_sortMethods']);
 
         return $res;
     }
@@ -262,9 +262,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getPaymentMethodList($sorted = true, $asLabelValue = false, $withGroups = false, $store = null)
     {
-        $methods = array();
-        $groups = array();
-        $groupRelations = array();
+        $methods = [];
+        $groups = [];
+        $groupRelations = [];
 
         foreach ($this->getPaymentMethods() as $code => $data) {
             if (isset($data['title'])) {
@@ -288,18 +288,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             asort($methods);
         }
         if ($asLabelValue) {
-            $labelValues = array();
+            $labelValues = [];
             foreach ($methods as $code => $title) {
-                $labelValues[$code] = array();
+                $labelValues[$code] = [];
             }
             foreach ($methods as $code => $title) {
                 if (isset($groups[$code])) {
                     $labelValues[$code]['label'] = $title;
                 } elseif (isset($groupRelations[$code])) {
                     unset($labelValues[$code]);
-                    $labelValues[$groupRelations[$code]]['value'][$code] = array('value' => $code, 'label' => $title);
+                    $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
                 } else {
-                    $labelValues[$code] = array('value' => $code, 'label' => $title);
+                    $labelValues[$code] = ['value' => $code, 'label' => $title];
                 }
             }
             return $labelValues;

@@ -24,7 +24,7 @@ class Config extends Scoped implements ConfigInterface
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = ['global'];
 
     /**
      * @param \Magento\VersionsCms\Model\Hierarchy\Config\Reader $reader

@@ -21,7 +21,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      *
      * @var array
      */
-    protected $_allowCurrencyCode = array('USD');
+    protected $_allowCurrencyCode = ['USD'];
 
     /**#@+
      * Availability options
@@ -80,7 +80,7 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
         $result = new \Magento\Framework\Object($result);
         $this->importPaymentInfo($result, $payment);
         $data = $result->getRawSuccessResponseData();
-        return ($data) ? $data : array();
+        return ($data) ? $data : [];
     }
 
     /**
@@ -92,15 +92,15 @@ class Authorizenet extends \Magento\Pbridge\Model\Payment\Method
      */
     public function importPaymentInfo(\Magento\Framework\Object $from, \Magento\Payment\Model\Info $to)
     {
-        $approvedTransactionStatuses = array(
+        $approvedTransactionStatuses = [
             self::TRANSACTION_STATUS_AUTHORIZED_PENDING_PAYMENT,
-            self::TRANSACTION_STATUS_CAPTURED_PENDING_SETTLEMENT
-        );
+            self::TRANSACTION_STATUS_CAPTURED_PENDING_SETTLEMENT,
+        ];
 
-        $canceledTransactionStatuses = array(
+        $canceledTransactionStatuses = [
             self::TRANSACTION_STATUS_VOIDED,
-            self::TRANSACTION_STATUS_DECLINED
-        );
+            self::TRANSACTION_STATUS_DECLINED,
+        ];
 
         $transactionStatus = $from->getTransactionStatus();
 

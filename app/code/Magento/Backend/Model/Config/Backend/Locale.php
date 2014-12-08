@@ -57,7 +57,7 @@ class Locale extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configsFactory = $configsFactory;
         $this->_websiteFactory = $websiteFactory;
@@ -77,7 +77,7 @@ class Locale extends \Magento\Framework\App\Config\Value
         $collection->addPathFilter('currency/options');
 
         $values = explode(',', $this->getValue());
-        $exceptions = array();
+        $exceptions = [];
 
         foreach ($collection as $data) {
             $match = false;

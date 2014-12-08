@@ -19,7 +19,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]
         );
         $block = $layout->createBlock(
             'Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid',
@@ -30,7 +30,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $html = $block->toHtml();
 
         $regexpTemplate = '/<button [^>]* onclick="temp_id[^"]*\\.%s/i';
-        $jsFuncs = array('doFilter', 'resetFilter');
+        $jsFuncs = ['doFilter', 'resetFilter'];
         foreach ($jsFuncs as $func) {
             $regexp = sprintf($regexpTemplate, $func);
             $this->assertRegExp($regexp, $html);

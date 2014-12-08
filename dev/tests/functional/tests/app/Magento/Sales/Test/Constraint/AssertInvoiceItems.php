@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\ObjectManager;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Page\Adminhtml\InvoiceIndex;
 use Magento\Sales\Test\Page\Adminhtml\SalesInvoiceView;
@@ -49,7 +48,7 @@ class AssertInvoiceItems extends AbstractAssertItems
         foreach ($ids['invoiceIds'] as $invoiceId) {
             $filter = [
                 'order_id' => $orderId,
-                'id' => $invoiceId
+                'id' => $invoiceId,
             ];
             $invoiceIndex->getInvoicesGrid()->searchAndOpen($filter);
             $itemsData = $this->preparePageItems($salesInvoiceView->getItemsBlock()->getData());

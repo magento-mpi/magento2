@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModule5\Service\V2;
 
-use Magento\TestModule5\Service\V2\Entity\AllSoapAndRestBuilder;
 use Magento\TestModule5\Service\V2\Entity\AllSoapAndRest as AllSoapAndRestEntity;
+use Magento\TestModule5\Service\V2\Entity\AllSoapAndRestBuilder;
 
 class AllSoapAndRest implements AllSoapAndRestInterface
 {
@@ -24,7 +24,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     {
         $this->builder = $builder;
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -40,7 +40,7 @@ class AllSoapAndRest implements AllSoapAndRestInterface
     {
         $allSoapAndRest1 = $this->builder->setPrice(1)->setId(1)->setName('testProduct1')->create();
         $allSoapAndRest2 = $this->builder->setPrice(1)->setId(2)->setName('testProduct2')->create();
-        return array($allSoapAndRest1, $allSoapAndRest2);
+        return [$allSoapAndRest1, $allSoapAndRest2];
     }
 
     /**

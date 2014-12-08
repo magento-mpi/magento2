@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class PriceModifier
 {
@@ -47,7 +47,7 @@ class PriceModifier
             if ($groupPrice['cust_group'] == $customerGroupId
                 && intval($groupPrice['website_id']) === intval($websiteId)
             ) {
-                unset ($prices[$key]);
+                unset($prices[$key]);
             }
         }
         if ($groupPriceQty == count($prices)) {
@@ -86,11 +86,11 @@ class PriceModifier
             if ($customerGroupId == 'all' && $tierPrice['price_qty'] == $qty
                 && $tierPrice['all_groups'] == 1 && intval($tierPrice['website_id']) === intval($websiteId)
             ) {
-                unset ($prices[$key]);
+                unset($prices[$key]);
             } elseif ($tierPrice['price_qty'] == $qty && $tierPrice['cust_group'] == $customerGroupId
                 && intval($tierPrice['website_id']) === intval($websiteId)
             ) {
-                unset ($prices[$key]);
+                unset($prices[$key]);
             }
         }
 

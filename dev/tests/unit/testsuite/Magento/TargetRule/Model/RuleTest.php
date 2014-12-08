@@ -103,10 +103,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     public function testDataHasChangedForAny()
     {
-        $fields = array('first', 'second');
+        $fields = ['first', 'second'];
         $this->assertEquals(false, $this->_rule->dataHasChangedForAny($fields));
 
-        $fields = array('first', 'second');
+        $fields = ['first', 'second'];
         $this->_rule->setData('first', 'test data');
         $this->_rule->setOrigData('first', 'origin test data');
         $this->assertEquals(true, $this->_rule->dataHasChangedForAny($fields));
@@ -214,7 +214,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(null, $this->_rule->getActionSelectBind());
 
-        $result = array(1 => 'test');
+        $result = [1 => 'test'];
         $this->_rule->setData('action_select_bind', serialize($result));
         $this->assertEquals($result, $this->_rule->getActionSelectBind());
 
@@ -228,7 +228,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->_rule->validateData($object));
 
         $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
-        $array['actions'] = array(1 => 'test');
+        $array['actions'] = [1 => 'test'];
 
         $object->expects($this->once())
             ->method('getData')
@@ -237,16 +237,16 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(true, $this->_rule->validateData($object));
 
         $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
-        $array['actions'] = array(2 => array('type' => '\Magento\Framework\Object', 'attribute' => 'test attribute'));
+        $array['actions'] = [2 => ['type' => '\Magento\Framework\Object', 'attribute' => 'test attribute']];
 
         $object->expects($this->once())
             ->method('getData')
             ->will($this->returnValue($array));
 
-        $result = array( 0 => __(
+        $result = [ 0 => __(
             'This attribute code is invalid. Please use only letters (a-z), numbers (0-9) or underscores (_),'
             . ' and be sure the code begins with a letter.'
-        ));
+        )];
         $this->assertEquals($result, $this->_rule->validateData($object));
     }
 
@@ -257,7 +257,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     public function testValidateDataWithException()
     {
         $object = $this->getMock('\Magento\Framework\Object', ['getData'], [], '', false);
-        $array['actions'] = array(2 => array('type' => 'test type', 'attribute' => 'test attribute'));
+        $array['actions'] = [2 => ['type' => 'test type', 'attribute' => 'test attribute']];
 
         $object->expects($this->once())
             ->method('getData')

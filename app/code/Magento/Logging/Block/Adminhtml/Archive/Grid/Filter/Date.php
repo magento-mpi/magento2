@@ -23,14 +23,14 @@ class Date extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Date
     protected function _convertDate($date, $locale)
     {
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array(
+            [
                 'date_format' => $this->_localeDate->getDateFormat(
                     \Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT
-                )
-            )
+                ),
+            ]
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT]
         );
         $date = $filterInput->filter($date);
         $date = $filterInternal->filter($date);

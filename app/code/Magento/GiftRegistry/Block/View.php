@@ -37,7 +37,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->countryFactory = $countryFactory;
         $this->typeFactory = $typeFactory;
@@ -99,7 +99,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     {
         $registrantRoles = $this->getEntity()->getRegistrantRoles();
         if ($registrantRoles) {
-            $roles = array();
+            $roles = [];
             foreach ($registrantRoles as $code) {
                 $label = $type->getOptionLabel($attributeCode, $code);
                 if ($label) {
@@ -124,12 +124,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $type = $this->typeFactory->create()->load($typeId);
 
         $attributes = array_merge(
-            array('title' => __('Event'), 'registrants' => __('Recipient')),
+            ['title' => __('Event'), 'registrants' => __('Recipient')],
             $type->getListedAttributes(),
-            array('customer_name' => __('Registry owner'), 'message' => __('Message'))
+            ['customer_name' => __('Registry owner'), 'message' => __('Message')]
         );
 
-        $result = array();
+        $result = [];
         foreach ($attributes as $attributeCode => $attributeTitle) {
             switch ($attributeCode) {
                 case 'customer_name':
@@ -152,7 +152,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             if ((string)$attributeValue == '') {
                 continue;
             }
-            $result[] = array('title' => $attributeTitle, 'value' => $this->escapeHtml($attributeValue));
+            $result[] = ['title' => $attributeTitle, 'value' => $this->escapeHtml($attributeValue)];
         }
         return $result;
     }

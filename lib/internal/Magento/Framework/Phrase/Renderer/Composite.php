@@ -41,7 +41,7 @@ class Composite implements RendererInterface
      * @param [] $arguments
      * @return string
      */
-    public function render(array $source, array $arguments = array())
+    public function render(array $source, array $arguments = [])
     {
         $result = $source;
         foreach ($this->_renderers as $render) {

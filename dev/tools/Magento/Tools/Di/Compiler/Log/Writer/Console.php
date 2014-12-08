@@ -16,12 +16,12 @@ class Console implements WriterInterface
      *
      * @var array
      */
-    protected $_messages = array(
+    protected $_messages = [
         Log::GENERATION_SUCCESS => 'Generated classes:',
         Log::GENERATION_ERROR => 'Errors during class generation:',
         Log::COMPILATION_ERROR => 'Errors during compilation:',
-        Log::CONFIGURATION_ERROR => 'Errors during configuration scanning:'
-    );
+        Log::CONFIGURATION_ERROR => 'Errors during configuration scanning:',
+    ];
 
     /**
      * Output log data

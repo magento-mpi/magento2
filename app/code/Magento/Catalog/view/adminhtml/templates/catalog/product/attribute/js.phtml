@@ -188,7 +188,7 @@ function switchDefaultValueField()
             setRowVisibility('frontend_class', false);
         break;
 
-        <?php foreach ($this->helper('Magento\Catalog\Helper\Data')->getAttributeHiddenFields() as $type=>$fields): ?>
+        <?php foreach ($this->helper('Magento\Catalog\Helper\Data')->getAttributeHiddenFields() as $type => $fields): ?>
             case '<?php echo $type; ?>':
                 <?php foreach ($fields as $one): ?>
                     <?php if ($one == '_front_fieldset'): ?>

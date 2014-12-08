@@ -28,11 +28,11 @@ class Place extends \Magento\Sales\Controller\Adminhtml\Order\Create
         if ($orderData) {
             $sendConfirmationFlag = !empty($orderData['send_confirmation']) ? 1 : 0;
         } else {
-            $orderData = array();
+            $orderData = [];
         }
 
         if (isset($paymentParam['method'])) {
-            $result = array();
+            $result = [];
             $params = $this->_objectManager->get(
                 'Magento\Authorizenet\Helper\Data'
             )->getSaveOrderUrlParams(
@@ -77,7 +77,7 @@ class Place extends \Magento\Sales\Controller\Adminhtml\Order\Create
                             $adminUrl->getSecretKey('adminhtml', 'authorizenet_directpost_payment', 'redirect')
                         );
                     }
-                    $result['directpost'] = array('fields' => $requestToAuthorizenet->getData());
+                    $result['directpost'] = ['fields' => $requestToAuthorizenet->getData()];
                 }
 
                 $result['success'] = 1;
@@ -107,7 +107,7 @@ class Place extends \Magento\Sales\Controller\Adminhtml\Order\Create
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );
         } else {
-            $result = array('error_messages' => __('Please choose a payment method.'));
+            $result = ['error_messages' => __('Please choose a payment method.')];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

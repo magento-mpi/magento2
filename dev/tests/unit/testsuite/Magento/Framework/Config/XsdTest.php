@@ -36,6 +36,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidXmlFileDataProvider()
     {
-        return array(array('view.xsd', 'view_invalid.xml', 1), array('theme.xsd', 'theme_invalid.xml', 0));
+        return [['view.xsd', 'view_invalid.xml', 1], ['theme.xsd', 'theme_invalid.xml', 0]];
     }
 }

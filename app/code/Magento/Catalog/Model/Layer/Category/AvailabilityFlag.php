@@ -20,7 +20,7 @@ class AvailabilityFlag implements AvailabilityFlagInterface
      * @param array $filters
      * @return bool
      */
-    public function isEnabled($layer, array $filters = array())
+    public function isEnabled($layer, array $filters = [])
     {
         return $this->canShowOptions($filters) || count($layer->getState()->getFilters());
     }

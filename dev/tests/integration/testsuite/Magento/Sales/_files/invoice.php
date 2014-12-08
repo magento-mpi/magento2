@@ -14,7 +14,7 @@ require 'order.php';
 
 $orderService = \Magento\TestFramework\ObjectManager::getInstance()->create(
     'Magento\Sales\Model\Service\Order',
-    array('order' => $order)
+    ['order' => $order]
 );
 $invoice = $orderService->prepareInvoice();
 $invoice->register();

@@ -40,7 +40,7 @@ class Details extends Block
         $fields = [
             1 => 'aggregated_information',
             2 => 'user_id',
-            3 => 'user'
+            3 => 'user',
         ];
         foreach ($fields as $key => $value) {
             $data[$value] = $this->_rootElement->find(sprintf($this->adminUserData, $key))->getText();

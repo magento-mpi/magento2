@@ -33,7 +33,7 @@ class FieldsetConfigTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             },
-            \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('fieldset.xml', array(), true)
+            \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('fieldset.xml', [], true)
         );
     }
 

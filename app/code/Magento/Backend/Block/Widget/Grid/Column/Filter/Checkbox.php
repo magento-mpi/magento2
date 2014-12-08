@@ -27,11 +27,11 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected function _getOptions()
     {
-        return array(
-            array('label' => __('Any'), 'value' => ''),
-            array('label' => __('Yes'), 'value' => 1),
-            array('label' => __('No'), 'value' => 0)
-        );
+        return [
+            ['label' => __('Any'), 'value' => ''],
+            ['label' => __('Yes'), 'value' => 1],
+            ['label' => __('No'), 'value' => 0]
+        ];
     }
 
     /**
@@ -42,7 +42,7 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
         if ($this->getValue()) {
             return $this->getColumn()->getValue();
         } else {
-            return array(array('neq' => $this->getColumn()->getValue()), array('is' => new \Zend_Db_Expr('NULL')));
+            return [['neq' => $this->getColumn()->getValue()], ['is' => new \Zend_Db_Expr('NULL')]];
         }
         // return array('like'=>'%'.$this->getValue().'%');
     }

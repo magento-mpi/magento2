@@ -9,8 +9,8 @@
  */
 namespace Magento\Framework\Event\Invoker;
 
-use Zend\Stdlib\Exception\LogicException;
 use Magento\Framework\Event\Observer;
+use Zend\Stdlib\Exception\LogicException;
 
 class InvokerDefault implements \Magento\Framework\Event\InvokerInterface
 {

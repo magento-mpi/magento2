@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogEventInGrid
@@ -97,7 +97,7 @@ class AssertCatalogEventInGrid extends AbstractConstraint
             'end_on' => $dateEnd,
             'status' => $status,
             'countdown_ticker' => $this->prepareDisplayStateForFilter(),
-            'sort_order' => $sortOrder
+            'sort_order' => $sortOrder,
         ];
         $catalogEventIndex->getEventGrid()->search(['category_name' => $filter['category_name']]);
         $catalogEventIndex->open();

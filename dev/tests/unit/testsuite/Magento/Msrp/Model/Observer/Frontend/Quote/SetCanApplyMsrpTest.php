@@ -7,9 +7,8 @@
  */
 namespace Magento\Msrp\Model\Observer\Frontend\Quote;
 
-use Magento\Framework\Object;
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Tests Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp

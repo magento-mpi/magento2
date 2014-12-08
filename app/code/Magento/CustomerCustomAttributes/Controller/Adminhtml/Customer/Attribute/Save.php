@@ -43,9 +43,9 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
-                    $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                    $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 } else {
-                    $this->_redirect('adminhtml/*/new', array('_current' => true));
+                    $this->_redirect('adminhtml/*/new', ['_current' => true]);
                 }
                 return;
             }
@@ -99,7 +99,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                 foreach ($validateRulesErrors as $message) {
                     $this->messageManager->addError($message);
                 }
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
 
@@ -118,12 +118,12 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             try {
                 $this->_eventManager->dispatch(
                     'magento_customercustomattributes_attribute_before_save',
-                    array('attribute' => $attributeObject)
+                    ['attribute' => $attributeObject]
                 );
                 $attributeObject->save();
                 $this->_eventManager->dispatch(
                     'magento_customercustomattributes_attribute_save',
-                    array('attribute' => $attributeObject)
+                    ['attribute' => $attributeObject]
                 );
 
                 $this->messageManager->addSuccess(__('You saved the customer attribute.'));
@@ -131,7 +131,7 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
                 if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('attribute_id' => $attributeObject->getId(), '_current' => true)
+                        ['attribute_id' => $attributeObject->getId(), '_current' => true]
                     );
                 } else {
                     $this->_redirect('adminhtml/*/');
@@ -140,12 +140,12 @@ class Save extends \Magento\CustomerCustomAttributes\Controller\Adminhtml\Custom
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong saving the customer attribute.'));
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }

@@ -21,7 +21,7 @@ class CustomOptionsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->model = new CustomOptions();
     }
 
@@ -44,22 +44,22 @@ class CustomOptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleProductWithoutOriginalOptions()
     {
-        $this->productMock->expects($this->once())->method('getOptions')->will($this->returnValue(array()));
-        $options = array(
-            'one' => array('price' => '10', 'price_type' => '20'),
-            'two' => array('values' => 123),
-            'three' => array(
-                'values' => array(array('price' => 30, 'price_type' => 40), array('price' => 50, 'price_type' => 60))
-            )
-        );
+        $this->productMock->expects($this->once())->method('getOptions')->will($this->returnValue([]));
+        $options = [
+            'one' => ['price' => '10', 'price_type' => '20'],
+            'two' => ['values' => 123],
+            'three' => [
+                'values' => [['price' => 30, 'price_type' => 40], ['price' => 50, 'price_type' => 60]],
+            ],
+        ];
 
-        $expectedData = array(
-            'one' => array('price' => '0', 'price_type' => '0'),
-            'two' => array('values' => 123),
-            'three' => array(
-                'values' => array(array('price' => 0, 'price_type' => 0), array('price' => 0, 'price_type' => 0))
-            )
-        );
+        $expectedData = [
+            'one' => ['price' => '0', 'price_type' => '0'],
+            'two' => ['values' => 123],
+            'three' => [
+                'values' => [['price' => 0, 'price_type' => 0], ['price' => 0, 'price_type' => 0]],
+            ],
+        ];
 
         $this->productMock->expects(
             $this->once()
@@ -78,22 +78,22 @@ class CustomOptionsTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleProductWithOriginalOptions()
     {
-        $mockedMethodList = array(
+        $mockedMethodList = [
             'getOptionId',
             '__wakeup',
             'getType',
             'getPriceType',
             'getGroupByType',
             'getPrice',
-            'getValues'
-        );
+            'getValues',
+        ];
 
-        $optionOne = $this->getMock('\Magento\Catalog\Model\Product\Option', $mockedMethodList, array(), '', false);
-        $optionTwo = $this->getMock('\Magento\Catalog\Model\Product\Option', $mockedMethodList, array(), '', false);
+        $optionOne = $this->getMock('\Magento\Catalog\Model\Product\Option', $mockedMethodList, [], '', false);
+        $optionTwo = $this->getMock('\Magento\Catalog\Model\Product\Option', $mockedMethodList, [], '', false);
         $optionTwoValue = $this->getMock(
             '\Magento\Catalog\Model\Product\Option\Value',
-            array('getOptionTypeId', 'getPriceType', 'getPrice', '__wakeup'),
-            array(),
+            ['getOptionTypeId', 'getPriceType', 'getPrice', '__wakeup'],
+            [],
             '',
             false
         );
@@ -119,7 +119,7 @@ class CustomOptionsTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(\Magento\Catalog\Model\Product\Option::OPTION_GROUP_SELECT)
         );
-        $optionTwo->expects($this->any())->method('getValues')->will($this->returnValue(array($optionTwoValue)));
+        $optionTwo->expects($this->any())->method('getValues')->will($this->returnValue([$optionTwoValue]));
 
         $optionTwoValue->expects($this->any())->method('getOptionTypeId')->will($this->returnValue(1));
         $optionTwoValue->expects($this->any())->method('getPrice')->will($this->returnValue(100));
@@ -130,26 +130,26 @@ class CustomOptionsTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getOptions'
         )->will(
-            $this->returnValue(array($optionOne, $optionTwo))
+            $this->returnValue([$optionOne, $optionTwo])
         );
 
-        $options = array(
-            'one' => array('price' => '10', 'price_type' => '20', 'type' => 2),
-            'two' => array('values' => 123, 'type' => 10),
-            'three' => array(
+        $options = [
+            'one' => ['price' => '10', 'price_type' => '20', 'type' => 2],
+            'two' => ['values' => 123, 'type' => 10],
+            'three' => [
                 'type' => 3,
-                'values' => array(array('price' => 30, 'price_type' => 40, 'option_type_id' => '1'))
-            )
-        );
+                'values' => [['price' => 30, 'price_type' => 40, 'option_type_id' => '1']],
+            ],
+        ];
 
-        $expectedData = array(
-            'one' => array('price' => 10, 'price_type' => 2, 'type' => 2),
-            'two' => array('values' => 123, 'type' => 10),
-            'three' => array(
+        $expectedData = [
+            'one' => ['price' => 10, 'price_type' => 2, 'type' => 2],
+            'two' => ['values' => 123, 'type' => 10],
+            'three' => [
                 'type' => 3,
-                'values' => array(array('price' => 100, 'price_type' => 2, 'option_type_id' => 1))
-            )
-        );
+                'values' => [['price' => 100, 'price_type' => 2, 'option_type_id' => 1]],
+            ],
+        ];
 
         $this->productMock->expects(
             $this->once()

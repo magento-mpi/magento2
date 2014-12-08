@@ -37,9 +37,9 @@ class Font implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $optionArray = array();
+        $optionArray = [];
         foreach ($this->_captchaData->getFonts() as $fontName => $fontData) {
-            $optionArray[] = array('label' => $fontData['label'], 'value' => $fontName);
+            $optionArray[] = ['label' => $fontData['label'], 'value' => $fontName];
         }
         return $optionArray;
     }

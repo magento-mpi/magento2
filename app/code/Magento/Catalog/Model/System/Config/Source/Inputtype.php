@@ -15,9 +15,9 @@ class Inputtype
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'multiselect', 'label' => __('Multiple Select')),
-            array('value' => 'select', 'label' => __('Dropdown'))
-        );
+        return [
+            ['value' => 'multiselect', 'label' => __('Multiple Select')],
+            ['value' => 'select', 'label' => __('Dropdown')]
+        ];
     }
 }

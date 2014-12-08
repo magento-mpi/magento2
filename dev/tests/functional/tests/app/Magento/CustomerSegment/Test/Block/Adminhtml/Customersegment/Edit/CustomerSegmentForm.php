@@ -8,12 +8,12 @@
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 use Magento\CustomerSegment\Test\Block\Adminhtml\Customersegment\Edit\Tab\MatchedCustomers;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CustomerSegmentForm

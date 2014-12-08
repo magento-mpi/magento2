@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class AddConfigured extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {

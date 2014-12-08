@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Resource\Quote\Address;
 
-use \Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Quote address shipping rate resource model

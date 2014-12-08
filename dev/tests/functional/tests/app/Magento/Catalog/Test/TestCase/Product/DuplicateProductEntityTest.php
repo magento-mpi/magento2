@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DuplicateProductEntity
@@ -119,8 +119,8 @@ class DuplicateProductEntityTest extends Injectable
                 'dataSet' => $dataSet,
                 'data' => [
                     'category_ids' => [
-                        'category' => $this->category
-                    ]
+                        'category' => $this->category,
+                    ],
                 ]
             ]
         );

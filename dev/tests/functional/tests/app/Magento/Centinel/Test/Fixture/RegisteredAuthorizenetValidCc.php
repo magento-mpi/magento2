@@ -23,7 +23,7 @@ class RegisteredAuthorizenetValidCc extends AbstractCreditCard
         $this->_data = [
             'totals' => [
                 'grand_total' => '15',
-                'comment_history' => 'Authorized amount of $15'
+                'comment_history' => 'Authorized amount of $15',
             ],
             'payment_info' => [
                 'verification_result' => 'Successful',

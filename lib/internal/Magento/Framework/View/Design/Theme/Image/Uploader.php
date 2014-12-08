@@ -17,7 +17,7 @@ class Uploader
      *
      * @var array
      */
-    protected $_allowedExtensions = array('jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp');
+    protected $_allowedExtensions = ['jpg', 'jpeg', 'gif', 'png', 'xbm', 'wbmp'];
 
     /**
      * File system
@@ -73,7 +73,7 @@ class Uploader
         if (!$this->_transferAdapter->isValid($scope)) {
             throw new \Magento\Framework\Exception(__('Uploaded image is not valid'));
         }
-        $upload = $this->_uploaderFactory->create(array('fileId' => $scope));
+        $upload = $this->_uploaderFactory->create(['fileId' => $scope]);
         $upload->setAllowCreateFolders(true);
         $upload->setAllowedExtensions($this->_allowedExtensions);
         $upload->setAllowRenameFiles(true);

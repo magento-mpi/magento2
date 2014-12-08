@@ -89,7 +89,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-
     /**
      * @param string[] $adjustments
      * @param string $code

@@ -8,7 +8,7 @@
 
 namespace Magento\GroupedProduct\Model\Product\Link\ProductEntity;
 
-use \Magento\Catalog\Model\ProductLink\Converter\ConverterInterface;
+use Magento\Catalog\Model\ProductLink\Converter\ConverterInterface;
 
 class Converter implements ConverterInterface
 {

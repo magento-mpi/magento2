@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward rate form field (element) renderer
  *

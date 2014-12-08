@@ -106,7 +106,7 @@ class ConstructorIntegrity implements ValidatorInterface
          */
         if (count($callArguments) > count($parentArguments)) {
             $extraParameters = array_slice($callArguments, count($parentArguments));
-            $names = array();
+            $names = [];
             foreach ($extraParameters as $param) {
                 $names[] = '$' . $param['name'];
             }

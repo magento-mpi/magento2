@@ -10,7 +10,6 @@ namespace Magento\MultipleWishlist\Test\Block\Customer\Wishlist;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class Management

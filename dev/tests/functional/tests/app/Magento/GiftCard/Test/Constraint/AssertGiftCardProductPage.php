@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\GiftCard\Test\Constraint;
 
 use Magento\Catalog\Test\Constraint\AssertProductPage;

@@ -24,6 +24,6 @@ return [
         'Magento_OfflineShipping' => 'Magento\Tools\SampleData\Module\OfflineShipping\Setup',
         'Magento_Theme' => 'Magento\Tools\SampleData\Module\Theme\Setup',
         'Magento_SalesRule' => 'Magento\Tools\SampleData\Module\SalesRule\Setup',
-        'Magento_CatalogRule' => 'Magento\Tools\SampleData\Module\CatalogRule\Setup'
+        'Magento_CatalogRule' => 'Magento\Tools\SampleData\Module\CatalogRule\Setup',
     ],
 ];

@@ -12,7 +12,7 @@ class CompositeScanner implements ScannerInterface
     /**
      * @var ScannerInterface[]
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * Add child scanner
@@ -34,7 +34,7 @@ class CompositeScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($this->_children as $type => $scanner) {
             if (!isset($files[$type]) || !is_array($files[$type])) {
                 continue;

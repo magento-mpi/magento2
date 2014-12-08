@@ -14,7 +14,7 @@ class MviewStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSetStatusSuspendDataProvider()
     {
-        return array(array('suspended', 'idle'), array('suspended', 'working'));
+        return [['suspended', 'idle'], ['suspended', 'working']];
     }
 
     /**
@@ -104,7 +104,7 @@ class MviewStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSetStatusResumeDataProvider()
     {
-        return array(array('idle', 'suspended'), array('working', 'suspended'));
+        return [['idle', 'suspended'], ['working', 'suspended']];
     }
 
     /**
@@ -173,13 +173,13 @@ class MviewStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSetStatusSkipDataProvider()
     {
-        return array(
-            array('idle', 'idle'),
-            array('working', 'working'),
-            array('suspended', 'suspended'),
-            array('idle', 'working'),
-            array('working', 'idle')
-        );
+        return [
+            ['idle', 'idle'],
+            ['working', 'working'],
+            ['suspended', 'suspended'],
+            ['idle', 'working'],
+            ['working', 'idle']
+        ];
     }
 
     /**
@@ -240,7 +240,7 @@ class MviewStateTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterSetStatusDisabledDataProvider()
     {
-        return array(array('idle'), array('working'), array('suspended'));
+        return [['idle'], ['working'], ['suspended']];
     }
 
     /**

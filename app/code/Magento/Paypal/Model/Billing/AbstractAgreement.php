@@ -24,7 +24,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Init billing agreement
@@ -75,7 +75,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -104,7 +104,7 @@ abstract class AbstractAgreement extends \Magento\Framework\Model\AbstractModel
      */
     public function isValid()
     {
-        $this->_errors = array();
+        $this->_errors = [];
         if (is_null($this->getPaymentMethodInstance()) || !$this->getPaymentMethodInstance()->getCode()) {
             $this->_errors[] = __('The payment method code is not set.');
         }

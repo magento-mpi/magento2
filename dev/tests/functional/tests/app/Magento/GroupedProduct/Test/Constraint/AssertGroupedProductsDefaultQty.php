@@ -8,10 +8,10 @@
 
 namespace Magento\GroupedProduct\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertGroupedProductsDefaultQty
@@ -48,13 +48,13 @@ class AssertGroupedProductsDefaultQty extends AbstractAssertForm
         foreach ($associatedProducts['assigned_products'] as $productData) {
             $fixtureQtyData[] = [
                 'name' => $productData['name'],
-                'qty' => $productData['qty']
+                'qty' => $productData['qty'],
             ];
         }
         foreach ($pageOptions['grouped_options'] as $productData) {
             $pageQtyData[] = [
                 'name' => $productData['name'],
-                'qty' => $productData['qty']
+                'qty' => $productData['qty'],
             ];
         }
         $fixtureQtyData = $this->sortDataByPath($fixtureQtyData, '::name');

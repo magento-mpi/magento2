@@ -22,28 +22,28 @@ class DictionaryTest extends \PHPUnit_Framework_TestCase
 
     public function testPhraseCollecting()
     {
-        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
-        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
+        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
+        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
 
         $this->_dictionary->addPhrase($phraseFirstMock);
         $this->_dictionary->addPhrase($phraseSecondMock);
 
-        $this->assertEquals(array($phraseFirstMock, $phraseSecondMock), $this->_dictionary->getPhrases());
+        $this->assertEquals([$phraseFirstMock, $phraseSecondMock], $this->_dictionary->getPhrases());
     }
 
     public function testGetDuplicates()
     {
-        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
+        $phraseFirstMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
         $phraseFirstMock->expects($this->once())->method('getKey')->will($this->returnValue('key_1'));
-        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
+        $phraseSecondMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
         $phraseSecondMock->expects($this->once())->method('getKey')->will($this->returnValue('key_1'));
-        $phraseThirdMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', array(), array(), '', false);
+        $phraseThirdMock = $this->getMock('Magento\Tools\I18n\Dictionary\Phrase', [], [], '', false);
         $phraseThirdMock->expects($this->once())->method('getKey')->will($this->returnValue('key_3'));
 
         $this->_dictionary->addPhrase($phraseFirstMock);
         $this->_dictionary->addPhrase($phraseSecondMock);
         $this->_dictionary->addPhrase($phraseThirdMock);
 
-        $this->assertEquals(array(array($phraseFirstMock, $phraseSecondMock)), $this->_dictionary->getDuplicates());
+        $this->assertEquals([[$phraseFirstMock, $phraseSecondMock]], $this->_dictionary->getDuplicates());
     }
 }

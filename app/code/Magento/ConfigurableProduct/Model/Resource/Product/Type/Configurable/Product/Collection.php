@@ -37,9 +37,9 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         parent::_initSelect();
         $this->getSelect()->join(
-            array('link_table' => $this->_linkTable),
+            ['link_table' => $this->_linkTable],
             'link_table.product_id = e.entity_id',
-            array('parent_id')
+            ['parent_id']
         );
 
         return $this;

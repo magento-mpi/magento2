@@ -15,7 +15,7 @@ $installer->appendClassAliasReplace(
     'banner_content',
     \Magento\Framework\Module\Setup\Migration::ENTITY_TYPE_BLOCK,
     \Magento\Framework\Module\Setup\Migration::FIELD_CONTENT_TYPE_WIKI,
-    array('banner_id', 'store_id')
+    ['banner_id', 'store_id']
 );
 $installer->doUpdateClassAliases();
 

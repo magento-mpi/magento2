@@ -52,7 +52,7 @@ class AttributeSetTest extends \PHPUnit_Framework_TestCase
 
     public function testCategoryChanges()
     {
-        $subjectMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Set', array(), array(), '', false);
+        $subjectMock = $this->getMock('\Magento\Eav\Model\Entity\Attribute\Set', [], [], '', false);
 
         $subjectMock->expects($this->any())
             ->method('getData')

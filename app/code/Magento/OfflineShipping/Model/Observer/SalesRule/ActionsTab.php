@@ -30,16 +30,16 @@ class ActionsTab
                 $element->addField(
                     'simple_free_shipping',
                     'select',
-                    array(
+                    [
                         'label' => __('Free Shipping'),
                         'title' => __('Free Shipping'),
                         'name' => 'simple_free_shipping',
-                        'options' => array(
+                        'options' => [
                             0 => __('No'),
                             Rule::FREE_SHIPPING_ITEM => __('For matching items only'),
-                            Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items')
-                        )
-                    )
+                            Rule::FREE_SHIPPING_ADDRESS => __('For shipment with matching items'),
+                        ]
+                    ]
                 );
             }
         }

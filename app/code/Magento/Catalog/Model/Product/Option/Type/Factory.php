@@ -38,7 +38,7 @@ class Factory
      * @return \Magento\Catalog\Model\Product\Option\Type\DefaultType
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $option = $this->_objectManager->create($className, $data);
 

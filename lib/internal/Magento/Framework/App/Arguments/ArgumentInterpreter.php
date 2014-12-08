@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\App\Arguments;
 
-use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Data\Argument\Interpreter\Constant;
+use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Data\Argument\MissingOptionalValueException;
 
 /**
@@ -36,6 +36,6 @@ class ArgumentInterpreter implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        return array('argument' => $this->constInterpreter->evaluate($data));
+        return ['argument' => $this->constInterpreter->evaluate($data)];
     }
 }

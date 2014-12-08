@@ -101,52 +101,52 @@ class Price implements FixtureInterface
             'drop_down_with_one_option_fixed_price' => [
                 'price_from' => '115.00',
                 'price_to' => '120.00',
-                'cart_price' => '145.00'
+                'cart_price' => '145.00',
             ],
             'drop_down_with_one_option_percent_price' => [
                 'price_from' => '115.00',
                 'price_to' => '120.00',
-                'cart_price' => '126.00'
+                'cart_price' => '126.00',
             ],
             'MAGETWO-23070' => [
                 'price_from' => '40.00',
                 'price_to' => '100.00',
-                'cart_price' => '100.00'
+                'cart_price' => '100.00',
             ],
             'MAGETWO-23061' => [
                 'price_from' => '32.00',
                 'price_to' => '80.00',
-                'cart_price' => '80.00'
+                'cart_price' => '80.00',
             ],
             'dynamic-200' => [
                 'price_from' => '200.00',
                 'price_to' => '500.00',
-                'cart_price' => '400.00'
+                'cart_price' => '400.00',
             ],
             'fixed-24' => [
                 'price_from' => '96.00',
                 'price_to' => '97.00',
-                'cart_price' => '244.00'
+                'cart_price' => '244.00',
             ],
             'fixed-1' => [
                 'price_from' => '1.00',
                 'price_to' => '10.00',
-                'cart_price' => '80.00'
+                'cart_price' => '80.00',
             ],
             'dynamic-8' => [
                 'price_from' => '8.00',
                 'price_to' => '20.00',
-                'cart_price' => '80.00'
+                'cart_price' => '80.00',
             ],
             'dynamic-32' => [
                 'price_from' => '32.00',
                 'price_to' => '80.00',
-                'cart_price' => '80.00'
+                'cart_price' => '80.00',
             ],
             'dynamic-40' => [
                 'price_from' => '40.00',
                 'price_to' => '100.00',
-                'cart_price' => '100.00'
+                'cart_price' => '100.00',
             ],
             'dynamic-50' => [
                 'price_from' => '50.00',
@@ -154,39 +154,39 @@ class Price implements FixtureInterface
             'fixed-115' => [
                 'price_from' => '115.00',
                 'price_to' => '120.00',
-                'cart_price' => '317.00'
+                'cart_price' => '317.00',
             ],
             'fixed-159' => [
                 'price_from' => '115.00',
                 'price_to' => '120.00',
-                'cart_price' => '159.00'
+                'cart_price' => '159.00',
             ],
             'fixed-15' => [
                 'price_from' => '15.00',
                 'price_to' => '16.00',
-                'cart_price' => '80.00'
+                'cart_price' => '80.00',
             ],
             'default_fixed' => [
                 'compare_price' => [
                     'price_from' => '755.00',
-                    'price_to' => '756.00'
+                    'price_to' => '756.00',
                 ],
             ],
             'default_dynamic' => [
                 'compare_price' => [
                     'price_from' => '100.00',
-                    'price_to' => '560.00'
+                    'price_to' => '560.00',
                 ],
             ],
             'dynamic-100' => [
                 'price_from' => '100.00',
                 'price_to' => '560.00',
-                'cart_price' => '100.00'
+                'cart_price' => '100.00',
             ],
             'fixed-756' => [
                 'price_from' => '755.00',
                 'price_to' => '756.00',
-                'cart_price' => '756.00'
+                'cart_price' => '756.00',
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {

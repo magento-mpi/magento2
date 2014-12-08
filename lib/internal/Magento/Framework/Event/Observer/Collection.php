@@ -6,10 +6,9 @@
  * @license    {license_link}
  */
 
-
 /**
  * Event observer collection
- * 
+ *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\Framework\Event\Observer;
@@ -28,7 +27,7 @@ class Collection
      */
     public function __construct()
     {
-        $this->_observers = array();
+        $this->_observers = [];
     }
 
     /**

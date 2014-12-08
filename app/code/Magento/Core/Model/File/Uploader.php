@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Core file uploader model
  *

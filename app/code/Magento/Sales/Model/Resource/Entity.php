@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource;
 
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 use Magento\Sales\Model\EntityInterface;
-use \Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Flat sales resource abstract

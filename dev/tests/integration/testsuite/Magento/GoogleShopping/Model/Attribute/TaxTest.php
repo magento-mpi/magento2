@@ -8,9 +8,9 @@
 
 namespace Magento\GoogleShopping\Model\Attribute;
 
-use Magento\Tax\Model\ClassModel;
-use Magento\Tax\Api\Data\TaxRuleDataBuilder;
 use Magento\Tax\Api\Data\TaxRateDataBuilde as TaxRateBuilder;
+use Magento\Tax\Api\Data\TaxRuleDataBuilder;
+use Magento\Tax\Model\ClassModel;
 use Magento\Tax\Model\TaxRuleFixtureFactory;
 
 /**

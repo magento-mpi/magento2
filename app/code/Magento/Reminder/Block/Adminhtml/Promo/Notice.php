@@ -37,7 +37,7 @@ class Notice extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Reminder\Model\Resource\Rule $resourceModel,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_coreRegistry = $registry;

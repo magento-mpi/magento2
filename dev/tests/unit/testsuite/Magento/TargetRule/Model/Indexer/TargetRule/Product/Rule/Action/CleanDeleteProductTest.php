@@ -41,21 +41,21 @@ class CleanDeleteProductTest extends \PHPUnit_Framework_TestCase
     {
         $ruleFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\RuleFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $collectionFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\Resource\Rule\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
-        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
 
         $resourceMock->expects($this->once())
             ->method('deleteProductFromIndex')

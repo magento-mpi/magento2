@@ -6,4 +6,4 @@
  * @license    {license_link}
  */
 
-return array('Some_Model_Proxy', 'Some_Model_EntityFactory');
+return ['Some_Model_Proxy', 'Some_Model_EntityFactory'];

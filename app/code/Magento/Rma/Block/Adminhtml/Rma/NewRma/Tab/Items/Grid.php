@@ -63,7 +63,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Rma\Model\Item $rmaItem,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
@@ -94,13 +94,13 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _gatherOrderItemsData()
     {
-        $itemsData = array();
+        $itemsData = [];
         if ($this->_coreRegistry->registry('current_order')) {
             foreach ($this->_coreRegistry->registry('current_order')->getItemsCollection() as $item) {
-                $itemsData[$item->getId()] = array(
+                $itemsData[$item->getId()] = [
                     'qty_shipped' => $item->getQtyShipped(),
-                    'qty_returned' => $item->getQtyReturned()
-                );
+                    'qty_returned' => $item->getQtyReturned(),
+                ];
             }
         }
         $this->setOrderItemsData($itemsData);
@@ -132,7 +132,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'product_name',
-            array(
+            [
                 'header' => __('Product'),
                 'type' => 'text',
                 'index' => 'product_name',
@@ -140,12 +140,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'escape' => true,
                 'header_css_class' => 'col-product',
                 'column_css_class' => 'col-product'
-            )
+            ]
         );
 
         $this->addColumn(
             'product_sku',
-            array(
+            [
                 'header' => __('SKU'),
                 'type' => 'text',
                 'index' => 'product_sku',
@@ -153,15 +153,15 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'escape' => true,
                 'header_css_class' => 'col-sku',
                 'column_css_class' => 'col-sku'
-            )
+            ]
         );
 
         //Renderer puts available quantity instead of order_item_id
         $this->addColumn(
             'qty_ordered',
-            array(
+            [
                 'header' => __('Remaining'),
-                'getter' => array($this, 'getRemainingQty'),
+                'getter' => [$this, 'getRemainingQty'],
                 'type' => 'text',
                 'index' => 'qty_ordered',
                 'sortable' => false,
@@ -169,80 +169,80 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Quantity',
                 'header_css_class' => 'col-qty',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
 
         $this->addColumn(
             'qty_requested',
-            array(
+            [
                 'header' => __('Requested'),
                 'index' => 'qty_requested',
                 'type' => 'input',
                 'sortable' => false,
                 'header_css_class' => 'col-qty required',
                 'column_css_class' => 'col-qty'
-            )
+            ]
         );
 
         $eavHelper = $this->_rmaEav;
         $this->addColumn(
             'reason',
-            array(
+            [
                 'header' => __('Return Reason'),
-                'getter' => array($this, 'getReasonOptionStringValue'),
+                'getter' => [$this, 'getReasonOptionStringValue'],
                 'type' => 'select',
-                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('reason'),
+                'options' => ['' => ''] + $eavHelper->getAttributeOptionValues('reason'),
                 'index' => 'reason',
                 'sortable' => false,
                 'header_css_class' => 'col-reason required',
                 'column_css_class' => 'col-reason'
-            )
+            ]
         );
 
         $this->addColumn(
             'condition',
-            array(
+            [
                 'header' => __('Item Condition'),
                 'type' => 'select',
-                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('condition'),
+                'options' => ['' => ''] + $eavHelper->getAttributeOptionValues('condition'),
                 'index' => 'condition',
                 'sortable' => false,
                 'header_css_class' => 'col-condition required',
                 'column_css_class' => 'col-condition'
-            )
+            ]
         );
 
         $this->addColumn(
             'resolution',
-            array(
+            [
                 'header' => __('Resolution'),
                 'index' => 'resolution',
                 'type' => 'select',
-                'options' => array('' => '') + $eavHelper->getAttributeOptionValues('resolution'),
+                'options' => ['' => ''] + $eavHelper->getAttributeOptionValues('resolution'),
                 'sortable' => false,
                 'header_css_class' => 'col-resolution required',
                 'column_css_class' => 'col-resolution'
-            )
+            ]
         );
 
-        $actionsArray = array(
-            array(
+        $actionsArray = [
+            [
                 'caption' => __('Delete'),
-                'url' => array('base' => '*/*/delete'),
+                'url' => ['base' => '*/*/delete'],
                 'field' => 'id',
-                'onclick' => 'alert(\'Delete\');return false;'
-            ),
-            array(
+                'onclick' => 'alert(\'Delete\');return false;',
+            ],
+            [
                 'caption' => __('Add Details'),
-                'url' => array('base' => '*/*/edit'),
+                'url' => ['base' => '*/*/edit'],
                 'field' => 'id',
                 'onclick' => 'alert(\'Details\');return false;'
-            )
-        );
+            ],
+        ];
 
         $this->addColumn(
             'action',
-            array(
+            [
                 'header' => __('Action'),
                 'renderer' => 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer\Action',
                 'actions' => $actionsArray,
@@ -250,7 +250,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'is_system' => true,
                 'header_css_class' => 'col-actions',
                 'column_css_class' => 'col-actions'
-            )
+            ]
         );
 
         return parent::_prepareColumns();

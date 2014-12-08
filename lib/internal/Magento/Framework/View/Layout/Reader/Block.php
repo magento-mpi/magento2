@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Layout\Reader;
 
-use Magento\Framework\View\Layout;
 use Magento\Framework\App;
+use Magento\Framework\View\Layout;
 
 /**
  * Block structure reader

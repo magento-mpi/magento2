@@ -28,21 +28,21 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_names = array();
+    protected $_names = [];
 
     /**
      * Recipient Emails
      *
      * @var array
      */
-    protected $_emails = array();
+    protected $_emails = [];
 
     /**
      * Sender data array
      *
      * @var \Magento\Framework\Object|array
      */
-    protected $_sender = array();
+    protected $_sender = [];
 
     /**
      * Product Instance
@@ -63,7 +63,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
      *
      * @var string
      */
-    protected $_lastCookieValue = array();
+    protected $_lastCookieValue = [];
 
     /**
      * Sendfriend data
@@ -137,9 +137,8 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
-
         $this->_storeManager = $storeManager;
         $this->_transportBuilder = $transportBuilder;
         $this->_catalogImage = $catalogImage;
@@ -176,24 +175,24 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
         $this->inlineTranslation->suspend();
 
         $message = nl2br(htmlspecialchars($this->getSender()->getMessage()));
-        $sender = array(
+        $sender = [
             'name' => $this->_escaper->escapeHtml($this->getSender()->getName()),
-            'email' => $this->_escaper->escapeHtml($this->getSender()->getEmail())
-        );
+            'email' => $this->_escaper->escapeHtml($this->getSender()->getEmail()),
+        ];
 
         foreach ($this->getRecipients()->getEmails() as $k => $email) {
             $name = $this->getRecipients()->getNames($k);
             $this->_transportBuilder->setTemplateIdentifier(
                 $this->_sendfriendData->getEmailTemplate()
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setFrom(
                 $sender
             )->setTemplateVars(
-                array(
+                [
                     'name' => $name,
                     'email' => $email,
                     'product_name' => $this->getProduct()->getName(),
@@ -201,8 +200,8 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
                     'message' => $message,
                     'sender_name' => $sender['name'],
                     'sender_email' => $sender['email'],
-                    'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75)
-                )
+                    'product_image' => $this->_catalogImage->init($this->getProduct(), 'small_image')->resize(75),
+                ]
             )->addTo(
                 $email,
                 $name
@@ -225,7 +224,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
 
         $name = $this->getSender()->getName();
         if (empty($name)) {
@@ -290,8 +289,8 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
             return $this;
         }
 
-        $emails = array();
-        $names = array();
+        $emails = [];
+        $names = [];
         foreach ($recipients['email'] as $k => $email) {
             if (!isset($emails[$email]) && isset($recipients['name'][$k])) {
                 $emails[$email] = true;
@@ -305,7 +304,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
 
         return $this->setData(
             '_recipients',
-            new \Magento\Framework\Object(array('emails' => $emails, 'names' => $names))
+            new \Magento\Framework\Object(['emails' => $emails, 'names' => $names])
         );
     }
 
@@ -318,7 +317,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     {
         $recipients = $this->_getData('_recipients');
         if (!$recipients instanceof \Magento\Framework\Object) {
-            $recipients = new \Magento\Framework\Object(array('emails' => array(), 'names' => array()));
+            $recipients = new \Magento\Framework\Object(['emails' => [], 'names' => []]);
             $this->setData('_recipients', $recipients);
         }
         return $recipients;
@@ -469,7 +468,7 @@ class Sendfriend extends \Magento\Framework\Model\AbstractModel
     {
         $cookieName = $this->_sendfriendData->getCookieName();
         $time = time();
-        $newTimes = array();
+        $newTimes = [];
 
         if (isset($this->_lastCookieValue[$cookieName])) {
             $oldTimes = $this->_lastCookieValue[$cookieName];

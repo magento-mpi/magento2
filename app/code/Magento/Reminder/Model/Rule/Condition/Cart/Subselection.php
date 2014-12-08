@@ -31,7 +31,7 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Reminder\Model\Rule\Condition\Cart\SubcombineFactory $subcombineFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Subselection');
@@ -66,7 +66,7 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('found'), '!=' => __('not found')));
+        $this->setOperatorOption(['==' => __('found'), '!=' => __('not found')]);
         return $this;
     }
 
@@ -97,9 +97,9 @@ class Subselection extends \Magento\Reminder\Model\Condition\Combine\AbstractCom
         $quoteTable = $this->getResource()->getTable('sales_quote');
         $quoteItemTable = $this->getResource()->getTable('sales_quote_item');
 
-        $select->from(array('item' => $quoteItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $quoteItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('quote' => $quoteTable), 'item.quote_id = quote.entity_id', array());
+        $select->joinInner(['quote' => $quoteTable], 'item.quote_id = quote.entity_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'quote.store_id');
         $select->where('quote.is_active = 1');

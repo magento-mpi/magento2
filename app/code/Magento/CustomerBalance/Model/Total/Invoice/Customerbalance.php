@@ -20,7 +20,7 @@ class Customerbalance extends \Magento\Sales\Model\Order\Invoice\Total\AbstractT
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
-    public function __construct(\Magento\CustomerBalance\Helper\Data $customerBalanceData, array $data = array())
+    public function __construct(\Magento\CustomerBalance\Helper\Data $customerBalanceData, array $data = [])
     {
         $this->_customerBalanceData = $customerBalanceData;
         parent::__construct($data);

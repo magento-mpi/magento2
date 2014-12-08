@@ -59,7 +59,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->assertNotNull($stockItem->getItemId());
 
         $stockItemData = [
-            'qty' => $stockItem->getQty() + 11
+            'qty' => $stockItem->getQty() + 11,
         ];
 
         $stockItemBuilder = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);

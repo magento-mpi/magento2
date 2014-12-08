@@ -52,18 +52,18 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'magento_customersegment_website',
             'rule_id_field' => 'segment_id',
-            'entity_id_field' => 'website_id'
-        ),
-        'event' => array(
+            'entity_id_field' => 'website_id',
+        ],
+        'event' => [
             'associations_table' => 'magento_customersegment_event',
             'rule_id_field' => 'segment_id',
-            'entity_id_field' => 'event'
-        )
-    );
+            'entity_id_field' => 'event',
+        ],
+    ];
 
     /**
      * Segment websites table name
@@ -109,7 +109,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $segmentId = $object->getId();
 
-        $this->unbindRuleFromEntity($segmentId, array(), 'event');
+        $this->unbindRuleFromEntity($segmentId, [], 'event');
         if ($object->hasMatchedEvents()) {
             $matchedEvents = $object->getMatchedEvents();
             if (is_array($matchedEvents) && !empty($matchedEvents)) {
@@ -139,7 +139,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $this->_getWriteAdapter()->delete(
             $this->getTable('magento_customersegment_customer'),
-            array('segment_id=?' => $segment->getId())
+            ['segment_id=?' => $segment->getId()]
         );
         return $this;
     }
@@ -159,23 +159,23 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
         $segmentId = $segment->getId();
         $now = $this->dateTime->formatDate(time());
 
-        $data = array();
+        $data = [];
         $count = 0;
         $stmt = $adapter->query($select);
         $adapter->beginTransaction();
         try {
             while ($row = $stmt->fetch()) {
-                $data[] = array(
+                $data[] = [
                     'segment_id' => $segmentId,
                     'customer_id' => $row['entity_id'],
                     'website_id' => $row['website_id'],
                     'added_date' => $now,
-                    'updated_date' => $now
-                );
+                    'updated_date' => $now,
+                ];
                 $count++;
                 if ($count % 1000 == 0) {
                     $adapter->insertMultiple($customerTable, $data);
-                    $data = array();
+                    $data = [];
                 }
             }
             if (!empty($data)) {
@@ -202,7 +202,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('magento_customersegment_customer'),
-            array('COUNT(DISTINCT customer_id)')
+            ['COUNT(DISTINCT customer_id)']
         )->where(
             'segment_id = ?',
             (int)$segmentId
@@ -308,7 +308,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
             if (count($prepareValues) <= 1) {
                 $value = $prepareValues[0];
             } else {
-                $value = array();
+                $value = [];
                 foreach ($prepareValues as $val) {
                     $value[] = trim($val);
                 }
@@ -318,7 +318,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
         /*
          * substitute "equal" operator with "is one of" if compared value is not single
          */
-        if (count($value) != 1 and in_array($operator, array('==', '!='))) {
+        if (count($value) != 1 and in_array($operator, ['==', '!='])) {
             $operator = $operator == '==' ? '()' : '!()';
         }
         $sqlOperator = $this->getSqlOperator($operator);
@@ -329,7 +329,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
             case '!{}':
                 if (is_array($value)) {
                     if (!empty($value)) {
-                        $condition = array();
+                        $condition = [];
                         foreach ($value as $val) {
                             $condition[] = $this->_getReadAdapter()->quoteInto(
                                 $field . ' ' . $sqlOperator . ' ?',
@@ -354,11 +354,11 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
             case '[]':
             case '![]':
                 if (is_array($value) && !empty($value)) {
-                    $conditions = array();
+                    $conditions = [];
                     foreach ($value as $v) {
                         $conditions[] = $this->_getReadAdapter()->prepareSqlCondition(
                             $field,
-                            array('finset' => $this->_getReadAdapter()->quote($v))
+                            ['finset' => $this->_getReadAdapter()->quote($v)]
                         );
                     }
                     $condition = sprintf('(%s)=%d', join(' AND ', $conditions), $operator == '[]' ? 1 : 0);
@@ -366,12 +366,12 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
                     if ($operator == '[]') {
                         $condition = $this->_getReadAdapter()->prepareSqlCondition(
                             $field,
-                            array('finset' => $this->_getReadAdapter()->quote($value))
+                            ['finset' => $this->_getReadAdapter()->quote($value)]
                         );
                     } else {
                         $condition = 'NOT (' . $this->_getReadAdapter()->prepareSqlCondition(
                             $field,
-                            array('finset' => $this->_getReadAdapter()->quote($value))
+                            ['finset' => $this->_getReadAdapter()->quote($value)]
                         ) . ')';
                     }
                 }
@@ -418,12 +418,12 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function getActiveSegmentsByIds($segmentIds)
     {
-        $activeSegmentsIds = array();
+        $activeSegmentsIds = [];
         if (count($segmentIds)) {
             $adapter = $this->_getWriteAdapter();
             $select = $adapter->select()->from(
                 $this->getMainTable(),
-                array('segment_id')
+                ['segment_id']
             )->where(
                 'segment_id IN (?)',
                 $segmentIds

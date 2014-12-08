@@ -7,8 +7,8 @@
  */
 namespace Magento\Cms\Model\DataSource;
 
-use Magento\Framework\Data\CollectionDataSourceInterface;
 use Magento\Cms\Model\Resource\PageCriteria;
+use Magento\Framework\Data\CollectionDataSourceInterface;
 
 /**
  * CMS page collection data source

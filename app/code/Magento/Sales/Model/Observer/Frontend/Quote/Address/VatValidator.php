@@ -76,12 +76,12 @@ class VatValidator
         } else {
             // Restore validation results from corresponding quote address
             $validationResult = new \Magento\Framework\Object(
-                array(
+                [
                     'is_valid' => (int)$quoteAddress->getVatIsValid(),
                     'request_identifier' => (string)$quoteAddress->getVatRequestId(),
                     'request_date' => (string)$quoteAddress->getVatRequestDate(),
-                    'request_success' => (bool)$quoteAddress->getVatRequestSuccess()
-                )
+                    'request_success' => (bool)$quoteAddress->getVatRequestSuccess(),
+                ]
             );
         }
 

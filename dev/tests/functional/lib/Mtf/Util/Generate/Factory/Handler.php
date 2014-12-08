@@ -26,10 +26,10 @@ class Handler extends AbstractFactory
     {
         $items = $this->collectItems('Handler');
 
-        $fallback = array(
+        $fallback = [
             0 => 'Curl',
-            1 => 'Ui'
-        );
+            1 => 'Ui',
+        ];
 
         $byTypes = [];
         foreach ($items as $item) {

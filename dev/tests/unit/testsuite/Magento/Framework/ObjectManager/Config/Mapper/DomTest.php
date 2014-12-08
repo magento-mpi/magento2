@@ -27,7 +27,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         )->method(
             'parse'
         )->will(
-            $this->returnCallback(array($this, 'parserMockCallback'))
+            $this->returnCallback([$this, 'parserMockCallback'])
         );
 
         $booleanUtils = $this->getMock('\Magento\Framework\Stdlib\BooleanUtils');
@@ -36,7 +36,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         )->method(
             'toBoolean'
         )->will(
-            $this->returnValueMap(array(array('true', true), array('false', false)))
+            $this->returnValueMap([['true', true], ['false', false]])
         );
 
         $this->argumentInterpreter = $this->getMock('Magento\Framework\Data\Argument\InterpreterInterface');
@@ -45,7 +45,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
         )->method(
             'evaluate'
         )->with(
-            array('xsi:type' => 'string', 'value' => 'test value')
+            ['xsi:type' => 'string', 'value' => 'test value']
         )->will(
             $this->returnValue('test value')
         );
@@ -73,7 +73,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertNotEmpty($argument->getAttribute('name'));
         $this->assertNotEmpty($argument->getAttribute('xsi:type'));
-        return array('xsi:type' => 'string', 'value' => 'test value');
+        return ['xsi:type' => 'string', 'value' => 'test value'];
     }
 
     /**
@@ -94,23 +94,23 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function wrongXmlDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '<?xml version="1.0"?><config><type name="some_type">' .
                 '<wrong_node name="wrong_node" />' .
-                '</type></config>'
-            ),
-            array(
+                '</type></config>',
+            ],
+            [
                 '<?xml version="1.0"?><config><virtualType name="some_type">' .
                 '<wrong_node name="wrong_node" />' .
                 '</virtualType></config>'
-            ),
-            array(
+            ],
+            [
                 '<?xml version="1.0"?><config>' .
                 '<preference for="some_interface" type="some_class" />' .
                 '<wrong_node name="wrong_node" />' .
                 '</config>'
-            )
-        );
+            ]
+        ];
     }
 }

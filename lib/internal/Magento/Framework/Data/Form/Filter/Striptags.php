@@ -6,7 +6,6 @@
  * @license    {license_link}
  */
 
-
 /**
  * Form Input/Output Strip HTML tags Filter
  *

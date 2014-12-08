@@ -42,9 +42,9 @@ class CreateCatalogRuleTest extends AbstractCatalogRuleEntityTest
         $replace = [
             'conditions' => [
                 'conditions' => [
-                    '%category_1%' => $productSimple->getDataFieldConfig('category_ids')['source']->getIds()[0]
-                ]
-            ]
+                    '%category_1%' => $productSimple->getDataFieldConfig('category_ids')['source']->getIds()[0],
+                ],
+            ],
         ];
 
         // Open Catalog Price Rule page

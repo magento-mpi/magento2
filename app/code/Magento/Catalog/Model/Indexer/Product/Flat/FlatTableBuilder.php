@@ -78,7 +78,6 @@ class FlatTableBuilder
         $attributes = $this->_productIndexerHelper->getAttributes();
         $eavAttributes = $this->_productIndexerHelper->getTablesStructure($attributes);
 
-
         $this->_createTemporaryFlatTable($storeId);
 
         if ($fillTmpTables) {
@@ -123,7 +122,7 @@ class FlatTableBuilder
             );
         }
 
-        $indexKeys = array();
+        $indexKeys = [];
         $indexProps = array_values($indexesNeed);
         $upperPrimaryKey = strtoupper(\Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_PRIMARY);
         foreach ($indexProps as $i => $indexProp) {
@@ -139,11 +138,11 @@ class FlatTableBuilder
                 $indexKey = $indexName;
             }
 
-            $indexProps[$i] = array(
+            $indexProps[$i] = [
                 'KEY_NAME' => $indexName,
                 'COLUMNS_LIST' => $indexProp['fields'],
-                'INDEX_TYPE' => strtolower($indexProp['type'])
-            );
+                'INDEX_TYPE' => strtolower($indexProp['type']),
+            ];
             $indexKeys[$i] = $indexKey;
         }
         $indexesNeed = array_combine($indexKeys, $indexProps);
@@ -155,12 +154,12 @@ class FlatTableBuilder
         foreach ($columns as $fieldName => $fieldProp) {
             $columnLength = isset($fieldProp['length']) ? $fieldProp['length'] : null;
 
-            $columnDefinition = array(
+            $columnDefinition = [
                 'nullable' => isset($fieldProp['nullable']) ? (bool)$fieldProp['nullable'] : false,
                 'unsigned' => isset($fieldProp['unsigned']) ? (bool)$fieldProp['unsigned'] : false,
                 'default' => isset($fieldProp['default']) ? $fieldProp['default'] : false,
-                'primary' => false
-            );
+                'primary' => false,
+            ];
 
             $columnComment = isset($fieldProp['comment']) ? $fieldProp['comment'] : $fieldName;
 
@@ -171,7 +170,7 @@ class FlatTableBuilder
             $table->addIndex(
                 $indexProp['KEY_NAME'],
                 $indexProp['COLUMNS_LIST'],
-                array('type' => $indexProp['INDEX_TYPE'])
+                ['type' => $indexProp['INDEX_TYPE']]
             );
         }
 
@@ -205,39 +204,39 @@ class FlatTableBuilder
 
         unset($tables[$entityTableName]);
 
-        $allColumns = array_merge(array('entity_id', 'type_id', 'attribute_set_id'), $columnsList);
+        $allColumns = array_merge(['entity_id', 'type_id', 'attribute_set_id'], $columnsList);
 
         /* @var $status \Magento\Eav\Model\Entity\Attribute */
         $status = $this->_productIndexerHelper->getAttribute('status');
         $statusTable = $this->_getTemporaryTableName($status->getBackendTable());
-        $statusConditions = array(
+        $statusConditions = [
             'e.entity_id = dstatus.entity_id',
             'dstatus.entity_type_id = ' . (int)$status->getEntityTypeId(),
             'dstatus.store_id = ' . (int)$storeId,
-            'dstatus.attribute_id = ' . (int)$status->getId()
-        );
+            'dstatus.attribute_id = ' . (int)$status->getId(),
+        ];
         $statusExpression = $this->_connection->getIfNullSql(
             'dstatus.value',
             $this->_connection->quoteIdentifier("{$statusTable}.status")
         );
 
         $select->from(
-            array('e' => $entityTemporaryTableName),
+            ['e' => $entityTemporaryTableName],
             $allColumns
         )->joinInner(
-            array('wp' => $this->_productIndexerHelper->getTable('catalog_product_website')),
+            ['wp' => $this->_productIndexerHelper->getTable('catalog_product_website')],
             'wp.product_id = e.entity_id AND wp.website_id = ' . $websiteId,
-            array()
+            []
         )->joinLeft(
-            array('dstatus' => $status->getBackend()->getTable()),
+            ['dstatus' => $status->getBackend()->getTable()],
             implode(' AND ', $statusConditions),
-            array()
+            []
         )->where(
             $statusExpression . ' = ' . \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
         );
 
         foreach ($tables as $tableName => $columns) {
-            $columnValueNames = array();
+            $columnValueNames = [];
             $temporaryTableName = $this->_getTemporaryTableName($tableName);
             $temporaryValueTableName = $temporaryTableName . $valueFieldSuffix;
             $columnsNames = array_keys($columns);
@@ -303,28 +302,28 @@ class FlatTableBuilder
                         ' AND t.value IS NOT NULL';
                     /** @var $select \Magento\Framework\DB\Select */
                     $select = $this->_connection->select()->joinInner(
-                        array('t' => $tableName),
+                        ['t' => $tableName],
                         $joinCondition,
-                        array($attributeCode => 't.value')
+                        [$attributeCode => 't.value']
                     );
                     if (!empty($changedIds)) {
                         $select->where($this->_connection->quoteInto('e.entity_id IN (?)', $changedIds));
                     }
-                    $sql = $select->crossUpdateFromSelect(array('e' => $temporaryFlatTableName));
+                    $sql = $select->crossUpdateFromSelect(['e' => $temporaryFlatTableName]);
                     $this->_connection->query($sql);
                 }
 
                 //Update not simple attributes (eg. dropdown)
                 if (isset($flatColumns[$attributeCode . $valueFieldSuffix])) {
                     $select = $this->_connection->select()->joinInner(
-                        array('t' => $this->_productIndexerHelper->getTable('eav_attribute_option_value')),
+                        ['t' => $this->_productIndexerHelper->getTable('eav_attribute_option_value')],
                         't.option_id = e.' . $attributeCode . ' AND t.store_id=' . $storeId,
-                        array($attributeCode . $valueFieldSuffix => 't.value')
+                        [$attributeCode . $valueFieldSuffix => 't.value']
                     );
                     if (!empty($changedIds)) {
                         $select->where($this->_connection->quoteInto('e.entity_id IN (?)', $changedIds));
                     }
-                    $sql = $select->crossUpdateFromSelect(array('e' => $temporaryFlatTableName));
+                    $sql = $select->crossUpdateFromSelect(['e' => $temporaryFlatTableName]);
                     $this->_connection->query($sql);
                 }
             }

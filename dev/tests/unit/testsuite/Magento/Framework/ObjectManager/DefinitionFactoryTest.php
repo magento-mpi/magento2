@@ -27,11 +27,11 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->sampleContent = serialize(array(1, 2, 3));
+        $this->sampleContent = serialize([1, 2, 3]);
         $this->filesystemDriverMock = $this->getMock(
             'Magento\Framework\Filesystem\Driver\File',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -42,7 +42,6 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
             'serialized'
         );
     }
-
 
     public function testCreateDefinitionsReadsCompiledDefinitions()
     {
@@ -93,18 +92,18 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createPluginsAndRelationsReadableDataProvider()
     {
-        return array(
-            'relations' => array(
+        return [
+            'relations' => [
                 'DefinitionDir/relations.php',
                 'createRelations',
-                '\Magento\Framework\ObjectManager\Relations\Compiled'
-            ),
-            'plugins' => array(
+                '\Magento\Framework\ObjectManager\Relations\Compiled',
+            ],
+            'plugins' => [
                 'DefinitionDir/plugins.php',
                 'createPluginDefinition',
-                '\Magento\Framework\Interception\Definition\Compiled'
-            ),
-        );
+                '\Magento\Framework\Interception\Definition\Compiled',
+            ],
+        ];
     }
 
     /**
@@ -123,17 +122,17 @@ class DefinitionFactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createPluginsAndRelationsNotReadableDataProvider()
     {
-        return array(
-            'relations' => array(
+        return [
+            'relations' => [
                 'DefinitionDir/relations.php',
                 'createRelations',
-                '\Magento\Framework\ObjectManager\Relations\Runtime'
-            ),
-            'plugins' => array(
+                '\Magento\Framework\ObjectManager\Relations\Runtime',
+            ],
+            'plugins' => [
                 'DefinitionDir/plugins.php',
                 'createPluginDefinition',
-                '\Magento\Framework\Interception\Definition\Runtime'
-            ),
-        );
+                '\Magento\Framework\Interception\Definition\Runtime',
+            ],
+        ];
     }
 }

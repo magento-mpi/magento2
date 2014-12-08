@@ -48,7 +48,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Service\V1\Data\ProductBuilder'
         )->disableOriginalConstructor()->getMock();
 
-
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->object = $this->objectManagerHelper->getObject(
             'Magento\ConfigurableProduct\Service\V1\ReadService',
@@ -74,7 +73,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getAttributeCode')
             ->will($this->returnValue($attributeCode));
 
-
         $this->attributeReadService->expects($this->once())
             ->method('info')
             ->with($configurableAttributeData['attribute_id'])
@@ -90,7 +88,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                         "values" => $configurableAttributeData['values'],
                         "options" => $options,
                         "attribute_code" => $attributeCode,
-                    ]
+                    ],
                 ]
             )
             ->will(
@@ -147,7 +145,6 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
         $result = $this->object->generateVariation($product, [$configurableAttribute]);
         $this->assertCount(1, $result);
         $this->assertEquals([$product], $result);
-
     }
 
     /**
@@ -162,10 +159,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
                     "values" => [
                         [
                             "index" => 14,
-                            "price" => 100.0
-                        ]
-                    ]
-                ]
+                            "price" => 100.0,
+                        ],
+                    ],
+                ],
             ]
         ];
     }

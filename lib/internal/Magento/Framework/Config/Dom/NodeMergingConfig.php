@@ -22,7 +22,7 @@ class NodeMergingConfig
      *
      * @var array
      */
-    private $idAttributes = array();
+    private $idAttributes = [];
 
     /**
      * @param NodePathMatcher $nodePathMatcher

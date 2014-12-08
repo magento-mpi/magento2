@@ -16,7 +16,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/resource' => 'name');
+    protected $_idAttributes = ['/config/resource' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -34,7 +34,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'resources.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {
@@ -58,6 +58,6 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      */
     public function read($scope = null)
     {
-        return $scope !== 'primary' ? parent::read($scope) : array();
+        return $scope !== 'primary' ? parent::read($scope) : [];
     }
 }

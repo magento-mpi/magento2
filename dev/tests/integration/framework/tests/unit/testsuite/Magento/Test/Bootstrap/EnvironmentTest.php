@@ -58,8 +58,8 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $serverVars = $_SERVER;
         $this->assertNotEmpty($serverVars);
 
-        $expectedResult = array('HTTP_HOST' => 'localhost', 'SCRIPT_FILENAME' => 'index.php');
-        $actualResult = array('HTTP_HOST' => '127.0.0.1');
+        $expectedResult = ['HTTP_HOST' => 'localhost', 'SCRIPT_FILENAME' => 'index.php'];
+        $actualResult = ['HTTP_HOST' => '127.0.0.1'];
         $this->_object->emulateHttpRequest($actualResult);
         $this->assertEquals($expectedResult, $actualResult);
 
@@ -71,9 +71,9 @@ class EnvironmentTest extends \PHPUnit_Framework_TestCase
         $sessionVars = $this->_getSessionVars();
         $this->assertEmpty(session_id());
 
-        $actualResult = array('session_data_to_be_erased' => 'some_value');
+        $actualResult = ['session_data_to_be_erased' => 'some_value'];
         $this->_object->emulateSession($actualResult);
-        $this->assertEquals(array(), $actualResult);
+        $this->assertEquals([], $actualResult);
 
         $this->assertSame($sessionVars, $this->_getSessionVars(), 'Super-global $_SESSION must not be affected.');
         $this->assertNotEmpty(session_id(), 'Global session identified has to be emulated.');

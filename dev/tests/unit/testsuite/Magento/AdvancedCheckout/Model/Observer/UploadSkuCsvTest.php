@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\AdvancedCheckout\Model\Observer;
- 
+
 class UploadSkuCsvTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var UploadSkuCsv
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -35,7 +35,7 @@ class UploadSkuCsvTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $observerMock;
-    
+
     protected function setUp()
     {
         $this->checkoutDataMock = $this->getMock('Magento\AdvancedCheckout\Helper\Data', [], [], '', false);

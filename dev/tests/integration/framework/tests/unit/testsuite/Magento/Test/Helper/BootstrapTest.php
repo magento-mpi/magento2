@@ -36,26 +36,26 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_fixtureInitParams = array(
-        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => array(
-            DirectoryList::CONFIG => array('path' => __DIR__),
-            DirectoryList::VAR_DIR => array('path' => __DIR__)
-        )
-    );
+    protected $_fixtureInitParams = [
+        Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => [
+            DirectoryList::CONFIG => ['path' => __DIR__],
+            DirectoryList::VAR_DIR => ['path' => __DIR__],
+        ],
+    ];
 
     protected function setUp()
     {
         $this->_application = $this->getMock(
             'Magento\TestFramework\Application',
-            array('getTempDir', 'getInitParams', 'reinitialize', 'run'),
-            array(),
+            ['getTempDir', 'getInitParams', 'reinitialize', 'run'],
+            [],
             '',
             false
         );
         $this->_bootstrap = $this->getMock(
             'Magento\TestFramework\Bootstrap',
-            array('getApplication', 'getDbVendorName'),
-            array(),
+            ['getApplication', 'getDbVendorName'],
+            [],
             '',
             false
         );

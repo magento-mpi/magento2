@@ -35,7 +35,7 @@ class FileFactory
      * @param array $data
      * @return \Magento\Framework\View\Design\Theme\FileInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create('Magento\Framework\View\Design\Theme\FileInterface', $data);
     }

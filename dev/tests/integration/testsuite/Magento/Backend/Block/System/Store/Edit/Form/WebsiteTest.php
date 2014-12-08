@@ -24,11 +24,11 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $registryData = array(
+        $registryData = [
             'store_type' => 'website',
             'store_data' => $objectManager->create('Magento\Store\Model\Website'),
-            'store_action' => 'add'
-        );
+            'store_action' => 'add',
+        ];
         foreach ($registryData as $key => $value) {
             $objectManager->get('Magento\Framework\Registry')->register($key, $value);
         }

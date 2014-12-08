@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Shopping Cart Rule data model
  *

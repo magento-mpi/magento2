@@ -98,7 +98,7 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 
         $rulesNames = $adapter->fetchAll($select);
 
-        $result = array();
+        $result = [];
 
         foreach ($rulesNames as $row) {
             $result[] = $row['rule_name'];

@@ -33,7 +33,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
      *
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * Array where rules ids stored
@@ -90,7 +90,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if (!$this->isTotals() && !$this->isSubTotals()) {
-            $this->_selectedColumns = array(
+            $this->_selectedColumns = [
                 'period' => $this->_periodFormat,
                 'coupon_code',
                 'rule_name',
@@ -100,8 +100,8 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
                 'total_amount' => 'SUM(total_amount)',
                 'subtotal_amount_actual' => 'SUM(subtotal_amount_actual)',
                 'discount_amount_actual' => 'SUM(discount_amount_actual)',
-                'total_amount_actual' => 'SUM(total_amount_actual)'
-            );
+                'total_amount_actual' => 'SUM(total_amount_actual)',
+            ];
         }
 
         if ($this->isTotals()) {
@@ -109,7 +109,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
         }
 
         if ($this->isSubTotals()) {
-            $this->_selectedColumns = $this->getAggregatedColumns() + array('period' => $this->_periodFormat);
+            $this->_selectedColumns = $this->getAggregatedColumns() + ['period' => $this->_periodFormat];
         }
 
         return $this->_selectedColumns;
@@ -127,10 +127,10 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
             $this->getSelect()->group($this->_periodFormat);
         } elseif (!$this->isTotals()) {
             $this->getSelect()->group(
-                array(
+                [
                     $this->_periodFormat,
-                    'coupon_code'
-                )
+                    'coupon_code',
+                ]
             );
         }
 
@@ -162,7 +162,7 @@ class Collection extends \Magento\Sales\Model\Resource\Report\Collection\Abstrac
 
         $rulesList = $this->_ruleFactory->create()->getUniqRulesNamesList();
 
-        $rulesFilterSqlParts = array();
+        $rulesFilterSqlParts = [];
         foreach ($this->_rulesIdsFilter as $ruleId) {
             if (!isset($rulesList[$ruleId])) {
                 continue;

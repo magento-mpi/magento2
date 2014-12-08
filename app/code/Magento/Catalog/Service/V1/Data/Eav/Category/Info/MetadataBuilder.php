@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Data\Eav\Category\Info;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Class MetadataBuilder

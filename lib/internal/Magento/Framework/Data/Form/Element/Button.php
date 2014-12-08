@@ -22,7 +22,7 @@ class Button extends AbstractElement
      *
      * @var string[]
      */
-    protected $_htmlAttributes = array('data-mage-init');
+    protected $_htmlAttributes = ['data-mage-init'];
 
     /**
      * @param Factory $factoryElement
@@ -34,7 +34,7 @@ class Button extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('button');

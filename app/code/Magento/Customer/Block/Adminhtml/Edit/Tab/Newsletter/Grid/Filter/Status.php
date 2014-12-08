@@ -24,14 +24,14 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected function _construct()
     {
-        self::$_statuses = array(
+        self::$_statuses = [
             null => null,
             Queue::STATUS_SENT => __('Sent'),
             Queue::STATUS_CANCEL => __('Cancel'),
             Queue::STATUS_NEVER => __('Not Sent'),
             Queue::STATUS_SENDING => __('Sending'),
-            Queue::STATUS_PAUSE => __('Paused')
-        );
+            Queue::STATUS_PAUSE => __('Paused'),
+        ];
         parent::_construct();
     }
 
@@ -40,9 +40,9 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     protected function _getOptions()
     {
-        $options = array();
+        $options = [];
         foreach (self::$_statuses as $status => $label) {
-            $options[] = array('value' => $status, 'label' => __($label));
+            $options[] = ['value' => $status, 'label' => __($label)];
         }
 
         return $options;
@@ -53,6 +53,6 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Select
      */
     public function getCondition()
     {
-        return is_null($this->getValue()) ? null : array('eq' => $this->getValue());
+        return is_null($this->getValue()) ? null : ['eq' => $this->getValue()];
     }
 }

@@ -40,7 +40,7 @@ class Product extends \Magento\Backend\Block\Widget\Container
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Catalog\Model\Product\TypeFactory $typeFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFactory = $productFactory;
         $this->_typeFactory = $typeFactory;
@@ -55,14 +55,14 @@ class Product extends \Magento\Backend\Block\Widget\Container
      */
     protected function _prepareLayout()
     {
-        $addButtonProps = array(
+        $addButtonProps = [
             'id' => 'add_new_product',
             'label' => __('Add Product'),
             'class' => 'add',
             'button_class' => '',
             'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
-            'options' => $this->_getAddProductButtonOptions()
-        );
+            'options' => $this->_getAddProductButtonOptions(),
+        ];
         $this->buttonList->add('add_new', $addButtonProps);
 
         $this->setChild(
@@ -79,7 +79,7 @@ class Product extends \Magento\Backend\Block\Widget\Container
      */
     protected function _getAddProductButtonOptions()
     {
-        $splitButtonOptions = array();
+        $splitButtonOptions = [];
         $types = $this->_typeFactory->create()->getTypes();
         uasort(
             $types,
@@ -89,11 +89,11 @@ class Product extends \Magento\Backend\Block\Widget\Container
         );
 
         foreach ($types as $typeId => $type) {
-            $splitButtonOptions[$typeId] = array(
+            $splitButtonOptions[$typeId] = [
                 'label' => __($type['label']),
                 'onclick' => "setLocation('" . $this->_getProductCreateUrl($typeId) . "')",
-                'default' => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE == $typeId
-            );
+                'default' => \Magento\Catalog\Model\Product\Type::DEFAULT_TYPE == $typeId,
+            ];
         }
 
         return $splitButtonOptions;
@@ -109,7 +109,7 @@ class Product extends \Magento\Backend\Block\Widget\Container
     {
         return $this->getUrl(
             'catalog/*/new',
-            array('set' => $this->_productFactory->create()->getDefaultAttributeSetId(), 'type' => $type)
+            ['set' => $this->_productFactory->create()->getDefaultAttributeSetId(), 'type' => $type]
         );
     }
 

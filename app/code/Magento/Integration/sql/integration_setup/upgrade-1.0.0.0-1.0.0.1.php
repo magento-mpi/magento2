@@ -13,11 +13,11 @@ $installer = $this;
 $installer->getConnection()->addColumn(
     $installer->getTable('integration'),
     'setup_type',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default' => 0,
         'comment' => 'Integration type - manual or config file'
-    )
+    ]
 );

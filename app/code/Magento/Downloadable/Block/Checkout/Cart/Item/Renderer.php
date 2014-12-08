@@ -46,7 +46,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Downloadable\Helper\Catalog\Product\Configuration $downloadableProductConfiguration,
-        array $data = array()
+        array $data = []
     ) {
         $this->_downloadableProductConfiguration = $downloadableProductConfiguration;
         parent::__construct(

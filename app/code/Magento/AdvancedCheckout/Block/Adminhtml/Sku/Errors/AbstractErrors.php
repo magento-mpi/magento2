@@ -56,7 +56,7 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_cartFactory = $cartFactory;
@@ -102,11 +102,11 @@ abstract class AbstractErrors extends \Magento\Backend\Block\Widget
      */
     public function getButtonsHtml()
     {
-        $buttonData = array(
+        $buttonData = [
             'label' => __('Remove All'),
             'onclick' => 'addBySku.removeAllFailed()',
-            'class' => 'action-delete'
-        );
+            'class' => 'action-delete',
+        ];
         return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData($buttonData)->toHtml();
     }
 

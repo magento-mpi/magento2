@@ -43,8 +43,8 @@ class Grouped implements \Magento\Catalog\Model\Product\CopyConstructorInterface
             return;
         }
 
-        $data = array();
-        $attributes = array();
+        $data = [];
+        $attributes = [];
         $link = $product->getLinkInstance();
         $link->setLinkTypeId(\Magento\GroupedProduct\Model\Resource\Product\Link::LINK_TYPE_GROUPED);
         foreach ($link->getAttributes() as $attribute) {

@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that payment method was printed correctly on sales guest print page.

@@ -12,7 +12,7 @@ class Validator implements ValidatorInterface
     /**
      * @var ValidatorInterface[]
      */
-    protected $_validators = array();
+    protected $_validators = [];
 
     /**
      * Add validator

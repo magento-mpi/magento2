@@ -8,13 +8,13 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountEdit;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountEdit;
+use Magento\Customer\Test\Page\CustomerAccountIndex;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertCustomerCustomAttributeNotOnCustomerEditPage

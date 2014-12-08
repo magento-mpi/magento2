@@ -27,7 +27,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Product */
         $model = $objectManagerHelper->getObject(
             'Magento\Tax\Model\TaxClass\Type\Product',
-            array('modelProduct' => $productMock, 'data' => array('id' => 1))
+            ['modelProduct' => $productMock, 'data' => ['id' => 1]]
         );
         $this->assertTrue($model->isAssignedToObjects());
     }

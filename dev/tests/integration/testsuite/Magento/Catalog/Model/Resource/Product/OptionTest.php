@@ -27,7 +27,6 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /**
      * Data provider for testSaveTitle
      *
@@ -108,7 +107,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Product'
         );
         $product->load($productId);
-        $product->setStoreIds(array($storeId));
+        $product->setStoreIds([$storeId]);
         $product->setProductOptions($options);
         $product->setCanSaveCustomOptions(true);
         $product->save();
@@ -159,7 +158,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Product'
         );
         $product->load($productId);
-        $product->setStoreIds(array($storeId));
+        $product->setStoreIds([$storeId]);
         $product->setProductOptions($options);
         $product->setCanSaveCustomOptions(true);
         $product->save();
@@ -194,5 +193,4 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $testResult = $this->productResource->getReadConnection()->fetchOne($select);
         $this->assertEquals($result, (bool)$testResult);
     }
-
 }

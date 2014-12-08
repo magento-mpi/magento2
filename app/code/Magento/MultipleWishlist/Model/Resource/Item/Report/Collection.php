@@ -51,7 +51,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -100,13 +100,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
 
         $adapter = $this->getConnection();
-        $concatenate = array();
+        $concatenate = [];
         if (isset($fields['prefix'])) {
             $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('prefix'));
             $fields['prefix'] = 'at_prefix.value';
             $concatenate[] = $adapter->getCheckSql(
                 '{{prefix}} IS NOT NULL AND {{prefix}} != \'\'',
-                $adapter->getConcatSql(array('LTRIM(RTRIM({{prefix}}))', '\' \'')),
+                $adapter->getConcatSql(['LTRIM(RTRIM({{prefix}}))', '\' \'']),
                 '\'\''
             );
         }
@@ -119,7 +119,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $this->_joinCustomerAttibute($this->_resourceCustomer->getAttribute('middlename'));
             $concatenate[] = $adapter->getCheckSql(
                 '{{middlename}} IS NOT NULL AND {{middlename}} != \'\'',
-                $adapter->getConcatSql(array('LTRIM(RTRIM({{middlename}}))', '\' \'')),
+                $adapter->getConcatSql(['LTRIM(RTRIM({{middlename}}))', '\' \'']),
                 '\'\''
             );
         }
@@ -131,7 +131,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $fields['suffix'] = 'at_suffix.value';
             $concatenate[] = $adapter->getCheckSql(
                 '{{suffix}} IS NOT NULL AND {{suffix}} != \'\'',
-                $adapter->getConcatSql(array('\' \'', 'LTRIM(RTRIM({{suffix}}))')),
+                $adapter->getConcatSql(['\' \'', 'LTRIM(RTRIM({{suffix}}))']),
                 '\'\''
             );
         }
@@ -153,14 +153,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $adapter = $this->getSelect()->getAdapter();
         $tableName = $adapter->getTableName('at_' . $attribute->getName());
-        $joinExpr = array(
+        $joinExpr = [
             $tableName . '.entity_id = wishlist_table.customer_id',
-            $adapter->quoteInto($tableName . '.attribute_id = ?', $attribute->getAttributeId())
-        );
+            $adapter->quoteInto($tableName . '.attribute_id = ?', $attribute->getAttributeId()),
+        ];
         $this->getSelect()->joinLeft(
-            array($tableName => $attribute->getBackend()->getTable()),
+            [$tableName => $attribute->getBackend()->getTable()],
             implode(' AND ', $joinExpr),
-            array()
+            []
         );
     }
 
@@ -172,7 +172,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function filterByStoreIds(array $storeIds)
     {
-        $this->addFieldToFilter('main_table.store_id', array('in' => array($storeIds)));
+        $this->addFieldToFilter('main_table.store_id', ['in' => [$storeIds]]);
         return $this;
     }
 
@@ -185,11 +185,11 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
             $this->getSelect()->joinLeft(
-                array('item_stock' => $this->getTable('cataloginventory_stock_item')),
+                ['item_stock' => $this->getTable('cataloginventory_stock_item')],
                 'main_table.product_id = item_stock.product_id',
-                array('product_qty' => 'qty')
+                ['product_qty' => 'qty']
             );
-            $this->getSelect()->columns(array('qty_diff' => '(item_stock.qty - main_table.qty)'));
+            $this->getSelect()->columns(['qty_diff' => '(item_stock.qty - main_table.qty)']);
         }
 
         $this->addFilterToMap('product_qty', 'item_stock.qty');
@@ -209,18 +209,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $select->reset(
             \Zend_Db_Select::COLUMNS
         )->columns(
-            array('item_qty' => 'qty', 'added_at', 'description', 'product_id')
+            ['item_qty' => 'qty', 'added_at', 'description', 'product_id']
         );
 
         $adapter = $this->getSelect()->getAdapter();
         $defaultWishlistName = $this->_wishlistData->getDefaultWishlistName();
         $this->getSelect()->join(
-            array('wishlist_table' => $this->getTable('wishlist')),
+            ['wishlist_table' => $this->getTable('wishlist')],
             'main_table.wishlist_id = wishlist_table.wishlist_id',
-            array(
+            [
                 'visibility' => 'visibility',
                 'wishlist_name' => $adapter->getIfNullSql('name', $adapter->quote($defaultWishlistName))
-            )
+            ]
         );
 
         $this->addFilterToMap(

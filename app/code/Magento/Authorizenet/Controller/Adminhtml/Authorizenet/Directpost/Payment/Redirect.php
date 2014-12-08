@@ -62,7 +62,7 @@ class Redirect extends \Magento\Sales\Controller\Adminhtml\Order\Create
     public function execute()
     {
         $redirectParams = $this->getRequest()->getParams();
-        $params = array();
+        $params = [];
         if (!empty($redirectParams['success']) && isset(
             $redirectParams['x_invoice_num']
         ) && isset(

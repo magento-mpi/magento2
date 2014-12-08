@@ -34,7 +34,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
         \Magento\Framework\View\Design\Theme\LabelFactory $themeLabelFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_formTypesFactory = $formTypesFactory;
         $this->_themeLabelFactory = $themeLabelFactory;
@@ -74,36 +74,36 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('code', array('header' => __('Type Code'), 'index' => 'code'));
+        $this->addColumn('code', ['header' => __('Type Code'), 'index' => 'code']);
 
-        $this->addColumn('label', array('header' => __('Label'), 'index' => 'label'));
+        $this->addColumn('label', ['header' => __('Label'), 'index' => 'label']);
 
-        $this->addColumn('store_id', array('header' => __('Store View'), 'index' => 'store_id', 'type' => 'store'));
+        $this->addColumn('store_id', ['header' => __('Store View'), 'index' => 'store_id', 'type' => 'store']);
 
         /** @var $label \Magento\Framework\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
-        array_unshift($design, array('value' => 'all', 'label' => __('All Themes')));
+        array_unshift($design, ['value' => 'all', 'label' => __('All Themes')]);
         $this->addColumn(
             'theme',
-            array(
+            [
                 'header' => __('Theme'),
                 'type' => 'theme',
                 'index' => 'theme',
                 'options' => $design,
                 'with_empty' => true,
                 'default' => __('All Themes')
-            )
+            ]
         );
 
         $this->addColumn(
             'is_system',
-            array(
+            [
                 'header' => __('System'),
                 'index' => 'is_system',
                 'type' => 'options',
-                'options' => array(0 => __('No'), 1 => __('Yes'))
-            )
+                'options' => [0 => __('No'), 1 => __('Yes')]
+            ]
         );
 
         return parent::_prepareColumns();
@@ -117,6 +117,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('adminhtml/*/edit', array('type_id' => $row->getId()));
+        return $this->getUrl('adminhtml/*/edit', ['type_id' => $row->getId()]);
     }
 }

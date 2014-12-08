@@ -69,7 +69,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Framework\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Webapi\Helper\Data $webapiData,
         \Magento\Integration\Helper\Data $integrationData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
@@ -152,7 +152,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic implements
     {
         $resources = $this->_aclResourceProvider->getAclResources();
         $rootArray = $this->_integrationData->mapResources(
-            isset($resources[1]['children']) ? $resources[1]['children'] : array()
+            isset($resources[1]['children']) ? $resources[1]['children'] : []
         );
         return $rootArray;
     }

@@ -13,7 +13,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * Path to add to include path
      */

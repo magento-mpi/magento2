@@ -8,9 +8,9 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertArchiveShipmentInGrid
@@ -41,7 +41,7 @@ class AssertArchiveShipmentInGrid extends AbstractConstraint
         foreach ($ids['shipmentIds'] as $shipmentId) {
             $filter = [
                 'order_id' => $orderId,
-                'shipment_id' => $shipmentId
+                'shipment_id' => $shipmentId,
             ];
 
             $errorMessage = implode(', ', $filter);

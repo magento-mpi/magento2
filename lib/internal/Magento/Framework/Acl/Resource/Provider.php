@@ -38,6 +38,6 @@ class Provider implements ProviderInterface
         if (!empty($aclResourceConfig['config']['acl']['resources'])) {
             return $this->_resourceTreeBuilder->build($aclResourceConfig['config']['acl']['resources']);
         }
-        return array();
+        return [];
     }
 }

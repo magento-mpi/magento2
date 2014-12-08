@@ -22,7 +22,7 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach($this->getWishlistItems() as $item): ?>
+                <?php foreach ($this->getWishlistItems() as $item): ?>
                     <?php
                     $product = $item->getProduct();
                     $isVisibleProduct = $product->isVisibleInSiteVisibility();
@@ -67,11 +67,11 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
         </div>
 
         <div class="actions-toolbar">
-            <?php if($this->isSaleable()):?>
+            <?php if ($this->isSaleable()):?>
                 <div class="primary">
-                    <button type="button" 
-                            title="<?php echo __('Add All to Cart') ?>" 
-                            onclick="location.assign('<?php echo $this->getUrl('*/*/allcart', array('_current'=>true)) ?>')"
+                    <button type="button"
+                            title="<?php echo __('Add All to Cart') ?>"
+                            onclick="location.assign('<?php echo $this->getUrl('*/*/allcart', ['_current' => true]) ?>')"
                             class="action tocart primary">
                         <span><?php echo __('Add All to Cart') ?></span>
                     </button>

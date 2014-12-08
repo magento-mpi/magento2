@@ -8,8 +8,8 @@
 
 namespace Magento\Reward\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRateSuccessSaveMessage

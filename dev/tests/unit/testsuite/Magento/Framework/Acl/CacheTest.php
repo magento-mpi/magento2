@@ -39,7 +39,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet($dataAcl)
     {
-        $this->initAcl((is_array($dataAcl) ? serialize($dataAcl): $dataAcl));
+        $this->initAcl((is_array($dataAcl) ? serialize($dataAcl) : $dataAcl));
         $this->assertEquals($dataAcl, $this->model->get());
     }
 
@@ -81,7 +81,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testHasWithAcl($dataAcl)
     {
-        $this->initAcl((is_array($dataAcl) ? serialize($dataAcl): $dataAcl));
+        $this->initAcl((is_array($dataAcl) ? serialize($dataAcl) : $dataAcl));
         $this->cacheConfig->expects($this->never())->method('test');
 
         $this->model->get();

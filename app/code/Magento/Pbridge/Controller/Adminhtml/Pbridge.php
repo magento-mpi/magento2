@@ -15,7 +15,6 @@ namespace Magento\Pbridge\Controller\Adminhtml;
 
 class Pbridge extends \Magento\Backend\App\Action
 {
-
     /**
      * Check current user permission on resource and privilege
      *

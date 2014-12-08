@@ -7,11 +7,11 @@
  */
 namespace Magento\PayPalRecurringPayment\Model;
 
-use Magento\Paypal\Model\Express as PayPalExpress;
 use Magento\Payment\Model\Info as PaymentInfo;
-use Magento\RecurringPayment\Model\States;
-use Magento\RecurringPayment\Model\RecurringPayment;
+use Magento\Paypal\Model\Express as PayPalExpress;
 use Magento\RecurringPayment\Model\ManagerInterface;
+use Magento\RecurringPayment\Model\RecurringPayment;
+use Magento\RecurringPayment\Model\States;
 
 class Express implements ManagerInterface
 {
@@ -47,7 +47,7 @@ class Express implements ManagerInterface
      */
     public function validate(RecurringPayment $payment)
     {
-        $errors = array();
+        $errors = [];
         if (strlen($payment->getSubscriberName()) > 32) {
             // up to 32 single-byte chars
             $errors[] = __('The subscriber name is too long.');
@@ -84,7 +84,7 @@ class Express implements ManagerInterface
         \Magento\Framework\Object\Mapper::accumulateByMap(
             $payment,
             $api,
-            array(
+            [
                 'token', // EC fields
                 // TODO: DP fields
                 // payment fields
@@ -107,7 +107,7 @@ class Express implements ManagerInterface
                 'tax_amount',
                 'init_amount',
                 'init_may_fail'
-            )
+            ]
         );
         $api->callCreateRecurringPayment();
         $payment->setReferenceId($api->getRecurringPaymentId());

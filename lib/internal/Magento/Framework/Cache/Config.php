@@ -31,7 +31,7 @@ class Config implements ConfigInterface
      */
     public function getTypes()
     {
-        return $this->_dataStorage->get('types', array());
+        return $this->_dataStorage->get('types', []);
     }
 
     /**
@@ -42,6 +42,6 @@ class Config implements ConfigInterface
      */
     public function getType($type)
     {
-        return $this->_dataStorage->get('types/' . $type, array());
+        return $this->_dataStorage->get('types/' . $type, []);
     }
 }

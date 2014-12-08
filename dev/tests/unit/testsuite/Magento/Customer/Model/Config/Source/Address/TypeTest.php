@@ -22,7 +22,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $expected = array('billing' => 'Billing Address','shipping' => 'Shipping Address');
+        $expected = ['billing' => 'Billing Address','shipping' => 'Shipping Address'];
         $this->assertEquals($expected, $this->model->toOptionArray());
     }
 }

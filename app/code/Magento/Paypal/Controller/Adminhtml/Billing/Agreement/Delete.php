@@ -31,7 +31,7 @@ class Delete extends \Magento\Paypal\Controller\Adminhtml\Billing\Agreement
                 $this->messageManager->addError(__('We could not delete the billing agreement.'));
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
-            $this->_redirect('paypal/*/view', array('_current' => true));
+            $this->_redirect('paypal/*/view', ['_current' => true]);
         }
         $this->_redirect('paypal/*/');
     }

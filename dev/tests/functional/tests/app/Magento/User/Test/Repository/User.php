@@ -8,8 +8,8 @@
 
 namespace Magento\User\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
 use Mtf\ObjectManager;
+use Mtf\Repository\AbstractRepository;
 
 /**
  * Class User
@@ -37,7 +37,7 @@ class User extends AbstractRepository
             'password' => '123123q',
             'password_confirmation' => '123123q',
             'user_id' => 1,
-            'current_password' => $superAdminPassword
+            'current_password' => $superAdminPassword,
         ];
 
         $this->_data['custom_admin'] = [
@@ -47,7 +47,7 @@ class User extends AbstractRepository
             'email' => 'email%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'current_password' => $superAdminPassword
+            'current_password' => $superAdminPassword,
         ];
 
         $this->_data['custom_admin_with_default_role'] = [
@@ -59,7 +59,7 @@ class User extends AbstractRepository
             'password_confirmation' => '123123q',
             'role_id' => ['dataSet' => 'default'],
             'current_password' => $superAdminPassword,
-            'is_active' => 'Active'
+            'is_active' => 'Active',
         ];
     }
 }

@@ -70,13 +70,13 @@ class ServiceCollection extends AbstractServiceCollection
      */
     protected function createCustomerItem(CustomerInterface $customer)
     {
-        $customerNameParts = array(
+        $customerNameParts = [
             $customer->getPrefix(),
             $customer->getFirstname(),
             $customer->getMiddlename(),
             $customer->getLastname(),
             $customer->getSuffix(),
-        );
+        ];
         $customerItem = new \Magento\Framework\Object();
         $customerItem->setId($customer->getId());
         $customerItem->setEntityId($customer->getId());

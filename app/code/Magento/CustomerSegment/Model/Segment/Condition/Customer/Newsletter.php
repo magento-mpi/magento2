@@ -28,7 +28,7 @@ class Newsletter extends AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Newsletter');
@@ -61,7 +61,7 @@ class Newsletter extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('customer_save_commit_after', 'newsletter_subscriber_save_commit_after');
+        return ['customer_save_commit_after', 'newsletter_subscriber_save_commit_after'];
     }
 
     /**
@@ -71,7 +71,7 @@ class Newsletter extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array(array('value' => $this->getType(), 'label' => __('Newsletter Subscription')));
+        return [['value' => $this->getType(), 'label' => __('Newsletter Subscription')]];
     }
 
     /**
@@ -105,7 +105,7 @@ class Newsletter extends AbstractCondition
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array('1' => __('subscribed'), '0' => __('not subscribed')));
+        $this->setValueOption(['1' => __('subscribed'), '0' => __('not subscribed')]);
         return $this;
     }
 
@@ -122,8 +122,8 @@ class Newsletter extends AbstractCondition
         $value = (int)$this->getValue();
 
         $select = $this->getResource()->createSelect()->from(
-            array('main' => $table),
-            array(new \Zend_Db_Expr($value))
+            ['main' => $table],
+            [new \Zend_Db_Expr($value)]
         )->where(
             $this->_createCustomerFilter($customer, 'main.customer_id')
         )->where(

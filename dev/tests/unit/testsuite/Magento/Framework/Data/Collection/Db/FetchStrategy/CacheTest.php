@@ -32,14 +32,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    private $_fixtureData = array(
-        array('column_one' => 'row_one_value_one', 'column_two' => 'row_one_value_two'),
-        array('column_one' => 'row_two_value_one', 'column_two' => 'row_two_value_two')
-    );
+    private $_fixtureData = [
+        ['column_one' => 'row_one_value_one', 'column_two' => 'row_one_value_two'],
+        ['column_one' => 'row_two_value_one', 'column_two' => 'row_two_value_two'],
+    ];
 
     protected function setUp()
     {
-        $this->_select = $this->getMock('Zend_Db_Select', array('assemble'), array(), '', false);
+        $this->_select = $this->getMock('Zend_Db_Select', ['assemble'], [], '', false);
         $this->_select->expects(
             $this->once()
         )->method(
@@ -57,7 +57,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
             $this->_cache,
             $this->_fetchStrategy,
             'fixture_',
-            array('fixture_tag_one', 'fixture_tag_two'),
+            ['fixture_tag_one', 'fixture_tag_two'],
             86400
         );
     }
@@ -83,13 +83,13 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         );
         $this->_fetchStrategy->expects($this->never())->method('fetchAll');
         $this->_cache->expects($this->never())->method('save');
-        $this->assertEquals($this->_fixtureData, $this->_object->fetchAll($this->_select, array()));
+        $this->assertEquals($this->_fixtureData, $this->_object->fetchAll($this->_select, []));
     }
 
     public function testFetchAllDelegation()
     {
         $cacheId = 'fixture_06a6b0cfd83bf997e76b1b403df86569';
-        $bindParams = array('param_one' => 'value_one', 'param_two' => 'value_two');
+        $bindParams = ['param_one' => 'value_one', 'param_two' => 'value_two'];
         $this->_cache->expects($this->once())->method('load')->with($cacheId)->will($this->returnValue(false));
         $this->_fetchStrategy->expects(
             $this->once()
@@ -108,7 +108,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         )->with(
             serialize($this->_fixtureData),
             $cacheId,
-            array('fixture_tag_one', 'fixture_tag_two'),
+            ['fixture_tag_one', 'fixture_tag_two'],
             86400
         );
         $this->assertEquals($this->_fixtureData, $this->_object->fetchAll($this->_select, $bindParams));

@@ -23,7 +23,7 @@ class IframeTest extends \PHPUnit_Framework_TestCase
             'Magento\Authorizenet\Block\Directpost\Iframe'
         );
         $block->setTemplate('directpost/iframe.phtml');
-        $block->setParams(array('redirect' => $xssString, 'redirect_parent' => $xssString, 'error_msg' => $xssString));
+        $block->setParams(['redirect' => $xssString, 'redirect_parent' => $xssString, 'error_msg' => $xssString]);
         $content = $block->toHtml();
         $this->assertNotContains($xssString, $content, 'Params mast be escaped');
         $this->assertContains(htmlspecialchars($xssString), $content, 'Content must present');

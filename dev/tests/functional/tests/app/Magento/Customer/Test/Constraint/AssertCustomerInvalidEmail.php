@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerInvalidEmail

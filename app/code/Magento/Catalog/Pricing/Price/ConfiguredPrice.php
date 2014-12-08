@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product\Configuration\Item\ItemInterface;
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 
 /**

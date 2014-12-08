@@ -31,7 +31,7 @@ class PriceScope extends \Magento\Framework\App\Config\Value
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);
         $this->indexerRegistry = $indexerRegistry;
@@ -44,7 +44,7 @@ class PriceScope extends \Magento\Framework\App\Config\Value
      */
     public function afterSave()
     {
-        $this->_getResource()->addCommitCallback(array($this, 'processValue'));
+        $this->_getResource()->addCommitCallback([$this, 'processValue']);
         return $this;
     }
 

@@ -9,8 +9,8 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
-use \Magento\Framework\Api\ExtensibleObjectBuilder;
-use \Magento\Downloadable\Service\V1\Data\FileContent;
+use Magento\Downloadable\Service\V1\Data\FileContent;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

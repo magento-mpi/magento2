@@ -28,7 +28,7 @@ class Sitemap extends InjectableFixture
 
     protected $defaultDataSet = [
         'sitemap_filename' => 'sitemap.xml',
-        'sitemap_path' => '/'
+        'sitemap_path' => '/',
     ];
 
     protected $sitemap_id = [

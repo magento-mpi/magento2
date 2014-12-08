@@ -22,7 +22,7 @@ class SiteVerificationTest extends \PHPUnit_Framework_TestCase
         $escaper = $this->getMockBuilder(
             'Magento\Framework\Escaper'
         )->disableOriginalConstructor()->setMethods(
-            array('escapeHtml')
+            ['escapeHtml']
         )->getMock();
         $escaper->expects(
             $this->any()
@@ -34,13 +34,13 @@ class SiteVerificationTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('Valor &amp; Honor')
         );
 
-        $context = $objectHelper->getObject('Magento\Framework\View\Element\Context', array('escaper' => $escaper));
+        $context = $objectHelper->getObject('Magento\Framework\View\Element\Context', ['escaper' => $escaper]);
 
-        $this->_config = $this->getMock('Magento\GoogleShopping\Model\Config', array(), array(), '', false);
+        $this->_config = $this->getMock('Magento\GoogleShopping\Model\Config', [], [], '', false);
 
         $this->_block = $objectHelper->getObject(
             'Magento\GoogleShopping\Block\SiteVerification',
-            array('context' => $context, 'config' => $this->_config)
+            ['context' => $context, 'config' => $this->_config]
         );
     }
 

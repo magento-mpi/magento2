@@ -22,7 +22,7 @@ class RecurringPaymentSpecificationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->configMock = $this->getMock('Magento\Payment\Model\Config', array(), array(), '', false);
+        $this->configMock = $this->getMock('Magento\Payment\Model\Config', [], [], '', false);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
     }
@@ -36,17 +36,17 @@ class RecurringPaymentSpecificationTest extends \PHPUnit_Framework_TestCase
             'getMethodsInfo'
         )->will(
             $this->returnValue(
-                array(
-                    $paymentMethodCode => array(
-                        \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification::CONFIG_KEY => 1
-                    )
-                )
+                [
+                    $paymentMethodCode => [
+                        \Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification::CONFIG_KEY => 1,
+                    ],
+                ]
             )
         );
 
         $this->recurringPaymentSpecification = $this->objectManagerHelper->getObject(
             'Magento\RecurringPayment\Model\Method\RecurringPaymentSpecification',
-            array('paymentConfig' => $this->configMock)
+            ['paymentConfig' => $this->configMock]
         );
 
         $this->assertTrue($this->recurringPaymentSpecification->isSatisfiedBy($paymentMethodCode));

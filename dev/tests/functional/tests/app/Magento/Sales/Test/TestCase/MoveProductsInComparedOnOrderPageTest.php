@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Test\TestCase;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 
 /**
  * Test Creation for CreateOrderFromCustomerPage (comparedProducts)

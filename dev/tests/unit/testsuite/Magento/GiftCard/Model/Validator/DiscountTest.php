@@ -31,4 +31,3 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($discount->getMessages());
     }
 }
- 

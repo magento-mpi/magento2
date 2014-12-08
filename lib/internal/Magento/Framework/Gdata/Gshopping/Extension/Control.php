@@ -44,7 +44,7 @@ class Control extends \Zend_Gdata_App_Extension_Control
      * @param array $destinations Map destination's names to mode (DEST_MODE_*)
      * @param \Zend_Gdata_App_Extension_Draft|null $draft Draft extension
      */
-    public function __construct(array $destinations = array(), $draft = null)
+    public function __construct(array $destinations = [], $draft = null)
     {
         $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         parent::__construct($draft);

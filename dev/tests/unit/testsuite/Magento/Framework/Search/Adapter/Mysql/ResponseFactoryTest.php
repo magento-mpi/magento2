@@ -48,9 +48,9 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
         $rawResponse = [
             'documents' => [
                 ['title' => 'oneTitle', 'description' => 'oneDescription'],
-                ['title' => 'twoTitle', 'description' => 'twoDescription']
+                ['title' => 'twoTitle', 'description' => 'twoDescription'],
             ],
-            'aggregations' => []
+            'aggregations' => [],
         ];
         $exceptedResponse = [
             'documents' => [
@@ -61,9 +61,9 @@ class ResponseFactoryTest extends \PHPUnit_Framework_TestCase
                 [
                     ['name' => 'title', 'value' => 'twoTitle'],
                     ['name' => 'description', 'value' => 'twoDescription'],
-                ]
+                ],
             ],
-            'aggregations' => []
+            'aggregations' => [],
         ];
 
         $this->documentFactory->expects($this->at(0))->method('create')

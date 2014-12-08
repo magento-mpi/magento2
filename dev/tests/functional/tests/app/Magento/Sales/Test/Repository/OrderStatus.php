@@ -35,7 +35,7 @@ class OrderStatus extends AbstractRepository
             'label' => 'orderLabel%isolation%',
             'state' => 'Pending',
             'is_default' => 'Yes',
-            'visible_on_front' => 'Yes'
+            'visible_on_front' => 'Yes',
         ];
     }
 }

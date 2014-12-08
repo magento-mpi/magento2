@@ -54,7 +54,7 @@ class Summary extends \Magento\Backend\Block\Template
         \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_votesFactory = $votesFactory;
         $this->_ratingFactory = $ratingFactory;

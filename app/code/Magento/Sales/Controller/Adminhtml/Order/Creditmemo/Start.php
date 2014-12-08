@@ -28,6 +28,6 @@ class Start extends \Magento\Backend\App\Action
         /**
          * Clear old values for creditmemo qty's
          */
-        $this->_redirect('sales/*/new', array('_current' => true));
+        $this->_redirect('sales/*/new', ['_current' => true]);
     }
 }

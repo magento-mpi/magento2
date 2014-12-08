@@ -29,8 +29,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->_urlResolver = $this->getMock('Magento\Framework\UrlInterface');
         $this->_interpreter = $this->getMock(
             'Magento\Framework\View\Layout\Argument\Interpreter\NamedParams',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -39,10 +39,10 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array('path' => 'some/path');
+        $input = ['path' => 'some/path'];
         $expected = 'http://some.domain.com/some/path/';
 
-        $urlParams = array('param');
+        $urlParams = ['param'];
         $this->_interpreter->expects(
             $this->once()
         )->method(
@@ -74,7 +74,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testEvaluateWrongPath()
     {
-        $input = array();
+        $input = [];
         $this->_model->evaluate($input);
     }
 }

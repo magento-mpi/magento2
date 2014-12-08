@@ -7,8 +7,6 @@
  */
 namespace Magento\Framework\View\Layout;
 
-use Magento\Framework\View\LayoutInterface;
-use Magento\Framework\View\Page;
 
 /**
  * Pool of generators for structural elements

@@ -33,7 +33,7 @@ class RemoveTags implements \Zend_Filter_Interface
     {
         $value = preg_replace_callback(
             "# <(?![/a-z]) | (?<=\s)>(?![a-z]) #xi",
-            array($this, '_convertEntities'),
+            [$this, '_convertEntities'],
             $value
         );
         $value = strip_tags($value);

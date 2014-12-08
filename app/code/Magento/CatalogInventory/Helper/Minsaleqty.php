@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogInventory\Helper;
 
-use Magento\Store\Model\Store;
 use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Store\Model\Store;
 
 /**
  * MinSaleQty value manipulation helper
@@ -71,7 +71,7 @@ class Minsaleqty
             $data = (float) $value;
             return (string) $data;
         } elseif (is_array($value)) {
-            $data = array();
+            $data = [];
             foreach ($value as $groupId => $qty) {
                 if (!array_key_exists($groupId, $data)) {
                     $data[$groupId] = $this->fixQty($qty);
@@ -95,11 +95,11 @@ class Minsaleqty
     protected function unserializeValue($value)
     {
         if (is_numeric($value)) {
-            return array($this->getAllCustomersGroupId() => $this->fixQty($value));
+            return [$this->getAllCustomersGroupId() => $this->fixQty($value)];
         } elseif (is_string($value) && !empty($value)) {
             return unserialize($value);
         } else {
-            return array();
+            return [];
         }
     }
 
@@ -134,10 +134,10 @@ class Minsaleqty
      */
     protected function encodeArrayFieldValue(array $value)
     {
-        $result = array();
+        $result = [];
         foreach ($value as $groupId => $qty) {
             $resultId = $this->mathRandom->getUniqueHash('_');
-            $result[$resultId] = array('customer_group_id' => $groupId, 'min_sale_qty' => $this->fixQty($qty));
+            $result[$resultId] = ['customer_group_id' => $groupId, 'min_sale_qty' => $this->fixQty($qty)];
         }
         return $result;
     }
@@ -150,7 +150,7 @@ class Minsaleqty
      */
     protected function decodeArrayFieldValue(array $value)
     {
-        $result = array();
+        $result = [];
         unset($value['__empty']);
         foreach ($value as $row) {
             if (!is_array($row)

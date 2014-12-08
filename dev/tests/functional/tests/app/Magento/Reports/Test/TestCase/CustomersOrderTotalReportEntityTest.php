@@ -8,11 +8,11 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Reports\Test\Page\Adminhtml\CustomerTotalsReport;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for OrderTotalReportEntity

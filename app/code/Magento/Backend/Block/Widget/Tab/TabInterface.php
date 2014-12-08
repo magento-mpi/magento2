@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Backend Widget Tab Interface
  *

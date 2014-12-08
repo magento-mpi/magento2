@@ -9,8 +9,8 @@
 namespace Magento\Checkout\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
 

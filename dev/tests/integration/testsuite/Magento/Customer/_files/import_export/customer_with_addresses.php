@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$customers = array();
+$customers = [];
 
 //Create customer
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
@@ -40,7 +40,7 @@ $customer->isObjectNew(true);
 $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 //  default_billing and default_shipping information would not be saved, it is needed only for simple check
 $address->addData(
-    array(
+    [
         'firstname' => 'Betsy',
         'lastname' => 'Parker',
         'street' => '1079 Rocky Road',
@@ -50,8 +50,8 @@ $address->addData(
         'postcode' => '19107',
         'telephone' => '215-629-9720',
         'default_billing' => 1,
-        'default_shipping' => 1
-    )
+        'default_shipping' => 1,
+    ]
 );
 
 // Assign customer and address
@@ -95,7 +95,7 @@ $customer->isObjectNew(true);
 
 $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $address->addData(
-    array(
+    [
         'firstname' => 'Anthony',
         'lastname' => 'Nealy',
         'street' => '3176 Cambridge Court',
@@ -105,14 +105,14 @@ $address->addData(
         'postcode' => '72701',
         'telephone' => '479-899-9849',
         'default_billing' => 0,
-        'default_shipping' => 0
-    )
+        'default_shipping' => 0,
+    ]
 );
 $customer->addAddress($address);
 
 $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $address->addData(
-    array(
+    [
         'firstname' => 'Anthony',
         'lastname' => 'Nealy',
         'street' => '4709 Pleasant Hill Road',
@@ -122,8 +122,8 @@ $address->addData(
         'postcode' => '92664',
         'telephone' => '562-208-2310',
         'default_billing' => 1,
-        'default_shipping' => 1
-    )
+        'default_shipping' => 1,
+    ]
 );
 $customer->addAddress($address);
 
@@ -165,7 +165,7 @@ $customer->isObjectNew(true);
 
 $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Address');
 $address->addData(
-    array(
+    [
         'firstname' => 'Lori',
         'lastname' => 'Banks',
         'street' => '2573 Goodwin Avenue',
@@ -175,8 +175,8 @@ $address->addData(
         'postcode' => '98801',
         'telephone' => '509-421-4364',
         'default_billing' => 1,
-        'default_shipping' => 1
-    )
+        'default_shipping' => 1,
+    ]
 );
 $customer->addAddress($address);
 $customer->save();

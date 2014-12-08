@@ -9,8 +9,7 @@
 
 namespace Magento\Checkout\Service\V1\Address;
 
-use \Magento\Checkout\Service\V1\Data\Cart\Address;
-use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\Checkout\Service\V1\Data\Cart\Address;
 
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -64,8 +63,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->customerFactoryMock = $this->getMock(
-            '\Magento\Customer\Model\CustomerFactory', ['create', '__wakeup'], [], '', false)
-        ;
+            '\Magento\Customer\Model\CustomerFactory', ['create', '__wakeup'], [], '', false);
         $this->customerMock = $this->getMock('\Magento\Customer\Model\Customer', [], [], '', false);
 
         $builder = $this->getMock(
@@ -119,7 +117,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
 
         $this->addressFactoryMock->expects($this->once())->method('create')
             ->will($this->returnValue($this->quoteAddressMock));
-
 
         $addressData = $this->addressDataBuilder
             ->setId(101)
@@ -176,7 +173,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         /** Validate */
         $this->model->validate($addressData);
     }
-
 
     public function testValidateWithValidAddress()
     {

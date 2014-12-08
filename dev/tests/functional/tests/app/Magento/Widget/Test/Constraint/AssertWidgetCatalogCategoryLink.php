@@ -10,9 +10,9 @@ namespace Magento\Widget\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that created widget displayed on frontend on Home page and on Advanced Search and

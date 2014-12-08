@@ -26,7 +26,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
      */
     protected $factory;
 
-
     protected function setUp()
     {
         $this->filesCollector = $this->getMock('Magento\Tools\I18n\FilesCollector');
@@ -47,8 +46,8 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     public function testAddPhrase($options, $phpFiles, $jsFiles, $phpMap, $jsMap, $expectedResult)
     {
         // 1. Create mocks
-        $phpAdapter = new AdapterStub;
-        $jsAdapter = new AdapterStub;
+        $phpAdapter = new AdapterStub();
+        $jsAdapter = new AdapterStub();
 
         // 2. Set mocks
         $this->parser->addAdapter('php', $phpAdapter);
@@ -98,20 +97,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                     'php/path1/file11' => [
                         [
                             'phrase' => 'php phrase111',
-                            'quote' => "'"
+                            'quote' => "'",
                         ],
                         [   'phrase' => 'php phrase112',
                             'quote' => '"'
-                        ]
+                        ],
                     ],
                     'php/path1/file12' => [
                         [
                             'phrase' => 'php phrase121',
-                            'quote' => "'"
+                            'quote' => "'",
                         ],
                         [   'phrase' => 'php phrase122',
                             'quote' => '"'
-                        ]
+                        ],
                     ],
                     'php/path2/file21' => []
                 ],
@@ -119,20 +118,20 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                     'js/path1/file11' => [
                         [
                             'phrase' => 'js phrase111',
-                            'quote' => "'"
+                            'quote' => "'",
                         ],
                         [   'phrase' => 'js phrase112',
                             'quote' => '"'
-                        ]
+                        ],
                     ],
                     'js/path1/file12' => [
                         [
                             'phrase' => 'js phrase121',
-                            'quote' => "'"
+                            'quote' => "'",
                         ],
                         [   'phrase' => 'js phrase122',
                             'quote' => '"'
-                        ]
+                        ],
                     ],
                     'js/path2/file21' => []
                 ],
@@ -145,7 +144,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
                     'js phrase112' => 'js phrase112',
                     'js phrase121' => 'js phrase121',
                     'js phrase122' => 'js phrase122',
-                ]
+                ],
             ]
         ];
     }

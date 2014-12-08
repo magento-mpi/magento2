@@ -10,11 +10,11 @@ namespace Magento\User\Test\TestCase;
 
 use Magento\Backend\Test\Page\AdminAuthLogin;
 use Magento\Backend\Test\Page\Adminhtml\Dashboard;
+use Magento\User\Test\Fixture\User;
 use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Magento\User\Test\Page\Adminhtml\UserIndex;
-use Mtf\TestCase\Injectable;
-use Magento\User\Test\Fixture\User;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteAdminUserEntity
@@ -106,7 +106,7 @@ class DeleteAdminUserEntityTest extends Injectable
         $isDefaultUser
     ) {
         $filter = [
-            'username' => $user->getUsername()
+            'username' => $user->getUsername(),
         ];
         //Steps
         if ($isDefaultUser == 0) {

@@ -8,9 +8,9 @@
 
 namespace Magento\Customer\Test\Fixture\CustomerGroup;
 
+use Magento\Tax\Test\Fixture\TaxClass;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Tax\Test\Fixture\TaxClass;
 
 /**
  * Class TaxClassIds

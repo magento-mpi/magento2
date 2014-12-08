@@ -68,7 +68,7 @@ HANDLE;
         )->method(
                 'loadLayout'
             )->with(
-                $this->equalTo(array('adminhtml_integration_activate_permissions_webapi'))
+                $this->equalTo(['adminhtml_integration_activate_permissions_webapi'])
             );
 
         $controller->execute();

@@ -7,10 +7,10 @@
  */
 namespace Magento\Tools\SampleData\Module\Customer\Setup;
 
-use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Customer
@@ -116,7 +116,7 @@ class Customer implements SetupInterface
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
                 // Collect customer profile and addresses data
                 $customerData['profile'] = $this->convertRowData($row, $this->getDefaultCustomerProfile());
@@ -127,7 +127,7 @@ class Customer implements SetupInterface
                 $region = [
                     RegionInterface::REGION_ID => $address['region_id'],
                     RegionInterface::REGION => !empty($address['region']) ? $address['region'] : null,
-                    RegionInterface::REGION_CODE => !empty($address['region_code']) ? $address['region_code'] : null
+                    RegionInterface::REGION_CODE => !empty($address['region_code']) ? $address['region_code'] : null,
                 ];
 
                 $region = $this->regionDataBuilder
@@ -142,7 +142,7 @@ class Customer implements SetupInterface
                     ->create();
 
                 $customer = $this->customerBuilder->populateWithArray($customerData['profile'])
-                    ->setAddresses(array($addresses))
+                    ->setAddresses([$addresses])
                     ->create();
 
                 $this->accountManagement->createAccount($customer, $row['password']);
@@ -172,7 +172,7 @@ class Customer implements SetupInterface
                 'taxvat' => '',
                 'gender' => '',
                 'confirmation' => false,
-                'sendemail' => false
+                'sendemail' => false,
             ];
         }
         return $this->customerDataProfile;
@@ -193,7 +193,7 @@ class Customer implements SetupInterface
                 'company' => '',
                 'street' => [
                     0 => '',
-                    1 => ''
+                    1 => '',
                 ],
                 'city' => '',
                 'country_id' => '',
@@ -203,7 +203,7 @@ class Customer implements SetupInterface
                 'fax' => '',
                 'vat_id' => '',
                 'default_billing' => true,
-                'default_shipping' => true
+                'default_shipping' => true,
             ];
         }
         return $this->customerDataAddress;

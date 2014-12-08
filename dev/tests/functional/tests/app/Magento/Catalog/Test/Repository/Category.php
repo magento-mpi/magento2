@@ -25,12 +25,12 @@ class Category extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
         $this->_data['anchor_category'] = $this->_getAnchorCategory();
     }
 
@@ -41,18 +41,18 @@ class Category extends AbstractRepository
      */
     protected function _getAnchorCategory()
     {
-        $anchor = array(
-            'data' => array(
-                'fields' => array(
-                    'is_anchor' => array(
+        $anchor = [
+            'data' => [
+                'fields' => [
+                    'is_anchor' => [
                         'value' => 'Yes',
                         'input_value' => '1',
                         'group' => static::GROUP_DISPLAY_SETTINGS,
-                        'input' => 'select'
-                    )
-                )
-            )
-        );
+                        'input' => 'select',
+                    ],
+                ],
+            ],
+        ];
         return array_replace_recursive($this->_data['default'], $anchor);
     }
 }

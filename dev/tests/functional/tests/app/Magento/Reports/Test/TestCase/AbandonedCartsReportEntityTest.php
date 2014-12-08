@@ -8,12 +8,11 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Flow:

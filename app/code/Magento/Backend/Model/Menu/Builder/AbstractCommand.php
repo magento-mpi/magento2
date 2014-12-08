@@ -17,14 +17,14 @@ abstract class AbstractCommand
      *
      * @var string[]
      */
-    protected $_requiredParams = array("id");
+    protected $_requiredParams = ["id"];
 
     /**
      * Command params array
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Next command in the chain
@@ -37,7 +37,7 @@ abstract class AbstractCommand
      * @param array $data
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         foreach ($this->_requiredParams as $param) {
             if (!isset($data[$param]) || is_null($data[$param])) {
@@ -80,7 +80,7 @@ abstract class AbstractCommand
      * @param array $itemParams
      * @return array
      */
-    public function execute(array $itemParams = array())
+    public function execute(array $itemParams = [])
     {
         $itemParams = $this->_execute($itemParams);
         if (!is_null($this->_next)) {

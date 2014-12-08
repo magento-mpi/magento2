@@ -93,7 +93,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
 
         $shippingRate = new \Magento\Framework\Object(['code' => 'Rate 1']);
         $shippingRates = [
-            [$shippingRate]
+            [$shippingRate],
         ];
         $quote->getShippingAddress()
             ->expects($this->any())

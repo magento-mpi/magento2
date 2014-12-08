@@ -78,7 +78,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
             ['.example.com', false, '.example.com'],
         ];
     }
-    
+
     public function testGetPath()
     {
         $path = 'test_path';

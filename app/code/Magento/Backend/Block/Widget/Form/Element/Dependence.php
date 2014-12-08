@@ -19,7 +19,7 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
      * name => id mapper
      * @var array
      */
-    protected $_fields = array();
+    protected $_fields = [];
 
     /**
      * Dependencies mapper (by names)
@@ -32,14 +32,14 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
      * )
      * @var array
      */
-    protected $_depends = array();
+    protected $_depends = [];
 
     /**
      * Additional configuration options for the dependencies javascript controller
      *
      * @var array
      */
-    protected $_configOptions = array();
+    protected $_configOptions = [];
 
     /**
      * @var \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory
@@ -61,7 +61,7 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Config\Structure\Element\Dependency\FieldFactory $fieldFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_fieldFactory = $fieldFactory;
@@ -94,7 +94,7 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
         if (!is_object($refField)) {
             /** @var $refField \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
             $refField = $this->_fieldFactory->create(
-                array('fieldData' => array('value' => (string)$refField), 'fieldPrefix' => '')
+                ['fieldData' => ['value' => (string)$refField], 'fieldPrefix' => '']
             );
         }
         $this->_depends[$fieldName][$fieldNameFrom] = $refField;
@@ -138,14 +138,14 @@ class Dependence extends \Magento\Backend\Block\AbstractBlock
      */
     protected function _getDependsJson()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_depends as $to => $row) {
             foreach ($row as $from => $field) {
                 /** @var $field \Magento\Backend\Model\Config\Structure\Element\Dependency\Field */
-                $result[$this->_fields[$to]][$this->_fields[$from]] = array(
+                $result[$this->_fields[$to]][$this->_fields[$from]] = [
                     'values' => $field->getValues(),
-                    'negative' => $field->isNegative()
-                );
+                    'negative' => $field->isNegative(),
+                ];
             }
         }
         return $this->_jsonEncoder->encode($result);

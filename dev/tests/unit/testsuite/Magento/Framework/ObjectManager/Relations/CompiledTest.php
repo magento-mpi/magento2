@@ -8,13 +8,11 @@
 
 namespace Magento\Framework\ObjectManager\Relations;
 
-
 class CompiledTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testHas()
     {
-        $relations = array('amazing' => 'yes');
+        $relations = ['amazing' => 'yes'];
 
         $model = new \Magento\Framework\ObjectManager\Relations\Compiled($relations);
         $this->assertEquals(true, $model->has('amazing'));
@@ -23,7 +21,7 @@ class CompiledTest extends \PHPUnit_Framework_TestCase
 
     public function testGetParents()
     {
-        $relations = array('amazing' => 'parents');
+        $relations = ['amazing' => 'parents'];
 
         $model = new \Magento\Framework\ObjectManager\Relations\Compiled($relations);
         $this->assertEquals('parents', $model->getParents('amazing'));

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Sales Order Email Invoice items
  *

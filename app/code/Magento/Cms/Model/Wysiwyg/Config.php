@@ -100,8 +100,8 @@ class Config extends \Magento\Framework\Object
         \Magento\Core\Model\Variable\Config $variableConfig,
         \Magento\Widget\Model\Widget\Config $widgetConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $windowSize = array(),
-        array $data = array()
+        array $windowSize = [],
+        array $data = []
     ) {
         $this->_backendUrl = $backendUrl;
         $this->_eventManager = $eventManager;
@@ -130,12 +130,12 @@ class Config extends \Magento\Framework\Object
      * @param array|\Magento\Framework\Object $data Object constructor params to override default config values
      * @return \Magento\Framework\Object
      */
-    public function getConfig($data = array())
+    public function getConfig($data = [])
     {
         $config = new \Magento\Framework\Object();
 
         $config->setData(
-            array(
+            [
                 'enabled' => $this->isEnabled(),
                 'hidden' => $this->isHidden(),
                 'use_container' => false,
@@ -151,20 +151,20 @@ class Config extends \Magento\Framework\Object
                     'mage/adminhtml/wysiwyg/tiny_mce/themes/advanced/skins/default/content.css'
                 ),
                 'width' => '100%',
-                'plugins' => array()
-            )
+                'plugins' => [],
+            ]
         );
 
         $config->setData('directives_url_quoted', preg_quote($config->getData('directives_url')));
 
         if ($this->_authorization->isAllowed('Magento_Cms::media_gallery')) {
             $config->addData(
-                array(
+                [
                     'add_images' => true,
                     'files_browser_window_url' => $this->_backendUrl->getUrl('cms/wysiwyg_images/index'),
                     'files_browser_window_width' => $this->_windowSize['width'],
-                    'files_browser_window_height' => $this->_windowSize['height']
-                )
+                    'files_browser_window_height' => $this->_windowSize['height'],
+                ]
             );
         }
 
@@ -207,7 +207,7 @@ class Config extends \Magento\Framework\Object
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $this->getStoreId()
         );
-        return in_array($wysiwygState, array(self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN));
+        return in_array($wysiwygState, [self::WYSIWYG_ENABLED, self::WYSIWYG_HIDDEN]);
     }
 
     /**

@@ -52,7 +52,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

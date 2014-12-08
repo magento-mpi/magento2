@@ -46,13 +46,13 @@ class OrderGetStatusTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => sprintf(self::RESOURCE_PATH, $order->getId()),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getStatus'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getStatus',
+            ],
         ];
 
         $this->assertEquals($order->getStatus(), $this->_webApiCall($serviceInfo, ['id' => $order->getId()]));

@@ -34,7 +34,7 @@ abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
     public function __construct(
         Template\Context $context,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_localeResolver = $localeResolver;
@@ -46,11 +46,11 @@ abstract class AbstractEvent extends \Magento\Framework\View\Element\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->_statuses = array(
+        $this->_statuses = [
             \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING => __('Coming Soon'),
             \Magento\CatalogEvent\Model\Event::STATUS_OPEN => __('Sale Ends In'),
-            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed')
-        );
+            \Magento\CatalogEvent\Model\Event::STATUS_CLOSED => __('Closed'),
+        ];
     }
 
     /**

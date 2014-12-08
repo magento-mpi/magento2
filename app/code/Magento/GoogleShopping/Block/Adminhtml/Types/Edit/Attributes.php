@@ -50,7 +50,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\GoogleShopping\Model\Config $config,
         \Magento\GoogleShopping\Model\AttributeFactory $attributeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_config = $config;
@@ -68,21 +68,21 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add New Attribute'),
                 'class' => 'add',
                 'id' => 'add_new_attribute',
                 'on_click' => 'gContentAttribute.add()'
-            )
+            ]
         );
         $this->addChild(
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Remove'),
                 'class' => 'delete delete-product-option',
                 'on_click' => 'gContentAttribute.remove(event)'
-            )
+            ]
         );
 
         return parent::_prepareLayout();
@@ -115,19 +115,19 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
      */
     public function getGcontentAttributesSelectHtml()
     {
-        $options[] = array('label' => __('Custom attribute, no mapping'));
+        $options[] = ['label' => __('Custom attribute, no mapping')];
 
         $attributesTree = $this->_config->getAttributesByCountry($this->getTargetCountry());
 
         foreach ($attributesTree as $destination => $attributes) {
-            $options[] = array('label' => $destination, 'is_group' => true);
+            $options[] = ['label' => $destination, 'is_group' => true];
             foreach ($attributes as $attribute => $params) {
-                $options[$attribute] = array('label' => $params['name']);
+                $options[$attribute] = ['label' => $params['name']];
                 if ((int)$params['required'] == 1) {
                     $options[$attribute]['style'] = 'color: #940000;';
                 }
             }
-            $options[] = array('is_group' => true, 'is_close' => true);
+            $options[] = ['is_group' => true, 'is_close' => true];
         }
 
         $select = $this->getLayout()->createBlock(
@@ -194,7 +194,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
     public function _getAttributes($setId, $escapeJsQuotes = false)
     {
         $attributes = $this->_attributeFactory->create()->getAllowedAttributes($setId);
-        $result = array();
+        $result = [];
 
         foreach ($attributes as $attribute) {
             /* @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
@@ -224,6 +224,6 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\El
      */
     protected function _toOneLineString($string)
     {
-        return str_replace(array("\r\n", "\n", "\r"), "", $string);
+        return str_replace(["\r\n", "\n", "\r"], "", $string);
     }
 }

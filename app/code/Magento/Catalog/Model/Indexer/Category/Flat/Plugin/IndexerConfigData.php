@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -46,7 +46,7 @@ class IndexerConfigData
             if (!$path && isset($data[$indexerId])) {
                 unset($data[$indexerId]);
             } elseif ($path) {
-                list($firstKey, ) = explode('/', $path);
+                list($firstKey,) = explode('/', $path);
                 if ($firstKey == $indexerId) {
                     $data = $default;
                 }

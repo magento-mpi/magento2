@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Special price model

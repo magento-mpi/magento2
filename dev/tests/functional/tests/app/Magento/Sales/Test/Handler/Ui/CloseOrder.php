@@ -9,9 +9,9 @@
 
 namespace Magento\Sales\Test\Handler\Ui;
 
+use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Ui;
-use Mtf\Factory\Factory;
 
 /**
  * Class CloseOrder
@@ -37,7 +37,7 @@ class CloseOrder extends Ui
         Factory::getApp()->magentoBackendLoginUser();
 
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         //Create the Shipment
         $orderPage->getOrderActionsBlock()->ship();
@@ -45,7 +45,7 @@ class CloseOrder extends Ui
 
         //Create the Invoice
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
         $orderPage->getOrderActionsBlock()->invoice();
         $newInvoicePage->getTotalsBlock()->submit();
     }

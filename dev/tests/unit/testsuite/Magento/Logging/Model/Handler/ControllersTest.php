@@ -45,14 +45,14 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->request = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->request->expects($this->any())->method('getParams')->will($this->returnValue(array()));
+        $this->request = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->request->expects($this->any())->method('getParams')->will($this->returnValue([]));
 
         $this->eventChanges = new \Magento\Framework\Object();
         $this->eventChangesFactory = $this->getMock(
             '\Magento\Logging\Model\Event\ChangesFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -66,8 +66,8 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
 
         $this->configStructure = $this->getMock(
             '\Magento\Backend\Model\Config\Structure',
-            array('getFieldPathsByAttribute'),
-            array(),
+            ['getFieldPathsByAttribute'],
+            [],
             '',
             false
         );
@@ -76,19 +76,19 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getFieldPathsByAttribute'
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
         $this->object = $objectManager->getObject(
             'Magento\Logging\Model\Handler\Controllers',
-            array(
+            [
                 'request' => $this->request,
                 'eventChangesFactory' => $this->eventChangesFactory,
                 'structureConfig' => $this->configStructure
-            )
+            ]
         );
 
-        $this->processor = $this->getMock('Magento\Logging\Model\Processor', array(), array(), '', false);
+        $this->processor = $this->getMock('Magento\Logging\Model\Processor', [], [], '', false);
     }
 
     /**
@@ -112,10 +112,10 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
      */
     public function postDispatchReportDataProvider()
     {
-        return array(
-            array(array('controller_action' => 'reports_report_shopcart_product'), 'shopcart_product'),
-            array(array('controller_action' => 'some_another_value'), false)
-        );
+        return [
+            [['controller_action' => 'reports_report_shopcart_product'], 'shopcart_product'],
+            [['controller_action' => 'some_another_value'], false]
+        ];
     }
 
     /**
@@ -128,12 +128,12 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getPost'
         )->will(
-            $this->returnValue(array('groups' => array('name' => array())))
+            $this->returnValue(['groups' => ['name' => []]])
         );
 
         $this->assertEquals(
-            array('info' => 'general'),
-            $this->object->postDispatchConfigSave(array(), new \Magento\Framework\Object(), $this->processor)->getData()
+            ['info' => 'general'],
+            $this->object->postDispatchConfigSave([], new \Magento\Framework\Object(), $this->processor)->getData()
         );
     }
 }

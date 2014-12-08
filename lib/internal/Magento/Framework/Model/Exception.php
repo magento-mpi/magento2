@@ -19,7 +19,7 @@ class Exception extends \Exception
     /**
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * @param \Magento\Framework\Message\AbstractMessage $message
@@ -28,7 +28,7 @@ class Exception extends \Exception
     public function addMessage(\Magento\Framework\Message\AbstractMessage $message)
     {
         if (!isset($this->messages[$message->getType()])) {
-            $this->messages[$message->getType()] = array();
+            $this->messages[$message->getType()] = [];
         }
         $this->messages[$message->getType()][] = $message;
         return $this;
@@ -41,13 +41,13 @@ class Exception extends \Exception
     public function getMessages($type = '')
     {
         if ('' == $type) {
-            $arrRes = array();
+            $arrRes = [];
             foreach ($this->messages as $messages) {
                 $arrRes = array_merge($arrRes, $messages);
             }
             return $arrRes;
         }
-        return isset($this->messages[$type]) ? $this->messages[$type] : array();
+        return isset($this->messages[$type]) ? $this->messages[$type] : [];
     }
 
     /**

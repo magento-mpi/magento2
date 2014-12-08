@@ -32,7 +32,7 @@ class AdapterFactory
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Image\Adapter\ConfigInterface $config,
-        array $adapterMap = array()
+        array $adapterMap = []
     ) {
         $this->objectManager = $objectManager;
         $this->config = $config;

@@ -83,8 +83,8 @@ class CodeSniffer implements ToolInterface
      */
     public function run(
         array $whiteList,
-        array $blackList = array(),
-        array $extensions = array(),
+        array $blackList = [],
+        array $extensions = [],
         $warningSeverity = 0
     ) {
         $whiteList = array_map(

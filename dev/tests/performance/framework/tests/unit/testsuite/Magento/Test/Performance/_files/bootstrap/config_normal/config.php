@@ -6,18 +6,18 @@
  * @license     {license_link}
  */
 
-return array(
-    'application' => array(
+return [
+    'application' => [
         'url_host' => '192.168.0.1',
         'url_path' => '/',
-        'installation' => array(
-            'options' => array(
+        'installation' => [
+            'options' => [
                 'backend_frontname' => 'backend',
                 'admin_username' => 'admin',
                 'admin_password' => 'password1',
-            ),
-        ),
-    ),
-    'scenario' => array('scenarios' => array()),
+            ],
+        ],
+    ],
+    'scenario' => ['scenarios' => []],
     'report_dir' => 'report'
-);
+];

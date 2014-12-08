@@ -63,12 +63,12 @@ class NewAction extends \Magento\Catalog\Controller\Adminhtml\Product
 
         $productData = $this->getRequest()->getPost('product');
         if ($productData) {
-            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : array();
+            $stockData = isset($productData['stock_data']) ? $productData['stock_data'] : [];
             $productData['stock_data'] = $this->stockFilter->filter($stockData);
             $product->addData($productData);
         }
 
-        $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_new_action', ['product' => $product]);
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();

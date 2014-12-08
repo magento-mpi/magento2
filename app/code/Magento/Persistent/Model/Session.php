@@ -30,14 +30,14 @@ class Session extends \Magento\Framework\Model\AbstractModel
      *
      * @var string[]
      */
-    protected $_unserializableFields = array(
+    protected $_unserializableFields = [
         'persistent_id',
         'key',
         'customer_id',
         'website_id',
         'info',
-        'updated_at'
-    );
+        'updated_at',
+    ];
 
     /**
      * If model loads expired sessions
@@ -126,7 +126,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_persistentData = $persistentData;
@@ -193,7 +193,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
         parent::beforeSave();
 
         // Setting info
-        $info = array();
+        $info = [];
         foreach ($this->getData() as $index => $value) {
             if (!in_array($index, $this->_unserializableFields)) {
                 $info[$index] = $value;

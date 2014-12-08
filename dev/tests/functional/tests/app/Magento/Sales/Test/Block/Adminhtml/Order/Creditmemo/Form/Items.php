@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form;
 
+use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form\Items\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Creditmemo\Form\Items\Product;
 use Mtf\Fixture\FixtureInterface;
 
 /**

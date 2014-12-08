@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist item model resource
  *
@@ -44,7 +43,7 @@ class Item extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'wishlist_id=:wishlist_id AND ' . 'product_id=:product_id AND ' . $storeWhere
         );
-        $bind = array('wishlist_id' => $wishlistId, 'product_id' => $productId);
+        $bind = ['wishlist_id' => $wishlistId, 'product_id' => $productId];
         $data = $adapter->fetchRow($select, $bind);
         if ($data) {
             $object->setData($data);

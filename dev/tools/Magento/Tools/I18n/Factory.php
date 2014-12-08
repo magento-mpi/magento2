@@ -7,9 +7,6 @@
  */
 namespace Magento\Tools\I18n;
 
-use Magento\Tools\I18n\Dictionary;
-use Magento\Tools\I18n\Parser;
-
 /**
  *  Abstract Factory
  */

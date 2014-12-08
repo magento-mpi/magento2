@@ -38,9 +38,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetJobs()
     {
-        $jobList = array(
-            'jobname1' => array('instance' => 'TestInstance', 'method' => 'testMethod', 'schedule' => '* * * * *')
-        );
+        $jobList = [
+            'jobname1' => ['instance' => 'TestInstance', 'method' => 'testMethod', 'schedule' => '* * * * *'],
+        ];
         $this->_configData->expects($this->once())->method('getJobs')->will($this->returnValue($jobList));
         $result = $this->_config->getJobs();
         $this->assertEquals($jobList, $result);

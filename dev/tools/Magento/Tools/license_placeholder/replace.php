@@ -17,7 +17,7 @@ $files = array_merge($files, globDir($sourceDir, '*.{php,php.sample,phtml,html,h
 // exclude files from blacklist
 $blacklist = require __DIR__ . '/blacklist.php';
 foreach ($blacklist as $item) {
-    $excludeDirs = glob("{$sourceDir}/{$item}", GLOB_ONLYDIR) ?: array();
+    $excludeDirs = glob("{$sourceDir}/{$item}", GLOB_ONLYDIR) ?: [];
     foreach ($excludeDirs as $excludeDir) {
         foreach ($files as $i => $file) {
             if (0 === strpos($file, $excludeDir)) {
@@ -26,7 +26,7 @@ foreach ($blacklist as $item) {
         }
     }
     if (!$excludeDirs) {
-        $excludeFiles = glob("{$sourceDir}/{$item}", GLOB_BRACE) ?: array();
+        $excludeFiles = glob("{$sourceDir}/{$item}", GLOB_BRACE) ?: [];
         foreach ($excludeFiles as $excludeFile) {
             $i = array_search($excludeFile, $files);
             if (false !== $i) {
@@ -38,10 +38,10 @@ foreach ($blacklist as $item) {
 
 // replace
 $licensePlaceholder = ' * {license}' . "\n";
-$replacements = array(
-    array('/\s\*\sMagento.+?NOTICE OF LICENSE.+?DISCLAIMER.+?@/s', $licensePlaceholder . " *\n * @"),
-    array('/\ \*\ \{license_notice\}\s/s', $licensePlaceholder)
-);
+$replacements = [
+    ['/\s\*\sMagento.+?NOTICE OF LICENSE.+?DISCLAIMER.+?@/s', $licensePlaceholder . " *\n * @"],
+    ['/\ \*\ \{license_notice\}\s/s', $licensePlaceholder],
+];
 foreach ($files as $file) {
     $content = file_get_contents($file);
     $newContent = $content;
@@ -71,10 +71,10 @@ foreach ($files as $file) {
 function globDir($dir, $filesPattern, $flags)
 {
     if (!$dir || !is_dir($dir)) {
-        return array();
+        return [];
     }
-    $result = glob($dir . '/' . $filesPattern, $flags) ?: array();
-    $dirs = glob($dir . '/*', GLOB_ONLYDIR) ?: array();
+    $result = glob($dir . '/' . $filesPattern, $flags) ?: [];
+    $dirs = glob($dir . '/*', GLOB_ONLYDIR) ?: [];
     foreach ($dirs as $innerDir) {
         $result = array_merge($result, globDir($innerDir, $filesPattern, $flags));
     }

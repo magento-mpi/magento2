@@ -8,9 +8,9 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for AddProductToMultipleWishList

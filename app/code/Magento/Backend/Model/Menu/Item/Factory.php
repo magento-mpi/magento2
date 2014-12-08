@@ -28,8 +28,8 @@ class Factory
      * @param array $data
      * @return \Magento\Backend\Model\Menu\Item
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        return $this->_objectManager->create('Magento\Backend\Model\Menu\Item', array('data' => $data));
+        return $this->_objectManager->create('Magento\Backend\Model\Menu\Item', ['data' => $data]);
     }
 }

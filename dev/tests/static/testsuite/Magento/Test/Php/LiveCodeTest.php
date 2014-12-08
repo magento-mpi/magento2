@@ -7,11 +7,11 @@
  */
 namespace Magento\Test\Php;
 
-use Magento\TestFramework\CodingStandard\Tool\CodeMessDetector;
-use Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper;
-use Magento\TestFramework\CodingStandard\Tool\CodeSniffer;
-use Magento\TestFramework\CodingStandard\Tool\CopyPasteDetector;
 use Magento\Framework\Test\Utility;
+use Magento\TestFramework\CodingStandard\Tool\CodeMessDetector;
+use Magento\TestFramework\CodingStandard\Tool\CodeSniffer;
+use Magento\TestFramework\CodingStandard\Tool\CodeSniffer\Wrapper;
+use Magento\TestFramework\CodingStandard\Tool\CopyPasteDetector;
 use PHP_PMD_TextUI_Command;
 use PHPUnit_Framework_TestCase;
 
@@ -33,12 +33,12 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected static $whiteList = array();
+    protected static $whiteList = [];
 
     /**
      * @var array
      */
-    protected static $blackList = array();
+    protected static $blackList = [];
 
     /**
      * Setup basics for all tests
@@ -88,7 +88,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer Build Too Old.');
         }
         self::setupFileLists('phpcs');
-        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'));
+        $result = $codeSniffer->run(self::$whiteList, self::$blackList, ['php']);
         $this->assertFileExists(
             $reportFile,
             'Expected ' . $reportFile . ' to be created by phpcs run with PSR2 standard'
@@ -114,7 +114,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $this->markTestSkipped('PHP Code Sniffer is not installed.');
         }
         self::setupFileLists();
-        $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php', 'phtml'));
+        $result = $codeSniffer->run(self::$whiteList, self::$blackList, ['php', 'phtml']);
         $this->assertEquals(
             0,
             $result,
@@ -145,7 +145,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         $severity = 0; // Change to 5 to see the warnings
         $this->assertEquals(
             0,
-            $result = $codeSniffer->run(self::$whiteList, self::$blackList, array('php'), $severity),
+            $result = $codeSniffer->run(self::$whiteList, self::$blackList, ['php'], $severity),
             "PHP Code Sniffer has found {$result} error(s): See detailed report in {$reportFile}"
         );
     }
@@ -190,9 +190,9 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
      */
     public function whiteListDataProvider()
     {
-        $whiteList = array();
+        $whiteList = [];
         $testCodePattern = '~' . self::$pathToSource . '/dev/~';
-        $nonTestCode = array();
+        $nonTestCode = [];
 
         self::setupFileLists();
 
@@ -200,10 +200,10 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             if (!preg_match($testCodePattern, $path)) {
                 $nonTestCode[] = $path;
             } else {
-                $whiteList[] = array(array($path));
+                $whiteList[] = [[$path]];
             }
         }
-        $whiteList[] = array($nonTestCode);
+        $whiteList[] = [$nonTestCode];
 
         return $whiteList;
     }
@@ -223,13 +223,13 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
         }
 
         self::setupFileLists();
-        $blackList = array();
+        $blackList = [];
         foreach (glob(__DIR__ . '/_files/phpcpd/blacklist/*.txt') as $list) {
             $blackList = array_merge($blackList, file($list, FILE_IGNORE_NEW_LINES));
         }
 
         $this->assertTrue(
-            $copyPasteDetector->run(array(), $blackList),
+            $copyPasteDetector->run([], $blackList),
             "PHP Copy/Paste Detector has found error(s): See detailed report in {$reportFile}"
         );
     }

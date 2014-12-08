@@ -8,8 +8,8 @@
 
 namespace Magento\Shipping\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\SalesGuestPrint;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that shipping method was printed correctly on sales guest print page.

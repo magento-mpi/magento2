@@ -33,7 +33,7 @@ class Matrix extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Directory\Model\CurrencyFactory $dirCurrencyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_dirCurrencyFactory = $dirCurrencyFactory;
         parent::__construct($context, $data);

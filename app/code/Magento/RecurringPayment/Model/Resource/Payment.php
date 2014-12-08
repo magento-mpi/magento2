@@ -7,7 +7,7 @@
  */
 namespace Magento\RecurringPayment\Model\Resource;
 
-use \Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Recurring payment resource model
@@ -23,14 +23,14 @@ class Payment extends AbstractDb
     {
         $this->_init('recurring_payment', 'payment_id');
 
-        $this->_serializableFields = array(
-            'payment_vendor_info' => array(null, array()),
-            'additional_info' => array(null, array()),
-            'order_info' => array(null, array()),
-            'order_item_info' => array(null, array()),
-            'billing_address_info' => array(null, array()),
-            'shipping_address_info' => array(null, array())
-        );
+        $this->_serializableFields = [
+            'payment_vendor_info' => [null, []],
+            'additional_info' => [null, []],
+            'order_info' => [null, []],
+            'order_item_info' => [null, []],
+            'billing_address_info' => [null, []],
+            'shipping_address_info' => [null, []],
+        ];
     }
 
     /**
@@ -43,10 +43,10 @@ class Payment extends AbstractDb
     public function getChildOrderIds($object)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array(':payment_id' => $object->getId());
+        $bind = [':payment_id' => $object->getId()];
         $select = $adapter->select()->from(
-            array('main_table' => $this->getTable('recurring_payment_order')),
-            array('order_id')
+            ['main_table' => $this->getTable('recurring_payment_order')],
+            ['order_id']
         )->where(
             'payment_id=:payment_id'
         );
@@ -65,7 +65,7 @@ class Payment extends AbstractDb
     {
         $this->_getWriteAdapter()->insert(
             $this->getTable('recurring_payment_order'),
-            array('payment_id' => $recurringPaymentId, 'order_id' => $orderId)
+            ['payment_id' => $recurringPaymentId, 'order_id' => $orderId]
         );
         return $this;
     }

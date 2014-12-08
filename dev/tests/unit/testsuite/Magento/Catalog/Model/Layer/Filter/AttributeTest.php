@@ -13,7 +13,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Catalog\Model\Resource\Layer\Filter\Attribute|MockObject */
     private $filterAttribute;
 
@@ -51,7 +50,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         /** @var \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory */
         $this->filterItemFactory = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Filter\ItemFactory')
             ->disableOriginalConstructor()

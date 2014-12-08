@@ -12,7 +12,6 @@ class PlaceOrderTest extends \Magento\Paypal\Controller\ExpressTest
 {
     protected $name = 'PlaceOrder';
 
-
     /**
      * @param bool $isGeneral
      * @dataProvider trueFalseDataProvider

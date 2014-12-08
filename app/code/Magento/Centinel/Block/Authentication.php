@@ -25,7 +25,7 @@ class Authentication extends \Magento\Framework\View\Element\Template
      *
      * @var string[]
      */
-    protected $_relatedBlocks = array();
+    protected $_relatedBlocks = [];
 
     /**
      * Flag - authentication start mode
@@ -43,7 +43,7 @@ class Authentication extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct($context, $data);

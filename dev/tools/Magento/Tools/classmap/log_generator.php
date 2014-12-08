@@ -16,11 +16,11 @@ if (isset($argv[1]) && realpath($argv[1])) {
 if (is_dir($path)) {
     $files = glob($path . '/*.ser');
 } else {
-    $files = array($path);
+    $files = [$path];
 }
 
 /* Load class names array */
-$classes = array();
+$classes = [];
 foreach ($files as $file) {
     $fileClasses = unserialize(file_get_contents($file));
     $classes = array_merge($classes, $fileClasses);
@@ -28,9 +28,9 @@ foreach ($files as $file) {
 
 sort($classes);
 $baseDir = realpath(__DIR__ . '/../../../../../') . '/';
-$sources = array('app/code', 'lib/internal');
+$sources = ['app/code', 'lib/internal'];
 
-$map = array();
+$map = [];
 foreach ($classes as $class) {
     $file = '/' . str_replace('_', '/', $class) . '.php';
     foreach ($sources as $folder) {

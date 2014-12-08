@@ -9,10 +9,10 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Widget\Tab;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\Tab;
 
 /**
  * Edit attribute form on catalog product edit page.

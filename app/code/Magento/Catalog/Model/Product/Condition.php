@@ -30,7 +30,7 @@ class Condition extends \Magento\Framework\Object implements \Magento\Catalog\Mo
             $collection->joinTable(
                 $this->getTable(),
                 $this->getPkFieldName() . '=entity_id',
-                array('affected_product_id' => $this->getPkFieldName())
+                ['affected_product_id' => $this->getPkFieldName()]
             );
         }
         return $this;

@@ -279,7 +279,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         }
 
         $customerData = $this->converter->createCustomerFromModel($customerModel);
-        $this->eventManager->dispatch('customer_data_object_login', array('customer' => $customerData));
+        $this->eventManager->dispatch('customer_data_object_login', ['customer' => $customerData]);
 
         return $customerData;
     }
@@ -310,7 +310,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $resetUrl = $this->url->getUrl(
             'customer/account/createPassword',
             [
-                '_query' => array('id' => $customer->getId(), 'token' => $newPasswordToken),
+                '_query' => ['id' => $customer->getId(), 'token' => $newPasswordToken],
                 '_store' => $customer->getStoreId()
             ]
         );
@@ -582,7 +582,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $conditions = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+            $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields, $conditions);
@@ -811,7 +811,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
         $isEmailAddress = \Zend_Validate::is(
             $customerModel->getEmail(),
             'EmailAddress',
-            ['allow' => ['allow'=> \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
+            ['allow' => ['allow' => \Zend_Validate_Hostname::ALLOW_ALL, 'tld' => false]]
         );
 
         if (!$isEmailAddress) {
@@ -868,7 +868,7 @@ class CustomerAccountService implements CustomerAccountServiceInterface
 
         if (strcmp($customerToken, $resetPasswordLinkToken) !== 0) {
             throw new InputMismatchException('Reset password token mismatch.');
-        } else if ($customerModel->isResetPasswordLinkTokenExpired($customerId)) {
+        } elseif ($customerModel->isResetPasswordLinkTokenExpired($customerId)) {
             throw new ExpiredException('Reset password token expired.');
         }
 

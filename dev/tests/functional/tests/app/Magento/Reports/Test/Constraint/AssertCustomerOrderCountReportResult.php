@@ -8,8 +8,8 @@
 
 namespace Magento\Reports\Test\Constraint;
 
-use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reports\Test\Page\Adminhtml\CustomerOrdersReport;
 
 /**
  * Class AssertCustomerOrderCountReportResult

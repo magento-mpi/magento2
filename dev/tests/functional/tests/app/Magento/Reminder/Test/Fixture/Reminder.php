@@ -35,7 +35,7 @@ class Reminder extends InjectableFixture
     protected $defaultDataSet = [
         'name' => 'Reminder%isolation%',
         'is_active' => 'Active',
-        'conditions_serialized' => '[Shopping Cart|for| |ALL]'
+        'conditions_serialized' => '[Shopping Cart|for| |ALL]',
     ];
 
     protected $rule_id = [

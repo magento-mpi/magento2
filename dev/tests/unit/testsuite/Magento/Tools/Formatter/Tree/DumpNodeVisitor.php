@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\Tree;
 
-use Magento\Tools\Formatter\Tree\NodeVisitorAbstract;
-use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
  * This class is used to dump information about the node.

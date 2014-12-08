@@ -32,16 +32,16 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetListOrders()
     {
-        $sortOptions = array(
+        $sortOptions = [
             'option1' => 'Label Option 1',
             'position' => 'Label Position',
-            'option3' => 'Label Option 2'
-        );
+            'option3' => 'Label Option 2',
+        ];
         /** @var \Magento\Catalog\Model\Category $category */
         $category = $this->getMock(
             'Magento\Catalog\Model\Category',
-            array('getAvailableSortByOptions'),
-            array(),
+            ['getAvailableSortByOptions'],
+            [],
             '',
             false
         );
@@ -56,7 +56,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
 
         $childBlock = $this->_layout->addBlock('Magento\Framework\View\Element\Text', 'search_result_list', 'block');
 
-        $expectedOptions = array('option1' => 'Label Option 1', 'option3' => 'Label Option 2');
+        $expectedOptions = ['option1' => 'Label Option 1', 'option3' => 'Label Option 2'];
         $this->assertNotEquals($expectedOptions, $childBlock->getAvailableOrders());
         $this->_block->setListOrders();
         $this->assertEquals($expectedOptions, $childBlock->getAvailableOrders());

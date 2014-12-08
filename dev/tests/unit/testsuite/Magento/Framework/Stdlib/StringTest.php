@@ -27,15 +27,15 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function testStrSplit()
     {
-        $this->assertEquals(array(), $this->_string->split(''));
-        $this->assertEquals(array('1', '2', '3', '4'), $this->_string->split('1234', 1));
-        $this->assertEquals(array('1', '2', ' ', '3', '4'), $this->_string->split('12 34', 1, false, true));
+        $this->assertEquals([], $this->_string->split(''));
+        $this->assertEquals(['1', '2', '3', '4'], $this->_string->split('1234', 1));
+        $this->assertEquals(['1', '2', ' ', '3', '4'], $this->_string->split('12 34', 1, false, true));
         $this->assertEquals(
-            array('12345', '123', '12345', '6789'),
+            ['12345', '123', '12345', '6789'],
             $this->_string->split('12345  123    123456789', 5, true, true)
         );
         $this->assertEquals(
-            array('1234', '5', '123', '1234', '5678', '9'),
+            ['1234', '5', '123', '1234', '5678', '9'],
             $this->_string->split('12345  123    123456789', 4, true, true)
         );
     }
@@ -94,11 +94,11 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function upperCaseWordsDataProvider()
     {
-        return array(
-            array('test test2', 'Test_Test2'),
-            array('test_test2', 'Test_Test2'),
-            array('test_test2 test3', 'Test_Test2_Test3')
-        );
+        return [
+            ['test test2', 'Test_Test2'],
+            ['test_test2', 'Test_Test2'],
+            ['test_test2 test3', 'Test_Test2_Test3']
+        ];
     }
 
     /**
@@ -120,6 +120,6 @@ class StringTest extends \PHPUnit_Framework_TestCase
      */
     public function upperCaseWordsWithSeparatorsDataProvider()
     {
-        return array(array('test test2_test3\test4|test5', '|', '\\', 'Test\Test2_test3\test4\Test5'));
+        return [['test test2_test3\test4|test5', '|', '\\', 'Test\Test2_test3\test4\Test5']];
     }
 }

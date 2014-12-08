@@ -55,7 +55,7 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
         \Magento\Sales\Model\Order\Config $config,
         \Magento\Core\Helper\Data $coreHelper,
         \Magento\RecurringPayment\Model\Resource\Order\CollectionFilter $recurringCollectionFilter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $registry, $data);
@@ -95,16 +95,16 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
         parent::_prepareLayout();
 
         $this->_prepareRelatedOrders(
-            array(
+            [
                 'increment_id',
                 'created_at',
                 'customer_firstname',
                 'customer_lastname',
                 'base_grand_total',
-                'status'
-            )
+                'status',
+            ]
         );
-        $this->_relatedOrders->addFieldToFilter('status', array('in' => $this->_config->getVisibleOnFrontStatuses()));
+        $this->_relatedOrders->addFieldToFilter('status', ['in' => $this->_config->getVisibleOnFrontStatuses()]);
 
         $pager = $this->getLayout()->createBlock(
             'Magento\Theme\Block\Html\Pager'
@@ -116,40 +116,40 @@ class Grid extends \Magento\RecurringPayment\Block\Payment\View
         $this->setChild('pager', $pager);
 
         $this->setGridColumns(
-            array(
+            [
                 new \Magento\Framework\Object(
-                    array('index' => 'increment_id', 'title' => __('Order #'), 'is_nobr' => true, 'width' => 1)
+                    ['index' => 'increment_id', 'title' => __('Order #'), 'is_nobr' => true, 'width' => 1]
                 ),
                 new \Magento\Framework\Object(
-                    array('index' => 'created_at', 'title' => __('Date'), 'is_nobr' => true, 'width' => 1)
+                    ['index' => 'created_at', 'title' => __('Date'), 'is_nobr' => true, 'width' => 1]
                 ),
-                new \Magento\Framework\Object(array('index' => 'customer_name', 'title' => __('Customer Name'))),
+                new \Magento\Framework\Object(['index' => 'customer_name', 'title' => __('Customer Name')]),
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'index' => 'base_grand_total',
                         'title' => __('Order Total'),
                         'is_nobr' => true,
                         'width' => 1,
-                        'is_amount' => true
-                    )
+                        'is_amount' => true,
+                    ]
                 ),
                 new \Magento\Framework\Object(
-                    array('index' => 'status', 'title' => __('Order Status'), 'is_nobr' => true, 'width' => 1)
-                )
-            )
+                    ['index' => 'status', 'title' => __('Order Status'), 'is_nobr' => true, 'width' => 1]
+                ),
+            ]
         );
 
-        $orders = array();
+        $orders = [];
         foreach ($this->_relatedOrders as $order) {
             $orders[] = new \Magento\Framework\Object(
-                array(
+                [
                     'increment_id' => $order->getIncrementId(),
                     'created_at' => $this->formatDate($order->getCreatedAt()),
                     'customer_name' => $order->getCustomerName(),
                     'base_grand_total' => $this->_coreHelper->formatCurrency($order->getBaseGrandTotal(), false),
                     'status' => $order->getStatusLabel(),
-                    'increment_id_link_url' => $this->getUrl('sales/order/view/', array('order_id' => $order->getId()))
-                )
+                    'increment_id_link_url' => $this->getUrl('sales/order/view/', ['order_id' => $order->getId()]),
+                ]
             );
         }
         if ($orders) {

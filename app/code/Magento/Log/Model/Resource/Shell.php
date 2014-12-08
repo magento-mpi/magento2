@@ -44,7 +44,7 @@ class Shell
      */
     public function getTablesInfo()
     {
-        $tables = array(
+        $tables = [
             'log_customer',
             'log_visitor',
             'log_visitor_info',
@@ -54,10 +54,10 @@ class Shell
             'reports_viewed_product_index',
             'reports_compared_product_index',
             'reports_event',
-            'catalog_compare_item'
-        );
+            'catalog_compare_item',
+        ];
 
-        $result = array();
+        $result = [];
         foreach ($tables as $table) {
             $info = $this->_resourceHelper->getTableInfo($this->_resource->getTableName($table));
             if (!$info) {

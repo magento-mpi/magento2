@@ -43,6 +43,6 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
     public function testCatchException()
     {
         $bootstrap = $this->getMock('Magento\Framework\App\Bootstrap', [], [], '', false);
-        $this->assertFalse($this->entryPoint->catchException($bootstrap, new \Exception));
+        $this->assertFalse($this->entryPoint->catchException($bootstrap, new \Exception()));
     }
 }

@@ -46,7 +46,7 @@ class Design extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeDate = $localeDate;
         $this->_design = $design;

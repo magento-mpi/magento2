@@ -24,7 +24,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $value = $from->getGiftCards();
         if (!$value) {
-            return array();
+            return [];
         }
         return unserialize($value);
     }

@@ -39,7 +39,7 @@ class Wishlist extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Wishl
         PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\MultipleWishlist\Model\Resource\Item\CollectionFactory $itemCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesConfig, $data);
@@ -73,7 +73,7 @@ class Wishlist extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Wishl
      */
     public function getWishlists()
     {
-        $wishlists = array();
+        $wishlists = [];
         /* @var $item \Magento\Wishlist\Model\Item */
         foreach ($this->getItemCollection() as $item) {
             $wishlists[$item->getWishlistId()] = $item->getWishlistName();

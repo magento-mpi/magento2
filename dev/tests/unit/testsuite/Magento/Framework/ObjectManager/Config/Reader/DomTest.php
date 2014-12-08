@@ -42,22 +42,22 @@ class DomTest extends \PHPUnit_Framework_TestCase
         $this->fileResolverMock = $this->getMock('\Magento\Framework\Config\FileResolverInterface');
         $this->converterMock = $this->getMock(
             '\Magento\Framework\ObjectManager\Config\Mapper\Dom',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->schemaLocatorMock = $this->getMock(
             '\Magento\Framework\ObjectManager\Config\SchemaLocator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->validationStateMock = $this->getMock(
             '\Magento\Framework\Config\ValidationStateInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -68,7 +68,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
             $this->schemaLocatorMock,
             $this->validationStateMock,
             'filename.xml',
-            array(),
+            [],
             '\ConfigDomMock'
         );
     }
@@ -78,7 +78,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
      */
     public function testRead()
     {
-        $fileList = array('first content item');
+        $fileList = ['first content item'];
         $this->fileResolverMock->expects($this->once())->method('get')->will($this->returnValue($fileList));
         $this->converterMock->expects($this->once())->method('convert')->with('reader dom result');
         $this->model->read();

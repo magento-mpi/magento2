@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Paypal\Controller\Bml;
 
 class Start extends \Magento\Framework\App\Action\Action

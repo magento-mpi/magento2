@@ -8,7 +8,6 @@
 
 namespace Magento\Search\Model;
 
-
 interface SearchCollectionInterface extends \Traversable, \Countable
 {
     /**

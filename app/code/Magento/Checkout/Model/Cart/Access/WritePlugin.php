@@ -8,8 +8,8 @@
 
 namespace Magento\Checkout\Model\Cart\Access;
 
+use Magento\Framework\Exception\AuthorizationException;
 use Magento\Authorization\Model\UserContextInterface;
-use \Magento\Framework\Exception\AuthorizationException;
 
 class WritePlugin
 {
@@ -23,7 +23,7 @@ class WritePlugin
      */
     protected $allowedUserTypes = [
         UserContextInterface::USER_TYPE_ADMIN,
-        UserContextInterface::USER_TYPE_INTEGRATION
+        UserContextInterface::USER_TYPE_INTEGRATION,
     ];
 
     /**

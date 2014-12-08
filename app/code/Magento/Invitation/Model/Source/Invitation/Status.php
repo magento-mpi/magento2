@@ -21,12 +21,12 @@ class Status
      */
     public function getOptions()
     {
-        return array(
+        return [
             \Magento\Invitation\Model\Invitation\Status::STATUS_NEW => __('Not Sent'),
             \Magento\Invitation\Model\Invitation\Status::STATUS_SENT => __('Sent'),
             \Magento\Invitation\Model\Invitation\Status::STATUS_ACCEPTED => __('Accepted'),
             \Magento\Invitation\Model\Invitation\Status::STATUS_CANCELED => __('Discarded')
-        );
+        ];
     }
 
     /**
@@ -38,13 +38,13 @@ class Status
      */
     public function toOptionsArray($useEmpty = false)
     {
-        $result = array();
+        $result = [];
 
         if ($useEmpty) {
-            $result[] = array('value' => '', 'label' => '');
+            $result[] = ['value' => '', 'label' => ''];
         }
         foreach ($this->getOptions() as $value => $label) {
-            $result[] = array('value' => $value, 'label' => $label);
+            $result[] = ['value' => $value, 'label' => $label];
         }
 
         return $result;

@@ -19,8 +19,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $model = $this->getMock(
             'Magento\GiftRegistry\Model\Item\Option',
-            array('getValue', '__wakeup'),
-            array(),
+            ['getValue', '__wakeup'],
+            [],
             '',
             false
         );
@@ -34,12 +34,12 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getId', '__sleep', '__wakeup'),
-            array(),
+            ['getId', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $product->expects($this->any())->method('getId')->will($this->returnValue(3));
-        return array(array($product, $product, 3), array(null, null, null));
+        return [[$product, $product, 3], [null, null, null]];
     }
 }

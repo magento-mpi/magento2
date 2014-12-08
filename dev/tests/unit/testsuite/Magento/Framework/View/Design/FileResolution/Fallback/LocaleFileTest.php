@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\View\Design\FileResolution\Fallback;
 
-use \Magento\Framework\View\Design\Fallback\RulePool;
+use Magento\Framework\View\Design\Fallback\RulePool;
 
 class LocaleFileTest extends \PHPUnit_Framework_TestCase
 {

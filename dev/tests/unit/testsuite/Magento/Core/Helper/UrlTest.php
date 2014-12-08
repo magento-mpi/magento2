@@ -147,7 +147,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 [
                     'null' => null,
                     'string' => 'value',
-                    'array' => ['arrayVal1', 'arrayVal2', 'arrayVal3']
+                    'array' => ['arrayVal1', 'arrayVal2', 'arrayVal3'],
                 ],
                 'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
@@ -176,15 +176,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         return [
             'no match' => [
                 'other',
-                'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3'
+                'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
             'one match' => [
                 'string',
-                'http://example.com?null&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3'
+                'http://example.com?null&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
             'array match' => [
                 'array[]',
-                'http://example.com?null&string=value'
+                'http://example.com?null&string=value',
             ],
         ];
     }

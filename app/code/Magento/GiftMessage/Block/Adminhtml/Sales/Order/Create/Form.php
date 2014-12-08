@@ -34,7 +34,7 @@ class Form extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_messageHelper = $messageHelper;
         $this->_sessionQuote = $sessionQuote;

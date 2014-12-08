@@ -7,7 +7,7 @@
  */
 namespace Magento\Backup\Block\Adminhtml;
 
-use \Magento\Backend\Block\Template;
+use Magento\Backend\Block\Template;
 
 /**
  * Backend rollback dialogs block

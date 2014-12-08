@@ -8,8 +8,8 @@
 namespace Magento\CatalogUrlRewrite\Observer;
 
 use Magento\Catalog\Model\Category;
-use Magento\Framework\Event\Observer;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
+use Magento\Framework\Event\Observer;
 
 class CategoryUrlPathAutogenerator
 {

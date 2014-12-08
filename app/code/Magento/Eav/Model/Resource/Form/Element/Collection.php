@@ -90,9 +90,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _joinAttributeData()
     {
         $this->getSelect()->join(
-            array('eav_attribute' => $this->getTable('eav_attribute')),
+            ['eav_attribute' => $this->getTable('eav_attribute')],
             'main_table.attribute_id = eav_attribute.attribute_id',
-            array('attribute_code', 'entity_type_id')
+            ['attribute_code', 'entity_type_id']
         );
 
         return $this;

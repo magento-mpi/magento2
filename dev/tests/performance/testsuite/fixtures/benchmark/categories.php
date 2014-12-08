@@ -23,7 +23,7 @@ $nestingPath = "1/{$parentCategoryId}";
 $categoryPath = '';
 $categoryIndex = 1;
 
-$categories = array();
+$categories = [];
 
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 while ($categoryIndex <= $categoriesNumber) {

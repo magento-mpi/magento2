@@ -24,7 +24,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         );
         $this->_collection->setPeriod('day')
             ->setDateRange(null, null)
-            ->addStoreFilter(array(1));
+            ->addStoreFilter([1]);
     }
 
     /**
@@ -32,8 +32,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItems()
     {
-        $expectedResult = array(1 => 3, 2 => 1, 21 => 2);
-        $actualResult = array();
+        $expectedResult = [1 => 3, 2 => 1, 21 => 2];
+        $actualResult = [];
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[$reportItem->getData('product_id')] = $reportItem->getData('views_num');
@@ -55,7 +55,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $dbTableName = $this->_collection->getTable($expectedTable);
         $this->_collection->setPeriod($period);
         if ($isTotal != false) {
-            $this->_collection->setAggregatedColumns(array('id'));
+            $this->_collection->setAggregatedColumns(['id']);
             $this->_collection->isTotals(true);
         }
         $this->_collection->setDateRange($dateFrom, $dateTo);
@@ -90,7 +90,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-
     /**
      * Data provider for testTableSelection
      *
@@ -100,7 +99,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $dateNow = date('Y-m-d', time());
         $dateYearAgo = date('Y-m-d', strtotime($dateNow . ' -1 year'));
-        return array(
+        return [
             [
                 'period'    => 'year',
                 'table'     => 'report_viewed_product_aggregated_yearly',
@@ -210,6 +209,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 'date_from' => null,
                 'date_to'   => null,
             ]
-        );
+        ];
     }
 }

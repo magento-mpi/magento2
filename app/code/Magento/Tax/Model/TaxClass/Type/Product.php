@@ -33,7 +33,7 @@ class Product extends \Magento\Tax\Model\TaxClass\AbstractType
     public function __construct(
         \Magento\Tax\Model\Calculation\Rule $calculationRule,
         \Magento\Catalog\Model\Product $modelProduct,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($calculationRule, $data);
         $this->_modelProduct = $modelProduct;

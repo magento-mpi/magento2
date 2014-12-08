@@ -10,8 +10,8 @@ namespace Magento\Framework\ObjectManager\Environment;
 
 use Magento\Framework\ObjectManager\EnvironmentFactory;
 use Magento\Framework\ObjectManager\EnvironmentInterface;
-use Magento\Framework\ObjectManager\Profiler\FactoryDecorator;
 use Magento\Framework\ObjectManager\Factory\Compiled as FactoryCompiled;
+use Magento\Framework\ObjectManager\Profiler\FactoryDecorator;
 
 abstract class AbstractEnvironment implements EnvironmentInterface
 {

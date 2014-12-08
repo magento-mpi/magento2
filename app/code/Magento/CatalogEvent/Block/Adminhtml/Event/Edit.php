@@ -45,7 +45,7 @@ class Edit extends Container
      * @param Registry $registry
      * @param array $data
      */
-    public function __construct(Context $context, Registry $registry, array $data = array())
+    public function __construct(Context $context, Registry $registry, array $data = [])
     {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -64,15 +64,15 @@ class Edit extends Container
         } else {
             $this->buttonList->add(
                 'save_and_continue',
-                array(
+                [
                     'label' => __('Save and Continue Edit'),
                     'class' => 'save',
-                    'data_attribute' => array(
-                        'mage-init' => array(
-                            'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form')
-                        )
-                    )
-                ),
+                    'data_attribute' => [
+                        'mage-init' => [
+                            'button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form'],
+                        ],
+                    ]
+                ],
                 1
             );
         }
@@ -124,10 +124,10 @@ class Edit extends Container
         if ($this->getRequest()->getParam('category')) {
             return $this->getUrl(
                 'catalog/category/edit',
-                array('clear' => 1, 'id' => $this->getEvent()->getCategoryId())
+                ['clear' => 1, 'id' => $this->getEvent()->getCategoryId()]
             );
         } elseif ($this->getEvent() && !$this->getEvent()->getId() && $this->getEvent()->getCategoryId()) {
-            return $this->getUrl('*/*/new', array('_current' => true, 'category_id' => null));
+            return $this->getUrl('*/*/new', ['_current' => true, 'category_id' => null]);
         }
 
         return parent::getBackUrl();

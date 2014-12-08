@@ -21,8 +21,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $dateModelMock = $this->getMock(
             'Magento\Framework\Stdlib\DateTime\DateTime',
-            array('gmtDate'),
-            array(),
+            ['gmtDate'],
+            [],
             '',
             false
         );
@@ -30,7 +30,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reminder\Model\Rule\Condition\Cart',
-            array('dateModel' => $dateModelMock)
+            ['dateModel' => $dateModelMock]
         );
         $this->_model->setOperator($operator);
         $this->_model->setValue($value);
@@ -44,12 +44,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function daysDiffConditionDataProvider()
     {
-        return array(
-            array('>=', '1', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) >= 1)'),
-            array('>', '1', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) > 1)'),
-            array('>=', '0', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) >= 0)'),
-            array('>', '0', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) > 0)')
-        );
+        return [
+            ['>=', '1', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) >= 1)'],
+            ['>', '1', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) > 1)'],
+            ['>=', '0', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) >= 0)'],
+            ['>', '0', 'AND ((TO_DAYS(\'2013-12-24 00:00:00\') - TO_DAYS(quote.updated_at)) > 0)']
+        ];
     }
 
     /**

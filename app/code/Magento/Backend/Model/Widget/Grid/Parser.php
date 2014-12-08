@@ -14,7 +14,7 @@ class Parser
      *
      * @var string[]
      */
-    protected $_operations = array('-', '+', '/', '*');
+    protected $_operations = ['-', '+', '/', '*'];
 
     /**
      * Parse expression
@@ -24,7 +24,7 @@ class Parser
      */
     public function parseExpression($expression)
     {
-        $stack = array();
+        $stack = [];
         $expression = trim($expression);
         foreach ($this->_operations as $operation) {
             $splittedExpr = preg_split('/\\' . $operation . '/', $expression, -1, PREG_SPLIT_DELIM_CAPTURE);
@@ -38,7 +38,7 @@ class Parser
                 break;
             }
         }
-        return empty($stack) ? array($expression) : $stack;
+        return empty($stack) ? [$expression] : $stack;
     }
 
     /**

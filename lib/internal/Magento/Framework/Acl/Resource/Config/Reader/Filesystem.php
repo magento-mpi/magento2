@@ -14,7 +14,7 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/acl/resources(/resource)+' => 'id');
+    protected $_idAttributes = ['/config/acl/resources(/resource)+' => 'id'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -32,7 +32,7 @@ class Filesystem extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Framework\Acl\Resource\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'acl.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

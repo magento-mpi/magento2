@@ -30,7 +30,7 @@ class AbstractHelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->_adapterMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
 
-        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->_resourceMock->expects($this->any())
             ->method('getConnection')
             ->with('prefix_read')
@@ -38,12 +38,12 @@ class AbstractHelperTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Framework\DB\Helper\AbstractHelper',
-            array($this->_resourceMock, 'prefix'),
+            [$this->_resourceMock, 'prefix'],
             '',
             true,
             true,
             true,
-            array('addLikeEscape')
+            ['addLikeEscape']
         );
     }
 
@@ -61,7 +61,7 @@ class AbstractHelperTest extends \PHPUnit_Framework_TestCase
     {
         $field = 'field';
         $value = 'value';
-        $options = array();
+        $options = [];
 
         $this->_adapterMock->expects($this->once())
             ->method('quoteIdentifier')
@@ -83,76 +83,76 @@ class AbstractHelperTest extends \PHPUnit_Framework_TestCase
      */
     public function escapeLikeValueDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '',
-                array(
+                [
                     'value' => '',
-                    'options' => array()
-                )
-            ),
-            array(
+                    'options' => []
+                ],
+            ],
+            [
                 'LIKE \%string\_end',
-                array(
+                [
                     'value' => 'LIKE %string_end',
-                    'options' => array()
-                )
-            ),
-            array(
+                    'options' => []
+                ]
+            ],
+            [
                 'LIKE \%string_end',
-                array(
+                [
                     'value' => 'LIKE %string_end',
-                    'options' => array(
-                        'allow_symbol_mask' => true
-                    )
-                )
-            ),
-            array(
-                'LIKE %string\_end',
-                array(
-                    'value' => 'LIKE %string_end',
-                    'options' => array(
-                        'allow_string_mask' => true
-                    )
-                )
-            ),
-            array(
-                'LIKE %string_end',
-                array(
-                    'value' => 'LIKE %string_end',
-                    'options' => array(
+                    'options' => [
                         'allow_symbol_mask' => true,
-                        'allow_string_mask' => true
-                    )
-                )
-            ),
-            array(
+                    ]
+                ]
+            ],
+            [
+                'LIKE %string\_end',
+                [
+                    'value' => 'LIKE %string_end',
+                    'options' => [
+                        'allow_string_mask' => true,
+                    ]
+                ]
+            ],
+            [
+                'LIKE %string_end',
+                [
+                    'value' => 'LIKE %string_end',
+                    'options' => [
+                        'allow_symbol_mask' => true,
+                        'allow_string_mask' => true,
+                    ]
+                ]
+            ],
+            [
                 '%string%',
-                array(
+                [
                     'value' => 'string',
-                    'options' => array(
-                        'position' => 'any'
-                    )
-                )
-            ),
-            array(
+                    'options' => [
+                        'position' => 'any',
+                    ]
+                ]
+            ],
+            [
                 'string%',
-                array(
+                [
                     'value' => 'string',
-                    'options' => array(
-                        'position' => 'start'
-                    )
-                )
-            ),
-            array(
+                    'options' => [
+                        'position' => 'start',
+                    ]
+                ]
+            ],
+            [
                 '%string',
-                array(
+                [
                     'value' => 'string',
-                    'options' => array(
-                        'position' => 'end'
-                    )
-                )
-            )
-        );
+                    'options' => [
+                        'position' => 'end',
+                    ]
+                ]
+            ]
+        ];
     }
 }

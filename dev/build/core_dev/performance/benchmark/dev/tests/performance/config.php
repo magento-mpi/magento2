@@ -22,12 +22,12 @@
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 
-return array(
-    'application' => array(
+return [
+    'application' => [
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
-        'installation' => array(
-            'options' => array(
+        'installation' => [
+            'options' => [
                 'language'                   => 'en_US',
                 'timezone'                   => 'America/Los_Angeles',
                 'currency'                   => 'USD',
@@ -45,24 +45,23 @@ return array(
                 'admin_password'             => '123123q',
                 'admin_use_security_key'     => '0',
                 'backend_frontname'          => 'backend',
-            ),
-            'options_no_value' => array(
+            ],
+            'options_no_value' => [
                 'cleanup_database',
-            ),
-        ),
-    ),
-    'scenario' => array(
-        'common_config' => array(
+            ],
+        ],
+    ],
+    'scenario' => [
+        'common_config' => [
             /* Common arguments passed to all scenarios */
-            'arguments' => array(
+            'arguments' => [
                 'users'       => 100,
                 'loops'       => 1,
                 'ramp_period' => 120,
-            ),
+            ],
             /* Common settings for all scenarios */
-            'settings' => array(),
-        )
-    ),
+            'settings' => [],
+        ],
+    ],
     'report_dir' => 'report',
-);
-
+];

@@ -36,7 +36,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Account\Dashboard\Newsletter',
             '',
-            array('customerSession' => $this->customerSession)
+            ['customerSession' => $this->customerSession]
         );
     }
 

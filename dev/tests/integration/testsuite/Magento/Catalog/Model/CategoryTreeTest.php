@@ -36,7 +36,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
      */
     protected function loadCategory($categoryId)
     {
-        $this->_model->setData(array());
+        $this->_model->setData([]);
         $this->_model->load($categoryId);
         return $this->_model;
     }
@@ -72,7 +72,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(2, $this->_model->getParentId());
         $this->_model->move(6, 0);
         /* load is not enough to reset category data */
-        $this->_model->setData(array());
+        $this->_model->setData([]);
         $this->_model->load(7);
         $this->assertEquals(6, $this->_model->getParentId());
     }
@@ -115,7 +115,7 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetParentIds()
     {
-        $this->assertEquals(array(), $this->_model->getParentIds());
+        $this->assertEquals([], $this->_model->getParentIds());
         $this->_model->unsetData();
         $this->_model->load(4);
         $this->assertContains(3, $this->_model->getParentIds());
@@ -144,13 +144,13 @@ class CategoryTreeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPathIds()
     {
-        $this->assertEquals(array(''), $this->_model->getPathIds());
-        $this->_model->setPathIds(array(1));
-        $this->assertEquals(array(1), $this->_model->getPathIds());
+        $this->assertEquals([''], $this->_model->getPathIds());
+        $this->_model->setPathIds([1]);
+        $this->assertEquals([1], $this->_model->getPathIds());
 
         $this->_model->unsetData();
         $this->_model->setPath('1/2/3');
-        $this->assertEquals(array(1, 2, 3), $this->_model->getPathIds());
+        $this->assertEquals([1, 2, 3], $this->_model->getPathIds());
     }
 
     public function testGetLevel()

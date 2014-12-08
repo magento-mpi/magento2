@@ -47,7 +47,7 @@ class ConfigFactory
      * @param array $data
      * @return \Magento\Framework\View\Page\Config
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->objectManager->create($this->instanceName, $data);
     }

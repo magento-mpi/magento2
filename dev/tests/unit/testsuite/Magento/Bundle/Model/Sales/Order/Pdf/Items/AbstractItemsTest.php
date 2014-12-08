@@ -230,7 +230,7 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
         $productOptions = [
             'options' => ['options'],
             'additional_options' => ['additional_options'],
-            'attributes_info' => ['attributes_info']
+            'attributes_info' => ['attributes_info'],
         ];
         $this->model->setItem($this->orderItem);
         $this->orderItem->expects($this->any())->method('getProductOptions')->will($this->returnValue($productOptions));

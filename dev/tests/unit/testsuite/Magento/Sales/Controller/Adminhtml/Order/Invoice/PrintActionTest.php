@@ -46,7 +46,6 @@ class PrintActionTest extends \PHPUnit_Framework_TestCase
      */
     protected $objectManagerMock;
 
-
     /**
      * @var \Magento\Sales\Controller\Adminhtml\Order\Invoice\PrintAction
      */

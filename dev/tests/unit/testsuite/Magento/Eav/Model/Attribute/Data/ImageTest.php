@@ -33,7 +33,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     /**
      * Attention: this test depends on mock of "is_uploaded_file" function in ./FileTest.php,
      * so validates method successfully in batch run of directory tests, separately will fail.
-     * 
+     *
      * @covers \Magento\Eav\Model\Attribute\Data\Image::_validateByRules
      *
      * @param mixed $value
@@ -74,7 +74,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'isRequired' => true,
                 'isAjaxRequest' => false,
                 'rules' => [],
-                'expectedResult' => ['"Label" is not a valid file']
+                'expectedResult' => ['"Label" is not a valid file'],
             ],
             [
                 'value' => ['delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.ico', 'name' => 'image.ico'],
@@ -95,7 +95,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => [
                     'delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg',
-                    'name' => 'image.jpg', 'size' => 10
+                    'name' => 'image.jpg', 'size' => 10,
                 ],
                 'originalValue' => 'value',
                 'isRequired' => true,
@@ -106,7 +106,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => [
                     'delete' => 'delete', 'tmp_name' => __DIR__ . '/_files/image.jpg',
-                    'name' => 'image.jpg', 'size' => 10
+                    'name' => 'image.jpg', 'size' => 10,
                 ],
                 'originalValue' => 'value',
                 'isRequired' => true,
@@ -154,7 +154,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
                 'rules' => ['max_image_heght' => 2, 'max_image_width' => 2],
                 'expectedResult' => [
                     '"Label" width exceeds allowed value of 2 px.',
-                    '"Label" height exceeds allowed value of 2 px.'
+                    '"Label" height exceeds allowed value of 2 px.',
                 ]
             ],
         ];

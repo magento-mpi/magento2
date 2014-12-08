@@ -102,13 +102,13 @@ class CopyService
             /** @var $newThemeFile \Magento\Core\Model\Theme\File */
             $newThemeFile = $this->_fileFactory->create();
             $newThemeFile->setData(
-                array(
+                [
                     'theme_id' => $target->getId(),
                     'file_path' => $themeFile->getFilePath(),
                     'file_type' => $themeFile->getFileType(),
                     'content' => $themeFile->getContent(),
-                    'sort_order' => $themeFile->getData('sort_order')
-                )
+                    'sort_order' => $themeFile->getData('sort_order'),
+                ]
             );
             $newThemeFile->save();
         }

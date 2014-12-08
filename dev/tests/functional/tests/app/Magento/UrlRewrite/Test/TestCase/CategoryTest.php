@@ -8,8 +8,8 @@
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
-use Mtf\Factory\Factory;
 use Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory;
+use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
 
 /**

@@ -8,9 +8,9 @@
 
 namespace Magento\Checkout\Model\Cart\Access;
 
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Exception\AuthorizationException;
 use Magento\Authorization\Model\UserContextInterface;
-use \Magento\Framework\Api\SearchCriteria;
-use \Magento\Framework\Exception\AuthorizationException;
 
 class ReadPlugin
 {
@@ -24,7 +24,7 @@ class ReadPlugin
      */
     protected $allowedUserTypes = [
         UserContextInterface::USER_TYPE_ADMIN,
-        UserContextInterface::USER_TYPE_INTEGRATION
+        UserContextInterface::USER_TYPE_INTEGRATION,
     ];
 
     /**

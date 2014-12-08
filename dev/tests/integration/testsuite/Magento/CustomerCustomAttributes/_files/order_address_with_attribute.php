@@ -33,10 +33,10 @@ $attributeSet = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->cre
 
 $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Customer\Model\Attribute',
-    array(
-        'data' => array(
+    [
+        'data' => [
             'frontend_input' => 'text',
-            'frontend_label' => array('Fixture Customer Address Attribute'),
+            'frontend_label' => ['Fixture Customer Address Attribute'],
             'sort_order' => '0',
             'backend_type' => 'varchar',
             'is_user_defined' => 1,
@@ -46,9 +46,9 @@ $attribute = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create
             'attribute_set_id' => $entityType->getDefaultAttributeSetId(),
             'attribute_group_id' => $attributeSet->getDefaultGroupId($entityType->getDefaultAttributeSetId()),
             'entity_type_id' => $entityType->getId(),
-            'default_value' => 'fixture_attribute_default_value'
-        )
-    )
+            'default_value' => 'fixture_attribute_default_value',
+        ]
+    ]
 );
 $attribute->setAttributeCode('fixture_address_attribute');
 $attribute->save();
@@ -56,7 +56,7 @@ $attribute->save();
 $addressData = include __DIR__ . '/../../../Magento/Sales/_files/address_data.php';
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $billingAddress->setAddressType('billing');
 $billingAddress->setData($attribute->getAttributeCode(), 'fixture_attribute_custom_value');

@@ -83,7 +83,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $roundValues = [
             [$itemAmount, $expectedAmount],
-            [$itemBaseAmount, $expectedBaseAmount]
+            [$itemBaseAmount, $expectedBaseAmount],
         ];
         $this->priceCurrencyMock->expects($this->exactly(2))
             ->method('round')
@@ -227,7 +227,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $roundValues = [
             [$itemAmount, $expectedAmount],
-            [$itemBaseAmount, $expectedBaseAmount]
+            [$itemBaseAmount, $expectedBaseAmount],
         ];
         $this->priceCurrencyMock->expects($this->exactly(2))
             ->method('round')
@@ -239,6 +239,5 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedBaseAmount, $result[0]['base_tax_amount']);
         $this->assertEquals($itemTitle, $result[0]['title']);
         $this->assertEquals($itemPercent, $result[0]['percent']);
-
     }
 }

@@ -63,7 +63,7 @@ class Packaging extends \Magento\Backend\Block\Template
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         GenericInterface $sourceSizeModel,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
@@ -126,15 +126,15 @@ class Packaging extends \Magento\Backend\Block\Template
         $countryRecipient = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
         if ($carrier) {
             $params = new \Magento\Framework\Object(
-                array(
+                [
                     'method' => $this->getCarrierMethod(),
                     'country_shipper' => $address->getCountryId(),
-                    'country_recipient' => $countryRecipient
-                )
+                    'country_recipient' => $countryRecipient,
+                ]
             );
             return $carrier->getContainerTypes($params);
         }
-        return array();
+        return [];
     }
 
     /**
@@ -170,13 +170,13 @@ class Packaging extends \Magento\Backend\Block\Template
             list($carrierCode, $methodCode) = explode('_', $code, 2);
             $carrier = $this->_rmaData->getCarrier($carrierCode, $storeId);
             $countryId = $this->_rmaData->getReturnAddressModel($storeId)->getCountryId();
-            $params = new \Magento\Framework\Object(array('country_recipient' => $countryId));
+            $params = new \Magento\Framework\Object(['country_recipient' => $countryId]);
 
             if ($carrier && is_array($carrier->getDeliveryConfirmationTypes($params))) {
                 return $carrier->getDeliveryConfirmationTypes($params);
             }
         }
-        return array();
+        return [];
     }
 
     /**
@@ -218,17 +218,17 @@ class Packaging extends \Magento\Backend\Block\Template
             $shipperAddress = $order->getShippingAddress();
             if ($carrier) {
                 $params = new \Magento\Framework\Object(
-                    array(
+                    [
                         'method' => $methodCode,
                         'country_shipper' => $shipperAddress->getCountryId(),
-                        'country_recipient' => $countryId
-                    )
+                        'country_recipient' => $countryId,
+                    ]
                 );
                 return $carrier->getContentTypes($params);
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -268,6 +268,6 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function checkSizeAndGirthParameter()
     {
-        return array(false, false);
+        return [false, false];
     }
 }

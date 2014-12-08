@@ -41,12 +41,12 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->helper = $objectManager->getObject(
             'Magento\Paypal\Helper\Shortcut\Validator',
-            array(
+            [
                 'paypalConfigFactory' => $this->_paypalConfigFactory,
                 'registry' => $this->_registry,
                 'productTypeConfig' => $this->_productTypeConfig,
                 'paymentData' => $this->_paymentData
-            )
+            ]
         );
     }
 

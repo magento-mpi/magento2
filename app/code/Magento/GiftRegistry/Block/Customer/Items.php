@@ -34,7 +34,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->itemFactory = $itemFactory;
@@ -122,7 +122,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/updateItems', array('_current' => true));
+        return $this->getUrl('*/*/updateItems', ['_current' => true]);
     }
 
     /**

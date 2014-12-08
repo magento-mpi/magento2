@@ -137,13 +137,13 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             [
                 'data' => [
                     'validate_rules' => [
-                        'key' => 'value'
-                    ]
-                ]
+                        'key' => 'value',
+                    ],
+                ],
             ],
             [
                 'data' => [
-                    'validate_rules' => $serialize
+                    'validate_rules' => $serialize,
                 ]
             ],
             [
@@ -158,9 +158,9 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             [
                 'rules' => [
                     'validate_rules' => [
-                        'key' => 'value'
-                    ]
-                ]
+                        'key' => 'value',
+                    ],
+                ],
             ],
             [
                 'rules' => ''
@@ -173,12 +173,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'data' => [
-                    'is_required' => 1
-                ]
+                    'is_required' => 1,
+                ],
             ],
             [
                 'data' => [
-                    'scope_is_required' => 1
+                    'scope_is_required' => 1,
                 ]
             ]
         ];
@@ -189,12 +189,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'data' => [
-                    'is_visible' => 1
-                ]
+                    'is_visible' => 1,
+                ],
             ],
             [
                 'data' => [
-                    'scope_is_visible' => 1
+                    'scope_is_visible' => 1,
                 ]
             ]
         ];
@@ -205,12 +205,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'data' => [
-                    'default_value' => 1
-                ]
+                    'default_value' => 1,
+                ],
             ],
             [
                 'data' => [
-                    'scope_default_value' => 1
+                    'scope_default_value' => 1,
                 ]
             ]
         ];
@@ -221,12 +221,12 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'data' => [
-                    'multiline_count' => 1
-                ]
+                    'multiline_count' => 1,
+                ],
             ],
             [
                 'data' => [
-                    'scope_multiline_count' => 1
+                    'scope_multiline_count' => 1,
                 ]
             ]
         ];

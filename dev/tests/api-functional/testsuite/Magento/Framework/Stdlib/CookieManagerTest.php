@@ -18,7 +18,6 @@ use Magento\TestFramework\TestCase\Webapi\Curl;
  */
 class CookieManagerTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-
     private $cookieTesterUrl = 'testmoduleone/CookieTester';
 
     /** @var Curl */

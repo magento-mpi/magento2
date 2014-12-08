@@ -8,8 +8,8 @@
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
 /**
  * Test Creation for MoveProductToAnotherWishlistTest

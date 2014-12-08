@@ -8,11 +8,9 @@
  */
 namespace Magento\Catalog\Api;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
-use Magento\Catalog\Service\V1\Data\Category as CategoryDataObject;
-use Magento\TestFramework\Helper\Bootstrap;
-use Magento\TestFramework\ObjectManager;
 
 class CategoryManagementTest extends WebapiAbstract
 {
@@ -30,17 +28,17 @@ class CategoryManagementTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => 'V1',
-                'operation' => self::SERVICE_NAME . 'GetTree'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetTree',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
 
-        for($i = 0; $i < $expectedLevel; $i++) {
+        for ($i = 0; $i < $expectedLevel; $i++) {
             $result = $result['children_data'][0];
         }
         $this->assertEquals($expectedId, $result['id']);
@@ -49,12 +47,12 @@ class CategoryManagementTest extends WebapiAbstract
 
     public function treeDataProvider()
     {
-        return array(
+        return [
             [2, 100, 3, 402],
             [2, null, 3, 402],
             [400, 1, 1, 401],
             [401, 0, 0, 401],
-        );
+        ];
     }
 
     /**
@@ -69,13 +67,13 @@ class CategoryManagementTest extends WebapiAbstract
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . '/' . $categoryId . '/move',
-                    'httpMethod' => Config::HTTP_METHOD_PUT
+                    'httpMethod' => Config::HTTP_METHOD_PUT,
                 ],
                 'soap' => [
                     'service' => self::SERVICE_NAME,
                     'serviceVersion' => 'V1',
-                    'operation' => self::SERVICE_NAME . 'Move'
-                ]
+                    'operation' => self::SERVICE_NAME . 'Move',
+                ],
             ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $categoryData));
         /** @var \Magento\Catalog\Model\Category $model */
@@ -88,11 +86,11 @@ class CategoryManagementTest extends WebapiAbstract
 
     public function updateMoveDataProvider()
     {
-        return array(
+        return [
             [402, 400, null, 2],
             [402, 400, 401, 2],
             [402, 400, 999, 2],
             [402, 400, 0, 1]
-        );
+        ];
     }
 }

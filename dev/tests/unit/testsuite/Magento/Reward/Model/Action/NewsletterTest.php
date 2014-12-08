@@ -69,15 +69,15 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Signed up for newsletter with email '
-            ),
-            array(
-                'args' => array('email' => 'test@mail.com'),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Signed up for newsletter with email ',
+            ],
+            [
+                'args' => ['email' => 'test@mail.com'],
                 'expectedResult' => 'Signed up for newsletter with email test@mail.com'
-            )
-        );
+            ]
+        ];
     }
 }

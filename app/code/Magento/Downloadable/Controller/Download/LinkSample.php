@@ -8,8 +8,8 @@
  */
 namespace Magento\Downloadable\Controller\Download;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Downloadable\Helper\Download as DownloadHelper;
+use Magento\Framework\App\ResponseInterface;
 
 class LinkSample extends \Magento\Downloadable\Controller\Download
 {

@@ -8,7 +8,7 @@
 
 namespace Magento\GiftRegistry\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class LoggingTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,7 +35,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
     {
         $this->requestInterface = $this->getMock('\Magento\Framework\App\RequestInterface');
         $this->eventModel = $this->getMockBuilder('\Magento\Logging\Model\Event')
-            ->setMethods(array('setInfo', '__wakeup', '__sleep'))
+            ->setMethods(['setInfo', '__wakeup', '__sleep'])
             ->disableOriginalConstructor()->getMock();
         $this->processor = $this->getMockBuilder('\Magento\Logging\Model\Processor')
             ->disableOriginalConstructor()->getMock();
@@ -53,16 +53,16 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
     {
         $this->requestInterface->expects($this->once())->method('getParam')
             ->with('type')
-            ->will($this->returnValue(array('type_id' => 'Some Type Id')));
+            ->will($this->returnValue(['type_id' => 'Some Type Id']));
         $this->eventModel->expects($this->once())->method('setInfo')->with('Some Type Id')->will($this->returnSelf());
-        $this->logging->postDispatchTypeSave(array(), $this->eventModel, $this->processor);
+        $this->logging->postDispatchTypeSave([], $this->eventModel, $this->processor);
     }
 
     public function testPostDispatchShare()
     {
         $this->requestInterface->expects($this->at(0))->method('getParam')
             ->with('emails')
-            ->will($this->returnValue(array('some@example.com')));
+            ->will($this->returnValue(['some@example.com']));
         $this->requestInterface->expects($this->at(1))->method('getParam')
             ->with('message')
             ->will($this->returnValue('Gift Registry Message'));
@@ -73,8 +73,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
         $this->processor->expects($this->any())->method('createChanges')->will($this->returnValue($changes));
         $this->processor->expects($this->any())->method('addEventChanges')->with($changes)->will($this->returnSelf());
 
-        $event = $this->logging->postDispatchShare(array(), $this->eventModel, $this->processor);
+        $event = $this->logging->postDispatchShare([], $this->eventModel, $this->processor);
         $this->assertSame($this->eventModel, $event);
-
     }
 }

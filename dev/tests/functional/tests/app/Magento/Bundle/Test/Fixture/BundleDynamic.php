@@ -24,9 +24,9 @@ class BundleDynamic extends Bundle
         $this->_data['checkout'] = [
             'prices' => [
                 'price_from' => 10,
-                'price_to' => 15
+                'price_to' => 15,
             ],
-            'selection' => [0]
+            'selection' => [0],
         ];
         parent::_initData();
         $this->_data['fields'] = array_merge_recursive(
@@ -36,32 +36,32 @@ class BundleDynamic extends Bundle
                     'value' => 'Dynamic',
                     'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'price_type' => [
                     'value' => 'Dynamic',
                     'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'weight_type' => [
                     'value' => 'Dynamic',
                     'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'product_website_1' => [
                     'value' => 'Yes',
                     'input_value' => [1],
                     'group' => static::GROUP_PRODUCT_WEBSITE,
                     'input' => 'checkbox',
-                    'input_name' => 'website_ids'
+                    'input_name' => 'website_ids',
                 ],
                 'shipment_type' => [
                     'value' => 'Separately',
                     'input_value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS,
-                    'input' => 'select'
+                    'input' => 'select',
                 ],
                 'bundle_selections' => [
                     'value' => [
@@ -77,8 +77,8 @@ class BundleDynamic extends Bundle
                                         ],
                                         'data' => [
                                             'selection_qty' => 1,
-                                            'product_id' => '%item1_simple1::getProductId%'
-                                        ]
+                                            'product_id' => '%item1_simple1::getProductId%',
+                                        ],
                                     ],
                                     [
                                         'search_data' => [
@@ -86,14 +86,14 @@ class BundleDynamic extends Bundle
                                         ],
                                         'data' => [
                                             'selection_qty' => 1,
-                                            'product_id' => '%item1_virtual2::getProductId%'
+                                            'product_id' => '%item1_virtual2::getProductId%',
                                         ]
-                                    ]
-                                ]
-                            ]
-                        ]
+                                    ],
+                                ],
+                            ],
+                        ],
                     ],
-                    'group' => static::GROUP
+                    'group' => static::GROUP,
                 ]
             ]
         );

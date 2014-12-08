@@ -71,7 +71,7 @@ class String
      */
     public function split($value, $length = 1, $keepWords = false, $trim = false, $wordSeparatorRegex = '\s')
     {
-        $result = array();
+        $result = [];
         $strLen = $this->strlen($value);
         if (!$strLen || !is_int($length) || $length <= 0) {
             return $result;

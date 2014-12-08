@@ -27,7 +27,7 @@ class Link extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Multishipping\Helper\Data $helper,
-        array $data = array()
+        array $data = []
     ) {
         $this->helper = $helper;
         parent::__construct($context, $data);
@@ -39,7 +39,7 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     public function getCheckoutUrl()
     {
-        return $this->getUrl('multishipping/checkout', array('_secure' => true));
+        return $this->getUrl('multishipping/checkout', ['_secure' => true]);
     }
 
     /**

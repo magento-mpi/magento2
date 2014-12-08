@@ -41,10 +41,10 @@ class Start extends \Magento\Sales\Controller\Adminhtml\Order\Create\Start
             }
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-            $this->_redirect('sales/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         } catch (\Exception $e) {
             $this->messageManager->addException($e, $e->getMessage());
-            $this->_redirect('sales/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         }
     }
 }

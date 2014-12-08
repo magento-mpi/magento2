@@ -9,9 +9,9 @@
 
 namespace Magento\Checkout\Service\V1\Address;
 
-use \Magento\Checkout\Service\V1\Data\Cart\Address;
-use \Magento\Checkout\Service\V1\Data\Cart\Address\Region;
-use \Magento\Framework\Api\AttributeValue;
+use Magento\Checkout\Service\V1\Data\Cart\Address;
+use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
+use Magento\Framework\Api\AttributeValue;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
@@ -46,12 +46,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public  function testConvertModelToDataObject()
+    public function testConvertModelToDataObject()
     {
         $addressMockMethods = [
             'getCountryId', 'getId', 'getCustomerId', 'getRegion', 'getRegionId', 'getRegionCode',
             'getStreet', 'getCompany', 'getTelephone', 'getFax', 'getPostcode', 'getFirstname', 'getMiddlename',
-            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', 'getCustomField', 'getCity', '__wakeup'
+            'getLastname', 'getPrefix', 'getSuffix', 'getEmail', 'getVatId', 'getCustomField', 'getCity', '__wakeup',
         ];
         $addressMock = $this->getMock('\Magento\Sales\Model\Quote\Address', $addressMockMethods, [], '', false);
 
@@ -98,7 +98,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             Address::KEY_SUFFIX => 'suffix',
             Address::KEY_EMAIL => 'aaa@aaa.com',
             Address::KEY_VAT_ID => 5,
-            Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'custom_field', 'value' => 'custom_value']]
+            Address::CUSTOM_ATTRIBUTES_KEY => [['attribute_code' => 'custom_field', 'value' => 'custom_value']],
         ];
 
         $this->metadataServiceMock
@@ -126,14 +126,14 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $attributeValueMock->expects($this->once())->method('getValue')->will($this->returnValue('value'));
 
         $addressData = [
-            'some_code' => 'some_value'
+            'some_code' => 'some_value',
         ];
         $regionMock = $this->getMock('Magento\Checkout\Service\V1\Data\Cart\Address\Region', [], [], '', false);
 
         $dataObjectMock->expects($this->once())->method('__toArray')->will($this->returnValue($addressData));
         $valueMap = [
             [$addressData, null],
-            ['attribute_value', 'value']
+            ['attribute_value', 'value'],
         ];
         $addressMock->expects($this->any())->method('setData')->will($this->returnValueMap($valueMap));
         $dataObjectMock

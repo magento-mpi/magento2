@@ -42,22 +42,22 @@ class TranslitUrlTest extends \PHPUnit_Framework_TestCase
     public function filterDataProvider()
     {
         $isIconv = '"libiconv"' == ICONV_IMPL;
-        return array(
-            array('test', 'test', 'test', $isIconv),
-            array('привет мир', 'privet-mir', 'privet-mir', $isIconv),
-            array(
+        return [
+            ['test', 'test', 'test', $isIconv],
+            ['привет мир', 'privet-mir', 'privet-mir', $isIconv],
+            [
                 'Weiß, Goldmann, Göbel, Weiss, Göthe, Goethe und Götz',
                 'weiss-goldmann-gobel-weiss-gothe-goethe-und-gotz',
                 'weiss-goldmann-gobel-weiss-gothe-goethe-und-gotz',
                 $isIconv
-            ),
-            array(
+            ],
+            [
                 '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
                 '',
                 'eur',
                 $isIconv
-            ),
-            array('™', 'tm', 'tm', $isIconv)
-        );
+            ],
+            ['™', 'tm', 'tm', $isIconv]
+        ];
     }
 }

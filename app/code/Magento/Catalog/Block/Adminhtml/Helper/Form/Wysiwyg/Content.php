@@ -35,7 +35,7 @@ class Content extends Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -51,9 +51,9 @@ class Content extends Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array('id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post')
-            )
+            [
+                'data' => ['id' => 'wysiwyg_edit_form', 'action' => $this->getData('action'), 'method' => 'post'],
+            ]
         );
 
         $config['document_base_url'] = $this->getData('store_media_url');
@@ -67,13 +67,13 @@ class Content extends Generic
         $form->addField(
             $this->getData('editor_element_id'),
             'editor',
-            array(
+            [
                 'name' => 'content',
                 'style' => 'width:725px;height:460px',
                 'required' => true,
                 'force_load' => true,
                 'config' => $this->_wysiwygConfig->getConfig($config)
-            )
+            ]
         );
         $this->setForm($form);
         return parent::_prepareForm();

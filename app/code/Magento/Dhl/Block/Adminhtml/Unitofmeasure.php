@@ -34,7 +34,7 @@ class Unitofmeasure extends \Magento\Backend\Block\System\Config\Form\Field
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Dhl\Model\Carrier $carrierDhl,
         \Magento\Shipping\Helper\Carrier $carrierHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->carrierDhl = $carrierDhl;
         $this->_carrierHelper = $carrierHelper;

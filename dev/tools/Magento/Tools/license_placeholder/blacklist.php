@@ -8,7 +8,7 @@
  * @license    {license_link}
  */
 
-return array(
+return [
     'app/code/*/*/etc/{wsi,wsdl,wsdl2}.xml',
     'app/code/Zend',
     'app/etc/config.php',
@@ -70,4 +70,4 @@ return array(
     'setup/pub/angular-ng-storage',
     'setup/vendor',
     'app/code/Magento/Doc/view/doc/web/jumly',
-);
+];

@@ -26,14 +26,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
+        $this->_moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Helper\Context',
-            array('moduleManager' => $this->_moduleManagerMock)
+            ['moduleManager' => $this->_moduleManagerMock]
         );
         $this->_customerFinanceHelper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\CustomerFinance\Helper\Data',
-            array('context' => $context)
+            ['context' => $context]
         );
     }
 

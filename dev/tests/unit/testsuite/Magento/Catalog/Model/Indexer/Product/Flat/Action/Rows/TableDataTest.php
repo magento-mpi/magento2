@@ -33,11 +33,11 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
-        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->_productIndexerHelper = $this->getMock(
             'Magento\Catalog\Helper\Product\Flat\Indexer',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -65,7 +65,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
         )->method(
             'renameTablesBatch'
         )->with(
-            array(['oldName' => 'flat_tmp', 'newName' => 'flat_table'])
+            [['oldName' => 'flat_tmp', 'newName' => 'flat_table']]
         );
 
         $this->_resourceMock->expects(
@@ -80,7 +80,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
 
         $model = $this->_objectManager->getObject(
             'Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows\TableData',
-            array('resource' => $this->_resourceMock, 'productIndexerHelper' => $this->_productIndexerHelper)
+            ['resource' => $this->_resourceMock, 'productIndexerHelper' => $this->_productIndexerHelper]
         );
 
         $model->move($flatTable, $flatDropName, $temporaryFlatTableName);
@@ -92,26 +92,26 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
         $flatDropName = 'flat_table_to_drop';
         $temporaryFlatTableName = 'flat_tmp';
 
-        $describedColumns = array(
+        $describedColumns = [
             'column_11' => 'column_definition',
             'column_2' => 'column_definition',
-            'column_3' => 'column_definition'
-        );
+            'column_3' => 'column_definition',
+        ];
 
-        $flatColumns = array(
+        $flatColumns = [
             'column_1' => 'column_definition',
             'column_2' => 'column_definition',
-            'column_3' => 'column_definition'
-        );
+            'column_3' => 'column_definition',
+        ];
 
-        $selectMock = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
+        $selectMock = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
         $selectMock->expects(
             $this->once()
         )->method(
             'from'
         )->with(
-            array('tf' => sprintf('%s_tmp_indexer', $flatTable)),
-            array('column_2', 'column_3')
+            ['tf' => sprintf('%s_tmp_indexer', $flatTable)],
+            ['column_2', 'column_3']
         );
         $sql = md5(time());
         $selectMock->expects(
@@ -120,7 +120,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
             'insertFromSelect'
         )->with(
             $flatTable,
-            array('column_2', 'column_3')
+            ['column_2', 'column_3']
         )->will(
             $this->returnValue($sql)
         );
@@ -177,7 +177,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
 
         $model = $this->_objectManager->getObject(
             'Magento\Catalog\Model\Indexer\Product\Flat\Action\Rows\TableData',
-            array('resource' => $this->_resourceMock, 'productIndexerHelper' => $this->_productIndexerHelper)
+            ['resource' => $this->_resourceMock, 'productIndexerHelper' => $this->_productIndexerHelper]
         );
 
         $model->move($flatTable, $flatDropName, $temporaryFlatTableName);

@@ -28,7 +28,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $presentFields = [
             'status' => 'Status',
-            'base_price' => 'Price'
+            'base_price' => 'Price',
         ];
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
         $wrapping->setData($presentFields);
@@ -41,7 +41,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $presentFields = [
             'status' => 'Status',
             'base_price' => 'Price',
-            'design' => 'Design'
+            'design' => 'Design',
         ];
 
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');

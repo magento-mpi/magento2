@@ -80,7 +80,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
         $childBlock = $layout->createBlock(
             'Magento\Framework\View\Element\Text',
             'test',
-            array('data' => array('text' => 'test'))
+            ['data' => ['text' => 'test']]
         );
         $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
         $this->assertEquals('test', $parent->getAdditionalHtml());

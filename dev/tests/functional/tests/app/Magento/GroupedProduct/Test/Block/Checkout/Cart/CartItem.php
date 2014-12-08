@@ -102,7 +102,7 @@ class CartItem extends AbstractCartItem
             /** @var CheckoutCartItem $cartItem */
             $result[] = [
                 'title' => $cartItem->getProductName(),
-                'value' => $cartItem->getQty()
+                'value' => $cartItem->getQty(),
             ];
         }
 

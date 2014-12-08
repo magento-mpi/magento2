@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Service\V1\Data;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

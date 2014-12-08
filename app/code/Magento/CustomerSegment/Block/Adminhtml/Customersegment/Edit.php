@@ -29,7 +29,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -56,23 +56,23 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         if ($segment && $segment->getId()) {
             $this->buttonList->add(
                 'match_customers',
-                array(
+                [
                     'label' => __('Refresh Segment Data'),
                     'onclick' => 'setLocation(\'' . $this->getMatchUrl() . '\')'
-                ),
+                ],
                 -1
             );
         }
 
         $this->buttonList->add(
             'save_and_continue_edit',
-            array(
+            [
                 'class' => 'save',
                 'label' => __('Save and Continue Edit'),
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
-                )
-            ),
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form']],
+                ]
+            ],
             3
         );
     }
@@ -85,7 +85,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getMatchUrl()
     {
         $segment = $this->_coreRegistry->registry('current_customer_segment');
-        return $this->getUrl('*/*/match', array('id' => $segment->getId()));
+        return $this->getUrl('*/*/match', ['id' => $segment->getId()]);
     }
 
     /**

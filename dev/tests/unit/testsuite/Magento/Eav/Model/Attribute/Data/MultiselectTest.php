@@ -50,7 +50,7 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'param' => 'param',
-                'expectedResult' => ['param']
+                'expectedResult' => ['param'],
             ],
             [
                 'param' => false,
@@ -94,7 +94,7 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON,
-                'expectedResult' => 'value1, value2'
+                'expectedResult' => 'value1, value2',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_ONELINE,

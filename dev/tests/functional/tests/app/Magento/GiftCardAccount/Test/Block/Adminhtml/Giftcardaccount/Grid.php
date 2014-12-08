@@ -8,8 +8,8 @@
 
 namespace Magento\GiftCardAccount\Test\Block\Adminhtml\Giftcardaccount;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Gift card account grid block.
@@ -37,20 +37,20 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => '#giftcardaccountGrid_filter_code'
+            'selector' => '#giftcardaccountGrid_filter_code',
         ],
         'balanceFrom' => [
-            'selector' => '#giftcardaccountGrid_filter_balance_from'
+            'selector' => '#giftcardaccountGrid_filter_balance_from',
         ],
         'balanceTo' => [
-            'selector' => '#giftcardaccountGrid_filter_balance_to'
+            'selector' => '#giftcardaccountGrid_filter_balance_to',
         ],
         'state' => [
-            'selector' => '#giftcardaccountGrid_filter_state'
+            'selector' => '#giftcardaccountGrid_filter_state',
         ],
         'date_expires' => [
-            'selector' => 'date_expires'
-        ]
+            'selector' => 'date_expires',
+        ],
     ];
 
     /**

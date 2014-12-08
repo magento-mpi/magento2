@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Share extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Customer
 {
@@ -23,7 +23,7 @@ class Share extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Cust
         $data = $this->getRequest()->getParam('emails');
         if ($data) {
             $emails = explode(',', $data);
-            $emailsForSend = array();
+            $emailsForSend = [];
 
             if ($this->_storeManager->hasSingleStore()) {
                 $storeId = $this->_storeManager->getStore(true)->getId();
@@ -62,6 +62,6 @@ class Share extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry\Cust
                 );
             }
         }
-        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+        $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
     }
 }

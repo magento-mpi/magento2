@@ -14,5 +14,4 @@ use Magento\Framework\View\Element\UiComponentInterface;
  */
 interface RenderLayoutInterface extends UiComponentInterface
 {
-    
 }

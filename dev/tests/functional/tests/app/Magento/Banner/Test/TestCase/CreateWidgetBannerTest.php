@@ -8,8 +8,8 @@
 
 namespace Magento\Banner\Test\TestCase;
 
-use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 use Magento\Banner\Test\Fixture\Widget;
+use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 
 /**
  * Test Flow:

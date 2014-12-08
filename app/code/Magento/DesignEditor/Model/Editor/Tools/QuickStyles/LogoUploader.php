@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * System config Logo image field backend model
  *

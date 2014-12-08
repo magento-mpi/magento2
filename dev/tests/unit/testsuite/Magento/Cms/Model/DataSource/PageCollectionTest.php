@@ -94,7 +94,7 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase
                 'name' => 'test-name',
                 'field' => 'store_id',
                 'condition' => null,
-                'type' => 'public'
+                'type' => 'public',
             ],
             [
                 'name' => 'test-name',

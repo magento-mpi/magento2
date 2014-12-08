@@ -23,10 +23,10 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'request_path' => [
-            'selector' => '#urlrewriteGrid_filter_request_path'
+            'selector' => '#urlrewriteGrid_filter_request_path',
         ],
         'target_path' => [
-            'selector' => 'input[name="target_path"]'
-        ]
+            'selector' => 'input[name="target_path"]',
+        ],
     ];
 }

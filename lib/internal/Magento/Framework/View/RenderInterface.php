@@ -28,5 +28,5 @@ interface RenderInterface
      * @param array $containerInfo
      * @return string
      */
-    public function renderContainer($content, array $containerInfo = array());
+    public function renderContainer($content, array $containerInfo = []);
 }

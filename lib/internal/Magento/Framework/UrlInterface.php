@@ -60,7 +60,7 @@ interface UrlInterface
      * @param array $params
      * @return string
      */
-    public function getBaseUrl($params = array());
+    public function getBaseUrl($params = []);
 
     /**
      * Retrieve current url with port number (if not default used)
@@ -126,7 +126,7 @@ interface UrlInterface
      * @param array $params
      * @return string
      */
-    public function getDirectUrl($url, $params = array());
+    public function getDirectUrl($url, $params = []);
 
     /**
      * Replace Session ID value in URL

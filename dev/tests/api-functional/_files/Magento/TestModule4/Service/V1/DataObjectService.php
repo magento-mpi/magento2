@@ -7,10 +7,10 @@
  */
 namespace Magento\TestModule4\Service\V1;
 
-use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
-use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
+use Magento\TestModule4\Service\V1\Entity\DataObjectResponseBuilder;
 use Magento\TestModule4\Service\V1\Entity\ExtensibleRequestInterface;
+use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 
 class DataObjectService implements \Magento\TestModule4\Service\V1\DataObjectServiceInterface
 {

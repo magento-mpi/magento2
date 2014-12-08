@@ -39,7 +39,6 @@ class Mel extends LicenseAbstract
  * versions in the future. If you wish to customize Magento for your
  * needs please refer to http://www.magentocommerce.com for more information.
 EOT;
-
     }
 
     /**

@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogSearch\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteSearchTermEntity

@@ -96,7 +96,7 @@ class Csvfile extends AbstractOutput
     protected function _writeFileContent($fileHandle, Stat $stat)
     {
         foreach ($this->_getTimerIds($stat) as $timerName) {
-            $row = array();
+            $row = [];
             foreach ($this->_columns as $column) {
                 $row[] = $this->_renderColumnValue($stat->fetch($timerName, $column), $column);
             }

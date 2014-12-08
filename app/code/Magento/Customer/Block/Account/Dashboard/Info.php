@@ -48,7 +48,7 @@ class Info extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Helper\View $helperView,
-        array $data = array()
+        array $data = []
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->_subscriberFactory = $subscriberFactory;

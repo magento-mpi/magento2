@@ -8,16 +8,16 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
-use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Core\Helper\Data as CoreHelper;
-use Magento\Customer\Model\Url as CustomerUrl;
-use Magento\Framework\Exception\EmailNotConfirmedException;
-use Magento\Framework\Exception\AuthenticationException;
 use Magento\Core\App\Action\FormKeyValidator;
+use Magento\Core\Helper\Data as CoreHelper;
+use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Model\Session;
+use Magento\Customer\Model\Url as CustomerUrl;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\Exception\AuthenticationException;
+use Magento\Framework\Exception\EmailNotConfirmedException;
+use Magento\Framework\StoreManagerInterface;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -155,8 +155,7 @@ class LoginPost extends \Magento\Customer\Controller\Account
                     );
                     $this->messageManager->addError($message);
                     $this->_getSession()->setUsername($login['username']);
-                }
-                catch (AuthenticationException $e) {
+                } catch (AuthenticationException $e) {
                     $message = __('Invalid login or password.');
                     $this->messageManager->addError($message);
                     $this->_getSession()->setUsername($login['username']);

@@ -22,7 +22,7 @@ define(
 USAGE
 );
 
-$options = getopt('', array('team-repo:', 'feature-branch:', 'output-file:', 'file-formats:', 'oauth-token:'));
+$options = getopt('', ['team-repo:', 'feature-branch:', 'output-file:', 'file-formats:', 'oauth-token:']);
 if (empty($options['team-repo']) || empty($options['feature-branch']) || empty($options['oauth-token'])) {
     echo USAGE;
     exit(1);
@@ -60,7 +60,7 @@ function generateChangedFilesList($outputFile, $changedFiles)
  */
 function getChangedFiles($changes, $fileFormats)
 {
-    $files = array();
+    $files = [];
     foreach ($changes as $change) {
         $fileName = $change['filename'];
         foreach ($fileFormats as $format) {

@@ -24,7 +24,6 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Product',
             $this->model->initializeLinks($this->getMockedProduct(), $links)
         );
-
     }
 
     protected function setUp()
@@ -47,7 +46,7 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
                     'setCrossSellLinkData',
                     'setUpSellLinkData',
                     'setRelatedLinkData',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->disableOriginalConstructor();
@@ -76,4 +75,4 @@ class ProductLinksTest extends \PHPUnit_Framework_TestCase
 
         return $mock;
     }
-} 
+}

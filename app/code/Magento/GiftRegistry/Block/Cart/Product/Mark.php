@@ -31,7 +31,7 @@ class Mark extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->entityFactory = $entityFactory;
@@ -52,7 +52,7 @@ class Mark extends \Magento\Framework\View\Element\Template
     {
         return $this->filterManager->truncate(
             $value,
-            array('length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords)
+            ['length' => $length, 'etc' => $etc, 'remainder' => $remainder, 'breakWords' => $breakWords]
         );
     }
 
@@ -78,7 +78,6 @@ class Mark extends \Magento\Framework\View\Element\Template
         if ($this->getLayout()->getBlock('additional.product.info')) {
             $item = $this->getLayout()->getBlock('additional.product.info')->getItem();
         }
-
 
         if ($item instanceof \Magento\Sales\Model\Quote\Address\Item) {
             $item = $item->getQuoteItem();
@@ -135,6 +134,6 @@ class Mark extends \Magento\Framework\View\Element\Template
      */
     public function getGiftregistryUrl()
     {
-        return $this->getUrl('magento_giftregistry/view/index', array('id' => $this->getEntity()->getUrlKey()));
+        return $this->getUrl('magento_giftregistry/view/index', ['id' => $this->getEntity()->getUrlKey()]);
     }
 }

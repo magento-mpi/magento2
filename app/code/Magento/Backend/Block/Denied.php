@@ -22,7 +22,7 @@ class Denied extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Auth\Session $authSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authSession = $authSession;
         parent::__construct($context, $data);

@@ -25,16 +25,16 @@ class CustomTest extends \Magento\ImportExport\Model\Source\Import\AbstractBehav
      *
      * @var array
      */
-    protected $_expectedBehaviors = array(
+    protected $_expectedBehaviors = [
         \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE,
         \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE,
-        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM
-    );
+        \Magento\ImportExport\Model\Import::BEHAVIOR_CUSTOM,
+    ];
 
     protected function setUp()
     {
         parent::setUp();
-        $this->_model = new \Magento\ImportExport\Model\Source\Import\Behavior\Custom(array());
+        $this->_model = new \Magento\ImportExport\Model\Source\Import\Behavior\Custom([]);
     }
 
     /**

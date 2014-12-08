@@ -14,7 +14,7 @@ class Plugin extends \Magento\PromotionPermissions\Block\Adminhtml\Plugin
      * @var string[]
      */
     protected $restrictedButtons = [
-        'add', 'apply_rules'
+        'add', 'apply_rules',
     ];
 
     /**

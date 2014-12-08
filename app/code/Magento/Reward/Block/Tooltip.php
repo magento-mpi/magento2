@@ -49,7 +49,7 @@ class Tooltip extends \Magento\Framework\View\Element\Template
         \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_customerSession = $customerSession;
@@ -115,10 +115,10 @@ class Tooltip extends \Magento\Framework\View\Element\Template
     {
         if ($this->_actionInstance) {
             $this->addData(
-                array(
+                [
                     'reward_points' => $this->_rewardInstance->estimateRewardPoints($this->_actionInstance),
-                    'landing_page_url' => $this->_rewardHelper->getLandingPageUrl()
-                )
+                    'landing_page_url' => $this->_rewardHelper->getLandingPageUrl(),
+                ]
             );
 
             if ($this->_rewardInstance->getId()) {
@@ -133,10 +133,10 @@ class Tooltip extends \Magento\Framework\View\Element\Template
                 }
 
                 $this->addData(
-                    array(
+                    [
                         'points_balance' => $this->_rewardInstance->getPointsBalance(),
-                        'currency_balance' => $this->_rewardInstance->getCurrencyAmount()
-                    )
+                        'currency_balance' => $this->_rewardInstance->getCurrencyAmount(),
+                    ]
                 );
                 // estimate monetary reward
                 $amount = $this->_rewardInstance->estimateRewardAmount($this->_actionInstance);

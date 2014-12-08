@@ -42,7 +42,7 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\SalesRule\Model\Rss\Discounts $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->storeManager = $context->getStoreManager();
         $this->rssModel = $rssModel;
@@ -70,11 +70,11 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
         $websiteId = $storeModel->getWebsiteId();
         $customerGroupId = $this->getCustomerGroupId();
         $url = $this->_urlBuilder->getUrl('');
-        $newUrl = $this->rssUrlBuilder->getUrl(array(
+        $newUrl = $this->rssUrlBuilder->getUrl([
             'type' => 'discounts',
             'store_id' => $storeId,
-            'cid' => $customerGroupId
-        ));
+            'cid' => $customerGroupId,
+        ]);
         $title = __('%1 - Discounts and Coupons', $storeModel->getName());
         $lang = $this->_scopeConfig->getValue(
             'general/locale/code',
@@ -82,17 +82,16 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
             $storeModel
         );
 
-        $data = array(
+        $data = [
             'title' => $title,
             'description' => $title,
             'link' => $newUrl,
             'charset' => 'UTF-8',
-            'language' => $lang
-        );
+            'language' => $lang,
+        ];
 
         /** @var $rule \Magento\SalesRule\Model\Rule */
         foreach ($this->rssModel->getDiscountCollection($websiteId, $customerGroupId) as $rule) {
-
             $toDate = $rule->getToDate()
                 ? '<br/>Discount End Date: ' . $this->formatDate($rule->getToDate(), 'medium')
                 : '';
@@ -106,7 +105,7 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
                 $couponCode
             );
 
-            $data['entries'][] = array('title' => $rule->getName(), 'description' => $description, 'link' => $url);
+            $data['entries'][] = ['title' => $rule->getName(), 'description' => $description, 'link' => $url];
         }
 
         return $data;
@@ -162,14 +161,14 @@ class Discounts extends \Magento\Framework\View\Element\AbstractBlock implements
      */
     public function getFeeds()
     {
-        $data = array();
+        $data = [];
         if ($this->isAllowed()) {
-            $url = $this->rssUrlBuilder->getUrl(array(
+            $url = $this->rssUrlBuilder->getUrl([
                     'type' => 'discounts',
                     'store_id' => $this->getStoreId(),
-                    'cid' => $this->getCustomerGroupId()
-            ));
-            $data = array('label' => __('Coupons/Discounts'), 'link' => $url);
+                    'cid' => $this->getCustomerGroupId(),
+            ]);
+            $data = ['label' => __('Coupons/Discounts'), 'link' => $url];
         }
         return $data;
     }

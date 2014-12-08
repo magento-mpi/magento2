@@ -136,4 +136,3 @@ class CustomlayoutupdateTest extends \PHPUnit_Framework_TestCase
         return $mock;
     }
 }
- 

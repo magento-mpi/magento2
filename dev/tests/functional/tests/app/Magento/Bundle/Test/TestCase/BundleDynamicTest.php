@@ -8,9 +8,9 @@
 
 namespace Magento\Bundle\Test\TestCase;
 
+use Magento\Bundle\Test\Fixture\Bundle;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Bundle\Test\Fixture\Bundle;
 
 /**
  * Class BundleDynamicTest

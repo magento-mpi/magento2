@@ -65,14 +65,14 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         if (empty($rows)) {
             return $this;
         }
-        $dup = array();
+        $dup = [];
 
         foreach ($rows as $row) {
             if (!isset($row['price']) || !empty($row['delete'])) {
                 continue;
             }
 
-            $key1 = implode('-', array($row['website_id'], $row['price']));
+            $key1 = implode('-', [$row['website_id'], $row['price']]);
 
             if (!empty($dup[$key1])) {
                 throw new \Magento\Framework\Model\Exception(__('Duplicate amount found.'));
@@ -137,7 +137,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
                 continue;
             }
 
-            $data = array();
+            $data = [];
             $data['website_id'] = $row['website_id'];
             $data['value'] = isset($row['price']) ? $row['price'] : $row['value'];
             $data['attribute_id'] = $this->getAttribute()->getId();

@@ -7,12 +7,12 @@
  */
 namespace Magento\Tools\SampleData\Module\SalesRule\Setup;
 
-use Magento\Tools\SampleData\Logger;
-use Magento\Tools\SampleData\SetupInterface;
+use Magento\SalesRule\Model\RuleFactory as RuleFactory;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
-use Magento\SalesRule\Model\RuleFactory as RuleFactory;
+use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\Module\CatalogRule\Setup\Rule as CatalogRule;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Rule
@@ -81,7 +81,7 @@ class Rule implements SetupInterface
         $this->logger->log('Installing sales rules' . PHP_EOL);
         $file = 'SalesRule/sales_rules.csv';
         $fileName = $this->fixtureHelper->getPath($file);
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
         $attribute = $this->eavConfig->getAttribute('catalog_product', 'sku');
         if ($attribute->getIsUsedForPromoRules() == 0) {
             $attribute->setIsUsedForPromoRules('1')->save();

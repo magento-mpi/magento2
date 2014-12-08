@@ -29,7 +29,7 @@ class ActionFactory
      * @param array $data
      * @return \Magento\Rule\Model\Action\ActionInterface
      */
-    public function create($type, array $data = array())
+    public function create($type, array $data = [])
     {
         return $this->_objectManager->create($type, $data);
     }

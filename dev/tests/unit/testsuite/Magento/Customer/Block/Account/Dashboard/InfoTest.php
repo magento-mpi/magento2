@@ -54,7 +54,6 @@ class InfoTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-
         $this->currentCustomer = $this->getMock(
             'Magento\Customer\Helper\Session\CurrentCustomer',
             [],

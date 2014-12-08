@@ -31,7 +31,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Rma\Helper\Data $rmaHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_rmaHelper = $rmaHelper;

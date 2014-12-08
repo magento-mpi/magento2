@@ -33,7 +33,7 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_urlBuilderMock = $this->getMock('\Magento\Framework\UrlInterface');
-        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $this->_defaultPathMock = $this->getMock('\Magento\Framework\App\DefaultPathInterface');
     }
 
@@ -47,7 +47,7 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\View\Element\Html\Link\Current $link */
         $link = $this->_objectManager->getObject(
             '\Magento\Framework\View\Element\Html\Link\Current',
-            array('urlBuilder' => $this->_urlBuilderMock)
+            ['urlBuilder' => $this->_urlBuilderMock]
         );
 
         $link->setPath($path);
@@ -79,11 +79,11 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Framework\View\Element\Html\Link\Current $link */
         $link = $this->_objectManager->getObject(
             '\Magento\Framework\View\Element\Html\Link\Current',
-            array(
+            [
                 'urlBuilder' => $this->_urlBuilderMock,
                 'request' => $this->_requestMock,
                 'defaultPath' => $this->_defaultPathMock
-            )
+            ]
         );
         $link->setPath($path);
         $this->assertTrue($link->isCurrent());
@@ -94,11 +94,10 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilderMock->expects($this->at(0))->method('getUrl')->will($this->returnValue('1'));
         $this->_urlBuilderMock->expects($this->at(1))->method('getUrl')->will($this->returnValue('2'));
 
-
         /** @var \Magento\Framework\View\Element\Html\Link\Current $link */
         $link = $this->_objectManager->getObject(
             '\Magento\Framework\View\Element\Html\Link\Current',
-            array('urlBuilder' => $this->_urlBuilderMock, 'request' => $this->_requestMock)
+            ['urlBuilder' => $this->_urlBuilderMock, 'request' => $this->_requestMock]
         );
         $this->assertFalse($link->isCurrent());
     }

@@ -42,7 +42,7 @@ class EntryPoint
      */
     public function __construct(
         $rootDir,
-        array $parameters = array(),
+        array $parameters = [],
         ObjectManager $objectManager = null
     ) {
         $this->_rootDir = $rootDir;
@@ -58,7 +58,7 @@ class EntryPoint
      * @return mixed
      * @throws \DomainException
      */
-    public function run($applicationName, array $arguments = array())
+    public function run($applicationName, array $arguments = [])
     {
         try {
             if (!$this->_locator) {

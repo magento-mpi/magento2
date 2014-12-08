@@ -33,7 +33,7 @@ class Users extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\Resource\User\CollectionFactory $userCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         // _userCollectionFactory is used in parent::__construct
         $this->_userCollectionFactory = $userCollectionFactory;

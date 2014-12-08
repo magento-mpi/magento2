@@ -13,13 +13,13 @@ class ChainTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetModules()
     {
-        $modules = array('foo', 'baz', 'bar');
+        $modules = ['foo', 'baz', 'bar'];
 
         $objectManagerHelper = new ObjectManager($this);
         /** @var \Magento\Tools\Dependency\Report\Circular\Data\Chain $chain */
         $chain = $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Circular\Data\Chain',
-            array('modules' => $modules)
+            ['modules' => $modules]
         );
 
         $this->assertEquals($modules, $chain->getModules());

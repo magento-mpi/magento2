@@ -28,9 +28,9 @@ class CatalogPriceRule extends AbstractRepository
 
     const GROUP_ACTIONS = 'actions';
 
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
+        $this->_data['default'] = ['config' => $defaultConfig, 'data' => $defaultData];
         $this->_data[self::CATALOG_PRICE_RULE] = $this->_getCatalogPriceRule();
         $this->_data[self::CATALOG_PRICE_RULE_ALL_GROUPS] = array_replace_recursive(
             $this->_getCatalogPriceRule(),
@@ -40,57 +40,57 @@ class CatalogPriceRule extends AbstractRepository
 
     protected function _getCatalogPriceRule()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'name' => array('value' => 'Rule %isolation%', 'group' => static::GROUP_RULE_INFORMATION),
-                    'is_active' => array(
+        return [
+            'data' => [
+                'fields' => [
+                    'name' => ['value' => 'Rule %isolation%', 'group' => static::GROUP_RULE_INFORMATION],
+                    'is_active' => [
                         'value' => 'Active',
                         'group' => static::GROUP_RULE_INFORMATION,
-                        'input' => 'select'
-                    ),
-                    'website_ids' => array(
-                        'value' => array('Main Website'),
+                        'input' => 'select',
+                    ],
+                    'website_ids' => [
+                        'value' => ['Main Website'],
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
-                        'input_value' => array('1')
-                    ),
-                    'customer_group_ids' => array(
-                        'value' => array('%group_value%'),
+                        'input_value' => ['1'],
+                    ],
+                    'customer_group_ids' => [
+                        'value' => ['%group_value%'],
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
-                        'input_value' => array('%group_id%')
-                    ),
-                    'simple_action' => array(
+                        'input_value' => ['%group_id%'],
+                    ],
+                    'simple_action' => [
                         'value' => 'By Percentage of the Original Price',
                         'group' => static::GROUP_ACTIONS,
-                        'input' => 'select'
-                    ),
-                    'discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
-                    'conditions' => array(
+                        'input' => 'select',
+                    ],
+                    'discount_amount' => ['value' => '50.0000', 'group' => static::GROUP_ACTIONS],
+                    'conditions' => [
                         'value' => '[Category|is|%category_id%]',
                         'group' => static::GROUP_CONDITIONS,
                         'input' => 'conditions',
-                        'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids'
-                    ),
-                )
-            )
-        );
+                        'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids',
+                    ],
+                ],
+            ]
+        ];
     }
 
     protected function _getCatalogPriceRuleAllGroups()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'customer_group_ids' => array(
-                        'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
+        return [
+            'data' => [
+                'fields' => [
+                    'customer_group_ids' => [
+                        'value' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
                         'group' => static::GROUP_RULE_INFORMATION,
                         'input' => 'multiselect',
-                        'input_value' => array('0', '1', '2', '3')
-                    )
-                )
-            )
-        );
+                        'input_value' => ['0', '1', '2', '3'],
+                    ],
+                ],
+            ]
+        ];
     }
 }

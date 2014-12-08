@@ -20,7 +20,7 @@ class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
     /**
      * @var array
      */
-    protected $options = array();
+    protected $options = [];
 
     /**
      * @param \Magento\Framework\Model\Context $context
@@ -40,7 +40,7 @@ class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
         array $options,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->options = $options;
         parent::__construct(
@@ -61,9 +61,9 @@ class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
      */
     public function toOptionArray()
     {
-        $types = array();
+        $types = [];
         foreach ($this->options as $value => $label) {
-            $types[] = array('label' => $label, 'value' => $value);
+            $types[] = ['label' => $label, 'value' => $value];
         }
         return $types;
     }

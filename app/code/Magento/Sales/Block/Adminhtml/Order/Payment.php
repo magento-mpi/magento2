@@ -31,7 +31,7 @@ class Payment extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Payment\Helper\Data $paymentData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $data);

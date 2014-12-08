@@ -18,7 +18,7 @@ abstract class AbstractLogger
      *
      * @var array
      */
-    protected $_logs = array();
+    protected $_logs = [];
 
     /**
      * Convert list of logs to nice text block
@@ -61,7 +61,7 @@ abstract class AbstractLogger
      */
     public function __toString()
     {
-        $output = array('Mapped items' => array(), 'Not mapped items' => array(), 'Items in actual format' => array());
+        $output = ['Mapped items' => [], 'Not mapped items' => [], 'Items in actual format' => []];
         foreach ($this->_logs as $oldKey => $data) {
             $newKey = $data['newKey'];
             $countItems = $data['updateResult'];

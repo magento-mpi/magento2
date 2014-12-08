@@ -85,7 +85,6 @@ class WishlistProvider implements WishlistProviderInterface
                     __("The requested wish list doesn't exist.")
                 );
             }
-
         } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
             $this->messageManager->addError($e->getMessage());
             return false;

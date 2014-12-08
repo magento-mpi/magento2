@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Model\Category\Attribute;
 
-
 /**
  * Product options management class
  */

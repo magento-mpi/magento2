@@ -27,7 +27,7 @@ class ShellTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($tables);
 
         $sample = current($tables);
-        $requiredKeys = array('name', 'rows', 'data_length', 'index_length');
+        $requiredKeys = ['name', 'rows', 'data_length', 'index_length'];
         foreach ($requiredKeys as $key) {
             $this->assertArrayHasKey($key, $sample);
         }

@@ -22,8 +22,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         /** @var \DOMNodeList $groups */
         $groups = $source->getElementsByTagName('group');
         /** @var \DOMNode $groupConfig */
-        $callbacks = array();
-        $groupProcessors = array();
+        $callbacks = [];
+        $groupProcessors = [];
         foreach ($groups as $groupConfig) {
             $groupName = $groupConfig->attributes->getNamedItem('name')->nodeValue;
             $processor = $groupConfig->attributes->getNamedItem('processor');
@@ -40,7 +40,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
         /** @var \DOMNodeList $aclLevel */
         $aclLevel = $source->getElementsByTagName('level');
         /** @var \DOMNode $groupConfig */
-        $rules = array();
+        $rules = [];
         foreach ($aclLevel as $levelConfig) {
             $levelName = $levelConfig->attributes->getNamedItem('name')->nodeValue;
             /** @var $rule \DOMNode */
@@ -51,6 +51,6 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 }
             }
         }
-        return array('callbacks' => $callbacks, 'acl' => $rules, 'processors' => $groupProcessors);
+        return ['callbacks' => $callbacks, 'acl' => $rules, 'processors' => $groupProcessors];
     }
 }

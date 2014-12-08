@@ -7,11 +7,11 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableSample;
 
+use Magento\Catalog\Model\Product;
+use Magento\Downloadable\Model\Sample;
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
-use \Magento\Catalog\Model\Product;
-use \Magento\Downloadable\Model\Sample;
 
 class WriteServiceTest extends WebapiAbstract
 {
@@ -37,39 +37,39 @@ class WriteServiceTest extends WebapiAbstract
 
     protected function setUp()
     {
-        $this->createServiceInfo = array(
-            'rest' => array(
+        $this->createServiceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/products/downloadable-product/downloadable-links/samples',
                 'httpMethod' => RestConfig::HTTP_METHOD_POST,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'downloadableDownloadableSampleWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'downloadableDownloadableSampleWriteServiceV1Create',
-            ),
-        );
+            ],
+        ];
 
-        $this->updateServiceInfo = array(
-            'rest' => array(
+        $this->updateServiceInfo = [
+            'rest' => [
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'downloadableDownloadableSampleWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'downloadableDownloadableSampleWriteServiceV1Update',
-            ),
-        );
+            ],
+        ];
 
-        $this->deleteServiceInfo = array(
-            'rest' => array(
+        $this->deleteServiceInfo = [
+            'rest' => [
                 'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'downloadableDownloadableSampleWriteServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'downloadableDownloadableSampleWriteServiceV1Delete',
-            ),
-        );
+            ],
+        ];
 
         $this->testImagePath = __DIR__
             . str_replace('/', DIRECTORY_SEPARATOR, '/../DownloadableLink/_files/test_image.jpg');
@@ -88,7 +88,6 @@ class WriteServiceTest extends WebapiAbstract
             $product->setStoreId(0);
         }
         return $product;
-
     }
 
     /**
@@ -120,19 +119,19 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateUploadsProvidedFileContent()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => true,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Title',
                 'sort_order' => 1,
-                'sample_file' => array(
+                'sample_file' => [
                     'data' => base64_encode(file_get_contents($this->testImagePath)),
                     'name' => 'image.jpg',
-                ),
+                ],
                 'sample_type' => 'file',
-            ),
-        );
+            ],
+        ];
 
         $newSampleId = $this->_webApiCall($this->createServiceInfo, $requestData);
         $globalScopeSample = $this->getTargetSample($this->getTargetProduct(true), $newSampleId);
@@ -151,16 +150,16 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateSavesTitleInStoreViewScope()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Store View Title',
                 'sort_order' => 1,
                 'sample_url' => 'http://www.sample.example.com/',
                 'sample_type' => 'url',
-            ),
-        );
+            ],
+        ];
 
         $newSampleId = $this->_webApiCall($this->createServiceInfo, $requestData);
         $sample = $this->getTargetSample($this->getTargetProduct(), $newSampleId);
@@ -178,16 +177,16 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateSavesProvidedUrls()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample with URL resource',
                 'sort_order' => 1,
                 'sample_url' => 'http://www.sample.example.com/',
                 'sample_type' => 'url',
-            ),
-        );
+            ],
+        ];
 
         $newSampleId = $this->_webApiCall($this->createServiceInfo, $requestData);
         $sample = $this->getTargetSample($this->getTargetProduct(), $newSampleId);
@@ -205,14 +204,14 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfSampleTypeIsNotSpecified()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample with URL resource',
                 'sort_order' => 1,
-            ),
-        );
+            ],
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -224,23 +223,22 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfSampleFileContentIsNotAValidBase64EncodedString()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample Title',
                 'sort_order' => 1,
                 'sample_type' => 'file',
-                'sample_file' => array(
+                'sample_file' => [
                     'data' => 'not_a_base64_encoded_content',
                     'name' => 'image.jpg',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
-
 
     /**
      * @magentoApiDataFixture Magento/Downloadable/_files/product_downloadable.php
@@ -249,19 +247,19 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfSampleFileNameContainsForbiddenCharacters()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Title',
                 'sort_order' => 15,
                 'sample_type' => 'file',
-                'sample_file' => array(
+                'sample_file' => [
                     'data' => base64_encode(file_get_contents($this->testImagePath)),
                     'name' => 'name/with|forbidden{characters',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -273,16 +271,16 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfSampleUrlHasWrongFormat()
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample Title',
                 'sort_order' => 1,
                 'sample_type' => 'url',
                 'sample_url' => 'http://example<.>com/',
-            ),
-        );
+            ],
+        ];
 
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
@@ -295,16 +293,16 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function testCreateThrowsExceptionIfSortOrderIsInvalid($sortOrder)
     {
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample Title',
                 'sort_order' => $sortOrder,
                 'sample_type' => 'url',
                 'sample_url' => 'http://example.com/',
-            ),
-        );
+            ],
+        ];
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
 
@@ -313,9 +311,9 @@ class WriteServiceTest extends WebapiAbstract
      */
     public function getInvalidSortOrder()
     {
-        return array(
-            array(-1),
-        );
+        return [
+            [-1],
+        ];
     }
 
     /**
@@ -327,16 +325,16 @@ class WriteServiceTest extends WebapiAbstract
     {
         $this->createServiceInfo['rest']['resourcePath']
             = '/V1/products/simple/downloadable-links/samples';
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'simple',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Sample Title',
                 'sort_order' => 50,
                 'sample_type' => 'url',
                 'sample_url' => 'http://example.com/',
-            ),
-        );
+            ],
+        ];
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
 
@@ -348,16 +346,16 @@ class WriteServiceTest extends WebapiAbstract
     {
         $this->createServiceInfo['rest']['resourcePath']
             = '/V1/products/wrong-sku/downloadable-links/samples';
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'productSku' => 'wrong-sku',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Title',
                 'sort_order' => 15,
                 'sample_type' => 'url',
                 'sample_url' => 'http://example.com/',
-            ),
-        );
+            ],
+        ];
         $this->_webApiCall($this->createServiceInfo, $requestData);
     }
 
@@ -369,15 +367,15 @@ class WriteServiceTest extends WebapiAbstract
         $sampleId = $this->getTargetSample($this->getTargetProduct())->getId();
         $this->updateServiceInfo['rest']['resourcePath']
             = "/V1/products/downloadable-product/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'sampleId' => $sampleId,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Updated Title',
                 'sort_order' => 2,
-            ),
-        );
+            ],
+        ];
 
         $this->assertTrue($this->_webApiCall($this->updateServiceInfo, $requestData));
         $sample = $this->getTargetSample($this->getTargetProduct(), $sampleId);
@@ -395,15 +393,15 @@ class WriteServiceTest extends WebapiAbstract
         $sampleId = $originalSample->getId();
         $this->updateServiceInfo['rest']['resourcePath']
             = "/V1/products/downloadable-product/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => true,
             'sampleId' => $sampleId,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Updated Title',
                 'sort_order' => 2,
-            ),
-        );
+            ],
+        ];
 
         $this->assertTrue($this->_webApiCall($this->updateServiceInfo, $requestData));
         $sample = $this->getTargetSample($this->getTargetProduct(), $sampleId);
@@ -422,15 +420,15 @@ class WriteServiceTest extends WebapiAbstract
     public function testUpdateThrowsExceptionIfTargetProductDoesNotExist()
     {
         $this->updateServiceInfo['rest']['resourcePath'] = '/V1/products/wrong-sku/downloadable-links/samples/1';
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => true,
             'sampleId' => 1,
             'productSku' => 'wrong-sku',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Updated Title',
                 'sort_order' => 2,
-            ),
-        );
+            ],
+        ];
         $this->_webApiCall($this->updateServiceInfo, $requestData);
     }
 
@@ -444,15 +442,15 @@ class WriteServiceTest extends WebapiAbstract
         $sampleId = 9999;
         $this->updateServiceInfo['rest']['resourcePath']
             = "/V1/products/downloadable-product/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => true,
             'sampleId' => 9999,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Title',
                 'sort_order' => 2,
-            ),
-        );
+            ],
+        ];
 
         $this->_webApiCall($this->updateServiceInfo, $requestData);
     }
@@ -468,15 +466,15 @@ class WriteServiceTest extends WebapiAbstract
         $sampleId = $this->getTargetSample($this->getTargetProduct())->getId();
         $this->updateServiceInfo['rest']['resourcePath']
             = "/V1/products/downloadable-product/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'isGlobalScopeContent' => false,
             'sampleId' => $sampleId,
             'productSku' => 'downloadable-product',
-            'sampleContent' => array(
+            'sampleContent' => [
                 'title' => 'Updated Sample Title',
                 'sort_order' => $sortOrder,
-            ),
-        );
+            ],
+        ];
         $this->_webApiCall($this->updateServiceInfo, $requestData);
     }
 
@@ -487,9 +485,9 @@ class WriteServiceTest extends WebapiAbstract
     {
         $sampleId = $this->getTargetSample($this->getTargetProduct())->getId();
         $this->deleteServiceInfo['rest']['resourcePath'] = "/V1/products/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'sampleId' => $sampleId,
-        );
+        ];
 
         $this->assertTrue($this->_webApiCall($this->deleteServiceInfo, $requestData));
         $sample = $this->getTargetSample($this->getTargetProduct(), $sampleId);
@@ -505,9 +503,9 @@ class WriteServiceTest extends WebapiAbstract
         $sampleId = 9999;
         $this->deleteServiceInfo['rest']['resourcePath']
             = "/V1/products/downloadable-links/samples/{$sampleId}";
-        $requestData = array(
+        $requestData = [
             'sampleId' => $sampleId,
-        );
+        ];
 
         $this->_webApiCall($this->deleteServiceInfo, $requestData);
     }

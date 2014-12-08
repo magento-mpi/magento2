@@ -46,40 +46,40 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->addressBuilderMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\AddressBuilder',
-            array('populateWithArray', 'setId', 'setCustomerId', 'create'),
-            array(),
+            ['populateWithArray', 'setId', 'setCustomerId', 'create'],
+            [],
             '',
             false
         );
 
         $this->addressFactoryMock = $this->getMock(
             'Magento\Customer\Model\AddressFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->regionBuilderMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\RegionBuilder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->addressMetadataServiceMock = $this->getMock(
             'Magento\Customer\Service\V1\AddressMetadataService',
-            array('getAllAttributesMetadata'),
-            array(),
+            ['getAllAttributesMetadata'],
+            [],
             '',
             false
         );
 
         $this->addressMapperMock = $this->getMock(
             'Magento\Customer\Model\Address\Mapper',
-            array('toFlatArray'),
-            array(),
+            ['toFlatArray'],
+            [],
             '',
             false
         );
@@ -96,7 +96,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->addressMapperMock->expects($this->once())
             ->method('toFlatArray')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $addressModelMock = $this->getAddressModelMock();
         $addressModelMock->expects($this->once())
             ->method('getAttributeSetId')
@@ -107,7 +107,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 \Magento\Customer\Api\AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS
             ));
 
-        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
+        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', [], [], '', false);
         $this->model->updateAddressModel($addressModelMock, $addressMock);
     }
 
@@ -120,27 +120,27 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressModelMock->expects($this->never())
             ->method('setAttributeSetId');
 
-        $attributes = array(
-            'custom_attributes' => array(
-                array(AttributeValue::ATTRIBUTE_CODE => 'code_01', AttributeValue::VALUE => 'value_01'),
-                array(AttributeValue::ATTRIBUTE_CODE => 'code_02', AttributeValue::VALUE => 'value_02'),
-                array(AttributeValue::ATTRIBUTE_CODE => 'code_03', AttributeValue::VALUE => 'value_03'),
-            ),
-            'attributes_01' => array('some_value_01', 'some_value_02', 'some_value_03'),
+        $attributes = [
+            'custom_attributes' => [
+                [AttributeValue::ATTRIBUTE_CODE => 'code_01', AttributeValue::VALUE => 'value_01'],
+                [AttributeValue::ATTRIBUTE_CODE => 'code_02', AttributeValue::VALUE => 'value_02'],
+                [AttributeValue::ATTRIBUTE_CODE => 'code_03', AttributeValue::VALUE => 'value_03'],
+            ],
+            'attributes_01' => ['some_value_01', 'some_value_02', 'some_value_03'],
             'attributes_02' => 'some_value_04',
             \Magento\Customer\Service\V1\Data\Address::KEY_REGION => 'some_region',
-        );
+        ];
         $regionMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\Region',
-            array('getRegion', 'getRegionCode', 'getRegionId'),
-            array(),
+            ['getRegion', 'getRegionCode', 'getRegionId'],
+            [],
             '',
             false
         );
         $regionMock->expects($this->once())->method('getRegion');
         $regionMock->expects($this->once())->method('getRegionCode');
         $regionMock->expects($this->once())->method('getRegionId');
-        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
+        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', [], [], '', false);
         $addressMock->expects($this->exactly(4))
             ->method('getRegion')
             ->will($this->returnValue($regionMock));
@@ -159,15 +159,15 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $addressModelMock = $this->getMock(
             'Magento\Customer\Model\Address',
-            array(
+            [
                 'setIsDefaultBilling',
                 'setIsDefaultShipping',
                 'setAttributeSetId',
                 'getAttributeSetId',
                 '__wakeup',
                 'getCustomAttributesCodes'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -192,10 +192,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $addressModelMock->expects($this->any())
             ->method('getParentId');
 
-        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
+        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', [], [], '', false);
         $this->addressMetadataServiceMock->expects($this->once())
             ->method('getAllAttributesMetadata')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $this->addressBuilderMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($addressMock));
@@ -231,7 +231,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getParentId');
         $getData = function ($key, $index = null) use ($attributeCode, $customerId) {
             $result = null;
-            switch($key) {
+            switch ($key) {
                 case $attributeCode:
                     $result = 'some_data';
                     break;
@@ -246,8 +246,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback($getData));
         $attributeMock = $this->getMock(
             'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
-            array('getAttributeCode'),
-            array(),
+            ['getAttributeCode'],
+            [],
             '',
             false
         );
@@ -255,11 +255,10 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             ->method('getAttributeCode')
             ->will($this->returnValue($attributeCode));
 
-
-        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', array(), array(), '', false);
+        $addressMock = $this->getMock('Magento\Customer\Service\V1\Data\Address', [], [], '', false);
         $this->addressMetadataServiceMock->expects($this->once())
             ->method('getAllAttributesMetadata')
-            ->will($this->returnValue(array($attributeMock)));
+            ->will($this->returnValue([$attributeMock]));
         $this->addressBuilderMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($addressMock));
@@ -279,12 +278,12 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $addressModelMock = $this->getMockForAbstractClass(
             'Magento\Customer\Model\Address\AbstractAddress',
-            array(),
+            [],
             '',
             false,
             false,
             false,
-            array(
+            [
                 'getId',
                 'getStreet',
                 'getRegion',
@@ -294,7 +293,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
                 'getParentId',
                 'getData',
                 '__wakeup',
-            )
+            ]
         );
         return $addressModelMock;
     }

@@ -7,10 +7,10 @@
  */
 namespace Magento\Payment\Model\Method;
 
+use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
+use Magento\Payment\Model\MethodInterface;
 use Magento\Sales\Model\Order\Invoice;
 use Magento\Sales\Model\Order\Payment;
-use Magento\Payment\Model\MethodInterface;
-use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
 
 /**
  * Payment method abstract model
@@ -176,7 +176,7 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
      *
      * @var array
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * Payment data
@@ -220,7 +220,7 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_eventManager = $eventManager;
@@ -360,7 +360,7 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
      */
     public function fetchTransactionInfo(\Magento\Payment\Model\Info $payment, $transactionId)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -736,7 +736,7 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
         // for future use in observers
         $this->_eventManager->dispatch(
             'payment_method_is_active',
-            array('result' => $checkResult, 'method_instance' => $this, 'quote' => $quote)
+            ['result' => $checkResult, 'method_instance' => $this, 'quote' => $quote]
         );
 
         return $checkResult->isAvailable;
@@ -777,7 +777,7 @@ abstract class AbstractMethod extends \Magento\Framework\Object implements Metho
     {
         if ($this->getDebugFlag()) {
             $this->_logAdapterFactory->create(
-                array('fileName' => 'payment_' . $this->getCode() . '.log')
+                ['fileName' => 'payment_' . $this->getCode() . '.log']
             )->setFilterDataKeys(
                 $this->_debugReplacePrivateDataKeys
             )->log(

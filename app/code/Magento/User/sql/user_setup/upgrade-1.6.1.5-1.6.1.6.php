@@ -16,10 +16,10 @@ $connection->changeColumn(
     $installer->getTable('admin_user'),
     'password',
     'password',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'User Password'
-    )
+    ]
 );

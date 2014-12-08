@@ -47,7 +47,7 @@ class Config
     protected $allowedTypes = [
         self::ELEMENT_TYPE_BODY,
         self::ELEMENT_TYPE_HTML,
-        self::ELEMENT_TYPE_HEAD
+        self::ELEMENT_TYPE_HEAD,
     ];
 
     /**
@@ -401,7 +401,7 @@ class Config
         $this->pageAssets->add(
             "link/{$href}",
             $remoteAsset,
-            array('attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"')
+            ['attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"']
         );
 
         return $this;

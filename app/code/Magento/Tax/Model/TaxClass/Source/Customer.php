@@ -64,18 +64,18 @@ class Customer extends \Magento\Eav\Model\Entity\Attribute\Source\AbstractSource
             $searchCriteria = $this->searchCriteriaBuilder->addFilter([$filter])->create();
             $searchResults = $this->taxClassRepository->getList($searchCriteria);
             foreach ($searchResults->getItems() as $taxClass) {
-                $this->_options[] = array(
+                $this->_options[] = [
                     'value' => $taxClass->getClassId(),
-                    'label' => $taxClass->getClassName()
-                );
+                    'label' => $taxClass->getClassName(),
+                ];
             }
         }
 
         if ($withEmpty) {
             if (!$this->_options) {
-                return array(array('value' => '0', 'label' => __('None')));
+                return [['value' => '0', 'label' => __('None')]];
             } else {
-                return array_merge(array(array('value' => '0', 'label' => __('None'))), $this->_options);
+                return array_merge([['value' => '0', 'label' => __('None')]], $this->_options);
             }
         }
         return $this->_options;

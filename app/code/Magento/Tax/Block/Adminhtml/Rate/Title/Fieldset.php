@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Tax Rate Titles Fieldset
  *
@@ -33,7 +32,7 @@ class Fieldset extends \Magento\Framework\Data\Form\Element\Fieldset
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Tax\Block\Adminhtml\Rate\Title $title,
-        $data = array()
+        $data = []
     ) {
         $this->_title = $title;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

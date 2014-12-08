@@ -87,7 +87,7 @@ class Observer
     {
         $cart = $observer->getEvent()->getCart();
         $data = $observer->getEvent()->getInfo()->toArray();
-        $productIds = array();
+        $productIds = [];
 
         $wishlist = $this->_getWishlist($cart->getQuote()->getCustomerId());
         if (!$wishlist) {
@@ -135,7 +135,7 @@ class Observer
         $singleWishlistId = $this->_checkoutSession->getSingleWishlistId();
 
         if ($singleWishlistId) {
-            $wishlistIds = array($singleWishlistId);
+            $wishlistIds = [$singleWishlistId];
         }
 
         if (count($wishlistIds) && $request->getParam('wishlist_next')) {

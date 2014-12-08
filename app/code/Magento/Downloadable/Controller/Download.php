@@ -16,7 +16,6 @@ use Magento\Downloadable\Helper\Download as DownloadHelper;
  */
 class Download extends \Magento\Framework\App\Action\Action
 {
-
     /**
      * Prepare response to output resource contents
      *

@@ -8,8 +8,8 @@
 
 namespace Mtf\Util\Generate;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\App;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class Factory

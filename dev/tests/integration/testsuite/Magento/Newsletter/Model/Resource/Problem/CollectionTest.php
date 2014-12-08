@@ -49,5 +49,4 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($customer->getLastname(), $item->getCustomerLastName());
         $this->assertContains($customer->getFirstname(), $item->getCustomerName());
     }
-
 }

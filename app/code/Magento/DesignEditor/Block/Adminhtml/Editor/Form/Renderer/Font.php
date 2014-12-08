@@ -29,7 +29,7 @@ class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
         /** @var $element \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font */
         $element = $this->getElement();
 
-        $classes = array();
+        $classes = [];
         $classes[] = 'fieldset';
         if ($element->getClass()) {
             $classes[] = $element->getClass();

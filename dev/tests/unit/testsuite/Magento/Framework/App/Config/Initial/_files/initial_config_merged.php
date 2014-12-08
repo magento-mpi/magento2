@@ -5,4 +5,4 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array('data' => array(), 'metadata' => array());
+return ['data' => [], 'metadata' => []];

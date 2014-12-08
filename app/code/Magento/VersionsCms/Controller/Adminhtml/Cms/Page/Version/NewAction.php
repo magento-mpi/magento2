@@ -8,8 +8,8 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version;
 
-use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
 use Magento\Backend\App\Action;
+use Magento\Cms\Controller\Adminhtml\Page\PostDataProcessor;
 
 class NewAction extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\NewAction
 {
@@ -97,15 +97,15 @@ class NewAction extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\NewAc
                 if (isset($data['revision_id'])) {
                     $this->_redirect(
                         'adminhtml/cms_page_revision/edit',
-                        array(
+                        [
                             'page_id' => $version->getPageId(),
                             'revision_id' => $version->getLastRevision()->getId()
-                        )
+                        ]
                     );
                 } else {
                     $this->_redirect(
                         'adminhtml/cms_page_version/edit',
-                        array('page_id' => $version->getPageId(), 'version_id' => $version->getId())
+                        ['page_id' => $version->getPageId(), 'version_id' => $version->getId()]
                     );
                 }
                 return;
@@ -119,7 +119,7 @@ class NewAction extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\NewAc
                 // redirect to edit form
                 $editUrl = $this->getUrl(
                     'adminhtml/cms_page/edit',
-                    array('page_id' => $this->getRequest()->getParam('page_id'))
+                    ['page_id' => $this->getRequest()->getParam('page_id')]
                 );
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($editUrl));
                 return;

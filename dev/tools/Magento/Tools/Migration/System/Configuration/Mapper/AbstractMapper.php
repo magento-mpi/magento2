@@ -14,20 +14,20 @@ abstract class AbstractMapper
      * oldName => newName
      * @var array
      */
-    protected $_attributeMaps = array(
+    protected $_attributeMaps = [
         'sort_order' => 'sortOrder',
         'show_in_default' => 'showInDefault',
         'show_in_store' => 'showInStore',
         'show_in_website' => 'showInWebsite',
-        'frontend_type' => 'type'
-    );
+        'frontend_type' => 'type',
+    ];
 
     /**
      * List of allowed field names
      *
      * @var array
      */
-    protected $_allowedFieldNames = array();
+    protected $_allowedFieldNames = [];
 
     /**
      * Transform configuration
@@ -56,14 +56,14 @@ abstract class AbstractMapper
      * @param array $allowedNames
      * @return array
      */
-    protected function _transformElement($nodeId, $config, $nodeName, $allowedNames = array())
+    protected function _transformElement($nodeId, $config, $nodeName, $allowedNames = [])
     {
-        $element = array();
+        $element = [];
         $element['nodeName'] = $nodeName;
         if (false === empty($nodeId)) {
             $element['@attributes']['id'] = $nodeId;
         }
-        $attributes = $this->_getValue($config, '@attributes', array());
+        $attributes = $this->_getValue($config, '@attributes', []);
         $element = $this->_transformAttributes($attributes, $element);
 
         if (false === empty($attributes)) {
@@ -119,9 +119,9 @@ abstract class AbstractMapper
      * @param array $allowedNames
      * @return array
      */
-    protected function _transformNodes($config, $element, $allowedNames = array())
+    protected function _transformNodes($config, $element, $allowedNames = [])
     {
-        $element['parameters'] = array();
+        $element['parameters'] = [];
         foreach ($config as $nodeName => $nodeValue) {
             if ($this->_needMoveToAttribute($nodeName)) {
                 $element['@attributes'][$this->_getAttributeName($nodeName)] = $nodeValue['#text'];
@@ -129,9 +129,9 @@ abstract class AbstractMapper
                 continue;
             }
 
-            $node = array();
+            $node = [];
             if ($this->_isNotAllowedNodeName($allowedNames, $nodeName)) {
-                $node['@attributes'] = array('type' => $nodeName);
+                $node['@attributes'] = ['type' => $nodeName];
                 $nodeName = 'attribute';
             }
 
@@ -143,11 +143,11 @@ abstract class AbstractMapper
                 if ($this->_getValue($nodeValue, '@attributes', false)) {
                     if ($this->_getValue($node, '@attributes', false)) {
                         $node['@attributes'] = array_merge(
-                            $this->_getValue($node, '@attributes', array()),
-                            $this->_getValue($nodeValue, '@attributes', array())
+                            $this->_getValue($node, '@attributes', []),
+                            $this->_getValue($nodeValue, '@attributes', [])
                         );
                     } else {
-                        $node['@attributes'] = $this->_getValue($nodeValue, '@attributes', array());
+                        $node['@attributes'] = $this->_getValue($nodeValue, '@attributes', []);
                     }
                 }
 

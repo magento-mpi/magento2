@@ -39,12 +39,12 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
             $fieldset = $form->addFieldset(
                 'group-fields-' . $group->getAttributeGroupCode(),
-                array('class' => 'user-defined', 'legend' => $legend, 'collapsable' => $isCollapsable)
+                ['class' => 'user-defined', 'legend' => $legend, 'collapsable' => $isCollapsable]
             );
 
             $attributes = $this->getGroupAttributes();
 
-            $this->_setFieldset($attributes, $fieldset, array('gallery'));
+            $this->_setFieldset($attributes, $fieldset, ['gallery']);
 
             $tierPrice = $form->getElement('tier_price');
             if ($tierPrice) {
@@ -126,7 +126,7 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
 
             $this->_eventManager->dispatch(
                 'adminhtml_catalog_product_edit_prepare_form',
-                array('form' => $form, 'layout' => $this->getLayout())
+                ['form' => $form, 'layout' => $this->getLayout()]
             );
 
             $this->setForm($form);
@@ -140,18 +140,18 @@ class Attributes extends \Magento\Catalog\Block\Adminhtml\Form
      */
     protected function _getAdditionalElementTypes()
     {
-        $result = array(
+        $result = [
             'price' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Price',
             'weight' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight',
             'gallery' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery',
             'image' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Image',
             'boolean' => 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Boolean',
-            'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg'
-        );
+            'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg',
+        ];
 
         $response = new \Magento\Framework\Object();
-        $response->setTypes(array());
-        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', array('response' => $response));
+        $response->setTypes([]);
+        $this->_eventManager->dispatch('adminhtml_catalog_product_edit_element_types', ['response' => $response]);
 
         foreach ($response->getTypes() as $typeName => $typeClass) {
             $result[$typeName] = $typeClass;

@@ -8,12 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Handler\GiftCardAccount;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -34,7 +34,7 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
         'is_redeemable' => [
             'Yes' => 1,
             'No' => 1,
-        ]
+        ],
     ];
 
     /**
@@ -65,11 +65,11 @@ class Curl extends AbstractCurl implements GiftCardAccountInterface
 
         $url = $_ENV['app_backend_url'] . $this->activeTabInfo;
         $generateCode = $_ENV['app_backend_url'] . $this->generate;
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $generateCode);
         $curl->read();
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $content = $curl->read();
 
         if (!strpos($content, 'data-ui-id="messages-message-success"')) {

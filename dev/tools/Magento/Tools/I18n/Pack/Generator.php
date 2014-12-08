@@ -8,8 +8,8 @@
 namespace Magento\Tools\I18n\Pack;
 
 use Magento\Tools\I18n\Dictionary;
-use Magento\Tools\I18n\Pack;
 use Magento\Tools\I18n\Factory;
+use Magento\Tools\I18n\Pack;
 
 /**
  * Pack generator

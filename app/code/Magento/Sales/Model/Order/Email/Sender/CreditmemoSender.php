@@ -7,13 +7,13 @@
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\NotifySender;
-use Magento\Sales\Model\Order\Creditmemo;
-use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Resource\Order\Creditmemo as CreditmemoResource;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Sales\Model\Order\Email\Container\CreditmemoIdentity;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\NotifySender;
+use Magento\Sales\Model\Resource\Order\Creditmemo as CreditmemoResource;
 
 class CreditmemoSender extends NotifySender
 {
@@ -64,7 +64,7 @@ class CreditmemoSender extends NotifySender
                 'comment' => $comment,
                 'billing' => $order->getBillingAddress(),
                 'payment_html' => $this->getPaymentHtml($order),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
 

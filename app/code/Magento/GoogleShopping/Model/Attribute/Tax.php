@@ -7,8 +7,8 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
-use Magento\Store\Model\Store;
 use Magento\Framework\Parse\Zip;
+use Magento\Store\Model\Store;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
 
 /**

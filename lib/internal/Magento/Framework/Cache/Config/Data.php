@@ -16,7 +16,7 @@ class Data extends \Magento\Framework\Config\Data\Scoped
      *
      * @var string[]
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = ['global'];
 
     /**
      * @param \Magento\Framework\Cache\Config\Reader $reader

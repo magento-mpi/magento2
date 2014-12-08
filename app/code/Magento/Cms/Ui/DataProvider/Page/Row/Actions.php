@@ -7,9 +7,9 @@
  */
 namespace Magento\Cms\Ui\DataProvider\Page\Row;
 
+use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 use Magento\Framework\UrlInterface;
 use Magento\Ui\Component\Listing\RowInterface;
-use Magento\Cms\Block\Adminhtml\Page\Grid\Renderer\Action\UrlBuilder;
 
 /**
  * Class Actions
@@ -55,7 +55,7 @@ class Actions implements RowInterface
             'edit' => [
                 'href' => $this->urlBuilder->getUrl(static::URL_PATH, ['page_id' => $dataRow['page_id']]),
                 'label' => __('Edit'),
-                'hidden' => true
+                'hidden' => true,
 
             ],
             'preview' => [
@@ -64,7 +64,7 @@ class Actions implements RowInterface
                     isset($dataRow['_first_store_id']) ? $dataRow['_first_store_id'] : null,
                     isset($dataRow['store_code']) ? $dataRow['store_code'] : null
                 ),
-                'label' => __('Preview')
+                'label' => __('Preview'),
             ]
         ];
     }

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Checkout reward payment block
  *
@@ -52,7 +51,7 @@ class Additional extends \Magento\Framework\View\Element\Template
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;

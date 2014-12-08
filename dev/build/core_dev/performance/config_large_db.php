@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-return array(
-    'application' => array(
+return [
+    'application' => [
         'url_host' => '{{web_access_host}}',
         'url_path' => '{{web_access_path}}',
-        'installation' => array(
-            'options' => array(
+        'installation' => [
+            'options' => [
                 'language'                   => 'en_US',
                 'timezone'                   => 'America/Los_Angeles',
                 'currency'                   => 'USD',
@@ -29,111 +29,111 @@ return array(
                 'admin_password'             => '123123q',
                 'admin_use_security_key'     => '0',
                 'backend_frontname'          => 'backend',
-            ),
-            'options_no_value' => array(
+            ],
+            'options_no_value' => [
                 'cleanup_database',
-            ),
-        ),
-    ),
-    'scenario' => array(
-        'common_config' => array(
-            'arguments' => array(
+            ],
+        ],
+    ],
+    'scenario' => [
+        'common_config' => [
+            'arguments' => [
                 'users' => 1,
                 'loops' => 1,
-            ),
-            'settings' => array(
+            ],
+            'settings' => [
                 'skip_warm_up' => true,
-            ),
-        ),
-        'scenarios' => array(
-            'Backend Management with Many Entities' => array(
+            ],
+        ],
+        'scenarios' => [
+            'Backend Management with Many Entities' => [
                 'file' => 'testsuite/backend.jmx',
-                'arguments' => array(
+                'arguments' => [
                     'loops' => 100,
                     'products_number'  => 100000,
                     'customers_number' => 100000,
                     'orders_number' => 100000,
-                ),
-                'settings' => array(
+                ],
+                'settings' => [
                     'skip_warm_up' => false,
-                ),
-                'fixtures' => array(
+                ],
+                'fixtures' => [
                     'testsuite/fixtures/catalog_100k_products.php',
                     'testsuite/fixtures/customer_100k_customers.php',
                     'testsuite/fixtures/sales_100k_orders.php',
-                ),
-            ),
-            'Product Attributes Indexer' => array(
+                ],
+            ],
+            'Product Attributes Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'loops' => 3,
                     'reindex' => 'catalog_product_attribute',
-                ),
-            ),
-            'Product Prices Indexer' => array(
+                ],
+            ],
+            'Product Prices Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'loops' => 3,
                     'reindex' => 'catalog_product_price',
-                ),
-            ),
-            'Product Flat Data Indexer' => array(
+                ],
+            ],
+            'Product Flat Data Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                     'testsuite/fixtures/catalog_product_flat_enabled.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'reindex' => 'catalog_product_flat',
-                ),
-            ),
-            'Category Flat Data Indexer' => array(
+                ],
+            ],
+            'Category Flat Data Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
                     'testsuite/fixtures/catalog_category_flat_enabled.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'loops' => 10,
                     'reindex' => 'catalog_category_flat',
-                ),
-            ),
-            'Category Products Indexer' => array(
+                ],
+            ],
+            'Category Products Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'loops' => 3,
                     'reindex' => 'catalog_category_product',
-                ),
-            ),
-            'Stock Status Indexer' => array(
+                ],
+            ],
+            'Stock Status Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'loops' => 5,
                     'reindex' => 'cataloginventory_stock',
-                ),
-            ),
-            'Catalog Search Indexer' => array(
+                ],
+            ],
+            'Catalog Search Indexer' => [
                 'file' => '/../../shell/indexer.php',
-                'fixtures' => array(
+                'fixtures' => [
                     'testsuite/fixtures/catalog_200_categories_80k_products.php',
-                ),
-                'arguments' => array(
+                ],
+                'arguments' => [
                     'reindex' => 'catalogsearch_fulltext',
-                ),
-            ),
-        ),
-    ),
+                ],
+            ],
+        ],
+    ],
     'report_dir' => 'report',
-);
+];

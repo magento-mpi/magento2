@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\AdvancedPricingTab;
 
-use Mtf\Client\Element;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\AbstractOptions;
+use Mtf\Client\Element;
 
 /**
  * Class OptionTier

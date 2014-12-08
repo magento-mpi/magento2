@@ -8,8 +8,8 @@
 
 namespace Magento\CatalogSearch\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSearchTermSuccessMassDeleteMessage

@@ -30,7 +30,7 @@ class Link extends AbstractRenderer
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         parent::__construct($context, $data);
@@ -114,7 +114,7 @@ class Link extends AbstractRenderer
      */
     protected function _getAttributesHtml()
     {
-        $html = array();
+        $html = [];
 
         foreach ($this->_getAttributes() as $key => $value) {
             if ($value === null || $value == '') {
@@ -135,7 +135,7 @@ class Link extends AbstractRenderer
     {
         /** @var \Magento\Core\Helper\Data $helper */
         $helper = $this->_coreHelper;
-        $attributes = array('title' => $this->getCaption());
+        $attributes = ['title' => $this->getCaption()];
 
         foreach ($this->_getDataAttributes() as $key => $attr) {
             $attributes['data-' . $key] = is_scalar($attr) ? $attr : $helper->jsonEncode($attr);
@@ -153,7 +153,7 @@ class Link extends AbstractRenderer
      */
     protected function _getDataAttributes()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -164,6 +164,6 @@ class Link extends AbstractRenderer
      */
     protected function _getUrl(Object $row)
     {
-        return $this->isDisabled($row) ? '#' : $this->getUrl($this->getUrlPattern(), array('id' => $row->getId()));
+        return $this->isDisabled($row) ? '#' : $this->getUrl($this->getUrlPattern(), ['id' => $row->getId()]);
     }
 }

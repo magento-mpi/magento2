@@ -8,8 +8,8 @@
 
 namespace Magento\GiftWrapping\Test\Block\Checkout;
 
-use Mtf\Block\Block;
 use Magento\GiftWrapping\Test\Fixture\GiftWrapping;
+use Mtf\Block\Block;
 
 /**
  * Class Options

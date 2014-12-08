@@ -617,7 +617,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
             'label_default' => 'defaultLabel',
             'file' => 'code',
             'disabled_default' => false,
-            'position_default' => 1
+            'position_default' => 1,
         ]];
         $this->productRepositoryMock->expects($this->once())->method('get')->with($productSku)
             ->willReturn($this->productMock);

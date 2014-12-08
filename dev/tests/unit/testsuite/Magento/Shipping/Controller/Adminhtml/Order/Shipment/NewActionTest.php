@@ -8,7 +8,7 @@
 
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
@@ -210,7 +210,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
                         ['order_id', null, $orderId],
                         ['shipment_id', null, $shipmentId],
                         ['shipment', null, $shipmentData],
-                        ['tracking', null, $tracking]
+                        ['tracking', null, $tracking],
                     ]
                 )
             );
@@ -266,7 +266,7 @@ class NewActionTest extends \PHPUnit_Framework_TestCase
         $parents = [
             new \Magento\Framework\Object(['title' => 'title1']),
             new \Magento\Framework\Object(['title' => 'title2']),
-            new \Magento\Framework\Object(['title' => 'title3'])
+            new \Magento\Framework\Object(['title' => 'title3']),
         ];
         $menuModel->expects($this->once())
             ->method('getParentItems')

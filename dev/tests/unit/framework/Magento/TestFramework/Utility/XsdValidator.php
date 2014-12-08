@@ -22,7 +22,7 @@ class XsdValidator
         $document->schemaValidate($schema);
         $validationResult = libxml_get_errors();
         libxml_use_internal_errors(false);
-        $result = array();
+        $result = [];
         foreach ($validationResult as $error) {
             $result[] = trim($error->message);
         }

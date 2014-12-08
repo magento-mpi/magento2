@@ -57,7 +57,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      *
      * @var $_flatEntityTables array
      */
-    protected $_flatEntityTables = array(
+    protected $_flatEntityTables = [
         'quote' => 'sales_quote',
         'quote_item' => 'sales_quote_item',
         'quote_address' => 'sales_quote_address',
@@ -78,15 +78,15 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         'shipment' => 'sales_shipment',
         'shipment_item' => 'sales_shipment_item',
         'shipment_track' => 'sales_shipment_track',
-        'shipment_comment' => 'sales_shipment_comment'
-    );
+        'shipment_comment' => 'sales_shipment_comment',
+    ];
 
     /**
      * List of entities used with separate grid table
      *
      * @var string[] $_flatEntitiesGrid
      */
-    protected $_flatEntitiesGrid = array('order', 'invoice', 'shipment', 'creditmemo');
+    protected $_flatEntitiesGrid = ['order', 'invoice', 'shipment', 'creditmemo'];
 
     /**
      * Check if table exist for flat entity
@@ -213,36 +213,36 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      */
     public function getDefaultEntities()
     {
-        $entities = array(
-            'order' => array(
+        $entities = [
+            'order' => [
                 'entity_model' => 'Magento\Sales\Model\Resource\Order',
                 'table' => 'sales_order',
                 'increment_model' => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store' => true,
-                'attributes' => array()
-            ),
-            'invoice' => array(
+                'attributes' => [],
+            ],
+            'invoice' => [
                 'entity_model' => 'Magento\Sales\Model\Resource\Order\Invoice',
                 'table' => 'sales_invoice',
                 'increment_model' => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store' => true,
-                'attributes' => array()
-            ),
-            'creditmemo' => array(
+                'attributes' => [],
+            ],
+            'creditmemo' => [
                 'entity_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo',
                 'table' => 'sales_creditmemo',
                 'increment_model' => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store' => true,
-                'attributes' => array()
-            ),
-            'shipment' => array(
+                'attributes' => [],
+            ],
+            'shipment' => [
                 'entity_model' => 'Magento\Sales\Model\Resource\Order\Shipment',
                 'table' => 'sales_shipment',
                 'increment_model' => 'Magento\Eav\Model\Entity\Increment\Numeric',
                 'increment_per_store' => true,
-                'attributes' => array()
-            )
-        );
+                'attributes' => [],
+            ],
+        ];
         return $entities;
     }
 

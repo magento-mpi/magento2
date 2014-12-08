@@ -171,7 +171,7 @@ class Cc extends \Magento\Payment\Block\Form
         $cancelButton = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('id' => 'payment_cancel', 'label' => __('Cancel'), 'onclick' => 'cancelPaymentAuthorizations()')
+            ['id' => 'payment_cancel', 'label' => __('Cancel'), 'onclick' => 'cancelPaymentAuthorizations()']
         );
         return $cancelButton->toHtml();
     }
@@ -198,8 +198,8 @@ class Cc extends \Magento\Payment\Block\Form
             'authorizenetAuthenticate' => [
                 'partialAuthorizationConfirmationMessage' => $this->getPartialAuthorizationConfirmationMessage(),
                 'cancelConfirmationMessage' => $this->getCancelConfirmationMessage(),
-                'cancelUrl' => $this->getCancelUrl()
-            ]
+                'cancelUrl' => $this->getCancelUrl(),
+            ],
         ];
         return \Zend_Json::encode($initData);
     }

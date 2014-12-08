@@ -81,29 +81,29 @@ class GroupPriceOptions implements FixtureInterface
                 [
                     'price' => 90,
                     'website' => 'All Websites [USD]',
-                    'customer_group' => 'NOT LOGGED IN'
-                ]
+                    'customer_group' => 'NOT LOGGED IN',
+                ],
             ],
             'MAGETWO-23061' => [
                 [
                     'price' => 20,
                     'website' => 'All Websites [USD]',
-                    'customer_group' => 'NOT LOGGED IN'
-                ]
+                    'customer_group' => 'NOT LOGGED IN',
+                ],
             ],
             'default' => [
                 [
                     'price' => 20,
                     'website' => 'All Websites [USD]',
-                    'customer_group' => 'NOT LOGGED IN'
+                    'customer_group' => 'NOT LOGGED IN',
                 ],
             ],
             'tax_calculation' => [
                 [
                     'price' => 90.99,
                     'website' => 'All Websites [USD]',
-                    'customer_group' => 'General'
-                ]
+                    'customer_group' => 'General',
+                ],
             ],
         ];
         if (!isset($presets[$name])) {

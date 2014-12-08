@@ -42,7 +42,7 @@ class Search extends \Magento\Framework\View\Element\Template implements \Magent
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
         \Magento\Framework\Math\Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configSourceSearch = $configSourceSearch;
         $this->mathRandom = $mathRandom;
@@ -61,7 +61,7 @@ class Search extends \Magento\Framework\View\Element\Template implements \Magent
             return $types;
         }
         if (empty($types)) {
-            $types = array();
+            $types = [];
         } else {
             $types = explode(',', $types);
         }
@@ -122,7 +122,7 @@ class Search extends \Magento\Framework\View\Element\Template implements \Magent
     public function getSearchFormSelect()
     {
         $options = array_merge(
-            array(array('value' => '', 'label' => __('Select Search Type'))),
+            [['value' => '', 'label' => __('Select Search Type')]],
             $this->getSearchFormOptions()
         );
 
@@ -173,9 +173,9 @@ class Search extends \Magento\Framework\View\Element\Template implements \Magent
                     }
                 }
             }
-            $options = array();
+            $options = [];
             foreach ($allForms as $type => $label) {
-                $options[] = array('value' => $type, 'label' => $label);
+                $options[] = ['value' => $type, 'label' => $label];
             }
             $this->_selectOptions = $options;
         }

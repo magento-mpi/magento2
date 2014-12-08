@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -9,8 +9,8 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
-use \Magento\TestFramework\Helper\ObjectManager;
+use Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {

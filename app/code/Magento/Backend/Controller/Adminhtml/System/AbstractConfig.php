@@ -36,7 +36,6 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
         parent::__construct($context);
         $this->_configStructure = $configStructure;
         $this->_sectionChecker = $sectionChecker;
-
     }
 
     /**
@@ -71,16 +70,16 @@ abstract class AbstractConfig extends \Magento\Backend\App\AbstractAction
      * @param array $configState
      * @return bool
      */
-    protected function _saveState($configState = array())
+    protected function _saveState($configState = [])
     {
         $adminUser = $this->_auth->getUser();
         if (is_array($configState)) {
             $extra = $adminUser->getExtra();
             if (!is_array($extra)) {
-                $extra = array();
+                $extra = [];
             }
             if (!isset($extra['configState'])) {
-                $extra['configState'] = array();
+                $extra['configState'] = [];
             }
             foreach ($configState as $fieldset => $state) {
                 $extra['configState'][$fieldset] = $state;

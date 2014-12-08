@@ -28,7 +28,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     {
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_resolverFactory = $this
-            ->getMock('\Magento\Framework\App\Area\FrontNameResolverFactory', array(), array(), '', false);
+            ->getMock('\Magento\Framework\App\Area\FrontNameResolverFactory', [], [], '', false);
     }
 
     public function testGetCodeByFrontNameWhenAreaDoesNotContainFrontName()
@@ -37,7 +37,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock,
             $this->_resolverFactory,
-            array('testArea' => array('frontNameResolver' => 'testValue')),
+            ['testArea' => ['frontNameResolver' => 'testValue']],
             $expected
         );
 
@@ -62,7 +62,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock,
             $this->_resolverFactory,
-            array('testArea' => array('frontName' => 'testFrontName')),
+            ['testArea' => ['frontName' => 'testFrontName']],
             $expected
         );
 
@@ -76,7 +76,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock,
             $this->_resolverFactory,
-            array('testAreaCode' => array('frontName' => 'testFrontName')),
+            ['testAreaCode' => ['frontName' => 'testFrontName']],
             $expected
         );
 
@@ -101,7 +101,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCodes()
     {
-        $areas = array('area1' => 'value1', 'area2' => 'value2');
+        $areas = ['area1' => 'value1', 'area2' => 'value2'];
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock, $this->_resolverFactory, $areas, ''
         );
@@ -113,7 +113,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDefaultRouter()
     {
-        $areas = array('area1' => ['router' => 'value1'], 'area2' => 'value2');
+        $areas = ['area1' => ['router' => 'value1'], 'area2' => 'value2'];
         $this->_model = new \Magento\Framework\App\AreaList(
             $this->objectManagerMock, $this->_resolverFactory, $areas, ''
         );
@@ -126,7 +126,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Framework\ObjectManagerInterface $objectManagerMock */
         $objectManagerMock = $this->getObjectManagerMockGetArea();
-        $areas = array('area1' => ['router' => 'value1'], 'area2' => 'value2');
+        $areas = ['area1' => ['router' => 'value1'], 'area2' => 'value2'];
         $this->_model = new AreaList(
             $objectManagerMock, $this->_resolverFactory, $areas, ''
         );
@@ -145,7 +145,7 @@ class AreaListTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 $this->equalTo('Magento\Framework\App\AreaInterface'),
-                $this->equalTo(array('areaCode' => 'testArea'))
+                $this->equalTo(['areaCode' => 'testArea'])
             )
             ->will($this->returnValue('ok'));
 

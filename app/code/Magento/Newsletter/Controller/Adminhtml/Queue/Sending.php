@@ -29,6 +29,6 @@ class Sending extends \Magento\Newsletter\Controller\Adminhtml\Queue
             1
         )->addOnlyForSendingFilter()->load();
 
-        $collection->walk('sendPerSubscriber', array($countOfSubscritions));
+        $collection->walk('sendPerSubscriber', [$countOfSubscritions]);
     }
 }

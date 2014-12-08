@@ -52,13 +52,12 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
         $this->switcher->getTargetStorePostData($store);
     }
 
-
     /**
      * @dataProvider testIsStoreInUrlDataProvider
      */
     public function testIsStoreInUrl($isUseStoreInUrl)
     {
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
 
         $storeMock->expects($this->once())->method('isUseStoreInUrl')->will($this->returnValue($isUseStoreInUrl));
 
@@ -74,6 +73,6 @@ class SwitcherTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsStoreInUrlDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 }

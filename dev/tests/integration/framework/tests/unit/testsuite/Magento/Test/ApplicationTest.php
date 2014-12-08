@@ -9,7 +9,6 @@ namespace Magento\Test;
 
 use Magento\Framework\App\Bootstrap;
 use Magento\Framework\App\State;
-use Magento\Framework\Autoload\AutoloaderRegistry;
 
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {

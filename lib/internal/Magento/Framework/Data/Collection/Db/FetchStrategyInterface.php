@@ -20,5 +20,5 @@ interface FetchStrategyInterface
      * @param array $bindParams
      * @return array
      */
-    public function fetchAll(\Zend_Db_Select $select, array $bindParams = array());
+    public function fetchAll(\Zend_Db_Select $select, array $bindParams = []);
 }

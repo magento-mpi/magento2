@@ -59,7 +59,7 @@ class AdapterFactory
      * @param array $data
      * @return \Magento\Framework\Search\AdapterInterface
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $adapterClass = $this->scopeConfig->getValue($this->path, $this->scope);
         $adapter = $this->objectManager->create($adapterClass, $data);

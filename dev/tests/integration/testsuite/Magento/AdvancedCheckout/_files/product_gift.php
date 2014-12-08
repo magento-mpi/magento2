@@ -15,7 +15,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'GiftCard Product'
 )->setSku(
@@ -35,9 +35,9 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setCategoryIds(
-    array(2)
+    [2]
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->setCanSaveCustomOptions(
     true
 )->setHasOptions(
@@ -51,7 +51,7 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->load(1);
 
 $requestInfo = new \Magento\Framework\Object(
-    array(
+    [
         'qty' => 1,
         'giftcard_amount' => 'custom',
         'custom_giftcard_amount' => 200,
@@ -59,8 +59,8 @@ $requestInfo = new \Magento\Framework\Object(
         'giftcard_sender_email' => 'aerfg@sergserg.com',
         'giftcard_recipient_name' => 'Recipient',
         'giftcard_recipient_email' => 'awefaef@dsrthb.com',
-        'giftcard_message' => 'message'
-    )
+        'giftcard_message' => 'message',
+    ]
 );
 
 require __DIR__ . '/../../../Magento/Checkout/_files/cart.php';

@@ -45,11 +45,11 @@ class StringLengthTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        return array(
-            array('строка', 6, true),
-            array('строка', 5, false),
-            array('string', 6, true),
-            array('string', 5, false)
-        );
+        return [
+            ['строка', 6, true],
+            ['строка', 5, false],
+            ['string', 6, true],
+            ['string', 5, false]
+        ];
     }
 }

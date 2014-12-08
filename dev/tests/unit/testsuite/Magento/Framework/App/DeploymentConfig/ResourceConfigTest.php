@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\App\DeploymentConfig;
 
-
 class ResourceConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetKey()
@@ -22,7 +21,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         $data = [
             'test' => [
                 ResourceConfig::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         $expected = [
             'default_setup' => [
@@ -40,7 +39,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         $data = [
             'default_setup' => [
                 ResourceConfig::KEY_CONNECTION => 'default',
-            ]
+            ],
         ];
         $object = new ResourceConfig([]);
         $this->assertSame($data, $object->getData());
@@ -62,7 +61,7 @@ class ResourceConfigTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 [
-                    'no_connection' => []
+                    'no_connection' => [],
                 ],
                 [
                     'other' => [

@@ -27,7 +27,6 @@ class Category extends \Magento\Backend\App\Action
     ) {
         parent::__construct($context);
         $this->resultRedirectFactory = $resultRedirectFactory;
-
     }
 
     /**

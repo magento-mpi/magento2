@@ -41,7 +41,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->httpContext = $httpContext;
@@ -109,7 +109,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/view', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -118,7 +118,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getShipmentUrl($order)
     {
-        return $this->getUrl('*/*/shipment', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/shipment', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -127,7 +127,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getCreditmemoUrl($order)
     {
-        return $this->getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/creditmemo', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -136,7 +136,7 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getPrintInvoiceUrl($invoice)
     {
-        return $this->getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return $this->getUrl('*/*/printInvoice', ['invoice_id' => $invoice->getId()]);
     }
 
     /**
@@ -145,6 +145,6 @@ class Invoice extends \Magento\Sales\Block\Order\Invoice\Items
      */
     public function getPrintAllInvoicesUrl($order)
     {
-        return $this->getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printInvoice', ['order_id' => $order->getId()]);
     }
 }

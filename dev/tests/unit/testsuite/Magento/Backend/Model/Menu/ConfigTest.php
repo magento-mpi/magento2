@@ -58,40 +58,40 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cacheInstanceMock = $this->getMock(
             'Magento\Framework\App\Cache\Type\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_directorMock = $this->getMock(
             'Magento\Backend\Model\Menu\AbstractDirector',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_menuFactoryMock = $this->getMock(
             'Magento\Backend\Model\MenuFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->_configReaderMock = $this->getMock(
             'Magento\Backend\Model\Menu\Config\Reader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_eventManagerMock = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -99,8 +99,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_logger = $this->getMock(
             'Magento\Framework\Logger',
-            array('addStoreLog', 'log', 'logException'),
-            array(),
+            ['addStoreLog', 'log', 'logException'],
+            [],
             '',
             false
         );
@@ -111,15 +111,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [$this->getMock('Magento\Framework\Logger', [], [], '', false)]
         );
 
-        $this->_menuBuilderMock = $this->getMock('Magento\Backend\Model\Menu\Builder', array(), array(), '', false);
+        $this->_menuBuilderMock = $this->getMock('Magento\Backend\Model\Menu\Builder', [], [], '', false);
 
         $this->_menuFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_menuMock));
 
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
-        $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
+        $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue([]));
 
-        $appState = $this->getMock('Magento\Framework\App\State', array('getAreaCode'), array(), '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', ['getAreaCode'], [], '', false);
         $appState->expects(
             $this->any()
         )->method(
@@ -170,7 +170,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(false)
         );
 
-        $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue(array()));
+        $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue([]));
 
         $this->_menuBuilderMock->expects(
             $this->exactly(1)
@@ -204,11 +204,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getMenuExceptionLoggedDataProvider()
     {
-        return array(
-            'InvalidArgumentException' => array('InvalidArgumentException'),
-            'BadMethodCallException' => array('BadMethodCallException'),
-            'OutOfRangeException' => array('OutOfRangeException')
-        );
+        return [
+            'InvalidArgumentException' => ['InvalidArgumentException'],
+            'BadMethodCallException' => ['BadMethodCallException'],
+            'OutOfRangeException' => ['OutOfRangeException']
+        ];
     }
 
     public function testGetMenuGenericExceptionIsNotLogged()

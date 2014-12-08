@@ -76,7 +76,7 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Rss\Product\Special $rssModel,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->outputHelper = $outputHelper;
         $this->imageHelper = $imageHelper;
@@ -103,17 +103,17 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getRssData()
     {
-        $newUrl = $this->rssUrlBuilder->getUrl(array('type' => 'special_products', 'store_id' => $this->getStoreId()));
+        $newUrl = $this->rssUrlBuilder->getUrl(['type' => 'special_products', 'store_id' => $this->getStoreId()]);
         $title = __('%1 - Special Products', $this->storeManager->getStore()->getFrontendName());
         $lang = $this->_scopeConfig->getValue('general/locale/code', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
 
-        $data = array(
+        $data = [
             'title' => $title,
             'description' => $title,
             'link' => $newUrl,
             'charset' => 'UTF-8',
-            'language' => $lang
-        );
+            'language' => $lang,
+        ];
 
         $currentDate = new \Magento\Framework\Stdlib\DateTime\Date();
         foreach ($this->rssModel->getProductsCollection($this->getStoreId(), $this->getCustomerGroupId()) as $item) {
@@ -121,10 +121,10 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
             $item->setAllowedInRss(true);
             $item->setAllowedPriceInRss(true);
 
-            $this->_eventManager->dispatch('rss_catalog_special_xml_callback', array(
+            $this->_eventManager->dispatch('rss_catalog_special_xml_callback', [
                 'row' => $item->getData(),
                 'product' => $item
-            ));
+            ]);
 
             if (!$item->getAllowedInRss()) {
                 continue;
@@ -189,11 +189,11 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
             $specialPrice
         );
 
-        return array(
+        return [
             'title' => $item->getName(),
             'link' => $item->getProductUrl(),
             'description' => $description
-        );
+        ];
     }
 
     /**
@@ -247,10 +247,10 @@ class Special extends \Magento\Framework\View\Element\AbstractBlock implements D
      */
     public function getFeeds()
     {
-        $data = array();
+        $data = [];
         if ($this->isAllowed()) {
-            $url = $this->rssUrlBuilder->getUrl(array('type' => 'special_products'));
-            $data = array('label' => __('Special Products'), 'link' => $url);
+            $url = $this->rssUrlBuilder->getUrl(['type' => 'special_products']);
+            $data = ['label' => __('Special Products'), 'link' => $url];
         }
         return $data;
     }

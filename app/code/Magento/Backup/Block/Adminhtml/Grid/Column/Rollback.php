@@ -28,7 +28,7 @@ class Rollback extends \Magento\Backend\Block\Widget\Grid\Column
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backup\Helper\Data $backupHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backupHelper = $backupHelper;
         parent::__construct($context, $data);

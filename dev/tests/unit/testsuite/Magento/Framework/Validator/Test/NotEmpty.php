@@ -20,7 +20,7 @@ class NotEmpty extends \Zend_Validate_NotEmpty implements \Magento\Framework\Val
      *
      * @param array $options
      */
-    public function __construct($options = array())
+    public function __construct($options = [])
     {
         parent::__construct($options);
     }

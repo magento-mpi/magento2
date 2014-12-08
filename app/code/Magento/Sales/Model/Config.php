@@ -45,7 +45,7 @@ class Config implements \Magento\Sales\Model\ConfigInterface
      */
     public function getTotalsRenderer($section, $group, $code)
     {
-        $path = implode('/', array($section, $group, $code, 'renderers', $this->_appState->getAreaCode()));
+        $path = implode('/', [$section, $group, $code, 'renderers', $this->_appState->getAreaCode()]);
         return $this->_dataContainer->get($path);
     }
 
@@ -59,7 +59,7 @@ class Config implements \Magento\Sales\Model\ConfigInterface
      */
     public function getGroupTotals($section, $group)
     {
-        $path = implode('/', array($section, $group));
+        $path = implode('/', [$section, $group]);
         return $this->_dataContainer->get($path);
     }
 

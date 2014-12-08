@@ -70,7 +70,7 @@ class UpdateFailedItemOptions extends \Magento\AdvancedCheckout\Controller\Cart
         }
 
         if ($hasError) {
-            $this->_redirect('checkout/cart/configureFailed', array('id' => $id, 'sku' => $buyRequest->getSku()));
+            $this->_redirect('checkout/cart/configureFailed', ['id' => $id, 'sku' => $buyRequest->getSku()]);
         } else {
             $this->_redirect('checkout/cart');
         }

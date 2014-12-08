@@ -17,7 +17,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\CacheInterface')
-            ->clean(array(\Magento\Core\Model\Design::CACHE_TAG));
+            ->clean([\Magento\Core\Model\Design::CACHE_TAG]);
     }
 
     protected function setUp()
@@ -27,7 +27,7 @@ class AreaTest extends \PHPUnit_Framework_TestCase
         /** @var $_model \Magento\Framework\App\Area */
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Area',
-            array('areaCode' => 'frontend')
+            ['areaCode' => 'frontend']
         );
     }
 
@@ -69,11 +69,10 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     // @codingStandardsIgnoreEnd
     public function testDetectDesignUserAgent()
     {
-
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->create('Magento\TestFramework\Request');
-        $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));
+        $request->setServer(['HTTP_USER_AGENT' => 'Mozilla Firefox']);
         $this->_model->detectDesign($request);
         $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\DesignInterface'
@@ -110,10 +109,10 @@ class AreaTest extends \PHPUnit_Framework_TestCase
     public function testDetectDesignNonFrontend()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $model = $objectManager->create('Magento\Framework\App\Area', array('areaCode' => 'adminhtml'));
+        $model = $objectManager->create('Magento\Framework\App\Area', ['areaCode' => 'adminhtml']);
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->create('Magento\TestFramework\Request');
-        $request->setServer(array('HTTP_USER_AGENT' => 'Mozilla Firefox'));
+        $request->setServer(['HTTP_USER_AGENT' => 'Mozilla Firefox']);
         $model->detectDesign($request);
         $design = $objectManager->get('Magento\Framework\View\DesignInterface');
         $this->assertNotEquals('Magento/blank', $design->getDesignTheme()->getThemePath());

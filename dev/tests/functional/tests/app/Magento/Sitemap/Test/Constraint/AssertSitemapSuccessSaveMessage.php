@@ -8,8 +8,8 @@
 
 namespace Magento\Sitemap\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSitemapSuccessSaveMessage

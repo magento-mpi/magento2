@@ -31,7 +31,6 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testIsEnabledDefault()
     {
-
         $this->assertFalse($this->_state->isFlatEnabled());
     }
 
@@ -52,7 +51,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     {
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Helper\Product\Flat\Indexer',
-            array('addFilterableAttrs' => 1)
+            ['addFilterableAttrs' => 1]
         );
         $this->assertEquals(1, $helper->isAddFilterableAttributes());
     }
@@ -66,7 +65,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     {
         $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Helper\Product\Flat\Indexer',
-            array('addChildData' => 1)
+            ['addChildData' => 1]
         );
         $this->assertEquals(1, $helper->isAddChildData());
     }

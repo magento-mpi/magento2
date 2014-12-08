@@ -17,19 +17,19 @@ class RmaTest extends \PHPUnit_Framework_TestCase
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Order');
         $order->loadByIncrementId('100000001');
         $rma = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rma\Model\Rma');
-        $rmaItems = array();
+        $rmaItems = [];
 
         foreach ($order->getItemsCollection() as $item) {
-            $rmaItems[] = array(
+            $rmaItems[] = [
                 'order_item_id' => $item->getId(),
                 'qty_requested' => '1',
                 'resolution' => '3',
                 'condition' => '6',
-                'reason' => '10'
-            );
+                'reason' => '10',
+            ];
         }
-        $data = array('customer_custom_email' => '', 'items' => $rmaItems, 'rma_comment' => 'comment');
-        $rmaData = array(
+        $data = ['customer_custom_email' => '', 'items' => $rmaItems, 'rma_comment' => 'comment'];
+        $rmaData = [
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                 'Magento\Framework\Stdlib\DateTime\DateTime'
@@ -40,8 +40,8 @@ class RmaTest extends \PHPUnit_Framework_TestCase
             'customer_id' => $order->getCustomerId(),
             'order_date' => $order->getCreatedAt(),
             'customer_name' => $order->getCustomerName(),
-            'customer_custom_email' => 'example@domain.com'
-        );
+            'customer_custom_email' => 'example@domain.com',
+        ];
 
         $rma->setData($rmaData)->saveRma($data);
         $rmaId = $rma->getId();

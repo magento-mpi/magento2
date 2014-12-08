@@ -58,7 +58,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetWidgetWindowUrl()
     {
-        $config = new \Magento\Framework\Object(array('widget_filters' => array('is_email_compatible' => 1)));
+        $config = new \Magento\Framework\Object(['widget_filters' => ['is_email_compatible' => 1]]);
 
         $url = $this->_model->getWidgetWindowUrl($config);
 

@@ -8,7 +8,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Sales;
 
-use \Magento\Reports\Model\Flag;
+use Magento\Reports\Model\Flag;
 
 class Coupons extends \Magento\Reports\Controller\Adminhtml\Report\Sales
 {
@@ -32,7 +32,7 @@ class Coupons extends \Magento\Reports\Controller\Adminhtml\Report\Sales
         $gridBlock = $this->_view->getLayout()->getBlock('adminhtml_sales_coupons.grid');
         $filterFormBlock = $this->_view->getLayout()->getBlock('grid.filter.form');
 
-        $this->_initReportAction(array($gridBlock, $filterFormBlock));
+        $this->_initReportAction([$gridBlock, $filterFormBlock]);
 
         $this->_view->renderLayout();
     }

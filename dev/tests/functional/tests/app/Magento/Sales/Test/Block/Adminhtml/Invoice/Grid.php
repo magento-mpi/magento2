@@ -21,10 +21,10 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="increment_id"]'
+            'selector' => 'input[name="increment_id"]',
         ],
         'order_id' => [
-            'selector' => 'input[name="order_increment_id"]'
+            'selector' => 'input[name="order_increment_id"]',
         ],
         'grand_total_from' => [
             'selector' => 'input[name="grand_total[from]"]',

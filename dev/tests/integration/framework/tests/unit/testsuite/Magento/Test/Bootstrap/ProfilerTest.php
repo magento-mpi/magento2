@@ -26,7 +26,7 @@ class ProfilerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->expectOutputString('');
-        $this->_driver = $this->getMock('Magento\Framework\Profiler\Driver\Standard', array('registerOutput'));
+        $this->_driver = $this->getMock('Magento\Framework\Profiler\Driver\Standard', ['registerOutput']);
         $this->_object = new \Magento\TestFramework\Bootstrap\Profiler($this->_driver);
     }
 

@@ -42,7 +42,7 @@ $product->setTypeId(
 )->setStoreId(
     1
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product Three'
 )->setSku(
@@ -52,9 +52,9 @@ $product->setTypeId(
 )->setWeight(
     18
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->setCategoryIds(
-    array(333)
+    [333]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

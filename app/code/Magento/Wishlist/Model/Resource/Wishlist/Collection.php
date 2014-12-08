@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist model collection
  *
@@ -46,7 +45,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function filterByCustomerIds(array $customerIds)
     {
-        $this->addFieldToFilter('customer_id', array('in' => $customerIds));
+        $this->addFieldToFilter('customer_id', ['in' => $customerIds]);
         return $this;
     }
 }

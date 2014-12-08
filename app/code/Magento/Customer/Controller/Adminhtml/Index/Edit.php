@@ -9,9 +9,7 @@
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Api\ExtensibleDataObjectConverter;
 
 class Edit extends \Magento\Customer\Controller\Adminhtml\Index
 {
@@ -27,9 +25,9 @@ class Edit extends \Magento\Customer\Controller\Adminhtml\Index
     {
         $customerId = $this->_initCustomer();
 
-        $customerData = array();
-        $customerData['account'] = array();
-        $customerData['address'] = array();
+        $customerData = [];
+        $customerData['account'] = [];
+        $customerData['address'] = [];
         $customer = null;
         $isExistingCustomer = (bool)$customerId;
         if ($isExistingCustomer) {

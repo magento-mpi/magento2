@@ -42,7 +42,7 @@ class Factory
      * @param array $data
      * @return Authorization
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create(self::CLASS_NAME, $data);
     }

@@ -74,7 +74,7 @@ class Query implements QueryInterface
         \Zend_Db_Select::ORDER => true,
         \Zend_Db_Select::LIMIT_COUNT => true,
         \Zend_Db_Select::LIMIT_OFFSET => true,
-        \Zend_Db_Select::COLUMNS => true
+        \Zend_Db_Select::COLUMNS => true,
     ];
 
     /**

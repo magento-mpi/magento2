@@ -33,7 +33,7 @@ class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Customer\Model\Config\Share $configShare,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine\Root');
@@ -47,7 +47,7 @@ class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
      */
     public function getMatchedEvents()
     {
-        return array('customer_login');
+        return ['customer_login'];
     }
 
     /**
@@ -61,7 +61,7 @@ class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
     {
         if ($customer instanceof Customer) {
             $customer = $customer->getId();
-        } else if ($customer instanceof \Zend_Db_Select) {
+        } elseif ($customer instanceof \Zend_Db_Select) {
             $customer = new Zend_Db_Expr($customer);
         }
 
@@ -78,13 +78,13 @@ class Root extends \Magento\CustomerSegment\Model\Segment\Condition\Combine
     protected function _prepareConditionsSql($customer, $website)
     {
         $select = $this->getResource()->createSelect();
-        $table = array('root' => $this->getResource()->getTable('customer_entity'));
+        $table = ['root' => $this->getResource()->getTable('customer_entity')];
 
         if ($customer) {
             // For existing customer
             $select->from($table, new Zend_Db_Expr(1));
         } else {
-            $select->from($table, array('entity_id', 'website_id'));
+            $select->from($table, ['entity_id', 'website_id']);
             if ($customer === null && $this->_configShare->isWebsiteScope()) {
                 $select->where('website_id=?', $website);
             }

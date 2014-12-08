@@ -27,7 +27,7 @@ class WidgetOptions extends \Magento\Widget\Test\Fixture\Widget\WidgetOptions
                 [
                     'limit' => '6',
                     'scroll' => '3',
-                ]
+                ],
             ],
         ];
 

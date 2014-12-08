@@ -37,7 +37,7 @@ class Link extends \Magento\Wishlist\Block\Link
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         parent::__construct($context, $wishlistHelper, $data);

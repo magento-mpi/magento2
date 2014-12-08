@@ -8,9 +8,9 @@
 
 namespace Magento\CatalogSearch\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover Suggest Searching Result (SearchEntity)

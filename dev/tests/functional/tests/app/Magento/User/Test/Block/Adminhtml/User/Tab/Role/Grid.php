@@ -8,7 +8,6 @@
 
 namespace Magento\User\Test\Block\Adminhtml\User\Tab\Role;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -24,8 +23,8 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'rolename' => [
-            'selector' => '#permissionsUserRolesGrid_filter_role_name'
-        ]
+            'selector' => '#permissionsUserRolesGrid_filter_role_name',
+        ],
     ];
 
     /**

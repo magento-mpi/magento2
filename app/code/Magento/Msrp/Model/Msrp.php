@@ -1,14 +1,14 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Msrp\Model;
 
-use Magento\Catalog\Model\Resource\Eav\AttributeFactory;
 use Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Resource\Eav\AttributeFactory;
 
 class Msrp
 {

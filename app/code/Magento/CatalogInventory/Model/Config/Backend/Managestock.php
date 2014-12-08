@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Catalog Inventory Manage Stock Config Backend Model
  *

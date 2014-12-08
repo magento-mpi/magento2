@@ -67,7 +67,7 @@ class Review extends \Magento\Framework\View\Element\Template
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Customer\Model\Address\Config $addressConfig,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_taxHelper = $taxHelper;

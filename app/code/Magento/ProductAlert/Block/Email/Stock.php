@@ -7,7 +7,6 @@
  */
 namespace Magento\ProductAlert\Block\Email;
 
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
  * ProductAlert email back in stock grid

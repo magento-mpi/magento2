@@ -39,20 +39,20 @@ class Container extends \Magento\Backend\Block\Widget\Container
 
         $this->buttonList->add(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'window.location.href=\'' . $this->getUrl('*/*/') . '\'',
                 'class' => 'back'
-            )
+            ]
         );
 
         $this->buttonList->add(
             'edit',
-            array(
+            [
                 'label' => __('Edit'),
                 'class' => 'edit',
                 'onclick' => 'window.location.href=\'' . $this->getEditUrl() . '\''
-            )
+            ]
         );
     }
 
@@ -77,7 +77,7 @@ class Container extends \Magento\Backend\Block\Widget\Container
      */
     public function getEditUrl()
     {
-        return $this->getUrl('*/*/edit', array($this->_objectId => $this->getRequest()->getParam($this->_objectId)));
+        return $this->getUrl('*/*/edit', [$this->_objectId => $this->getRequest()->getParam($this->_objectId)]);
     }
 
     /**

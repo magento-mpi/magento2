@@ -20,10 +20,10 @@ php -f prepare_packages.php --
     --target-product-repo="<repository>" [--target-product-dir="<directory>"]
 SYNOPSIS
 );
-$options = getopt('', array(
+$options = getopt('', [
         'source-dir:', 'changelog-file:', 'target-satis-repo:', 'target-satis-dir::',
         'target-product-repo:', 'target-product-dir::'
-    ));
+    ]);
 $requiredArgs = ['source-dir', 'changelog-file', 'target-satis-repo', 'target-product-repo'];
 foreach ($requiredArgs as $arg) {
     if (empty($options[$arg])) {
@@ -32,7 +32,7 @@ foreach ($requiredArgs as $arg) {
     }
 }
 
-require_once(__DIR__ . '/functions.php');
+require_once __DIR__ . '/functions.php';
 
 $sourceDir = $options['source-dir'];
 $changelogFile = $options['changelog-file'];

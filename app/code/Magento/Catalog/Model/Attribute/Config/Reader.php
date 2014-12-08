@@ -17,7 +17,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/group' => 'name', '/config/group/attribute' => 'name');
+    protected $_idAttributes = ['/config/group' => 'name', '/config/group/attribute' => 'name'];
 
     /**
      * Construct the FileSystem Reader Class
@@ -37,7 +37,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'catalog_attributes.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

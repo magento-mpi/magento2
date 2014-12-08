@@ -36,7 +36,7 @@ class ItemsFactory
      * @param array $data
      * @return \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
      */
-    public function get($instanceName, array $data = array())
+    public function get($instanceName, array $data = [])
     {
         return $this->_objectManager->get($instanceName, $data);
     }

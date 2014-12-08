@@ -14,7 +14,6 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  */
 class ConfigurationTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var ObjectManagerHelper */
     protected $objectManagerHelper;
 
@@ -61,7 +60,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
         $expected = [
             [
                 'label' => 'Gift Card Sender',
-                'value' => 'sender_name &lt;sender@test.com&gt;'
+                'value' => 'sender_name &lt;sender@test.com&gt;',
             ],
             [
                 'label' => 'Gift Card Recipient',
@@ -70,7 +69,7 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
             [
                 'label' => 'Gift Card Message',
                 'value' => 'some message'
-            ]
+            ],
         ];
 
         $itemMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Configuration\Item\ItemInterface')
@@ -97,7 +96,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
 
     private function prepareCustomOption($itemMock, $code, $value, $index, $result)
     {
-
         $optionMock = $this->getMockBuilder('Magento\Catalog\Model\Product\Configuration\Item\Option\OptionInterface')
             ->disableOriginalConstructor()
             ->getMock();

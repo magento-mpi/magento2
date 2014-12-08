@@ -73,7 +73,7 @@ class IndexerBuilderTest extends \PHPUnit_Framework_TestCase
         $this->indexerBuilder->reindexByIds([
             $this->product->getId(),
             $this->productSecond->getId(),
-            $this->productThird->getId()
+            $this->productThird->getId(),
         ]);
 
         $this->assertEquals(9.8, $this->resourceRule->getRulePrice(true, 1, 1, 1));

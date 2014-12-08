@@ -71,7 +71,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
                 $this->getStoreTZOffsetQuery($sourceTable, $aggregationField, $from, $to)
             );
 
-            $columns = array(
+            $columns = [
                 'period' => $periodExpr,
                 'store_id' => 'store_id',
                 'order_status' => 'status',
@@ -127,17 +127,17 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
                         0
                     ) . ') * base_to_global_rate)',
                     0
-                )
-            );
+                ),
+            ];
 
             $select = $adapter->select();
-            $select->from(array('source_table' => $sourceTable), $columns)->where('coupon_code IS NOT NULL');
+            $select->from(['source_table' => $sourceTable], $columns)->where('coupon_code IS NOT NULL');
 
             if ($subSelect !== null) {
                 $select->having($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array($periodExpr, 'store_id', 'status', 'coupon_code'));
+            $select->group([$periodExpr, 'store_id', 'status', 'coupon_code']);
 
             $select->having('COUNT(entity_id) > 0');
 
@@ -145,7 +145,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
 
             $select->reset();
 
-            $columns = array(
+            $columns = [
                 'period' => 'period',
                 'store_id' => new \Zend_Db_Expr('0'),
                 'order_status' => 'order_status',
@@ -157,8 +157,8 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
                 'total_amount' => 'SUM(total_amount)',
                 'subtotal_amount_actual' => 'SUM(subtotal_amount_actual)',
                 'discount_amount_actual' => 'SUM(discount_amount_actual)',
-                'total_amount_actual' => 'SUM(total_amount_actual)'
-            );
+                'total_amount_actual' => 'SUM(total_amount_actual)',
+            ];
 
             $select->from($table, $columns)->where('store_id <> 0');
 
@@ -166,7 +166,7 @@ class Createdat extends \Magento\Reports\Model\Resource\Report\AbstractReport
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array('period', 'order_status', 'coupon_code'));
+            $select->group(['period', 'order_status', 'coupon_code']);
 
             $adapter->query($select->insertFromSelect($table, array_keys($columns)));
             $adapter->commit();

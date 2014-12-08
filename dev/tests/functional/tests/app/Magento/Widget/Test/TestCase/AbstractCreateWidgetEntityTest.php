@@ -8,11 +8,11 @@
 
 namespace Magento\Widget\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Widget\Test\Fixture\Widget;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for New Instance of WidgetEntity

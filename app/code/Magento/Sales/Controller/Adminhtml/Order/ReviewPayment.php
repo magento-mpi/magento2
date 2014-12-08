@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class ReviewPayment extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -54,6 +54,6 @@ class ReviewPayment extends \Magento\Sales\Controller\Adminhtml\Order
             $this->messageManager->addError(__('We couldn\'t update the payment.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
+        $this->_redirect('sales/order/view', ['order_id' => $order->getId()]);
     }
 }

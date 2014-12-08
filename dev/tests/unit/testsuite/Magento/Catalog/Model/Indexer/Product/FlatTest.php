@@ -7,7 +7,6 @@
  */
 namespace Magento\Catalog\Model\Indexer\Product;
 
-
 use Magento\TestFramework\Helper\ObjectManager;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
@@ -80,4 +79,4 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
         $this->model->executeRow($except);
     }
-} 
+}

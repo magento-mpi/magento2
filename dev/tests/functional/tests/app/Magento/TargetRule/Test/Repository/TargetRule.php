@@ -31,7 +31,7 @@ class TargetRule extends AbstractRepository
             'to_date' => ['pattern' => '09/30/2024'],
             'use_customer_segment' => 'All',
             'conditions_serialized' => '[Category|is|2]',
-            'actions_serialized' => '[Category|is|the Child of the Matched Product Categories]'
+            'actions_serialized' => '[Category|is|the Child of the Matched Product Categories]',
         ];
 
         $this->_data['target_rule_up_sells'] = [
@@ -39,7 +39,7 @@ class TargetRule extends AbstractRepository
             'is_active' => 'Active',
             'apply_to' => 'Up-sells',
             'use_customer_segment' => 'All',
-            'actions_serialized' => '[Category|is|the Same as Matched Product Categories]'
+            'actions_serialized' => '[Category|is|the Same as Matched Product Categories]',
         ];
 
         $this->_data['target_rule_cross_sells'] = [
@@ -62,7 +62,7 @@ class TargetRule extends AbstractRepository
             'use_customer_segment' => 'All',
             'conditions_serialized' => '[Category|is|%category_1%]',
             'actions_serialized' => '[Category|is|Constant Value|%category_2%]'
-                . '[Category|is|the Child of the Matched Product Categories]'
+                . '[Category|is|the Child of the Matched Product Categories]',
         ];
 
         $this->_data['target_rule_up_sells_with_placeholders'] = [
@@ -72,7 +72,7 @@ class TargetRule extends AbstractRepository
             'use_customer_segment' => 'All',
             'conditions_serialized' => '[Category|is|%category_1%]',
             'actions_serialized' => '[Category|is|Constant Value|%category_2%]'
-                . '[Category|is|the Same as Matched Product Categories]'
+                . '[Category|is|the Same as Matched Product Categories]',
         ];
 
         $this->_data['target_rule_cross_sells_with_placeholders'] = [

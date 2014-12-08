@@ -19,7 +19,7 @@ class ReturnQuote extends \Magento\Authorizenet\Controller\Directpost\Payment
     {
         $this->_returnCustomerQuote();
         $this->getResponse()->representJson(
-            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array('success' => 1))
+            $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(['success' => 1])
         );
     }
 }

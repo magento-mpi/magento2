@@ -29,7 +29,7 @@ class View extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_info = array();
+    protected $_info = [];
 
     /**
      * Related orders collection
@@ -58,7 +58,7 @@ class View extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_registry = $registry;
         parent::__construct($context, $data);
@@ -145,7 +145,7 @@ class View extends \Magento\Framework\View\Element\Template
                 $block->setViewUrl(
                     $this->getUrl(
                         "*/*/{$block->getViewAction()}",
-                        array('payment' => $this->_recurringPayment->getId())
+                        ['payment' => $this->_recurringPayment->getId()]
                     )
                 );
             }

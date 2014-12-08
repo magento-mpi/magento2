@@ -571,7 +571,6 @@ class Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
-
         if ($creditmemo->getRefundRealCustomerBalance() && $creditmemo->getBaseGrandTotal()) {
             $baseAmount = $creditmemo->getBaseGrandTotal();
             $amount = $creditmemo->getGrandTotal();
@@ -706,7 +705,7 @@ class Observer
         if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {
             $rewardedAmountAfterRefund += $rewardedAmountRefunded;
         } else {
-             $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
+            $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
         }
 
         $creditMemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);

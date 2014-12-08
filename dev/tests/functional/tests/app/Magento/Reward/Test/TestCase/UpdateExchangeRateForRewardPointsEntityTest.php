@@ -8,13 +8,13 @@
 
 namespace Magento\Reward\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Reward\Test\Fixture\RewardRate;
-use Magento\Core\Test\Fixture\ConfigData;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Core\Test\Fixture\ConfigData;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Reward\Test\Fixture\RewardRate;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Update Exchange Rate for RewardPointsEntity

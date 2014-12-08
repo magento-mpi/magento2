@@ -17,14 +17,14 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/attribute_type' => 'name',
         '/config/attribute_group' => 'name',
         '/config/registry/static_attribute' => 'name',
         '/config/registry/custom_attribute' => 'name',
         '/config/registrant/static_attribute' => 'name',
-        '/config/registrant/custom_attribute' => 'name'
-    );
+        '/config/registrant/custom_attribute' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -42,7 +42,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\GiftRegistry\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'giftregistry.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

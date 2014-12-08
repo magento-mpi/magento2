@@ -29,8 +29,8 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_interpreter = $this->getMock(
             'Magento\Framework\View\Layout\Argument\Interpreter\NamedParams',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -39,9 +39,9 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $input = array('value' => 'some text', 'helper' => __CLASS__ . '::help');
+        $input = ['value' => 'some text', 'helper' => __CLASS__ . '::help'];
 
-        $evaluatedValue = array('value' => 'some text (evaluated)');
+        $evaluatedValue = ['value' => 'some text (evaluated)'];
         $this->_interpreter->expects(
             $this->once()
         )->method(
@@ -74,19 +74,19 @@ class HelperMethodTest extends \PHPUnit_Framework_TestCase
     public function testEvaluateException($helperMethod, $expectedExceptionMessage)
     {
         $this->setExpectedException('\InvalidArgumentException', $expectedExceptionMessage);
-        $input = array('value' => 'some text', 'helper' => $helperMethod);
+        $input = ['value' => 'some text', 'helper' => $helperMethod];
         $this->_model->evaluate($input);
     }
 
     public function evaluateExceptionDataProvider()
     {
         $nonExistingHelper = __CLASS__ . '::non_existing';
-        return array(
-            'wrong method format' => array(
+        return [
+            'wrong method format' => [
                 'help',
-                'Helper method name in format "\Class\Name::methodName" is expected'
-            ),
-            'non-existing method' => array($nonExistingHelper, "Helper method '{$nonExistingHelper}' does not exist")
-        );
+                'Helper method name in format "\Class\Name::methodName" is expected',
+            ],
+            'non-existing method' => [$nonExistingHelper, "Helper method '{$nonExistingHelper}' does not exist"]
+        ];
     }
 }

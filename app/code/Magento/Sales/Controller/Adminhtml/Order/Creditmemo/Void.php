@@ -66,7 +66,7 @@ class Void extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We can\'t void the credit memo.'));
             }
-            $this->_redirect('sales/*/view', array('creditmemo_id' => $creditmemo->getId()));
+            $this->_redirect('sales/*/view', ['creditmemo_id' => $creditmemo->getId()]);
         } else {
             $this->_forward('noroute');
         }

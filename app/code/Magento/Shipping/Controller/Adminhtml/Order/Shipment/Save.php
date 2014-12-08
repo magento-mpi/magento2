@@ -8,8 +8,8 @@
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
-use \Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
+use Magento\Backend\App\Action;
+use Magento\Sales\Model\Order\Email\Sender\ShipmentSender;
 
 class Save extends \Magento\Backend\App\Action
 {
@@ -143,7 +143,7 @@ class Save extends \Magento\Backend\App\Action
                 $responseAjax->setMessage($e->getMessage());
             } else {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('*/*/new', ['order_id' => $this->getRequest()->getParam('order_id')]);
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
@@ -152,7 +152,7 @@ class Save extends \Magento\Backend\App\Action
                 $responseAjax->setMessage(__('An error occurred while creating shipping label.'));
             } else {
                 $this->messageManager->addError(__('Cannot save shipment.'));
-                $this->_redirect('*/*/new', array('order_id' => $this->getRequest()->getParam('order_id')));
+                $this->_redirect('*/*/new', ['order_id' => $this->getRequest()->getParam('order_id')]);
             }
         }
         if ($isNeedCreateLabel) {

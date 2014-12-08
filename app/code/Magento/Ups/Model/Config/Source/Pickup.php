@@ -25,9 +25,9 @@ class Pickup extends \Magento\Ups\Model\Config\Source\Generic
     public function toOptionArray()
     {
         $ups = $this->carrierConfig->getCode($this->_code);
-        $arr = array();
+        $arr = [];
         foreach ($ups as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => __($v['label']));
+            $arr[] = ['value' => $k, 'label' => __($v['label'])];
         }
         return $arr;
     }

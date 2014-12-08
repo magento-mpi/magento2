@@ -44,25 +44,25 @@ class MenuTest extends \PHPUnit_Framework_TestCase
         // Add new item in top level
         $menu->add(
             $itemFactory->create(
-                array(
+                [
                     'id' => 'Magento_Backend::system2',
                     'title' => 'Extended System',
                     'module' => 'Magento_Backend',
-                    'resource' => 'Magento_Backend::system2'
-                )
+                    'resource' => 'Magento_Backend::system2',
+                ]
             )
         );
 
         //Add submenu
         $menu->add(
             $itemFactory->create(
-                array(
+                [
                     'id' => 'Magento_Backend::system2_acl',
                     'title' => 'Acl',
                     'module' => 'Magento_Backend',
                     'action' => 'admin/backend/acl/index',
-                    'resource' => 'Magento_Backend::system2_acl'
-                )
+                    'resource' => 'Magento_Backend::system2_acl',
+                ]
             ),
             'Magento_Backend::system2'
         );

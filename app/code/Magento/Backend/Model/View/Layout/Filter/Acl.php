@@ -35,7 +35,7 @@ class Acl
      */
     public function filterAclNodes(\Magento\Framework\Simplexml\Element $xml)
     {
-        $limitations = $xml->xpath('//*[@acl]') ?: array();
+        $limitations = $xml->xpath('//*[@acl]') ?: [];
         foreach ($limitations as $node) {
             if (!$this->_authorization->isAllowed($node['acl'])) {
                 $node->unsetSelf();

@@ -51,7 +51,7 @@ class ServerTest extends \PHPUnit_Framework_TestCase
             'Magento\Store\Model\Store'
         )->disableOriginalConstructor()->getMock();
 
-        $this->_areaListMock = $this->getMock('Magento\Framework\App\AreaList', array(), array(), '', false);
+        $this->_areaListMock = $this->getMock('Magento\Framework\App\AreaList', [], [], '', false);
         $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $this->_storeManagerMock->expects(
             $this->any()
@@ -71,8 +71,8 @@ class ServerTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->getMock();
         $this->_typeProcessor = $this->getMock(
             'Magento\Framework\Reflection\TypeProcessor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

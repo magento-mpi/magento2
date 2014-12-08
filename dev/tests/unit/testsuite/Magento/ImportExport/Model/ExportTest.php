@@ -37,7 +37,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         /** @var $abstractMockEntity \Magento\ImportExport\Model\Export\AbstractEntity */
         $abstractMockEntity = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\AbstractEntity',
-            array(),
+            [],
             '',
             false
         );
@@ -45,12 +45,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
         /** @var $mockAdapterTest \Magento\ImportExport\Model\Export\Adapter\AbstractAdapter */
         $mockAdapterTest = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getFileExtension')
+            ['getFileExtension']
         );
         $mockAdapterTest->expects(
             $this->any()
@@ -60,28 +60,28 @@ class ExportTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_exportFileExtension)
         );
 
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', array(), array(), '', false);
-        $adapterFactory = $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
+        $adapterFactory = $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false);
         $entityFactory = $this->getMock(
             'Magento\ImportExport\Model\Export\Entity\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $exportAdapterFac = $this->getMock(
             'Magento\ImportExport\Model\Export\Adapter\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         /** @var $mockModelExport \Magento\ImportExport\Model\Export */
         $mockModelExport = $this->getMock(
             'Magento\ImportExport\Model\Export',
-            array('getEntityAdapter', '_getEntityAdapter', '_getWriter'),
-            array($logger, $filesystem, $adapterFactory, $this->_exportConfigMock, $entityFactory, $exportAdapterFac)
+            ['getEntityAdapter', '_getEntityAdapter', '_getWriter'],
+            [$logger, $filesystem, $adapterFactory, $this->_exportConfigMock, $entityFactory, $exportAdapterFac]
         );
         $mockModelExport->expects(
             $this->any()

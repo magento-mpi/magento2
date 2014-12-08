@@ -8,14 +8,14 @@
 
 namespace Magento\CatalogRule\Pricing\Price;
 
-use Magento\Framework\Pricing\Price\AbstractPrice;
-use Magento\Framework\Pricing\Adjustment\Calculator;
 use Magento\Catalog\Model\Product;
+use Magento\CatalogRule\Model\Resource\RuleFactory;
+use Magento\Customer\Model\Session;
+use Magento\Framework\Pricing\Adjustment\Calculator;
+use Magento\Framework\Pricing\Price\AbstractPrice;
+use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Store\Model\StoreManager;
-use Magento\Customer\Model\Session;
-use Magento\CatalogRule\Model\Resource\RuleFactory;
-use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 
 /**
  * Class CatalogRulePrice

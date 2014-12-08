@@ -51,8 +51,8 @@ class CheckoutOnepageTest extends \Magento\Checkout\Test\TestCase\Guest\PaypalEx
 
     public function dataProviderPaymentMethod()
     {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress())
-        );
+        return [
+            [Factory::getFixtureFactory()->getMagentoCheckoutRegisteredPaypalExpress()]
+        ];
     }
 }

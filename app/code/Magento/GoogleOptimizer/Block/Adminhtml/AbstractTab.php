@@ -48,7 +48,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form implements
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
         \Magento\Framework\Data\FormFactory $formFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
 

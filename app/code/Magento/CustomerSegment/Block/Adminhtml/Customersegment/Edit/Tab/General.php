@@ -32,7 +32,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -52,67 +52,67 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->setHtmlIdPrefix('segment_');
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('General Properties')]);
 
         if ($model->getId()) {
-            $fieldset->addField('segment_id', 'hidden', array('name' => 'segment_id'));
+            $fieldset->addField('segment_id', 'hidden', ['name' => 'segment_id']);
         }
 
         $fieldset->addField(
             'name',
             'text',
-            array('name' => 'name', 'label' => __('Segment Name'), 'required' => true)
+            ['name' => 'name', 'label' => __('Segment Name'), 'required' => true]
         );
 
         $fieldset->addField(
             'description',
             'textarea',
-            array('name' => 'description', 'label' => __('Description'), 'style' => 'height: 100px;')
+            ['name' => 'description', 'label' => __('Description'), 'style' => 'height: 100px;']
         );
 
         if ($this->_storeManager->isSingleStoreMode()) {
             $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
-            $fieldset->addField('website_ids', 'hidden', array('name' => 'website_ids[]', 'value' => $websiteId));
+            $fieldset->addField('website_ids', 'hidden', ['name' => 'website_ids[]', 'value' => $websiteId]);
             $model->setWebsiteIds($websiteId);
         } else {
             $fieldset->addField(
                 'website_ids',
                 'multiselect',
-                array(
+                [
                     'name' => 'website_ids[]',
                     'label' => __('Assigned to Website'),
                     'title' => __('Assigned to Website'),
                     'required' => true,
                     'values' => $this->_systemStore->getWebsiteValuesForForm(),
                     'value' => $model->getWebsiteIds()
-                )
+                ]
             );
         }
 
         $fieldset->addField(
             'is_active',
             'select',
-            array(
+            [
                 'label' => __('Status'),
                 'name' => 'is_active',
                 'required' => true,
-                'options' => array('1' => __('Active'), '0' => __('Inactive'))
-            )
+                'options' => ['1' => __('Active'), '0' => __('Inactive')]
+            ]
         );
 
-        $applyToFieldConfig = array(
+        $applyToFieldConfig = [
             'label' => __('Apply To'),
             'name' => 'apply_to',
             'required' => false,
             'disabled' => (bool)$model->getId(),
-            'options' => array(
+            'options' => [
                 \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS_AND_REGISTERED => __(
                     'Visitors and Registered Customers'
                 ),
                 \Magento\CustomerSegment\Model\Segment::APPLY_TO_REGISTERED => __('Registered Customers'),
-                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS => __('Visitors')
-            )
-        );
+                \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS => __('Visitors'),
+            ],
+        ];
         if (!$model->getId()) {
             $applyToFieldConfig['note'] = __('Please save this information to specify segmentation conditions.');
         }

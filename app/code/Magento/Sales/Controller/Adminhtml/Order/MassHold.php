@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
 
 class MassHold extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -19,7 +18,7 @@ class MassHold extends \Magento\Sales\Controller\Adminhtml\Order
      */
     public function execute()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
+        $orderIds = $this->getRequest()->getPost('order_ids', []);
         $countHoldOrder = 0;
 
         foreach ($orderIds as $orderId) {

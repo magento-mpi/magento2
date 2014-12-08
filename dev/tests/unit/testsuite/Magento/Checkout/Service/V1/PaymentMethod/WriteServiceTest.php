@@ -188,7 +188,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             '\Magento\Payment\Model\Method\AbstractMethod', [], '', false, false
         );
 
-
         $paymentMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
 
         $quoteMock->expects($this->never())->method('getPayment');

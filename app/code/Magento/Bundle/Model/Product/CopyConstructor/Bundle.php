@@ -31,20 +31,20 @@ class Bundle implements \Magento\Catalog\Model\Product\CopyConstructorInterface
         );
         $optionCollection->appendSelections($selectionCollection);
 
-        $optionRawData = array();
-        $selectionRawData = array();
+        $optionRawData = [];
+        $selectionRawData = [];
 
         $i = 0;
         foreach ($optionCollection as $option) {
-            $optionRawData[$i] = array(
+            $optionRawData[$i] = [
                 'required' => $option->getData('required'),
                 'position' => $option->getData('position'),
                 'type' => $option->getData('type'),
                 'title' => $option->getData('title') ? $option->getData('title') : $option->getData('default_title'),
-                'delete' => ''
-            );
+                'delete' => '',
+            ];
             foreach ($option->getSelections() as $selection) {
-                $selectionRawData[$i][] = array(
+                $selectionRawData[$i][] = [
                     'product_id' => $selection->getProductId(),
                     'position' => $selection->getPosition(),
                     'is_default' => $selection->getIsDefault(),
@@ -52,8 +52,8 @@ class Bundle implements \Magento\Catalog\Model\Product\CopyConstructorInterface
                     'selection_price_value' => $selection->getSelectionPriceValue(),
                     'selection_qty' => $selection->getSelectionQty(),
                     'selection_can_change_qty' => $selection->getSelectionCanChangeQty(),
-                    'delete' => ''
-                );
+                    'delete' => '',
+                ];
             }
             $i++;
         }

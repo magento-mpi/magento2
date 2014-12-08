@@ -25,7 +25,7 @@ class Memcached extends \Zend_Cache_Backend_Memcached implements \Zend_Cache_Bac
      * @param array $options @see \Zend_Cache_Backend_Memcached::__construct()
      * @throws \Magento\Framework\Exception
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         parent::__construct($options);
 
@@ -79,12 +79,12 @@ class Memcached extends \Zend_Cache_Backend_Memcached implements \Zend_Cache_Bac
      * @param bool $specificLifetime   @see \Zend_Cache_Backend_Memcached::save()
      * @return bool
      */
-    public function save($data, $id, $tags = array(), $specificLifetime = false)
+    public function save($data, $id, $tags = [], $specificLifetime = false)
     {
         if (is_string($data) && strlen($data) > $this->_options['slab_size']) {
             $dataChunks = str_split($data, $this->_options['slab_size']);
 
-            for ($i = 0,$cnt = count($dataChunks); $i < $cnt; $i++) {
+            for ($i = 0, $cnt = count($dataChunks); $i < $cnt; $i++) {
                 $chunkId = $this->_getChunkId($id, $i);
 
                 if (!parent::save($dataChunks[$i], $chunkId, $tags, $specificLifetime)) {
@@ -115,7 +115,7 @@ class Memcached extends \Zend_Cache_Backend_Memcached implements \Zend_Cache_Bac
 
             $arr = explode('|', $data);
             $chunks = isset($arr[1]) ? $arr[1] : false;
-            $chunkData = array();
+            $chunkData = [];
 
             if ($chunks && is_numeric($chunks)) {
                 for ($i = 0; $i < $chunks; $i++) {

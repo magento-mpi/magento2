@@ -26,8 +26,8 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->roleMock = $this->getMock('Magento\AdminGws\Model\Role', array(), array(), '', false);
-        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
+        $this->roleMock = $this->getMock('Magento\AdminGws\Model\Role', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Action', [], [], '', false);
         $this->model = new \Magento\AdminGws\Model\Plugin\ProductAction($this->roleMock);
     }
 
@@ -36,7 +36,7 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(true));
         $this->roleMock->expects($this->never())->method('getIsWebsiteLevel');
         $this->roleMock->expects($this->never())->method('hasWebsiteAccess');
-        $this->model->beforeUpdateWebsites($this->subjectMock, array(), array(), 'type');
+        $this->model->beforeUpdateWebsites($this->subjectMock, [], [], 'type');
     }
 
     /**
@@ -60,7 +60,7 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($isWebsiteLevelRole)
         );
-        $websiteIds = array(1);
+        $websiteIds = [1];
         $this->roleMock->expects(
             $this->any()
         )->method(
@@ -71,26 +71,26 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($hasWebsiteAccess)
         );
-        $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, $actionType);
+        $this->model->beforeUpdateWebsites($this->subjectMock, [], $websiteIds, $actionType);
     }
 
     public function beforeUpdateWebsitesThrowsExceptionWhenAccessIsRestrictedDataProvider()
     {
-        return array(
-            array(true, false, 'remove'),
-            array(false, true, 'remove'),
-            array(false, false, 'remove'),
-            array(true, false, 'add'),
-            array(false, true, 'add'),
-            array(false, false, 'add')
-        );
+        return [
+            [true, false, 'remove'],
+            [false, true, 'remove'],
+            [false, false, 'remove'],
+            [true, false, 'add'],
+            [false, true, 'add'],
+            [false, false, 'add']
+        ];
     }
 
     public function testBeforeUpdateWebsitesDoesNotThrowExceptionWhenUserHasAccessToGivenWebsites()
     {
         $this->roleMock->expects($this->once())->method('getIsAll')->will($this->returnValue(false));
         $this->roleMock->expects($this->once())->method('getIsWebsiteLevel')->will($this->returnValue(true));
-        $websiteIds = array(1);
+        $websiteIds = [1];
         $this->roleMock->expects(
             $this->once()
         )->method(
@@ -101,6 +101,6 @@ class ProductActionTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(true)
         );
-        $this->model->beforeUpdateWebsites($this->subjectMock, array(), $websiteIds, 'add');
+        $this->model->beforeUpdateWebsites($this->subjectMock, [], $websiteIds, 'add');
     }
 }

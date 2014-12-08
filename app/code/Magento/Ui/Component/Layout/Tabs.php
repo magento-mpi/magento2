@@ -7,7 +7,6 @@
  */
 namespace Magento\Ui\Component\Layout;
 
-use Magento\Framework\View\Element\Template;
 
 /**
  * Class Tabs

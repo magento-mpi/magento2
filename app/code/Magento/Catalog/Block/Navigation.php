@@ -34,7 +34,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      *
      * @var array
      */
-    protected $_itemLevelPositions = array();
+    protected $_itemLevelPositions = [];
 
     /**
      * Catalog category
@@ -94,7 +94,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Model\Indexer\Category\Flat\State $flatState,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogLayer = $layerResolver->get();
@@ -112,10 +112,10 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
     protected function _construct()
     {
         $this->addData(
-            array(
+            [
                 'cache_lifetime' => false,
-                'cache_tags' => array(Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG)
-            )
+                'cache_tags' => [Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG],
+            ]
         );
     }
 
@@ -136,15 +136,15 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      */
     public function getCacheKeyInfo()
     {
-        $shortCacheId = array(
+        $shortCacheId = [
             'CATALOG_NAVIGATION',
             $this->_storeManager->getStore()->getId(),
             $this->_design->getDesignTheme()->getId(),
             $this->httpContext->getValue(Context::CONTEXT_GROUP),
             'template' => $this->getTemplate(),
             'name' => $this->getNameInLayout(),
-            $this->getCurrenCategoryKey()
-        );
+            $this->getCurrenCategoryKey(),
+        ];
         $cacheId = $shortCacheId;
 
         $shortCacheId = array_values($shortCacheId);
@@ -244,7 +244,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
             $zeroLevelPosition = isset(
                 $this->_itemLevelPositions[$level]
             ) ? $this->_itemLevelPositions[$level] + 1 : 1;
-            $this->_itemLevelPositions = array();
+            $this->_itemLevelPositions = [];
             $this->_itemLevelPositions[$level] = $zeroLevelPosition;
         } elseif (isset($this->_itemLevelPositions[$level])) {
             $this->_itemLevelPositions[$level]++;
@@ -252,7 +252,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
             $this->_itemLevelPositions[$level] = 1;
         }
 
-        $position = array();
+        $position = [];
         for ($i = 0; $i <= $level; $i++) {
             if (isset($this->_itemLevelPositions[$i])) {
                 $position[] = $this->_itemLevelPositions[$i];
@@ -296,7 +296,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         }
 
         // select active children
-        $activeChildren = array();
+        $activeChildren = [];
         foreach ($children as $child) {
             if ($child->getIsActive()) {
                 $activeChildren[] = $child;
@@ -307,7 +307,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         $hasActiveChildren = $activeChildrenCount > 0;
 
         // prepare list item html classes
-        $classes = array();
+        $classes = [];
         $classes[] = 'level' . $level;
         $classes[] = 'nav-' . $this->_getItemPosition($level);
         if ($this->isCategoryActive($category)) {
@@ -330,7 +330,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         }
 
         // prepare list item attributes
-        $attributes = array();
+        $attributes = [];
         if (count($classes) > 0) {
             $attributes['class'] = implode(' ', $classes);
         }
@@ -346,7 +346,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         }
         $htmlLi .= '>';
 
-        $html = array();
+        $html = [];
         $html[] = $htmlLi;
 
         $html[] = '<a href="' . $this->getCategoryUrl($category) . '"' . $linkClass . '>';
@@ -407,7 +407,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
         if ($this->getCurrentCategory()) {
             return explode(',', $this->getCurrentCategory()->getPathInStore());
         }
-        return array();
+        return [];
     }
 
     /**
@@ -466,7 +466,7 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      */
     public function renderCategoriesMenuHtml($level = 0, $outermostItemClass = '', $childrenWrapClass = '')
     {
-        $activeCategories = array();
+        $activeCategories = [];
         foreach ($this->getStoreCategories() as $child) {
             if ($child->getIsActive()) {
                 $activeCategories[] = $child;
@@ -505,6 +505,6 @@ class Navigation extends \Magento\Framework\View\Element\Template implements \Ma
      */
     public function getIdentities()
     {
-        return array(\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG);
+        return [\Magento\Catalog\Model\Category::CACHE_TAG, \Magento\Store\Model\Group::CACHE_TAG];
     }
 }

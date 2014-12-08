@@ -92,8 +92,8 @@ class MessageBoxTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
-        $this->objectMock = $this->getMock('Magento\Framework\App\FrontController', array(), array(), '', false);
-        $this->responseMock = $this->getMock('Magento\Framework\App\ResponseInterface', array(), array(), '', false);
+        $this->objectMock = $this->getMock('Magento\Framework\App\FrontController', [], [], '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\ResponseInterface', [], [], '', false);
     }
 
     /**

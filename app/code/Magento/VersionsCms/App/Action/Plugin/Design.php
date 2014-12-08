@@ -53,7 +53,7 @@ class Design
         \Magento\Framework\App\RequestInterface $request
     ) {
         if ($this->_request->getActionName() == 'drop') {
-            $this->_appState->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
+            $this->_appState->emulateAreaCode('frontend', [$this, 'emulateDesignCallback']);
         } else {
             $this->_designLoader->load();
         }

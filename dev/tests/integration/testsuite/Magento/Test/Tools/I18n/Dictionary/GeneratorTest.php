@@ -36,8 +36,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     protected $generator;
 
-
-
     protected function setUp()
     {
         $this->testDir = realpath(__DIR__ . '/_files');

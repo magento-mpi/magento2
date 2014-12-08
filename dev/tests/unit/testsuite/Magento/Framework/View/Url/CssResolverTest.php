@@ -51,11 +51,11 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
         $result = file_get_contents($fixturePath . 'resultImport.css');
         $sourceNoImport = 'li {background: url("https://example.com/absolute.gif");}';
 
-        return array(
-            'empty' => array('', ''),
-            'data without patterns' => array($sourceNoImport, $sourceNoImport),
-            'data with patterns' => array($source, $result)
-        );
+        return [
+            'empty' => ['', ''],
+            'data without patterns' => [$sourceNoImport, $sourceNoImport],
+            'data with patterns' => [$source, $result]
+        ];
     }
 
     /**
@@ -81,11 +81,11 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
         $result = file_get_contents($fixturePath . 'result.css');
         $sourceNoPatterns = 'li {background: url("https://example.com/absolute.gif");}';
 
-        return array(
-            'empty' => array('', '\Magento\Framework\View\Url\CssResolverTest::doNothing', ''),
-            'data without patterns' => array($sourceNoPatterns, $callback, $sourceNoPatterns),
-            'data with patterns' => array($source, $callback, $result)
-        );
+        return [
+            'empty' => ['', '\Magento\Framework\View\Url\CssResolverTest::doNothing', ''],
+            'data without patterns' => [$sourceNoPatterns, $callback, $sourceNoPatterns],
+            'data with patterns' => [$source, $callback, $result]
+        ];
     }
 
     /**

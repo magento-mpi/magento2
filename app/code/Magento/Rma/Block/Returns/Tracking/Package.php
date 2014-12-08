@@ -26,7 +26,7 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         parent::__construct($context, $registry, $data);

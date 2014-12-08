@@ -148,7 +148,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         States $states,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_addressFactory = $addressFactory;
@@ -312,7 +312,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
      */
     public function createOrder()
     {
-        $items = array();
+        $items = [];
         $itemInfoObjects = func_get_args();
 
         $billingAmount = 0;
@@ -342,7 +342,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
         $payment = $this->_paymentFactory->create()->setMethod($this->getMethodCode());
 
-        $transferDataKeys = array(
+        $transferDataKeys = [
             'store_id',
             'store_name',
             'customer_id',
@@ -367,8 +367,8 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
             'base_to_global_rate',
             'base_to_order_rate',
             'store_to_base_rate',
-            'store_to_order_rate'
-        );
+            'store_to_order_rate',
+        ];
 
         $orderInfo = $this->getOrderInfo();
         foreach ($transferDataKeys as $key) {
@@ -455,7 +455,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
         if ($quote->getPayment() && $quote->getPayment()->getMethod()) {
             $this->setManager(
-                $this->_managerFactory->create(array('paymentMethod' => $quote->getPayment()->getMethodInstance()))
+                $this->_managerFactory->create(['paymentMethod' => $quote->getPayment()->getMethodInstance()])
             );
         }
 
@@ -592,14 +592,14 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
     protected function _initWorkflow()
     {
         if (null === $this->_workflow) {
-            $this->_workflow = array(
-                'unknown' => array('pending', 'active', 'suspended', 'canceled'),
-                'pending' => array('active', 'canceled'),
-                'active' => array('suspended', 'canceled'),
-                'suspended' => array('active', 'canceled'),
-                'canceled' => array(),
-                'expired' => array()
-            );
+            $this->_workflow = [
+                'unknown' => ['pending', 'active', 'suspended', 'canceled'],
+                'pending' => ['active', 'canceled'],
+                'active' => ['suspended', 'canceled'],
+                'suspended' => ['active', 'canceled'],
+                'canceled' => [],
+                'expired' => [],
+            ];
         }
     }
 
@@ -726,7 +726,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
 
         $item->setName(__('Trial ') . $item->getName());
 
-        $option = array('label' => __('Payment type'), 'value' => __('Trial period payment'));
+        $option = ['label' => __('Payment type'), 'value' => __('Trial period payment')];
 
         $this->_addAdditionalOptionToItem($item, $option);
 
@@ -779,7 +779,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
             $shippingAmount
         );
 
-        $option = array('label' => __('Payment type'), 'value' => __('Initial period payment'));
+        $option = ['label' => __('Payment type'), 'value' => __('Initial period payment')];
 
         $this->_addAdditionalOptionToItem($item, $option);
         return $item;
@@ -799,7 +799,7 @@ class Payment extends \Magento\RecurringPayment\Model\RecurringPayment
         if (is_array($additionalOptions)) {
             $additionalOptions[] = $option;
         } else {
-            $additionalOptions = array($option);
+            $additionalOptions = [$option];
         }
         $options['additional_options'] = $additionalOptions;
         $item->setProductOptions($options);

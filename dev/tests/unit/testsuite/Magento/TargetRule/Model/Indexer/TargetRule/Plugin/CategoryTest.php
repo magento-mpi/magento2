@@ -52,7 +52,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testCategoryChanges()
     {
-        $subjectMock = $this->getMock('Magento\Catalog\Model\Category', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\Catalog\Model\Category', [], [], '', false);
 
         $subjectMock->expects($this->any())
             ->method('getData')

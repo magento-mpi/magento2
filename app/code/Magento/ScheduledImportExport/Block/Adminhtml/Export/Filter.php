@@ -20,7 +20,7 @@ class Filter extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
      * @param array $params
      * @return string
      */
-    public function getAbsoluteGridUrl($params = array())
+    public function getAbsoluteGridUrl($params = [])
     {
         return $this->getGridUrl();
     }
@@ -35,7 +35,7 @@ class Filter extends \Magento\ImportExport\Block\Adminhtml\Export\Filter
         if ($this->hasOperation()) {
             return $this->getUrl(
                 'adminhtml/scheduled_operation/getFilter',
-                array('entity' => $this->getOperation()->getEntity())
+                ['entity' => $this->getOperation()->getEntity()]
             );
         } else {
             return $this->getUrl('adminhtml/scheduled_operation/getFilter');

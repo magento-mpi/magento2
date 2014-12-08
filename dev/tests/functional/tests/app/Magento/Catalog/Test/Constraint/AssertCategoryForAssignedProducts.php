@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCategoryForAssignedProducts

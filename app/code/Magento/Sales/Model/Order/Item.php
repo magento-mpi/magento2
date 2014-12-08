@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Model\Order;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Sales\Api\Data\OrderItemInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Order Item Model
@@ -504,7 +504,7 @@ class Item extends AbstractExtensibleModel implements OrderItemInterface
                 self::STATUS_REFUNDED => __('Refunded'),
                 self::STATUS_CANCELED => __('Canceled'),
                 self::STATUS_PARTIAL => __('Partial'),
-                self::STATUS_MIXED => __('Mixed')
+                self::STATUS_MIXED => __('Mixed'),
             ];
         }
         return self::$_statuses;

@@ -45,7 +45,7 @@ class Helper extends \Magento\Eav\Model\Resource\Helper
         $precision = null;
         $scale = null;
 
-        $matches = array();
+        $matches = [];
         if (preg_match('/^((?:var)?char)\((\d+)\)/', $type, $matches)) {
             $type = $matches[1];
             $length = $matches[2];

@@ -33,7 +33,7 @@ class Logo extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\Config $paypalConfig,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paypalConfig = $paypalConfig;
         $this->_localeResolver = $localeResolver;

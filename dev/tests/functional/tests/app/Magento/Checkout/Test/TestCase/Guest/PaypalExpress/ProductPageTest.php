@@ -8,9 +8,9 @@
 
 namespace Magento\Checkout\Test\TestCase\Guest\PaypalExpress;
 
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class ProductPageTest

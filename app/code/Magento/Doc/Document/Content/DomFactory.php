@@ -8,8 +8,8 @@
 
 namespace Magento\Doc\Document\Content;
 
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Doc\Document\DomInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 /**
  * Class DomFactory

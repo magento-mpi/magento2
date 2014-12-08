@@ -16,10 +16,10 @@ class TemplateTest extends \Magento\Backend\Utility\Controller
     {
         /** @var $formKey \Magento\Framework\Data\Form\FormKey */
         $formKey = $this->_objectManager->get('Magento\Framework\Data\Form\FormKey');
-        $post = array(
+        $post = [
             'form_key' => $formKey->getFormKey(),
-            'code' => 'customer_password_forgot_email_template'
-        );
+            'code' => 'customer_password_forgot_email_template',
+        ];
         $this->getRequest()->setPost($post);
         $this->dispatch('backend/admin/email_template/defaultTemplate/?isAjax=true');
         $this->assertContains(

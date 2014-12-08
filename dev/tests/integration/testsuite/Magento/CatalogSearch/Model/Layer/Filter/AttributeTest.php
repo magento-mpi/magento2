@@ -46,7 +46,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->_layer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Layer\Category');
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\CatalogSearch\Model\Layer\Filter\Attribute', array('layer' => $this->_layer));
+            ->create('Magento\CatalogSearch\Model\Layer\Filter\Attribute', ['layer' => $this->_layer]);
         $this->_model->setAttributeModel($attribute);
         $this->_model->setRequestVar('attribute');
     }
@@ -61,7 +61,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setParam('attribute', array());
+        $request->setParam('attribute', []);
         $this->_model->apply($request);
 
         $this->assertEmpty($this->_model->getLayer()->getState()->getFilters());

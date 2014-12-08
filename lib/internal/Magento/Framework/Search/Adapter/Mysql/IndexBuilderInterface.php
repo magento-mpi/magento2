@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
-use Magento\Framework\Search\RequestInterface;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Search\RequestInterface;
 
 /**
  * Build base Query for Index

@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductLoader
 {

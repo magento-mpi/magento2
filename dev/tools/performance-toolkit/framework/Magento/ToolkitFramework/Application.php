@@ -42,7 +42,7 @@ class Application
      *
      * @var array
      */
-    protected $_fixtures = array();
+    protected $_fixtures = [];
 
     /**
      * @var string

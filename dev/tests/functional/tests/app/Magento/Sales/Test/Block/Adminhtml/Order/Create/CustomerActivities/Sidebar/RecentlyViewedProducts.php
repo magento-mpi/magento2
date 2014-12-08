@@ -9,7 +9,6 @@
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
 
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
-use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Client\Element\Locator;
 
 /**

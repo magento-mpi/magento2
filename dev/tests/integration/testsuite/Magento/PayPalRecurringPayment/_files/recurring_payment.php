@@ -11,7 +11,7 @@ $recurringPayment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()-
     'Magento\RecurringPayment\Model\Payment'
 );
 $recurringPayment->addData(
-    array(
+    [
         'store_id' => 1,
         'method_code' => \Magento\Paypal\Model\Config::METHOD_WPP_EXPRESS,
         'reference_id' => 'I-C76MC3FM2HBX',
@@ -28,7 +28,7 @@ $recurringPayment->addData(
         'init_amount' => '100.0000',
         'billing_amount' => '100.0000',
         'currency_code' => 'USD',
-        'order_info' => array('base_currency_code' => 'USD'),
+        'order_info' => ['base_currency_code' => 'USD'],
         'order_item_info' => serialize('item info'),
         'billing_address_info' => serialize([
             'postcode' => '12345',
@@ -39,7 +39,7 @@ $recurringPayment->addData(
             'telephone' => 'Phone Number',
             'country_id' => 'Country',
             'firstname' => 'Co',
-            'address_type' => 'billing'
+            'address_type' => 'billing',
         ]),
         'shipping_address_info' => serialize([
             'postcode' => '12345',
@@ -50,8 +50,8 @@ $recurringPayment->addData(
             'telephone' => 'Phone Number',
             'country_id' => 'Country',
             'firstname' => 'Co',
-            'address_type' => 'shipping'
-])
-    )
+            'address_type' => 'shipping',
+]),
+    ]
 );
 $recurringPayment->save();

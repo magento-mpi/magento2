@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Configurable product assocciated products grid in stock renderer
  */

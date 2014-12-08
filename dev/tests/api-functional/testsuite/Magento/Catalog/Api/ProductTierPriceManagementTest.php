@@ -33,11 +33,11 @@ class ProductTierPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
 
-            $groupPriceList = $this->_webApiCall(
+        $groupPriceList = $this->_webApiCall(
                 $serviceInfo,
                 ['productSku' => $productSku, 'customerGroupId' => $customerGroupId]
             );
@@ -51,11 +51,11 @@ class ProductTierPriceManagementTest extends WebapiAbstract
 
     public function getListDataProvider()
     {
-        return array(
-            array(0, 1, 5, 3),
-            array(1, 0, null, null),
-            array('all', 2, 8, 2),
-        );
+        return [
+            [0, 1, 5, 3],
+            [1, 0, null, null],
+            ['all', 2, 8, 2],
+        ];
     }
 
     /**
@@ -76,20 +76,19 @@ class ProductTierPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Remove'
-            ]
+                'operation' => self::SERVICE_NAME . 'Remove',
+            ],
         ];
         $requestData = ['productSku' => $productSku, 'customerGroupId' => $customerGroupId, 'qty' => $qty];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 
-
     public function deleteDataProvider()
     {
-        return array(
-            'delete_tier_price_for_specific_customer_group' => array(0, 3),
-            'delete_tier_price_for_all_customer_group' => array('all', 5)
-        );
+        return [
+            'delete_tier_price_for_specific_customer_group' => [0, 3],
+            'delete_tier_price_for_all_customer_group' => ['all', 5]
+        ];
     }
 
     /**
@@ -111,15 +110,15 @@ class ProductTierPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
         ];
 
         $requestData = [
             'productSku' => $productSku,
             'customerGroupId' => $customerGroupId,
             'qty' => $qty,
-            'price' => $price
+            'price' => $price,
         ];
         $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
@@ -150,14 +149,14 @@ class ProductTierPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
         ];
         $requestData = [
             'productSku' => $productSku,
             'customerGroupId' => $customerGroupId,
             'qty' => $qty,
-            'price' => $price
+            'price' => $price,
         ];
         $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
@@ -188,14 +187,14 @@ class ProductTierPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
         ];
         $requestData = [
             'productSku' => $productSku,
             'customerGroupId' => $customerGroupId,
             'qty' => $qty,
-            'price' => $price
+            'price' => $price,
         ];
         $this->_webApiCall($serviceInfo, $requestData);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();

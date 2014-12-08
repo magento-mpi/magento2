@@ -38,7 +38,7 @@ $data = [
     'scope' => 'default',
     'scope_id' => 0,
     'path' => \Magento\Catalog\Helper\Category::XML_PATH_CATEGORY_ROOT_ID,
-    'value' => $category->getId()
+    'value' => $category->getId(),
 ];
 $installer->getConnection()
     ->insertOnDuplicate($installer->getTable('core_config_data'), $data, ['value']);
@@ -55,7 +55,7 @@ $installer->updateAttributeGroup($entityTypeId, $attributeSetId, $attributeGroup
 
 $groups = [
     'display' => ['name' => 'Display Settings', 'sort' => 20, 'id' => null],
-    'design' => ['name' => 'Custom Design', 'sort' => 30, 'id' => null]
+    'design' => ['name' => 'Custom Design', 'sort' => 30, 'id' => null],
 ];
 
 foreach ($groups as $k => $groupProp) {
@@ -75,7 +75,7 @@ $attributes = [
     'landing_page' => ['group' => 'display', 'sort' => 20],
     'is_anchor' => ['group' => 'display', 'sort' => 30],
     'available_sort_by' => ['group' => 'display', 'sort' => 40],
-    'default_sort_by' => ['group' => 'display', 'sort' => 50]
+    'default_sort_by' => ['group' => 'display', 'sort' => 50],
 ];
 
 foreach ($attributes as $attributeCode => $attributeProp) {
@@ -94,7 +94,7 @@ foreach ($attributes as $attributeCode => $attributeProp) {
 $data = [
     ['link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED, 'code' => 'relation'],
     ['link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL, 'code' => 'up_sell'],
-    ['link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL, 'code' => 'cross_sell']
+    ['link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL, 'code' => 'cross_sell'],
 ];
 
 foreach ($data as $bind) {
@@ -109,7 +109,7 @@ $data = [
     [
         'link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_RELATED,
         'product_link_attribute_code' => 'position',
-        'data_type' => 'int'
+        'data_type' => 'int',
     ],
     [
         'link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_UPSELL,
@@ -120,7 +120,7 @@ $data = [
         'link_type_id' => \Magento\Catalog\Model\Product\Link::LINK_TYPE_CROSSSELL,
         'product_link_attribute_code' => 'position',
         'data_type' => 'int'
-    ]
+    ],
 ];
 
 $installer->getConnection()
@@ -150,27 +150,27 @@ $tabNames = [
         'attribute_group_name' => $newGeneralTabName,
         'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newGeneralTabName)),
         'tab_group_code' => 'basic',
-        'sort_order' => 10
+        'sort_order' => 10,
     ],
     'Images' => [
         'attribute_group_name' => $newImagesTabName,
         'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newImagesTabName)),
         'tab_group_code' => 'basic',
-        'sort_order' => 20
+        'sort_order' => 20,
     ],
     'Meta Information' => [
         'attribute_group_name' => $newMetaTabName,
         'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newMetaTabName)),
         'tab_group_code' => 'basic',
-        'sort_order' => 30
+        'sort_order' => 30,
     ],
     'Prices' => [
         'attribute_group_name' => $newPriceTabName,
         'attribute_group_code' => preg_replace('/[^a-z0-9]+/', '-', strtolower($newPriceTabName)),
         'tab_group_code' => 'advanced',
-        'sort_order' => 40
+        'sort_order' => 40,
     ],
-    'Design' => ['attribute_group_code' => 'design', 'tab_group_code' => 'advanced', 'sort_order' => 50]
+    'Design' => ['attribute_group_code' => 'design', 'tab_group_code' => 'advanced', 'sort_order' => 50],
 ];
 
 $entityTypeId = $installer->getEntityTypeId(\Magento\Catalog\Model\Product::ENTITY);
@@ -212,14 +212,14 @@ $attributesOrder = [
         $newGeneralTabName => 100,
         'is_required' => 0,
         'default_value' => 1,
-        'frontend_input_renderer' => 'Magento\Framework\Data\Form\Element\Hidden'
+        'frontend_input_renderer' => 'Magento\Framework\Data\Form\Element\Hidden',
     ],
     //Autosettings tab
     'short_description' => [$autosettingsTabName => 0, 'is_required' => 0],
     'visibility' => [$autosettingsTabName => 20, 'is_required' => 0],
     'news_from_date' => [$autosettingsTabName => 30],
     'news_to_date' => [$autosettingsTabName => 40],
-    'country_of_manufacture' => [$autosettingsTabName => 50]
+    'country_of_manufacture' => [$autosettingsTabName => 50],
 ];
 
 foreach ($attributesOrder as $key => $value) {

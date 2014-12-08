@@ -33,7 +33,7 @@ class Factory
      * @throws \InvalidArgumentException
      * @return \Magento\Framework\Model\AbstractModel
      */
-    public function create($model, array $data = array())
+    public function create($model, array $data = [])
     {
         $modelInstance = $this->_objectManager->create($model, $data);
         if (false == $modelInstance instanceof \Magento\Framework\Model\AbstractModel) {

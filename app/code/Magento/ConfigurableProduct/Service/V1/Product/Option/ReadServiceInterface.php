@@ -9,7 +9,6 @@ namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 interface ReadServiceInterface
 {
-
     /**
      * Get option for configurable product
      *

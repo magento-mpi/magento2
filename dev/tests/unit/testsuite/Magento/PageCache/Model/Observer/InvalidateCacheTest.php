@@ -26,12 +26,12 @@ class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock(
             'Magento\PageCache\Model\Config',
-            array('getType', 'isEnabled'),
-            array(),
+            ['getType', 'isEnabled'],
+            [],
             '',
             false
         );
-        $this->_typeListMock = $this->getMock('Magento\Framework\App\Cache\TypeList', array(), array(), '', false);
+        $this->_typeListMock = $this->getMock('Magento\Framework\App\Cache\TypeList', [], [], '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer\InvalidateCache(
             $this->_configMock,
@@ -55,7 +55,6 @@ class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
 
     public function invalidateCacheDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
-
-} 
+}

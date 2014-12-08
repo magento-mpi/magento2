@@ -7,7 +7,7 @@
  */
 
 namespace Magento\Framework\Locale;
-use Magento\Framework\Locale\CurrencyInterface;
+
 
 
 class CurrencyTest extends \PHPUnit_Framework_TestCase
@@ -173,7 +173,7 @@ class CurrencyTest extends \PHPUnit_Framework_TestCase
         $this->mockCurrencyFactory
             ->expects($this->at(0))
             ->method('create')
-            ->will($this->throwException(new \Exception));
+            ->will($this->throwException(new \Exception()));
 
         $this->mockCurrencyFactory
             ->expects($this->at(1))

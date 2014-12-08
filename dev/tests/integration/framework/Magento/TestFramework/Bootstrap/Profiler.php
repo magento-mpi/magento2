@@ -57,7 +57,7 @@ class Profiler
     {
         $this->_registerDriver();
         $this->_driver->registerOutput(
-            new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(array('filePath' => $profilerOutputFile))
+            new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(['filePath' => $profilerOutputFile])
         );
     }
 
@@ -72,7 +72,7 @@ class Profiler
         $this->_registerDriver();
         $this->_driver->registerOutput(
             new \Magento\TestFramework\Profiler\OutputBamboo(
-                array('filePath' => $profilerOutputFile, 'metrics' => require $profilerMetricsFile)
+                ['filePath' => $profilerOutputFile, 'metrics' => require $profilerMetricsFile]
             )
         );
     }

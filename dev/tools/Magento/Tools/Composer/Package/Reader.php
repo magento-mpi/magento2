@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Composer\Package;
 
-use \Magento\Tools\Composer\Helper\ExcludeFilter;
+use Magento\Tools\Composer\Helper\ExcludeFilter;
 
 /**
  * A reader of composer.json files
@@ -133,9 +133,9 @@ class Reader
 
         $filteredMappingList = $this->getConciseMappingInfo($mappingList);
 
-        $mappings = array();
+        $mappings = [];
         foreach ($filteredMappingList as $path) {
-            $mappings[] = array($path, $path);
+            $mappings[] = [$path, $path];
         }
 
         return $mappings;

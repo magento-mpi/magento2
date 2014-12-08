@@ -3,7 +3,7 @@
  * Object manager configuration cache
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */

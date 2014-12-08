@@ -23,7 +23,7 @@ class PeriodUnitsTest extends \PHPUnit_Framework_TestCase
     public function testToOptionArray()
     {
         $this->assertEquals(
-            array('day' => 'Day', 'week' => 'Week', 'semi_month' => 'Two Weeks', 'month' => 'Month', 'year' => 'Year'),
+            ['day' => 'Day', 'week' => 'Week', 'semi_month' => 'Two Weeks', 'month' => 'Month', 'year' => 'Year'],
             $this->object->toOptionArray()
         );
     }

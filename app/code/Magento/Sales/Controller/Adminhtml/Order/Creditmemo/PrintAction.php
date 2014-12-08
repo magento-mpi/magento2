@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Creditmemo;
 
-use \Magento\Framework\App\ResponseInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 class PrintAction extends \Magento\Sales\Controller\Adminhtml\Creditmemo\AbstractCreditmemo\PrintAction

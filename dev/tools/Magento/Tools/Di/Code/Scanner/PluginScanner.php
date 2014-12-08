@@ -17,7 +17,7 @@ class PluginScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $pluginClassNames = array();
+        $pluginClassNames = [];
         foreach ($files as $fileName) {
             $dom = new \DOMDocument();
             $dom->loadXML(file_get_contents($fileName));

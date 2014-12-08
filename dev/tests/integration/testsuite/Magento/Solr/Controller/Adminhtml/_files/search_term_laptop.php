@@ -14,11 +14,11 @@ $storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
 /** @var \Magento\Search\Model\Query $model */
 $model = $objectManager->create('Magento\Search\Model\Query');
 $model->setData(
-    array(
+    [
         'query_text' => 'Laptop',
         'synonym_for' => 'Notebook',
         'is_active' => true,
-        'store_id' => $storeManager->getStore()->getId()
-    )
+        'store_id' => $storeManager->getStore()->getId(),
+    ]
 );
 $model->save();

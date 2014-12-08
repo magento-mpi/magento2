@@ -93,7 +93,7 @@ class DirectoryList
      * @param string $root
      * @param array $config
      */
-    public function __construct($root, array $config = array())
+    public function __construct($root, array $config = [])
     {
         static::validate($config);
         $this->root = $this->filterPath($root);

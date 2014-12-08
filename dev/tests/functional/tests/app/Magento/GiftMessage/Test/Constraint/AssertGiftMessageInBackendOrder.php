@@ -35,7 +35,7 @@ class AssertGiftMessageInBackendOrder extends AbstractAssertForm
         'allow_gift_options_for_items',
         'allow_gift_messages_for_order',
         'allow_gift_options',
-        'items'
+        'items',
     ];
 
     /**

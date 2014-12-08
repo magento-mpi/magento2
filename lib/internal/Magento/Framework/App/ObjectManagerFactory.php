@@ -10,12 +10,11 @@
 namespace Magento\Framework\App;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Code\Generator\FileResolver;
+use Magento\Framework\Filesystem\DriverPool;
 use Magento\Framework\ObjectManager\Environment;
 use Magento\Framework\ObjectManager\EnvironmentFactory;
 use Magento\Framework\ObjectManager\EnvironmentInterface;
-use Magento\Framework\Profiler;
-use Magento\Framework\Code\Generator\FileResolver;
-use Magento\Framework\Filesystem\DriverPool;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -206,7 +205,7 @@ class ObjectManagerFactory
                 'null' => new \Magento\Framework\Data\Argument\Interpreter\NullType(),
                 'object' => new \Magento\Framework\Data\Argument\Interpreter\Object($booleanUtils),
                 'const' => $constInterpreter,
-                'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter)
+                'init_parameter' => new \Magento\Framework\App\Arguments\ArgumentInterpreter($constInterpreter),
             ],
             \Magento\Framework\ObjectManager\Config\Reader\Dom::TYPE_ATTRIBUTE
         );

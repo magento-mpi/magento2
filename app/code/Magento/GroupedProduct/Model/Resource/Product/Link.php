@@ -23,10 +23,10 @@ class Link extends \Magento\Catalog\Model\Resource\Product\Link
     {
         $adapter = $this->_getWriteAdapter();
         // check for change relations
-        $bind = array('product_id' => (int)$product->getId(), 'link_type_id' => self::LINK_TYPE_GROUPED);
+        $bind = ['product_id' => (int)$product->getId(), 'link_type_id' => self::LINK_TYPE_GROUPED];
         $select = $adapter->select()->from(
             $this->getMainTable(),
-            array('linked_product_id')
+            ['linked_product_id']
         )->where(
             'product_id = :product_id'
         )->where(
@@ -61,11 +61,11 @@ class Link extends \Magento\Catalog\Model\Resource\Product\Link
     public function getChildrenIds($parentId, $typeId)
     {
         $adapter = $this->_getReadAdapter();
-        $childrenIds = array();
-        $bind = array(':product_id' => (int)$parentId, ':link_type_id' => (int)$typeId);
+        $childrenIds = [];
+        $bind = [':product_id' => (int)$parentId, ':link_type_id' => (int)$typeId];
         $select = $adapter->select()->from(
-            array('l' => $this->getMainTable()),
-            array('linked_product_id')
+            ['l' => $this->getMainTable()],
+            ['linked_product_id']
         )->where(
             'product_id = :product_id'
         )->where(
@@ -73,12 +73,12 @@ class Link extends \Magento\Catalog\Model\Resource\Product\Link
         );
 
         $select->join(
-            array('e' => $this->getTable('catalog_product_entity')),
+            ['e' => $this->getTable('catalog_product_entity')],
             'e.entity_id = l.linked_product_id AND e.required_options = 0',
-            array()
+            []
         );
 
-        $childrenIds[$typeId] = array();
+        $childrenIds[$typeId] = [];
         $result = $adapter->fetchAll($select, $bind);
         foreach ($result as $row) {
             $childrenIds[$typeId][$row['linked_product_id']] = $row['linked_product_id'];

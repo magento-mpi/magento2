@@ -7,11 +7,11 @@
  */
 namespace Magento\ConfigurableProduct\Service\V1\Product\Link;
 
-use \Magento\Catalog\Api\ProductRepositoryInterface;
-use \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
-use Magento\Framework\Exception\StateException;
+use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 use Magento\Webapi\Exception;
 
 class WriteService implements WriteServiceInterface
@@ -73,7 +73,7 @@ class WriteService implements WriteServiceInterface
         }
 
         $options = $product->getTypeInstance()->getUsedProducts($product);
-        $ids = array();
+        $ids = [];
         foreach ($options as $option) {
             if ($option->getSku() == $childSku) {
                 continue;

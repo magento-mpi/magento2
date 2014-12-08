@@ -34,4 +34,4 @@ class GridPerPageTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expect, $this->model->toOptionArray());
     }
-} 
+}

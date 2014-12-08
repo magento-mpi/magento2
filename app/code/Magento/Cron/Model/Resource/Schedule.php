@@ -39,8 +39,8 @@ class Schedule extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $write = $this->_getWriteAdapter();
         $result = $write->update(
             $this->getTable('cron_schedule'),
-            array('status' => $newStatus),
-            array('schedule_id = ?' => $scheduleId, 'status = ?' => $currentStatus)
+            ['status' => $newStatus],
+            ['schedule_id = ?' => $scheduleId, 'status = ?' => $currentStatus]
         );
         if ($result == 1) {
             return true;

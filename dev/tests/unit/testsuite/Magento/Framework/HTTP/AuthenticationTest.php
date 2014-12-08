@@ -17,11 +17,11 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCredentials($server, $expectedLogin, $expectedPass)
     {
-        $request = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $request = $this->getMock('\Magento\Framework\App\Request\Http', [], [], '', false);
         $request->expects($this->once())->method('getServer')->will($this->returnValue($server));
-        $response = $this->getMock('\Magento\Framework\App\Response\Http', array(), array(), '', false);
+        $response = $this->getMock('\Magento\Framework\App\Response\Http', [], [], '', false);
         $authentication = new \Magento\Framework\HTTP\Authentication($request, $response);
-        $this->assertSame(array($expectedLogin, $expectedPass), $authentication->getCredentials());
+        $this->assertSame([$expectedLogin, $expectedPass], $authentication->getCredentials());
     }
 
     /**
@@ -37,35 +37,35 @@ class AuthenticationTest extends \PHPUnit_Framework_TestCase
         $anotherPassword = 'another_password';
         $anotherHeader = 'Basic YW5vdGhlcl9sb2dpbjphbm90aGVyX3Bhc3N3b3Jk';
 
-        return array(
-            array(array(), '', ''),
-            array(array('REDIRECT_HTTP_AUTHORIZATION' => $header), $login, $password),
-            array(array('HTTP_AUTHORIZATION' => $header), $login, $password),
-            array(array('Authorization' => $header), $login, $password),
-            array(
-                array(
+        return [
+            [[], '', ''],
+            [['REDIRECT_HTTP_AUTHORIZATION' => $header], $login, $password],
+            [['HTTP_AUTHORIZATION' => $header], $login, $password],
+            [['Authorization' => $header], $login, $password],
+            [
+                [
                     'REDIRECT_HTTP_AUTHORIZATION' => $header,
                     'PHP_AUTH_USER' => $anotherLogin,
-                    'PHP_AUTH_PW' => $anotherPassword
-                ),
+                    'PHP_AUTH_PW' => $anotherPassword,
+                ],
                 $anotherLogin,
                 $anotherPassword
-            ),
-            array(
-                array(
+            ],
+            [
+                [
                     'REDIRECT_HTTP_AUTHORIZATION' => $header,
                     'PHP_AUTH_USER' => $anotherLogin,
-                    'PHP_AUTH_PW' => $anotherPassword
-                ),
+                    'PHP_AUTH_PW' => $anotherPassword,
+                ],
                 $anotherLogin,
                 $anotherPassword
-            ),
-            array(
-                array('REDIRECT_HTTP_AUTHORIZATION' => $header, 'HTTP_AUTHORIZATION' => $anotherHeader),
+            ],
+            [
+                ['REDIRECT_HTTP_AUTHORIZATION' => $header, 'HTTP_AUTHORIZATION' => $anotherHeader],
                 $anotherLogin,
                 $anotherPassword
-            )
-        );
+            ]
+        ];
     }
 
     public function testSetAuthenticationFailed()

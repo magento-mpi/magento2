@@ -9,8 +9,8 @@
 namespace Magento\AdvancedCheckout\Test\Constraint;
 
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductConfiguringFromRequiringAttention

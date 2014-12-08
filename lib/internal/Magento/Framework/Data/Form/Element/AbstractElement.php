@@ -73,7 +73,7 @@ abstract class AbstractElement extends AbstractForm
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         $this->_escaper = $escaper;
         parent::__construct($factoryElement, $factoryCollection, $data);
@@ -229,7 +229,7 @@ abstract class AbstractElement extends AbstractForm
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -241,7 +241,7 @@ abstract class AbstractElement extends AbstractForm
             'tabindex',
             'placeholder',
             'data-form-part'
-        );
+        ];
     }
 
     /**
@@ -479,7 +479,7 @@ abstract class AbstractElement extends AbstractForm
      * @param string $quote
      * @return string
      */
-    public function serialize($attributes = array(), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
+    public function serialize($attributes = [], $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
     {
         if ($this->isLocked() && !empty($attributes)) {
             $attributes[] = $this->lockHtmlAttribute;
@@ -540,7 +540,7 @@ abstract class AbstractElement extends AbstractForm
         }
         if (!is_array($values)) {
             $values = $this->_escaper->escapeHtml(trim($values));
-            $values = array($values => $values);
+            $values = [$values => $values];
         }
         $elementValues = $this->getValues();
         if (!empty($elementValues)) {

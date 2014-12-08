@@ -28,7 +28,7 @@ class ListFactory
      * @param array $arguments
      * @return \Magento\Sales\Model\Status\ListStatus
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create('Magento\Sales\Model\Status\ListStatus', $arguments);
     }

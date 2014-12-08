@@ -99,23 +99,23 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         if ($useDefaultValue) {
             $this->getSelect()->join(
-                array('tdv' => $this->_optionValueTable),
+                ['tdv' => $this->_optionValueTable],
                 'tdv.option_id = main_table.option_id',
-                array('default_value' => 'value')
+                ['default_value' => 'value']
             )->joinLeft(
-                array('tsv' => $this->_optionValueTable),
+                ['tsv' => $this->_optionValueTable],
                 $joinCondition,
-                array(
+                [
                     'store_default_value' => 'value',
                     'value' => $adapter->getCheckSql('tsv.value_id > 0', 'tsv.value', 'tdv.value')
-                )
+                ]
             )->where(
                 'tdv.store_id = ?',
                 0
             );
         } else {
             $this->getSelect()->joinLeft(
-                array('tsv' => $this->_optionValueTable),
+                ['tsv' => $this->_optionValueTable],
                 $joinCondition,
                 'value'
             )->where(
@@ -137,7 +137,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setIdFilter($optionId)
     {
-        return $this->addFieldToFilter('main_table.option_id', array('in' => $optionId));
+        return $this->addFieldToFilter('main_table.option_id', ['in' => $optionId]);
     }
 
     /**
@@ -164,9 +164,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         // sort alphabetically by values in admin
         if ($sortAlpha) {
             $this->getSelect()->joinLeft(
-                array('sort_alpha_value' => $this->_optionValueTable),
+                ['sort_alpha_value' => $this->_optionValueTable],
                 'sort_alpha_value.option_id = main_table.option_id AND sort_alpha_value.store_id = 0',
-                array('value')
+                ['value']
             );
             $this->setOrder('sort_alpha_value.value', $dir);
         }

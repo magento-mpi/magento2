@@ -59,4 +59,3 @@ class RevertRewardPointsForAllOrdersTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

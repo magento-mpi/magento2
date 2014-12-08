@@ -7,7 +7,7 @@
  */
 namespace  Magento\Sales\Model\Order\Email\Container;
 
-use \Magento\Store\Model\Store;
+use Magento\Store\Model\Store;
 
 interface IdentityInterface
 {

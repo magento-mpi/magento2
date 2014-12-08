@@ -116,9 +116,9 @@ class Admin extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($collection->getItems() as $key => $item) {
             if ($item instanceof \Magento\Catalog\Model\Product) {
                 $type = $item->getTypeId();
-            } else if ($item instanceof \Magento\Sales\Model\Order\Item) {
+            } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
                 $type = $item->getProductType();
-            } else if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+            } elseif ($item instanceof \Magento\Sales\Model\Quote\Item) {
                 $type = $item->getProductType();
             } else {
                 $type = '';

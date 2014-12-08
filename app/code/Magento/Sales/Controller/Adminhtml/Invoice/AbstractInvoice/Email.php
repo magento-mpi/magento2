@@ -47,7 +47,7 @@ abstract class Email extends \Magento\Backend\App\Action
         $this->messageManager->addSuccess(__('We sent the message.'));
         $this->_redirect(
             'sales/invoice/view',
-            array('order_id' => $invoice->getOrder()->getId(), 'invoice_id' => $invoiceId)
+            ['order_id' => $invoice->getOrder()->getId(), 'invoice_id' => $invoiceId]
         );
     }
 }

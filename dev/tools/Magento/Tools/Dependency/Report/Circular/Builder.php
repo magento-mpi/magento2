@@ -49,9 +49,9 @@ class Builder extends AbstractBuilder
      */
     protected function buildData($modulesData)
     {
-        $modules = array();
+        $modules = [];
         foreach ($this->buildCircularDependencies($modulesData) as $moduleName => $modulesChains) {
-            $chains = array();
+            $chains = [];
             foreach ($modulesChains as $modulesChain) {
                 $chains[] = new Data\Chain($modulesChain);
             }
@@ -68,7 +68,7 @@ class Builder extends AbstractBuilder
      */
     protected function buildCircularDependencies($modulesData)
     {
-        $dependencies = array();
+        $dependencies = [];
         foreach ($modulesData as $moduleData) {
             foreach ($moduleData['dependencies'] as $dependencyData) {
                 $dependencies[$moduleData['name']][] = $dependencyData['module'];

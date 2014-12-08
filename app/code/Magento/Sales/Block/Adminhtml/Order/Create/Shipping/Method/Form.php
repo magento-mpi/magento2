@@ -49,7 +49,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxData = $taxData;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);

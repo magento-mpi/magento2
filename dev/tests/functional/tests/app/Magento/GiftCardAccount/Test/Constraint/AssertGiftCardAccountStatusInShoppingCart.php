@@ -8,12 +8,12 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Client\Browser;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
 
 /**
  * Class AssertGiftCardAccountStatusInShoppingCart

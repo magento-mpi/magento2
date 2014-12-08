@@ -43,7 +43,7 @@ class Types extends \Magento\Backend\App\Action
         if (!$this->_actionFlag->get('', self::FLAG_NO_POST_DISPATCH)) {
             $this->_eventManager->dispatch(
                 'controller_action_postdispatch_adminhtml',
-                array('controller_action' => $this)
+                ['controller_action' => $this]
             );
         }
         return $response;

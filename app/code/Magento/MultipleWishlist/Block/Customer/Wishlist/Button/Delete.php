@@ -45,7 +45,7 @@ class Delete extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('wishlist/index/deletewishlist', array('wishlist_id' => '%item%'));
+        return $this->getUrl('wishlist/index/deletewishlist', ['wishlist_id' => '%item%']);
     }
 
     /**

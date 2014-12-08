@@ -21,7 +21,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         return $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Framework\Data\Dependency',
-            array('lib' => $lib, 'count' => $count)
+            ['lib' => $lib, 'count' => $count]
         );
     }
 

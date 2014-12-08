@@ -8,18 +8,18 @@
 
 namespace Magento\Reports\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Review\Test\Fixture\ReviewInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CustomerReviewReportEntity

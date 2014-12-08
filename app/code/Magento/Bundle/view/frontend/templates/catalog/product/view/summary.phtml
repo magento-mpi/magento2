@@ -22,7 +22,7 @@
             <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($_product, 'bundled_product_customization_page')->toHtml() ?>
             <div class="product-details">
                 <strong class="product name"><?php echo $this->escapeHtml($_product->getName()) ?></strong>
-                <?php if($_product->getIsSalable()): ?>
+                <?php if ($_product->getIsSalable()): ?>
                     <p class="available stock" title="<?php echo __('Availability') ?>">
                         <span><?php echo __('In stock') ?></span>
                     </p>

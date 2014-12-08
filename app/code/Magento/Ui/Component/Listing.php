@@ -7,16 +7,16 @@
  */
 namespace Magento\Ui\Component;
 
-use Magento\Ui\DataProvider\Manager;
-use Magento\Ui\Component\Listing\RowPool;
-use Magento\Ui\Component\Control\ActionPool;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Ui\Component\Listing\OptionsFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
 use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
+use Magento\Ui\Component\Control\ActionPool;
+use Magento\Ui\Component\Listing\OptionsFactory;
+use Magento\Ui\Component\Listing\RowPool;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Ui\DataProvider\Manager;
 
 /**
  * Class Listing
@@ -223,8 +223,8 @@ class Listing extends AbstractView
                 'root' => $url,
                 'ajax' => [
                     'data' => [
-                        'component' => $this->getNameInLayout()
-                    ]
+                        'component' => $this->getNameInLayout(),
+                    ],
                 ]
             ]
         );
@@ -239,7 +239,7 @@ class Listing extends AbstractView
                     'meta_reference' => $this->getName(),
                     'items' => $this->getCollectionItems(),
                     'pages' => ceil($totalCount / $this->renderContext->getRequestParam('limit', 20)),
-                    'totalCount' => $totalCount
+                    'totalCount' => $totalCount,
                 ]
             ]
         );
@@ -258,8 +258,8 @@ class Listing extends AbstractView
                     'name' => 'add',
                     'label' => __('Add New'),
                     'class' => 'primary',
-                    'url' => $this->getUrl('*/*/new')
-                ]
+                    'url' => $this->getUrl('*/*/new'),
+                ],
             ]
         ];
     }

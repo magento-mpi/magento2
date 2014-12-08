@@ -10,5 +10,5 @@
 $segment = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\CustomerSegment\Model\Segment'
 );
-$segment->loadPost(array('name' => 'Developers', 'is_active' => '1'));
+$segment->loadPost(['name' => 'Developers', 'is_active' => '1']);
 $segment->save();

@@ -8,12 +8,12 @@
 
 namespace Magento\Checkout\Service\V1\Cart;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\StateException;
-use Magento\Authorization\Model\UserContextInterface;
 
-/** 
- * Cart write service object. 
+/**
+ * Cart write service object.
  */
 class WriteService implements WriteServiceInterface
 {

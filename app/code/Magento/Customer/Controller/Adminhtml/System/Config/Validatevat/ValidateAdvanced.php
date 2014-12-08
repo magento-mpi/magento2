@@ -38,7 +38,7 @@ class ValidateAdvanced extends \Magento\Customer\Controller\Adminhtml\System\Con
             $storeId
         );
 
-        $body = $coreHelper->jsonEncode(array('valid' => $valid, 'group' => $groupId, 'success' => $success));
+        $body = $coreHelper->jsonEncode(['valid' => $valid, 'group' => $groupId, 'success' => $success]);
         $this->getResponse()->representJson($body);
     }
 }

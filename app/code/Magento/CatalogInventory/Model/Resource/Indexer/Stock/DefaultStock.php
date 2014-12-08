@@ -165,20 +165,20 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $adapter = $this->_getWriteAdapter();
         $qtyExpr = $adapter->getCheckSql('cisi.qty > 0', 'cisi.qty', 0);
         $select = $adapter->select()->from(
-            array('e' => $this->getTable('catalog_product_entity')),
-            array('entity_id')
+            ['e' => $this->getTable('catalog_product_entity')],
+            ['entity_id']
         );
         $this->_addWebsiteJoinToSelect($select, true);
         $this->_addProductWebsiteJoinToSelect($select, 'cw.website_id', 'e.entity_id');
         $select->columns('cw.website_id')->join(
-            array('cis' => $this->getTable('cataloginventory_stock')),
+            ['cis' => $this->getTable('cataloginventory_stock')],
             '',
-            array('stock_id')
+            ['stock_id']
         )->joinLeft(
-            array('cisi' => $this->getTable('cataloginventory_stock_item')),
+            ['cisi' => $this->getTable('cataloginventory_stock_item')],
             'cisi.stock_id = cis.stock_id AND cisi.product_id = e.entity_id',
-            array()
-        )->columns(array('qty' => $qtyExpr))
+            []
+        )->columns(['qty' => $qtyExpr])
             ->where('cw.website_id != 0')
             ->where('e.type_id = ?', $this->getTypeId());
 
@@ -200,7 +200,7 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
             );
         }
 
-        $select->columns(array('status' => $statusExpr));
+        $select->columns(['status' => $statusExpr]);
 
         if (!is_null($entityIds)) {
             $select->where('e.entity_id IN(?)', $entityIds);
@@ -238,19 +238,19 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         $query = $adapter->query($select);
 
         $i = 0;
-        $data = array();
+        $data = [];
         while ($row = $query->fetch(\PDO::FETCH_ASSOC)) {
             $i++;
-            $data[] = array(
+            $data[] = [
                 'product_id' => (int)$row['entity_id'],
                 'website_id' => (int)$row['website_id'],
                 'stock_id' => (int)$row['stock_id'],
                 'qty' => (double)$row['qty'],
-                'stock_status' => (int)$row['status']
-            );
+                'stock_status' => (int)$row['status'],
+            ];
             if ($i % 1000 == 0) {
                 $this->_updateIndexTable($data);
-                $data = array();
+                $data = [];
             }
         }
         $this->_updateIndexTable($data);
@@ -271,7 +271,7 @@ class DefaultStock extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         }
 
         $adapter = $this->_getWriteAdapter();
-        $adapter->insertOnDuplicate($this->getMainTable(), $data, array('qty', 'stock_status'));
+        $adapter->insertOnDuplicate($this->getMainTable(), $data, ['qty', 'stock_status']);
 
         return $this;
     }

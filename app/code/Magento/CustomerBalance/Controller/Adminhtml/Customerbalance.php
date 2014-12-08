@@ -83,7 +83,6 @@ class Customerbalance extends \Magento\Backend\App\Action
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
-
     }
 
     /**

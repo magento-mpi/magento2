@@ -46,7 +46,7 @@ class Validate extends \Magento\Catalog\Controller\Adminhtml\Product\Action\Attr
     {
         $response = $this->_objectManager->create('Magento\Framework\Object');
         $response->setError(false);
-        $attributesData = $this->getRequest()->getParam('attributes', array());
+        $attributesData = $this->getRequest()->getParam('attributes', []);
         $data = $this->_objectManager->create('Magento\Catalog\Model\Product');
 
         try {

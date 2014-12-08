@@ -8,7 +8,6 @@
 namespace Magento\Framework\Data;
 
 use Magento\Framework\DB\QueryInterface;
-use Magento\Framework\Data\AbstractSearchResult;
 
 /**
  * Class SearchResultIterator

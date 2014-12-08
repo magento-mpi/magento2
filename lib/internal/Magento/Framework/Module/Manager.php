@@ -11,7 +11,7 @@
  */
 namespace Magento\Framework\Module;
 
-use \Magento\Framework\Module\Updater\SetupInterface;
+use Magento\Framework\Module\Updater\SetupInterface;
 
 class Manager
 {
@@ -45,7 +45,7 @@ class Manager
         Output\ConfigInterface $outputConfig,
         ModuleListInterface $moduleList,
         ResourceInterface $moduleResource,
-        array $outputConfigPaths = array()
+        array $outputConfigPaths = []
     ) {
         $this->_outputConfig = $outputConfig;
         $this->_moduleList = $moduleList;

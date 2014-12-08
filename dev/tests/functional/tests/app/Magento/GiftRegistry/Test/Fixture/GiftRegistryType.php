@@ -46,7 +46,7 @@ class GiftRegistryType extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'general'
+        'group' => 'general',
     ];
 
     protected $meta_xml = [
@@ -71,7 +71,7 @@ class GiftRegistryType extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => '',
-        'group' => 'general'
+        'group' => 'general',
     ];
 
     protected $is_listed = [
@@ -80,7 +80,7 @@ class GiftRegistryType extends InjectableFixture
         'is_required' => '',
         'default_value' => '',
         'input' => 'select',
-        'group' => 'general'
+        'group' => 'general',
     ];
 
     protected $sort_order = [
@@ -95,7 +95,7 @@ class GiftRegistryType extends InjectableFixture
         'attribute_code' => 'attributes',
         'backend_type' => 'virtual',
         'source' => '\Magento\GiftRegistry\Test\Fixture\GiftRegistryType\Attributes',
-        'group' => 'attributes'
+        'group' => 'attributes',
     ];
 
     public function getTypeId()

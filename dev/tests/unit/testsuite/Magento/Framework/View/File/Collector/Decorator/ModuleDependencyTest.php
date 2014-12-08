@@ -50,8 +50,7 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getFiles')
             ->with($theme, '*.xml')
-            ->will($this->returnValue($fixtureFiles))
-        ;
+            ->will($this->returnValue($fixtureFiles));
         $this->assertSame($expectedFiles, $this->_model->getFiles($theme, '*.xml'), $message);
     }
 
@@ -63,27 +62,27 @@ class ModuleDependencyTest extends \PHPUnit_Framework_TestCase
 
         $unknownFileOne = new \Magento\Framework\View\File('b.xml', 'Unknown_ModuleA');
         $unknownFileTwo = new \Magento\Framework\View\File('a.xml', 'Unknown_ModuleB');
-        return array(
-            'same module' => array(
-                array($fileThree, $fileTwo),
-                array($fileTwo, $fileThree),
+        return [
+            'same module' => [
+                [$fileThree, $fileTwo],
+                [$fileTwo, $fileThree],
                 'Files belonging to the same module are expected to be sorted by file names',
-            ),
-            'different modules' => array(
-                array($fileTwo, $fileOne),
-                array($fileOne, $fileTwo),
+            ],
+            'different modules' => [
+                [$fileTwo, $fileOne],
+                [$fileOne, $fileTwo],
                 'Files belonging to different modules are expected to be sorted by module dependencies',
-            ),
-            'different unknown modules' => array(
-                array($unknownFileTwo, $unknownFileOne),
-                array($unknownFileOne, $unknownFileTwo),
+            ],
+            'different unknown modules' => [
+                [$unknownFileTwo, $unknownFileOne],
+                [$unknownFileOne, $unknownFileTwo],
                 'Files belonging to different unknown modules are expected to be sorted by module names',
-            ),
-            'known and unknown modules' => array(
-                array($fileTwo, $unknownFileOne),
-                array($unknownFileOne, $fileTwo),
+            ],
+            'known and unknown modules' => [
+                [$fileTwo, $unknownFileOne],
+                [$unknownFileOne, $fileTwo],
                 'Files belonging to unknown modules are expected to go before ones of known modules',
-            ),
-        );
+            ],
+        ];
     }
 }

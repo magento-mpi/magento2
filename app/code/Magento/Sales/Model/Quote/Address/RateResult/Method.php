@@ -29,7 +29,7 @@ class Method extends AbstractResult
      */
     public function __construct(
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         parent::__construct($data);

@@ -70,7 +70,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             [
                 'addressId' => 'gr_address_2',
                 'expectedCalls' => 1,
-                'expectedResult' => 2
+                'expectedResult' => 2,
             ],
             [
                 'addressId' => 'gr_address_',

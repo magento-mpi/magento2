@@ -129,7 +129,6 @@ class ErrorProcessor
                 $errors,
                 $stackTrace
             );
-
         } elseif ($exception instanceof WebapiException) {
             $maskedException = $exception;
         } else {
@@ -238,8 +237,8 @@ class ErrorProcessor
      */
     protected function _formatError($errorMessage, $trace, $httpCode, $format)
     {
-        $errorData = array();
-        $message = array('code' => $httpCode, 'message' => $errorMessage);
+        $errorData = [];
+        $message = ['code' => $httpCode, 'message' => $errorMessage];
         $isDeveloperMode = $this->_appState->getMode() == State::MODE_DEVELOPER;
         if ($isDeveloperMode) {
             $message['trace'] = $trace;
@@ -274,7 +273,7 @@ class ErrorProcessor
      */
     public function registerShutdownFunction()
     {
-        register_shutdown_function(array($this, self::DEFAULT_SHUTDOWN_FUNCTION));
+        register_shutdown_function([$this, self::DEFAULT_SHUTDOWN_FUNCTION]);
         return $this;
     }
 

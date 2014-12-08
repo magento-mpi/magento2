@@ -24,4 +24,4 @@ class Stub extends AbstractPrice
         $examplePrice = 77.0;
         return $examplePrice;
     }
-} 
+}

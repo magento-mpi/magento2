@@ -105,7 +105,7 @@ class Element extends \Magento\Framework\Simplexml\Element
         $tagName = (string)$this->getName();
         $isThisBlock = empty($this['name']) || !in_array(
             $tagName,
-            array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK)
+            [self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK]
         );
 
         if ($isThisBlock) {
@@ -126,7 +126,7 @@ class Element extends \Magento\Framework\Simplexml\Element
         $tagName = $this->getName();
         $isThisContainer = !in_array(
             $tagName,
-            array(self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK, self::TYPE_CONTAINER, self::TYPE_REFERENCE_CONTAINER)
+            [self::TYPE_BLOCK, self::TYPE_REFERENCE_BLOCK, self::TYPE_CONTAINER, self::TYPE_REFERENCE_CONTAINER]
         );
 
         if ($isThisContainer) {

@@ -29,7 +29,7 @@ class CleanExpiredQuotes
     /**
      * @var array
      */
-    protected $expireQuotesFilterFields = array();
+    protected $expireQuotesFilterFields = [];
 
     /**
      * @param StoresConfig $storesConfig
@@ -58,7 +58,7 @@ class CleanExpiredQuotes
             $quotes = $this->quoteCollectionFactory->create();
 
             $quotes->addFieldToFilter('store_id', $storeId);
-            $quotes->addFieldToFilter('updated_at', array('to' => date("Y-m-d", time() - $lifetime)));
+            $quotes->addFieldToFilter('updated_at', ['to' => date("Y-m-d", time() - $lifetime)]);
             $quotes->addFieldToFilter('is_active', 0);
 
             foreach ($this->getExpireQuotesAdditionalFilterFields() as $field => $condition) {

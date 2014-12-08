@@ -49,7 +49,6 @@ class FileResolver
      */
     public function get($filename)
     {
-
         $result = $this->collector->getFiles($this->theme, $filename);
         return $result;
     }

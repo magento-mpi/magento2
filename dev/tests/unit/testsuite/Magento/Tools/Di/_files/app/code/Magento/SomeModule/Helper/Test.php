@@ -41,8 +41,8 @@ class Test
      * @param \Magento\SomeModule\ElementFactory $factory
      * @param array $data
      */
-    public function testHelper(\Magento\SomeModule\ElementFactory $factory, array $data = array())
+    public function testHelper(\Magento\SomeModule\ElementFactory $factory, array $data = [])
     {
-        $factory->create('Magento\SomeModule\ElementFactory', array('data' => $data));
+        $factory->create('Magento\SomeModule\ElementFactory', ['data' => $data]);
     }
 }

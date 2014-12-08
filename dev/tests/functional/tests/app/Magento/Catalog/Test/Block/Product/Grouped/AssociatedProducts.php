@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Block\Product\Grouped;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class AssociatedProducts
@@ -60,7 +60,7 @@ class AssociatedProducts extends Tab
      */
     protected function getListAssociatedProductsBlock(Element $context = null)
     {
-        $element = $context ? : $this->_rootElement;
+        $element = $context ?: $this->_rootElement;
 
         return Factory::getBlockFactory()->getMagentoCatalogProductGroupedAssociatedProductsListAssociatedProducts(
             $element->find($this->associatedProductsBlock)

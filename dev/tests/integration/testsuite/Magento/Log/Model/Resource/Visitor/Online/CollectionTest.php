@@ -36,7 +36,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $visitorOnline->addData([
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'John',
-            'customer_lastname' => 'Smith'
+            'customer_lastname' => 'Smith',
         ]);
 
         foreach ($visitorOnline->getData() as $field => $expectedValue) {

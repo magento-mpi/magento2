@@ -39,19 +39,19 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $this->_loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_storageHelperMock = $this->getMock(
             'Magento\Core\Helper\File\Storage\Database',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_mediaHelperMock = $this->getMock('Magento\Core\Helper\File\Media', array(), array(), '', false);
+        $this->_mediaHelperMock = $this->getMock('Magento\Core\Helper\File\Media', [], [], '', false);
         $this->_fileUtilityMock = $this->getMock(
             'Magento\Core\Model\Resource\File\Storage\File',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -76,9 +76,9 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStorageData'
         )->will(
-            $this->returnValue(array('files' => array('value1', 'value2')))
+            $this->returnValue(['files' => ['value1', 'value2']])
         );
-        $this->assertEmpty(array_diff($this->_model->collectData(0, 1), array('value1')));
+        $this->assertEmpty(array_diff($this->_model->collectData(0, 1), ['value1']));
     }
 
     public function testCollectDataFailureWrongType()
@@ -88,7 +88,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStorageData'
         )->will(
-            $this->returnValue(array('files' => array('value1', 'value2')))
+            $this->returnValue(['files' => ['value1', 'value2']])
         );
         $this->assertFalse($this->_model->collectData(0, 1, 'some-wrong-key'));
     }
@@ -100,7 +100,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getStorageData'
         )->will(
-            $this->returnValue(array('files' => array()))
+            $this->returnValue(['files' => []])
         );
         $this->assertFalse($this->_model->collectData(0, 1));
     }

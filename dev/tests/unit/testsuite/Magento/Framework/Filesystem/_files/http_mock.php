@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Filesystem\Driver;
 
-
 /**
  * Override standard function
  *
@@ -17,7 +16,6 @@ function file_get_contents()
 {
     return HttpTest::$fileGetContents;
 }
-
 
 /**
  * Override standard function

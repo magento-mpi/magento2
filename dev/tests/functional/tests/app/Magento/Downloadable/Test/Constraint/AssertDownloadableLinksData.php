@@ -8,10 +8,10 @@
 
 namespace Magento\Downloadable\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertDownloadableLinksData
@@ -27,7 +27,7 @@ class AssertDownloadableLinksData extends AbstractAssertForm
      */
     protected $downloadableLinksField = [
         'title',
-        'downloadable'
+        'downloadable',
     ];
 
     /**
@@ -38,9 +38,9 @@ class AssertDownloadableLinksData extends AbstractAssertForm
     protected $linkField = [
         'title',
         'links_purchased_separately',
-        'price'
+        'price',
     ];
-    
+
     /**
      * Constraint severeness
      *

@@ -58,7 +58,7 @@ class SendTest extends \PHPUnit_Framework_TestCase
     {
         $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         /** @var $session \Magento\Customer\Model\Session */
-        $session = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session', array($logger));
+        $session = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session', [$logger]);
         /** @var \Magento\Customer\Api\AccountManagementInterface $service */
         $service = Bootstrap::getObjectManager()->create('Magento\Customer\Api\AccountManagementInterface');
         $customer = $service->authenticate('customer@example.com', 'password');
@@ -75,7 +75,6 @@ class SendTest extends \PHPUnit_Framework_TestCase
             ['name', 'John Smith'],
             ['email', 'customer@example.com']
         ];
-
     }
 
     /**

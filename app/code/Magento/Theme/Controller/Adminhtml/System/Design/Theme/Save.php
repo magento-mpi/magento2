@@ -22,7 +22,7 @@ class Save extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
         $themeData = $this->getRequest()->getParam('theme');
         $customCssData = $this->getRequest()->getParam('custom_css_content');
         $removeJsFiles = (array)$this->getRequest()->getParam('js_removed_files');
-        $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', array()));
+        $reorderJsFiles = array_keys($this->getRequest()->getParam('js_order', []));
 
         /** @var $themeFactory \Magento\Framework\View\Design\Theme\FlyweightFactory */
         $themeFactory = $this->_objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory');
@@ -31,7 +31,7 @@ class Save extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
         $singleFile = $this->_objectManager->create(
             'Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService)
+            ['fileService' => $cssService]
         );
         try {
             if ($this->getRequest()->getPost()) {
@@ -76,7 +76,7 @@ class Save extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
         }
         $redirectBack ? $this->_redirect(
             'adminhtml/*/edit',
-            array('id' => $theme->getId())
+            ['id' => $theme->getId()]
         ) : $this->_redirect(
             'adminhtml/*/'
         );

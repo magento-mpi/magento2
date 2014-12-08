@@ -82,7 +82,7 @@ class Observer
 
         /** @var $categoryCollection \Magento\Catalog\Model\Resource\Category\Collection */
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
-        $categoryIds = array();
+        $categoryIds = [];
 
         foreach ($categoryCollection->getColumnValues('path') as $path) {
             $categoryIds = array_merge($categoryIds, $this->_parseCategoryPath($path));
@@ -121,7 +121,7 @@ class Observer
     public function applyIsSalableToProduct(EventObserver $observer)
     {
         $event = $observer->getEvent()->getProduct()->getEvent();
-        if ($event && in_array($event->getStatus(), array(Event::STATUS_CLOSED, Event::STATUS_UPCOMING))) {
+        if ($event && in_array($event->getStatus(), [Event::STATUS_CLOSED, Event::STATUS_UPCOMING])) {
             $observer->getEvent()->getSalable()->setIsSalable(false);
         }
         return $this;
@@ -276,11 +276,11 @@ class Observer
     {
         if (!$quote->getEventInitialized()) {
             $quote->setEventInitialized(true);
-            $eventIds = array_diff($quote->getItemsCollection()->getColumnValues('event_id'), array(0));
+            $eventIds = array_diff($quote->getItemsCollection()->getColumnValues('event_id'), [0]);
 
             if (!empty($eventIds)) {
                 $collection = $this->categoryEventList->getEventCollection();
-                $collection->addFieldToFilter('event_id', array('in' => $eventIds));
+                $collection->addFieldToFilter('event_id', ['in' => $eventIds]);
                 foreach ($collection as $event) {
                     $items = $quote->getItemsCollection()->getItemsByColumnValue('event_id', $event->getId());
                     foreach ($items as $quoteItem) {

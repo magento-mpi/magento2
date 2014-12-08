@@ -21,7 +21,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         if (!$source instanceof \DOMDocument) {
             return $output;

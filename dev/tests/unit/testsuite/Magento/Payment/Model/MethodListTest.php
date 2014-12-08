@@ -82,4 +82,3 @@ class MethodListTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals([$methodMock], $this->methodList->getAvailableMethods($quoteMock));
     }
 }
- 

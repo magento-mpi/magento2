@@ -70,7 +70,7 @@ class AddToCart extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                     $store->getWebsite()->getStoreIds()
                 );
                 if ($wishlist->getId()) {
-                    $quoteProductIds = array();
+                    $quoteProductIds = [];
                     foreach ($cart->getQuote()->getAllItems() as $item) {
                         $quoteProductIds[] = $item->getProductId();
                     }

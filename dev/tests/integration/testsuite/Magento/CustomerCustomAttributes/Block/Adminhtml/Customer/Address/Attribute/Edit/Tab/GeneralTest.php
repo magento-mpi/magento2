@@ -50,7 +50,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('date_range_min', 'date_range_max') as $id) {
+        foreach (['date_range_min', 'date_range_max'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());

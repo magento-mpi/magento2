@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
 
 class VoidPayment extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -32,6 +31,6 @@ class VoidPayment extends \Magento\Sales\Controller\Adminhtml\Order
             $this->messageManager->addError(__('We couldn\'t void the payment.'));
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
-        $this->_redirect('sales/*/view', array('order_id' => $order->getId()));
+        $this->_redirect('sales/*/view', ['order_id' => $order->getId()]);
     }
 }

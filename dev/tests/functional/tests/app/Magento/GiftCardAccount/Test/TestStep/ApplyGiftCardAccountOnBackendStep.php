@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCardAccount\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Apply Gift Card Account on backend order creation.

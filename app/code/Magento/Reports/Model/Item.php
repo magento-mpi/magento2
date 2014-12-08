@@ -17,7 +17,7 @@ class Item extends \Magento\Framework\Object
     /**
      * @var array
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * Set is empty indicator

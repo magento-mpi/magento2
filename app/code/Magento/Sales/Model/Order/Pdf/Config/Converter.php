@@ -19,7 +19,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array('renderers' => array(), 'totals' => array());
+        $result = ['renderers' => [], 'totals' => []];
 
         $pageTypes = $source->getElementsByTagName('page');
         foreach ($pageTypes as $pageType) {

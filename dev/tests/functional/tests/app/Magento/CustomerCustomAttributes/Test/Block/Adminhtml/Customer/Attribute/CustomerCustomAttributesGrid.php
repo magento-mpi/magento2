@@ -8,8 +8,8 @@
 
 namespace Magento\CustomerCustomAttributes\Test\Block\Adminhtml\Customer\Attribute;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element;
 
 /**
  * Class CustomerCustomAttributesGrid
@@ -31,7 +31,7 @@ class CustomerCustomAttributesGrid extends Grid
      */
     protected $filters = [
         'attribute_code' => [
-            'selector' => 'input[name="attribute_code"]'
+            'selector' => 'input[name="attribute_code"]',
         ],
         'frontend_label' => [
             'selector' => 'input[name="frontend_label"]',

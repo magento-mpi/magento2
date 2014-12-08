@@ -19,7 +19,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/template' => 'id');
+    protected $_idAttributes = ['/config/template' => 'id'];
 
     /**
      * @param FileResolverInterface $fileResolver
@@ -37,7 +37,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         ValidationStateInterface $validationState,
         $fileName = 'email_templates.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

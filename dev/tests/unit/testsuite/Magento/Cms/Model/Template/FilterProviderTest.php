@@ -26,7 +26,7 @@ class FilterProviderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filterMock = $this->getMock('Magento\Cms\Model\Template\Filter', array(), array(), '', false);
+        $this->_filterMock = $this->getMock('Magento\Cms\Model\Template\Filter', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValue($this->_filterMock));
         $this->_model = new \Magento\Cms\Model\Template\FilterProvider($this->_objectManagerMock);

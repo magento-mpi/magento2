@@ -131,7 +131,6 @@ class StockStateTest extends \PHPUnit_Framework_TestCase
             ->method('getStockStatus')
             ->will($this->returnValue($this->stockStatus));
 
-
         $this->stockState = $this->objectManagerHelper->getObject(
             '\Magento\CatalogInventory\Model\StockState',
             [

@@ -8,10 +8,10 @@
 
 namespace Magento\CatalogRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCatalogPriceRuleForm

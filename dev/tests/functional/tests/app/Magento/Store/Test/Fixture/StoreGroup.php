@@ -27,11 +27,11 @@ class StoreGroup extends InjectableFixture
 
     protected $defaultDataSet = [
         'website_id' => [
-            'dataSet' => 'main_website'
+            'dataSet' => 'main_website',
         ],
         'name' => 'StoreGroup%isolation%',
         'root_category_id' => [
-            'dataSet' => 'default_category'
+            'dataSet' => 'default_category',
         ],
     ];
 

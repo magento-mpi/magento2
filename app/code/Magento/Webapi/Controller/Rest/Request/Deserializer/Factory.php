@@ -27,7 +27,7 @@ class Factory
      */
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        array $deserializers = array()
+        array $deserializers = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_deserializers = $deserializers;

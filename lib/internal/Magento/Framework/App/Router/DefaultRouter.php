@@ -49,6 +49,6 @@ class DefaultRouter implements RouterInterface
             }
         }
 
-        return $this->actionFactory->create('Magento\Framework\App\Action\Forward', array('request' => $request));
+        return $this->actionFactory->create('Magento\Framework\App\Action\Forward', ['request' => $request]);
     }
 }

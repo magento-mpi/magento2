@@ -33,7 +33,7 @@ class Html implements TemplateEngineInterface
             ob_start();
             include $template;
             $output = ob_get_clean();
-        } else{
+        } else {
             $output = $template;
         }
 

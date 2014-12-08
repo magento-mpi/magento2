@@ -40,7 +40,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             ->method('createCookieMetadata')
             ->will($this->returnCallback([$this, 'createCookieMetadata']));
         $this->defaultScopeParams = [
-            'cookieMetadataFactory' => $cookieMetadataFactory
+            'cookieMetadataFactory' => $cookieMetadataFactory,
         ];
     }
 
@@ -94,7 +94,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => $sensitive,
                 'publicCookieMetadata' => null,
-                'deleteCookieMetadata' => null
+                'deleteCookieMetadata' => null,
             ]
         );
 
@@ -127,7 +127,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => $public,
-                'deleteCookieMetadata' => null
+                'deleteCookieMetadata' => null,
             ]
         );
 
@@ -156,7 +156,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => null,
-                'deleteCookieMetadata' => $cookieMetadata
+                'deleteCookieMetadata' => $cookieMetadata,
             ]
         );
 
@@ -181,7 +181,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => $sensitive,
                 'publicCookieMetadata' => null,
-                'deleteCookieMetadata' => null
+                'deleteCookieMetadata' => null,
             ]
         );
         $override = $this->createSensitiveMetadata($overrideValues);
@@ -223,7 +223,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => $public,
-                'cookieMetadata' => null
+                'cookieMetadata' => null,
             ]
         );
         $override = $this->createPublicMetadata($overrideValues);
@@ -248,7 +248,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             [
                 'sensitiveCookieMetadata' => null,
                 'publicCookieMetadata' => null,
-                'deleteCookieMetadata' => $cookieMeta
+                'deleteCookieMetadata' => $cookieMeta,
             ]
         );
         $override = $this->createCookieMetadata($overrideValues);
@@ -320,4 +320,4 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
             ['metadata' => $metadata]
         );
     }
-} 
+}

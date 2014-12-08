@@ -17,11 +17,11 @@ class Dom implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $modules = array();
+        $modules = [];
         $xpath = new \DOMXPath($source);
         /** @var $moduleNode \DOMNode */
         foreach ($xpath->query('/config/module') as $moduleNode) {
-            $moduleData = array();
+            $moduleData = [];
             $moduleAttributes = $moduleNode->attributes;
             $nameNode = $moduleAttributes->getNamedItem('name');
             if (is_null($nameNode)) {

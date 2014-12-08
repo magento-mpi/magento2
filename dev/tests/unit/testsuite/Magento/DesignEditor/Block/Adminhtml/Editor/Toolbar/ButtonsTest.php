@@ -25,9 +25,9 @@ class ButtonsTest extends \PHPUnit_Framework_TestCase
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', array('getUrl'), array(), '', false);
+        $this->_urlBuilder = $this->getMock('Magento\Backend\Model\Url', ['getUrl'], [], '', false);
 
-        $arguments = array('urlBuilder' => $this->_urlBuilder);
+        $arguments = ['urlBuilder' => $this->_urlBuilder];
 
         $this->_block = $helper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons', $arguments);
     }

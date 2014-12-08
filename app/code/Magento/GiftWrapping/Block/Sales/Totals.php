@@ -28,7 +28,7 @@ class Totals extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         parent::__construct($context, $data);

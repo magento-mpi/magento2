@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Model\Layer\Filter\DataProvider;
 
-use Magento\Catalog\Model\Layer\Filter\DataProvider\Price;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
@@ -17,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Catalog\Model\Resource\Product\Collection|MockObject */
     private $productCollection;
 

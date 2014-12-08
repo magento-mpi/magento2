@@ -8,9 +8,9 @@
 
 namespace Magento\GroupedProduct\Test\TestCase;
 
+use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\GroupedProduct\Test\Fixture\GroupedProduct;
 
 /**
  * Class CreateGroupedTest
@@ -71,7 +71,7 @@ class CreateGroupedTest extends Functional
         //Search data
         $search = [
             'sku' => $product->getSku(),
-            'type' => 'Grouped Product'
+            'type' => 'Grouped Product',
         ];
         //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();

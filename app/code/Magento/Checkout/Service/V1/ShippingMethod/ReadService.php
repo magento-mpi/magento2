@@ -8,12 +8,12 @@
 
 namespace Magento\Checkout\Service\V1\ShippingMethod;
 
-use \Magento\Sales\Model\QuoteRepository;
-use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
-use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter;
-use \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
-use \Magento\Framework\Exception\StateException;
-use \Magento\Framework\Exception\InputException;
+use Magento\Checkout\Service\V1\Data\Cart\ShippingMethod;
+use Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder;
+use Magento\Checkout\Service\V1\Data\Cart\ShippingMethodConverter;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\StateException;
+use Magento\Sales\Model\QuoteRepository;
 
 /**
  * Shipping method read service.

@@ -53,7 +53,7 @@ class Samples extends Block
 
         foreach ($links as $link) {
             $linksData[] = [
-                'title' => $link->getText()
+                'title' => $link->getText(),
             ];
         }
 

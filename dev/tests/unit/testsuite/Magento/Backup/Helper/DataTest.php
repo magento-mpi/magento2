@@ -7,9 +7,9 @@
  */
 namespace Magento\Backup\Helper;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\Filesystem;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {

@@ -20,7 +20,7 @@
                             <a href="<?php echo $_product->getProductUrl() ?>"
                                title="<?php echo $this->stripTags($_product->getName(), null, true) ?>)"
                                class="product-item-link">
-                                <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName() , 'name') ?>
+                                <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName(), 'name') ?>
                             </a>
                         </strong>
                     </li>

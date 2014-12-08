@@ -45,7 +45,7 @@ $taxRate = [
     'tax_region_id' => '12',
     'tax_postcode' => '*',
     'code' => '*',
-    'rate' => '7.5'
+    'rate' => '7.5',
 ];
 $rate = $objectManager->create('Magento\Tax\Model\Calculation\Rate')->setData($taxRate)->save();
 
@@ -60,7 +60,7 @@ $ruleData = [
     'position' => '0',
     'customer_tax_class_ids' => [$customerTaxClass1->getId(), $customerTaxClass2->getId()],
     'product_tax_class_ids' => [$productTaxClass1->getId(), $productTaxClass2->getId()],
-    'tax_rate_ids' => [$rate->getId()]
+    'tax_rate_ids' => [$rate->getId()],
 ];
 
 $taxRule = $objectManager->create('Magento\Tax\Model\Calculation\Rule')->setData($ruleData)->save();

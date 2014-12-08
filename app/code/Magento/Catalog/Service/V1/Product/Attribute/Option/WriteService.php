@@ -7,12 +7,12 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
+use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Catalog\Service\V1\Data\Eav\Option as EavOption;
 use Magento\Catalog\Service\V1\Product\MetadataServiceInterface as ProductMetadataServiceInterface;
 use Magento\Eav\Model\Config;
-use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Catalog\Service\V1\Data\Eav\Option as EavOption;
-use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
+use Magento\Framework\Exception\StateException;
 
 class WriteService implements WriteServiceInterface
 {
@@ -81,7 +81,7 @@ class WriteService implements WriteServiceInterface
             throw new NoSuchEntityException(sprintf('Attribute %s does not contain option with Id %s', $id, $optionId));
         }
 
-        $modelData = array('option' => array('value' => array($optionId => []), 'delete' => array($optionId => '1')));
+        $modelData = ['option' => ['value' => [$optionId => []], 'delete' => [$optionId => '1']]];
         $model->addData($modelData);
         try {
             $model->save();

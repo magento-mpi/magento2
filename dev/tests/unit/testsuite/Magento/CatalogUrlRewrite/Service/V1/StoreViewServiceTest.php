@@ -8,8 +8,6 @@
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Catalog\Model\Category;
-use \Magento\Catalog\Model\Product;
 
 class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
 {

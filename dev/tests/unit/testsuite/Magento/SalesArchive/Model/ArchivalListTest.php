@@ -23,8 +23,8 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array('get', 'create'),
-            array(),
+            ['get', 'create'],
+            [],
             '',
             false
         );
@@ -45,12 +45,12 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderGetResourcePositive()
     {
-        return array(
-            array('order', 'Magento\Sales\Model\Resource\Order'),
-            array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
-            array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
-            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo')
-        );
+        return [
+            ['order', 'Magento\Sales\Model\Resource\Order'],
+            ['invoice', 'Magento\Sales\Model\Resource\Order\Invoice'],
+            ['shipment', 'Magento\Sales\Model\Resource\Order\Shipment'],
+            ['creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo']
+        ];
     }
 
     public function testGetResourceNegative()
@@ -66,18 +66,18 @@ class ArchivalListTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityByObject($entity, $className)
     {
-        $object = $this->getMock($className, array(), array(), '', false);
+        $object = $this->getMock($className, [], [], '', false);
         $this->assertEquals($entity, $this->_model->getEntityByObject($object));
     }
 
     public function dataGetEntityByObject()
     {
-        return array(
-            array('order', 'Magento\Sales\Model\Resource\Order'),
-            array('invoice', 'Magento\Sales\Model\Resource\Order\Invoice'),
-            array('shipment', 'Magento\Sales\Model\Resource\Order\Shipment'),
-            array('creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'),
-            array(false, 'Magento\Framework\Object')
-        );
+        return [
+            ['order', 'Magento\Sales\Model\Resource\Order'],
+            ['invoice', 'Magento\Sales\Model\Resource\Order\Invoice'],
+            ['shipment', 'Magento\Sales\Model\Resource\Order\Shipment'],
+            ['creditmemo', 'Magento\Sales\Model\Resource\Order\Creditmemo'],
+            [false, 'Magento\Framework\Object']
+        ];
     }
 }

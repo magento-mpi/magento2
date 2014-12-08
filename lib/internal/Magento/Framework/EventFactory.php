@@ -26,7 +26,7 @@ class EventFactory
      * @param array $arguments
      * @return Event
      */
-    public function create($arguments = array())
+    public function create($arguments = [])
     {
         return $this->_objectManager->create('Magento\Framework\Event', $arguments);
     }

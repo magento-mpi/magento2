@@ -64,7 +64,7 @@ class CatalogruleTest extends \PHPUnit_Framework_TestCase
     {
         $this->urlBuilder->expects($this->once())->method('getUrl')->with(
             'adminhtml/*/catalogRuleGrid',
-            array('_current' => true)
+            ['_current' => true]
         )->will($this->returnValue('test_string'));
 
         $this->assertEquals('test_string', $this->catalogRule->getGridUrl());

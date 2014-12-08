@@ -11,7 +11,6 @@ use Magento\Framework\App\Resource;
 use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container as AggregationContainer;
 use Magento\Framework\Search\EntityMetadata;
 use Magento\Framework\Search\RequestInterface;
-use Magento\Framework\DB\Select;
 
 class Builder
 {

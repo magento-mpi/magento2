@@ -101,7 +101,7 @@ class DepersonalizePlugin
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Framework\Data\Form\FormKey::FORM_KEY);
         }
-        return array();
+        return [];
     }
 
     /**

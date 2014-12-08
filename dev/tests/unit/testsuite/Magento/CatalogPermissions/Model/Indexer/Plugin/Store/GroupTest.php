@@ -36,24 +36,24 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', [], [], '', false);
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
         $this->configMock = $this->getMockForAbstractClass(
             'Magento\CatalogPermissions\App\ConfigInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('isEnabled')
+            ['isEnabled']
         );
         $this->configMock->expects($this->any())->method('isEnabled')->will($this->returnValue(true));
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
@@ -69,8 +69,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         $this->mockIndexerMethods();
         $groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
-            array(),
+            ['dataHasChangedFor', 'isObjectNew', '__wakeup'],
+            [],
             '',
             false
         );
@@ -94,8 +94,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
-            array(),
+            ['dataHasChangedFor', 'isObjectNew', '__wakeup'],
+            [],
             '',
             false
         );
@@ -112,20 +112,20 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function changedDataProvider()
     {
-        return array(
-            array(
-                array(array('root_category_id', true), array('website_id', false)),
-                array(array('root_category_id', false), array('website_id', true))
-            )
-        );
+        return [
+            [
+                [['root_category_id', true], ['website_id', false]],
+                [['root_category_id', false], ['website_id', true]],
+            ]
+        ];
     }
 
     public function testAroundSaveWithoutChanges()
     {
         $groupMock = $this->getMock(
             'Magento\Store\Model\Group',
-            array('dataHasChangedFor', 'isObjectNew', '__wakeup'),
-            array(),
+            ['dataHasChangedFor', 'isObjectNew', '__wakeup'],
+            [],
             '',
             false
         );
@@ -134,7 +134,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         )->method(
             'dataHasChangedFor'
         )->will(
-            $this->returnValueMap(array(array('root_category_id', false), array('website_id', false)))
+            $this->returnValueMap([['root_category_id', false], ['website_id', false]])
         );
         $groupMock->expects($this->never())->method('isObjectNew');
 

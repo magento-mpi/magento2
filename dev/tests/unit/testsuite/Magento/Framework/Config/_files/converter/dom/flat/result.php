@@ -5,22 +5,22 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'root' => array(
-        'node_one' => array(
+return [
+    'root' => [
+        'node_one' => [
             'attributeOne' => '10',
             'attributeTwo' => '20',
-            'subnode' => array(
-                array('attributeThree' => '30'),
-                array('attributeThree' => '40', 'attributeFour' => '40', 'value' => 'Value1')
-            ),
-            'books' => array('attributeFive' => '50')
-        ),
-        'multipleNode' => array(
-            'one' => array('id' => 'one', 'name' => 'name1', 'value' => '1'),
-            'two' => array('id' => 'two', 'name' => 'name2', 'value' => '2')
-        ),
+            'subnode' => [
+                ['attributeThree' => '30'],
+                ['attributeThree' => '40', 'attributeFour' => '40', 'value' => 'Value1'],
+            ],
+            'books' => ['attributeFive' => '50'],
+        ],
+        'multipleNode' => [
+            'one' => ['id' => 'one', 'name' => 'name1', 'value' => '1'],
+            'two' => ['id' => 'two', 'name' => 'name2', 'value' => '2'],
+        ],
         'someOtherVal' => '',
-        'someDataVal' => ''
-    )
-);
+        'someDataVal' => '',
+    ]
+];

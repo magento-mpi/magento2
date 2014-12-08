@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Fixture;
 
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Fixture with all necessary data for order creation on backend
@@ -74,10 +74,10 @@ class Order extends DataFixture
     {
         $this->_data = [
             'totals' => [
-                'grand_total' => '32.73'
+                'grand_total' => '32.73',
             ],
             'store_view' => 'Default Store View',
-            'website_id' => '0'
+            'website_id' => '0',
         ];
     }
 
@@ -87,7 +87,7 @@ class Order extends DataFixture
         $this->_persistConfiguration(
             [
                 'flat_rate',
-                'default_tax_config'
+                'default_tax_config',
             ]
         );
         //Tax
@@ -108,7 +108,7 @@ class Order extends DataFixture
 
         $this->products = [
             $simple,
-            $configurable
+            $configurable,
         ];
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();

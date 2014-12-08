@@ -40,11 +40,11 @@ class HttpStream extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr implement
      *
      * @return array
      */
-    protected function _search($query, $params = array())
+    protected function _search($query, $params = [])
     {
         $searchConditions = $this->prepareSearchConditions($query);
         if (!$searchConditions) {
-            return array();
+            return [];
         }
 
         $_params = $this->_defaultQueryParams;
@@ -58,14 +58,14 @@ class HttpStream extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr implement
         ) ? (int)$_params['limit'] : \Magento\Solr\Model\Adapter\Solr\AbstractSolr::DEFAULT_ROWS_LIMIT;
 
         $languageSuffix = $this->_getLanguageSuffix($params['locale_code']);
-        $searchParams = array();
+        $searchParams = [];
 
         if (!is_array($_params['fields'])) {
-            $_params['fields'] = array($_params['fields']);
+            $_params['fields'] = [$_params['fields']];
         }
 
         if (!is_array($_params['solr_params'])) {
-            $_params['solr_params'] = array($_params['solr_params']);
+            $_params['solr_params'] = [$_params['solr_params']];
         }
 
         /**
@@ -117,12 +117,12 @@ class HttpStream extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr implement
                 $spellcheckCount = self::DEFAULT_SPELLCHECK_COUNT;
             }
 
-            $_params['solr_params'] += array(
+            $_params['solr_params'] += [
                 'spellcheck.collate' => 'true',
                 'spellcheck.dictionary' => 'magento_spell' . $languageSuffix,
                 'spellcheck.extendedResults' => 'true',
                 'spellcheck.count' => $spellcheckCount
-            );
+            ];
         }
 
         /**
@@ -158,7 +158,7 @@ class HttpStream extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr implement
 
             if (!isset($params['solr_params']['stats']) || $params['solr_params']['stats'] != 'true') {
                 if ($limit > 0) {
-                    $result = array('ids' => $this->_prepareQueryResponse($data));
+                    $result = ['ids' => $this->_prepareQueryResponse($data)];
                 }
 
                 /**
@@ -187,7 +187,7 @@ class HttpStream extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr implement
                         unset($params['solr_params']['spellcheck.count']);
                         unset($params['spellcheck_result_counts']);
 
-                        $suggestions = array();
+                        $suggestions = [];
                         foreach ($resultSuggestions as $key => $item) {
                             $this->_lastNumFound = 0;
                             $this->search($item['word'], $params);

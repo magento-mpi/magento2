@@ -9,7 +9,6 @@
  */
 namespace Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
-use Magento\Framework\Model\Context;
 
 /**
  * @method Attribute _getResource()
@@ -45,7 +44,7 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     {
         $data = $this->getPrices();
         if (is_null($data)) {
-            $data = array();
+            $data = [];
         }
         $data[] = $priceData;
         $this->setPrices($data);
@@ -61,7 +60,7 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     {
         if ($this->getData('use_default') && $this->getProductAttribute()) {
             return $this->getProductAttribute()->getStoreLabel();
-        } else if (is_null($this->getData('label')) && $this->getProductAttribute()) {
+        } elseif (is_null($this->getData('label')) && $this->getProductAttribute()) {
             $this->setData('label', $this->getProductAttribute()->getStoreLabel());
         }
 

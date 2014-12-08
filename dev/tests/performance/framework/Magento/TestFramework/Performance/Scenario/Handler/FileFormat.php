@@ -16,7 +16,7 @@ class FileFormat implements \Magento\TestFramework\Performance\Scenario\HandlerI
     /**
      * @var array
      */
-    protected $_handlers = array();
+    protected $_handlers = [];
 
     /**
      * Register scenario handler to process scenario files with a certain extension

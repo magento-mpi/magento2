@@ -7,7 +7,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit\Tab;
 
-use \Magento\Ui\Component\Layout\Tabs\TabWrapper;
+use Magento\Ui\Component\Layout\Tabs\TabWrapper;
 
 class Giftregistry extends TabWrapper
 {
@@ -45,7 +45,7 @@ class Giftregistry extends TabWrapper
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authorization = $context->getAuthorization();
         $this->_coreRegistry = $registry;
@@ -113,6 +113,6 @@ class Giftregistry extends TabWrapper
      */
     public function getTabUrl()
     {
-        return $this->getUrl('adminhtml/giftregistry_customer/grid', array('_current' => true));
+        return $this->getUrl('adminhtml/giftregistry_customer/grid', ['_current' => true]);
     }
 }

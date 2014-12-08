@@ -93,10 +93,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             $type => [
                 'prices' => [
                     $priceCode => [
-                        'render_class' => $className
-                    ]
-                ]
-            ]
+                        'render_class' => $className,
+                    ],
+                ],
+            ],
         ];
         $priceModel = null;
 
@@ -136,10 +136,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             $type => [
                 'prices' => [
                     $priceCode => [
-                        'render_class' => $className
-                    ]
-                ]
-            ]
+                        'render_class' => $className,
+                    ],
+                ],
+            ],
         ];
 
         $priceInfoMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceInfo\Base')
@@ -167,7 +167,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'price' => $this->priceMock,
-            'saleableItem' => $this->productMock
+            'saleableItem' => $this->productMock,
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')
@@ -193,10 +193,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'prices' => [
                     $priceCode => [
                         'render_class' => $className,
-                        'render_template' => $template
-                    ]
-                ]
-            ]
+                        'render_template' => $template,
+                    ],
+                ],
+            ],
         ];
 
         $priceInfoMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceInfo\Base')
@@ -226,7 +226,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'price' => $this->priceMock,
-            'saleableItem' => $this->productMock
+            'saleableItem' => $this->productMock,
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')
@@ -282,10 +282,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             $type => [
                 'prices' => [
                     $priceCode => [
-                        'amount_render_class' => $amountRenderClass
-                    ]
-                ]
-            ]
+                        'amount_render_class' => $amountRenderClass,
+                    ],
+                ],
+            ],
         ];
 
         $amountMock = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
@@ -310,7 +310,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
             'saleableItem' => $this->productMock,
-            'price' => $this->priceMock
+            'price' => $this->priceMock,
         ];
 
         $this->layoutMock->expects($this->once())
@@ -337,10 +337,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'prices' => [
                     $priceCode => [
                         'amount_render_class' => $amountRenderClass,
-                        'amount_render_template' => $template
-                    ]
-                ]
-            ]
+                        'amount_render_template' => $template,
+                    ],
+                ],
+            ],
         ];
 
         $amountMock = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
@@ -364,7 +364,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
             'saleableItem' => $this->productMock,
-            'price' => $this->priceMock
+            'price' => $this->priceMock,
         ];
 
         $this->layoutMock->expects($this->once())
@@ -398,8 +398,8 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $adjustments = [$code => 'some data'];
         $data = [
             'default' => [
-                'adjustments' => $adjustments
-            ]
+                'adjustments' => $adjustments,
+            ],
         ];
         $testedClass = $this->createTestedEntity($data);
         $result = $testedClass->getAdjustmentRenders($this->productMock, $this->priceMock);
@@ -423,13 +423,13 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
         $code = 'test_code';
         $adjustments = [
             $code => [
-                'adjustment_render_class' => 'Test'
-            ]
+                'adjustment_render_class' => 'Test',
+            ],
         ];
         $data = [
             'default' => [
-                'adjustments' => $adjustments
-            ]
+                'adjustments' => $adjustments,
+            ],
         ];
 
         $testedClass = $this->createTestedEntity($data);
@@ -452,14 +452,14 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             $priceCode => [
                 $code => [
                     'adjustment_render_class' => $class,
-                    'adjustment_render_template' => $template
-                ]
-            ]
+                    'adjustment_render_template' => $template,
+                ],
+            ],
         ];
         $data = [
             'default' => [
-                'adjustments' => $adjustments
-            ]
+                'adjustments' => $adjustments,
+            ],
         ];
 
         $this->productMock->expects($this->once())
@@ -505,10 +505,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'prices' => [
                     $priceCode => [
                         'amount_render_class' => $amountRenderClass,
-                        'amount_render_template' => $template
-                    ]
-                ]
-            ]
+                        'amount_render_template' => $template,
+                    ],
+                ],
+            ],
         ];
 
         $amountMock = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
@@ -533,7 +533,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'rendererPool' => $testedClass,
             'amount' => $amountMock,
             'saleableItem' => $this->productMock,
-            'price' => $this->priceMock
+            'price' => $this->priceMock,
         ];
 
         $this->layoutMock->expects($this->once())
@@ -563,10 +563,10 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
                 'prices' => [
                     $priceCode => [
                         'render_class' => $className,
-                        'render_template' => $template
-                    ]
-                ]
-            ]
+                        'render_template' => $template,
+                    ],
+                ],
+            ],
         ];
 
         $priceInfoMock = $this->getMockBuilder('Magento\Framework\Pricing\PriceInfo\Base')
@@ -593,7 +593,7 @@ class RendererPoolTest extends \PHPUnit_Framework_TestCase
             'data' => $methodData,
             'rendererPool' => $testedClass,
             'price' => $this->priceMock,
-            'saleableItem' => $this->productMock
+            'saleableItem' => $this->productMock,
         ];
         $this->layoutMock->expects($this->once())
             ->method('createBlock')

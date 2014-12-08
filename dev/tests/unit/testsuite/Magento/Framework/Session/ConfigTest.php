@@ -340,8 +340,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 ->method('isValid')
                 ->willReturn($isValid);
         } else {
-            for ($x=0; $x<6; $x++) {
-                if ($x % 2 == 0 ) {
+            for ($x = 0; $x<6; $x++) {
+                if ($x % 2 == 0) {
                     $validatorMock->expects($this->at($x))
                         ->method('isValid')
                         ->willReturn(false);
@@ -371,8 +371,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'session.cookie_lifetime' => 7200,
                     'session.cookie_path' => '/',
                     'session.cookie_domain' => 'init.host',
-                    'session.cookie_httponly'=> false,
-                ]
+                    'session.cookie_httponly' => false,
+                ],
             ],
             'all invalid' => [
                 true,
@@ -381,8 +381,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'session.save_handler' => 'files',
                     'session.save_path' => null,
                     'session.cache_limiter' => 'files',
-                    'session.cookie_httponly'=> false,
-                ]
+                    'session.cookie_httponly' => false,
+                ],
             ],
             'invalid_valid' => [
                 false,
@@ -394,8 +394,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'session.cookie_lifetime' => 3600,
                     'session.cookie_path' => '/',
                     'session.cookie_domain' => 'init.host',
-                    'session.cookie_httponly'=> false,
-                ]
+                    'session.cookie_httponly' => false,
+                ],
             ],
         ];
     }

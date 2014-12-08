@@ -21,7 +21,7 @@ class DeleteFolder extends \Magento\Theme\Controller\Adminhtml\System\Design\Wys
             $path = $this->storage->getCurrentPath();
             $this->_getStorage()->deleteDirectory($path);
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
             $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)
             );

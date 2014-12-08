@@ -23,7 +23,7 @@ class Validator
         'parent_id' => 'Parent Track Id',
         'order_id' => 'Order Id',
         'track_number' => 'Number',
-        'carrier_code' => 'Carrier Code'
+        'carrier_code' => 'Carrier Code',
     ];
 
     /**

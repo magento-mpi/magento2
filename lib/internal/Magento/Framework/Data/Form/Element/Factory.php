@@ -6,7 +6,6 @@
  * @license    {license_link}
  */
 
-
 /**
  * @author     Magento Core Team <core@magentocommerce.com>
  */
@@ -26,7 +25,7 @@ class Factory
      *
      * @var string[]
      */
-    protected $_standardTypes = array(
+    protected $_standardTypes = [
         'button',
         'checkbox',
         'checkboxes',
@@ -54,8 +53,8 @@ class Factory
         'submit',
         'text',
         'textarea',
-        'time'
-    );
+        'time',
+    ];
 
     /**
      * @param ObjectManagerInterface $objectManager
@@ -73,7 +72,7 @@ class Factory
      * @return AbstractElement
      * @throws \InvalidArgumentException
      */
-    public function create($elementType, array $config = array())
+    public function create($elementType, array $config = [])
     {
         if (in_array($elementType, $this->_standardTypes)) {
             $className = 'Magento\Framework\Data\Form\Element\\' . ucfirst($elementType);

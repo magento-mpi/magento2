@@ -28,12 +28,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testSuccess()
     {
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/errortest/success',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
 
         $item = $this->_webApiCall($serviceInfo);
 
@@ -44,12 +44,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testNotFound()
     {
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/errortest/notfound',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
 
         // \Magento\Framework\Api\ResourceNotFoundException
         $this->_errorTest(
@@ -62,12 +62,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testUnauthorized()
     {
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/errortest/unauthorized',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
 
         // \Magento\Framework\Api\AuthorizationException
         $this->_errorTest(
@@ -81,12 +81,12 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
     public function testOtherException()
     {
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/errortest/otherexception',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
-            )
-        );
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
+            ],
+        ];
 
         /* TODO : Fix as part MAGETWO-31330
         $expectedMessage = $this->mode == \Magento\Framework\App\State::MODE_DEVELOPER
@@ -119,7 +119,7 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
         $data,
         $httpStatus,
         $errorMessage,
-        $parameters = array(),
+        $parameters = [],
         $traceString = null
     ) {
         try {
@@ -129,9 +129,9 @@ class RestErrorHandlingTest extends \Magento\TestFramework\TestCase\WebapiAbstra
 
             $body = json_decode($e->getMessage(), true);
 
-            $errorMessages = is_array($errorMessage) ? $errorMessage : array($errorMessage);
+            $errorMessages = is_array($errorMessage) ? $errorMessage : [$errorMessage];
             $actualMessage = $body['message'];
-            $matches = array();
+            $matches = [];
             //Report ID was created dynamically, so we need to replace it with some static value in order to test
             if (preg_match('/.*Report\sID\:\s([a-zA-Z0-9\-]*)/', $actualMessage, $matches)) {
                 $actualMessage = str_replace($matches[1], 'webapi-XXX', $actualMessage);

@@ -99,10 +99,8 @@ class CacheIdentifierPluginTest extends \PHPUnit_Framework_TestCase
             'Varnish + PageCache enabled' => [\Magento\PageCache\Model\Config::VARNISH, true, null, false, false],
             'Built-in + PageCache disabled' => [\Magento\PageCache\Model\Config::BUILT_IN, false, null, false, false],
             'Built-in + PageCache enabled' => [\Magento\PageCache\Model\Config::BUILT_IN, true, null, false, false],
-            'Built-in, PageCache enabled, no user-agent exceptions' =>
-                [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', false, 'aa123aa'],
-            'Built-in, PageCache enabled, with design exception' =>
-                [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', '7', '7aa123aa']
+            'Built-in, PageCache enabled, no user-agent exceptions' => [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', false, 'aa123aa'],
+            'Built-in, PageCache enabled, with design exception' => [\Magento\PageCache\Model\Config::BUILT_IN, true, 'aa123aa', '7', '7aa123aa']
         ];
     }
 }

@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Constraint\AbstractAssertForm;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 
 /**
  * Class AssertProductForm
@@ -25,7 +25,7 @@ class AssertProductForm extends AbstractAssertForm
      */
     protected $skippedFixtureFields = [
         'id',
-        'checkout_data'
+        'checkout_data',
     ];
 
     /**

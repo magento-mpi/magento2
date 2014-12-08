@@ -25,9 +25,9 @@ class Unitofmeasure extends \Magento\Ups\Model\Config\Source\Generic
     public function toOptionArray()
     {
         $unitArr = $this->carrierConfig->getCode($this->_code);
-        $returnArr = array();
+        $returnArr = [];
         foreach ($unitArr as $key => $val) {
-            $returnArr[] = array('value' => $key, 'label' => $key);
+            $returnArr[] = ['value' => $key, 'label' => $key];
         }
         return $returnArr;
     }

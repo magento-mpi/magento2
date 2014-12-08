@@ -9,8 +9,8 @@
  */
 namespace Magento\Log\App;
 
-use Magento\Framework\App\Console\Response;
 use Magento\Framework\App\Bootstrap;
+use Magento\Framework\App\Console\Response;
 use Magento\Framework\AppInterface;
 
 class Shell implements AppInterface
@@ -52,7 +52,7 @@ class Shell implements AppInterface
     public function launch()
     {
         /** @var $shell \Magento\Log\Model\Shell */
-        $shell = $this->_shellFactory->create(array('entryPoint' => $this->_entryFileName));
+        $shell = $this->_shellFactory->create(['entryPoint' => $this->_entryFileName]);
         $shell->run();
         $this->_response->setCode(0);
         return $this->_response;

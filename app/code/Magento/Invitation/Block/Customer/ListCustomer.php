@@ -7,8 +7,8 @@
  */
 namespace Magento\Invitation\Block\Customer;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer invitation list block
@@ -54,7 +54,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_invitationFactory = $invitationFactory;
         $this->_invitationStatus = $invitationStatus;

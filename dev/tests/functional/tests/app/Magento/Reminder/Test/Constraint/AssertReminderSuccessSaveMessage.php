@@ -8,8 +8,8 @@
 
 namespace Magento\Reminder\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Reminder\Test\Page\Adminhtml\ReminderIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that success message is present.

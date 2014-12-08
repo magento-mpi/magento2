@@ -66,7 +66,7 @@ class Recommendations
         $productCollection = $this->searchLayer->getProductCollection();
         $searchQueryText = $this->queryFactory->get()->getQueryText();
 
-        $params = array('store_id' => $productCollection->getStoreId());
+        $params = ['store_id' => $productCollection->getStoreId()];
 
         $searchRecommendationsEnabled = (bool)$this->searchData->getSearchConfigData(
             'search_recommendations_enabled'
@@ -85,7 +85,7 @@ class Recommendations
                 $searchRecommendationsCount
             );
         } else {
-            return array();
+            return [];
         }
     }
 }

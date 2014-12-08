@@ -14,7 +14,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/option' => 'name', '/config/option/inputType' => 'name');
+    protected $_idAttributes = ['/config/option' => 'name', '/config/option/inputType' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -32,7 +32,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Catalog\Model\ProductOptions\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'product_options.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

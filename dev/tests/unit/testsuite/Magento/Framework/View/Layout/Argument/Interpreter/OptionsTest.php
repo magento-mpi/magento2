@@ -40,7 +40,7 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
             'toOptionArray'
         )->will(
             $this->returnValue(
-                array('value1' => 'label 1', 'value2' => 'label 2', array('value' => 'value3', 'label' => 'label 3'))
+                ['value1' => 'label 1', 'value2' => 'label 2', ['value' => 'value3', 'label' => 'label 3']]
             )
         );
         $this->_objectManager->expects(
@@ -52,12 +52,12 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($model)
         );
-        $input = array('model' => $modelClass);
-        $expected = array(
-            array('value' => 'value1', 'label' => 'label 1'),
-            array('value' => 'value2', 'label' => 'label 2'),
-            array('value' => 'value3', 'label' => 'label 3')
-        );
+        $input = ['model' => $modelClass];
+        $expected = [
+            ['value' => 'value1', 'label' => 'label 1'],
+            ['value' => 'value2', 'label' => 'label 2'],
+            ['value' => 'value3', 'label' => 'label 3'],
+        ];
         $actual = $this->_model->evaluate($input);
         $this->assertSame($expected, $actual);
     }
@@ -73,13 +73,13 @@ class OptionsTest extends \PHPUnit_Framework_TestCase
 
     public function evaluateWrongModelDataProvider()
     {
-        return array(
-            'no model' => array(array(), '\InvalidArgumentException', 'Options source model class is missing'),
-            'wrong model class' => array(
-                array('model' => 'Magento\Framework\View\Layout\Argument\Interpreter\OptionsTest'),
+        return [
+            'no model' => [[], '\InvalidArgumentException', 'Options source model class is missing'],
+            'wrong model class' => [
+                ['model' => 'Magento\Framework\View\Layout\Argument\Interpreter\OptionsTest'],
                 '\UnexpectedValueException',
-                'Instance of the options source model is expected'
-            )
-        );
+                'Instance of the options source model is expected',
+            ]
+        ];
     }
 }

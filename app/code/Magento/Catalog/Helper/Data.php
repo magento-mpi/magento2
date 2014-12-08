@@ -9,11 +9,11 @@ namespace Magento\Catalog\Helper;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
-use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Model\Config;
 
 /**
@@ -261,8 +261,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getBreadcrumbPath()
     {
         if (!$this->_categoryPath) {
-
-            $path = array();
+            $path = [];
             $category = $this->getCategory();
             if ($category) {
                 $pathInStore = $category->getPathInStore();
@@ -273,16 +272,16 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 // add category path breadcrumb
                 foreach ($pathIds as $categoryId) {
                     if (isset($categories[$categoryId]) && $categories[$categoryId]->getName()) {
-                        $path['category' . $categoryId] = array(
+                        $path['category' . $categoryId] = [
                             'label' => $categories[$categoryId]->getName(),
-                            'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : ''
-                        );
+                            'link' => $this->_isCategoryLink($categoryId) ? $categories[$categoryId]->getUrl() : '',
+                        ];
                     }
                 }
             }
 
             if ($this->getProduct()) {
-                $path['product'] = array('label' => $this->getProduct()->getName());
+                $path['product'] = ['label' => $this->getProduct()->getName()];
             }
 
             $this->_categoryPath = $path;
@@ -385,7 +384,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->_coreRegistry->registry('attribute_type_hidden_fields')) {
             return $this->_coreRegistry->registry('attribute_type_hidden_fields');
         } else {
-            return array();
+            return [];
         }
     }
 

@@ -23,7 +23,7 @@ class Zip
      */
     public static function parseRegions($state, $zip)
     {
-        return !empty($zip) && $zip != '*' ? self::parseZip($zip) : ($state ? array($state) : array('*'));
+        return !empty($zip) && $zip != '*' ? self::parseZip($zip) : ($state ? [$state] : ['*']);
     }
 
     /**
@@ -35,7 +35,7 @@ class Zip
     public static function parseZip($zip)
     {
         if (strpos($zip, '-') == -1) {
-            return array($zip);
+            return [$zip];
         } else {
             return self::zipRangeToZipPattern($zip);
         }
@@ -51,18 +51,18 @@ class Zip
     public static function zipRangeToZipPattern($zipRange)
     {
         $zipLength = 5;
-        $zipPattern = array();
+        $zipPattern = [];
 
         if (!preg_match("/^(.+)-(.+)$/", $zipRange, $zipParts)) {
-            return array($zipRange);
+            return [$zipRange];
         }
 
         if ($zipParts[1] == $zipParts[2]) {
-            return array($zipParts[1]);
+            return [$zipParts[1]];
         }
 
         if ($zipParts[1] > $zipParts[2]) {
-            list($zipParts[2], $zipParts[1]) = array($zipParts[1], $zipParts[2]);
+            list($zipParts[2], $zipParts[1]) = [$zipParts[1], $zipParts[2]];
         }
 
         $from = str_split($zipParts[1]);
@@ -84,7 +84,7 @@ class Zip
          */
         if (min(array_slice($to, $diffPosition)) == 9 && max(array_slice($from, $diffPosition)) == 0) {
             // particular case like 11000-11999 -> 11*
-            return array($startZip . '*');
+            return [$startZip . '*'];
         } else {
             // calculate approximate zip-patterns
             $start = $from[$diffPosition];

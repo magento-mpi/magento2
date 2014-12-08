@@ -37,7 +37,7 @@ class DeleteStorePost extends \Magento\Backend\Controller\Adminhtml\System\Store
         try {
             $model->delete();
 
-            $this->_eventManager->dispatch('store_delete', array('store' => $model));
+            $this->_eventManager->dispatch('store_delete', ['store' => $model]);
 
             $this->messageManager->addSuccess(__('The store view has been deleted.'));
             return $redirectResult->setPath('adminhtml/*/');

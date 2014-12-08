@@ -23,7 +23,7 @@ class BackgroundImageTest extends \PHPUnit_Framework_TestCase
         $rendererModel = $this->getMock(
             'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
             null,
-            array(),
+            [],
             '',
             false
         );
@@ -41,7 +41,7 @@ class BackgroundImageTest extends \PHPUnit_Framework_TestCase
         $rendererModel = $this->getMock(
             'Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Renderer\BackgroundImage',
             null,
-            array(),
+            [],
             '',
             false
         );
@@ -54,18 +54,18 @@ class BackgroundImageTest extends \PHPUnit_Framework_TestCase
      */
     public function backgroundImageData()
     {
-        return array(
-            array(
+        return [
+            [
                 'expected_result' => ".header { background-image: url('path/image.gif'); }",
-                'data' => array(
+                'data' => [
                     'type' => 'image-uploader',
                     'default' => 'bg.gif',
                     'selector' => '.header',
                     'attribute' => 'background-image',
-                    'value' => 'path/image.gif'
-                )
-            )
-        );
+                    'value' => 'path/image.gif',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -73,17 +73,17 @@ class BackgroundImageTest extends \PHPUnit_Framework_TestCase
      */
     public function backgroundImageDataClearDefault()
     {
-        return array(
-            array(
+        return [
+            [
                 'expected_result' => ".header { background-image: none; }",
-                'data' => array(
+                'data' => [
                     'type' => 'image-uploader',
                     'default' => 'bg.gif',
                     'selector' => '.header',
                     'attribute' => 'background-image',
-                    'value' => ''
-                )
-            )
-        );
+                    'value' => '',
+                ],
+            ]
+        ];
     }
 }

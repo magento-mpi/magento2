@@ -23,7 +23,7 @@ class MassEnable extends \Magento\Backend\Controller\Adminhtml\Cache
             $types = $this->getRequest()->getParam('types');
             $updatedTypes = 0;
             if (!is_array($types)) {
-                $types = array();
+                $types = [];
             }
             $this->_validateTypes($types);
             foreach ($types as $code) {

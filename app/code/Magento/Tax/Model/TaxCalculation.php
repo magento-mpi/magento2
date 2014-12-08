@@ -8,19 +8,18 @@
 
 namespace Magento\Tax\Model;
 
-use Magento\Tax\Api\Data\TaxDetailsInterface;
-use Magento\Tax\Api\Data\TaxDetailsItemInterface;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Tax\Api\Data\AppliedTaxInterface;
+use Magento\Tax\Api\Data\AppliedTaxRateInterface;
 use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 use Magento\Tax\Api\Data\TaxDetailsDataBuilder;
+use Magento\Tax\Api\Data\TaxDetailsInterface;
 use Magento\Tax\Api\Data\TaxDetailsItemDataBuilder;
-use Magento\Tax\Api\Data\AppliedTaxRateInterface;
-use Magento\Tax\Api\Data\AppliedTaxInterface;
-use Magento\Tax\Api\TaxClassManagementInterface;
-use Magento\Tax\Model\Calculation\CalculatorFactory;
-use Magento\Tax\Model\Config;
-use Magento\Tax\Model\Calculation\AbstractCalculator;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Tax\Api\Data\TaxDetailsItemInterface;
 use Magento\Tax\Api\TaxCalculationInterface;
+use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\Tax\Model\Calculation\AbstractCalculator;
+use Magento\Tax\Model\Calculation\CalculatorFactory;
 
 class TaxCalculation implements TaxCalculationInterface
 {

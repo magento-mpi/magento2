@@ -26,7 +26,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
+        $result = [];
         /** @var \DOMNodeList $integrations */
         $integrations = $source->getElementsByTagName('integration');
         /** @var \DOMElement $integration */
@@ -35,8 +35,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 continue;
             }
             $integrationName = $integration->attributes->getNamedItem('name')->nodeValue;
-            $result[$integrationName] = array();
-            $result[$integrationName][self::API_RESOURCES] = array();
+            $result[$integrationName] = [];
+            $result[$integrationName][self::API_RESOURCES] = [];
             /** @var \DOMNodeList $resources */
             $resources = $integration->getElementsByTagName('resource');
             /** @var \DOMElement $resource */

@@ -41,7 +41,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     /**
      * @var array
      */
-    protected $_routingInfo = array();
+    protected $_routingInfo = [];
 
     /**
      * @var string
@@ -71,7 +71,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
      *
      * @var array
      */
-    protected $_beforeForwardInfo = array();
+    protected $_beforeForwardInfo = [];
 
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface
@@ -100,7 +100,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
         PathInfoProcessorInterface $pathInfoProcessor,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         $uri = null,
-        $directFrontNames = array()
+        $directFrontNames = []
     ) {
         $this->_routeConfig = $routeConfig;
         $this->_directFrontNames = $directFrontNames;
@@ -464,13 +464,13 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
     public function initForward()
     {
         if (empty($this->_beforeForwardInfo)) {
-            $this->_beforeForwardInfo = array(
+            $this->_beforeForwardInfo = [
                 'params' => $this->getParams(),
                 'action_name' => $this->getActionName(),
                 'controller_name' => $this->getControllerName(),
                 'module_name' => $this->getModuleName(),
-                'route_name' => $this->getRouteName()
-            );
+                'route_name' => $this->getRouteName(),
+            ];
         }
 
         return $this;
@@ -590,7 +590,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\Framework\A
      */
     public function __sleep()
     {
-        return array();
+        return [];
     }
 
     /**

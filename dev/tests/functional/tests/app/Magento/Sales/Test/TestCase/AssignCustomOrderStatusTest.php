@@ -12,8 +12,8 @@ use Magento\Sales\Test\Constraint\AssertOrderStatusSuccessAssignMessage;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Fixture\OrderStatus;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
-use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Magento\Sales\Test\Page\Adminhtml\OrderStatusAssign;
+use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\TestCase\Injectable;
 

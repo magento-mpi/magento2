@@ -8,12 +8,12 @@
 
 namespace Magento\Centinel\Test\Block;
 
-use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Block\Block;
+use Mtf\Block\BlockFactory;
 use Mtf\Client\Driver\Selenium\Browser;
 use Mtf\Client\Element;
-use Mtf\Block\BlockFactory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Authentication

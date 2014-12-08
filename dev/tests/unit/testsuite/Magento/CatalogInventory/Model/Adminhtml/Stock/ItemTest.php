@@ -21,8 +21,8 @@ class ItemTest extends \PHPUnit_Framework_TestCase
     {
         $resourceMock = $this->getMock(
             'Magento\Framework\Model\Resource\AbstractResource',
-            array('_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'),
-            array(),
+            ['_construct', '_getReadAdapter', '_getWriteAdapter', 'getIdFieldName'],
+            [],
             '',
             false
         );
@@ -46,10 +46,10 @@ class ItemTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $objectHelper->getObject(
             '\Magento\CatalogInventory\Model\Adminhtml\Stock\Item',
-            array(
+            [
                 'resource' => $resourceMock,
                 'groupManagement' => $groupManagement
-            )
+            ]
         );
     }
 

@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Cart\PaymentMethod;
 
-use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
+use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {

@@ -8,12 +8,12 @@
 
 namespace Magento\Review\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Review\Test\Fixture\ReviewInjectable;
 use Magento\Review\Test\Page\Adminhtml\RatingEdit;
 use Magento\Review\Test\Page\Adminhtml\RatingIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Create Frontend Product Review

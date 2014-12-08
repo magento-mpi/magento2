@@ -8,11 +8,10 @@
  */
 namespace Magento\Catalog\Service\V1\Product;
 
-use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Api\ProductRepositoryInterface;
+use Magento\Catalog\Service\V1\Data\Product;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
-use Magento\Catalog\Service\V1\Data\Product;
 
 class GroupPriceService implements GroupPriceServiceInterface
 {
@@ -97,11 +96,11 @@ class GroupPriceService implements GroupPriceServiceInterface
             }
         }
         if (!$found) {
-            $groupPrices[] = array(
+            $groupPrices[] = [
                 'cust_group' => $customerGroup->getId(),
                 'website_id' => $websiteId,
                 'price' => $price->getValue(),
-            );
+            ];
         }
 
         $product->setData('group_price', $groupPrices);
@@ -146,12 +145,12 @@ class GroupPriceService implements GroupPriceServiceInterface
             $priceKey = 'price';
         }
 
-        $prices = array();
+        $prices = [];
         foreach ($product->getData('group_price') as $price) {
-            $this->groupPriceBuilder->populateWithArray(array(
+            $this->groupPriceBuilder->populateWithArray([
                 Product\GroupPrice::CUSTOMER_GROUP_ID => $price['all_groups'] ? 'all' : $price['cust_group'],
                 Product\GroupPrice::VALUE => $price[$priceKey],
-            ));
+            ]);
             $prices[] = $this->groupPriceBuilder->create();
         }
         return $prices;

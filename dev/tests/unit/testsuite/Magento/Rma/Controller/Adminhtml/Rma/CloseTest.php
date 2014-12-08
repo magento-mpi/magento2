@@ -20,7 +20,7 @@ class CloseTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->will(
                 $this->returnValueMap(
                     [
-                        ['entity_id', null, $entityId]
+                        ['entity_id', null, $entityId],
                     ]
                 )
             );

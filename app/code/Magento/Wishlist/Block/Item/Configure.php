@@ -40,7 +40,7 @@ class Configure extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_coreRegistry = $registry;

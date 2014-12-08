@@ -38,7 +38,7 @@ class Cart extends \Magento\Payment\Model\Cart
                 $subtotal -= $this->getDiscount();
             }
 
-            return array(self::AMOUNT_SUBTOTAL => $subtotal);
+            return [self::AMOUNT_SUBTOTAL => $subtotal];
         }
 
         return $this->_amounts;
@@ -100,8 +100,8 @@ class Cart extends \Magento\Payment\Model\Cart
         $areItemsValid = $areItemsValid && $this->_areAmountsValid;
 
         if (!$areItemsValid) {
-            $this->_salesModelItems = array();
-            $this->_customItems = array();
+            $this->_salesModelItems = [];
+            $this->_customItems = [];
         }
     }
 
@@ -112,7 +112,7 @@ class Cart extends \Magento\Payment\Model\Cart
      */
     protected function _importItemsFromSalesModel()
     {
-        $this->_salesModelItems = array();
+        $this->_salesModelItems = [];
 
         foreach ($this->_salesModel->getAllItems() as $item) {
             if ($item->getParentItem()) {

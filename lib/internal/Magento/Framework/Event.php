@@ -6,7 +6,6 @@
  * @license    {license_link}
  */
 
-
 /**
  * Event object and dispatcher
  *
@@ -30,7 +29,7 @@ class Event extends \Magento\Framework\Object
      *
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         $this->_observers = new \Magento\Framework\Event\Observer\Collection();
         parent::__construct($data);

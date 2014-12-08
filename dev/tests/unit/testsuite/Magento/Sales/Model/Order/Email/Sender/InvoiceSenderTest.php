@@ -181,7 +181,7 @@ class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
                         'comment' => $comment,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -195,7 +195,6 @@ class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
         $this->orderMock->expects($this->once())
             ->method('getPayment')
             ->will($this->returnValue($paymentInfoMock));
-
 
         $senderMock = $this->getMock(
             'Magento\Sales\Model\Order\Email\Sender',
@@ -242,7 +241,7 @@ class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

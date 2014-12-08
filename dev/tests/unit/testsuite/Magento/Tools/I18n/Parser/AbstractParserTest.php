@@ -18,7 +18,7 @@ class AbstractParserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_parserMock = $this->getMockForAbstractClass(
             'Magento\Tools\I18n\Parser\AbstractParser',
-            array(),
+            [],
             '',
             false
         );
@@ -39,16 +39,16 @@ class AbstractParserTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForValidateOptions()
     {
-        return array(
-            array(array(array('paths' => array())), 'Missed "type" in parser options.'),
-            array(array(array('type' => '', 'paths' => array())), 'Missed "type" in parser options.'),
-            array(
-                array(array('type' => 'wrong_type', 'paths' => array())),
+        return [
+            [[['paths' => []]], 'Missed "type" in parser options.'],
+            [[['type' => '', 'paths' => []]], 'Missed "type" in parser options.'],
+            [
+                [['type' => 'wrong_type', 'paths' => []]],
                 'Adapter is not set for type "wrong_type".'
-            ),
-            array(array(array('type' => 'php')), '"paths" in parser options must be array.'),
-            array(array(array('type' => 'php', 'paths' => '')), '"paths" in parser options must be array.')
-        );
+            ],
+            [[['type' => 'php']], '"paths" in parser options must be array.'],
+            [[['type' => 'php', 'paths' => '']], '"paths" in parser options must be array.']
+        ];
     }
 
     public function getPhrases()

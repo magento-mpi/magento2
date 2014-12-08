@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * New Accounts Report collection
  *
@@ -25,15 +24,14 @@ class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
      */
     protected function _joinFields($fromDate = '', $toDate = '')
     {
-
         $this->getSelect()->reset(\Zend_Db_Select::COLUMNS);
         $this->addAttributeToFilter(
             'created_at',
-            array('from' => $fromDate, 'to' => $toDate, 'datetime' => true)
+            ['from' => $fromDate, 'to' => $toDate, 'datetime' => true]
         )->addExpressionAttributeToSelect(
             'accounts',
             'COUNT({{entity_id}})',
-            array('entity_id')
+            ['entity_id']
         );
 
         $this->getSelect()->having("{$this->_joinFields['accounts']['field']} > ?", 0);
@@ -63,7 +61,7 @@ class Collection extends \Magento\Reports\Model\Resource\Customer\Collection
     public function setStoreIds($storeIds)
     {
         if ($storeIds) {
-            $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
+            $this->addAttributeToFilter('store_id', ['in' => (array)$storeIds]);
         }
         return $this;
     }

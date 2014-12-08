@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order;
 
-use Mtf\Block\Block;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm\Product;
+use Mtf\Block\Block;
 use Mtf\Fixture\FixtureInterface;
 
 /**

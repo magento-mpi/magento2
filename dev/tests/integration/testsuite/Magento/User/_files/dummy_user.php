@@ -25,7 +25,6 @@ $user->setFirstname(
     'dummy_password1'
 )->save();
 
-
 \Magento\TestFramework\Helper\Bootstrap::getInstance()
     ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\User\Model\User');

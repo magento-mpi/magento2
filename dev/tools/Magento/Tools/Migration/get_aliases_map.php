@@ -38,7 +38,7 @@ if (isset($options['p'])) {
 }
 
 $utilityFiles = new Magento\Framework\Test\Utility\Files($magentoBaseDir);
-$map = array();
+$map = [];
 $compositeModules = getFilesCombinedArray(__DIR__ . '/aliases_map', '/^composite_modules_.*\.php$/');
 // PHP code
 foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
@@ -48,7 +48,7 @@ foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
         $factoryNames = array_filter($classes, 'isFactoryName');
         foreach ($factoryNames as $factoryName) {
             list($module, $name) = getModuleName($factoryName, $compositeModules);
-            $patterns = array(
+            $patterns = [
                 '::getModel(\'%s\'' => 'Model',
                 '::getSingleton(\'%s\'' => 'Model',
                 '::getResourceModel(\'%s\'' => 'Model_Resource',
@@ -56,13 +56,13 @@ foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
                 'addBlock(\'%s\'' => 'Block',
                 'createBlock(\'%s\'' => 'Block',
                 'getBlockClassName(\'%s\'' => 'Block',
-                'getBlockSingleton(\'%s\'' => 'Block'
-            );
+                'getBlockSingleton(\'%s\'' => 'Block',
+            ];
 
             foreach ($patterns as $pattern => $classType) {
                 if (isPatternExist($content, $pattern, $factoryName)) {
                     if (!isset($map[$classType])) {
-                        $map[$classType] = array();
+                        $map[$classType] = [];
                     }
 
                     $map[$classType][$factoryName] = getClassName($module, $classType, $name);
@@ -74,7 +74,7 @@ foreach ($utilityFiles->getPhpFiles(true, true, true, false) as $file) {
 
 // layouts
 $classType = 'Block';
-$layouts = $utilityFiles->getLayoutFiles(array(), false);
+$layouts = $utilityFiles->getLayoutFiles([], false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
     $classes = \Magento\Framework\Test\Utility\Classes::collectLayoutClasses($xml);
@@ -99,7 +99,7 @@ echo Zend_Json::prettyPrint(Zend_Json::encode($map));
  */
 function getFilesCombinedArray($dirPath, $filePattern)
 {
-    $result = array();
+    $result = [];
     $directoryIterator = new DirectoryIterator($dirPath);
     $patternIterator = new RegexIterator($directoryIterator, $filePattern);
 
@@ -162,7 +162,7 @@ function isFactoryName($class)
  * @param array $compositeModules
  * @return array
  */
-function getModuleName($factoryName, $compositeModules = array())
+function getModuleName($factoryName, $compositeModules = [])
 {
     if (false !== strpos($factoryName, '/')) {
         list($module, $name) = explode('/', $factoryName);
@@ -175,5 +175,5 @@ function getModuleName($factoryName, $compositeModules = array())
     } elseif (false === strpos($module, '_')) {
         $module = "Magento_{$module}";
     }
-    return array($module, $name);
+    return [$module, $name];
 }

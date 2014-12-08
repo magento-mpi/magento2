@@ -7,9 +7,9 @@
  */
 namespace Magento\CatalogInventory\Api;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Class StockStatusTest
@@ -30,17 +30,17 @@ class StockStatusTest extends WebapiAbstract
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $objectManager->get('Magento\Catalog\Model\Product')->load(1);
         $expectedData = $product->getQuantityAndStockStatus();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$productSku",
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'catalogInventoryStockRegistryV1',
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => 'catalogInventoryStockRegistryV1GetStockStatusBySku',
-            ),
-        );
+            ],
+        ];
 
         $requestData = ['productSku' => $productSku];
         $actualData = $this->_webApiCall($serviceInfo, $requestData);

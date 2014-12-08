@@ -8,16 +8,16 @@
 
 namespace Magento\GiftCardAccount\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for AddGiftCardInShoppingCartTest

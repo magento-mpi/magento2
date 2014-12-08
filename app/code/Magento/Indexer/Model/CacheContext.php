@@ -15,7 +15,7 @@ class CacheContext implements \Magento\Framework\Object\IdentityInterface
     /**
      * @var array
      */
-    protected $entities = array();
+    protected $entities = [];
 
     /**
      * Register entity Ids
@@ -40,7 +40,7 @@ class CacheContext implements \Magento\Framework\Object\IdentityInterface
     public function getRegisteredEntity($cacheTag)
     {
         if (empty($this->entities[$cacheTag])) {
-            return array();
+            return [];
         } else {
             return $this->entities[$cacheTag];
         }
@@ -53,7 +53,7 @@ class CacheContext implements \Magento\Framework\Object\IdentityInterface
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->entities as $cacheTag => $ids) {
             foreach ($ids as $id) {
                 $identities[] = $cacheTag . '_' . $id;

@@ -8,10 +8,10 @@
 
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
+use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Rma\Test\Fixture\Rma;
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Bundle\Test\Fixture\BundleProduct;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert that rma with item as bundle product is correct display on frontend (MyAccount - My Returns).

@@ -57,7 +57,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     {
         $expect = [
             ['label' => __('-- Please Select a Category --'), 'value' => ''],
-            ['label' => 'name', 'value' => 3]
+            ['label' => 'name', 'value' => 3],
         ];
 
         $this->categoryCollection->expects($this->once())->method('addAttributeToSelect')->with(
@@ -76,4 +76,4 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expect, $this->model->toOptionArray());
     }
-} 
+}

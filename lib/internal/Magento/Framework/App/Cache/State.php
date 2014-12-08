@@ -15,7 +15,7 @@ class State implements StateInterface
      * Cache identifier used to store cache type statuses
      */
     const CACHE_ID  = 'core_cache_options';
-    
+
     /**
      * Disallow cache
      */
@@ -40,7 +40,7 @@ class State implements StateInterface
      *
      * @var array
      */
-    private $_typeStatuses = array();
+    private $_typeStatuses = [];
 
     /**
      * @param State\OptionsInterface $options

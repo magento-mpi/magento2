@@ -66,14 +66,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $this->block = $objectManagerHelper->getObject(
             'Magento\RecurringPayment\Block\Payment\Related\Orders\Grid',
-            array(
+            [
                 'registry' => $this->registry,
                 'storeManager' => $this->storeManager,
                 'collection' => $this->collection,
                 'localeDate' => $this->locale,
                 'coreHelper' => $this->helper,
                 'recurringCollectionFilter' => $this->recurringCollectionFilter
-            )
+            ]
         );
     }
 
@@ -84,17 +84,17 @@ class GridTest extends \PHPUnit_Framework_TestCase
     public function testPrepareLayout()
     {
         $customerId = 1;
-        $store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $args = array(
+        $store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $args = [
             'getIncrementId',
             'getCreatedAt',
             'getCustomerName',
             'getBaseGrandTotal',
             'getStatusLabel',
             'getId',
-            '__wakeup'
-        );
-        $collectionElement = $this->getMock('Magento\RecurringPayment\Model\Payment', $args, array(), '', false);
+            '__wakeup',
+        ];
+        $collectionElement = $this->getMock('Magento\RecurringPayment\Model\Payment', $args, [], '', false);
         $collectionElement->expects($this->once())
             ->method('getIncrementId')
             ->will($this->returnValue(1));
@@ -112,9 +112,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getIterator'
         )->will(
-            $this->returnValue(new \ArrayIterator(array($collectionElement)))
+            $this->returnValue(new \ArrayIterator([$collectionElement]))
         );
-        $payment = $this->getMock('Magento\RecurringPayment\Model\Payment', array(), array(), '', false);
+        $payment = $this->getMock('Magento\RecurringPayment\Model\Payment', [], [], '', false);
         $this->registry->expects(
             $this->at(0)
         )->method(
@@ -147,7 +147,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $pagerBlock = $this->getMockBuilder(
             'Magento\Theme\Block\Html\Pager'
         )->disableOriginalConstructor()->setMethods(
-            array('setCollection')
+            ['setCollection']
         )->getMock();
         $pagerBlock->expects(
             $this->once()
@@ -166,18 +166,18 @@ class GridTest extends \PHPUnit_Framework_TestCase
          * @var \Magento\RecurringPayment\Block\Payment\Related\Orders\\Grid
          */
         $this->assertNotEmpty($this->block->getGridColumns());
-        $expectedResult = array(
+        $expectedResult = [
             new \Magento\Framework\Object(
-                array(
+                [
                     'increment_id' => 1,
                     'increment_id_link_url' => null,
                     'created_at' => '11-11-1999',
                     'customer_name' => null,
                     'status' => null,
-                    'base_grand_total' => '10 USD'
-                )
-            )
-        );
+                    'base_grand_total' => '10 USD',
+                ]
+            ),
+        ];
         $this->assertEquals($expectedResult, $this->block->getGridElements());
     }
 }

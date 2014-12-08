@@ -15,7 +15,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/action' => 'path');
+    protected $_idAttributes = ['/config/action' => 'path'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -33,7 +33,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\WebsiteRestriction\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'webrestrictions.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

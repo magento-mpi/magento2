@@ -16,5 +16,5 @@ interface EntityFactoryInterface
      * @param array $arguments
      * @return mixed
      */
-    public function create($type, array $arguments = array());
+    public function create($type, array $arguments = []);
 }

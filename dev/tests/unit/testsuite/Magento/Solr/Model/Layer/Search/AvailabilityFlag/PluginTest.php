@@ -59,14 +59,14 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->markTestSkipped('Solr module disabled');
         $this->filterMock = $this->getMock(
-            'Magento\Catalog\Model\Layer\Filter\AbstractFilter', array(), array(), '', false
+            'Magento\Catalog\Model\Layer\Filter\AbstractFilter', [], [], '', false
         );
-        $this->filters = array($this->filterMock);
+        $this->filters = [$this->filterMock];
 
         $this->subjectMock = $this->getMock('Magento\Catalog\Model\Layer\Search\AvailabilityFlag');
-        $this->helperMock = $this->getMock('Magento\Solr\Helper\Data', array(), array(), '', false);
-        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $this->stateMock = $this->getMock('Magento\Catalog\Model\Layer\State', array(), array(), '', false);
+        $this->helperMock = $this->getMock('Magento\Solr\Helper\Data', [], [], '', false);
+        $this->layerMock = $this->getMock('Magento\Catalog\Model\Layer', [], [], '', false);
+        $this->stateMock = $this->getMock('Magento\Catalog\Model\Layer\State', [], [], '', false);
         $this->model = new Plugin($this->helperMock);
     }
 
@@ -91,11 +91,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
          */
         $proceed = function ($layer, $filters) {
             $this->assertEquals($this->layerMock, $layer);
-            $this->assertEquals(array(), $filters);
+            $this->assertEquals([], $filters);
 
             return false;
         };
-        $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, array()));
+        $this->assertFalse($this->model->aroundIsEnabled($this->subjectMock, $proceed, $this->layerMock, []));
     }
 
     /**
@@ -103,11 +103,11 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function aroundIsEnabledWithThirdPartEngineOffDataProvider()
     {
-        return array(
-            array(false, false),
-            array(true, false),
-            array(false, true),
-        );
+        return [
+            [false, false],
+            [true, false],
+            [false, true],
+        ];
     }
 
     /**
@@ -143,27 +143,27 @@ class PluginTest extends \PHPUnit_Framework_TestCase
      */
     public function aroundIsEnabledDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'itemsCount' => 0,
-                'filters' => array(),
+                'filters' => [],
                 'expectedResult' => false,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 0,
-                'filters' => array('filter'),
+                'filters' => ['filter'],
                 'expectedResult' => true,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 1,
                 'filters' => 0,
                 'expectedResult' => true,
-            ),
-            array(
+            ],
+            [
                 'itemsCount' => 1,
-                'filters' => array('filter'),
+                'filters' => ['filter'],
                 'expectedResult' => true,
-            )
-        );
+            ]
+        ];
     }
 }

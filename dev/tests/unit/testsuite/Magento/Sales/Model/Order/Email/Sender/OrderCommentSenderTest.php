@@ -127,7 +127,7 @@ class OrderCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

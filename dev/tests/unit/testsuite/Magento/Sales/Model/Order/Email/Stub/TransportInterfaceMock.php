@@ -7,7 +7,7 @@
  */
 namespace Magento\Sales\Model\Order\Email\Stub;
 
-use \Magento\Framework\Mail\TransportInterface;
+use Magento\Framework\Mail\TransportInterface;
 
 class TransportInterfaceMock implements TransportInterface
 {

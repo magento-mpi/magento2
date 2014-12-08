@@ -75,7 +75,7 @@ class Url extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $startDelimiter = false === strpos($url, '?') ? '?' : '&';
 
-        $arrQueryParams = array();
+        $arrQueryParams = [];
         foreach ($param as $key => $value) {
             if (is_numeric($key) || is_object($value)) {
                 continue;

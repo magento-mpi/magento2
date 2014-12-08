@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Api;
 
-
 /**
  * Base Builder interface for simple data Objects
  */

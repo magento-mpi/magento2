@@ -18,7 +18,7 @@ class Group extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      * List of allowed field names for group
      * @var array
      */
-    protected $_allowedFieldNames = array(
+    protected $_allowedFieldNames = [
         'label',
         'frontend_model',
         'clone_fields',
@@ -27,8 +27,8 @@ class Group extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
         'help_url',
         'comment',
         'hide_in_single_store_mode',
-        'expanded'
-    );
+        'expanded',
+    ];
 
     /**
      * @param Tools_Migration_System_Configuration_Mapper_Field $fieldMapper
@@ -46,7 +46,7 @@ class Group extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstrac
      */
     public function transform(array $config)
     {
-        $output = array();
+        $output = [];
         foreach ($config as $groupName => $groupConfig) {
             $output[] = $this->_transformElement($groupName, $groupConfig, 'group');
         }

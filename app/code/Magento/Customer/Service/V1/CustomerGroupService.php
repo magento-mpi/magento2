@@ -7,22 +7,22 @@
  */
 namespace Magento\Customer\Service\V1;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Tax\Api\TaxClassRepositoryInterface;
 use Magento\Customer\Model\Group as CustomerGroupModel;
 use Magento\Customer\Model\GroupFactory;
 use Magento\Customer\Model\GroupRegistry;
 use Magento\Customer\Model\Resource\Group\Collection;
 use Magento\Customer\Service\V1\Data\CustomerGroup;
 use Magento\Framework\Api\Search\FilterGroup;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Exception\StateException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Exception\StateException;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
-use \Magento\Tax\Api\TaxClassRepositoryInterface;
-use Magento\Framework\Api\SortOrder;
 
 /**
  * Customer service is responsible for customer business workflow encapsulation
@@ -31,7 +31,6 @@ use Magento\Framework\Api\SortOrder;
  */
 class CustomerGroupService implements CustomerGroupServiceInterface
 {
-
     const MESSAGE_CUSTOMER_GROUP_ID_IS_NOT_EXPECTED = 'ID is not expected for this request.';
 
     /**
@@ -106,7 +105,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
      */
     public function getGroups($includeNotLoggedIn = true, $taxClassId = null)
     {
-        $groups = array();
+        $groups = [];
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection();
         if (!$includeNotLoggedIn) {
@@ -132,7 +131,7 @@ class CustomerGroupService implements CustomerGroupServiceInterface
     {
         $this->_searchResultsBuilder->setSearchCriteria($searchCriteria);
 
-        $groups = array();
+        $groups = [];
         /** @var Collection $collection */
         $collection = $this->_groupFactory->create()->getCollection()->addTaxClass();
         //Add filters from root filter group to the collection

@@ -39,16 +39,16 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $attribute = $filter->getAttributeModel();
         $connection = $this->_getReadAdapter();
         $tableAlias = sprintf('%s_idx', $attribute->getAttributeCode());
-        $conditions = array(
+        $conditions = [
             "{$tableAlias}.entity_id = e.entity_id",
             $connection->quoteInto("{$tableAlias}.attribute_id = ?", $attribute->getAttributeId()),
-            $connection->quoteInto("{$tableAlias}.store_id = ?", $collection->getStoreId())
-        );
+            $connection->quoteInto("{$tableAlias}.store_id = ?", $collection->getStoreId()),
+        ];
 
         $collection->getSelect()->join(
-            array($tableAlias => $this->getMainTable()),
+            [$tableAlias => $this->getMainTable()],
             implode(' AND ', $conditions),
-            array()
+            []
         );
 
         $collection->getSelect()->where(
@@ -74,15 +74,15 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
 
         $select->columns(
-            array(
+            [
                 'min_value' => new \Zend_Db_Expr('MIN(decimal_index.value)'),
-                'max_value' => new \Zend_Db_Expr('MAX(decimal_index.value)')
-            )
+                'max_value' => new \Zend_Db_Expr('MAX(decimal_index.value)'),
+            ]
         );
 
         $result = $adapter->fetchRow($select);
 
-        return array($result['min_value'], $result['max_value']);
+        return [$result['min_value'], $result['max_value']];
     }
 
     /**
@@ -109,7 +109,7 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $storeId = $collection->getStoreId();
 
         $select->join(
-            array('decimal_index' => $this->getMainTable()),
+            ['decimal_index' => $this->getMainTable()],
             'e.entity_id = decimal_index.entity_id' . ' AND ' . $this->_getReadAdapter()->quoteInto(
                 'decimal_index.attribute_id = ?',
                 $attributeId
@@ -117,7 +117,7 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 'decimal_index.store_id = ?',
                 $storeId
             ),
-            array()
+            []
         );
 
         return $select;
@@ -138,7 +138,7 @@ class Decimal extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $countExpr = new \Zend_Db_Expr("COUNT(*)");
         $rangeExpr = new \Zend_Db_Expr("FLOOR(decimal_index.value / {$range}) + 1");
 
-        $select->columns(array('decimal_range' => $rangeExpr, 'count' => $countExpr));
+        $select->columns(['decimal_range' => $rangeExpr, 'count' => $countExpr]);
         $select->group($rangeExpr);
 
         return $adapter->fetchPairs($select);

@@ -48,28 +48,28 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->_model->getState()->addFilter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Filter\Item',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                             'Magento\Catalog\Model\Layer\Filter\Category',
-                            array('layer' => $this->_model)
+                            ['layer' => $this->_model]
                         ),
-                        'value' => 'expected-value-string'
-                    )
-                )
+                        'value' => 'expected-value-string',
+                    ]
+                ]
             )
         )->addFilter(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                 'Magento\Catalog\Model\Layer\Filter\Item',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'filter' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                             'Magento\Catalog\Model\Layer\Filter\Decimal',
-                            array('layer' => $this->_model)
+                            ['layer' => $this->_model]
                         ),
-                        'value' => 1234
-                    )
-                )
+                        'value' => 1234,
+                    ]
+                ]
             )
         );
 
@@ -126,7 +126,6 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Framework\Registry')->unregister('current_category');
             throw $e;
         }
-
 
         try {
             $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

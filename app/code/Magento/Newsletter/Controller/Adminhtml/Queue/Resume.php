@@ -23,7 +23,7 @@ class Resume extends \Magento\Newsletter\Controller\Adminhtml\Queue
             $this->getRequest()->getParam('id')
         );
 
-        if (!in_array($queue->getQueueStatus(), array(\Magento\Newsletter\Model\Queue::STATUS_PAUSE))) {
+        if (!in_array($queue->getQueueStatus(), [\Magento\Newsletter\Model\Queue::STATUS_PAUSE])) {
             $this->_redirect('*/*');
             return;
         }

@@ -40,19 +40,19 @@ class Delete extends \Magento\Backend\App\Action
                 // go to grid
                 $this->_eventManager->dispatch(
                     'adminhtml_cmspage_on_delete',
-                    array('title' => $title, 'status' => 'success')
+                    ['title' => $title, 'status' => 'success']
                 );
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_eventManager->dispatch(
                     'adminhtml_cmspage_on_delete',
-                    array('title' => $title, 'status' => 'fail')
+                    ['title' => $title, 'status' => 'fail']
                 );
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // go back to edit form
-                $this->_redirect('*/*/edit', array('page_id' => $id));
+                $this->_redirect('*/*/edit', ['page_id' => $id]);
                 return;
             }
         }

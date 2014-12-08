@@ -7,11 +7,11 @@
  */
 namespace Magento\Bundle\Pricing\Price;
 
-use Magento\Catalog\Pricing\Price as CatalogPrice;
-use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Catalog\Model\Product;
+use Magento\Catalog\Pricing\Price as CatalogPrice;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
@@ -117,7 +117,7 @@ class BundleSelectionPrice extends AbstractPrice
                 $product->setFinalPrice($price);
                 $this->eventManager->dispatch(
                     'catalog_product_get_final_price',
-                    array('product' => $product, 'qty' => $this->bundleProduct->getQty())
+                    ['product' => $product, 'qty' => $this->bundleProduct->getQty()]
                 );
                 $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
             } else {

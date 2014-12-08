@@ -15,12 +15,12 @@ $_htmlName = $this->getElement()->getName();
 $_readonly = $this->getElement()->getReadonly();
 $_priceValueValidation = $this->getPriceValidation('validate-zero-or-greater');
 
-$_showWebsite= $this->isMultiWebsites();
+$_showWebsite = $this->isMultiWebsites();
 ?>
 <div class="field" id="attribute-<?php echo $_htmlId?>-container" data-attribute-code="<?php echo $_htmlId?>"
      data-apply-to="<?php echo $this->escapeHtml(
          $this->helper('Magento\Core\Helper\Data')->jsonEncode(
-             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : array()
+             $element->hasEntityAttribute() ? $element->getEntityAttribute()->getApplyTo() : []
          )
      )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel(); ?></span></label>

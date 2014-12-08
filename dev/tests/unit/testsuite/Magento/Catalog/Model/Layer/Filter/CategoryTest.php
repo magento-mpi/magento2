@@ -151,7 +151,6 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     /** @var  \Magento\Catalog\Model\Layer\State|MockObject */
     private $state;
 

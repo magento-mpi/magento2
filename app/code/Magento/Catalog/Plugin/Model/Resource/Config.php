@@ -50,10 +50,10 @@ class Config
             $this->cache->save(
                 serialize($attributes),
                 $cacheId,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
         return $attributes;
@@ -76,10 +76,10 @@ class Config
             $this->cache->save(
                 serialize($attributes),
                 $cacheId,
-                array(
+                [
                     \Magento\Eav\Model\Cache\Type::CACHE_TAG,
                     \Magento\Eav\Model\Entity\Attribute::CACHE_TAG
-                )
+                ]
             );
         }
         return $attributes;

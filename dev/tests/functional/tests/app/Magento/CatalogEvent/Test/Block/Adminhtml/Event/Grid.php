@@ -8,7 +8,6 @@
 
 namespace Magento\CatalogEvent\Test\Block\Adminhtml\Event;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -31,24 +30,24 @@ class Grid extends AbstractGrid
      */
     protected $filters = [
         'category_name' => [
-            'selector' => 'input[name="category"]'
+            'selector' => 'input[name="category"]',
         ],
         'start_on' => [
-            'selector' => '[name="date_start[from]"]'
+            'selector' => '[name="date_start[from]"]',
         ],
         'end_on' => [
-            'selector' => '[name="date_end[from]"]'
+            'selector' => '[name="date_end[from]"]',
         ],
         'status' => [
             'selector' => 'select[name="status"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'countdown_ticker' => [
             'selector' => 'select[name="display_state"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'sort_order' => [
-            'selector' => 'input[name="sort_order"]'
+            'selector' => 'input[name="sort_order"]',
         ],
     ];
 }

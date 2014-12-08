@@ -49,7 +49,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
     /**
      * @var array
      */
-    private static $_customerExistsLookup = array();
+    private static $_customerExistsLookup = [];
 
     /**
      * @var string
@@ -153,7 +153,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Invitation\Status $status,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationData = $invitationData;
@@ -223,12 +223,12 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(
-                array(
+                [
                     'protection_code' => $this->mathRandom->getUniqueHash(),
                     'status' => Invitation\Status::STATUS_NEW,
                     'invitation_date' => $this->dateTime->formatDate(time()),
-                    'store_id' => $this->getStoreId()
-                )
+                    'store_id' => $this->getStoreId(),
+                ]
             );
             $inviter = $this->getInviter();
             if ($inviter) {
@@ -302,15 +302,15 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
         $this->_transportBuilder->setTemplateIdentifier(
             $templateIdentifier
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId())
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $this->getStoreId()]
         )->setTemplateVars(
-            array(
+            [
                 'url' => $this->_invitationData->getInvitationUrl($this),
                 'message' => $this->getMessage(),
                 'store' => $store,
                 'store_name' => $store->getGroup()->getName(),
-                'inviter_name' => $this->getInviter() ? $this->getInviter()->getName() : null
-            )
+                'inviter_name' => $this->getInviter() ? $this->getInviter()->getName() : null,
+            ]
         )->setFrom(
             $from
         )->addTo(
@@ -548,7 +548,7 @@ class Invitation extends \Magento\Framework\Model\AbstractModel
      */
     public function validate()
     {
-        $errors = array();
+        $errors = [];
 
         if (!\Zend_Validate::is($this->getEmail(), 'EmailAddress')) {
             $errors[] = __('Please correct the invitation email.');

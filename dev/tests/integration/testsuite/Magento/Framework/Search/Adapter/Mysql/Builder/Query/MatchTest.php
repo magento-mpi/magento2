@@ -48,7 +48,7 @@ class MatchTest extends \PHPUnit_Framework_TestCase
                 'value' => 'someValue',
                 'matches' => [
                     ['field' => 'with_boost', 'boost' => 2.15],
-                    ['field' => 'without_boost']
+                    ['field' => 'without_boost'],
                 ]
             ]
         );

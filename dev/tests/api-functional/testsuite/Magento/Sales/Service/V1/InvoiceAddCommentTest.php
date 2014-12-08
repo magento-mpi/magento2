@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\Sales\Api\Data\InvoiceCommentInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class InvoiceAddCommentTest
@@ -44,20 +44,20 @@ class InvoiceAddCommentTest extends WebapiAbstract
             InvoiceCommentInterface::CREATED_AT => null,
             InvoiceCommentInterface::PARENT_ID => $invoice->getId(),
             InvoiceCommentInterface::IS_VISIBLE_ON_FRONT => true,
-            InvoiceCommentInterface::IS_CUSTOMER_NOTIFIED => true
+            InvoiceCommentInterface::IS_CUSTOMER_NOTIFIED => true,
         ];
 
         $requestData = ['entity' => $commentData];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/invoice/comment',
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'save'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'save',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

@@ -26,24 +26,24 @@ class Synchronizer
      *
      * @var array
      */
-    protected $_tablesMap = array(
+    protected $_tablesMap = [
         'sales_order_grid' => 'magento_sales_order_grid_archive',
         'sales_invoice_grid' => 'magento_sales_invoice_grid_archive',
         'sales_creditmemo_grid' => 'magento_sales_creditmemo_grid_archive',
-        'sales_shipment_grid' => 'magento_sales_shipment_grid_archive'
-    );
+        'sales_shipment_grid' => 'magento_sales_shipment_grid_archive',
+    ];
 
     /**
      * Map of flat tables to archive tables
      *
      * @var array
      */
-    protected $_tableContraintMap = array(
-        'sales_order_grid' => array('SALES_ORDER_GRID', 'SALES_ORDER_GRID_ARCHIVE'),
-        'sales_invoice_grid' => array('SALES_INVOICE_GRID', 'SALES_INVOICE_GRID_ARCHIVE'),
-        'sales_creditmemo_grid' => array('SALES_CREDITMEMO_GRID', 'SALES_CREDITMEMO_GRID_ARCHIVE'),
-        'sales_shipment_grid' => array('SALES_SHIPMENT_GRID', 'SALES_SHIPMENT_GRID_ARCHIVE')
-    );
+    protected $_tableContraintMap = [
+        'sales_order_grid' => ['SALES_ORDER_GRID', 'SALES_ORDER_GRID_ARCHIVE'],
+        'sales_invoice_grid' => ['SALES_INVOICE_GRID', 'SALES_INVOICE_GRID_ARCHIVE'],
+        'sales_creditmemo_grid' => ['SALES_CREDITMEMO_GRID', 'SALES_CREDITMEMO_GRID_ARCHIVE'],
+        'sales_shipment_grid' => ['SALES_SHIPMENT_GRID', 'SALES_SHIPMENT_GRID_ARCHIVE'],
+    ];
 
     /**
      * Default Constructor
@@ -80,7 +80,7 @@ class Synchronizer
     protected function _fastDescribe($table)
     {
         $description = $this->_installer->getConnection()->describeTable($table);
-        $result = array();
+        $result = [];
         foreach ($description as $column) {
             $result[$column['COLUMN_NAME']] = $column['DATA_TYPE'];
         }
@@ -276,7 +276,7 @@ class Synchronizer
         $sourceConstraints = $this->_installer->getConnection()->getForeignKeys($sourceTable);
         $targetConstraints = $this->_installer->getConnection()->getForeignKeys($targetTable);
 
-        $targetConstraintUsedInSource = array();
+        $targetConstraintUsedInSource = [];
         foreach ($sourceConstraints as $constraintInfo) {
             $targetConstraint = $this->_installer->getConnection()->getForeignKeyName(
                 $targetTable,
@@ -342,7 +342,7 @@ class Synchronizer
             throw new \Exception(sprintf('Table `%s` not found!', $table));
         }
 
-        $columns = array();
+        $columns = [];
         $adapter = $this->_installer->getConnection();
         $description = $adapter->describeTable($table);
         foreach ($description as $columnDescription) {

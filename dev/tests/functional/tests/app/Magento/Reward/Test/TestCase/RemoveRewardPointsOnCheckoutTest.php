@@ -8,20 +8,20 @@
 
 namespace Magento\Reward\Test\TestCase;
 
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Checkout\Test\Page\CheckoutOnepage;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Customer\Test\Fixture\AddressInjectable;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
+use Mtf\Client\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Remove Reward Points On Checkout

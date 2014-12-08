@@ -35,14 +35,14 @@ class Background extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Eleme
         $this->addField(
             $colorHtmlId,
             'color-picker',
-            array('name' => $colorHtmlId, 'value' => $colorData['value'], 'title' => $colorTitle, 'label' => null)
+            ['name' => $colorHtmlId, 'value' => $colorData['value'], 'title' => $colorTitle, 'label' => null]
         );
 
         $uploaderId = $this->getComponentId('background-uploader');
         $this->addField(
             $uploaderId,
             'background-uploader',
-            array('components' => $uploaderData['components'], 'name' => $uploaderId, 'label' => null)
+            ['components' => $uploaderData['components'], 'name' => $uploaderId, 'label' => null]
         );
 
         return $this;

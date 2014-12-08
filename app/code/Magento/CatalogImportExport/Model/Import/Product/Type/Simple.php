@@ -19,10 +19,10 @@ class Simple extends \Magento\CatalogImportExport\Model\Import\Product\Type\Abst
      *
      * @var string[]
      */
-    protected $_forcedAttributesCodes = array(
+    protected $_forcedAttributesCodes = [
         'related_tgtr_position_behavior',
         'related_tgtr_position_limit',
         'upsell_tgtr_position_behavior',
-        'upsell_tgtr_position_limit'
-    );
+        'upsell_tgtr_position_limit',
+    ];
 }

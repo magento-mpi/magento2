@@ -26,16 +26,16 @@ class CreateOrderTest extends \Magento\Backend\Utility\Controller
     {
         /** @var $order \Magento\Sales\Model\AdminOrder\Create */
         $order = $this->_objectManager->get('Magento\Sales\Model\AdminOrder\Create');
-        $paymentData = array(
+        $paymentData = [
             'cc_owner' => 'Test User',
             'cc_type' => 'visa',
             'cc_number' => '4111111111111111',
             'cc_exp_month' => '12',
             'cc_exp_year' => '2013',
             'cc_cid' => '123',
-            'method' => 'ccsave'
-        );
-        $quote = $order->addProducts(array(1 => array('qty' => 1)))->getQuote();
+            'method' => 'ccsave',
+        ];
+        $quote = $order->addProducts([1 => ['qty' => 1]])->getQuote();
         $defaultStoreId = $this->_objectManager->get(
             'Magento\Framework\StoreManagerInterface'
         )->getStore(

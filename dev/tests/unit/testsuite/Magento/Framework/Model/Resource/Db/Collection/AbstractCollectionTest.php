@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\Model\Resource\Db\Collection;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\Object as MagentoObject;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
 {
@@ -210,7 +210,7 @@ class AbstractCollectionTest extends \PHPUnit_Framework_TestCase
                 [
                     ['main_table', ['column_alias' => $columnMock], null],
                     'alias' => ['correlation', $columnMock, 'alias']
-                ]
+                ],
             ]
         ];
     }

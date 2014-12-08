@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * ImportExport MySQL resource helper model
  *

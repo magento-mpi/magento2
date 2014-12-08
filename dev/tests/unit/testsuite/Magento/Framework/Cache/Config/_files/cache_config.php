@@ -5,21 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'types' => array(
-        'config' => array(
+return [
+    'types' => [
+        'config' => [
             'name' => 'config',
             'translate' => 'label,description',
             'instance' => 'Magento\Framework\App\Cache\Type\Config',
             'label' => 'Configuration',
-            'description' => 'Cache Description'
-        ),
-        'layout' => array(
+            'description' => 'Cache Description',
+        ],
+        'layout' => [
             'name' => 'layout',
             'translate' => 'label,description',
             'instance' => 'Magento\Framework\App\Cache\Type\Layout',
             'label' => 'Layouts',
-            'description' => 'Layout building instructions.'
-        )
-    )
-);
+            'description' => 'Layout building instructions.',
+        ],
+    ]
+];

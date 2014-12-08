@@ -45,7 +45,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
     protected $attributeMetadataMock;
 
     /** @var array */
-    protected $validationRules = array();
+    protected $validationRules = [];
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
@@ -71,7 +71,7 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
             ->getMockBuilder('Magento\Customer\Service\V1\Data\Eav\AttributeMetadata')
             ->disableOriginalConstructor()
             ->setMethods(
-                array(
+                [
                     'getAttributeCode',
                     'getFrontendInput',
                     'getInputFilter',
@@ -79,15 +79,15 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                     'getValidationRules',
                     'getSource',
                     'getFrontendClass',
-                    'usesSource'
-                )
+                    'usesSource',
+                ]
             )
             ->getMock();
 
         $this->attributeEntityMock = $this->getMockBuilder(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute'
         )->setMethods(
-            array(
+            [
                 'getId',
                 'getAttributeCode',
                 'getFrontendInput',
@@ -97,20 +97,20 @@ class CustomerMetadataServiceTest extends \PHPUnit_Framework_TestCase
                 'getSource',
                 'getFrontend',
                 'usesSource',
-                '__wakeup'
-            )
+                '__wakeup',
+            ]
         )->disableOriginalConstructor()->getMock();
 
         $this->_mockReturnValue(
             $this->attributeMetadataMock,
-            array(
+            [
                 'getAttributeCode' => self::ATTRIBUTE_CODE,
                 'getFrontendInput' => self::FRONTEND_INPUT,
                 'getInputFilter' => self::INPUT_FILTER,
                 'getStoreLabel' => self::STORE_LABEL,
                 'getValidationRules' => $this->validationRules,
                 'getFrontendClass' => self::FRONTEND_CLASS
-            )
+            ]
         );
 
         $this->objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

@@ -16,7 +16,7 @@ class ParserFactory
     /**
      * @var ParserInterface[]
      */
-    protected $parsers = array();
+    protected $parsers = [];
 
     /**
      * @var Uses
@@ -47,11 +47,11 @@ class ParserFactory
     public function createParsers(Tokens $tokens)
     {
         if (empty($this->parsers)) {
-            $this->parsers = array(
+            $this->parsers = [
                 $this->uses = new Uses(),
                 $this->staticCalls = new StaticCalls($tokens),
-                $this->throws = new Throws($tokens)
-            );
+                $this->throws = new Throws($tokens),
+            ];
         }
         return $this->parsers;
     }

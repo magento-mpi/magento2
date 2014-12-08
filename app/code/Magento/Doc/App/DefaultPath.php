@@ -21,7 +21,7 @@ class DefaultPath implements \Magento\Framework\App\DefaultPathInterface
      * @var array
      */
     protected $parts = [
-        'area' => 'doc'
+        'area' => 'doc',
     ];
 
     /**

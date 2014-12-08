@@ -63,7 +63,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
         \Magento\Framework\Escaper $escaper,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Element\Factory $elementsFactory,
         \Magento\DesignEditor\Model\Editor\Tools\QuickStyles\Form\Renderer\Factory $rendererFactory,
-        $data = array()
+        $data = []
     ) {
         $this->_elementsFactory = $elementsFactory;
         $this->_rendererFactory = $rendererFactory;
@@ -157,7 +157,7 @@ abstract class AbstractComposite extends \Magento\Framework\Data\Form\Element\Fi
     public function getComponentId($type)
     {
         $names = explode(self::CONTROL_NAME_DELIMITER, $this->getData('name'));
-        return join('', array(array_shift($names), self::CONTROL_NAME_DELIMITER, $type));
+        return join('', [array_shift($names), self::CONTROL_NAME_DELIMITER, $type]);
     }
 
     /**

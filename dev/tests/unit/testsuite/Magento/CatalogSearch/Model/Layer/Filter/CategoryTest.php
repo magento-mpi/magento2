@@ -16,7 +16,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class CategoryTest extends \PHPUnit_Framework_TestCase
 {
-
     private $itemDataBuilder;
 
     /**

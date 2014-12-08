@@ -55,4 +55,4 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($expect, $this->model->getFilters());
     }
-} 
+}

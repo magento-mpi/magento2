@@ -32,7 +32,7 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\Registry'
         )->register(
             'current_product',
-            new \Magento\Framework\Object(array('type_id' => 'simple'))
+            new \Magento\Framework\Object(['type_id' => 'simple'])
         );
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
@@ -62,11 +62,11 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
         )->register(
             'current_product',
             new \Magento\Framework\Object(
-                array(
+                [
                     'type_id' => $productType,
                     'id' => '1',
-                    'samples_title' => $samplesTitle
-                )
+                    'samples_title' => $samplesTitle,
+                ]
             )
         );
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
@@ -84,13 +84,13 @@ class SamplesTest extends \PHPUnit_Framework_TestCase
      */
     public function productSamplesTitleDataProvider()
     {
-        return array(
-            array('simple', null, 'Samples Title Test'),
-            array('simple', 'Samples Title', 'Samples Title Test'),
-            array('virtual', null, 'Samples Title Test'),
-            array('virtual', 'Samples Title', 'Samples Title Test'),
-            array('downloadable', null, null),
-            array('downloadable', 'Samples Title', 'Samples Title')
-        );
+        return [
+            ['simple', null, 'Samples Title Test'],
+            ['simple', 'Samples Title', 'Samples Title Test'],
+            ['virtual', null, 'Samples Title Test'],
+            ['virtual', 'Samples Title', 'Samples Title Test'],
+            ['downloadable', null, null],
+            ['downloadable', 'Samples Title', 'Samples Title']
+        ];
     }
 }

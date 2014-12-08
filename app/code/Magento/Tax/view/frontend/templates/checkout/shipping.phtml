@@ -27,7 +27,7 @@
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
     </td>
 </tr>
-<?php elseif($this->displayIncludeTax()) : ?>
+<?php elseif ($this->displayIncludeTax()) : ?>
 <tr class="totals shipping incl">
     <th style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>" scope="row">
         <?php echo $this->getTotal()->getTitle() ?>

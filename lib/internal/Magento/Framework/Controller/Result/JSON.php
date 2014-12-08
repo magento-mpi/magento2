@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\Translate\InlineInterface;
 
 /**
@@ -44,7 +44,7 @@ class JSON extends AbstractResult
      * @param array $options Additional options used during encoding
      * @return $this
      */
-    public function setData($data, $cycleCheck = false, $options = array())
+    public function setData($data, $cycleCheck = false, $options = [])
     {
         $this->json = \Zend_Json::encode($data, $cycleCheck, $options);
         return $this;

@@ -31,7 +31,7 @@ class Export extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_backendUrl = $backendUrl;
@@ -45,16 +45,16 @@ class Export extends \Magento\Framework\Data\Form\Element\AbstractElement
         /** @var \Magento\Backend\Block\Widget\Button $buttonBlock  */
         $buttonBlock = $this->getForm()->getParent()->getLayout()->createBlock('Magento\Backend\Block\Widget\Button');
 
-        $params = array('website' => $buttonBlock->getRequest()->getParam('website'));
+        $params = ['website' => $buttonBlock->getRequest()->getParam('website')];
 
         $url = $this->_backendUrl->getUrl("*/*/exportTablerates", $params);
-        $data = array(
+        $data = [
             'label' => __('Export CSV'),
             'onclick' => "setLocation('" .
             $url .
             "conditionName/' + $('carriers_tablerate_condition_name').value + '/tablerates.csv' )",
-            'class' => ''
-        );
+            'class' => '',
+        ];
 
         $html = $buttonBlock->setData($data)->toHtml();
         return $html;

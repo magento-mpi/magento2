@@ -9,7 +9,6 @@
 namespace Magento\CatalogSearch\Model\Layer\Search\Plugin;
 
 use Magento\Catalog\Model\Category;
-use Magento\CatalogSearch\Model\Resource\Fulltext\Collection as FulltextCollection;
 use Magento\Search\Model\QueryFactory;
 
 class CollectionFilter

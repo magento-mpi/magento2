@@ -25,9 +25,9 @@ class OriginShipment extends \Magento\Ups\Model\Config\Source\Generic
     public function toOptionArray()
     {
         $orShipArr = $this->carrierConfig->getCode($this->_code);
-        $returnArr = array();
+        $returnArr = [];
         foreach ($orShipArr as $key => $val) {
-            $returnArr[] = array('value' => $key, 'label' => $key);
+            $returnArr[] = ['value' => $key, 'label' => $key];
         }
         return $returnArr;
     }

@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Service\V1\Item;
 
-/** 
- * Read service object. 
+/**
+ * Read service object.
  */
 class ReadService implements ReadServiceInterface
 {
@@ -36,8 +36,8 @@ class ReadService implements ReadServiceInterface
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Checkout\Service\V1\Data\Cart\ItemMapper $itemMapper
     ) {
-         $this->quoteRepository = $quoteRepository;
-         $this->itemMapper = $itemMapper;
+        $this->quoteRepository = $quoteRepository;
+        $this->itemMapper = $itemMapper;
     }
 
     /**
@@ -55,7 +55,6 @@ class ReadService implements ReadServiceInterface
 
         /** @var  \Magento\Sales\Model\Quote\Item  $item */
         foreach ($quote->getAllItems() as $item) {
-
             $output[] = $this->itemMapper->extractDto($item);
         }
         return $output;

@@ -58,7 +58,7 @@ class Attributes extends AbstractCondition
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
         \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditionFactory = $conditionFactory;
         $this->_resourceAddress = $resourceAddress;
@@ -77,7 +77,7 @@ class Attributes extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('customer_address_save_commit_after', 'customer_address_delete_commit_after');
+        return ['customer_address_save_commit_after', 'customer_address_delete_commit_after'];
     }
 
     /**
@@ -87,15 +87,15 @@ class Attributes extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        $conditions = array();
+        $conditions = [];
         foreach ($this->loadAttributeOptions()->getAttributeOption() as $code => $label) {
-            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
+            $conditions[] = ['value' => $this->getType() . '|' . $code, 'label' => $label];
         }
         $conditions = array_merge(
             $conditions,
             $this->_conditionFactory->create('Customer\Address\Region')->getNewChildSelectOptions()
         );
-        return array('value' => $conditions, 'label' => __('Address Attributes'));
+        return ['value' => $conditions, 'label' => __('Address Attributes')];
     }
 
     /**
@@ -107,10 +107,10 @@ class Attributes extends AbstractCondition
     {
         $customerAttributes = $this->_resourceAddress->loadAllAttributes()->getAttributesByCode();
 
-        $attributes = array();
+        $attributes = [];
         foreach ($customerAttributes as $attribute) {
             // skip "binary" attributes
-            if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+            if (in_array($attribute->getFrontendInput(), ['file', 'image'])) {
                 continue;
             }
             if ($attribute->getIsUsedForCustomerSegment()) {
@@ -141,7 +141,7 @@ class Attributes extends AbstractCondition
                     break;
 
                 default:
-                    $options = array();
+                    $options = [];
                     if (!$this->getData('value_select_options') && is_object($this->getAttributeObject())) {
                         if ($this->getAttributeObject()->usesSource()) {
                             if ($this->getAttributeObject()->getFrontendInput() == 'multiselect') {
@@ -178,7 +178,7 @@ class Attributes extends AbstractCondition
      */
     public function getInputType()
     {
-        if (in_array($this->getAttribute(), array('country_id', 'region_id'))) {
+        if (in_array($this->getAttribute(), ['country_id', 'region_id'])) {
             return 'select';
         }
         if (!is_object($this->getAttributeObject())) {
@@ -205,7 +205,7 @@ class Attributes extends AbstractCondition
      */
     public function getValueElementType()
     {
-        if (in_array($this->getAttribute(), array('country_id', 'region_id'))) {
+        if (in_array($this->getAttribute(), ['country_id', 'region_id'])) {
             return 'select';
         }
         if (!is_object($this->getAttributeObject())) {
@@ -257,7 +257,7 @@ class Attributes extends AbstractCondition
         $select = $this->getResource()->createSelect();
         $attribute = $this->getAttributeObject();
 
-        $select->from(array('val' => $attribute->getBackendTable()), array(new \Zend_Db_Expr(1)));
+        $select->from(['val' => $attribute->getBackendTable()], [new \Zend_Db_Expr(1)]);
         $condition = $this->getResource()->createConditionSql('val.value', $this->getOperator(), $this->getValue());
         $select->where(
             'val.attribute_id = ?',

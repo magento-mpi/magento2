@@ -8,8 +8,8 @@
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsPageDeleteMessage

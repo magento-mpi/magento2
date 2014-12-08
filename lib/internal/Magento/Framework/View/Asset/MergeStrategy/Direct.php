@@ -66,7 +66,7 @@ class Direct implements \Magento\Framework\View\Asset\MergeStrategyInterface
      */
     private function composeMergedContent(array $assetsToMerge, Asset\LocalInterface $resultAsset)
     {
-        $result = array();
+        $result = [];
         /** @var Asset\MergeableInterface $asset */
         foreach ($assetsToMerge as $asset) {
             $result[] = $this->preProcessBeforeMerging($asset, $resultAsset, $asset->getContent());

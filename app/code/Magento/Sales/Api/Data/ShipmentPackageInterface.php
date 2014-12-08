@@ -12,5 +12,4 @@ namespace Magento\Sales\Api\Data;
  */
 interface ShipmentPackageInterface extends \Magento\Framework\Api\ExtensibleDataInterface
 {
-
 }

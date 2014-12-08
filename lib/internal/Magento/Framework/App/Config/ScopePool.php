@@ -34,7 +34,7 @@ class ScopePool
     /**
      * @var DataInterface[]
      */
-    protected $_scopes = array();
+    protected $_scopes = [];
 
     /**
      * @var \Magento\Framework\App\ScopeResolverPool
@@ -85,9 +85,9 @@ class ScopePool
                 } else {
                     $data = $reader->read($scopeCode);
                 }
-                $this->_cache->save(serialize($data), $cacheKey, array(self::CACHE_TAG));
+                $this->_cache->save(serialize($data), $cacheKey, [self::CACHE_TAG]);
             }
-            $this->_scopes[$code] = $this->_dataFactory->create(array('data' => $data));
+            $this->_scopes[$code] = $this->_dataFactory->create(['data' => $data]);
         }
         return $this->_scopes[$code];
     }
@@ -99,8 +99,8 @@ class ScopePool
      */
     public function clean()
     {
-        $this->_scopes = array();
-        $this->_cache->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, array(self::CACHE_TAG));
+        $this->_scopes = [];
+        $this->_cache->clean(\Zend_Cache::CLEANING_MODE_MATCHING_TAG, [self::CACHE_TAG]);
     }
 
     /**

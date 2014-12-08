@@ -7,13 +7,12 @@
  */
 namespace Magento\CatalogUrlRewrite\Model\Category\Plugin\Category;
 
-use Magento\Framework\Event\Observer as EventObserver;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
-use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Catalog\Model\Category;
+use Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
-use Magento\CatalogUrlRewrite\Model\Category\ChildrenCategoriesProvider;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Remove
 {

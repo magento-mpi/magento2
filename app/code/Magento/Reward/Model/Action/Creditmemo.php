@@ -31,7 +31,7 @@ class Creditmemo extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return __('Refunded from order #%1', $incrementId);
@@ -46,7 +46,7 @@ class Creditmemo extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
+        $this->getHistory()->addAdditionalData(['increment_id' => $this->getEntity()->getIncrementId()]);
         return $this;
     }
 }

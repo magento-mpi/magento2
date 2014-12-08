@@ -8,8 +8,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Shipment\AbstractShipment;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 abstract class Pdfshipments extends \Magento\Backend\App\Action
 {
@@ -51,7 +51,7 @@ abstract class Pdfshipments extends \Magento\Backend\App\Action
                 '*'
             )->addAttributeToFilter(
                 'entity_id',
-                array('in' => $shipmentIds)
+                ['in' => $shipmentIds]
             )->load();
             if (!isset($pdf)) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')->getPdf($shipments);

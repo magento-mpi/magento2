@@ -29,12 +29,12 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
         $this->_block = $this->_objectManager->get('Magento\Framework\View\LayoutInterface')
             ->createBlock('Magento\Multishipping\Block\Checkout\Overview',
                 'checkout_overview',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'renderer_template' => 'Magento_Multishipping::checkout/item/default.phtml',
-                        'row_renderer_template' => 'Magento_Multishipping::checkout/overview/item.phtml'
-                    ),
-                )
+                        'row_renderer_template' => 'Magento_Multishipping::checkout/overview/item.phtml',
+                    ],
+                ]
             );
 
         $this->_block->addChild('renderer.list', '\Magento\Framework\View\Element\RendererList');
@@ -43,7 +43,7 @@ class OverviewTest extends \PHPUnit_Framework_TestCase
         )->addChild(
             'default',
             '\Magento\Checkout\Block\Cart\Item\Renderer',
-            array('template' => 'cart/item/default.phtml')
+            ['template' => 'cart/item/default.phtml']
         );
     }
 

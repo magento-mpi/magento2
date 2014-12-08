@@ -25,11 +25,11 @@ class InvalidateToken extends \Magento\User\Controller\Adminhtml\User
             try {
                 $tokenService->revokeAdminAccessToken($userId);
                 $this->messageManager->addSuccess(__('You have revoked the user\'s tokens.'));
-                $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
+                $this->_redirect('adminhtml/*/edit', ['user_id' => $userId]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
+                $this->_redirect('adminhtml/*/edit', ['user_id' => $userId]);
                 return;
             }
         }

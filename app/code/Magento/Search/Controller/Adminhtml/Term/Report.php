@@ -31,7 +31,7 @@ class Report extends \Magento\Reports\Controller\Adminhtml\Index
     {
         $this->_title->add(__('Search Terms Report'));
 
-        $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
+        $this->_eventManager->dispatch('on_view_report', ['report' => 'search']);
 
         $this->_initAction()->_setActiveMenu(
             'Magento_Reports::report_search'

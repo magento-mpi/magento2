@@ -8,10 +8,10 @@
 
 namespace Magento\GiftRegistry\Test\Block;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class Items

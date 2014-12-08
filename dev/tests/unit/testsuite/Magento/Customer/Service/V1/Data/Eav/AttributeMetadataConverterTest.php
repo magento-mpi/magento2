@@ -70,7 +70,7 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
             [
                 'label' => 'label2',
                 'value' => 'value2',
-            ]
+            ],
         ];
         $source->expects($this->once())->method('getAllOptions')->will($this->returnValue($options));
         $attribute->expects($this->once())->method('getSource')->will($this->returnValue($source));
@@ -265,7 +265,7 @@ class AttributeMetadataConverterTest extends \PHPUnit_Framework_TestCase
                     'setUserDefined',
                     'setBackendType',
                     'setSortOrder',
-                    'create'
+                    'create',
                 ])
             ->getMock();
         $attributeMetadataBuilderMock

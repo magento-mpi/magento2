@@ -27,7 +27,7 @@ $addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
         <?php else: ?>
             <?php echo $element->getLabelHtml() ?>
             <div class="control">
-                <?php echo ($addOn) ? '<div class="addon">' . $this->getHtml() . '</div>' : $this->getHtml(); ?>
+                <?php echo($addOn) ? '<div class="addon">' . $this->getHtml() . '</div>' : $this->getHtml(); ?>
                 <?php echo $note ?>
             </div>
         <?php endif; ?>

@@ -148,5 +148,4 @@ class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
         $this->emulatorMock->expects($this->once())->method('emulate');
         $this->subject->execute($observerMock);
     }
-
 }

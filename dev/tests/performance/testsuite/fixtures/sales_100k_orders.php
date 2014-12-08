@@ -8,17 +8,17 @@
 
 /** @var \Magento\TestFramework\Application $this */
 
-$addressData = array(
+$addressData = [
     'region' => 'CA',
     'postcode' => '11111',
     'street' => 'street',
     'city' => 'Los Angeles',
     'telephone' => '11111111',
-    'country_id' => 'US'
-);
+    'country_id' => 'US',
+];
 $billingAddress = $this->getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $shippingAddress = clone $billingAddress;
 

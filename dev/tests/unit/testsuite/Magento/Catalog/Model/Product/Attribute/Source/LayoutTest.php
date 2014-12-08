@@ -30,18 +30,18 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->layoutModel = $this->objectManagerHelper->getObject(
             'Magento\Catalog\Model\Product\Attribute\Source\Layout',
-            array(
+            [
                 'pageLayoutBuilder' => $this->pageLayoutBuilder
-            )
+            ]
         );
     }
 
     public function testGetAllOptions()
     {
-        $expectedOptions = array(
-            '0' => array('value' => '', 'label' => 'No layout updates'),
-            '1' => array('value' => 'option_value', 'label' => 'option_label')
-        );
+        $expectedOptions = [
+            '0' => ['value' => '', 'label' => 'No layout updates'],
+            '1' => ['value' => 'option_value', 'label' => 'option_label'],
+        ];
         $mockPageLayoutConfig = $this->getMockBuilder('Magento\Framework\View\PageLayout\Config')
             ->disableOriginalConstructor()
             ->getMock();

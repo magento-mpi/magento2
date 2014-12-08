@@ -55,7 +55,7 @@ class Chooser extends \Magento\Backend\App\Action
                     'id' => $uniqId,
                     'use_massaction' => $massAction,
                     'product_type_id' => $productTypeId,
-                    'category_id' => $this->getRequest()->getParam('category_id')
+                    'category_id' => $this->getRequest()->getParam('category_id'),
                 ]
             ]
         );
@@ -70,7 +70,7 @@ class Chooser extends \Magento\Backend\App\Action
                     'data' => [
                         'id' => $uniqId . 'Tree',
                         'node_click_listener' => $productsGrid->getCategoryClickListenerJs(),
-                        'with_empty_node' => true
+                        'with_empty_node' => true,
                     ]
                 ]
             );

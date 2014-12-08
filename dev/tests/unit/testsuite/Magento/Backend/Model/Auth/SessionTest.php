@@ -70,7 +70,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $objectManager= new ObjectManager($this);
+        $objectManager = new ObjectManager($this);
         $this->session = $objectManager->getObject(
             'Magento\Backend\Model\Auth\Session',
             [

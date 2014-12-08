@@ -38,8 +38,8 @@ class ConnectionFactory implements \Magento\Framework\Model\Resource\Type\Db\Con
         }
 
         $adapterInstance = new \Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql(
-            new \Magento\Framework\Stdlib\String,
-            new \Magento\Framework\Stdlib\DateTime,
+            new \Magento\Framework\Stdlib\String(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $connectionConfig
         );
 

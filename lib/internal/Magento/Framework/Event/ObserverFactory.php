@@ -42,7 +42,7 @@ class ObserverFactory
      * @param array $arguments
      * @return mixed
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = [])
     {
         return $this->_objectManager->create($className, $arguments);
     }

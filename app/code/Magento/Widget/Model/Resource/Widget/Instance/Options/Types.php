@@ -32,7 +32,7 @@ class Types implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $widgets = array();
+        $widgets = [];
         $widgetsOptionsArr = $this->_model->getWidgetsOptionArray('type');
         foreach ($widgetsOptionsArr as $widget) {
             $widgets[$widget['value']] = $widget['label'];

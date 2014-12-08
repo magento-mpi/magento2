@@ -8,13 +8,13 @@
 
 namespace Magento\CustomerSegment\Test\Handler\CustomerSegment;
 
-use Mtf\System\Config;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
 use Magento\Backend\Test\Handler\Conditions;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
  * Class Curl
@@ -31,16 +31,16 @@ class Curl extends Conditions implements CustomerSegmentInterface
         'Conditions combination' => [
             'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
             'aggregator' => 'all',
-            'value' => 1
+            'value' => 1,
         ],
         'Default Billing Address' => [
             'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes',
-            'attribute' => 'default_billing'
+            'attribute' => 'default_billing',
         ],
         'Default Shipping Address' => [
             'type' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes',
-            'attribute' => 'default_shipping'
-        ]
+            'attribute' => 'default_shipping',
+        ],
     ];
 
     /**

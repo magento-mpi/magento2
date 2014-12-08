@@ -39,7 +39,7 @@ class Response extends \Zend_Controller_Response_Http implements \Magento\Framew
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Set header appropriate to specified MIME type.
@@ -61,7 +61,7 @@ class Response extends \Zend_Controller_Response_Http implements \Magento\Framew
      * @param string $type
      * @return $this
      */
-    public function addMessage($message, $code, $params = array(), $type = self::MESSAGE_TYPE_ERROR)
+    public function addMessage($message, $code, $params = [], $type = self::MESSAGE_TYPE_ERROR)
     {
         $params['message'] = $message;
         $params['code'] = $code;
@@ -96,7 +96,7 @@ class Response extends \Zend_Controller_Response_Http implements \Magento\Framew
      */
     public function clearMessages()
     {
-        $this->_messages = array();
+        $this->_messages = [];
         return $this;
     }
 }

@@ -9,12 +9,12 @@
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
 use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Magento\Checkout\Test\Fixture\CheckMoneyOrderFlat;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Magento\ConfigurableProduct\Test\Repository\ConfigurableProduct as Repository;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
@@ -187,7 +187,7 @@ class ApplyCatalogPriceRuleTest extends Functional
                     $configurableOptions[] = [
                         'type' => 'dropdown',
                         'title' => $attributeLabel,
-                        'value' => $options
+                        'value' => $options,
                     ];
                 }
                 foreach ($product->getCheckoutData()['options']['configurable_options'] as $checkoutOption) {

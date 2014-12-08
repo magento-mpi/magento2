@@ -5,8 +5,8 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'data' => array(
+return [
+    'data' => [
         'dest_country_id' => 'DE',
         'dest_region_id' => '82',
         'dest_region_code' => 'BER',
@@ -46,6 +46,6 @@ return array(
         'limit_method' => 'IE',
         'ship_date' => '2014-01-09',
         'action' => 'RateEstimate',
-        'all_items' => array()
-    )
-);
+        'all_items' => [],
+    ]
+];

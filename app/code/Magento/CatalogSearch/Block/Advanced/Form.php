@@ -14,9 +14,9 @@
 namespace Magento\CatalogSearch\Block\Advanced;
 
 use Magento\CatalogSearch\Model\Advanced;
-use Magento\Framework\Data\Collection\Db;
 use Magento\Directory\Model\CurrencyFactory;
 use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\View\Element\AbstractBlock;
 use Magento\Framework\View\Element\BlockInterface;
 use Magento\Framework\View\Element\Template;
@@ -48,7 +48,7 @@ class Form extends Template
         Context $context,
         Advanced $catalogSearchAdvanced,
         CurrencyFactory $currencyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_currencyFactory = $currencyFactory;
@@ -64,14 +64,14 @@ class Form extends Template
         if ($breadcrumbs = $this->getLayout()->getBlock('breadcrumbs')) {
             $breadcrumbs->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             )->addCrumb(
                 'search',
-                array('label' => __('Catalog Advanced Search'))
+                ['label' => __('Catalog Advanced Search')]
             );
         }
         return parent::_prepareLayout();
@@ -140,7 +140,7 @@ class Form extends Template
     {
         $currencies = $this->getData('_currencies');
         if (is_null($currencies)) {
-            $currencies = array();
+            $currencies = [];
             $codes = $this->_storeManager->getStore()->getAvailableCurrencyCodes(true);
             if (is_array($codes) && count($codes)) {
                 $rates = $this->_currencyFactory->create()->getCurrencyRates(
@@ -241,7 +241,7 @@ class Form extends Template
             $extra = 'multiple="multiple" size="4"';
             $name .= '[]';
         } else {
-            array_unshift($options, array('value' => '', 'label' => __('All')));
+            array_unshift($options, ['value' => '', 'label' => __('All')]);
         }
 
         return $this->_getSelectBlock()->setName(
@@ -269,11 +269,11 @@ class Form extends Template
      */
     public function getAttributeYesNoElement($attribute)
     {
-        $options = array(
-            array('value' => '', 'label' => __('All')),
-            array('value' => '1', 'label' => __('Yes')),
-            array('value' => '0', 'label' => __('No'))
-        );
+        $options = [
+            ['value' => '', 'label' => __('All')],
+            ['value' => '1', 'label' => __('Yes')],
+            ['value' => '0', 'label' => __('No')],
+        ];
 
         $name = $attribute->getAttributeCode();
         return $this->_getSelectBlock()->setName(

@@ -38,7 +38,7 @@ class Grid extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $registry;

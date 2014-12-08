@@ -264,7 +264,6 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->method('getStockItem')
             ->will($this->returnValue($this->stockItemMock));
 
-
         $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', ['getStore', 'getProduct'], [], '', false);
         $orderItem->expects($this->any())
             ->method('getProduct')
@@ -288,11 +287,10 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->method('getStockItem')
             ->will($this->returnValue($this->stockItemMock));
 
-
         $orderItem = $this->getMock('Magento\Sales\Model\Order\Item', [], [], '', false);
         $orderItem->expects($this->any())
             ->method('getProduct')
-            ->willThrowException(new \Magento\Framework\Exception\NoSuchEntityException);
+            ->willThrowException(new \Magento\Framework\Exception\NoSuchEntityException());
         $this->createBlockObject();
         $this->assertSame(false, $this->block->isItemAvailableForReorder($orderItem));
     }

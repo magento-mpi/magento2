@@ -9,12 +9,12 @@ $basePath = realpath(__DIR__ . '/../../../');
 require_once $basePath . '/app/autoload.php';
 require __DIR__ . '/Formatter.php';
 
-try{
-    $opt = new Zend_Console_Getopt(array(
+try {
+    $opt = new Zend_Console_Getopt([
         'file|f=s' => 'File to process(required)',
         'processor|p=s' => 'Processor file (required)',
         'overwrite|o' => 'Overwrite file',
-    ));
+    ]);
     $opt->parse();
 
     $doc  = new DOMDocument();

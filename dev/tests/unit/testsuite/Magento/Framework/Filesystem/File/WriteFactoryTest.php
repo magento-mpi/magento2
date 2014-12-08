@@ -52,7 +52,7 @@ class WriteFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateException()
     {
-        $factory = new WriteFactory(new DriverPool);
+        $factory = new WriteFactory(new DriverPool());
         $factory->create('path');
     }
 

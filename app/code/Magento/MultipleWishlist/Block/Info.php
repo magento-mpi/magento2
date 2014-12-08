@@ -39,7 +39,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_customerSession = $customerSession;
@@ -83,7 +83,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     {
         return $this->getUrl(
             'wishlist/search/results',
-            array('_query' => array('params' => $this->_customerSession->getLastWishlistSearchParams()))
+            ['_query' => ['params' => $this->_customerSession->getLastWishlistSearchParams()]]
         );
     }
 }

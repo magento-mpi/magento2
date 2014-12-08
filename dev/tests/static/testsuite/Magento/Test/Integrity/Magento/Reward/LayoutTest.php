@@ -20,8 +20,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              */
             function ($file) {
                 $xml = simplexml_load_file($file);
-                $nodes = $xml->xpath('//argument[@name="reward_type"]') ?: array();
-                $errors = array();
+                $nodes = $xml->xpath('//argument[@name="reward_type"]') ?: [];
+                $errors = [];
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $class = (string)$node;

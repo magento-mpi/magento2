@@ -94,8 +94,6 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
                 )
             )->willReturnSelf();
 
-
-
         $filter = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
         $this->filterBuilder->expects($this->exactly(2))->method('create')->willReturn($filter);
         $this->searchCriteriaBuilder

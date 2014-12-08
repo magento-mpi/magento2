@@ -20,22 +20,22 @@ class Data extends \Magento\Framework\Validator\AbstractValidator
     /**
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
      * @var array
      */
-    protected $_attributesWhiteList = array();
+    protected $_attributesWhiteList = [];
 
     /**
      * @var array
      */
-    protected $_attributesBlackList = array();
+    protected $_attributesBlackList = [];
 
     /**
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * @var \Magento\Eav\Model\AttributeDataFactory
@@ -113,7 +113,7 @@ class Data extends \Magento\Framework\Validator\AbstractValidator
         /** @var $attributes Attribute[] */
         $attributes = $this->_getAttributes($entity);
 
-        $data = array();
+        $data = [];
         if ($this->_data) {
             $data = $this->_data;
         } elseif ($entity instanceof \Magento\Framework\Object) {
@@ -150,7 +150,7 @@ class Data extends \Magento\Framework\Validator\AbstractValidator
     protected function _getAttributes($entity)
     {
         /** @var \Magento\Eav\Model\Attribute[] $attributes */
-        $attributes = array();
+        $attributes = [];
 
         if ($this->_attributes) {
             $attributes = $this->_attributes;
@@ -162,8 +162,8 @@ class Data extends \Magento\Framework\Validator\AbstractValidator
             $attributes = $entityType->getAttributeCollection()->getItems();
         }
 
-        $attributesByCode = array();
-        $attributesCodes = array();
+        $attributesByCode = [];
+        $attributesCodes = [];
         foreach ($attributes as $attribute) {
             $attributeCode = $attribute->getAttributeCode();
             $attributesByCode[$attributeCode] = $attribute;

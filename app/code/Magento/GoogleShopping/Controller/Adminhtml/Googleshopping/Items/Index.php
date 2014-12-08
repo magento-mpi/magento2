@@ -40,12 +40,12 @@ class Index extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect(
                 'adminhtml/*/',
-                array(
+                [
                     'store' => $this->_objectManager->get(
                         'Magento\Framework\StoreManagerInterface'
                     )->getStore()->getId(),
                     '_current' => true
-                )
+                ]
             );
             return;
         }

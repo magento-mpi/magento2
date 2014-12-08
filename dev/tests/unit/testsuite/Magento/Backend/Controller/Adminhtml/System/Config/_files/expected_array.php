@@ -6,32 +6,32 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'some.key' => 'some.val',
-    'group.1' => array(
-        'fields' => array(
-            'f1.1' => array('value' => 'f1.1.val'),
-            'f1.2' => array('value' => 'f1.2.val'),
-            'g1.1' => array('value' => 'g1.1.val')
-        )
-    ),
-    'group.2' => array(
-        'fields' => array('f2.1' => array('value' => 'f2.1.val'), 'f2.2' => array('value' => 'f2.2.val')),
-        'groups' => array(
-            'group.2.1' => array(
-                'fields' => array(
-                    'f2.1.1' => array('value' => 'f2.1.1.val'),
-                    'f2.1.2' => array('value' => 'f2.1.2.val')
-                ),
-                'groups' => array(
-                    'group.2.1.1' => array(
-                        'fields' => array(
-                            'f2.1.1.1' => array('value' => 'f2.1.1.1.val'),
-                            'f2.1.1.2' => array('value' => 'f2.1.1.2.val')
-                        )
-                    )
-                )
-            )
-        )
-    )
-);
+    'group.1' => [
+        'fields' => [
+            'f1.1' => ['value' => 'f1.1.val'],
+            'f1.2' => ['value' => 'f1.2.val'],
+            'g1.1' => ['value' => 'g1.1.val'],
+        ],
+    ],
+    'group.2' => [
+        'fields' => ['f2.1' => ['value' => 'f2.1.val'], 'f2.2' => ['value' => 'f2.2.val']],
+        'groups' => [
+            'group.2.1' => [
+                'fields' => [
+                    'f2.1.1' => ['value' => 'f2.1.1.val'],
+                    'f2.1.2' => ['value' => 'f2.1.2.val'],
+                ],
+                'groups' => [
+                    'group.2.1.1' => [
+                        'fields' => [
+                            'f2.1.1.1' => ['value' => 'f2.1.1.1.val'],
+                            'f2.1.1.2' => ['value' => 'f2.1.1.2.val'],
+                        ],
+                    ],
+                ],
+            ],
+        ],
+    ]
+];

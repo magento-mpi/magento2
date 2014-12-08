@@ -33,7 +33,7 @@ abstract class AbstractResource
      *
      * @var array
      */
-    protected static $_commitCallbacks = array();
+    protected static $_commitCallbacks = [];
 
     /**
      * Resource initialization
@@ -95,7 +95,7 @@ abstract class AbstractResource
             $adapterKey = spl_object_hash($this->_getWriteAdapter());
             if (isset(self::$_commitCallbacks[$adapterKey])) {
                 $callbacks = self::$_commitCallbacks[$adapterKey];
-                self::$_commitCallbacks[$adapterKey] = array();
+                self::$_commitCallbacks[$adapterKey] = [];
                 foreach ($callbacks as $callback) {
                     call_user_func($callback);
                 }
@@ -170,7 +170,7 @@ abstract class AbstractResource
      */
     protected function _prepareDataForTable(\Magento\Framework\Object $object, $table)
     {
-        $data = array();
+        $data = [];
         $fields = $this->_getWriteAdapter()->describeTable($table);
         foreach (array_keys($fields) as $field) {
             if ($object->hasData($field)) {
@@ -181,7 +181,7 @@ abstract class AbstractResource
                     if (null !== $fieldValue) {
                         $fieldValue = $this->_prepareTableValueForSave($fieldValue, $fields[$field]['DATA_TYPE']);
                         $data[$field] = $this->_getWriteAdapter()->prepareColumnValue($fields[$field], $fieldValue);
-                    } else if (!empty($fields[$field]['NULLABLE'])) {
+                    } elseif (!empty($fields[$field]['NULLABLE'])) {
                         $data[$field] = null;
                     }
                 }
@@ -239,7 +239,7 @@ abstract class AbstractResource
         }
         if (empty($columns)) {
             /** In case when fieldset was specified but no columns were matched with it, ID column is returned. */
-            $columns = empty($fieldsetColumns) ? '*' : array($object->getIdFieldName());
+            $columns = empty($fieldsetColumns) ? '*' : [$object->getIdFieldName()];
         }
         return $columns;
     }

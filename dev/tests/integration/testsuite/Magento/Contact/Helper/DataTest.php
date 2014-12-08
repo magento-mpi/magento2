@@ -58,5 +58,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('customer@example.com', $this->contactsHelper->getUserEmail());
     }
-
 }

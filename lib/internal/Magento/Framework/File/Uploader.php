@@ -116,7 +116,7 @@ class Uploader
      * @var array
      * @access protected
      */
-    protected $_validateCallbacks = array();
+    protected $_validateCallbacks = [];
 
     /**#@+
      * File upload type (multiple or single)
@@ -301,7 +301,7 @@ class Uploader
      */
     public function addValidateCallback($callbackName, $callbackObject, $callbackMethod)
     {
-        $this->_validateCallbacks[$callbackName] = array('object' => $callbackObject, 'method' => $callbackMethod);
+        $this->_validateCallbacks[$callbackName] = ['object' => $callbackObject, 'method' => $callbackMethod];
         return $this;
     }
 
@@ -372,7 +372,7 @@ class Uploader
      * @access public
      * @return bool
      */
-    public function checkMimeType($validTypes = array())
+    public function checkMimeType($validTypes = [])
     {
         if (count($validTypes) > 0) {
             if (!in_array($this->_getMimeType(), $validTypes)) {
@@ -450,7 +450,7 @@ class Uploader
      * @param string[] $extensions
      * @return $this
      */
-    public function setAllowedExtensions($extensions = array())
+    public function setAllowedExtensions($extensions = [])
     {
         foreach ((array)$extensions as $extension) {
             $this->_allowedExtensions[] = strtolower($extension);
@@ -507,7 +507,7 @@ class Uploader
                 $this->_uploadType = self::MULTIPLE_STYLE;
 
                 $fileAttributes = $_FILES[$file[0]];
-                $tmpVar = array();
+                $tmpVar = [];
 
                 foreach ($fileAttributes as $attributeName => $attributeValue) {
                     $tmpVar[$attributeName] = $attributeValue[$file[1]];

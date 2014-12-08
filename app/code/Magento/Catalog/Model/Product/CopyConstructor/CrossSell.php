@@ -18,8 +18,8 @@ class CrossSell implements \Magento\Catalog\Model\Product\CopyConstructorInterfa
      */
     public function build(\Magento\Catalog\Model\Product $product, \Magento\Catalog\Model\Product $duplicate)
     {
-        $data = array();
-        $attributes = array();
+        $data = [];
+        $attributes = [];
         $link = $product->getLinkInstance();
         $link->useCrossSellLinks();
         foreach ($link->getAttributes() as $attribute) {

@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 use Magento\Framework\Mail\Exception;
+use Magento\Sales\Model\Resource\Order\Status\History\CollectionFactory;
 
 /**
  * Class CreditmemoNotifierTest

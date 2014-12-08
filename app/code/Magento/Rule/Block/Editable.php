@@ -25,7 +25,7 @@ class Editable extends AbstractBlock implements RendererInterface
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\Translate\InlineInterface $inlineTranslate,
-        array $data = array()
+        array $data = []
     ) {
         $this->inlineTranslate = $inlineTranslate;
         parent::__construct($context, $data);
@@ -71,7 +71,7 @@ class Editable extends AbstractBlock implements RendererInterface
                 $html .= $this->escapeHtml($valueName);
             } else {
                 $html .= $this->escapeHtml(
-                    $this->filterManager->truncate($valueName, array('length' => 33, 'etc' => '...'))
+                    $this->filterManager->truncate($valueName, ['length' => 33, 'etc' => '...'])
                 );
             }
 

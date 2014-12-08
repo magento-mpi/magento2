@@ -21,7 +21,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * Rma refundable list
-     * 
+     *
      * @var \Magento\Catalog\Model\ProductTypes\ConfigInterface
      */
     protected $productTypeConfig;
@@ -81,8 +81,8 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      */
     public function getDefaultEntities()
     {
-        $entities = array(
-            'rma_item' => array(
+        $entities = [
+            'rma_item' => [
                 'entity_model' => 'Magento\Rma\Model\Resource\Item',
                 'attribute_model' => 'Magento\Rma\Model\Item\Attribute',
                 'table' => 'magento_rma_item_entity',
@@ -90,51 +90,51 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                 'additional_attribute_table' => 'magento_rma_item_eav_attribute',
                 'entity_attribute_collection' => null,
                 'increment_per_store' => 1,
-                'attributes' => array(
-                    'rma_entity_id' => array(
+                'attributes' => [
+                    'rma_entity_id' => [
                         'type' => 'static',
                         'label' => 'RMA Id',
                         'input' => 'text',
                         'required' => true,
                         'visible' => false,
                         'sort_order' => 10,
-                        'position' => 10
-                    ),
-                    'order_item_id' => array(
+                        'position' => 10,
+                    ],
+                    'order_item_id' => [
                         'type' => 'static',
                         'label' => 'Order Item Id',
                         'input' => 'text',
                         'required' => true,
                         'visible' => false,
                         'sort_order' => 20,
-                        'position' => 20
-                    ),
-                    'qty_requested' => array(
+                        'position' => 20,
+                    ],
+                    'qty_requested' => [
                         'type' => 'static',
                         'label' => 'Qty of requested for RMA items',
                         'input' => 'text',
                         'required' => true,
                         'visible' => false,
                         'sort_order' => 30,
-                        'position' => 30
-                    ),
-                    'qty_authorized' => array(
+                        'position' => 30,
+                    ],
+                    'qty_authorized' => [
                         'type' => 'static',
                         'label' => 'Qty of authorized items',
                         'input' => 'text',
                         'visible' => false,
                         'sort_order' => 40,
-                        'position' => 40
-                    ),
-                    'qty_approved' => array(
+                        'position' => 40,
+                    ],
+                    'qty_approved' => [
                         'type' => 'static',
                         'label' => 'Qty of requested for RMA items',
                         'input' => 'text',
                         'visible' => false,
                         'sort_order' => 50,
-                        'position' => 50
-                    ),
-                    'status' => array(
+                        'position' => 50,
+                    ],
+                    'status' => [
                         'type' => 'static',
                         'label' => 'Status',
                         'input' => 'select',
@@ -142,27 +142,27 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                         'visible' => false,
                         'sort_order' => 60,
                         'position' => 60,
-                        'adminhtml_only' => 1
-                    ),
-                    'product_name' => array(
+                        'adminhtml_only' => 1,
+                    ],
+                    'product_name' => [
                         'type' => 'static',
                         'label' => 'Product Name',
                         'input' => 'text',
                         'sort_order' => 70,
                         'position' => 70,
                         'visible' => false,
-                        'adminhtml_only' => 1
-                    ),
-                    'product_sku' => array(
+                        'adminhtml_only' => 1,
+                    ],
+                    'product_sku' => [
                         'type' => 'static',
                         'label' => 'Product SKU',
                         'input' => 'text',
                         'sort_order' => 80,
                         'position' => 80,
                         'visible' => false,
-                        'adminhtml_only' => 1
-                    ),
-                    'resolution' => array(
+                        'adminhtml_only' => 1,
+                    ],
+                    'resolution' => [
                         'type' => 'int',
                         'label' => 'Resolution',
                         'input' => 'select',
@@ -170,10 +170,10 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                         'position' => 90,
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system' => false,
-                        'option' => array('values' => array('Exchange', 'Refund', 'Store Credit')),
-                        'validate_rules' => 'a:0:{}'
-                    ),
-                    'condition' => array(
+                        'option' => ['values' => ['Exchange', 'Refund', 'Store Credit']],
+                        'validate_rules' => 'a:0:{}',
+                    ],
+                    'condition' => [
                         'type' => 'int',
                         'label' => 'Item Condition',
                         'input' => 'select',
@@ -181,10 +181,10 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                         'position' => 100,
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system' => false,
-                        'option' => array('values' => array('Unopened', 'Opened', 'Damaged')),
-                        'validate_rules' => 'a:0:{}'
-                    ),
-                    'reason' => array(
+                        'option' => ['values' => ['Unopened', 'Opened', 'Damaged']],
+                        'validate_rules' => 'a:0:{}',
+                    ],
+                    'reason' => [
                         'type' => 'int',
                         'label' => 'Reason to Return',
                         'input' => 'select',
@@ -192,20 +192,20 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
                         'position' => 110,
                         'source' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                         'system' => false,
-                        'option' => array('values' => array('Wrong Color', 'Wrong Size', 'Out of Service')),
-                        'validate_rules' => 'a:0:{}'
-                    ),
-                    'reason_other' => array(
+                        'option' => ['values' => ['Wrong Color', 'Wrong Size', 'Out of Service']],
+                        'validate_rules' => 'a:0:{}',
+                    ],
+                    'reason_other' => [
                         'type' => 'varchar',
                         'label' => 'Other',
                         'input' => 'text',
                         'validate_rules' => 'a:2:{s:15:"max_text_length";i:255;s:15:"min_text_length";i:1;}',
                         'sort_order' => 120,
-                        'position' => 120
-                    )
-                )
-            )
-        );
+                        'position' => 120,
+                    ],
+                ],
+            ],
+        ];
         return $entities;
     }
 
@@ -218,10 +218,10 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     {
         $rma_item = (int)$this->getEntityTypeId('rma_item');
 
-        $attributeIds = array();
+        $attributeIds = [];
         $select = $this->getConnection()->select()->from(
-            array('ea' => $this->getTable('eav_attribute')),
-            array('entity_type_id', 'attribute_code', 'attribute_id')
+            ['ea' => $this->getTable('eav_attribute')],
+            ['entity_type_id', 'attribute_code', 'attribute_id']
         )->where(
             'ea.entity_type_id = ?',
             $rma_item
@@ -230,7 +230,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
             $attributeIds[$row['entity_type_id']][$row['attribute_code']] = $row['attribute_id'];
         }
 
-        $data = array();
+        $data = [];
         $entities = $this->getDefaultEntities();
         $attributes = $entities['rma_item']['attributes'];
         foreach ($attributes as $attributeCode => $attribute) {
@@ -238,9 +238,9 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
             $attribute['system'] = isset($attribute['system']) ? $attribute['system'] : true;
             $attribute['visible'] = isset($attribute['visible']) ? $attribute['visible'] : true;
             if ($attribute['system'] != true || $attribute['visible'] != false) {
-                $usedInForms = array('default');
+                $usedInForms = ['default'];
                 foreach ($usedInForms as $formCode) {
-                    $data[] = array('form_code' => $formCode, 'attribute_id' => $attributeId);
+                    $data[] = ['form_code' => $formCode, 'attribute_id' => $attributeId];
                 }
             }
         }
@@ -256,7 +256,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */
-    public function getCatalogSetup(array $data = array())
+    public function getCatalogSetup(array $data = [])
     {
         return $this->_catalogSetupFactory->create($data);
     }

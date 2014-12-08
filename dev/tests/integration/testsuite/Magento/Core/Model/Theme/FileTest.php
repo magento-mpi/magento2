@@ -17,7 +17,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * @var \Magento\Core\Model\Theme
@@ -31,20 +31,20 @@ class FileTest extends \PHPUnit_Framework_TestCase
         /** @var $themeModel \Magento\Framework\View\Design\ThemeInterface */
         $themeModel = $objectManager->create('Magento\Framework\View\Design\ThemeInterface');
         $this->_theme = $themeModel->getCollection()->getFirstItem();
-        $this->_data = array(
+        $this->_data = [
             'file_path' => 'main.css',
             'file_type' => 'css',
             'content' => 'content files',
             'order' => 0,
             'theme' => $this->_theme,
-            'theme_id' => $this->_theme->getId()
-        );
+            'theme_id' => $this->_theme->getId(),
+        ];
     }
 
     protected function tearDown()
     {
         $this->_model = null;
-        $this->_data = array();
+        $this->_data = [];
         $this->_theme = null;
     }
 
@@ -55,7 +55,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setData($this->_data);
 
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('file_path' => 'rename.css'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['file_path' => 'rename.css']);
         $crud->testCrud();
     }
 }

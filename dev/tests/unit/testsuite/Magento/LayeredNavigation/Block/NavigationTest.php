@@ -37,12 +37,12 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->catalogLayerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
-        $this->filterListMock = $this->getMock('\Magento\Catalog\Model\Layer\FilterList', array(), array(), '', false);
+        $this->catalogLayerMock = $this->getMock('\Magento\Catalog\Model\Layer', [], [], '', false);
+        $this->filterListMock = $this->getMock('\Magento\Catalog\Model\Layer\FilterList', [], [], '', false);
         $this->visibilityFlagMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\AvailabilityFlagInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -59,19 +59,19 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             '\Magento\LayeredNavigation\Block\Navigation',
-            array(
+            [
                 'layerResolver' => $layerResolver,
                 'filterList' => $this->filterListMock,
                 'visibilityFlag' => $this->visibilityFlagMock
-            )
+            ]
         );
-        $this->layoutMock = $this->getMock('\Magento\Framework\View\LayoutInterface', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('\Magento\Framework\View\LayoutInterface', [], [], '', false);
     }
 
     public function testGetStateHtml()
     {
         $stateHtml = 'I feel good';
-        $this->filterListMock->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
+        $this->filterListMock->expects($this->any())->method('getFilters')->will($this->returnValue([]));
         $this->layoutMock->expects($this->at(0))->method('getChildName')
             ->with(null, 'renderer');
         $this->layoutMock->expects($this->at(1))->method('getChildName')
@@ -94,7 +94,7 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
     public function testCanShowBlock()
     {
         // getFilers()
-        $filters = array('To' => 'be', 'or' => 'not', 'to' => 'be');
+        $filters = ['To' => 'be', 'or' => 'not', 'to' => 'be'];
 
         $this->filterListMock->expects($this->exactly(2))->method('getFilters')
             ->with($this->catalogLayerMock)
@@ -113,13 +113,13 @@ class NavigationTest extends \PHPUnit_Framework_TestCase
 
     public function testGetClearUrl()
     {
-        $this->filterListMock->expects($this->any())->method('getFilters')->will($this->returnValue(array()));
+        $this->filterListMock->expects($this->any())->method('getFilters')->will($this->returnValue([]));
         $this->model->setLayout($this->layoutMock);
         $this->layoutMock->expects($this->once())->method('getChildName')->will($this->returnValue('sample block'));
 
         $blockMock = $this->getMockForAbstractClass(
             '\Magento\Framework\View\Element\AbstractBlock',
-            array(),
+            [],
             '',
             false
         );

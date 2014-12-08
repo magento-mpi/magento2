@@ -15,7 +15,7 @@ class Void extends \Magento\Reward\Model\Action\Creditmemo
      * @param array $args additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return __('Points voided at order #%1 refund.', $incrementId);

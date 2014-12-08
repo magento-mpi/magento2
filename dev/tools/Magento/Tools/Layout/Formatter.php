@@ -36,7 +36,7 @@ class Formatter
         $xmlDom->loadXML($xmlString);
 
         // replace text in the document with unique placeholders
-        $placeholders = array();
+        $placeholders = [];
         $xmlXpath = new \DOMXPath($xmlDom);
         /** @var DOMNode $textNode */
         foreach ($xmlXpath->query('//text() | //comment() | //@*') as $textNode) {

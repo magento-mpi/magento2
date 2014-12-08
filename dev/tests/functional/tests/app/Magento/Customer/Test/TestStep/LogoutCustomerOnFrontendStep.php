@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Test\TestStep;
 
-use Mtf\TestStep\TestStepInterface;
 use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Class LogoutCustomerOnFrontendStep

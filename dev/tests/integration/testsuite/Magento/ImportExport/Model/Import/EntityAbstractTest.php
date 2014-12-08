@@ -34,14 +34,14 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\ImportExport\Model\Import\AbstractEntity|\PHPUnit_Framework_MockObject_MockObject */
         $model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\AbstractEntity',
-            array(
+            [
                 $objectManager->get('Magento\Core\Helper\Data'),
                 $objectManager->get('Magento\Framework\Stdlib\String'),
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\ImportExport\Model\ImportFactory'),
                 $objectManager->get('Magento\ImportExport\Model\Resource\Helper'),
                 $objectManager->get('Magento\Framework\App\Resource')
-            ),
+            ],
             '',
             true,
             false,

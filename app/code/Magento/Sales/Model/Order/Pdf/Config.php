@@ -32,7 +32,7 @@ class Config
      */
     public function getRenderersPerProduct($pageType)
     {
-        return $this->_dataStorage->get("renderers/{$pageType}", array());
+        return $this->_dataStorage->get("renderers/{$pageType}", []);
     }
 
     /**
@@ -42,6 +42,6 @@ class Config
      */
     public function getTotals()
     {
-        return $this->_dataStorage->get('totals', array());
+        return $this->_dataStorage->get('totals', []);
     }
 }

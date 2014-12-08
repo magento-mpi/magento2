@@ -400,8 +400,8 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
      */
     public function displayProductStockStatus()
     {
-        $statusInfo = new \Magento\Framework\Object(array('display_status' => true));
-        $this->_eventManager->dispatch('catalog_block_product_status_display', array('status' => $statusInfo));
+        $statusInfo = new \Magento\Framework\Object(['display_status' => true]);
+        $this->_eventManager->dispatch('catalog_block_product_status_display', ['status' => $statusInfo]);
         return (bool) $statusInfo->getDisplayStatus();
     }
 

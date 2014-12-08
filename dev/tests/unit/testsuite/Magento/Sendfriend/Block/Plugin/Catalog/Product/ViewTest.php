@@ -24,17 +24,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Catalog\Block\Product\View|\PHPUnit_Framework_MockObject_MockObject */
     protected $productView;
 
-
     protected function setUp()
     {
         $this->sendfriendModel = $this->getMock(
             'Magento\Sendfriend\Model\Sendfriend',
-            array('__wakeup', 'canEmailToFriend'),
-            array(),
+            ['__wakeup', 'canEmailToFriend'],
+            [],
             '',
             false
         );
-        $this->productView = $this->getMock('Magento\Catalog\Block\Product\View', array(), array(), '', false);
+        $this->productView = $this->getMock('Magento\Catalog\Block\Product\View', [], [], '', false);
 
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->view = $this->objectManagerHelper->getObject(
@@ -43,7 +42,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 'sendfriend' => $this->sendfriendModel
             ]
         );
-
     }
 
     /**
@@ -61,9 +59,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function afterCanEmailToFriendDataSet()
     {
-        return array(
-            array(true, 'never'),
-            array(false, 'once')
-        );
+        return [
+            [true, 'never'],
+            [false, 'once']
+        ];
     }
 }

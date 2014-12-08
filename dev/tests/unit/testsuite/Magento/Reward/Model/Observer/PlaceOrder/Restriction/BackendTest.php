@@ -26,7 +26,7 @@ class BackendTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento\Reward\Helper\Data', array(), array(), '', false);
+        $this->_helper = $this->getMock('Magento\Reward\Helper\Data', [], [], '', false);
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface');
         $this->_model = new \Magento\Reward\Model\Observer\PlaceOrder\Restriction\Backend(
             $this->_helper,
@@ -49,6 +49,6 @@ class BackendTest extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedDataProvider()
     {
-        return array(array(true, true, true), array(false, true, false), array(false, false, false));
+        return [[true, true, true], [false, true, false], [false, false, false]];
     }
 }

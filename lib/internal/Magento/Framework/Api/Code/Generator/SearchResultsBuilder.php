@@ -48,7 +48,7 @@ class SearchResultsBuilder extends EntityAbstract
             'parameters' => [
                 [
                     'name' => 'objectFactory',
-                    'type' => '\\Magento\Framework\Api\ObjectFactory'
+                    'type' => '\\Magento\Framework\Api\ObjectFactory',
                 ],
                 [
                     'name' => 'valueBuilder',
@@ -74,9 +74,9 @@ class SearchResultsBuilder extends EntityAbstract
                 'tags' => [
                     [
                         'name' => 'param',
-                        'description' => ''
-                    ]
-                ]
+                        'description' => '',
+                    ],
+                ],
             ]
         ];
     }

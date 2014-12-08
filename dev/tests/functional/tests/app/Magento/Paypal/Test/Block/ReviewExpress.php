@@ -39,7 +39,6 @@ class ReviewExpress extends Block
      */
     protected $oldReviewBlock = '//*[*[@id="memberReview"] or *[@id="reviewModule"]]';
 
-
     /**
      * Paypal review block
      *

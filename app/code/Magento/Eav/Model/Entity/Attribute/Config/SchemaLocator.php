@@ -3,7 +3,7 @@
  * Entity attribute configuration schema locator
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */

@@ -109,7 +109,7 @@ abstract class AbstractSource implements
      */
     public function getFlatColumns()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -119,7 +119,7 @@ abstract class AbstractSource implements
      */
     public function getFlatIndexes()
     {
-        return array();
+        return [];
     }
 
     /**

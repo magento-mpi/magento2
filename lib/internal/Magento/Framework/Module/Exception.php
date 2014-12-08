@@ -6,9 +6,7 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Framework\Module;
-
 
 class Exception extends \Exception
 {

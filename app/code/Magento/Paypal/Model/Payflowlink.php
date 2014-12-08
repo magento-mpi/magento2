@@ -31,7 +31,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      *
      * @var array
      */
-    protected $_responseParamsMappings = array(
+    protected $_responseParamsMappings = [
         'firstname' => 'billtofirstname',
         'lastname' => 'billtolastname',
         'address' => 'billtostreet',
@@ -52,8 +52,8 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         'faxtoship' => 'shiptofax',
         'method' => 'tender',
         'cscmatch' => 'cvv2match',
-        'type' => 'trxtype'
-    );
+        'type' => 'trxtype',
+    ];
 
     /**
      * Payment method code
@@ -177,7 +177,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
         \Magento\Framework\App\RequestInterface $requestHttp,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         OrderSender $orderSender,
-        array $data = array()
+        array $data = []
     ) {
         $this->_requestFactory = $requestFactory;
         $this->quoteRepository = $quoteRepository;
@@ -323,7 +323,7 @@ class Payflowlink extends \Magento\Paypal\Model\Payflowpro
      */
     public function process($responseData)
     {
-        $debugData = array('response' => $responseData);
+        $debugData = ['response' => $responseData];
         $this->_debug($debugData);
 
         $this->setResponseData($responseData);

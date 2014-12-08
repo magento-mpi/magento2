@@ -8,11 +8,11 @@
 
 namespace Magento\Banner\Test\Constraint;
 
+use Magento\Banner\Test\Fixture\BannerInjectable;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
 use Mtf\Constraint\AbstractConstraint;
 use Mtf\Fixture\FixtureFactory;
-use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceNew;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 
 /**
  * Class AssertBannerNotInWidgetOptions

@@ -27,7 +27,7 @@ class Gallery extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('file');
@@ -46,7 +46,7 @@ class Gallery extends AbstractElement
         $buttonHtml = $widgetButton->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => 'Add New Image', 'onclick' => 'addNewImg()', 'class' => 'add')
+            ['label' => 'Add New Image', 'onclick' => 'addNewImg()', 'class' => 'add']
         )->toHtml();
 
         $html .= '<tfoot class="gallery">';

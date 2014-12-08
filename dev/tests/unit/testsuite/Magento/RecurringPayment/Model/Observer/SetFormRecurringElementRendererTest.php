@@ -1,21 +1,21 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\RecurringPayment\Model\Observer;
- 
+
 class SetFormRecurringElementRendererTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var  SetFormRecurringElementRenderer
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -45,7 +45,7 @@ class SetFormRecurringElementRendererTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $recurringPaymentBlockMock;
-    
+
     protected function setUp()
     {
         $this->observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Customers by orders Report collection
  *
@@ -27,7 +26,7 @@ class Collection extends \Magento\Reports\Model\Resource\Order\Collection
     {
         $this->joinCustomerName()->groupByCustomer()->addOrdersCount()->addAttributeToFilter(
             'created_at',
-            array('from' => $fromDate, 'to' => $toDate, 'datetime' => true)
+            ['from' => $fromDate, 'to' => $toDate, 'datetime' => true]
         );
         return $this;
     }
@@ -54,7 +53,7 @@ class Collection extends \Magento\Reports\Model\Resource\Order\Collection
     public function setStoreIds($storeIds)
     {
         if ($storeIds) {
-            $this->addAttributeToFilter('store_id', array('in' => (array)$storeIds));
+            $this->addAttributeToFilter('store_id', ['in' => (array)$storeIds]);
             $this->addSumAvgTotals(1)->orderByOrdersCount();
         } else {
             $this->addSumAvgTotals()->orderByOrdersCount();

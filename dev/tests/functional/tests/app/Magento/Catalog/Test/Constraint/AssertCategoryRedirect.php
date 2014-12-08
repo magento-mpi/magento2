@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssertCategoryRedirect

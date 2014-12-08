@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist block customer items
  *
@@ -28,7 +27,7 @@ class Items extends \Magento\Wishlist\Block\AbstractBlock
      * @param array $additional
      * @return string
      */
-    public function getProductUrl($product, $additional = array())
+    public function getProductUrl($product, $additional = [])
     {
         $additional['_scope_to_url'] = true;
         return parent::getProductUrl($product, $additional);
@@ -41,7 +40,7 @@ class Items extends \Magento\Wishlist\Block\AbstractBlock
      * @param array $additional
      * @return string
      */
-    public function getAddToCartUrl($product, $additional = array())
+    public function getAddToCartUrl($product, $additional = [])
     {
         $additional['nocookie'] = 1;
         $additional['_scope_to_url'] = true;

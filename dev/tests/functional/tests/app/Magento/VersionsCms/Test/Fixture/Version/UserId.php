@@ -8,9 +8,9 @@
 
 namespace Magento\VersionsCms\Test\Fixture\Version;
 
+use Magento\User\Test\Fixture\User;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\User\Test\Fixture\User;
 
 /**
  * Class UserId

@@ -21,7 +21,7 @@ class Method extends \Magento\Checkout\Block\Onepage\AbstractOnepage
     {
         $this->getCheckout()->setStepData(
             'shipping_method',
-            array('label' => __('Shipping Method'), 'is_show' => $this->isShow())
+            ['label' => __('Shipping Method'), 'is_show' => $this->isShow()]
         );
         parent::_construct();
     }

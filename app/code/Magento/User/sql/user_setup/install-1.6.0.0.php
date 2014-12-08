@@ -21,19 +21,19 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_asse
         'assert_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
         'Assert ID'
     )->addColumn(
         'assert_type',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         20,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Assert Type'
     )->addColumn(
         'assert_data',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         '64k',
-        array(),
+        [],
         'Assert Data'
     )->setComment(
         'Admin Assert Table'
@@ -51,88 +51,88 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         'user_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
         'User ID'
     )->addColumn(
         'firstname',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         32,
-        array('nullable' => true),
+        ['nullable' => true],
         'User First Name'
     )->addColumn(
         'lastname',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         32,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Last Name'
     )->addColumn(
         'email',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         128,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Email'
     )->addColumn(
         'username',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         40,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Login'
     )->addColumn(
         'password',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         40,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Password'
     )->addColumn(
         'created',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+        ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
         'User Created Time'
     )->addColumn(
         'modified',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        [],
         'User Modified Time'
     )->addColumn(
         'logdate',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        [],
         'User Last Login Time'
     )->addColumn(
         'lognum',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'User Login Number'
     )->addColumn(
         'reload_acl_flag',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('nullable' => false, 'default' => '0'),
+        ['nullable' => false, 'default' => '0'],
         'Reload ACL'
     )->addColumn(
         'is_active',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('nullable' => false, 'default' => '1'),
+        ['nullable' => false, 'default' => '1'],
         'User Is Active'
     )->addColumn(
         'extra',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         '64k',
-        array(),
+        [],
         'User Extra Data'
     )->addIndex(
         $installer->getIdxName(
             'admin_user',
-            array('username'),
+            ['username'],
             \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
-        array('username'),
-        array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+        ['username'],
+        ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
     )->setComment(
         'Admin User Table'
     );

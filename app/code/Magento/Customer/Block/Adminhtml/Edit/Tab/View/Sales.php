@@ -71,7 +71,7 @@ class Sales extends \Magento\Backend\Block\Template
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_currencyFactory = $currencyFactory;
@@ -111,7 +111,7 @@ class Sales extends \Magento\Backend\Block\Template
             true
         )->load();
 
-        $this->_groupedCollection = array();
+        $this->_groupedCollection = [];
 
         foreach ($this->_collection as $sale) {
             if (!is_null($sale->getStoreId())) {

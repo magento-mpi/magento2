@@ -10,10 +10,10 @@ namespace Magento\GiftWrapping\Test\Handler\GiftWrapping;
 
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -30,7 +30,7 @@ class Curl extends AbstractCurl implements GiftWrappingInterface
         'status' => [
             'Disabled' => 0,
             'Enabled' => 1,
-        ]
+        ],
     ];
 
     /**

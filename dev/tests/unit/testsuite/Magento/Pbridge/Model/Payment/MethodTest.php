@@ -44,22 +44,22 @@ class MethodTest extends \PHPUnit_Framework_TestCase
         $this->_paymentHelper = $this->getMockBuilder(
             'Magento\Payment\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('getMethodInstance')
+            ['getMethodInstance']
         )->getMock();
 
         $this->_model = new \Magento\Pbridge\Model\Payment\Method(
-            $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false),
             $this->_paymentHelper,
             $this->_config,
-            $this->getMock('Magento\Framework\Logger\AdapterFactory', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Module\ModuleListInterface', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', array(), array(), '', false),
-            $this->getMock('Magento\Centinel\Model\Service', array(), array(), '', false),
-            $this->getMock('Magento\Pbridge\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
+            $this->getMock('Magento\Framework\Module\ModuleListInterface', [], [], '', false),
+            $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface', [], [], '', false),
+            $this->getMock('Magento\Centinel\Model\Service', [], [], '', false),
+            $this->getMock('Magento\Pbridge\Helper\Data', [], [], '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
             'getFormBlockType',
-            array()
+            []
         );
 
         $this->_allowCurrencyCode = new \ReflectionProperty(
@@ -79,8 +79,8 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             0
         )->will($this->returnValue('BTN'));
         $this->assertTrue($this->_model->canUseForCurrency('UAH'));
-        $this->_allowCurrencyCode->setValue($this->_model, array('USD', 'EUR'));
-        $this->_model->setData('_accepted_currency', array('USD', 'EUR'));
+        $this->_allowCurrencyCode->setValue($this->_model, ['USD', 'EUR']);
+        $this->_model->setData('_accepted_currency', ['USD', 'EUR']);
         $this->assertFalse($this->_model->canUseForCurrency('UAH'));
     }
 
@@ -91,11 +91,11 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             0
         )->will($this->returnValue('BTN'));
-        $this->_allowCurrencyCode->setValue($this->_model, array('USD', 'EUR'));
+        $this->_allowCurrencyCode->setValue($this->_model, ['USD', 'EUR']);
         $this->_paymentCode->setValue($this->_model, 'code');
-        $this->assertEquals(array('USD', 'EUR', 'BTN'), $this->_model->getAcceptedCurrencyCodes());
-        $this->_model->setData('_accepted_currency', array('USD', 'EUR'));
-        $this->assertEquals(array('USD', 'EUR'), $this->_model->getAcceptedCurrencyCodes());
+        $this->assertEquals(['USD', 'EUR', 'BTN'], $this->_model->getAcceptedCurrencyCodes());
+        $this->_model->setData('_accepted_currency', ['USD', 'EUR']);
+        $this->assertEquals(['USD', 'EUR'], $this->_model->getAcceptedCurrencyCodes());
     }
 
     public function testGetIsDummy()
@@ -105,7 +105,6 @@ class MethodTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPbridgeMethodInstance()
     {
-
         $this->assertEquals($this->_getPreparePbridgeInstance(), $this->_model->getPbridgeMethodInstance());
     }
 

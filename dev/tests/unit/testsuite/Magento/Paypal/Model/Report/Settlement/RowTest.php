@@ -17,7 +17,6 @@ class RowTest extends \PHPUnit_Framework_TestCase
      */
     protected $row;
 
-
     public function setUp()
     {
         $objectManagerHelper = new ObjectManagerHelper($this);

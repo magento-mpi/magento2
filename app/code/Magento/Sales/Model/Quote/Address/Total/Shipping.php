@@ -178,7 +178,7 @@ class Shipping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 'Shipping & Handling'
             );
 
-            $address->addTotal(array('code' => $this->getCode(), 'title' => $title, 'value' => $amount));
+            $address->addTotal(['code' => $this->getCode(), 'title' => $title, 'value' => $amount]);
         }
 
         return $this;

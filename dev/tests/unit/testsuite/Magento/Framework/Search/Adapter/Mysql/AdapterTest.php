@@ -9,16 +9,11 @@
 namespace Magento\Framework\Search\Adapter\Mysql;
 
 use Magento\Framework\App\Resource;
-use Magento\Framework\App\Resource\Config;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Container as AggregationContainer;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderContainer;
-use Magento\Framework\Search\Adapter\Mysql\Aggregation\DataProviderInterface;
 use Magento\Framework\Search\Request\BucketInterface;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ResponseFactory|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -131,15 +126,15 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
             'documents' => [
                 [
                     'product_id' => 1,
-                    'sku' => 'Product'
-                ]
+                    'sku' => 'Product',
+                ],
             ],
             'aggregations' => [
                 'aggregation_name' => [
                     'aggregation1' => [1, 3],
-                    'aggregation2' => [2, 4]
-                ]
-            ]
+                    'aggregation2' => [2, 4],
+                ],
+            ],
         ];
 
         $this->connectionAdapter->expects($this->at(0))

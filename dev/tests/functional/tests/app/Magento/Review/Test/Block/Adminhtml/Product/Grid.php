@@ -23,11 +23,11 @@ class Grid extends ParentGrid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="entity_id"]'
+            'selector' => 'input[name="entity_id"]',
         ],
         'name' => [
-            'selector' => 'input[name="name"]'
-        ]
+            'selector' => 'input[name="name"]',
+        ],
     ];
 
     /**

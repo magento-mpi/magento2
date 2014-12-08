@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,5 +11,4 @@ use Magento\Framework\Model\Resource\Db\Collection\AbstractCollection;
 
 class ProductCollection extends AbstractCollection
 {
-
 }

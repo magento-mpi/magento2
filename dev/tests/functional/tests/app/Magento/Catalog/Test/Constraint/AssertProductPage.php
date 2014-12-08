@@ -8,12 +8,11 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\ObjectManager;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractAssertForm;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 
 /**
  * Class AssertProductPage

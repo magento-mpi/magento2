@@ -35,9 +35,9 @@ class Format implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         $formatsList = $this->_salesRuleCoupon->getFormatsList();
-        $result = array();
+        $result = [];
         foreach ($formatsList as $formatId => $formatTitle) {
-            $result[] = array('value' => $formatId, 'label' => $formatTitle);
+            $result[] = ['value' => $formatId, 'label' => $formatTitle];
         }
 
         return $result;

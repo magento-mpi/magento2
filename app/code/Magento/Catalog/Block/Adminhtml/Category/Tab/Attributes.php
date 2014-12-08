@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml Catalog Category Attributes per Group Tab block
  *
@@ -54,7 +53,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'fieldset_group_' . $group->getId(),
-            array('legend' => __($group->getAttributeGroupName()), 'class' => 'fieldset-wide')
+            ['legend' => __($group->getAttributeGroupName()), 'class' => 'fieldset-wide']
         );
 
         if ($this->getAddHiddenFields()) {
@@ -64,17 +63,17 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
                     $fieldset->addField(
                         'path',
                         'hidden',
-                        array('name' => 'path', 'value' => $this->getRequest()->getParam('parent'))
+                        ['name' => 'path', 'value' => $this->getRequest()->getParam('parent')]
                     );
                 } else {
-                    $fieldset->addField('path', 'hidden', array('name' => 'path', 'value' => 1));
+                    $fieldset->addField('path', 'hidden', ['name' => 'path', 'value' => 1]);
                 }
             } else {
-                $fieldset->addField('id', 'hidden', array('name' => 'id', 'value' => $this->getCategory()->getId()));
+                $fieldset->addField('id', 'hidden', ['name' => 'id', 'value' => $this->getCategory()->getId()]);
                 $fieldset->addField(
                     'path',
                     'hidden',
-                    array('name' => 'path', 'value' => $this->getCategory()->getPath())
+                    ['name' => 'path', 'value' => $this->getCategory()->getPath()]
                 );
             }
         }
@@ -110,7 +109,7 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->addValues($this->getCategory()->getData());
 
-        $this->_eventManager->dispatch('adminhtml_catalog_category_edit_prepare_form', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_catalog_category_edit_prepare_form', ['form' => $form]);
 
         $form->setFieldNameSuffix('general');
         $this->setForm($form);
@@ -124,9 +123,9 @@ class Attributes extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _getAdditionalElementTypes()
     {
-        return array(
+        return [
             'image' => 'Magento\Catalog\Block\Adminhtml\Category\Helper\Image',
             'textarea' => 'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg'
-        );
+        ];
     }
 }

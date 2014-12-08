@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\View\Page\Config;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\View\Asset\GroupedCollection;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Test for page config renderer model
@@ -165,7 +165,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             'metadataName' => 'metadataValue',
             'content_type' => 'content_type_value',
             'x_ua_compatible' => 'x_ua_compatible_value',
-            'media_type' => 'media_type_value'
+            'media_type' => 'media_type_value',
         ];
         $metadataValueCharset = 'newCharsetValue';
 
@@ -221,7 +221,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                     $filePath,
                     Generator\Head::VIRTUAL_CONTENT_TYPE_LINK,
                     ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
-                    'icon'
+                    'icon',
                 ],
                 [
                     $filePath,
@@ -250,7 +250,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 [
                     $defaultFilePath,
                     ['attributes' => ['rel' => 'icon', 'type' => 'image/x-icon']],
-                    'icon'
+                    'icon',
                 ],
                 [
                     $defaultFilePath,
@@ -304,7 +304,7 @@ class RendererTest extends \PHPUnit_Framework_TestCase
                 [GroupedCollection::PROPERTY_CAN_MERGE, true],
                 [GroupedCollection::PROPERTY_CONTENT_TYPE, $contentType],
                 ['attributes', $attributes],
-                ['ie_condition', $ieCondition]
+                ['ie_condition', $ieCondition],
             ]);
 
         $this->assetMinifyServiceMock

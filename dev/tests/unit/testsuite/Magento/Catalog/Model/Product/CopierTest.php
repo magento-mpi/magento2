@@ -34,12 +34,12 @@ class CopierTest extends \PHPUnit_Framework_TestCase
         $this->copyConstructorMock = $this->getMock('\Magento\Catalog\Model\Product\CopyConstructorInterface');
         $this->productFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
         $this->productMock->expects($this->any())->method('getId')->will($this->returnValue('1'));
         $this->productMock->expects($this->any())->method('getData')->will($this->returnValue('product data'));
 
@@ -51,14 +51,14 @@ class CopierTest extends \PHPUnit_Framework_TestCase
         $this->productMock->expects($this->atLeastOnce())->method('getWebsiteIds');
         $this->productMock->expects($this->atLeastOnce())->method('getCategoryIds');
 
-        $resourceMock = $this->getMock('\Magento\Catalog\Model\Resource\Product', array(), array(), '', false);
-        $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', array(), array(), '', false);
+        $resourceMock = $this->getMock('\Magento\Catalog\Model\Resource\Product', [], [], '', false);
+        $optionMock = $this->getMock('\Magento\Catalog\Model\Product\Option', [], [], '', false);
         $this->productMock->expects($this->once())->method('getResource')->will($this->returnValue($resourceMock));
         $this->productMock->expects($this->once())->method('getOptionInstance')->will($this->returnValue($optionMock));
 
         $duplicateMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array(
+            [
                 '__wakeup',
                 'setData',
                 'setIsDuplicate',
@@ -72,8 +72,8 @@ class CopierTest extends \PHPUnit_Framework_TestCase
                 'save',
                 'setUrlKey',
                 'getUrlKey',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

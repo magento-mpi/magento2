@@ -22,7 +22,7 @@ class CookieMetadata
     const KEY_HTTP_ONLY = 'http_only';
     const KEY_DURATION = 'duration';
     /**#@-*/
-    
+
     /**
      * Store the metadata in array format to distinguish between null values and no value set.
      *

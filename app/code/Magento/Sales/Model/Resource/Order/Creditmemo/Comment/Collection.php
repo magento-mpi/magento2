@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order\Creditmemo\Comment;
 
-use Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection;
 use Magento\Sales\Api\Data\CreditmemoCommentSearchResultInterface;
+use Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection;
 
 /**
  * Flat sales order creditmemo comments collection

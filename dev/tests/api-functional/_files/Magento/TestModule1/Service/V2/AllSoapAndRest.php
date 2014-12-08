@@ -36,7 +36,7 @@ class AllSoapAndRest implements \Magento\TestModule1\Service\V2\AllSoapAndRestIn
     /**
      * {@inheritdoc}
      */
-    public function items($filters = array(), $sortOrder = 'ASC')
+    public function items($filters = [], $sortOrder = 'ASC')
     {
         $result = [];
         $firstItem = $this->itemBuilder->setId(1)->setName('testProduct1')->setPrice('1')->create();

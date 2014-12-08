@@ -8,15 +8,14 @@
 
 namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type;
 
+use Magento\Bundle\Test\Fixture\Bundle as BundleDataFixture;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Option;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Bundle\Test\Fixture\Bundle as BundleDataFixture;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class Bundle

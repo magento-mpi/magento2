@@ -92,16 +92,16 @@ class Samples implements FixtureInterface
                             'title' => 'sample1%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
-                            'sort_order' => 0
+                            'sort_order' => 0,
                         ],
                         [
                             'title' => 'sample2%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example2.com',
                             'sort_order' => 1
-                        ]
-                    ]
-                ]
+                        ],
+                    ],
+                ],
             ],
             'with_three_samples' => [
                 'title' => 'Samples%isolation%',
@@ -111,7 +111,7 @@ class Samples implements FixtureInterface
                             'title' => 'sample1%isolation%',
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example.com',
-                            'sort_order' => 0
+                            'sort_order' => 0,
                         ],
                         [
                             'title' => 'sample2%isolation%',
@@ -124,10 +124,10 @@ class Samples implements FixtureInterface
                             'sample_type_url' => 'Yes',
                             'sample_url' => 'http://example3.com',
                             'sort_order' => 2
-                        ]
-                    ]
-                ]
-            ]
+                        ],
+                    ],
+                ],
+            ],
         ];
 
         if (!isset($presets[$name])) {

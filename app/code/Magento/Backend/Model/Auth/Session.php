@@ -7,8 +7,8 @@
  */
 namespace Magento\Backend\Model\Auth;
 
-use \Magento\Framework\Stdlib\CookieManagerInterface;
-use \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 /**
  * Backend Auth session model

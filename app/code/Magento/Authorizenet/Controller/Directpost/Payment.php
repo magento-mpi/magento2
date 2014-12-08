@@ -60,12 +60,12 @@ class Payment extends \Magento\Framework\App\Action\Action
      */
     protected function _responseAction(\Magento\Authorizenet\Helper\HelperInterface $helper)
     {
-        $params = array();
+        $params = [];
         $data = $this->getRequest()->getPost();
         /* @var $paymentMethod \Magento\Authorizenet\Model\DirectPost */
         $paymentMethod = $this->_objectManager->create('Magento\Authorizenet\Model\Directpost');
 
-        $result = array();
+        $result = [];
         if (!empty($data['x_invoice_num'])) {
             $result['x_invoice_num'] = $data['x_invoice_num'];
         }
@@ -128,7 +128,6 @@ class Payment extends \Magento\Framework\App\Action\Action
                     $quoteRepository->save($quote);
                     $this->_getCheckout()->replaceQuote($quote);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                 }
                 $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($incrementId);
                 $this->_getDirectPostSession()->unsetData('quote_id');

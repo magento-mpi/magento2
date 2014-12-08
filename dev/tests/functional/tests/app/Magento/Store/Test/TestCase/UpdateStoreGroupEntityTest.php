@@ -8,10 +8,10 @@
 
 namespace Magento\Store\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Store\Test\Fixture\StoreGroup;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditGroup;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Store\Test\Fixture\StoreGroup;
+use Mtf\TestCase\Injectable;
 
 /**
  * Update StoreGroup (Store Management)

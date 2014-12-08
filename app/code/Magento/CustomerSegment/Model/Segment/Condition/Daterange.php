@@ -48,7 +48,7 @@ class Daterange extends AbstractCondition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         parent::__construct($context, $resourceSegment, $data);
@@ -64,7 +64,7 @@ class Daterange extends AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Date Range'));
+        return ['value' => $this->getType(), 'label' => __('Date Range')];
     }
 
     /**
@@ -94,7 +94,7 @@ class Daterange extends AbstractCondition
      */
     public function getValueSelectOptions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -121,7 +121,7 @@ class Daterange extends AbstractCondition
     {
         return $this->_adminhtmlData->getUrl(
             'customersegment/index/chooserDaterange',
-            array('value_element_id' => $this->_valueElement->getId())
+            ['value_element_id' => $this->_valueElement->getId()]
         );
     }
 

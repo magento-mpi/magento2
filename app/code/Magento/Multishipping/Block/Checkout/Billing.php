@@ -45,7 +45,7 @@ class Billing extends \Magento\Payment\Block\Form\Container
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Payment\Model\Method\SpecificationInterface $paymentSpecification,
-        array $data = array()
+        array $data = []
     ) {
         $this->_multishipping = $multishipping;
         $this->_checkoutSession = $checkoutSession;

@@ -12,7 +12,7 @@ class PhpFormatterTest extends \PHPUnit_Framework_TestCase
 {
     public function testFormat()
     {
-        $formatter = new PhpFormatter;
+        $formatter = new PhpFormatter();
         $data = 'test';
         $this->assertEquals("<?php\nreturn 'test';\n", $formatter->format($data));
     }

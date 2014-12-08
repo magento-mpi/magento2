@@ -17,7 +17,7 @@ class ArrayScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($files as $file) {
             if (file_exists($file)) {
                 $data = include $file;

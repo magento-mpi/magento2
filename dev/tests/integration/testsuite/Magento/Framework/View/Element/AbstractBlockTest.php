@@ -523,11 +523,11 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         return [
             'array data' => [
                 'data' => ['one', '<two>three</two>'],
-                'expected' => ['one', '&lt;two&gt;three&lt;/two&gt;']
+                'expected' => ['one', '&lt;two&gt;three&lt;/two&gt;'],
             ],
             'string data conversion' => [
                 'data' => '<two>three</two>',
-                'expected' => '&lt;two&gt;three&lt;/two&gt;'
+                'expected' => '&lt;two&gt;three&lt;/two&gt;',
             ],
             'string data no conversion' => ['data' => 'one', 'expected' => 'one']
         ];

@@ -29,7 +29,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getUrl($route, array $params = array())
+    public function getUrl($route, array $params = [])
     {
         return $this->_getUrl($route, $params);
     }

@@ -8,11 +8,10 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Options\Search\Grid;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Options

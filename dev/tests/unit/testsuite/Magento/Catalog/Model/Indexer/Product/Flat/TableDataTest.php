@@ -28,7 +28,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_connectionMock = $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface');
-        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->_resourceMock = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
     }
 
     /**
@@ -77,7 +77,7 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
 
         $model = $this->_objectManager->getObject(
             'Magento\Catalog\Model\Indexer\Product\Flat\TableData',
-            array('resource' => $this->_resourceMock)
+            ['resource' => $this->_resourceMock]
         );
 
         $model->move($flatTable, $flatDropName, $temporaryFlatTableName);
@@ -88,24 +88,24 @@ class TableDataTest extends \PHPUnit_Framework_TestCase
      */
     public function moveDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'flat_table',
                 true,
                 'flat_table_to_drop',
                 'flat_tmp',
-                array(
-                    array('oldName' => 'flat_table', 'newName' => 'flat_table_to_drop'),
-                    array('oldName' => 'flat_tmp', 'newName' => 'flat_table')
-                )
-            ),
-            array(
+                [
+                    ['oldName' => 'flat_table', 'newName' => 'flat_table_to_drop'],
+                    ['oldName' => 'flat_tmp', 'newName' => 'flat_table']
+                ],
+            ],
+            [
                 'flat_table',
                 false,
                 'flat_table_to_drop',
                 'flat_tmp',
-                array(array('oldName' => 'flat_tmp', 'newName' => 'flat_table'))
-            )
-        );
+                [['oldName' => 'flat_tmp', 'newName' => 'flat_table']]
+            ]
+        ];
     }
 }

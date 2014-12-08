@@ -93,12 +93,12 @@ class Cart extends \Magento\Core\Helper\Url
      * @param array $additional
      * @return  string
      */
-    public function getAddUrl($product, $additional = array())
+    public function getAddUrl($product, $additional = [])
     {
         $continueUrl = $this->_coreData->urlEncode($this->_urlBuilder->getCurrentUrl());
         $urlParamName = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
 
-        $routeParams = array($urlParamName => $continueUrl, 'product' => $product->getEntityId());
+        $routeParams = [$urlParamName => $continueUrl, 'product' => $product->getEntityId()];
 
         if (!empty($additional)) {
             $routeParams = array_merge($routeParams, $additional);
@@ -125,10 +125,10 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getRemoveUrl($item)
     {
-        $params = array(
+        $params = [
             'id' => $item->getId(),
-            \Magento\Framework\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url()
-        );
+            \Magento\Framework\App\Action\Action::PARAM_NAME_BASE64_URL => $this->getCurrentBase64Url(),
+        ];
         return $this->_getUrl(self::DELETE_URL, $params);
     }
 
@@ -146,7 +146,7 @@ class Cart extends \Magento\Core\Helper\Url
         if (!$this->_request->isAjax()) {
             $data[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->getCurrentBase64Url();
         }
-        return json_encode(array('action' => $url, 'data' => $data));
+        return json_encode(['action' => $url, 'data' => $data]);
     }
 
     /**

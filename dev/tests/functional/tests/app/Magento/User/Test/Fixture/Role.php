@@ -83,7 +83,7 @@ class Role extends DataFixture
      */
     protected function convertData(array $data)
     {
-        $result = array();
+        $result = [];
         foreach ($data as $key => $value) {
             $result['fields'][$key]['value'] = $value;
         }

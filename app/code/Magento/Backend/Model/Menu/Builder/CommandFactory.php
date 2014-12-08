@@ -32,7 +32,7 @@ class CommandFactory
      * @param array $data
      * @return \Magento\Backend\Model\Config
      */
-    public function create($commandName, array $data = array())
+    public function create($commandName, array $data = [])
     {
         return $this->_objectManager->create(
             'Magento\Backend\Model\Menu\Builder\Command\\' . ucfirst($commandName),

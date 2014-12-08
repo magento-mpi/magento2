@@ -41,9 +41,9 @@ class ElementTest extends \PHPUnit_Framework_TestCase
      */
     public static function xmlDataProvider()
     {
-        return array(
-            array(array(__DIR__ . '/_files/data.xml', 'Magento\Framework\Simplexml\Element'))
-        );
+        return [
+            [[__DIR__ . '/_files/data.xml', 'Magento\Framework\Simplexml\Element']]
+        ];
     }
 
     public function testAsNiceXmlMixedData()

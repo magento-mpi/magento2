@@ -28,7 +28,7 @@ class Standard implements DriverInterface
      *
      * @var OutputInterface[]
      */
-    protected $_outputs = array();
+    protected $_outputs = [];
 
     /**
      * Constructor
@@ -39,7 +39,7 @@ class Standard implements DriverInterface
     {
         $this->_initOutputs($config);
         $this->_initStat($config);
-        register_shutdown_function(array($this, 'display'));
+        register_shutdown_function([$this, 'display']);
     }
 
     /**
@@ -83,9 +83,9 @@ class Standard implements DriverInterface
             $result = $outputConfig;
         } elseif (is_scalar($outputConfig) && $outputConfig) {
             if (is_numeric($outputConfig)) {
-                $result = array();
+                $result = [];
             } else {
-                $result = array('type' => $outputConfig);
+                $result = ['type' => $outputConfig];
             }
         }
         return $result;
@@ -99,7 +99,7 @@ class Standard implements DriverInterface
      */
     protected function _getOutputConfigs(array $config = null)
     {
-        $result = array();
+        $result = [];
         if (isset($config['outputs'])) {
             $result = $config['outputs'];
         } elseif (isset($config['output'])) {

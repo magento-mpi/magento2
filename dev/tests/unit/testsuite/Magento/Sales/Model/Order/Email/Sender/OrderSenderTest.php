@@ -167,7 +167,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -233,7 +233,7 @@ class OrderSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'payment_html' => 'payment',
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

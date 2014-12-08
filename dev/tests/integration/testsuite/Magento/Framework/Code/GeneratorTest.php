@@ -8,8 +8,8 @@
 namespace Magento\Framework\Code;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\ObjectManager\Code\Generator as DIGenerator;
 use Magento\Framework\Interception\Code\Generator as InterceptionGenerator;
+use Magento\Framework\ObjectManager\Code\Generator as DIGenerator;
 
 require_once __DIR__ . '/GeneratorTest/SourceClassWithNamespace.php';
 require_once __DIR__ . '/GeneratorTest/ParentClassWithNamespace.php';
@@ -53,15 +53,14 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         );
         $this->_generator = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Code\Generator',
-            array(
+            [
                 'ioObject' => $this->_ioObject,
-                'generatedEntities' => array(
+                'generatedEntities' => [
                     DIGenerator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
                     DIGenerator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE =>
-                        '\Magento\Framework\Interception\Code\Generator\Interceptor'
-                )
-            )
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor',
+                ]
+            ]
         );
     }
 

@@ -7,9 +7,9 @@
  */
 namespace Magento\CatalogPermissions\Helper;
 
-use Magento\Framework\App\Helper\Context;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\Customer\Model\Session;
+use Magento\Framework\App\Helper\Context;
 
 /**
  * Base helper
@@ -111,7 +111,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getLandingPageUrl()
     {
-        return $this->_getUrl('', array('_direct' => $this->config->getRestrictedLandingPage()));
+        return $this->_getUrl('', ['_direct' => $this->config->getRestrictedLandingPage()]);
     }
 
     /**

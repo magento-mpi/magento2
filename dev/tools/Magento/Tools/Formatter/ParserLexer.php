@@ -66,12 +66,12 @@ class ParserLexer extends PHPParser_Lexer
      *
      * @var array $simpleOriginalValueTokens
      */
-    protected $simpleOriginalValueTokens = array(
+    protected $simpleOriginalValueTokens = [
         PHPParser_Parser::T_CONSTANT_ENCAPSED_STRING,
         PHPParser_Parser::T_ENCAPSED_AND_WHITESPACE,
         PHPParser_Parser::T_LNUMBER,
-        PHPParser_Parser::T_DNUMBER
-    );
+        PHPParser_Parser::T_DNUMBER,
+    ];
 
     /**
      * This method returns the comment map.
@@ -95,8 +95,8 @@ class ParserLexer extends PHPParser_Lexer
     public function getNextToken(&$value = null, &$startAttributes = null, &$endAttributes = null)
     {
         // Initialize the attribute arrays
-        $startAttributes = array();
-        $endAttributes = array();
+        $startAttributes = [];
+        $endAttributes = [];
         // 0 is the EOF token
         $tokenId = 0;
         // Loop over tokens to process them

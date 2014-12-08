@@ -220,7 +220,7 @@ class Minified implements MergeableInterface
     {
         if ($this->isFileMinified($this->originalAsset->getPath())) {
             $this->fillPropertiesByOriginalAsset();
-        } else if ($this->hasPreminifiedFile($this->originalAsset->getSourceFile())) {
+        } elseif ($this->hasPreminifiedFile($this->originalAsset->getSourceFile())) {
             $this->fillPropertiesByOriginalAssetWithMin();
         } else {
             try {
@@ -309,7 +309,7 @@ class Minified implements MergeableInterface
     {
         $path = $this->originalAsset->getPath();
         $this->context = new \Magento\Framework\View\Asset\File\Context(
-            $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_STATIC)),
+            $this->baseUrl->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_STATIC]),
             DirectoryList::STATIC_VIEW,
             self::CACHE_VIEW_REL . '/minified'
         );

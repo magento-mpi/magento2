@@ -11,7 +11,7 @@ return [
         [
             'id'          => 'root',
             'step'        => 0,
-            'views'       => ['root' => []]
+            'views'       => ['root' => []],
         ],
         [
             'id'          => 'root.license',

@@ -17,15 +17,15 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array(
+        $arguments = [
             'shipmentFactory' => $this->getMock(
                 'Magento\Sales\Model\Order\ShipmentFactory',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
-            )
-        );
+            ),
+        ];
 
         $this->_model = $objectManagerHelper->getObject('Magento\Sales\Model\Order\Shipment\Track', $arguments);
     }
@@ -34,7 +34,7 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     {
         $number = 123;
         $this->assertNull($this->_model->getTrackNumber());
-        $this->_model->addData(array('number' => $number, 'test' => true));
+        $this->_model->addData(['number' => $number, 'test' => true]);
 
         $this->assertTrue($this->_model->getTest());
         $this->assertEquals($number, $this->_model->getTrackNumber());
@@ -43,12 +43,12 @@ class TrackTest extends \PHPUnit_Framework_TestCase
     public function testGetStoreId()
     {
         $storeId = 10;
-        $storeObject = new \Magento\Framework\Object(array('id' => $storeId));
+        $storeObject = new \Magento\Framework\Object(['id' => $storeId]);
 
         $shipmentMock = $this->getMock(
             'Magento\Sales\Model\Order\Shipment',
-            array('getStore', '__wakeup'),
-            array(),
+            ['getStore', '__wakeup'],
+            [],
             '',
             false
         );
@@ -85,6 +85,6 @@ class TrackTest extends \PHPUnit_Framework_TestCase
      */
     public static function isCustomDataProvider()
     {
-        return array(array(true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE), array(false, 'ups'));
+        return [[true, \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE], [false, 'ups']];
     }
 }

@@ -61,7 +61,7 @@ require([
         inventoryAvailabilityField = $('#inventory_stock_availability'),
         currentProductTemplateControl = $('#product-template-suggest-container .action-dropdown > .action-toggle'),
         attributesInput = $("input[name='attributes[]']", variationsContainer),
-        hasVariations = <?php echo ($this->getProduct()->getTypeId() == Configurable::TYPE_CODE || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>,
+        hasVariations = <?php echo($this->getProduct()->getTypeId() == Configurable::TYPE_CODE || $this->getRequest()->has('attributes')) ? 'true' : 'false' ?>,
         isLocked = function (element) {
             return element.is('[data-locked]');
         },

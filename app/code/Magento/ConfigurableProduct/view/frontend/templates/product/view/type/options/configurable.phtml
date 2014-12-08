@@ -13,7 +13,7 @@ $_product    = $this->getProduct();
 $_attributes = $this->decorateArray($this->getAllowAttributes());
 ?>
 <?php if ($_product->isSaleable() && count($_attributes)):?>
-    <?php foreach($_attributes as $_attribute): ?>
+    <?php foreach ($_attributes as $_attribute): ?>
         <div class="field configurable required">
             <label class="label" for="attribute<?php echo $_attribute->getAttributeId() ?>">
                 <span><?php echo $this->escapeHtml($_attribute->getProductAttribute()->getStoreLabel()) ?></span>

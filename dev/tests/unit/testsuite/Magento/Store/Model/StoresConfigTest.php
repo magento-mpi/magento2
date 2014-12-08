@@ -39,8 +39,8 @@ class StoresConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeOne = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->_storeTwo = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->_storeOne = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->_storeTwo = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->_config = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
@@ -78,7 +78,7 @@ class StoresConfigTest extends \PHPUnit_Framework_TestCase
             ->expects($this->once())
             ->method('getStores')
             ->with(true)
-            ->will($this->returnValue(array(0 => $this->_storeOne, 1 => $this->_storeTwo)));
+            ->will($this->returnValue([0 => $this->_storeOne, 1 => $this->_storeTwo]));
 
         $this->_config
             ->expects($this->at(0))
@@ -92,6 +92,6 @@ class StoresConfigTest extends \PHPUnit_Framework_TestCase
             ->with($path, 'store', 'code_1')
             ->will($this->returnValue(1));
 
-        $this->assertEquals(array(0 => 0, 1 => 1), $this->_model->getStoresConfigByPath($path));
+        $this->assertEquals([0 => 0, 1 => 1], $this->_model->getStoresConfigByPath($path));
     }
 }

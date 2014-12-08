@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml additional helper block for sort by
  *

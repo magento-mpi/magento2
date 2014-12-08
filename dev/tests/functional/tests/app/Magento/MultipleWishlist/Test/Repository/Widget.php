@@ -36,16 +36,16 @@ class Widget extends \Magento\Widget\Test\Repository\Widget
                         'layout_handle' => 'catalog_product_view',
                         'for' => 'all',
                         'block' => 'sidebar.main',
-                        'template' => 'widget/search.phtml'
-                    ]
-                ]
+                        'template' => 'widget/search.phtml',
+                    ],
+                ],
             ],
             'parameters' => [
-                'types' => ['email']
+                'types' => ['email'],
             ],
             'theme_id' => 'Magento Blank',
             'code' => 'wishlist_search',
-            'sort_order' => 0
+            'sort_order' => 0,
         ];
     }
 }

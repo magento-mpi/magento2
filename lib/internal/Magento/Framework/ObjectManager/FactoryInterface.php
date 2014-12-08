@@ -18,5 +18,5 @@ interface FactoryInterface
      * @throws \LogicException
      * @throws \BadMethodCallException
      */
-    public function create($requestedType, array $arguments = array());
+    public function create($requestedType, array $arguments = []);
 }

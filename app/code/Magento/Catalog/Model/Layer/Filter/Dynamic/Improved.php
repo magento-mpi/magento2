@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Model\Layer\Filter\Dynamic;
 
-use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Catalog\Model\Layer\Filter\Price\Render;
+use Magento\Catalog\Model\Layer\Resolver;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Search\Dynamic\Algorithm;
 use Magento\Framework\Search\Dynamic\IntervalFactory;
@@ -71,7 +71,7 @@ class Improved implements AlgorithmInterface
         $collection = $this->layer->getProductCollection();
         $appliedInterval = $intervals;
         if ($appliedInterval && $collection->getPricesCount() <= $this->getIntervalDivisionLimit()) {
-            return array();
+            return [];
         }
         $this->algorithm->setStatistics(
             $collection->getMinPrice(),
@@ -82,19 +82,19 @@ class Improved implements AlgorithmInterface
 
         if ($appliedInterval) {
             if ($appliedInterval[0] == $appliedInterval[1] || $appliedInterval[1] === '0') {
-                return array();
+                return [];
             }
             $this->algorithm->setLimits($appliedInterval[0], $appliedInterval[1]);
         }
         $interval = $this->intervalFactory->create();
-        $items = array();
+        $items = [];
         foreach ($this->algorithm->calculateSeparators($interval) as $separator) {
-            $items[] = array(
+            $items[] = [
                 'label' => $this->render->renderRangeLabel($separator['from'], $separator['to']),
                 'value' => ($separator['from'] == 0 ? ''
                         : $separator['from']) . '-' . $separator['to'] . $additionalRequestData,
-                'count' => $separator['count']
-            );
+                'count' => $separator['count'],
+            ];
         }
 
         return $items;

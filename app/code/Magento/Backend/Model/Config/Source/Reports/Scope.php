@@ -22,10 +22,10 @@ class Scope implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'website', 'label' => __('Website')),
-            array('value' => 'group', 'label' => __('Store')),
-            array('value' => 'store', 'label' => __('Store View'))
-        );
+        return [
+            ['value' => 'website', 'label' => __('Website')],
+            ['value' => 'group', 'label' => __('Store')],
+            ['value' => 'store', 'label' => __('Store View')]
+        ];
     }
 }

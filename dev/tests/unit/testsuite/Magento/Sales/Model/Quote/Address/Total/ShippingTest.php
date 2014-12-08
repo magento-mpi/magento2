@@ -27,8 +27,8 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
     {
         $address = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            array('getShippingAmount', 'getShippingDescription', 'addTotal', '__wakeup'),
-            array(),
+            ['getShippingAmount', 'getShippingDescription', 'addTotal', '__wakeup'],
+            [],
             '',
             false
         );
@@ -58,21 +58,21 @@ class ShippingTest extends \PHPUnit_Framework_TestCase
 
     public function fetchDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'shipping_amount' => 1,
                 'shipping_description' => 'Shipping Method',
-                'expected' => array(
+                'expected' => [
                     'code' => 'shipping',
                     'title' => __('Shipping & Handling (%1)', 'Shipping Method'),
-                    'value' => 1
-                )
-            ),
-            array(
+                    'value' => 1,
+                ],
+            ],
+            [
                 'shipping_amount' => 1,
                 'shipping_description' => '',
-                'expected' => array('code' => 'shipping', 'title' => __('Shipping & Handling'), 'value' => 1)
-            )
-        );
+                'expected' => ['code' => 'shipping', 'title' => __('Shipping & Handling'), 'value' => 1]
+            ]
+        ];
     }
 }

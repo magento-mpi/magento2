@@ -23,8 +23,8 @@ class CustomerGroupGrid extends Grid
      */
     protected $filters = [
         'code' => [
-            'selector' => '#customerGroupGrid_filter_type'
-        ]
+            'selector' => '#customerGroupGrid_filter_type',
+        ],
     ];
 
     /**

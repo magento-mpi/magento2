@@ -25,7 +25,7 @@ class Item extends \Magento\Backend\Test\Block\Widget\Form
         foreach ($mapping as $field) {
             $elementType = isset($field['input']) ? $field['input'] : 'input';
             $element = $this->_rootElement->find(
-                $field['selector']. ' ' . $elementType,
+                $field['selector'] . ' ' . $elementType,
                 $field['strategy'],
                 $field['input']
             );
@@ -49,7 +49,7 @@ class Item extends \Magento\Backend\Test\Block\Widget\Form
         foreach ($mapping as $columnName => $locator) {
             $elementType = isset($locator['input']) ? $locator['input'] : 'input';
             $element = $this->_rootElement->find(
-                $locator['selector']. ' ' . $elementType,
+                $locator['selector'] . ' ' . $elementType,
                 $locator['strategy'],
                 $locator['input']
             );

@@ -24,7 +24,7 @@ $args = getopt('t:i::p::');
 $includePath = isset($args['i']) ? $args['i'] : "{$basePath}app/code;{$basePath}lib/internal";
 $pathSeparator = isset($args['p']) ? $args['p'] : ';';
 $targetFile = isset($args['i']) ? $args['i'] : "{$basePath}var/classmap.ser";
-$map = array();
+$map = [];
 
 foreach (array_reverse(explode($pathSeparator, $includePath)) as $path) {
     echo 'Scanning: ' . $path . PHP_EOL;

@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 use Magento\Customer\Model\Session;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
 

@@ -8,11 +8,11 @@
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
-use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteEdit;
+use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Update Product URL Rewrites Entity

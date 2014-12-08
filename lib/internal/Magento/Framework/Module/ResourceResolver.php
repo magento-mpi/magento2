@@ -23,7 +23,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
      *
      * @var array
      */
-    protected $_moduleResources = array();
+    protected $_moduleResources = [];
 
     /**
      * @param Reader $moduleReader
@@ -44,7 +44,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
         if (!isset($this->_moduleResources[$moduleName])) {
             // Process sub-directories within modules sql directory
             $moduleSqlDir = $this->_moduleReader->getModuleDir('sql', $moduleName);
-            $sqlResources = array();
+            $sqlResources = [];
             $resourceDirs = glob($moduleSqlDir . '/*', GLOB_ONLYDIR);
             if (!empty($resourceDirs)) {
                 foreach ($resourceDirs as $resourceDir) {
@@ -53,7 +53,7 @@ class ResourceResolver implements \Magento\Framework\Module\ResourceResolverInte
             }
             $moduleDataDir = $this->_moduleReader->getModuleDir('data', $moduleName);
             // Process sub-directories within modules data directory
-            $dataResources = array();
+            $dataResources = [];
             $resourceDirs = glob($moduleDataDir . '/*', GLOB_ONLYDIR);
             if (!empty($resourceDirs)) {
                 foreach ($resourceDirs as $resourceDir) {

@@ -9,8 +9,8 @@
 namespace Magento\Newsletter\Test\TestCase;
 
 use Magento\Newsletter\Test\Fixture\Template;
-use Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex;
 use Magento\Newsletter\Test\Page\Adminhtml\TemplateEdit;
+use Magento\Newsletter\Test\Page\Adminhtml\TemplateIndex;
 use Mtf\TestCase\Injectable;
 
 /**

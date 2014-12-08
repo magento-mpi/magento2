@@ -8,9 +8,8 @@
 
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class PageForm

@@ -28,7 +28,7 @@ class ValidatorException extends \Magento\Framework\Exception\InputException
         $message = self::DEFAULT_MESSAGE,
         $params = [],
         \Exception $cause = null,
-        array $messages = array()
+        array $messages = []
     ) {
         if (!empty($messages)) {
             $this->_messages = $messages;

@@ -19,12 +19,12 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         /** @var Group $group */
         $group = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Config\Source\Group');
         $this->assertEquals(
-            array(
-                array('value' => '', 'label' => '-- Please Select --'),
-                array('value' => 1, 'label' => 'General'),
-                array('value' => 2, 'label' => 'Wholesale'),
-                array('value' => 3, 'label' => 'Retailer')
-            ),
+            [
+                ['value' => '', 'label' => '-- Please Select --'],
+                ['value' => 1, 'label' => 'General'],
+                ['value' => 2, 'label' => 'Wholesale'],
+                ['value' => 3, 'label' => 'Retailer'],
+            ],
             $group->toOptionArray()
         );
     }

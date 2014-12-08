@@ -21,16 +21,16 @@ class Toolbar extends Template
         $actions = [
             'bold' => [
                 'action' => 'bold',
-                'label' => 'Bold'
+                'label' => 'Bold',
             ],
             'italic' => [
                 'action' => 'italic',
-                'label' => 'Italic'
+                'label' => 'Italic',
             ],
             'insertUnorderedList' => [
                 'action' => 'insertUnorderedList',
-                'label' => 'Insert Unordered List'
-            ]
+                'label' => 'Insert Unordered List',
+            ],
         ];
 
         return $actions;

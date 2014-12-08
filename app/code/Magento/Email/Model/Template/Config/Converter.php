@@ -16,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
+        $result = [];
         /** @var \DOMNode $templateNode */
         foreach ($source->documentElement->childNodes as $templateNode) {
             if ($templateNode->nodeType != XML_ELEMENT_NODE) {
@@ -27,12 +27,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $templateFile = $templateNode->attributes->getNamedItem('file')->nodeValue;
             $templateType = $templateNode->attributes->getNamedItem('type')->nodeValue;
             $templateModule = $templateNode->attributes->getNamedItem('module')->nodeValue;
-            $result[$templateId] = array(
+            $result[$templateId] = [
                 'label' => $templateLabel,
                 'file' => $templateFile,
                 'type' => $templateType,
-                'module' => $templateModule
-            );
+                'module' => $templateModule,
+            ];
         }
         return $result;
     }

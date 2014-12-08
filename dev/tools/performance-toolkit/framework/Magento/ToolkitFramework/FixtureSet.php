@@ -52,7 +52,7 @@ class FixtureSet
      *
      * @return array
      */
-    public function getFixtures($default = array())
+    public function getFixtures($default = [])
     {
         return isset($this->_fixtures['fixtures']) ? $this->_fixtures['fixtures'] : $default;
     }

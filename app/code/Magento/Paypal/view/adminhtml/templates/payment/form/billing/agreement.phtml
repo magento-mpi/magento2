@@ -7,7 +7,7 @@
  */
 ?>
 <?php /* @var $this \Magento\Paypal\Block\Payment\Form\Billing\Agreement */?>
-<?php $_code=$this->getMethodCode() ?>
+<?php $_code = $this->getMethodCode() ?>
 <ul class="form-list" id="payment_form_<?php echo $_code ?>" style="display:none;">
     <li>
         <div class="input-box">
@@ -15,7 +15,7 @@
             <select id="<?php echo $_code ?>_ba_agreement_id" name="payment[<?php echo $this->getTransportName(); ?>]" class="required-entry">
                 <option value=""><?php echo __('-- Please Select Billing Agreement--') ?></option>
             <?php foreach ($this->getBillingAgreements() as $id => $referenceId): ?>
-                <option value="<?php echo $id ?>"<?php echo ($id == $this->getInfoData($this->getTransportName())) ? ' selected="selected"' : ''?>><?php echo $this->escapeHtml($referenceId) ?></option>
+                <option value="<?php echo $id ?>"<?php echo($id == $this->getInfoData($this->getTransportName())) ? ' selected="selected"' : ''?>><?php echo $this->escapeHtml($referenceId) ?></option>
             <?php endforeach ?>
             </select>
         </div>

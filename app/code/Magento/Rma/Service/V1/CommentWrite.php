@@ -8,9 +8,9 @@
 
 namespace Magento\Rma\Service\V1;
 
-use Magento\Rma\Service\V1\Data\RmaStatusHistory;
-use Magento\Rma\Model\RmaRepository;
 use Magento\Rma\Model\Rma\PermissionChecker;
+use Magento\Rma\Model\RmaRepository;
+use Magento\Rma\Service\V1\Data\RmaStatusHistory;
 
 class CommentWrite implements CommentWriteInterface
 {

@@ -48,7 +48,7 @@ class Blocks extends \Magento\Widget\Controller\Adminhtml\Widget\Instance
             'Magento\Framework\App\State'
         )->emulateAreaCode(
             'frontend',
-            array($this, 'renderPageContainers')
+            [$this, 'renderPageContainers']
         );
     }
 }

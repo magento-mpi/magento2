@@ -9,19 +9,19 @@
 
 namespace Magento\Tax\Model\TaxClass;
 
-use Magento\Tax\Api\Data\TaxClassInterface;
-use Magento\Framework\Exception\InputException;
-use Magento\Framework\Model\Exception as ModelException;
-use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Model\Exception as ModelException;
+use Magento\Tax\Api\Data\TaxClassInterface;
+use Magento\Tax\Api\TaxClassManagementInterface;
 use Magento\Tax\Model\ClassModelRegistry;
 use Magento\Tax\Model\Resource\TaxClass\Collection as TaxClassCollection;
 use Magento\Tax\Model\Resource\TaxClass\CollectionFactory as TaxClassCollectionFactory;
-use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Api\SortOrder;
-use Magento\Tax\Api\TaxClassManagementInterface;
 
 class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
 {
@@ -60,7 +60,6 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
      * @var \Magento\Tax\Model\Resource\TaxClass
      */
     protected $taxClassResource;
-
 
     /**
      * @param SearchCriteriaBuilder $searchCriteriaBuilder
@@ -168,7 +167,7 @@ class Repository implements \Magento\Tax\Api\TaxClassRepositoryInterface
         $classType = $taxClass->getClassType();
         if (!\Zend_Validate::is(trim($classType), 'NotEmpty')) {
             $exception->addError(InputException::REQUIRED_FIELD, ['fieldName' => TaxClassInterface::KEY_TYPE]);
-        } else if ($classType !== TaxClassManagementInterface::TYPE_CUSTOMER
+        } elseif ($classType !== TaxClassManagementInterface::TYPE_CUSTOMER
             && $classType !== TaxClassManagementInterface::TYPE_PRODUCT
         ) {
             $exception->addError(

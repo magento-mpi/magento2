@@ -24,7 +24,7 @@
               data-mage-init='{"validation": {},"giftCard": {
                 "giftCardCodeSelector": "#giftcard-code",
                 "checkStatus": ".action.check",
-                "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  array('_secure' => true)) ?>",
+                "giftCardStatusUrl": "<?php echo $this->getUrl('magento_giftcardaccount/cart/quickCheck',  ['_secure' => true]) ?>",
                 "giftCardStatusId": "#giftcard-balance-lookup",
                 "giftCardSpinnerId": "#gc-please-wait",
                 "messages": ".page.messages .messages"

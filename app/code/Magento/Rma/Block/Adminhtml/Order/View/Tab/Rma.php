@@ -33,7 +33,7 @@ class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Back
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context, $backendHelper, $collectionFactory, $rmaFactory, $data);
@@ -103,7 +103,7 @@ class Rma extends \Magento\Rma\Block\Adminhtml\Rma\Grid implements \Magento\Back
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/rma/rmaOrder', array('_current' => true));
+        return $this->getUrl('adminhtml/rma/rmaOrder', ['_current' => true]);
     }
 
     /**

@@ -8,8 +8,8 @@
 namespace Magento\Backend\Controller\Adminhtml\System;
 
 use Magento\Backend\App\Action;
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Store controller

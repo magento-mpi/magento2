@@ -28,7 +28,7 @@ class Success extends \Magento\Checkout\Controller\Onepage
         $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
             'checkout_onepage_controller_success_action',
-            array('order_ids' => array($session->getLastOrderId()))
+            ['order_ids' => [$session->getLastOrderId()]]
         );
         $this->_view->renderLayout();
     }

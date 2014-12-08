@@ -41,13 +41,13 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock = $this->getMock('\Magento\Framework\ObjectManagerInterface');
         $this->attributeListMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Search\FilterableAttributeList',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->searchHelperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
-        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', array(), array(), '', false);
+        $this->searchHelperMock = $this->getMock('\Magento\Solr\Helper\Data', [], [], '', false);
+        $this->layerMock = $this->getMock('\Magento\Catalog\Model\Layer', [], [], '', false);
 
         $this->model = new FilterList($this->objectManagerMock, $this->attributeListMock, $this->searchHelperMock);
     }
@@ -64,9 +64,9 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
         $this->attributeListMock->expects($this->once())
             ->method('getList')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
-        $this->assertEquals(array('filter'), $this->model->getFilters($this->layerMock));
+        $this->assertEquals(['filter'], $this->model->getFilters($this->layerMock));
     }
 
     /**
@@ -76,8 +76,8 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
     {
         $filterMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Category\Filter\Category',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -91,7 +91,7 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
 
         $this->attributeListMock->expects($this->once())
             ->method('getList')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->searchHelperMock->expects($this->once())
             ->method('isThirdPartSearchEngine')
@@ -102,6 +102,6 @@ class FilterListTest extends \PHPUnit_Framework_TestCase
             ->with(false)
             ->will($this->returnValue(true));
 
-        $this->assertEquals(array($filterMock), $this->model->getFilters($this->layerMock));
+        $this->assertEquals([$filterMock], $this->model->getFilters($this->layerMock));
     }
 }

@@ -8,11 +8,10 @@
 
 namespace Magento\Catalog\Test\TestCase\ProductAttribute;
 
-use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateProductAttributeEntity

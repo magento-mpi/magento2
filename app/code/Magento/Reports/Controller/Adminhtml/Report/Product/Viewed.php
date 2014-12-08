@@ -8,7 +8,7 @@
  */
 namespace Magento\Reports\Controller\Adminhtml\Report\Product;
 
-use \Magento\Reports\Model\Flag;
+use Magento\Reports\Model\Flag;
 
 class Viewed extends \Magento\Reports\Controller\Adminhtml\Report\Product
 {
@@ -43,7 +43,7 @@ class Viewed extends \Magento\Reports\Controller\Adminhtml\Report\Product
             $gridBlock = $this->_view->getLayout()->getBlock('adminhtml_product_viewed.grid');
             $filterFormBlock = $this->_view->getLayout()->getBlock('grid.filter.form');
 
-            $this->_initReportAction(array($gridBlock, $filterFormBlock));
+            $this->_initReportAction([$gridBlock, $filterFormBlock]);
 
             $this->_view->renderLayout();
         } catch (\Magento\Framework\Model\Exception $e) {

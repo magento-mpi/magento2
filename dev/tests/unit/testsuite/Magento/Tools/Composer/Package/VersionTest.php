@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\Composer\Package;
 
-use \Magento\Tools\Composer\Package\Version;
+use Magento\Tools\Composer\Package\Version;
 
 class VersionTest extends \PHPUnit_Framework_TestCase
 {

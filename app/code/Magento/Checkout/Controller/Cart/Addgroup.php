@@ -15,7 +15,7 @@ class Addgroup extends \Magento\Checkout\Controller\Cart
      */
     public function execute()
     {
-        $orderItemIds = $this->getRequest()->getParam('order_items', array());
+        $orderItemIds = $this->getRequest()->getParam('order_items', []);
         if (is_array($orderItemIds)) {
             $itemsCollection = $this->_objectManager->create(
                 'Magento\Sales\Model\Order\Item'

@@ -57,14 +57,14 @@ class Logging
         $emails = $this->request->getParam('emails', '');
         if ($emails) {
             $processor->addEventChanges(
-                $processor->createChanges('share', array(), array('emails' => $emails))
+                $processor->createChanges('share', [], ['emails' => $emails])
             );
         }
 
         $message = $this->request->getParam('message', '');
         if ($message) {
             $processor->addEventChanges(
-                $processor->createChanges('share', array(), array('message' => $message))
+                $processor->createChanges('share', [], ['message' => $message])
             );
         }
 

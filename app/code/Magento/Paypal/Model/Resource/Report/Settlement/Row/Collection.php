@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Resource collection for report rows
  *
@@ -38,9 +37,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         parent::_initSelect();
         $this->getSelect()->join(
-            array('report' => $this->getTable('paypal_settlement_report')),
+            ['report' => $this->getTable('paypal_settlement_report')],
             'report.report_id = main_table.report_id',
-            array('report.account_id', 'report.report_date')
+            ['report.account_id', 'report.report_date']
         );
         return $this;
     }

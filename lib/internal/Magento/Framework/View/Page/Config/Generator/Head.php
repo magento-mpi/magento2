@@ -35,7 +35,7 @@ class Head implements Layout\GeneratorInterface
      */
     protected $remoteAssetTypes = [
         self::SRC_TYPE_CONTROLLER => self::SRC_TYPE_CONTROLLER,
-        self::SRC_TYPE_URL => self::SRC_TYPE_URL
+        self::SRC_TYPE_URL => self::SRC_TYPE_URL,
     ];
 
     /**
@@ -50,7 +50,7 @@ class Head implements Layout\GeneratorInterface
      */
     protected $serviceAssetProperties = [
         'src',
-        'src_type'
+        'src_type',
     ];
 
     /**

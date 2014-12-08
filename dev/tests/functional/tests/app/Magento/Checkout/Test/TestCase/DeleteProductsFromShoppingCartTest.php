@@ -5,17 +5,16 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Checkout\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
-use Mtf\TestCase\Injectable;
-use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Client\Browser;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\ObjectManager;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class DeleteProductsFromShoppingCartTest

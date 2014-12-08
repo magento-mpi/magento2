@@ -28,7 +28,7 @@ class Attributes
                 $fieldset->addField(
                     'url_key',
                     'hidden',
-                    array('name' => 'url_key', 'value' => $subject->getCategory()->getUrlKey())
+                    ['name' => 'url_key', 'value' => $subject->getCategory()->getUrlKey()]
                 );
             } else {
                 $field->setRenderer(

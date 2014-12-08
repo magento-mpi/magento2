@@ -64,7 +64,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonDecoder = $jsonDecoder;
         $this->_jsonEncoder = $jsonEncoder;
@@ -102,7 +102,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
     public function getNodes()
     {
         if (is_null($this->_nodes)) {
-            $this->_nodes = array();
+            $this->_nodes = [];
             try {
                 $data = $this->_jsonDecoder->decode($this->getPage()->getNodesData());
             } catch (\Zend_Json_Exception $e) {
@@ -125,19 +125,19 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
                     } else {
                         $pageExists = false;
                     }
-                    $node = array(
+                    $node = [
                         'node_id' => $v['node_id'],
                         'parent_node_id' => $v['parent_node_id'],
                         'label' => $v['label'],
                         'page_exists' => $pageExists,
                         'page_id' => $v['page_id'],
-                        'current_page' => (bool)$v['current_page']
-                    );
+                        'current_page' => (bool)$v['current_page'],
+                    ];
                     $item = $collection->getItemById($v['node_id']);
                     if ($item) {
                         $node['assigned_to_stores'] = $this->getPageStoreIds($item);
                     } else {
-                        $node['assigned_to_stores'] = array();
+                        $node['assigned_to_stores'] = [];
                     }
 
                     $this->_nodes[] = $node;
@@ -148,15 +148,15 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
                         continue;
                     }
                     /* @var $item \Magento\VersionsCms\Model\Hierarchy\Node */
-                    $node = array(
+                    $node = [
                         'node_id' => $item->getId(),
                         'parent_node_id' => $item->getParentNodeId(),
                         'label' => $item->getLabel(),
                         'page_exists' => (bool)$item->getPageExists(),
                         'page_id' => $item->getPageId(),
                         'current_page' => (bool)$item->getCurrentPage(),
-                        'assigned_to_stores' => $this->getPageStoreIds($item)
-                    );
+                        'assigned_to_stores' => $this->getPageStoreIds($item),
+                    ];
                     $this->_nodes[] = $node;
                 }
             }
@@ -171,7 +171,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
     public function getPageStoreIds($node)
     {
         if (!$node->getPageId() || !$node->getPageInStores()) {
-            return array();
+            return [];
         }
         return explode(',', $node->getPageInStores());
     }
@@ -201,7 +201,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
     public function getSelectedNodeIds()
     {
         if (!$this->getPage()->hasData('node_ids')) {
-            $ids = array();
+            $ids = [];
 
             foreach ($this->getNodes() as $node) {
                 if (isset($node['page_exists']) && $node['page_exists']) {
@@ -221,7 +221,7 @@ class Hierarchy extends \Magento\Backend\Block\Template implements \Magento\Back
      */
     public function getCurrentPageJson()
     {
-        $data = array('label' => $this->getPage()->getTitle(), 'id' => $this->getPage()->getId());
+        $data = ['label' => $this->getPage()->getTitle(), 'id' => $this->getPage()->getId()];
 
         return $this->_jsonEncoder->encode($data);
     }

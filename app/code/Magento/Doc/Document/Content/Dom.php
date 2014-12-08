@@ -82,7 +82,7 @@ class Dom implements DomInterface
      */
     public function __construct(
         $xml,
-        array $idAttributes = array(),
+        array $idAttributes = [],
         $typeAttributeName = null,
         $schemaFile = null,
         $errorFormat = self::ERROR_FORMAT_DEFAULT
@@ -159,7 +159,7 @@ class Dom implements DomInterface
                 foreach ($node->childNodes as $childNode) {
                     if ($childNode instanceof \DOMElement) {
                         $this->_mergeNode($childNode, $path);
-                    } else if ($childNode instanceof \DOMText) {
+                    } elseif ($childNode instanceof \DOMText) {
                         $newNode = $this->_dom->importNode($childNode);
                         $matchedNode->appendChild($newNode);
                     }
@@ -279,9 +279,9 @@ class Dom implements DomInterface
         $node = null;
         if ($matchedNodes->length > 1) {
             $node = null;
-        } else if ($matchedNodes->length > 1) {
+        } elseif ($matchedNodes->length > 1) {
             throw new \Magento\Framework\Exception("More than one node matching the query: {$nodePath}");
-        } else if ($matchedNodes->length == 1) {
+        } elseif ($matchedNodes->length == 1) {
             $node = $matchedNodes->item(0);
         }
         return $node;
@@ -304,7 +304,7 @@ class Dom implements DomInterface
         libxml_use_internal_errors(true);
         try {
             $result = $dom->schemaValidate($schemaFileName);
-            $errors = array();
+            $errors = [];
             if (!$result) {
                 $validationErrors = libxml_get_errors();
                 if (count($validationErrors)) {
@@ -382,7 +382,7 @@ class Dom implements DomInterface
      * @param array &$errors
      * @return bool
      */
-    public function validate($schemaFileName, &$errors = array())
+    public function validate($schemaFileName, &$errors = [])
     {
         $errors = self::validateDomDocument($this->_dom, $schemaFileName, $this->_errorFormat);
         return !count($errors);

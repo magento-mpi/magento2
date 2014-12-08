@@ -23,12 +23,12 @@ class Frontend
     /**
      * @var string[]
      */
-    protected $_log = array();
+    protected $_log = [];
 
     /**
      * @var array
      */
-    protected $_out = array();
+    protected $_out = [];
 
     /**
      * Enter description here...
@@ -84,7 +84,7 @@ class Frontend
      */
     public function outputData($data, $command = '_default')
     {
-        $this->_out[] = array('output' => $data, 'command' => $command);
+        $this->_out[] = ['output' => $data, 'command' => $command];
 
         if ('stdout' === $this->_logStream) {
             if (is_string($data)) {
@@ -111,8 +111,8 @@ class Frontend
      */
     public function clear()
     {
-        $this->_log = array();
-        $this->_out = array();
+        $this->_log = [];
+        $this->_out = [];
     }
 
     /**

@@ -38,7 +38,7 @@ class Factory
      * @return \Magento\Framework\Filter\Template
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $filter = $this->_objectManager->create($className, $data);
 

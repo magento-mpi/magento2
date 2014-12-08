@@ -65,7 +65,7 @@ class Products extends AbstractAccordion
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonDecoder = $jsonDecoder;
         parent::__construct($context, $backendHelper, $collectionFactory, $coreRegistry, $data);
@@ -139,23 +139,23 @@ class Products extends AbstractAccordion
     {
         $this->addColumn(
             'entity_id',
-            array('header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id')
+            ['header' => __('ID'), 'sortable' => true, 'width' => '60', 'index' => 'entity_id']
         );
 
         $this->addColumn(
             'name',
-            array(
+            [
                 'header' => __('Product'),
                 'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Product',
                 'index' => 'name'
-            )
+            ]
         );
 
-        $this->addColumn('sku', array('header' => __('SKU'), 'width' => '80', 'index' => 'sku'));
+        $this->addColumn('sku', ['header' => __('SKU'), 'width' => '80', 'index' => 'sku']);
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'type' => 'currency',
                 'column_css_class' => 'price',
@@ -163,7 +163,7 @@ class Products extends AbstractAccordion
                 'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getCurrentCurrencyCode()),
                 'index' => 'price',
                 'renderer' => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price'
-            )
+            ]
         );
 
         $this->_addControlColumns();
@@ -198,9 +198,9 @@ class Products extends AbstractAccordion
                 $productIds = 0;
             }
             if ($column->getFilter()->getValue()) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('in' => $productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', ['in' => $productIds]);
             } elseif ($productIds) {
-                $this->getCollection()->addFieldToFilter('entity_id', array('nin' => $productIds));
+                $this->getCollection()->addFieldToFilter('entity_id', ['nin' => $productIds]);
             }
         } else {
             parent::_addColumnFilterToCollection($column);
@@ -231,7 +231,7 @@ class Products extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/products', array('_current' => true));
+        return $this->getUrl('checkout/*/products', ['_current' => true]);
     }
 
     /**

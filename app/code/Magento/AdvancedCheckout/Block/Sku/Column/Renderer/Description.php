@@ -20,7 +20,7 @@ class Description extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
         $descriptionBlock = $this->getLayout()->createBlock(
             'Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\Grid\Description',
             '',
-            array('data' => array('product' => $row->getProduct(), 'item' => $row))
+            ['data' => ['product' => $row->getProduct(), 'item' => $row]]
         );
 
         return $descriptionBlock->toHtml();

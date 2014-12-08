@@ -11,11 +11,11 @@
 <?php $_htmlClass   = $this->getElement()->getClass() ?>
 <?php $_htmlName    = $this->getElement()->getName() ?>
 <?php $_readonly    = $this->getElement()->getReadonly() ?>
-<?php $_multiWebsite= $this->isMultiWebsites(); ?>
+<?php $_multiWebsite = $this->isMultiWebsites(); ?>
 <div id="attribute-<?php echo $_htmlId?>-container" data-attribute-code="<?php echo $_htmlId?>" class="field"
      data-apply-to="<?php echo $this->escapeHtml(
          $this->helper('Magento\Core\Helper\Data')->jsonEncode(
-             $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : array()
+             $this->getElement()->hasEntityAttribute() ? $this->getElement()->getEntityAttribute()->getApplyTo() : []
          )
      )?>">
     <label class="label"><span><?php echo $this->getElement()->getLabel() ?></span></label>

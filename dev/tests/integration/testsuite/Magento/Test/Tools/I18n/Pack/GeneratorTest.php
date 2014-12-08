@@ -53,12 +53,12 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_dictionaryPath = $this->_testDir . '/source.csv';
         $this->_packPath = $this->_testDir . '/pack';
         $this->_locale = 'de_DE';
-        $this->_expectedFiles = array(
+        $this->_expectedFiles = [
             "/app/code/Magento/FirstModule/i18n/{$this->_locale}.csv",
             "/app/code/Magento/SecondModule/i18n/{$this->_locale}.csv",
             "/app/design/adminhtml/default/i18n/{$this->_locale}.csv",
             "/lib/web/i18n/{$this->_locale}.csv",
-        );
+        ];
 
         $this->_generator = ServiceLocator::getPackGenerator();
 

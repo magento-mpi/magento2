@@ -20,7 +20,7 @@ $options = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
 $option = $options->setAttributeFilter($attribute->getId())->getFirstItem();
 
 $requestInfo = new \Magento\Framework\Object(
-    array('qty' => 1, 'super_attribute' => array($attribute->getId() => $option->getId()))
+    ['qty' => 1, 'super_attribute' => [$attribute->getId() => $option->getId()]]
 );
 
 /** @var $cart \Magento\Checkout\Model\Cart */

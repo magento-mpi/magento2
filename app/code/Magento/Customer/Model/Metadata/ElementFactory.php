@@ -61,12 +61,12 @@ class ElementFactory
         $isAjax = false
     ) {
         $dataModelClass = $attribute->getDataModel();
-        $params = array(
+        $params = [
             'entityTypeCode' => $entityTypeCode,
             'value' => is_null($value) ? false : $value,
             'isAjax' => $isAjax,
-            'attribute' => $attribute
-        );
+            'attribute' => $attribute,
+        ];
         /** TODO fix when Validation is implemented MAGETWO-17341 */
         if ($dataModelClass == 'Magento\Customer\Model\Attribute\Data\Postcode') {
             $dataModelClass = 'Magento\Customer\Model\Metadata\Form\Postcode';

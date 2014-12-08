@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\TestFramework\Helper\Bootstrap;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config;
 
 class CategoryLinkRepositoryTest extends WebapiAbstract
@@ -34,13 +34,13 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_SUFFIX
                     . '/' . $this->categoryId . '/' . self::RESOURCE_PATH_PREFIX,
-                'httpMethod' => Config::HTTP_METHOD_POST
+                'httpMethod' => Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_WRITE_NAME . 'Save',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['productLink' => $productLink]);
         $this->assertTrue($result);
@@ -53,7 +53,7 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
             [
                 ['sku' => 'simple_with_cross', 'position' => 7, 'category_id' => $this->categoryId],
                 334,
-                7
+                7,
             ],
             [
                 ['sku' => 'simple_with_cross', 'category_id' => $this->categoryId],
@@ -76,13 +76,13 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_SUFFIX
                     . '/' . $this->categoryId . '/' . self::RESOURCE_PATH_PREFIX,
-                'httpMethod' => Config::HTTP_METHOD_PUT
+                'httpMethod' => Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_WRITE_NAME . 'Save',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['productLink' => $productLink]);
         $this->assertTrue($result);
@@ -93,12 +93,12 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
     {
         return [
             [
-                ['sku' => 'simple_with_cross', 'position' => 7, 'categoryId' => $this->categoryId, ],
+                ['sku' => 'simple_with_cross', 'position' => 7, 'categoryId' => $this->categoryId],
                 333,
-                4
+                4,
             ],
             [
-                ['sku' => 'simple_with_cross', 'categoryId' => $this->categoryId, ],
+                ['sku' => 'simple_with_cross', 'categoryId' => $this->categoryId],
                 333,
                 0
             ],
@@ -114,13 +114,13 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH_SUFFIX . '/' . $this->categoryId .
                     '/' . self::RESOURCE_PATH_PREFIX . '/simple',
-                'httpMethod' => Config::HTTP_METHOD_DELETE
+                'httpMethod' => Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_WRITE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_WRITE_NAME . 'DeleteByIds'
-            ]
+                'operation' => self::SERVICE_WRITE_NAME . 'DeleteByIds',
+            ],
         ];
         $result = $this->_webApiCall(
             $serviceInfo,

@@ -8,9 +8,9 @@
 
 namespace Magento\Review\Test\Fixture\ReviewInjectable;
 
+use Magento\Review\Test\Fixture\Rating;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Review\Test\Fixture\Rating;
 
 /**
  * Class Ratings
@@ -65,7 +65,7 @@ class Ratings implements FixtureInterface
                 $this->ratings[] = $fixtureRating;
                 $this->data[] = [
                     'title' => $fixtureRating->getRatingCode(),
-                    'rating' => $rating['rating']
+                    'rating' => $rating['rating'],
                 ];
             }
         }

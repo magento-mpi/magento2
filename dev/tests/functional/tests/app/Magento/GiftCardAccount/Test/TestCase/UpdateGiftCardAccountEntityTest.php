@@ -10,11 +10,11 @@ namespace Magento\GiftCardAccount\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
+use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
-use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for UpdateGiftCardAccountEntity

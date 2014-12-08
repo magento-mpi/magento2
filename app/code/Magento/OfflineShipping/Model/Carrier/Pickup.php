@@ -44,7 +44,7 @@ class Pickup extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
@@ -90,6 +90,6 @@ class Pickup extends \Magento\Shipping\Model\Carrier\AbstractCarrier implements
      */
     public function getAllowedMethods()
     {
-        return array('pickup' => __('Store Pickup'));
+        return ['pickup' => __('Store Pickup')];
     }
 }

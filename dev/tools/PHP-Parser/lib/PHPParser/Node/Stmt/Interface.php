@@ -7,11 +7,11 @@
  */
 class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
 {
-    protected static $specialNames = array(
+    protected static $specialNames = [
         'self'   => true,
         'parent' => true,
         'static' => true,
-    );
+    ];
 
     /**
      * Constructs a class node.
@@ -22,12 +22,13 @@ class PHPParser_Node_Stmt_Interface extends PHPParser_Node_Stmt
      *                           'stmts'   => array(): Statements
      * @param array  $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = [], array $attributes = [])
+    {
         parent::__construct(
-            $subNodes + array(
-                'extends' => array(),
-                'stmts'   => array(),
-            ),
+            $subNodes + [
+                'extends' => [],
+                'stmts'   => [],
+            ],
             $attributes
         );
         $this->name = $name;

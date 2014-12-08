@@ -20,7 +20,7 @@
                 </span>
             </span>
             <ul class="wishlist-select-items" data-target="dropdown" id="wishlists-select">
-                <?php foreach($this->getWishlists() as $wishlist): ?>
+                <?php foreach ($this->getWishlists() as $wishlist): ?>
                     <?php if ($wishlist->getId() == $this->getCurrentWishlist()->getId()): ?>
                         <li class="current item"><span title="<?php echo $this->escapeHtml($wishlist->getName());?>"><?php echo $this->escapeHtml($wishlist->getName());?></span></li>
                     <?php else: ?>
@@ -54,7 +54,7 @@
             </span>
         </div>
 
-        <?php if($this->getCurrentWishlist()->getItemsCount()): ?>
+        <?php if ($this->getCurrentWishlist()->getItemsCount()): ?>
         <div class="wishlist-toolbar">
             <div class="wishlist-toolbar-select">
                 <input type="checkbox" name="" id="wishlist-select-all" data-role="select-all" />

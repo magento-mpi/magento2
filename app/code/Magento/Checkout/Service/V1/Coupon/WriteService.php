@@ -7,10 +7,10 @@
  */
 namespace Magento\Checkout\Service\V1\Coupon;
 
-use \Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
+use Magento\Checkout\Service\V1\Data\Cart\CouponBuilder as CouponBuilder;
 use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Coupon write service object.

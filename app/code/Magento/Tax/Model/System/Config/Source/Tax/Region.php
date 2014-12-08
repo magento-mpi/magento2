@@ -39,9 +39,9 @@ class Region implements \Magento\Framework\Option\ArrayInterface
             unset($options[0]);
         } else {
             if ($options) {
-                $options[0] = array('value' => '0', 'label' => '*');
+                $options[0] = ['value' => '0', 'label' => '*'];
             } else {
-                $options = array(array('value' => '0', 'label' => '*'));
+                $options = [['value' => '0', 'label' => '*']];
             }
         }
 

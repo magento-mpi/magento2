@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Source for attribute field.

@@ -22,7 +22,7 @@ class AddPrivateSalesLayoutUpdate
      */
     protected $allowedTypes = [
         \Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER,
-        \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN
+        \Magento\WebsiteRestriction\Model\Mode::ALLOW_LOGIN,
     ];
 
     /**

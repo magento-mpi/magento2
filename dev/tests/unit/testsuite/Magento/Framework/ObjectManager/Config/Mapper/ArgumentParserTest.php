@@ -15,18 +15,18 @@ class ArgumentParserTest extends \PHPUnit_Framework_TestCase
         $document->load(__DIR__ . '/_files/argument_parser.xml');
         $parser = new ArgumentParser();
         $actual = $parser->parse($document->getElementsByTagName('argument')->item(0));
-        $expected = array(
-            'item' => array(
-                'one' => array('name' => 'one', 'value' => 'value1'),
-                'nested' => array(
+        $expected = [
+            'item' => [
+                'one' => ['name' => 'one', 'value' => 'value1'],
+                'nested' => [
                     'name' => 'nested',
-                    'item' => array(
-                        'two' => array('name' => 'two', 'value' => 'value2'),
-                        'three' => array('name' => 'three', 'value' => 'value3')
-                    )
-                )
-            )
-        );
+                    'item' => [
+                        'two' => ['name' => 'two', 'value' => 'value2'],
+                        'three' => ['name' => 'three', 'value' => 'value3'],
+                    ],
+                ],
+            ],
+        ];
         $this->assertSame($expected, $actual);
     }
 }

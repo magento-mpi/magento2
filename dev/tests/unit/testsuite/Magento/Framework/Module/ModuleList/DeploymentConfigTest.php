@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Module\ModuleList;
 
-
 class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetKey()

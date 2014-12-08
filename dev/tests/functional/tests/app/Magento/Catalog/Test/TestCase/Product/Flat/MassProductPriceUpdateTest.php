@@ -64,7 +64,7 @@ class MassProductPriceUpdateTest extends Functional
                 [
                     'sku' => $product->getSku(),
                     'price_from' => $updateProductPrice->getData('fields/price/value'),
-                    'price_to' => $updateProductPrice->getData('fields/price/value')
+                    'price_to' => $updateProductPrice->getData('fields/price/value'),
                 ]
             )
         );

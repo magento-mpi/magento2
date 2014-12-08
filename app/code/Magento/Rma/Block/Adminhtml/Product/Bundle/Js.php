@@ -24,7 +24,7 @@ class Js extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -49,7 +49,7 @@ class Js extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/loadNewAttributes',
-            array('order_id' => $this->_coreRegistry->registry('current_order')->getId())
+            ['order_id' => $this->_coreRegistry->registry('current_order')->getId()]
         );
     }
 

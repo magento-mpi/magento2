@@ -26,10 +26,10 @@ class MviewState
      *
      * @var int[]
      */
-    protected $viewIds = array(
+    protected $viewIds = [
         \Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID,
-        \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID
-    );
+        \Magento\CatalogPermissions\Model\Indexer\Product::INDEXER_ID,
+    ];
 
     /**
      * @param \Magento\Framework\Mview\View\StateInterface $state

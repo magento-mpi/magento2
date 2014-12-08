@@ -24,21 +24,21 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
      *
      * @var array
      */
-    protected $_defaultValues = array();
+    protected $_defaultValues = [];
 
     /**
      * This array contains codes of attributes which have value in current store
      *
      * @var array
      */
-    protected $_storeValuesFlags = array();
+    protected $_storeValuesFlags = [];
 
     /**
      * Locked attributes
      *
      * @var array
      */
-    protected $_lockedAttributes = array();
+    protected $_lockedAttributes = [];
 
     /**
      * Is model deleteable
@@ -79,7 +79,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct(
@@ -127,7 +127,7 @@ abstract class AbstractModel extends \Magento\Framework\Model\AbstractExtensible
      */
     public function unlockAttributes()
     {
-        $this->_lockedAttributes = array();
+        $this->_lockedAttributes = [];
         return $this;
     }
 

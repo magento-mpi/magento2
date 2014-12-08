@@ -129,7 +129,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with(
                 'controller_front_send_response_before',
-                array('request' => $this->requestMock, 'response' => $this->responseMock)
+                ['request' => $this->requestMock, 'response' => $this->responseMock]
             );
         $this->assertSame($this->responseMock, $this->http->launch());
     }

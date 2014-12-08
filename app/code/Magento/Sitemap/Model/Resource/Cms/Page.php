@@ -32,15 +32,15 @@ class Page extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getCollection($storeId)
     {
-        $pages = array();
+        $pages = [];
 
         $select = $this->_getWriteAdapter()->select()->from(
-            array('main_table' => $this->getMainTable()),
-            array($this->getIdFieldName(), 'url' => 'identifier', 'updated_at' => 'update_time')
+            ['main_table' => $this->getMainTable()],
+            [$this->getIdFieldName(), 'url' => 'identifier', 'updated_at' => 'update_time']
         )->join(
-            array('store_table' => $this->getTable('cms_page_store')),
+            ['store_table' => $this->getTable('cms_page_store')],
             'main_table.page_id = store_table.page_id',
-            array()
+            []
         )->where(
             'main_table.is_active = 1'
         )->where(
@@ -48,7 +48,7 @@ class Page extends \Magento\Framework\Model\Resource\Db\AbstractDb
             \Magento\Cms\Model\Page::NOROUTE_PAGE_ID
         )->where(
             'store_table.store_id IN(?)',
-            array(0, $storeId)
+            [0, $storeId]
         );
 
         $query = $this->_getWriteAdapter()->query($select);

@@ -47,7 +47,7 @@ class RowsFactory
      * @throws \InvalidArgumentException
      * @return \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         /** @var \Magento\Catalog\Model\Indexer\Category\Product\AbstractAction $instance */
         $instance = $this->objectManager->create($this->instanceName, $data);

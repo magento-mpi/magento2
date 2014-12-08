@@ -8,9 +8,9 @@
 namespace Magento\Paypal\Model\Method\Checks;
 
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
-use Magento\Sales\Model\Quote;
 use Magento\Payment\Model\Checks\SpecificationInterface;
 use Magento\Paypal\Model\Billing\AgreementFactory;
+use Magento\Sales\Model\Quote;
 
 class SpecificationPlugin
 {

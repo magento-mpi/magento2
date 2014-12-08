@@ -14,7 +14,7 @@ class UniqueList
      *
      * @var array
      */
-    protected $_items = array();
+    protected $_items = [];
 
     /**
      * Add item to list and retrieve auto-incremented item position

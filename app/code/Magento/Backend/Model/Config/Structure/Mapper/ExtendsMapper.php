@@ -25,7 +25,7 @@ class ExtendsMapper extends \Magento\Backend\Model\Config\Structure\AbstractMapp
      *
      * @var string[]
      */
-    protected $_extendedNodesList = array();
+    protected $_extendedNodesList = [];
 
     /**
      * Class that can convert relative paths from "extends" node to absolute
@@ -55,7 +55,7 @@ class ExtendsMapper extends \Magento\Backend\Model\Config\Structure\AbstractMapp
             return $data;
         }
 
-        $this->_systemConfiguration =& $data['config']['system']['sections'];
+        $this->_systemConfiguration = & $data['config']['system']['sections'];
 
         foreach (array_keys($this->_systemConfiguration) as $nodeName) {
             $this->_traverseAndExtend($nodeName);
@@ -178,13 +178,13 @@ class ExtendsMapper extends \Magento\Backend\Model\Config\Structure\AbstractMapp
     protected function _replaceData($path, $newData)
     {
         $pathParts = $this->_transformPathToKeysList($path);
-        $result =& $this->_systemConfiguration;
+        $result = & $this->_systemConfiguration;
 
         foreach ($pathParts as $part) {
             if (!isset($result[$part])) {
                 return;
             }
-            $result =& $result[$part];
+            $result = & $result[$part];
         }
 
         $result = $newData;

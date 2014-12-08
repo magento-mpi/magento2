@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\TestCase\Category;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogCategoryIndex;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCategoryEntity

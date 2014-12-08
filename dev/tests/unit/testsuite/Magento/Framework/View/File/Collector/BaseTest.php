@@ -41,7 +41,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         $objectManager->expects($this->atLeastOnce())
             ->method('create')
             ->with('Magento\Framework\View\File', $this->anything())
-            ->will($this->returnCallback(array($this, 'createFileCallback')));
+            ->will($this->returnCallback([$this, 'createFileCallback']));
         $fileFactory = new \Magento\Framework\View\File\Factory($objectManager);
         $theme = $this->getMock(
             'Magento\Framework\View\Design\ThemeInterface',

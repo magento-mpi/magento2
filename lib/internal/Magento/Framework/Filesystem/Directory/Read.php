@@ -95,7 +95,7 @@ class Read implements ReadInterface
     public function read($path = null)
     {
         $files = $this->driver->readDirectory($this->driver->getAbsolutePath($this->path, $path));
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
             $result[] = $this->getRelativePath($file);
         }
@@ -110,7 +110,7 @@ class Read implements ReadInterface
      */
     public function readRecursively($path = null)
     {
-        $result = array();
+        $result = [];
         $paths = $this->driver->readDirectoryRecursively($this->driver->getAbsolutePath($this->path, $path));
         /** @var \FilesystemIterator $file */
         foreach ($paths as $file) {
@@ -136,7 +136,7 @@ class Read implements ReadInterface
         }
 
         $files = $this->driver->search($pattern, $absolutePath);
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
             $result[] = $this->getRelativePath($file);
         }

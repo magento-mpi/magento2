@@ -41,13 +41,13 @@ class EventTest extends \PHPUnit_Framework_TestCase
         );
         $crud = new \Magento\TestFramework\Entity(
             $this->_model,
-            array(
+            [
                 'category_id' => 2,
                 'date_start' => $this->_getDate('-1 year'),
                 'date_end' => $this->_getDate('+1 month'),
                 'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
                 'sort_order' => 123
-            )
+            ]
         );
         $crud->testCrud();
     }

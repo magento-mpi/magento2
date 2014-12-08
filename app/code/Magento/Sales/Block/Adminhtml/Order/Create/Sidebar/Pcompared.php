@@ -48,7 +48,7 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Reports\Model\Resource\Event $event,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_event = $event;
         $this->_productFactory = $productFactory;
@@ -87,7 +87,7 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             // get products to skip
-            $skipProducts = array();
+            $skipProducts = [];
             if ($collection = $this->getCreateOrderModel()->getCustomerCompareList()) {
                 $collection = $collection->getItemCollection()->useProductItem(
                     true

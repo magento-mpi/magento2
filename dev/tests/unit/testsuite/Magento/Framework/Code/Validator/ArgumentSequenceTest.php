@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Code\Validator;
 
-
 require_once '_files/ClassesForArgumentSequence.php';
 class ArgumentSequenceTest extends \PHPUnit_Framework_TestCase
 {

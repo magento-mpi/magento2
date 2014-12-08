@@ -53,7 +53,6 @@ class AggregateSalesReportBestsellersDataTest extends \PHPUnit_Framework_TestCas
         );
     }
 
-
     public function testExecute()
     {
         $date = $this->setupAggregate();

@@ -19,14 +19,14 @@ class Dictionary
      *
      * @var array
      */
-    private $_phrases = array();
+    private $_phrases = [];
 
     /**
      * List of phrases where array key is vo key
      *
      * @var array
      */
-    private $_phrasesByKey = array();
+    private $_phrasesByKey = [];
 
     /**
      * Add phrase to pack container

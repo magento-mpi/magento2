@@ -8,7 +8,7 @@
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 class FileContentValidator
 {

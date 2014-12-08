@@ -8,9 +8,9 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget\Instance\Edit;
 
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class WidgetForm

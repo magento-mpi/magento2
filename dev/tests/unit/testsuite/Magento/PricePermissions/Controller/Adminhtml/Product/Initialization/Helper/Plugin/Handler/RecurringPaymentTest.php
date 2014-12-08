@@ -23,8 +23,8 @@ class RecurringPaymentTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('getOrigData', 'setRecurringPayment', '__wakeup'),
-            array(),
+            ['getOrigData', 'setRecurringPayment', '__wakeup'],
+            [],
             '',
             false
         );
@@ -40,10 +40,10 @@ class RecurringPaymentTest extends \PHPUnit_Framework_TestCase
         )->with(
             'recurring_payment'
         )->will(
-            $this->returnValue(array('some' => 'data'))
+            $this->returnValue(['some' => 'data'])
         );
 
-        $this->productMock->expects($this->once())->method('setRecurringPayment')->with(array('some' => 'data'));
+        $this->productMock->expects($this->once())->method('setRecurringPayment')->with(['some' => 'data']);
         $this->model->handle($this->productMock);
     }
 }

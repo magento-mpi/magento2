@@ -21,7 +21,7 @@ class UppercaseTitleTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForFilterValues()
     {
-        return array(array('some name', 'Some Name'), array('test', 'Test'));
+        return [['some name', 'Some Name'], ['test', 'Test']];
     }
 
     /**

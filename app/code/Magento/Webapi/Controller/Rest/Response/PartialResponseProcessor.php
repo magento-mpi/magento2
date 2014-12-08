@@ -50,7 +50,6 @@ class PartialResponseProcessor
         return $partialResponse;
     }
 
-
     /**
      * Parse filter string into associative array. Field names are returned as keys with values for scalar fields as 1.
      *

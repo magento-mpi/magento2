@@ -14,14 +14,14 @@ class Factory
      *
      * @var array
      */
-    protected $_allowedLoggerTypes = array();
+    protected $_allowedLoggerTypes = [];
 
     /**
      * Constructor for Db\Logger\Factory
      */
     public function __construct()
     {
-        $this->_allowedLoggerTypes = array('console', 'file');
+        $this->_allowedLoggerTypes = ['console', 'file'];
     }
 
     /**

@@ -19,7 +19,7 @@ $fieldCssClass .= $this->isRequired() ? ' required' : '';
 <div class="<?php echo $fieldCssClass; ?>">
     <label class="label" for="<?php echo $this->getHtmlId()?>"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
-        <textarea id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName()?>" rows="5" cols="25" <?php if($this->getHtmlClass()):?> class="<?php echo $this->getHtmlClass();?>"<?php endif;?>><?php echo $this->getEscapedValue() ?></textarea>
+        <textarea id="<?php echo $this->getHtmlId()?>" name="<?php echo $this->getFieldName()?>" rows="5" cols="25" <?php if ($this->getHtmlClass()):?> class="<?php echo $this->getHtmlClass();?>"<?php endif;?>><?php echo $this->getEscapedValue() ?></textarea>
         <?php if ($_message = $this->getAdditionalDescription()) : ?>
         <div class="note"><?php echo $_message; ?></div>
         <?php endif; ?>

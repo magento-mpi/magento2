@@ -8,9 +8,9 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertArchiveCreditMemoInGrid
@@ -41,7 +41,7 @@ class AssertArchiveCreditMemoInGrid extends AbstractConstraint
         foreach ($ids['creditMemoIds'] as $creditMemoId) {
             $filter = [
                 'order_id' => $orderId,
-                'creditmemo_id' => $creditMemoId
+                'creditmemo_id' => $creditMemoId,
             ];
 
             $errorMessage = implode(', ', $filter);

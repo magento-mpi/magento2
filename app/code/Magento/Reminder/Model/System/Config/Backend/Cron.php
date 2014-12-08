@@ -48,7 +48,7 @@ class Cron extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_valueFactory = $valueFactory;
@@ -108,7 +108,6 @@ class Cron extends \Magento\Framework\App\Config\Value
             )->setPath(
                 self::CRON_MODEL_PATH
             )->save();
-
         } catch (\Exception $e) {
             throw new Exception(__('Unable to save Cron expression'));
         }

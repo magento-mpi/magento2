@@ -23,7 +23,7 @@ class Pause extends \Magento\Newsletter\Controller\Adminhtml\Queue
             $this->getRequest()->getParam('id')
         );
 
-        if (!in_array($queue->getQueueStatus(), array(\Magento\Newsletter\Model\Queue::STATUS_SENDING))) {
+        if (!in_array($queue->getQueueStatus(), [\Magento\Newsletter\Model\Queue::STATUS_SENDING])) {
             $this->_redirect('*/*');
             return;
         }

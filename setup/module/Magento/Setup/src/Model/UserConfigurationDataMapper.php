@@ -8,11 +8,11 @@
 
 namespace Magento\Setup\Model;
 
-use Magento\Setup\Module\Setup;
-use Magento\Store\Model\Store;
+use Magento\Backend\Model\Url;
 use Magento\Core\Helper\Data;
 use Magento\Directory\Model\Currency;
-use Magento\Backend\Model\Url;
+use Magento\Setup\Module\Setup;
+use Magento\Store\Model\Store;
 
 /**
  * Model Class to Install User Configuration Data

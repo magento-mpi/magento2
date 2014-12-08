@@ -32,7 +32,7 @@ class ProductList
      *
      * @var array
      */
-    protected $_defaultAvailableLimit  = array(10=>10,20=>20,50=>50);
+    protected $_defaultAvailableLimit  = [10 => 10,20 => 20,50 => 50];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -52,19 +52,19 @@ class ProductList
     {
         switch ($this->scopeConfig->getValue(self::XML_PATH_LIST_MODE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE)) {
             case 'grid':
-                $availableMode = array('grid' => __('Grid'));
+                $availableMode = ['grid' => __('Grid')];
                 break;
 
             case 'list':
-                $availableMode = array('list' => __('List'));
+                $availableMode = ['list' => __('List')];
                 break;
 
             case 'grid-list':
-                $availableMode = array('grid' => __('Grid'), 'list' =>  __('List'));
+                $availableMode = ['grid' => __('Grid'), 'list' =>  __('List')];
                 break;
 
             case 'list-grid':
-                $availableMode = array('list' => __('List'), 'grid' => __('Grid'));
+                $availableMode = ['list' => __('List'), 'grid' => __('Grid')];
                 break;
             default:
                 $availableMode = null;
@@ -79,7 +79,7 @@ class ProductList
      * @param array $options
      * @return string
      */
-    public function getDefaultViewMode($options = array())
+    public function getDefaultViewMode($options = [])
     {
         if (empty($options)) {
             $options = $this->getAvailableViewMode();
@@ -108,7 +108,7 @@ class ProductList
      */
     public function getAvailableLimit($mode)
     {
-        if (!in_array($mode, array(self::VIEW_MODE_GRID, self::VIEW_MODE_LIST))) {
+        if (!in_array($mode, [self::VIEW_MODE_GRID, self::VIEW_MODE_LIST])) {
             return $this->_defaultAvailableLimit;
         }
         $perPageConfigKey = 'catalog/frontend/' . $mode . '_per_page_values';
@@ -122,7 +122,7 @@ class ProductList
             'catalog/frontend/list_allow_all',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )) {
-            return ($perPageValues + array('all'=>__('All')));
+            return ($perPageValues + ['all' => __('All')]);
         } else {
             return $perPageValues;
         }

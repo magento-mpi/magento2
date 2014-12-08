@@ -21,7 +21,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         if (!$source instanceof \DOMDocument) {
             return $output;
@@ -45,14 +45,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _getAttributeTypes($source)
     {
-        $result = array();
+        $result = [];
 
         /** @var \DOMNodeList $attributeTypes */
         $attributeTypes = $source->getElementsByTagName('attribute_type');
 
         /** @var \DOMElement $attributeType */
         foreach ($attributeTypes as $attributeType) {
-
             $attributeTypeName = $attributeType->getAttribute('name');
 
             if (!$attributeTypeName) {
@@ -67,7 +66,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $labelText = $label->firstChild->nodeValue;
             }
 
-            $result[$attributeTypeName] = array('label' => $labelText);
+            $result[$attributeTypeName] = ['label' => $labelText];
         }
 
         return $result;
@@ -82,14 +81,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _getAttributeGroups($source)
     {
-        $result = array();
+        $result = [];
 
         /** @var \DOMNodeList $attributeGroups */
         $attributeGroups = $source->getElementsByTagName('attribute_group');
 
         /** @var \DOMElement $attributeGroup */
         foreach ($attributeGroups as $attributeGroup) {
-
             $attributeGroupName = $attributeGroup->getAttribute('name');
             $groupSortOrder = $attributeGroup->getAttribute('sort_order');
             $groupIsVisible = $attributeGroup->getAttribute('visible');
@@ -107,11 +105,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $labelText = $label->firstChild->nodeValue;
             }
 
-            $result[$attributeGroupName] = array(
+            $result[$attributeGroupName] = [
                 'sortOrder' => $groupSortOrder,
                 'visible' => $groupIsVisible,
-                'label' => $labelText
-            );
+                'label' => $labelText,
+            ];
         }
 
         return $result;
@@ -128,8 +126,8 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _getAttributes($source, $typeOfAttributes)
     {
-        $registry = array();
-        $registrant = array();
+        $registry = [];
+        $registrant = [];
 
         /** @var \DOMNodeList $staticAttributes */
         $attributes = $source->getElementsByTagName($typeOfAttributes);
@@ -153,12 +151,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 $labelText = $label->firstChild->nodeValue;
             }
 
-            $attributeArray = array(
+            $attributeArray = [
                 'type' => $attribute->getAttribute('type'),
                 'visible' => $attribute->getAttribute('visible'),
                 'group' => $attribute->getAttribute('group'),
-                'label' => $labelText
-            );
+                'label' => $labelText,
+            ];
 
             if ($parentNode == 'registry') {
                 $registry[$typeOfAttributes . 's'][$attributeName] = $attributeArray;
@@ -167,7 +165,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             }
         }
 
-        $result = array('registry' => $registry, 'registrant' => $registrant);
+        $result = ['registry' => $registry, 'registrant' => $registrant];
 
         return $result;
     }

@@ -33,16 +33,16 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\Framework\ObjectManager\Config\Reader\Dom',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->_readerFactoryMock = $this->getMock(
             'Magento\Framework\ObjectManager\Config\Reader\DomFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -55,7 +55,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_readerMock)
         );
 
-        $this->_cacheMock = $this->getMock('Magento\Framework\App\Cache\Type\Config', array(), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\Cache\Type\Config', [], [], '', false);
         $this->_model = new \Magento\Framework\App\ObjectManager\ConfigLoader(
             $this->_cacheMock, $this->_readerFactoryMock
         );
@@ -67,7 +67,7 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoad($area)
     {
-        $configData = array('some' => 'config', 'data' => 'value');
+        $configData = ['some' => 'config', 'data' => 'value'];
 
         $this->_cacheMock->expects(
             $this->once()
@@ -91,10 +91,10 @@ class ConfigLoaderTest extends \PHPUnit_Framework_TestCase
      */
     public function loadDataProvider()
     {
-        return array(
-            'global files' => array('global'),
-            'adminhtml files' => array('adminhtml'),
-            'any area files' => array('any')
-        );
+        return [
+            'global files' => ['global'],
+            'adminhtml files' => ['adminhtml'],
+            'any area files' => ['any']
+        ];
     }
 }

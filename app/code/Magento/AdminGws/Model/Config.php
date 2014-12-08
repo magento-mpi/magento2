@@ -34,7 +34,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
      */
     public function getCallbacks($groupName)
     {
-        return $this->get('callbacks/' . $groupName, array());
+        return $this->get('callbacks/' . $groupName, []);
     }
 
     /**
@@ -45,7 +45,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
      */
     public function getDeniedAclResources($level)
     {
-        return $this->get('acl/' . $level, array());
+        return $this->get('acl/' . $level, []);
     }
 
     /**
@@ -81,7 +81,7 @@ class Config extends \Magento\Framework\Config\Data\Scoped implements \Magento\A
          */
         $output = $this->get('callbacks/' . $callbackGroup . '/' . $objectClass, null);
         if (!$output) {
-            foreach ($this->get('callbacks/' . $callbackGroup, array()) as $className => $callback) {
+            foreach ($this->get('callbacks/' . $callbackGroup, []) as $className => $callback) {
                 if ($object instanceof $className) {
                     $output = $callback;
                     break;

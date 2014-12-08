@@ -68,7 +68,7 @@ class Kernel
             $response->setNoCacheHeaders();
             if ($response->getHttpResponseCode() == 200 && ($this->request->isGet() || $this->request->isHead())) {
                 $tagsHeader = $response->getHeader('X-Magento-Tags');
-                $tags = $tagsHeader ? explode(',', $tagsHeader['value']) : array();
+                $tags = $tagsHeader ? explode(',', $tagsHeader['value']) : [];
 
                 $response->clearHeader('Set-Cookie');
                 $response->clearHeader('X-Magento-Tags');

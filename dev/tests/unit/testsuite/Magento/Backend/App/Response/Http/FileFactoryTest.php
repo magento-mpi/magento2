@@ -53,8 +53,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
         );
         $this->_sessionMock = $this->getMock(
             'Magento\Backend\Model\Session',
-            array('setIsUrlNotice'),
-            array(),
+            ['setIsUrlNotice'],
+            [],
             '',
             false
         );
@@ -75,8 +75,8 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $authStorageMock = $this->getMock(
             'Magento\Backend\Model\Auth\Session',
-            array('isFirstPageAfterLogin', 'processLogout', 'processLogin'),
-            array(),
+            ['isFirstPageAfterLogin', 'processLogout', 'processLogin'],
+            [],
             '',
             false
         );

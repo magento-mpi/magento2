@@ -127,7 +127,7 @@ class Hierarchy extends \Magento\Backend\App\Action
             $scopeId = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID;
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT;
         }
-        return array($scope, $scopeId);
+        return [$scope, $scopeId];
     }
 
     /**

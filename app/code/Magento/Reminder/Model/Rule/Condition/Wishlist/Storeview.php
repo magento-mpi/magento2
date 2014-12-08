@@ -28,7 +28,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Store\Model\System\Store $store,
-        array $data = array()
+        array $data = []
     ) {
         $this->_store = $store;
         parent::__construct($context, $ruleResource, $data);
@@ -43,7 +43,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Store View'));
+        return ['value' => $this->getType(), 'label' => __('Store View')];
     }
 
     /**
@@ -99,7 +99,7 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('from'), '!=' => __('not from')));
+        $this->setOperatorOption(['==' => __('from'), '!=' => __('not from')]);
         return $this;
     }
 
@@ -117,9 +117,9 @@ class Storeview extends \Magento\Reminder\Model\Condition\AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('item' => $wishlistItemTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['item' => $wishlistItemTable], [new \Zend_Db_Expr(1)]);
 
-        $select->joinInner(array('list' => $wishlistTable), 'item.wishlist_id = list.wishlist_id', array());
+        $select->joinInner(['list' => $wishlistTable], 'item.wishlist_id = list.wishlist_id', []);
 
         $this->_limitByStoreWebsite($select, $website, 'item.store_id');
         $select->where("item.store_id {$operator} ?", $this->getValue());

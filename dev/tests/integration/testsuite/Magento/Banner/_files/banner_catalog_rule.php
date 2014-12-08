@@ -17,4 +17,4 @@ $catalogRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->crea
 $ruleId = $catalogRule->getCollection()->getFirstItem()->getId();
 
 $banner = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Banner\Model\Banner');
-$banner->load('Test Banner', 'name')->setBannerCatalogRules(array($ruleId))->save();
+$banner->load('Test Banner', 'name')->setBannerCatalogRules([$ruleId])->save();

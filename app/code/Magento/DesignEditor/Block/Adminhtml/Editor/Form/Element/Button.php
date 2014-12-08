@@ -17,7 +17,7 @@ class Button extends \Magento\Framework\Data\Form\Element\AbstractElement
      *
      * @var string[]
      */
-    protected $_htmlAttributes = array('data-mage-init');
+    protected $_htmlAttributes = ['data-mage-init'];
 
     /**
      * Generate button html

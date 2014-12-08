@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
-    'global' => array(
-        'sales_convert_quote_address' => array(
-            'company' => array('to_order_address' => '*', 'to_customer_address' => '*'),
-            'street_full' => array('to_order_address' => 'street'),
-            'street' => array('to_customer_address' => '*')
-        )
-    )
-);
+return [
+    'global' => [
+        'sales_convert_quote_address' => [
+            'company' => ['to_order_address' => '*', 'to_customer_address' => '*'],
+            'street_full' => ['to_order_address' => 'street'],
+            'street' => ['to_customer_address' => '*'],
+        ],
+    ]
+];

@@ -28,7 +28,7 @@ class View extends \Magento\Backend\Block\Widget\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -46,50 +46,50 @@ class View extends \Magento\Backend\Block\Widget\Container
         $this->getLayout()->getBlock('page-title')->setPageTitle($this->_headerText);
         $this->buttonList->add(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => "setLocation('{$this->getUrl('invitations/*/')}')",
                 'class' => 'back'
-            ),
+            ],
             -1
         );
         if ($invitation->canBeCanceled()) {
             $massCancelUrl = $this->getUrl(
                 'invitations/*/massCancel',
-                array('_query' => array('invitations' => array($invitation->getId())))
+                ['_query' => ['invitations' => [$invitation->getId()]]]
             );
             $this->buttonList->add(
                 'cancel',
-                array(
+                [
                     'label' => __('Discard Invitation'),
                     'onclick' => 'deleteConfirm(\'' . $this->escapeJsQuote(
                         __('Are you sure you want to discard this invitation?')
                     ) . '\', \'' . $massCancelUrl . '\' )',
                     'class' => 'cancel primary'
-                ),
+                ],
                 -1
             );
         }
         if ($invitation->canMessageBeUpdated()) {
             $this->buttonList->add(
                 'save_message_button',
-                array(
+                [
                     'label' => __('Save Invitation'),
-                    'data_attribute' => array(
-                        'mage-init' => array('button' => array('event' => 'save', 'target' => '#invitation-elements'))
-                    )
-                ),
+                    'data_attribute' => [
+                        'mage-init' => ['button' => ['event' => 'save', 'target' => '#invitation-elements']],
+                    ]
+                ],
                 -1
             );
         }
         if ($invitation->canBeSent()) {
             $massResendUrl = $this->getUrl(
                 'invitations/*/massResend',
-                array('_query' => http_build_query(array('invitations' => array($invitation->getId()))))
+                ['_query' => http_build_query(['invitations' => [$invitation->getId()]])]
             );
             $this->buttonList->add(
                 'resend',
-                array('label' => __('Send Invitation'), 'onclick' => "setLocation('{$massResendUrl}')"),
+                ['label' => __('Send Invitation'), 'onclick' => "setLocation('{$massResendUrl}')"],
                 -1
             );
         }
@@ -114,6 +114,6 @@ class View extends \Magento\Backend\Block\Widget\Container
      */
     public function getSaveMessageUrl()
     {
-        return $this->getUrl('invitations/*/saveInvitation', array('id' => $this->getInvitation()->getId()));
+        return $this->getUrl('invitations/*/saveInvitation', ['id' => $this->getInvitation()->getId()]);
     }
 }

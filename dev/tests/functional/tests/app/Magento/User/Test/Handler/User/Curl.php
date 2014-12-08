@@ -8,13 +8,13 @@
 
 namespace Magento\User\Test\Handler\User;
 
+use Magento\Backend\Test\Handler\Extractor;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
-use Magento\Backend\Test\Handler\Extractor;
 
 /**
  * Class Curl
@@ -38,7 +38,7 @@ class Curl extends AbstractCurl implements UserInterface
         }
         $data['is_active'] = (isset($data['is_active']) && ($data['is_active'] === 'Active')) ? 1 : 0;
         $url = $_ENV['app_backend_url'] . 'admin/user/save/active_tab/main_section/';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', [], $data);
         $response = $curl->read();

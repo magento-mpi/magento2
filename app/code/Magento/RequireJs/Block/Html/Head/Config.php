@@ -40,7 +40,7 @@ class Config extends \Magento\Framework\View\Element\AbstractBlock
         \Magento\Framework\RequireJs\Config $config,
         \Magento\RequireJs\Model\FileManager $fileManager,
         \Magento\Framework\View\Page\Config $pageConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->config = $config;

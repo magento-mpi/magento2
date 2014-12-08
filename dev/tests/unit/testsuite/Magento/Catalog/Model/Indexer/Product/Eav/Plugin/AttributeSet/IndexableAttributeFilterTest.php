@@ -13,7 +13,7 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
     {
         $catalogResourceMock = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('load', 'isIndexable', '__wakeup'))
+            ->setMethods(['load', 'isIndexable', '__wakeup'])
             ->getMock();
         $catalogResourceMock->expects($this->any())
             ->method('load')
@@ -27,7 +27,7 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
 
         $eavAttributeFactoryMock = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\AttributeFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->getMock();
         $eavAttributeFactoryMock->expects($this->once())
             ->method('create')
@@ -35,7 +35,7 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
 
         $attributeMock1 = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'getAttributeId', 'getAttributeCode', 'load', '__wakeup'))
+            ->setMethods(['getId', 'getAttributeId', 'getAttributeCode', 'load', '__wakeup'])
             ->getMock();
         $attributeMock1->expects($this->any())
             ->method('getAttributeCode')
@@ -46,7 +46,7 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
 
         $attributeMock2 = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'getAttributeId', 'getAttributeCode', 'load', '__wakeup'))
+            ->setMethods(['getId', 'getAttributeId', 'getAttributeCode', 'load', '__wakeup'])
             ->getMock();
         $attributeMock2->expects($this->any())
             ->method('getAttributeCode')
@@ -55,11 +55,11 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
             ->method('load')
             ->will($this->returnSelf());
 
-        $attributes = array($attributeMock1, $attributeMock2);
+        $attributes = [$attributeMock1, $attributeMock2];
 
         $groupMock = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Group')
             ->disableOriginalConstructor()
-            ->setMethods(array('getAttributes', '__wakeup'))
+            ->setMethods(['getAttributes', '__wakeup'])
             ->getMock();
         $groupMock->expects($this->once())
             ->method('getAttributes')
@@ -67,16 +67,16 @@ class IndexableAttributeFilterTest extends \PHPUnit_Framework_TestCase
 
         $attributeSetMock = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Set')
             ->disableOriginalConstructor()
-            ->setMethods(array('getGroups', '__wakeup'))
+            ->setMethods(['getGroups', '__wakeup'])
             ->getMock();
         $attributeSetMock->expects($this->once())
             ->method('getGroups')
-            ->will($this->returnValue(array($groupMock)));
+            ->will($this->returnValue([$groupMock]));
 
         $model = new \Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet\IndexableAttributeFilter(
             $eavAttributeFactoryMock
         );
 
-        $this->assertEquals(array('indexable_attribute'), $model->filter($attributeSetMock));
+        $this->assertEquals(['indexable_attribute'], $model->filter($attributeSetMock));
     }
 }

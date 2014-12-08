@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +25,7 @@ class Rows extends AbstractAction
      * @param bool $useIndexTempTable
      * @return void
      */
-    public function execute(array $entityIds = array(), $useIndexTempTable = false)
+    public function execute(array $entityIds = [], $useIndexTempTable = false)
     {
         if ($entityIds) {
             $this->entityIds = $entityIds;
@@ -57,7 +57,7 @@ class Rows extends AbstractAction
     {
         $this->getWriteAdapter()->delete(
             $this->getProductIndexTempTable(),
-            array('product_id IN (?)' => $this->entityIds)
+            ['product_id IN (?)' => $this->entityIds]
         );
     }
 
@@ -90,6 +90,6 @@ class Rows extends AbstractAction
      */
     protected function getCategoryList()
     {
-        return array();
+        return [];
     }
 }

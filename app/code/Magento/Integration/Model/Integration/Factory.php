@@ -30,9 +30,9 @@ class Factory
      * @param array $data Data for integration
      * @return \Magento\Integration\Model\Integration
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        $integration = $this->_objectManager->create('Magento\Integration\Model\Integration', array());
+        $integration = $this->_objectManager->create('Magento\Integration\Model\Integration', []);
         $integration->setData($data);
         return $integration;
     }

@@ -21,14 +21,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_optionsByItem = array();
+    protected $_optionsByItem = [];
 
     /**
      * Array of option ids grouped by product id
      *
      * @var array
      */
-    protected $_optionsByProduct = array();
+    protected $_optionsByProduct = [];
 
     /**
      * Define resource model for collection
@@ -56,12 +56,12 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (isset($this->_optionsByItem[$itemId])) {
                 $this->_optionsByItem[$itemId][] = $optionId;
             } else {
-                $this->_optionsByItem[$itemId] = array($optionId);
+                $this->_optionsByItem[$itemId] = [$optionId];
             }
             if (isset($this->_optionsByProduct[$productId])) {
                 $this->_optionsByProduct[$productId][] = $optionId;
             } else {
-                $this->_optionsByProduct[$productId] = array($optionId);
+                $this->_optionsByProduct[$productId] = [$optionId];
             }
         }
 
@@ -81,7 +81,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $this->_setIsLoaded(true);
             //$this->addFieldToFilter('item_id', '');
         } elseif (is_array($item)) {
-            $this->addFieldToFilter('item_id', array('in' => $item));
+            $this->addFieldToFilter('item_id', ['in' => $item]);
         } elseif ($item instanceof Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
@@ -119,7 +119,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->load();
 
-        $options = array();
+        $options = [];
         if (isset($this->_optionsByItem[$itemId])) {
             foreach ($this->_optionsByItem[$itemId] as $optionId) {
                 $options[] = $this->_items[$optionId];
@@ -145,7 +145,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->load();
 
-        $options = array();
+        $options = [];
         if (isset($this->_optionsByProduct[$productId])) {
             foreach ($this->_optionsByProduct[$productId] as $optionId) {
                 $options[] = $this->_items[$optionId];

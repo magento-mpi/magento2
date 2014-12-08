@@ -30,15 +30,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $this->_cacheFrontendMock = $this->getMockForAbstractClass(
             'Magento\Framework\Cache\FrontendInterface',
-            array(),
+            [],
             '',
             true,
             true,
             true,
-            array('clean')
+            ['clean']
         );
 
-        $frontendPoolMock = $this->getMock('Magento\Framework\App\Cache\Frontend\Pool', array(), array(), '', false);
+        $frontendPoolMock = $this->getMock('Magento\Framework\App\Cache\Frontend\Pool', [], [], '', false);
         $frontendPoolMock->expects($this->any())->method('valid')->will($this->onConsecutiveCalls(true, false));
 
         $frontendPoolMock->expects(
@@ -66,15 +66,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
      */
     protected function _initCacheTypeMocks()
     {
-        $cacheTypes = array(
+        $cacheTypes = [
             'Magento\Framework\Cache\Frontend\Decorator\TagScope',
-            'Magento\Framework\Cache\Frontend\Decorator\Bare'
-        );
+            'Magento\Framework\Cache\Frontend\Decorator\Bare',
+        ];
         foreach ($cacheTypes as $type) {
             $this->_cacheTypeMocks[$type] = $this->getMock(
                 $type,
-                array('clean'),
-                array($this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface'), 'FIXTURE_TAG')
+                ['clean'],
+                [$this->getMockForAbstractClass('Magento\Framework\Cache\FrontendInterface'), 'FIXTURE_TAG']
             );
         }
     }
@@ -92,7 +92,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->_cacheTypeMocks = array();
+        $this->_cacheTypeMocks = [];
         $this->_cacheFrontendMock = null;
         $this->_model = null;
     }
@@ -148,26 +148,26 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function saveDataProvider()
     {
         $configTag = \Magento\Framework\App\Config::CACHE_TAG;
-        return array(
-            'default tags' => array('test_data', 'test_id', array(), 'test_data', 'test_id', array()),
-            'config tags' => array(
+        return [
+            'default tags' => ['test_data', 'test_id', [], 'test_data', 'test_id', []],
+            'config tags' => [
                 'test_data',
                 'test_id',
-                array($configTag),
+                [$configTag],
                 'test_data',
                 'test_id',
-                array($configTag)
-            ),
-            'lowercase tags' => array(
+                [$configTag],
+            ],
+            'lowercase tags' => [
                 'test_data',
                 'test_id',
-                array('test_tag'),
+                ['test_tag'],
                 'test_data',
                 'test_id',
-                array('test_tag')
-            ),
-            'non-string data' => array(1234567890, 'test_id', array(), '1234567890', 'test_id', array())
-        );
+                ['test_tag'],
+            ],
+            'non-string data' => [1234567890, 'test_id', [], '1234567890', 'test_id', []]
+        ];
     }
 
     /**
@@ -190,12 +190,12 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
     public function successFailureDataProvider()
     {
-        return array('success' => array(true), 'failure' => array(false));
+        return ['success' => [true], 'failure' => [false]];
     }
 
     public function testCleanByTags()
     {
-        $expectedTags = array('test_tag');
+        $expectedTags = ['test_tag'];
         $this->_cacheFrontendMock->expects(
             $this->once()
         )->method(

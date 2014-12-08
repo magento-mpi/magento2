@@ -31,7 +31,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\GiftRegistry\Model\Config\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\GiftRegistry\Model\Config\Reader', [], [], '', false);
         $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $this->_cacheMock = $this->getMockBuilder(
             'Magento\Framework\App\Cache\Type\Config'
@@ -47,8 +47,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configScopeMock->expects($this->once())->method('getCurrentScope')->will($this->returnValue('global'));
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
-        $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue(array()));
+        $this->_readerMock->expects($this->any())->method('read')->will($this->returnValue([]));
 
-        $this->assertEquals(array(), $this->_model->get());
+        $this->assertEquals([], $this->_model->get());
     }
 }

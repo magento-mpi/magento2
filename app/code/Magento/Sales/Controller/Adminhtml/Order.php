@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 
 /**
@@ -22,7 +21,7 @@ class Order extends \Magento\Backend\App\Action
      *
      * @var string[]
      */
-    protected $_publicActions = array('view', 'index');
+    protected $_publicActions = ['view', 'index'];
 
     /**
      * Core registry

@@ -43,7 +43,6 @@ class Category
         $this->visibility = $visibility;
     }
 
-
     /**
      * @param \Magento\Catalog\Model\Category $category
      * @param int $storeId

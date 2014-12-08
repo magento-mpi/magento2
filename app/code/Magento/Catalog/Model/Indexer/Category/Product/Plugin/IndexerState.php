@@ -21,10 +21,10 @@ class IndexerState
      *
      * @var int[]
      */
-    protected $indexerIds = array(
+    protected $indexerIds = [
         \Magento\Catalog\Model\Indexer\Product\Category::INDEXER_ID,
-        \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID
-    );
+        \Magento\Catalog\Model\Indexer\Category\Product::INDEXER_ID,
+    ];
 
     /**
      * @param \Magento\Indexer\Model\Indexer\State $state

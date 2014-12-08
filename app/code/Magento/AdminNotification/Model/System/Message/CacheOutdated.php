@@ -46,7 +46,7 @@ class CacheOutdated implements \Magento\Framework\Notification\MessageInterface
      */
     protected function _getCacheTypesForRefresh()
     {
-        $output = array();
+        $output = [];
         foreach ($this->_cacheTypeList->getInvalidated() as $type) {
             $output[] = $type->getCacheType();
         }

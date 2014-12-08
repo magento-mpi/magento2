@@ -31,7 +31,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
         $this->_requestMock->expects(
             $this->any()
         )->method(
@@ -41,15 +41,15 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('currentSectionId')
         );
-        $this->_structureMock = $this->getMock('Magento\Backend\Model\Config\Structure', array(), array(), '', false);
-        $this->_structureMock->expects($this->once())->method('getTabs')->will($this->returnValue(array()));
-        $this->_urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
+        $this->_structureMock = $this->getMock('Magento\Backend\Model\Config\Structure', [], [], '', false);
+        $this->_structureMock->expects($this->once())->method('getTabs')->will($this->returnValue([]));
+        $this->_urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', [], [], '', false);
 
-        $data = array(
+        $data = [
             'configStructure' => $this->_structureMock,
             'request' => $this->_requestMock,
-            'urlBuilder' => $this->_urlBuilderMock
-        );
+            'urlBuilder' => $this->_urlBuilderMock,
+        ];
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Tabs', $data);
     }
@@ -70,15 +70,15 @@ class TabsTest extends \PHPUnit_Framework_TestCase
             'getUrl'
         )->with(
             '*/*/*',
-            array('_current' => true, 'section' => 'testSectionId')
+            ['_current' => true, 'section' => 'testSectionId']
         )->will(
             $this->returnValue('testSectionUrl')
         );
 
         $sectionMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Section',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -91,8 +91,8 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     {
         $sectionMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Section',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -104,8 +104,8 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     {
         $sectionMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Section',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

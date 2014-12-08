@@ -42,7 +42,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
 
-
         $layoutMock->expects($this->once())
             ->method('getBlock')
             ->with('magento_rma_edit_item')
@@ -92,7 +91,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
 
         $layoutMock->expects($this->once())
             ->method('getBlock')
@@ -159,7 +157,6 @@ class LoadNewAttributesTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $this->viewMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($layoutMock));
-
 
         $layoutMock->expects($this->once())
             ->method('getBlock')

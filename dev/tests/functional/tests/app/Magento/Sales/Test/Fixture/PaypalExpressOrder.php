@@ -27,8 +27,8 @@ class PaypalExpressOrder extends OrderCheckout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '10.83'
-            ]
+                'grand_total' => '10.83',
+            ],
         ];
     }
 

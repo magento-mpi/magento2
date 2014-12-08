@@ -27,21 +27,21 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTag = array('catalog_product_1');
-        $itemTag = array('compare_item_1');
+        $productTag = ['catalog_product_1'];
+        $itemTag = ['compare_item_1'];
         $itemId = 1;
 
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTag));
         $item = $this->getMock(
             'Magento\Catalog\Model\Product\Compare\Item',
-            array('getProduct', '__wakeup'),
-            array(),
+            ['getProduct', '__wakeup'],
+            [],
             '',
             false
         );
         $item->expects($this->once())->method('getProduct')->will($this->returnValue($product));
-        $this->block->setItems(array($item));
+        $this->block->setItems([$item]);
         $this->block->setCatalogCompareItemId($itemId);
         $this->assertEquals(
             array_merge($productTag, $itemTag),

@@ -8,7 +8,7 @@
  */
 namespace Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 
 class Orders extends \Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment
 {

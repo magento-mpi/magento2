@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\Reflection;
 
-use Zend\Code\Reflection\ClassReflection;
 use Magento\Framework\Exception\SerializationException;
+use Zend\Code\Reflection\ClassReflection;
 
 /**
  * Type processor of config reader properties
@@ -55,7 +55,7 @@ class TypeProcessor
      *
      * @var array
      */
-    protected $_types = array();
+    protected $_types = [];
 
     /**
      * Types class map.
@@ -66,7 +66,7 @@ class TypeProcessor
      *
      * @var array
      */
-    protected $_typeToClassMap = array();
+    protected $_typeToClassMap = [];
 
     /**
      * Retrieve processed types data.
@@ -149,7 +149,7 @@ class TypeProcessor
     protected function _processComplexType($class)
     {
         $typeName = $this->translateTypeName($class);
-        $this->_types[$typeName] = array();
+        $this->_types[$typeName] = [];
         if ($this->isArrayType($class)) {
             $this->process($this->getArrayItemType($class));
         } else {
@@ -189,11 +189,11 @@ class TypeProcessor
         if ($isGetter && !$methodReflection->getNumberOfRequiredParameters()) {
             $returnMetadata = $this->getGetterReturnType($methodReflection);
             $fieldName = $this->dataObjectGetterNameToFieldName($methodReflection->getName());
-            $this->_types[$typeName]['parameters'][$fieldName] = array(
+            $this->_types[$typeName]['parameters'][$fieldName] = [
                 'type' => $this->process($returnMetadata['type']),
                 'required' => $returnMetadata['isRequired'],
-                'documentation' => $returnMetadata['description']
-            );
+                'documentation' => $returnMetadata['description'],
+            ];
         }
     }
 
@@ -209,7 +209,7 @@ class TypeProcessor
         $longDescription = $doc->getLongDescription();
 
         $description = rtrim($shortDescription);
-        $longDescription = str_replace(array("\n", "\r"), '', $longDescription);
+        $longDescription = str_replace(["\n", "\r"], '', $longDescription);
         if (!empty($longDescription) && !empty($description)) {
             $description .= " ";
         }
@@ -296,12 +296,12 @@ class TypeProcessor
      */
     public function normalizeType($type)
     {
-        $normalizationMap = array(
+        $normalizationMap = [
             self::STRING_TYPE => self::NORMALIZED_STRING_TYPE,
             self::INT_TYPE => self::NORMALIZED_INT_TYPE,
             self::BOOLEAN_TYPE => self::NORMALIZED_BOOLEAN_TYPE,
-            self::ANY_TYPE => self::NORMALIZED_ANY_TYPE
-        );
+            self::ANY_TYPE => self::NORMALIZED_ANY_TYPE,
+        ];
 
         return is_string($type) && isset($normalizationMap[$type]) ? $normalizationMap[$type] : $type;
     }
@@ -321,13 +321,13 @@ class TypeProcessor
 
         return in_array(
             $type,
-            array(
+            [
                 self::NORMALIZED_STRING_TYPE,
                 self::NORMALIZED_INT_TYPE,
                 self::NORMALIZED_FLOAT_TYPE,
                 self::NORMALIZED_DOUBLE_TYPE,
                 self::NORMALIZED_BOOLEAN_TYPE
-            )
+            ]
         );
     }
 

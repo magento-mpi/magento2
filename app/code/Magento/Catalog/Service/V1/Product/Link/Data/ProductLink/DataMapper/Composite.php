@@ -8,7 +8,7 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapper;
 
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\DataMapperInterface;
 
 class Composite implements DataMapperInterface
 {
@@ -20,7 +20,7 @@ class Composite implements DataMapperInterface
     /**
      * @param DataMapperInterface[] $mappers
      */
-    public function __construct(array $mappers = array())
+    public function __construct(array $mappers = [])
     {
         $this->mappers = $mappers;
     }

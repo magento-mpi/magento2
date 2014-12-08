@@ -8,8 +8,8 @@
 
 namespace Magento\Core\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomVariableSuccessSaveMessage

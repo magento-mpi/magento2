@@ -40,7 +40,7 @@ class Mapper
      * @param array $defaults
      * @return array|object
      */
-    public static function &accumulateByMap($from, $to, array $map, array $defaults = array())
+    public static function &accumulateByMap($from, $to, array $map, array $defaults = [])
     {
         $get = 'getData';
         if (is_array(

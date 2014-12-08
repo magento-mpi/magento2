@@ -7,8 +7,8 @@
  */
 namespace Magento\Catalog\Model\Product\CopyConstructor;
 
-use Magento\Catalog\Model\Product\CopyConstructorInterface;
 use Magento\Catalog\Model\Product\CopyConstructorFactory;
+use Magento\Catalog\Model\Product\CopyConstructorInterface;
 
 class Composite implements CopyConstructorInterface
 {
@@ -21,7 +21,7 @@ class Composite implements CopyConstructorInterface
      * @param CopyConstructorFactory $factory
      * @param string[] $constructors
      */
-    public function __construct(CopyConstructorFactory $factory, array $constructors = array())
+    public function __construct(CopyConstructorFactory $factory, array $constructors = [])
     {
         foreach ($constructors as $instance) {
             $this->constructors[] = $factory->create($instance);

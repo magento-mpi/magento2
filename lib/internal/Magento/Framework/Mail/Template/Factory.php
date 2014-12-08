@@ -40,7 +40,7 @@ class Factory implements \Magento\Framework\Mail\Template\FactoryInterface
     {
         return $this->_objectManager->create(
             $this->_instanceName,
-            array('data' => array('template_id' => $identifier))
+            ['data' => ['template_id' => $identifier]]
         );
     }
 }

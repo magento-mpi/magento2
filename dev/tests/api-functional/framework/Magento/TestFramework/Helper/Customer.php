@@ -7,13 +7,13 @@
  */
 namespace Magento\TestFramework\Helper;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\Data\CustomerInterface;
 use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class Customer extends WebapiAbstract
 {
@@ -54,7 +54,7 @@ class Customer extends WebapiAbstract
     /** @var DataObjectProcessor */
     private $dataObjectProcessor;
 
-    public function __construct($name = NULL, array $data = array(), $dataName = '')
+    public function __construct($name = null, array $data = [], $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
 
@@ -76,13 +76,13 @@ class Customer extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'CreateAccount'
-            ]
+                'operation' => self::SERVICE_NAME . 'CreateAccount',
+            ],
         ];
         $customerDataArray = $this->dataObjectProcessor->buildOutputDataArray(
             $this->createSampleCustomerDataObject(),
@@ -164,9 +164,9 @@ class Customer extends WebapiAbstract
             'custom_attributes' => [
                 [
                     'attribute_code' => 'disable_auto_group_change',
-                    'value' => '0'
-                ]
-            ]
+                    'value' => '0',
+                ],
+            ],
         ];
         return $this->customerBuilder->populateWithArray($customerData)->create();
     }

@@ -7,10 +7,10 @@
  */
 namespace Magento\Catalog\Api;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Catalog\Api\Data\ProductInterface;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Exception as HTTPExceptionCodes;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ProductRepositoryInterfaceTest extends WebapiAbstract
 {
@@ -23,7 +23,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
             ProductInterface::SKU => 'simple',
             ProductInterface::NAME => 'Simple Related Product',
             ProductInterface::TYPE_ID => 'simple',
-            ProductInterface::PRICE => 10
+            ProductInterface::PRICE => 10,
         ],
         [
             ProductInterface::SKU => 'simple_with_cross',
@@ -42,13 +42,13 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $productData[ProductInterface::SKU],
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
 
         $response = $this->_webApiCall($serviceInfo, ['productSku' => $productData[ProductInterface::SKU]]);
@@ -63,13 +63,13 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $invalidSku,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
 
         $expectedMessage = 'Requested product doesn\'t exist';
@@ -133,13 +133,13 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
 
         $serviceInfo = [
             'rest' => [
-                'resourcePath' => self::RESOURCE_PATH. '/' . $productData[ProductInterface::SKU],
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'resourcePath' => self::RESOURCE_PATH . '/' . $productData[ProductInterface::SKU],
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         $requestData = ['product' => $product];
@@ -173,25 +173,25 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
                             [
                                 'field' => 'sku',
                                 'value' => 'simple',
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
-            ]
+                'page_size' => 2,
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
+                'operation' => self::SERVICE_NAME . 'GetList',
             ],
         ];
 
@@ -215,9 +215,9 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
      * @param array $productData
      * @return array
      */
-    protected function getSimpleProductData($productData = array())
+    protected function getSimpleProductData($productData = [])
     {
-        return array(
+        return [
             ProductInterface::SKU => isset($productData[ProductInterface::SKU])
                 ? $productData[ProductInterface::SKU] : uniqid('sku-', true),
             ProductInterface::NAME => isset($productData[ProductInterface::NAME])
@@ -232,7 +232,7 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
                 ['attribute_code' => 'cost', 'value' => ''],
                 ['attribute_code' => 'description', 'value' => 'Description'],
             ]
-        );
+        ];
     }
 
     /**
@@ -244,12 +244,12 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
+                'operation' => self::SERVICE_NAME . 'Save',
             ],
         ];
         $requestData = ['product' => $product];
@@ -267,13 +267,13 @@ class ProductRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $sku,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteById',
+            ],
         ];
 
         return (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) ?

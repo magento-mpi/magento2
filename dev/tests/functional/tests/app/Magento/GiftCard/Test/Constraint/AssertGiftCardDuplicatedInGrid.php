@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCard\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertGiftCardDuplicatedInGrid

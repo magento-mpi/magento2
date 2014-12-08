@@ -50,7 +50,7 @@ class Builder implements BuilderInterface
         $this->filters = [
             RequestFilterInterface::TYPE_RANGE => $range,
             RequestFilterInterface::TYPE_TERM => $term,
-            RequestFilterInterface::TYPE_WILDCARD => $wildcard
+            RequestFilterInterface::TYPE_WILDCARD => $wildcard,
         ];
         $this->conditionManager = $conditionManager;
         $this->preprocessor = $preprocessor;

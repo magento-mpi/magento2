@@ -8,11 +8,11 @@
 
 namespace Magento\Shipping\Test\Constraint;
 
+use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\OrderHistory;
 use Magento\Sales\Test\Page\OrderView;
 use Magento\Shipping\Test\Page\ShipmentView;
-use Magento\Sales\Test\Page\OrderHistory;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Sales\Test\Constraint\AbstractAssertOrderOnFrontend;
 
 /**
  * Class AssertShipTotalQuantity

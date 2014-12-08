@@ -66,7 +66,7 @@ class InterceptionConfigurationBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('isConcrete')
             ->willReturnMap([
                 ['Class1', true],
-                ['instance', true]
+                ['instance', true],
             ]);
         $this->pluginList->expects($this->once())
             ->method('setInterceptedClasses')

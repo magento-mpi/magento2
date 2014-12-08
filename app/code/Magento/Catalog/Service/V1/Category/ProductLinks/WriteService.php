@@ -8,8 +8,6 @@
 namespace Magento\Catalog\Service\V1\Category\ProductLinks;
 
 use Magento\Catalog\Model\Category as CategoryModel;
-use Magento\Catalog\Model\CategoryFactory;
-use Magento\Catalog\Model\Product as ProductModel;
 use Magento\Catalog\Model\ProductFactory;
 use Magento\Catalog\Service\V1\Category\CategoryLoaderFactory;
 use Magento\Catalog\Service\V1\Data\Category;

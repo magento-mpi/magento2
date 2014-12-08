@@ -8,8 +8,8 @@
 
 namespace Magento\VersionsCms\Test\TestCase;
 
-use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 use Magento\VersionsCms\Test\Fixture\Widget;
+use Magento\Widget\Test\TestCase\AbstractCreateWidgetEntityTest;
 
 /**
  * Test Flow:

@@ -8,8 +8,8 @@
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class WriteServiceTest

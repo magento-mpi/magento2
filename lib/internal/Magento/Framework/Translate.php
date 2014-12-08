@@ -346,7 +346,7 @@ class Translate implements \Magento\Framework\TranslateInterface
      */
     protected function _getFileData($file)
     {
-        $data = array();
+        $data = [];
         if ($this->directory->isExist($this->directory->getRelativePath($file))) {
             $this->_csvParser->setDelimiter(',');
             $data = $this->_csvParser->getDataPairs($file);
@@ -362,7 +362,7 @@ class Translate implements \Magento\Framework\TranslateInterface
     public function getData()
     {
         if (is_null($this->_data)) {
-            return array();
+            return [];
         }
         return $this->_data;
     }
@@ -452,7 +452,7 @@ class Translate implements \Magento\Framework\TranslateInterface
      */
     protected function _saveCache()
     {
-        $this->_cache->save(serialize($this->getData()), $this->getCacheId(), array(), false);
+        $this->_cache->save(serialize($this->getData()), $this->getCacheId(), [], false);
         return $this;
     }
 }

@@ -7,8 +7,8 @@
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
-use Magento\Framework\Model\Exception;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Model\Exception;
 
 /**
  * Cart totals amount condition
@@ -28,7 +28,7 @@ class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Amount');
@@ -42,7 +42,7 @@ class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function getNewChildSelectOptions()
     {
-        return array('value' => $this->getType(), 'label' => __('Total Amount'));
+        return ['value' => $this->getType(), 'label' => __('Total Amount')];
     }
 
     /**
@@ -52,7 +52,7 @@ class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array('subtotal' => __('subtotal'), 'grand_total' => __('grand total')));
+        $this->setAttributeOption(['subtotal' => __('subtotal'), 'grand_total' => __('grand total')]);
         return $this;
     }
 
@@ -85,7 +85,7 @@ class Amount extends \Magento\Reminder\Model\Condition\AbstractCondition
         $operator = $this->getResource()->getSqlOperator($this->getOperator());
 
         $select = $this->getResource()->createSelect();
-        $select->from(array('quote' => $table), array(new \Zend_Db_Expr(1)));
+        $select->from(['quote' => $table], [new \Zend_Db_Expr(1)]);
 
         switch ($this->getAttribute()) {
             case 'subtotal':

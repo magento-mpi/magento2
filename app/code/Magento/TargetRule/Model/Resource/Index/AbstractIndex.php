@@ -7,8 +7,8 @@
  */
 namespace Magento\TargetRule\Model\Resource\Index;
 
-use Magento\TargetRule\Model\Index;
 use Magento\Framework\Model\Exception as ModelException;
+use Magento\TargetRule\Model\Index;
 
 /**
  * TargetRule Product List Abstract Indexer Resource Model
@@ -97,9 +97,9 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     public function loadProductIdsBySegmentId($object, $segmentId)
     {
         $select = $this->_getReadAdapter()->select()
-            ->from(array('i' => $this->getMainTable()), array())
+            ->from(['i' => $this->getMainTable()], [])
             ->joinInner(
-                array('p' => $this->getProductTable()),
+                ['p' => $this->getProductTable()],
                 'i.product_set_id = p.product_set_id',
                 'product_id'
             )->where(
@@ -112,12 +112,12 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
                 'customer_segment_id = :customer_segment_id'
             );
 
-        $bind = array(
+        $bind = [
             ':entity_id' => $object->getProduct()->getEntityId(),
             ':store_id' => $object->getStoreId(),
             ':customer_group_id' => $object->getCustomerGroupId(),
-            ':customer_segment_id' => $segmentId
-        );
+            ':customer_segment_id' => $segmentId,
+        ];
 
         return $this->_getReadAdapter()->fetchCol($select, $bind);
     }
@@ -130,7 +130,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
      */
     public function deleteIndexProducts($productSetId)
     {
-        $this->_getWriteAdapter()->delete($this->getProductTable(), array('product_set_id = ?' => $productSetId));
+        $this->_getWriteAdapter()->delete($this->getProductTable(), ['product_set_id = ?' => $productSetId]);
 
         return $this;
     }
@@ -149,12 +149,12 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
         }
 
         if (count($productIds) > 0) {
-            $data = array();
+            $data = [];
             foreach ($productIds as $productId) {
-                $data[] = array(
+                $data[] = [
                     'product_set_id' => $productSetId,
                     'product_id'    => $productId,
-                );
+                ];
             }
             $this->_getWriteAdapter()->insertMultiple($this->getProductTable(), $data);
         }
@@ -179,22 +179,22 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
             ->where('customer_group_id = :customer_group_id')
             ->where('customer_segment_id = :customer_segment_id');
 
-        $bind = array(
+        $bind = [
             ':entity_id' => $object->getProduct()->getEntityId(),
             ':store_id' => $object->getStoreId(),
             ':customer_group_id' => $object->getCustomerGroupId(),
-            ':customer_segment_id' => $segmentId
-        );
+            ':customer_segment_id' => $segmentId,
+        ];
 
         $productSetId = $this->_getReadAdapter()->fetchOne($select, $bind);
 
         if (!$productSetId) {
-            $data = array(
+            $data = [
                 'entity_id'           => $object->getProduct()->getEntityId(),
                 'store_id'            => $object->getStoreId(),
                 'customer_group_id'   => $object->getCustomerGroupId(),
                 'customer_segment_id' => $segmentId,
-            );
+            ];
             $this->_getWriteAdapter()->insert($this->getMainTable(), $data);
             $productSetId = $this->_getWriteAdapter()->lastInsertId();
         } else {
@@ -213,7 +213,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
      */
     public function removeIndex($entityIds)
     {
-        $this->_getWriteAdapter()->delete($this->getMainTable(), array('entity_id IN(?)' => $entityIds));
+        $this->_getWriteAdapter()->delete($this->getMainTable(), ['entity_id IN(?)' => $entityIds]);
 
         return $this;
     }
@@ -233,7 +233,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
         if ($store instanceof \Magento\Store\Model\Store) {
             $store = $store->getId();
         }
-        $where = array('store_id IN(?)' => $store);
+        $where = ['store_id IN(?)' => $store];
         $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
         return $this;
@@ -248,10 +248,10 @@ abstract class AbstractIndex extends \Magento\Framework\Model\Resource\Db\Abstra
     public function deleteProductFromIndex($productId = null)
     {
         if (!is_null($productId)) {
-            $where = array('entity_id = ?' => $productId);
+            $where = ['entity_id = ?' => $productId];
             $this->_getWriteAdapter()->delete($this->getMainTable(), $where);
 
-            $where = array('product_id = ?' => $productId);
+            $where = ['product_id = ?' => $productId];
             $this->_getWriteAdapter()->delete($this->getProductTable(), $where);
         }
         return $this;

@@ -1,7 +1,7 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -62,7 +62,7 @@ class Options
     protected function getVisibilities($product)
     {
         /** @var \Magento\Catalog\Model\Product[] $collection */
-        $collection = $product->getTypeInstance()->getAssociatedProducts($product)?: [];
+        $collection = $product->getTypeInstance()->getAssociatedProducts($product) ?: [];
         $visibilities = [];
         /** @var \Magento\Catalog\Model\Product $item */
         foreach ($collection as $item) {

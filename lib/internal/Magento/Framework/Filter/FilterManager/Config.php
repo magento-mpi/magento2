@@ -15,12 +15,12 @@ class Config implements ConfigInterface
     /**
      * @var string[]
      */
-    protected $factories = array('Magento\Framework\Filter\Factory', 'Magento\Framework\Filter\ZendFactory');
+    protected $factories = ['Magento\Framework\Filter\Factory', 'Magento\Framework\Filter\ZendFactory'];
 
     /**
      * @param string[] $factories
      */
-    public function __construct(array $factories = array())
+    public function __construct(array $factories = [])
     {
         if (!empty($factories)) {
             $this->factories = array_merge($factories, $this->factories);

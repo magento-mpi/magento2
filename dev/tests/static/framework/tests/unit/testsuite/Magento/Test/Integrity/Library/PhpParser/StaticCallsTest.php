@@ -40,12 +40,12 @@ class StaticCallsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDependencies()
     {
-        $tokens = array(
-            0 => array(T_WHITESPACE, ' '),
-            1 => array(T_NS_SEPARATOR, '\\'),
-            2 => array(T_STRING, 'Object'),
-            3 => array(T_PAAMAYIM_NEKUDOTAYIM, '::')
-        );
+        $tokens = [
+            0 => [T_WHITESPACE, ' '],
+            1 => [T_NS_SEPARATOR, '\\'],
+            2 => [T_STRING, 'Object'],
+            3 => [T_PAAMAYIM_NEKUDOTAYIM, '::'],
+        ];
 
         $this->tokens->expects($this->any())->method('getPreviousToken')->will(
             $this->returnCallback(
@@ -84,6 +84,6 @@ class StaticCallsTest extends \PHPUnit_Framework_TestCase
 
         $uses->expects($this->once())->method('getClassNameWithNamespace')->will($this->returnValue('\Object'));
 
-        $this->assertEquals(array('\Object'), $throws->getDependencies($uses));
+        $this->assertEquals(['\Object'], $throws->getDependencies($uses));
     }
 }

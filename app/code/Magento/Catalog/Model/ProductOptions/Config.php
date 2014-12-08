@@ -31,7 +31,7 @@ class Config extends \Magento\Framework\Config\Data implements
      */
     public function getOption($name)
     {
-        return $this->get($name, array());
+        return $this->get($name, []);
     }
 
     /**

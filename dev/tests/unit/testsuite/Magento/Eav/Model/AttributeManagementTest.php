@@ -1,12 +1,12 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Eav\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -17,7 +17,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
      * @var AttributeManagement
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -88,7 +88,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssignNoSuchEntityException()
     {
-        $entityTypeCode= 1;
+        $entityTypeCode = 1;
         $attributeSetId = 2;
         $attributeGroupId = 3;
         $attributeCode = 4;
@@ -97,7 +97,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
         $this->setRepositoryMock->expects($this->once())
             ->method('get')
             ->with($attributeSetId)
-            ->will($this->throwException(new \Magento\Framework\Exception\NoSuchEntityException));
+            ->will($this->throwException(new \Magento\Framework\Exception\NoSuchEntityException()));
 
         $this->model->assign($entityTypeCode, $attributeSetId, $attributeGroupId, $attributeCode, $sortOrder);
     }
@@ -109,7 +109,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function testAssignInputException()
     {
-        $entityTypeCode= 1;
+        $entityTypeCode = 1;
         $attributeSetId = 2;
         $attributeGroupId = 3;
         $attributeCode = 4;
@@ -130,7 +130,7 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
 
     public function testAssign()
     {
-        $entityTypeCode= 1;
+        $entityTypeCode = 1;
         $attributeSetId = 2;
         $attributeGroupId = 3;
         $attributeCode = 4;

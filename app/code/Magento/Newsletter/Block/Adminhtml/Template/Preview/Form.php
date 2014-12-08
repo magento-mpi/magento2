@@ -24,18 +24,17 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'preview_form',
-                    'action' => $this->getUrl('*/*/drop', array('_current' => true)),
-                    'method' => 'post'
-                )
-            )
+                    'action' => $this->getUrl('*/*/drop', ['_current' => true]),
+                    'method' => 'post',
+                ],
+            ]
         );
 
         if ($data = $this->getFormData()) {
-
-            $mapper = array('preview_store_id' => 'store_id');
+            $mapper = ['preview_store_id' => 'store_id'];
 
             foreach ($data as $key => $value) {
                 if (array_key_exists($key, $mapper)) {
@@ -43,7 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 } else {
                     $name = $key;
                 }
-                $form->addField($key, 'hidden', array('name' => $name));
+                $form->addField($key, 'hidden', ['name' => $name]);
             }
             $form->setValues($data);
         }

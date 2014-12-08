@@ -25,29 +25,29 @@ class Log
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @var array
      */
-    protected $roots = array();
+    protected $roots = [];
 
     /**
      * @var array
      */
-    protected $used = array();
+    protected $used = [];
 
     /**
      * @var array
      */
-    protected $stats = array('total' => 0, 'used' => 0, 'unused' => 0);
+    protected $stats = ['total' => 0, 'used' => 0, 'unused' => 0];
 
     /**
      * Constructor
      */
     public function __construct()
     {
-        register_shutdown_function(array($this, 'display'));
+        register_shutdown_function([$this, 'display']);
     }
 
     /**
@@ -111,7 +111,6 @@ class Log
             $this->roots[] = $item;
         }
         $item->setHash(spl_object_hash($object));
-
     }
 
     /**

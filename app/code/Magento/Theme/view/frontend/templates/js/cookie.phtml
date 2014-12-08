@@ -21,14 +21,14 @@
 		"mage/mage",
 		"mage/cookies"
 	], function($){
-	    
+
 	    $.extend($.mage.cookies.defaults, {
 	        expires: null,
 	        path: '<?php echo $this->getPath()?>',
 	        domain: '<?php echo $this->getDomain()?>',
 	        secure: false
 	    });
-	    
+
 	    $.extend($.cookie.defaults, $.mage.cookies.defaults);
 	});
 </script>

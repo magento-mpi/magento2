@@ -52,7 +52,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'telephone' => '(512) 999-9999',
             'fax' => '',
-            'save_in_address_book' => 1
+            'save_in_address_book' => 1,
         ];
         $this->_model->saveShipping($data, 1);
 
@@ -94,7 +94,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'telephone' => '(512) 999-9999',
             'fax' => '',
-            'save_in_address_book' => 1
+            'save_in_address_book' => 1,
         ];
         $this->_model->saveShipping($data, null);
 
@@ -251,7 +251,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'region' => 'Alabama',
             'telephone' => '(323) 255-5861',
             'customer_id' => null,
-            'customer_address_id' => null
+            'customer_address_id' => null,
         ];
 
         foreach ($quoteAddressFieldsToCheck as $field => $value) {
@@ -276,7 +276,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteFieldsToCheck = [
             'customer_firstname' => 'John',
             'customer_lastname' => 'Smith',
-            'customer_email' => 'John.Smith@example.com'
+            'customer_email' => 'John.Smith@example.com',
         ];
         foreach ($quoteFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $quote->getData($field), "{$field} value is set to quote incorrectly.");
@@ -339,7 +339,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
             'region' => 'Alabama',
             'telephone' => '(323) 255-5861',
             'customer_id' => null,
-            'customer_address_id' => null
+            'customer_address_id' => null,
         ];
 
         foreach ($quoteAddressFieldsToCheck as $field => $value) {
@@ -360,7 +360,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $quoteFieldsToCheck = [
             'customer_firstname' => 'John',
             'customer_lastname' => 'Smith',
-            'customer_email' => 'John.Smith@example.com'
+            'customer_email' => 'John.Smith@example.com',
         ];
         foreach ($quoteFieldsToCheck as $field => $value) {
             $this->assertEquals($value, $quote->getData($field), "{$field} value is set to quote incorrectly.");
@@ -388,7 +388,7 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $result = $this->_model->saveBilling($customerData, $customerAddressId);
         $validationErrors = [
             '"First Name" is a required value.',
-            '"First Name" length must be equal or greater than 1 characters.'
+            '"First Name" length must be equal or greater than 1 characters.',
         ];
         $this->assertEquals(
             ['error' => 1, 'message' => $validationErrors],

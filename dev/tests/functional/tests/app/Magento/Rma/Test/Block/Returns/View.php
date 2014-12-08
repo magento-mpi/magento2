@@ -8,8 +8,8 @@
 
 namespace Magento\Rma\Test\Block\Returns;
 
-use Mtf\Block\Block;
 use Magento\Rma\Test\Block\Returns\View\RmaItems;
+use Mtf\Block\Block;
 
 /**
  * Rma view block on frontend.

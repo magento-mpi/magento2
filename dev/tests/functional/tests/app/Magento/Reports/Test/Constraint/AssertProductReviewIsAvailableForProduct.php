@@ -8,11 +8,11 @@
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Review\Test\Fixture\ReviewInjectable;
-use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
 use Magento\Review\Test\Constraint\AssertProductReviewInGrid;
+use Magento\Review\Test\Fixture\ReviewInjectable;
+use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductReviewIsVisibleInGrid

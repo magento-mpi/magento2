@@ -36,7 +36,7 @@ class Current extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_defaultPath = $defaultPath;
@@ -59,13 +59,13 @@ class Current extends \Magento\Framework\View\Element\Template
      */
     private function getMca()
     {
-        $routeParts = array(
+        $routeParts = [
             'module' => $this->_request->getModuleName(),
             'controller' => $this->_request->getControllerName(),
-            'action' => $this->_request->getActionName()
-        );
+            'action' => $this->_request->getActionName(),
+        ];
 
-        $parts = array();
+        $parts = [];
         foreach ($routeParts as $key => $value) {
             if (!empty($value) && $value != $this->_defaultPath->getPart($key)) {
                 $parts[] = $value;

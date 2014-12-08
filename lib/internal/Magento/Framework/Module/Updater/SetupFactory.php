@@ -53,7 +53,7 @@ class SetupFactory
 
         return $this->_objectManager->create(
             $className,
-            array('resourceName' => $resourceName, 'moduleName' => $moduleName)
+            ['resourceName' => $resourceName, 'moduleName' => $moduleName]
         );
     }
 }

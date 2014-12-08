@@ -10,5 +10,4 @@ namespace Magento\Framework\Exception;
 
 class CouldNotDeleteException extends LocalizedException
 {
-
 }

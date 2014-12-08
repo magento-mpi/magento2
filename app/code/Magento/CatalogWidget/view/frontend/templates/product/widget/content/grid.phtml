@@ -20,7 +20,7 @@
     $mode = 'grid';
 
     $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-    $image ='new_products_content_widget_grid';
+    $image = 'new_products_content_widget_grid';
     $title = $this->getTitle() ? __($this->getTitle()) : '';
     $items = $this->getProductCollection()->getItems();
 
@@ -41,8 +41,8 @@
             <div class="products-<?php echo $mode; ?> <?php echo $mode; ?>">
                 <ol class="product-items <?php echo $type; ?>">
                     <?php $iterator = 1; ?>
-                    <?php foreach($items as $_item): ?>
-                        <?php echo ($iterator++==1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                    <?php foreach ($items as $_item): ?>
+                        <?php echo($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
                         <div class="product-item-info">
                             <a href="<?php echo $this->getProductUrl($_item) ?>" class="product-item-photo">
                                 <?php echo $imageBlock->init($_item, $image)->toHtml() ?>
@@ -63,11 +63,11 @@
                                     <?php echo $this->getReviewsSummaryHtml($_item, $templateType) ?>
                                 <?php endif; ?>
 
-                                <?php if($showWishlist || $showCompare || $showCart): ?>
+                                <?php if ($showWishlist || $showCompare || $showCart): ?>
                                     <div class="product-item-actions">
-                                        <?php if($showCart): ?>
+                                        <?php if ($showCart): ?>
                                             <div class="actions-primary">
-                                                <?php if($_item->isSaleable()): ?>
+                                                <?php if ($_item->isSaleable()): ?>
                                                     <?php if ($_item->getTypeInstance()->hasRequiredOptions($_item)): ?>
                                                         <button class="action tocart primary"
                                                                 data-mage-init='{"redirectUrl":{"url":"<?php echo $this->getAddToCartUrl($_item) ?>"}}'
@@ -94,7 +94,7 @@
                                                 <?php endif; ?>
                                             </div>
                                         <?php endif; ?>
-                                        <?php if($showWishlist || $showCompare): ?>
+                                        <?php if ($showWishlist || $showCompare): ?>
                                             <div class="actions-secondary" data-role="add-to-links">
                                                 <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllow() && $showWishlist): ?>
                                                     <a href="#"
@@ -104,7 +104,7 @@
                                                         <span><?php echo __('Add to Wishlist') ?></span>
                                                     </a>
                                                 <?php endif; ?>
-                                                <?php if($this->getAddToCompareUrl() && $showCompare): ?>
+                                                <?php if ($this->getAddToCompareUrl() && $showCompare): ?>
                                                     <?php $compareHelper = $this->helper('Magento\Catalog\Helper\Product\Compare');?>
                                                     <a href="#" class="action tocompare"
                                                        data-post='<?php echo $compareHelper->getPostDataParams($_item);?>'
@@ -118,7 +118,7 @@
                                 <?php endif; ?>
                             </div>
                         </div>
-                        <?php echo ($iterator==count($items)+1) ? '</li>' : '' ?>
+                        <?php echo($iterator == count($items)+1) ? '</li>' : '' ?>
                     <?php endforeach ?>
                 </ol>
             </div>

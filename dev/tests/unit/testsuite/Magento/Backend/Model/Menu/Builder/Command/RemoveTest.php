@@ -14,7 +14,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
-    protected $_params = array('id' => 'item');
+    protected $_params = ['id' => 'item'];
 
     protected function setUp()
     {
@@ -23,7 +23,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteMarksItemAsRemoved()
     {
-        $params = $this->_model->execute(array());
+        $params = $this->_model->execute([]);
         $this->_params['removed'] = true;
         $this->assertEquals($this->_params, $params);
     }

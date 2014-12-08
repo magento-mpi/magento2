@@ -8,10 +8,10 @@
 
 namespace Magento\UrlRewrite\Test\Constraint;
 
+use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
-use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 
 /**
  * Class AssertUrlRewriteCustomSearchRedirect

@@ -31,6 +31,6 @@ class Grid extends FilterGrid
     protected $rows = [
         'qty',
         'invoiced',
-        'total-invoiced'
+        'total-invoiced',
     ];
 }

@@ -23,7 +23,7 @@ class HelperTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\DB\Helper',
-            array('modulePrefix' => 'core')
+            ['modulePrefix' => 'core']
         );
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Store\Model\Resource\Store\Collection'

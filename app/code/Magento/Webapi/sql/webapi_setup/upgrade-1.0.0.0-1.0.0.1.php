@@ -17,12 +17,12 @@ $table = $installer->getTable('webapi_user');
 $connection->addColumn(
     $table,
     'api_secret',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => false,
         'comment' => 'API Secret used for authentication.'
-    )
+    ]
 );
 
 $installer->endSetup();

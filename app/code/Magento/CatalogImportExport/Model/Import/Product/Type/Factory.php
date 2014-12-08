@@ -33,7 +33,7 @@ class Factory
      * @return \Magento\CatalogImportExport\Model\Import\Product\Type\AbstractType
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $arguments = array())
+    public function create($className, array $arguments = [])
     {
         if (!$className) {
             throw new \InvalidArgumentException('Incorrect class name');

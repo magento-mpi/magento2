@@ -46,8 +46,8 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             'email' => $this->customerData['email'],
             'addresses' => [
                 ['city' => CustomerHelper::ADDRESS_CITY1],
-                ['city' => CustomerHelper::ADDRESS_CITY2]
-            ]
+                ['city' => CustomerHelper::ADDRESS_CITY2],
+            ],
         ];
         $result = $this->_getCustomerWithFilter($filter, $this->customerData['id']);
         $this->assertEquals($expected, $result);
@@ -59,8 +59,8 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $expected = [
             'addresses' => [
                 ['region' => ['region_code' => CustomerHelper::ADDRESS_REGION_CODE1]],
-                ['region' => ['region_code' => CustomerHelper::ADDRESS_REGION_CODE2]]
-            ]
+                ['region' => ['region_code' => CustomerHelper::ADDRESS_REGION_CODE2]],
+            ],
         ];
         $result = $this->_getCustomerWithFilter($filter, $this->customerData['id']);
         $this->assertEquals($expected, $result);
@@ -93,8 +93,8 @@ class PartialResponseTest extends \Magento\TestFramework\TestCase\WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $resourcePath,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ]
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
         ];
 
         return $this->_webApiCall($serviceInfo);

@@ -8,8 +8,8 @@
 
 namespace Magento\Invitation\Test\Block\Adminhtml\Invitation\View\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Tab for general invitation information.

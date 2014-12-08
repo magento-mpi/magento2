@@ -37,7 +37,7 @@ class BinderTest extends \PHPUnit_Framework_TestCase
             'filters' => ['filter' => ['from' => '$from$', 'to' => '$to$', 'value' => '$filter$']],
             'aggregations' => ['price' => ['method' => '$method$']],
             'from' => 0,
-            'size' => 15
+            'size' => 15,
         ];
         $bindData = [
             'dimensions' => ['scope' => 'default'],
@@ -46,10 +46,10 @@ class BinderTest extends \PHPUnit_Framework_TestCase
                 '$from$' => 'filter_from',
                 '$to$' => 'filter_to',
                 '$filter$' => 'filter_value',
-                '$method$' => 'filter_method'
+                '$method$' => 'filter_method',
             ],
             'from' => 1,
-            'size' => 10
+            'size' => 10,
         ];
         $expectedResult = [
             'dimensions' => ['scope' => ['value' => 'default']],
@@ -57,7 +57,7 @@ class BinderTest extends \PHPUnit_Framework_TestCase
             'filters' => ['filter' => ['from' => 'filter_from', 'to' => 'filter_to', 'value' => 'filter_value']],
             'aggregations' => ['price' => ['method' => 'filter_method']],
             'from' => 1,
-            'size' => 10
+            'size' => 10,
         ];
 
         $result = $this->binder->bind($requestData, $bindData);

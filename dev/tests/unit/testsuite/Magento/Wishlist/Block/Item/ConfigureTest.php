@@ -164,7 +164,6 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($layoutMock, $this->_model->getLayout());
     }
 
-
     public function testSetLayoutWithNoBlockAndItem()
     {
         $layoutMock = $this->getMock(

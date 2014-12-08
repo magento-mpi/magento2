@@ -8,8 +8,8 @@
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Reports\Test\Page\Adminhtml\SearchIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertSearchTermsInGrid

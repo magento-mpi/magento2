@@ -81,28 +81,24 @@ class ObjectManagerFactory extends \Magento\Framework\App\ObjectManagerFactory
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = array_replace(
                 parent::_loadPrimaryConfig($directoryList, $driverPool, $argumentMapper, $appMode),
-                array(
-                    'default_setup' => array('type' => 'Magento\TestFramework\Db\ConnectionAdapter')
-                )
+                [
+                    'default_setup' => ['type' => 'Magento\TestFramework\Db\ConnectionAdapter']
+                ]
             );
             $this->_primaryConfigData['preferences'] = array_replace(
                 $this->_primaryConfigData['preferences'],
                 [
                     'Magento\Framework\Stdlib\CookieManagerInterface' => 'Magento\TestFramework\CookieManager',
-                    'Magento\Framework\ObjectManager\DynamicConfigInterface' =>
-                        '\Magento\TestFramework\ObjectManager\Configurator',
+                    'Magento\Framework\ObjectManager\DynamicConfigInterface' => '\Magento\TestFramework\ObjectManager\Configurator',
                     'Magento\Framework\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
                     'Magento\Framework\App\RequestInterface' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\Request\Http' => 'Magento\TestFramework\Request',
                     'Magento\Framework\App\ResponseInterface' => 'Magento\TestFramework\Response',
                     'Magento\Framework\App\Response\Http' => 'Magento\TestFramework\Response',
-                    'Magento\Framework\Interception\PluginListInterface'
-                        => 'Magento\TestFramework\Interception\PluginList',
-                    'Magento\Framework\Interception\ObjectManager\Config' =>
-                        'Magento\TestFramework\ObjectManager\Config',
+                    'Magento\Framework\Interception\PluginListInterface' => 'Magento\TestFramework\Interception\PluginList',
+                    'Magento\Framework\Interception\ObjectManager\Config' => 'Magento\TestFramework\ObjectManager\Config',
                     'Magento\Framework\View\LayoutInterface' => 'Magento\TestFramework\View\Layout',
-                    'Magento\Framework\App\Resource\ConnectionAdapterInterface' =>
-                        'Magento\TestFramework\Db\ConnectionAdapter',
+                    'Magento\Framework\App\Resource\ConnectionAdapterInterface' => 'Magento\TestFramework\Db\ConnectionAdapter',
                 ]
             );
         }

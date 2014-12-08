@@ -22,9 +22,9 @@ class ListAction extends \Magento\Backend\App\AbstractAction
         if ($severity) {
             $messageCollection->setSeverity($severity);
         }
-        $result = array();
+        $result = [];
         foreach ($messageCollection->getItems() as $item) {
-            $result[] = array('severity' => $item->getSeverity(), 'text' => $item->getText());
+            $result[] = ['severity' => $item->getSeverity(), 'text' => $item->getText()];
         }
         $this->getResponse()->representJson(
             $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)

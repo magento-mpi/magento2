@@ -26,8 +26,8 @@ class PaypalPayflowLinkOrder extends OrderCheckout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '168.72'
-            ]
+                'grand_total' => '168.72',
+            ],
         ];
     }
 

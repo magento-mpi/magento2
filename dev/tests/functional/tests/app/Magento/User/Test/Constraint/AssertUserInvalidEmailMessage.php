@@ -8,9 +8,9 @@
 
 namespace Magento\User\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\User\Test\Page\Adminhtml\UserEdit;
 use Magento\User\Test\Fixture\User;
+use Magento\User\Test\Page\Adminhtml\UserEdit;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertUserInvalidEmailMessage

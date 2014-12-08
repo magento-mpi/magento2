@@ -8,8 +8,8 @@
 
 namespace Magento\Bundle\Test\Repository;
 
-use Magento\Catalog\Test\Repository\Product;
 use Magento\Catalog\Test\Fixture;
+use Magento\Catalog\Test\Repository\Product;
 
 /**
  * Class Product Repository
@@ -32,15 +32,15 @@ class Bundle extends Product
                         'fields' => [
                             'price' => [
                                 'value' => 60,
-                                'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                            ]
+                                'group' => Fixture\Product::GROUP_PRODUCT_DETAILS,
+                            ],
                         ],
                         'checkout' => [
                             'prices' => [
                                 'price_from' => 70,
-                                'price_to' => 72
-                            ]
-                        ]
+                                'price_to' => 72,
+                            ],
+                        ],
                     ]
                 ]
             );

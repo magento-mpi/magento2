@@ -8,10 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
+use Magento\Cms\Test\Page\CmsIndex;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertChildProductIsNotDisplayedSeparately

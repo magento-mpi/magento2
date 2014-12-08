@@ -28,7 +28,7 @@ class Formset extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_setFactory = $setFactory;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -45,22 +45,22 @@ class Formset extends \Magento\Backend\Block\Widget\Form\Generic
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('set_name', array('legend' => __('Edit Set Name')));
+        $fieldset = $form->addFieldset('set_name', ['legend' => __('Edit Set Name')]);
         $fieldset->addField(
             'attribute_set_name',
             'text',
-            array(
+            [
                 'label' => __('Name'),
                 'note' => __('For internal use'),
                 'name' => 'attribute_set_name',
                 'required' => true,
                 'class' => 'required-entry validate-no-html-tags',
                 'value' => $data->getAttributeSetName()
-            )
+            ]
         );
 
         if (!$this->getRequest()->getParam('id', false)) {
-            $fieldset->addField('gotoEdit', 'hidden', array('name' => 'gotoEdit', 'value' => '1'));
+            $fieldset->addField('gotoEdit', 'hidden', ['name' => 'gotoEdit', 'value' => '1']);
 
             $sets = $this->_setFactory->create()->getResourceCollection()->setEntityTypeFilter(
                 $this->_coreRegistry->registry('entityType')
@@ -69,13 +69,13 @@ class Formset extends \Magento\Backend\Block\Widget\Form\Generic
             $fieldset->addField(
                 'skeleton_set',
                 'select',
-                array(
+                [
                     'label' => __('Based On'),
                     'name' => 'skeleton_set',
                     'required' => true,
                     'class' => 'required-entry',
                     'values' => $sets
-                )
+                ]
             );
         }
 

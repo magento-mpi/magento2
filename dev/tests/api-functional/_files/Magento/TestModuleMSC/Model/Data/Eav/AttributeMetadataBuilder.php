@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModuleMSC\Model\Data\Eav;
 
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeMetadataBuilderInterface;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * Class AttributeMetadataBuilder

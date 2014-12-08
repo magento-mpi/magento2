@@ -9,9 +9,9 @@
  */
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 
-use Magento\Integration\Model\Integration;
-use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 use Magento\Framework\Object;
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
+use Magento\Integration\Model\Integration;
 
 class Activate extends Link
 {
@@ -37,7 +37,7 @@ class Activate extends Link
      */
     protected function _getAttributes()
     {
-        return array_merge(parent::_getAttributes(), array('onclick' => 'integration.popup.show(this);'));
+        return array_merge(parent::_getAttributes(), ['onclick' => 'integration.popup.show(this);']);
     }
 
     /**
@@ -45,11 +45,11 @@ class Activate extends Link
      */
     protected function _getDataAttributes()
     {
-        return array(
+        return [
             'row-id' => $this->_row->getId(),
             'row-dialog' => 'permissions',
             'row-is-reauthorize' => $this->_row->getStatus() == Integration::STATUS_INACTIVE ? '0' : '1',
             'row-is-token-exchange' => $this->_row->getEndpoint() && $this->_row->getIdentityLinkUrl() ? '1' : '0'
-        );
+        ];
     }
 }

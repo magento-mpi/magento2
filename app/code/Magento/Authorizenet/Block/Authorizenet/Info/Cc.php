@@ -38,7 +38,7 @@ class Cc extends \Magento\Payment\Block\Info\Cc
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Core\Helper\Data $coreData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context, $paymentConfig, $data);
@@ -90,11 +90,11 @@ class Cc extends \Magento\Payment\Block\Info\Cc
     public function getCards()
     {
         $cardsData = $this->getMethod()->getCardsStorage()->getCards();
-        $cards = array();
+        $cards = [];
 
         if (is_array($cardsData)) {
             foreach ($cardsData as $cardInfo) {
-                $data = array();
+                $data = [];
                 if ($cardInfo->getProcessedAmount()) {
                     $amount = $this->_coreData->currency($cardInfo->getProcessedAmount(), true, false);
                     $data[__('Processed Amount')] = $amount;

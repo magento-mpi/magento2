@@ -36,15 +36,15 @@ class OrderRevertTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Reverted from incomplete order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Reverted from incomplete order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Reverted from incomplete order #1'
-            )
-        );
+            ]
+        ];
     }
 }

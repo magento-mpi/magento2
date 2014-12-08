@@ -41,7 +41,7 @@ class StockFactory
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface
      * @throws \InvalidArgumentException
      */
-    public function create($indexerClassName = '', array $data = array())
+    public function create($indexerClassName = '', array $data = [])
     {
         if (empty($indexerClassName)) {
             $indexerClassName = $this->_defaultIndexer;

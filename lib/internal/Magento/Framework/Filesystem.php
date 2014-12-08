@@ -31,12 +31,12 @@ class Filesystem
     /**
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface[]
      */
-    protected $readInstances = array();
+    protected $readInstances = [];
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface[]
      */
-    protected $writeInstances = array();
+    protected $writeInstances = [];
 
     /**
      * @param Filesystem\DirectoryList $directoryList

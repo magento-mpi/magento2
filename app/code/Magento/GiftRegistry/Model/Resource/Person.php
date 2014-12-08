@@ -55,11 +55,11 @@ class Person extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param array $personLeft - records which should not be deleted
      * @return $this
      */
-    public function deleteOrphan($entityId, $personLeft = array())
+    public function deleteOrphan($entityId, $personLeft = [])
     {
         $adapter = $this->_getWriteAdapter();
-        $condition = array();
-        $conditionIn = array();
+        $condition = [];
+        $conditionIn = [];
 
         $condition[] = $adapter->quoteInto('entity_id = ?', (int)$entityId);
         if (is_array($personLeft) && !empty($personLeft)) {

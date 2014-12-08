@@ -7,10 +7,10 @@
  */
 namespace Magento\Setup\Controller;
 
+use Magento\Setup\Model\Lists;
 use Magento\Setup\Model\SampleData;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\Lists;
 
 class CustomizeYourStoreController extends AbstractActionController
 {
@@ -53,7 +53,7 @@ class CustomizeYourStoreController extends AbstractActionController
             'timezone' => $this->list->getTimezoneList(),
             'currency' => $this->list->getCurrencyList(),
             'language' => $this->list->getLocaleList(),
-            'isSampledataEnabled' => $this->sampleData->isDeployed()
+            'isSampledataEnabled' => $this->sampleData->isDeployed(),
         ]);
 
         $this->view->setTerminal(true);

@@ -73,7 +73,7 @@ class Block extends \Magento\Framework\Model\AbstractModel implements IdentityIn
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 
     /**

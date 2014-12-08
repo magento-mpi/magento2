@@ -8,12 +8,12 @@
 
 namespace Magento\CatalogEvent\Test\Constraint;
 
-use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that widget catalog event carousel is present on category page and link "Go To Sale" on widget redirects

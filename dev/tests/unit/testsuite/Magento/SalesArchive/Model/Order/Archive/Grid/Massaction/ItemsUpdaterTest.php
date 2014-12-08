@@ -42,29 +42,29 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
             $this->_authorizationMock
         );
 
-        $this->_updateArgs = array(
-            'remove_order_from_archive' => array(
+        $this->_updateArgs = [
+            'remove_order_from_archive' => [
                 'label' => 'Move to Orders Management',
-                'url' => '*/sales_archive/massRemove'
-            ),
-            'cancel_order' => array('label' => 'Cancel', 'url' => '*/sales_archive/massCancel'),
-            'hold_order' => array('label' => 'Hold', 'url' => '*/sales_archive/massHold'),
-            'unhold_order' => array('label' => 'Unhold', 'url' => '*/sales_archive/massUnhold'),
-            'pdfinvoices_order' => array('label' => 'Print Invoices', 'url' => '*/sales_archive/massPrintInvoices'),
-            'pdfshipments_order' => array(
+                'url' => '*/sales_archive/massRemove',
+            ],
+            'cancel_order' => ['label' => 'Cancel', 'url' => '*/sales_archive/massCancel'],
+            'hold_order' => ['label' => 'Hold', 'url' => '*/sales_archive/massHold'],
+            'unhold_order' => ['label' => 'Unhold', 'url' => '*/sales_archive/massUnhold'],
+            'pdfinvoices_order' => ['label' => 'Print Invoices', 'url' => '*/sales_archive/massPrintInvoices'],
+            'pdfshipments_order' => [
                 'label' => 'Print Packing Slips',
-                'url' => '*/sales_archive/massPrintPackingSlips'
-            ),
-            'pdfcreditmemos_order' => array(
+                'url' => '*/sales_archive/massPrintPackingSlips',
+            ],
+            'pdfcreditmemos_order' => [
                 'label' => 'Print Credit Memos',
-                'url' => '*/sales_archive/massPrintCreditMemos'
-            ),
-            'pdfdocs_order' => array('label' => 'Print All', 'url' => '*/sales_archive/massPrintAllDocuments'),
-            'print_shipping_label' => array(
+                'url' => '*/sales_archive/massPrintCreditMemos',
+            ],
+            'pdfdocs_order' => ['label' => 'Print All', 'url' => '*/sales_archive/massPrintAllDocuments'],
+            'print_shipping_label' => [
                 'label' => 'Print Shipping Labels',
-                'url' => '*/sales_archive/massPrintShippingLabel'
-            )
-        );
+                'url' => '*/sales_archive/massPrintShippingLabel',
+            ],
+        ];
     }
 
     public function testConfigNotActive()
@@ -76,17 +76,17 @@ class ItemsUpdaterTest extends \PHPUnit_Framework_TestCase
 
     protected function _getAclResourceMap($isAllowed)
     {
-        return array(
-            array('Magento_Sales::cancel', null, $isAllowed),
-            array('Magento_Sales::hold', null, $isAllowed),
-            array('Magento_Sales::unhold', null, $isAllowed),
-            array('Magento_SalesArchive::remove', null, $isAllowed)
-        );
+        return [
+            ['Magento_Sales::cancel', null, $isAllowed],
+            ['Magento_Sales::hold', null, $isAllowed],
+            ['Magento_Sales::unhold', null, $isAllowed],
+            ['Magento_SalesArchive::remove', null, $isAllowed]
+        ];
     }
 
     protected function _getItemsId()
     {
-        return array('cancel_order', 'hold_order', 'unhold_order', 'remove_order_from_archive');
+        return ['cancel_order', 'hold_order', 'unhold_order', 'remove_order_from_archive'];
     }
 
     public function testAuthAllowed()

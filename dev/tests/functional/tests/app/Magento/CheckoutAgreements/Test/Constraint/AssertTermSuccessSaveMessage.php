@@ -8,8 +8,8 @@
 
 namespace Magento\CheckoutAgreements\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTermSuccessSaveMessage

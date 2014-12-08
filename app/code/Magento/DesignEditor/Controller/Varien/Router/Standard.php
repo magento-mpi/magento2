@@ -18,7 +18,7 @@ class Standard extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_excludedRouters = array('admin', 'vde');
+    protected $_excludedRouters = ['admin', 'vde'];
 
     /**
      * Router list
@@ -152,7 +152,7 @@ class Standard extends \Magento\Core\App\Router\Base
         list($vdeFrontName, $designMode, $themeId) = explode('/', trim($request->getPathInfo(), '/'));
         $request->setAlias('editorMode', $designMode);
         $request->setAlias('themeId', (int)$themeId);
-        $vdePath = implode('/', array($vdeFrontName, $designMode, $themeId));
+        $vdePath = implode('/', [$vdeFrontName, $designMode, $themeId]);
         $noVdePath = substr($request->getPathInfo(), strlen($vdePath) + 1) ?: '/';
         $request->setPathInfo($noVdePath);
         return $this;

@@ -7,7 +7,7 @@
  */
 namespace Magento\Checkout\Service\V1\Data;
 
-use \Magento\Checkout\Service\V1\Data\Cart\Currency;
+use Magento\Checkout\Service\V1\Data\Cart\Currency;
 
 /**
  * Cart data object builder

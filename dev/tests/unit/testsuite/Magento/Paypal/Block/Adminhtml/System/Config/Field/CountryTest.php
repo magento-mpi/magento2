@@ -90,7 +90,7 @@ class CountryTest extends \PHPUnit_Framework_TestCase
             new \PHPUnit_Framework_Constraint_StringContains('document.observe("dom:loaded", function() {'),
             new \PHPUnit_Framework_Constraint_StringContains(
                 '$("' . $this->_element->getHtmlId() . '").observe("change", function () {'
-            )
+            ),
         ];
         if ($canUseDefault && ($requestCountry == 'US') && $requestDefaultCountry) {
             $constraints[] = new \PHPUnit_Framework_Constraint_StringContains(

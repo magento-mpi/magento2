@@ -42,10 +42,10 @@ class Customer extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'rule_id = :rule_id'
         );
-        $data = $read->fetchRow($select, array(':rule_id' => $ruleId, ':customer_id' => $customerId));
+        $data = $read->fetchRow($select, [':rule_id' => $ruleId, ':customer_id' => $customerId]);
         if (false === $data) {
             // set empty data, as an existing rule object might be used
-            $data = array();
+            $data = [];
         }
         $rule->setData($data);
         return $this;

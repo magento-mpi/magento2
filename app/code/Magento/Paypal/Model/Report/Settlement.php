@@ -59,14 +59,14 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_rows = array();
+    protected $_rows = [];
 
     /**
      * @var array
      */
-    protected $_csvColumns = array(
-        'old' => array(
-            'section_columns' => array(
+    protected $_csvColumns = [
+        'old' => [
+            'section_columns' => [
                 '' => 0,
                 'TransactionID' => 1,
                 'InvoiceID' => 2,
@@ -82,9 +82,9 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                 'FeeAmount' => 12,
                 'FeeCurrency' => 13,
                 'CustomField' => 14,
-                'ConsumerID' => 15
-            ),
-            'rowmap' => array(
+                'ConsumerID' => 15,
+            ],
+            'rowmap' => [
                 'TransactionID' => 'transaction_id',
                 'InvoiceID' => 'invoice_id',
                 'PayPalReferenceID' => 'paypal_reference_id',
@@ -99,11 +99,11 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                 'FeeAmount' => 'fee_amount',
                 'FeeCurrency' => 'fee_currency',
                 'CustomField' => 'custom_field',
-                'ConsumerID' => 'consumer_id'
-            )
-        ),
-        'new' => array(
-            'section_columns' => array(
+                'ConsumerID' => 'consumer_id',
+            ],
+        ],
+        'new' => [
+            'section_columns' => [
                 '' => 0,
                 'Transaction ID' => 1,
                 'Invoice ID' => 2,
@@ -121,9 +121,9 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                 'Custom Field' => 14,
                 'Consumer ID' => 15,
                 'Payment Tracking ID' => 16,
-                'Store ID' => 17
-            ),
-            'rowmap' => array(
+                'Store ID' => 17,
+            ],
+            'rowmap' => [
                 'Transaction ID' => 'transaction_id',
                 'Invoice ID' => 'invoice_id',
                 'PayPal Reference ID' => 'paypal_reference_id',
@@ -140,10 +140,10 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                 'Custom Field' => 'custom_field',
                 'Consumer ID' => 'consumer_id',
                 'Payment Tracking ID' => 'payment_tracking_id',
-                'Store ID' => 'store_id'
-            )
-        )
-    );
+                'Store ID' => 'store_id',
+            ],
+        ],
+    ];
 
     /**
      * @var \Magento\Framework\Filesystem\Directory\WriteInterface
@@ -178,7 +178,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_tmpDirectory = $filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
         $this->_storeManager = $storeManager;
@@ -226,7 +226,6 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-
             $localCsv = 'PayPal_STL_' . uniqid(\Magento\Framework\Math\Random::getRandomNumber()) . time() . '.csv';
             if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
                 if (!$this->_tmpDirectory->isWritable($localCsv)) {
@@ -239,7 +238,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                 $fileEncoding = mb_detect_encoding($encoded);
 
                 if (self::FILES_OUT_CHARSET != $fileEncoding) {
-                    $decoded = @iconv($fileEncoding, self::FILES_OUT_CHARSET.'//IGNORE', $encoded);
+                    $decoded = @iconv($fileEncoding, self::FILES_OUT_CHARSET . '//IGNORE', $encoded);
                     $this->_tmpDirectory->writeFile($localCsv, $decoded);
                     $csvFormat = 'old';
                 }
@@ -299,7 +298,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
         }
         $connection = new \Magento\Framework\Io\Sftp();
         $connection->open(
-            array('host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password'])
+            ['host' => $config['hostname'], 'username' => $config['username'], 'password' => $config['password']]
         );
         $connection->cd($config['path']);
         return $connection;
@@ -314,7 +313,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      */
     public function parseCsv($localCsv, $format = 'new')
     {
-        $this->_rows = array();
+        $this->_rows = [];
 
         $sectionColumns = $this->_csvColumns[$format]['section_columns'];
         $rowMap = $this->_csvColumns[$format]['rowmap'];
@@ -356,7 +355,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                     break;
                 case 'SB':
                     // Section body.
-                    $bodyItem = array();
+                    $bodyItem = [];
                     for ($i = 1; $i < count($line); $i++) {
                         $bodyItem[$rowMap[$flippedSectionColumns[$i]]] = $line[$i];
                     }
@@ -455,8 +454,8 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      */
     public function getSftpCredentials($automaticMode = false)
     {
-        $configs = array();
-        $uniques = array();
+        $configs = [];
+        $uniques = [];
         foreach ($this->_storeManager->getStores() as $store) {
             /*@var $store \Magento\Store\Model\Store */
             $active = $this->_scopeConfig->isSetFlag(
@@ -467,7 +466,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
             if (!$active && $automaticMode) {
                 continue;
             }
-            $cfg = array(
+            $cfg = [
                 'hostname' => $this->_scopeConfig->getValue(
                     'paypal/fetch_reports/ftp_ip',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -492,8 +491,8 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
                     'paypal/fetch_reports/ftp_sandbox',
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
-                )
-            );
+                ),
+            ];
             if (empty($cfg['username']) || empty($cfg['password'])) {
                 continue;
             }
@@ -535,7 +534,7 @@ class Settlement extends \Magento\Framework\Model\AbstractModel
      */
     protected function _filterReportsList($list)
     {
-        $result = array();
+        $result = [];
         $pattern = '/^STL-(\d{8,8})\.(\d{2,2})\.(.{3,3})\.CSV$/';
         foreach ($list as $filename => $data) {
             if (preg_match($pattern, $filename)) {

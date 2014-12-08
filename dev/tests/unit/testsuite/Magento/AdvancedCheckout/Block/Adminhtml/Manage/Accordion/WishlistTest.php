@@ -196,7 +196,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                         'product_name' => 'Product Name',
                         'product_price' => 'Product Price',
                     ]
-                )
+                ),
             ]
         );
 

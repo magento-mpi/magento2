@@ -8,11 +8,11 @@
 
 namespace Magento\CustomerCustomAttributes\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
-use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
 use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
+use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteCustomerCustomAttributesEntity

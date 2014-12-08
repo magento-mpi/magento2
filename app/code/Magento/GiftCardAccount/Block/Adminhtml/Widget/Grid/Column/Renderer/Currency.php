@@ -12,7 +12,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * @var array
      */
-    protected static $_websiteBaseCurrencyCodes = array();
+    protected static $_websiteBaseCurrencyCodes = [];
 
     /**
      * @param \Magento\Framework\Object $row

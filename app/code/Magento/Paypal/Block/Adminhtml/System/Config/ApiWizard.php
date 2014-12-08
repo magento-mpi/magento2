@@ -53,14 +53,14 @@ class ApiWizard extends \Magento\Backend\Block\System\Config\Form\Field
     {
         $originalData = $element->getOriginalData();
         $this->addData(
-            array(
+            [
                 'button_label' => __($originalData['button_label']),
                 'button_url' => $originalData['button_url'],
                 'html_id' => $element->getHtmlId(),
                 'sandbox_button_label' => __($originalData['sandbox_button_label']),
                 'sandbox_button_url' => $originalData['sandbox_button_url'],
-                'sandbox_html_id' => 'sandbox_' . $element->getHtmlId()
-            )
+                'sandbox_html_id' => 'sandbox_' . $element->getHtmlId(),
+            ]
         );
         return $this->_toHtml();
     }

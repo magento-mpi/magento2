@@ -8,9 +8,9 @@
 
 namespace Magento\SampleData\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Class PredefineProductsTest
@@ -54,8 +54,7 @@ class PredefineProductsTest extends Injectable
                     'catalogCategory',
                     [
                         'dataSet' => 'default_anchor_subcategory',
-                        'data' =>
-                            [
+                        'data' => [
                                 'name' => $this->subCategory[$product[1]],
                                 'parent_id' => $rootCategoryId,
                             ]
@@ -68,8 +67,8 @@ class PredefineProductsTest extends Injectable
                     'dataSet' => $product[1],
                     'data' => [
                         'category_ids' => [
-                            'category' => $category
-                        ]
+                            'category' => $category,
+                        ],
                     ]
                 ]
             );

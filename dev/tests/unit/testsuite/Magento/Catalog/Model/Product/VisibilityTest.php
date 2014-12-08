@@ -26,8 +26,8 @@ class VisibilityTest extends \PHPUnit_Framework_TestCase
     {
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );

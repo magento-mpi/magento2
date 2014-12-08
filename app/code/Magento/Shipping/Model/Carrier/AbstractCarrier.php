@@ -8,8 +8,8 @@
 namespace Magento\Shipping\Model\Carrier;
 
 use Magento\Sales\Model\Quote\Address\AbstractCarrierInterface;
-use Magento\Shipping\Model\Shipment\Request;
 use Magento\Sales\Model\Quote\Address\RateResult\Error;
+use Magento\Shipping\Model\Shipment\Request;
 
 abstract class AbstractCarrier extends \Magento\Framework\Object implements AbstractCarrierInterface
 {
@@ -53,7 +53,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
      *
      * @var string[]
      */
-    protected $_customizableContainerTypes = array();
+    protected $_customizableContainerTypes = [];
 
     const USA_COUNTRY_ID = 'US';
 
@@ -74,7 +74,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
      *
      * @var array
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * Core store config
@@ -103,7 +103,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory $rateErrorFactory,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_scopeConfig = $scopeConfig;
@@ -190,7 +190,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
      */
     public function getContainerTypes(\Magento\Framework\Object $params = null)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -203,13 +203,13 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
     {
         $containersAll = $this->getContainerTypesAll();
         if (empty($containersAll)) {
-            return array();
+            return [];
         }
         if (empty($params)) {
             return $containersAll;
         }
         $containersFilter = $this->getContainerTypesFilter();
-        $containersFiltered = array();
+        $containersFiltered = [];
         $method = $params->getMethod();
         $countryShipper = $params->getCountryShipper();
         $countryRecipient = $params->getCountryRecipient();
@@ -264,7 +264,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
      */
     public function getDeliveryConfirmationTypes(\Magento\Framework\Object $params = null)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -279,7 +279,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
          */
         if ($speCountriesAllow && $speCountriesAllow == 1) {
             $showMethod = $this->getConfigData('showmethod');
-            $availableCountries = array();
+            $availableCountries = [];
             if ($this->getConfigData('specificcountry')) {
                 $availableCountries = explode(',', $this->getConfigData('specificcountry'));
             }
@@ -572,7 +572,7 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
     {
         if ($this->getDebugFlag()) {
             $this->_logAdapterFactory->create(
-                array('fileName' => 'shipping_' . $this->getCarrierCode() . '.log')
+                ['fileName' => 'shipping_' . $this->getCarrierCode() . '.log']
             )->setFilterDataKeys(
                 $this->_debugReplacePrivateDataKeys
             )->log(
@@ -620,6 +620,6 @@ abstract class AbstractCarrier extends \Magento\Framework\Object implements Abst
      */
     public function getContentTypes(\Magento\Framework\Object $params)
     {
-        return array();
+        return [];
     }
 }

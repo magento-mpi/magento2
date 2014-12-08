@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -28,7 +28,7 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->messageMock = $this->getMock('\Magento\GiftMessage\Model\GiftMessageManager', [], [], '', false);
         $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
 
@@ -55,4 +55,3 @@ class MultishippingTest extends \PHPUnit_Framework_TestCase
         $this->plugin->beforeSetShippingMethods($subjectMock, []);
     }
 }
-

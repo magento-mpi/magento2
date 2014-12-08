@@ -24,7 +24,7 @@ class PhraseCollector
      *
      * @var array
      */
-    protected $_phrases = array();
+    protected $_phrases = [];
 
     /**
      * Processed file
@@ -61,7 +61,7 @@ class PhraseCollector
      */
     public function parse($file)
     {
-        $this->_phrases = array();
+        $this->_phrases = [];
         $this->_file = $file;
         $this->_tokenizer->parse($file);
         while (!$this->_tokenizer->isLastToken()) {
@@ -94,7 +94,7 @@ class PhraseCollector
      */
     protected function _collectPhrase($phraseTokens)
     {
-        $phrase = array();
+        $phrase = [];
         if ($phraseTokens) {
             /** @var \Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer\Token $phraseToken */
             foreach ($phraseTokens as $phraseToken) {
@@ -120,11 +120,11 @@ class PhraseCollector
      */
     protected function _addPhrase($phrase, $argumentsAmount, $file, $line)
     {
-        $this->_phrases[] = array(
+        $this->_phrases[] = [
             'phrase' => $phrase,
             'arguments' => $argumentsAmount,
             'file' => $file,
-            'line' => $line
-        );
+            'line' => $line,
+        ];
     }
 }

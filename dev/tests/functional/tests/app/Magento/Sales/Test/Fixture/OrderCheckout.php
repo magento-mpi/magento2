@@ -8,8 +8,8 @@
 
 namespace Magento\Sales\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Factory\Factory;
 
 /**
  * Class OrderCheckout

@@ -60,7 +60,7 @@ class DiscountTest extends \PHPUnit_Framework_TestCase
                     'process',
                     'processShippingAmount',
                     'canApplyDiscount',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->getMock();

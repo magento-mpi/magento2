@@ -8,9 +8,9 @@
 
 namespace Magento\Centinel\Test\TestCase;
 
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class CentinelPaymentsTestAbstract
@@ -137,7 +137,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderGridBlock()->searchAndOpen(['id' => $orderId]);
 
         $this->assertContains(
             $fixture->getGrandTotal(),

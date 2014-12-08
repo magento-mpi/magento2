@@ -26,7 +26,7 @@ class Country extends \Magento\Directory\Model\Config\Source\Country
             if ($options) {
                 $options[0]['label'] = __('None');
             } else {
-                $options = array(array('value' => '', 'label' => __('None')));
+                $options = [['value' => '', 'label' => __('None')]];
             }
         }
 

@@ -57,7 +57,7 @@ class GenerateRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getResultFileName')
             ->with('\Magento\Framework\ObjectManager\Code\Generator\SampleRepository')
             ->willReturn('SampleRepository.php');
-        
+
         $model->expects($this->once())->method('_validateData')->willReturn(true);
         $this->assertEquals('SampleRepository.php', $model->generate());
     }

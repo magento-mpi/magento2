@@ -32,7 +32,7 @@ class ActionFactory
      * @return ActionInterface
      * @throws \InvalidArgumentException
      */
-    public function create($actionName, array $arguments = array())
+    public function create($actionName, array $arguments = [])
     {
         if (!is_subclass_of($actionName, '\Magento\Framework\App\ActionInterface')) {
             throw new \InvalidArgumentException('Invalid action name provided');

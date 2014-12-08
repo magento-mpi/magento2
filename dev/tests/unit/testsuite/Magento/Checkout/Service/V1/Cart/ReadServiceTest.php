@@ -8,7 +8,7 @@
 
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteria;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -59,7 +59,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             'getCustomerIsGuest', 'getCustomerGender', 'getCustomerTaxvat', '__wakeup', 'load', 'getGrandTotal',
             'getGlobalCurrencyCode', 'getBaseCurrencyCode', 'getStoreCurrencyCode', 'getQuoteCurrencyCode',
             'getStoreToBaseRate', 'getStoreToQuoteRate', 'getBaseToGlobalRate', 'getBaseToQuoteRate', 'setStoreId',
-            'getShippingAddress', 'getAllItems'
+            'getShippingAddress', 'getAllItems',
         ];
         $this->quoteMock = $this->getMock('\Magento\Sales\Model\Quote', $methods, [], '', false);
         $this->quoteCollectionMock = $objectManager->getCollectionMock(

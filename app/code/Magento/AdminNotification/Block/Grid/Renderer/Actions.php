@@ -24,7 +24,7 @@ class Actions extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Helper\Url $urlHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_urlHelper = $urlHelper;
         parent::__construct($context, $data);
@@ -44,7 +44,7 @@ class Actions extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
 
         $markAsReadHtml = !$row->getIsRead() ? '<a class="action-mark" href="' . $this->getUrl(
             '*/*/markAsRead/',
-            array('_current' => true, 'id' => $row->getId())
+            ['_current' => true, 'id' => $row->getId()]
         ) . '">' . __(
             'Mark as Read'
         ) . '</a>' : '';
@@ -56,11 +56,11 @@ class Actions extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
             $markAsReadHtml,
             $this->getUrl(
                 '*/*/remove/',
-                array(
+                [
                     '_current' => true,
                     'id' => $row->getId(),
                     \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl
-                )
+                ]
             ),
             __('Are you sure?'),
             __('Remove')

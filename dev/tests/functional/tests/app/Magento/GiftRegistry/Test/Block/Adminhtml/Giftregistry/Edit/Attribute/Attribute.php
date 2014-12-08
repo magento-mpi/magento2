@@ -9,9 +9,9 @@
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
 use Magento\Backend\Test\Block\Widget\Tab;
+use Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\AttributeForm;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\AttributeForm;
 
 /**
  * Class Attribute

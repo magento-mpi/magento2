@@ -36,35 +36,35 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false));
+        $select = new \Zend_Db_Select($this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', [], '', false));
 
         $writeAdapter = $this->getMockForAbstractClass(
             'Magento\Framework\DB\Adapter\AdapterInterface',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getTransactionLevel', 'fetchOne')
+            ['getTransactionLevel', 'fetchOne']
         );
         $writeAdapter->expects($this->once())->method('getTransactionLevel')->will($this->returnValue(0));
         $writeAdapter->expects($this->never())->method('fetchOne');
 
         $this->_readAdapter = $this->getMockForAbstractClass(
             'Magento\Framework\DB\Adapter\AdapterInterface',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('select', 'prepareSqlCondition', 'fetchOne')
+            ['select', 'prepareSqlCondition', 'fetchOne']
         );
         $this->_readAdapter->expects($this->once())->method('select')->will($this->returnValue($select));
 
         $this->_resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -74,37 +74,37 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getConnection'
         )->with()->will(
-            $this->returnValueMap(array(array('core_write', $writeAdapter), array('core_read', $this->_readAdapter)))
+            $this->returnValueMap([['core_write', $writeAdapter], ['core_read', $this->_readAdapter]])
         );
 
         $this->_eventManager = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
-            array('dispatch'),
-            array(),
+            ['dispatch'],
+            [],
             '',
             false
         );
 
         $this->_bannerConfig = $this->getMock(
             'Magento\Banner\Model\Config',
-            array('explodeTypes'),
-            array(),
+            ['explodeTypes'],
+            [],
             '',
             false
         );
 
         $salesruleColFactory = $this->getMock(
             'Magento\Banner\Model\Resource\Salesrule\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $catRuleColFactory = $this->getMock(
             'Magento\Banner\Model\Resource\Catalogrule\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -161,7 +161,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetStoreContentFilterByTypes()
     {
-        $bannerTypes = array('content', 'footer', 'header');
+        $bannerTypes = ['content', 'footer', 'header'];
         $this->_bannerConfig->expects(
             $this->once()
         )->method(
@@ -169,7 +169,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         )->with(
             $bannerTypes
         )->will(
-            $this->returnValue(array('footer', 'header'))
+            $this->returnValue(['footer', 'header'])
         );
         $this->_resourceModel->filterByTypes($bannerTypes);
 
@@ -179,10 +179,10 @@ class BannerTest extends \PHPUnit_Framework_TestCase
             'prepareSqlCondition'
         )->will(
             $this->returnValueMap(
-                array(
-                    array('banner.types', array('finset' => 'footer'), 'banner.types IN ("footer")'),
-                    array('banner.types', array('finset' => 'header'), 'banner.types IN ("header")')
-                )
+                [
+                    ['banner.types', ['finset' => 'footer'], 'banner.types IN ("footer")'],
+                    ['banner.types', ['finset' => 'header'], 'banner.types IN ("header")'],
+                ]
             )
         );
         $this->_readAdapter->expects(

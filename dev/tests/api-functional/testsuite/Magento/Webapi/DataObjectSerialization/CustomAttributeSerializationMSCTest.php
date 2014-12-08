@@ -6,14 +6,13 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Webapi\DataObjectSerialization;
 
+use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestModuleMSC\Api\Data\ItemDataBuilder;
-use Magento\Framework\Reflection\DataObjectProcessor;
-use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\Webapi\Controller\Rest\Response\DataObjectConverter;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 /**
  * api-functional/testsuite/Magento/Webapi/DataObjectSerialization/CustomAttributeSerializationMSCTest.php
@@ -95,22 +94,19 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemAnyType',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType'],
         ];
         $requestData = [
             'item_id' => 1,
             'name' => 'testProductAnyType',
-            'custom_attributes' =>
-                [
-                    'non_existent' =>
-                        [
+            'custom_attributes' => [
+                    'non_existent' => [
                             'attribute_code' => 'non_existent',
-                            'value' => 'test'
+                            'value' => 'test',
                         ],
-                    'custom_attribute_string' =>
-                        [
+                    'custom_attribute_string' => [
                             'attribute_code' => 'custom_attribute_string',
                             'value' => 'someStringValue',
                         ],
@@ -122,8 +118,7 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $expectedResponse = [
             'item_id' => 1,
             'name' => 'testProductAnyType',
-            'custom_attributes' =>
-                [
+            'custom_attributes' => [
                     [
                         'attribute_code' => 'custom_attribute_string',
                         'value' => 'someStringValue',
@@ -155,9 +150,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemAnyType',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType'],
         ];
         $requestData = $this->dataObjectProcessor->buildOutputDataArray($item, get_class($item));
         $result = $this->_webApiCall($serviceInfo, ['entityItem' => $requestData]);
@@ -179,9 +174,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemPreconfigured',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'GetPreconfiguredItem']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'GetPreconfiguredItem'],
         ];
 
         $result = $this->_webApiCall($serviceInfo, []);
@@ -231,9 +226,9 @@ class CustomAttributeSerializationMSCTest extends \Magento\Webapi\Routing\BaseSe
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemAnyType',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
-            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType']
+            'soap' => ['service' => $this->_soapService, 'operation' => $this->_soapService . 'ItemAnyType'],
         ];
         $requestData = $this->dataObjectProcessor->buildOutputDataArray(
             $item,

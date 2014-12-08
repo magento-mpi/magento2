@@ -7,9 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-
 require_once __DIR__ . '/../../../../../../../tools/PHP-Parser/lib/bootstrap.php';
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
 
 /**
  * This class is used as a base class for the other tests in this package. Its main job is to include reference to the

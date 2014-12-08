@@ -7,7 +7,7 @@
  */
 namespace Magento\Test\Tools\Composer;
 
-use \Magento\Tools\Composer\Package\Reader;
+use Magento\Tools\Composer\Package\Reader;
 
 /**
  * Class RootComposerMappingTest

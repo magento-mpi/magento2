@@ -25,16 +25,16 @@ class Filter extends \Magento\Backend\Block\Widget\Form\Generic
         $form->addField(
             'filter_value',
             'select',
-            array(
+            [
                 'name' => 'filter_value',
                 'onchange' => 'this.form.submit()',
-                'values' => array(
-                    array('label' => __('All'), 'value' => ''),
-                    array('label' => __('Customers Only'), 'value' => 'filterCustomers'),
-                    array('label' => __('Visitors Only'), 'value' => 'filterGuests')
-                ),
+                'values' => [
+                    ['label' => __('All'), 'value' => ''],
+                    ['label' => __('Customers Only'), 'value' => 'filterCustomers'],
+                    ['label' => __('Visitors Only'), 'value' => 'filterGuests'],
+                ],
                 'no_span' => true
-            )
+            ]
         );
 
         $form->setUseContainer(true);

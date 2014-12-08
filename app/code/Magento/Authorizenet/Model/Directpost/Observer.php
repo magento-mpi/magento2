@@ -118,7 +118,7 @@ class Observer
                     $requestToAuthorizenet->setControllerActionName($request->getControllerName());
                     $requestToAuthorizenet->setIsSecure((string)$this->_storeManager->getStore()->isCurrentlySecure());
 
-                    $result['directpost'] = array('fields' => $requestToAuthorizenet->getData());
+                    $result['directpost'] = ['fields' => $requestToAuthorizenet->getData()];
 
                     $response->clearHeader('Location');
                     $response->representJson($this->_coreData->jsonEncode($result));

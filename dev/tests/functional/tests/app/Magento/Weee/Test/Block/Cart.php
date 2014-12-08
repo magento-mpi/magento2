@@ -8,9 +8,9 @@
 
 namespace Magento\Weee\Test\Block;
 
+use Magento\Weee\Test\Block\Cart\CartItem;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Weee\Test\Block\Cart\CartItem;
 
 /**
  * Shopping cart block

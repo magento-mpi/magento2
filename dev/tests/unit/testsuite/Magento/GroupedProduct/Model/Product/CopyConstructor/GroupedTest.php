@@ -40,24 +40,24 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
 
         $this->_productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('getTypeId', '__wakeup', 'getLinkInstance'),
-            array(),
+            ['getTypeId', '__wakeup', 'getLinkInstance'],
+            [],
             '',
             false
         );
 
         $this->_duplicateMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array('setGroupedLinkData', '__wakeup'),
-            array(),
+            ['setGroupedLinkData', '__wakeup'],
+            [],
             '',
             false
         );
 
         $this->_linkMock = $this->getMock(
             '\Magento\Catalog\Model\Product\Link',
-            array('setLinkTypeId', '__wakeup', 'getAttributes', 'getLinkCollection'),
-            array(),
+            ['setLinkTypeId', '__wakeup', 'getAttributes', 'getLinkCollection'],
+            [],
             '',
             false
         );
@@ -83,7 +83,7 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
     public function testBuild()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $expectedData = array('100500' => array('some' => 'data'));
+        $expectedData = ['100500' => ['some' => 'data']];
 
         $this->_productMock->expects(
             $this->once()
@@ -93,14 +93,14 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
             $this->returnValue(\Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE)
         );
 
-        $attributes = array('attributeOne' => array('code' => 'one'), 'attributeTwo' => array('code' => 'two'));
+        $attributes = ['attributeOne' => ['code' => 'one'], 'attributeTwo' => ['code' => 'two']];
 
         $this->_linkMock->expects($this->once())->method('getAttributes')->will($this->returnValue($attributes));
 
         $productLinkMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Link',
-            array('__wakeup', 'getLinkedProductId', 'toArray'),
-            array(),
+            ['__wakeup', 'getLinkedProductId', 'toArray'],
+            [],
             '',
             false
         );
@@ -118,14 +118,14 @@ class GroupedTest extends \PHPUnit_Framework_TestCase
         )->method(
             'toArray'
         )->with(
-            array('one', 'two')
+            ['one', 'two']
         )->will(
-            $this->returnValue(array('some' => 'data'))
+            $this->returnValue(['some' => 'data'])
         );
 
         $collectionMock = $helper->getCollectionMock(
             '\Magento\Catalog\Model\Resource\Product\Link\Collection',
-            array($productLinkMock)
+            [$productLinkMock]
         );
         $collectionMock->expects($this->once())->method('setProduct')->with($this->_productMock);
         $collectionMock->expects($this->once())->method('addLinkTypeIdFilter');

@@ -34,7 +34,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect();
 
-        $this->_assertCompareListEquals(array(1));
+        $this->_assertCompareListEquals([1]);
     }
 
     public function testIndexActionAddProducts()
@@ -45,7 +45,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect($this->equalTo('http://localhost/index.php/catalog/product_compare/index/'));
 
-        $this->_assertCompareListEquals(array(2));
+        $this->_assertCompareListEquals([2]);
     }
 
     public function testRemoveAction()
@@ -68,7 +68,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect();
 
-        $this->_assertCompareListEquals(array(1));
+        $this->_assertCompareListEquals([1]);
     }
 
     public function testRemoveActionWithSession()
@@ -89,7 +89,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect();
 
-        $this->_assertCompareListEquals(array(2));
+        $this->_assertCompareListEquals([2]);
     }
 
     public function testIndexActionDisplay()
@@ -134,7 +134,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect();
 
-        $this->_assertCompareListEquals(array());
+        $this->_assertCompareListEquals([]);
     }
 
     /**
@@ -196,7 +196,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
             $visitor->getId()
         );
 
-        $this->_assertCompareListEquals(array());
+        $this->_assertCompareListEquals([]);
     }
 
     protected function _requireVisitorWithTwoProducts()
@@ -227,7 +227,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
             $visitor->getId()
         );
 
-        $this->_assertCompareListEquals(array(1, 2));
+        $this->_assertCompareListEquals([1, 2]);
     }
 
     protected function _requireCustomerWithTwoProducts()
@@ -248,8 +248,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
             ->setFirstname('Firstname')
             ->setLastname('Lastname')
             ->setDefaultBilling(1)
-            ->setDefaultShipping(1)
-        ;
+            ->setDefaultShipping(1);
         $customer->isObjectNew(true);
         $customer->save();
 
@@ -286,7 +285,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Visitor')
             ->load($visitor->getId());
 
-        $this->_assertCompareListEquals(array(1, 2));
+        $this->_assertCompareListEquals([1, 2]);
     }
 
     /**
@@ -305,7 +304,7 @@ class CompareTest extends \Magento\TestFramework\TestCase\AbstractController
         $compareItems->setVisitorId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Customer\Model\Visitor')->getId()
         );
-        $actualProductIds = array();
+        $actualProductIds = [];
         foreach ($compareItems as $compareItem) {
             /** @var $compareItem \Magento\Catalog\Model\Product\Compare\Item */
             $actualProductIds[] = $compareItem->getProductId();

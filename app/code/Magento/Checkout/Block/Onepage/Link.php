@@ -34,7 +34,7 @@ class Link extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Data $checkoutHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutHelper = $checkoutHelper;
         $this->_checkoutSession = $checkoutSession;

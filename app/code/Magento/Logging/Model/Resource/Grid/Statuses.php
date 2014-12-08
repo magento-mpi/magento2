@@ -16,9 +16,9 @@ class Statuses implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\Logging\Model\Event::RESULT_SUCCESS => __('Success'),
             \Magento\Logging\Model\Event::RESULT_FAILURE => __('Failure')
-        );
+        ];
     }
 }

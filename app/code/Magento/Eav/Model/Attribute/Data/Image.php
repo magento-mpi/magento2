@@ -29,13 +29,13 @@ class Image extends \Magento\Eav\Model\Attribute\Data\File
         $imageProp = @getimagesize($value['tmp_name']);
 
         if (!is_uploaded_file($value['tmp_name']) || !$imageProp) {
-            return array(__('"%1" is not a valid file', $label));
+            return [__('"%1" is not a valid file', $label)];
         }
 
-        $allowImageTypes = array(1 => 'gif', 2 => 'jpg', 3 => 'png');
+        $allowImageTypes = [1 => 'gif', 2 => 'jpg', 3 => 'png'];
 
         if (!isset($allowImageTypes[$imageProp[2]])) {
-            return array(__('"%1" is not a valid image format', $label));
+            return [__('"%1" is not a valid image format', $label)];
         }
 
         // modify image name
@@ -44,7 +44,7 @@ class Image extends \Magento\Eav\Model\Attribute\Data\File
             $value['name'] = pathinfo($value['name'], PATHINFO_FILENAME) . '.' . $allowImageTypes[$imageProp[2]];
         }
 
-        $errors = array();
+        $errors = [];
         if (!empty($rules['max_file_size'])) {
             $size = $value['size'];
             if ($rules['max_file_size'] < $size) {

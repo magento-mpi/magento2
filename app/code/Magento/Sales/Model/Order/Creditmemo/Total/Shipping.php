@@ -39,7 +39,7 @@ class Shipping extends AbstractTotal
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\Config $taxConfig,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->priceCurrency = $priceCurrency;

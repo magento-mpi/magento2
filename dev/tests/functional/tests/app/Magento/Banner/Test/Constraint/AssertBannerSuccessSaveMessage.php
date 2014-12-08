@@ -9,8 +9,8 @@
 namespace Magento\Banner\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBannerSuccessSaveMessage

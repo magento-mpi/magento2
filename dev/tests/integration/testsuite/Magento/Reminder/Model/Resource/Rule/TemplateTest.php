@@ -42,14 +42,14 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             1
         )->save();
 
-        $conditions = serialize(array());
+        $conditions = serialize([]);
 
         $ruleCreate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reminder\Model\Rule'
         );
 
         $ruleCreate->setData(
-            array(
+            [
                 'name' => 'My Rule',
                 'description' => 'My Rule Desc',
                 'conditions_serialized' => $conditions,
@@ -61,8 +61,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
                 'default_description' => null,
                 'from_date' => null,
                 'to_date' => null,
-                'store_templates' => array($storeId => $template->getId())
-            )
+                'store_templates' => [$storeId => $template->getId()],
+            ]
         )->save();
 
         $dateModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(

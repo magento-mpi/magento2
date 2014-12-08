@@ -19,6 +19,6 @@ class InvitationOrder implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => '*', 'label' => __('Each')), array('value' => '1', 'label' => __('First')));
+        return [['value' => '*', 'label' => __('Each')], ['value' => '1', 'label' => __('First')]];
     }
 }

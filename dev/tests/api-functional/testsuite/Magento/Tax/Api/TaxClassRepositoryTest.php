@@ -8,11 +8,11 @@
 
 namespace Magento\Tax\Api;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Tax\Model\ClassModelRegistry;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Tax\Api\Data\TaxClassDataBuilder;
+use Magento\Tax\Model\ClassModelRegistry;
 use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
@@ -79,21 +79,20 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
 
-        $requestData = ['taxClass' =>
-            [
+        $requestData = ['taxClass' => [
                 'class_id' => $taxClassDataObject->getClassId(),
                 'class_name' => $taxClassDataObject->getClassName(),
-                'class_type' => $taxClassDataObject->getClassType()
-            ]
+                'class_type' => $taxClassDataObject->getClassType(),
+            ],
         ];
         $taxClassId = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertNotNull($taxClassId);
@@ -126,19 +125,19 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
 
         $taxClass = [
                 'class_id' => $updatedTaxClassDataObject->getClassId(),
                 'class_name' => $updatedTaxClassDataObject->getClassName(),
-                'class_type' => $updatedTaxClassDataObject->getClassType()
+                'class_type' => $updatedTaxClassDataObject->getClassType(),
             ];
 
         $requestData = ['taxClass' => $taxClass, 'ClassId' => $taxClassId];
@@ -165,13 +164,13 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
         $requestData = ['taxClassId' => $taxClassId];
         $taxClassData = $this->_webApiCall($serviceInfo, $requestData);
@@ -197,13 +196,13 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $taxClassId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteById',
+            ],
         ];
         $requestData = ['taxClassId' => $taxClassId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -232,13 +231,13 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
@@ -254,10 +253,10 @@ class TaxClassRepositoryTest extends WebapiAbstract
     {
         $productTaxClass = [
             Data\TaxClassInterface::KEY_NAME => 'Taxable Goods',
-            Data\TaxClassInterface::KEY_TYPE => 'PRODUCT'
+            Data\TaxClassInterface::KEY_TYPE => 'PRODUCT',
         ];
         $customerTaxClass = [Data\TaxClassInterface::KEY_NAME => 'Retail Customer',
-            Data\TaxClassInterface::KEY_TYPE => 'CUSTOMER'];
+            Data\TaxClassInterface::KEY_TYPE => 'CUSTOMER', ];
 
         $filter1 = $this->filterBuilder->setField(Data\TaxClassInterface::KEY_NAME)
             ->setValue($productTaxClass[Data\TaxClassInterface::KEY_NAME])
@@ -282,13 +281,13 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $searchData = $searchCriteria->__toArray();
         $requestData = ['searchCriteria' => $searchData];

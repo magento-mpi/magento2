@@ -56,10 +56,10 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $adapter = $this->_getWriteAdapter();
-        $whereCond = array(
+        $whereCond = [
             $adapter->quoteInto('website_id IN(?)', $websiteIds),
-            $adapter->quoteInto('product_id IN(?)', $productIds)
-        );
+            $adapter->quoteInto('product_id IN(?)', $productIds),
+        ];
         $whereCond = join(' AND ', $whereCond);
 
         $adapter->beginTransaction();
@@ -100,7 +100,7 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
                     }
                     $this->_getWriteAdapter()->insert(
                         $this->getMainTable(),
-                        array('product_id' => (int)$productId, 'website_id' => (int)$websiteId)
+                        ['product_id' => (int)$productId, 'website_id' => (int)$websiteId]
                     );
                 }
             }
@@ -122,14 +122,14 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
-            array('product_id', 'website_id')
+            ['product_id', 'website_id']
         )->where(
             'product_id IN (?)',
             $productIds
         );
         $rowset = $this->_getReadAdapter()->fetchAll($select);
 
-        $result = array();
+        $result = [];
         foreach ($rowset as $row) {
             $result[$row['product_id']][] = $row['website_id'];
         }

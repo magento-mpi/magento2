@@ -45,7 +45,7 @@ class AuthorizationLink extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Url $customerUrl,
         \Magento\Core\Helper\PostData $postDataHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->httpContext = $httpContext;

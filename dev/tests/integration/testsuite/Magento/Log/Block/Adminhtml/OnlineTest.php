@@ -20,7 +20,7 @@ class OnlineTest extends \PHPUnit_Framework_TestCase
         /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\View\Layout',
-            array('area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE)
+            ['area' => \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE]
         );
         /** @var $block \Magento\Log\Block\Adminhtml\Online */
         $block = $layout->createBlock('Magento\Log\Block\Adminhtml\Online', 'block');

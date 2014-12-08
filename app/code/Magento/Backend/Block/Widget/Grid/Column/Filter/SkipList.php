@@ -19,6 +19,6 @@ class SkipList extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Abstract
      */
     public function getCondition()
     {
-        return array('nin' => $this->getValue() ?: array(0));
+        return ['nin' => $this->getValue() ?: [0]];
     }
 }

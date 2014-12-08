@@ -19,10 +19,10 @@ class ReviewRenderer extends \Magento\Framework\View\Element\Template implements
      *
      * @var array
      */
-    protected $_availableTemplates = array(
+    protected $_availableTemplates = [
         self::FULL_VIEW => 'helper/summary.phtml',
-        self::SHORT_VIEW => 'helper/summary_short.phtml'
-    );
+        self::SHORT_VIEW => 'helper/summary_short.phtml',
+    ];
 
     /**
      * Review model factory
@@ -39,7 +39,7 @@ class ReviewRenderer extends \Magento\Framework\View\Element\Template implements
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reviewFactory = $reviewFactory;
         parent::__construct($context, $data);
@@ -59,7 +59,6 @@ class ReviewRenderer extends \Magento\Framework\View\Element\Template implements
         $templateType = self::DEFAULT_VIEW,
         $displayIfNoReviews = false
     ) {
-
         if (!$product->getRatingSummary() && !$displayIfNoReviews) {
             return '';
         }
@@ -111,9 +110,9 @@ class ReviewRenderer extends \Magento\Framework\View\Element\Template implements
         if ($useDirectLink) {
             return $this->getUrl(
                 'review/product/list',
-                array('id' => $product->getId(), 'category' => $product->getCategoryId())
+                ['id' => $product->getId(), 'category' => $product->getCategoryId()]
             );
         }
-        return $product->getUrlModel()->getUrl($product, array('_ignore_category' => true));
+        return $product->getUrlModel()->getUrl($product, ['_ignore_category' => true]);
     }
 }

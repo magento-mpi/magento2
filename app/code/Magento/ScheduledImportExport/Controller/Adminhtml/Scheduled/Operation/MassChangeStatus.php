@@ -27,7 +27,7 @@ class MassChangeStatus extends \Magento\ScheduledImportExport\Controller\Adminht
                 $operations = $this->_objectManager->create(
                     'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
-                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
+                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), ['in' => $ids]);
 
                 foreach ($operations as $operation) {
                     $operation->setStatus($status)->save();

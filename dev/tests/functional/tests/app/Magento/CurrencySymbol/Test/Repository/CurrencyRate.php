@@ -24,12 +24,12 @@ class CurrencyRate extends AbstractRepository
      * @param array $defaultConfig
      * @param array $defaultData
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         // Exchange rate between US Dollar and Swiss Franc
         $this->_data['usd_chf_rate_0_9'] = $this->_getCurrencyRateUSDCHF();
@@ -44,15 +44,15 @@ class CurrencyRate extends AbstractRepository
      */
     protected function _getCurrencyRateUSDCHF()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'rate[USD][CHF]' => array(
-                        'value' => '0.9'
-                    )
-                )
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'rate[USD][CHF]' => [
+                        'value' => '0.9',
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -62,14 +62,14 @@ class CurrencyRate extends AbstractRepository
      */
     protected function _getCurrencyRateUSDGBP()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'rate[USD][GBP]' => array(
-                        'value' => '0.6'
-                    )
-                )
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'rate[USD][GBP]' => [
+                        'value' => '0.6',
+                    ],
+                ],
+            ]
+        ];
     }
 }

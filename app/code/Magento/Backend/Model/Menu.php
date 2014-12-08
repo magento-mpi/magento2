@@ -211,7 +211,7 @@ class Menu extends \ArrayObject
      */
     public function getParentItems($itemId)
     {
-        $parents = array();
+        $parents = [];
         $this->_findParentItems($this, $itemId, $parents);
         return array_reverse($parents);
     }

@@ -8,8 +8,8 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftRegistryIsEmptyMessage

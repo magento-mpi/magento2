@@ -27,22 +27,22 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_testStores = array('admin' => 0, 'new_store_view' => 1);
+    protected $_testStores = ['admin' => 0, 'new_store_view' => 1];
 
     /**
      * Tables array to inject into model
      *
      * @var array
      */
-    protected $_tables = array(
+    protected $_tables = [
         'catalog_product_entity' => 'catalog_product_entity',
         'catalog_product_option' => 'catalog_product_option',
         'catalog_product_option_title' => 'catalog_product_option_title',
         'catalog_product_option_type_title' => 'catalog_product_option_type_title',
         'catalog_product_option_type_value' => 'catalog_product_option_type_value',
         'catalog_product_option_type_price' => 'catalog_product_option_type_price',
-        'catalog_product_option_price' => 'catalog_product_option_price'
-    );
+        'catalog_product_option_price' => 'catalog_product_option_price',
+    ];
 
     /**
      * Test entity
@@ -63,63 +63,63 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedTitles = array(
-        array('option_id' => 2, 'store_id' => 0, 'title' => 'Test Field Title'),
-        array('option_id' => 3, 'store_id' => 0, 'title' => 'Test Date and Time Title'),
-        array('option_id' => 4, 'store_id' => 0, 'title' => 'Test Select'),
-        array('option_id' => 5, 'store_id' => 0, 'title' => 'Test Radio'),
-        array('option_id' => 5, 'store_id' => 1, 'title' => 'Option New Store View')
-    );
+    protected $_expectedTitles = [
+        ['option_id' => 2, 'store_id' => 0, 'title' => 'Test Field Title'],
+        ['option_id' => 3, 'store_id' => 0, 'title' => 'Test Date and Time Title'],
+        ['option_id' => 4, 'store_id' => 0, 'title' => 'Test Select'],
+        ['option_id' => 5, 'store_id' => 0, 'title' => 'Test Radio'],
+        ['option_id' => 5, 'store_id' => 1, 'title' => 'Option New Store View'],
+    ];
 
     /**
      * Array of expected (after import) option prices
      *
      * @var array
      */
-    protected $_expectedPrices = array(
-        3 => array('option_id' => 3, 'store_id' => 0, 'price_type' => 'fixed', 'price' => 2)
-    );
+    protected $_expectedPrices = [
+        3 => ['option_id' => 3, 'store_id' => 0, 'price_type' => 'fixed', 'price' => 2],
+    ];
 
     /**
      * Array of expected (after import) option type prices
      *
      * @var array
      */
-    protected $_expectedTypePrices = array(
-        array('price' => 3, 'price_type' => 'fixed', 'option_type_id' => 2, 'store_id' => 0),
-        array('price' => 3, 'price_type' => 'fixed', 'option_type_id' => 3, 'store_id' => 0),
-        array('price' => 3, 'price_type' => 'fixed', 'option_type_id' => 4, 'store_id' => 0),
-        array('price' => 3, 'price_type' => 'fixed', 'option_type_id' => 5, 'store_id' => 0)
-    );
+    protected $_expectedTypePrices = [
+        ['price' => 3, 'price_type' => 'fixed', 'option_type_id' => 2, 'store_id' => 0],
+        ['price' => 3, 'price_type' => 'fixed', 'option_type_id' => 3, 'store_id' => 0],
+        ['price' => 3, 'price_type' => 'fixed', 'option_type_id' => 4, 'store_id' => 0],
+        ['price' => 3, 'price_type' => 'fixed', 'option_type_id' => 5, 'store_id' => 0],
+    ];
 
     /**
      * Array of expected (after import) option type titles
      *
      * @var array
      */
-    protected $_expectedTypeTitles = array(
-        array('option_type_id' => 2, 'store_id' => 0, 'title' => 'Option 1'),
-        array('option_type_id' => 3, 'store_id' => 0, 'title' => 'Option 2'),
-        array('option_type_id' => 4, 'store_id' => 0, 'title' => 'Option 1'),
-        array('option_type_id' => 4, 'store_id' => 1, 'title' => 'Option 1 New Store View'),
-        array('option_type_id' => 5, 'store_id' => 0, 'title' => 'Option 2'),
-        array('option_type_id' => 5, 'store_id' => 1, 'title' => 'Option 2 New Store View')
-    );
+    protected $_expectedTypeTitles = [
+        ['option_type_id' => 2, 'store_id' => 0, 'title' => 'Option 1'],
+        ['option_type_id' => 3, 'store_id' => 0, 'title' => 'Option 2'],
+        ['option_type_id' => 4, 'store_id' => 0, 'title' => 'Option 1'],
+        ['option_type_id' => 4, 'store_id' => 1, 'title' => 'Option 1 New Store View'],
+        ['option_type_id' => 5, 'store_id' => 0, 'title' => 'Option 2'],
+        ['option_type_id' => 5, 'store_id' => 1, 'title' => 'Option 2 New Store View'],
+    ];
 
     /**
      * Expected updates to catalog_product_entity table after custom options import
      *
      * @var array
      */
-    protected $_expectedUpdate = array(1 => array('entity_id' => 1, 'has_options' => 1, 'required_options' => 1));
+    protected $_expectedUpdate = [1 => ['entity_id' => 1, 'has_options' => 1, 'required_options' => 1]];
 
     /**
      * Array of expected (after import) options
      *
      * @var array
      */
-    protected $_expectedOptions = array(
-        array(
+    protected $_expectedOptions = [
+        [
             'option_id' => 1,
             'sku' => '1-text',
             'max_characters' => '100',
@@ -129,9 +129,9 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'product_id' => 1,
             'type' => 'field',
             'is_require' => 1,
-            'sort_order' => 0
-        ),
-        array(
+            'sort_order' => 0,
+        ],
+        [
             'option_id' => 2,
             'sku' => '2-date',
             'max_characters' => 0,
@@ -142,8 +142,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'type' => 'date_time',
             'is_require' => 1,
             'sort_order' => 0
-        ),
-        array(
+        ],
+        [
             'option_id' => 3,
             'sku' => '',
             'max_characters' => 0,
@@ -154,8 +154,8 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'type' => 'drop_down',
             'is_require' => 1,
             'sort_order' => 0
-        ),
-        array(
+        ],
+        [
             'option_id' => 4,
             'sku' => '',
             'max_characters' => 0,
@@ -166,20 +166,20 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             'type' => 'radio',
             'is_require' => 1,
             'sort_order' => 0
-        )
-    );
+        ],
+    ];
 
     /**
      * Array of expected (after import) option type values
      *
      * @var array
      */
-    protected $_expectedTypeValues = array(
-        array('option_type_id' => 2, 'sort_order' => 0, 'sku' => '3-1-select', 'option_id' => 4),
-        array('option_type_id' => 3, 'sort_order' => 0, 'sku' => '3-2-select', 'option_id' => 4),
-        array('option_type_id' => 4, 'sort_order' => 0, 'sku' => '4-1-radio', 'option_id' => 5),
-        array('option_type_id' => 5, 'sort_order' => 0, 'sku' => '4-2-radio', 'option_id' => 5)
-    );
+    protected $_expectedTypeValues = [
+        ['option_type_id' => 2, 'sort_order' => 0, 'sku' => '3-1-select', 'option_id' => 4],
+        ['option_type_id' => 3, 'sort_order' => 0, 'sku' => '3-2-select', 'option_id' => 4],
+        ['option_type_id' => 4, 'sort_order' => 0, 'sku' => '4-1-radio', 'option_id' => 5],
+        ['option_type_id' => 5, 'sort_order' => 0, 'sku' => '4-2-radio', 'option_id' => 5],
+    ];
 
     /**
      * Where which should be generate in case of deleting custom options
@@ -221,27 +221,27 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             $doubleOptions = true;
         }
 
-        $catalogDataMock = $this->getMock('Magento\Catalog\Helper\Data', array('__construct'), array(), '', false);
+        $catalogDataMock = $this->getMock('Magento\Catalog\Helper\Data', ['__construct'], [], '', false);
 
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $this->_model = new \Magento\CatalogImportExport\Model\Import\Product\Option(
-            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', array(), array(), '', false),
-            $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false),
-            $this->getMock('Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false),
-            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Import\Data', [], [], '', false),
+            $this->getMock('Magento\Framework\App\Resource', [], [], '', false),
+            $this->getMock('Magento\ImportExport\Model\Resource\Helper', [], [], '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
+            $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false),
             $this->getMock(
                 'Magento\Catalog\Model\Resource\Product\Option\CollectionFactory',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
             ),
             $this->getMock(
                 'Magento\ImportExport\Model\Resource\CollectionByPagesIteratorFactory',
-                array(),
-                array(),
+                [],
+                [],
                 '',
                 false
             ),
@@ -271,7 +271,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getModelDependencies($addExpectations = false, $deleteBehavior = false, $doubleOptions = false)
     {
-        $connection = $this->getMock('stdClass', array('delete', 'quoteInto', 'insertMultiple', 'insertOnDuplicate'));
+        $connection = $this->getMock('stdClass', ['delete', 'quoteInto', 'insertMultiple', 'insertOnDuplicate']);
         if ($addExpectations) {
             if ($deleteBehavior) {
                 $connection->expects(
@@ -279,14 +279,14 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 )->method(
                     'quoteInto'
                 )->will(
-                    $this->returnCallback(array($this, 'stubQuoteInto'))
+                    $this->returnCallback([$this, 'stubQuoteInto'])
                 );
                 $connection->expects(
                     $this->exactly(2)
                 )->method(
                     'delete'
                 )->will(
-                    $this->returnCallback(array($this, 'verifyDelete'))
+                    $this->returnCallback([$this, 'verifyDelete'])
                 );
             } else {
                 $connection->expects(
@@ -294,30 +294,30 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                 )->method(
                     'insertMultiple'
                 )->will(
-                    $this->returnCallback(array($this, 'verifyInsertMultiple'))
+                    $this->returnCallback([$this, 'verifyInsertMultiple'])
                 );
                 $connection->expects(
                     $this->exactly(6)
                 )->method(
                     'insertOnDuplicate'
                 )->will(
-                    $this->returnCallback(array($this, 'verifyInsertOnDuplicate'))
+                    $this->returnCallback([$this, 'verifyInsertOnDuplicate'])
                 );
             }
         }
 
-        $resourceHelper = $this->getMock('stdClass', array('getNextAutoincrement'));
+        $resourceHelper = $this->getMock('stdClass', ['getNextAutoincrement']);
         if ($addExpectations) {
             $resourceHelper->expects($this->any())->method('getNextAutoincrement')->will($this->returnValue(2));
         }
 
-        $data = array(
+        $data = [
             'connection' => $connection,
             'tables' => $this->_tables,
             'resource_helper' => $resourceHelper,
             'is_price_global' => true,
-            'stores' => $this->_testStores
-        );
+            'stores' => $this->_testStores,
+        ];
         $sourceData = $this->_getSourceDataMocks($addExpectations, $doubleOptions);
 
         return array_merge($data, $sourceData);
@@ -335,7 +335,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
     {
         $csvData = $this->_loadCsvFile();
 
-        $dataSourceModel = $this->getMock('stdClass', array('getNextBunch'));
+        $dataSourceModel = $this->getMock('stdClass', ['getNextBunch']);
         if ($addExpectations) {
             $dataSourceModel->expects(
                 $this->at(0)
@@ -347,31 +347,31 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             $dataSourceModel->expects($this->at(1))->method('getNextBunch')->will($this->returnValue(null));
         }
 
-        $products = array();
+        $products = [];
         $elementIndex = 0;
         foreach ($csvData['data'] as $rowIndex => $csvDataRow) {
             if (!empty($csvDataRow['sku']) && !array_key_exists($csvDataRow['sku'], $products)) {
                 $elementIndex = $rowIndex + 1;
-                $products[$csvDataRow['sku']] = array(
+                $products[$csvDataRow['sku']] = [
                     'sku' => $csvDataRow['sku'],
                     'id' => $elementIndex,
                     'entity_id' => $elementIndex,
                     'product_id' => $elementIndex,
                     'type' => $csvDataRow[\Magento\CatalogImportExport\Model\Import\Product\Option::COLUMN_TYPE],
-                    'title' => $csvDataRow[\Magento\CatalogImportExport\Model\Import\Product\Option::COLUMN_TITLE]
-                );
+                    'title' => $csvDataRow[\Magento\CatalogImportExport\Model\Import\Product\Option::COLUMN_TITLE],
+                ];
             }
         }
 
         $this->_productEntity = $this->getMock(
             'Magento\CatalogImportExport\Model\Import\Product',
             null,
-            array(),
+            [],
             '',
             false
         );
 
-        $productModelMock = $this->getMock('stdClass', array('getProductEntitiesInfo'));
+        $productModelMock = $this->getMock('stdClass', ['getProductEntitiesInfo']);
         $productModelMock->expects(
             $this->any()
         )->method(
@@ -382,18 +382,18 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $fetchStrategy = $this->getMockForAbstractClass(
             'Magento\Framework\Data\Collection\Db\FetchStrategyInterface',
-            array('fetchAll')
+            ['fetchAll']
         );
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
 
         $optionCollection = $this->getMock(
             'Magento\Framework\Data\Collection\Db',
-            array('reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'),
-            array($entityFactory, $logger, $fetchStrategy)
+            ['reset', 'addProductToFilter', 'getSelect', 'getNewEmptyItem'],
+            [$entityFactory, $logger, $fetchStrategy]
         );
 
-        $select = $this->getMock('Zend_Db_Select', array('join', 'where'), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', ['join', 'where'], [], '', false);
         $select->expects($this->any())->method('join')->will($this->returnSelf());
         $select->expects($this->any())->method('where')->will($this->returnSelf());
 
@@ -402,7 +402,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getNewEmptyItem'
         )->will(
-            $this->returnCallback(array($this, 'getNewOptionMock'))
+            $this->returnCallback([$this, 'getNewOptionMock'])
         );
         $optionCollection->expects($this->any())->method('reset')->will($this->returnSelf());
         $optionCollection->expects($this->any())->method('addProductToFilter')->will($this->returnSelf());
@@ -419,23 +419,23 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
         $fetchStrategy->expects($this->any())->method('fetchAll')->will($this->returnValue($optionsData));
 
-        $collectionIterator = $this->getMock('stdClass', array('iterate'));
+        $collectionIterator = $this->getMock('stdClass', ['iterate']);
         $collectionIterator->expects(
             $this->any()
         )->method(
             'iterate'
         )->will(
-            $this->returnCallback(array($this, 'iterate'))
+            $this->returnCallback([$this, 'iterate'])
         );
 
-        $data = array(
+        $data = [
             'data_source_model' => $dataSourceModel,
             'product_model' => $productModelMock,
             'product_entity' => $this->_productEntity,
             'option_collection' => $optionCollection,
             'collection_by_pages_iterator' => $collectionIterator,
-            'page_size' => $this->_iteratorPageSize
-        );
+            'page_size' => $this->_iteratorPageSize,
+        ];
         return $data;
     }
 
@@ -464,7 +464,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function getNewOptionMock()
     {
-        return $this->getMock('Magento\Catalog\Model\Product\Option', array('__wakeup'), array(), '', false);
+        return $this->getMock('Magento\Catalog\Model\Product\Option', ['__wakeup'], [], '', false);
     }
 
     /**
@@ -526,24 +526,24 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      * @param array $data
      * @param array $fields
      */
-    public function verifyInsertOnDuplicate($table, array $data, array $fields = array())
+    public function verifyInsertOnDuplicate($table, array $data, array $fields = [])
     {
         switch ($table) {
             case $this->_tables['catalog_product_option_title']:
                 $this->assertEquals($this->_expectedTitles, $data);
-                $this->assertEquals(array('title'), $fields);
+                $this->assertEquals(['title'], $fields);
                 break;
             case $this->_tables['catalog_product_option_price']:
                 $this->assertEquals($this->_expectedPrices, $data);
-                $this->assertEquals(array('price', 'price_type'), $fields);
+                $this->assertEquals(['price', 'price_type'], $fields);
                 break;
             case $this->_tables['catalog_product_option_type_price']:
                 $this->assertEquals($this->_expectedTypePrices, $data);
-                $this->assertEquals(array('price', 'price_type'), $fields);
+                $this->assertEquals(['price', 'price_type'], $fields);
                 break;
             case $this->_tables['catalog_product_option_type_title']:
                 $this->assertEquals($this->_expectedTypeTitles, $data);
-                $this->assertEquals(array('title'), $fields);
+                $this->assertEquals(['title'], $fields);
                 break;
             case $this->_tables['catalog_product_entity']:
                 // there is no point in updated_at data verification which is just current time
@@ -552,7 +552,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
                     unset($row['updated_at']);
                 }
                 $this->assertEquals($this->_expectedUpdate, $data);
-                $this->assertEquals(array('has_options', 'required_options', 'updated_at'), $fields);
+                $this->assertEquals(['has_options', 'required_options', 'updated_at'], $fields);
                 break;
             default:
                 break;
@@ -589,7 +589,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testImportDataDeleteBehavior()
     {
-        $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
+        $this->_model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE]);
         $this->_model->importData();
     }
 
@@ -613,7 +613,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content, $entityId = null)
     {
-        $data = array('header' => array(), 'data' => array());
+        $data = ['header' => [], 'data' => []];
 
         $lines = str_getcsv($content, "\n");
         foreach ($lines as $index => $line) {
@@ -690,10 +690,10 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         $behavior = null,
         $numberOfValidations = 1
     ) {
-        $this->_testStores = array('admin' => 0);
+        $this->_testStores = ['admin' => 0];
         $this->setUp();
         if ($behavior) {
-            $this->_model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND));
+            $this->_model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND]);
         }
         for ($i = 0; $i < $numberOfValidations; $i++) {
             $this->_model->validateRow($rowData, $i);
@@ -715,120 +715,120 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function validateRowDataProvider()
     {
-        return array(
-            'main_valid' => array(
+        return [
+            'main_valid' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
-                '$errors' => array()
-            ),
-            'main_invalid_store' => array(
+                '$errors' => [],
+            ],
+            'main_invalid_store' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_store.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_STORE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_incorrect_type' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_STORE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_incorrect_type' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_incorrect_type.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_TYPE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_no_title' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_TYPE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_no_title' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_no_title.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_EMPTY_TITLE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_empty_title' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_EMPTY_TITLE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_empty_title' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_empty_title.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_EMPTY_TITLE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_invalid_price' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_EMPTY_TITLE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_invalid_price' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_price.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_PRICE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_invalid_max_characters' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_PRICE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_invalid_max_characters' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_max_characters.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_max_characters_less_zero' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_max_characters_less_zero' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_max_characters_less_zero.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_invalid_sort_order' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_MAX_CHARACTERS => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_invalid_sort_order' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_invalid_sort_order.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_SORT_ORDER => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'main_sort_order_less_zero' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_SORT_ORDER => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'main_sort_order_less_zero' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_sort_order_less_zero.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_SORT_ORDER => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'secondary_valid' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_SORT_ORDER => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'secondary_valid' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_valid.php',
-                '$errors' => array()
-            ),
-            'secondary_invalid_store' => array(
+                '$errors' => [],
+            ],
+            'secondary_invalid_store' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_invalid_store.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_STORE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'secondary_incorrect_price' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_STORE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'secondary_incorrect_price' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_price.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_PRICE => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'secondary_incorrect_row_sort' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_PRICE => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'secondary_incorrect_row_sort' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_incorrect_row_sort.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_SORT => array(
-                        array(1, null)
-                    )
-                )
-            ),
-            'secondary_row_sort_less_zero' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_SORT => [
+                        [1, null],
+                    ],
+                ],
+            ],
+            'secondary_row_sort_less_zero' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_secondary_row_sort_less_zero.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_SORT => array(
-                        array(1, null)
-                    )
-                )
-            )
-        );
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_INVALID_ROW_SORT => [
+                        [1, null],
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -838,77 +838,77 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function validateAmbiguousDataDataProvider()
     {
-        return array(
-            'ambiguity_several_input_rows' => array(
+        return [
+            'ambiguity_several_input_rows' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_main_valid.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_NEW_NAMES => array(
-                        array(1, null),
-                        array(2, null)
-                    )
-                ),
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_NEW_NAMES => [
+                        [1, null],
+                        [2, null],
+                    ],
+                ],
                 '$behavior' => null,
-                '$numberOfValidations' => 2
-            ),
-            'ambiguity_different_type' => array(
+                '$numberOfValidations' => 2,
+            ],
+            'ambiguity_different_type' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_different_type.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_TYPES => array(
-                        array(1, null)
-                    )
-                ),
-                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
-            ),
-            'ambiguity_several_db_rows' => array(
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_TYPES => [
+                        [1, null],
+                    ],
+                ],
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
+            ],
+            'ambiguity_several_db_rows' => [
                 '$rowData' => include __DIR__ . '/_files/row_data_ambiguity_several_db_rows.php',
-                '$errors' => array(
-                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_OLD_NAMES => array(
-                        array(1, null)
-                    )
-                ),
-                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
-            )
-        );
+                '$errors' => [
+                    \Magento\CatalogImportExport\Model\Import\Product\Option::ERROR_AMBIGUOUS_OLD_NAMES => [
+                        [1, null],
+                    ],
+                ],
+                '$behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND,
+            ]
+        ];
     }
 
     public function testParseRequiredData()
     {
-        $modelData = $this->getMock('stdClass', array('getNextBunch'));
+        $modelData = $this->getMock('stdClass', ['getNextBunch']);
         $modelData->expects(
             $this->at(0)
         )->method(
             'getNextBunch'
         )->will(
             $this->returnValue(
-                array(array('sku' => 'simple3', '_custom_option_type' => 'field', '_custom_option_title' => 'Title'))
+                [['sku' => 'simple3', '_custom_option_type' => 'field', '_custom_option_title' => 'Title']]
             )
         );
         $modelData->expects($this->at(1))->method('getNextBunch')->will($this->returnValue(null));
 
-        $productModel = $this->getMock('stdClass', array('getProductEntitiesInfo'));
-        $productModel->expects($this->any())->method('getProductEntitiesInfo')->will($this->returnValue(array()));
+        $productModel = $this->getMock('stdClass', ['getProductEntitiesInfo']);
+        $productModel->expects($this->any())->method('getProductEntitiesInfo')->will($this->returnValue([]));
 
         $productEntity = $this->getMock(
             '\Magento\CatalogImportExport\Model\Import\Product',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $model = $this->_helper->getObject(
             'Magento\CatalogImportExport\Model\Import\Product\Option',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'data_source_model' => $modelData,
                     'product_model' => $productModel,
                     'option_collection' => $this->_helper->getObject('stdClass'),
                     'product_entity' => $productEntity,
                     'collection_by_pages_iterator' => $this->_helper->getObject('stdClass'),
                     'page_size' => 5000,
-                    'stores' => array()
-                )
-            )
+                    'stores' => [],
+                ]
+            ]
         );
         $this->assertTrue($model->importData());
     }

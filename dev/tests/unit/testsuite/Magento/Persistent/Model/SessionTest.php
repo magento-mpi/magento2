@@ -205,7 +205,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         return [
             'no duration' => [0, 0, null ],
             'no cookie' => [1, 0, 1000, null],
-            'all' => [1, 1, ],
+            'all' => [1, 1],
         ];
     }
 }

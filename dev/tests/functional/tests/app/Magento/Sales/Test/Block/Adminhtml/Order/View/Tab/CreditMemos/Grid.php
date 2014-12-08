@@ -28,18 +28,18 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="increment_id"]'
+            'selector' => 'input[name="increment_id"]',
         ],
         'status' => [
             'selector' => 'select[name="state"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'amount_from' => [
             'selector' => '[name="base_grand_total[from]"]',
         ],
         'amount_to' => [
-            'selector' => '[name="base_grand_total[to]"]'
-        ]
+            'selector' => '[name="base_grand_total[to]"]',
+        ],
     ];
 
     /**

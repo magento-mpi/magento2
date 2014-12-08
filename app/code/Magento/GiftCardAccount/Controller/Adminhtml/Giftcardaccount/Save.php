@@ -18,7 +18,7 @@ class Save extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
      */
     protected function _filterPostData($data)
     {
-        $inputFilter = new \Zend_Filter_Input(array('date_expires' => $this->_dateFilter), array(), $data);
+        $inputFilter = new \Zend_Filter_Input(['date_expires' => $this->_dateFilter], [], $data);
         return $inputFilter->getUnescaped();
     }
 
@@ -97,7 +97,7 @@ class Save extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                     return;
                 }
                 // go to grid
@@ -109,7 +109,7 @@ class Save extends \Magento\GiftCardAccount\Controller\Adminhtml\Giftcardaccount
                 // save data in session
                 $this->_getSession()->setFormData($data);
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             }
         }

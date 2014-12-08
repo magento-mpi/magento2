@@ -150,7 +150,7 @@ class CustomerRegisterTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = [
             [$customerMock, 'reward_update_notification', $customerResourceMock],
-            [$customerMock, 'reward_warning_notification', $customerResourceMock]
+            [$customerMock, 'reward_warning_notification', $customerResourceMock],
         ];
 
         $customerResourceMock->expects($this->exactly(2))

@@ -39,7 +39,7 @@ class CustomerInjectable extends InjectableFixture
     protected $address = [
         'attribute_code' => 'address',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address'
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\Address',
     ];
 
     protected $confirmation = [
@@ -141,7 +141,7 @@ class CustomerInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'account_information',
-        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId'
+        'source' => 'Magento\Customer\Test\Fixture\CustomerInjectable\GroupId',
     ];
 
     protected $lastname = [

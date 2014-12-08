@@ -68,7 +68,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     protected function convertField(&$data, $field, $value)
     {
-        if (in_array($field, array('color', 'size_general', 'size_pants', 'size_ball', 'size_strap'))) {
+        if (in_array($field, ['color', 'size_general', 'size_pants', 'size_ball', 'size_strap'])) {
             if (!empty($value)) {
                 $data['configurable_attributes_data'][$field] = $this->getArrayValue($value);
             }
@@ -98,18 +98,18 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 if (!empty($prices[$option->getValue()])) {
                     $price = $prices[$option->getValue()];
                 }
-                $attributeValues[] = array(
+                $attributeValues[] = [
                     'value_index' => $option->getId(),
                     'is_percent' => false,
                     'pricing_value' => $price,
-                    'include' => (int)in_array($option->getValue(), $values)
-                );
-                $attributeOptions[] = array(
+                    'include' => (int)in_array($option->getValue(), $values),
+                ];
+                $attributeOptions[] = [
                     'value' => $option->getId(),
-                    'label' => $option->getValue()
-                );
+                    'label' => $option->getValue(),
+                ];
             }
-            $attributesData[$attribute->getId()] = array(
+            $attributesData[$attribute->getId()] = [
                 'id' => '',
                 'label' => $attribute->getFrontend()->getLabel(),
                 'use_default' => '',
@@ -119,7 +119,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 'code' => $attribute->getAttributeCode(),
                 'values' => $attributeValues,
                 'options' => $attributeOptions,
-            );
+            ];
         }
         return $attributesData;
     }
@@ -130,8 +130,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     protected function convertAttributeValues($valuesData)
     {
-        $values = array();
-        $prices = array();
+        $values = [];
+        $prices = [];
         foreach ($valuesData as $item) {
             $itemData = explode(';', $item);
             if (!empty($itemData[0])) {
@@ -141,7 +141,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 $prices[$itemData[0]] = $itemData[1];
             }
         }
-        return array($values, $prices);
+        return [$values, $prices];
     }
 
     /**
@@ -156,8 +156,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         $productName = $data['name'];
         $productSku = $data['sku'];
         foreach ($variations as $variation) {
-            $attributeValues = array();
-            $attributeLabels = array();
+            $attributeValues = [];
+            $attributeLabels = [];
             $price = $productPrice;
             foreach ($data['configurable_attributes_data'] as $attributeData) {
                 $attributeId = $attributeData['attribute_id'];
@@ -187,7 +187,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     protected function convertSkuToIds($sku)
     {
-        $ids = array();
+        $ids = [];
         foreach ($sku as $item) {
             $ids[] = $this->getProductIdBySku($item);
         }

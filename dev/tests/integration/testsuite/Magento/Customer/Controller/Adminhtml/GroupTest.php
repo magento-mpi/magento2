@@ -157,7 +157,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
                 'code' => self::CUSTOMER_GROUP_CODE,
                 'id' => $groupId,
                 'tax_class_id' => self::TAX_CLASS_ID,
-                'tax_class_name' => self::TAX_CLASS_NAME
+                'tax_class_name' => self::TAX_CLASS_NAME,
             ],
             $customerGroupData
         );

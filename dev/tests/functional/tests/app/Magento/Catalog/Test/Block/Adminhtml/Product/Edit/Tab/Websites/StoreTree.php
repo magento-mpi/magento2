@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Websites;
 
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class StoreTree

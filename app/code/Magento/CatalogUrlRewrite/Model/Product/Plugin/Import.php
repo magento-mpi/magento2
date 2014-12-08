@@ -1,18 +1,18 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\CatalogUrlRewrite\Model\Product\Plugin;
 
-use Magento\UrlRewrite\Model\UrlPersistInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\CatalogImportExport\Model\Import\Product as ImportProduct;
 use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
 use Magento\ImportExport\Model\Import as ImportExport;
-use Magento\CatalogImportExport\Model\Import\Product as ImportProduct;
+use Magento\UrlRewrite\Model\UrlPersistInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 
 class Import
 {

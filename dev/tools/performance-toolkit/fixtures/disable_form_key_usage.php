@@ -18,4 +18,4 @@ $configData->setPath(\Magento\Backend\Model\Url::XML_PATH_USE_SECURE_KEY)
     ->save();
 
 $this->getObjectManager()->get('Magento\Framework\App\CacheInterface')
-    ->clean(array(\Magento\Framework\App\Config::CACHE_TAG));
+    ->clean([\Magento\Framework\App\Config::CACHE_TAG]);

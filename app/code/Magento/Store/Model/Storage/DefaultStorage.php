@@ -42,7 +42,6 @@ class DefaultStorage implements \Magento\Framework\StoreManagerInterface
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Store\Model\GroupFactory $groupFactory
     ) {
-
         $this->_store = $storeFactory->create();
         $this->_store->setId(\Magento\Store\Model\Store::DISTRO_STORE_ID);
         $this->_store->setCode(\Magento\Store\Model\Store::DEFAULT_CODE);
@@ -97,7 +96,7 @@ class DefaultStorage implements \Magento\Framework\StoreManagerInterface
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
-        return array();
+        return [];
     }
 
     /**
@@ -125,7 +124,7 @@ class DefaultStorage implements \Magento\Framework\StoreManagerInterface
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
-        $websites = array();
+        $websites = [];
 
         if ($withDefault) {
             $key = $codeKey ? $this->_website->getCode() : $this->_website->getId();
@@ -158,7 +157,7 @@ class DefaultStorage implements \Magento\Framework\StoreManagerInterface
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
-        $groups = array();
+        $groups = [];
 
         if ($withDefault) {
             $key = $codeKey ? $this->_group->getCode() : $this->_group->getId();

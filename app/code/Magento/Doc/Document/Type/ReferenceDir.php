@@ -51,7 +51,7 @@ class ReferenceDir extends AbstractType implements ReferenceInterface
      */
     public function getContent(Item $item)
     {
-        list ($dirType, $path) = explode('::', $item->getData('reference'));
+        list($dirType, $path) = explode('::', $item->getData('reference'));
         $dir = $this->filesystem->getDirectoryRead($dirType);
         if ($dir->isExist($path)) {
             $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;

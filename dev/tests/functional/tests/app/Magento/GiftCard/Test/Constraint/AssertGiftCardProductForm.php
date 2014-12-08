@@ -21,7 +21,7 @@ class AssertGiftCardProductForm extends AssertProductForm
      * @var array
      */
     protected $sortFields = [
-        'giftcard_amounts::price'
+        'giftcard_amounts::price',
     ];
 
     /**

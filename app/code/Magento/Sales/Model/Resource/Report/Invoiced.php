@@ -67,7 +67,7 @@ class Invoiced extends AbstractReport
                 $subSelect = $this->_getTableDateRangeRelatedSelect(
                     $sourceTable,
                     $orderTable,
-                    array('order_id' => 'entity_id'),
+                    ['order_id' => 'entity_id'],
                     'created_at',
                     'updated_at',
                     $from,
@@ -81,13 +81,13 @@ class Invoiced extends AbstractReport
             // convert dates from UTC to current admin timezone
             $periodExpr = $adapter->getDatePartSql(
                 $this->getStoreTZOffsetQuery(
-                    array('source_table' => $sourceTable),
+                    ['source_table' => $sourceTable],
                     'source_table.created_at',
                     $from,
                     $to
                 )
             );
-            $columns = array(
+            $columns = [
                 'period' => $periodExpr,
                 'store_id' => 'order_table.store_id',
                 'order_status' => 'order_table.status',
@@ -102,25 +102,25 @@ class Invoiced extends AbstractReport
                 'invoiced_not_captured' => new \Zend_Db_Expr(
                     'SUM((order_table.base_total_invoiced - order_table.base_total_paid)' .
                     ' * order_table.base_to_global_rate)'
-                )
-            );
+                ),
+            ];
 
             $select = $adapter->select();
             $select->from(
-                array('source_table' => $sourceTable),
+                ['source_table' => $sourceTable],
                 $columns
             )->joinInner(
-                array('order_table' => $orderTable),
+                ['order_table' => $orderTable],
                 $adapter->quoteInto(
                     'source_table.order_id = order_table.entity_id AND order_table.state <> ?',
                     \Magento\Sales\Model\Order::STATE_CANCELED
                 ),
-                array()
+                []
             );
 
             $filterSubSelect = $adapter->select();
             $filterSubSelect->from(
-                array('filter_source_table' => $sourceTable),
+                ['filter_source_table' => $sourceTable],
                 'MAX(filter_source_table.entity_id)'
             )->where(
                 'filter_source_table.order_id = source_table.order_id'
@@ -133,14 +133,14 @@ class Invoiced extends AbstractReport
             $select->where('source_table.entity_id = (?)', new \Zend_Db_Expr($filterSubSelect));
             unset($filterSubSelect);
 
-            $select->group(array($periodExpr, 'order_table.store_id', 'order_table.status'));
+            $select->group([$periodExpr, 'order_table.store_id', 'order_table.status']);
 
             $select->having('orders_count > 0');
             $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
             $select->reset();
 
-            $columns = array(
+            $columns = [
                 'period' => 'period',
                 'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
                 'order_status' => 'order_status',
@@ -148,8 +148,8 @@ class Invoiced extends AbstractReport
                 'orders_invoiced' => new \Zend_Db_Expr('SUM(orders_invoiced)'),
                 'invoiced' => new \Zend_Db_Expr('SUM(invoiced)'),
                 'invoiced_captured' => new \Zend_Db_Expr('SUM(invoiced_captured)'),
-                'invoiced_not_captured' => new \Zend_Db_Expr('SUM(invoiced_not_captured)')
-            );
+                'invoiced_not_captured' => new \Zend_Db_Expr('SUM(invoiced_not_captured)'),
+            ];
 
             $select->from($table, $columns)->where('store_id <> ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
@@ -157,7 +157,7 @@ class Invoiced extends AbstractReport
                 $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
             }
 
-            $select->group(array('period', 'order_status'));
+            $select->group(['period', 'order_status']);
             $insertQuery = $select->insertFromSelect($table, array_keys($columns));
             $adapter->query($insertQuery);
             $adapter->commit();
@@ -192,7 +192,7 @@ class Invoiced extends AbstractReport
         // convert dates from UTC to current admin timezone
         $periodExpr = $adapter->getDatePartSql($this->getStoreTZOffsetQuery($sourceTable, 'created_at', $from, $to));
 
-        $columns = array(
+        $columns = [
             'period' => $periodExpr,
             'store_id' => 'store_id',
             'order_status' => 'status',
@@ -221,8 +221,8 @@ class Invoiced extends AbstractReport
                     $adapter->getIfNullSql('base_total_paid', 0),
                     $adapter->getIfNullSql('base_to_global_rate', 0)
                 )
-            )
-        );
+            ),
+        ];
 
         $select = $adapter->select();
         $select->from($sourceTable, $columns)->where('state <> ?', \Magento\Sales\Model\Order::STATE_CANCELED);
@@ -231,14 +231,14 @@ class Invoiced extends AbstractReport
             $select->having($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
         }
 
-        $select->group(array($periodExpr, 'store_id', 'status'));
+        $select->group([$periodExpr, 'store_id', 'status']);
         $select->having('orders_count > 0');
 
         $insertQuery = $select->insertFromSelect($table, array_keys($columns));
         $adapter->query($insertQuery);
         $select->reset();
 
-        $columns = array(
+        $columns = [
             'period' => 'period',
             'store_id' => new \Zend_Db_Expr(\Magento\Store\Model\Store::DEFAULT_STORE_ID),
             'order_status' => 'order_status',
@@ -246,8 +246,8 @@ class Invoiced extends AbstractReport
             'orders_invoiced' => new \Zend_Db_Expr('SUM(orders_invoiced)'),
             'invoiced' => new \Zend_Db_Expr('SUM(invoiced)'),
             'invoiced_captured' => new \Zend_Db_Expr('SUM(invoiced_captured)'),
-            'invoiced_not_captured' => new \Zend_Db_Expr('SUM(invoiced_not_captured)')
-        );
+            'invoiced_not_captured' => new \Zend_Db_Expr('SUM(invoiced_not_captured)'),
+        ];
 
         $select->from($table, $columns)->where('store_id <> ?', \Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
@@ -255,7 +255,7 @@ class Invoiced extends AbstractReport
             $select->where($this->_makeConditionFromDateRangeSelect($subSelect, 'period'));
         }
 
-        $select->group(array('period', 'order_status'));
+        $select->group(['period', 'order_status']);
         $insertQuery = $select->insertFromSelect($table, array_keys($columns));
         $adapter->query($insertQuery);
         return $this;

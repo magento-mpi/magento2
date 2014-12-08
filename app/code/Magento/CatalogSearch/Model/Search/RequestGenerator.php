@@ -58,7 +58,6 @@ class RequestGenerator
         foreach ($this->getSearchableAttributes() as $attribute) {
             if ($attribute->getIsFilterable()) {
                 if (!in_array($attribute->getAttributeCode(), ['price', 'category_ids'])) {
-
                     $queryName = $attribute->getAttributeCode() . '_query';
 
                     $request['queries']['quick_search_container']['queryReference'][] = [
@@ -69,7 +68,7 @@ class RequestGenerator
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
                         'type' => QueryInterface::TYPE_FILTER,
-                        'filterReference' => [['ref' => $filterName]]
+                        'filterReference' => [['ref' => $filterName]],
                     ];
                     $bucketName = $attribute->getAttributeCode() . self::BUCKET_SUFFIX;
                     if ($attribute->getBackendType() == 'decimal') {
@@ -168,7 +167,7 @@ class RequestGenerator
                         $request['queries'][$queryName] = [
                             'name' => $queryName,
                             'type' => QueryInterface::TYPE_FILTER,
-                            'filterReference' => [['ref' => $filterName]]
+                            'filterReference' => [['ref' => $filterName]],
                         ];
 
                         $request['filters'][$filterName] = [
@@ -186,8 +185,8 @@ class RequestGenerator
                                 [
                                     'field' => $attribute->getAttributeCode(),
                                     'boost' => $attribute->getSearchWeight() ?: 1,
-                                ]
-                            ]
+                                ],
+                            ],
                         ];
                     }
                     break;
@@ -198,7 +197,7 @@ class RequestGenerator
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
                         'type' => QueryInterface::TYPE_FILTER,
-                        'filterReference' => [['ref' => $filterName]]
+                        'filterReference' => [['ref' => $filterName]],
                     ];
                     $request['filters'][$filterName] = [
                         'field' => $attribute->getAttributeCode(),
@@ -213,7 +212,7 @@ class RequestGenerator
                     $request['queries'][$queryName] = [
                         'name' => $queryName,
                         'type' => QueryInterface::TYPE_FILTER,
-                        'filterReference' => [['ref' => $filterName]]
+                        'filterReference' => [['ref' => $filterName]],
                     ];
 
                     $request['filters'][$filterName] = [

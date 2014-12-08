@@ -27,7 +27,7 @@ class ResetPasswordButton extends GenericButton implements ButtonProviderInterfa
                 'label' => __('Reset Password'),
                 'class' => 'reset reset-password',
                 'on_click' => 'setLocation(\'' . $this->getResetPasswordUrl() . '\')',
-                'sort_order' => 40
+                'sort_order' => 40,
             ];
         }
         return $data;
@@ -38,6 +38,6 @@ class ResetPasswordButton extends GenericButton implements ButtonProviderInterfa
      */
     public function getResetPasswordUrl()
     {
-        return $this->getUrl('customer/index/resetPassword', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('customer/index/resetPassword', ['customer_id' => $this->getCustomerId()]);
     }
 }

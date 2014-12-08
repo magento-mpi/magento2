@@ -54,17 +54,17 @@ class RelativePathConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertWithInvalidArgumentsDataProvider()
     {
-        return array(array('', ''), array('some/node', ''), array('', 'some/node'));
+        return [['', ''], ['some/node', ''], ['', 'some/node']];
     }
 
     public function testConvertDataProvider()
     {
-        return array(
-            array('currentNode', 'relativeNode', 'relativeNode'),
-            array('current/node/path', 'relative/node/path', 'relative/node/path'),
-            array('current/node', 'siblingRelativeNode', 'current/siblingRelativeNode'),
-            array('current/node', '*/siblingNode', 'current/siblingNode'),
-            array('very/deep/node/hierarchy', '*/*/sourceNode', 'very/deep/sourceNode')
-        );
+        return [
+            ['currentNode', 'relativeNode', 'relativeNode'],
+            ['current/node/path', 'relative/node/path', 'relative/node/path'],
+            ['current/node', 'siblingRelativeNode', 'current/siblingRelativeNode'],
+            ['current/node', '*/siblingNode', 'current/siblingNode'],
+            ['very/deep/node/hierarchy', '*/*/sourceNode', 'very/deep/sourceNode']
+        ];
     }
 }

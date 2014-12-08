@@ -25,7 +25,7 @@ class ReaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $this->objectManagerHelper->getObject(
             'Magento\\CatalogSearch\\Model\\Search\\ReaderPlugin',
-            array('requestGenerator' => $this->requestGenerator)
+            ['requestGenerator' => $this->requestGenerator]
         );
     }
 

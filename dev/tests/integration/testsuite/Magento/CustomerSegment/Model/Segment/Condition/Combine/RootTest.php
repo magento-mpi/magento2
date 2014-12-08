@@ -50,14 +50,14 @@ class RootTest extends \PHPUnit_Framework_TestCase
 
     public function prepareConditionsSqlDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
                 new \Zend_Db_Expr(1),
-                array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=1)')
-            ),
-            array(null, 2, array('`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=2)')),
-            array(1, 3, array('select 1'))
-        );
+                ['`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=1)'],
+            ],
+            [null, 2, ['`root`.`entity_id`', '`root`.`website_id`', 'where (website_id=2)']],
+            [1, 3, ['select 1']]
+        ];
     }
 }

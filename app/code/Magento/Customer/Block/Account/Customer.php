@@ -41,7 +41,7 @@ class Customer extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\View $viewHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->customerRepository = $accountManagement;

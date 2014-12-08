@@ -23,6 +23,6 @@ $connection = $this->getConnection();
 $adminRuleTable = $this->getTable('authorization_rule');
 $connection->update(
     $adminRuleTable,
-    array('resource_id' => 'Magento_RecurringPayment::recurring_payment'),
-    array('resource_id = ?' => 'Magento_Sales::recurring_payment')
+    ['resource_id' => 'Magento_RecurringPayment::recurring_payment'],
+    ['resource_id = ?' => 'Magento_Sales::recurring_payment']
 );

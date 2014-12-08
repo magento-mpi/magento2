@@ -5,12 +5,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-use \Magento\Tools\Composer\Package\Package;
+use \Magento\Tools\Composer\Helper\Zipper;
 
 require __DIR__ . '/../../../bootstrap.php';
 $generationDir = __DIR__ . '/_packages';
 
-use \Magento\Tools\Composer\Helper\Zipper;
+use \Magento\Tools\Composer\Package\Package;
 use \Magento\Tools\Composer\Package\Reader;
 
 /**
@@ -20,10 +20,10 @@ use \Magento\Tools\Composer\Package\Reader;
  */
 try {
     $opt = new \Zend_Console_Getopt(
-        array(
+        [
             'output|o=s' => 'Generation dir. Default value ' . $generationDir,
             'dir|d=s' => 'Working directory. Default value ' . realpath(BP),
-        )
+        ]
     );
     $opt->parse();
 
@@ -67,11 +67,10 @@ try {
 
     $logger->info(
         sprintf(
-            "SUCCESS: Zipped ". $noOfZips." packages. You should be able to find it at %s. \n",
+            "SUCCESS: Zipped " . $noOfZips . " packages. You should be able to find it at %s. \n",
             $generationDir
         )
     );
-
 } catch (\Zend_Console_Getopt_Exception $e) {
     exit($e->getUsageMessage());
 } catch (\Exception $e) {

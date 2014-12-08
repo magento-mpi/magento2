@@ -31,9 +31,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     [
                         'label' => 'label 1.1',
                         'name' => 'name 1.1',
-                        'disabled' => false
+                        'disabled' => false,
                     ],
-                ]
+                ],
             ],
             [
                 'label' => 'group label 2',
@@ -41,7 +41,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
                     [
                         'label' => 'label 2.2',
                         'name' => 'name 2.2',
-                        'disabled' => true
+                        'disabled' => true,
                     ],
                 ]
             ],
@@ -76,7 +76,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->valueMock->expects($this->once())->method('getImageSizeX')->will($this->returnValue(-10));
         $this->valueMock->expects($this->never())->method('getImageSizeY');
         $messages = [
-            'option values' => 'Invalid option value'
+            'option values' => 'Invalid option value',
         ];
         $this->assertFalse($this->validator->isValid($this->valueMock));
         $this->assertEquals($messages, $this->validator->getMessages());
@@ -91,7 +91,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->valueMock->expects($this->once())->method('getImageSizeX')->will($this->returnValue(10));
         $this->valueMock->expects($this->once())->method('getImageSizeY')->will($this->returnValue(-10));
         $messages = [
-            'option values' => 'Invalid option value'
+            'option values' => 'Invalid option value',
         ];
         $this->assertFalse($this->validator->isValid($this->valueMock));
         $this->assertEquals($messages, $this->validator->getMessages());

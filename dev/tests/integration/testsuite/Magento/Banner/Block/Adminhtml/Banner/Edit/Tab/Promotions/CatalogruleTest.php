@@ -28,6 +28,6 @@ class CatalogruleTest extends \PHPUnit_Framework_TestCase
         );
         $catalogRule->load('Test Catalog Rule', 'name');
 
-        $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());
+        $this->assertSame([$catalogRule->getId()], $block->getCollection()->getAllIds());
     }
 }

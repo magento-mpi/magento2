@@ -51,7 +51,7 @@ class Tab
             $tabs = $observer->getEvent()->getTabs();
             $tabs->addTab(
                 'google-experiment-tab',
-                array('label' => __('Category View Optimization'), 'content' => $block->toHtml())
+                ['label' => __('Category View Optimization'), 'content' => $block->toHtml()]
             );
         }
     }

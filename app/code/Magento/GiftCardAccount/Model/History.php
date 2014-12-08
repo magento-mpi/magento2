@@ -58,7 +58,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -77,14 +77,14 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getActionNamesArray()
     {
-        return array(
+        return [
             self::ACTION_CREATED => __('Created'),
             self::ACTION_UPDATED => __('Updated'),
             self::ACTION_SENT => __('Sent'),
             self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
             self::ACTION_EXPIRED => __('Expired')
-        );
+        ];
     }
 
     /**

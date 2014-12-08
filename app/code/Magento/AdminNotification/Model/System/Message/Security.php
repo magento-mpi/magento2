@@ -81,7 +81,7 @@ class Security implements \Magento\Framework\Notification\MessageInterface
         }
 
         $adminSessionLifetime = (int)$this->_backendConfig->getValue('admin/security/session_lifetime');
-        $this->_cache->save(true, self::VERIFICATION_RESULT_CACHE_KEY, array(), $adminSessionLifetime);
+        $this->_cache->save(true, self::VERIFICATION_RESULT_CACHE_KEY, [], $adminSessionLifetime);
         return false;
     }
 
@@ -96,7 +96,7 @@ class Security implements \Magento\Framework\Notification\MessageInterface
 
         /** @var $http \Magento\Framework\HTTP\Adapter\Curl */
         $http = $this->_curlFactory->create();
-        $http->setConfig(array('timeout' => $this->_verificationTimeOut));
+        $http->setConfig(['timeout' => $this->_verificationTimeOut]);
         $http->write(\Zend_Http_Client::POST, $unsecureBaseURL . $this->_filePath);
         $responseBody = $http->read();
         $responseCode = \Zend_Http_Response::extractCode($responseBody);

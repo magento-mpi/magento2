@@ -25,16 +25,16 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $factoryMock = $this->getMock('\Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryMock = $this->getMock('\Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $collectionFactoryMock = $this->getMock(
             '\Magento\Framework\Data\Form\Element\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $escaperMock = $this->getMock('\Magento\Framework\Escaper', array(), array(), '', false);
-        $urlBuilderMock = $this->getMock('\Magento\Framework\Url', array(), array(), '', false);
+        $escaperMock = $this->getMock('\Magento\Framework\Escaper', [], [], '', false);
+        $urlBuilderMock = $this->getMock('\Magento\Framework\Url', [], [], '', false);
         $this->_image = new \Magento\Framework\Data\Form\Element\Image(
             $factoryMock,
             $collectionFactoryMock,

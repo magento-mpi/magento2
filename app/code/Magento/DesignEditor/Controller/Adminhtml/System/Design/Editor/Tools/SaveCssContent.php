@@ -25,22 +25,22 @@ class SaveCssContent extends \Magento\DesignEditor\Controller\Adminhtml\System\D
         /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
         $singleFile = $this->_objectManager->create(
             'Magento\Theme\Model\Theme\SingleFile',
-            array('fileService' => $cssService)
+            ['fileService' => $cssService]
         );
         try {
             $themeContext = $this->_initContext();
             $editableTheme = $themeContext->getStagingTheme();
             $customCss = $singleFile->update($editableTheme, $customCssContent);
-            $response = array(
+            $response = [
                 'success' => true,
                 'filename' => $customCss->getFileName(),
-                'message' => __('You updated the %1 file.', $customCss->getFileName())
-            );
+                'message' => __('You updated the %1 file.', $customCss->getFileName()),
+            ];
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We can\'t save the custom css file.'));
+            $response = ['error' => true, 'message' => __('We can\'t save the custom css file.')];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

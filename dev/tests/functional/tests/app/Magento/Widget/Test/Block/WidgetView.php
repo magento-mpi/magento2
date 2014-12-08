@@ -8,9 +8,9 @@
 
 namespace Magento\Widget\Test\Block;
 
+use Magento\Widget\Test\Fixture\Widget;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Widget\Test\Fixture\Widget;
 
 /**
  * Widget block on the frontend
@@ -28,7 +28,7 @@ class WidgetView extends Block
         'catalogProductLink' => '//a[contains(.,"%s")]',
         'recentlyComparedProducts' => '/descendant-or-self::div[contains(.,"%s")]',
         'recentlyViewedProducts' => '/descendant-or-self::div[contains(.,"%s")]',
-        'cmsStaticBlock' => '/descendant-or-self::div[contains(.,"%s")]'
+        'cmsStaticBlock' => '/descendant-or-self::div[contains(.,"%s")]',
     ];
 
     /**

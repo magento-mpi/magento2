@@ -8,10 +8,10 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Cover DeleteProductEntity with functional tests designed for automation
@@ -87,8 +87,8 @@ class DeleteProductEntityTest extends Injectable
                     'dataSet' => $dataSet,
                     'data' => [
                         'category_ids' => [
-                            'category' => $category
-                        ]
+                            'category' => $category,
+                        ],
                     ]
                 ]
             );

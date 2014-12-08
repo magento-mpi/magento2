@@ -33,7 +33,7 @@ class Logo extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_fileStorageHelper = $fileStorageHelper;
         parent::__construct($context, $data);
@@ -46,8 +46,8 @@ class Logo extends \Magento\Framework\View\Element\Template
      */
     public function isHomePage()
     {
-        $currentUrl = $this->getUrl('', array('_current' => true));
-        $urlRewrite = $this->getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true));
+        $currentUrl = $this->getUrl('', ['_current' => true]);
+        $urlRewrite = $this->getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true]);
         return $currentUrl == $urlRewrite;
     }
 
@@ -94,7 +94,7 @@ class Logo extends \Magento\Framework\View\Element\Template
         );
         $path = $folderName . '/' . $storeLogoPath;
         $logoUrl = $this->_urlBuilder
-                ->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA)) . $path;
+                ->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA]) . $path;
 
         if (!is_null($storeLogoPath) && $this->_isFile($path)) {
             $url = $logoUrl;

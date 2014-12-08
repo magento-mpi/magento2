@@ -33,17 +33,17 @@ class CustomerMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/attribute/$attributeCode",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata',
+            ],
         ];
 
         $requestData = [
-            'attributeCode' => $attributeCode
+            'attributeCode' => $attributeCode,
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
@@ -84,7 +84,7 @@ class CustomerMetadataTest extends WebapiAbstract
                     AttributeMetadata::USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'varchar',
                     AttributeMetadata::SORT_ORDER       => 40
-                ]
+                ],
             ],
             Customer::GENDER => [
                 Customer::GENDER,
@@ -101,7 +101,7 @@ class CustomerMetadataTest extends WebapiAbstract
                     AttributeMetadata::OPTIONS          => [
                         ['label' => '', 'value' => ''],
                         ['label' => 'Male', 'value' => '1'],
-                        ['label' => 'Female', 'value' => '2']
+                        ['label' => 'Female', 'value' => '2'],
                     ],
                     AttributeMetadata::FRONTEND_CLASS   => '',
                     AttributeMetadata::FRONTEND_LABEL   => 'Gender',
@@ -110,7 +110,7 @@ class CustomerMetadataTest extends WebapiAbstract
                     AttributeMetadata::USER_DEFINED     => false,
                     AttributeMetadata::BACKEND_TYPE     => 'int',
                     AttributeMetadata::SORT_ORDER       => 110
-                ]
+                ],
             ]
         ];
     }
@@ -123,13 +123,13 @@ class CustomerMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata',
+            ],
         ];
 
         $attributeMetadata = $this->_webApiCall($serviceInfo);
@@ -150,13 +150,13 @@ class CustomerMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/custom',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata',
+            ],
         ];
 
         $attributeMetadata = $this->_webApiCall($serviceInfo);
@@ -178,24 +178,23 @@ class CustomerMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/form/$formCode",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributes'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAttributes',
+            ],
         ];
 
         $requestData = [
-            'formCode' => $formCode
+            'formCode' => $formCode,
         ];
 
         $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
         foreach ($attributeMetadataList as $attributeMetadata) {
-            if(isset($attributeMetadata['attribute_code'])
+            if (isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']) {
-
                 $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
                 list($expectedMetadata, $attributeMetadata) = $validationResult;
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -215,7 +214,7 @@ class CustomerMetadataTest extends WebapiAbstract
         return [
             [
                 'adminhtml_customer',
-                $attributeMetadata[Customer::FIRSTNAME][1]
+                $attributeMetadata[Customer::FIRSTNAME][1],
             ],
             [
                 'adminhtml_customer',
@@ -247,14 +246,14 @@ class CustomerMetadataTest extends WebapiAbstract
         }
 
         if (is_array($expectedRules) && is_array($actualRules)) {
-            foreach($expectedRules as $expectedRule) {
+            foreach ($expectedRules as $expectedRule) {
                 if (isset($expectedRule['name']) && isset($expectedRule['value'])) {
                     $found = false;
-                    foreach($actualRules as $actualRule) {
+                    foreach ($actualRules as $actualRule) {
                         if (isset($actualRule['name']) && isset($actualRule['value'])) {
                             if ($expectedRule['name'] == $actualRule['name']
                                 && $expectedRule['value'] == $actualRule['value']
-                            ){
+                            ) {
                                 $found = true;
                                 break;
                             }
@@ -278,7 +277,7 @@ class CustomerMetadataTest extends WebapiAbstract
     {
         if (is_array($expectedResult) && is_array($actualResultSet)) {
             if (isset($expectedResult[AttributeMetadata::ATTRIBUTE_CODE])) {
-                foreach($actualResultSet as $actualAttributeKey => $actualAttribute) {
+                foreach ($actualResultSet as $actualAttributeKey => $actualAttribute) {
                     if (isset($actualAttribute[AttributeMetadata::ATTRIBUTE_CODE])
                         && $expectedResult[AttributeMetadata::ATTRIBUTE_CODE]
                         == $actualAttribute[AttributeMetadata::ATTRIBUTE_CODE]

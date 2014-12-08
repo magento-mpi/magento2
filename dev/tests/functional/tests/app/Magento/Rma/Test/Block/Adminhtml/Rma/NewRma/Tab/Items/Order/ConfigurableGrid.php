@@ -8,9 +8,8 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order;
 
-use Mtf\Fixture\FixtureInterface;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Grid for choose order item(configurable product).

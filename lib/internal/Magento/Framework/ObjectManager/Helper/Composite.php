@@ -41,7 +41,7 @@ class Composite
                 $secondComponentSortOrder = (int)$secondComponent['sortOrder'];
                 if ($firstComponentSortOrder == $secondComponentSortOrder) {
                     return 0;
-                } else if ($firstComponentSortOrder < $secondComponentSortOrder) {
+                } elseif ($firstComponentSortOrder < $secondComponentSortOrder) {
                     return -1;
                 } else {
                     return 1;

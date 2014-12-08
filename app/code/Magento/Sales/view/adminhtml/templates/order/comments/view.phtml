@@ -36,7 +36,7 @@
                     <span class="note-list-customer-not-notified"><?php echo __('Not Notified') ?></span>
                 <?php endif; ?>
             </span>
-            <div class="note-list-comment"><?php echo $this->escapeHtml($_comment->getComment(), array('b','br','strong','i','u')) ?></div>
+            <div class="note-list-comment"><?php echo $this->escapeHtml($_comment->getComment(), ['b', 'br', 'strong', 'i', 'u']) ?></div>
         </li>
     <?php endforeach; ?>
     </ul>

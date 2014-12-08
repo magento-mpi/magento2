@@ -23,7 +23,7 @@ class Total extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Msrp\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->config = $config;

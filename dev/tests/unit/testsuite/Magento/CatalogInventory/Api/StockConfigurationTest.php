@@ -81,7 +81,7 @@ class StockConfigurationTest extends \PHPUnit_Framework_TestCase
             'manage_stock',
             'enable_qty_increments',
             'qty_increments',
-            'is_decimal_divided'
+            'is_decimal_divided',
         ];
         $this->assertSame($configOptions, $this->stockConfiguration->getConfigItemOptions());
     }

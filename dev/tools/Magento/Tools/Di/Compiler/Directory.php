@@ -7,20 +7,20 @@
  */
 namespace Magento\Tools\Di\Compiler;
 
-use Zend\Code\Scanner\FileScanner;
 use Magento\Tools\Di\Compiler\Log\Log;
+use Zend\Code\Scanner\FileScanner;
 
 class Directory
 {
     /**
      * @var array
      */
-    protected $_processedClasses = array();
+    protected $_processedClasses = [];
 
     /**
      * @var array
      */
-    protected $_definitions = array();
+    protected $_definitions = [];
 
     /**
      * @var string
@@ -50,7 +50,7 @@ class Directory
     {
         $this->_log = $log;
         $this->_validator = $validator;
-        set_error_handler(array($this, 'errorHandler'), E_STRICT);
+        set_error_handler([$this, 'errorHandler'], E_STRICT);
     }
 
     /**
@@ -110,6 +110,6 @@ class Directory
      */
     public function getResult()
     {
-        return array($this->_definitions, $this->_relations);
+        return [$this->_definitions, $this->_relations];
     }
 }

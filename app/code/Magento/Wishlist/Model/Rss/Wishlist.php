@@ -8,7 +8,7 @@
 
 namespace Magento\Wishlist\Model\Rss;
 
-use \Magento\Framework\App\Rss\DataProviderInterface;
+use Magento\Framework\App\Rss\DataProviderInterface;
 
 /**
  * Wishlist RSS model
@@ -141,7 +141,7 @@ class Wishlist implements DataProviderInterface
                 $product->setAllowedInRss(true);
                 $product->setAllowedPriceInRss(true);
                 $product->setProductUrl($productUrl);
-                $args = array('product' => $product);
+                $args = ['product' => $product];
 
                 $this->eventManager->dispatch('rss_wishlist_xml_callback', $args);
 
@@ -174,19 +174,19 @@ class Wishlist implements DataProviderInterface
                 }
                 $description .= '</td></tr></table>';
 
-                $data['entries'][] = (array(
+                $data['entries'][] = ([
                     'title' => $product->getName(),
                     'link' => $productUrl,
-                    'description' => $description
-                ));
+                    'description' => $description,
+                ]);
             }
         } else {
-            $data = array(
+            $data = [
                 'title' => __('We cannot retrieve the wish list.'),
                 'description' => __('We cannot retrieve the wish list.'),
                 'link' => $this->urlBuilder->getUrl(),
-                'charset' => 'UTF-8'
-            );
+                'charset' => 'UTF-8',
+            ];
         }
 
         return $data;
@@ -220,10 +220,10 @@ class Wishlist implements DataProviderInterface
         $title = __('%1\'s Wishlist', $customer->getName());
         $newUrl = $this->urlBuilder->getUrl(
             'wishlist/shared/index',
-            array('code' => $this->getWishlist()->getSharingCode())
+            ['code' => $this->getWishlist()->getSharingCode()]
         );
 
-        return array('title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8');
+        return ['title' => $title, 'description' => $title, 'link' => $newUrl, 'charset' => 'UTF-8'];
     }
 
     /**
@@ -252,7 +252,7 @@ class Wishlist implements DataProviderInterface
             $priceRender = $this->layout->createBlock(
                 'Magento\Framework\Pricing\Render',
                 'product.price.render.default',
-                array('data' => array('price_render_handle' => 'catalog_product_prices'))
+                ['data' => ['price_render_handle' => 'catalog_product_prices']]
             );
         }
         if ($priceRender) {
@@ -270,7 +270,7 @@ class Wishlist implements DataProviderInterface
      */
     public function getFeeds()
     {
-        return array();
+        return [];
     }
 
     /**

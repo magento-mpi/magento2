@@ -14,9 +14,9 @@ class Allspecificcountries implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 0, 'label' => __('All Allowed Countries')),
-            array('value' => 1, 'label' => __('Specific Countries'))
-        );
+        return [
+            ['value' => 0, 'label' => __('All Allowed Countries')],
+            ['value' => 1, 'label' => __('Specific Countries')]
+        ];
     }
 }

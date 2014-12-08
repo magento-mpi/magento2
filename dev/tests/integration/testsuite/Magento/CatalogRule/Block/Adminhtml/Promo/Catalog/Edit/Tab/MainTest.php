@@ -39,7 +39,7 @@ class MainTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('customer_group_ids', 'from_date', 'to_date') as $id) {
+        foreach (['customer_group_ids', 'from_date', 'to_date'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $actual = ($id == 'customer_group_ids') ? $element->getValues() : $element->getDateFormat();

@@ -13,9 +13,9 @@
         <?php echo $this->getChildHtml('template'); ?>
         <?php
         foreach ($this->getAttributes() as $attribute) {
-            echo $this->getChildBlock('attribute-renderer')->render(array(
+            echo $this->getChildBlock('attribute-renderer')->render([
                 'attribute' => $attribute,
-            ));
+            ]);
         } ?>
     </div>
 

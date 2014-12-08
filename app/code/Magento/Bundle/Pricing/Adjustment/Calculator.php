@@ -8,16 +8,16 @@
 
 namespace Magento\Bundle\Pricing\Adjustment;
 
-use Magento\Catalog\Model\Product;
-use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Framework\Pricing\Amount\AmountFactory;
-use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
-use Magento\Framework\Pricing\Adjustment\Calculator as CalculatorBase;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Bundle\Pricing\Price\BundleOptionPrice;
+use Magento\Bundle\Pricing\Price\BundleSelectionFactory;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\Pricing\Adjustment\Calculator as CalculatorBase;
+use Magento\Framework\Pricing\Amount\AmountFactory;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Store\Model\Store;
+use Magento\Tax\Api\TaxCalculationInterface;
 use Magento\Tax\Helper\Data as TaxHelper;
 
 /**
@@ -99,7 +99,6 @@ class Calculator implements BundleCalculatorInterface
     {
         return $this->getOptionsAmount($saleableItem, $exclude, true, $amount, true);
     }
-
 
     /**
      * Get amount for current product which is included price of existing options with maximal price
@@ -323,7 +322,6 @@ class Calculator implements BundleCalculatorInterface
                 foreach ($itemAmount->getAdjustmentAmounts() as $code => $adjustment) {
                     $adjustments[$code] = isset($adjustments[$code]) ? $adjustments[$code] + $adjustment : $adjustment;
                 }
-
             }
         }
         if ($exclude && isset($adjustments[$exclude])) {

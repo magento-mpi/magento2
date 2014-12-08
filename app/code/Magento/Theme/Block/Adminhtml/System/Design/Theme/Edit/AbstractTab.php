@@ -40,7 +40,7 @@ abstract class AbstractTab extends \Magento\Backend\Block\Widget\Form\Generic im
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\ObjectManagerInterface $objectManager,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_objectManager = $objectManager;

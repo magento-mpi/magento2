@@ -193,10 +193,10 @@ class TreeNode implements NodeInterface
                 $index++;
             }
             // splice in the new node
-            array_splice($nodes, $index, 0, array($newNode));
+            array_splice($nodes, $index, 0, [$newNode]);
         } elseif (!$after && sizeof($nodes) > 0) {
             // shouldn't really get here, but could; just add it to the start of the list
-            array_splice($nodes, 0, 0, array($newNode));
+            array_splice($nodes, 0, 0, [$newNode]);
         } else {
             // shouldn't really get here, but could; just add it to the end of the list
             $nodes[] = $newNode;

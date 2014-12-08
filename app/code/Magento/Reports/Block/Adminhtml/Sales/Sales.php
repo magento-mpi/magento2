@@ -32,7 +32,7 @@ class Sales extends \Magento\Backend\Block\Widget\Grid\Container
         $this->buttonList->remove('add');
         $this->addButton(
             'filter_form_submit',
-            array('label' => __('Show Report'), 'onclick' => 'filterFormSubmit()', 'class' => 'primary')
+            ['label' => __('Show Report'), 'onclick' => 'filterFormSubmit()', 'class' => 'primary']
         );
     }
 
@@ -42,6 +42,6 @@ class Sales extends \Magento\Backend\Block\Widget\Grid\Container
     public function getFilterUrl()
     {
         $this->getRequest()->setParam('filter', null);
-        return $this->getUrl('*/*/sales', array('_current' => true));
+        return $this->getUrl('*/*/sales', ['_current' => true]);
     }
 }

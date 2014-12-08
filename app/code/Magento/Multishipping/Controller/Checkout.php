@@ -7,9 +7,9 @@
  */
 namespace Magento\Multishipping\Controller;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\RequestInterface;
 
 /**
  * Multishipping checkout controller

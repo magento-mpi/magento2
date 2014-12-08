@@ -43,9 +43,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         parent::_initSelect();
         $this->getSelect()->join(
-            array('banner' => $this->getTable('magento_banner')),
+            ['banner' => $this->getTable('magento_banner')],
             'banner.banner_id = main_table.banner_id AND banner.is_enabled = 1',
-            array()
+            []
         )->group(
             'main_table.banner_id'
         );
@@ -62,9 +62,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addWebsiteCustomerGroupFilter($websiteId, $customerGroupId)
     {
         $this->getSelect()->join(
-            array('rule_group_website' => $this->getTable('catalogrule_group_website')),
+            ['rule_group_website' => $this->getTable('catalogrule_group_website')],
             'rule_group_website.rule_id = main_table.rule_id',
-            array()
+            []
         )->where(
             'rule_group_website.customer_group_id = ?',
             $customerGroupId

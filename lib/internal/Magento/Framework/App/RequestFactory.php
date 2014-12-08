@@ -30,7 +30,7 @@ class RequestFactory
      * @param array $arguments
      * @return RequestInterface
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->objectManager->create('Magento\Framework\App\RequestInterface', $arguments);
     }

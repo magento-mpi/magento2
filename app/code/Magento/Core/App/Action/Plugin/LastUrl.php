@@ -61,7 +61,7 @@ class LastUrl
         \Magento\Framework\App\RequestInterface $request
     ) {
         $result = $proceed($request);
-        $this->_session->setLastUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
+        $this->_session->setLastUrl($this->_url->getUrl('*/*/*', ['_current' => true]));
         return $result;
     }
 }

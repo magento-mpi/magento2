@@ -12,7 +12,7 @@ use Magento\Sales\Model\Quote;
 class Composite implements SpecificationInterface
 {
     /** @var SpecificationInterface[]  */
-    protected $list = array();
+    protected $list = [];
 
     /**
      * @param SpecificationInterface[] $list

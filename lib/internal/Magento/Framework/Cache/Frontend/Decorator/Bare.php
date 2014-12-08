@@ -60,7 +60,7 @@ class Bare implements \Magento\Framework\Cache\FrontendInterface
      *
      * {@inheritdoc}
      */
-    public function save($data, $identifier, array $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, array $tags = [], $lifeTime = null)
     {
         return $this->_frontend->save($data, $identifier, $tags, $lifeTime);
     }
@@ -76,7 +76,7 @@ class Bare implements \Magento\Framework\Cache\FrontendInterface
     /**
      * {@inheritdoc}
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, array $tags = [])
     {
         return $this->_frontend->clean($mode, $tags);
     }

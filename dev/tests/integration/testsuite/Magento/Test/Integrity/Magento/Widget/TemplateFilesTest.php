@@ -39,7 +39,7 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function widgetTemplatesDataProvider()
     {
-        $result = array();
+        $result = [];
         /** @var $model \Magento\Widget\Model\Widget */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Widget\Model\Widget');
         foreach ($model->getWidgetsArray() as $row) {
@@ -61,7 +61,7 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
                     $templates = $config['parameters']['template']['values'];
                     foreach ($templates as $template) {
                         if (isset($template['value'])) {
-                            $result[] = array($class, (string)$template['value']);
+                            $result[] = [$class, (string)$template['value']];
                         }
                     }
                 }

@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\Converter;
 
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
-use \Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata;
+use Magento\Catalog\Service\V1\Product\CustomOptions\Data\Option\Metadata\ConverterInterface;
 
 class DefaultConverter implements ConverterInterface
 {

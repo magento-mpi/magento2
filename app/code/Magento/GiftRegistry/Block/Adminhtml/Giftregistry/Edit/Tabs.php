@@ -31,22 +31,22 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'general_section',
-            array(
+            [
                 'label' => __('General Information'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\General'
                 )->toHtml()
-            )
+            ]
         );
 
         $this->addTab(
             'registry_attributes',
-            array(
+            [
                 'label' => __('Attributes'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tab\Registry'
                 )->toHtml()
-            )
+            ]
         );
 
         return parent::_beforeToHtml();

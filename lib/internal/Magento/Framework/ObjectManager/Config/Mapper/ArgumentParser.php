@@ -8,8 +8,8 @@
 namespace Magento\Framework\ObjectManager\Config\Mapper;
 
 use Magento\Framework\Config\Converter\Dom\Flat as FlatConverter;
-use Magento\Framework\Config\Dom\NodePathMatcher;
 use Magento\Framework\Config\Dom\ArrayNodeConfig;
+use Magento\Framework\Config\Dom\NodePathMatcher;
 
 /**
  * Parser of a DI argument node that returns its array representation with no data loss
@@ -41,7 +41,7 @@ class ArgumentParser
     protected function getConverter()
     {
         if (!$this->converter) {
-            $arrayNodeConfig = new ArrayNodeConfig(new NodePathMatcher(), array('argument(/item)+' => 'name'));
+            $arrayNodeConfig = new ArrayNodeConfig(new NodePathMatcher(), ['argument(/item)+' => 'name']);
             $this->converter = new FlatConverter($arrayNodeConfig);
         }
         return $this->converter;

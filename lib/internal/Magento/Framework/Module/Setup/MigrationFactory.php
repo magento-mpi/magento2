@@ -45,9 +45,8 @@ class MigrationFactory
      * @return \Magento\Framework\Module\Setup\Migration
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-
         $migrationInstance = $this->_objectManager->create($this->_instanceName, $data);
 
         if (!$migrationInstance instanceof \Magento\Framework\Module\Setup\Migration) {

@@ -44,7 +44,7 @@ class QuoteConfigProductAttributesTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     [
-                        ['attribute_code' => $attributeCode, 'enabled' => true]
+                        ['attribute_code' => $attributeCode, 'enabled' => true],
                     ]
                 )
             );

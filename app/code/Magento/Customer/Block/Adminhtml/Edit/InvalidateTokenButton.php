@@ -29,7 +29,7 @@ class InvalidateTokenButton extends GenericButton implements ButtonProviderInter
                 'class' => 'invalidate-token',
                 'on_click' => 'deleteConfirm(\'' . $deleteConfirmMsg . '\', \'' . $this->getInvalidateTokenUrl() .
                     '\')',
-                'sort_order' => 50
+                'sort_order' => 50,
             ];
         }
         return $data;
@@ -40,6 +40,6 @@ class InvalidateTokenButton extends GenericButton implements ButtonProviderInter
      */
     public function getInvalidateTokenUrl()
     {
-        return $this->getUrl('customer/customer/invalidateToken', array('customer_id' => $this->getCustomerId()));
+        return $this->getUrl('customer/customer/invalidateToken', ['customer_id' => $this->getCustomerId()]);
     }
 }

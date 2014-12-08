@@ -8,9 +8,9 @@
 namespace Magento\Tools\SampleData\Module\GiftCard\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Module\Catalog\Setup\Product\Gallery;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Setup Gift Card
@@ -42,12 +42,12 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
-            'GiftCard/products_giftcard.csv'
-        )
+        $fixtures = [
+            'GiftCard/products_giftcard.csv',
+        ]
     ) {
         $gallery->setFixtures([
-            'GiftCard/images_giftcard.csv'
+            'GiftCard/images_giftcard.csv',
         ]);
         parent::__construct(
             $productFactory,

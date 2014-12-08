@@ -7,7 +7,7 @@
  */
 namespace Magento\Backend\Helper\Dashboard;
 
-use \Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Data helper for dashboard
@@ -28,7 +28,7 @@ class Data extends \Magento\Core\Helper\Data
      * Configuration key to installation date
      */
     const INSTALL_DATE = 'install/date';
-    
+
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -88,13 +88,13 @@ class Data extends \Magento\Core\Helper\Data
      */
     public function getDatePeriods()
     {
-        return array(
+        return [
             '24h' => __('Last 24 Hours'),
             '7d' => __('Last 7 Days'),
             '1m' => __('Current Month'),
             '1y' => __('YTD'),
             '2y' => __('2YTD')
-        );
+        ];
     }
 
     /**

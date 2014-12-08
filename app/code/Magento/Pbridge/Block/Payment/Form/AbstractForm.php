@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Abstract payment block
  *
@@ -49,15 +48,15 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      */
     public function getSourceUrl()
     {
-        $requestParams = array(
+        $requestParams = [
             'redirect_url' => $this->getRedirectUrl(),
             'request_gateway_code' => $this->getOriginalCode(),
             'magento_payment_action' => $this->getMethod()->getConfigPaymentAction(),
             'css_url' => $this->getCssUrl(),
             'customer_id' => $this->getCustomerIdentifier(),
             'customer_name' => $this->getCustomerName(),
-            'customer_email' => $this->getCustomerEmail()
-        );
+            'customer_email' => $this->getCustomerEmail(),
+        ];
         $billing = $this->getQuote()->getBillingAddress();
         $requestParams['billing'] = $this->getMethod()->getPbridgeMethodInstance()->getAddressInfo($billing);
         $shipping = $this->getQuote()->getShippingAddress();

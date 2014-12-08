@@ -18,12 +18,12 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         /** @var $optionNode \DOMNode */
         foreach ($source->getElementsByTagName('option') as $optionNode) {
             $optionName = $this->_getAttributeValue($optionNode, 'name');
-            $data = array();
+            $data = [];
             $data['name'] = $optionName;
             $data['label'] = $this->_getAttributeValue($optionNode, 'label');
             $data['renderer'] = $this->_getAttributeValue($optionNode, 'renderer');
@@ -34,11 +34,11 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                     continue;
                 }
                 $inputTypeName = $this->_getAttributeValue($childNode, 'name');
-                $data['types'][$inputTypeName] = array(
+                $data['types'][$inputTypeName] = [
                     'name' => $inputTypeName,
                     'label' => $this->_getAttributeValue($childNode, 'label'),
-                    'disabled' => 'true' == $this->_getAttributeValue($childNode, 'disabled', 'false') ? true : false
-                );
+                    'disabled' => 'true' == $this->_getAttributeValue($childNode, 'disabled', 'false') ? true : false,
+                ];
             }
             $output[$optionName] = $data;
         }

@@ -29,7 +29,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Invitation\Block\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\AdvancedCheckout\Block\Customer\Link',
-            array('customerHelper' => $customerHelper)
+            ['customerHelper' => $customerHelper]
         );
 
         $customerHelper->expects($this->once())->method('isSkuApplied')->will($this->returnValue(false));

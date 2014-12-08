@@ -46,7 +46,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeCurrency = $localeCurrency;
         $this->_storeManager = $storeManager;

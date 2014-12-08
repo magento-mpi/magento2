@@ -12,8 +12,8 @@
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method\Paypal;
 
-use Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect;
 use Magento\Payment\Model\MethodInterface as PaymentMethod;
+use Magento\PbridgePaypal\Model\Payment\Method\PaypalDirect;
 
 class Pro extends \Magento\Paypal\Model\Pro
 {
@@ -149,7 +149,7 @@ class Pro extends \Magento\Paypal\Model\Pro
      */
     public function reviewPayment(\Magento\Payment\Model\Info $payment, $action)
     {
-        $result = array();
+        $result = [];
         switch ($action) {
             case \Magento\Paypal\Model\Pro::PAYMENT_REVIEW_ACCEPT:
                 $result = $this->_pbridgeMethodInstance->acceptPayment($payment);
@@ -180,6 +180,6 @@ class Pro extends \Magento\Paypal\Model\Pro
         $result = new \Magento\Framework\Object($result);
         $this->importPaymentInfo($result, $payment);
         $data = $result->getRawSuccessResponseData();
-        return ($data) ? $data : array();
+        return ($data) ? $data : [];
     }
 }

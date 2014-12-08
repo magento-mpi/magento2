@@ -38,7 +38,7 @@ class Factory
      * @return \Magento\Framework\Model\AbstractModel
      * @throws \Magento\Framework\Model\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $model = $this->_objectManager->create($className, $data);
 

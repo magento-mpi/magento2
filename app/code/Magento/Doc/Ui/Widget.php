@@ -7,9 +7,9 @@
  */
 namespace Magento\Doc\Ui;
 
+use Magento\Doc\Document\Filter;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Filter;
 
 class Widget extends Template
 {
@@ -36,7 +36,7 @@ class Widget extends Template
         $this->filter = $filter;
         $this->filter->setVariables(
             [
-                'render' => $this
+                'render' => $this,
             ]
         );
     }

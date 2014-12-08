@@ -31,7 +31,7 @@ class Hint extends \Magento\Backend\Block\Template implements \Magento\Framework
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\View\Helper\Js $jsHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsHelper = $jsHelper;
         parent::__construct($context, $data);

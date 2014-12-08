@@ -28,7 +28,7 @@ class Layout extends \Magento\Framework\View\Element\Html\Select
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\View\Layout\PageType\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $config;
         parent::__construct($context, $data);
@@ -57,7 +57,7 @@ class Layout extends \Magento\Framework\View\Element\Html\Select
      */
     protected function _addPageTypeOptions(array $pageTypes)
     {
-        $label = array();
+        $label = [];
         // Sort list of page types by label
         foreach ($pageTypes as $key => $row) {
             $label[$key] = $row['label'];
@@ -65,7 +65,7 @@ class Layout extends \Magento\Framework\View\Element\Html\Select
         array_multisort($label, SORT_STRING, $pageTypes);
 
         foreach ($pageTypes as $pageTypeName => $pageTypeInfo) {
-            $params = array();
+            $params = [];
             $this->addOption($pageTypeName, $pageTypeInfo['label'], $params);
         }
     }

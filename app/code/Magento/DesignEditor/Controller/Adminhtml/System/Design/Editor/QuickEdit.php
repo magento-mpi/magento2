@@ -31,13 +31,13 @@ class QuickEdit extends \Magento\DesignEditor\Controller\Adminhtml\System\Design
             }
             $theme->setThemeTitle($themeTitle);
             $theme->save();
-            $response = array('success' => true);
+            $response = ['success' => true];
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $response = array('error' => true, 'message' => __('This theme is not saved.'));
+            $response = ['error' => true, 'message' => __('This theme is not saved.')];
         }
         $this->getResponse()->representJson($coreHelper->jsonEncode($response));
     }

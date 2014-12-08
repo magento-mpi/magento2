@@ -39,4 +39,4 @@ class CookieLifetimeValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertTrue($this->model->isValid(0));
     }
-} 
+}

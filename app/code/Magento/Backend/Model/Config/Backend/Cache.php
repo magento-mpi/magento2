@@ -19,7 +19,7 @@ class Cache extends \Magento\Framework\App\Config\Value
      *
      * @var array
      */
-    protected $_cacheTags = array();
+    protected $_cacheTags = [];
 
     /**
      * Clean cache, value was changed

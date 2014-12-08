@@ -11,7 +11,6 @@ namespace Magento\Persistent\Model\Observer;
 
 class EmulateCustomerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Persistent\Model\Observer\EmulateCustomer
      */

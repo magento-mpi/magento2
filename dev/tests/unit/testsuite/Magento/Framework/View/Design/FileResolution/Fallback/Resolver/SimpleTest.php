@@ -34,19 +34,19 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->directory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
         $this->directory->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnArgument(0));
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->directory));
         $this->rule = $this->getMock(
-            '\Magento\Framework\View\Design\Fallback\Rule\RuleInterface', array(), array(), '', false
+            '\Magento\Framework\View\Design\Fallback\Rule\RuleInterface', [], [], '', false
         );
-        $rulePool = $this->getMock('Magento\Framework\View\Design\Fallback\RulePool', array(), array(), '', false);
+        $rulePool = $this->getMock('Magento\Framework\View\Design\Fallback\RulePool', [], [], '', false);
         $rulePool->expects($this->any())
             ->method('getRule')
             ->with('type')
@@ -112,7 +112,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                     'locale' => 'en_US',
                     'namespace' => 'Magento',
                     'module' => 'Module',
-                ]
+                ],
             ],
             'no theme' => [
                 'frontend', null, 'en_US', 'Magento_Module',
@@ -121,7 +121,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                     'locale' => 'en_US',
                     'namespace' => 'Magento',
                     'module' => 'Module',
-                ]
+                ],
             ],
             'no locale' => [
                 'frontend', 'magento_theme', null, 'Magento_Module',
@@ -130,7 +130,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                     'theme' => 'magento_theme',
                     'namespace' => 'Magento',
                     'module' => 'Module',
-                ]
+                ],
             ],
             'no module' => [
                 'frontend', 'magento_theme', 'en_US', null,
@@ -138,7 +138,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                     'area' => 'frontend',
                     'theme' => 'magento_theme',
                     'locale' => 'en_US',
-                ]
+                ],
             ],
             'all params' => [
                 'frontend', 'magento_theme', 'en_US', 'Magento_Module',
@@ -148,7 +148,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                     'locale' => 'en_US',
                     'namespace' => 'Magento',
                     'module' => 'Module',
-                ]
+                ],
             ],
         ];
     }

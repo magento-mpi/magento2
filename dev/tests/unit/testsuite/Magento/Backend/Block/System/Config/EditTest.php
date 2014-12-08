@@ -43,8 +43,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
     {
         $this->_systemConfigMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -52,8 +52,8 @@ class EditTest extends \PHPUnit_Framework_TestCase
 
         $this->_requestMock = $this->getMock(
             'Magento\Framework\App\RequestInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -68,14 +68,14 @@ class EditTest extends \PHPUnit_Framework_TestCase
             $this->returnValue('test_section')
         );
 
-        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false, false);
 
-        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false);
+        $this->_urlModelMock = $this->getMock('Magento\Backend\Model\Url', [], [], '', false, false);
 
         $this->_sectionMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Section',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -89,13 +89,13 @@ class EditTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_sectionMock)
         );
 
-        $data = array(
-            'data' => array('systemConfig' => $this->_systemConfigMock),
+        $data = [
+            'data' => ['systemConfig' => $this->_systemConfigMock],
             'request' => $this->_requestMock,
             'layout' => $this->_layoutMock,
             'urlBuilder' => $this->_urlModelMock,
-            'configStructure' => $this->_systemConfigMock
-        );
+            'configStructure' => $this->_systemConfigMock,
+        ];
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Edit', $data);
@@ -132,7 +132,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
     public function testGetSaveUrl()
     {
         $expectedUrl = '*/system_config/save';
-        $expectedParams = array('_current' => true);
+        $expectedParams = ['_current' => true];
 
         $this->_urlModelMock->expects(
             $this->once()

@@ -9,8 +9,8 @@ namespace Magento\GiftMessage\Service\V1;
 
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\InputException;
-use Magento\Framework\Exception\State\InvalidTransitionException;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\State\InvalidTransitionException;
 
 /**
  * Gift message write service data object.
@@ -153,7 +153,7 @@ class WriteService implements WriteServiceInterface
         $message[$type][$entityId] = [
             'from' => $giftMessage->getSender(),
             'to' => $giftMessage->getRecipient(),
-            'message' => $giftMessage->getMessage()
+            'message' => $giftMessage->getMessage(),
         ];
 
         try {

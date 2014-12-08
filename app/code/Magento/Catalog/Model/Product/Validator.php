@@ -8,8 +8,8 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\App\RequestInterface;
 
 class Validator
 {

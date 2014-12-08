@@ -8,10 +8,10 @@
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Sales\Test\Fixture\Order;
 use Mtf\Factory\Factory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Functional;
-use Magento\Sales\Test\Fixture\Order;
 
 /**
  * Class CreateOrderTest

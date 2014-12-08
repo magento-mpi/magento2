@@ -38,10 +38,10 @@ class XmlTest extends \PHPUnit_Framework_TestCase
      */
     public function dataProviderWrongOptionFilesForParse()
     {
-        return array(
-            array(array('files_for_parse' => array())),
-            array(array('files_for_parse' => 'sting')),
-            array(array('there_are_no_files_for_parse' => array(1, 3)))
-        );
+        return [
+            [['files_for_parse' => []]],
+            [['files_for_parse' => 'sting']],
+            [['there_are_no_files_for_parse' => [1, 3]]]
+        ];
     }
 }

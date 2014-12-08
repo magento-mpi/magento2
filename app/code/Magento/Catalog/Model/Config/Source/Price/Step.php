@@ -19,19 +19,19 @@ class Step implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_AUTO,
-                'label' => __('Automatic (equalize price ranges)')
-            ),
-            array(
+                'label' => __('Automatic (equalize price ranges)'),
+            ],
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_IMPROVED,
                 'label' => __('Automatic (equalize product counts)')
-            ),
-            array(
+            ],
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_MANUAL,
                 'label' => __('Manual')
-            )
-        );
+            ]
+        ];
     }
 }

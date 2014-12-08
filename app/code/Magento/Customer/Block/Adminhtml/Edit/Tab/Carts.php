@@ -30,7 +30,7 @@ class Carts extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Customer\Model\Config\Share $shareConfig,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shareConfig = $shareConfig;
         $this->_customerBuilder = $customerBuilder;
@@ -51,7 +51,7 @@ class Carts extends \Magento\Backend\Block\Template
             $block = $this->getLayout()->createBlock(
                 'Magento\Customer\Block\Adminhtml\Edit\Tab\Cart',
                 $blockName,
-                array('data' => array('website_id' => $websiteId))
+                ['data' => ['website_id' => $websiteId]]
             );
             if ($isShared) {
                 $websiteName = $this->_storeManager->getWebsite($websiteId)->getName();
@@ -69,7 +69,7 @@ class Carts extends \Magento\Backend\Block\Template
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('adminhtml_block_html_before', ['block' => $this]);
         return $this->getChildHtml();
     }
 

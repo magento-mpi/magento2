@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Wishlist block shared items
  *
@@ -40,7 +39,7 @@ class Wishlist extends \Magento\Wishlist\Block\AbstractBlock
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->customerRepository = $customerRepository;
         parent::__construct(

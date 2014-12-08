@@ -8,12 +8,12 @@
 
 namespace Magento\Checkout\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Fixture\FixtureInterface;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Checkout\Test\Fixture\Cart;
 use Magento\Checkout\Test\Fixture\Cart\Items;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductQtyInMiniShoppingCart
@@ -53,10 +53,10 @@ class AssertProductQtyInMiniShoppingCart extends AbstractAssertForm
             $checkoutItem = $item->getData();
 
             $productsData[$productName] = [
-                'qty' => $checkoutItem['qty']
+                'qty' => $checkoutItem['qty'],
             ];
             $miniCartData[$productName] = [
-                'qty' => $cmsIndex->getCartSidebarBlock()->getProductQty($productName)
+                'qty' => $cmsIndex->getCartSidebarBlock()->getProductQty($productName),
             ];
         }
 

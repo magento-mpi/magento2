@@ -105,8 +105,8 @@ class Option implements FixtureInterface
                     'is_default' => 'No',
                     'admin' => 'color_1',
                     'view' => '',
-                ]
-            ]
+                ],
+            ],
         ];
 
         if (!isset($presets[$name])) {

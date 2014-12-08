@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php if($this->canShowBlock()): ?>
+<?php if ($this->canShowBlock()): ?>
     <div class="block filter" id="layered-filter-block" data-mage-init='{"collapsible":{"openedState": "active", "collapsible": true, "active": false, "collateral": { "openedState": "filter-active", "element": "body" } }}'>
         <?php $filtered = count($this->getLayer()->getState()->getFilters()) ?>
         <div class="block-title filter-title" data-count="<?php echo $filtered; ?>">
@@ -31,7 +31,7 @@
             <?php $wrapOptions = false; ?>
             <?php foreach ($this->getFilters() as $filter): ?>
                 <?php if ($filter->getItemsCount()): ?>
-                    <?php if(!$wrapOptions): ?>
+                    <?php if (!$wrapOptions): ?>
                         <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
                         <div class="filter-options" id="narrow-by-list" data-role="content" data-mage-init='{"accordion":{"openedState": "active", "collapsible": true, "active": false, "multipleCollapsible": false}}'>
                     <?php  $wrapOptions = true; endif; ?>
@@ -41,7 +41,7 @@
                     </div>
                 <?php endif; ?>
             <?php endforeach; ?>
-            <?php if($wrapOptions): ?>
+            <?php if ($wrapOptions): ?>
                 </div>
             <?php else: ?>
                 <script>

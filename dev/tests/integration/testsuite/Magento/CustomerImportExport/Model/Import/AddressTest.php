@@ -41,40 +41,40 @@ class AddressTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_updateData = array(
-        'address' => array( // address records
+    protected $_updateData = [
+        'address' => [ // address records
             'update' => '19107',  // address with updates
             'new' => '85034',  // new address
             'no_customer' => '33602',  // there is no customer with this primary key (email+website)
-            'new_no_address_id' => '32301',  // new address without address id
-        ),
-        'update' => array( // this data is changed in CSV file
-            '19107' => array(
+            'new_no_address_id' => '32301'// new address without address id
+        ],
+        'update' => [ // this data is changed in CSV file
+            '19107' => [
                 'firstname' => 'Katy',
                 'middlename' => 'T.',
-            ),
-        ),
-        'remove' => array( // this data is not set in CSV file
-            '19107' => array(
+            ],
+        ],
+        'remove' => [ // this data is not set in CSV file
+            '19107' => [
                 'city' => 'Philadelphia',
                 'region' => 'Pennsylvania',
-            ),
-        ),
-        'default' => array( // new default billing/shipping addresses
+            ],
+        ],
+        'default' => [ // new default billing/shipping addresses
             'billing' => '85034',
             'shipping' => '19107',
-        ),
-    );
+        ],
+    ];
 
     /**
      * Important data from address_import_delete.csv (postcode is key)
      *
      * @var array
      */
-    protected $_deleteData = array(
+    protected $_deleteData = [
         'delete' => '19107',  // deleted address
         'not_delete' => '72701',  // not deleted address
-    );
+    ];
 
     /**
      * Init new instance of address entity adapter
@@ -154,10 +154,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         // get addressed from fixture
         $customers = $objectManager->get('Magento\Framework\Registry')->registry($this->_fixtureKey);
-        $correctAddresses = array();
+        $correctAddresses = [];
         /** @var $customer \Magento\Customer\Model\Customer */
         foreach ($customers as $customer) {
-            $correctAddresses[$customer->getId()] = array();
+            $correctAddresses[$customer->getId()] = [];
             /** @var $address \Magento\Customer\Model\Address */
             foreach ($customer->getAddressesCollection() as $address) {
                 $correctAddresses[$customer->getId()][] = $address->getId();
@@ -245,20 +245,20 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Framework\Stdlib\DateTime');
 
-        $entityData = array(
+        $entityData = [
             'entity_id' => $addressId,
             'entity_type_id' => $addressModel->getEntityTypeId(),
             'parent_id' => $customerId,
             'created_at' => $dateTime->now(),
-            'updated_at' => $dateTime->now()
-        );
+            'updated_at' => $dateTime->now(),
+        ];
 
         // invoke _saveAddressEntities
         $saveAddressEntities = new \ReflectionMethod($this->_testClassName, '_saveAddressEntities');
         $saveAddressEntities->setAccessible(true);
         $saveAddressEntities->invoke($entityAdapter, $entityData);
 
-        return array($customerId, $addressId);
+        return [$customerId, $addressId];
     }
 
     /**
@@ -287,7 +287,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $attributeTable = $attributeParams['table'];
         $attributeValue = 'Test City';
 
-        $attributeArray = array();
+        $attributeArray = [];
         $attributeArray[$attributeTable][$addressId][$attributeId] = $attributeValue;
 
         // invoke _saveAddressAttributes
@@ -342,7 +342,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $customerId = $addressCustomer->getId();
 
         // set customer defaults
-        $defaults = array();
+        $defaults = [];
         foreach (Address::getDefaultAddressAttributeMapping() as $attributeCode) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute\AbstractAttribute */
             $attribute = $addressCustomer->getAttribute($attributeCode);
@@ -386,7 +386,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         // set behaviour
         $this->_entityAdapter->setParameters(
-            array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE)
+            ['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE]
         );
 
         // set fixture CSV file
@@ -409,7 +409,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         // form attribute list
         $keyAttribute = 'postcode';
         $requiredAttributes[] = $keyAttribute;
-        foreach (array('update', 'remove') as $action) {
+        foreach (['update', 'remove'] as $action) {
             foreach ($this->_updateData[$action] as $attributes) {
                 $requiredAttributes = array_merge($requiredAttributes, array_keys($attributes));
             }
@@ -420,7 +420,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Resource\Address\Collection'
         );
         $addressCollection->addAttributeToSelect($requiredAttributes);
-        $addresses = array();
+        $addresses = [];
         /** @var $address \Magento\Customer\Model\Address */
         foreach ($addressCollection as $address) {
             $addresses[$address->getData($keyAttribute)] = $address;
@@ -483,7 +483,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     public function testImportDataDelete()
     {
         // set behaviour
-        $this->_entityAdapter->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
+        $this->_entityAdapter->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE]);
 
         // set fixture CSV file
         $sourceFile = __DIR__ . '/_files/address_import_delete.csv';
@@ -509,7 +509,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Model\Resource\Address\Collection'
         );
         $addressCollection->addAttributeToSelect($keyAttribute);
-        $addresses = array();
+        $addresses = [];
         /** @var $address \Magento\Customer\Model\Address */
         foreach ($addressCollection as $address) {
             $addresses[$address->getData($keyAttribute)] = $address;

@@ -36,18 +36,18 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
+        $this->_themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', ['create'], [], '', false);
 
         $this->_theme = $this->getMock(
             'Magento\Core\Model\Theme',
-            array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual', '__wakeup'),
-            array(),
+            ['load', 'getId', 'getType', 'getDomainModel', 'isVirtual', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->_theme));
 
-        $this->_copyService = $this->getMock('Magento\Theme\Model\CopyService', array('copy'), array(), '', false);
+        $this->_copyService = $this->getMock('Magento\Theme\Model\CopyService', ['copy'], [], '', false);
 
         $this->_model = new \Magento\DesignEditor\Model\Theme\Context($this->_themeFactory, $this->_copyService);
     }
@@ -168,8 +168,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 
         $themeObj = $this->getMock(
             'Magento\Core\Model\Theme\Domain\Virtual',
-            array('getStagingTheme'),
-            array(),
+            ['getStagingTheme'],
+            [],
             '',
             false
         );
@@ -229,7 +229,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     public static function themeDataProvider()
     {
-        return array(array(true), array(false));
+        return [[true], [false]];
     }
 
     protected function _setEditableTheme()
@@ -246,7 +246,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $writersProperty = new \ReflectionProperty($this->_model, '_stagingTheme');
         $writersProperty->setAccessible(true);
-        $themeObject = $this->getMock('Magento\Framework\View\Design\ThemeInterface', array(), array(), '', false);
+        $themeObject = $this->getMock('Magento\Framework\View\Design\ThemeInterface', [], [], '', false);
         $writersProperty->setValue($this->_model, $themeObject);
         return $themeObject;
     }

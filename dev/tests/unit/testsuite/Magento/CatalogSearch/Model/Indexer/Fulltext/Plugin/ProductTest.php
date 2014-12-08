@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin;
 
-use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product;
 
 class ProductTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,16 +33,16 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
 
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);

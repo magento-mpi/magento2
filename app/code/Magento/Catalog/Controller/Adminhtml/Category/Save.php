@@ -183,7 +183,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 [
                     'messages' => $block->getGroupedHtml(),
                     'error' => !$refreshTree,
-                    'category' => $category->toArray()
+                    'category' => $category->toArray(),
                 ]
             );
         }

@@ -20,15 +20,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Backend\Block\Widget\Grid\Container',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     \Magento\Backend\Block\Widget\Container::PARAM_CONTROLLER => 'widget',
                     \Magento\Backend\Block\Widget\Container::PARAM_HEADER_TEXT => 'two',
                     \Magento\Backend\Block\Widget\Grid\Container::PARAM_BLOCK_GROUP => 'Magento_Backend',
                     \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_NEW => 'four',
-                    \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_BACK => 'five'
-                )
-            )
+                    \Magento\Backend\Block\Widget\Grid\Container::PARAM_BUTTON_BACK => 'five',
+                ]
+            ]
         );
         $this->assertStringEndsWith('widget', $block->getHeaderCssClass());
         $this->assertContains('two', $block->getHeaderText());

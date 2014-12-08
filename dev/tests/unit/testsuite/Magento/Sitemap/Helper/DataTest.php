@@ -8,8 +8,8 @@
 
 namespace Magento\Sitemap\Helper;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class DataTest extends \PHPUnit_Framework_TestCase
 {

@@ -250,7 +250,7 @@ class CustomOptionPriceTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $optionItemMock->expects($this->any())
             ->method('getValues')
-            ->will($this->returnValue(array($optionValueMock)));
+            ->will($this->returnValue([$optionValueMock]));
         $options = [$optionItemMock];
         $this->product->expects($this->once())
             ->method('getOptions')

@@ -32,7 +32,7 @@ class Template implements \Zend_Filter_Interface
      *
      * @var array
      */
-    protected $_templateVars = array();
+    protected $_templateVars = [];
 
     /**
      * Include processor
@@ -50,7 +50,7 @@ class Template implements \Zend_Filter_Interface
      * @param \Magento\Framework\Stdlib\String $string
      * @param array $variables
      */
-    public function __construct(\Magento\Framework\Stdlib\String $string, $variables = array())
+    public function __construct(\Magento\Framework\Stdlib\String $string, $variables = [])
     {
         $this->string = $string;
         $this->setVariables($variables);
@@ -102,13 +102,13 @@ class Template implements \Zend_Filter_Interface
     public function filter($value)
     {
         // "depend" and "if" operands should be first
-        foreach (array(
+        foreach ([
                      self::CONSTRUCTION_DEPEND_PATTERN => 'dependDirective',
-                     self::CONSTRUCTION_IF_PATTERN => 'ifDirective'
-                 ) as $pattern => $directive) {
+                     self::CONSTRUCTION_IF_PATTERN => 'ifDirective',
+                 ] as $pattern => $directive) {
             if (preg_match_all($pattern, $value, $constructions, PREG_SET_ORDER)) {
                 foreach ($constructions as $construction) {
-                    $callback = array($this, $directive);
+                    $callback = [$this, $directive];
                     if (!is_callable($callback)) {
                         continue;
                     }
@@ -124,7 +124,7 @@ class Template implements \Zend_Filter_Interface
 
         if (preg_match_all(self::CONSTRUCTION_PATTERN, $value, $constructions, PREG_SET_ORDER)) {
             foreach ($constructions as $construction) {
-                $callback = array($this, $construction[1] . 'Directive');
+                $callback = [$this, $construction[1] . 'Directive'];
                 if (!is_callable($callback)) {
                     continue;
                 }
@@ -250,7 +250,7 @@ class Template implements \Zend_Filter_Interface
         for ($i = 0; $i < count($stackVars); $i++) {
             if ($i == 0 && isset($this->_templateVars[$stackVars[$i]['name']])) {
                 // Getting of template value
-                $stackVars[$i]['variable'] =& $this->_templateVars[$stackVars[$i]['name']];
+                $stackVars[$i]['variable'] = & $this->_templateVars[$stackVars[$i]['name']];
             } elseif (isset(
                 $stackVars[$i - 1]['variable']
                 ) && $stackVars[$i - 1]['variable'] instanceof \Magento\Framework\Object
@@ -276,7 +276,7 @@ class Template implements \Zend_Filter_Interface
                     ) == 'get'
                     ) {
                         $stackVars[$i]['variable'] = call_user_func_array(
-                            array($stackVars[$i - 1]['variable'], $stackVars[$i]['name']),
+                            [$stackVars[$i - 1]['variable'], $stackVars[$i]['name']],
                             $stackVars[$i]['args']
                         );
                     }

@@ -8,10 +8,10 @@
 
 namespace Magento\Reports\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Reports\Test\Page\Adminhtml\Bestsellers;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Reports\Test\Page\Adminhtml\Bestsellers;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert bestseller info in report: date, product name and qty.

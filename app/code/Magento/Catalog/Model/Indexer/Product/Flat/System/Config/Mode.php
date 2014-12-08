@@ -40,7 +40,7 @@ class Mode extends \Magento\Framework\App\Config\Value
         \Magento\Indexer\Model\Indexer\State $indexerState,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFlatIndexerProcessor = $productFlatIndexerProcessor;
         $this->indexerState = $indexerState;
@@ -54,7 +54,7 @@ class Mode extends \Magento\Framework\App\Config\Value
      */
     public function afterSave()
     {
-        $this->_getResource()->addCommitCallback(array($this, 'processValue'));
+        $this->_getResource()->addCommitCallback([$this, 'processValue']);
         return $this;
     }
 

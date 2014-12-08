@@ -44,8 +44,7 @@ class Design extends \Magento\Catalog\Block\Adminhtml\Form
         $form = $this->_formFactory->create();
         $form->setDataObject($this->getCategory());
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Custom Design')));
-
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Custom Design')]);
 
         $this->_setFieldset($this->getCategory()->getDesignAttributes(), $fieldset);
 

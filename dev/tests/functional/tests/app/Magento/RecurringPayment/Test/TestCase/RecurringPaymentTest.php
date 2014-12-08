@@ -22,7 +22,7 @@ class RecurringPaymentTest extends Functional
     {
         $billingCycle = '12';
         $product = Factory::getFixtureFactory()->getMagentoRecurringPaymentSimpleProductWithRecurringPayment(
-            array('recurring_billing_cycle' => $billingCycle, 'recurring_period' => 'month')
+            ['recurring_billing_cycle' => $billingCycle, 'recurring_period' => 'month']
         );
         $product->persist();
 

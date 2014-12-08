@@ -147,7 +147,7 @@ class CreditmemoCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'creditmemo' => $this->creditmemoMock,
                         'comment' => $comment,
                         'billing' => $billingAddress,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );
@@ -196,7 +196,7 @@ class CreditmemoCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'creditmemo' => $this->creditmemoMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

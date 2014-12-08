@@ -35,7 +35,7 @@ class Sftp extends AbstractIo implements IoInterface
      * @return void
      * @throws \Exception
      */
-    public function open(array $args = array())
+    public function open(array $args = [])
     {
         if (!isset($args['timeout'])) {
             $args['timeout'] = self::REMOTE_TIMEOUT;
@@ -230,9 +230,9 @@ class Sftp extends AbstractIo implements IoInterface
     {
         $list = $this->_connection->nlist();
         $currentWorkingDir = $this->pwd();
-        $result = array();
+        $result = [];
         foreach ($list as $name) {
-            $result[] = array('text' => $name, 'id' => "{$currentWorkingDir}{$name}");
+            $result[] = ['text' => $name, 'id' => "{$currentWorkingDir}{$name}"];
         }
         return $result;
     }

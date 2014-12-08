@@ -476,7 +476,7 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
         $delta = $discountAmount - $roundedDiscount;
         $baseDelta = $baseDiscountAmount - $roundedBaseDiscount;
         $secondRoundedDiscount = round($discountAmount + $delta);
-        $secondRoundedBaseDiscount = round ($baseDiscountAmount + $baseDelta);
+        $secondRoundedBaseDiscount = round($baseDiscountAmount + $baseDelta);
 
         $this->item->expects($this->any())
             ->method('getQuote')
@@ -489,7 +489,7 @@ class UtilityTest extends \PHPUnit_Framework_TestCase
                         [$discountAmount, $roundedDiscount],
                         [$baseDiscountAmount, $roundedBaseDiscount],
                         [$discountAmount + $delta, $secondRoundedDiscount], //?
-                        [$baseDiscountAmount + $baseDelta, $secondRoundedBaseDiscount] //?
+                        [$baseDiscountAmount + $baseDelta, $secondRoundedBaseDiscount], //?
                     ]));
 
         $this->quote->expects($this->any())

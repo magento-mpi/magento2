@@ -18,7 +18,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array('entities' => array());
+        $output = ['entities' => []];
         /** @var \DOMNodeList $entities */
         $entities = $source->getElementsByTagName('entity');
         /** @var \DOMNode $entityConfig */
@@ -29,14 +29,14 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $behaviorModel = $attributes->getNamedItem('behaviorModel')->nodeValue;
             $model = $attributes->getNamedItem('model')->nodeValue;
 
-            $output['entities'][$name] = array(
+            $output['entities'][$name] = [
                 'name' => $name,
                 'label' => $label,
                 'behaviorModel' => $behaviorModel,
                 'model' => $model,
                 'types' => [],
-                'relatedIndexers' => []
-            );
+                'relatedIndexers' => [],
+            ];
         }
 
         /** @var \DOMNodeList $entityTypes */
@@ -49,7 +49,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $entity = $attributes->getNamedItem('entity')->nodeValue;
 
             if (isset($output['entities'][$entity])) {
-                $output['entities'][$entity]['types'][$name] = array('name' => $name, 'model' => $model);
+                $output['entities'][$entity]['types'][$name] = ['name' => $name, 'model' => $model];
             }
         }
 
@@ -62,7 +62,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             $entity = $attributes->getNamedItem('entity')->nodeValue;
 
             if (isset($output['entities'][$entity])) {
-                $output['entities'][$entity]['relatedIndexers'][$name] = array('name' => $name);
+                $output['entities'][$entity]['relatedIndexers'][$name] = ['name' => $name];
             }
         }
         return $output;

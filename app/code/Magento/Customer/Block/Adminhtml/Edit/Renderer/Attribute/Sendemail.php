@@ -30,7 +30,7 @@ class Sendemail extends Element
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $context->getStoreManager();
         parent::__construct($context, $data);

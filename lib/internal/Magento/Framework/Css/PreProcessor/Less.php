@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\Css\PreProcessor;
 
-use Magento\Framework\Css\PreProcessor\AdapterInterface;
 use Magento\Framework\View\Asset\PreProcessorInterface;
 
 class Less implements PreProcessorInterface

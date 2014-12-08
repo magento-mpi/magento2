@@ -49,7 +49,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         \Magento\Tax\Helper\Data $taxHelper,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_multishipping = $multishipping;
@@ -231,7 +231,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getEditShippingAddressUrl($address)
     {
-        return $this->getUrl('*/checkout_address/editShipping', array('id' => $address->getCustomerAddressId()));
+        return $this->getUrl('*/checkout_address/editShipping', ['id' => $address->getCustomerAddressId()]);
     }
 
     /**
@@ -240,7 +240,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getEditBillingAddressUrl($address)
     {
-        return $this->getUrl('*/checkout_address/editBilling', array('id' => $address->getCustomerAddressId()));
+        return $this->getUrl('*/checkout_address/editBilling', ['id' => $address->getCustomerAddressId()]);
     }
 
     /**
@@ -292,7 +292,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getVirtualItems()
     {
-        $items = array();
+        $items = [];
         foreach ($this->getBillingAddress()->getItemsCollection() as $_item) {
             if ($_item->isDeleted()) {
                 continue;

@@ -8,8 +8,8 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink\ProductEntity\ConverterPool;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class CollectionProvider
 {
@@ -27,7 +27,7 @@ class CollectionProvider
      * @param ConverterPool $converterPool
      * @param CollectionProviderInterface[] $providers
      */
-    public function __construct(ConverterPool $converterPool, array $providers = array())
+    public function __construct(ConverterPool $converterPool, array $providers = [])
     {
         $this->converterPool = $converterPool;
         $this->providers = $providers;

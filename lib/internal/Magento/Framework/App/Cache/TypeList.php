@@ -76,7 +76,7 @@ class TypeList implements TypeListInterface
         if ($types) {
             $types = unserialize($types);
         } else {
-            $types = array();
+            $types = [];
         }
         return $types;
     }
@@ -99,7 +99,7 @@ class TypeList implements TypeListInterface
      */
     public function getTypes()
     {
-        $types = array();
+        $types = [];
         $config = $this->_config->getTypes();
 
         foreach ($config as $type => $node) {
@@ -110,13 +110,13 @@ class TypeList implements TypeListInterface
                 $typeTags = '';
             }
             $types[$type] = new \Magento\Framework\Object(
-                array(
+                [
                     'id' => $type,
                     'cache_type' => $node['label'],
                     'description' => $node['description'],
                     'tags' => $typeTags,
-                    'status' => (int)$this->_cacheState->isEnabled($type)
-                )
+                    'status' => (int)$this->_cacheState->isEnabled($type),
+                ]
             );
         }
         return $types;
@@ -129,7 +129,7 @@ class TypeList implements TypeListInterface
      */
     public function getInvalidated()
     {
-        $invalidatedTypes = array();
+        $invalidatedTypes = [];
         $types = $this->_getInvalidatedTypes();
         if ($types) {
             $allTypes = $this->getTypes();
@@ -152,7 +152,7 @@ class TypeList implements TypeListInterface
     {
         $types = $this->_getInvalidatedTypes();
         if (!is_array($typeCode)) {
-            $typeCode = array($typeCode);
+            $typeCode = [$typeCode];
         }
         foreach ($typeCode as $code) {
             $types[$code] = 1;

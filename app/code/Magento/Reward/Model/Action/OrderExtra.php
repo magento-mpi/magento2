@@ -39,7 +39,7 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
-    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = array())
+    public function __construct(\Magento\Reward\Helper\Data $rewardData, array $data = [])
     {
         $this->_rewardData = $rewardData;
         parent::__construct($data);
@@ -51,7 +51,7 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
      * @param array $args Additional history data
      * @return string
      */
-    public function getHistoryMessage($args = array())
+    public function getHistoryMessage($args = [])
     {
         $incrementId = isset($args['increment_id']) ? $args['increment_id'] : '';
         return __('Earned points for order #%1', $incrementId);
@@ -66,7 +66,7 @@ class OrderExtra extends \Magento\Reward\Model\Action\AbstractAction
     public function setEntity($entity)
     {
         parent::setEntity($entity);
-        $this->getHistory()->addAdditionalData(array('increment_id' => $this->getEntity()->getIncrementId()));
+        $this->getHistory()->addAdditionalData(['increment_id' => $this->getEntity()->getIncrementId()]);
         return $this;
     }
 

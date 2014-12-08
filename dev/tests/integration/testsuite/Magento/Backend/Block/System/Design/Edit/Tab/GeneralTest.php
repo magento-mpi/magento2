@@ -40,7 +40,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('date_from', 'date_to') as $id) {
+        foreach (['date_from', 'date_to'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());

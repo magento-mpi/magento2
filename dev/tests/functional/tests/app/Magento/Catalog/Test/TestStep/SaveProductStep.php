@@ -9,8 +9,8 @@
 namespace Magento\Catalog\Test\TestStep;
 
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
-use Mtf\TestStep\TestStepInterface;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Save product step.

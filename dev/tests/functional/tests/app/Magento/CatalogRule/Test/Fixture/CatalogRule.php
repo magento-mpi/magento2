@@ -34,7 +34,7 @@ class CatalogRule extends InjectableFixture
         'website_ids' => ['Main Website'],
         'customer_group_ids' => ['NOT LOGGED IN'],
         'simple_action' => 'By Percentage of the Original Price',
-        'discount_amount' => '50'
+        'discount_amount' => '50',
     ];
 
     protected $name = [

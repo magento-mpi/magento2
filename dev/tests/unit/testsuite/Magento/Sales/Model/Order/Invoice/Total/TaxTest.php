@@ -7,7 +7,6 @@
  */
 namespace Magento\Sales\Model\Order\Invoice\Total;
 
-use \Magento\Framework\Object as MagentoObject;
 
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,25 +38,25 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
         $this->order = $this->getMock(
             '\Magento\Sales\Model\Order',
-            array(
+            [
                 'getInvoiceCollection',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
 
         $this->invoice = $this->getMock(
             '\Magento\Sales\Model\Order\Invoice',
-            array(
+            [
                 'getAllItems',
                 'getOrder',
                 'roundPrice',
                 'isLast',
                 '__wakeup',
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -159,7 +158,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ],
             'invoice_data' => [
                 'items' => [
-                    'item_1' =>[
+                    'item_1' => [
                         'order_item' => [
                             'qty_ordered' => 3,
                             'tax_amount' => 24.32,
@@ -211,7 +210,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     'tax_amount' => 26.78,
                     'base_tax_amount' => 26.78,
                 ],
-            ]
+            ],
         ];
 
         // 3 item_1, 3 item_2, $99 each, 8.19 tax rate
@@ -222,7 +221,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     [
                         'shipping_amount' => 30,
                         'is_canceled' => false,
-                    ]
+                    ],
                 ],
                 'data_fields' => [
                     'shipping_tax_amount' => 2.45,
@@ -235,7 +234,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ],
             'invoice_data' => [
                 'items' => [
-                    'item_1' =>[
+                    'item_1' => [
                         'order_item' => [
                             'qty_ordered' => 3,
                             'tax_amount' => 24.32,
@@ -283,7 +282,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     'tax_amount' => 8.11,
                     'base_tax_amount' => 8.11,
                 ],
-            ]
+            ],
         ];
         // 3 item_1, 3 item_2, $99 each, 8.19 tax rate
         // item_1 has 1 already invoiced, item_2 has 2 already invoiced
@@ -293,7 +292,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     [
                         'shipping_amount' => 30,
                         'is_canceled' => false,
-                    ]
+                    ],
                 ],
                 'data_fields' => [
                     'shipping_tax_amount' => 2.45,
@@ -306,7 +305,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ],
             'invoice_data' => [
                 'items' => [
-                    'item_1' =>[
+                    'item_1' => [
                         'order_item' => [
                             'qty_ordered' => 3,
                             'tax_amount' => 24.32,
@@ -358,7 +357,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
                     'tax_amount' => 16.21,
                     'base_tax_amount' => 16.21,
                 ],
-            ]
+            ],
         ];
         return $result;
     }
@@ -372,11 +371,11 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Item|\PHPUnit_Framework_MockObject_MockObject $orderItem */
         $orderItem = $this->getMock(
             '\Magento\Sales\Model\Order\Item',
-            array(
+            [
                 'isDummy',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -387,12 +386,12 @@ class TaxTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Model\Order\Invoice\Item|\PHPUnit_Framework_MockObject_MockObject $invoiceItem */
         $invoiceItem = $this->getMock(
             '\Magento\Sales\Model\Order\Invoice\Item',
-            array(
+            [
                 'getOrderItem',
                 'isLast',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );

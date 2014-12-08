@@ -42,7 +42,7 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getSampleUrl($sample)
     {
-        return $this->getUrl('downloadable/download/sample', array('sample_id' => $sample->getId()));
+        return $this->getUrl('downloadable/download/sample', ['sample_id' => $sample->getId()]);
     }
 
     /**

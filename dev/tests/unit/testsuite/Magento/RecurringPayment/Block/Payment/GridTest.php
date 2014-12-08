@@ -32,7 +32,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMockBuilder(
             'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
-            array('registry')
+            ['registry']
         )->getMock();
         $registry->expects(
             $this->once()
@@ -47,7 +47,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collectionElement = $this->getMockBuilder(
             'Magento\RecurringPayment\Model\Payment'
         )->disableOriginalConstructor()->setMethods(
-            array('setStore', 'renderData', 'getReferenceId', '__wakeup')
+            ['setStore', 'renderData', 'getReferenceId', '__wakeup']
         )->getMock();
         $collectionElement->expects(
             $this->once()
@@ -63,7 +63,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $collection = $this->getMockBuilder(
             'Magento\RecurringPayment\Model\Resource\Payment\Collection'
         )->disableOriginalConstructor()->setMethods(
-            array('addFieldToFilter', 'addFieldToSelect', 'setOrder')
+            ['addFieldToFilter', 'addFieldToSelect', 'setOrder']
         )->getMock();
         $collection->expects(
             $this->once()
@@ -76,48 +76,48 @@ class GridTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($collection)
         );
         $collection->expects($this->once())->method('addFieldToSelect')->will($this->returnValue($collection));
-        $collection->expects($this->once())->method('setOrder')->will($this->returnValue(array($collectionElement)));
+        $collection->expects($this->once())->method('setOrder')->will($this->returnValue([$collectionElement]));
 
         $payment = $this->getMockBuilder(
             'Magento\RecurringPayment\Model\Payment'
         )->disableOriginalConstructor()->setMethods(
-            array('getCollection', 'getFieldLabel', '__wakeup')
+            ['getCollection', 'getFieldLabel', '__wakeup']
         )->getMock();
         $payment->expects($this->once())->method('getCollection')->will($this->returnValue($collection));
 
         $storeManager = $this->getMockBuilder(
             'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
-            array('getStore')
+            ['getStore']
         )->getMock();
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $locale = $this->getMockBuilder(
             '\Magento\Framework\Stdlib\DateTime\TimezoneInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('formatDate')
+            ['formatDate']
         )->getMockForAbstractClass();
         $locale->expects($this->once())->method('formatDate')->will($this->returnValue('11-11-1999'));
         $block = $this->_objectManagerHelper->getObject(
             'Magento\RecurringPayment\Block\Payment\Grid',
-            array(
+            [
                 'recurringPayment' => $payment,
                 'registry' => $registry,
                 'storeManager' => $storeManager,
                 'localeDate' => $locale
-            )
+            ]
         );
         $pagerBlock = $this->getMockBuilder(
             'Magento\Theme\Block\Html\Pager'
         )->disableOriginalConstructor()->setMethods(
-            array('setCollection')
+            ['setCollection']
         )->getMock();
         $pagerBlock->expects(
             $this->once()
         )->method(
             'setCollection'
         )->with(
-            array($collectionElement)
+            [$collectionElement]
         )->will(
             $this->returnValue($pagerBlock)
         );
@@ -128,18 +128,18 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $block->setLayout($layout);
 
         $this->assertNotEmpty($block->getGridColumns());
-        $expectedResult = array(
+        $expectedResult = [
             new \Magento\Framework\Object(
-                array(
+                [
                     'reference_id' => 1,
                     'reference_id_link_url' => null,
                     'state' => 2,
                     'created_at' => '11-11-1999',
                     'updated_at' => '',
-                    'method_code' => 2
-                )
-            )
-        );
+                    'method_code' => 2,
+                ]
+            ),
+        ];
         $this->assertEquals($expectedResult, $block->getGridElements());
     }
 
@@ -153,7 +153,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $layout = $this->getMockBuilder(
             'Magento\Framework\View\LayoutInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('createBlock', 'getChildName', 'setChild')
+            ['createBlock', 'getChildName', 'setChild']
         )->getMockForAbstractClass();
 
         return $layout;

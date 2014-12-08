@@ -19,7 +19,7 @@ class Items extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_giftMessage = array();
+    protected $_giftMessage = [];
 
     /**
      * @var \Magento\GiftMessage\Helper\Message
@@ -34,7 +34,7 @@ class Items extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_messageHelper = $messageHelper;
         parent::__construct($context, $data);
@@ -82,14 +82,14 @@ class Items extends \Magento\Backend\Block\Template
         if ($this->getItem()->getOrder()) {
             if ($this->getItem()->getOrder()->getShippingAddress()) {
                 return $this->getItem()->getOrder()->getShippingAddress()->getName();
-            } else if ($this->getItem()->getOrder()->getBillingAddress()) {
+            } elseif ($this->getItem()->getOrder()->getBillingAddress()) {
                 return $this->getItem()->getOrder()->getBillingAddress()->getName();
             }
         }
 
         if ($this->getItem()->getShippingAddress()) {
             return $this->getItem()->getShippingAddress()->getName();
-        } else if ($this->getItem()->getBillingAddress()) {
+        } elseif ($this->getItem()->getBillingAddress()) {
             return $this->getItem()->getBillingAddress()->getName();
         }
 
@@ -173,7 +173,7 @@ class Items extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'sales/order_view_giftmessage/save',
-            array('entity' => $this->getItem()->getId(), 'type' => 'order_item', 'reload' => true)
+            ['entity' => $this->getItem()->getId(), 'type' => 'order_item', 'reload' => true]
         );
     }
 

@@ -11,23 +11,23 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 {
     public function testIteratorInterface()
     {
-        $pattern = array(
+        $pattern = [
             'id' => '%s',
             'name' => 'Static',
             'calculated' => function ($index) {
                 return $index * 10;
-            }
-        );
+            },
+        ];
         $model = new \Magento\TestFramework\ImportExport\Fixture\Generator($pattern, 2);
-        $rows = array();
+        $rows = [];
         foreach ($model as $row) {
             $rows[] = $row;
         }
         $this->assertEquals(
-            array(
-                array('id' => '1', 'name' => 'Static', 'calculated' => 10),
-                array('id' => '2', 'name' => 'Static', 'calculated' => 20)
-            ),
+            [
+                ['id' => '1', 'name' => 'Static', 'calculated' => 10],
+                ['id' => '2', 'name' => 'Static', 'calculated' => 20],
+            ],
             $rows
         );
     }

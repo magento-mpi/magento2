@@ -46,7 +46,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\CustomerBalance\Model\Balance\History $history,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         $this->_historyFactory = $historyFactory;
@@ -92,44 +92,44 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'updated_at',
-            array(
+            [
                 'header' => __('Date'),
                 'index' => 'updated_at',
                 'type' => 'datetime',
                 'filter' => false,
                 'width' => 200
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $this->addColumn(
                 'website_id',
-                array(
+                [
                     'header' => __('Website'),
                     'index' => 'website_id',
                     'type' => 'options',
                     'options' => $this->_systemStore->getWebsiteOptionHash(),
                     'sortable' => false,
                     'width' => 200
-                )
+                ]
             );
         }
 
         $this->addColumn(
             'balance_action',
-            array(
+            [
                 'header' => __('Action'),
                 'width' => 70,
                 'index' => 'action',
                 'sortable' => false,
                 'type' => 'options',
                 'options' => $this->_history->getActionNamesArray()
-            )
+            ]
         );
 
         $this->addColumn(
             'balance_delta',
-            array(
+            [
                 'header' => __('Balance Change'),
                 'width' => 50,
                 'index' => 'balance_delta',
@@ -137,37 +137,37 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'sortable' => false,
                 'filter' => false,
                 'renderer' => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency'
-            )
+            ]
         );
 
         $this->addColumn(
             'balance_amount',
-            array(
+            [
                 'header' => __('Balance'),
                 'width' => 50,
                 'index' => 'balance_amount',
                 'sortable' => false,
                 'filter' => false,
                 'renderer' => 'Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer\Currency'
-            )
+            ]
         );
 
         $this->addColumn(
             'is_customer_notified',
-            array(
+            [
                 'header' => __('Customer notified'),
                 'index' => 'is_customer_notified',
                 'type' => 'options',
-                'options' => array('1' => __('Notified'), '0' => __('No')),
+                'options' => ['1' => __('Notified'), '0' => __('No')],
                 'sortable' => false,
                 'filter' => false,
                 'width' => 75
-            )
+            ]
         );
 
         $this->addColumn(
             'additional_info',
-            array('header' => __('More information'), 'index' => 'additional_info', 'sortable' => false)
+            ['header' => __('More information'), 'index' => 'additional_info', 'sortable' => false]
         );
 
         return parent::_prepareColumns();
@@ -180,6 +180,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/gridHistory', array('_current' => true));
+        return $this->getUrl('adminhtml/*/gridHistory', ['_current' => true]);
     }
 }

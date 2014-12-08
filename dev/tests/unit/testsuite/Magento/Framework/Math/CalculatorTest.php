@@ -49,11 +49,11 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
      */
     public function deltaRoundDataProvider()
     {
-        return array(
-            array(0, false, 0),
-            array(2.223, false, 2.22),
-            array(2.226, false, 2.23),
-            array(2.226, true, 2.23),
-        );
+        return [
+            [0, false, 0],
+            [2.223, false, 2.22],
+            [2.226, false, 2.23],
+            [2.226, true, 2.23],
+        ];
     }
 }

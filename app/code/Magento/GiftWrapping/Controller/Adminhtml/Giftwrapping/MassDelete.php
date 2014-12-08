@@ -26,7 +26,7 @@ class MassDelete extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
                 $wrappingCollection = $this->_objectManager->create(
                     'Magento\GiftWrapping\Model\Resource\Wrapping\Collection'
                 );
-                $wrappingCollection->addFieldToFilter('wrapping_id', array('in' => $wrappingIds));
+                $wrappingCollection->addFieldToFilter('wrapping_id', ['in' => $wrappingIds]);
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
                 }

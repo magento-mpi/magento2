@@ -7,7 +7,6 @@
  */
 namespace Magento\Test\Integrity\App\Language;
 
-
 class TranslationFiles extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -27,7 +26,7 @@ class TranslationFiles extends \PHPUnit_Framework_TestCase
     public function getLocalePlacePath()
     {
         $pathToSource = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
-        $places = array();
+        $places = [];
         foreach (glob("{$pathToSource}/app/code/*/*", GLOB_ONLYDIR) as $modulePath) {
             $places[basename($modulePath)] = ['placePath' => $modulePath];
         }
@@ -63,7 +62,7 @@ class TranslationFiles extends \PHPUnit_Framework_TestCase
         $missing = array_diff_key($baseLocaleData, $localeData);
         $extra = array_diff_key($localeData, $baseLocaleData);
 
-        $failures = array();
+        $failures = [];
         if (!empty($missing)) {
             $failures['missing'] = array_keys($missing);
         }

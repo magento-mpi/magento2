@@ -26,7 +26,7 @@ abstract class AbstractConfig implements ConfigInterface
      *
      * @param array $modules
      */
-    public function __construct(array $modules = array())
+    public function __construct(array $modules = [])
     {
         $this->modules = $modules;
     }

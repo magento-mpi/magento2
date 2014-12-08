@@ -20,12 +20,12 @@ class Product extends AbstractRepository
     /**
      * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
         $type = str_replace('product', '', strtolower(substr(get_class($this), strrpos(get_class($this), '\\') + 1)));
         $this->_data[$type . '_required'] = $this->_data['default'];
         $this->_data[$type] = $this->_data['default'];
@@ -42,13 +42,13 @@ class Product extends AbstractRepository
      */
     protected function _getMassActionPrice()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'price' => array('value' => '1.99', 'group' => 'attributes_update_tabs_attributes')
-                )
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'price' => ['value' => '1.99', 'group' => 'attributes_update_tabs_attributes'],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -57,20 +57,20 @@ class Product extends AbstractRepository
      */
     protected function resetRequiredFields($productType)
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'name' => array(
+        return [
+            'data' => [
+                'fields' => [
+                    'name' => [
                         'value' => 'edited ' . $productType . ' %isolation%',
-                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                    ),
-                    'sku' => array(
+                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS,
+                    ],
+                    'sku' => [
                         'value' => 'edited ' . $productType . '_sku_%isolation%',
-                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
-                    )
-                )
-            )
-        );
+                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS,
+                    ],
+                ],
+            ]
+        ];
     }
 
     /**
@@ -80,33 +80,33 @@ class Product extends AbstractRepository
      */
     protected function _getSimpleOutOfStock()
     {
-        $inventory = array(
-            'data' => array(
-                'fields' => array(
-                    'inventory_manage_stock' => array(
+        $inventory = [
+            'data' => [
+                'fields' => [
+                    'inventory_manage_stock' => [
                         'value' => 'Yes',
                         'input_value' => 1,
-                    ),
-                    'inventory_qty' => array(
+                    ],
+                    'inventory_qty' => [
                         'value' => 0,
-                        'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY
-                    ),
-                    'quantity_and_stock_status' => array(
+                        'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY,
+                    ],
+                    'quantity_and_stock_status' => [
                         'value' => 'Out of Stock',
                         'input_value' => 0,
                         'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY,
-                        'input_name' => 'product[quantity_and_stock_status][is_in_stock]'
-                    ),
-                    'inventory_stock_availability' => array(
+                        'input_name' => 'product[quantity_and_stock_status][is_in_stock]',
+                    ],
+                    'inventory_stock_availability' => [
                         'value' => 'Out of Stock', // Out of Stock
                         'input_value' => 0,
                         'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY,
                         'input' => 'select',
-                        'input_name' => 'product[stock_data][is_in_stock]'
-                    )
-                )
-            )
-        );
+                        'input_name' => 'product[stock_data][is_in_stock]',
+                    ],
+                ],
+            ],
+        ];
         $product = array_replace_recursive($this->_data['simple'], $inventory);
 
         return $product;

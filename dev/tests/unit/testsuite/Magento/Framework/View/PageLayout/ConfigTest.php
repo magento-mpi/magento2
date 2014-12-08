@@ -25,7 +25,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'configFiles' => [
                     'layouts_one.xml' => file_get_contents(__DIR__ . '/_files/layouts_one.xml'),
-                    'layouts_two.xml' => file_get_contents(__DIR__ . '/_files/layouts_two.xml')
+                    'layouts_two.xml' => file_get_contents(__DIR__ . '/_files/layouts_two.xml'),
                 ]
             ]
         );
@@ -52,7 +52,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 ['label' => 'One', 'value' => 'one'],
-                ['label' => 'Two', 'value' => 'two']
+                ['label' => 'Two', 'value' => 'two'],
             ],
             $this->config->toOptionArray()
         );
@@ -60,7 +60,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 ['label' => '-- Please Select --', 'value' => ''],
                 ['label' => 'One', 'value' => 'one'],
-                ['label' => 'Two', 'value' => 'two']
+                ['label' => 'Two', 'value' => 'two'],
             ],
             $this->config->toOptionArray(true)
         );

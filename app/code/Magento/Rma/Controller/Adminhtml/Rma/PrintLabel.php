@@ -57,6 +57,6 @@ class PrintLabel extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
         }
-        $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
+        $this->_redirect('adminhtml/*/edit', ['id' => $this->getRequest()->getParam('id')]);
     }
 }

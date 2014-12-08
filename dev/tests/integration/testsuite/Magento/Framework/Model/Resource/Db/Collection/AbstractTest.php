@@ -20,12 +20,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Framework\App\Resource');
         $resource = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array($resourceModel),
+            [$resourceModel],
             '',
             true,
             true,
             true,
-            array('getMainTable', 'getIdFieldName')
+            ['getMainTable', 'getIdFieldName']
         );
 
         $resource->expects(
@@ -50,7 +50,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\Collection\AbstractCollection',
-            array($entityFactory, $logger, $fetchStrategy, $eventManager, null, $resource)
+            [$entityFactory, $logger, $fetchStrategy, $eventManager, null, $resource]
         );
     }
 
@@ -58,13 +58,13 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $allIds = $this->_model->getAllIds();
         sort($allIds);
-        $this->assertEquals(array('0', '1'), $allIds);
+        $this->assertEquals(['0', '1'], $allIds);
     }
 
     public function testGetAllIdsWithBind()
     {
         $this->_model->getSelect()->where('code = :code');
         $this->_model->addBindParam('code', 'admin');
-        $this->assertEquals(array('0'), $this->_model->getAllIds());
+        $this->assertEquals(['0'], $this->_model->getAllIds());
     }
 }

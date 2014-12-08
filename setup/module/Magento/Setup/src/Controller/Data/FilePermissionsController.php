@@ -7,9 +7,9 @@
  */
 namespace Magento\Setup\Controller\Data;
 
+use Magento\Setup\Model\FilePermissions;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\FilePermissions;
 
 class FilePermissionsController extends AbstractActionController
 {

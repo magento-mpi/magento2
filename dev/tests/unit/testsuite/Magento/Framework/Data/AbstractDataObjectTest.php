@@ -16,7 +16,7 @@ class AbstractDataObjectTest extends \PHPUnit_Framework_TestCase
         $result = [
             'key' => 'value',
             'object' => $subObjectData,
-            'nestedArray' => ['nestedObject' => $nestedObjectData]
+            'nestedArray' => ['nestedObject' => $nestedObjectData],
         ];
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -47,4 +47,3 @@ class AbstractDataObjectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($value, $dataObject->get($key));
     }
 }
- 

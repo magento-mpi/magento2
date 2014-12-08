@@ -21,7 +21,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storage = $this->getMock('Magento\Framework\Cache\Config\Data', array('get'), array(), '', false);
+        $this->_storage = $this->getMock('Magento\Framework\Cache\Config\Data', ['get'], [], '', false);
         $this->_model = new \Magento\Framework\Cache\Config($this->_storage);
     }
 
@@ -33,9 +33,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'get'
         )->with(
             'types',
-            array()
+            []
         )->will(
-            $this->returnValue(array('val1', 'val2'))
+            $this->returnValue(['val1', 'val2'])
         );
         $result = $this->_model->getTypes();
         $this->assertCount(2, $result);
@@ -49,9 +49,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'get'
         )->with(
             'types/someType',
-            array()
+            []
         )->will(
-            $this->returnValue(array('someTypeValue'))
+            $this->returnValue(['someTypeValue'])
         );
         $result = $this->_model->getType('someType');
         $this->assertCount(1, $result);

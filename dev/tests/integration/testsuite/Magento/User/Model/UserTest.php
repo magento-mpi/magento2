@@ -52,7 +52,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
             'user@magento.com'
         );
 
-        $crud = new \Magento\TestFramework\Entity($this->_model, array('firstname' => '_New_name_'));
+        $crud = new \Magento\TestFramework\Entity($this->_model, ['firstname' => '_New_name_']);
         $crud->testCrud();
     }
 
@@ -108,7 +108,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
     public function testSaveExtra()
     {
         $this->_model->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
-        $this->_model->saveExtra(array('test' => 'val'));
+        $this->_model->saveExtra(['test' => 'val']);
         $this->_model->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $extra = unserialize($this->_model->getExtra());
         $this->assertEquals($extra['test'], 'val');
@@ -381,7 +381,7 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function beforeSavePasswordInsecureDataProvider()
     {
-        return array('alpha chars only' => array('aaaaaaaa'), 'digits only' => array('1234567'));
+        return ['alpha chars only' => ['aaaaaaaa'], 'digits only' => ['1234567']];
     }
 
     /**

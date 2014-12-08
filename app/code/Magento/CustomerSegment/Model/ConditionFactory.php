@@ -34,7 +34,7 @@ class ConditionFactory
      * @throws \InvalidArgumentException
      * @return \Magento\Rule\Model\Condition\ConditionInterface
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $classNamePrefix = 'Magento\CustomerSegment\Model\Segment\Condition\\';
         if (false === strpos($className, $classNamePrefix)) {

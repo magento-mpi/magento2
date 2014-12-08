@@ -75,7 +75,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */
-    public function getCatalogResourceSetup(array $data = array())
+    public function getCatalogResourceSetup(array $data = [])
     {
         return $this->_setupFactory->create($data);
     }

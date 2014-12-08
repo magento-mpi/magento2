@@ -8,11 +8,10 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractAssertForm;
 use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductCustomOptionsOnProductPage
@@ -71,7 +70,7 @@ class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
         'Time' => [
             'price_type',
             'sku',
-        ]
+        ],
     ];
 
     /**

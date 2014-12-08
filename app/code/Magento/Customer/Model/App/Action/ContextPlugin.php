@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Model\App\Action;
 
-use Magento\Customer\Model\GroupManagement;
 use Magento\Customer\Model\Context;
+use Magento\Customer\Model\GroupManagement;
 
 /**
  * Class ContextPlugin

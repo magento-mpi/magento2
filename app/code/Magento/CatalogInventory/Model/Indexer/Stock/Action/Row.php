@@ -31,7 +31,7 @@ class Row extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
             throw new \Magento\CatalogInventory\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_reindexRows(array($id));
+            $this->_reindexRows([$id]);
         } catch (\Exception $e) {
             throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }

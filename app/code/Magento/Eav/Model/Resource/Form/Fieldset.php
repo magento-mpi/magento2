@@ -7,9 +7,9 @@
  */
 namespace Magento\Eav\Model\Resource\Form;
 
-use Magento\Framework\Model\AbstractModel;
 use Magento\Eav\Model\Form\Fieldset as FormFieldset;
 use Magento\Framework\DB\Select;
+use Magento\Framework\Model\AbstractModel;
 
 /**
  * Eav Form Fieldset Resource Model
@@ -27,7 +27,7 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_init('eav_form_fieldset', 'fieldset_id');
         $this->addUniqueField(
-            array('field' => array('type_id', 'code'), 'title' => __('Form Fieldset with the same code'))
+            ['field' => ['type_id', 'code'], 'title' => __('Form Fieldset with the same code')]
         );
     }
 
@@ -47,7 +47,7 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             $insert = array_diff(array_keys($new), array_keys($old));
             $delete = array_diff(array_keys($old), array_keys($new));
-            $update = array();
+            $update = [];
 
             foreach ($new as $storeId => $label) {
                 if (isset($old[$storeId]) && $old[$storeId] != $label) {
@@ -58,17 +58,17 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
 
             if (!empty($insert)) {
-                $data = array();
+                $data = [];
                 foreach ($insert as $storeId) {
                     $label = $new[$storeId];
                     if (empty($label)) {
                         continue;
                     }
-                    $data[] = array(
+                    $data[] = [
                         'fieldset_id' => (int)$object->getId(),
                         'store_id' => (int)$storeId,
-                        'label' => $label
-                    );
+                        'label' => $label,
+                    ];
                 }
                 if ($data) {
                     $adapter->insertMultiple($this->getTable('eav_form_fieldset_label'), $data);
@@ -76,14 +76,14 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
 
             if (!empty($delete)) {
-                $where = array('fieldset_id = ?' => $object->getId(), 'store_id IN(?)' => $delete);
+                $where = ['fieldset_id = ?' => $object->getId(), 'store_id IN(?)' => $delete];
                 $adapter->delete($this->getTable('eav_form_fieldset_label'), $where);
             }
 
             if (!empty($update)) {
                 foreach ($update as $storeId => $label) {
-                    $bind = array('label' => $label);
-                    $where = array('fieldset_id =?' => $object->getId(), 'store_id =?' => $storeId);
+                    $bind = ['label' => $label];
+                    $where = ['fieldset_id =?' => $object->getId(), 'store_id =?' => $storeId];
                     $adapter->update($this->getTable('eav_form_fieldset_label'), $bind, $where);
                 }
             }
@@ -102,13 +102,13 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $objectId = $object->getId();
         if (!$objectId) {
-            return array();
+            return [];
         }
         $adapter = $this->_getReadAdapter();
-        $bind = array(':fieldset_id' => $objectId);
+        $bind = [':fieldset_id' => $objectId];
         $select = $adapter->select()->from(
             $this->getTable('eav_form_fieldset_label'),
-            array('store_id', 'label')
+            ['store_id', 'label']
         )->where(
             'fieldset_id = :fieldset_id'
         );
@@ -131,15 +131,15 @@ class Fieldset extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $labelExpr = $select->getAdapter()->getIfNullSql('store_label.label', 'default_label.label');
 
         $select->joinLeft(
-            array('default_label' => $this->getTable('eav_form_fieldset_label')),
+            ['default_label' => $this->getTable('eav_form_fieldset_label')],
             $this->getMainTable() . '.fieldset_id = default_label.fieldset_id AND default_label.store_id=0',
-            array()
+            []
         )->joinLeft(
-            array('store_label' => $this->getTable('eav_form_fieldset_label')),
+            ['store_label' => $this->getTable('eav_form_fieldset_label')],
             $this->getMainTable() .
             '.fieldset_id = store_label.fieldset_id AND default_label.store_id=' .
             (int)$object->getStoreId(),
-            array('label' => $labelExpr)
+            ['label' => $labelExpr]
         );
 
         return $select;

@@ -33,7 +33,7 @@ class Balance extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_coreRegistry = $registry;
@@ -53,11 +53,11 @@ class Balance extends \Magento\Backend\Block\Template
             return $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Button'
             )->setData(
-                array(
+                [
                     'label' => __('Delete Orphan Balances'),
                     'onclick' => 'setLocation(\'' . $this->getDeleteOrphanBalancesUrl() . '\')',
-                    'class' => 'scalable delete'
-                )
+                    'class' => 'scalable delete',
+                ]
             )->toHtml();
         }
         return '';
@@ -72,7 +72,7 @@ class Balance extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/customerbalance/deleteOrphanBalances',
-            array('_current' => true, 'tab' => 'customer_info_tabs_customerbalance')
+            ['_current' => true, 'tab' => 'customer_info_tabs_customerbalance']
         );
     }
 }

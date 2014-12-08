@@ -8,15 +8,14 @@
 
 namespace Magento\User\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertRoleSuccessSaveMessage
  */
 class AssertRoleSuccessSaveMessage extends AbstractConstraint
 {
-
     const SUCCESS_MESSAGE = 'You saved the role.';
 
     /**

@@ -14,11 +14,11 @@ class Robots implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'INDEX,FOLLOW', 'label' => 'INDEX, FOLLOW'),
-            array('value' => 'NOINDEX,FOLLOW', 'label' => 'NOINDEX, FOLLOW'),
-            array('value' => 'INDEX,NOFOLLOW', 'label' => 'INDEX, NOFOLLOW'),
-            array('value' => 'NOINDEX,NOFOLLOW', 'label' => 'NOINDEX, NOFOLLOW')
-        );
+        return [
+            ['value' => 'INDEX,FOLLOW', 'label' => 'INDEX, FOLLOW'],
+            ['value' => 'NOINDEX,FOLLOW', 'label' => 'NOINDEX, FOLLOW'],
+            ['value' => 'INDEX,NOFOLLOW', 'label' => 'INDEX, NOFOLLOW'],
+            ['value' => 'NOINDEX,NOFOLLOW', 'label' => 'NOINDEX, NOFOLLOW']
+        ];
     }
 }

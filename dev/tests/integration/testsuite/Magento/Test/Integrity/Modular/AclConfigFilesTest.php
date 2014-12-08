@@ -16,7 +16,7 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_fileList = array();
+    protected $_fileList = [];
 
     /**
      * Path to scheme file

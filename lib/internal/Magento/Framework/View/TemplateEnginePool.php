@@ -1,13 +1,12 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Framework\View;
 
-use Magento\Framework\View\TemplateEngineFactory;
 
 class TemplateEnginePool
 {
@@ -23,7 +22,7 @@ class TemplateEnginePool
      *
      * @var \Magento\Framework\View\TemplateEngineInterface[]
      */
-    protected $engines = array();
+    protected $engines = [];
 
     /**
      * Constructor

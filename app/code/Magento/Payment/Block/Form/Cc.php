@@ -29,7 +29,7 @@ class Cc extends \Magento\Payment\Block\Form
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_paymentConfig = $paymentConfig;
@@ -83,7 +83,7 @@ class Cc extends \Magento\Payment\Block\Form
         $years = $this->getData('cc_years');
         if (is_null($years)) {
             $years = $this->_paymentConfig->getYears();
-            $years = array(0 => __('Year')) + $years;
+            $years = [0 => __('Year')] + $years;
             $this->setData('cc_years', $years);
         }
         return $years;
@@ -114,7 +114,7 @@ class Cc extends \Magento\Payment\Block\Form
     public function hasSsCardType()
     {
         $availableTypes = explode(',', $this->getMethod()->getConfigData('cctypes'));
-        $ssPresenations = array_intersect(array('SS', 'SM', 'SO'), $availableTypes);
+        $ssPresenations = array_intersect(['SS', 'SM', 'SO'], $availableTypes);
         if ($availableTypes && count($ssPresenations) > 0) {
             return true;
         }
@@ -128,14 +128,14 @@ class Cc extends \Magento\Payment\Block\Form
      */
     public function getSsStartYears()
     {
-        $years = array();
+        $years = [];
         $first = date("Y");
 
         for ($index = 5; $index >= 0; $index--) {
             $year = $first - $index;
             $years[$year] = $year;
         }
-        $years = array(0 => __('Year')) + $years;
+        $years = [0 => __('Year')] + $years;
         return $years;
     }
 
@@ -146,7 +146,7 @@ class Cc extends \Magento\Payment\Block\Form
      */
     protected function _toHtml()
     {
-        $this->_eventManager->dispatch('payment_form_block_to_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('payment_form_block_to_html_before', ['block' => $this]);
         return parent::_toHtml();
     }
 }

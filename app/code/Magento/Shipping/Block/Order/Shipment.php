@@ -48,7 +48,7 @@ class Shipment extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Payment\Helper\Data $paymentHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentHelper = $paymentHelper;
         $this->_coreRegistry = $registry;
@@ -117,7 +117,7 @@ class Shipment extends \Magento\Framework\View\Element\Template
      */
     public function getInvoiceUrl($order)
     {
-        return $this->getUrl('*/*/invoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/invoice', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -126,7 +126,7 @@ class Shipment extends \Magento\Framework\View\Element\Template
      */
     public function getViewUrl($order)
     {
-        return $this->getUrl('*/*/view', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/view', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -135,7 +135,7 @@ class Shipment extends \Magento\Framework\View\Element\Template
      */
     public function getCreditmemoUrl($order)
     {
-        return $this->getUrl('*/*/creditmemo', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/creditmemo', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -144,7 +144,7 @@ class Shipment extends \Magento\Framework\View\Element\Template
      */
     public function getPrintShipmentUrl($shipment)
     {
-        return $this->getUrl('*/*/printShipment', array('shipment_id' => $shipment->getId()));
+        return $this->getUrl('*/*/printShipment', ['shipment_id' => $shipment->getId()]);
     }
 
     /**
@@ -153,6 +153,6 @@ class Shipment extends \Magento\Framework\View\Element\Template
      */
     public function getPrintAllShipmentsUrl($order)
     {
-        return $this->getUrl('*/*/printShipment', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printShipment', ['order_id' => $order->getId()]);
     }
 }

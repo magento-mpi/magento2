@@ -66,7 +66,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
 
@@ -111,7 +111,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         $this->_form->setId('edit_form');
         $this->_form->setMethod('post');
         $this->_form->setAction(
-            $this->getUrl('sales/*/addressSave', array('address_id' => $this->_getAddress()->getId()))
+            $this->getUrl('sales/*/addressSave', ['address_id' => $this->_getAddress()->getId()])
         );
         $this->_form->setUseContainer(true);
         return $this;

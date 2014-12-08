@@ -18,21 +18,21 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getData('action'),
                     'method' => 'post',
-                    'enctype' => 'multipart/form-data'
-                )
-            )
+                    'enctype' => 'multipart/form-data',
+                ],
+            ]
         );
 
         $model = $this->_coreRegistry->registry('current_rma');
 
         if ($model) {
             if ($model->getId()) {
-                $form->addField('entity_id', 'hidden', array('name' => 'entity_id'));
+                $form->addField('entity_id', 'hidden', ['name' => 'entity_id']);
                 $form->setValues($model->getData());
             }
 

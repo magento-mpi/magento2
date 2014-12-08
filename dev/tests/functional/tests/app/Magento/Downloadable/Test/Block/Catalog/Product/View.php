@@ -106,15 +106,15 @@ class View extends \Magento\Catalog\Test\Block\Product\View
                 'title' => $this->getDownloadableLinksBlock()->getTitle(),
                 'downloadable' => [
                     'link' => $this->getDownloadableLinksBlock()->getLinks(),
-                ]
+                ],
             ];
         }
         if ($this->_rootElement->find($this->blockDownloadableSamples)->isVisible()) {
             $downloadableOptions['downloadable_sample'] = [
                 'title' => $this->getDownloadableSamplesBlock()->getTitle(),
                 'downloadable' => [
-                    'sample' => $this->getDownloadableSamplesBlock()->getLinks()
-                ]
+                    'sample' => $this->getDownloadableSamplesBlock()->getLinks(),
+                ],
             ];
         }
 

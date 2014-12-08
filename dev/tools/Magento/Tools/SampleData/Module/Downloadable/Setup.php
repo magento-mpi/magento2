@@ -32,7 +32,6 @@ class Setup extends \Magento\Tools\SampleData\Module\Catalog\Setup
         $this->categorySetup = $categorySetup;
         $this->attributeSetup = $attributeSetup;
         $this->productSetup = $productSetup;
-
     }
 
     /**

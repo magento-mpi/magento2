@@ -23,7 +23,7 @@ class SaveTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
             ->will(
                 $this->returnValueMap(
                     [
-                        ['rma_id', null, $rmaId]
+                        ['rma_id', null, $rmaId],
                     ]
                 )
             );

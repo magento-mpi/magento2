@@ -56,7 +56,7 @@ class Created extends \Magento\Backend\Block\Widget
         \Magento\Eav\Model\Entity\Attribute\SetFactory $setFactory,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_setFactory = $setFactory;
@@ -72,7 +72,7 @@ class Created extends \Magento\Backend\Block\Widget
      */
     protected function _getGroupAttributes()
     {
-        $attributes = array();
+        $attributes = [];
         /** @var $product \Magento\Catalog\Model\Product */
         $product = $this->_coreRegistry->registry('product');
         foreach ($product->getAttributes($this->getRequest()->getParam('group')) as $attribute) {
@@ -101,25 +101,25 @@ class Created extends \Magento\Backend\Block\Widget
      */
     public function getAttributesBlockJson()
     {
-        $result = array();
+        $result = [];
         if ($this->getRequest()->getParam('product_tab') == 'variations') {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $attribute = $this->_attributeFactory->create()->load($this->getRequest()->getParam('attribute'));
-            $result = array(
+            $result = [
                 'tab' => $this->getRequest()->getParam('product_tab'),
-                'attribute' => array(
+                'attribute' => [
                     'id' => $attribute->getId(),
                     'label' => $attribute->getFrontendLabel(),
                     'code' => $attribute->getAttributeCode(),
-                    'options' => $attribute->getSourceModel() ? $attribute->getSource()->getAllOptions(false) : array()
-                )
-            );
+                    'options' => $attribute->getSourceModel() ? $attribute->getSource()->getAllOptions(false) : [],
+                ],
+            ];
         }
         $newAttributeSetId = $this->getRequest()->getParam('new_attribute_set_id');
         if ($newAttributeSetId) {
             /** @var $attributeSet \Magento\Eav\Model\Entity\Attribute\Set */
             $attributeSet = $this->_setFactory->create()->load($newAttributeSetId);
-            $result['set'] = array('id' => $attributeSet->getId(), 'label' => $attributeSet->getAttributeSetName());
+            $result['set'] = ['id' => $attributeSet->getId(), 'label' => $attributeSet->getAttributeSetName()];
         }
 
         return $this->_jsonEncoder->encode($result);

@@ -7,9 +7,8 @@
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Sales\Model\Resource\AbstractGrid;
 use Magento\Framework\DB\Adapter\AdapterInterface;
-use Magento\Framework\App\Resource as AppResource;
+use Magento\Sales\Model\Resource\AbstractGrid;
 
 /**
  * Class Grid
@@ -79,7 +78,7 @@ class Grid extends AbstractGrid
                     'shipping_name' => "trim(concat(ifnull(ssa.firstname, ''), ' ' ,ifnull(ssa.lastname, '')))",
                     'billing_name' => "trim(concat(ifnull(sba.firstname, ''), ' ', ifnull(sba.lastname, '')))",
                     'created_at' => 'sfo.created_at',
-                    'updated_at' => 'sfo.updated_at'
+                    'updated_at' => 'sfo.updated_at',
                 ]
             );
     }

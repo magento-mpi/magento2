@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * System configuration shipping methods allow all countries select
  *

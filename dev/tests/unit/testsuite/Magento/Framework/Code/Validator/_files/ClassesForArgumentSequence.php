@@ -42,8 +42,8 @@ class ParentClass
         ParentRequiredObject $parentRequiredObject,
         array $parentRequiredScalar,
         ParentOptionalObject $parentOptionalObject = null,
-        array $data = array(),
-        array $parentOptionalScalar = array()
+        array $data = [],
+        array $parentOptionalScalar = []
     ) {
         $this->contextObject = $contextObject;
         $this->parentRequiredObject = $parentRequiredObject;
@@ -73,10 +73,10 @@ class ValidChildClass extends ParentClass
         ChildRequiredObject $childRequiredObject,
         array $childRequiredScalar,
         ParentOptionalObject $parentOptionalObject = null,
-        array $data = array(),
-        array $parentOptionalScalar = array(),
+        array $data = [],
+        array $parentOptionalScalar = [],
         ChildOptionalObject $childOptionalObject = null,
-        array $childOptionalScalar = array()
+        array $childOptionalScalar = []
     ) {
         $this->childRequiredObject = $childRequiredObject;
         $this->childRequiredScalar = $childRequiredScalar;
@@ -113,10 +113,10 @@ class InvalidChildClass extends ParentClass
         array $parentRequiredScalar,
         array $childRequiredScalar,
         ParentOptionalObject $parentOptionalObject = null,
-        array $data = array(),
-        array $parentOptionalScalar = array(),
+        array $data = [],
+        array $parentOptionalScalar = [],
         ChildOptionalObject $childOptionalObject = null,
-        array $childOptionalScalar = array()
+        array $childOptionalScalar = []
     ) {
         $this->childRequiredObject = $childRequiredObject;
         $this->childRequiredScalar = $childRequiredScalar;

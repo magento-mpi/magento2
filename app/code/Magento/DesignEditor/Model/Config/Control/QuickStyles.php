@@ -19,7 +19,7 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      *
      * @var string[]
      */
-    protected $_controlAttributes = array('title', 'tab', 'column');
+    protected $_controlAttributes = ['title', 'tab', 'column'];
 
     /**
      * Module configuration file reader

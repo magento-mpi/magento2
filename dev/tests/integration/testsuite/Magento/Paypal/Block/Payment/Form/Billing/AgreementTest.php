@@ -28,7 +28,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getBlock'
         )->will(
-            $this->returnValue(new \Magento\Framework\Object(array('quote' => $quote)))
+            $this->returnValue(new \Magento\Framework\Object(['quote' => $quote]))
         );
         $layout->expects($this->once())->method('getParentName')->will($this->returnValue('billing_agreement_form'));
 

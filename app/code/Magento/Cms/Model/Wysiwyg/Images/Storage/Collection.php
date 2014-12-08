@@ -39,10 +39,10 @@ class Collection extends \Magento\Framework\Data\Collection\Filesystem
     {
         $filename = preg_replace('~[/\\\]+~', '/', $filename);
         $path = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        return array(
+        return [
             'filename' => $filename,
             'basename' => basename($filename),
             'mtime' => $path->stat($path->getRelativePath($filename))['mtime']
-        );
+        ];
     }
 }

@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\View\Design\Fallback;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\View\Design\Fallback\Rule\Composite;
 use Magento\Framework\View\Design\Fallback\Rule\ModularSwitch;
 use Magento\Framework\View\Design\Fallback\Rule\RuleInterface;
@@ -81,11 +81,11 @@ class RulePool
                 new Simple("$themesDir/<area>/<theme_path>/templates")
             ),
             new Composite(
-                array(
+                [
                     new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>/templates")),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>/templates"),
                     new Simple("$modulesDir/<namespace>/<module>/view/base/templates"),
-                )
+                ]
             )
         );
     }
@@ -102,11 +102,11 @@ class RulePool
         return new ModularSwitch(
             new Theme(new Simple("$themesDir/<area>/<theme_path>")),
             new Composite(
-                array(
+                [
                     new Theme(new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>")),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>"),
                     new Simple("{$modulesDir}/<namespace>/<module>/view/base"),
-                )
+                ]
             )
         );
     }
@@ -123,42 +123,42 @@ class RulePool
         $libDir = rtrim($this->filesystem->getDirectoryRead(DirectoryList::LIB_WEB)->getAbsolutePath(), '/');
         return new ModularSwitch(
             new Composite(
-                array(
+                [
                     new Theme(
                         new Composite(
-                            array(
-                                new Simple("$themesDir/<area>/<theme_path>/web/i18n/<locale>", array('locale')),
+                            [
+                                new Simple("$themesDir/<area>/<theme_path>/web/i18n/<locale>", ['locale']),
                                 new Simple("$themesDir/<area>/<theme_path>/web"),
-                            )
+                            ]
                         )
                     ),
                     new Simple($libDir),
-                )
+                ]
             ),
             new Composite(
-                array(
+                [
                     new Theme(
                         new Composite(
-                            array(
+                            [
                                 new Simple(
                                     "$themesDir/<area>/<theme_path>/<namespace>_<module>/web/i18n/<locale>",
-                                    array('locale')
+                                    ['locale']
                                 ),
                                 new Simple("$themesDir/<area>/<theme_path>/<namespace>_<module>/web"),
-                            )
+                            ]
                         )
                     ),
                     new Simple(
                         "$modulesDir/<namespace>/<module>/view/<area>/web/i18n/<locale>",
-                        array('locale')
+                        ['locale']
                     ),
                     new Simple(
                         "$modulesDir/<namespace>/<module>/view/base/web/i18n/<locale>",
-                        array('locale')
+                        ['locale']
                     ),
                     new Simple("$modulesDir/<namespace>/<module>/view/<area>/web"),
                     new Simple("{$modulesDir}/<namespace>/<module>/view/base/web"),
-                )
+                ]
             )
         );
     }

@@ -42,21 +42,21 @@ class Renderer extends \Magento\Sales\Block\Order\Item\Renderer\DefaultRenderer
      */
     protected function _getGiftcardOptions()
     {
-        $result = array();
+        $result = [];
         if ($value = $this->_prepareCustomOption('giftcard_sender_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_sender_email')) {
                 $value = $this->_getNameEmailString($value, $email);
             }
-            $result[] = array('label' => __('Gift Card Sender'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Sender'), 'value' => $value];
         }
         if ($value = $this->_prepareCustomOption('giftcard_recipient_name')) {
             if ($email = $this->_prepareCustomOption('giftcard_recipient_email')) {
                 $value = $this->_getNameEmailString($value, $email);
             }
-            $result[] = array('label' => __('Gift Card Recipient'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Recipient'), 'value' => $value];
         }
         if ($value = $this->_prepareCustomOption('giftcard_message')) {
-            $result[] = array('label' => __('Gift Card Message'), 'value' => $value);
+            $result[] = ['label' => __('Gift Card Message'), 'value' => $value];
         }
         return $result;
     }

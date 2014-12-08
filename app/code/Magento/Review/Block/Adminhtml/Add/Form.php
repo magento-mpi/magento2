@@ -42,7 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
         \Magento\Review\Helper\Data $reviewData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_reviewData = $reviewData;
         $this->_systemStore = $systemStore;
@@ -59,31 +59,31 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('add_review_form', array('legend' => __('Review Details')));
+        $fieldset = $form->addFieldset('add_review_form', ['legend' => __('Review Details')]);
 
-        $fieldset->addField('product_name', 'note', array('label' => __('Product'), 'text' => 'product_name'));
+        $fieldset->addField('product_name', 'note', ['label' => __('Product'), 'text' => 'product_name']);
 
         $fieldset->addField(
             'detailed_rating',
             'note',
-            array(
+            [
                 'label' => __('Product Rating'),
                 'required' => true,
                 'text' => '<div id="rating_detail">' . $this->getLayout()->createBlock(
                     'Magento\Review\Block\Adminhtml\Rating\Detailed'
                 )->toHtml() . '</div>'
-            )
+            ]
         );
 
         $fieldset->addField(
             'status_id',
             'select',
-            array(
+            [
                 'label' => __('Status'),
                 'required' => true,
                 'name' => 'status_id',
                 'values' => $this->_reviewData->getReviewStatusesOptionArray()
-            )
+            ]
         );
 
         /**
@@ -93,12 +93,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $field = $fieldset->addField(
                 'select_stores',
                 'multiselect',
-                array(
+                [
                     'label' => __('Visible In'),
                     'required' => true,
                     'name' => 'select_stores[]',
                     'values' => $this->_systemStore->getStoreValuesForForm()
-                )
+                ]
             );
             $renderer = $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Store\Switcher\Form\Renderer\Fieldset\Element'
@@ -109,40 +109,40 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'nickname',
             'text',
-            array(
+            [
                 'name' => 'nickname',
                 'title' => __('Nickname'),
                 'label' => __('Nickname'),
                 'maxlength' => '50',
                 'required' => true
-            )
+            ]
         );
 
         $fieldset->addField(
             'title',
             'text',
-            array(
+            [
                 'name' => 'title',
                 'title' => __('Summary of Review'),
                 'label' => __('Summary of Review'),
                 'maxlength' => '255',
                 'required' => true
-            )
+            ]
         );
 
         $fieldset->addField(
             'detail',
             'textarea',
-            array(
+            [
                 'name' => 'detail',
                 'title' => __('Review'),
                 'label' => __('Review'),
                 'style' => 'height: 600px;',
                 'required' => true
-            )
+            ]
         );
 
-        $fieldset->addField('product_id', 'hidden', array('name' => 'product_id'));
+        $fieldset->addField('product_id', 'hidden', ['name' => 'product_id']);
 
         /*$gridFieldset = $form->addFieldset('add_review_grid', array('legend' => __('Please select a product')));
           $gridFieldset->addField('products_grid', 'note', array(

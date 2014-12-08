@@ -9,8 +9,8 @@
 namespace Magento\User\Test\TestCase;
 
 use Magento\User\Test\Fixture\AdminUserRole;
-use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Magento\User\Test\Page\Adminhtml\UserRoleEditRole;
+use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
 use Mtf\TestCase\Injectable;
 
 /**

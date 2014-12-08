@@ -30,9 +30,9 @@ class Search implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getTypes() as $key => $label) {
-            $result[] = array('value' => $key, 'label' => $label);
+            $result[] = ['value' => $key, 'label' => $label];
         }
         return $result;
     }
@@ -44,11 +44,11 @@ class Search implements \Magento\Framework\Option\ArrayInterface
      */
     public function getTypes()
     {
-        return array(
+        return [
             self::SEARCH_ALL_FORM => __('All Forms'),
             self::SEARCH_NAME_FORM => __('Recipient Name Search'),
             self::SEARCH_EMAIL_FORM => __('Recipient Email Search'),
             self::SEARCH_ID_FORM => __('Gift Registry ID Search')
-        );
+        ];
     }
 }

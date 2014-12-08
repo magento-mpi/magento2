@@ -8,7 +8,7 @@
  */
 namespace Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment;
 
-use \Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Controller\RegistryConstants;
 
 class CustomerGrid extends \Magento\RecurringPayment\Controller\Adminhtml\RecurringPayment
 {

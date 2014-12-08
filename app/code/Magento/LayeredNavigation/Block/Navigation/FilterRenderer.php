@@ -22,7 +22,7 @@ class FilterRenderer extends \Magento\Framework\View\Element\Template implements
     {
         $this->assign('filterItems', $filter->getItems());
         $html = $this->_toHtml();
-        $this->assign('filterItems', array());
+        $this->assign('filterItems', []);
         return $html;
     }
 }

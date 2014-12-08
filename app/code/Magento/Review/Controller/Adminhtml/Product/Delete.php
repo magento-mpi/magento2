@@ -32,6 +32,6 @@ class Delete extends \Magento\Review\Controller\Adminhtml\Product
             $this->messageManager->addException($e, __('Something went wrong  deleting this review.'));
         }
 
-        $this->_redirect('review/*/edit/', array('id' => $reviewId));
+        $this->_redirect('review/*/edit/', ['id' => $reviewId]);
     }
 }

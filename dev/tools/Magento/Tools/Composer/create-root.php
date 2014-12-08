@@ -10,7 +10,7 @@
 
 namespace Magento\Tools\Composer\Package;
 
-use \Magento\Tools\Composer\Helper\ReplaceFilter;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 use Magento\Tools\Composer\Helper\VersionCalculator;
 
 require __DIR__ . '/../../../bootstrap.php';
@@ -63,7 +63,7 @@ try {
         'version' => $package->get('version'),
         'require' => [
             'magento/magento-composer-installer' => '*',
-        ]
+        ],
     ];
     $replaceFilter = new ReplaceFilter($source);
     $useWildcard = isset($opt['wildcard']);
@@ -81,8 +81,8 @@ try {
         'repositories' => [
             [
                 'type' => 'composer',
-                'url' => 'http://packages.magento.com/'
-            ]
+                'url' => 'http://packages.magento.com/',
+            ],
         ],
         'require->' . $baseName => $baseVersion,
     ];

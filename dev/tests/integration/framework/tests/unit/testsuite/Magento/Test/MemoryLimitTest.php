@@ -57,8 +57,8 @@ class MemoryLimitTest extends \PHPUnit_Framework_TestCase
     {
         $helper = $this->getMock(
             'Magento\TestFramework\Helper\Memory',
-            array('getRealMemoryUsage'),
-            array(),
+            ['getRealMemoryUsage'],
+            [],
             '',
             false
         );

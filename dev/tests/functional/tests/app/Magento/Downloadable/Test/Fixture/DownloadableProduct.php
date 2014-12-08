@@ -7,8 +7,8 @@
  */
 namespace Magento\Downloadable\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\Product;
+use Mtf\Factory\Factory;
 
 /**
  * Class DownloadableProduct
@@ -28,43 +28,43 @@ class DownloadableProduct extends Product
     protected function _initData()
     {
         parent::_initData();
-        $this->_dataConfig = array(
+        $this->_dataConfig = [
             'type_id' => 'downloadable',
             'constraint' => 'Success',
-            'grid_filter' => array('name'),
-            'create_url_params' => array(
+            'grid_filter' => ['name'],
+            'create_url_params' => [
                 'type' => 'downloadable',
                 'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
-            ),
-            'input_prefix' => 'product'
-        );
+            ],
+            'input_prefix' => 'product',
+        ];
 
-        $data = array(
+        $data = [
             'is_virtual' => ['value' => '', 'group' => null], // needed for CURL handler
             'price' => [
                 'value' => '1',
-                'group' => static::GROUP_PRODUCT_DETAILS
+                'group' => static::GROUP_PRODUCT_DETAILS,
             ],
-            'qty' => array(
+            'qty' => [
                 'value' => 1000,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name' => 'product[quantity_and_stock_status][qty]'
-            ),
-            'quantity_and_stock_status' => array(
+                'input_name' => 'product[quantity_and_stock_status][qty]',
+            ],
+            'quantity_and_stock_status' => [
                 'value' => 'In Stock',
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name' => 'product[quantity_and_stock_status][is_in_stock]'
-            ),
-            'product_website_1' => array(
+                'input_name' => 'product[quantity_and_stock_status][is_in_stock]',
+            ],
+            'product_website_1' => [
                 'value' => 'Yes',
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_WEBSITE,
                 'input' => 'checkbox',
-                'input_name' => 'product[website_ids][]'
-            ),
+                'input_name' => 'product[website_ids][]',
+            ],
 
-        );
+        ];
 
         $this->_data['fields'] = $data + $this->_data['fields'];
 

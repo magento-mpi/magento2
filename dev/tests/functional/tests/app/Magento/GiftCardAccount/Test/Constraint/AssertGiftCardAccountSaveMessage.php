@@ -8,8 +8,8 @@
 
 namespace Magento\GiftCardAccount\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftCardAccountSaveMessage

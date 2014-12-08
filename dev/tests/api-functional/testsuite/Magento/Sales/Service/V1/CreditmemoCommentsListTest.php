@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
+use Magento\Sales\Api\Data\CreditmemoCommentInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Sales\Api\Data\CreditmemoCommentInterface;
 
 /**
  * Class CreditmemoCommentsListTest
@@ -38,20 +38,20 @@ class CreditmemoCommentsListTest extends WebapiAbstract
             CreditmemoCommentInterface::CREATED_AT => null,
             CreditmemoCommentInterface::PARENT_ID => $creditmemo->getId(),
             CreditmemoCommentInterface::IS_VISIBLE_ON_FRONT => true,
-            CreditmemoCommentInterface::IS_CUSTOMER_NOTIFIED => true
+            CreditmemoCommentInterface::IS_CUSTOMER_NOTIFIED => true,
         ];
         $creditmemoComment->setData($commentData)->save();
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/creditmemo/' . $creditmemo->getId() . '/comments',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getCommentsList'
-            ]
+                'operation' => self::SERVICE_NAME . 'getCommentsList',
+            ],
         ];
         $requestData = ['id' => $creditmemo->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);

@@ -69,17 +69,17 @@ class Media extends \Magento\Framework\App\Helper\AbstractHelper
             throw new \Magento\Framework\Model\Exception(__('File %1 is not readable', $fullPath));
         }
 
-        $path = str_replace(array('/', '\\'), '/', $path);
+        $path = str_replace(['/', '\\'], '/', $path);
         $directory = dirname($path);
         if ($directory == '.') {
             $directory = null;
         }
 
-        return array(
+        return [
             'filename' => basename($path),
             'content' => $dir->readFile($relativePath),
             'update_time' => $this->_date->date(),
             'directory' => $directory
-        );
+        ];
     }
 }

@@ -200,7 +200,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
         $taxClassId = 1;
         $attributes = [
             ['email', 'user@example.com'],
-            ['group_id', 1]
+            ['group_id', 1],
         ];
         $attributeMocks = [];
 
@@ -237,10 +237,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->method('prepareRequest')
             ->will($this->returnValue($this->getMock('Magento\Framework\App\RequestInterface')));
 
-        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->extensibleDataObjectConverterMock->expects($this->any())->method('toFlatArray')
-            ->will($this->returnValue(array('email' => 'user@example.com', 'group_id' => 1)));
-        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
+            ->will($this->returnValue(['email' => 'user@example.com', 'group_id' => 1]));
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
         $quoteMock->expects($this->once())
             ->method('addData')
@@ -248,7 +248,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             [
                 'customer_email' => $attributes[0][1],
                 'customer_group_id' => $attributes[1][1],
-                'customer_tax_class_id' => $taxClassId
+                'customer_tax_class_id' => $taxClassId,
             ]
         );
 
@@ -277,8 +277,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             1 => [
                 'qty' => 10,
                 'configured' => false,
-                'action' => false
-            ]
+                'action' => false,
+            ],
         ];
 
         $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
@@ -305,8 +305,8 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             1 => [
                 'qty' => 10,
                 'configured' => true,
-                'action' => false
-            ]
+                'action' => false,
+            ],
         ];
 
         $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);

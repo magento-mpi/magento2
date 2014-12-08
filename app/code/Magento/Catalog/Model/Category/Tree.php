@@ -135,7 +135,7 @@ class Tree
     protected function getChildren($node, $depth, $currentLevel)
     {
         if ($node->hasChildren()) {
-            $children = array();
+            $children = [];
             foreach ($node->getChildren() as $child) {
                 if (!is_null($depth) && $depth <= $currentLevel) {
                     break;

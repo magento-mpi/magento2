@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Service\V1\Product\Attribute\Option;
 
-use \Magento\Catalog\Service\V1\MetadataServiceInterface as MetadataServiceInterface;
+use Magento\Catalog\Service\V1\MetadataServiceInterface as MetadataServiceInterface;
 
 class ReadService implements ReadServiceInterface
 {

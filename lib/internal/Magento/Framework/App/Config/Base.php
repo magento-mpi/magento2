@@ -17,7 +17,7 @@ class Base extends \Magento\Framework\Simplexml\Config
      *
      * @var Base[]
      */
-    public static $instances = array();
+    public static $instances = [];
 
     /**
      * @param string|\Magento\Framework\Simplexml\Element $sourceData $sourceData
@@ -41,6 +41,6 @@ class Base extends \Magento\Framework\Simplexml\Config
                 $instance->_xml = null;
             }
         }
-        self::$instances = array();
+        self::$instances = [];
     }
 }

@@ -51,7 +51,7 @@ class Registrants extends AbstractEdit
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
@@ -106,7 +106,7 @@ class Registrants extends AbstractEdit
      */
     protected function _groupAttributes($attributes)
     {
-        $grouped = array();
+        $grouped = [];
         if (is_array($attributes)) {
             foreach ($attributes as $field => $fdata) {
                 if (is_array($fdata)) {
@@ -151,7 +151,7 @@ class Registrants extends AbstractEdit
      */
     public function getRegistrantPresets($entityId)
     {
-        $data = array();
+        $data = [];
         $registrantCollection = $this->getEntity()->getRegistrantsCollection();
         foreach ($registrantCollection->getItems() as $registrant) {
             $data[] = $registrant->unserialiseCustom()->getData();

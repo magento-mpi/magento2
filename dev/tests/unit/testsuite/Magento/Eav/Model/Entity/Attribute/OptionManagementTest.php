@@ -61,12 +61,12 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
             ['value' => [
                 'new_option' => [
                     0 => 'optionLabel',
-                    42 => 'labelLabel'
-                ]
+                    42 => 'labelLabel',
+                ],
             ],
             'order' => [
-                'new_option' => 'optionSortOrder'
-            ]
+                'new_option' => 'optionSortOrder',
+            ],
         ];
 
         $this->attributeRepositoryMock->expects($this->once())->method('get')->with($entityType, $attributeCode)
@@ -169,12 +169,12 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
             ['value' => [
                 'new_option' => [
                     0 => 'optionLabel',
-                    42 => 'labelLabel'
-                ]
+                    42 => 'labelLabel',
+                ],
             ],
                 'order' => [
-                    'new_option' => 'optionSortOrder'
-                ]
+                    'new_option' => 'optionSortOrder',
+                ],
             ];
 
         $this->attributeRepositoryMock->expects($this->once())->method('get')->with($entityType, $attributeCode)
@@ -210,8 +210,8 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
         $removalMarker = [
             'option' => [
                 'value' => [$optionId => []],
-                'delete' => [$optionId => '1']
-            ]
+                'delete' => [$optionId => '1'],
+            ],
         ];
         $this->attributeRepositoryMock->expects($this->once())->method('get')->with($entityType, $attributeCode)
             ->willReturn($attributeMock);
@@ -245,8 +245,8 @@ class OptionManagementTest extends \PHPUnit_Framework_TestCase
         $removalMarker = [
             'option' => [
                 'value' => [$optionId => []],
-                'delete' => [$optionId => '1']
-            ]
+                'delete' => [$optionId => '1'],
+            ],
         ];
         $this->attributeRepositoryMock->expects($this->once())->method('get')->with($entityType, $attributeCode)
             ->willReturn($attributeMock);

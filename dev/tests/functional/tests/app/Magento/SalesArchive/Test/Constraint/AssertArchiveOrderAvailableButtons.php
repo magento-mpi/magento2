@@ -8,10 +8,10 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Magento\Sales\Test\Page\OrderView;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Fixture\OrderInjectable;
+use Magento\Sales\Test\Page\OrderView;
 use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertArchiveOrderAvailableButtons

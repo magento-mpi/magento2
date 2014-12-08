@@ -10,7 +10,6 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Webapi\Exception as WebapiException;
 use Magento\Webapi\Model\PathProcessor;
 
 /**

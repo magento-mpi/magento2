@@ -12,7 +12,6 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Download extends \Magento\Backup\Controller\Adminhtml\Index
 {
-
     /**
      * Download backup action
      *

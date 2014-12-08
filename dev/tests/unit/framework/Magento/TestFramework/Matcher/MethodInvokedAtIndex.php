@@ -25,7 +25,7 @@ class MethodInvokedAtIndex extends \PHPUnit_Framework_MockObject_Matcher_Invoked
     /**
      * @var array
      */
-    protected $indexes = array();
+    protected $indexes = [];
 
     /**
      * @param  \PHPUnit_Framework_MockObject_Invocation $invocation

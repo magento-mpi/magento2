@@ -37,7 +37,7 @@ class Allow extends AbstractCurrency
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeCurrency = $localeCurrency;
         parent::__construct($context, $registry, $config, $scopeConfig, $resource, $resourceCollection, $data);
@@ -52,7 +52,7 @@ class Allow extends AbstractCurrency
      */
     public function afterSave()
     {
-        $exceptions = array();
+        $exceptions = [];
         foreach ($this->_getAllowedCurrencies() as $currencyCode) {
             if (!in_array($currencyCode, $this->_getInstalledCurrencies())) {
                 $exceptions[] = __(

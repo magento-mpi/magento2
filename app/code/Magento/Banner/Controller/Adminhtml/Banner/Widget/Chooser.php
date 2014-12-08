@@ -22,7 +22,7 @@ class Chooser extends \Magento\Backend\App\Action
         $bannersGrid = $this->_view->getLayout()->createBlock(
             'Magento\Banner\Block\Adminhtml\Widget\Chooser',
             '',
-            array('data' => array('id' => $uniqId))
+            ['data' => ['id' => $uniqId]]
         );
         $html = $bannersGrid->toHtml();
 

@@ -51,7 +51,7 @@ class ResetPasswordPost extends \Magento\User\Controller\Adminhtml\Auth
             $this->messageManager->addMessages($exception->getMessages());
             $this->_redirect(
                 'adminhtml/auth/resetpassword',
-                array('_nosecret' => true, '_query' => array('id' => $userId, 'token' => $passwordResetToken))
+                ['_nosecret' => true, '_query' => ['id' => $userId, 'token' => $passwordResetToken]]
             );
         }
     }

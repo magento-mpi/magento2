@@ -69,7 +69,7 @@ class CsvImportHandler
     public function getRequiredCsvFields()
     {
         // indexes are specified for clarity, they are used during import
-        return array(
+        return [
             0 => __('Code'),
             1 => __('Country'),
             2 => __('State'),
@@ -78,7 +78,7 @@ class CsvImportHandler
             5 => __('Zip/Post is Range'),
             6 => __('Range From'),
             7 => __('Range To')
-        );
+        ];
     }
 
     /**
@@ -102,7 +102,7 @@ class CsvImportHandler
         $ratesData = $this->_filterRateData($ratesRawData, $invalidFields, $validFields);
         // store cache array is used to quickly retrieve store ID when handling locale-specific tax rate titles
         $storesCache = $this->_composeStoreCache($validFields);
-        $regionsCache = array();
+        $regionsCache = [];
         foreach ($ratesData as $rowIndex => $dataRow) {
             // skip headers
             if ($rowIndex == 0) {
@@ -178,7 +178,7 @@ class CsvImportHandler
      */
     protected function _composeStoreCache($validFields)
     {
-        $storesCache = array();
+        $storesCache = [];
         $requiredFieldsNum = count($this->getRequiredCsvFields());
         $validFieldsNum = count($validFields);
         // title related fields located right after required fields
@@ -236,7 +236,7 @@ class CsvImportHandler
             $regionId = $regionsCache[$countryCode][$regionCode] == '*' ? 0 : $regionsCache[$countryCode][$regionCode];
             // data with index 3 must represent postcode
             $postCode = empty($rateData[3]) ? null : $rateData[3];
-            $modelData = array(
+            $modelData = [
                 'code' => $rateData[0],
                 'tax_country_id' => $rateData[1],
                 'tax_region_id' => $regionId,
@@ -244,8 +244,8 @@ class CsvImportHandler
                 'rate' => $rateData[4],
                 'zip_is_range' => $rateData[5],
                 'zip_from' => $rateData[6],
-                'zip_to' => $rateData[7]
-            );
+                'zip_to' => $rateData[7],
+            ];
 
             // try to load existing rate
             /** @var $rateModel \Magento\Tax\Model\Calculation\Rate */
@@ -253,7 +253,7 @@ class CsvImportHandler
             $rateModel->addData($modelData);
 
             // compose titles list
-            $rateTitles = array();
+            $rateTitles = [];
             foreach ($storesCache as $fileFieldIndex => $storeId) {
                 $rateTitles[$storeId] = $rateData[$fileFieldIndex];
             }
@@ -275,7 +275,7 @@ class CsvImportHandler
     protected function _addCountryRegionsToCache($countryCode, array $regionsCache)
     {
         if (!isset($regionsCache[$countryCode])) {
-            $regionsCache[$countryCode] = array();
+            $regionsCache[$countryCode] = [];
             // add 'All Regions' to the list
             $regionsCache[$countryCode]['*'] = '*';
             $regionCollection = clone $this->_regionCollection;

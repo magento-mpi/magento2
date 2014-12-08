@@ -50,7 +50,7 @@ class Log
         if (empty($beforeForwardInfo)) {
             $fullActionName = $request->getFullActionName();
         } else {
-            $fullActionName = array($request->getRequestedRouteName());
+            $fullActionName = [$request->getRequestedRouteName()];
 
             if (isset($beforeForwardInfo['controller_name'])) {
                 $fullActionName[] = $beforeForwardInfo['controller_name'];

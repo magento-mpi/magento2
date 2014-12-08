@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * File config field renderer
  *

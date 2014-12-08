@@ -144,7 +144,7 @@ class FeedTest extends \PHPUnit_Framework_TestCase
                                     <pubDate>Tue, 9 Sep 2014 16:46:11 UTC</pubDate>
                                 </item>
                             </channel>
-                        </rss>'
+                        </rss>',
             ],
             [
                 false,
@@ -166,5 +166,4 @@ class FeedTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-
 }

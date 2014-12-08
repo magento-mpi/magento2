@@ -8,7 +8,7 @@
  */
 namespace Magento\Paypal\Controller\Standard;
 
-use \Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order;
 
 class Cancel extends \Magento\Framework\App\Action\Action
 {

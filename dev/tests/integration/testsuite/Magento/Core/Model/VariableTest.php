@@ -29,7 +29,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
 
     public function testLoadByCode()
     {
-        $this->_model->setData(array('code' => 'test_code', 'name' => 'test_name'));
+        $this->_model->setData(['code' => 'test_code', 'name' => 'test_name']);
         $this->_model->save();
 
         $variable = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Variable');
@@ -42,7 +42,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
     {
         $html = '<p>test</p>';
         $text = 'test';
-        $this->_model->setData(array('code' => 'test_code', 'html_value' => $html, 'plain_value' => $text));
+        $this->_model->setData(['code' => 'test_code', 'html_value' => $html, 'plain_value' => $text]);
         $this->assertEquals($html, $this->_model->getValue());
         $this->assertEquals($html, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_HTML));
         $this->assertEquals($text, $this->_model->getValue(\Magento\Core\Model\Variable::TYPE_TEXT));
@@ -65,7 +65,7 @@ class VariableTest extends \PHPUnit_Framework_TestCase
 
     public function testGetVariablesOptionArray()
     {
-        $this->assertEquals(array(), $this->_model->getVariablesOptionArray());
+        $this->assertEquals([], $this->_model->getVariablesOptionArray());
     }
 
     public function testCollection()

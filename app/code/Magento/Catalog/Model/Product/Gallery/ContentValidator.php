@@ -8,20 +8,20 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-use \Magento\Framework\Exception\InputException;
-use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface;
+use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface;
+use Magento\Framework\Exception\InputException;
 
 class ContentValidator
 {
     /**
      * @var array
      */
-    private $defaultMimeTypes = array(
+    private $defaultMimeTypes = [
         'image/jpg',
         'image/jpeg',
         'image/gif',
         'image/png',
-    );
+    ];
 
     /**
      * @var array
@@ -32,7 +32,7 @@ class ContentValidator
      * @param array $allowedMimeTypes
      */
     public function __construct(
-        array $allowedMimeTypes = array()
+        array $allowedMimeTypes = []
     ) {
         $this->allowedMimeTypes = array_merge($this->defaultMimeTypes, $allowedMimeTypes);
     }

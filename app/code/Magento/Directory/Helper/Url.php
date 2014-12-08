@@ -40,9 +40,9 @@ class Url extends \Magento\Core\Helper\Url
      * @param array $params Additional url params
      * @return string
      */
-    public function getSwitchCurrencyUrl($params = array())
+    public function getSwitchCurrencyUrl($params = [])
     {
-        $params = is_array($params) ? $params : array();
+        $params = is_array($params) ? $params : [];
 
         if ($this->_getRequest()->getAlias('rewrite_request_path')) {
             $url = $this->_storeManager->getStore()->getBaseUrl() . $this->_getRequest()->getAlias(

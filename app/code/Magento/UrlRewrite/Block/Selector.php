@@ -29,12 +29,12 @@ class Selector extends \Magento\Backend\Block\Template
      */
     protected function _construct()
     {
-        $this->_modes = array(
+        $this->_modes = [
             'id' => __('Custom'),
             'category' => __('For category'),
             'product' => __('For product'),
             'cms_page' => __('For CMS page'),
-        );
+        ];
     }
 
     /**

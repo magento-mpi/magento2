@@ -14,7 +14,6 @@ $website->setName('new Website')->setCode('newwebsite')->save();
 
 $websiteId = $website->getId();
 
-
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
 /** @var Magento\Customer\Model\Customer $customer */
 $customer->setWebsiteId(
@@ -56,7 +55,7 @@ $addressOneData = [
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 1
+    'entity_id' => 1,
 ];
 $addressOne->setData($addressOneData);
 $customer->addAddress($addressOne);
@@ -71,7 +70,7 @@ $addressTwoData = [
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 2
+    'entity_id' => 2,
 ];
 $addressTwo->setData($addressTwoData);
 $customer->addAddress($addressTwo);
@@ -86,7 +85,7 @@ $addressThreeData = [
     'country_id' => 'US',
     'postcode' => '01001',
     'telephone' => '+7000000001',
-    'entity_id' => 3
+    'entity_id' => 3,
 ];
 $addressThree->setData($addressThreeData);
 $customer->addAddress($addressThree);

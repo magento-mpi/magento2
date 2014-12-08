@@ -33,13 +33,13 @@ abstract class EntityChildTestAbstract extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Code\Generator\DefinedClasses */
     protected $definedClassesMock;
 
-    protected abstract function getSourceClassName();
+    abstract protected function getSourceClassName();
 
-    protected abstract function getResultClassName();
+    abstract protected function getResultClassName();
 
-    protected abstract function getGeneratorClassName();
+    abstract protected function getGeneratorClassName();
 
-    protected abstract function getOutputFileName();
+    abstract protected function getOutputFileName();
 
     protected function setUp()
     {

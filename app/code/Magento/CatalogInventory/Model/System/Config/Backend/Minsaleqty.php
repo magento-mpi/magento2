@@ -35,7 +35,7 @@ class Minsaleqty extends \Magento\Framework\App\Config\Value
         \Magento\CatalogInventory\Helper\Minsaleqty $catalogInventoryMinsaleqty,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogInventoryMinsaleqty = $catalogInventoryMinsaleqty;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

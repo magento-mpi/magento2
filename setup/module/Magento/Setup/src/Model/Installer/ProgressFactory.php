@@ -8,8 +8,8 @@
 
 namespace Magento\Setup\Model\Installer;
 
-use Magento\Setup\Model\WebLogger;
 use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\WebLogger;
 
 /**
  * Factory for progress indicator model

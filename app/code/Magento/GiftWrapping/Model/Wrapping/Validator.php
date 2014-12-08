@@ -17,7 +17,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     protected $requiredFields = [
         'design' => 'Gift Wrapping Design',
         'status' => 'Status',
-        'base_price' => 'Price'
+        'base_price' => 'Price',
     ];
 
     /**

@@ -19,10 +19,10 @@ class PriceType implements \Magento\Framework\Option\ArrayInterface
      */
     public function __construct()
     {
-        $this->_options = array(
-            array('value' => 0, 'label' => __('Excluding Tax')),
-            array('value' => 1, 'label' => __('Including Tax'))
-        );
+        $this->_options = [
+            ['value' => 0, 'label' => __('Excluding Tax')],
+            ['value' => 1, 'label' => __('Including Tax')],
+        ];
     }
 
     /**

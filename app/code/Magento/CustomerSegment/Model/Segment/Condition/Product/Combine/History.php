@@ -41,7 +41,7 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History');
@@ -57,10 +57,10 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
     {
         switch ($this->getValue()) {
             case self::ORDERED:
-                $events = array('sales_order_save_commit_after');
+                $events = ['sales_order_save_commit_after'];
                 break;
             default:
-                $events = array('catalog_controller_product_view');
+                $events = ['catalog_controller_product_view'];
         }
         return $events;
     }
@@ -86,7 +86,7 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
      */
     public function loadValueOptions()
     {
-        $this->setValueOption(array(self::VIEWED => __('viewed'), self::ORDERED => __('ordered')));
+        $this->setValueOption([self::VIEWED => __('viewed'), self::ORDERED => __('ordered')]);
         return $this;
     }
 
@@ -132,7 +132,7 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
     public function loadOperatorOptions()
     {
         parent::loadOperatorOptions();
-        $this->setOperatorOption(array('==' => __('was'), '!=' => __('was not')));
+        $this->setOperatorOption(['==' => __('was'), '!=' => __('was not')]);
         return $this;
     }
 
@@ -165,21 +165,21 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
         switch ($this->getValue()) {
             case self::ORDERED:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('sales_order_item')),
-                    array(new \Zend_Db_Expr(1))
+                    ['item' => $this->getResource()->getTable('sales_order_item')],
+                    [new \Zend_Db_Expr(1)]
                 );
                 $select->joinInner(
-                    array('sales_order' => $this->getResource()->getTable('sales_order')),
+                    ['sales_order' => $this->getResource()->getTable('sales_order')],
                     'item.order_id = sales_order.entity_id',
-                    array()
+                    []
                 );
                 $select->where($this->_createCustomerFilter($customer, 'sales_order.customer_id'));
                 $this->_limitByStoreWebsite($select, $website, 'sales_order.store_id');
                 break;
             default:
                 $select->from(
-                    array('item' => $this->getResource()->getTable('report_viewed_product_index')),
-                    array(new \Zend_Db_Expr(1))
+                    ['item' => $this->getResource()->getTable('report_viewed_product_index')],
+                    [new \Zend_Db_Expr(1)]
                 );
                 if ($customer) {
                     // Leave ability to check this condition not only by customer_id but also by quote_id
@@ -221,6 +221,6 @@ class History extends \Magento\CustomerSegment\Model\Condition\Combine\AbstractC
                 break;
         }
 
-        return array('product' => 'item.product_id', 'date' => $dateField);
+        return ['product' => 'item.product_id', 'date' => $dateField];
     }
 }

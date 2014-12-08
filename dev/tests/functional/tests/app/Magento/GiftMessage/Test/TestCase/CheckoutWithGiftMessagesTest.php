@@ -9,7 +9,6 @@
 namespace Magento\GiftMessage\Test\TestCase;
 
 use Mtf\TestCase\Scenario;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
 
 /**
  * Test Creation for Checkout with Gift Messages

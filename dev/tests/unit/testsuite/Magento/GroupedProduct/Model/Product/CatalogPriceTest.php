@@ -49,26 +49,26 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
         $this->commonPriceMock = $this->getMock(
             'Magento\Catalog\Model\Product\CatalogPrice',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $productMethods = array('getWebsiteId', 'getCustomerGroupId', '__wakeup', 'getTypeInstance', 'setTaxClassId');
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $productMethods, array(), '', false);
-        $methods = array('setWebsiteId', 'isSalable', '__wakeup', 'setCustomerGroupId', 'getTaxClassId');
-        $this->associatedProductMock = $this->getMock('Magento\Catalog\Model\Product', $methods, array(), '', false);
+        $productMethods = ['getWebsiteId', 'getCustomerGroupId', '__wakeup', 'getTypeInstance', 'setTaxClassId'];
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', $productMethods, [], '', false);
+        $methods = ['setWebsiteId', 'isSalable', '__wakeup', 'setCustomerGroupId', 'getTaxClassId'];
+        $this->associatedProductMock = $this->getMock('Magento\Catalog\Model\Product', $methods, [], '', false);
         $this->priceModelMock = $this->getMock(
             'Magento\Catalog\Model\Product\Type\Price',
-            array('getTotalPrices'),
-            array(),
+            ['getTotalPrices'],
+            [],
             '',
             false
         );
         $this->productTypeMock = $this->getMock(
             'Magento\GroupedProduct\Model\Product\Type\Grouped',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -95,7 +95,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->productMock
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
         $this->storeManagerMock->expects($this->never())->method('getStore');
         $this->storeManagerMock->expects($this->never())->method('setCurrentStore');
@@ -118,7 +118,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->productMock
         )->will(
-            $this->returnValue(array($this->associatedProductMock))
+            $this->returnValue([$this->associatedProductMock])
         );
         $this->productMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue('website_id'));
         $this->productMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue('group_id'));
@@ -147,7 +147,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCatalogPriceWithCustomStoreAndSubProductIsSalable()
     {
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $this->productMock->expects(
             $this->once()
         )->method(
@@ -162,7 +162,7 @@ class CatalogPriceTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->productMock
         )->will(
-            $this->returnValue(array($this->associatedProductMock))
+            $this->returnValue([$this->associatedProductMock])
         );
         $this->productMock->expects($this->once())->method('getWebsiteId')->will($this->returnValue('website_id'));
         $this->productMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue('group_id'));

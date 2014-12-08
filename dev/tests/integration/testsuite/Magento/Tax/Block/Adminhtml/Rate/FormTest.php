@@ -56,5 +56,4 @@ class FormTest extends \PHPUnit_Framework_TestCase
         ];
         $this->assertEquals($taxRate, $expectedTaxRateData, 'Tax rate data is invalid.');
     }
-
 }

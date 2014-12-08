@@ -15,7 +15,7 @@ $tierPriceModel = $this->getPrice();
 $tierPrices = $tierPriceModel->getTierPriceList();
 ?>
 <?php if (count($tierPrices)) : ?>
-    <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
+    <ul class="<?php echo($this->hasListClass() ? $this->getListClass() : 'prices tier items'); ?>">
         <?php foreach ($tierPrices as $index => $price) : ?>
             <li class="item">
                 <?php echo __(

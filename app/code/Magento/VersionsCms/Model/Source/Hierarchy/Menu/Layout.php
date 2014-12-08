@@ -33,13 +33,13 @@ class Layout implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray($withDefault = false)
     {
-        $options = array();
+        $options = [];
         if ($withDefault) {
-            $options[] = array('label' => __('Use default'), 'value' => '');
+            $options[] = ['label' => __('Use default'), 'value' => ''];
         }
 
         foreach ($this->_hierarchyConfig->getAllMenuLayouts() as $name => $info) {
-            $options[] = array('label' => $info['label'], 'value' => $name);
+            $options[] = ['label' => $info['label'], 'value' => $name];
         }
 
         return $options;

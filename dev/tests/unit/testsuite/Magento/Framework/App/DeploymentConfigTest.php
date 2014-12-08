@@ -18,7 +18,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
         'segment2' => [
             'foo' => 1,
             'bar' => ['baz' => 2],
-        ]
+        ],
     ];
 
     /**
@@ -64,7 +64,7 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->reader = $this->getMock('Magento\Framework\App\DeploymentConfig\Reader', [], [], '', false);
-        $this->_deploymentConfig = new \Magento\Framework\App\DeploymentConfig($this->reader, array());
+        $this->_deploymentConfig = new \Magento\Framework\App\DeploymentConfig($this->reader, []);
         $this->_deploymentConfigMerged = new \Magento\Framework\App\DeploymentConfig(
             $this->reader,
             require __DIR__ . '/_files/other/local_developer.php'
@@ -118,5 +118,4 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-
 }

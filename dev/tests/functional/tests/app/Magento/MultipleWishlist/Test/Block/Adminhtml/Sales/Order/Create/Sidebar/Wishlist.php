@@ -8,8 +8,8 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Adminhtml\Sales\Order\Create\Sidebar;
 
-use Mtf\Client\Element\Locator;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\CustomerActivities\Sidebar;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Wishlist

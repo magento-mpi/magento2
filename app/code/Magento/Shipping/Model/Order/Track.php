@@ -68,7 +68,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -95,7 +95,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
     {
         $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
-            $custom = array();
+            $custom = [];
             $custom['title'] = $this->getTitle();
             $custom['number'] = $this->getTrackNumber();
             return $custom;

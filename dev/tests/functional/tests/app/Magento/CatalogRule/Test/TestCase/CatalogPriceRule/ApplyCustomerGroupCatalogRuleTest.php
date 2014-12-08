@@ -10,8 +10,8 @@ namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
-use Magento\Customer\Test\Fixture\Customer;
 use Magento\CatalogRule\Test\Fixture\CatalogPriceRule;
+use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
@@ -88,7 +88,7 @@ class ApplyCustomerGroupCatalogRuleTest extends Functional
             [
                 'category_id' => $categoryIds[0],
                 'group_value' => $groupName,
-                'group_id' => $groupId
+                'group_id' => $groupId,
             ]
         );
         // prepare data for tear down

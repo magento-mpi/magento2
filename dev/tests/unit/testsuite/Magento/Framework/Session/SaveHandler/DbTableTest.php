@@ -58,18 +58,18 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
      */
     public function readDataProvider()
     {
-        return array(
-            'session_encoded' => array('$dataEncoded' => true),
-            'session_not_encoded' => array('$dataEncoded' => false)
-        );
+        return [
+            'session_encoded' => ['$dataEncoded' => true],
+            'session_not_encoded' => ['$dataEncoded' => false]
+        ];
     }
 
     public function testCheckConnection()
     {
         $connection = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('isTableExists'),
-            array(),
+            ['isTableExists'],
+            [],
             '',
             false
         );
@@ -85,8 +85,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
 
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -109,8 +109,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -133,8 +133,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('isTableExists'),
-            array(),
+            ['isTableExists'],
+            [],
             '',
             false
         );
@@ -150,8 +150,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
 
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -187,8 +187,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $resource = $this->getMock(
             'Magento\Framework\App\Resource',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -208,8 +208,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('select', 'from', 'where', 'fetchOne', 'isTableExists'),
-            array(),
+            ['select', 'from', 'where', 'fetchOne', 'isTableExists'],
+            [],
             '',
             false
         );
@@ -223,7 +223,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             'from'
         )->with(
             self::SESSION_TABLE,
-            array(self::COLUMN_SESSION_DATA)
+            [self::COLUMN_SESSION_DATA]
         )->will(
             $this->returnSelf()
         );
@@ -247,7 +247,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             'fetchOne'
         )->with(
             self::SELECT_OBJECT,
-            array(self::COLUMN_SESSION_ID => self::SESSION_ID)
+            [self::COLUMN_SESSION_ID => self::SESSION_ID]
         )->will(
             $this->returnValue($sessionData)
         );
@@ -262,10 +262,10 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
      */
     public function writeDataProvider()
     {
-        return array(
-            'session_exists' => array('$sessionExists' => true),
-            'session_not_exists' => array('$sessionExists' => false)
-        );
+        return [
+            'session_exists' => ['$sessionExists' => true],
+            'session_not_exists' => ['$sessionExists' => false]
+        ];
     }
 
     /**
@@ -288,8 +288,8 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
     {
         $connection = $this->getMock(
             'Magento\Framework\DB\Adapter\Pdo\Mysql',
-            array('select', 'from', 'where', 'fetchOne', 'update', 'insert', 'isTableExists'),
-            array(),
+            ['select', 'from', 'where', 'fetchOne', 'update', 'insert', 'isTableExists'],
+            [],
             '',
             false
         );
@@ -311,7 +311,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             'fetchOne'
         )->with(
             self::SELECT_OBJECT,
-            array(self::COLUMN_SESSION_ID => self::SESSION_ID)
+            [self::COLUMN_SESSION_ID => self::SESSION_ID]
         )->will(
             $this->returnValue($sessionExists)
         );
@@ -323,7 +323,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'update'
             )->will(
-                $this->returnCallback(array($this, 'verifyUpdate'))
+                $this->returnCallback([$this, 'verifyUpdate'])
             );
         } else {
             $connection->expects(
@@ -331,7 +331,7 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
             )->method(
                 'insert'
             )->will(
-                $this->returnCallback(array($this, 'verifyInsert'))
+                $this->returnCallback([$this, 'verifyInsert'])
             );
             $connection->expects($this->never())->method('update');
         }
@@ -368,6 +368,6 @@ class DbTableTest extends \PHPUnit_Framework_TestCase
         $this->assertInternalType('int', $bind[self::COLUMN_SESSION_EXPIRES]);
         $this->assertEquals(base64_encode(self::SESSION_DATA), $bind[self::COLUMN_SESSION_DATA]);
 
-        $this->assertEquals(array(self::COLUMN_SESSION_ID . '=?' => self::SESSION_ID), $where);
+        $this->assertEquals([self::COLUMN_SESSION_ID . '=?' => self::SESSION_ID], $where);
     }
 }

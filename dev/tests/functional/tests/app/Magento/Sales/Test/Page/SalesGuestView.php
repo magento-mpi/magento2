@@ -8,9 +8,8 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
+use Mtf\Page\Page;
 
 /**
  * Class View

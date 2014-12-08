@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\Authorization\Model\Resource\Role;
+
 use Magento\Authorization\Model\UserContextInterface;
 
 /**

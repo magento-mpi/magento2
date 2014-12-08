@@ -9,7 +9,6 @@ namespace Magento\Framework\View\Helper;
 
 class JsTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @covers \Magento\Framework\View\Helper\Js::getScript
      */

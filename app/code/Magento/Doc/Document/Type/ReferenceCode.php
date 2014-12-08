@@ -44,14 +44,14 @@ class ReferenceCode extends AbstractType implements ReferenceInterface
         $filePath = $this->getFilePath($item);
         $result = $this->content->get($filePath);
         if (!$result) {
-            list ($class, $method) = explode('::', $item->getData('reference'));
+            list($class, $method) = explode('::', $item->getData('reference'));
             $refMethod = new \ReflectionMethod($class, $method);
             $start = $refMethod->getStartLine();
             $end = $refMethod->getEndLine();
             $refFile = new \SplFileObject($refMethod->getFileName());
             $refFile->seek($start-1);
             $content = "<?php\n";
-            while($refFile->key() < $end) {
+            while ($refFile->key() < $end) {
                 $content .= $refFile->current();
                 $refFile->next();
             }

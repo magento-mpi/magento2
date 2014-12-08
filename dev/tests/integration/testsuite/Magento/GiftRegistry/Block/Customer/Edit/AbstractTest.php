@@ -22,7 +22,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $this->getMockForAbstractClass(
             'Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit',
-            array(),
+            [],
             self::STUB_CLASS,
             false
         );

@@ -8,11 +8,11 @@
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
+use Magento\Customer\Test\Fixture\AddressInjectable;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Customer\Test\Fixture\AddressInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Coverage for CreateCustomerBackendEntityTest

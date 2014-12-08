@@ -37,4 +37,4 @@ class CookiePathValidatorTest extends \PHPUnit_Framework_TestCase
         $path = '/';
         $this->assertTrue($this->model->isValid($path));
     }
-} 
+}

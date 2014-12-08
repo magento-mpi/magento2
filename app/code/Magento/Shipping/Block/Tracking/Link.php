@@ -36,7 +36,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Shipping\Helper\Data $shippingData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shippingData = $shippingData;
         $this->_coreRegistry = $registry;

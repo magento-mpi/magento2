@@ -100,8 +100,8 @@ class LabelService
             throw new \Magento\Framework\Model\Exception($response->getErrors());
         }
 
-        $labelsContent = array();
-        $trackingNumbers = array();
+        $labelsContent = [];
+        $trackingNumbers = [];
         $info = $response->getInfo();
 
         foreach ($info as $inf) {

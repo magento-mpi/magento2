@@ -29,14 +29,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_payment = $this->getMockBuilder(
             'Magento\RecurringPayment\Model\Payment'
         )->disableOriginalConstructor()->setMethods(
-            array('setStore', 'canFetchUpdate', '__wakeup')
+            ['setStore', 'canFetchUpdate', '__wakeup']
         )->getMock();
         $this->_payment->expects($this->once())->method('setStore')->will($this->returnValue($this->_payment));
 
         $registry = $this->getMockBuilder(
             'Magento\Framework\Registry'
         )->disableOriginalConstructor()->setMethods(
-            array('registry')
+            ['registry']
         )->getMock();
         $registry->expects(
             $this->once()
@@ -53,19 +53,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $storeManager = $this->getMockBuilder(
             'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
-            array('getStore')
+            ['getStore']
         )->getMock();
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($store));
 
         $this->_block = $objectManager->getObject(
             'Magento\RecurringPayment\Block\Payment\View\Data',
-            array('registry' => $registry, 'storeManager' => $storeManager)
+            ['registry' => $registry, 'storeManager' => $storeManager]
         );
 
         $layout = $this->getMockBuilder(
             'Magento\Framework\View\Layout'
         )->disableOriginalConstructor()->setMethods(
-            array('getParentName', 'getBlock')
+            ['getParentName', 'getBlock']
         )->getMock();
 
         $this->assertEmpty($this->_block->getData());

@@ -58,9 +58,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!$this->getFlag('cms_page_data_joined')) {
             $this->getSelect()->joinLeft(
-                array('page_table' => $this->getTable('cms_page')),
+                ['page_table' => $this->getTable('cms_page')],
                 'main_table.page_id = page_table.page_id',
-                array('page_title' => 'title', 'page_identifier' => 'identifier')
+                ['page_title' => 'title', 'page_identifier' => 'identifier']
             );
             $this->setFlag('cms_page_data_joined', true);
         }
@@ -81,9 +81,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
 
         if ($withAdmin) {
-            $storeIds = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $store);
+            $storeIds = [\Magento\Store\Model\Store::DEFAULT_STORE_ID, $store];
         } else {
-            $storeIds = array($store);
+            $storeIds = [$store];
         }
 
         $this->addCmsPageInStoresColumn();
@@ -102,13 +102,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (!$this->getFlag('cms_page_in_stores_data_joined')) {
             $subSelect = $this->getConnection()->select();
             $subSelect->from(
-                array('store' => $this->getTable('cms_page_store')),
-                array()
+                ['store' => $this->getTable('cms_page_store')],
+                []
             )->where(
                 'store.page_id = main_table.page_id'
             );
             $subSelect = $this->_resourceHelper->addGroupConcatColumn($subSelect, 'store_id', 'store_id');
-            $this->getSelect()->columns(array('page_in_stores' => new \Zend_Db_Expr('(' . $subSelect . ')')));
+            $this->getSelect()->columns(['page_in_stores' => new \Zend_Db_Expr('(' . $subSelect . ')')]);
 
             // save subSelect to use later
             $this->setFlag('page_in_stores_select', $subSelect);
@@ -126,7 +126,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function setTreeOrder()
     {
         if (!$this->getFlag('tree_order_added')) {
-            $this->getSelect()->order(array('parent_node_id', 'level', 'main_table.sort_order'));
+            $this->getSelect()->order(['parent_node_id', 'level', 'main_table.sort_order']);
             $this->setFlag('tree_order_added', true);
         }
         return $this;
@@ -139,7 +139,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setOrderByLevel()
     {
-        $this->getSelect()->order(array('main_table.level', 'main_table.sort_order'));
+        $this->getSelect()->order(['main_table.level', 'main_table.sort_order']);
         return $this;
     }
 
@@ -152,9 +152,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!$this->getFlag('meta_data_joined')) {
             $this->getSelect()->joinLeft(
-                array('metadata_table' => $this->getTable('magento_versionscms_hierarchy_metadata')),
+                ['metadata_table' => $this->getTable('magento_versionscms_hierarchy_metadata')],
                 'main_table.node_id = metadata_table.node_id',
-                array(
+                [
                     'meta_first_last',
                     'meta_next_previous',
                     'meta_chapter',
@@ -172,7 +172,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                     'menu_list_type',
                     'top_menu_visibility',
                     'top_menu_excluded'
-                )
+                ]
             );
         }
         $this->setFlag('meta_data_joined', true);
@@ -202,9 +202,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 $page
             );
             $this->getSelect()->joinLeft(
-                array('clone' => $this->getResource()->getMainTable()),
+                ['clone' => $this->getResource()->getMainTable()],
                 $connection->quoteInto($onClause, $page),
-                array('page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr)
+                ['page_exists' => $ifPageExistExpr, 'current_page' => $ifCurrentPageExpr]
             );
 
             $this->setFlag('page_exists_joined', true);
@@ -254,7 +254,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             )->where(
                 'parent_node_id = main_table.node_id'
             );
-            $this->getSelect()->columns(array('last_child_sort_order' => $subSelect));
+            $this->getSelect()->columns(['last_child_sort_order' => $subSelect]);
             $this->setFlag('last_child_sort_order_column_added', true);
         }
 
@@ -268,7 +268,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function applyRootNodeFilter()
     {
-        $this->addFieldToFilter('parent_node_id', array('null' => true));
+        $this->addFieldToFilter('parent_node_id', ['null' => true]);
         return $this;
     }
 

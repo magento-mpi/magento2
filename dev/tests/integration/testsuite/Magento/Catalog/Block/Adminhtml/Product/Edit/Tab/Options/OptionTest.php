@@ -30,7 +30,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         )->setAttributeSetId(
             4
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setName(
             'Simple Product With Custom Options'
         )->setSku(
@@ -53,7 +53,7 @@ class OptionTest extends \PHPUnit_Framework_TestCase
         /** @var $option \Magento\Catalog\Model\Product\Option */
         $option = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product\Option',
-            array('data' => array('id' => 1, 'title' => 'some_title'))
+            ['data' => ['id' => 1, 'title' => 'some_title']]
         );
         $productWithOptions->addOption($option);
 

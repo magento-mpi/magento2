@@ -46,7 +46,7 @@ class Router extends Base
             $parts = [];
             $parts[] = array_shift($params); // package name
             $parts[] = array_shift($params); // document name
-            for ($i = 0,$l = sizeof($params); $i < $l; $i += 2) {
+            for ($i = 0, $l = sizeof($params); $i < $l; $i += 2) {
                 $output['variables'][$params[$i]] = isset($params[$i + 1]) ? urldecode($params[$i + 1]) : '';
             }
             $output['variables']['doc_name'] = implode('/', $parts);
@@ -97,7 +97,7 @@ class Router extends Base
             return null;
         }
 
-        $actionInstance = $this->actionFactory->create($actionClassName, array('request' => $request));
+        $actionInstance = $this->actionFactory->create($actionClassName, ['request' => $request]);
 
         if (null == $actionInstance) {
             $actionInstance = $this->getNotFoundAction($currentModuleName, $request);

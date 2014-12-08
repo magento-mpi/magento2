@@ -23,7 +23,7 @@ class NewFolder extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
             $path = $this->getStorage()->getSession()->getCurrentPath();
             $result = $this->getStorage()->createDirectory($name, $path);
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
         }
         $this->getResponse()->representJson(
             $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)

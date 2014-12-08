@@ -14,10 +14,10 @@ class Basedon implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'shipping', 'label' => __('Shipping Address')),
-            array('value' => 'billing', 'label' => __('Billing Address')),
-            array('value' => 'origin', 'label' => __("Shipping Origin"))
-        );
+        return [
+            ['value' => 'shipping', 'label' => __('Shipping Address')],
+            ['value' => 'billing', 'label' => __('Billing Address')],
+            ['value' => 'origin', 'label' => __("Shipping Origin")]
+        ];
     }
 }

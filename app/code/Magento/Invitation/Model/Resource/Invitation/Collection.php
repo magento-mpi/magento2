@@ -42,18 +42,18 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     }
 
     /**
-     * Fields mapping 
+     * Fields mapping
      *
      * @var array
      */
-    protected $_map = array(
-        'fields' => array(
+    protected $_map = [
+        'fields' => [
             'invitee_email' => 'c.email',
             'website_id' => 'w.website_id',
             'invitation_email' => 'main_table.email',
-            'invitee_group_id' => 'main_table.group_id'
-        )
-    );
+            'invitee_group_id' => 'main_table.group_id',
+        ],
+    ];
 
     /**
      * Intialize collection
@@ -73,8 +73,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            array('main_table' => $this->getResource()->getMainTable()),
-            array('*', 'invitation_email' => 'email', 'invitee_group_id' => 'group_id')
+            ['main_table' => $this->getResource()->getMainTable()],
+            ['*', 'invitation_email' => 'email', 'invitee_group_id' => 'group_id']
         );
         return $this;
     }
@@ -111,7 +111,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addWebsiteInformation()
     {
         $this->getSelect()->joinInner(
-            array('w' => $this->getTable('store')),
+            ['w' => $this->getTable('store')],
             'main_table.store_id = w.store_id',
             'w.website_id'
         );
@@ -126,9 +126,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addInviteeInformation()
     {
         $this->getSelect()->joinLeft(
-            array('c' => $this->getTable('customer_entity')),
+            ['c' => $this->getTable('customer_entity')],
             'main_table.referral_id = c.entity_id',
-            array('invitee_email' => 'c.email')
+            ['invitee_email' => 'c.email']
         );
         return $this;
     }
@@ -140,7 +140,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addCanBeSentFilter()
     {
-        return $this->addFieldToFilter('status', array("in" => $this->status->getCanBeSentStatuses()));
+        return $this->addFieldToFilter('status', ["in" => $this->status->getCanBeSentStatuses()]);
     }
 
     /**
@@ -150,6 +150,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addCanBeCanceledFilter()
     {
-        return $this->addFieldToFilter('status', array("in" => $this->status->getCanBeCancelledStatuses()));
+        return $this->addFieldToFilter('status', ["in" => $this->status->getCanBeCancelledStatuses()]);
     }
 }

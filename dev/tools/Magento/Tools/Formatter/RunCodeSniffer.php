@@ -37,8 +37,8 @@ function addOptions($optionMarker, $options, &$commandLine)
 }
 # app name is first in the list, drop it since we don't need it
 array_shift($argv);
-$singleDashOptions = array();
-$doubleDashOptions = array();
+$singleDashOptions = [];
+$doubleDashOptions = [];
 // add defaults
 $singleDashOptions['p'] = null;
 $singleDashOptions['n'] = null;

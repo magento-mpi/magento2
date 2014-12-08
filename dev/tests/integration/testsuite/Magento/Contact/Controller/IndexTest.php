@@ -18,7 +18,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             'name' => 'customer name',
             'comment' => 'comment',
             'email' => 'user@example.com',
-            'hideit' => ''
+            'hideit' => '',
         ];
         $this->getRequest()->setPost($params);
 

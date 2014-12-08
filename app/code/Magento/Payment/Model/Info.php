@@ -7,8 +7,8 @@
  */
 namespace Magento\Payment\Model;
 
-use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**
  * Payment information model
@@ -20,7 +20,7 @@ class Info extends AbstractExtensibleModel
      *
      * @var array
      */
-    protected $_additionalInformation = array();
+    protected $_additionalInformation = [];
 
     /**
      * Payment data
@@ -54,7 +54,7 @@ class Info extends AbstractExtensibleModel
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         $this->_encryptor = $encryptor;
@@ -190,7 +190,7 @@ class Info extends AbstractExtensibleModel
             unset($this->_additionalInformation[$key]);
             return $this->setData('additional_information', $this->_additionalInformation);
         }
-        $this->_additionalInformation = array();
+        $this->_additionalInformation = [];
         return $this->unsetData('additional_information');
     }
 

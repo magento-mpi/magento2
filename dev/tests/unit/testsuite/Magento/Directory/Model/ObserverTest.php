@@ -65,14 +65,14 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->observer = $this->objectManager->getObject(
             'Magento\Directory\Model\Observer',
-            array(
+            [
                 'importFactory' => $this->importFactory,
                 'scopeConfig' => $this->scopeConfig,
                 'transportBuilder' => $this->transportBuilder,
                 'storeManager' => $this->storeManager,
                 'currencyFactory' => $this->currencyFactory,
                 'inlineTranslation' => $this->inlineTranslation
-            )
+            ]
         );
     }
 
@@ -99,10 +99,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $importInterfaceMock->expects($this->once())
             ->method('fetchRates')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
         $importInterfaceMock->expects($this->once())
             ->method('getMessages')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue([]));
 
         $this->importFactory
             ->expects($this->once())

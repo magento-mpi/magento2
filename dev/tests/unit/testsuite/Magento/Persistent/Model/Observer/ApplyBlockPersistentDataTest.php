@@ -10,7 +10,6 @@ namespace Magento\Persistent\Model\Observer;
 
 class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Persistent\Model\Observer\ApplyBlockPersistentData
      */

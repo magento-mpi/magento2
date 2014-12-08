@@ -129,7 +129,6 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxClass, $this->model->get($classId));
     }
 
-
     public function testDeleteById()
     {
         $taxClass = $this->getMock('\Magento\Tax\Model\ClassModel', [], [], '', false);
@@ -194,5 +193,4 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
         $this->taxClassResourceMock->expects($this->once())->method('save')->with($taxClass);
         $this->assertEquals(10, $this->model->save($taxClass));
     }
-
 }

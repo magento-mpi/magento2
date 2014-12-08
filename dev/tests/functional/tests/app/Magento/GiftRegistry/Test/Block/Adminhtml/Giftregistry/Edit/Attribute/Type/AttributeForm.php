@@ -8,8 +8,8 @@
 
 namespace Magento\GiftRegistry\Test\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
-use Mtf\Client\Element;
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 
 /**
  * Class AttributeForm

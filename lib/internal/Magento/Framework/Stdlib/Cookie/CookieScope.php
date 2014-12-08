@@ -33,7 +33,6 @@ class CookieScope implements CookieScopeInterface
      */
     private $cookieMetadataFactory;
 
-
     /**
      * @param CookieMetadataFactory $cookieMetadataFactory
      * @param SensitiveCookieMetadata $sensitiveCookieMetadata

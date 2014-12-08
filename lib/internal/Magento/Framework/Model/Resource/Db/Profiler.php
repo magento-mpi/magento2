@@ -24,7 +24,7 @@ class Profiler extends \Magento\Framework\DB\Profiler
     /**
      * @var array Allowed query types
      */
-    protected $_queryTypes = array('select', 'insert', 'update', 'delete');
+    protected $_queryTypes = ['select', 'insert', 'update', 'delete'];
 
     /**
      * Form and return timer name
@@ -85,7 +85,7 @@ class Profiler extends \Magento\Framework\DB\Profiler
             $queryTypeParsed = $this->_parseQueryType($queryText);
             $timerName = $this->_getTimerName($queryTypeParsed);
 
-            $tags = array();
+            $tags = [];
 
             // connection type to database
             $typePrefix = '';

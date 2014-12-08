@@ -19,7 +19,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
+        $result = [];
         /** @var DOMNode $groupNode */
         foreach ($source->documentElement->childNodes as $groupNode) {
             if ($groupNode->nodeType != XML_ELEMENT_NODE) {

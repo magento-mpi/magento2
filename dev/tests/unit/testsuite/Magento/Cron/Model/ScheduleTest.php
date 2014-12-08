@@ -280,7 +280,6 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         // 2. Run tested method
         $model->matchCronExpression($cronExpressionPart, $dateTimePart);
-
     }
 
     /**

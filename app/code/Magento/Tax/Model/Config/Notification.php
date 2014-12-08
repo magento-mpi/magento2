@@ -33,7 +33,7 @@ class Notification extends \Magento\Framework\App\Config\Value
         \Magento\Core\Model\Resource\Config $resourceConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->resourceConfig = $resourceConfig;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

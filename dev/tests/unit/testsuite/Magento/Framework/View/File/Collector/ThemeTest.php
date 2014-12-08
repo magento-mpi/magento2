@@ -116,7 +116,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         // Verifies correct files are searched for
         $this->themesDirectoryMock->expects($this->once())
             ->method('search')
-            ->with($themePath. '/' . $searchPath)
+            ->with($themePath . '/' . $searchPath)
             ->will($this->returnValue(['fileA.test', 'fileC.test']));
 
         // Verifies Magento_Customer was correctly produced from directory path

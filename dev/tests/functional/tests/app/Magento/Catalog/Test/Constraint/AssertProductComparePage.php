@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
-use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertProductComparePage
@@ -35,7 +35,7 @@ class AssertProductComparePage extends AbstractConstraint
         'price',
         'sku' => 'SKU',
         'description' => 'Description',
-        'short_description' => 'Short Description'
+        'short_description' => 'Short Description',
     ];
 
     /**

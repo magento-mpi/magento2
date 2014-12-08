@@ -105,7 +105,7 @@ class Bootstrap
      *
      * @param array $overriddenParams
      */
-    public function reinitialize(array $overriddenParams = array())
+    public function reinitialize(array $overriddenParams = [])
     {
         $this->_bootstrap->getApplication()->reinitialize($overriddenParams);
     }

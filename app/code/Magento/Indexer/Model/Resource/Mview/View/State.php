@@ -17,6 +17,6 @@ class State extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _construct()
     {
         $this->_init('mview_state', 'state_id');
-        $this->addUniqueField(array('field' => array('view_id'), 'title' => __('State for the same view')));
+        $this->addUniqueField(['field' => ['view_id'], 'title' => __('State for the same view')]);
     }
 }

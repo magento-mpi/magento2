@@ -14,6 +14,6 @@ class ChainLineBreak extends ConditionalLineBreak
      */
     public function __construct()
     {
-        parent::__construct(array(array(''), array('', new HardIndentLineBreak())));
+        parent::__construct([[''], ['', new HardIndentLineBreak()]]);
     }
 }

@@ -43,7 +43,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (is_numeric($rating)) {
             $this->addFilter('rating_id', $rating);
         } elseif (is_array($rating)) {
-            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', array('in' => $rating)), 'string');
+            $this->addFilter('rating_id', $this->_getConditionSql('rating_id', ['in' => $rating]), 'string');
         }
         return $this;
     }

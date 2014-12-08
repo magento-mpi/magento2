@@ -17,5 +17,5 @@ interface UrlBuilderInterface
      * @param array $queryParams
      * @return mixed
      */
-    public function getUrl(array $queryParams = array());
+    public function getUrl(array $queryParams = []);
 }

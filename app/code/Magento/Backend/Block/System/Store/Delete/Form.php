@@ -35,28 +35,28 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
 
         $form->setHtmlIdPrefix('store_');
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend' => __('Backup Options'), 'class' => 'fieldset-wide')
+            ['legend' => __('Backup Options'), 'class' => 'fieldset-wide']
         );
 
-        $fieldset->addField('item_id', 'hidden', array('name' => 'item_id', 'value' => $dataObject->getId()));
+        $fieldset->addField('item_id', 'hidden', ['name' => 'item_id', 'value' => $dataObject->getId()]);
 
         $fieldset->addField(
             'create_backup',
             'select',
-            array(
+            [
                 'label' => __('Create DB Backup'),
                 'title' => __('Create DB Backup'),
                 'name' => 'create_backup',
-                'options' => array('1' => __('Yes'), '0' => __('No')),
+                'options' => ['1' => __('Yes'), '0' => __('No')],
                 'value' => '1'
-            )
+            ]
         );
 
         $form->setUseContainer(true);

@@ -7,7 +7,6 @@
  */
 namespace Magento\VersionsCms\Model;
 
-use Magento\Framework\Event\Observer as EventObserver;
 
 /**
  * Versions cms Logging handler

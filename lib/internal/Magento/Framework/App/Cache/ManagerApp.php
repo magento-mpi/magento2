@@ -9,8 +9,8 @@
 namespace Magento\Framework\App\Cache;
 
 use Magento\Framework\App;
-use Magento\Framework\AppInterface;
 use Magento\Framework\App\Console\Response;
+use Magento\Framework\AppInterface;
 
 /**
  * An application for managing cache status

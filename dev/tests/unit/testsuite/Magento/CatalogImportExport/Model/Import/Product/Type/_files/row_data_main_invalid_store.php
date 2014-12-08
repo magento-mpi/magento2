@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-return array(
+return [
     'sku' => 'product-sku',
     '_custom_option_store' => 'incorrect_store',
     '_custom_option_type' => 'field',
@@ -16,4 +16,4 @@ return array(
     '_custom_option_sku' => 'option-sku',
     '_custom_option_max_characters' => 100,
     '_custom_option_sort_order' => 0
-);
+];

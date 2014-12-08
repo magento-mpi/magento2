@@ -8,9 +8,9 @@
 
 namespace Magento\GiftCardAccount\Service\V1;
 
+use Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -43,19 +43,19 @@ class ReadServiceTest extends WebapiAbstract
             GiftCardAccount::GIFT_CARDS_AMOUNT => $quote->getGiftCardsAmount(),
             GiftCardAccount::BASE_GIFT_CARDS_AMOUNT => $quote->getBaseGiftCardsAmount(),
             GiftCardAccount::GIFT_CARDS_AMOUNT_USED => $quote->getGiftCardsAmountUsed(),
-            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => $quote->getBaseGiftCardsAmountUsed()
+            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => $quote->getBaseGiftCardsAmountUsed(),
         ];
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $cartId . '/giftCards',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
                 'operation' => self::SERVICE_NAME . 'GetList',
-            ),
-        );
+            ],
+        ];
 
         $requestData = ["cartId" => $cartId];
         $this->assertEquals($data, $this->_webApiCall($serviceInfo, $requestData));

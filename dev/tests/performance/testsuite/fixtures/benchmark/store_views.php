@@ -27,7 +27,7 @@ for ($i = 0; $i < $storesCount; $i++) {
     $t = microtime(true) * 10000;
     $storeCode = sprintf('store_view_%s', $t);
     $storeName = sprintf('Store View %s', $t);
-    $store->addData(array('store_id' => null, 'code' => $storeCode, 'name' => $storeName));
+    $store->addData(['store_id' => null, 'code' => $storeCode, 'name' => $storeName]);
     $store->save();
     usleep(20);
 }

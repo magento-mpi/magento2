@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class QueryResultTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var ObjectManager
      */

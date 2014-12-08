@@ -15,15 +15,15 @@ class AccountType
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => 'business',
-                'label' => __('Business')
-            ),
-            array(
+                'label' => __('Business'),
+            ],
+            [
                 'value' => 'corporate',
                 'label' => __('Corporate')
-            )
-        );
+            ]
+        ];
     }
 }

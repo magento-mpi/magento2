@@ -91,7 +91,7 @@ class PageCriteriaMapperTest extends \PHPUnit_Framework_TestCase
                     'fetchStrategy' => $this->fetchStrategyMock,
                     'objectFactory' => $this->objectFactoryMock,
                     'mapperFactory' => $this->mapperFactoryMock,
-                    'select' => $this->selectMock
+                    'select' => $this->selectMock,
                 ]
             )->setMethods(['init', 'getTable', 'getMappedField', 'getConditionSql'])
             ->getMock();

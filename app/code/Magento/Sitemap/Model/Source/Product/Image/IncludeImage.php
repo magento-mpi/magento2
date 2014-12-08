@@ -32,10 +32,10 @@ class IncludeImage implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             self::INCLUDE_NONE => __('None'),
             self::INCLUDE_BASE => __('Base Only'),
             self::INCLUDE_ALL => __('All')
-        );
+        ];
     }
 }

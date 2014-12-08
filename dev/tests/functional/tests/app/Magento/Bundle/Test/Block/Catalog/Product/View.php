@@ -8,11 +8,11 @@
 
 namespace Magento\Bundle\Test\Block\Catalog\Product;
 
-use Mtf\Client\Element\Locator;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
+use Magento\Bundle\Test\Fixture\BundleProduct;
+use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class View

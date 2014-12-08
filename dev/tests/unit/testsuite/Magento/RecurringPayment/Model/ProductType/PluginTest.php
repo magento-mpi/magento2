@@ -28,15 +28,15 @@ class PluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->subject = $this->getMock(
             'Magento\Catalog\Model\Product\Type\AbstractType',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getIsRecurring', '__wakeup', '__sleep'),
-            array(),
+            ['getIsRecurring', '__wakeup', '__sleep'],
+            [],
             '',
             false
         );

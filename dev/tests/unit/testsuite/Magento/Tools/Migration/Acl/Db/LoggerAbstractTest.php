@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\Acl\Db;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration/Acl/Db/AbstractLogger.php';

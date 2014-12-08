@@ -7,14 +7,14 @@
  */
 namespace Magento\Catalog\Service\V1;
 
-use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
-use Magento\Eav\Model\Resource\Entity\Attribute\Collection;
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Service\V1\Data\Eav\AttributeMetadata;
 use Magento\Catalog\Service\V1\Data\Eav\Product\Attribute\FrontendLabel;
+use Magento\Eav\Model\Entity\Attribute\AbstractAttribute;
+use Magento\Eav\Model\Resource\Entity\Attribute\Collection;
 use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
  * Class MetadataService
@@ -108,7 +108,7 @@ class MetadataService implements MetadataServiceInterface
             $attributeMetadata = $this->createMetadataAttribute($attribute);
             return $attributeMetadata;
         } else {
-            throw (new NoSuchEntityException('entityType', array($entityType)))
+            throw (new NoSuchEntityException('entityType', [$entityType]))
                 ->singleField('attributeCode', $attributeCode);
         }
     }
@@ -124,7 +124,7 @@ class MetadataService implements MetadataServiceInterface
         /** @var \Magento\Eav\Model\Resource\Entity\Attribute\Collection $attributeCollection */
         $attributeCollection = $this->attributeCollectionFactory->create();
         $attributeCollection->join(
-            array('entity_type' => $attributeCollection->getTable('eav_entity_type')),
+            ['entity_type' => $attributeCollection->getTable('eav_entity_type')],
             'main_table.entity_type_id = entity_type.entity_type_id',
             []
         );
@@ -135,7 +135,7 @@ class MetadataService implements MetadataServiceInterface
             []
         );
         $attributeCollection->join(
-            array('additional_table' => $attributeCollection->getTable('catalog_eav_attribute')),
+            ['additional_table' => $attributeCollection->getTable('catalog_eav_attribute')],
             'main_table.attribute_id = additional_table.attribute_id',
             []
         );
@@ -179,7 +179,7 @@ class MetadataService implements MetadataServiceInterface
 
         // fill options and validate rules
         $data[AttributeMetadata::OPTIONS] = $attribute->usesSource()
-            ? $attribute->getSource()->getAllOptions() : array();
+            ? $attribute->getSource()->getAllOptions() : [];
         $data[AttributeMetadata::VALIDATION_RULES] = $attribute->getValidateRules();
 
         // fill scope
@@ -187,16 +187,16 @@ class MetadataService implements MetadataServiceInterface
             ? 'global' : ($attribute->isScopeWebsite() ? 'website' : 'store');
 
         $data[AttributeMetadata::FRONTEND_LABEL] = [];
-        $data[AttributeMetadata::FRONTEND_LABEL][0] = array(
+        $data[AttributeMetadata::FRONTEND_LABEL][0] = [
             FrontendLabel::STORE_ID => 0,
-            FrontendLabel::LABEL => $attribute->getFrontendLabel()
-        );
+            FrontendLabel::LABEL => $attribute->getFrontendLabel(),
+        ];
         if (is_array($attribute->getStoreLabels())) {
             foreach ($attribute->getStoreLabels() as $storeId => $label) {
-                $data[AttributeMetadata::FRONTEND_LABEL][$storeId] = array(
+                $data[AttributeMetadata::FRONTEND_LABEL][$storeId] = [
                     FrontendLabel::STORE_ID => $storeId,
-                    FrontendLabel::LABEL => $label
-                );
+                    FrontendLabel::LABEL => $label,
+                ];
             }
         }
         return $this->attributeMetadataBuilder->populateWithArray($data)->create();
@@ -256,6 +256,5 @@ class MetadataService implements MetadataServiceInterface
         } else {
             return $field;
         }
-
     }
 }

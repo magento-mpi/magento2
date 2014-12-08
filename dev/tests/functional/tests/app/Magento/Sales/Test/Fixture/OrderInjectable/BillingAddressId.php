@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Test\Fixture\OrderInjectable;
 
+use Magento\Customer\Test\Fixture\AddressInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Customer\Test\Fixture\AddressInjectable;
 
 /**
  * Billing address data.

@@ -21,7 +21,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_countBySeverity = array();
+    protected $_countBySeverity = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -99,7 +99,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setSeverity($severity)
     {
-        $this->addFieldToFilter('severity', array('eq' => $severity * 1));
+        $this->addFieldToFilter('severity', ['eq' => $severity * 1]);
         return $this;
     }
 

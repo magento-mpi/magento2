@@ -8,7 +8,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Edit extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
 {

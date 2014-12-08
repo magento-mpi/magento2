@@ -7,11 +7,11 @@
  */
 namespace Magento\Eav\Model;
 
-use \Magento\Eav\Api\AttributeSetManagementInterface;
-use \Magento\Eav\Api\AttributeSetRepositoryInterface;
-use \Magento\Eav\Api\Data\AttributeSetInterface;
-use \Magento\Eav\Model\Config as EavConfig;
-use \Magento\Framework\Exception\InputException;
+use Magento\Eav\Api\AttributeSetManagementInterface;
+use Magento\Eav\Api\AttributeSetRepositoryInterface;
+use Magento\Eav\Api\Data\AttributeSetInterface;
+use Magento\Eav\Model\Config as EavConfig;
+use Magento\Framework\Exception\InputException;
 
 class AttributeSetManagement implements AttributeSetManagementInterface
 {

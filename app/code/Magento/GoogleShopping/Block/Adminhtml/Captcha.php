@@ -29,18 +29,18 @@ class Captcha extends \Magento\Backend\Block\Template
         $confirmButton = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'label' => __('Confirm'),
                 'onclick' => "if($('user_confirm').value != '')
                                 {
                                     setLocation('" .
                 $this->getUrl(
                     'adminhtml/*/confirmCaptcha',
-                    array('_current' => true)
+                    ['_current' => true]
                 ) . "' + 'user_confirm/' + $('user_confirm').value + '/');
                                 }",
-                'class' => 'task'
-            )
+                'class' => 'task',
+            ]
         );
         return $confirmButton->toHtml();
     }

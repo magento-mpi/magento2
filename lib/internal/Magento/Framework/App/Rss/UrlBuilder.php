@@ -17,7 +17,7 @@ class UrlBuilder implements UrlBuilderInterface
      * @param array $queryParams
      * @return string
      */
-    public function getUrl(array $queryParams = array())
+    public function getUrl(array $queryParams = [])
     {
         return '';
     }

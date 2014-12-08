@@ -21,7 +21,7 @@ class FilesCollector
      */
     public function getFiles(array $paths, $fileMask = false)
     {
-        $files = array();
+        $files = [];
         foreach ($paths as $path) {
             foreach ($this->_getIterator($path, $fileMask) as $file) {
                 $files[] = (string)$file;

@@ -37,7 +37,7 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $giftRegistryData, $typeFactory, $data);
         $this->sourceSearch = $sourceSearch;
@@ -55,7 +55,7 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
             return $types;
         }
         if (empty($types)) {
-            $types = array();
+            $types = [];
         } else {
             $types = explode(',', $types);
         }
@@ -127,7 +127,7 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
     public function getSearchFormSelect()
     {
         $options = array_merge(
-            array(array('value' => '', 'label' => __('Select Search Type'))),
+            [['value' => '', 'label' => __('Select Search Type')]],
             $this->getSearchFormOptions()
         );
 
@@ -165,9 +165,9 @@ class Form extends \Magento\GiftRegistry\Block\Search\Quick implements \Magento\
                     }
                 }
             }
-            $options = array();
+            $options = [];
             foreach ($allForms as $type => $label) {
-                $options[] = array('value' => $type, 'label' => $label);
+                $options[] = ['value' => $type, 'label' => $label];
             }
             $this->_selectOptions = $options;
         }

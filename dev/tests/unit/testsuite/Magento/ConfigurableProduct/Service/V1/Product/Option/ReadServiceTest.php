@@ -8,8 +8,8 @@
 namespace Magento\ConfigurableProduct\Service\V1\Product\Option;
 
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable as ConfigurableType;
-use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute as ResourceAttribute;
 use Magento\ConfigurableProduct\Model\Product\Type\Configurable\Attribute;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute as ResourceAttribute;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Collection;
 use Magento\TestFramework\Helper\ObjectManager;
 
@@ -214,10 +214,10 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTypes()
     {
-        $optionArray = array(
-            array('value' => 'multiselect', 'label' => __('Multiple Select')),
-            array('value' => 'select', 'label' => __('Dropdown'))
-        );
+        $optionArray = [
+            ['value' => 'multiselect', 'label' => __('Multiple Select')],
+            ['value' => 'select', 'label' => __('Dropdown')],
+        ];
         $expectedResult = ['multiselect', 'select'];
 
         $this->inputType->expects($this->once())

@@ -8,9 +8,9 @@
 
 namespace Magento\Tools\View;
 
-use Magento\Framework\Test\Utility\Files;
 use Magento\Framework\App\ObjectManagerFactory;
 use Magento\Framework\App\View\Deployment\Version;
+use Magento\Framework\Test\Utility\Files;
 
 /**
  * A service for deploying Magento static view files for production mode

@@ -7,7 +7,6 @@
  */
 namespace Magento\Tax\Model\Calculation;
 
-use Magento\Tax\Model\Calculation;
 use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
 
 class UnitBaseCalculator extends AbstractCalculator

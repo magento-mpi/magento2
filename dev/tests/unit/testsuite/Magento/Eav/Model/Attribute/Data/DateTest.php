@@ -60,7 +60,7 @@ class DateTest extends \PHPUnit_Framework_TestCase
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,
                 'value' => 'value',
                 'callTimes' => 1,
-                'expectedResult' => 'value'
+                'expectedResult' => 'value',
             ],
             [
                 'format' => \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_TEXT,

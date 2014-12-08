@@ -14,7 +14,7 @@
  */
 ?>
 
-<?php if($this->canShowBlock()): ?>
+<?php if ($this->canShowBlock()): ?>
     <div class="block filter">
         <div class="block-title filter-title">
             <strong><?php echo __('Shop By') ?></strong>
@@ -30,7 +30,7 @@
             <?php endif; ?>
             <?php $wrapOptions = false; ?>
             <?php foreach ($this->getFilters() as $filter): ?>
-                <?php if(!$wrapOptions): ?>
+                <?php if (!$wrapOptions): ?>
                     <strong role="heading" aria-level="2" class="block-subtitle filter-subtitle"><?php echo __('Shopping Options') ?></strong>
                     <dl class="filter-options" id="narrow-by-list">
                 <?php $wrapOptions = true; endif; ?>
@@ -39,7 +39,7 @@
                         <dd class="filter-options-content"><?php echo $this->getChildBlock('renderer')->render($filter); ?></dd>
                     <?php endif; ?>
             <?php endforeach; ?>
-            <?php if($wrapOptions): ?>
+            <?php if ($wrapOptions): ?>
                 </dl>
             <?php endif; ?>
         </div>

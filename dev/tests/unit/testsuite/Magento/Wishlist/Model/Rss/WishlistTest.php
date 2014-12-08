@@ -106,7 +106,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                 'wishlistHelper' => $this->wishlistHelperMock,
                 'wishlistBlock' => $this->wishlistBlock,
                 'outputHelper' => $this->catalogOutputMock,
-                'imageHelper'=> $this->imageHelperMock,
+                'imageHelper' => $this->imageHelperMock,
                 'urlBuilder' => $this->urlBuilderMock,
                 'scopeConfig' => $this->scopeConfig,
                 'rssFactory' => $this->rssFactoryMock,
@@ -163,37 +163,37 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
                             'advanced/modules_disable_output/Magento_Rss',
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                             null,
-                            null
+                            null,
                         ],
                         [
                             \Magento\Core\Helper\Data::XML_PATH_DEFAULT_LOCALE,
                             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                             null,
                             $locale
-                        ]
+                        ],
                     ]
                 )
             );
 
         $staticArgs = [
             'productName' => $productName,
-            'productUrl' => $productUrl
+            'productUrl' => $productUrl,
         ];
         $description = $this->processWishlistItemDescription($wishlistModelMock, $staticArgs);
 
-        $expectedResult = array(
+        $expectedResult = [
             'title' => $title,
             'description' => $title,
             'link' => $wishlistSharingUrl,
             'charset' => 'UTF-8',
-            'entries' => array(
-                0 => array(
+            'entries' => [
+                0 => [
                     'title' => $productName,
                     'link' => $productUrl,
-                    'description' => $description
-                )
-            )
-        );
+                    'description' => $description,
+                ],
+            ],
+        ];
 
         $this->assertEquals($expectedResult, $this->model->getRssData());
     }
@@ -214,7 +214,7 @@ class WishlistTest extends \PHPUnit_Framework_TestCase
 
         $wishlistItem = $this->getMock('Magento\Wishlist\Model\Item', [], [], '', false);
         $wishlistItemsCollection = [
-            $wishlistItem
+            $wishlistItem,
         ];
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',

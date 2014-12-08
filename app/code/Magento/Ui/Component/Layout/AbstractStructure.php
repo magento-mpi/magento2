@@ -7,18 +7,18 @@
  */
 namespace Magento\Ui\Component\Layout;
 
+use Magento\Framework\View\Element\Template;
+use Magento\Framework\View\Element\Template\Context as TemplateContext;
+use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
+use Magento\Framework\View\Element\UiComponent\ConfigFactory;
+use Magento\Framework\View\Element\UiComponent\Context;
 use Magento\Framework\View\Element\UiElementFactory;
 use Magento\Ui\Component\AbstractView;
-use Magento\Framework\View\Element\Template;
-use Magento\Ui\DataProvider\Metadata;
-use Magento\Ui\DataProvider\Manager;
-use Magento\Ui\ContentType\ContentTypeFactory;
-use Magento\Framework\View\Element\UiComponent\Context;
-use Magento\Framework\View\Element\UiComponent\ConfigFactory;
-use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use Magento\Ui\DataProvider\Factory as DataProviderFactory;
-use Magento\Framework\View\Element\Template\Context as TemplateContext;
 use Magento\Ui\Component\Layout\Tabs\TabInterface;
+use Magento\Ui\ContentType\ContentTypeFactory;
+use Magento\Ui\DataProvider\Factory as DataProviderFactory;
+use Magento\Ui\DataProvider\Manager;
+use Magento\Ui\DataProvider\Metadata;
 
 /**
  * Class AbstractStructure
@@ -32,7 +32,7 @@ class AbstractStructure extends AbstractView
         'sections' => [],
         'areas' => [],
         'groups' => [],
-        'elements' => []
+        'elements' => [],
     ];
 
     /**
@@ -147,9 +147,9 @@ class AbstractStructure extends AbstractView
         $this->structure['sections'] = [
             'type' => \Magento\Ui\Component\Layout\Tabs\Nav::NAME,
             'config' => [
-                'label' => $this->getData('label')
+                'label' => $this->getData('label'),
             ],
-            'children' => []
+            'children' => [],
         ];
     }
 
@@ -163,9 +163,9 @@ class AbstractStructure extends AbstractView
         $this->structure['areas'] = [
             'type' => 'form',
             'config' => [
-                'namespace' => $this->ns
+                'namespace' => $this->ns,
             ],
-            'children' => []
+            'children' => [],
         ];
     }
 
@@ -177,7 +177,7 @@ class AbstractStructure extends AbstractView
     protected function initGroups()
     {
         $this->structure['groups'] = [
-            'children' => []
+            'children' => [],
         ];
     }
 
@@ -189,7 +189,7 @@ class AbstractStructure extends AbstractView
     protected function initElements()
     {
         $this->structure['elements'] = [
-            'children' => []
+            'children' => [],
         ];
     }
 
@@ -219,11 +219,11 @@ class AbstractStructure extends AbstractView
             [
                 'insertTo' => [
                     $this->ns . '.sections' => [
-                        'position' => $this->getNextSortInc()
-                    ]
+                        'position' => $this->getNextSortInc(),
+                    ],
                 ],
                 'config' => [
-                    'label' => $meta->getLabel()
+                    'label' => $meta->getLabel(),
                 ]
             ]
         );
@@ -287,11 +287,11 @@ class AbstractStructure extends AbstractView
             [
                 'insertTo' => [
                     $this->ns . '.sections' => [
-                        'position' => $this->getNextSortInc()
-                    ]
+                        'position' => $this->getNextSortInc(),
+                    ],
                 ],
                 'config' => [
-                    'label' => $childMeta->getLabel()
+                    'label' => $childMeta->getLabel(),
                 ]
             ]
         );
@@ -309,8 +309,8 @@ class AbstractStructure extends AbstractView
             'component' => 'Magento_Ui/js/form/components/collection/item',
             'childType' => 'group',
             'config' => [
-                'label' => __('New ' . $childMeta->getLabel())
-            ]
+                'label' => __('New ' . $childMeta->getLabel()),
+            ],
         ];
 
         $elements = $childMeta->getFields();
@@ -361,17 +361,17 @@ class AbstractStructure extends AbstractView
                 [
                     'insertTo' => [
                         $this->ns . '.sections' => [
-                            'position' => (int)$sortOrder
-                        ]
+                            'position' => (int)$sortOrder,
+                        ],
                     ],
                     'config' => [
-                        'label' => $childBlock->getTabTitle()
+                        'label' => $childBlock->getTabTitle(),
                     ]
                 ]
             );
 
             $config = [
-                'label' => $childBlock->getTabTitle()
+                'label' => $childBlock->getTabTitle(),
             ];
             if ($childBlock->isAjaxLoaded()) {
                 $config['source'] = $childBlock->getTabUrl();
@@ -415,7 +415,7 @@ class AbstractStructure extends AbstractView
     {
         $this->structure['groups']['children'][$groupName] = [
             'type' => $type,
-            'config' => $config
+            'config' => $config,
         ];
         return "{$this->ns}.groups.{$groupName}";
     }
@@ -448,18 +448,18 @@ class AbstractStructure extends AbstractView
     protected function addElementToCollection(array & $collection, $elementName, $dataScope, array $element)
     {
         $collection['children'][$elementName] = [
-            'type' => 'group'
+            'type' => 'group',
         ];
         if (isset($element['fieldGroup'])) {
             $elementName = $element['fieldGroup'];
             if ($elementName === $element['fieldGroup']) {
                 $collection['children'][$elementName]['config'] = [
-                    'displayArea' => $element['displayArea']
+                    'displayArea' => $element['displayArea'],
                 ];
             }
         } else {
             $collection['children'][$elementName]['config'] = [
-                'displayArea' => $element['displayArea']
+                'displayArea' => $element['displayArea'],
             ];
         }
 
@@ -471,8 +471,8 @@ class AbstractStructure extends AbstractView
                 foreach ($element['constraints']['filter'] as $filter) {
                     $element['listeners'] = [
                         "data:" . $filter['on'] => [
-                            'filter' => [$filter['by']]
-                        ]
+                            'filter' => [$filter['by']],
+                        ],
                     ];
                 }
             }
@@ -485,7 +485,7 @@ class AbstractStructure extends AbstractView
                 $collection['children'][$elementName]['children'][] = [
                     'type' => $element['formElement'],
                     'dataScope' => (string)$i,
-                    'config' => $element
+                    'config' => $element,
                 ];
                 if (isset($element['validation']['required-entry'])) {
                     unset($element['validation']['required-entry']);
@@ -495,7 +495,7 @@ class AbstractStructure extends AbstractView
             $collection['children'][$elementName]['children'][] = [
                 'type' => $element['formElement'],
                 'dataScope' => $dataScope,
-                'config' => $element
+                'config' => $element,
             ];
         }
     }
@@ -511,7 +511,7 @@ class AbstractStructure extends AbstractView
         $this->structure['groups']['children'][$collectionName] = [
             'type' => 'collection',
             'dataScope' => $dataScope,
-            'config' => $config
+            'config' => $config,
         ];
         return "{$this->ns}.groups.{$collectionName}";
     }

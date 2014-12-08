@@ -8,8 +8,8 @@
 
 namespace Magento\Customer\Model;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Test for Magento\Customer\Model\GroupManagement
@@ -119,11 +119,11 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
         return [
             'no store id' => [
                 ['id' => 1, 'code' => 'General', 'tax_class_id' => 3, 'tax_class_name' => 'Retail Customer'],
-                null
+                null,
             ],
             'default store id' => [
                 ['id' => 1, 'code' => 'General', 'tax_class_id' => 3, 'tax_class_name' => 'Retail Customer'],
-                $defaultStoreId
+                $defaultStoreId,
             ],
         ];
     }

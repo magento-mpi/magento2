@@ -9,8 +9,8 @@
 namespace Magento\Reports\Test\Block\Adminhtml\Product\Sold;
 
 use Magento\Sales\Test\Fixture\OrderInjectable;
-use Mtf\ObjectManager;
 use Mtf\Client\Element\Locator;
+use Mtf\ObjectManager;
 
 /**
  * Class Grid

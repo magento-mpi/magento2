@@ -36,7 +36,7 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\File\Size $fileSize,
         \Magento\Theme\Helper\Storage $storageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageHelper = $storageHelper;
         parent::__construct($context, $fileSize, $data);

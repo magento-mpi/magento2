@@ -23,7 +23,7 @@ class Element extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $this->_init('eav_form_element', 'element_id');
         $this->addUniqueField(
-            array('field' => array('type_id', 'attribute_id'), 'title' => __('Form Element with the same attribute'))
+            ['field' => ['type_id', 'attribute_id'], 'title' => __('Form Element with the same attribute')]
         );
     }
 
@@ -41,7 +41,7 @@ class Element extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select->join(
             $this->getTable('eav_attribute'),
             $this->getTable('eav_attribute') . '.attribute_id = ' . $this->getMainTable() . '.attribute_id',
-            array('attribute_code', 'entity_type_id')
+            ['attribute_code', 'entity_type_id']
         );
 
         return $select;

@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Model\Service;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoAppArea adminhtml

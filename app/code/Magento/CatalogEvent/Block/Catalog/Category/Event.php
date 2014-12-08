@@ -39,7 +39,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent implements \
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;

@@ -43,7 +43,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('custom_theme_to', 'custom_theme_from') as $id) {
+        foreach (['custom_theme_to', 'custom_theme_from'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());

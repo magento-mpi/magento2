@@ -192,7 +192,7 @@ interface LayoutInterface
      * @param  array $arguments
      * @return Element\BlockInterface
      */
-    public function createBlock($type, $name = '', array $arguments = array());
+    public function createBlock($type, $name = '', array $arguments = []);
 
     /**
      * Add a block to registry, create new object if needed
@@ -215,7 +215,7 @@ interface LayoutInterface
      * @param string $alias
      * @return void
      */
-    public function addContainer($name, $label, array $options = array(), $parent = '', $alias = '');
+    public function addContainer($name, $label, array $options = [], $parent = '', $alias = '');
 
     /**
      * Rename element in layout and layout structure

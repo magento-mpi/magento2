@@ -8,7 +8,6 @@
 
 namespace Magento\Framework\App\DeploymentConfig\Writer;
 
-
 interface FormatterInterface
 {
     /**

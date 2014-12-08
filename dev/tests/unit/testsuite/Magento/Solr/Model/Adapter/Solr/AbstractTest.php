@@ -19,9 +19,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSearchEngineFieldName()
     {
-        $sku = new \Magento\Framework\Object(array('attribute_code' => 'sku'));
+        $sku = new \Magento\Framework\Object(['attribute_code' => 'sku']);
         /** @var $model \Magento\Solr\Model\Adapter\Solr\AbstractSolr */
-        $model = $this->getMockForAbstractClass('Magento\Solr\Model\Adapter\Solr\AbstractSolr', array(), '', false);
+        $model = $this->getMockForAbstractClass('Magento\Solr\Model\Adapter\Solr\AbstractSolr', [], '', false);
         $this->assertEquals('sku', $model->getSearchEngineFieldName($sku, 'sku'));
         $this->assertEquals('attr_sort_sku', $model->getSearchEngineFieldName($sku, 'sort'));
     }

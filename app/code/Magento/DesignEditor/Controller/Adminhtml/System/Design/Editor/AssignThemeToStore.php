@@ -8,8 +8,8 @@
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
 
-use Magento\Store\Model\Store;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Store\Model\Store;
 
 class AssignThemeToStore extends \Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor
 {
@@ -31,9 +31,9 @@ class AssignThemeToStore extends \Magento\DesignEditor\Controller\Adminhtml\Syst
             /** @var \Magento\Framework\StoreManagerInterface $storeManager */
             $storeManager = $this->_objectManager->get('Magento\Framework\StoreManagerInterface');
             $ids = array_keys($storeManager->getStores());
-            $stores = array(array_shift($ids));
+            $stores = [array_shift($ids)];
         } elseif ($stores == $emptyStores) {
-            $stores = array();
+            $stores = [];
         }
 
         if (!is_array($stores)) {
@@ -78,10 +78,10 @@ class AssignThemeToStore extends \Magento\DesignEditor\Controller\Adminhtml\Syst
             if ($reportToSession) {
                 $this->messageManager->addSuccess($successMessage);
             }
-            $response = array('message' => $successMessage, 'themeId' => $themeCustomization->getId());
+            $response = ['message' => $successMessage, 'themeId' => $themeCustomization->getId()];
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $response = array('error' => true, 'message' => __('This theme is not assigned.'));
+            $response = ['error' => true, 'message' => __('This theme is not assigned.')];
         }
         $this->getResponse()->representJson($coreHelper->jsonEncode($response));
     }

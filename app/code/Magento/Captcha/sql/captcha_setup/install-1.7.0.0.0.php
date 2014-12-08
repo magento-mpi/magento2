@@ -17,25 +17,25 @@ $table = $installer->getConnection()->newTable(
     'type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false, 'primary' => true),
+    ['nullable' => false, 'primary' => true],
     'Type'
 )->addColumn(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false, 'unsigned' => true, 'primary' => true),
+    ['nullable' => false, 'unsigned' => true, 'primary' => true],
     'Value'
 )->addColumn(
     'count',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Count'
 )->addColumn(
     'updated_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array(),
+    [],
     'Update Time'
 )->setComment(
     'Count Login Attempts'

@@ -109,7 +109,7 @@ class ProcessorTest extends \Magento\TestFramework\Indexer\TestCase
         /** @var \Magento\Store\Model\Group $storeGroup */
         $storeGroup = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Group');
         $storeGroup->setData(
-            array('website_id' => 1, 'name' => 'New Store Group', 'root_category_id' => 2, 'group_id' => null)
+            ['website_id' => 1, 'name' => 'New Store Group', 'root_category_id' => 2, 'group_id' => null]
         );
         $storeGroup->save();
         $this->assertTrue($this->_processor->getIndexer()->isInvalid());

@@ -8,8 +8,8 @@
 
 namespace Magento\Centinel\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Mtf\Factory\Factory;
 
 /**
  * Guest checkout. 3D Secure payment method.
@@ -34,7 +34,7 @@ abstract class AbstractCreditCard extends Checkout
         $simple->persist();
 
         $this->products = [
-            $simple
+            $simple,
         ];
 
         //Customer

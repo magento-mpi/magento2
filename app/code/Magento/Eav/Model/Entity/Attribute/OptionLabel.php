@@ -7,7 +7,7 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
-use \Magento\Eav\Api\Data\AttributeOptionLabelInterface;
+use Magento\Eav\Api\Data\AttributeOptionLabelInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
 
 /**

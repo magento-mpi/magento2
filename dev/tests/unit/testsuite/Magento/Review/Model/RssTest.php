@@ -8,7 +8,7 @@
 
 namespace Magento\Review\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class RssTest extends \PHPUnit_Framework_TestCase
 {

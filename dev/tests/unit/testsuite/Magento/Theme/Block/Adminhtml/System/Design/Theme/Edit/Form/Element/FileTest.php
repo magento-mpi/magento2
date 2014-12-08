@@ -15,15 +15,15 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $fileBlock = $helper->getObject(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element\File',
-            array('factoryCollection' => $collectionFactory)
+            ['factoryCollection' => $collectionFactory]
         );
 
         $this->assertContains('accept', $fileBlock->getHtmlAttributes());

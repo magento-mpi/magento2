@@ -25,7 +25,7 @@ class AttributeSelectorTest extends \PHPUnit_Framework_TestCase
         $this->urlBuilder = $this->getMock('Magento\Framework\UrlInterface');
         $this->attributeSelector = $helper->getObject(
             'Magento\ConfigurableProduct\Block\Product\Configurable\AttributeSelector',
-            array('urlBuilder' => $this->urlBuilder)
+            ['urlBuilder' => $this->urlBuilder]
         );
     }
 
@@ -55,7 +55,7 @@ class AttributeSelectorTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($source)
         );
-        $expected = array('source' => $source, 'minLength' => 0, 'className' => 'category-select', 'showAll' => true);
+        $expected = ['source' => $source, 'minLength' => 0, 'className' => 'category-select', 'showAll' => true];
         $this->assertEquals($expected, $this->attributeSelector->getSuggestWidgetOptions());
     }
 }

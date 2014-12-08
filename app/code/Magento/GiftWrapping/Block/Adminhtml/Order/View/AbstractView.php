@@ -58,7 +58,7 @@ class AbstractView extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollectionFactory,
         \Magento\Sales\Helper\Admin $adminHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminHelper = $adminHelper;
         $this->_coreRegistry = $registry;
@@ -112,7 +112,7 @@ class AbstractView extends \Magento\Framework\View\Element\Template
      */
     public function getDesignsInfo()
     {
-        $data = array();
+        $data = [];
         foreach ($this->getDesignCollection()->getItems() as $item) {
             $temp['path'] = $item->getImageUrl();
             $temp['design'] = $this->escapeHtml($item->getDesign());

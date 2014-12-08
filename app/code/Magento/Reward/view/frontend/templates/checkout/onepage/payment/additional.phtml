@@ -18,7 +18,7 @@
                     "amountSubstracted":<?php if ($this->useRewardPoints()): ?>true<?php else: ?>false<?php endif; ?>,
                     "usedAmount":<?php echo (float)$this->getQuote()->getBaseRewardCurrencyAmount(); ?>
                 }}'
-                <?php echo $this->useRewardPoints()?' checked="checked"':'' ?> class="checkbox" />
+                <?php echo $this->useRewardPoints() ? ' checked="checked"' : '' ?> class="checkbox" />
             <label for="use-reward-points" class="label">
                 <span>
                     <?php echo __('Use my reward points; %1 are available.', $this->helper('Magento\Reward\Helper\Data')->formatReward($this->getPointsBalance(), $this->getCurrencyAmount())); ?>

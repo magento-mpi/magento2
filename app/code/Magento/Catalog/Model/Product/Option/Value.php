@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Model\Product\Option;
 
+use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Option;
-use \Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
@@ -32,7 +32,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
     /**
      * @var array
      */
-    protected $_values = array();
+    protected $_values = [];
 
     /**
      * @var Product
@@ -69,7 +69,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
         \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $valueCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_valueCollectionFactory = $valueCollectionFactory;
         parent::__construct(
@@ -124,7 +124,7 @@ class Value extends AbstractExtensibleModel implements \Magento\Catalog\Api\Data
      */
     public function unsetValues()
     {
-        $this->_values = array();
+        $this->_values = [];
         return $this;
     }
 

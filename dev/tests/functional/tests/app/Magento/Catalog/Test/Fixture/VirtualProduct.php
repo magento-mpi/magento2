@@ -18,50 +18,50 @@ class VirtualProduct extends Product
     protected function _initData()
     {
         parent::_initData();
-        $this->_dataConfig = array(
+        $this->_dataConfig = [
             'constraint' => 'Success',
 
-            'grid_filter' => array('name'),
+            'grid_filter' => ['name'],
 
-            'create_url_params' => array(
+            'create_url_params' => [
                 'type' => 'virtual',
                 'set'  => static::DEFAULT_ATTRIBUTE_SET_ID,
-            ),
-            'input_prefix' => 'product'
-        );
+            ],
+            'input_prefix' => 'product',
+        ];
 
-        $data = array(
-            'is_virtual' => array('value' => '', 'group' => null), // needed for CURL handler
-            'price' => array(
+        $data = [
+            'is_virtual' => ['value' => '', 'group' => null], // needed for CURL handler
+            'price' => [
                 'value' => 15,
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
-            'tax_class_id' => array(
+                'group' => static::GROUP_PRODUCT_DETAILS,
+            ],
+            'tax_class_id' => [
                 'value' => 'Taxable Goods',
                 'input_value' => '2',
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input' => 'select'
-            ),
-            'qty' => array(
+                'input' => 'select',
+            ],
+            'qty' => [
                 'value' => 1000,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name' => 'product[quantity_and_stock_status][qty]'
-            ),
-            'product_website_1' => array(
+                'input_name' => 'product[quantity_and_stock_status][qty]',
+            ],
+            'product_website_1' => [
                 'value' => 'Yes',
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_WEBSITE,
                 'input' => 'checkbox',
-                'input_name' => 'product[website_ids][]'
-            ),
-            'inventory_manage_stock' => array(
+                'input_name' => 'product[website_ids][]',
+            ],
+            'inventory_manage_stock' => [
                 'value' => 'No',
                 'input_value' => '0',
                 'group' => static::GROUP_PRODUCT_INVENTORY,
                 'input' => 'select',
-                'input_name' => 'product[stock_data][manage_stock]'
-            )
-        );
+                'input_name' => 'product[stock_data][manage_stock]',
+            ],
+        ];
 
         $this->_data['fields'] = array_merge($this->_data['fields'], $data);
 

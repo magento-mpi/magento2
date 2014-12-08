@@ -8,17 +8,17 @@
 
 namespace Magento\Tax\Test\TestCase;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Checkout\Test\Page\CheckoutCart;
+use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Core\Test\Fixture\ConfigData;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
+use Magento\Tax\Test\Fixture\TaxRule;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Cms\Test\Page\CmsIndex;
-use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Core\Test\Fixture\ConfigData;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 
 /**
  * Test Flow:

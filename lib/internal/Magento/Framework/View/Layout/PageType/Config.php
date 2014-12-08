@@ -1,7 +1,7 @@
 <?php
 /**
  * Page layout config model
- * 
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -43,7 +43,7 @@ class Config
     protected function _initPageTypes()
     {
         if ($this->_pageTypes === null) {
-            $this->_pageTypes = array();
+            $this->_pageTypes = [];
             foreach ($this->_dataStorage->get(null) as $pageTypeId => $pageTypeConfig) {
                 $pageTypeConfig['label'] = __($pageTypeConfig['label']);
                 $this->_pageTypes[$pageTypeId] = new \Magento\Framework\Object($pageTypeConfig);

@@ -12,7 +12,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class ConditionManagerTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\App\Resource|\PHPUnit_Framework_MockObject_MockObject
      */
@@ -110,7 +109,7 @@ class ConditionManagerTest extends \PHPUnit_Framework_TestCase
             true,
             '',
             0,
-            'test'
+            'test',
         ];
         $unionOperator = 'AND';
         $expectedResult = 'a = b AND 1 AND 0 AND test';
@@ -141,7 +140,7 @@ class ConditionManagerTest extends \PHPUnit_Framework_TestCase
                 'field' => 'a',
                 'operator' => '=',
                 'value' => 1,
-                'expectedResult' => '`a` = \'1\''
+                'expectedResult' => '`a` = \'1\'',
             ],
             [
                 'field' => 'a',

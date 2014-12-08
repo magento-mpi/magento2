@@ -128,7 +128,7 @@ class Flat extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!isset($describe[$attributeCode])) {
             return null;
         }
-        $columns = array($attributeCode => $attributeCode);
+        $columns = [$attributeCode => $attributeCode];
 
         $attributeIndex = sprintf('%s_value', $attributeCode);
         if (isset($describe[$attributeIndex])) {

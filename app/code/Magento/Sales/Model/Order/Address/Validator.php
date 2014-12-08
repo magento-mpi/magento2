@@ -18,7 +18,7 @@ class Validator
      * @var array
      */
     protected $required = [
-        'parent_id' =>'Parent Order Id',
+        'parent_id' => 'Parent Order Id',
         'postcode' => 'Zip code',
         'lastname' => 'Last name',
         'street' => 'Street',
@@ -27,7 +27,7 @@ class Validator
         'telephone' => 'Phone Number',
         'country_id' => 'Country',
         'firstname' => 'First Name',
-        'address_type' => 'Address Type'
+        'address_type' => 'Address Type',
     ];
 
     /**

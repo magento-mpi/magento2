@@ -24,8 +24,8 @@ class Save extends \Magento\Reminder\Controller\Adminhtml\Reminder
                 $model = $this->_initRule('rule_id');
 
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
-                    array(),
+                    ['from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter],
+                    [],
                     $data
                 );
                 $data = $inputFilter->getUnescaped();
@@ -37,13 +37,12 @@ class Save extends \Magento\Reminder\Controller\Adminhtml\Reminder
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                     return;
                 }
 
                 $data['conditions'] = $data['rule']['conditions'];
                 unset($data['rule']);
-
 
                 $model->loadPost($data);
                 $this->_getSession()->setPageData($model->getData());
@@ -53,13 +52,13 @@ class Save extends \Magento\Reminder\Controller\Adminhtml\Reminder
                 $this->_getSession()->setPageData(false);
 
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
+                    $this->_redirect('adminhtml/*/edit', ['id' => $model->getId(), '_current' => true]);
                     return;
                 }
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('We could not save the reminder rule.'));

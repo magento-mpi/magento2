@@ -29,10 +29,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name="chooser_name"]'
+            'selector' => 'input[name="chooser_name"]',
         ],
         'sku' => [
-            'selector' => 'input[name="chooser_sku"]'
+            'selector' => 'input[name="chooser_sku"]',
         ],
     ];
 }

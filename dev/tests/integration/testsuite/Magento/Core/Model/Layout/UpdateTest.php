@@ -34,10 +34,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testCrud()
     {
-        $this->_model->setData(array('handle' => 'default', 'xml' => '<layout/>', 'sort_order' => 123));
+        $this->_model->setData(['handle' => 'default', 'xml' => '<layout/>', 'sort_order' => 123]);
         $entityHelper = new \Magento\TestFramework\Entity(
             $this->_model,
-            array('handle' => 'custom', 'xml' => '<layout version="0.1.0"/>', 'sort_order' => 456)
+            ['handle' => 'custom', 'xml' => '<layout version="0.1.0"/>', 'sort_order' => 456]
         );
         $entityHelper->testCrud();
     }

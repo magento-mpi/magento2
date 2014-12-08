@@ -8,7 +8,6 @@
 
 namespace Magento\Widget\Test\Block\Adminhtml\Widget;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
@@ -37,7 +36,7 @@ class WidgetGrid extends AbstractGrid
      */
     protected $filters = [
         'title' => [
-            'selector' => 'input[name="title"]'
-        ]
+            'selector' => 'input[name="title"]',
+        ],
     ];
 }

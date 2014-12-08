@@ -22,7 +22,7 @@ class PropertyMapper extends PropertyMapperAbstract
      */
     public function map(array $input, $entityTypeId)
     {
-        return array(
+        return [
             'frontend_input_renderer' => $this->_getValue($input, 'input_renderer'),
             'is_global' => $this->_getValue(
                 $input,
@@ -43,6 +43,6 @@ class PropertyMapper extends PropertyMapperAbstract
             'apply_to' => $this->_getValue($input, 'apply_to'),
             'position' => $this->_getValue($input, 'position', 0),
             'is_used_for_promo_rules' => $this->_getValue($input, 'used_for_promo_rules', 0)
-        );
+        ];
     }
 }

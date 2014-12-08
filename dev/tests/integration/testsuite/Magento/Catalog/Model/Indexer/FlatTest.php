@@ -24,7 +24,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
      *
      * @var string[]
      */
-    protected static $attributeCodes = array();
+    protected static $attributeCodes = [];
 
     /**
      * List of attribute values
@@ -32,14 +32,14 @@ class FlatTest extends \PHPUnit_Framework_TestCase
      *
      * @var string[]
      */
-    protected static $attributeValues = array();
+    protected static $attributeValues = [];
 
     /**
      * List of attributes to exclude
      *
      * @var string[]
      */
-    protected static $attributesToExclude = array('url_path', 'display_mode');
+    protected static $attributesToExclude = ['url_path', 'display_mode'];
 
     /**
      * @var int

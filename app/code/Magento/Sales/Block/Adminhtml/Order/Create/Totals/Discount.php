@@ -43,7 +43,7 @@ class Discount extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\Defaul
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesData, $salesConfig, $data);

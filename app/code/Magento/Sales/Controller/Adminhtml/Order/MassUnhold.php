@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
 
 class MassUnhold extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -19,7 +18,7 @@ class MassUnhold extends \Magento\Sales\Controller\Adminhtml\Order
      */
     public function execute()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids', array());
+        $orderIds = $this->getRequest()->getPost('order_ids', []);
         $countUnHoldOrder = 0;
         $countNonUnHoldOrder = 0;
 

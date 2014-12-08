@@ -93,14 +93,14 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValueMap([
                     [\Magento\Framework\View\Layout\Generator\Block::TYPE, $this->generatorBlockMock],
-                    [\Magento\Framework\View\Layout\Generator\Container::TYPE, $this->generatorContainerMock]
+                    [\Magento\Framework\View\Layout\Generator\Container::TYPE, $this->generatorContainerMock],
                 ])
             );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManagerHelper->getObject(
             'Magento\Framework\View\Layout',
-            array(
+            [
                 'structure' => $this->structureMock,
                 'themeResolver' => $this->themeResolverMock,
                 'processorFactory' => $this->processorFactoryMock,
@@ -108,7 +108,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 'eventManager' => $this->eventManagerMock,
                 'scheduledStructure' => $this->schStructureMock,
                 'generatorPool' => $generatorPoolMock
-            )
+            ]
         );
     }
 
@@ -123,7 +123,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             ->willReturn('blockname');
         $this->generatorBlockMock->expects($this->once())->method('createBlock')->will($this->returnValue($blockMock));
 
-        $this->model->createBlock('type', 'blockname', array());
+        $this->model->createBlock('type', 'blockname', []);
         $this->assertInstanceOf('Magento\Framework\View\Element\AbstractBlock', $this->model->getBlock('blockname'));
         $this->assertFalse($this->model->getBlock('not_exist'));
     }
@@ -138,7 +138,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $this->processorFactoryMock->expects($this->once())
             ->method('create')
-            ->with(array('theme' => $themeMock))
+            ->with(['theme' => $themeMock])
             ->will($this->returnValue($this->processorMock));
 
         $this->assertEquals($this->processorMock, $this->model->getUpdate());
@@ -155,7 +155,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
 
         $this->processorFactoryMock->expects($this->once())
             ->method('create')
-            ->with(array('theme' => $themeMock))
+            ->with(['theme' => $themeMock])
             ->will($this->returnValue($this->processorMock));
 
         $xmlString = '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
@@ -550,7 +550,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'dynamic_type' => 'dynamic_type_value',
             'type' => 'type_value',
             'template' => 'template.phtml',
-            'data' => ['some' => 'data']
+            'data' => ['some' => 'data'],
         ];
         return [
             'wrong namespace' => [
@@ -560,7 +560,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'static_type' => 'static_type_value',
                     'dynamic_type' => 'dynamic_type_value',
                 ],
-                null
+                null,
             ],
             'wrong static type' => [
                 $rendererData,
@@ -569,7 +569,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'static_type' => 'wrong static type',
                     'dynamic_type' => 'dynamic_type_value',
                 ],
-                null
+                null,
             ],
             'wrong dynamic type' => [
                 $rendererData,
@@ -578,7 +578,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'static_type' => 'static_type_value',
                     'dynamic_type' => 'wrong dynamic type',
                 ],
-                null
+                null,
             ],
             'set and get test' => [
                 $rendererData,
@@ -591,7 +591,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     'type' => 'type_value',
                     'template' => 'template.phtml',
                     'data' => ['some' => 'data'],
-                ]
+                ],
             ],
         ];
     }
@@ -617,7 +617,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             [
                 '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'
                 . '<block></block></layout>',
-                true
+                true,
             ],
             [
                 '<?xml version="1.0"?><layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">'

@@ -17,7 +17,7 @@ $msrpShowOnGesture = $this->getPriceType('msrp_price')->isShowPriceOnGesture();
 $product = $this->getSaleableItem();
 ?>
 <?php if (count($tierPrices)) : ?>
-    <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices-tier items'); ?>">
+    <ul class="<?php echo($this->hasListClass() ? $this->getListClass() : 'prices-tier items'); ?>">
     <?php foreach ($tierPrices as $index => $price) : ?>
         <li class="item">
             <?php
@@ -46,7 +46,7 @@ $product = $this->getSaleableItem();
                                 'id_suffix'         => '-' . $index,
                                 'include_container' => true
                             ]
-                        )
+                        ),
                     ];
                     if ($this->getCanDisplayQty($product)) {
                         $tierPriceData['qty'] = $price['price_qty'];

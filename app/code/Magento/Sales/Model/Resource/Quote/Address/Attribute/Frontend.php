@@ -22,7 +22,7 @@ class Frontend extends \Magento\Eav\Model\Entity\Attribute\Frontend\AbstractFron
      */
     public function fetchTotals(\Magento\Sales\Model\Quote\Address $address)
     {
-        $arr = array();
+        $arr = [];
 
         return $arr;
     }

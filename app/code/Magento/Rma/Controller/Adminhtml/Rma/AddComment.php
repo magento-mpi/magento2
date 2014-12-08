@@ -46,9 +46,9 @@ class AddComment extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('comments_history')->toHtml();
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot add the RMA history.'));
+            $response = ['error' => true, 'message' => __('We cannot add the RMA history.')];
         }
         if (is_array($response)) {
             $this->getResponse()->representJson(

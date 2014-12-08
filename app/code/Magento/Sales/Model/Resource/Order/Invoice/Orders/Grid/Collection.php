@@ -46,7 +46,6 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Grid\Collec
         return $this->registryManager->registry('current_order');
     }
 
-
     /**
      * Apply sorting and filtering to collection
      *

@@ -8,9 +8,9 @@
 
 namespace Magento\Store\Test\Fixture\StoreGroup;
 
+use Magento\Store\Test\Fixture\Website;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Store\Test\Fixture\Website;
 
 /**
  * Class WebsiteId

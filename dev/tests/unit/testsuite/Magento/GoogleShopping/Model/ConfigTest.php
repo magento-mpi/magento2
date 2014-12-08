@@ -8,7 +8,7 @@
 
 namespace Magento\GoogleShopping\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

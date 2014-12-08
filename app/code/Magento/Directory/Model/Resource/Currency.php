@@ -61,7 +61,7 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $read = $this->_getReadAdapter();
-            $bind = array(':currency_from' => strtoupper($currencyFrom), ':currency_to' => strtoupper($currencyTo));
+            $bind = [':currency_from' => strtoupper($currencyFrom), ':currency_to' => strtoupper($currencyTo)];
             $select = $read->select()->from(
                 $this->_currencyRateTable,
                 'rate'
@@ -100,7 +100,7 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         if (!isset(self::$_rateCache[$currencyFrom][$currencyTo])) {
             $adapter = $this->_getReadAdapter();
-            $bind = array(':currency_from' => strtoupper($currencyFrom), ':currency_to' => strtoupper($currencyTo));
+            $bind = [':currency_from' => strtoupper($currencyFrom), ':currency_to' => strtoupper($currencyTo)];
             $select = $adapter->select()->from(
                 $this->_currencyRateTable,
                 'rate'
@@ -139,18 +139,18 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         if (is_array($rates) && sizeof($rates) > 0) {
             $adapter = $this->_getWriteAdapter();
-            $data = array();
+            $data = [];
             foreach ($rates as $currencyCode => $rate) {
                 foreach ($rate as $currencyTo => $value) {
                     $value = abs($value);
                     if ($value == 0) {
                         continue;
                     }
-                    $data[] = array('currency_from' => $currencyCode, 'currency_to' => $currencyTo, 'rate' => $value);
+                    $data[] = ['currency_from' => $currencyCode, 'currency_to' => $currencyTo, 'rate' => $value];
                 }
             }
             if ($data) {
-                $adapter->insertOnDuplicate($this->_currencyRateTable, $data, array('rate'));
+                $adapter->insertOnDuplicate($this->_currencyRateTable, $data, ['rate']);
             }
         } else {
             throw new \Magento\Framework\Model\Exception(__('Please correct the rates received'));
@@ -167,9 +167,9 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getConfigCurrencies($model, $path)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array(':config_path' => $path);
+        $bind = [':config_path' => $path];
         $select = $adapter->select()->from($this->getTable('core_config_data'))->where('path = :config_path');
-        $result = array();
+        $result = [];
         $rowSet = $adapter->fetchAll($select, $bind);
         foreach ($rowSet as $row) {
             $result = array_merge($result, explode(',', $row['value']));
@@ -188,7 +188,7 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function getCurrencyRates($currency, $toCurrencies = null)
     {
-        $rates = array();
+        $rates = [];
         if (is_array($currency)) {
             foreach ($currency as $code) {
                 $rates[$code] = $this->_getRatesByCode($code, $toCurrencies);
@@ -210,10 +210,10 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _getRatesByCode($code, $toCurrencies = null)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array(':currency_from' => $code);
+        $bind = [':currency_from' => $code];
         $select = $adapter->select()->from(
             $this->getTable('directory_currency_rate'),
-            array('currency_to', 'rate')
+            ['currency_to', 'rate']
         )->where(
             'currency_from = :currency_from'
         )->where(
@@ -221,7 +221,7 @@ class Currency extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $toCurrencies
         );
         $rowSet = $adapter->fetchAll($select, $bind);
-        $result = array();
+        $result = [];
 
         foreach ($rowSet as $row) {
             $result[$row['currency_to']] = $row['rate'];

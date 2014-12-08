@@ -19,7 +19,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      *
      * @var array
      */
-    protected $_actions = array();
+    protected $_actions = [];
 
     /**
      * Sales reorder
@@ -36,7 +36,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Sales\Helper\Reorder $salesReorder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesReorder = $salesReorder;
         parent::__construct($context, $data);
@@ -48,19 +48,19 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     public function render(\Magento\Framework\Object $row)
     {
-        $this->_actions = array();
+        $this->_actions = [];
         if ($this->_salesReorder->canReorder($row)) {
-            $reorderAction = array(
-                '@' => array(
-                    'href' => $this->getUrl('sales/order_create/reorder', array('order_id' => $row->getId()))
-                ),
-                '#' => __('Reorder')
-            );
+            $reorderAction = [
+                '@' => [
+                    'href' => $this->getUrl('sales/order_create/reorder', ['order_id' => $row->getId()]),
+                ],
+                '#' => __('Reorder'),
+            ];
             $this->addToActions($reorderAction);
         }
         $this->_eventManager->dispatch(
             'adminhtml_customer_orders_add_action_renderer',
-            array('renderer' => $this, 'row' => $row)
+            ['renderer' => $this, 'row' => $row]
         );
         return $this->_actionsToHtml();
     }
@@ -82,9 +82,9 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      * @param array $actions
      * @return string
      */
-    protected function _actionsToHtml(array $actions = array())
+    protected function _actionsToHtml(array $actions = [])
     {
-        $html = array();
+        $html = [];
         $attributesObject = new \Magento\Framework\Object();
 
         if (empty($actions)) {

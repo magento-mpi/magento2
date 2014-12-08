@@ -9,8 +9,6 @@
  */
 namespace Magento\Customer\Service\V1\Data;
 
-use Magento\Customer\Service\V1\Data\Region;
-use Magento\Customer\Service\V1\Data\RegionBuilder;
 
 class RegionTest extends \PHPUnit_Framework_TestCase
 {

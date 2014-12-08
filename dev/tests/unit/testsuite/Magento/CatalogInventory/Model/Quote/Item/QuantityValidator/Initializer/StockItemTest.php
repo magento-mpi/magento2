@@ -85,7 +85,7 @@ class StockItemTest extends \PHPUnit_Framework_TestCase
                     'setUseOldQty',
                     'setMessage',
                     'setBackorders',
-                    '__wakeup'
+                    '__wakeup',
                 ]
             )
             ->disableOriginalConstructor()

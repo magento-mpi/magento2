@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports Compared Product Index Resource Model
  *

@@ -29,9 +29,9 @@ class Save extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
-                    $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                    $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 } else {
-                    $this->_redirect('adminhtml/*/new', array('_current' => true));
+                    $this->_redirect('adminhtml/*/new', ['_current' => true]);
                 }
                 return;
             }
@@ -103,7 +103,7 @@ class Save extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
                 if ($this->getRequest()->getParam('back', false)) {
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('attribute_id' => $attributeObject->getId(), '_current' => true)
+                        ['attribute_id' => $attributeObject->getId(), '_current' => true]
                     );
                 } else {
                     $this->_redirect('adminhtml/*/');
@@ -112,12 +112,12 @@ class Save extends \Magento\Rma\Controller\Adminhtml\Rma\Item\Attribute
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Something went wrong saving the RMA item attribute.'));
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }

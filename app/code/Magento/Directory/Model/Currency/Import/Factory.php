@@ -40,7 +40,7 @@ class Factory
      * @throws \UnexpectedValueException
      * @return \Magento\Directory\Model\Currency\Import\ImportInterface
      */
-    public function create($serviceName, array $data = array())
+    public function create($serviceName, array $data = [])
     {
         $serviceClass = $this->_serviceConfig->getServiceClass($serviceName);
         if (!$serviceClass) {

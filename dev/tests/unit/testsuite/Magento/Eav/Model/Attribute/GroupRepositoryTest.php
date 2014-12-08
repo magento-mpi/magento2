@@ -332,7 +332,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->groupResourceMock->expects($this->once())
             ->method('delete')
             ->with($groupMock)
-            ->will($this->throwException(new \Exception));
+            ->will($this->throwException(new \Exception()));
         $groupMock->expects($this->once())->method('getId')->willReturn(42);
         $this->model->delete($groupMock);
     }

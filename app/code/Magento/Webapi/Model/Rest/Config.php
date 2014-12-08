@@ -8,8 +8,8 @@
 namespace Magento\Webapi\Model\Rest;
 
 use Magento\Webapi\Controller\Rest\Router\Route;
-use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\Config as ModelConfig;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Webapi Config Model for Rest.
@@ -89,7 +89,7 @@ class Config
     protected function _formatRoutePath($routePath)
     {
         $routePathParts = explode('/', $routePath);
-        $pathParts = array();
+        $pathParts = [];
         foreach ($routePathParts as $pathPart) {
             $pathParts[] = substr($pathPart, 0, 1) === ":" ? $pathPart : strtolower($pathPart);
         }

@@ -17,7 +17,7 @@ class CountryRegion extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $arrRes = array();
+        $arrRes = [];
 
         $countryId = $this->getRequest()->getParam('parent');
         if (!empty($countryId)) {

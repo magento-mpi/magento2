@@ -17,14 +17,14 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     protected function _getCollection(\Zend_Db_Select $select)
     {
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
 
         return new \Magento\Core\Model\Resource\Layout\Update\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
-            $this->getMock('Magento\Framework\Logger', array(), array(), '', false),
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false),
+            $this->getMock('Magento\Framework\Logger', [], [], '', false),
             $this->getMockForAbstractClass('Magento\Framework\Data\Collection\Db\FetchStrategyInterface'),
             $eventManager,
-            $this->getMock('Magento\Framework\Stdlib\DateTime', null, array(), '', true),
+            $this->getMock('Magento\Framework\Stdlib\DateTime', null, [], '', true),
             null,
             $this->_getResource($select)
         );
@@ -33,7 +33,7 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
     public function testAddThemeFilter()
     {
         $themeId = 1;
-        $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], [], '', false);
         $select->expects($this->once())->method('where')->with('link.theme_id = ?', $themeId);
 
         $collection = $this->_getCollection($select);
@@ -43,7 +43,7 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
     public function testAddStoreFilter()
     {
         $storeId = 1;
-        $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], [], '', false);
         $select->expects($this->once())->method('where')->with('link.store_id = ?', $storeId);
 
         $collection = $this->_getCollection($select);
@@ -55,13 +55,13 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
      */
     public function testJoinWithLink()
     {
-        $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], [], '', false);
         $select->expects(
             $this->once()
         )->method(
             'join'
         )->with(
-            array('link' => 'core_layout_link'),
+            ['link' => 'core_layout_link'],
             'link.layout_update_id = main_table.layout_update_id',
             $this->isType('array')
         );
@@ -73,15 +73,15 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
 
     public function testAddNoLinksFilter()
     {
-        $select = $this->getMock('Zend_Db_Select', array(), array(), '', false);
+        $select = $this->getMock('Zend_Db_Select', [], [], '', false);
         $select->expects(
             $this->once()
         )->method(
             'joinLeft'
         )->with(
-            array('link' => 'core_layout_link'),
+            ['link' => 'core_layout_link'],
             'link.layout_update_id = main_table.layout_update_id',
-            array(array())
+            [[]]
         );
         $select->expects($this->once())->method('where')->with(self::TEST_WHERE_CONDITION);
 
@@ -95,7 +95,7 @@ class CollectionTest extends \Magento\Core\Model\Resource\Layout\AbstractTestCas
             'prepareSqlCondition'
         )->with(
             'link.layout_update_id',
-            array('null' => true)
+            ['null' => true]
         )->will(
             $this->returnValue(self::TEST_WHERE_CONDITION)
         );

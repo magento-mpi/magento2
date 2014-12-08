@@ -7,10 +7,10 @@
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
-use Magento\Tax\Model\Config;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Gdata\Gshopping\Entry;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Tax\Model\Config;
 
 /**
  * Price attribute model

@@ -71,7 +71,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
     {
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Framework\App\RequestInterface');
-        $request->setPost(array('locale' => 'de_DE'));
+        $request->setPost(['locale' => 'de_DE']);
         $this->_checkSetLocale('de_DE');
     }
 

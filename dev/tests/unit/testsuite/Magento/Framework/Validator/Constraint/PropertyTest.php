@@ -67,8 +67,8 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
         $value,
         $validateValue,
         $expectedResult,
-        $validatorMessages = array(),
-        $expectedMessages = array()
+        $validatorMessages = [],
+        $expectedMessages = []
     ) {
         $this->_validatorMock->expects(
             $this->once()
@@ -103,35 +103,35 @@ class PropertyTest extends \PHPUnit_Framework_TestCase
      */
     public function isValidDataProvider()
     {
-        return array(
-            array(array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'), 'Property value', true),
-            array(
-                new \Magento\Framework\Object(array(self::PROPERTY_NAME => 'Property value')),
+        return [
+            [[self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'], 'Property value', true],
+            [
+                new \Magento\Framework\Object([self::PROPERTY_NAME => 'Property value']),
                 'Property value',
                 true
-            ),
-            array(new \ArrayObject(array(self::PROPERTY_NAME => 'Property value')), 'Property value', true),
-            array(
-                array(self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'),
+            ],
+            [new \ArrayObject([self::PROPERTY_NAME => 'Property value']), 'Property value', true],
+            [
+                [self::PROPERTY_NAME => 'Property value', 'foo' => 'Foo value'],
                 'Property value',
                 false,
-                array('Error message 1', 'Error message 2'),
-                array(self::PROPERTY_NAME => array('Error message 1', 'Error message 2'))
-            ),
-            array(
-                array('foo' => 'Foo value'),
+                ['Error message 1', 'Error message 2'],
+                [self::PROPERTY_NAME => ['Error message 1', 'Error message 2']]
+            ],
+            [
+                ['foo' => 'Foo value'],
                 null,
                 false,
-                array('Error message 1'),
-                array(self::PROPERTY_NAME => array('Error message 1'))
-            ),
-            array(
+                ['Error message 1'],
+                [self::PROPERTY_NAME => ['Error message 1']]
+            ],
+            [
                 'scalar',
                 null,
                 false,
-                array('Error message 1'),
-                array(self::PROPERTY_NAME => array('Error message 1'))
-            )
-        );
+                ['Error message 1'],
+                [self::PROPERTY_NAME => ['Error message 1']]
+            ]
+        ];
     }
 }

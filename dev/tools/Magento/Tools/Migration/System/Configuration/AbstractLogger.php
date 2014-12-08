@@ -21,7 +21,7 @@ abstract class AbstractLogger
      *
      * @var array
      */
-    protected $_logs = array(self::FILE_KEY_VALID => array(), self::FILE_KEY_INVALID => array());
+    protected $_logs = [self::FILE_KEY_VALID => [], self::FILE_KEY_INVALID => []];
 
     /**
      * Add log data
@@ -43,7 +43,7 @@ abstract class AbstractLogger
      */
     public function __toString()
     {
-        $result = array();
+        $result = [];
         $totalCount = 0;
         foreach ($this->_logs as $type => $data) {
             $countElements = count($data);

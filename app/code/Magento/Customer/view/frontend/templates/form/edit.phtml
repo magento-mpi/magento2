@@ -32,7 +32,7 @@
             <?php echo $_gender->setGender($this->getCustomer()->getGender())->toHtml() ?>
         <?php endif ?>
         <div class="field choice">
-            <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if($this->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
+            <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if ($this->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
             <label class="label" for="change-password"><span><?php echo __('Change Password') ?></span></label>
         </div>
     </fieldset>

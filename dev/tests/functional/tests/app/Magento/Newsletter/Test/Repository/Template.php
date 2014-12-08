@@ -29,7 +29,7 @@ class Template extends AbstractRepository
             'subject' => 'Newsletter Subject %isolation%',
             'sender_name' => 'Sender Name %isolation%',
             'sender_email' => 'support%isolation%@example.com',
-            'text' => 'Template Content %isolation%'
+            'text' => 'Template Content %isolation%',
         ];
     }
 }

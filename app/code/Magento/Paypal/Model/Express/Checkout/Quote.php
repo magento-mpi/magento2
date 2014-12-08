@@ -7,10 +7,10 @@
  */
 namespace Magento\Paypal\Model\Express\Checkout;
 
-use Magento\Customer\Api\Data\AddressDataBuilder;
-use Magento\Framework\Object\Copy as CopyObject;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Framework\Object\Copy as CopyObject;
 
 /**
  * Class Quote
@@ -101,7 +101,6 @@ class Quote
         return $quote;
     }
 
-
     /**
      * @param \Magento\Sales\Model\Quote $quote
      * @param int|null $customerId
@@ -130,7 +129,7 @@ class Quote
             $shipping->setDefaultBilling(false);
             $shipping->setDefaultShipping(true);
             $quote->addCustomerAddress($this->addressBuilder->populateWithArray($shipping->getData())->create());
-        } else if (!$customer->getDefaultShipping()) {
+        } elseif (!$customer->getDefaultShipping()) {
             $isBillingAddressDefaultShipping = true;
         }
         if ($billing) {

@@ -8,9 +8,9 @@
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\CategoryIds;
+use Magento\CatalogRule\Test\Fixture\CatalogRule;
 
 /**
  * Test Creation for UpdateCatalogPriceRuleEntity
@@ -59,16 +59,16 @@ class UpdateCatalogPriceRuleEntityTest extends AbstractCatalogRuleEntityTest
             $replace = [
                 'conditions' => [
                     'conditions' => [
-                        '%category_1%' => $sourceCategories->getIds()[0]
-                    ]
-                ]
+                        '%category_1%' => $sourceCategories->getIds()[0],
+                    ],
+                ],
             ];
         } else {
             $replace = [];
         }
         $filter = [
             'name' => $catalogPriceRuleOriginal->getName(),
-            'rule_id' => $catalogPriceRuleOriginal->getId()
+            'rule_id' => $catalogPriceRuleOriginal->getId(),
         ];
 
         // Steps

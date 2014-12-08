@@ -47,7 +47,7 @@ class LayoutFactory
      * @return LayoutInterface
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $layout = $this->_objectManager->create($this->_instanceName, $data);
         if (!$layout instanceof LayoutInterface) {

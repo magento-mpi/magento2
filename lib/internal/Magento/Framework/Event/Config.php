@@ -36,6 +36,6 @@ class Config implements ConfigInterface
      */
     public function getObservers($eventName)
     {
-        return $this->_dataContainer->get($eventName, array());
+        return $this->_dataContainer->get($eventName, []);
     }
 }

@@ -7,7 +7,6 @@
  */
 namespace Magento\Checkout\Block\Shipping;
 
-use Magento\Framework\Object;
 
 class PriceTest extends \PHPUnit_Framework_TestCase
 {

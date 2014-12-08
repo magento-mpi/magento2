@@ -29,8 +29,8 @@ $defaultWebsiteId = $defaultWebsite->getId();
 $defaultStoreGroupId = $defaultStoreGroup->getId();
 $defaultStoreViewId = $defaultStoreView->getId();
 
-$websitesId = array();
-$groupsId = array();
+$websitesId = [];
+$groupsId = [];
 
 //Create $websitesCount websites
 for ($i = 0; $i < $websitesCount; $i++) {
@@ -42,12 +42,12 @@ for ($i = 0; $i < $websitesCount; $i++) {
     $websiteCode = sprintf('website_%d', $i + 1);
     $websiteName = sprintf('Website %d', $i + 1);
     $website->addData(
-        array(
+        [
             'website_id'    => $websiteId,
             'code'          => $websiteCode,
             'name'          => $websiteName,
             'is_default'    => (int)$i == 0,
-        )
+        ]
     );
     $website->save();
     $websitesId[$i] = $website->getId();
@@ -81,18 +81,18 @@ for ($i = 0; $i < $storeGroupsCount; $i++) {
 
     $storeGroup = clone $defaultStoreGroup;
     $storeGroup->addData(
-        array(
+        [
             'group_id'          => $groupId,
             'website_id'        => $websiteId,
             'name'              => $storeGroupName,
-            'root_category_id'  => $category->getId()
-        )
+            'root_category_id'  => $category->getId(),
+        ]
     );
     $storeGroup->save();
     $groupsId[$websiteId][] = $storeGroup->getId();
 
     $websiteNumber++;
-    if ($websiteNumber==count($websitesId)) {
+    if ($websiteNumber == count($websitesId)) {
         $websiteNumber = 0;
     }
     usleep(20);
@@ -112,29 +112,29 @@ for ($i = 0; $i < $storesCount; $i++) {
     $storeCode = sprintf('store_view_%d_w_%d_g_%d', $i + 1, $websiteId, $groupId);
     $storeName = sprintf('Store view %d - website_id_%d - group_id_%d', $i + 1, $websiteId, $groupId);
     $store->addData(
-        array(
+        [
             'store_id'      => $storeId,
             'name'          => $storeName,
             'website_id'    => $websiteId,
-            'group_id'      => $groupId
-        )
+            'group_id'      => $groupId,
+        ]
     );
 
     if ($storeId == null) {
         $store->addData(
-            array(
-                'code' => $storeCode
-            )
+            [
+                'code' => $storeCode,
+            ]
         );
     }
 
     $store->save();
 
     $groupNumber++;
-    if ($groupNumber==count($groupsId[$websiteId])) {
+    if ($groupNumber == count($groupsId[$websiteId])) {
         $groupNumber = 0;
         $websiteNumber++;
-        if ($websiteNumber==count($websitesId)) {
+        if ($websiteNumber == count($websitesId)) {
             $websiteNumber = 0;
         }
     }

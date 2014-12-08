@@ -20,7 +20,7 @@ class Chooser extends \Magento\Backend\App\Action
         return $this->_view->getLayout()->createBlock(
             'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser',
             '',
-            array('data' => array('id' => $this->getRequest()->getParam('uniq_id')))
+            ['data' => ['id' => $this->getRequest()->getParam('uniq_id')]]
         );
     }
 

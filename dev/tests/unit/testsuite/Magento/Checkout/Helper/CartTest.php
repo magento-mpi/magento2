@@ -7,8 +7,8 @@
  */
 namespace Magento\Checkout\Helper;
 
-use \Magento\Framework\App\Action\Action;
-use \Magento\Framework\Object;
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\Object;
 use Magento\Sales\Model\Quote\Item;
 
 class CartTest extends \PHPUnit_Framework_TestCase
@@ -98,7 +98,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
             $this->cartMock,
             $this->checkoutSessionMock
         );
-
     }
 
     public function testGetCart()
@@ -276,13 +275,13 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $expectedPostData1 = json_encode(
             [
                 'action' => $url,
-                'data' => ['id' => $id, 'uenc' => $uenc]
+                'data' => ['id' => $id, 'uenc' => $uenc],
             ]
         );
         $expectedPostData2 = json_encode(
             [
                 'action' => $url,
-                'data' => ['id' => $id]
+                'data' => ['id' => $id],
             ]
         );
 

@@ -36,7 +36,7 @@ class ParameterLineBreak extends ConditionalLineBreak
      */
     public function __construct()
     {
-        parent::__construct(array());
+        parent::__construct([]);
     }
 
     /**

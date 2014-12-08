@@ -57,7 +57,7 @@ class State extends Object
     {
         $filters = $this->getData('filters');
         if (is_null($filters)) {
-            $filters = array();
+            $filters = [];
             $this->setData('filters', $filters);
         }
         return $filters;

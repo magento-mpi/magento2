@@ -33,7 +33,7 @@ class History extends \Magento\GiftCardAccount\Model\History
         \Magento\Backend\Model\Auth\Session $adminSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminSession = $adminSession;
         parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);

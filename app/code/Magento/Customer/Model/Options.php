@@ -70,7 +70,7 @@ class Options
         if (empty($options)) {
             return false;
         }
-        $result = array();
+        $result = [];
         $options = explode(';', $options);
         foreach ($options as $value) {
             $value = $this->escaper->escapeHtml(trim($value));

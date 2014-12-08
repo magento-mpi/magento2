@@ -8,9 +8,9 @@
 
 namespace Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit;
 
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Mtf\Client\Element;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Backend\Test\Block\Widget\FormTabs;
 
 /**
  * Class PromoForm

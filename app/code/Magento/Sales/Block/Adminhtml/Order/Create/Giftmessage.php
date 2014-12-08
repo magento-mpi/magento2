@@ -46,7 +46,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
         PriceCurrencyInterface $priceCurrency,
         \Magento\GiftMessage\Model\Save $giftMessageSave,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_messageHelper = $messageHelper;
         $this->_giftMessageSave = $giftMessageSave;
@@ -80,7 +80,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
      */
     public function getItems()
     {
-        $items = array();
+        $items = [];
         $allItems = $this->getQuote()->getAllItems();
 
         foreach ($allItems as $item) {

@@ -8,12 +8,12 @@
 
 namespace Magento\Paypal\Test\Block\Form\PayflowAdvanced;
 
-use Mtf\Client\Element;
-use Mtf\Client\Driver\Selenium\Browser;
-use Mtf\Block\BlockFactory;
-use Mtf\Client\Element\Locator;
-use Mtf\Block\Mapper;
 use Magento\Payment\Test\Block\Form\Cc;
+use Mtf\Block\BlockFactory;
+use Mtf\Block\Mapper;
+use Mtf\Client\Driver\Selenium\Browser;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class CcLink

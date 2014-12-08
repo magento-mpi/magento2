@@ -9,7 +9,6 @@ namespace Magento\Sales\Controller;
 
 use Magento\Framework\App\Action\Context;
 use Magento\Sales\Model\Download as ModelDownload;
-use Magento\Catalog\Model\Product\Type\AbstractType as AbstractProductType;
 
 /**
  * Sales controller for download purposes

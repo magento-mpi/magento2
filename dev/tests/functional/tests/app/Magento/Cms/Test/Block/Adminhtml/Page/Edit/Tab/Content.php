@@ -9,8 +9,8 @@
 namespace Magento\Cms\Test\Block\Adminhtml\Page\Edit\Tab;
 
 use Magento\Backend\Test\Block\Widget\Tab;
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Content

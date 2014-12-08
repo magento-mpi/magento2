@@ -20,7 +20,7 @@ class Db implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $cronTab = isset($source['crontab']) ? $source['crontab'] : array();
+        $cronTab = isset($source['crontab']) ? $source['crontab'] : [];
 
         if (empty($cronTab)) {
             return $cronTab;
@@ -36,7 +36,7 @@ class Db implements \Magento\Framework\Config\ConverterInterface
      */
     protected function _extractParams(array $cronTab)
     {
-        $result = array();
+        $result = [];
         foreach ($cronTab as $groupName => $groupConfig) {
             $jobs = $groupConfig['jobs'];
             foreach ($jobs as $jobName => $value) {

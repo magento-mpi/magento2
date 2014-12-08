@@ -36,21 +36,21 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
      *
      * @var array
      */
-    protected $_indexValueAttributes = array();
+    protected $_indexValueAttributes = [];
 
     /**
      * Website code-to-ID
      *
      * @var array
      */
-    protected $_websiteCodeToId = array();
+    protected $_websiteCodeToId = [];
 
     /**
      * All stores code-ID pairs.
      *
      * @var array
      */
-    protected $_storeCodeToId = array();
+    protected $_storeCodeToId = [];
 
     /**
      * Entity attributes parameters
@@ -64,7 +64,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
      *
      * @var array
      */
-    protected $_attributes = array();
+    protected $_attributes = [];
 
     /**
      * Attributes collection
@@ -95,7 +95,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($coreData, $string, $scopeConfig, $importFactory, $resourceHelper, $resource, $data);
 
@@ -167,7 +167,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
     {
         /** @var $attribute \Magento\Eav\Model\Attribute */
         foreach ($this->_attributeCollection as $attribute) {
-            $this->_attributes[$attribute->getAttributeCode()] = array(
+            $this->_attributes[$attribute->getAttributeCode()] = [
                 'id' => $attribute->getId(),
                 'code' => $attribute->getAttributeCode(),
                 'table' => $attribute->getBackend()->getTable(),
@@ -175,8 +175,8 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
                 'is_static' => $attribute->isStatic(),
                 'rules' => $attribute->getValidateRules() ? unserialize($attribute->getValidateRules()) : null,
                 'type' => \Magento\ImportExport\Model\Import::getAttributeType($attribute),
-                'options' => $this->getAttributeOptions($attribute)
-            );
+                'options' => $this->getAttributeOptions($attribute),
+            ];
         }
         return $this;
     }
@@ -200,9 +200,9 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
      */
     public function getAttributeOptions(
         \Magento\Eav\Model\Entity\Attribute\AbstractAttribute $attribute,
-        array $indexAttributes = array()
+        array $indexAttributes = []
     ) {
-        $options = array();
+        $options = [];
 
         if ($attribute->usesSource()) {
             // merge global entity index value attributes
@@ -216,7 +216,7 @@ abstract class AbstractEav extends \Magento\ImportExport\Model\Import\AbstractEn
 
             try {
                 foreach ($attribute->getSource()->getAllOptions(false) as $option) {
-                    $value = is_array($option['value']) ? $option['value'] : array($option);
+                    $value = is_array($option['value']) ? $option['value'] : [$option];
                     foreach ($value as $innerOption) {
                         if (strlen($innerOption['value'])) {
                             // skip ' -- Please Select -- ' option

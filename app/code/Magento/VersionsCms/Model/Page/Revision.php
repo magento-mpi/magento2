@@ -116,7 +116,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
         \Magento\VersionsCms\Model\Page\RevisionFactory $pageRevisionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_config = $cmsConfig;
         $this->_coreDate = $coreDate;
@@ -190,7 +190,7 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     protected function _prepareDataForPublish()
     {
-        $data = array();
+        $data = [];
         $attributes = $this->_config->getPageRevisionControledAttributes();
         foreach ($this->getData() as $key => $value) {
             if (in_array($key, $attributes)) {
@@ -286,6 +286,6 @@ class Revision extends \Magento\Framework\Model\AbstractModel implements \Magent
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

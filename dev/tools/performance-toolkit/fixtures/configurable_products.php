@@ -14,7 +14,7 @@ $storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreMan
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->get('Magento\Catalog\Model\Category');
 
-$result = array();
+$result = [];
 //Get all websites
 $websites = $storeManager->getWebsites();
 foreach ($websites as $website) {
@@ -33,7 +33,7 @@ foreach ($websites as $website) {
             $structure = explode('/', $category->getPath());
             $pathSize  = count($structure);
             if ($pathSize > 1) {
-                $path = array();
+                $path = [];
                 for ($i = 1; $i < $pathSize; $i++) {
                     $path[] = $category->load($structure[$i])->getName();
                 }
@@ -43,8 +43,8 @@ foreach ($websites as $website) {
                 $resultsCategoryName = $category->getName();
             }
             //Deleted root categories
-            if (trim($resultsCategoryName)!='') {
-                $result[$resultsCategory] = array($websiteCode, $resultsCategoryName, $rootCategoryName);
+            if (trim($resultsCategoryName) != '') {
+                $result[$resultsCategory] = [$websiteCode, $resultsCategoryName, $rootCategoryName];
             }
         }
     }
@@ -61,7 +61,7 @@ $productRootCategory = function ($index) use ($result) {
     return $result[$index % count($result)][2];
 };
 
-$headers = array (
+$headers = [
    'sku',
    '_store',
    '_attribute_set',
@@ -171,10 +171,10 @@ $headers = array (
    '_super_attribute_code',
    '_super_attribute_option',
    '_super_attribute_price_corr',
-);
+];
 
-$rows = array (
-    array (
+$rows = [
+    [
         'sku' => 'Configurable Product %s-option 1',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -284,8 +284,8 @@ $rows = array (
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
         '_super_attribute_price_corr' => '',
-    ),
-    array (
+    ],
+    [
         'sku' => 'Configurable Product %s-option 2',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -395,8 +395,8 @@ $rows = array (
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
         '_super_attribute_price_corr' => '',
-    ),
-    array (
+    ],
+    [
         'sku' => 'Configurable Product %s-option 3',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -506,8 +506,8 @@ $rows = array (
         '_super_attribute_code' => '',
         '_super_attribute_option' => '',
         '_super_attribute_price_corr' => '',
-    ),
-    array (
+    ],
+    [
         'sku' => 'Configurable Product %s',
         '_store' => '',
         '_attribute_set' => 'Default',
@@ -617,8 +617,8 @@ $rows = array (
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 1',
         '_super_attribute_price_corr' => '10.0000',
-    ),
-    array (
+    ],
+    [
         'sku' => '',
         '_store' => '',
         '_attribute_set' => '',
@@ -728,8 +728,8 @@ $rows = array (
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 2',
         '_super_attribute_price_corr' => '20.0000',
-    ),
-    array (
+    ],
+    [
         'sku' => '',
         '_store' => '',
         '_attribute_set' => '',
@@ -839,8 +839,8 @@ $rows = array (
         '_super_attribute_code' => 'configurable_variations',
         '_super_attribute_option' => 'option 3',
         '_super_attribute_price_corr' => '30.0000',
-    ),
-);
+    ],
+];
 
 /**
  * Create configurable products
@@ -852,7 +852,7 @@ $pattern->setRowsSet($rows);
 /** @var \Magento\ImportExport\Model\Import $import */
 $import = $this->getObjectManager()->create(
     'Magento\ImportExport\Model\Import',
-    array('data' => array('entity' => 'catalog_product', 'behavior' => 'append'))
+    ['data' => ['entity' => 'catalog_product', 'behavior' => 'append']]
 );
 
 $source = new \Magento\ToolkitFramework\ImportExport\Fixture\Complex\Generator($pattern, $configurablesCount);

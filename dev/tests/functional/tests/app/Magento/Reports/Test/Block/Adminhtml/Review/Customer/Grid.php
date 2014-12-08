@@ -8,9 +8,9 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Customer;
 
+use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
 
 /**
  * Class Grid

@@ -34,7 +34,7 @@ class Status extends \Magento\Backend\Controller\Adminhtml\System\Config\System\
      */
     public function execute()
     {
-        $result = array();
+        $result = [];
         $flag = $this->_getSyncFlag();
 
         if ($flag) {

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reports invitation report collection
  *
@@ -49,17 +48,17 @@ class Collection extends \Magento\Invitation\Model\Resource\Invitation\Collectio
 
         $this->addFieldToFilter(
             'invitation_date',
-            array('from' => $fromDate, 'to' => $toDate, 'time' => true)
+            ['from' => $fromDate, 'to' => $toDate, 'time' => true]
         )->getSelect()->reset(
             \Zend_Db_Select::COLUMNS
         )->columns(
-            array(
+            [
                 'sent' => new \Zend_Db_Expr('COUNT(main_table.invitation_id)'),
                 'accepted' => new \Zend_Db_Expr('COUNT(DISTINCT main_table.referral_id)'),
                 'canceled' => new \Zend_Db_Expr('SUM(' . $canceledField . ') '),
                 'canceled_rate' => $canceledRate,
-                'accepted_rate' => $acceptedRate
-            )
+                'accepted_rate' => $acceptedRate,
+            ]
         );
 
         $this->_joinFields($fromDate, $toDate);
@@ -86,7 +85,7 @@ class Collection extends \Magento\Invitation\Model\Resource\Invitation\Collectio
     public function setStoreIds($storeIds)
     {
         if ($storeIds) {
-            $this->addFieldToFilter('main_table.store_id', array('in' => (array)$storeIds));
+            $this->addFieldToFilter('main_table.store_id', ['in' => (array)$storeIds]);
         }
         return $this;
     }

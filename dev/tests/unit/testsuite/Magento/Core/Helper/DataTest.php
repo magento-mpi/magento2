@@ -172,7 +172,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ]
         );
         $this->assertEquals($expected, $helper->isDevAllowed($storeId));
-
     }
 
     public function isDevAllowedDataProvider()

@@ -7,6 +7,7 @@
  * @license     {license_link}
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Version;
+
 use Magento\TestFramework\Helper\ObjectManager;
 
 class  VersionsTest extends \PHPUnit_Framework_TestCase
@@ -103,5 +104,4 @@ class  VersionsTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
     }
-
-} 
+}

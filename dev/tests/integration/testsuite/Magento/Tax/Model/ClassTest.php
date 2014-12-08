@@ -94,10 +94,10 @@ class ClassTest extends \PHPUnit_Framework_TestCase
 
     public function classesDataProvider()
     {
-        return array(
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER),
-            array(\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT)
-        );
+        return [
+            [\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER],
+            [\Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT]
+        ];
     }
 
     /**

@@ -28,8 +28,8 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_parserMock = $this->getMock(
             'Magento\Backend\Model\Widget\Grid\Parser',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false,
@@ -38,8 +38,8 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->_factoryMock = $this->getMock(
             'Magento\Framework\Object\Factory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false,
             false,
@@ -50,18 +50,18 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            array('sub_test1' => 3, 'sub_test2' => 2)
+            ['sub_test1' => 3, 'sub_test2' => 2]
         )->will(
-            $this->returnValue(new \Magento\Framework\Object(array('sub_test1' => 3, 'sub_test2' => 2)))
+            $this->returnValue(new \Magento\Framework\Object(['sub_test1' => 3, 'sub_test2' => 2]))
         );
 
-        $arguments = array('factory' => $this->_factoryMock, 'parser' => $this->_parserMock);
+        $arguments = ['factory' => $this->_factoryMock, 'parser' => $this->_parserMock];
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Backend\Model\Widget\Grid\SubTotals', $arguments);
 
         // setup columns
-        $columns = array('sub_test1' => 'sum', 'sub_test2' => 'avg');
+        $columns = ['sub_test1' => 'sum', 'sub_test2' => 'avg'];
         foreach ($columns as $index => $expression) {
             $this->_model->setColumn($index, $expression);
         }
@@ -75,7 +75,7 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
 
     public function testCountTotals()
     {
-        $expected = new \Magento\Framework\Object(array('sub_test1' => 3, 'sub_test2' => 2));
+        $expected = new \Magento\Framework\Object(['sub_test1' => 3, 'sub_test2' => 2]);
         $this->assertEquals($expected, $this->_model->countTotals($this->_getTestCollection()));
     }
 
@@ -87,13 +87,13 @@ class SubTotalsTest extends \PHPUnit_Framework_TestCase
     protected function _getTestCollection()
     {
         $collection = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
-        $items = array(
-            new \Magento\Framework\Object(array('sub_test1' => '1', 'sub_test2' => '2')),
-            new \Magento\Framework\Object(array('sub_test1' => '1', 'sub_test2' => '2')),
-            new \Magento\Framework\Object(array('sub_test1' => '1', 'sub_test2' => '2'))
-        );
+        $items = [
+            new \Magento\Framework\Object(['sub_test1' => '1', 'sub_test2' => '2']),
+            new \Magento\Framework\Object(['sub_test1' => '1', 'sub_test2' => '2']),
+            new \Magento\Framework\Object(['sub_test1' => '1', 'sub_test2' => '2']),
+        ];
         foreach ($items as $item) {
             $collection->addItem($item);
         }

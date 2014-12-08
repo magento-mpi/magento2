@@ -15,7 +15,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $moduleReader = $this->getMockBuilder(
             'Magento\Framework\Module\Dir\Reader'
         )->setMethods(
-            array('getModuleDir')
+            ['getModuleDir']
         )->disableOriginalConstructor()->getMock();
 
         $moduleReader->expects(
@@ -31,7 +31,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $quickStyle = $this->getMock(
             'Magento\DesignEditor\Model\Config\Control\QuickStyles',
             null,
-            array('moduleReader' => $moduleReader, 'configFiles' => array('sample')),
+            ['moduleReader' => $moduleReader, 'configFiles' => ['sample']],
             '',
             false
         );

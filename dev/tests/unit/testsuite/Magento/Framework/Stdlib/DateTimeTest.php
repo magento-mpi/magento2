@@ -72,16 +72,16 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         // Take care when calling date here as it can be called much earlier than when testFormatDate
         // executes thus causing a discrepancy in the actual vs expected time. See MAGETWO-10296
         $date = new \Magento\Framework\Stdlib\DateTime\Date();
-        return array(
-            'null' => array(null, false, ''),
-            'null including Time' => array(null, true, ''),
-            'Bool true' => array(true, false, 'Y-m-d'),
-            'Bool true including Time' => array(true, true, 'Y-m-d H:i:s'),
-            'Bool false' => array(false, false, ''),
-            'Bool false including Time' => array(false, true, ''),
-            'Zend Date' => array($date, false, date('Y-m-d', $date->getTimestamp())),
-            'Zend Date including Time' => array($date, true, date('Y-m-d H:i:s', $date->getTimestamp()))
-        );
+        return [
+            'null' => [null, false, ''],
+            'null including Time' => [null, true, ''],
+            'Bool true' => [true, false, 'Y-m-d'],
+            'Bool true including Time' => [true, true, 'Y-m-d H:i:s'],
+            'Bool false' => [false, false, ''],
+            'Bool false including Time' => [false, true, ''],
+            'Zend Date' => [$date, false, date('Y-m-d', $date->getTimestamp())],
+            'Zend Date including Time' => [$date, true, date('Y-m-d H:i:s', $date->getTimestamp())]
+        ];
     }
 
     /**
@@ -101,13 +101,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
      */
     public function isEmptyDateDataProvider()
     {
-        return array(
-            array('', true),
-            array(' ', true),
-            array('0000-00-00', true),
-            array('0000-00-00 00:00:00', true),
-            array('2000-10-10', false),
-            array('2000-10-10 10:10:10', false)
-        );
+        return [
+            ['', true],
+            [' ', true],
+            ['0000-00-00', true],
+            ['0000-00-00 00:00:00', true],
+            ['2000-10-10', false],
+            ['2000-10-10 10:10:10', false]
+        ];
     }
 }

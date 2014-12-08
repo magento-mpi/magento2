@@ -95,7 +95,7 @@ class CatalogProductVirtual extends AbstractRepository
                 'is_in_stock' => 'In Stock',
             ],
             'price' => ['value' => 50.00, 'preset' => '-'],
-            'checkout_data' => ['preset' => '50_dollar_product']
+            'checkout_data' => ['preset' => '50_dollar_product'],
         ];
     }
 }

@@ -16,7 +16,7 @@ class Sample
     /**
      * @var array
      */
-    protected $messages = array();
+    protected $messages = [];
 
     /**
      * @param array $messages

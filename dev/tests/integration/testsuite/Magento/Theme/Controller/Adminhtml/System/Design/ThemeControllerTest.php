@@ -45,14 +45,14 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
         $tmpDir->create($subDir);
         $target = $tmpDir->getAbsolutePath("{$subDir}/{$name}");
         copy(__DIR__ . "/_files/{$name}", $target);
-        $_FILES = array(
-            'js_files_uploader' => array(
+        $_FILES = [
+            'js_files_uploader' => [
                 'name' => 'simple-js-file.js',
                 'type' => 'application/x-javascript',
                 'tmp_name' => $target,
                 'error' => '0',
-                'size' => '28'
-            )
-        );
+                'size' => '28',
+            ],
+        ];
     }
 }

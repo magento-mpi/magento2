@@ -32,7 +32,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $objectManager->get('Magento\Framework\Registry')->unregister('current_product');
         $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
         $this->_model->updateProductOptions($eventObserver);
-        $this->assertEquals(array(), $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
+        $this->assertEquals([], $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions());
 
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
@@ -45,8 +45,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _createEventObserverForUpdateConfigurableProductOptions()
     {
-        $response = new \Magento\Framework\Object(array('additional_options' => array()));
-        $event = new \Magento\Framework\Event(array('response_object' => $response));
-        return new \Magento\Framework\Event\Observer(array('event' => $event));
+        $response = new \Magento\Framework\Object(['additional_options' => []]);
+        $event = new \Magento\Framework\Event(['response_object' => $response]);
+        return new \Magento\Framework\Event\Observer(['event' => $event]);
     }
 }

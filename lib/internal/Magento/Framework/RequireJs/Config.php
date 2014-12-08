@@ -47,7 +47,6 @@ require.config(config);
 
 config;
 
-
     /**
      * @var \Magento\Framework\RequireJs\Config\File\Collector\Aggregated
      */
@@ -99,15 +98,15 @@ config;
         foreach ($customConfigFiles as $file) {
             $config = $this->baseDir->readFile($this->baseDir->getRelativePath($file->getFilename()));
             $distributedConfig .= str_replace(
-                array('%config%', '%context%'),
-                array($config, $file->getModule()),
+                ['%config%', '%context%'],
+                [$config, $file->getModule()],
                 self::PARTIAL_CONFIG_TEMPLATE
             );
         }
 
         $fullConfig = str_replace(
-            array('%function%', '%base%', '%usages%'),
-            array($distributedConfig, $baseConfig),
+            ['%function%', '%base%', '%usages%'],
+            [$distributedConfig, $baseConfig],
             self::FULL_CONFIG_TEMPLATE
         );
 
@@ -131,9 +130,9 @@ config;
      */
     public function getBaseConfig()
     {
-        $config = array(
-            'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath()
-        );
+        $config = [
+            'baseUrl' => $this->staticContext->getBaseUrl() . $this->staticContext->getPath(),
+        ];
         $config = json_encode($config, JSON_UNESCAPED_SLASHES);
         return "require.config($config);";
     }

@@ -35,7 +35,7 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_templateFactory = $templateFactory;
         $this->_subscriberFactory = $subscriberFactory;
@@ -66,7 +66,7 @@ class Preview extends \Magento\Backend\Block\Widget
         }
 
         \Magento\Framework\Profiler::start("newsletter_template_proccessing");
-        $vars = array();
+        $vars = [];
 
         $vars['subscriber'] = $this->_subscriberFactory->create();
         if ($this->getRequest()->getParam('subscriber')) {
@@ -76,8 +76,8 @@ class Preview extends \Magento\Backend\Block\Widget
         $template->emulateDesign($storeId);
         $templateProcessed = $this->_appState->emulateAreaCode(
             \Magento\Newsletter\Model\Template::DEFAULT_DESIGN_AREA,
-            array($template, 'getProcessedTemplate'),
-            array($vars, true)
+            [$template, 'getProcessedTemplate'],
+            [$vars, true]
         );
         $template->revertDesign();
 

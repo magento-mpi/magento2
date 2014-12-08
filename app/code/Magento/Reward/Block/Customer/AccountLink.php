@@ -27,7 +27,7 @@ class AccountLink extends \Magento\Framework\View\Element\Html\Link\Current
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Reward\Helper\Data $rewardHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_rewardHelper = $rewardHelper;

@@ -116,7 +116,7 @@ class EventList
         /** @var EventCollection $collection */
         $collection = $this->eventCollectionFactory->create();
         if ($categoryIds !== null) {
-            $collection->addFieldToFilter('category_id', array('in' => $categoryIds));
+            $collection->addFieldToFilter('category_id', ['in' => $categoryIds]);
         }
 
         return $collection;

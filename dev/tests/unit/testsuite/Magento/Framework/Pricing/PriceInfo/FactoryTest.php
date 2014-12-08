@@ -7,7 +7,6 @@
  */
 namespace Magento\Framework\Pricing\PriceInfo;
 
-use Magento\Framework\Pricing\PriceInfo\Factory;
 
 /**
  * Test class for \Magento\Framework\Pricing\PriceInfo\Factory
@@ -84,11 +83,11 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->types = [
             'default' => [
                 'infoClass' => 'Price\PriceInfo\Default',
-                'prices' => 'Price\Collection\Default'
+                'prices' => 'Price\Collection\Default',
             ],
             'configurable' => [
                 'infoClass' => 'Price\PriceInfo\Configurable',
-                'prices' => 'Price\Collection\Configurable'
+                'prices' => 'Price\Collection\Configurable',
             ],
         ];
         $this->factory = new Factory($this->types, $this->objectManagerMock);
@@ -101,7 +100,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 'simple',
                 1,
                 'Price\PriceInfo\Default',
-                'Price\Collection\Default'
+                'Price\Collection\Default',
             ],
             [
                 'configurable',
@@ -138,7 +137,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                             'saleableItem' => $this->saleableItemMock,
                             'quantity' => $quantity
                         ],
-                        $this->pricesMock
+                        $this->pricesMock,
                     ],
                     [
                         $infoClass,
@@ -148,7 +147,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                             'prices' => $this->pricesMock
                         ],
                         $this->priceInfoMock
-                    ]
+                    ],
                 ]
             ));
         $this->assertEquals($this->priceInfoMock, $this->factory->create($this->saleableItemMock, []));

@@ -3,7 +3,7 @@
  * List of parent classes with their parents and interfaces
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -23,7 +23,7 @@ class Compiled implements \Magento\Framework\ObjectManager\RelationsInterface
      *
      * @var array
      */
-    protected $_default = array();
+    protected $_default = [];
 
     /**
      * @param array $relations

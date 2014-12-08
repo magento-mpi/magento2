@@ -17,7 +17,7 @@ class ConfigurationPool
     /**
      * @var \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface[]
      */
-    private $_instances = array();
+    private $_instances = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

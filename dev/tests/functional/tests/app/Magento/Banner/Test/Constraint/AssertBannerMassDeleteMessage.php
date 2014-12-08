@@ -9,8 +9,8 @@
 namespace Magento\Banner\Test\Constraint;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBannerMassDeleteMessage

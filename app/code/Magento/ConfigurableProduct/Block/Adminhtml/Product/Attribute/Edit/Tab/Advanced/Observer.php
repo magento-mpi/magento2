@@ -40,11 +40,11 @@ class Observer
         $fieldset->addField(
             'is_configurable',
             'select',
-            array(
+            [
                 'name' => 'is_configurable',
                 'label' => __('Use To Create Configurable Product'),
                 'values' => $this->optionList->toOptionArray()
-            )
+            ]
         );
     }
 }

@@ -22,7 +22,7 @@ class Upload extends \Magento\Cms\Controller\Adminhtml\Wysiwyg\Images
             $targetPath = $this->getStorage()->getSession()->getCurrentPath();
             $result = $this->getStorage()->uploadFile($targetPath, $this->getRequest()->getParam('type'));
         } catch (\Exception $e) {
-            $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
+            $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
         $this->getResponse()->representJson(
             $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result)

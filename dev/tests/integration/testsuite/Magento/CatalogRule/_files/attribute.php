@@ -9,7 +9,7 @@
 /** @var \Magento\Catalog\Model\Resource\Setup $installer */
 $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 
 /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */

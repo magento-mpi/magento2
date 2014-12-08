@@ -29,7 +29,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Wishlist\Product\CollectionFactory $productsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productsFactory = $productsFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -69,46 +69,46 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('entity_id', array('header' => __('ID'), 'width' => '50px', 'index' => 'entity_id'));
+        $this->addColumn('entity_id', ['header' => __('ID'), 'width' => '50px', 'index' => 'entity_id']);
 
-        $this->addColumn('name', array('header' => __('Name'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Name'), 'index' => 'name']);
 
         $this->addColumn(
             'wishlists',
-            array('header' => __('Wish Lists'), 'width' => '50px', 'align' => 'right', 'index' => 'wishlists')
+            ['header' => __('Wish Lists'), 'width' => '50px', 'align' => 'right', 'index' => 'wishlists']
         );
 
         $this->addColumn(
             'bought_from_wishlists',
-            array(
+            [
                 'header' => __('Wishlist Purchase'),
                 'width' => '50px',
                 'align' => 'right',
                 'sortable' => false,
                 'index' => 'bought_from_wishlists'
-            )
+            ]
         );
 
         $this->addColumn(
             'w_vs_order',
-            array(
+            [
                 'header' => __('Wish List vs. Regular Order'),
                 'width' => '50px',
                 'align' => 'right',
                 'sortable' => false,
                 'index' => 'w_vs_order'
-            )
+            ]
         );
 
         $this->addColumn(
             'num_deleted',
-            array(
+            [
                 'header' => __('Times Deleted'),
                 'width' => '50px',
                 'align' => 'right',
                 'sortable' => false,
                 'index' => 'num_deleted'
-            )
+            ]
         );
 
         $this->addExportType('*/*/exportWishlistCsv', __('CSV'));

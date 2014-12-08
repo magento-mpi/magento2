@@ -29,7 +29,7 @@ class Edit extends \Magento\Backend\Block\Widget
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -53,37 +53,37 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->getToolbar()->addChild(
             'back_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*/') . '\')',
                 'class' => 'back'
-            )
+            ]
         );
 
         if ($this->getDesignChangeId()) {
             $this->getToolbar()->addChild(
                 'delete_button',
                 'Magento\Backend\Block\Widget\Button',
-                array(
+                [
                     'label' => __('Delete'),
                     'onclick' => 'confirmSetLocation(\'' . __(
                         'Are you sure?'
                     ) . '\', \'' . $this->getDeleteUrl() . '\')',
                     'class' => 'delete'
-                )
+                ]
             );
         }
 
         $this->getToolbar()->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#design-edit-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#design-edit-form']],
+                ]
+            ]
         );
 
         return parent::_prepareLayout();
@@ -102,7 +102,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', ['_current' => true]);
     }
 
     /**
@@ -110,7 +110,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', ['_current' => true]);
     }
 
     /**
@@ -118,7 +118,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getValidationUrl()
     {
-        return $this->getUrl('adminhtml/*/validate', array('_current' => true));
+        return $this->getUrl('adminhtml/*/validate', ['_current' => true]);
     }
 
     /**

@@ -28,7 +28,7 @@ class UrlRewriteTest extends \Magento\Backend\Utility\Controller
                 'options' => 'R',
                 'request_path' => 'some_new_path',
                 'store_id' => 1,
-                'cms_page' => $page->getId()
+                'cms_page' => $page->getId(),
             ]
         );
         $this->dispatch('backend/admin/url_rewrite/save');

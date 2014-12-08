@@ -10,7 +10,6 @@ namespace Magento\ConfigurableProduct\Test\Fixture\Cart;
 
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class Item
@@ -49,7 +48,7 @@ class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
                         : $attribute,
                 'value' => isset($attributesData[$attribute]['options'][$option]['label'])
                         ? $attributesData[$attribute]['options'][$option]['label']
-                        : $option
+                        : $option,
             ];
         }
 

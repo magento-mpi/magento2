@@ -42,23 +42,23 @@ class TranslitTest extends \PHPUnit_Framework_TestCase
     public function filterDataProvider()
     {
         $isIconv = '"libiconv"' == ICONV_IMPL;
-        return array(
-            array('test', 'test', 'test', $isIconv),
-            array('привет мир', 'privet mir', 'privet mir', $isIconv),
-            array(
+        return [
+            ['test', 'test', 'test', $isIconv],
+            ['привет мир', 'privet mir', 'privet mir', $isIconv],
+            [
                 'Weiß, Goldmann, Göbel, Weiss, Göthe, Goethe und Götz',
                 'Weiss, Goldmann, Gobel, Weiss, Gothe, Goethe und Gotz',
                 'Weiss, Goldmann, Gobel, Weiss, Gothe, Goethe und Gotz',
                 $isIconv
-            ),
-            array(
+            ],
+            [
                 '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
                 '❤ ☀ ☆ ☂ ☻ ♞ ☯ ☭ ☢ € → ☎ ❄ ♫ ✂ ▷ ✇ ♎ ⇧ ☮',
                 '         EUR ->         ',
                 $isIconv
-            ),
-            array('™', 'tm', 'tm', $isIconv)
-        );
+            ],
+            ['™', 'tm', 'tm', $isIconv]
+        ];
     }
 
     public function testFilterConfigured()
@@ -66,7 +66,7 @@ class TranslitTest extends \PHPUnit_Framework_TestCase
         $config = $this->getMockBuilder(
             'Magento\Framework\App\Config\ScopeConfigInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('getValue', 'setValue', 'isSetFlag')
+            ['getValue', 'setValue', 'isSetFlag']
         )->getMock();
 
         $config->expects(
@@ -77,11 +77,11 @@ class TranslitTest extends \PHPUnit_Framework_TestCase
             'url/convert',
             'default'
         )->will(
-            $this->returnValue(array('char8482' => array('from' => '™', 'to' => 'TM')))
+            $this->returnValue(['char8482' => ['from' => '™', 'to' => 'TM']])
         );
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Framework\Filter\Translit', array('config' => $config));
+        $this->model = $objectManager->getObject('Magento\Framework\Filter\Translit', ['config' => $config]);
 
         $this->assertEquals('TM', $this->model->filter('™'));
     }

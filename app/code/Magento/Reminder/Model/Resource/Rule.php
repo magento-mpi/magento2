@@ -21,13 +21,13 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'magento_reminder_rule_website',
             'rule_id_field' => 'rule_id',
-            'entity_id_field' => 'website_id'
-        )
-    );
+            'entity_id_field' => 'website_id',
+        ],
+    ];
 
     /**
      * Rule websites table name
@@ -125,7 +125,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $templates = (array)$rule->getStoreTemplates();
         $ruleId = $rule->getId();
 
-        $data = array();
+        $data = [];
         foreach ($templates as $storeId => $templateId) {
             if (!$templateId) {
                 continue;
@@ -133,18 +133,18 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             if (!is_numeric($templateId)) {
                 $templateId = null;
             }
-            $data[] = array(
+            $data[] = [
                 'rule_id' => $ruleId,
                 'store_id' => $storeId,
                 'template_id' => $templateId,
                 'label' => isset($labels[$storeId]) ? $labels[$storeId] : '',
-                'description' => isset($descriptions[$storeId]) ? $descriptions[$storeId] : ''
-            );
+                'description' => isset($descriptions[$storeId]) ? $descriptions[$storeId] : '',
+            ];
         }
 
         $adapter->beginTransaction();
         try {
-            $adapter->delete($templateTable, array('rule_id=?' => $ruleId));
+            $adapter->delete($templateTable, ['rule_id=?' => $ruleId]);
             if (!empty($data)) {
                 $adapter->insertMultiple($templateTable, $data);
             }
@@ -169,11 +169,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $select = $adapter->select()->from(
             $templateTable,
-            array('store_id', 'template_id', 'label', 'description')
+            ['store_id', 'template_id', 'label', 'description']
         )->where(
             'rule_id = :rule_id'
         );
-        return $adapter->fetchAll($select, array('rule_id' => $ruleId));
+        return $adapter->fetchAll($select, ['rule_id' => $ruleId]);
     }
 
     /**
@@ -192,8 +192,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getReadAdapter();
 
         $select = $adapter->select()->from(
-            array('t' => $templateTable),
-            array(
+            ['t' => $templateTable],
+            [
                 'template_id',
                 'label' => $adapter->getCheckSql('t.label IS NOT NULL', 't.label', 'r.default_label'),
                 'description' => $adapter->getCheckSql(
@@ -201,17 +201,17 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                     't.description',
                     'r.default_description'
                 )
-            )
+            ]
         )->join(
-            array('r' => $ruleTable),
+            ['r' => $ruleTable],
             'r.rule_id = t.rule_id',
-            array()
+            []
         );
 
         $select->where('t.rule_id = :rule_id');
         $select->where('t.store_id = :store_id');
 
-        return $adapter->fetchRow($select, array('rule_id' => $ruleId, 'store_id' => $storeId));
+        return $adapter->fetchRow($select, ['rule_id' => $ruleId, 'store_id' => $storeId]);
     }
 
     /**
@@ -224,8 +224,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('magento_reminder_rule_coupon'),
-            array('is_active' => '0'),
-            array('rule_id = ?' => $ruleId)
+            ['is_active' => '0'],
+            ['rule_id = ?' => $ruleId]
         );
         return $this;
     }
@@ -260,9 +260,9 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $adapter = $this->_getWriteAdapter();
         $couponsTable = $this->getTable('magento_reminder_rule_coupon');
         $currentDate = $this->dateTime->formatDate(time());
-        $dataToInsert = array();
+        $dataToInsert = [];
 
-        $stmt = $adapter->query($select, array('rule_id' => $ruleId));
+        $stmt = $adapter->query($select, ['rule_id' => $ruleId]);
 
         $adapter->beginTransaction();
         try {
@@ -275,22 +275,22 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                     $couponId = $row['coupon_id'];
                 }
 
-                $dataToInsert[] = array(
+                $dataToInsert[] = [
                     'rule_id' => $ruleId,
                     'coupon_id' => $couponId,
                     'customer_id' => $row['entity_id'],
                     'associated_at' => $currentDate,
-                    'is_active' => '1'
-                );
+                    'is_active' => '1',
+                ];
                 $i++;
 
                 if ($i % 1000 == 0) {
-                    $adapter->insertOnDuplicate($couponsTable, $dataToInsert, array('is_active'));
-                    $dataToInsert = array();
+                    $adapter->insertOnDuplicate($couponsTable, $dataToInsert, ['is_active']);
+                    $dataToInsert = [];
                 }
             }
             if (!empty($dataToInsert)) {
-                $adapter->insertOnDuplicate($couponsTable, $dataToInsert, array('is_active'));
+                $adapter->insertOnDuplicate($couponsTable, $dataToInsert, ['is_active']);
             }
         } catch (\Exception $e) {
             $adapter->rollBack();
@@ -318,16 +318,16 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         $currentDate = $this->dateTime->formatDate(time());
 
         $select = $adapter->select()->from(
-            array('c' => $couponTable),
-            array('customer_id', 'coupon_id', 'rule_id')
+            ['c' => $couponTable],
+            ['customer_id', 'coupon_id', 'rule_id']
         )->join(
-            array('r' => $ruleTable),
+            ['r' => $ruleTable],
             'c.rule_id = r.rule_id AND r.is_active = 1',
-            array('schedule' => 'schedule')
+            ['schedule' => 'schedule']
         )->joinLeft(
-            array('l' => $logTable),
+            ['l' => $logTable],
             'c.rule_id = l.rule_id AND c.customer_id = l.customer_id',
-            array()
+            []
         );
 
         if ($ruleId) {
@@ -335,14 +335,14 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         }
 
         $select->where('c.is_active = 1');
-        $select->group(array('c.customer_id', 'c.rule_id'));
-        $select->columns(array('log_sent_at_max' => 'MAX(l.sent_at)', 'log_sent_at_min' => 'MIN(l.sent_at)'));
+        $select->group(['c.customer_id', 'c.rule_id']);
+        $select->columns(['log_sent_at_max' => 'MAX(l.sent_at)', 'log_sent_at_min' => 'MIN(l.sent_at)']);
 
         $findInSetSql = $adapter->prepareSqlCondition(
             'schedule',
-            array(
+            [
                 'finset' => $this->_resourceHelper->getDateDiff('log_sent_at_min', $adapter->formatDate($currentDate))
-            )
+            ]
         );
         $select->having(
             'log_sent_at_max IS NULL OR (' . $findInSetSql . ' AND ' . $this->_resourceHelper->getDateDiff(
@@ -366,11 +366,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      */
     public function addNotificationLog($ruleId, $customerId)
     {
-        $data = array(
+        $data = [
             'rule_id' => $ruleId,
             'customer_id' => $customerId,
-            'sent_at' => $this->dateTime->formatDate(time())
-        );
+            'sent_at' => $this->dateTime->formatDate(time()),
+        ];
 
         $this->_getWriteAdapter()->insert($this->getTable('magento_reminder_rule_log'), $data);
 
@@ -388,8 +388,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('magento_reminder_rule_coupon'),
-            array('emails_failed' => new \Zend_Db_Expr('emails_failed + 1')),
-            array('rule_id = ?' => $ruleId, 'customer_id = ?' => $customerId)
+            ['emails_failed' => new \Zend_Db_Expr('emails_failed + 1')],
+            ['rule_id = ?' => $ruleId, 'customer_id = ?' => $customerId]
         );
         return $this;
     }
@@ -404,12 +404,12 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
-            array('r' => $this->getTable('magento_reminder_rule')),
-            array(new \Zend_Db_Expr('count(1)'))
+            ['r' => $this->getTable('magento_reminder_rule')],
+            [new \Zend_Db_Expr('count(1)')]
         );
         $select->where('r.salesrule_id = :salesrule_id');
 
-        return $adapter->fetchOne($select, array('salesrule_id' => $salesRuleId));
+        return $adapter->fetchOne($select, ['salesrule_id' => $salesRuleId]);
     }
 
     /**
@@ -422,8 +422,8 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         $this->_getWriteAdapter()->update(
             $this->getTable('magento_reminder_rule'),
-            array('salesrule_id' => new \Zend_Db_Expr('NULL')),
-            array('salesrule_id = ?' => $salesRuleId)
+            ['salesrule_id' => new \Zend_Db_Expr('NULL')],
+            ['salesrule_id = ?' => $salesRuleId]
         );
 
         return $this;
@@ -526,7 +526,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     {
         if ($data) {
             $table = $this->getTable('magento_reminder_rule_coupon');
-            $this->_getWriteAdapter()->insertOnDuplicate($table, $data, array('is_active'));
+            $this->_getWriteAdapter()->insertOnDuplicate($table, $data, ['is_active']);
         }
     }
 

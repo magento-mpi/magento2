@@ -10,9 +10,9 @@
 namespace Magento\Tax\Model\Sales\Order;
 
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxDataBuilder as TaxDetailsBuilder;
 use Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxInterface as AppliedTax;
 use Magento\Tax\Api\Data\OrderTaxDetailsItemInterface as Item;
-use Magento\Tax\Api\Data\OrderTaxDetailsAppliedTaxDataBuilder as TaxDetailsBuilder;
 
 class TaxManagement implements \Magento\Tax\Api\OrderTaxManagementInterface
 {
@@ -167,7 +167,6 @@ class TaxManagement implements \Magento\Tax\Api\OrderTaxManagementInterface
                 }
                 $itemsData[$key]['applied_taxes'][$itemAppliedTax['code']] =
                     $this->convertToAppliedTaxDataObject($this->appliedTaxBuilder, $itemAppliedTax);
-
             } else {
                 //The taxable is not associated with a product, e.g., shipping
                 //Use item type as key

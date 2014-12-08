@@ -14,10 +14,10 @@ class Dbautoup implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\Framework\App\Resource::AUTO_UPDATE_ALWAYS, 'label' => __('Always (during development)')),
-            array('value' => \Magento\Framework\App\Resource::AUTO_UPDATE_ONCE, 'label' => __('Only Once (version upgrade)')),
-            array('value' => \Magento\Framework\App\Resource::AUTO_UPDATE_NEVER, 'label' => __('Never (production)'))
-        );
+        return [
+            ['value' => \Magento\Framework\App\Resource::AUTO_UPDATE_ALWAYS, 'label' => __('Always (during development)')],
+            ['value' => \Magento\Framework\App\Resource::AUTO_UPDATE_ONCE, 'label' => __('Only Once (version upgrade)')],
+            ['value' => \Magento\Framework\App\Resource::AUTO_UPDATE_NEVER, 'label' => __('Never (production)')]
+        ];
     }
 }

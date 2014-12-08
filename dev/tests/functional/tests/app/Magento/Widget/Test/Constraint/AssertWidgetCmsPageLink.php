@@ -9,9 +9,9 @@
 namespace Magento\Widget\Test\Constraint;
 
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Page\CmsIndex;
 use Magento\Widget\Test\Fixture\Widget;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Check that created widget displayed on frontent on Home page and on Advanced Search and

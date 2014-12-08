@@ -22,26 +22,26 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Backend\Model\Menu\Item[]
      */
-    protected $_items = array();
+    protected $_items = [];
 
     protected function setUp()
     {
-        $this->_items['item1'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
+        $this->_items['item1'] = $this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false);
         $this->_items['item1']->expects($this->any())->method('getId')->will($this->returnValue('item1'));
         $this->_items['item1']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $this->_items['item1']->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $this->_items['item2'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
+        $this->_items['item2'] = $this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false);
         $this->_items['item2']->expects($this->any())->method('getId')->will($this->returnValue('item2'));
         $this->_items['item2']->expects($this->any())->method('isDisabled')->will($this->returnValue(true));
         $this->_items['item2']->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $this->_items['item3'] = $this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false);
+        $this->_items['item3'] = $this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false);
         $this->_items['item3']->expects($this->any())->method('getId')->will($this->returnValue('item3'));
         $this->_items['item3']->expects($this->any())->method('isDisabled')->will($this->returnValue(false));
         $this->_items['item3']->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
 
-        $loggerMock = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $loggerMock = $this->getMock('Magento\Framework\Logger', [], [], '', false);
 
         $this->_menuModel = new \Magento\Backend\Model\Menu($loggerMock);
         $this->_filterIteratorModel = new \Magento\Backend\Model\Menu\Filter\Iterator(
@@ -51,12 +51,12 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
 
     public function testLoopWithAllItemsDisabledDoesntIterate()
     {
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $items = array();
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $items = [];
         foreach ($this->_filterIteratorModel as $item) {
             $items[] = $item;
         }
@@ -65,15 +65,15 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
 
     public function testLoopIteratesOnlyValidItems()
     {
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
         $this->_menuModel->add($this->_items['item1']);
 
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
-        $items = array();
+        $items = [];
         foreach ($this->_filterIteratorModel as $item) {
             $items[] = $item;
         }
@@ -82,16 +82,16 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
 
     public function testLoopIteratesDosntIterateDisabledItems()
     {
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
         $this->_menuModel->add($this->_items['item1']);
         $this->_menuModel->add($this->_items['item2']);
 
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
-        $items = array();
+        $items = [];
         foreach ($this->_filterIteratorModel as $item) {
             $items[] = $item;
         }
@@ -100,16 +100,16 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
 
     public function testLoopIteratesDosntIterateNotAllowedItems()
     {
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
         $this->_menuModel->add($this->_items['item1']);
         $this->_menuModel->add($this->_items['item3']);
 
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
-        $items = array();
+        $items = [];
         foreach ($this->_filterIteratorModel as $item) {
             $items[] = $item;
         }
@@ -118,17 +118,17 @@ class IteratorTest extends \PHPUnit_Framework_TestCase
 
     public function testLoopIteratesMixedItems()
     {
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
         $this->_menuModel->add($this->_items['item1']);
         $this->_menuModel->add($this->_items['item2']);
         $this->_menuModel->add($this->_items['item3']);
 
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
-        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', array(), array(), '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
+        $this->_menuModel->add($this->getMock('Magento\Backend\Model\Menu\Item', [], [], '', false));
 
-        $items = array();
+        $items = [];
         foreach ($this->_filterIteratorModel as $item) {
             $items[] = $item;
         }

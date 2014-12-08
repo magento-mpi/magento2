@@ -35,6 +35,6 @@ class AffectCache
     public function beforeExecute(\Magento\Indexer\Model\ActionInterface $subject, $ids)
     {
         $this->context->registerEntities(\Magento\Catalog\Model\Category::CACHE_TAG, $ids);
-        return array($ids);
+        return [$ids];
     }
 }

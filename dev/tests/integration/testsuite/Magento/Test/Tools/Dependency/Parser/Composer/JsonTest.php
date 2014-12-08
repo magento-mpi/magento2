@@ -37,15 +37,15 @@ class JsonTest extends \PHPUnit_Framework_TestCase
                     ['module' => 'magento/module-core', 'type' => 'hard'],
                     ['module' => 'magento/module-module2', 'type' => 'hard'],
                     ['module' => 'magento/module-backend', 'type' => 'soft'],
-                ]
+                ],
             ],
             [
                 'name' => 'magento/module-module2',
                 'dependencies' => [
                     ['module' => 'magento/module-core', 'type' => 'hard'],
-                    ['module' => 'magento/module-module3', 'type' => 'hard']
+                    ['module' => 'magento/module-module3', 'type' => 'hard'],
                 ]
-            ]
+            ],
         ];
 
         $actual = $this->parser->parse(

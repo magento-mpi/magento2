@@ -22,7 +22,7 @@ $theme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Framework\View\Design\ThemeInterface'
 );
 $theme->setData(
-    array(
+    [
         'theme_code' => 'blank',
         'area' => 'frontend',
         'parent_id' => null,
@@ -30,8 +30,8 @@ $theme->setData(
         'theme_version' => '0.1.0',
         'theme_title' => 'Default',
         'preview_image' => 'media/preview_image.jpg',
-        'is_featured' => '0'
-    )
+        'is_featured' => '0',
+    ]
 );
 $theme->save();
 $session->setThemeId($theme->getId());

@@ -8,7 +8,7 @@
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink;
 
-use \Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkContent;
+use Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkContent;
 
 interface WriteServiceInterface
 {

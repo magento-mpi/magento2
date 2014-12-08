@@ -11,9 +11,9 @@
 
 namespace Magento\Tax\Test\TestCase;
 
+use Magento\Tax\Test\Fixture\TaxRule;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Tax\Test\Fixture\TaxRule;
 
 /**
  * Class TaxRuleTest

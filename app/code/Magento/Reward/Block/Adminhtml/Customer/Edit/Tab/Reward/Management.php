@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Reward management container
  *
@@ -41,7 +40,7 @@ class Management extends \Magento\Backend\Block\Template
             '',
             [
                 'data' => [
-                    'target_form' => $this->getData('target_form')
+                    'target_form' => $this->getData('target_form'),
                 ]
             ]
         );

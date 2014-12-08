@@ -17,7 +17,7 @@
             <?php $iterator = 1; ?>
             <ol class="product-items" id="widget-new-products-<?php echo $suffix; ?>">
                 <?php foreach ($_products->getItems() as $_product): ?>
-                    <?php echo ($iterator++==1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
+                    <?php echo($iterator++ == 1) ? '<li class="product-item">' : '</li><li class="product-item">' ?>
                     <div class="product-item-info">
                         <a class="product-item-photo" href="<?php echo $_product->getProductUrl() ?>"
                            title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
@@ -33,7 +33,7 @@
                             <?php echo $this->getProductPriceHtml($_product, '-widget-new-' . $suffix) ?>
                             <div class="product-item-actions">
                                 <div class="actions-primary">
-                                    <?php if($_product->isSaleable()): ?>
+                                    <?php if ($_product->isSaleable()): ?>
                                         <?php if ($_product->getTypeInstance()->hasRequiredOptions($_product)): ?>
                                             <button type="button" title="<?php echo __('Add to Cart') ?>"
                                                     class="action tocart primary"
@@ -66,7 +66,7 @@
                             </div>
                         </div>
                     </div>
-                    <?php echo ($iterator==count($_products->getItems())+1) ? '</li>' : '' ?>
+                    <?php echo($iterator == count($_products->getItems())+1) ? '</li>' : '' ?>
                 <?php endforeach; ?>
             </ol>
             <?php echo $this->getPagerHtml() ?>

@@ -6,8 +6,8 @@
  * @license     {license_link}
  */
 ?>
-<?php return array(
-    array (
+<?php return [
+    [
         'type' => 'add',
         'id' => 'elem_one_zero',
         'title' => 'Title one.zero',
@@ -18,8 +18,8 @@
         'resource' => 'Module_One::one_zero',
         'dependsOnModule' => 'Module_One',
         'dependsOnConfig' => '/one/two',
-        ),
-    array (
+        ],
+    [
         'type' => 'add',
         'id' => 'elem_one_one',
         'title' => 'Title one.one',
@@ -29,8 +29,8 @@
         'action' => 'adminhtml/system',
         'resource' => 'Module_One::one_one',
         'parent' => 'elem_one_zero',
-        ),
-    array (
+        ],
+    [
         'type' => 'update',
         'id' => 'elem_one_zero',
         'title' => 'Title one.zero update',
@@ -39,12 +39,12 @@
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
         'parent' => 'elem_one_zero',
-        ),
-    array (
+        ],
+    [
         'type' => 'remove',
         'id' => 'elem_one_one',
-        ),
-    array (
+        ],
+    [
         'type' => 'add',
         'id' => 'elem_two_zero',
         'title' => 'Title two.zero',
@@ -53,8 +53,8 @@
         'resource' => 'Module_Two::two_zero',
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
-        ),
-    array (
+        ],
+    [
         'type' => 'add',
         'id' => 'elem_two_two',
         'title' => 'Title two.two',
@@ -64,8 +64,8 @@
         'action' => 'adminhtml/system',
         'resource' => 'Module_Two::two_two',
         'parent' => 'elem_two_zero',
-        ),
-    array (
+        ],
+    [
         'type' => 'update',
         'id' => 'elem_two_zero',
         'title' => 'Title two.zero update',
@@ -74,9 +74,9 @@
         'sortOrder' => 90,
         'action' => 'adminhtml/system',
         'parent' => 'elem_two_zero',
-        ),
-    array (
+        ],
+    [
         'type' => 'remove',
         'id' => 'elem_two_two',
-        ),
-);
+        ],
+];

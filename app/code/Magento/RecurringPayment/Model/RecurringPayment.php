@@ -40,7 +40,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * @todo: remove manager dependency
@@ -60,7 +60,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_paymentMethods = array();
+    protected $_paymentMethods = [];
 
     /**
      * Payment data
@@ -120,7 +120,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -142,7 +142,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     public function isValid()
     {
         $this->_filterValues();
-        $this->_errors = array();
+        $this->_errors = [];
 
         // start date, order ref ID, schedule description
         if (!$this->getStartDatetime()) {
@@ -194,7 +194,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         if (!$this->getBillingAmount() || 0 >= $this->getBillingAmount()) {
             $this->_errors['billing_amount'][] = __('We found a wrong or empty billing amount specified.');
         }
-        foreach (array('trial_billing_abount', 'shipping_amount', 'tax_amount', 'init_amount') as $key) {
+        foreach (['trial_billing_abount', 'shipping_amount', 'tax_amount', 'init_amount'] as $key) {
             if ($this->hasData($key) && 0 >= $this->getData($key)) {
                 $this->_errors[$key][] = __('The wrong %1 is specified.', $this->_fields->getFieldLabel($key));
             }
@@ -229,7 +229,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     public function getValidationErrors()
     {
         if ($this->_errors) {
-            $result = array();
+            $result = [];
             foreach ($this->_errors as $row) {
                 $result[] = implode(' ', $row);
             }
@@ -334,17 +334,17 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      */
     public function exportScheduleInfo()
     {
-        $result = array(
+        $result = [
             new \Magento\Framework\Object(
-                array(
+                [
                     'title' => __('Billing Period'),
-                    'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles')
-                )
-            )
-        );
+                    'schedule' => $this->_renderSchedule('period_unit', 'period_frequency', 'period_max_cycles'),
+                ]
+            ),
+        ];
         $trial = $this->_renderSchedule('trial_period_unit', 'trial_period_frequency', 'trial_period_max_cycles');
         if ($trial) {
-            $result[] = new \Magento\Framework\Object(array('title' => __('Trial Period'), 'schedule' => $trial));
+            $result[] = new \Magento\Framework\Object(['title' => __('Trial Period'), 'schedule' => $trial]);
         }
         return $result;
     }
@@ -437,7 +437,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
         }
 
         // unset redundant values, if empty
-        foreach (array(
+        foreach ([
             'schedule_description',
             'suspension_threshold',
             'bill_failed_later',
@@ -447,21 +447,21 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
             'trial_period_unit',
             'trial_period_frequency',
             'trial_period_max_cycles',
-            'init_may_fail'
-        ) as $key) {
+            'init_may_fail',
+        ] as $key) {
             if ($this->hasData($key) && (!$this->getData($key) || '0' == $this->getData($key))) {
                 $this->unsetData($key);
             }
         }
 
         // cast amounts
-        foreach (array(
+        foreach ([
             'billing_amount',
             'trial_billing_amount',
             'shipping_amount',
             'tax_amount',
-            'init_amount'
-        ) as $key) {
+            'init_amount',
+        ] as $key) {
             if ($this->hasData($key)) {
                 if (!$this->getData($key) || 0 == $this->getData($key)) {
                     $this->unsetData($key);
@@ -494,7 +494,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
     {
         if (!$this->_manager) {
             $this->_manager = $this->_managerFactory->create(
-                array('paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode()))
+                ['paymentMethod' => $this->_paymentData->getMethodInstance($this->getMethodCode())]
             );
         }
         return $this->_manager;
@@ -542,7 +542,7 @@ class RecurringPayment extends \Magento\Framework\Model\AbstractModel
      */
     protected function _renderSchedule($periodKey, $frequencyKey, $cyclesKey)
     {
-        $result = array();
+        $result = [];
 
         $period = $this->_getData($periodKey);
         $frequency = (int)$this->_getData($frequencyKey);

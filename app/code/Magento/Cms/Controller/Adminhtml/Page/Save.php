@@ -56,11 +56,11 @@ class Save extends \Magento\Backend\App\Action
 
             $this->_eventManager->dispatch(
                 'cms_page_prepare_save',
-                array('page' => $model, 'request' => $this->getRequest())
+                ['page' => $model, 'request' => $this->getRequest()]
             );
 
             if (!$this->dataProcessor->validate($data)) {
-                $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
+                $this->_redirect('*/*/edit', ['page_id' => $model->getId(), '_current' => true]);
                 return;
             }
 
@@ -69,7 +69,7 @@ class Save extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('The page has been saved.'));
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current' => true));
+                    $this->_redirect('*/*/edit', ['page_id' => $model->getId(), '_current' => true]);
                     return;
                 }
                 $this->_redirect('*/*/');
@@ -83,7 +83,7 @@ class Save extends \Magento\Backend\App\Action
             }
 
             $this->_getSession()->setFormData($data);
-            $this->_redirect('*/*/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
+            $this->_redirect('*/*/edit', ['page_id' => $this->getRequest()->getParam('page_id')]);
             return;
         }
         $this->_redirect('*/*/');

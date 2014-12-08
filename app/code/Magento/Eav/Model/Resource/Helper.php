@@ -30,7 +30,7 @@ class Helper extends \Magento\Framework\DB\Helper
      *
      * @var array
      */
-    protected $_ddlColumnTypes = array(
+    protected $_ddlColumnTypes = [
         \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN => 'bool',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT => 'smallint',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER => 'int',
@@ -43,8 +43,8 @@ class Helper extends \Magento\Framework\DB\Helper
         \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME => 'datetime',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT => 'text',
         \Magento\Framework\DB\Ddl\Table::TYPE_BLOB => 'blob',
-        \Magento\Framework\DB\Ddl\Table::TYPE_VARBINARY => 'blob'
-    );
+        \Magento\Framework\DB\Ddl\Table::TYPE_VARBINARY => 'blob',
+    ];
 
     /**
      * Returns DDL type by column type in database
@@ -77,10 +77,10 @@ class Helper extends \Magento\Framework\DB\Helper
      */
     public function getLoadAttributesSelectGroups($selects)
     {
-        $mainGroup = array();
+        $mainGroup = [];
         foreach ($selects as $selectGroup) {
             $mainGroup = array_merge($mainGroup, $selectGroup);
         }
-        return array($mainGroup);
+        return [$mainGroup];
     }
 }

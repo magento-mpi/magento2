@@ -27,8 +27,8 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->_indexerMock = $this->getMock(
             '\Magento\CatalogInventory\Model\Indexer\Stock\Processor',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -41,11 +41,11 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeSave(array $data)
     {
-        $subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', array(), array(), '', false);
+        $subjectMock = $this->getMock('Magento\Store\Model\Resource\Group', [], [], '', false);
         $objectMock = $this->getMock(
             'Magento\Framework\Model\AbstractModel',
-            array('getId', 'dataHasChangedFor', '__wakeup'),
-            array(),
+            ['getId', 'dataHasChangedFor', '__wakeup'],
+            [],
             '',
             false
         );
@@ -68,25 +68,25 @@ class StoreGroupTest extends \PHPUnit_Framework_TestCase
      */
     public function beforeSaveDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'object_id' => 1,
-                    'has_website_id_changed' => true
-                )
-            ),
-            array(
-                array(
+                    'has_website_id_changed' => true,
+                ],
+            ],
+            [
+                [
                     'object_id' => false,
-                    'has_website_id_changed' => true
-                )
-            ),
-            array(
-                array(
+                    'has_website_id_changed' => true,
+                ]
+            ],
+            [
+                [
                     'object_id' => false,
-                    'has_website_id_changed' => false
-                )
-            ),
-        );
+                    'has_website_id_changed' => false,
+                ]
+            ],
+        ];
     }
 }

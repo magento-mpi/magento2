@@ -34,7 +34,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $block = $layout->createBlock(
             'Magento\UrlRewrite\Block\Cms\Page\Edit',
             '',
-            array('data' => $blockAttributes)
+            ['data' => $blockAttributes]
         );
 
         $this->_checkSelector($block, $expected);
@@ -274,33 +274,33 @@ class EditTest extends \PHPUnit_Framework_TestCase
         /** @var $cmsPage \Magento\Cms\Model\Page */
         $cmsPage = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Cms\Model\Page',
-            array('data' => array('page_id' => 1, 'title' => 'Test CMS Page'))
+            ['data' => ['page_id' => 1, 'title' => 'Test CMS Page']]
         );
         /** @var $existingUrlRewrite \Magento\UrlRewrite\Model\UrlRewrite */
         $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\UrlRewrite\Model\UrlRewrite',
-            array('data' => array('url_rewrite_id' => 1))
+            ['data' => ['url_rewrite_id' => 1]]
         );
 
-        return array(
+        return [
             // Creating URL rewrite when CMS page selected
-            array(
-                array('cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite),
-                array(
+            [
+                ['cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite],
+                [
                     'selector' => false,
-                    'cms_page_link' => array('name' => $cmsPage->getTitle()),
+                    'cms_page_link' => ['name' => $cmsPage->getTitle()],
                     'back_button' => true,
                     'save_button' => true,
                     'reset_button' => false,
                     'delete_button' => false,
-                    'form' => array('cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite),
+                    'form' => ['cms_page' => $cmsPage, 'url_rewrite' => $urlRewrite],
                     'cms_pages_grid' => false
-                )
-            ),
+                ]
+            ],
             // Creating URL rewrite when CMS page not selected
-            array(
-                array('url_rewrite' => $urlRewrite),
-                array(
+            [
+                ['url_rewrite' => $urlRewrite],
+                [
                     'selector' => true,
                     'cms_page_link' => false,
                     'back_button' => true,
@@ -309,21 +309,21 @@ class EditTest extends \PHPUnit_Framework_TestCase
                     'delete_button' => false,
                     'form' => false,
                     'cms_pages_grid' => true
-                )
-            ),
+                ]
+            ],
             // Editing existing URL rewrite with CMS page
-            array(
-                array('url_rewrite' => $existingUrlRewrite, 'cms_page' => $cmsPage),
-                array(
+            [
+                ['url_rewrite' => $existingUrlRewrite, 'cms_page' => $cmsPage],
+                [
                     'selector' => false,
-                    'cms_page_link' => array('name' => $cmsPage->getTitle()),
+                    'cms_page_link' => ['name' => $cmsPage->getTitle()],
                     'save_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,
-                    'form' => array('cms_page' => $cmsPage, 'url_rewrite' => $existingUrlRewrite),
+                    'form' => ['cms_page' => $cmsPage, 'url_rewrite' => $existingUrlRewrite],
                     'cms_pages_grid' => false
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

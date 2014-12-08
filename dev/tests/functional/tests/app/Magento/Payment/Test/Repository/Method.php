@@ -20,12 +20,12 @@ class Method extends AbstractRepository
     /**
      * {inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
-        $this->_data['default'] = array(
+        $this->_data['default'] = [
             'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+            'data' => $defaultData,
+        ];
 
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
@@ -40,41 +40,41 @@ class Method extends AbstractRepository
 
     protected function _getAuthorizeNet()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'payment_form_class' => '\\Magento\\Authorizenet\\Test\\Block\\Authorizenet\\Form\\Cc',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'authorizenet'
-                ),
-            )
-        );
+            ],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'authorizenet',
+                ],
+            ]
+        ];
     }
 
     protected function _getPayPalExpress()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'paypal_express'
-                ),
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'paypal_express',
+                ],
+            ]
+        ];
     }
 
     protected function _getPayPalDirect()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'paypal_direct'
-                ),
-            )
-        );
+            ],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'paypal_direct',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -84,16 +84,16 @@ class Method extends AbstractRepository
      */
     protected function _getPayPalPayflowPro()
     {
-        return array(
-            'config' => array(
+        return [
+            'config' => [
                 'payment_form_class' => '\\Magento\\Payment\\Test\\Block\\Form\\Cc',
-            ),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'payflowpro'
-                ),
-            )
-        );
+            ],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'payflowpro',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -103,14 +103,14 @@ class Method extends AbstractRepository
      */
     protected function _getPayPalPayflowLink()
     {
-        return array(
-            'config' => array(),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'payflow_link'
-                ),
-            )
-        );
+        return [
+            'config' => [],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'payflow_link',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -120,14 +120,14 @@ class Method extends AbstractRepository
      */
     protected function _getPayPalPayflowLinkExpress()
     {
-        return array(
-            'config' => array(),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'payflow_express'
-                ),
-            )
-        );
+        return [
+            'config' => [],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'payflow_express',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -137,14 +137,14 @@ class Method extends AbstractRepository
      */
     protected function _getPayPalAdvanced()
     {
-        return array(
-            'config' => array(),
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'payflow_advanced'
-                ),
-            )
-        );
+        return [
+            'config' => [],
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'payflow_advanced',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -154,15 +154,15 @@ class Method extends AbstractRepository
      */
     protected function _getPayPalStandard()
     {
-        return array(
-            'config' => array(),
-            'data' => array(
-                'fields' => array(
+        return [
+            'config' => [],
+            'data' => [
+                'fields' => [
                     'payment_code' => 'paypal_standard',
-                    'payment_action' => 'Sale'
-                ),
-            )
-        );
+                    'payment_action' => 'Sale',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -172,12 +172,12 @@ class Method extends AbstractRepository
      */
     protected function _getCheckMoneyOrder()
     {
-        return array(
-            'data' => array(
-                'fields' => array(
-                    'payment_code' => 'checkmo'
-                ),
-            )
-        );
+        return [
+            'data' => [
+                'fields' => [
+                    'payment_code' => 'checkmo',
+                ],
+            ]
+        ];
     }
 }

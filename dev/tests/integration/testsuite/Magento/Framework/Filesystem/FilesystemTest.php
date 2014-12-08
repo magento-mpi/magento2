@@ -9,8 +9,8 @@
  */
 namespace Magento\Framework\Filesystem;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList as AppDirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**

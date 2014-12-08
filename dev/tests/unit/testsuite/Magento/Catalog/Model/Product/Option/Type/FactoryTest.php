@@ -26,7 +26,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_factory = $objectManagerHelper->getObject(
             'Magento\Catalog\Model\Product\Option\Type\Factory',
-            array('objectManager' => $this->_objectManagerMock)
+            ['objectManager' => $this->_objectManagerMock]
         );
     }
 
@@ -34,14 +34,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'Magento\Catalog\Model\Product\Option\Type\DefaultType';
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $className,
-            array()
+            []
         )->will(
             $this->returnValue($filterMock)
         );
@@ -52,9 +52,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     public function testCreateWithArguments()
     {
         $className = 'Magento\Catalog\Model\Product\Option\Type\DefaultType';
-        $arguments = array('foo', 'bar');
+        $arguments = ['foo', 'bar'];
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
@@ -77,7 +77,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $className = 'WrongClass';
 
-        $filterMock = $this->getMock($className, array(), array(), '', false);
+        $filterMock = $this->getMock($className, [], [], '', false);
         $this->_objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($filterMock));
 
         $this->_factory->create($className);

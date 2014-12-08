@@ -54,7 +54,7 @@ class AgreementsValidatorTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [[1, 3, '4'], true],
-            [[1, '4', 3,], true],
+            [[1, '4', 3], true],
             [[1, 3, 4], true],
             [[1, 3, 4, 5], true],
             [[], false],

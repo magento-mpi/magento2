@@ -7,7 +7,7 @@ namespace Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace;
  * @copyright {copyright}
  * @license   {license_link}
  */
-class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace
+class SourceClassWithNamespaceInterceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace
 {
     /**
      * Object Manager instance
@@ -48,13 +48,13 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
 
     public function ___callParent($method, array $arguments)
     {
-        return call_user_func_array(array('parent', $method), $arguments);
+        return call_user_func_array(['parent', $method], $arguments);
     }
 
     public function __sleep()
     {
         if (method_exists(get_parent_class($this), '__sleep')) {
-            return array_diff(parent::__sleep(), array('pluginLocator', 'pluginList', 'chain', 'subjectType'));
+            return array_diff(parent::__sleep(), ['pluginLocator', 'pluginList', 'chain', 'subjectType']);
         } else {
             return array_keys(get_class_vars(get_parent_class($this)));
         }
@@ -76,7 +76,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
             // Call 'before' listeners
             foreach ($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_BEFORE] as $code) {
                 $beforeResult = call_user_func_array(
-                    array($this->pluginList->getPlugin($this->subjectType, $code), 'before'. $capMethod), array_merge(array($this), $arguments)
+                    [$this->pluginList->getPlugin($this->subjectType, $code), 'before' . $capMethod], array_merge([$this], $arguments)
                 );
                 if ($beforeResult) {
                     $arguments = $beforeResult;
@@ -93,12 +93,12 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
                 return $chain->invokeNext($type, $method, $subject, func_get_args(), $code);
             };
             $result = call_user_func_array(
-                array($this->pluginList->getPlugin($this->subjectType, $code), 'around' . $capMethod),
-                array_merge(array($this, $next), $arguments)
+                [$this->pluginList->getPlugin($this->subjectType, $code), 'around' . $capMethod],
+                array_merge([$this, $next], $arguments)
             );
         } else {
             // Call original method
-            $result = call_user_func_array(array('parent', $method), $arguments);
+            $result = call_user_func_array(['parent', $method], $arguments);
         }
         if (isset($pluginInfo[\Magento\Framework\Interception\DefinitionInterface::LISTENER_AFTER])) {
             // Call 'after' listeners
@@ -113,7 +113,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = [])
     {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'publicChildMethod');
         if (!$pluginInfo) {
@@ -152,7 +152,7 @@ class Interceptor extends \Magento\Framework\Code\GeneratorTest\SourceClassWithN
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
+    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = [])
     {
         $pluginInfo = $this->pluginList->getNext($this->subjectType, 'publicParentMethod');
         if (!$pluginInfo) {

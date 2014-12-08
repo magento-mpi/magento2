@@ -59,7 +59,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
      */
     public function testSendNoFileSpecifiedException()
     {
-        $this->object->send(array());
+        $this->object->send([]);
     }
 
     /**

@@ -8,7 +8,6 @@
 
 /** @var \Magento\TestFramework\Application $this */
 
-
 $cartPriceRulesCount = \Magento\TestFramework\Helper\Cli::getOption('cart_price_rules', 200);
 $cartPriceRulesProductsFloor = \Magento\TestFramework\Helper\Cli::getOption('cart_price_rules_floor', 3);
 $cartPriceRulesProductsFirstCategory = \Magento\TestFramework\Helper\Cli::getOption(
@@ -22,14 +21,14 @@ $idField = $model->getIdFieldName();
 
 for ($i = 0; $i < $cartPriceRulesCount; $i++) {
     $ruleName = sprintf('Shopping Cart Price Rule %1$d', $i);
-    $data = array(
+    $data = [
         $idField => null,
         'product_ids' => '',
         'name' => $ruleName,
         'description' => '',
         'is_active' => '1',
-        'website_ids' => array(0 => '1'),
-        'customer_group_ids' => array(0 => '0', 1 => '1', 2 => '2', 3 => '3'),
+        'website_ids' => [0 => '1'],
+        'customer_group_ids' => [0 => '0', 1 => '1', 2 => '2', 3 => '3'],
         'coupon_type' => '1',
         'coupon_code' => '',
         'uses_per_customer' => '',
@@ -37,42 +36,42 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
         'to_date' => '',
         'sort_order' => '',
         'is_rss' => '1',
-        'rule' => array(
-            'conditions' => array(
-                1 => array(
+        'rule' => [
+            'conditions' => [
+                1 => [
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Combine',
                     'aggregator' => 'all',
                     'value' => '1',
-                    'new_child' => ''
-                ),
-                '1--1' => array(
+                    'new_child' => '',
+                ],
+                '1--1' => [
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Address',
                     'attribute' => 'total_qty',
                     'operator' => '>=',
-                    'value' => $cartPriceRulesProductsFloor + $i
-                ),
-                '1--2' => array(
+                    'value' => $cartPriceRulesProductsFloor + $i,
+                ],
+                '1--2' => [
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Product\\Found',
                     'value' => '1',
                     'aggregator' => 'all',
-                    'new_child' => ''
-                ),
-                '1--2--1' => array(
+                    'new_child' => '',
+                ],
+                '1--2--1' => [
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Product',
                     'attribute' => 'category_ids',
                     'operator' => '==',
-                    'value' => $cartPriceRulesProductsFirstCategory
-                )
-            ),
-            'actions' => array(
-                1 => array(
+                    'value' => $cartPriceRulesProductsFirstCategory,
+                ],
+            ],
+            'actions' => [
+                1 => [
                     'type' => 'Magento\\SalesRule\\Model\\Rule\\Condition\\Product\\Combine',
                     'aggregator' => 'all',
                     'value' => '1',
-                    'new_child' => ''
-                )
-            )
-        ),
+                    'new_child' => '',
+                ],
+            ],
+        ],
         'simple_action' => 'by_percent',
         'discount_amount' => '10',
         'discount_qty' => '0',
@@ -81,7 +80,7 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
         'simple_free_shipping' => '0',
         'stop_rules_processing' => '0',
         'reward_points_delta' => '',
-        'store_labels' => array(
+        'store_labels' => [
             0 => '',
             1 => '',
             2 => '',
@@ -93,17 +92,17 @@ for ($i = 0; $i < $cartPriceRulesCount; $i++) {
             8 => '',
             9 => '',
             10 => '',
-            11 => ''
-        ),
+            11 => '',
+        ],
         'page' => '1',
         'limit' => '20',
         'in_banners' => '',
-        'banner_id' => array('from' => '', 'to' => ''),
+        'banner_id' => ['from' => '', 'to' => ''],
         'banner_name' => '',
         'visible_in' => '',
         'banner_is_enabled' => '',
-        'related_banners' => array()
-    );
+        'related_banners' => [],
+    ];
     if (isset($data['simple_action']) && $data['simple_action'] == 'by_percent' && isset($data['discount_amount'])) {
         $data['discount_amount'] = min(100, $data['discount_amount']);
     }

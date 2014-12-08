@@ -7,7 +7,6 @@
  */
 namespace Magento\Doc\Document;
 
-use Magento\Framework\Filesystem;
 
 /**
  * Interface ContentInterface

@@ -8,8 +8,8 @@
 
 namespace Magento\MultipleWishlist\Test\Block\Product;
 
-use Mtf\Client\Element\Locator;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class View

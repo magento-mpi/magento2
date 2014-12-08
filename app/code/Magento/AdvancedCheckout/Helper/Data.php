@@ -96,7 +96,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected $_failedTemplateStatusCodes = [
         self::ADD_ITEM_STATUS_FAILED_SKU,
-        self::ADD_ITEM_STATUS_FAILED_PERMISSIONS
+        self::ADD_ITEM_STATUS_FAILED_PERMISSIONS,
     ];
 
     /**

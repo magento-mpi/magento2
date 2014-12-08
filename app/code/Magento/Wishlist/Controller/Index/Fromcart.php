@@ -8,9 +8,9 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
-use Magento\Wishlist\Controller\IndexInterface;
 use Magento\Framework\App\Action;
 use Magento\Framework\App\Action\NotFoundException;
+use Magento\Wishlist\Controller\IndexInterface;
 
 class Fromcart extends Action\Action implements IndexInterface
 {

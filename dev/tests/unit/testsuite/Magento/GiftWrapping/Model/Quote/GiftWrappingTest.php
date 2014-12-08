@@ -36,11 +36,11 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
     public function testCollectQuote($withProduct)
     {
         $addressMock = $this->_prepareData($withProduct);
-        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', array(), array(), '', false);
+        $helperMock = $this->getMock('Magento\GiftWrapping\Helper\Data', [], [], '', false);
         $factoryMock = $this->getMock(
             'Magento\GiftWrapping\Model\WrappingFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -65,31 +65,31 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMockBuilder(
             'Magento\Catalog\Model\Product'
         )->disableOriginalConstructor()->setMethods(
-            array('isVirtual', '__wakeup')
+            ['isVirtual', '__wakeup']
         )->getMock();
         $storeMock = $this->getMockBuilder(
             'Magento\Store\Model\Store'
         )->disableOriginalConstructor()->setMethods(
-            array('getId', '__wakeup')
+            ['getId', '__wakeup']
         )->getMock();
         $this->_wrappingMock = $this->getMock(
             'Magento\GiftWrapping\Model\Wrapping',
-            array('load', 'setStoreId', 'getBasePrice', '__wakeup'),
-            array(),
+            ['load', 'setStoreId', 'getBasePrice', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_addressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            array(
+            [
                 'getAddressType',
                 'getQuote',
                 'getAllNonNominalItems',
                 'setGwItemsBasePrice',
                 'setGwItemsPrice',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -97,7 +97,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $this->priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $this->priceCurrency->expects($this->any())->method('convert')->will($this->returnValue(10));
         $product->expects($this->any())->method('isVirtual')->will($this->returnValue(false));
-        $quote = new \Magento\Framework\Object(array('isMultishipping' => false, 'store' => $storeMock));
+        $quote = new \Magento\Framework\Object(['isMultishipping' => false, 'store' => $storeMock]);
 
         $this->_wrappingMock->expects($this->any())->method('load')->will($this->returnSelf());
         $this->_wrappingMock->expects($this->any())->method('getBasePrice')->will($this->returnValue(6));
@@ -123,7 +123,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAllNonNominalItems'
         )->will(
-            $this->returnValue(array($item))
+            $this->returnValue([$item])
         );
 
         if ($withProduct) {
@@ -142,6 +142,6 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
      */
     public function collectQuoteDataProvider()
     {
-        return array('withProduct' => array(true), 'withoutProduct' => array(false));
+        return ['withProduct' => [true], 'withoutProduct' => [false]];
     }
 }

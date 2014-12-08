@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -48,7 +48,7 @@ class ShippingMethodConverterTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->builderMock = $this->getMock(
             '\Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder',
             ['populateWithArray', 'create'],

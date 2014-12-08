@@ -24,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -50,7 +50,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         $this->buttonList->update(
             'save',
             'data_attribute',
-            array('mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form')))
+            ['mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']]]
         );
         $this->buttonList->update('delete', 'label', __('Delete'));
 
@@ -60,14 +60,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->add(
             'send',
-            array(
+            [
                 'label' => __('Save & Send Email'),
                 'onclick' => $clickSend,
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#edit_form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#edit_form']],
+                ]
+            ]
         );
     }
 

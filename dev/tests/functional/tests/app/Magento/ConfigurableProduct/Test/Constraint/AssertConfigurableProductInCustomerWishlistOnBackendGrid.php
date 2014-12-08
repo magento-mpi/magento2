@@ -8,9 +8,9 @@
 
 namespace Magento\ConfigurableProduct\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 use Magento\Wishlist\Test\Constraint\AssertProductInCustomerWishlistOnBackendGrid;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertConfigurableProductInCustomerWishlistOnBackendGrid
@@ -35,7 +35,7 @@ class AssertConfigurableProductInCustomerWishlistOnBackendGrid extends AssertPro
                 $attribute = $configurableAttributesData[$optionData['title']];
                 $productOptions[] = [
                     'option_name' => $attribute['label'],
-                    'value' => $attribute['options'][$optionData['value']]['label']
+                    'value' => $attribute['options'][$optionData['value']]['label'],
                 ];
             }
         }

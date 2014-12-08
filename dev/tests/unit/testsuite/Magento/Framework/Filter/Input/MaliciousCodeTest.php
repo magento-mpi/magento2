@@ -43,12 +43,12 @@ class MaliciousCodeTest extends \PHPUnit_Framework_TestCase
             'JS in styles (array of strings to be filtered)' => [
                 [
                     '<element style="behavior:url(malicious.example.com)"></element>',
-                    '<img src="test.gif" style="height: expression(compatMode==\'CSS1Compat\'? 200px : 300px")/>'
+                    '<img src="test.gif" style="height: expression(compatMode==\'CSS1Compat\'? 200px : 300px")/>',
                 ],
                 [
                     '<element ></element>',
                     '<img src="test.gif" />'
-                ]
+                ],
             ],
             'JS attributes (array of strings to be filtered)' => [
                 [
@@ -100,7 +100,7 @@ class MaliciousCodeTest extends \PHPUnit_Framework_TestCase
             ],
             'Base64' => [
                 '<img alt="Embedded Image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIA..." />',
-                '<img alt="Embedded Image" />'
+                '<img alt="Embedded Image" />',
             ]
         ];
     }

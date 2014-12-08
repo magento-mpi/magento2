@@ -36,14 +36,14 @@ class TaxClass extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => array('class_type', 'class_name'),
+        $this->_uniqueFields = [
+            [
+                'field' => ['class_type', 'class_name'],
                 'title' => __(
                     self::UNIQUE_TAX_CLASS_MSG
-                )
-            )
-        );
+                ),
+            ],
+        ];
         return $this;
     }
 }

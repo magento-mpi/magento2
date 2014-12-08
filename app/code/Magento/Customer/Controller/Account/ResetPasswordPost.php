@@ -8,10 +8,10 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Customer\Model\Session;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Action\Context;
 
 class ResetPasswordPost extends \Magento\Customer\Controller\Account
 {
@@ -58,7 +58,7 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
         }
         if (iconv_strlen($password) <= 0) {
             $this->messageManager->addError(__('New password field cannot be empty.'));
-            $this->_redirect('*/*/createPassword', array('id' => $customerId, 'token' => $resetPasswordToken));
+            $this->_redirect('*/*/createPassword', ['id' => $customerId, 'token' => $resetPasswordToken]);
             return;
         }
 
@@ -70,7 +70,7 @@ class ResetPasswordPost extends \Magento\Customer\Controller\Account
             return;
         } catch (\Exception $exception) {
             $this->messageManager->addError(__('There was an error saving the new password.'));
-            $this->_redirect('*/*/createPassword', array('id' => $customerId, 'token' => $resetPasswordToken));
+            $this->_redirect('*/*/createPassword', ['id' => $customerId, 'token' => $resetPasswordToken]);
             return;
         }
     }

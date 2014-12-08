@@ -8,12 +8,12 @@
 
 namespace Magento\CatalogEvent\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\CatalogEvent\Test\Fixture\CatalogEventEntity;
-use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
 use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
+use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventNew;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCatalogEventEntity from Catalog Event Page

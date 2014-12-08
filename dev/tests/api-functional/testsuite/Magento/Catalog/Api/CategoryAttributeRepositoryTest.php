@@ -8,7 +8,7 @@
  */
 namespace Magento\Catalog\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -40,26 +40,26 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
                             [
                                 'field' => 'frontend_input',
                                 'value' => 'text',
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
+                'page_size' => 2,
             ],
-            'entityTypeCode' => \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE
+            'entityTypeCode' => \Magento\Catalog\Api\Data\CategoryAttributeInterface::ENTITY_TYPE_CODE,
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
+                'operation' => self::SERVICE_NAME . 'GetList',
             ],
         ];
 
@@ -86,15 +86,14 @@ class CategoryAttributeRepositoryTest extends \Magento\TestFramework\TestCase\We
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $attributeCode,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
+                'operation' => self::SERVICE_NAME . 'Get',
             ],
         ];
         return $this->_webApiCall($serviceInfo, ['attributeCode' => $attributeCode]);
     }
 }
- 

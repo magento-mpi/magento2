@@ -7,8 +7,8 @@
  */
 namespace Magento\TestModule4\Service\V1;
 
-use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 use Magento\TestModule4\Service\V1\Entity\DataObjectRequest;
+use Magento\TestModule4\Service\V1\Entity\NestedDataObjectRequest;
 
 interface DataObjectServiceInterface
 {

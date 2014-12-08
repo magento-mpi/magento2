@@ -7,8 +7,8 @@
  */
 namespace Magento\AdminNotification\Model;
 
-use \Magento\Framework\Notification\MessageInterface;
-use \Magento\Framework\Notification\NotifierInterface;
+use Magento\Framework\Notification\MessageInterface;
+use Magento\Framework\Notification\NotifierInterface;
 
 /**
  * AdminNotification Inbox model
@@ -50,12 +50,12 @@ class Inbox extends \Magento\Framework\Model\AbstractModel implements NotifierIn
      */
     public function getSeverities($severity = null)
     {
-        $severities = array(
+        $severities = [
             MessageInterface::SEVERITY_CRITICAL => __('critical'),
             MessageInterface::SEVERITY_MAJOR => __('major'),
             MessageInterface::SEVERITY_MINOR => __('minor'),
-            MessageInterface::SEVERITY_NOTICE => __('notice')
-        );
+            MessageInterface::SEVERITY_NOTICE => __('notice'),
+        ];
 
         if (!is_null($severity)) {
             if (isset($severities[$severity])) {
@@ -74,7 +74,7 @@ class Inbox extends \Magento\Framework\Model\AbstractModel implements NotifierIn
      */
     public function loadLatestNotice()
     {
-        $this->setData(array());
+        $this->setData([]);
         $this->getResource()->loadLatestNotice($this);
         return $this;
     }
@@ -122,16 +122,16 @@ class Inbox extends \Magento\Framework\Model\AbstractModel implements NotifierIn
         }
         $date = date('Y-m-d H:i:s');
         $this->parse(
-            array(
-                array(
+            [
+                [
                     'severity' => $severity,
                     'date_added' => $date,
                     'title' => $title,
                     'description' => $description,
                     'url' => $url,
-                    'internal' => $isInternal
-                )
-            )
+                    'internal' => $isInternal,
+                ],
+            ]
         );
         return $this;
     }

@@ -32,17 +32,17 @@ class Order implements \Magento\Payment\Model\Cart\SalesModel\SalesModelInterfac
      */
     public function getAllItems()
     {
-        $resultItems = array();
+        $resultItems = [];
 
         foreach ($this->_salesModel->getAllItems() as $item) {
             $resultItems[] = new \Magento\Framework\Object(
-                array(
+                [
                     'parent_item' => $item->getParentItem(),
                     'name' => $item->getName(),
                     'qty' => (int)$item->getQtyOrdered(),
                     'price' => (double)$item->getBasePrice(),
-                    'original_item' => $item
-                )
+                    'original_item' => $item,
+                ]
             );
         }
 

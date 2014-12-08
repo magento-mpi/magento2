@@ -8,10 +8,9 @@
 
 namespace Magento\User\Test\Fixture\User;
 
+use Magento\User\Test\Fixture\AdminUserRole;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Magento\User\Test\Fixture\AdminUserRole;
 
 /**
  * Class RoleId

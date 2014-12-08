@@ -17,15 +17,15 @@ class CryptTest extends \PHPUnit_Framework_TestCase
 
     private static $_cipherInfo;
 
-    protected $_supportedCiphers = array(MCRYPT_BLOWFISH, MCRYPT_RIJNDAEL_128, MCRYPT_RIJNDAEL_256);
+    protected $_supportedCiphers = [MCRYPT_BLOWFISH, MCRYPT_RIJNDAEL_128, MCRYPT_RIJNDAEL_256];
 
-    protected $_supportedModes = array(
+    protected $_supportedModes = [
         MCRYPT_MODE_ECB,
         MCRYPT_MODE_CBC,
         MCRYPT_MODE_CFB,
         MCRYPT_MODE_OFB,
-        MCRYPT_MODE_NOFB
-    );
+        MCRYPT_MODE_NOFB,
+    ];
 
     protected function setUp()
     {
@@ -80,10 +80,10 @@ class CryptTest extends \PHPUnit_Framework_TestCase
 
     public function getCipherModeCombinations()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_supportedCiphers as $cipher) {
             foreach ($this->_supportedModes as $mode) {
-                $result[] = array($cipher, $mode);
+                $result[] = [$cipher, $mode];
             }
         }
         return $result;
@@ -106,15 +106,15 @@ class CryptTest extends \PHPUnit_Framework_TestCase
 
     public function getConstructorExceptionData()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_supportedCiphers as $cipher) {
             foreach ($this->_supportedModes as $mode) {
                 $tooLongKey = str_repeat('-', $this->_getKeySize($cipher, $mode) + 1);
                 $tooShortInitVector = str_repeat('-', $this->_getInitVectorSize($cipher, $mode) - 1);
                 $tooLongInitVector = str_repeat('-', $this->_getInitVectorSize($cipher, $mode) + 1);
-                $result[] = array($tooLongKey, $cipher, $mode, false);
-                $result[] = array($this->_key, $cipher, $mode, $tooShortInitVector);
-                $result[] = array($this->_key, $cipher, $mode, $tooLongInitVector);
+                $result[] = [$tooLongKey, $cipher, $mode, false];
+                $result[] = [$this->_key, $cipher, $mode, $tooShortInitVector];
+                $result[] = [$this->_key, $cipher, $mode, $tooLongInitVector];
             }
         }
         return $result;

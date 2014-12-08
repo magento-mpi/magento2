@@ -76,7 +76,6 @@ class CustomerTokenServiceTest extends \PHPUnit_Framework_TestCase
             $this->_tokenModelCollectionFactoryMock,
             $this->validatorHelperMock
         );
-
     }
 
     public function testRevokeCustomerAccessToken()
@@ -150,5 +149,3 @@ class CustomerTokenServiceTest extends \PHPUnit_Framework_TestCase
         $this->_tokenService->revokeCustomerAccessToken($customerId);
     }
 }
-
-

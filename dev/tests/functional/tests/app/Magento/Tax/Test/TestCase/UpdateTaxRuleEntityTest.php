@@ -8,12 +8,12 @@
 
 namespace Magento\Tax\Test\TestCase;
 
+use Magento\Tax\Test\Fixture\TaxRule;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
+use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Tax\Test\Fixture\TaxRule;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleNew;
-use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
 
 /**
  * Test Flow:

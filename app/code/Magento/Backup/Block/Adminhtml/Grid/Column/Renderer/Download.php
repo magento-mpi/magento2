@@ -31,7 +31,7 @@ class Download extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 
         return '<a href="' . $this->getUrl(
             '*/*/download',
-            array('time' => $row->getData('time'), 'type' => $row->getData('type'))
+            ['time' => $row->getData('time'), 'type' => $row->getData('type')]
         ) . '">' . $row->getData(
             'extension'
         ) . '</a> &nbsp; <small>(' . $url7zip . ')</small>';

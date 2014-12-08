@@ -17,8 +17,8 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
     {
         $block = $this->getMock(
             'Magento\Payment\Block\Info\AbstractContainer',
-            array('getChildBlock', 'getPaymentInfo'),
-            array(),
+            ['getChildBlock', 'getPaymentInfo'],
+            [],
             '',
             false
         );
@@ -26,14 +26,14 @@ class ContainerAbstractTest extends \PHPUnit_Framework_TestCase
         $paymentInfo = $objectManagerHelper->getObject('Magento\Payment\Model\Info');
         $adapterFactoryMock = $this->getMock(
             'Magento\Framework\Logger\AdapterFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $methodInstance = $objectManagerHelper->getObject(
             'Magento\OfflinePayments\Model\Checkmo',
-            array('logAdapterFactory' => $adapterFactoryMock)
+            ['logAdapterFactory' => $adapterFactoryMock]
         );
         $paymentInfo->setMethodInstance($methodInstance);
         $block->expects($this->atLeastOnce())->method('getPaymentInfo')->will($this->returnValue($paymentInfo));

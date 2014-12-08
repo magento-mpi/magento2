@@ -63,7 +63,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator $productUrlPathGenerator,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productFactory = $productFactory;
         $this->_categoryFactory = $categoryFactory;
@@ -92,11 +92,11 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
         $form->setAction(
             $this->_adminhtmlData->getUrl(
                 'adminhtml/*/save',
-                array(
+                [
                     'id' => $this->_getModel()->getId(),
                     'product' => $this->_getProduct()->getId(),
                     'category' => $this->_getCategory()->getId()
-                )
+                ]
             )
         );
 
@@ -173,7 +173,7 @@ class Form extends \Magento\UrlRewrite\Block\Edit\Form
     {
         $product = $this->_getProduct();
         $category = $this->_getCategory();
-        $entityStores = array();
+        $entityStores = [];
 
         // showing websites that only associated to products
         if ($product->getId()) {

@@ -31,7 +31,7 @@ class Converter extends \Magento\Framework\App\Config\Scope\Converter
      * @param array $initialConfig
      * @return array
      */
-    public function convert($source, $initialConfig = array())
+    public function convert($source, $initialConfig = [])
     {
         $config = array_replace_recursive($initialConfig, parent::convert($source));
         return $this->_processor->process($config);

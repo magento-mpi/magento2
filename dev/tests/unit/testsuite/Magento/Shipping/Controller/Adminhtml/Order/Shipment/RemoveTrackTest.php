@@ -287,7 +287,7 @@ class RemoveTrackTest extends \PHPUnit_Framework_TestCase
     {
         $errors = [
             'error' => true,
-            'message' => 'Cannot initialize shipment for delete tracking number.'
+            'message' => 'Cannot initialize shipment for delete tracking number.',
         ];
         $this->shipmentLoad();
 

@@ -40,7 +40,7 @@ class Googleoptimizer extends \Magento\Catalog\Block\Adminhtml\Form
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
         \Magento\GoogleOptimizer\Helper\Form $formHelper,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
 

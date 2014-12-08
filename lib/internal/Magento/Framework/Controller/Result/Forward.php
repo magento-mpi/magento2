@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\AbstractResult;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\AbstractResult;
 
 class Forward extends AbstractResult
 {

@@ -19,12 +19,12 @@ class Factory
      *
      * @var string[]
      */
-    protected $types = array(
+    protected $types = [
         MessageInterface::TYPE_ERROR,
         MessageInterface::TYPE_WARNING,
         MessageInterface::TYPE_NOTICE,
-        MessageInterface::TYPE_SUCCESS
-    );
+        MessageInterface::TYPE_SUCCESS,
+    ];
 
     /**
      * Object Manager instance
@@ -58,7 +58,7 @@ class Factory
         }
 
         $className = 'Magento\\Framework\\Message\\' . ucfirst($type);
-        $message = $this->objectManager->create($className, array('text' => $text));
+        $message = $this->objectManager->create($className, ['text' => $text]);
         if (!$message instanceof MessageInterface) {
             throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Framework\Message\MessageInterface');
         }

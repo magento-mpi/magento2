@@ -22,9 +22,9 @@ abstract class AbstractAdapter extends \Zend_Translate_Adapter implements Adapte
      * @param array $options (optional)
      * @return array
      */
-    protected function _loadTranslationData($data, $locale, array $options = array())
+    protected function _loadTranslationData($data, $locale, array $options = [])
     {
-        return array();
+        return [];
     }
 
     /**

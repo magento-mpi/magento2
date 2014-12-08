@@ -8,8 +8,8 @@
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertGiftRegistrySuccessDeleteMessageOnBackend

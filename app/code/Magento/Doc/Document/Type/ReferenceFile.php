@@ -51,7 +51,7 @@ class ReferenceFile extends AbstractType implements ReferenceInterface
      */
     public function getContent(Item $item)
     {
-        list ($dirType, $path) = explode('::', $item->getData('reference'));
+        list($dirType, $path) = explode('::', $item->getData('reference'));
         $dir = $this->filesystem->getDirectoryRead($dirType);
         if ($dir->isFile($path)) {
             $content = $dir->readFile($path);

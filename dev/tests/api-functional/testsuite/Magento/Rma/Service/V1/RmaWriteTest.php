@@ -8,10 +8,10 @@
 
 namespace Magento\Rma\Service\V1;
 
+use Magento\Rma\Service\V1\Data\Item;
+use Magento\Rma\Service\V1\Data\Rma;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\Rma\Service\V1\Data\Rma;
-use Magento\Rma\Service\V1\Data\Item;
 
 /**
  * Class RmaWriteTest
@@ -37,13 +37,13 @@ class RmaWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ]
+                'operation' => self::SERVICE_NAME . 'create',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertTrue($result);
@@ -60,13 +60,13 @@ class RmaWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'create'
-            ]
+                'operation' => self::SERVICE_NAME . 'create',
+            ],
         ];
         $this->_webApiCall($serviceInfo, $requestData);
 
@@ -76,13 +76,13 @@ class RmaWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'update'
-            ]
+                'operation' => self::SERVICE_NAME . 'update',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, array_merge(['id' => $rma->getId()], $requestData));
         $this->assertTrue($result);
@@ -118,7 +118,7 @@ class RmaWriteTest extends WebapiAbstract
                 Item::STATUS => 'pending',
                 Item::QTY_AUTHORIZED => null,
                 Item::QTY_APPROVED => null,
-                Item::QTY_RETURNED => null
+                Item::QTY_RETURNED => null,
             ];
             $item->setProductType('simple');
             $item->setQtyShipped($item->getQtyOrdered());
@@ -167,7 +167,7 @@ class RmaWriteTest extends WebapiAbstract
                 Item::STATUS => 'authorized',
                 Item::QTY_REQUESTED => null,
                 Item::QTY_APPROVED => null,
-                Item::QTY_RETURNED => null
+                Item::QTY_RETURNED => null,
             ];
         }
         return $request;

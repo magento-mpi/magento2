@@ -30,7 +30,7 @@ class Customer extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
 
         return sprintf(
             '<a href="%s">%s</a>',
-            $this->getUrl('review/product/', array('customerId' => $id)),
+            $this->getUrl('review/product/', ['customerId' => $id]),
             __('Show Reviews')
         );
     }

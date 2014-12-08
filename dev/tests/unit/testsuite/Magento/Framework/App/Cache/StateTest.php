@@ -33,7 +33,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabled($cacheType, $typeOptions, $banAll, $expectedIsEnabled)
     {
-        $model = $this->_buildModel($typeOptions, array(), $banAll);
+        $model = $this->_buildModel($typeOptions, [], $banAll);
         $actualIsEnabled = $model->isEnabled($cacheType);
         $this->assertEquals($expectedIsEnabled, $actualIsEnabled);
     }
@@ -43,32 +43,32 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public static function isEnabledDataProvider()
     {
-        return array(
-            'enabled' => array(
+        return [
+            'enabled' => [
                 'cacheType' => 'cache_type',
-                'typeOptions' => array('some_type' => false, 'cache_type' => true),
+                'typeOptions' => ['some_type' => false, 'cache_type' => true],
                 'banAll' => false,
-                'expectedIsEnabled' => true
-            ),
-            'disabled' => array(
+                'expectedIsEnabled' => true,
+            ],
+            'disabled' => [
                 'cacheType' => 'cache_type',
-                'typeOptions' => array('some_type' => true, 'cache_type' => false),
+                'typeOptions' => ['some_type' => true, 'cache_type' => false],
                 'banAll' => false,
-                'expectedIsEnabled' => false
-            ),
-            'unknown is disabled' => array(
+                'expectedIsEnabled' => false,
+            ],
+            'unknown is disabled' => [
                 'cacheType' => 'unknown_cache_type',
-                'typeOptions' => array('some_type' => true),
+                'typeOptions' => ['some_type' => true],
                 'banAll' => false,
-                'expectedIsEnabled' => false
-            ),
-            'disabled, when all caches are banned' => array(
+                'expectedIsEnabled' => false,
+            ],
+            'disabled, when all caches are banned' => [
                 'cacheType' => 'cache_type',
-                'typeOptions' => array('cache_type' => true),
+                'typeOptions' => ['cache_type' => true],
                 'banAll' => true,
-                'expectedIsEnabled' => false
-            )
-        );
+                'expectedIsEnabled' => false,
+            ]
+        ];
     }
 
     /**
@@ -94,7 +94,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($cacheTypeOptions === false ? false : serialize($cacheTypeOptions))
         );
-        $cacheFrontendPool = $this->getMock('Magento\Framework\App\Cache\Frontend\Pool', array(), array(), '', false);
+        $cacheFrontendPool = $this->getMock('Magento\Framework\App\Cache\Frontend\Pool', [], [], '', false);
         $cacheFrontendPool->expects(
             $this->any()
         )->method(
@@ -105,7 +105,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_cacheFrontend)
         );
 
-        $this->_resource = $this->getMock('Magento\Framework\App\Cache\State\Options', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\Framework\App\Cache\State\Options', [], [], '', false);
         $this->_resource->expects(
             $this->any()
         )->method(
@@ -129,16 +129,16 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsEnabledFallbackToResource()
     {
-        $model = $this->_buildModel(array(), array('cache_type' => true));
+        $model = $this->_buildModel([], ['cache_type' => true]);
         $this->assertFalse($model->isEnabled('cache_type'));
 
-        $model = $this->_buildModel(false, array('cache_type' => true));
+        $model = $this->_buildModel(false, ['cache_type' => true]);
         $this->assertTrue($model->isEnabled('cache_type'));
     }
 
     public function testSetEnabledIsEnabled()
     {
-        $model = $this->_buildModel(array('cache_type' => false));
+        $model = $this->_buildModel(['cache_type' => false]);
         $model->setEnabled('cache_type', true);
         $this->assertTrue($model->isEnabled('cache_type'));
 
@@ -148,7 +148,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
 
     public function testPersist()
     {
-        $cacheTypes = array('cache_type' => false);
+        $cacheTypes = ['cache_type' => false];
         $model = $this->_buildModel($cacheTypes);
 
         $this->_resource->expects($this->once())->method('saveAllOptions')->with($cacheTypes);

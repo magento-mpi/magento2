@@ -8,7 +8,7 @@
  */
 namespace Magento\Ogone\Controller\Api;
 
-use \Magento\Sales\Model\Order;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 
 class Placeform extends \Magento\Ogone\Controller\Api

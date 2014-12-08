@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Rss\Product;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class SpecialTest
@@ -82,6 +82,5 @@ class SpecialTest extends \PHPUnit_Framework_TestCase
 
         $products = $this->special->getProductsCollection($storeId, $customerGroupId);
         $this->assertEquals($productCollection, $products);
-
     }
 }

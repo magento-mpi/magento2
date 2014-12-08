@@ -8,10 +8,10 @@
 
 namespace Magento\Framework\View\File\Collector\Decorator;
 
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\File;
 use Magento\Framework\Module\ModuleListInterface;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File;
+use Magento\Framework\View\File\CollectorInterface;
 
 /**
  * Decorator that sorts view files according to dependencies between modules they belong to
@@ -63,7 +63,7 @@ class ModuleDependency implements CollectorInterface
     public function getFiles(ThemeInterface $theme, $filePath)
     {
         $result = $this->subject->getFiles($theme, $filePath);
-        usort($result, array($this, 'compareFiles'));
+        usort($result, [$this, 'compareFiles']);
         return $result;
     }
 

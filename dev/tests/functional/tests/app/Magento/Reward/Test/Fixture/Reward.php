@@ -45,7 +45,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerId'
+        'source' => 'Magento\Reward\Test\Fixture\Reward\CustomerId',
     ];
 
     protected $website_id = [
@@ -54,7 +54,7 @@ class Reward extends InjectableFixture
         'is_required' => '',
         'default_value' => '0',
         'input' => '',
-        'group' => 'reward_points'
+        'group' => 'reward_points',
     ];
 
     protected $points_balance = [

@@ -58,7 +58,7 @@ class Xml implements \Magento\Webapi\Controller\Rest\Request\DeserializerInterfa
         }
         /** Disable external entity loading to prevent possible vulnerability */
         $previousLoaderState = libxml_disable_entity_loader(true);
-        set_error_handler(array($this, 'handleErrors'));
+        set_error_handler([$this, 'handleErrors']);
 
         $this->_xmlParser->loadXML($xmlRequestBody);
 

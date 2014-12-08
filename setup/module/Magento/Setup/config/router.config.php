@@ -37,7 +37,7 @@ return [
                     'defaults' => [
                         'controller' => 'Magento\Setup\Controller\IndexController',
                         'action'     => 'index',
-                    ]
+                    ],
                 ],
             ],
         ],

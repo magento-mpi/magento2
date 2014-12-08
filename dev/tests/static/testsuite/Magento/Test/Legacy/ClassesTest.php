@@ -95,7 +95,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         if (!$names) {
             return;
         }
-        $factoryNames = array();
+        $factoryNames = [];
         foreach ($names as $name) {
             try {
                 if ($softComparison) {

@@ -61,7 +61,7 @@ class Js extends \Magento\Backend\Block\Template
         \Magento\Core\Helper\Data $coreHelper,
         TaxCalculationInterface $calculationService,
         ProductTaxClassSource $productTaxClassSource,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         $this->currentCustomer = $currentCustomer;
@@ -102,7 +102,7 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getAllRatesByProductClassJson()
     {
-        $result = array();
+        $result = [];
         foreach ($this->productTaxClassSource->getAllOptions() as $productTaxClass) {
             $taxClassId = $productTaxClass['value'];
             $taxRate = $this->calculationService->getDefaultCalculatedRate(

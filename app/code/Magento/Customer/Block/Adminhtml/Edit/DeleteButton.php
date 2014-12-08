@@ -52,7 +52,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
                 'on_click' => 'deleteConfirm(\'' . __(
                     'Are you sure you want to do this?'
                 ) . '\', \'' . $this->getDeleteUrl() . '\')',
-                'sort_order' => 20
+                'sort_order' => 20,
             ];
         }
         return $data;
@@ -63,6 +63,6 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('id' => $this->getCustomerId()));
+        return $this->getUrl('*/*/delete', ['id' => $this->getCustomerId()]);
     }
 }

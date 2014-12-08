@@ -43,8 +43,8 @@ class CouponTest extends \PHPUnit_Framework_TestCase
         $this->couponParameters = [
             'separator' => $this->separator,
             'charset' => [
-                'format' => 'abc'
-            ]
+                'format' => 'abc',
+            ],
         ];
 
         $this->helper = $objectManager->getObject(

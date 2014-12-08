@@ -11,17 +11,16 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 {
-
     /** @var \Magento\Customer\Api\AccountManagementInterface */
     private $accountManagement;
 
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Session',
-            array($logger)
+            [$logger]
         );
         $this->accountManagement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Api\AccountManagementInterface'
@@ -67,16 +66,16 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
             'id',
             2
         )->setServer(
-            array('REQUEST_METHOD' => 'POST')
+            ['REQUEST_METHOD' => 'POST']
         )->setPost(
-            array(
+            [
                 'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'James',
                 'lastname' => 'Bond',
                 'company' => 'Ebay',
                 'telephone' => '1112223333',
                 'fax' => '2223334444',
-                'street' => array('1234 Monterey Rd', 'Apt 13'),
+                'street' => ['1234 Monterey Rd', 'Apt 13'],
                 'city' => 'Kyiv',
                 'region' => 'Kiev',
                 'postcode' => '55555',
@@ -84,15 +83,15 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
                 'success_url' => '',
                 'error_url' => '',
                 'default_billing' => true,
-                'default_shipping' => true
-            )
+                'default_shipping' => true,
+            ]
         );
         // we are overwriting the address coming from the fixture
         $this->dispatch('customer/address/formPost');
 
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
-            $this->equalTo(array('The address has been saved.')),
+            $this->equalTo(['The address has been saved.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
         $address = $this->accountManagement->getDefaultBillingAddress(1);
@@ -114,9 +113,9 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
             'id',
             1
         )->setServer(
-            array('REQUEST_METHOD' => 'POST')
+            ['REQUEST_METHOD' => 'POST']
         )->setPost(
-            array(
+            [
                 'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
                 'firstname' => 'James',
                 'lastname' => 'Bond',
@@ -129,8 +128,8 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
                 'postcode' => '55555',
                 'country_id' => 'US',
                 'success_url' => '',
-                'error_url' => ''
-            )
+                'error_url' => '',
+            ]
         );
         // we are overwriting the address coming from the fixture
         $this->dispatch('customer/address/formPost');
@@ -138,11 +137,11 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertRedirect($this->stringContains('customer/address/edit'));
         $this->assertSessionMessages(
             $this->equalTo(
-                array(
+                [
                     'One or more input exceptions have occurred.',
                     'street is a required field.',
-                    'city is a required field.'
-                )
+                    'city is a required field.',
+                ]
             ),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
@@ -160,7 +159,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
-            $this->equalTo(array('The address has been deleted.')),
+            $this->equalTo(['The address has been deleted.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }
@@ -177,7 +176,7 @@ class AddressTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertRedirect($this->stringContains('customer/address/index'));
         $this->assertSessionMessages(
-            $this->equalTo(array('An error occurred while deleting the address.')),
+            $this->equalTo(['An error occurred while deleting the address.']),
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }

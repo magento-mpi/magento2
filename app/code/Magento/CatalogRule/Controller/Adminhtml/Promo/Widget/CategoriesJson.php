@@ -53,7 +53,7 @@ class CategoriesJson extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Wid
                     $storeId
                 )->getRootCategoryId();
                 if (!in_array($rootId, $category->getPathIds())) {
-                    $this->_redirect('catalog/*/', array('_current' => true, 'id' => null));
+                    $this->_redirect('catalog/*/', ['_current' => true, 'id' => null]);
                     return false;
                 }
             }
@@ -82,7 +82,7 @@ class CategoriesJson extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Wid
             $block = $this->_view->getLayout()->createBlock(
                 'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree'
             )->setCategoryIds(
-                array($categoryId)
+                [$categoryId]
             );
             $this->getResponse()->representJson(
                 $block->getTreeJson($category)

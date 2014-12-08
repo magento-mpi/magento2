@@ -17,7 +17,7 @@ class Xml extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/group' => 'id', '/config/group/job' => 'name');
+    protected $_idAttributes = ['/config/group' => 'id', '/config/group/job' => 'name'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -35,7 +35,7 @@ class Xml extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Cron\Model\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'crontab.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

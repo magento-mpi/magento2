@@ -43,28 +43,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 [
                     'status' => 'canceled',
                     'is_default' => 1,
-                    'visible_on_front' => 1
+                    'visible_on_front' => 1,
                 ]
             ),
             new \Magento\Framework\Object(
                 [
                     'status' => 'complete',
                     'is_default' => 1,
-                    'visible_on_front' => 0
+                    'visible_on_front' => 0,
                 ]
             ),
             new \Magento\Framework\Object(
                 [
                     'status' => 'processing',
                     'is_default' => 1,
-                    'visible_on_front' => 1
+                    'visible_on_front' => 1,
                 ]
             ),
             new \Magento\Framework\Object(
                 [
                     'status' => 'pending_payment',
                     'is_default' => 1,
-                    'visible_on_front' => 0
+                    'visible_on_front' => 0,
                 ]
             ),
         ];

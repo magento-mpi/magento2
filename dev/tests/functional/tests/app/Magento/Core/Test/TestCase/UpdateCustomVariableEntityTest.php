@@ -8,13 +8,13 @@
 
 namespace Magento\Core\Test\TestCase;
 
+use Magento\Core\Test\Fixture\SystemVariable;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
+use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
+use Magento\Store\Test\Fixture\Store;
+use Mtf\Fixture\FixtureFactory;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
-use Magento\Store\Test\Fixture\Store;
-use Magento\Core\Test\Fixture\SystemVariable;
-use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
-use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
 
 /**
  * Test Creation for UpdateCustomVariableEntityTest

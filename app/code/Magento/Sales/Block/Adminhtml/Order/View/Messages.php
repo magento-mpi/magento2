@@ -37,7 +37,7 @@ class Messages extends \Magento\Framework\View\Element\Messages
         \Magento\Framework\Message\CollectionFactory $collectionFactory,
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         parent::__construct($context, $messageFactory, $collectionFactory, $messageManager, $data);
@@ -63,7 +63,7 @@ class Messages extends \Magento\Framework\View\Element\Messages
         /**
          * Check Item products existing
          */
-        $productIds = array();
+        $productIds = [];
         foreach ($this->_getOrder()->getAllItems() as $item) {
             $productIds[] = $item->getProductId();
         }

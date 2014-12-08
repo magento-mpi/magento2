@@ -18,8 +18,8 @@ class ArgumentInterpreterTest extends \PHPUnit_Framework_TestCase
     {
         $const = $this->getMock(
             '\Magento\Framework\Data\Argument\Interpreter\Constant',
-            array('evaluate'),
-            array(),
+            ['evaluate'],
+            [],
             '',
             false
         );
@@ -28,7 +28,7 @@ class ArgumentInterpreterTest extends \PHPUnit_Framework_TestCase
         )->method(
             'evaluate'
         )->with(
-            array('value' => 'FIXTURE_INIT_PARAMETER')
+            ['value' => 'FIXTURE_INIT_PARAMETER']
         )->will(
             $this->returnValue('init_param_value')
         );
@@ -37,7 +37,7 @@ class ArgumentInterpreterTest extends \PHPUnit_Framework_TestCase
 
     public function testEvaluate()
     {
-        $expected = array('argument' => 'init_param_value');
-        $this->assertEquals($expected, $this->object->evaluate(array('value' => 'FIXTURE_INIT_PARAMETER')));
+        $expected = ['argument' => 'init_param_value'];
+        $this->assertEquals($expected, $this->object->evaluate(['value' => 'FIXTURE_INIT_PARAMETER']));
     }
 }

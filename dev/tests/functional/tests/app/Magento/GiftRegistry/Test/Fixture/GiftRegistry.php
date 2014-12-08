@@ -42,11 +42,11 @@ class GiftRegistry extends InjectableFixture
                 'email' => 'email@test%isolation%.com',
                 'firstname' => 'FirstName%isolation%',
                 'lastname' => 'LastName%isolation%',
-            ]
+            ],
         ],
         'address' => [
-            'dataSet' => 'US_address_without_email'
-        ]
+            'dataSet' => 'US_address_without_email',
+        ],
     ];
 
     protected $entity_id = [

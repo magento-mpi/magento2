@@ -23,21 +23,21 @@ class Menu extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_allowedListAttributes = array();
+    protected $_allowedListAttributes = [];
 
     /**
      * Allowed attributes for A tag
      *
      * @var array
      */
-    protected $_allowedLinkAttributes = array();
+    protected $_allowedLinkAttributes = [];
 
     /**
      * Allowed attributes for SPAN tag (selected item)
      *
      * @var array
      */
-    protected $_allowedSpanAttributes = array();
+    protected $_allowedSpanAttributes = [];
 
     /**
      * Total qty nodes in menu
@@ -75,7 +75,7 @@ class Menu extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_nodeFactory = $nodeFactory;
@@ -97,7 +97,7 @@ class Menu extends \Magento\Framework\View\Element\Template
 
         $this->_loadNodeMenuParams();
 
-        $this->_allowedListAttributes = array(
+        $this->_allowedListAttributes = [
             'start',
             'value',
             'compact',
@@ -119,10 +119,10 @@ class Menu extends \Magento\Framework\View\Element\Template
             'onmouseout',
             'onkeypress',
             'onkeydown',
-            'onkeyup'
+            'onkeyup',
             // %events
-        );
-        $this->_allowedLinkAttributes = array(
+        ];
+        $this->_allowedLinkAttributes = [
             'charset',
             'type',
             'name',
@@ -153,10 +153,10 @@ class Menu extends \Magento\Framework\View\Element\Template
             'onmouseout',
             'onkeypress',
             'onkeydown',
-            'onkeyup'
+            'onkeyup',
             // %events
-        );
-        $this->_allowedSpanAttributes = array(
+        ];
+        $this->_allowedSpanAttributes = [
             'id',
             'class',
             'style',
@@ -174,9 +174,9 @@ class Menu extends \Magento\Framework\View\Element\Template
             'onmouseout',
             'onkeypress',
             'onkeydown',
-            'onkeyup'
+            'onkeyup',
             // %events
-        );
+        ];
     }
 
     /**
@@ -192,12 +192,12 @@ class Menu extends \Magento\Framework\View\Element\Template
             $params = $this->_node->getMetadataContextMenuParams();
             if ($params !== null && isset($params['menu_visibility']) && $params['menu_visibility'] == 1) {
                 $this->addData(
-                    array(
+                    [
                         'down' => isset($params['menu_levels_down']) ? $params['menu_levels_down'] : 0,
                         'ordered' => isset($params['menu_ordered']) ? $params['menu_ordered'] : '0',
                         'list_type' => isset($params['menu_list_type']) ? $params['menu_list_type'] : '',
-                        'menu_brief' => isset($params['menu_brief']) ? $params['menu_brief'] : '0'
-                    )
+                        'menu_brief' => isset($params['menu_brief']) ? $params['menu_brief'] : '0',
+                    ]
                 );
 
                 $this->setMenuEnabled(true);
@@ -239,11 +239,11 @@ class Menu extends \Magento\Framework\View\Element\Template
         if ($this->hasData('list_type')) {
             $type = $this->_getData('list_type');
             if ($this->getListContainer() == self::TAG_OL) {
-                if (in_array($type, array('1', 'A', 'a', 'I', 'i'))) {
+                if (in_array($type, ['1', 'A', 'a', 'I', 'i'])) {
                     return $type;
                 }
             } elseif ($this->getListContainer() == self::TAG_UL) {
-                if (in_array($type, array('disc', 'circle', 'square'))) {
+                if (in_array($type, ['disc', 'circle', 'square'])) {
                     return $type;
                 }
             }
@@ -259,7 +259,7 @@ class Menu extends \Magento\Framework\View\Element\Template
      */
     protected function _getNodeReplacePairs($node)
     {
-        return array('__ID__' => $node->getId(), '__LABEL__' => $node->getLabel(), '__HREF__' => $node->getUrl());
+        return ['__ID__' => $node->getId(), '__LABEL__' => $node->getLabel(), '__HREF__' => $node->getUrl()];
     }
 
     /**
@@ -275,7 +275,6 @@ class Menu extends \Magento\Framework\View\Element\Template
 
         if (!$template) {
             $template = '<' . $this->getListContainer();
-
 
             if ($addStyles) {
                 $class = 'cms-menu';

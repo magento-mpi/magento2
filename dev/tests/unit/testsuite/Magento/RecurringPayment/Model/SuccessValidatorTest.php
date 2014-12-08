@@ -49,7 +49,6 @@ class SuccessValidatorTest extends \PHPUnit_Framework_TestCase
 
         $checkoutSession->expects($this->at(1))->method('__call')->with('getLastQuoteId')->will($this->returnValue(0));
 
-
         $this->assertFalse($this->object->isValid($checkoutSession));
     }
 

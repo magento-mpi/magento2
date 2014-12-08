@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Product options text type block
  *

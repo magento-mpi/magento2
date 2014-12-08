@@ -11,7 +11,6 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-use Magento\Framework\View\Element\AbstractBlock;
 
 class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
@@ -28,7 +27,7 @@ class Country extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Locale\ListsInterface $localeLists,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->localeLists = $localeLists;

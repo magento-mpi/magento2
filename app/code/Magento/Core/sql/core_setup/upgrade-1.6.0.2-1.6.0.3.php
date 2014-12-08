@@ -17,7 +17,7 @@ $connection->dropIndex(
     $table,
     $installer->getIdxName(
         'core_translate',
-        array('store_id', 'locale', 'string'),
+        ['store_id', 'locale', 'string'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     )
 );
@@ -25,22 +25,22 @@ $connection->dropIndex(
 $connection->addColumn(
     $table,
     'crc_string',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BIGINT,
         'nullable' => false,
         'default' => crc32('Translate String'),
         'comment' => 'Translation String CRC32 Hash'
-    )
+    ]
 );
 
 $connection->addIndex(
     $table,
     $installer->getIdxName(
         'core_translate',
-        array('store_id', 'locale', 'crc_string', 'string'),
+        ['store_id', 'locale', 'crc_string', 'string'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('store_id', 'locale', 'crc_string', 'string'),
+    ['store_id', 'locale', 'crc_string', 'string'],
     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 

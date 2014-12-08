@@ -9,12 +9,12 @@ namespace Magento\Customer\Model\Resource\Group\Grid;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Customer\Api\Data\GroupInterface;
-use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Customer\Api\GroupRepositoryInterface;
+use Magento\Framework\Api\AbstractServiceCollection;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SortOrderBuilder;
 use Magento\Framework\Api\SimpleDataObjectConverter;
+use Magento\Framework\Api\SortOrderBuilder;
 
 /**
  * Customer group collection backed by services

@@ -27,7 +27,7 @@ class Items extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GiftMessage\Helper\Message $messageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_messageHelper = $messageHelper;
         parent::__construct($context, $data);

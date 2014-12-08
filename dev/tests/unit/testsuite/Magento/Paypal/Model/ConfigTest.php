@@ -7,7 +7,6 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Paypal\Model\Config as Config;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {

@@ -52,7 +52,7 @@ class Factory
         };
         /** @var \Magento\Framework\Translate\Adapter $translator */
         $translator = $this->_objectManager->create('Magento\Framework\Translate\Adapter');
-        $translator->setOptions(array('translator' => $translatorCallback));
+        $translator->setOptions(['translator' => $translatorCallback]);
         \Magento\Framework\Validator\AbstractValidator::setDefaultTranslator($translator);
     }
 
@@ -65,7 +65,7 @@ class Factory
      */
     public function getValidatorConfig()
     {
-        return $this->_objectManager->create('Magento\Framework\Validator\Config', array('configFiles' => $this->_configFiles));
+        return $this->_objectManager->create('Magento\Framework\Validator\Config', ['configFiles' => $this->_configFiles]);
     }
 
     /**

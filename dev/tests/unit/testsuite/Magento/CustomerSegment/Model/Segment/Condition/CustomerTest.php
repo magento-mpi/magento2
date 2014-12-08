@@ -120,7 +120,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 'value' => array_merge($attributesOptions, $newsletterOptions, $storecreditOptions),
-                'label' => __('Customer')
+                'label' => __('Customer'),
             ],
             $result
         );

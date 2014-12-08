@@ -22,14 +22,14 @@ class ArrayNodeConfig
      *
      * @var array
      */
-    private $assocArrays = array();
+    private $assocArrays = [];
 
     /**
      * Format: array('/numeric/array/path', ...)
      *
      * @var array
      */
-    private $numericArrays = array();
+    private $numericArrays = [];
 
     /**
      * @param NodePathMatcher $nodePathMatcher
@@ -39,7 +39,7 @@ class ArrayNodeConfig
     public function __construct(
         NodePathMatcher $nodePathMatcher,
         array $assocArrayAttributes,
-        array $numericArrays = array()
+        array $numericArrays = []
     ) {
         $this->nodePathMatcher = $nodePathMatcher;
         $this->assocArrays = $assocArrayAttributes;

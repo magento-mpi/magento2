@@ -148,7 +148,7 @@ class StatusTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 ['item1' => ItemAttributeStatus::STATE_PENDING, 'item2' => ItemAttributeStatus::STATE_PENDING],
-                Status::STATE_PENDING
+                Status::STATE_PENDING,
             ],
             [
                 ['item1' => ItemAttributeStatus::STATE_AUTHORIZED],
@@ -196,13 +196,13 @@ class StatusTest extends \PHPUnit_Framework_TestCase
             ],
             [
                 [
-                    'item1' => ItemAttributeStatus::STATE_PENDING, 'item2' => ItemAttributeStatus::STATE_REJECTED
+                    'item1' => ItemAttributeStatus::STATE_PENDING, 'item2' => ItemAttributeStatus::STATE_REJECTED,
                 ],
                 Status::STATE_REJECTED_ON_ITEM
             ],
             [
                 [
-                    'item1' => ItemAttributeStatus::STATE_APPROVED, 'item2' => ItemAttributeStatus::STATE_REJECTED
+                    'item1' => ItemAttributeStatus::STATE_APPROVED, 'item2' => ItemAttributeStatus::STATE_REJECTED,
                 ],
                 Status::STATE_PROCESSED_CLOSED
             ],

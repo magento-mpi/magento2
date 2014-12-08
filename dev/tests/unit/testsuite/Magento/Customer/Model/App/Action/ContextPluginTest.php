@@ -52,22 +52,22 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->httpContextMock = $this->getMock(
             'Magento\Framework\App\Http\Context',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->plugin = new \Magento\Customer\Model\App\Action\ContextPlugin(
             $this->customerSessionMock,
@@ -90,10 +90,10 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
             ->method('setValue')
             ->will(
                 $this->returnValueMap(
-                    array(
-                        array(Context::CONTEXT_GROUP, 'UAH', $this->httpContextMock),
-                        array(Context::CONTEXT_AUTH, 0, $this->httpContextMock),
-                    )
+                    [
+                        [Context::CONTEXT_GROUP, 'UAH', $this->httpContextMock],
+                        [Context::CONTEXT_AUTH, 0, $this->httpContextMock],
+                    ]
                 )
             );
         $this->assertEquals(

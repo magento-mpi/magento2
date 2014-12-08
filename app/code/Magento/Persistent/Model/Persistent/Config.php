@@ -120,11 +120,11 @@ class Config
             $xml = $this->_modulesDirectory->readFile($filePath);
             /** @var \Magento\Framework\Config\Dom $configDom */
             $configDom = $this->_domFactory->createDom(
-                array(
+                [
                     'xml' => $xml,
-                    'idAttributes' => array('config/instances/blocks/reference' => 'id'),
-                    'schemaFile' => $this->_moduleReader->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd'
-                )
+                    'idAttributes' => ['config/instances/blocks/reference' => 'id'],
+                    'schemaFile' => $this->_moduleReader->getModuleDir('etc', 'Magento_Persistent') . '/persistent.xsd',
+                ]
             );
             $this->_configDomXPath = new \DOMXPath($configDom->getDom());
         }
@@ -154,7 +154,7 @@ class Config
         $xPath = '/config/instances/blocks/reference';
         $blocks = $this->_getConfigDomXPath()->query($xPath);
         $blocksArray = $this->_convertBlocksToArray($blocks);
-        return array('blocks' => $blocksArray);
+        return ['blocks' => $blocksArray];
     }
 
     /**
@@ -165,11 +165,11 @@ class Config
      */
     protected function _convertBlocksToArray($blocks)
     {
-        $blocksArray = array();
+        $blocksArray = [];
         foreach ($blocks as $reference) {
             $referenceAttributes = $reference->attributes;
             $id = $referenceAttributes->getNamedItem('id')->nodeValue;
-            $blocksArray[$id] = array();
+            $blocksArray[$id] = [];
             /** @var $referenceSubNode /DOMNode */
             foreach ($reference->childNodes as $referenceSubNode) {
                 switch ($referenceSubNode->nodeName) {

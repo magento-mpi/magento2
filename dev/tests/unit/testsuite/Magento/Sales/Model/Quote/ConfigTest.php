@@ -23,8 +23,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_attributeConfig = $this->getMock(
             'Magento\Catalog\Model\Attribute\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -33,7 +33,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductAttributes()
     {
-        $attributes = array('attribute_one', 'attribute_two');
+        $attributes = ['attribute_one', 'attribute_two'];
         $this->_attributeConfig->expects(
             $this->once()
         )->method(

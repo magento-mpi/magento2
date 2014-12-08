@@ -43,7 +43,7 @@ class Type extends \Magento\Framework\Model\Resource\Db\AbstractDb
         );
 
         $data = $this->_getReadAdapter()->fetchRow($select);
-        $data = is_array($data) ? $data : array();
+        $data = is_array($data) ? $data : [];
         $model->setData($data);
         return $model;
     }

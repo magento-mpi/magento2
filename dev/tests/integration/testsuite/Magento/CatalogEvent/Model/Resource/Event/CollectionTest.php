@@ -58,40 +58,40 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function loadDataProvider()
     {
-        return array(
-            'closed event' => array(
+        return [
+            'closed event' => [
                 'index' => 0,
-                'data' => array(
+                'data' => [
                     'category_id' => null,
                     'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                     'sort_order' => 30,
                     'status' => \Magento\CatalogEvent\Model\Event::STATUS_CLOSED,
-                    'image' => 'default_store_view.jpg'
-                )
-            ),
-            'open event' => array(
+                    'image' => 'default_store_view.jpg',
+                ],
+            ],
+            'open event' => [
                 'index' => 1,
-                'data' => array(
+                'data' => [
                     'category_id' => 1,
                     'display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
                     'sort_order' => 20,
                     'status' => \Magento\CatalogEvent\Model\Event::STATUS_OPEN,
-                    'image' => 'default_website.jpg'
-                )
-            ),
-            'upcoming event' => array(
+                    'image' => 'default_website.jpg',
+                ],
+            ],
+            'upcoming event' => [
                 'index' => 2,
-                'data' => array(
+                'data' => [
                     'category_id' => 2,
                     'display_state' => 3,
                     /*\Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                         \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE*/
                     'sort_order' => 10,
                     'status' => \Magento\CatalogEvent\Model\Event::STATUS_UPCOMING,
-                    'image' => 'default_store_view.jpg'
-                )
-            )
-        );
+                    'image' => 'default_store_view.jpg',
+                ],
+            ]
+        ];
     }
 
     /**
@@ -141,16 +141,16 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         $data = $this->loadDataProvider();
 
-        return array(
-            array('display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
+        return [
+            ['display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_CATEGORY_PAGE,
                 'expected_count' => 2,
-                'data' => $data['closed event']['data']),
-            array('display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
+                'data' => $data['closed event']['data'], ],
+            ['display_state' => \Magento\CatalogEvent\Model\Event::DISPLAY_PRODUCT_PAGE,
                 'expected_count' => 2,
-                'data' => $data['open event']['data']),
-            array('display_state' => 0,
+                'data' => $data['open event']['data']],
+            ['display_state' => 0,
                 'expected_count' => 3,
-                'data' => $data['closed event']['data'])
-        );
+                'data' => $data['closed event']['data']]
+        ];
     }
 }

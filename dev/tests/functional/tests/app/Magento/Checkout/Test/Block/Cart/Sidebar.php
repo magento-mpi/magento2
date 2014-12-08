@@ -7,10 +7,10 @@
  */
 namespace Magento\Checkout\Test\Block\Cart;
 
+use Magento\Checkout\Test\Block\Cart\Sidebar\Item;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Checkout\Test\Block\Cart\Sidebar\Item;
 
 /**
  * Class Sidebar

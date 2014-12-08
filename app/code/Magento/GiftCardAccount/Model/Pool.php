@@ -42,7 +42,7 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
     /**
      * @var array
      */
-    protected $_giftCardCodeParams = array();
+    protected $_giftCardCodeParams = [];
 
     /**
      * Store Manager
@@ -66,8 +66,8 @@ class Pool extends \Magento\GiftCardAccount\Model\Pool\AbstractPool
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $giftCardCodeParams = array(),
-        array $data = array()
+        array $giftCardCodeParams = [],
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;

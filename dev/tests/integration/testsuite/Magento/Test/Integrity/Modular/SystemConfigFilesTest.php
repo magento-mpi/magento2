@@ -28,8 +28,8 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
 
         $configMock = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getConfigurationFiles', 'getModuleDir'),
-            array(),
+            ['getConfigurationFiles', 'getModuleDir'],
+            [],
             '',
             false
         );
@@ -47,7 +47,7 @@ class SystemConfigFilesTest extends \PHPUnit_Framework_TestCase
         try {
             $objectManager->create(
                 'Magento\Backend\Model\Config\Structure\Reader',
-                array('moduleReader' => $configMock, 'runtimeValidation' => true)
+                ['moduleReader' => $configMock, 'runtimeValidation' => true]
             );
         } catch (\Magento\Framework\Exception $exp) {
             $this->fail($exp->getMessage());

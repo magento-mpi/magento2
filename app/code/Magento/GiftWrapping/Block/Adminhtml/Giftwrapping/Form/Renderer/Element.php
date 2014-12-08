@@ -37,7 +37,6 @@ class Element extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Eleme
     public function canDisplayUseDefault()
     {
         if ($element = $this->getElement()) {
-
             if ($element->getScope() != 'global' &&
                 $element->getScope() != null &&
                 $this->getDataObject() &&

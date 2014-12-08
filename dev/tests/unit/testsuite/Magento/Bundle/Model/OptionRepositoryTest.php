@@ -227,7 +227,7 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->optionResourceMock->expects($this->once())
             ->method('delete')
             ->with($optionMock)
-            ->willThrowException(new \Exception);
+            ->willThrowException(new \Exception());
         $this->model->delete($optionMock);
     }
 

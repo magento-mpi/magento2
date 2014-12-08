@@ -35,7 +35,7 @@ class CryptFactory
      * @param array $data
      * @return \Magento\Framework\Encryption\Crypt
      */
-    public function create($data = array())
+    public function create($data = [])
     {
         return $this->_objectManager->create('Magento\Framework\Encryption\Crypt', $data);
     }

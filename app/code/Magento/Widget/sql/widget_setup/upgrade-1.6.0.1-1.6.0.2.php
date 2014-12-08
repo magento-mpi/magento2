@@ -17,12 +17,12 @@ $connection->changeColumn(
     $table,
     'package_theme',
     'theme_id',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         'unsigned' => true,
         'nullable' => false,
         'comment' => 'Theme id'
-    )
+    ]
 );
 
 $connection->addForeignKey(

@@ -8,9 +8,8 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config\Attribute;
 
-use Mtf\Client\Element;
-use Mtf\Client\Driver\Selenium\Element\SuggestElement;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Client\Driver\Selenium\Element\SuggestElement;
 
 /**
  * Class AttributeSelector

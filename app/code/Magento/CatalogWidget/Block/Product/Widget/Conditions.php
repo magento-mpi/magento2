@@ -69,7 +69,7 @@ class Conditions extends Template implements RendererInterface
         \Magento\Rule\Block\Conditions $conditions,
         \Magento\CatalogWidget\Model\Rule $rule,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->elementFactory = $elementFactory;
         $this->conditions = $conditions;

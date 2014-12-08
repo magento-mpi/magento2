@@ -60,7 +60,7 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesData = $salesData;
         $this->_salesConfig = $salesConfig;

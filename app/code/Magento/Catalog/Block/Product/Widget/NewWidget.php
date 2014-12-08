@@ -90,11 +90,11 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     {
         return array_merge(
             parent::getCacheKeyInfo(),
-            array(
+            [
                 $this->getDisplayType(),
                 $this->getProductsPerPage(),
                 intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
-            )
+            ]
         );
     }
 

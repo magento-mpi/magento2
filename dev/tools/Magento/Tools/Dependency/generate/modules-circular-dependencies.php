@@ -11,7 +11,7 @@ use Magento\Framework\Test\Utility\Files;
 use Magento\Tools\Dependency\ServiceLocator;
 
 try {
-    $console = new \Zend_Console_Getopt(array('directory|d=s' => 'Path to base directory for parsing'));
+    $console = new \Zend_Console_Getopt(['directory|d=s' => 'Path to base directory for parsing']);
     $console->parse();
 
     $directory = $console->getOption('directory') ?: BP;
@@ -20,10 +20,10 @@ try {
     $filesForParse = Files::init()->getComposerFiles('code', false);
 
     ServiceLocator::getCircularDependenciesReportBuilder()->build(
-        array(
-            'parse' => array('files_for_parse' => $filesForParse),
-            'write' => array('report_filename' => 'modules-circular-dependencies.csv')
-        )
+        [
+            'parse' => ['files_for_parse' => $filesForParse],
+            'write' => ['report_filename' => 'modules-circular-dependencies.csv'],
+        ]
     );
 
     fwrite(STDOUT, PHP_EOL . 'Report successfully processed.' . PHP_EOL);

@@ -30,19 +30,19 @@ class RandomTest extends \PHPUnit_Framework_TestCase
 
     public function getRandomStringDataProvider()
     {
-        return array(
-            array(0),
-            array(10),
-            array(10, \Magento\Framework\Math\Random::CHARS_LOWERS),
-            array(10, \Magento\Framework\Math\Random::CHARS_UPPERS),
-            array(10, \Magento\Framework\Math\Random::CHARS_DIGITS),
-            array(
+        return [
+            [0],
+            [10],
+            [10, \Magento\Framework\Math\Random::CHARS_LOWERS],
+            [10, \Magento\Framework\Math\Random::CHARS_UPPERS],
+            [10, \Magento\Framework\Math\Random::CHARS_DIGITS],
+            [
                 20,
                 \Magento\Framework\Math\Random::CHARS_LOWERS .
                 \Magento\Framework\Math\Random::CHARS_UPPERS .
                 \Magento\Framework\Math\Random::CHARS_DIGITS
-            )
-        );
+            ]
+        ];
     }
 
     public function testGetUniqueHash()

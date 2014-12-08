@@ -60,7 +60,6 @@ class FlagTest extends \PHPUnit_Framework_TestCase
 
         $resourceCollection = $this->getMock('Magento\Framework\Data\Collection\Db', [], [], '', false, false);
 
-
         $this->flag = new \Magento\Framework\Flag(
             $context,
             $registry,

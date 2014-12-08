@@ -8,7 +8,7 @@
 
 namespace Magento\Test\Integrity\App\Language;
 
-use \Magento\Framework\App\Language\Config;
+use Magento\Framework\App\Language\Config;
 
 class CircularDependencyTest extends \PHPUnit_Framework_TestCase
 {

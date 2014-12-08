@@ -55,12 +55,12 @@ class Editablemultiselect extends \Magento\Framework\Data\Form\Element\Multisele
                 ], function( $ ){
 
                     function isResolved(){
-                        return typeof window['{$elementJsClass}'] !== 'undefined'; 
+                        return typeof window['{$elementJsClass}'] !== 'undefined';
                     }
 
                     function init(){
                         var {$jsObjectName} = new {$elementJsClass}({$selectConfigJson});
-                        
+
                         {$jsObjectName}.init();
                     }
 

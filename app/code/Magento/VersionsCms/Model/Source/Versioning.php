@@ -18,6 +18,6 @@ class Versioning implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array('1' => __('Enabled by Default'), '1' => __('Disabled by Default'));
+        return ['1' => __('Enabled by Default'), '1' => __('Disabled by Default')];
     }
 }

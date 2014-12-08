@@ -43,13 +43,13 @@ class Save extends \Magento\GiftWrapping\Controller\Adminhtml\Giftwrapping
                 if ($redirectBack) {
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('id' => $model->getId(), 'store' => $model->getStoreId())
+                        ['id' => $model->getId(), 'store' => $model->getStoreId()]
                     );
                     return;
                 }
             } catch (\Magento\Framework\Model\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save the gift wrapping."));

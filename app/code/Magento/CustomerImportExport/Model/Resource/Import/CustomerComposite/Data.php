@@ -23,7 +23,7 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
      *
      * @var array
      */
-    protected $_customerAttributes = array();
+    protected $_customerAttributes = [];
 
     /**
      * Class constructor
@@ -35,7 +35,7 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Core\Helper\Data $coreHelper,
-        array $arguments = array()
+        array $arguments = []
     ) {
         parent::__construct($resource, $coreHelper, $arguments);
 
@@ -56,7 +56,7 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
     {
         $bunchRows = parent::getNextBunch();
         if ($bunchRows != null) {
-            $rows = array();
+            $rows = [];
             foreach ($bunchRows as $rowNumber => $rowData) {
                 $rowData = $this->_prepareRow($rowData);
                 if ($rowData !== null) {
@@ -98,13 +98,13 @@ class Data extends \Magento\ImportExport\Model\Resource\Import\Data
      */
     protected function _prepareAddressRowData(array $rowData)
     {
-        $excludedAttributes = array(
+        $excludedAttributes = [
             CustomerComposite::COLUMN_DEFAULT_BILLING,
-            CustomerComposite::COLUMN_DEFAULT_SHIPPING
-        );
+            CustomerComposite::COLUMN_DEFAULT_SHIPPING,
+        ];
         $prefix = CustomerComposite::COLUMN_ADDRESS_PREFIX;
 
-        $result = array();
+        $result = [];
         foreach ($rowData as $key => $value) {
             if (!in_array($key, $this->_customerAttributes)) {
                 if (!in_array($key, $excludedAttributes)) {

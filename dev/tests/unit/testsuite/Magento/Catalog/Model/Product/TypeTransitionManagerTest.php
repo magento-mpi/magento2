@@ -22,15 +22,15 @@ class TypeTransitionManagerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->model = new TypeTransitionManager(
-            array(
+            [
                 'simple' => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
-                'virtual' => \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-            )
+                'virtual' => \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
+            ]
         );
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('hasIsVirtual', 'getTypeId', 'setTypeId', 'setTypeInstance', '__wakeup'),
-            array(),
+            ['hasIsVirtual', 'getTypeId', 'setTypeId', 'setTypeInstance', '__wakeup'],
+            [],
             '',
             false
         );
@@ -56,27 +56,27 @@ class TypeTransitionManagerTest extends \PHPUnit_Framework_TestCase
      */
     public function processProductDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 false,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            ),
-            array(
+                \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
+            ],
+            [
                 false,
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE
-            ),
-            array(
+            ],
+            [
                 true,
                 \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-            ),
-            array(
+            ],
+            [
                 true,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
                 \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL
-            )
-        );
+            ]
+        ];
     }
 }

@@ -25,7 +25,9 @@
         <?php $_count = $_items->count(); ?>
         <?php $_giftMessage = ''?>
         <?php foreach ($_items as $_item): ?>
-            <?php if ($_item->getParentItem()) continue; ?>
+            <?php if ($_item->getParentItem()) {
+    continue;
+} ?>
             <tbody>
                 <?php echo $this->getItemHtml($_item) ?>
                 <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>

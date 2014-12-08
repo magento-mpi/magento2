@@ -21,6 +21,6 @@ class WidgetView extends \Magento\Widget\Test\Block\WidgetView
      * @var array
      */
     protected $widgetSelectors = [
-        'hierarchyNodeLink' => './/*/a[contains(.,"%s")]'
+        'hierarchyNodeLink' => './/*/a[contains(.,"%s")]',
     ];
 }

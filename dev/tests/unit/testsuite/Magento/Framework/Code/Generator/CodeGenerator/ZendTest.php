@@ -34,88 +34,88 @@ class ZendTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_flagVerification = array(
+    protected $_flagVerification = [
         self::FLAG_CONST => 'isConst',
         self::FLAG_STATIC => 'isStatic',
         self::FLAG_FINAL => 'isFinal',
         self::FLAG_ABSTRACT => 'isAbstract',
-        self::FLAG_REFERENCE => 'getPassedByReference'
-    );
+        self::FLAG_REFERENCE => 'getPassedByReference',
+    ];
 
     /**
      * Doc block test data
      *
      * @var array
      */
-    protected $_docBlockData = array(
+    protected $_docBlockData = [
         'shortDescription' => 'test_short_description',
         'longDescription' => 'test_long_description',
-        'tags' => array(
-            'tag1' => array('name' => 'tag1', 'description' => 'data1'),
-            'tag2' => array('name' => 'tag2', 'description' => 'data2')
-        )
-    );
+        'tags' => [
+            'tag1' => ['name' => 'tag1', 'description' => 'data1'],
+            'tag2' => ['name' => 'tag2', 'description' => 'data2'],
+        ],
+    ];
 
     /**
      * Method test data
      *
      * @var array
      */
-    protected $_methodData = array(
-        'testmethod1' => array(
+    protected $_methodData = [
+        'testmethod1' => [
             'name' => 'testMethod1',
             'final' => true,
             'static' => true,
-            'parameters' => array(
-                array('name' => 'data', 'type' => 'array', 'defaultValue' => array(), 'passedByReference' => true)
-            ),
+            'parameters' => [
+                ['name' => 'data', 'type' => 'array', 'defaultValue' => [], 'passedByReference' => true],
+            ],
             'body' => 'return 1;',
-            'docblock' => array('shortDescription' => 'test short description')
-        ),
-        '_testmethod2' => array(
+            'docblock' => ['shortDescription' => 'test short description'],
+        ],
+        '_testmethod2' => [
             'name' => '_testMethod2',
             'visibility' => 'private',
             'abstract' => true,
-            'parameters' => array(
-                array('name' => 'data', 'defaultValue' => 'test_default'),
-                array('name' => 'flag', 'defaultValue' => true)
-            ),
+            'parameters' => [
+                ['name' => 'data', 'defaultValue' => 'test_default'],
+                ['name' => 'flag', 'defaultValue' => true],
+            ],
             'body' => 'return 2;',
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'test short description',
                 'longDescription' => 'test long description',
-                'tags' => array(
-                    'tag1' => array('name' => 'tag1', 'description' => 'data1'),
-                    'tag2' => array('name' => 'tag2', 'description' => 'data2')
-                )
-            )
-        ),
-        'testmethod3' => array('name' => 'testMethod3', 'body' => 'return 3;')
-    );
+                'tags' => [
+                    'tag1' => ['name' => 'tag1', 'description' => 'data1'],
+                    'tag2' => ['name' => 'tag2', 'description' => 'data2'],
+                ],
+            ],
+        ],
+        'testmethod3' => ['name' => 'testMethod3', 'body' => 'return 3;'],
+    ];
 
     /**
      * Property test data
      *
      * @var array
      */
-    protected $_propertyData = array(
-        'TEST_CONSTANT' => array(
+    protected $_propertyData = [
+        'TEST_CONSTANT' => [
             'name' => 'TEST_CONSTANT',
             'const' => true,
             'defaultValue' => 'default constant value',
-            'docblock' => array('shortDescription' => 'test description')
-        ),
-        '_protectedProperty' => array(
+            'docblock' => ['shortDescription' => 'test description'],
+        ],
+        '_protectedProperty' => [
             'name' => '_protectedProperty',
             'visibility' => 'protected',
             'static' => 'true',
-            'docblock' => array(
+            'docblock' => [
                 'shortDescription' => 'Object Manager instance',
-                'tags' => array('var' => array('name' => 'var', 'description' => 'tag description'))
-            )
-        ),
-        'publicProperty' => array('name' => 'publicProperty')
-    );
+                'tags' => ['var' => ['name' => 'var', 'description' => 'tag description']],
+            ],
+        ],
+        'publicProperty' => ['name' => 'publicProperty'],
+    ];
 
     protected function setUp()
     {

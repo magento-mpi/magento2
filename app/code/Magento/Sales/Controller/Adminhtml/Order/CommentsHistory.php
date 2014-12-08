@@ -8,7 +8,6 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
 
 class CommentsHistory extends \Magento\Sales\Controller\Adminhtml\Order
 {

@@ -89,12 +89,12 @@ class DbIsolation
         $annotations = $test->getAnnotations();
         if (isset($annotations[$scope]['magentoDbIsolation'])) {
             $isolation = $annotations[$scope]['magentoDbIsolation'];
-            if ($isolation !== array('enabled') && $isolation !== array('disabled')) {
+            if ($isolation !== ['enabled'] && $isolation !== ['disabled']) {
                 throw new \Magento\Framework\Exception(
                     'Invalid "@magentoDbIsolation" annotation, can be "enabled" or "disabled" only.'
                 );
             }
-            return $isolation === array('enabled');
+            return $isolation === ['enabled'];
         }
         return null;
     }

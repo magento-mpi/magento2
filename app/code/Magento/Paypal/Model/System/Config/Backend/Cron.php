@@ -34,7 +34,7 @@ class Cron extends \Magento\Framework\App\Config\Value
         \Magento\Framework\App\Config\ValueFactory $configValueFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_configValueFactory = $configValueFactory;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

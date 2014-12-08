@@ -8,18 +8,18 @@
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
-use Mtf\Client\Browser;
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Customer\Test\Page\CustomerAccountLogin;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew;
-use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Customer\Test\Page\CustomerAccountLogin;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 
 /**
  * Class AssertCartPriceRuleApplying

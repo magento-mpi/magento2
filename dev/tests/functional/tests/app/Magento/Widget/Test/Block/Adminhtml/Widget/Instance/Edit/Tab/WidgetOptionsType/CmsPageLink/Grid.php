@@ -29,7 +29,7 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'title' => [
-            'selector' => 'input[name="chooser_title"]'
+            'selector' => 'input[name="chooser_title"]',
         ],
     ];
 }

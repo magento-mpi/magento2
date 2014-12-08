@@ -24,7 +24,7 @@ class Total extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         parent::__construct($context, $data);
@@ -83,12 +83,12 @@ class Total extends \Magento\Framework\View\Element\Template
 
             $this->getParentBlock()->addTotal(
                 new \Magento\Framework\Object(
-                    array(
+                    [
                         'code' => 'reward_points',
                         'strong' => false,
                         'label' => $this->_rewardData->formatReward($source->getRewardPointsBalance()),
-                        'value' => $source instanceof \Magento\Sales\Model\Order\Creditmemo ? -$value : $value
-                    )
+                        'value' => $source instanceof \Magento\Sales\Model\Order\Creditmemo ? -$value : $value,
+                    ]
                 )
             );
         }

@@ -53,7 +53,6 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
      */
     public function setRelations(RelationsInterface $relations)
     {
-
     }
 
     /**
@@ -65,7 +64,6 @@ class Compiled implements \Magento\Framework\ObjectManager\ConfigInterface
      */
     public function setCache(ConfigCacheInterface $cache)
     {
-
     }
 
     /**

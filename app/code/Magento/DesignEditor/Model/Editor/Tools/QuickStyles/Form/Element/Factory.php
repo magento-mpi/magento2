@@ -31,8 +31,8 @@ class Factory
      * @param array $data
      * @return \Magento\Framework\Data\Form\Element\AbstractElement
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
-        return $this->_objectManager->create($className, array('data' => $data));
+        return $this->_objectManager->create($className, ['data' => $data]);
     }
 }

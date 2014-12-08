@@ -20,5 +20,5 @@ $banner->setIsEnabled(
 )->setTypes(
     ''
 )->setStoreContents(
-    array(0 => 'Banner Content')
+    [0 => 'Banner Content']
 )->save();

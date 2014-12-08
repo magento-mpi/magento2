@@ -54,7 +54,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
                     'display_type' => 'all_products',
                     'products_count' => 10,
                     'template' => 'product/widget/new/content/new_grid.phtml'
-                ]
+                ],
             ],
             [
                 ' type="Magento\Catalog\Block\Product\Widget\NewWidget" display_type="all_products"'
@@ -82,7 +82,7 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
                     'type="Magento\Catalog\Block\Product\Widget\NewWidget"',
                     'display_type="all_products"',
                     'products_count="10"'
-                ]
+                ],
             ],
             [
                 ' type="Magento\Catalog\Block\Product\Widget\NewWidget" display_type="all_products"'
@@ -95,4 +95,4 @@ class ParameterTest extends \PHPUnit_Framework_TestCase
             ]
         ];
     }
-} 
+}

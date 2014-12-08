@@ -19,14 +19,14 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      *
      * @var array
      */
-    protected $_itemsById = array();
+    protected $_itemsById = [];
 
     /**
      * Entity static fields
      *
      * @var array
      */
-    protected $_staticFields = array();
+    protected $_staticFields = [];
 
     /**
      * Entity object to define collection's attributes
@@ -40,49 +40,49 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      *
      * @var array
      */
-    protected $_selectEntityTypes = array();
+    protected $_selectEntityTypes = [];
 
     /**
      * Attributes to be fetched for objects in collection
      *
      * @var array
      */
-    protected $_selectAttributes = array();
+    protected $_selectAttributes = [];
 
     /**
      * Attributes to be filtered order sorted by
      *
      * @var array
      */
-    protected $_filterAttributes = array();
+    protected $_filterAttributes = [];
 
     /**
      * Joined entities
      *
      * @var array
      */
-    protected $_joinEntities = array();
+    protected $_joinEntities = [];
 
     /**
      * Joined attributes
      *
      * @var array
      */
-    protected $_joinAttributes = array();
+    protected $_joinAttributes = [];
 
     /**
      * Joined fields data
      *
      * @var array
      */
-    protected $_joinFields = array();
+    protected $_joinFields = [];
 
     /**
      * Cast map for attribute order
      *
      * @var string[]
      */
-    protected $_castToIntMap = array('validate-digits');
+    protected $_castToIntMap = ['validate-digits'];
 
     /**
      * Core event manager proxy
@@ -193,7 +193,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     protected function _initSelect()
     {
-        $this->getSelect()->from(array('e' => $this->getEntity()->getEntityTable()));
+        $this->getSelect()->from(['e' => $this->getEntity()->getEntityTable()]);
         if ($this->getEntity()->getTypeId()) {
             $this->addAttributeToFilter('entity_type_id', $this->getEntity()->getTypeId());
         }
@@ -336,7 +336,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         }
 
         if (is_array($attribute)) {
-            $sqlArr = array();
+            $sqlArr = [];
             foreach ($attribute as $condition) {
                 $sqlArr[] = $this->_getAttributeConditionSql($condition['attribute'], $condition, $joinType);
             }
@@ -487,7 +487,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     public function addEntityTypeToSelect($entityType, $prefix)
     {
-        $this->_selectEntityTypes[$entityType] = array('prefix' => $prefix);
+        $this->_selectEntityTypes[$entityType] = ['prefix' => $prefix];
         return $this;
     }
 
@@ -528,7 +528,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             );
         }
         if (!is_array($attribute)) {
-            $attribute = array($attribute);
+            $attribute = [$attribute];
         }
 
         $fullExpression = $expression;
@@ -551,9 +551,9 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             $fullExpression = str_replace('{{' . $attributeItem . '}}', $attrField, $fullExpression);
         }
 
-        $this->getSelect()->columns(array($alias => $fullExpression));
+        $this->getSelect()->columns([$alias => $fullExpression]);
 
-        $this->_joinFields[$alias] = array('table' => false, 'field' => $fullExpression);
+        $this->_joinFields[$alias] = ['table' => false, 'field' => $fullExpression];
 
         return $this;
     }
@@ -682,13 +682,13 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         }
 
         // add joined attribute
-        $this->_joinAttributes[$alias] = array(
+        $this->_joinAttributes[$alias] = [
             'bind' => $bind,
             'bindAttribute' => $bindAttribute,
             'attribute' => $attribute,
             'filter' => $filter,
-            'store_id' => $storeId
-        );
+            'store_id' => $storeId,
+        ];
 
         $this->_addAttributeJoin($alias, $joinType);
 
@@ -735,7 +735,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
                 $joinMethod = 'join';
                 break;
         }
-        $condArr = array($bindCond);
+        $condArr = [$bindCond];
 
         // add where condition if needed
         if ($cond !== null) {
@@ -751,13 +751,13 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 
         // join table
         $this->getSelect()->{$joinMethod}(
-            array($tableAlias => $table),
+            [$tableAlias => $table],
             $cond,
-            $field ? array($alias => $field) : array()
+            $field ? [$alias => $field] : []
         );
 
         // save joined attribute
-        $this->_joinFields[$alias] = array('table' => $tableAlias, 'field' => $field);
+        $this->_joinFields[$alias] = ['table' => $tableAlias, 'field' => $field];
 
         return $this;
     }
@@ -797,7 +797,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
                     __('A joint field with this alias (%1) is already declared.', $alias)
                 );
             }
-            $this->_joinFields[$alias] = array('table' => $tableAlias, 'field' => $field);
+            $this->_joinFields[$alias] = ['table' => $tableAlias, 'field' => $field];
         }
 
         // validate bind
@@ -813,7 +813,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             default:
                 $joinMethod = 'join';
         }
-        $condArr = array($bindCond);
+        $condArr = [$bindCond];
 
         // add where condition if needed
         if ($cond !== null) {
@@ -828,7 +828,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         $cond = '(' . implode(') AND (', $condArr) . ')';
 
         // join table
-        $this->getSelect()->{$joinMethod}(array($tableAlias => $tableName), $cond, $fields);
+        $this->getSelect()->{$joinMethod}([$tableAlias => $tableName], $cond, $fields);
 
         return $this;
     }
@@ -842,7 +842,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     public function removeAttributeToSelect($attribute = null)
     {
         if ($attribute === null) {
-            $this->_selectAttributes = array();
+            $this->_selectAttributes = [];
         } else {
             unset($this->_selectAttributes[$attribute]);
         }
@@ -877,7 +877,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         \Magento\Framework\Profiler::start('EAV:load_collection');
 
         \Magento\Framework\Profiler::start('before_load');
-        $this->_eventManager->dispatch('eav_collection_abstract_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('eav_collection_abstract_load_before', ['collection' => $this]);
         $this->_beforeLoad();
         \Magento\Framework\Profiler::stop('before_load');
 
@@ -1017,7 +1017,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     public function exportToArray()
     {
-        $result = array();
+        $result = [];
         $entityIdField = $this->getEntity()->getEntityIdField();
         foreach ($this->getItems() as $item) {
             $result[$item->getData($entityIdField)] = $item->getData();
@@ -1085,7 +1085,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             if (isset($this->_itemsById[$object->getId()])) {
                 $this->_itemsById[$object->getId()][] = $object;
             } else {
-                $this->_itemsById[$object->getId()] = array($object);
+                $this->_itemsById[$object->getId()] = [$object];
             }
         }
 
@@ -1108,8 +1108,8 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
 
         $entity = $this->getEntity();
 
-        $tableAttributes = array();
-        $attributeTypes = array();
+        $tableAttributes = [];
+        $attributeTypes = [];
         foreach ($this->_selectAttributes as $attributeCode => $attributeId) {
             if (!$attributeId) {
                 continue;
@@ -1123,7 +1123,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             }
         }
 
-        $selects = array();
+        $selects = [];
         foreach ($tableAttributes as $table => $attributes) {
             $select = $this->_getLoadAttributesSelect($table, $attributes);
             $selects[$attributeTypes[$table]][] = $this->_addLoadAttributesSelectValues(
@@ -1159,7 +1159,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      * @param string[] $attributeIds
      * @return Select
      */
-    protected function _getLoadAttributesSelect($table, $attributeIds = array())
+    protected function _getLoadAttributesSelect($table, $attributeIds = [])
     {
         if (empty($attributeIds)) {
             $attributeIds = $this->_selectAttributes;
@@ -1167,7 +1167,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         $entityIdField = $this->getEntity()->getEntityIdField();
         $select = $this->getConnection()->select()->from(
             $table,
-            array($entityIdField, 'attribute_id')
+            [$entityIdField, 'attribute_id']
         )->where(
             'entity_type_id =?',
             $this->getEntity()->getTypeId()
@@ -1191,7 +1191,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     protected function _addLoadAttributesSelectValues($select, $table, $type)
     {
-        $select->columns(array('value' => $table . '.value'));
+        $select->columns(['value' => $table . '.value']);
         return $select;
     }
 
@@ -1332,7 +1332,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         $fKey = $adapter->quoteColumnAs($fKey, null);
         $pKey = $adapter->quoteColumnAs($pKey, null);
 
-        $condArr = array("{$pKey} = {$fKey}");
+        $condArr = ["{$pKey} = {$fKey}"];
         if (!$attribute->getBackend()->isStatic()) {
             $condArr[] = $this->getConnection()->quoteInto(
                 $adapter->quoteColumnAs("{$attrTable}.attribute_id", null) . ' = ?',
@@ -1353,7 +1353,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
         /**
          * Fix double join for using same as filter
          */
-        $this->_joinFields[$attributeCode] = array('table' => '', 'field' => $attrFieldName);
+        $this->_joinFields[$attributeCode] = ['table' => '', 'field' => $attrFieldName];
 
         return $this;
     }
@@ -1372,9 +1372,9 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     protected function _joinAttributeToSelect($method, $attribute, $tableAlias, $condition, $fieldCode, $fieldAlias)
     {
         $this->getSelect()->{$method}(
-            array($tableAlias => $attribute->getBackend()->getTable()),
+            [$tableAlias => $attribute->getBackend()->getTable()],
             '(' . implode(') AND (', $condition) . ')',
-            array($fieldCode => $fieldAlias)
+            [$fieldCode => $fieldAlias]
         );
         return $this;
     }
@@ -1392,7 +1392,6 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     protected function _getAttributeConditionSql($attribute, $condition, $joinType = 'inner')
     {
         if (isset($this->_joinFields[$attribute])) {
-
             return $this->_getConditionSql($this->_getAttributeFieldName($attribute), $condition);
         }
         if (isset($this->_staticFields[$attribute])) {
@@ -1449,9 +1448,9 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      * @param array $arrAttributes
      * @return array
      */
-    public function toArray($arrAttributes = array())
+    public function toArray($arrAttributes = [])
     {
-        $arr = array();
+        $arr = [];
         foreach ($this->_items as $key => $item) {
             $arr[$key] = $item->toArray($arrAttributes);
         }
@@ -1493,12 +1492,12 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
     {
         parent::_reset();
 
-        $this->_selectEntityTypes = array();
-        $this->_selectAttributes = array();
-        $this->_filterAttributes = array();
-        $this->_joinEntities = array();
-        $this->_joinAttributes = array();
-        $this->_joinFields = array();
+        $this->_selectEntityTypes = [];
+        $this->_selectAttributes = [];
+        $this->_filterAttributes = [];
+        $this->_joinEntities = [];
+        $this->_joinAttributes = [];
+        $this->_joinFields = [];
 
         return $this;
     }
@@ -1519,7 +1518,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     public function clear()
     {
-        $this->_itemsById = array();
+        $this->_itemsById = [];
         return parent::clear();
     }
 
@@ -1529,7 +1528,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
      */
     public function removeAllItems()
     {
-        $this->_itemsById = array();
+        $this->_itemsById = [];
         return parent::removeAllItems();
     }
 

@@ -31,7 +31,7 @@ class Config
      *
      * @var array
      */
-    protected $_cacheTags = array();
+    protected $_cacheTags = [];
 
     /**
      * Enter description here...
@@ -431,7 +431,7 @@ class Config
      * @param int|boolean $lifetime
      * @return boolean
      */
-    protected function _saveCache($data, $id, $tags = array(), $lifetime = false)
+    protected function _saveCache($data, $id, $tags = [], $lifetime = false)
     {
         return $this->getCache()->save($data, $id, $tags, $lifetime);
     }

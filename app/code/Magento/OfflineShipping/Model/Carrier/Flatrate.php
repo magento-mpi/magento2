@@ -49,7 +49,7 @@ class Flatrate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Sales\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rateResultFactory = $rateResultFactory;
         $this->_rateMethodFactory = $rateMethodFactory;
@@ -69,7 +69,6 @@ class Flatrate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
         $freeBoxes = 0;
         if ($request->getAllItems()) {
             foreach ($request->getAllItems() as $item) {
-
                 if ($item->getProduct()->isVirtual() || $item->getParentItem()) {
                     continue;
                 }
@@ -133,6 +132,6 @@ class Flatrate extends \Magento\Shipping\Model\Carrier\AbstractCarrier implement
      */
     public function getAllowedMethods()
     {
-        return array('flatrate' => $this->getConfigData('name'));
+        return ['flatrate' => $this->getConfigData('name')];
     }
 }

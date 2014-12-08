@@ -366,7 +366,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
             $longHeader = $this->_composeHeader(true);
             $longHeader .= str_pad($nameFile, floor((strlen($nameFile) + 512 - 1) / 512) * 512, "\0");
         }
-        $header = array();
+        $header = [];
         $header['100-name'] = $long ? '././@LongLink' : substr($nameFile, 0, 100);
         $header['8-mode'] = $long ? '       ' : str_pad(
             substr(sprintf("%07o", $infoFile['mode']), -4),
@@ -389,9 +389,9 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
         $header['100-symlink'] = is_link($file) ? readlink($file) : '';
         $header['6-magic'] = 'ustar ';
         $header['2-version'] = ' ';
-        $a = function_exists('posix_getpwuid') ? posix_getpwuid(fileowner($file)) : array('name' => '');
+        $a = function_exists('posix_getpwuid') ? posix_getpwuid(fileowner($file)) : ['name' => ''];
         $header['32-uname'] = $a['name'];
-        $a = function_exists('posix_getgrgid') ? posix_getgrgid(filegroup($file)) : array('name' => '');
+        $a = function_exists('posix_getgrgid') ? posix_getgrgid(filegroup($file)) : ['name' => ''];
         $header['32-gname'] = $a['name'];
         $header['8-devmajor'] = '';
         $header['8-devminor'] = '';
@@ -425,7 +425,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
     protected function _unpackCurrentTar($destination)
     {
         $archiveReader = $this->_getReader();
-        $list = array();
+        $list = [];
 
         while (!$archiveReader->eof()) {
             $header = $this->_extractFileHeader();
@@ -437,8 +437,7 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
             $currentFile = $destination . $header['name'];
             $dirname = dirname($currentFile);
 
-            if (in_array($header['type'], array("0", chr(0), ''))) {
-
+            if (in_array($header['type'], ["0", chr(0), ''])) {
                 if (!file_exists($dirname)) {
                     $mkdirResult = @mkdir($dirname, 0777, true);
 
@@ -450,7 +449,6 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
                 $this->_extractAndWriteFile($header, $currentFile);
                 $list[] = $currentFile;
             } elseif ($header['type'] == '5') {
-
                 if (!file_exists($dirname)) {
                     $mkdirResult = @mkdir($currentFile, $header['mode'], true);
 
@@ -460,7 +458,6 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
                 }
                 $list[] = $currentFile . '/';
             } elseif ($header['type'] == '2') {
-
                 //we do not interrupt unpack process if symlink creation failed as symlinks are not so important
                 @symlink($header['symlink'], $currentFile);
             }
@@ -570,7 +567,6 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
 
         $checksumOk = $header['checksum'] == $checksum;
         if (isset($header['name']) && $checksumOk) {
-
             if (!($header['name'] == '././@LongLink' && $header['type'] == 'L')) {
                 $header['name'] = trim($header['name']);
                 return $header;

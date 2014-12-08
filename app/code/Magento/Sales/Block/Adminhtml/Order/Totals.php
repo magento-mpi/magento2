@@ -23,34 +23,34 @@ class Totals extends \Magento\Sales\Block\Adminhtml\Totals//\Magento\Sales\Block
     {
         parent::_initTotals();
         $this->_totals['paid'] = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => 'paid',
                 'strong' => true,
                 'value' => $this->getSource()->getTotalPaid(),
                 'base_value' => $this->getSource()->getBaseTotalPaid(),
                 'label' => __('Total Paid'),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
         $this->_totals['refunded'] = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => 'refunded',
                 'strong' => true,
                 'value' => $this->getSource()->getTotalRefunded(),
                 'base_value' => $this->getSource()->getBaseTotalRefunded(),
                 'label' => __('Total Refunded'),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
         $this->_totals['due'] = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => 'due',
                 'strong' => true,
                 'value' => $this->getSource()->getTotalDue(),
                 'base_value' => $this->getSource()->getBaseTotalDue(),
                 'label' => __('Total Due'),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
         return $this;
     }

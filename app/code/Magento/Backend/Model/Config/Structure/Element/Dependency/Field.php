@@ -34,12 +34,12 @@ class Field
      * @param array $fieldData
      * @param string $fieldPrefix
      */
-    public function __construct(array $fieldData = array(), $fieldPrefix = "")
+    public function __construct(array $fieldData = [], $fieldPrefix = "")
     {
         if (isset($fieldData['separator'])) {
             $this->_values = explode($fieldData['separator'], $fieldData['value']);
         } else {
-            $this->_values = array($fieldData['value']);
+            $this->_values = [$fieldData['value']];
         }
         $fieldId = $fieldPrefix . (isset(
             $fieldData['dependPath']

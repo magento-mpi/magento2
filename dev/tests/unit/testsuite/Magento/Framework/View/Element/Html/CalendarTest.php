@@ -32,15 +32,15 @@ class CalendarTest extends \PHPUnit_Framework_TestCase
         /** @var  \Magento\Framework\View\Element\Template\Context $context */
         $this->context = $this->objectManagerHelper->getObject(
             'Magento\Framework\View\Element\Template\Context',
-            array(
+            [
                 'localeDate' => $this->localeDate,
-            )
+            ]
         );
 
         /** @var \Magento\Framework\View\Element\Html\Links $block */
         $this->block = $this->objectManagerHelper->getObject(
             'Magento\Framework\View\Element\Html\Calendar',
-            array('context' => $this->context)
+            ['context' => $this->context]
         );
     }
 

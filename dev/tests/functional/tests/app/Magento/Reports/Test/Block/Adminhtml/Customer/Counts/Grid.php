@@ -8,7 +8,6 @@
 
 namespace Magento\Reports\Test\Block\Adminhtml\Customer\Counts;
 
-use Mtf\Client\Element;
 
 /**
  * Class Grid

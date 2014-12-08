@@ -7,8 +7,8 @@
  */
 namespace Magento\CatalogUrlRewrite\Model;
 
+use Magento\Store\Model\ScopeInterface;
 use Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Store\Model\ScopeInterface;
 
 class ProductUrlPathGeneratorTest extends \PHPUnit_Framework_TestCase
 {

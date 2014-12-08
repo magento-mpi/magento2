@@ -8,10 +8,10 @@
 
 namespace Magento\VersionsCms\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateCmsPageVersionsEntity for a new CMS page

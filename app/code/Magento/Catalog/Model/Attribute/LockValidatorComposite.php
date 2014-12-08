@@ -14,14 +14,14 @@ class LockValidatorComposite implements LockValidatorInterface
     /**
      * @var LockValidatorInterface[]
      */
-    protected $validators = array();
+    protected $validators = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $validators
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $validators = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $validators = [])
     {
         foreach ($validators as $validator) {
             if (!is_subclass_of($validator, 'Magento\Catalog\Model\Attribute\LockValidatorInterface')) {

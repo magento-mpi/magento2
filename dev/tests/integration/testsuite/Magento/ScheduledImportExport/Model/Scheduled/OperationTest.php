@@ -31,7 +31,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     public function getOperationTypesDataProvider()
     {
-        return array('import' => array('$operationType' => 'import'), 'export' => array('$operationType' => 'export'));
+        return ['import' => ['$operationType' => 'import'], 'export' => ['$operationType' => 'export']];
     }
 
     /**

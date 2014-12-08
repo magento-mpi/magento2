@@ -33,7 +33,7 @@ class Meta extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Meta
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         parent::__construct($context, $registry, $formFactory, $data);

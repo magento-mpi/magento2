@@ -26,7 +26,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItemRenderer($type, $expectedType)
     {
-        $renderer = $this->getMock('Magento\Framework\View\Element\RendererList', array(), array(), '', false);
+        $renderer = $this->getMock('Magento\Framework\View\Element\RendererList', [], [], '', false);
 
         $renderer->expects(
             $this->once()
@@ -41,8 +41,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock'),
-            array(),
+            ['getChildName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -62,12 +62,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Sales\Block\Items\AbstractItems */
         $block = $this->_objectManager->getObject(
             'Magento\Checkout\Block\Cart\AbstractCart',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $this->assertSame('rendererObject', $block->getItemRenderer($type));
@@ -78,7 +78,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function getItemRendererDataProvider()
     {
-        return array(array(null, AbstractCart::DEFAULT_TYPE), array('some-type', 'some-type'));
+        return [[null, AbstractCart::DEFAULT_TYPE], ['some-type', 'some-type']];
     }
 
     /**
@@ -89,8 +89,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock'),
-            array(),
+            ['getChildName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -99,12 +99,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Checkout\Block\Cart\AbstractCart */
         $block = $this->_objectManager->getObject(
             'Magento\Checkout\Block\Cart\AbstractCart',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $block->getItemRenderer('some-type');

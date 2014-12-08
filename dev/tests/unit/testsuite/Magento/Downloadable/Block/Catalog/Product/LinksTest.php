@@ -62,7 +62,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
                 'context' => $contextMock,
                 'coreData' => $this->coreHelper,
                 'data' => [
-                    'product' => $this->productMock
+                    'product' => $this->productMock,
                 ]
             ]
         );
@@ -126,9 +126,9 @@ class LinksTest extends \PHPUnit_Framework_TestCase
                     'price' => $linkPrice,
                     'oldPrice' => $linkPrice,
                     'inclTaxPrice' => $linkIncludeTaxPrice,
-                    'exclTaxPrice' => $linkExcludeTaxPrice
-                ]
-            ]
+                    'exclTaxPrice' => $linkExcludeTaxPrice,
+                ],
+            ],
         ];
 
         $linkAmountMock = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
@@ -201,4 +201,3 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         return $linkMock;
     }
 }
- 

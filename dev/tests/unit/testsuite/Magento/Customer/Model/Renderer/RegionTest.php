@@ -17,48 +17,48 @@ class RegionTest extends \PHPUnit_Framework_TestCase
     {
         $countryFactoryMock = $this->getMock(
             'Magento\Directory\Model\CountryFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $directoryHelperMock = $this->getMock(
             'Magento\Directory\Helper\Data',
-            array('isRegionRequired'),
-            array(),
+            ['isRegionRequired'],
+            [],
             '',
             false
         );
-        $escaperMock = $this->getMock('Magento\Framework\Escaper', array(), array(), '', false);
+        $escaperMock = $this->getMock('Magento\Framework\Escaper', [], [], '', false);
         $elementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
-            array('getForm', 'getHtmlAttributes'),
-            array(),
+            ['getForm', 'getHtmlAttributes'],
+            [],
             '',
             false
         );
         $countryMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
-            array('getValue'),
-            array(),
+            ['getValue'],
+            [],
             '',
             false
         );
         $regionMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\AbstractElement',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $countryModelMock = $this->getMock(
             'Magento\Directory\Model\Country',
-            array('setId', 'getLoadedRegionCollection', 'toOptionArray', '__wakeup'),
-            array(),
+            ['setId', 'getLoadedRegionCollection', 'toOptionArray', '__wakeup'],
+            [],
             '',
             false
         );
-        $formMock = $this->getMock('Magento\Framework\Data\Form', array('getElement'), array(), '', false);
+        $formMock = $this->getMock('Magento\Framework\Data\Form', ['getElement'], [], '', false);
 
         $elementMock->expects($this->any())->method('getForm')->will($this->returnValue($formMock));
         $elementMock->expects(
@@ -67,7 +67,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
             'getHtmlAttributes'
         )->will(
             $this->returnValue(
-                array(
+                [
                     'title',
                     'class',
                     'style',
@@ -76,8 +76,8 @@ class RegionTest extends \PHPUnit_Framework_TestCase
                     'disabled',
                     'readonly',
                     'tabindex',
-                    'placeholder'
-                )
+                    'placeholder',
+                ]
             )
         );
         $formMock->expects(
@@ -85,7 +85,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getElement'
         )->will(
-            $this->returnValueMap(array(array('country_id', $countryMock), array('region_id', $regionMock)))
+            $this->returnValueMap([['country_id', $countryMock], ['region_id', $regionMock]])
         );
         $countryMock->expects($this->any())->method('getValue')->will($this->returnValue('GE'));
         $directoryHelperMock->expects(
@@ -93,7 +93,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'isRegionRequired'
         )->will(
-            $this->returnValueMap(array(array('GE', true)))
+            $this->returnValueMap([['GE', true]])
         );
         $countryFactoryMock->expects($this->once())->method('create')->will($this->returnValue($countryModelMock));
         $countryModelMock->expects($this->any())->method('setId')->will($this->returnSelf());
@@ -104,7 +104,7 @@ class RegionTest extends \PHPUnit_Framework_TestCase
 
         $static = new \ReflectionProperty('Magento\Customer\Model\Renderer\Region', '_regionCollections');
         $static->setAccessible(true);
-        $static->setValue(array());
+        $static->setValue([]);
 
         $html = $model->render($elementMock);
 
@@ -114,14 +114,14 @@ class RegionTest extends \PHPUnit_Framework_TestCase
 
     public function renderDataProvider()
     {
-        return array(
-            'with no defined regions' => array(array()),
-            'with defined regions' => array(
-                array(
-                    new \Magento\Framework\Object(array('value' => 'Bavaria')),
-                    new \Magento\Framework\Object(array('value' => 'Saxony'))
-                )
-            )
-        );
+        return [
+            'with no defined regions' => [[]],
+            'with defined regions' => [
+                [
+                    new \Magento\Framework\Object(['value' => 'Bavaria']),
+                    new \Magento\Framework\Object(['value' => 'Saxony']),
+                ],
+            ]
+        ];
     }
 }

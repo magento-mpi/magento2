@@ -7,8 +7,8 @@
  */
 namespace Magento\Rma\Model\Rma\Status;
 
-use Magento\Rma\Model\Rma\Source\Status;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
+use Magento\Rma\Model\Rma\Source\Status;
 
 /**
  * Class HistoryTest
@@ -291,7 +291,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
 
         $this->history->sendAuthorizeEmail();
         $this->assertTrue($this->history->getEmailSent());
-
     }
 
     protected function prepareTransportBuilder()

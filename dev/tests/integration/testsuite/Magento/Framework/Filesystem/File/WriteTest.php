@@ -51,7 +51,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function fileExistProvider()
     {
-        return array(array('popup.csv', 'x'), array('popup.csv', 'x+'));
+        return [['popup.csv', 'x'], ['popup.csv', 'x+']];
     }
 
     /**
@@ -79,12 +79,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function writeProvider()
     {
-        return array(
-            array('new1.csv', 'w', 'write check', 11),
-            array('new3.csv', 'a', 'write check', 11),
-            array('new5.csv', 'x', 'write check', 11),
-            array('new7.csv', 'c', 'write check', 11)
-        );
+        return [
+            ['new1.csv', 'w', 'write check', 11],
+            ['new3.csv', 'a', 'write check', 11],
+            ['new5.csv', 'x', 'write check', 11],
+            ['new7.csv', 'c', 'write check', 11]
+        ];
     }
 
     /**
@@ -115,12 +115,12 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function writeAndReadProvider()
     {
-        return array(
-            array('new2.csv', 'w+', 'write check', 11),
-            array('new4.csv', 'a+', 'write check', 11),
-            array('new6.csv', 'x+', 'write check', 11),
-            array('new8.csv', 'c+', 'write check', 11)
-        );
+        return [
+            ['new2.csv', 'w+', 'write check', 11],
+            ['new4.csv', 'a+', 'write check', 11],
+            ['new6.csv', 'x+', 'write check', 11],
+            ['new8.csv', 'c+', 'write check', 11]
+        ];
     }
 
     /**
@@ -150,10 +150,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     public function csvProvider()
     {
-        return array(
-            array('newcsv1.csv', array('field1', 'field2'), ',', '"'),
-            array('newcsv1.csv', array('field1', 'field2'), '%', '@')
-        );
+        return [
+            ['newcsv1.csv', ['field1', 'field2'], ',', '"'],
+            ['newcsv1.csv', ['field1', 'field2'], '%', '@']
+        ];
     }
 
     /**
@@ -200,11 +200,11 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $this->currentFilePath = __DIR__ . '/../_files/' . $path;
         return Bootstrap::getObjectManager()->create(
             'Magento\Framework\Filesystem\File\Write',
-            array(
+            [
                 'path' => $this->currentFilePath,
                 'driver' => new \Magento\Framework\Filesystem\Driver\File(),
                 'mode' => $mode
-            )
+            ]
         );
     }
 }

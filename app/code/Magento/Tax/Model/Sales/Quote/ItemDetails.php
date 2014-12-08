@@ -15,7 +15,6 @@ use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
  */
 class ItemDetails extends AbstractExtensibleModel implements QuoteDetailsItemInterface
 {
-
     /**
      * {@inheritdoc}
      */

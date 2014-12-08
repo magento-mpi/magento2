@@ -28,9 +28,9 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->model = $objectManager->getObject('Magento\Framework\Pricing\Price\Factory', array(
+        $this->model = $objectManager->getObject('Magento\Framework\Pricing\Price\Factory', [
             'objectManager' => $this->objectManagerMock
-        ));
+        ]);
     }
 
     public function testCreate()

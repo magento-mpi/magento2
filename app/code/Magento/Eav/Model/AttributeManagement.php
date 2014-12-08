@@ -8,8 +8,8 @@
  */
 namespace Magento\Eav\Model;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
 
 class AttributeManagement implements \Magento\Eav\Api\AttributeManagementInterface

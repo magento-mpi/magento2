@@ -8,12 +8,11 @@
 namespace Magento\Catalog\Model;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Pricing\Object\SaleableInterface;
-use Magento\Framework\Object\IdentityInterface;
 use Magento\Catalog\Api\Data\ProductInterface;
-use Magento\Framework\Convert\ConvertArray;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Object\IdentityInterface;
+use Magento\Framework\Pricing\Object\SaleableInterface;
 
 /**
  * Catalog product model
@@ -93,7 +92,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      *
      * @var array
      */
-    protected $_customOptions = array();
+    protected $_customOptions = [];
 
     /**
      * Product Url Instance
@@ -110,7 +109,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     /**
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Product option
@@ -122,7 +121,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     /**
      * @var array
      */
-    protected $_options = array();
+    protected $_options = [];
 
     /**
      * Flag for available duplicate function
@@ -299,7 +298,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Catalog\Model\Indexer\Product\Price\Processor $productPriceIndexerProcessor,
         \Magento\Catalog\Model\Indexer\Product\Eav\Processor $productEavIndexerProcessor,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_stockItemBuilder = $stockItemBuilder;
@@ -622,7 +621,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getStoreIds()
     {
         if (!$this->hasStoreIds()) {
-            $storeIds = array();
+            $storeIds = [];
             if ($websiteIds = $this->getWebsiteIds()) {
                 foreach ($websiteIds as $websiteId) {
                     $websiteStores = $this->_storeManager->getWebsite($websiteId)->getStoreIds();
@@ -646,7 +645,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     {
         $productAttributes = $this->getTypeInstance()->getEditableAttributes($this);
         if ($groupId) {
-            $attributes = array();
+            $attributes = [];
             foreach ($productAttributes as $attribute) {
                 if ($attribute->isInGroup($this->getAttributeSetId(), $groupId)) {
                     $attributes[] = $attribute;
@@ -753,8 +752,8 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             $this->setForceReindexEavRequired(true);
         }
 
-        $this->_getResource()->addCommitCallback(array($this, 'priceReindexCallback'));
-        $this->_getResource()->addCommitCallback(array($this, 'eavReindexCallback'));
+        $this->_getResource()->addCommitCallback([$this, 'priceReindexCallback']);
+        $this->_getResource()->addCommitCallback([$this, 'eavReindexCallback']);
 
         /**
          * Product Options
@@ -765,7 +764,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
 
         $result = parent::afterSave();
 
-        $this->_getResource()->addCommitCallback(array($this, 'reindex'));
+        $this->_getResource()->addCommitCallback([$this, 'reindex']);
         $this->reloadPriceInfo();
         return $result;
     }
@@ -1060,7 +1059,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getRelatedProducts()
     {
         if (!$this->hasRelatedProducts()) {
-            $products = array();
+            $products = [];
             $collection = $this->getRelatedProductCollection();
             foreach ($collection as $product) {
                 $products[] = $product;
@@ -1078,7 +1077,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getRelatedProductIds()
     {
         if (!$this->hasRelatedProductIds()) {
-            $ids = array();
+            $ids = [];
             foreach ($this->getRelatedProducts() as $product) {
                 $ids[] = $product->getId();
             }
@@ -1122,7 +1121,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getUpSellProducts()
     {
         if (!$this->hasUpSellProducts()) {
-            $products = array();
+            $products = [];
             foreach ($this->getUpSellProductCollection() as $product) {
                 $products[] = $product;
             }
@@ -1139,7 +1138,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getUpSellProductIds()
     {
         if (!$this->hasUpSellProductIds()) {
-            $ids = array();
+            $ids = [];
             foreach ($this->getUpSellProducts() as $product) {
                 $ids[] = $product->getId();
             }
@@ -1183,7 +1182,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getCrossSellProducts()
     {
         if (!$this->hasCrossSellProducts()) {
-            $products = array();
+            $products = [];
             foreach ($this->getCrossSellProductCollection() as $product) {
                 $products[] = $product;
             }
@@ -1200,7 +1199,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getCrossSellProductIds()
     {
         if (!$this->hasCrossSellProductIds()) {
-            $ids = array();
+            $ids = [];
             foreach ($this->getCrossSellProducts() as $product) {
                 $ids[] = $product->getId();
             }
@@ -1247,7 +1246,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function getMediaAttributes()
     {
         if (!$this->hasMediaAttributes()) {
-            $mediaAttributes = array();
+            $mediaAttributes = [];
             foreach ($this->getAttributes() as $attribute) {
                 if ($attribute->getFrontend()->getInputType() == 'media_image') {
                     $mediaAttributes[$attribute->getAttributeCode()] = $attribute;
@@ -1394,14 +1393,14 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      */
     public function isSalable()
     {
-        $this->_eventManager->dispatch('catalog_product_is_salable_before', array('product' => $this));
+        $this->_eventManager->dispatch('catalog_product_is_salable_before', ['product' => $this]);
 
         $salable = $this->isAvailable();
 
-        $object = new \Magento\Framework\Object(array('product' => $this, 'is_salable' => $salable));
+        $object = new \Magento\Framework\Object(['product' => $this, 'is_salable' => $salable]);
         $this->_eventManager->dispatch(
             'catalog_product_is_salable_after',
-            array('product' => $this, 'salable' => $object)
+            ['product' => $this, 'salable' => $object]
         );
         return $object->getIsSalable();
     }
@@ -1485,7 +1484,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      */
     public function getCustomDesignDate()
     {
-        $result = array();
+        $result = [];
         $result['from'] = $this->getData('custom_design_from');
         $result['to'] = $this->getData('custom_design_to');
 
@@ -1509,7 +1508,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param array $params the route params
      * @return string
      */
-    public function getUrlInStore($params = array())
+    public function getUrlInStore($params = [])
     {
         return $this->getUrlModel()->getUrlInStore($this, $params);
     }
@@ -1552,7 +1551,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param array $arrAttributes Attribute array
      * @return array
      */
-    public function toArray(array $arrAttributes = array())
+    public function toArray(array $arrAttributes = [])
     {
         $data = parent::toArray($arrAttributes);
         $stock = $this->getStockItem();
@@ -1724,7 +1723,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     {
         $product = $product ? $product : $this;
         $option = $this->_itemOptionFactory->create()->addData(
-            array('product_id' => $product->getId(), 'product' => $product, 'code' => $code, 'value' => $value)
+            ['product_id' => $product->getId(), 'product' => $product, 'code' => $code, 'value' => $value]
         );
         $this->_customOptions[$code] = $option;
         return $this;
@@ -1959,12 +1958,12 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
             }
         }
 
-        $this->setData(array());
+        $this->setData([]);
         $this->setOrigData();
-        $this->_customOptions = array();
-        $this->_options = array();
+        $this->_customOptions = [];
+        $this->_options = [];
         $this->_canAffectOptions = false;
-        $this->_errors = array();
+        $this->_errors = [];
 
         return $this;
     }
@@ -2028,7 +2027,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      */
     public function getIdentities()
     {
-        $identities = array(self::CACHE_TAG . '_' . $this->getId());
+        $identities = [self::CACHE_TAG . '_' . $this->getId()];
         if ($this->getIsChangedCategories()) {
             foreach ($this->getAffectedCategoryIds() as $categoryId) {
                 $identities[] = self::CACHE_PRODUCT_CATEGORY_TAG . '_' . $categoryId;
@@ -2088,7 +2087,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         if (array_key_exists('custom_attributes', $dataArray) && !empty($dataArray['custom_attributes'])) {
             /** @var \Magento\Framework\Api\AttributeInterface[] $customAttributes */
             $customAttributes = $dataArray['custom_attributes'];
-            unset ($dataArray['custom_attributes']);
+            unset($dataArray['custom_attributes']);
             foreach ($customAttributes as $attributeValue) {
                 $dataArray[$attributeValue[\Magento\Framework\Api\AttributeInterface::ATTRIBUTE_CODE]]
                     = $attributeValue[\Magento\Framework\Api\AttributeInterface::VALUE];

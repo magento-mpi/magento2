@@ -8,7 +8,7 @@
 
 namespace Magento\Invitation\Model\Source\Invitation;
 
-use \Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
+use Magento\Customer\Api\GroupManagementInterface as CustomerGroupManagement;
 
 /**
  * Invitation group id options source

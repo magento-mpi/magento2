@@ -27,7 +27,7 @@ class SiteVerification extends \Magento\Framework\View\Element\AbstractBlock
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\GoogleShopping\Model\Config $config,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_config = $config;

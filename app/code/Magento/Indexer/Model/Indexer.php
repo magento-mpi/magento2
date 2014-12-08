@@ -58,7 +58,7 @@ class Indexer extends \Magento\Framework\Object implements IndexerInterface
         \Magento\Framework\Mview\ViewInterface $view,
         Indexer\StateFactory $stateFactory,
         Indexer\CollectionFactory $indexersFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->config = $config;
         $this->actionFactory = $actionFactory;

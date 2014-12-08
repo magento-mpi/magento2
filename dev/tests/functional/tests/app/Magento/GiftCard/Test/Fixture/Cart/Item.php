@@ -10,7 +10,6 @@ namespace Magento\GiftCard\Test\Fixture\Cart;
 
 use Magento\GiftCard\Test\Fixture\GiftCardProduct;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Bundle\Test\Fixture\BundleProduct;
 
 /**
  * Class Item
@@ -35,7 +34,7 @@ class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
         $cartItemOptions = [
             [
                 'title' => 'Gift Card Sender',
-                'value' => "{$optionsData['giftcard_sender_name']} <{$optionsData['giftcard_sender_email']}>"
+                'value' => "{$optionsData['giftcard_sender_name']} <{$optionsData['giftcard_sender_email']}>",
             ],
             [
                 'title' => 'Gift Card Recipient',
@@ -44,7 +43,7 @@ class Item extends \Magento\Catalog\Test\Fixture\Cart\Item
             [
                 'title' => 'Gift Card Message',
                 'value' => "{$optionsData['giftcard_message']}"
-            ]
+            ],
         ];
 
         $this->data['options'] = isset($this->data['options'])

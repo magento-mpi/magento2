@@ -46,7 +46,7 @@ class RecurringPayment extends PaymentGrid implements TabInterface
         \Magento\RecurringPayment\Block\Fields $fields,
         \Magento\RecurringPayment\Model\Method\PaymentMethodsList $payments,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_currentCustomerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
@@ -163,7 +163,7 @@ class RecurringPayment extends PaymentGrid implements TabInterface
      */
     public function getGridUrl()
     {
-        return $this->getUrl('sales/recurringPayment/customerGrid', array('_current' => true));
+        return $this->getUrl('sales/recurringPayment/customerGrid', ['_current' => true]);
     }
 
     /**

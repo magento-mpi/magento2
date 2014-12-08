@@ -22,7 +22,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeFactory = $attributesFactory;
         parent::__construct($context, $data);
@@ -36,10 +36,10 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value' => $this->getType(), 'label' => __('Conditions Combination')),
-            $this->_attributeFactory->create()->getNewChildSelectOptions()
-        );
+        $conditions = [
+            ['value' => $this->getType(), 'label' => __('Conditions Combination')],
+            $this->_attributeFactory->create()->getNewChildSelectOptions(),
+        ];
 
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;

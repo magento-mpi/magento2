@@ -35,7 +35,7 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Grid\Collection
     {
         $select = clone $gridSelect;
         $select->reset('from');
-        $select->from(array('main_table' => $this->getTable('magento_sales_order_grid_archive')), array());
+        $select->from(['main_table' => $this->getTable('magento_sales_order_grid_archive')], []);
         return $select;
     }
 }

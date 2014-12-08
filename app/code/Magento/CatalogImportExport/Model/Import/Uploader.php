@@ -29,12 +29,12 @@ class Uploader extends \Magento\Core\Model\File\Uploader
     /**
      * @var array
      */
-    protected $_allowedMimeTypes = array(
+    protected $_allowedMimeTypes = [
         'jpg' => 'image/jpeg',
         'jpeg' => 'image/jpeg',
         'gif' => 'image/gif',
-        'png' => 'image/png'
-    );
+        'png' => 'image/png',
+    ];
 
     const DEFAULT_FILE_TYPE = 'application/octet-stream';
 
@@ -131,13 +131,13 @@ class Uploader extends \Magento\Core\Model\File\Uploader
     protected function _readFileInfo($filePath)
     {
         $fileInfo = pathinfo($filePath);
-        return array(
+        return [
             'name' => $fileInfo['basename'],
             'type' => $this->_getMimeTypeByExt($fileInfo['extension']),
             'tmp_name' => $filePath,
             'error' => 0,
             'size' => $this->_directory->stat($filePath)['size']
-        );
+        ];
     }
 
     /**

@@ -46,8 +46,8 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', array(), array(), '', false);
-        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', array(), array(), '', false);
+        $this->customerAddressMock = $this->getMock('Magento\Customer\Helper\Address', [], [], '', false);
+        $this->customerVatMock = $this->getMock('Magento\Customer\Model\Vat', [], [], '', false);
         $this->customerVatMock->expects($this->any())
             ->method('getMerchantCountryCode')
             ->willReturn('merchantCountryCode');
@@ -55,11 +55,11 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('getMerchantVatNumber')
             ->willReturn('merchantVatNumber');
 
-        $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
 
         $this->quoteAddressMock = $this->getMock(
             'Magento\Sales\Model\Quote\Address',
-            array(
+            [
                 'getCountryId',
                 'getVatId',
                 'getValidatedCountryCode',
@@ -71,19 +71,19 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
                 'getAddressType',
                 'save',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false,
             false
         );
 
-        $this->testData = array(
+        $this->testData = [
             'is_valid' => true,
             'request_identifier' => 'test_request_identifier',
             'request_date' => 'test_request_date',
-            'request_success' => true
-        );
+            'request_success' => true,
+        ];
 
         $this->quoteAddressMock->expects(
             $this->any()
@@ -288,7 +288,6 @@ class VatValidatorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->quoteAddressMock->expects($this->any())->method('getVatId')->will($this->returnValue('someVatID'));
-
 
         $this->quoteAddressMock->expects($this->once())->method('save');
 

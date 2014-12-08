@@ -85,4 +85,4 @@ class ChainTest extends \PHPUnit_Framework_TestCase
             ['anotherContent', 'anotherType', true],
         ];
     }
-} 
+}

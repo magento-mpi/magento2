@@ -41,7 +41,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
         $this->scheduledStructure = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
             ->disableOriginalConstructor()->setMethods(['setElementToRemoveList', '__wakeup'])
             ->getMock();
-        $this->model = new Remove;
+        $this->model = new Remove();
     }
 
     public function testGetSupportedNodes()
@@ -67,7 +67,7 @@ class RemoveTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                '<remove name="header"/>'
+                '<remove name="header"/>',
             ]
         ];
     }

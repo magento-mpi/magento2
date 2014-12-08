@@ -27,7 +27,7 @@ class Recurring extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -60,7 +60,7 @@ class Recurring extends \Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\
         $dependencies->addFieldMap('is_recurring', 'product[is_recurring]');
         $dependencies->addFieldMap($this->_element->getHtmlId(), $this->_element->getName());
         $dependencies->addFieldDependence($this->_element->getName(), 'product[is_recurring]', '1');
-        $dependencies->addConfigOptions(array('levels_up' => 2));
+        $dependencies->addConfigOptions(['levels_up' => 2]);
 
         $output .= $dependencies->toHtml();
 

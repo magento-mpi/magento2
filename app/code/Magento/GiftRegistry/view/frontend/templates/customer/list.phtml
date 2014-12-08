@@ -22,7 +22,7 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach($entityCollection as $item): ?>
+                <?php foreach ($entityCollection as $item): ?>
                     <tr>
                         <td data-th="<?php echo $this->escapeHtml(__('Event')); ?>" class="col event" title="<?php echo $this->getEscapedTitle($item)?>"><?php echo $this->truncateString($this->getEscapedTitle($item), 70)?></td>
                         <td data-th="<?php echo $this->escapeHtml(__('Created On')); ?>" class="col create"><?php echo $this->getFormattedDate($item) ?></td>

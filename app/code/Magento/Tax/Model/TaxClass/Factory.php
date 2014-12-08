@@ -23,10 +23,10 @@ class Factory
      *
      * @var array
      */
-    protected $_types = array(
+    protected $_types = [
         \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_CUSTOMER => 'Magento\Tax\Model\TaxClass\Type\Customer',
-        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT => 'Magento\Tax\Model\TaxClass\Type\Product'
-    );
+        \Magento\Tax\Model\ClassModel::TAX_CLASS_TYPE_PRODUCT => 'Magento\Tax\Model\TaxClass\Type\Product',
+    ];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
@@ -51,7 +51,7 @@ class Factory
         }
         return $this->_objectManager->create(
             $this->_types[$taxClassType],
-            array('data' => array('id' => $taxClass->getId()))
+            ['data' => ['id' => $taxClass->getId()]]
         );
     }
 }

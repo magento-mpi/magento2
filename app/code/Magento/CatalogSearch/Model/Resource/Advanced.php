@@ -66,15 +66,15 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         // prepare response object for event
         $response = new \Magento\Framework\Object();
-        $response->setAdditionalCalculations(array());
+        $response->setAdditionalCalculations([]);
 
         // prepare event arguments
-        $eventArgs = array(
+        $eventArgs = [
             'select' => $select,
             'table' => 'price_index',
             'store_id' => $this->_storeManager->getStore()->getId(),
-            'response_object' => $response
-        );
+            'response_object' => $response,
+        ];
 
         $this->_eventManager->dispatch('catalog_prepare_price_select', $eventArgs);
 
@@ -95,18 +95,18 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (is_array($value)) {
             if ($attribute->getBackendType() == 'varchar') { // multiselect
                 // multiselect
-                $condition = array('in_set' => $value);
+                $condition = ['in_set' => $value];
             } elseif (!isset($value['from']) && !isset($value['to'])) { // select
                 // select
-                $condition = array('in' => $value);
+                $condition = ['in' => $value];
             } elseif (isset($value['from']) && '' !== $value['from'] || isset($value['to']) && '' !== $value['to']) {
                 // range
                 $condition = $value;
             }
         } else {
             if (strlen($value) > 0) {
-                if (in_array($attribute->getBackendType(), array('varchar', 'text', 'static'))) {
-                    $condition = array('like' => '%' . $value . '%'); // text search
+                if (in_array($attribute->getBackendType(), ['varchar', 'text', 'static'])) {
+                    $condition = ['like' => '%' . $value . '%']; // text search
                 } else {
                     $condition = $value;
                 }
@@ -129,7 +129,7 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
 
-        $conditions = array();
+        $conditions = [];
         if (strlen($value['from']) > 0) {
             $conditions[] = $adapter->quoteInto(
                 'price_index.min_price %s * %s >= ?',
@@ -191,11 +191,11 @@ class Advanced extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $select->distinct(true);
         $select->join(
-            array($tableAlias => $table),
+            [$tableAlias => $table],
             "e.entity_id={$tableAlias}.entity_id " .
             " AND {$tableAlias}.attribute_id={$attribute->getAttributeId()}" .
             " AND {$tableAlias}.store_id={$storeId}",
-            array()
+            []
         );
 
         if (is_array($value) && (isset($value['from']) || isset($value['to']))) {

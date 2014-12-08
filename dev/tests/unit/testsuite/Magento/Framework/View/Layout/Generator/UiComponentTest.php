@@ -8,9 +8,9 @@
 
 namespace Magento\Framework\View\Layout\Generator;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
-use Magento\Framework\View\Layout\ScheduledStructure;
 use Magento\Framework\View\Layout;
+use Magento\Framework\View\Layout\ScheduledStructure;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class UiComponentTest extends \PHPUnit_Framework_TestCase
 {
@@ -115,7 +115,7 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
             ->method('evaluate')
             ->will($this->returnValueMap([
                 [['key_1' => 'value_1'], 'value_1'],
-                [['key_2' => 'value_2'], 'value_2']
+                [['key_2' => 'value_2'], 'value_2'],
             ]));
 
         $layoutMock->expects($this->any())
@@ -136,14 +136,14 @@ class UiComponentTest extends \PHPUnit_Framework_TestCase
                     [
                         'attributes' => [
                             'group'   => 'new_group',
-                            'component' => 'component_name'
+                            'component' => 'component_name',
                         ],
                         'arguments'  => [
                             'attribute_1' => ['key_1' => 'value_1'],
                             'attribute_2' => ['key_2' => 'value_2'],
                         ]
-                    ]
-                ]
+                    ],
+                ],
             ]);
     }
 }

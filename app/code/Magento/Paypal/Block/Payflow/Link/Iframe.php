@@ -33,7 +33,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Paypal\Helper\Hss $hssHelper,
         \Magento\Payment\Helper\Data $paymentData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paymentData = $paymentData;
         parent::__construct($context, $orderFactory, $checkoutSession, $hssHelper, $data);
@@ -57,7 +57,7 @@ class Iframe extends \Magento\Paypal\Block\Iframe
      */
     public function getFrameActionUrl()
     {
-        return $this->getUrl('paypal/payflow/form', array('_secure' => true));
+        return $this->getUrl('paypal/payflow/form', ['_secure' => true]);
     }
 
     /**

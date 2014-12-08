@@ -10,7 +10,6 @@
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Rule;
 
-use \Magento\Indexer\Model\Indexer\State;
 
 class Product implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework\Mview\ActionInterface
 {

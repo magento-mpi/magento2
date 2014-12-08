@@ -31,12 +31,12 @@ class Format extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => array('country_id', 'type'),
-                'title' => __('Country and Format Type combination should be unique')
-            )
-        );
+        $this->_uniqueFields = [
+            [
+                'field' => ['country_id', 'type'],
+                'title' => __('Country and Format Type combination should be unique'),
+            ],
+        ];
         return $this;
     }
 }

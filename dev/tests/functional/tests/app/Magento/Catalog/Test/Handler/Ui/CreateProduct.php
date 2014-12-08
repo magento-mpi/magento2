@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Handler\Ui;
 
-use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Ui;
 
 /**
  * Class CreateProduct
@@ -31,7 +31,7 @@ class CreateProduct extends Ui
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->open([
                 'type' => $fixture->getDataConfig()['create_url_params']['type'],
-                'set' => $fixture->getDataConfig()['create_url_params']['set']
+                'set' => $fixture->getDataConfig()['create_url_params']['set'],
             ]);
 
         $createProductPage->getProductForm()->fill($fixture);

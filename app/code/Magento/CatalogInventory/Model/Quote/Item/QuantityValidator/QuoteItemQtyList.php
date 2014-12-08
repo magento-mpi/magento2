@@ -15,7 +15,7 @@ class QuoteItemQtyList
      *
      * @var array
      */
-    protected $_checkedQuoteItems = array();
+    protected $_checkedQuoteItems = [];
 
     /**
      * Get product qty includes information from all quote items

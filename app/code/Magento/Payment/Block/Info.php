@@ -68,7 +68,7 @@ class Info extends \Magento\Framework\View\Element\Template
      */
     public function getChildPdfAsArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $child) {
             if (method_exists($child, 'toPdf') && is_callable([$child, 'toPdf'])) {
                 $result[] = $child->toPdf();
@@ -97,10 +97,10 @@ class Info extends \Magento\Framework\View\Element\Template
     public function getValueAsArray($value, $escapeHtml = false)
     {
         if (empty($value)) {
-            return array();
+            return [];
         }
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
         if ($escapeHtml) {
             foreach ($value as $_key => $_val) {
@@ -153,7 +153,7 @@ class Info extends \Magento\Framework\View\Element\Template
             }
             $this->_eventManager->dispatch(
                 'payment_info_block_prepare_specific_information',
-                array('transport' => $transport, 'payment' => $this->getInfo(), 'block' => $this)
+                ['transport' => $transport, 'payment' => $this->getInfo(), 'block' => $this]
             );
             $this->_paymentSpecificInformation = $transport;
         }

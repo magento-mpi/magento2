@@ -19,7 +19,7 @@ class Weight
      *
      * @var int[]
      */
-    protected static $weights = array(1, 2, 3, 4, 5);
+    protected static $weights = [1, 2, 3, 4, 5];
 
     /**
      * Retrieve search weights as options array
@@ -28,9 +28,9 @@ class Weight
      */
     public static function getOptions()
     {
-        $res = array();
+        $res = [];
         foreach (self::getValues() as $value) {
-            $res[] = array('value' => $value, 'label' => $value);
+            $res[] = ['value' => $value, 'label' => $value];
         }
         return $res;
     }

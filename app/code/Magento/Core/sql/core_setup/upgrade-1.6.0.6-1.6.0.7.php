@@ -20,12 +20,12 @@ $tableCoreLayoutLink = $installer->getTable('core_layout_link');
 $connection->addColumn(
     $tableCoreLayoutLink,
     'is_temporary',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
         'nullable' => false,
         'default' => '0',
         'comment' => 'Defines whether Layout Update is Temporary'
-    )
+    ]
 );
 
 // we must drop next 2 foreign keys to have an ability to drop index
@@ -42,7 +42,7 @@ $connection->dropIndex(
     $tableCoreLayoutLink,
     $installer->getIdxName(
         $tableCoreLayoutLink,
-        array('store_id', 'theme_id', 'layout_update_id'),
+        ['store_id', 'theme_id', 'layout_update_id'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     )
 );
@@ -51,10 +51,10 @@ $connection->addIndex(
     $tableCoreLayoutLink,
     $installer->getIdxName(
         $tableCoreLayoutLink,
-        array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
+        ['store_id', 'theme_id', 'layout_update_id', 'is_temporary'],
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    array('store_id', 'theme_id', 'layout_update_id', 'is_temporary'),
+    ['store_id', 'theme_id', 'layout_update_id', 'is_temporary'],
     \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
 );
 

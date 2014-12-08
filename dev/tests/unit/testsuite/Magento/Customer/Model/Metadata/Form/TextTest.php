@@ -54,15 +54,15 @@ class TextTest extends AbstractFormTestCase
 
     public function validateValueDataProvider()
     {
-        return array(
-            'empty' => array('', true),
-            '0' => array(0, true),
-            'zero' => array('0', true),
-            'string' => array('some text', true),
-            'number' => array(123, true),
-            'true' => array(true, true),
-            'false' => array(false, true)
-        );
+        return [
+            'empty' => ['', true],
+            '0' => [0, true],
+            'zero' => ['0', true],
+            'string' => ['some text', true],
+            'number' => [123, true],
+            'true' => [true, true],
+            'false' => [false, true]
+        ];
     }
 
     /**
@@ -86,16 +86,16 @@ class TextTest extends AbstractFormTestCase
 
     public function validateValueRequiredDataProvider()
     {
-        return array(
-            'empty' => array('', '"" is a required value.'),
-            'null' => array(null, '"" is a required value.'),
-            '0' => array(0, true),
-            'zero' => array('0', true),
-            'string' => array('some text', true),
-            'number' => array(123, true),
-            'true' => array(true, true),
-            'false' => array(false, '"" is a required value.')
-        );
+        return [
+            'empty' => ['', '"" is a required value.'],
+            'null' => [null, '"" is a required value.'],
+            '0' => [0, true],
+            'zero' => ['0', true],
+            'string' => ['some text', true],
+            'number' => [123, true],
+            'true' => [true, true],
+            'false' => [false, '"" is a required value.']
+        ];
     }
 
     /**
@@ -127,10 +127,10 @@ class TextTest extends AbstractFormTestCase
             ->method('getValue')
             ->will($this->returnValue(8));
 
-        $validationRules = array(
+        $validationRules = [
             'min_text_length' => $minTextLengthRule,
-            'max_text_length' => $maxTextLengthRule
-        );
+            'max_text_length' => $maxTextLengthRule,
+        ];
 
         $this->attributeMetadataMock->expects(
             $this->any()
@@ -152,20 +152,20 @@ class TextTest extends AbstractFormTestCase
 
     public function validateValueLengthDataProvider()
     {
-        return array(
-            'false' => array(false, true),
-            'empty' => array('', true),
-            'null' => array(null, true),
-            'true' => array(true, '"" length must be equal or greater than 4 characters.'),
-            'one' => array(1, '"" length must be equal or greater than 4 characters.'),
-            'L1' => array('a', '"" length must be equal or greater than 4 characters.'),
-            'L3' => array('abc', '"" length must be equal or greater than 4 characters.'),
-            'L4' => array('abcd', true),
-            'thousand' => array(1000, true),
-            'L8' => array('abcdefgh', true),
-            'L9' => array('abcdefghi', '"" length must be equal or less than 8 characters.'),
-            'L12' => array('abcdefghjkl', '"" length must be equal or less than 8 characters.'),
-            'billion' => array(1000000000, '"" length must be equal or less than 8 characters.')
-        );
+        return [
+            'false' => [false, true],
+            'empty' => ['', true],
+            'null' => [null, true],
+            'true' => [true, '"" length must be equal or greater than 4 characters.'],
+            'one' => [1, '"" length must be equal or greater than 4 characters.'],
+            'L1' => ['a', '"" length must be equal or greater than 4 characters.'],
+            'L3' => ['abc', '"" length must be equal or greater than 4 characters.'],
+            'L4' => ['abcd', true],
+            'thousand' => [1000, true],
+            'L8' => ['abcdefgh', true],
+            'L9' => ['abcdefghi', '"" length must be equal or less than 8 characters.'],
+            'L12' => ['abcdefghjkl', '"" length must be equal or less than 8 characters.'],
+            'billion' => [1000000000, '"" length must be equal or less than 8 characters.']
+        ];
     }
 }

@@ -7,10 +7,10 @@
  */
 namespace Magento\Setup\Controller\Install;
 
+use Magento\Setup\Model\Installer\ProgressFactory;
 use Magento\Setup\Model\WebLogger;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\Installer\ProgressFactory;
 
 class ProgressController extends AbstractActionController
 {

@@ -22,7 +22,7 @@ class Escaper
     public function escapeHtml($data, $allowedTags = null)
     {
         if (is_array($data)) {
-            $result = array();
+            $result = [];
             foreach ($data as $item) {
                 $result[] = $this->escapeHtml($item);
             }
@@ -62,7 +62,7 @@ class Escaper
     public function escapeJsQuote($data, $quote = '\'')
     {
         if (is_array($data)) {
-            $result = array();
+            $result = [];
             foreach ($data as $item) {
                 $result[] = $this->escapeJsQuote($item, $quote);
             }

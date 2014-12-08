@@ -11,7 +11,7 @@
  * @var $this \Magento\CatalogSearch\Block\Advanced\Result
  */
 ?>
-<?php if($results = $this->getResultCount()): ?>
+<?php if ($results = $this->getResultCount()): ?>
     <div class="search found">
         <?php if ($results == 1) : ?>
             <?php echo __('<strong>%1 item</strong> were found using the following search criteria', $results); ?>
@@ -27,19 +27,19 @@
     </div>
 <?php endif; ?>
 
-<?php $searchCriterias=$this->getSearchCriterias(); ?>
+<?php $searchCriterias = $this->getSearchCriterias(); ?>
 <div class="search summary">
-    <?php foreach (array('left', 'right') as $side): ?>
-        <?php if(@$searchCriterias[$side]): ?>
+    <?php foreach (['left', 'right'] as $side): ?>
+        <?php if (@$searchCriterias[$side]): ?>
             <ul class="items">
-                <?php foreach($searchCriterias[$side] as $criteria): ?>
+                <?php foreach ($searchCriterias[$side] as $criteria): ?>
                     <li class="item"><strong><?php echo $this->escapeHtml(__($criteria['name'])); ?>:</strong> <?php echo $this->escapeHtml($criteria['value']); ?></li>
                 <?php endforeach; ?>
             </ul>
         <?php endif; ?>
     <?php endforeach; ?>
 </div>
-<?php if($this->getResultCount()): ?>
+<?php if ($this->getResultCount()): ?>
     <div class="message notice">
         <div>
             <?php echo __("Don't see what you're looking for?"); ?>
@@ -47,7 +47,7 @@
         </div>
     </div>
 <?php endif; ?>
-<?php if($this->getResultCount()): ?>
+<?php if ($this->getResultCount()): ?>
     <div class="search results"><?php echo $this->getProductListHtml() ?></div>
 <?php endif; ?>
 <?php $this->getSearchCriterias(); ?>

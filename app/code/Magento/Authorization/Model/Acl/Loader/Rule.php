@@ -23,7 +23,7 @@ class Rule implements \Magento\Framework\Acl\LoaderInterface
     public function __construct(
         \Magento\Framework\Acl\RootResource $rootResource,
         \Magento\Framework\App\Resource $resource,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resource = $resource;
         $this->_rootResource = $rootResource;
@@ -41,7 +41,7 @@ class Rule implements \Magento\Framework\Acl\LoaderInterface
 
         $adapter = $this->_resource->getConnection('core_read');
 
-        $select = $adapter->select()->from(array('r' => $ruleTable));
+        $select = $adapter->select()->from(['r' => $ruleTable]);
 
         $rulesArr = $adapter->fetchAll($select);
 
@@ -56,7 +56,7 @@ class Rule implements \Magento\Framework\Acl\LoaderInterface
                         $acl->allow($role, null, $privileges);
                     }
                     $acl->allow($role, $resource, $privileges);
-                } else if ($rule['permission'] == 'deny') {
+                } elseif ($rule['permission'] == 'deny') {
                     $acl->deny($role, $resource, $privileges);
                 }
             }

@@ -33,7 +33,7 @@ class Import extends \Magento\Framework\Object
      *
      * @var string[]
      */
-    protected $_allowedExtensions = array('csv');
+    protected $_allowedExtensions = ['csv'];
 
     /**
      * @var \Magento\AdvancedCheckout\Helper\Data
@@ -69,7 +69,7 @@ class Import extends \Magento\Framework\Object
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Framework\Filesystem $filesystem,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
@@ -96,7 +96,7 @@ class Import extends \Magento\Framework\Object
     public function uploadFile()
     {
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader = $this->_uploaderFactory->create(['fileId' => self::FIELD_NAME_SOURCE_FILE]);
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
@@ -140,7 +140,7 @@ class Import extends \Magento\Framework\Object
             throw new Exception($this->_checkoutData->getFileGeneralErrorText());
         }
 
-        $csvData = array();
+        $csvData = [];
 
         try {
             $fileHandler = $this->varDirectory->openFile($this->_uploadedFile, 'r');
@@ -151,8 +151,8 @@ class Import extends \Magento\Framework\Object
                     $colName = trim($colName);
                 }
 
-                $requiredColumns = array('sku', 'qty');
-                $requiredColumnsPositions = array();
+                $requiredColumns = ['sku', 'qty'];
+                $requiredColumnsPositions = [];
 
                 foreach ($requiredColumns as $columnName) {
                     $found = array_search($columnName, $colNames);
@@ -164,7 +164,7 @@ class Import extends \Magento\Framework\Object
                 }
 
                 while (($currentRow = $fileHandler->readCsv()) !== false) {
-                    $csvDataRow = array('qty' => '');
+                    $csvDataRow = ['qty' => ''];
                     foreach ($requiredColumnsPositions as $index) {
                         if (isset($currentRow[$index])) {
                             $csvDataRow[$colNames[$index]] = trim($currentRow[$index]);

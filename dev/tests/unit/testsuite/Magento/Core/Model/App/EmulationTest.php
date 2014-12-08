@@ -157,7 +157,6 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
 
         // Test
         $this->model->startEnvironmentEmulation(self::NEW_STORE_ID, \Magento\Framework\App\Area::AREA_FRONTEND);
-
     }
 
     public function testStop()
@@ -184,7 +183,6 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
             ->method('getLocaleCode')
             ->willReturn($initLocale);
 
-
         $this->model->storeCurrentEnvironmentInfo();
 
         // Expectations
@@ -207,4 +205,4 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
         // Test
         $this->model->stopEnvironmentEmulation();
     }
-} 
+}

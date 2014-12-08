@@ -32,7 +32,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\UrlInterface $urlBuilder,
-        $data = array()
+        $data = []
     ) {
         $this->_urlBuilder = $urlBuilder;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

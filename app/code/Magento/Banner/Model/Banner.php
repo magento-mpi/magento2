@@ -62,7 +62,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
      *
      * @var array
      */
-    protected $_contents = array();
+    protected $_contents = [];
 
     /**
      * Initialize banner model
@@ -82,7 +82,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
     public function getRelatedSalesRule()
     {
         if (!$this->getId()) {
-            return array();
+            return [];
         }
         $array = $this->getData('related_sales_rule');
         if (is_null($array)) {
@@ -100,7 +100,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
     public function getRelatedCatalogRule()
     {
         if (!$this->getId()) {
-            return array();
+            return [];
         }
         $array = $this->getData('related_catalog_rule');
         if (is_null($array)) {
@@ -227,7 +227,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
             return $types;
         }
         if (empty($types)) {
-            $types = array();
+            $types = [];
         } else {
             $types = explode(',', $types);
         }
@@ -242,6 +242,6 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

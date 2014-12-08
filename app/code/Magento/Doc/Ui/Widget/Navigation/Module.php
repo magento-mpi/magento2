@@ -7,8 +7,8 @@
  */
 namespace Magento\Doc\Ui\Widget\Navigation;
 
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\Module\ModuleList;
+use Magento\Framework\View\Element\Template;
 
 class Module extends Template
 {

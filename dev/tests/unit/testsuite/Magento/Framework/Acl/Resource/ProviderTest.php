@@ -29,8 +29,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
         $this->_configReaderMock = $this->getMock('Magento\Framework\Config\ReaderInterface');
         $this->_treeBuilderMock = $this->getMock(
             'Magento\Framework\Acl\Resource\TreeBuilder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -39,7 +39,7 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIfAclResourcesExist()
     {
-        $aclResourceConfig['config']['acl']['resources'] = array('ExpectedValue');
+        $aclResourceConfig['config']['acl']['resources'] = ['ExpectedValue'];
         $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue($aclResourceConfig));
         $this->_treeBuilderMock->expects($this->once())->method('build')->will($this->returnValue('ExpectedResult'));
         $this->assertEquals('ExpectedResult', $this->_model->getAclResources());
@@ -47,8 +47,8 @@ class ProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIfAclResourcesEmpty()
     {
-        $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue(array()));
+        $this->_configReaderMock->expects($this->once())->method('read')->will($this->returnValue([]));
         $this->_treeBuilderMock->expects($this->never())->method('build');
-        $this->assertEquals(array(), $this->_model->getAclResources());
+        $this->assertEquals([], $this->_model->getAclResources());
     }
 }

@@ -60,7 +60,7 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
             'price_id' => 'old-price-' . $id . '-' . $type,
             'display_minimal_price' => true,
             'include_container' => true,
-            'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST
+            'zone' => \Magento\Framework\Pricing\Render::ZONE_ITEM_LIST,
         ];
 
         $priceBoxMock = $this->getMock('Magento\Framework\Pricing\Render', ['render'], [], '', false, false);

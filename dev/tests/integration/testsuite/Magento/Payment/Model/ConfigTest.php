@@ -25,29 +25,29 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $fileResolverMock = $this->getMockBuilder(
             'Magento\Framework\Config\FileResolverInterface'
         )->disableOriginalConstructor()->getMock();
-        $fileList = array(
+        $fileList = [
             file_get_contents(__DIR__ . '/_files/payment.xml'),
-            file_get_contents(__DIR__ . '/_files/payment2.xml')
-        );
+            file_get_contents(__DIR__ . '/_files/payment2.xml'),
+        ];
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($fileList));
         $reader = $objectManager->create(
             'Magento\Payment\Model\Config\Reader',
-            array('fileResolver' => $fileResolverMock)
+            ['fileResolver' => $fileResolverMock]
         );
-        $data = $objectManager->create('Magento\Payment\Model\Config\Data', array('reader' => $reader));
-        $this->_model = $objectManager->create('Magento\Payment\Model\Config', array('dataStorage' => $data));
+        $data = $objectManager->create('Magento\Payment\Model\Config\Data', ['reader' => $reader]);
+        $this->_model = $objectManager->create('Magento\Payment\Model\Config', ['dataStorage' => $data]);
     }
 
     public function testGetCcTypes()
     {
-        $expected = array('AE' => 'American Express', 'SM' => 'Switch/Maestro', 'SO' => 'Solo');
+        $expected = ['AE' => 'American Express', 'SM' => 'Switch/Maestro', 'SO' => 'Solo'];
         $ccTypes = $this->_model->getCcTypes();
         $this->assertEquals($expected, $ccTypes);
     }
 
     public function testGetGroups()
     {
-        $expected = array('any_payment' => 'Any Payment Methods', 'offline' => 'Offline Payment Methods');
+        $expected = ['any_payment' => 'Any Payment Methods', 'offline' => 'Offline Payment Methods'];
         $groups = $this->_model->getGroups();
         $this->assertEquals($expected, $groups);
     }

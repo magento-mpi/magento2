@@ -8,8 +8,8 @@
 namespace Magento\Rma\Block\Returns;
 
 use Magento\Customer\Model\Context;
-use Magento\Rma\Model\Rma;
 use Magento\Rma\Model\Item;
+use Magento\Rma\Model\Rma;
 
 /**
  * Class View
@@ -251,7 +251,7 @@ class View extends \Magento\Rma\Block\Form
                     $data[$item->getId()][$code] = [
                         'label' => $attribute->getStoreLabel(),
                         'value' => $value,
-                        'html' => ''
+                        'html' => '',
                     ];
                     if ($attribute->getFrontendInput() == 'image') {
                         $data[$item->getId()][$code]['html'] = $this->setEntity($item)->getAttributeHtml($attribute);
@@ -505,7 +505,7 @@ class View extends \Magento\Rma\Block\Form
                     ) .
                 "',
                         'package',
-                        'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
+                        'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;",
             ]
         )->setAnchorText(
             __('Show Packages')
@@ -524,7 +524,7 @@ class View extends \Magento\Rma\Block\Form
         )->setData(
             [
                 'href' => $this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma(), 'printlabel'),
-                'title' => __('Print Shipping Label')
+                'title' => __('Print Shipping Label'),
             ]
         )->setAnchorText(
             __('Print Shipping Label')

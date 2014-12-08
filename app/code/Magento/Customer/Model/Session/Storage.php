@@ -21,7 +21,7 @@ class Storage extends \Magento\Framework\Session\Storage
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Framework\StoreManagerInterface $storeManager,
         $namespace = 'customer',
-        array $data = array()
+        array $data = []
     ) {
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . $storeManager->getWebsite()->getCode();

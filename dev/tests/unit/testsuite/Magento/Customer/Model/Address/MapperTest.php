@@ -37,7 +37,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
 
     public function testToFlatArray()
     {
-        $expectedResultWithoutStreet = array(
+        $expectedResultWithoutStreet = [
             'id' => 1,
             'default_shipping' => false,
             'default_billing' => true,
@@ -47,12 +47,12 @@ class MapperTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'region_id' => 1,
             'region' => 'Texas',
-            'region_code' => 'TX'
-        );
+            'region_code' => 'TX',
+        ];
         $expectedResultWithStreet = array_merge(
             $expectedResultWithoutStreet,
             [
-                'street' => array('7700 W Parmer Ln'),
+                'street' => ['7700 W Parmer Ln'],
             ]
         );
         $this->extensibleObjectConverter->expects($this->once())->method('toFlatArray')->willReturn(

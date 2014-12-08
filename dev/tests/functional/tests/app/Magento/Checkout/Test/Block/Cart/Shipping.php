@@ -8,10 +8,9 @@
 
 namespace Magento\Checkout\Test\Block\Cart;
 
-use Mtf\Block\Form;
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Fixture\AddressInjectable;
+use Mtf\Block\Form;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Shipping

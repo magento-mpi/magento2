@@ -22,7 +22,7 @@ class SwitcherPlugin
         \Magento\Backend\Block\Store\Switcher $subject,
         \Closure $proceed,
         $route = '',
-        $params = array()
+        $params = []
     ) {
         if ($subject->getRequest()->getParam(\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY)) {
             $params[\Magento\Paypal\Model\Config\StructurePlugin::REQUEST_PARAM_COUNTRY] = null;

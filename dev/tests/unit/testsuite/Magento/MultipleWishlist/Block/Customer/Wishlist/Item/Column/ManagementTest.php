@@ -49,7 +49,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->dataCustomerMock = $this->getMockBuilder('Magento\Customer\Api\Data\CustomerInterface')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(['getId'])
             ->getMockForAbstractClass();
 
         $this->wishlistHelperMock = $this->getMockBuilder('Magento\MultipleWishlist\Helper\Data')
@@ -62,7 +62,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->wishlistListMock = $objectManagerHelper->getCollectionMock(
             'Magento\Wishlist\Model\Resource\Wishlist\Collection',
-            array($this->wishlistMock)
+            [$this->wishlistMock]
         );
 
         $this->contextMock = $this->getMockBuilder('Magento\Catalog\Block\Product\Context')
@@ -74,7 +74,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
 
         $this->model = $objectManagerHelper->getObject(
             'Magento\MultipleWishlist\Block\Customer\Wishlist\Item\Column\Management',
-            array('context' => $this->contextMock)
+            ['context' => $this->contextMock]
         );
     }
 

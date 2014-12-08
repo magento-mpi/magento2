@@ -224,7 +224,7 @@ class Price extends AbstractFilter
                     'value' => $value,
                     'count' => $count,
                     'from' => $from,
-                    'to' => $to
+                    'to' => $to,
                 ];
             }
         }

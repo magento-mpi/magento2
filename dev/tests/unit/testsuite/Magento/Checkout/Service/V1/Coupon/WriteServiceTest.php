@@ -1,6 +1,6 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -48,7 +48,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->couponBuilderMock =
             $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\CouponBuilder', [], [], '', false);
@@ -77,8 +77,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
             ],
             [],
             '',
-            false)
-        ;
+            false);
         $this->service = $objectManager->getObject(
             'Magento\Checkout\Service\V1\Coupon\WriteService',
             [

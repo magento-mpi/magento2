@@ -58,7 +58,7 @@ class History extends \Magento\Framework\View\Element\Template
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
@@ -177,8 +177,7 @@ class History extends \Magento\Framework\View\Element\Template
                 ->setExpiryConfig($this->_rewardData->getExpiryConfig())
                 ->addExpirationDate($websiteId)
                 ->skipExpiredDuplicates()
-                ->setDefaultOrder()
-            ;
+                ->setDefaultOrder();
         }
         return $this->_collection;
     }

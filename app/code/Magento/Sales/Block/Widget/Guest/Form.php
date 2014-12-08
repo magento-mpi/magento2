@@ -28,7 +28,7 @@ class Form extends \Magento\Framework\View\Element\Template implements \Magento\
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->httpContext = $httpContext;
         parent::__construct($context, $data);
@@ -55,7 +55,7 @@ class Form extends \Magento\Framework\View\Element\Template implements \Magento\
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'quick_search_type_id', 'class' => 'select guest-select')
+            ['id' => 'quick_search_type_id', 'class' => 'select guest-select']
         )->setName(
             'oar_type'
         )->setOptions(
@@ -75,9 +75,9 @@ class Form extends \Magento\Framework\View\Element\Template implements \Magento\
     {
         $options = $this->getData('identifymeby_options');
         if (is_null($options)) {
-            $options = array();
-            $options[] = array('value' => 'email', 'label' => 'Email Address');
-            $options[] = array('value' => 'zip', 'label' => 'ZIP Code');
+            $options = [];
+            $options[] = ['value' => 'email', 'label' => 'Email Address'];
+            $options[] = ['value' => 'zip', 'label' => 'ZIP Code'];
             $this->setData('identifymeby_options', $options);
         }
 

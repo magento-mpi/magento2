@@ -17,7 +17,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $this->_model = new \Magento\Payment\Model\Cart\SalesModel\Quote($this->_quoteMock);
     }
 
@@ -67,37 +67,37 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetAllItems($isNominal, $pItem, $name, $qty, $price)
     {
-        $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item\AbstractItem', array(), array(), '', false);
+        $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item\AbstractItem', [], [], '', false);
         $itemMock->expects($this->any())->method('isNominal')->will($this->returnValue($isNominal));
         $itemMock->expects($this->any())->method('getParentItem')->will($this->returnValue($pItem));
         $itemMock->expects($this->once())->method('__call')->with('getName')->will($this->returnValue($name));
         $itemMock->expects($this->any())->method('getTotalQty')->will($this->returnValue($qty));
         $itemMock->expects($this->any())->method('getBaseCalculationPrice')->will($this->returnValue($price));
-        $expected = array(
+        $expected = [
             new \Magento\Framework\Object(
-                array(
+                [
                     'parent_item' => $pItem,
                     'name' => $name,
                     'qty' => $qty,
                     'price' => $isNominal ? 0 : $price,
-                    'original_item' => $itemMock
-                )
-            )
-        );
-        $this->_quoteMock->expects($this->once())->method('getAllItems')->will($this->returnValue(array($itemMock)));
+                    'original_item' => $itemMock,
+                ]
+            ),
+        ];
+        $this->_quoteMock->expects($this->once())->method('getAllItems')->will($this->returnValue([$itemMock]));
         $this->assertEquals($expected, $this->_model->getAllItems());
     }
 
     public function getAllItemsDataProvider()
     {
-        return array(
-            array(0, 'parent item 1', 'name 1', 1, 0.1),
-            array(1, 'parent item 1', 'name 1', 1, 0.1),
-            array(0, 'parent item 2', 'name 2', 2, 1.2),
-            array(1, 'parent item 2', 'name 2', 2, 1.2),
-            array(0, 'parent item 3', 'name 3', 3, 2.3),
-            array(1, 'parent item 3', 'name 3', 3, 2.3)
-        );
+        return [
+            [0, 'parent item 1', 'name 1', 1, 0.1],
+            [1, 'parent item 1', 'name 1', 1, 0.1],
+            [0, 'parent item 2', 'name 2', 2, 1.2],
+            [1, 'parent item 2', 'name 2', 2, 1.2],
+            [0, 'parent item 3', 'name 3', 3, 2.3],
+            [1, 'parent item 3', 'name 3', 3, 2.3]
+        ];
     }
 
     public function testGetBaseSubtotal()
@@ -121,7 +121,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetter($isVirtual, $getterMethod)
     {
-        $address = $this->getMock('Magento\Sales\Model\Quote\Address', array(), array(), '', false);
+        $address = $this->getMock('Magento\Sales\Model\Quote\Address', [], [], '', false);
         $address->expects(
             $this->any()
         )->method(
@@ -131,7 +131,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($getterMethod)
         );
-        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->any())->method('getIsVirtual')->will($this->returnValue($isVirtual));
         $method = 'getShippingAddress';
         if ($isVirtual) {
@@ -144,13 +144,13 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
 
     public function getterDataProvider()
     {
-        return array(
-            array(0, 'getBaseTaxAmount'),
-            array(1, 'getBaseTaxAmount'),
-            array(0, 'getBaseShippingAmount'),
-            array(1, 'getBaseShippingAmount'),
-            array(0, 'getBaseDiscountAmount'),
-            array(1, 'getBaseDiscountAmount')
-        );
+        return [
+            [0, 'getBaseTaxAmount'],
+            [1, 'getBaseTaxAmount'],
+            [0, 'getBaseShippingAmount'],
+            [1, 'getBaseShippingAmount'],
+            [0, 'getBaseDiscountAmount'],
+            [1, 'getBaseDiscountAmount']
+        ];
     }
 }

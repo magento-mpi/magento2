@@ -48,7 +48,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $categoryFourth = end($categories);
         foreach ($products as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
-            $product->setCategoryIds(array($categoryFourth->getId()));
+            $product->setCategoryIds([$categoryFourth->getId()]);
             $product->save();
         }
 
@@ -58,7 +58,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $categoryThird->save();
 
         $this->clearIndex();
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categoryThird->getId(), $categoryFourth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categoryThird->getId(), $categoryFourth->getId()];
 
         $this->indexer->reindexAll();
 
@@ -101,7 +101,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
          */
         $categoryFourth->move($categorySecond->getId(), null);
 
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categorySecond->getId(), $categoryFourth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categorySecond->getId(), $categoryFourth->getId()];
 
         foreach ($products as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
@@ -129,7 +129,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Category $categorySecond */
         $categorySecond = $categories[1];
 
-        $categories = array($categorySecond->getId(), $categoryFourth->getId());
+        $categories = [$categorySecond->getId(), $categoryFourth->getId()];
 
         foreach ($products as $product) {
             /** @var \Magento\Catalog\Model\Product $product */
@@ -176,15 +176,15 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Catalog\Model\Product $productThird */
         $productThird = end($products);
-        $productThird->setCategoryIds(array($categorySixth->getId()));
+        $productThird->setCategoryIds([$categorySixth->getId()]);
         $productThird->save();
 
-        $categories = array(self::DEFAULT_ROOT_CATEGORY, $categorySixth->getId());
+        $categories = [self::DEFAULT_ROOT_CATEGORY, $categorySixth->getId()];
         foreach ($categories as $categoryId) {
             $this->assertTrue((bool)$this->productResource->canBeShowInCategory($productThird, $categoryId));
         }
 
-        $categories = array($categoryFifth->getId(), $categorySecond->getId());
+        $categories = [$categoryFifth->getId(), $categorySecond->getId()];
         foreach ($categories as $categoryId) {
             $this->assertFalse((bool)$this->productResource->canBeShowInCategory($productThird, $categoryId));
         }

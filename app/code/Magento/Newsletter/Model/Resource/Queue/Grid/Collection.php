@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Newsletter queue data grid collection
  *

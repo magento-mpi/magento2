@@ -42,8 +42,8 @@ class File
      */
     public function getStorageData($dir = '/')
     {
-        $files = array();
-        $directories = array();
+        $files = [];
+        $directories = [];
         $directoryInstance = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
         if ($directoryInstance->isDirectory($dir)) {
             foreach ($directoryInstance->readRecursively($dir) as $path) {
@@ -52,17 +52,17 @@ class File
                     continue;
                 }
                 if ($directoryInstance->isDirectory($path)) {
-                    $directories[] = array(
+                    $directories[] = [
                         'name' => $itemName,
-                        'path' => dirname($path) == '.' ? '/' : dirname($path)
-                    );
+                        'path' => dirname($path) == '.' ? '/' : dirname($path),
+                    ];
                 } else {
                     $files[] = $path;
                 }
             }
         }
 
-        return array('files' => $files, 'directories' => $directories);
+        return ['files' => $files, 'directories' => $directories];
     }
 
     /**

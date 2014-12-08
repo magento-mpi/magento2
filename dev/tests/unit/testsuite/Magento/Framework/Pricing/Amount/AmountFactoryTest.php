@@ -50,7 +50,7 @@ class AmountFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(
                     [
                         'amount' => 'this-is-float-amount',
-                        'adjustmentAmounts' => ['this-is-array-of-adjustments']
+                        'adjustmentAmounts' => ['this-is-array-of-adjustments'],
                     ]
                 )
             )
@@ -75,11 +75,11 @@ class AmountFactoryTest extends \PHPUnit_Framework_TestCase
                 $this->equalTo(
                     [
                         'amount' => 'this-is-float-amount',
-                        'adjustmentAmounts' => ['this-is-array-of-adjustments']
+                        'adjustmentAmounts' => ['this-is-array-of-adjustments'],
                     ]
                 )
             )
-            ->will($this->returnValue(new \stdClass));
+            ->will($this->returnValue(new \stdClass()));
         $this->assertEquals(
             $this->amountMock,
             $this->factory->create('this-is-float-amount', ['this-is-array-of-adjustments'])

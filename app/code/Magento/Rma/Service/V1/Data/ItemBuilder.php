@@ -9,8 +9,8 @@
 namespace Magento\Rma\Service\V1\Data;
 
 use Magento\Framework\Api\AbstractExtensibleObject as ExtensibleObject;
-use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 use Magento\Rma\Service\V1\RmaMetadataReadInterface;
 
 /**
@@ -34,7 +34,6 @@ class ItemBuilder extends ExtensibleObjectBuilder
     ) {
         parent::__construct($objectFactory, $valueBuilder, $metadataService);
     }
-
 
     /**
      * {@inheritdoc}

@@ -69,7 +69,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         if ($step == 0) {
             $quoteMock->expects($this->exactly(3))
                 ->method('getAllItems')
-                ->will($this->returnValue(array()));
+                ->will($this->returnValue([]));
         } else {
             $quoteItems = $this->getMock('\Magento\Eav\Model\Entity\Collection\AbstractCollection',
                 ['getProductId', 'setDisableAddToCart', 'getParentItem', 'getDisableAddToCart'],
@@ -92,17 +92,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
             $quoteMock->expects($this->exactly(3))
                 ->method('getAllItems')
-                ->will($this->returnValue(array($quoteItems)));
+                ->will($this->returnValue([$quoteItems]));
         }
 
         if ($step == 1) {
             $this->_permissionIndex->expects($this->exactly(1))
                 ->method('getIndexForProduct')
-                ->will($this->returnValue(array()));
+                ->will($this->returnValue([]));
         } elseif ($step == 2) {
             $this->_permissionIndex->expects($this->exactly(1))
                 ->method('getIndexForProduct')
-                ->will($this->returnValue(array(1 => true)));
+                ->will($this->returnValue([1 => true]));
         }
 
         $cartMock = $this->_getCleanMock('\Magento\AdvancedCheckout\Model\Cart');
@@ -130,7 +130,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
-        $result =$this->_observer->checkQuotePermissions($observerMock);
+        $result = $this->_observer->checkQuotePermissions($observerMock);
         $this->assertInstanceOf('\Magento\CatalogPermissions\Model\Observer', $result);
     }
 

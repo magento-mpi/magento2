@@ -7,9 +7,9 @@
  */
 namespace Magento\Pci\Model;
 
+use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Encryption\Crypt;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Class EncryptionTest tests Magento\Pci\Model\Encryption

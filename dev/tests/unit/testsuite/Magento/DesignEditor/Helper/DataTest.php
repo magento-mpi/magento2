@@ -17,7 +17,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_disabledCacheTypes = array('type1', 'type2');
+    protected $_disabledCacheTypes = ['type1', 'type2'];
 
     /**
      * @var \Magento\DesignEditor\Helper\Data
@@ -31,7 +31,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_context = $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false);
+        $this->_context = $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false);
     }
 
     protected function tearDown()
@@ -54,7 +54,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testIsVdeRequest($path, $expected)
     {
         $this->_model = new \Magento\DesignEditor\Helper\Data($this->_context, self::TEST_FRONT_NAME);
-        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
         $requestMock->expects($this->once())->method('getOriginalPathInfo')->will($this->returnValue($path));
         $this->assertEquals($expected, $this->_model->isVdeRequest($requestMock));
     }
@@ -65,11 +65,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function isVdeRequestDataProvider()
     {
         $vdePath = self::TEST_FRONT_NAME . '/' . \Magento\DesignEditor\Model\State::MODE_NAVIGATION . '/';
-        return array(
-            array($vdePath . '1/category.html', true),
-            array('/1/category.html', false),
-            array('/1/2/3/4/5/6/7/category.html', false)
-        );
+        return [
+            [$vdePath . '1/category.html', true],
+            ['/1/category.html', false],
+            ['/1/2/3/4/5/6/7/category.html', false]
+        ];
     }
 
     public function testGetDisabledCacheTypes()
@@ -77,7 +77,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\DesignEditor\Helper\Data(
             $this->_context,
             self::TEST_FRONT_NAME,
-            array('type1', 'type2')
+            ['type1', 'type2']
         );
         $this->assertEquals($this->_disabledCacheTypes, $this->_model->getDisabledCacheTypes());
     }

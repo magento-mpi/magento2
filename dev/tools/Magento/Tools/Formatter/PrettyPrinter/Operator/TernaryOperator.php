@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-use Magento\Tools\Formatter\PrettyPrinter\TernaryOperatorLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Ternary;
 

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Validator for check not protected/available path
  *
@@ -49,14 +48,14 @@ class AvailablePath extends \Zend_Validate_Abstract
      *
      * @var string[]
      */
-    protected $_protectedPaths = array();
+    protected $_protectedPaths = [];
 
     /**
      * Available paths
      *
      * @var string[]
      */
-    protected $_availablePaths = array();
+    protected $_availablePaths = [];
 
     /**
      * Cache of made regular expressions from path masks
@@ -81,11 +80,11 @@ class AvailablePath extends \Zend_Validate_Abstract
     protected function _initMessageTemplates()
     {
         if (!$this->_messageTemplates) {
-            $this->_messageTemplates = array(
+            $this->_messageTemplates = [
                 self::PROTECTED_PATH => __('Path "%value%" is protected and cannot be used.'),
                 self::NOT_AVAILABLE_PATH => __('Path "%value%" is not available and cannot be used.'),
-                self::PROTECTED_LFI => __('Path "%value%" may not include parent directory traversal ("../", "..\\").')
-            );
+                self::PROTECTED_LFI => __('Path "%value%" may not include parent directory traversal ("../", "..\\").'),
+            ];
         }
         return $this;
     }

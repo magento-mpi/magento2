@@ -8,9 +8,9 @@
 
 namespace Magento\Checkout\Test\TestCase\Guest;
 
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class OnepageTest
@@ -47,7 +47,6 @@ class PaypalStandardTest extends Functional
         //Proceed to checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCartIndex();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
-
 
         //Proceed Checkout
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */

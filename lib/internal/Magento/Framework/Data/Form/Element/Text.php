@@ -27,7 +27,7 @@ class Text extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('text');
@@ -52,7 +52,7 @@ class Text extends AbstractElement
      */
     public function getHtmlAttributes()
     {
-        return array(
+        return [
             'type',
             'title',
             'class',
@@ -66,6 +66,6 @@ class Text extends AbstractElement
             'tabindex',
             'placeholder',
             'data-form-part'
-        );
+        ];
     }
 }

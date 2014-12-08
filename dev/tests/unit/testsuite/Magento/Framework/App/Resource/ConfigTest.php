@@ -45,18 +45,18 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
 
         $this->_readerMock =
-            $this->getMock('Magento\Framework\App\Resource\Config\Reader', array(), array(), '', false);
+            $this->getMock('Magento\Framework\App\Resource\Config\Reader', [], [], '', false);
 
-        $this->_resourcesConfig = array(
-            'mainResourceName' => array('name' => 'mainResourceName', 'extends' => 'anotherResourceName'),
-            'otherResourceName' => array('name' => 'otherResourceName', 'connection' => 'otherConnectionName'),
-            'anotherResourceName' => array('name' => 'anotherResourceName', 'connection' => 'anotherConnection'),
-            'brokenResourceName' => array('name' => 'brokenResourceName', 'extends' => 'absentResourceName'),
-            'extendedResourceName' => array('name' => 'extendedResourceName', 'extends' => 'validResource')
-        );
+        $this->_resourcesConfig = [
+            'mainResourceName' => ['name' => 'mainResourceName', 'extends' => 'anotherResourceName'],
+            'otherResourceName' => ['name' => 'otherResourceName', 'connection' => 'otherConnectionName'],
+            'anotherResourceName' => ['name' => 'anotherResourceName', 'connection' => 'anotherConnection'],
+            'brokenResourceName' => ['name' => 'brokenResourceName', 'extends' => 'absentResourceName'],
+            'extendedResourceName' => ['name' => 'extendedResourceName', 'extends' => 'validResource'],
+        ];
 
         $this->_initialResources = [
-            'validResource' => ['connection' => 'validConnectionName']
+            'validResource' => ['connection' => 'validConnectionName'],
         ];
 
         $this->_cacheMock->expects(
@@ -105,15 +105,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function getConnectionNameDataProvider()
     {
-        return array(
-            array('resourceName' => 'otherResourceName', 'connectionName' => 'otherConnectionName'),
-            array('resourceName' => 'mainResourceName', 'connectionName' => 'anotherConnection'),
-            array(
+        return [
+            ['resourceName' => 'otherResourceName', 'connectionName' => 'otherConnectionName'],
+            ['resourceName' => 'mainResourceName', 'connectionName' => 'anotherConnection'],
+            [
                 'resourceName' => 'brokenResourceName',
                 'connectionName' => \Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION
-            ),
-            array('resourceName' => 'extendedResourceName', 'connectionName' => 'default'),
-            array('resourceName' => 'validResource', 'connectionName' => 'validConnectionName')
-        );
+            ],
+            ['resourceName' => 'extendedResourceName', 'connectionName' => 'default'],
+            ['resourceName' => 'validResource', 'connectionName' => 'validConnectionName']
+        ];
     }
 }

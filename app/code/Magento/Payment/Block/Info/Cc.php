@@ -27,7 +27,7 @@ class Cc extends \Magento\Payment\Block\Info
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_paymentConfig = $paymentConfig;
@@ -97,7 +97,7 @@ class Cc extends \Magento\Payment\Block\Info
             return $this->_paymentSpecificInformation;
         }
         $transport = parent::_prepareSpecificInformation($transport);
-        $data = array();
+        $data = [];
         if ($ccType = $this->getCcTypeName()) {
             $data[__('Credit Card Type')] = $ccType;
         }

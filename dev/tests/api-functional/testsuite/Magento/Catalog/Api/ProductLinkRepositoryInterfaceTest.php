@@ -8,9 +8,9 @@
  */
 namespace Magento\Catalog\Api;
 
+use Magento\TestFramework\Helper\Bootstrap;
 use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
 {
@@ -41,13 +41,13 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
             [
                 'rest' => [
                     'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType . '/' . $linkedSku,
-                    'httpMethod' => RestConfig::HTTP_METHOD_DELETE
+                    'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
                 ],
                 'soap' => [
                     'service' => self::SERVICE_NAME,
                     'serviceVersion' => self::SERVICE_VERSION,
-                    'operation' => self::SERVICE_NAME . 'DeleteById'
-                ]
+                    'operation' => self::SERVICE_NAME . 'DeleteById',
+                ],
             ],
             [
                 'productSku' => $productSku,
@@ -75,13 +75,13 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
 
         $this->_webApiCall(
@@ -92,7 +92,7 @@ class ProductLinkRepositoryInterfaceTest extends WebapiAbstract
                     'link_type' => 'related',
                     'linked_product_sku' => 'simple',
                     'linked_product_type' => 'simple',
-                    'position' => 1000
+                    'position' => 1000,
                 ]
             ]
         );

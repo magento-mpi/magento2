@@ -79,7 +79,7 @@ class MetadataService implements MetadataServiceInterface
                 $this->filterBuilder
                     ->setField('attribute_set_id')
                     ->setValue($attributeSetId)
-                    ->create()
+                    ->create(),
             ]
         );
 

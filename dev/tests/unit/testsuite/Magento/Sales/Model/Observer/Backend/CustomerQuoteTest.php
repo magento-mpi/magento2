@@ -143,12 +143,12 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMockBuilder(
             'Magento\Sales\Model\Quote'
         )->setMethods(
-                array(
+                [
                     'setWebsite',
                     'setCustomerGroupId',
                     'collectTotals',
-                    '__wakeup'
-                )
+                    '__wakeup',
+                ]
             )->disableOriginalConstructor(
             )->getMock();
         $websiteCount = count($websites);

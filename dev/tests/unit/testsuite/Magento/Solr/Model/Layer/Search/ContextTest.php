@@ -35,7 +35,6 @@ class ContextTest extends \PHPUnit_Framework_TestCase
      */
     protected $helperMock;
 
-
     /**
      * @var \Magento\Solr\Model\Layer\Category\Context
      */
@@ -46,30 +45,30 @@ class ContextTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->searchProviderMock = $this->getMock(
             '\Magento\Solr\Model\Layer\Search\ItemCollectionProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->catalogProviderMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Search\ItemCollectionProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
+        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', [], [], '', false);
         $this->stateKeyMock = $this->getMock(
             '\Magento\CatalogSearch\Model\Layer\Search\StateKey',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->collectionFilterMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Search\CollectionFilter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

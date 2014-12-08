@@ -41,11 +41,11 @@ class FlyweightFactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->will(
             $this->returnValueMap(
-                array(
-                    array('Magento\Backend\Model\Config\Structure\Element\Section', array(), 'sectionObject'),
-                    array('Magento\Backend\Model\Config\Structure\Element\Group', array(), 'groupObject'),
-                    array('Magento\Backend\Model\Config\Structure\Element\Field', array(), 'fieldObject')
-                )
+                [
+                    ['Magento\Backend\Model\Config\Structure\Element\Section', [], 'sectionObject'],
+                    ['Magento\Backend\Model\Config\Structure\Element\Group', [], 'groupObject'],
+                    ['Magento\Backend\Model\Config\Structure\Element\Field', [], 'fieldObject'],
+                ]
             )
         );
         $this->assertEquals('sectionObject', $this->_model->create('section'));

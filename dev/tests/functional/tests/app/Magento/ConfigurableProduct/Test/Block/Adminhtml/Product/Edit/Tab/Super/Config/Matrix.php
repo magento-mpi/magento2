@@ -8,10 +8,10 @@
 
 namespace Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
-use Mtf\Client\Driver\Selenium\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Template;
 use Magento\Backend\Test\Block\Widget\Form;
+use Mtf\Client\Driver\Selenium\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Matrix
@@ -27,24 +27,24 @@ class Matrix extends Form
     protected $mappingGetFields = [
         'name' => [
             'selector' => 'td[data-column="name"] > a',
-            'strategy' => Locator::SELECTOR_CSS
+            'strategy' => Locator::SELECTOR_CSS,
         ],
         'sku' => [
             'selector' => 'td[data-column="sku"] > span',
-            'strategy' => Locator::SELECTOR_CSS
+            'strategy' => Locator::SELECTOR_CSS,
         ],
         'quantity_and_stock_status' => [
             'composite' => 1,
             'fields' => [
                 'qty' => [
                     'selector' => 'td[data-column="qty"]',
-                    'strategy' => Locator::SELECTOR_CSS
-                ]
-            ]
+                    'strategy' => Locator::SELECTOR_CSS,
+                ],
+            ],
         ],
         'weight' => [
             'selector' => 'td[data-column="weight"]',
-            'strategy' => Locator::SELECTOR_CSS
+            'strategy' => Locator::SELECTOR_CSS,
         ],
     ];
 

@@ -330,7 +330,7 @@ class DatabaseTest extends \PHPUnit_Framework_TestCase
                 1,
                 1,
             ],
-            'non-media database' => [false, 10, 0,],
+            'non-media database' => [false, 10, 0],
         ];
     }
 

@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach($history as $item): ?>
+                    <?php foreach ($history as $item): ?>
                     <tr>
                         <td data-th="<?php echo $this->escapeHtml(__('Balance')); ?>" classs="col balance"><?php echo $this->getPointsBalance($item)?></td>
                         <td data-th="<?php echo $this->escapeHtml(__('Amount')); ?>" classs="col amount"><?php echo $this->getCurrencyBalance($item)?></td>

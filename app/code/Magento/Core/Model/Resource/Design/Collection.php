@@ -56,7 +56,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function joinStore()
     {
-        return $this->join(array('cs' => 'store'), 'cs.store_id = main_table.store_id', array('cs.name'));
+        return $this->join(['cs' => 'store'], 'cs.store_id = main_table.store_id', ['cs.name']);
     }
 
     /**
@@ -73,8 +73,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $date = $this->dateTime->formatDate($date);
         }
 
-        $this->addFieldToFilter('date_from', array('lteq' => $date));
-        $this->addFieldToFilter('date_to', array('gteq' => $date));
+        $this->addFieldToFilter('date_from', ['lteq' => $date]);
+        $this->addFieldToFilter('date_to', ['gteq' => $date]);
         return $this;
     }
 
@@ -86,6 +86,6 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addStoreFilter($storeId)
     {
-        return $this->addFieldToFilter('store_id', array('in' => $storeId));
+        return $this->addFieldToFilter('store_id', ['in' => $storeId]);
     }
 }

@@ -12,7 +12,6 @@ use Magento\Customer\Model\Group;
 
 class TierPriceTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -61,7 +60,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->calculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->groupManagement = $this
-            ->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
+            ->getMock('Magento\Customer\Api\GroupManagementInterface', [], [], '', false);
 
         $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
 
@@ -100,8 +99,8 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
 
         $group = $this->getMock(
             '\Magento\Customer\Model\Data\Group',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -166,7 +165,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'price'         => '50.',
                         'website_price' => '50.',
                         'price_qty'     => '2.',
-                        'cust_group'    => Group::CUST_GROUP_ALL
+                        'cust_group'    => Group::CUST_GROUP_ALL,
                     ],
                     [
                         'price'         => '30.',
@@ -180,7 +179,7 @@ class TierPriceTest extends \PHPUnit_Framework_TestCase
                         'price_qty'     => '11.',
                         'cust_group'    => Group::CUST_GROUP_ALL
                     ],
-                ]
+                ],
             ]
         ];
     }

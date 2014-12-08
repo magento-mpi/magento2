@@ -8,11 +8,11 @@
 
 namespace Magento\TargetRule\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
 use Magento\TargetRule\Test\Fixture\TargetRule;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit;
 use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertTargetRuleForm

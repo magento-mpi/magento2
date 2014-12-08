@@ -36,7 +36,7 @@ class InterfacePlugin
 
     public function beforeG(InterceptedInterface $subject, $param1)
     {
-        return array('<IP:bG>' . $param1 . '</IP:bG>');
+        return ['<IP:bG>' . $param1 . '</IP:bG>'];
     }
 
     public function aroundG(InterceptedInterface $subject, \Closure $next, $param1)

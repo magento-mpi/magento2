@@ -13,7 +13,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * Template for the recurring payment data
      * @var array
      */
-    protected $recurringPayment = array(
+    protected $recurringPayment = [
         'start_date_is_editable' => '1',
         'period_unit' => 'month',
         'period_frequency' => '',
@@ -26,8 +26,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         'trial_period_max_cycles' => '1',
         'trial_billing_amount' => '',
         'init_amount' => '',
-        'init_may_fail' => ''
-    );
+        'init_may_fail' => '',
+    ];
 
     /**
      * Convert CSV format row to array

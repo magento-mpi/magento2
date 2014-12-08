@@ -8,10 +8,9 @@
 
 namespace Magento\Catalog\Service\V1\Product\Link;
 
-use \Magento\Catalog\Model\Product\LinkTypeProvider;
-use \Magento\Catalog\Service\V1\Product\Link\Data\LinkType;
-use \Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
-use \Magento\Framework\Logger;
+use Magento\Catalog\Model\Product\LinkTypeProvider;
+use Magento\Catalog\Service\V1\Product\Link\Data\LinkType;
+use Magento\Catalog\Service\V1\Product\Link\Data\ProductLink;
 use Magento\Catalog\Service\V1\Product\ProductLoader;
 
 /**

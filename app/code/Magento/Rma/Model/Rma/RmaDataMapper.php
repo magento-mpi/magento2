@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Model\Rma;
 
 class RmaDataMapper
@@ -71,7 +71,7 @@ class RmaDataMapper
     {
         /** @var $dateModel \Magento\Framework\Stdlib\DateTime\DateTime */
         $dateModel = $this->dateTimeFactory->create();
-        $rmaData = array(
+        $rmaData = [
             'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
             'date_requested' => $dateModel->gmtDate(),
             'order_id' => $order->getId(),
@@ -80,8 +80,8 @@ class RmaDataMapper
             'customer_id' => $order->getCustomerId(),
             'order_date' => $order->getCreatedAt(),
             'customer_name' => $order->getCustomerName(),
-            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : ''
-        );
+            'customer_custom_email' => !empty($saveRequest['contact_email']) ? $saveRequest['contact_email'] : '',
+        ];
         return $rmaData;
     }
 
@@ -94,7 +94,7 @@ class RmaDataMapper
      */
     public function combineItemStatuses(array $requestedItems, $rmaId)
     {
-        $statuses = array();
+        $statuses = [];
         foreach ($requestedItems as $requestedItem) {
             if (isset($requestedItem['status'])) {
                 $statuses[] = $requestedItem['status'];

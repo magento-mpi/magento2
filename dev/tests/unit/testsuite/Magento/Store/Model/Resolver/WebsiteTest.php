@@ -27,8 +27,8 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock = $this->getMock(
             'Magento\Framework\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
@@ -44,7 +44,7 @@ class WebsiteTest extends \PHPUnit_Framework_TestCase
 
     public function testGetScope()
     {
-        $scopeMock = $this->getMock('Magento\Framework\App\ScopeInterface', array(), array(), '', false, false);
+        $scopeMock = $this->getMock('Magento\Framework\App\ScopeInterface', [], [], '', false, false);
         $this->_storeManagerMock
             ->expects($this->once())
             ->method('getWebsite')

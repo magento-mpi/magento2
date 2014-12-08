@@ -7,9 +7,9 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\Sales\Api\Data\ShipmentTrackInterface;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentRemoveTrackTest
@@ -67,7 +67,7 @@ class ShipmentRemoveTrackTest extends WebapiAbstract
                 ShipmentTrackInterface::TITLE => 'Shipment title',
                 ShipmentTrackInterface::CARRIER_CODE => \Magento\Sales\Model\Order\Shipment\Track::CUSTOM_CARRIER_CODE,
                 ShipmentTrackInterface::CREATED_AT => null,
-                ShipmentTrackInterface::UPDATED_AT => null
+                ShipmentTrackInterface::UPDATED_AT => null,
             ]
         );
         $track->save();
@@ -75,13 +75,13 @@ class ShipmentRemoveTrackTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/shipment/track/' . $track->getId(),
-                'httpMethod' => Config::HTTP_METHOD_DELETE
+                'httpMethod' => Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'deleteById'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'deleteById',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, ['id' => $track->getId()]);

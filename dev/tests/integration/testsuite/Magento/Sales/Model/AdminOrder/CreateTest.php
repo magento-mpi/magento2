@@ -277,7 +277,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ),
             'shipping_method' => $shippingMethod,
             'comment' => ['customer_note' => ''],
-            'send_confirmation' => true
+            'send_confirmation' => true,
         ];
         $paymentData = ['method' => $paymentMethod];
 
@@ -320,7 +320,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_method' => $shippingMethod,
             'comment' => ['customer_note' => ''],
-            'send_confirmation' => false
+            'send_confirmation' => false,
         ];
         $paymentData = ['method' => $paymentMethod];
 
@@ -361,7 +361,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ),
             'shipping_method' => $shippingMethod,
             'comment' => ['customer_note' => ''],
-            'send_confirmation' => false
+            'send_confirmation' => false,
         ];
         $paymentData = ['method' => $paymentMethod];
 
@@ -405,7 +405,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'billing_address' => array_merge($this->_getValidAddressData(), ['save_in_address_book' => '1']),
             'shipping_method' => $shippingMethod,
             'comment' => ['customer_note' => ''],
-            'send_confirmation' => false
+            'send_confirmation' => false,
         ];
         $paymentData = ['method' => $paymentMethod];
 
@@ -611,7 +611,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             'country_id' => 'US',
             'region' => [
                 'region' => '',
-                'region_id' => '1'
+                'region_id' => '1',
             ],
             'postcode' => '76868',
             'telephone' => '+8709273498729384',

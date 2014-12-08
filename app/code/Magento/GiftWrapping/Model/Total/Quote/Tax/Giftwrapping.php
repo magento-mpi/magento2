@@ -180,8 +180,7 @@ class Giftwrapping extends AbstractTotal
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
-                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE =>
-                    CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
             ];
 
             $address->setAssociatedTaxables($associatedTaxables);
@@ -215,8 +214,7 @@ class Giftwrapping extends AbstractTotal
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_QUANTITY => 1,
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_TAX_CLASS_ID => $gwTaxClassId,
                 CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_PRICE_INCLUDES_TAX => false,
-                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE =>
-                    CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
+                CommonTaxCollector::KEY_ASSOCIATED_TAXABLE_ASSOCIATION_ITEM_CODE => CommonTaxCollector::ASSOCIATION_ITEM_CODE_FOR_QUOTE,
             ];
 
             $address->setAssociatedTaxables($associatedTaxables);

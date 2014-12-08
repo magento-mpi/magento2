@@ -8,7 +8,6 @@
 
 namespace Magento\Catalog\Model\Indexer\Product\Eav\Plugin\AttributeSet;
 
-
 class IndexableAttributeFilter
 {
     /**

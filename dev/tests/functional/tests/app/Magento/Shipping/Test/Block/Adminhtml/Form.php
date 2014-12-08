@@ -8,9 +8,9 @@
 
 namespace Magento\Shipping\Test\Block\Adminhtml;
 
-use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractForm;
 use Magento\Shipping\Test\Block\Adminhtml\Form\Items;
+use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking;
 
 /**
  * Class Form

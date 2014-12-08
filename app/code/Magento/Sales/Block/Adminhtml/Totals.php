@@ -26,7 +26,7 @@ class Totals extends \Magento\Sales\Block\Order\Totals
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Admin $adminHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminHelper = $adminHelper;
         parent::__construct($context, $registry, $data);
@@ -53,14 +53,14 @@ class Totals extends \Magento\Sales\Block\Order\Totals
      */
     protected function _initTotals()
     {
-        $this->_totals = array();
+        $this->_totals = [];
         $this->_totals['subtotal'] = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => 'subtotal',
                 'value' => $this->getSource()->getSubtotal(),
                 'base_value' => $this->getSource()->getBaseSubtotal(),
-                'label' => __('Subtotal')
-            )
+                'label' => __('Subtotal'),
+            ]
         );
 
         /**
@@ -70,12 +70,12 @@ class Totals extends \Magento\Sales\Block\Order\Totals
             $this->getSource()->getShippingDescription())
         ) {
             $this->_totals['shipping'] = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'shipping',
                     'value' => $this->getSource()->getShippingAmount(),
                     'base_value' => $this->getSource()->getBaseShippingAmount(),
-                    'label' => __('Shipping & Handling')
-                )
+                    'label' => __('Shipping & Handling'),
+                ]
             );
         }
 
@@ -89,24 +89,24 @@ class Totals extends \Magento\Sales\Block\Order\Totals
                 $discountLabel = __('Discount');
             }
             $this->_totals['discount'] = new \Magento\Framework\Object(
-                array(
+                [
                     'code' => 'discount',
                     'value' => $this->getSource()->getDiscountAmount(),
                     'base_value' => $this->getSource()->getBaseDiscountAmount(),
-                    'label' => $discountLabel
-                )
+                    'label' => $discountLabel,
+                ]
             );
         }
 
         $this->_totals['grand_total'] = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => 'grand_total',
                 'strong' => true,
                 'value' => $this->getSource()->getGrandTotal(),
                 'base_value' => $this->getSource()->getBaseGrandTotal(),
                 'label' => __('Grand Total'),
-                'area' => 'footer'
-            )
+                'area' => 'footer',
+            ]
         );
 
         return $this;

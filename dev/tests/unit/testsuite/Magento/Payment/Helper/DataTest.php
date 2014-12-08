@@ -109,7 +109,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                             $methodB['code'] => $methodB['data'],
                             'empty' => [],
 
-                        ]
+                        ],
                     ]
                 )
             );
@@ -133,8 +133,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockA = $this->getMock(
             'Magento\Framework\Object',
-            array('isAvailable','getConfigData'),
-            array(),
+            ['isAvailable', 'getConfigData'],
+            [],
             '',
             false
         );
@@ -147,8 +147,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockB = $this->getMock(
             'Magento\Framework\Object',
-            array('isAvailable','getConfigData'),
-            array(),
+            ['isAvailable', 'getConfigData'],
+            [],
             '',
             false
         );
@@ -266,23 +266,23 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function getMethodInstanceDataProvider()
     {
-        return array(
+        return [
             ['method_code', 'method_class', 'method_instance'],
             ['method_code', false, false]
-        );
+        ];
     }
 
     public function getSortMethodsDataProvider()
     {
-        return array(
-            array(
-                array('code' => 'methodA', 'data' => ['sort_order' => 0]),
-                array('code' => 'methodB', 'data' => ['sort_order' => 1])
-            ),
-            array(
-                array('code' => 'methodA', 'data' => ['sort_order' => 2]),
-                array('code' => 'methodB', 'data' => ['sort_order' => 1]),
-            )
-        );
+        return [
+            [
+                ['code' => 'methodA', 'data' => ['sort_order' => 0]],
+                ['code' => 'methodB', 'data' => ['sort_order' => 1]],
+            ],
+            [
+                ['code' => 'methodA', 'data' => ['sort_order' => 2]],
+                ['code' => 'methodB', 'data' => ['sort_order' => 1]],
+            ]
+        ];
     }
 }

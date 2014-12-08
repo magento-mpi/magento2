@@ -30,7 +30,6 @@ class InvoiceSenderTest extends \PHPUnit_Framework_TestCase
         $invoiceSender = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order\Email\Sender\InvoiceSender');
 
-
         $this->assertEmpty($invoice->getEmailSent());
         $result = $invoiceSender->send($invoice, true);
 

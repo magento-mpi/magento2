@@ -17,7 +17,7 @@ class QuoteTest extends \Magento\Payment\Model\Cart\SalesModel\QuoteTest
 
     protected function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $this->_model = new \Magento\CustomerBalance\Model\Cart\SalesModel\Quote($this->_quoteMock);
     }
 

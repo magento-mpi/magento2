@@ -60,7 +60,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Model\ExceptionFactory $exception,
         InfoFactory $paypalInfoFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $eventManager,

@@ -16,7 +16,7 @@ class Info extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_trackingInfo = array();
+    protected $_trackingInfo = [];
 
     /**
      * Shipping data
@@ -59,7 +59,7 @@ class Info extends \Magento\Framework\Object
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
         \Magento\Shipping\Model\Order\TrackFactory $trackFactory,
         \Magento\Shipping\Model\Resource\Order\Track\CollectionFactory $trackCollectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shippingData = $shippingData;
         $this->_orderFactory = $orderFactory;
@@ -146,7 +146,7 @@ class Info extends \Magento\Framework\Object
      */
     public function getTrackingInfoByOrder()
     {
-        $shipTrack = array();
+        $shipTrack = [];
         $order = $this->_initOrder();
         if ($order) {
             $shipments = $order->getShipmentsCollection();
@@ -154,7 +154,7 @@ class Info extends \Magento\Framework\Object
                 $increment_id = $shipment->getIncrementId();
                 $tracks = $this->_getTracksCollection($shipment);
 
-                $trackingInfos = array();
+                $trackingInfos = [];
                 foreach ($tracks as $track) {
                     $trackingInfos[] = $track->getNumberDetail();
                 }
@@ -172,13 +172,13 @@ class Info extends \Magento\Framework\Object
      */
     public function getTrackingInfoByShip()
     {
-        $shipTrack = array();
+        $shipTrack = [];
         $shipment = $this->_initShipment();
         if ($shipment) {
             $increment_id = $shipment->getIncrementId();
             $tracks = $this->_getTracksCollection($shipment);
 
-            $trackingInfos = array();
+            $trackingInfos = [];
             foreach ($tracks as $track) {
                 $trackingInfos[] = $track->getNumberDetail();
             }
@@ -198,7 +198,7 @@ class Info extends \Magento\Framework\Object
         /** @var \Magento\Shipping\Model\Order\Track $track */
         $track = $this->_trackFactory->create()->load($this->getTrackId());
         if ($track->getId() && $this->getProtectCode() == $track->getProtectCode()) {
-            $this->_trackingInfo = array(array($track->getNumberDetail()));
+            $this->_trackingInfo = [[$track->getNumberDetail()]];
         }
         return $this->_trackingInfo;
     }

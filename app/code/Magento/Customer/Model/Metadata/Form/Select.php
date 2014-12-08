@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Model\Metadata\ElementFactory;
+use Magento\Framework\App\RequestInterface;
 
 class Select extends AbstractData
 {
@@ -27,7 +27,7 @@ class Select extends AbstractData
      */
     public function validateValue($value)
     {
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = __($attribute->getStoreLabel());
 

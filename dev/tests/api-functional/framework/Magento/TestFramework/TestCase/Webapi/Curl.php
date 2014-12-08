@@ -15,7 +15,6 @@ namespace Magento\TestFramework\TestCase\Webapi;
  */
 class Curl extends Adapter\Rest\CurlClient
 {
-
     const COOKIE_HEADER = 'Set-Cookie: ';
 
     /**
@@ -43,14 +42,13 @@ class Curl extends Adapter\Rest\CurlClient
             $url .= '?' . http_build_query($data);
         }
 
-        $curlOpts = array();
+        $curlOpts = [];
         $curlOpts[CURLOPT_CUSTOMREQUEST] = \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET;
         $curlOpts[CURLOPT_SSLVERSION] = 3;
         $response = $this->_invokeApi($url, $curlOpts, $headers);
         $response['cookies'] = $this->cookieParse($response['header']);
         return $response;
     }
-
 
     /**
      * Takes a string in the form of an HTTP header block, returns cookie data.

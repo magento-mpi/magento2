@@ -8,11 +8,11 @@
  */
 namespace Magento\Wishlist\Controller\Index;
 
-use Magento\Wishlist\Controller\IndexInterface;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\App\Action;
 use Magento\Framework\App\Action\NotFoundException;
-use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Wishlist\Controller\IndexInterface;
 
 class Add extends Action\Action implements IndexInterface
 {
@@ -101,7 +101,7 @@ class Add extends Action\Action implements IndexInterface
 
             $this->_eventManager->dispatch(
                 'wishlist_add_product',
-                array('wishlist' => $wishlist, 'product' => $product, 'item' => $result)
+                ['wishlist' => $wishlist, 'product' => $product, 'item' => $result]
             );
 
             $referer = $session->getBeforeWishlistUrl();
@@ -133,6 +133,6 @@ class Add extends Action\Action implements IndexInterface
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
 
-        $this->_redirect('*', array('wishlist_id' => $wishlist->getId()));
+        $this->_redirect('*', ['wishlist_id' => $wishlist->getId()]);
     }
 }

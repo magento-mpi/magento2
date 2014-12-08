@@ -25,7 +25,6 @@ class Cart extends \Magento\Framework\App\Action\Action
         /* @var $item \Magento\Wishlist\Model\Item */
         $item = $this->_objectManager->create('Magento\Wishlist\Model\Item')->load($itemId);
 
-
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 
         $redirectUrl = $this->_redirect->getRefererUrl();
@@ -34,7 +33,7 @@ class Cart extends \Magento\Framework\App\Action\Action
             $options = $this->_objectManager->create(
                 'Magento\Wishlist\Model\Item\Option'
             )->getCollection()->addItemFilter(
-                array($itemId)
+                [$itemId]
             );
             $item->setOptions($options->getOptionsByItem($itemId));
 

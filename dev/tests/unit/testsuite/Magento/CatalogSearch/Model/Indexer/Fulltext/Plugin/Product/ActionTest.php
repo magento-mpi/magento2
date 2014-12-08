@@ -1,14 +1,13 @@
 <?php
 /**
  * {license_notice}
- *   
+ *
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 namespace Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product;
 
-use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\Product\Action;
 
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,16 +33,16 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Action', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Catalog\Model\Product\Action', [], [], '', false);
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'getState', '__wakeup')
+            ['getId', 'getState', '__wakeup']
         );
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
@@ -53,19 +52,19 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testAroundUpdateAttributesNonScheduled()
     {
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1, 2, 3));
+        $this->indexerMock->expects($this->once())->method('reindexList')->with([1, 2, 3]);
         $this->prepareIndexer();
 
         $closureMock = function ($productIds, $attrData, $storeId) {
-            $this->assertEquals(array(1, 2, 3), $productIds);
-            $this->assertEquals(array(4, 5, 6), $attrData);
+            $this->assertEquals([1, 2, 3], $productIds);
+            $this->assertEquals([4, 5, 6], $attrData);
             $this->assertEquals(1, $storeId);
             return $this->subjectMock;
         };
 
         $this->assertEquals(
             $this->subjectMock,
-            $this->model->aroundUpdateAttributes($this->subjectMock, $closureMock, array(1, 2, 3), array(4, 5, 6), 1)
+            $this->model->aroundUpdateAttributes($this->subjectMock, $closureMock, [1, 2, 3], [4, 5, 6], 1)
         );
     }
 
@@ -76,32 +75,32 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->prepareIndexer();
 
         $closureMock = function ($productIds, $attrData, $storeId) {
-            $this->assertEquals(array(1, 2, 3), $productIds);
-            $this->assertEquals(array(4, 5, 6), $attrData);
+            $this->assertEquals([1, 2, 3], $productIds);
+            $this->assertEquals([4, 5, 6], $attrData);
             $this->assertEquals(1, $storeId);
             return $this->subjectMock;
         };
 
         $this->assertEquals(
             $this->subjectMock,
-            $this->model->aroundUpdateAttributes($this->subjectMock, $closureMock, array(1, 2, 3), array(4, 5, 6), 1)
+            $this->model->aroundUpdateAttributes($this->subjectMock, $closureMock, [1, 2, 3], [4, 5, 6], 1)
         );
     }
 
     public function testAroundUpdateWebsitesNonScheduled()
     {
         $this->indexerMock->expects($this->once())->method('isScheduled')->will($this->returnValue(false));
-        $this->indexerMock->expects($this->once())->method('reindexList')->with(array(1, 2, 3));
+        $this->indexerMock->expects($this->once())->method('reindexList')->with([1, 2, 3]);
         $this->prepareIndexer();
 
         $closureMock = function ($productIds, $websiteIds, $type) {
-            $this->assertEquals(array(1, 2, 3), $productIds);
-            $this->assertEquals(array(4, 5, 6), $websiteIds);
+            $this->assertEquals([1, 2, 3], $productIds);
+            $this->assertEquals([4, 5, 6], $websiteIds);
             $this->assertEquals('type', $type);
             return $this->subjectMock;
         };
 
-        $this->model->aroundUpdateWebsites($this->subjectMock, $closureMock, array(1, 2, 3), array(4, 5, 6), 'type');
+        $this->model->aroundUpdateWebsites($this->subjectMock, $closureMock, [1, 2, 3], [4, 5, 6], 'type');
     }
 
     public function testAroundUpdateWebsitesScheduled()
@@ -111,13 +110,13 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->prepareIndexer();
 
         $closureMock = function ($productIds, $websiteIds, $type) {
-            $this->assertEquals(array(1, 2, 3), $productIds);
-            $this->assertEquals(array(4, 5, 6), $websiteIds);
+            $this->assertEquals([1, 2, 3], $productIds);
+            $this->assertEquals([4, 5, 6], $websiteIds);
             $this->assertEquals('type', $type);
             return $this->subjectMock;
         };
 
-        $this->model->aroundUpdateWebsites($this->subjectMock, $closureMock, array(1, 2, 3), array(4, 5, 6), 'type');
+        $this->model->aroundUpdateWebsites($this->subjectMock, $closureMock, [1, 2, 3], [4, 5, 6], 'type');
     }
 
     protected function prepareIndexer()

@@ -8,9 +8,9 @@
 
 namespace Magento\Cms\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Cms\Test\Fixture\CmsBlock;
 use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCmsBlockNotInGrid

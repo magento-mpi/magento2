@@ -85,7 +85,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($isMinQueryLength)
         );
         if ($isMinQueryLength) {
-            $queryMock = $this->getMock('Magento\Search\Model\Query', array(), array(), '', false);
+            $queryMock = $this->getMock('Magento\Search\Model\Query', [], [], '', false);
             $queryMock->expects($this->once())->method('getMinQueryLength')->will($this->returnValue('5'));
 
             $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));
@@ -98,6 +98,6 @@ class ResultTest extends \PHPUnit_Framework_TestCase
      */
     public function getNoResultTextDataProvider()
     {
-        return array(array(true, 'Minimum Search query length is 5'), array(false, null));
+        return [[true, 'Minimum Search query length is 5'], [false, null]];
     }
 }

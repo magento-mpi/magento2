@@ -31,7 +31,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         );
         $product->load(3);
         // fixture
-        
+
         // Note that this is really not the "tier price" but the "tier discount percentage"
         // so it is expected to be increasing instead of decreasing
         $this->assertEquals(8.0, $this->_model->getTierPrice(2, $product));

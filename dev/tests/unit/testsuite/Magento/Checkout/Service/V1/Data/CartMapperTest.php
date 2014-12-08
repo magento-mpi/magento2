@@ -110,7 +110,7 @@ class CartMapperTest extends \PHPUnit_Framework_TestCase
     {
         $methods = ['getId', 'getStoreId', 'getCreatedAt','getUpdatedAt', 'getConvertedAt', 'getIsActive',
             'getIsVirtual', 'getItemsCount', 'getItemsQty', 'getCheckoutMethod', 'getReservedOrderId', 'getOrigOrderId',
-            'getAllItems', '__wakeUp'];
+            'getAllItems', '__wakeUp', ];
         $quoteMock = $this->getMock('Magento\Sales\Model\Quote', $methods, [], '', false);
         $itemMock = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $quoteMock->expects($this->once())->method('getAllItems')->will($this->returnValue([$itemMock]));
@@ -126,7 +126,7 @@ class CartMapperTest extends \PHPUnit_Framework_TestCase
             Cart::ITEMS_QUANTITY => 15,
             Cart::CHECKOUT_METHOD => 'check mo',
             Cart::RESERVED_ORDER_ID => 'order_id',
-            Cart::ORIG_ORDER_ID => 'orig_order_id'
+            Cart::ORIG_ORDER_ID => 'orig_order_id',
         ];
         $expectedMethods = [
             'getId' => 12,
@@ -140,7 +140,7 @@ class CartMapperTest extends \PHPUnit_Framework_TestCase
             'getItemsQty' => 15,
             'getCheckoutMethod' => 'check mo',
             'getReservedOrderId' => 'order_id',
-            'getOrigOrderId' => 'orig_order_id'
+            'getOrigOrderId' => 'orig_order_id',
         ];
         foreach ($expectedMethods as $method => $value) {
             $quoteMock->expects($this->once())->method($method)->will($this->returnValue($value));

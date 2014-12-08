@@ -35,16 +35,16 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
     {
         return $this->getWriteAdapter()->select()->from(
             $this->getMainTable(),
-            array()
+            []
         )->joinLeft(
-            array('t' => $this->getMainTmpTable()),
+            ['t' => $this->getMainTmpTable()],
             $this->getMainTable() .
             '.category_id = t.category_id AND ' .
             $this->getMainTable() .
             '.store_id = t.store_id AND ' .
             $this->getMainTable() .
             '.product_id = t.product_id',
-            array()
+            []
         )->where(
             't.category_id IS NULL'
         );
@@ -78,7 +78,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Product\AbstractActio
                 $this->getWriteAdapter()->insertFromSelect(
                     $query,
                     $this->getMainTable(),
-                    array('category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'),
+                    ['category_id', 'product_id', 'position', 'is_parent', 'store_id', 'visibility'],
                     \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );

@@ -8,13 +8,12 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Rma\Test\Fixture\Rma;
 use Magento\Rma\Test\Fixture\Rma\OrderId;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
+use Mtf\Client\Element;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Rma new page tabs.

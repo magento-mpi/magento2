@@ -57,7 +57,7 @@ class Move implements Layout\ReaderInterface
             list($siblingName, $isAfter) = $this->beforeAfterToSibling($currentElement);
             $scheduledStructure->setElementToMove(
                 $elementName,
-                array($destination, $siblingName, $isAfter, $alias)
+                [$destination, $siblingName, $isAfter, $alias]
             );
         } else {
             throw new \Magento\Framework\Exception('Element name and destination must be specified.');
@@ -73,7 +73,7 @@ class Move implements Layout\ReaderInterface
      */
     protected function beforeAfterToSibling($node)
     {
-        $result = array(null, true);
+        $result = [null, true];
         if (isset($node['after'])) {
             $result[0] = (string)$node['after'];
         } elseif (isset($node['before'])) {

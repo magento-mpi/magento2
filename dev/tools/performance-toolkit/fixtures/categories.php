@@ -15,7 +15,7 @@ $storeManager = $this->getObjectManager()->create('\Magento\Store\Model\StoreMan
 /** @var $category \Magento\Catalog\Model\Category */
 $category = $this->getObjectManager()->create('Magento\Catalog\Model\Category');
 
-$groups = array();
+$groups = [];
 $storeGroups = $storeManager->getGroups();
 $i = 0;
 foreach ($storeGroups as $storeGroup) {
@@ -56,7 +56,7 @@ while ($categoryIndex <= $categoriesNumber) {
     $nestingPath[$groupNumber] .= "/$parentCategoryId[$groupNumber]";
 
     $groupNumber++;
-    if ($groupNumber==count($defaultParentCategoryId)) {
+    if ($groupNumber == count($defaultParentCategoryId)) {
         $groupNumber = 0;
     }
 }

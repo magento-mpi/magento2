@@ -8,8 +8,8 @@
 
 namespace Magento\SalesArchive\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertArchiveOrderSuccessMessage

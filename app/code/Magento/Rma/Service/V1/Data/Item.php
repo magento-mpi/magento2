@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Service\V1\Data;
 
 class Item extends \Magento\Framework\Api\AbstractExtensibleObject
@@ -55,7 +55,6 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
         return $this->_get(self::ORDER_ITEM_ID);
     }
 
-
     /**
      * Get qty_requested
      *
@@ -96,7 +95,6 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
         return $this->_get(self::QTY_RETURNED);
     }
 
-
     /**
      * Get reason
      *
@@ -106,7 +104,6 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
     {
         return $this->_get(self::REASON);
     }
-
 
     /**
      * Get condition
@@ -118,7 +115,6 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
         return $this->_get(self::CONDITION);
     }
 
-
     /**
      * Get resolution
      *
@@ -128,7 +124,6 @@ class Item extends \Magento\Framework\Api\AbstractExtensibleObject
     {
         return $this->_get(self::RESOLUTION);
     }
-
 
     /**
      * Get status

@@ -26,4 +26,4 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $model->setValue($invalidPath);
         $model->save();
     }
-} 
+}

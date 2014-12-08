@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return array(
+return [
     'admin_assert' => 'Magento_Adminhtml',
     'authorization_role' => 'Magento_Authorization',
     'authorization_rule' => 'Magento_Authorization',
@@ -323,4 +323,4 @@ return array(
     'core_theme_files' => 'Magento_Core',
     'core_theme_files_link' => 'Magento_Core',
     'vde_theme_change' => 'Magento_DesignEditor'
-);
+];

@@ -30,7 +30,7 @@ class CollectionFactory
      * @param array $data
      * @return Collection
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create('Magento\Framework\Data\Form\Element\Collection', $data);
     }

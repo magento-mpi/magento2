@@ -10,7 +10,6 @@ namespace Magento\Tax\Model\Sales\Total\Quote;
 /**
  * Test class for \Magento\Tax\Model\Sales\Total\Quote\Subtotal
  */
-use Magento\Tax\Model\Calculation;
 use Magento\TestFramework\Helper\ObjectManager;
 
 class SubtotalTest extends \PHPUnit_Framework_TestCase
@@ -75,7 +74,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'getItemBuilder', 'getAddressBuilder', 'getTaxClassKeyBuilder', 'create',
                 'setBillingAddress', 'setShippingAddress', 'setCustomerTaxClassKey',
-                'setItems', 'setCustomerId'
+                'setItems', 'setCustomerId',
             ])->getMock();
         $this->keyBuilderMock = $this->getMock(
             'Magento\Tax\Api\Data\TaxClassKeyDataBuilder',
@@ -117,7 +116,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
             ->setMethods([
                 'getAssociatedTaxables', 'getQuote', 'getBillingAddress',
                 'getRegionId', 'getAllNonNominalItems', '__wakeup',
-                'getParentItem'
+                'getParentItem',
             ])->getMock();
 
         $this->quoteMock = $this->getMockBuilder('\Magento\Sales\Model\Quote')

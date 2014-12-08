@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Adminhtml Google Shopping Item Id Renderer
  *

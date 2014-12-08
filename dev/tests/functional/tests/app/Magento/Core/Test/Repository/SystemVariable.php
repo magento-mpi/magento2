@@ -29,7 +29,7 @@ class SystemVariable extends AbstractRepository
             'variable[code]' => 'variableCode%isolation%',
             'variable[name]' => 'variableName%isolation%',
             'variable[html_value]' => "<p class='custom-variable-test-class-%isolation%'>variableName%isolation%</p>",
-            'variable[plain_value]' => 'variableName%isolation%'
+            'variable[plain_value]' => 'variableName%isolation%',
         ];
     }
 }

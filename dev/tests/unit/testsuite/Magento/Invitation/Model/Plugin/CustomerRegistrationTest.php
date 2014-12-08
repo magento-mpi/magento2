@@ -31,9 +31,9 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_invitationConfig = $this->getMock('Magento\Invitation\Model\Config', array(), array(), '', false);
-        $this->_invitationHelper = $this->getMock('Magento\Invitation\Helper\Data', array(), array(), '', false);
-        $this->subjectMock = $this->getMock('Magento\Customer\Model\Registration', array(), array(), '', false);
+        $this->_invitationConfig = $this->getMock('Magento\Invitation\Model\Config', [], [], '', false);
+        $this->_invitationHelper = $this->getMock('Magento\Invitation\Helper\Data', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Customer\Model\Registration', [], [], '', false);
         $this->_model = new \Magento\Invitation\Model\Plugin\CustomerRegistration(
             $this->_invitationConfig,
             $this->_invitationHelper

@@ -19,7 +19,7 @@ class Data extends AbstractHelper
      *
      * @var array
      */
-    protected $availableShippingMethods = array(
+    protected $availableShippingMethods = [
         'usps_0_FCLE', // First-Class Mail Large Envelope
         'usps_1',      // Priority Mail
         'usps_2',      // Priority Mail Express Hold For Pickup
@@ -39,7 +39,7 @@ class Data extends AbstractHelper
         'usps_INT_16', // Priority Mail International Small Flat Rate Box
         'usps_INT_20', // Priority Mail International Small Flat Rate Envelope
         'usps_INT_26', // Priority Mail Express International Flat Rate Boxes
-    );
+    ];
 
     /**
      * Define if we need girth parameter in the package window

@@ -82,9 +82,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->addBindParam(':region_locale', $locale);
         $this->getSelect()->joinLeft(
-            array('rname' => $this->_regionNameTable),
+            ['rname' => $this->_regionNameTable],
             'main_table.region_id = rname.region_id AND rname.locale = :region_locale',
-            array('name')
+            ['name']
         );
 
         return $this;
@@ -100,7 +100,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!empty($countryId)) {
             if (is_array($countryId)) {
-                $this->addFieldToFilter('main_table.country_id', array('in' => $countryId));
+                $this->addFieldToFilter('main_table.country_id', ['in' => $countryId]);
             } else {
                 $this->addFieldToFilter('main_table.country_id', $countryId);
             }
@@ -117,7 +117,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addCountryCodeFilter($countryCode)
     {
         $this->getSelect()->joinLeft(
-            array('country' => $this->_countryTable),
+            ['country' => $this->_countryTable],
             'main_table.country_id = country.country_id'
         )->where(
             'country.iso3_code = ?',
@@ -137,7 +137,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!empty($regionCode)) {
             if (is_array($regionCode)) {
-                $this->addFieldToFilter('main_table.code', array('in' => $regionCode));
+                $this->addFieldToFilter('main_table.code', ['in' => $regionCode]);
             } else {
                 $this->addFieldToFilter('main_table.code', $regionCode);
             }
@@ -155,7 +155,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         if (!empty($regionName)) {
             if (is_array($regionName)) {
-                $this->addFieldToFilter('main_table.default_name', array('in' => $regionName));
+                $this->addFieldToFilter('main_table.default_name', ['in' => $regionName]);
             } else {
                 $this->addFieldToFilter('main_table.default_name', $regionName);
             }
@@ -172,10 +172,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addRegionCodeOrNameFilter($region)
     {
         if (!empty($region)) {
-            $condition = is_array($region) ? array('in' => $region) : $region;
+            $condition = is_array($region) ? ['in' => $region] : $region;
             $this->addFieldToFilter(
-                array('main_table.code', 'main_table.default_name'),
-                array($condition, $condition)
+                ['main_table.code', 'main_table.default_name'],
+                [$condition, $condition]
             );
         }
         return $this;
@@ -191,10 +191,10 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $options = $this->_toOptionArray(
             'region_id',
             'default_name',
-            array('title' => 'default_name', 'country_id' => 'country_id')
+            ['title' => 'default_name', 'country_id' => 'country_id']
         );
         if (count($options) > 0) {
-            array_unshift($options, array('title ' => null, 'value' => null, 'label' => __('--Please select--')));
+            array_unshift($options, ['title ' => null, 'value' => null, 'label' => __('--Please select--')]);
         }
         return $options;
     }

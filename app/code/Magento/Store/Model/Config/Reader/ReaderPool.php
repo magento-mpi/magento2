@@ -14,7 +14,7 @@ class ReaderPool implements \Magento\Framework\App\Config\Scope\ReaderPoolInterf
      *
      * @var array
      */
-    protected $_readers = array();
+    protected $_readers = [];
 
     /**
      * @param \Magento\Framework\App\Config\Scope\ReaderInterface[] $readers

@@ -15,7 +15,6 @@ class Index extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
      */
     public function execute()
     {
-
         $dirtyRules = $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {
             $this->messageManager->addNotice($this->getDirtyRulesNoticeMessage());

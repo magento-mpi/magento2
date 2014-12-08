@@ -26,7 +26,7 @@ class Sharing extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->systemStore = $systemStore;
@@ -39,48 +39,48 @@ class Sharing extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getActionUrl(), 'method' => 'post']]
         );
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend' => __('Sharing Information'), 'class' => 'fieldset-wide')
+            ['legend' => __('Sharing Information'), 'class' => 'fieldset-wide']
         );
 
         $fieldset->addField(
             'emails',
             'text',
-            array(
+            [
                 'label' => __('Emails'),
                 'required' => true,
                 'class' => 'validate-emails',
                 'name' => 'emails',
                 'note' => 'Enter list of emails, comma-separated.'
-            )
+            ]
         );
 
         if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField(
                 'store_id',
                 'select',
-                array(
+                [
                     'label' => __('Send From'),
                     'required' => true,
                     'name' => 'store_id',
                     'values' => $this->systemStore->getStoreValuesForForm()
-                )
+                ]
             );
         }
 
         $fieldset->addField(
             'message',
             'textarea',
-            array(
+            [
                 'label' => __('Message'),
                 'name' => 'message',
                 'style' => 'height: 50px;',
                 'after_element_html' => $this->getShareButton()
-            )
+            ]
         );
 
         $form->setUseContainer(true);
@@ -97,7 +97,7 @@ class Sharing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('adminhtml/*/share', array('_current' => true));
+        return $this->getUrl('adminhtml/*/share', ['_current' => true]);
     }
 
     /**
@@ -110,7 +110,7 @@ class Sharing extends \Magento\Backend\Block\Widget\Form\Generic
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->addData(
-            array('id' => '', 'label' => __('Share Gift Registry'), 'type' => 'submit')
+            ['id' => '', 'label' => __('Share Gift Registry'), 'type' => 'submit']
         )->toHtml();
     }
 }

@@ -17,7 +17,7 @@ class Product extends \Magento\Backend\App\Action
      *
      * @var array
      */
-    protected $_publicActions = array('edit');
+    protected $_publicActions = ['edit'];
 
     /**
      * Core registry

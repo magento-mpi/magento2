@@ -36,7 +36,6 @@ class CustomerAuthenticatedEventTest extends \PHPUnit_Framework_TestCase
      */
     protected $requestMock;
 
-
     protected function setUp()
     {
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);

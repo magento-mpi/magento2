@@ -23,13 +23,13 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     'Magento\Framework\View\DesignInterface'
                 )->setDefaultDesignTheme();
                 // intentionally to make sure the module files will be requested
-                $params = array(
+                $params = [
                     'area' => $area,
                     'themeModel' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
                         'Magento\Framework\View\Design\ThemeInterface'
                     ),
-                    'module' => $module
-                );
+                    'module' => $module,
+                ];
                 $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()->get(
                     'Magento\Framework\View\FileSystem'
                 )->getTemplateFileName(
@@ -57,7 +57,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 0
             );
 
-            $templates = array();
+            $templates = [];
             $skippedBlocks = $this->_getBlocksToSkip();
             foreach (\Magento\Framework\Test\Utility\Classes::collectModuleClasses('Block') as $blockClass => $module) {
                 if (!in_array($module, $this->_getEnabledModules()) || in_array($blockClass, $skippedBlocks)) {
@@ -111,12 +111,12 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();
                 if ($template) {
-                    $templates[$module . ', ' . $template . ', ' . $blockClass . ', ' . $area] = array(
+                    $templates[$module . ', ' . $template . ', ' . $blockClass . ', ' . $area] = [
                         $module,
                         $template,
                         $blockClass,
-                        $area
-                    );
+                        $area,
+                    ];
                 }
             }
             return $templates;
@@ -134,7 +134,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
      */
     protected function _getBlocksToSkip()
     {
-        $result = array();
+        $result = [];
         foreach (glob(__DIR__ . '/_files/skip_template_blocks*.php') as $file) {
             $blocks = include $file;
             $result = array_merge($result, $blocks);

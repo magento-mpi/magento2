@@ -8,14 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
-use Mtf\Client\Browser;
-use Mtf\Fixture\FixtureInterface;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Client\Browser;
+use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class AssertProductIsNotDisplayingOnFrontend
@@ -113,7 +113,6 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
             . implode("\n", $errors)
         );
     }
-
 
     /**
      * Verify product displaying on frontend

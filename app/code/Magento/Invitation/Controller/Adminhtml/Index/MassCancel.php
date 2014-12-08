@@ -19,13 +19,13 @@ class MassCancel extends \Magento\Invitation\Controller\Adminhtml\Index
     public function execute()
     {
         try {
-            $invitationsPost = $this->getRequest()->getParam('invitations', array());
+            $invitationsPost = $this->getRequest()->getParam('invitations', []);
             if (empty($invitationsPost) || !is_array($invitationsPost)) {
                 throw new \Magento\Framework\Model\Exception(__('Please select invitations.'));
             }
             $collection = $this->_invitationFactory->create()->getCollection()->addFieldToFilter(
                 'invitation_id',
-                array('in' => $invitationsPost)
+                ['in' => $invitationsPost]
             )->addCanBeCanceledFilter();
             $found = 0;
             $cancelled = 0;

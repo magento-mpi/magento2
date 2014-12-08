@@ -5,13 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Rma\Model\Rma;
 
 use Magento\Authorization\Model\UserContextInterface;
-use Magento\Rma\Model\Rma;
-use Magento\Rma\Helper\Data;
 use Magento\Framework\Exception\StateException;
+use Magento\Rma\Helper\Data;
+use Magento\Rma\Model\Rma;
 
 class PermissionChecker
 {

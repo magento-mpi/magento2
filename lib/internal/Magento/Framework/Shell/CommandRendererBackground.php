@@ -31,7 +31,7 @@ class CommandRendererBackground extends CommandRenderer
      * @param array $arguments
      * @return string
      */
-    public function render($command, array $arguments = array())
+    public function render($command, array $arguments = [])
     {
         $command = parent::render($command, $arguments);
         return $this->osInfo->isWindows() ?

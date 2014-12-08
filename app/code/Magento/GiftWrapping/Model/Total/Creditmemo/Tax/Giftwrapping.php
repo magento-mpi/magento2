@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * GiftWrapping total tax calculator for creditmemo
  *

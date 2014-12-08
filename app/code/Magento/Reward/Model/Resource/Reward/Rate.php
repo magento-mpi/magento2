@@ -53,11 +53,11 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
             1
         );
 
-        $bind = array(
+        $bind = [
             ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction' => $direction
-        );
+            ':direction' => $direction,
+        ];
 
         $row = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($row) {
@@ -87,16 +87,16 @@ class Rate extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'direction = :direction'
         );
-        $bind = array(
+        $bind = [
             ':website_id' => (int)$websiteId,
             ':customer_group_id' => (int)$customerGroupId,
-            ':direction' => $direction
-        );
+            ':direction' => $direction,
+        ];
         $data = $this->_getReadAdapter()->fetchRow($select, $bind);
         if ($data) {
             return $data;
         }
 
-        return array();
+        return [];
     }
 }

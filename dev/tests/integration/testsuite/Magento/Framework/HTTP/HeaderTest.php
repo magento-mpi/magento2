@@ -21,7 +21,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\TestFramework\Request $request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setServer(array('HTTP_HOST' => 'localhost'));
+        $request->setServer(['HTTP_HOST' => 'localhost']);
     }
 
     public function testGetHttpHeaderMethods()

@@ -44,7 +44,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('date_start', 'date_end') as $id) {
+        foreach (['date_start', 'date_end'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());

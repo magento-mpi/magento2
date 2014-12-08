@@ -32,7 +32,7 @@ class Factory
      * @param array $data
      * @return \Magento\Backend\Block\System\Config\Form\Fieldset
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         return $this->_objectManager->create('Magento\Backend\Block\System\Config\Form\Fieldset', $data);
     }

@@ -38,7 +38,7 @@ class Container implements Layout\GeneratorInterface
         'section',
         'table',
         'tfoot',
-        'ul'
+        'ul',
     ];
 
     /**

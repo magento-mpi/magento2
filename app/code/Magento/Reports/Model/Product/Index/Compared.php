@@ -64,7 +64,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
         \Magento\Catalog\Helper\Product\Compare $productCompare,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -99,7 +99,7 @@ class Compared extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     public function getExcludeProductIds()
     {
-        $productIds = array();
+        $productIds = [];
         if ($this->_productCompare->hasItems()) {
             foreach ($this->_productCompare->getItemCollection() as $_item) {
                 $productIds[] = $_item->getEntityId();

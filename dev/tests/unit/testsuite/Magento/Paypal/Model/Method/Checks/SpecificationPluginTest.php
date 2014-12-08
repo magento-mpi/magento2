@@ -8,10 +8,10 @@
 
 namespace Magento\Paypal\Model\Method\Checks;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Payment\Model\Checks\PaymentMethodChecksInterface;
-use Magento\Sales\Model\Quote;
 use Magento\Paypal\Model\Billing\AgreementFactory;
+use Magento\Sales\Model\Quote;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class SpecificationPluginTest extends \PHPUnit_Framework_TestCase
 {

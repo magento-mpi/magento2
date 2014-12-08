@@ -47,7 +47,7 @@ class SplitWords implements \Zend_Filter_Interface
      */
     public function filter($str)
     {
-        $result = array();
+        $result = [];
         $split = preg_split('#' . $this->wordSeparatorRegexp . '#siu', $str, null, PREG_SPLIT_NO_EMPTY);
         foreach ($split as $word) {
             if ($this->uniqueOnly) {

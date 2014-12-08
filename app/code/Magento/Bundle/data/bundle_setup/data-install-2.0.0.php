@@ -18,7 +18,7 @@ $fieldList = [
     'cost',
     'tier_price',
     'weight',
-    'group_price'
+    'group_price',
 ];
 foreach ($fieldList as $field) {
     $applyTo = explode(',', $installer->getAttribute(\Magento\Catalog\Model\Product::ENTITY, $field, 'apply_to'));

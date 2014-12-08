@@ -19,7 +19,7 @@ class AbstractShellTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMockBuilder(
             '\Magento\Framework\App\AbstractShell'
         )->disableOriginalConstructor()->setMethods(
-            array('_applyPhpVariables')
+            ['_applyPhpVariables']
         )->getMockForAbstractClass();
     }
 
@@ -46,32 +46,32 @@ class AbstractShellTest extends \PHPUnit_Framework_TestCase
      */
     public function setGetArgDataProvider()
     {
-        return array(
-            'argument with no value' => array(
-                'arguments' => array('argument', 'argument2'),
+        return [
+            'argument with no value' => [
+                'arguments' => ['argument', 'argument2'],
                 'argName' => 'argument',
-                'expectedValue' => true
-            ),
-            'dashed argument with value' => array(
-                'arguments' => array('-argument', 'value'),
+                'expectedValue' => true,
+            ],
+            'dashed argument with value' => [
+                'arguments' => ['-argument', 'value'],
                 'argName' => 'argument',
-                'expectedValue' => 'value'
-            ),
-            'double-dashed argument with separate value' => array(
-                'arguments' => array('--argument-name', 'value'),
+                'expectedValue' => 'value',
+            ],
+            'double-dashed argument with separate value' => [
+                'arguments' => ['--argument-name', 'value'],
                 'argName' => 'argument-name',
-                'expectedValue' => 'value'
-            ),
-            'double-dashed argument with included value' => array(
-                'arguments' => array('--argument-name=value'),
+                'expectedValue' => 'value',
+            ],
+            'double-dashed argument with included value' => [
+                'arguments' => ['--argument-name=value'],
                 'argName' => 'argument-name',
-                'expectedValue' => 'value'
-            ),
-            'argument with value, then single argument with no value' => array(
-                'arguments' => array('-argument', 'value', 'argument2'),
+                'expectedValue' => 'value',
+            ],
+            'argument with value, then single argument with no value' => [
+                'arguments' => ['-argument', 'value', 'argument2'],
                 'argName' => 'argument',
-                'expectedValue' => 'value'
-            )
-        );
+                'expectedValue' => 'value',
+            ]
+        ];
     }
 }

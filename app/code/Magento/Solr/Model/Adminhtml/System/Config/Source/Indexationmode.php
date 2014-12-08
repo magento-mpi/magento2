@@ -19,19 +19,19 @@ class Indexationmode implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $modes = array(
+        $modes = [
             \Magento\Solr\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_FINAL => __('Final commit'),
             \Magento\Solr\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_PARTIAL => __(
                 'Partial commit'
             ),
             \Magento\Solr\Model\Indexer\Indexer::SEARCH_ENGINE_INDEXATION_COMMIT_MODE_ENGINE => __(
                 'Engine autocommit'
-            )
-        );
+            ),
+        ];
 
-        $options = array();
+        $options = [];
         foreach ($modes as $value => $label) {
-            $options[] = array('value' => $value, 'label' => $label);
+            $options[] = ['value' => $value, 'label' => $label];
         }
 
         return $options;

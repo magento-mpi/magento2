@@ -8,9 +8,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Backend\App\Action;
 
 class Pdfdocs extends \Magento\Sales\Controller\Adminhtml\Order
 {

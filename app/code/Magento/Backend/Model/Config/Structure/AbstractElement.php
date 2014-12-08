@@ -16,7 +16,7 @@ abstract class AbstractElement implements ElementInterface
      *
      * @var array
      */
-    protected $_data = array();
+    protected $_data = [];
 
     /**
      * Current configuration scope
@@ -135,11 +135,11 @@ abstract class AbstractElement implements ElementInterface
      */
     public function isVisible()
     {
-        $showInScope = array(
+        $showInScope = [
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE => $this->_hasVisibilityValue('showInStore'),
             \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITE => $this->_hasVisibilityValue('showInWebsite'),
-            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault')
-        );
+            \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT => $this->_hasVisibilityValue('showInDefault'),
+        ];
 
         if ($this->_storeManager->isSingleStoreMode()) {
             $result = !$this->_hasVisibilityValue('hide_in_single_store_mode') && array_sum($showInScope);

@@ -19,7 +19,7 @@ class Composite implements SpecificationInterface
      *
      * @var SpecificationInterface[]
      */
-    protected $specifications = array();
+    protected $specifications = [];
 
     /**
      * Construct
@@ -27,7 +27,7 @@ class Composite implements SpecificationInterface
      * @param Factory $factory
      * @param array $specifications
      */
-    public function __construct(Factory $factory, $specifications = array())
+    public function __construct(Factory $factory, $specifications = [])
     {
         foreach ($specifications as $specification) {
             $this->specifications[] = $factory->create($specification);

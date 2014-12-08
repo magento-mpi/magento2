@@ -61,7 +61,7 @@ class Observer
             return;
         }
 
-        $vdeAssets = array();
+        $vdeAssets = [];
         foreach ($pageAssets->getGroups() as $group) {
             if ($group->getProperty('flag_name') == 'vde_design_mode') {
                 $vdeAssets = array_merge($vdeAssets, $group->getAll());
@@ -101,7 +101,7 @@ class Observer
             /** @var $singleFile \Magento\Theme\Model\Theme\SingleFile */
             $singleFile = $this->objectManager->create(
                 'Magento\Theme\Model\Theme\SingleFile',
-                array('fileService' => $cssService)
+                ['fileService' => $cssService]
             );
             $singleFile->update($theme, $content);
         }

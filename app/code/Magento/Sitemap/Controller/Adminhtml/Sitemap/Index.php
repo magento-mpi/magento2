@@ -8,7 +8,7 @@
  */
 namespace Magento\Sitemap\Controller\Adminhtml\Sitemap;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Index extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 {

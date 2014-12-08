@@ -17,6 +17,6 @@ class MassHold extends \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     public function execute()
     {
-        $this->_forward('massHold', 'order', null, array('origin' => 'archive'));
+        $this->_forward('massHold', 'order', null, ['origin' => 'archive']);
     }
 }

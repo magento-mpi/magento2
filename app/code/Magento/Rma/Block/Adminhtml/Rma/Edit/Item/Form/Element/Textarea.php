@@ -33,7 +33,7 @@ class Textarea extends \Magento\Framework\Data\Form\Element\Textarea
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Rma\Helper\Eav $rmaEav,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaEav = $rmaEav;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

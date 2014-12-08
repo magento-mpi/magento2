@@ -55,7 +55,7 @@ abstract class AbstractAgreement extends \Magento\Payment\Model\Method\AbstractM
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_agreementFactory = $agreementFactory;
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);

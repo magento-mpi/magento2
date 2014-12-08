@@ -8,8 +8,8 @@
 
 namespace Magento\Framework\Controller\Result;
 
-use Magento\Framework\Controller\AbstractResult;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\AbstractResult;
 
 /**
  * A result that contains raw response - may be good for passing through files,

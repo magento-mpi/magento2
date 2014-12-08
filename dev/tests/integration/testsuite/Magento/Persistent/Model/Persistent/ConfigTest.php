@@ -25,22 +25,22 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Filesystem\DirectoryList',
-            array(
+            [
                 'root' => DirectoryList::ROOT,
-                'config' => array(
-                    DirectoryList::MODULES => array(DirectoryList::PATH => dirname(__DIR__))
-                )
-            )
+                'config' => [
+                    DirectoryList::MODULES => [DirectoryList::PATH => dirname(__DIR__)],
+                ]
+            ]
         );
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Filesystem',
-            array('directoryList' => $directoryList)
+            ['directoryList' => $directoryList]
         );
 
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $this->_objectManager->create(
             'Magento\Persistent\Model\Persistent\Config',
-            array('filesystem' => $filesystem)
+            ['filesystem' => $filesystem]
         );
     }
 
@@ -64,6 +64,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model->setConfigFilePath(__DIR__ . '/_files/persistent.xml');
         $blocks = $this->_model->getBlockConfigInfo('Magento\Catalog\Block\Product\Compare\ListCompare');
-        $this->assertEquals(array(), $blocks);
+        $this->assertEquals([], $blocks);
     }
 }

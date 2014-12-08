@@ -7,8 +7,8 @@
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class ShipmentGetTest
@@ -41,13 +41,13 @@ class ShipmentGetTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $shipment->getId(),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'get',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $shipment->getId()]);
         $data = $result;
@@ -64,14 +64,14 @@ class ShipmentGetTest extends WebapiAbstract
         $shipmentItem = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Item');
         foreach ($result['items'] as $item) {
             $shipmentItem->load($item['entity_id']);
-            foreach($item as $key => $value) {
+            foreach ($item as $key => $value) {
                 $this->assertEquals($shipmentItem->getData($key), $value, $key);
             }
         }
         $shipmentTrack = $this->objectManager->get('Magento\Sales\Model\Order\Shipment\Track');
         foreach ($result['tracks'] as $item) {
             $shipmentTrack->load($item['entity_id']);
-            foreach($item as $key => $value) {
+            foreach ($item as $key => $value) {
                 $this->assertEquals($shipmentTrack->getData($key), $value, $key);
             }
         }

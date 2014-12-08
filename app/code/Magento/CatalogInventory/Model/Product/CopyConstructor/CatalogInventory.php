@@ -37,7 +37,7 @@ class CatalogInventory implements \Magento\Catalog\Model\Product\CopyConstructor
             'use_config_min_sale_qty' => 1,
             'use_config_max_sale_qty' => 1,
             'use_config_backorders' => 1,
-            'use_config_notify_stock_qty' => 1
+            'use_config_notify_stock_qty' => 1,
         ];
         $currentStockItemDo = $this->stockRegistry->getStockItem(
             $product->getId(),

@@ -30,7 +30,7 @@
         </a>
     </td>
     <td data-th="<?php echo $this->escapeHtml(__('Action')) ?>" class="col actions">
-        <?php if(!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
+        <?php if (!$number->getIsAdmin() && $this->isPrintShippingLabelAllowed()): ?>
             <a href="#" data-entity-id="<?php echo $number->getEntityId()?>" class="action delete" title="<?php echo __('Delete') ?>">
                 <span><?php echo __('Delete') ?></span>
             </a>

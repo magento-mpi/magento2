@@ -44,7 +44,7 @@ abstract class View extends \Magento\Backend\App\Action
     public function execute()
     {
         if ($this->getRequest()->getParam('invoice_id')) {
-            $this->_forward('view', 'order_invoice', null, array('come_from' => 'invoice'));
+            $this->_forward('view', 'order_invoice', null, ['come_from' => 'invoice']);
         } else {
             $this->_forward('noroute');
         }

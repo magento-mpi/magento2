@@ -27,7 +27,7 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Stdlib\String $stringHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->stringHelper = $stringHelper;
         parent::__construct($context, $data);
@@ -46,7 +46,7 @@ class Searchquery extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abs
             $value = '<span title="' . $this->escapeHtml(
                 $value
             ) . '">' . $this->escapeHtml(
-                $this->filterManager->truncate($value, array('length' => 30))
+                $this->filterManager->truncate($value, ['length' => 30])
             ) . '</span>';
         } else {
             $value = $this->escapeHtml($value);

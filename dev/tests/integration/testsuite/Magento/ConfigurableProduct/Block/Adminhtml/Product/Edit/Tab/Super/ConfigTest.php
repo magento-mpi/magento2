@@ -8,7 +8,6 @@
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
 use Magento\Catalog\Model\Resource\Eav\Attribute;
-use Magento\TestFramework\ObjectManager;
 
 /**
  * @magentoAppArea adminhtml
@@ -36,7 +35,7 @@ class ConfigTest extends \Magento\Backend\Utility\Controller
         )->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
         );
-        $this->assertEquals(array(), $block->getSelectedAttributes());
+        $this->assertEquals([], $block->getSelectedAttributes());
     }
 
     /**
@@ -72,7 +71,7 @@ class ConfigTest extends \Magento\Backend\Utility\Controller
         );
         /** @var Attribute[] $selectedAttributes */
         $selectedAttributes = $block->getSelectedAttributes();
-        $this->assertEquals(array($usedAttribute->getId()), array_keys($selectedAttributes));
+        $this->assertEquals([$usedAttribute->getId()], array_keys($selectedAttributes));
         /** @var Attribute $selectedAttribute */
         $selectedAttribute = reset($selectedAttributes);
         $this->assertEquals('test_configurable', $selectedAttribute->getAttributeCode());
@@ -109,14 +108,14 @@ class ConfigTest extends \Magento\Backend\Utility\Controller
         )->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config'
         );
-        $productData = array(
-            $usedAttribute->getId() => array(
+        $productData = [
+            $usedAttribute->getId() => [
                 'label'    => static::ATTRIBUTE_LABEL,
                 'position' => static::ATTRIBUTE_POSITION,
-            ),
+            ],
 
-        );
-        $this->getRequest()->setParam('product', array('configurable_attributes_data' => $productData));
+        ];
+        $this->getRequest()->setParam('product', ['configurable_attributes_data' => $productData]);
         $attributes = $block->getAttributes();
         $this->assertArrayHasKey($usedAttribute->getId(), $attributes);
 

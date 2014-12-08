@@ -50,7 +50,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         $adjustment = 5;
         $expectedAdjustments = [
             $taxAdjustmentCode => $adjustment,
-            $weeeAdjustmentCode => $adjustment
+            $weeeAdjustmentCode => $adjustment,
         ];
 
         $productMock = $this->getMockBuilder('Magento\Catalog\Model\Product')

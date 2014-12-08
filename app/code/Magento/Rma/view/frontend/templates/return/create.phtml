@@ -22,9 +22,9 @@
             <div class="control">
                 <?php $bundleID     = 0; ?>
                 <?php $firstItemId = $i = $productType = $availableQty = 0; ?>
-                <?php $html         = array(); ?>
+                <?php $html         = []; ?>
                 <select name="items[${_index_}][order_item_id]" class="select" id="items:item${_index_}" data-args='{"index":${_index_}}'>
-                    <?php foreach($_items as $_item): ?>
+                    <?php foreach ($_items as $_item): ?>
                     <?php if ($i == 0): ?>
                         <?php
                         $firstItemId = $_item->getId();
@@ -39,31 +39,31 @@
                     <?php if (!$_item->getParentItemId() || $_item->getParentItemId() != $bundleID): ?>
                         <option value="<?php echo $_item->getId()?>" id="item:order_item_id${_index_}_<?php echo $_item->getId() ?>" rel="<?php echo $_item->getProductType()?>_<?php echo $this->getAvailableQty($_item); ?>"><?php echo $this->escapeHtml($_item->getName())?></option>
                         <?php endif; ?>
-                    <?php if ($_item->getParentItemId()!= null && $_item->getParentItemId() == $bundleID): ?>
+                    <?php if ($_item->getParentItemId() != null && $_item->getParentItemId() == $bundleID): ?>
                         <?php if ($_item->getIsOrdered()): ?>
                             <?php
-                            $html[$bundleID][] = array(
+                            $html[$bundleID][] = [
                                 $_item->getId(),
                                 $this->escapeHtml($_item->getName()),
                                 $this->getAvailableQty($_item),
-                                1
-                            );
+                                1,
+                            ];
                             ?>
                             <?php else: ?>
                             <?php
-                            $html[$bundleID][] = array(
+                            $html[$bundleID][] = [
                                 $_item->getId(),
                                 $this->escapeHtml($_item->getName()),
                                 $this->getAvailableQty($_item),
-                                0
-                            );
+                                0,
+                            ];
                             ?>
                             <?php endif; ?>
                         <?php endif; ?>
                     <?php endforeach; ?>
                 </select>
-            <?php if(!empty($html)): ?>
-            <?php foreach($html as $bundleID=>$node): ?>
+            <?php if (!empty($html)): ?>
+            <?php foreach ($html as $bundleID => $node): ?>
                 <div class="nested">
                     <div id="radio:item${_index_}_<?php echo $bundleID?>">
                         <div class="table-wrapper">
@@ -77,7 +77,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <?php foreach($node as $item): ?>
+                                <?php foreach ($node as $item): ?>
                                     <tr>
                                         <td data-th="<?php echo $this->escapeHtml(__('Product')) ?>" class="col product">
                                             <?php if ($item[3]): ?>
@@ -85,7 +85,7 @@
                                             <?php else: ?>
                                                 <input id="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" data-validate="{'validate-one-required-by-name':true}"  data-args='{"item" :<?php echo $item[0]?>, "bundleId" : <?php echo $bundleID?>, "index" :${_index_}}' type="checkbox" value="<?php echo $item[0]?>" class="checkbox change-container-classname" name="validate-one-checkbox-<?php echo $bundleID ?>-${_index_}" />
                                             <?php endif; ?>
-                                            <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo ($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
+                                            <label for="items[${_index_}][<?php echo $bundleID ?>][checkbox][item][<?php echo $item[0]?>]" class="label <?php echo($item[3]) ? 'disabled' : ''?>"><?php echo $item[1]?></label>
                                         </td>
                                         <td data-th="<?php echo $this->escapeHtml(__('Remaining Qty')) ?>" class="col remaining qty"><?php echo $item[2] ?></td>
                                         <td data-th="<?php echo $this->escapeHtml(__('Qty')) ?>" class="col qty">
@@ -184,10 +184,10 @@ require(["jquery", "mage/mage"], function($){
         itemsReason: 'items:reason',
         firstItemId: '<?php echo $firstItemId; ?>',
         productType: '<?php echo $productType?>',
-        availableQuantity: '<?php echo ($availableQty) ? $availableQty : 0 ?>',
+        availableQuantity: '<?php echo($availableQty) ? $availableQty : 0 ?>',
         prodTypeBundle: '<?php echo \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE ?>'
     }).mage('validation', {ignore: ':hidden:not(input[id$="_value"])'});
-    
+
 });
 </script>
     <fieldset class="fieldset">

@@ -29,7 +29,7 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         $this->_systemStore = $systemStore;
         parent::__construct($context, $resourceHelper, $data);
@@ -119,9 +119,9 @@ class Store extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             return null;
         }
         if ($value == '_deleted_') {
-            return array('null' => true);
+            return ['null' => true];
         } else {
-            return array('eq' => $value);
+            return ['eq' => $value];
         }
     }
 }

@@ -58,7 +58,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $banner->load('Test Banner', 'name');
 
         $this->assertSame(
-            array($banner->getId()),
+            [$banner->getId()],
             $this->_resourceModel->getCatalogRuleRelatedBannerIds($this->_websiteId, $this->_customerGroupId)
         );
     }
@@ -78,10 +78,10 @@ class BannerTest extends \PHPUnit_Framework_TestCase
      */
     public function getCatalogRuleRelatedBannerIdsWrongDataDataProvider()
     {
-        return array(
-            'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
-            'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
-        );
+        return [
+            'wrong website' => [$this->_websiteId + 1, $this->_customerGroupId],
+            'wrong customer group' => [$this->_websiteId, $this->_customerGroupId + 1]
+        ];
     }
 
     /**
@@ -99,8 +99,8 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $banner->load('Get from 40% to 50% Off on Large Orders', 'name');
 
         $this->assertEquals(
-            array($banner->getId()),
-            $this->_resourceModel->getSalesRuleRelatedBannerIds(array($rule->getId()))
+            [$banner->getId()],
+            $this->_resourceModel->getSalesRuleRelatedBannerIds([$rule->getId()])
         );
     }
 
@@ -110,6 +110,6 @@ class BannerTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetSalesRuleRelatedBannerIdsNoRules()
     {
-        $this->assertEmpty($this->_resourceModel->getSalesRuleRelatedBannerIds(array()));
+        $this->assertEmpty($this->_resourceModel->getSalesRuleRelatedBannerIds([]));
     }
 }

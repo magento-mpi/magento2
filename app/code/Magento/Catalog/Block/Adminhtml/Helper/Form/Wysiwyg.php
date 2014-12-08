@@ -57,7 +57,7 @@ class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Backend\Helper\Data $backendData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wysiwygConfig = $wysiwygConfig;
         $this->_layout = $layout;
@@ -82,17 +82,17 @@ class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
             $html .= $this->_layout->createBlock(
                 'Magento\Backend\Block\Widget\Button',
                 '',
-                array(
-                    'data' => array(
+                [
+                    'data' => [
                         'label' => __('WYSIWYG Editor'),
                         'type' => 'button',
                         'disabled' => $disabled,
                         'class' => 'action-wysiwyg',
                         'onclick' => 'catalogWysiwygEditor.open(\'' . $this->_backendData->getUrl(
                             'catalog/product/wysiwyg'
-                        ) . '\', \'' . $this->getHtmlId() . '\')'
-                    )
-                )
+                        ) . '\', \'' . $this->getHtmlId() . '\')',
+                    ]
+                ]
             )->toHtml();
             $html .= <<<HTML
 <script type="text/javascript">

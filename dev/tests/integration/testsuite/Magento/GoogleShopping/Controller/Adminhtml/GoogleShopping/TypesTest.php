@@ -25,15 +25,15 @@ class TypesTest extends \Magento\Backend\Utility\Controller
         $body = $this->getResponse()->getBody();
 
         $this->assertTag(
-            array(
+            [
                 'tag'        => 'select',
-                'attributes' => array('name' => 'attribute_set_id'),
-                'descendant' => array(
+                'attributes' => ['name' => 'attribute_set_id'],
+                'descendant' => [
                     'tag'    => 'option',
-                    'attributes' => array('value' => 4),
+                    'attributes' => ['value' => 4],
                     'content' => 'Default',
-                )
-            ),
+                ],
+            ],
             $body
         );
     }

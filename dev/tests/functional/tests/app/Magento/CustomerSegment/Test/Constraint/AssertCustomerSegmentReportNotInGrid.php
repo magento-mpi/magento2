@@ -8,10 +8,10 @@
 
 namespace Magento\CustomerSegment\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Customer\Test\Fixture\AddressInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertCustomerSegmentReportNotInGrid
@@ -52,7 +52,7 @@ class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
                 'grid_telephone' => $address->getTelephone(),
                 'grid_billing_postcode' => $address->getPostcode(),
                 'grid_billing_country_id' => $address->getCountryId(),
-                'grid_billing_region' => $address->getRegionId()
+                'grid_billing_region' => $address->getRegionId(),
             ];
 
             if ($reportDetailPage->getDetailGrid()->isRowVisible($filter)) {

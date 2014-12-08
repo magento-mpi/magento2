@@ -87,6 +87,6 @@ class Flat implements \Magento\Indexer\Model\ActionInterface, \Magento\Framework
      */
     public function executeRow($id)
     {
-        $this->execute(array($id));
+        $this->execute([$id]);
     }
 }

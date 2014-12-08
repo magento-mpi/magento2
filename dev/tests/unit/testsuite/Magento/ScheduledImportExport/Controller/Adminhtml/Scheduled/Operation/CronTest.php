@@ -15,18 +15,18 @@ class CronTest extends \PHPUnit_Framework_TestCase
 
         $observer = $this->getMock(
             'Magento\ScheduledImportExport\Model\Observer',
-            array('processScheduledOperation'),
-            array(),
+            ['processScheduledOperation'],
+            [],
             '',
             false
         );
 
-        $theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $theme = $this->getMock('Magento\Core\Model\Theme', [], [], '', false);
 
         $design = $this->getMock(
             'Magento\Core\Model\View\Design\Proxy',
-            array('getArea', 'getDesignTheme', 'getConfigurationDesignTheme', 'setDesignTheme'),
-            array(),
+            ['getArea', 'getDesignTheme', 'getConfigurationDesignTheme', 'setDesignTheme'],
+            [],
             '',
             false
         );
@@ -43,17 +43,17 @@ class CronTest extends \PHPUnit_Framework_TestCase
         $design->expects($this->at(4))->method('setDesignTheme')
             ->with($this->equalTo($theme), $this->equalTo('adminhtml'));
 
-        $response = $this->getMock('Magento\Framework\App\Console\Response', array('setRedirect'), array(), '', false);
+        $response = $this->getMock('Magento\Framework\App\Console\Response', ['setRedirect'], [], '', false);
 
-        $request = $this->getMock('Magento\Framework\App\Console\Request', array('getParam'), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\Console\Request', ['getParam'], [], '', false);
         $request->expects($this->once())->method('getParam')
             ->with($this->equalTo('operation'))
             ->will($this->returnValue('2'));
 
         $objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
@@ -64,18 +64,17 @@ class CronTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento\ScheduledImportExport\Model\Observer'))
             ->will($this->returnValue($observer));
 
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $context = $objectManager->getObject(
             'Magento\Backend\App\Action\Context',
-            array('request' => $request, 'objectManager' => $objectManagerMock, 'response' => $response)
+            ['request' => $request, 'objectManager' => $objectManagerMock, 'response' => $response]
         );
 
         /** @var \Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation $instance */
         $instance = $objectManager->getObject(
             'Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation\Cron',
-            array('context' => $context)
+            ['context' => $context]
         );
         $instance->execute();
     }

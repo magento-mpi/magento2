@@ -9,9 +9,9 @@
 
 namespace Magento\Customer\Test\Page\Address;
 
-use Mtf\Page\Page;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\Page\Page;
 
 /**
  * Class DefaultAddress

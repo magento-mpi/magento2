@@ -8,7 +8,6 @@
 
 namespace Magento\Sales\Model\Grid\Child;
 
-
 class CollectionUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInterface
 {
     /**

@@ -36,7 +36,7 @@ class Factory
      * @param array $data
      * @return mixed
      */
-    public function create($className, $data = array())
+    public function create($className, $data = [])
     {
         return $this->_objectManager->create($className, $data);
     }

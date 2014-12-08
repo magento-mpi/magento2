@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\GiftCard\Test\TestCase;
 
 use Magento\Checkout\Test\TestCase\AddProductsToShoppingCartEntityTest;

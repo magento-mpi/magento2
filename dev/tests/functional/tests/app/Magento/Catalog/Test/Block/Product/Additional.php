@@ -9,9 +9,9 @@
 namespace Magento\Catalog\Test\Block\Product;
 
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Block\Block;
 
 /**
  * Product additional information block on the product page.

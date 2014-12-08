@@ -24,7 +24,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
             }
             return explode(',', $this->getData('apply_to'));
         } else {
-            return array();
+            return [];
         }
     }
 

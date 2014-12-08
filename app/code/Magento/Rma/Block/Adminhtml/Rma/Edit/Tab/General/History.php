@@ -38,7 +38,7 @@ class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaConfig = $rmaConfig;
         $this->_collectionFactory = $collectionFactory;
@@ -56,7 +56,7 @@ class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array('label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick)
+            ['label' => __('Submit Comment'), 'class' => 'save', 'onclick' => $onclick]
         );
         $this->setChild('submit_button', $button);
 
@@ -92,7 +92,7 @@ class History extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addComment', array('id' => $this->getRmaData('entity_id')));
+        return $this->getUrl('adminhtml/*/addComment', ['id' => $this->getRmaData('entity_id')]);
     }
 
     /**

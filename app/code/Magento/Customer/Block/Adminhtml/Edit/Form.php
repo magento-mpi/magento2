@@ -42,7 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerRepository = $customerRepository;
         $this->_extensibleDataObjectConverter = $extensibleDataObjectConverter;
@@ -58,25 +58,25 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getUrl('customer/*/save'),
                     'method' => 'post',
-                    'enctype' => 'multipart/form-data'
-                )
-            )
+                    'enctype' => 'multipart/form-data',
+                ],
+            ]
         );
 
         $customerId = $this->_coreRegistry->registry(RegistryConstants::CURRENT_CUSTOMER_ID);
 
         if ($customerId) {
-            $form->addField('id', 'hidden', array('name' => 'customer_id'));
+            $form->addField('id', 'hidden', ['name' => 'customer_id']);
             $customer = $this->_customerRepository->getById($customerId);
             $form->setValues(
                 $this->_extensibleDataObjectConverter->toFlatArray($customer)
             )->addValues(
-                array('customer_id' => $customerId)
+                ['customer_id' => $customerId]
             );
         }
 

@@ -151,4 +151,3 @@ class ExpireSidebarsTest extends \PHPUnit_Framework_TestCase
         $this->subject->execute($observerMock);
     }
 }
- 

@@ -45,7 +45,6 @@ class NoRouteHandler implements \Magento\Framework\App\Router\NoRouteHandlerInte
         $areaFrontName = array_shift($requestPathParams);
 
         if ($areaFrontName == $this->helper->getAreaFrontName()) {
-
             $moduleName = $this->routeConfig->getRouteFrontName('adminhtml');
             $actionNamespace = 'noroute';
             $actionName = 'index';

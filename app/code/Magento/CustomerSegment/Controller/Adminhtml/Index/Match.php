@@ -31,6 +31,6 @@ class Match extends \Magento\CustomerSegment\Controller\Adminhtml\Index
             $this->_redirect('customersegment/*/');
             return;
         }
-        $this->_redirect('customersegment/*/edit', array('id' => $model->getId(), 'active_tab' => 'customers_tab'));
+        $this->_redirect('customersegment/*/edit', ['id' => $model->getId(), 'active_tab' => 'customers_tab']);
     }
 }

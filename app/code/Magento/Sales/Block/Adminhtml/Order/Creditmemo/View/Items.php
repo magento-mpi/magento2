@@ -39,7 +39,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getOrderTotalData()
     {
-        return array('grand_total_title' => __('Total Refund'));
+        return ['grand_total_title' => __('Total Refund')];
     }
 
     /**
@@ -59,6 +59,6 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getOrderUrl()
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $this->getCreditmemo()->getOrderId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $this->getCreditmemo()->getOrderId()]);
     }
 }

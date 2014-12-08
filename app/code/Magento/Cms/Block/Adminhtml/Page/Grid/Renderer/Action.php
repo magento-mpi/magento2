@@ -22,7 +22,7 @@ class Action extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
     public function __construct(
         \Magento\Backend\Block\Context $context,
         Action\UrlBuilder $actionUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->actionUrlBuilder = $actionUrlBuilder;
         parent::__construct($context, $data);

@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Fixture;
 
-use Mtf\System\Config;
-use Mtf\Handler\HandlerFactory;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\InjectableFixture;
+use Mtf\Handler\HandlerFactory;
 use Mtf\Repository\RepositoryFactory;
+use Mtf\System\Config;
 use Mtf\System\Event\EventManagerInterface;
 
 /**
@@ -88,7 +88,7 @@ class CatalogProductVirtual extends InjectableFixture
             'qty' => 10.0000,
             'is_in_stock' => 'In Stock',
         ],
-        'is_virtual' => 'Yes'
+        'is_virtual' => 'Yes',
     ];
 
     protected $is_virtual = [

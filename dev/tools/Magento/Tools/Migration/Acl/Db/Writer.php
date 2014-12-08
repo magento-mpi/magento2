@@ -44,8 +44,8 @@ class Writer
     {
         $this->_adapter->update(
             $this->_tableName,
-            array('resource_id' => $newKey),
-            array('resource_id = ?' => $oldKey)
+            ['resource_id' => $newKey],
+            ['resource_id = ?' => $oldKey]
         );
     }
 }

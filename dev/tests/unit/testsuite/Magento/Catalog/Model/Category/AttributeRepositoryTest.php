@@ -1,12 +1,12 @@
 <?php
-/** 
- * 
+/**
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
- 
+
 namespace Magento\Catalog\Model\Category;
 
 class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +15,7 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
      * @var AttributeRepository
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -40,7 +40,7 @@ class AttributeRepositoryTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $searchResultMock;
-    
+
     protected function setUp()
     {
         $this->searchBuilderMock =

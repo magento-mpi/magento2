@@ -27,22 +27,22 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     {
         $this->_dirReadFactoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\ReadFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_directoryListMock = $this->getMock(
             'Magento\Framework\App\Filesystem\DirectoryList',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_dirWriteFactoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\WriteFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

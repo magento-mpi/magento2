@@ -111,7 +111,7 @@ class Address extends \Magento\Framework\App\Action\Action
      * @param array $params
      * @return string
      */
-    protected function _buildUrl($route = '', $params = array())
+    protected function _buildUrl($route = '', $params = [])
     {
         /** @var \Magento\Framework\UrlInterface $urlBuilder */
         $urlBuilder = $this->_objectManager->create('Magento\Framework\UrlInterface');

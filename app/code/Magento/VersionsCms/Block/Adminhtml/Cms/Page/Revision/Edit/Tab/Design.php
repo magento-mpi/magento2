@@ -39,7 +39,7 @@ class Design extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Design
         \Magento\Framework\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\Core\Model\PageLayout\Config\Builder $pageLayoutBuilder,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         parent::__construct($context, $registry, $formFactory, $pageLayout, $labelFactory, $pageLayoutBuilder, $data);

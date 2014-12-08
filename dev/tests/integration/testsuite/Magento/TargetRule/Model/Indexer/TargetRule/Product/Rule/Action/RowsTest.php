@@ -58,7 +58,7 @@ class RowsTest extends \Magento\TestFramework\Indexer\TestCase
         )->setAttributeSetId(
             4
         )->setWebsiteIds(
-            array(1)
+            [1]
         )->setSku(
             'simple_product_3'
         )->setName(
@@ -72,14 +72,14 @@ class RowsTest extends \Magento\TestFramework\Indexer\TestCase
         )->setTaxClassId(
             2
         )->setStockData(
-            array('use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1)
+            ['use_config_manage_stock' => 1, 'qty' => 24, 'is_in_stock' => 1]
         )->setVisibility(
             \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
         )->setStatus(
             \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
         )->save();
 
-        $this->_processor->reindexList(array(2,3));
+        $this->_processor->reindexList([2, 3]);
 
         $this->_rule->load(1);
         $this->assertEquals(3, count($this->_rule->getMatchingProductIds()));

@@ -17,7 +17,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_paymentMethods = array();
+    protected $_paymentMethods = [];
 
     /**
      * Billing agreements collection
@@ -53,7 +53,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Paypal\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
         \Magento\Paypal\Helper\Data $helper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         $this->_customerSession = $customerSession;
@@ -116,7 +116,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
                 $value = $item->getData($key) ? $this->formatDate($item->getData($key), 'short', true) : __('N/A');
                 break;
             case 'edit_url':
-                $value = $this->getUrl('*/billing_agreement/view', array('agreement' => $item->getAgreementId()));
+                $value = $this->getUrl('*/billing_agreement/view', ['agreement' => $item->getAgreementId()]);
                 break;
             case 'payment_method_label':
                 $label = $item->getAgreementLabel();
@@ -154,7 +154,7 @@ class Agreements extends \Magento\Framework\View\Element\Template
      */
     public function getWizardPaymentMethodOptions()
     {
-        $paymentMethodOptions = array();
+        $paymentMethodOptions = [];
         foreach ($this->_helper->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();

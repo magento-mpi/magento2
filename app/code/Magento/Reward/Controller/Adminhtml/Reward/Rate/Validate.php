@@ -17,7 +17,7 @@ class Validate extends \Magento\Reward\Controller\Adminhtml\Reward\Rate
      */
     public function execute()
     {
-        $response = new \Magento\Framework\Object(array('error' => false));
+        $response = new \Magento\Framework\Object(['error' => false]);
         $post = $this->getRequest()->getParam('rate');
         $message = null;
         /** @var \Magento\Framework\StoreManagerInterface $storeManager */

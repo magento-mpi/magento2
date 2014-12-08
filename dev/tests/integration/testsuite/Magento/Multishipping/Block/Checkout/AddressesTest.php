@@ -49,7 +49,6 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $this->_addresses = $this->_objectManager->create(
             'Magento\Multishipping\Block\Checkout\Addresses'
         );
-
     }
 
     /**
@@ -62,8 +61,8 @@ class AddressesTest extends \PHPUnit_Framework_TestCase
         $expectedResult = [
             [
                 'value' => '1',
-                'label' => 'John Smith, Green str, 67, CityM, Alabama 75477, United States'
-            ]
+                'label' => 'John Smith, Green str, 67, CityM, Alabama 75477, United States',
+            ],
         ];
 
         $addressAsHtml = $this->_addresses->getAddressOptions();

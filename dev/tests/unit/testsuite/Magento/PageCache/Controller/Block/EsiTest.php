@@ -70,14 +70,14 @@ class EsiTest extends \PHPUnit_Framework_TestCase
     public function testExecute($blockClass, $shouldSetHeaders)
     {
         $block = 'block';
-        $handles = array('handle1', 'handle2');
+        $handles = ['handle1', 'handle2'];
         $html = 'some-html';
-        $mapData = array(array('blocks', '', json_encode(array($block))), array('handles', '', json_encode($handles)));
+        $mapData = [['blocks', '', json_encode([$block])], ['handles', '', json_encode($handles)]];
 
         $blockInstance1 = $this->getMock(
             $blockClass,
-            array('toHtml'),
-            array(),
+            ['toHtml'],
+            [],
             '',
             false
         );
@@ -119,19 +119,19 @@ class EsiTest extends \PHPUnit_Framework_TestCase
 
     public function executeDataProvider()
     {
-        return array(
-            array('Magento\PageCache\Block\Controller\StubBlock', true),
-            array('Magento\Framework\View\Element\AbstractBlock', false),
-        );
+        return [
+            ['Magento\PageCache\Block\Controller\StubBlock', true],
+            ['Magento\Framework\View\Element\AbstractBlock', false],
+        ];
     }
 
     public function testExecuteBlockNotExists()
     {
-        $handles = json_encode(array('handle1', 'handle2'));
-        $mapData = array(
-            array('blocks', '', null),
-            array('handles', '', $handles)
-        );
+        $handles = json_encode(['handle1', 'handle2']);
+        $mapData = [
+            ['blocks', '', null],
+            ['handles', '', $handles],
+        ];
 
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValueMap($mapData));
         $this->viewMock->expects($this->never())->method('getLayout')->will($this->returnValue($this->layoutMock));

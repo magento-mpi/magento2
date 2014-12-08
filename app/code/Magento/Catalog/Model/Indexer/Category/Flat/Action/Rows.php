@@ -53,7 +53,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @param bool $useTempTable
      * @return Rows
      */
-    public function reindex(array $entityIds = array(), $useTempTable = false)
+    public function reindex(array $entityIds = [], $useTempTable = false)
     {
         $stores = $this->storeManager->getStores();
 
@@ -68,11 +68,10 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             /** @TODO Do something with chunks */
             $categoriesIdsChunks = array_chunk($entityIds, 500);
             foreach ($categoriesIdsChunks as $categoriesIdsChunk) {
-
                 $categoriesIdsChunk = $this->filterIdsByStore($categoriesIdsChunk, $store);
 
                 $attributesData = $this->getAttributeValues($categoriesIdsChunk, $store->getId());
-                $data = array();
+                $data = [];
                 foreach ($categoriesIdsChunk as $categoryId) {
                     if (!isset($attributesData[$categoryId])) {
                         continue;
@@ -88,13 +87,13 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                         array_merge(
                             $category->getData(),
                             $attributesData[$categoryId],
-                            array('store_id' => $store->getId())
+                            ['store_id' => $store->getId()]
                         )
                     );
                 }
 
                 foreach ($data as $row) {
-                    $updateFields = array();
+                    $updateFields = [];
                     foreach (array_keys($row) as $key) {
                         $updateFields[$key] = $key;
                     }
@@ -124,11 +123,11 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
         /** @var \Magento\Framework\DB\Select $select */
         $select = $this->getWriteAdapter()->select()->from(
-            array('cf' => $this->getTableNameByStore($store, $useTempTable))
+            ['cf' => $this->getTableNameByStore($store, $useTempTable)]
         )->joinLeft(
-            array('ce' => $this->getTableName('catalog_category_entity')),
+            ['ce' => $this->getTableName('catalog_category_entity')],
             'cf.path = ce.path',
-            array()
+            []
         )->where(
             "cf.path = {$rootIdExpr} OR cf.path = {$rootCatIdExpr} OR cf.path like {$catIdExpr}"
         )->where(
@@ -156,7 +155,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
 
         $select = $this->getReadAdapter()->select()->from(
             $this->getTableName('catalog_category_entity'),
-            array('entity_id')
+            ['entity_id']
         )->where(
             "path = {$rootIdExpr} OR path = {$rootCatIdExpr} OR path like {$catIdExpr}"
         )->where(
@@ -164,7 +163,7 @@ class Rows extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             $ids
         );
 
-        $resultIds = array();
+        $resultIds = [];
         foreach ($this->getReadAdapter()->fetchAll($select) as $category) {
             $resultIds[] = $category['entity_id'];
         }

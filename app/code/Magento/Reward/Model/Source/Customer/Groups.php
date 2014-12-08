@@ -38,9 +38,9 @@ class Groups implements \Magento\Framework\Option\ArrayInterface
     {
         $groups = $this->_groupsFactory->create()->addFieldToFilter(
             'customer_group_id',
-            array('gt' => 0)
+            ['gt' => 0]
         )->load()->toOptionHash();
-        $groups = array(0 => __('All Customer Groups')) + $groups;
+        $groups = [0 => __('All Customer Groups')] + $groups;
         return $groups;
     }
 }

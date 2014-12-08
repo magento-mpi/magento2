@@ -56,7 +56,7 @@ class Collection extends \Magento\Rma\Model\Resource\Rma\Collection
 
         $countSelect = clone $this->getSelect();
         $countSelect->reset();
-        $countSelect->from(array('a' => $unionSelect), 'COUNT(*)');
+        $countSelect->from(['a' => $unionSelect], 'COUNT(*)');
 
         return $countSelect;
     }

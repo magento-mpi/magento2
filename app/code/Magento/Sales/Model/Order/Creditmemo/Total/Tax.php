@@ -138,7 +138,6 @@ class Tax extends AbstractTotal
             $creditmemo->getBaseShippingHiddenTaxAmnt() -
             $creditmemo->getBaseHiddenTaxAmount();
 
-
         if ($creditmemo->isLast()) {
             $totalTax = $allowedTax;
             $baseTotalTax = $allowedBaseTax;

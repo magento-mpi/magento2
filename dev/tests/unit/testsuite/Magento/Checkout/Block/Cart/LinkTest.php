@@ -31,11 +31,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->_objectManagerHelper->getObject(
             'Magento\Framework\View\Element\Template\Context',
-            array('urlBuilder' => $urlBuilder)
+            ['urlBuilder' => $urlBuilder]
         );
         $link = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
-            array('coreData' => $helper, 'context' => $context)
+            ['coreData' => $helper, 'context' => $context]
         );
         $this->assertSame($url . $path, $link->getHref());
     }
@@ -45,14 +45,14 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $moduleManager = $this->getMockBuilder(
             'Magento\Framework\Module\Manager'
         )->disableOriginalConstructor()->setMethods(
-            array('isOutputEnabled')
+            ['isOutputEnabled']
         )->getMock();
         $helper = $this->getMockBuilder('Magento\Checkout\Helper\Cart')->disableOriginalConstructor()->getMock();
 
         /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
-            array('cartHelper' => $helper, 'moduleManager' => $moduleManager)
+            ['cartHelper' => $helper, 'moduleManager' => $moduleManager]
         );
         $moduleManager->expects(
             $this->any()
@@ -74,13 +74,13 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $helper = $this->getMockBuilder(
             'Magento\Checkout\Helper\Cart'
         )->disableOriginalConstructor()->setMethods(
-            array('getSummaryCount')
+            ['getSummaryCount']
         )->getMock();
 
         /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
-            array('cartHelper' => $helper)
+            ['cartHelper' => $helper]
         );
         $helper->expects($this->any())->method('getSummaryCount')->will($this->returnValue($productCount));
         $this->assertSame($label, (string)$block->getLabel());
@@ -88,6 +88,6 @@ class LinkTest extends \PHPUnit_Framework_TestCase
 
     public function getLabelDataProvider()
     {
-        return array(array(1, 'My Cart (1 item)'), array(2, 'My Cart (2 items)'), array(0, 'My Cart'));
+        return [[1, 'My Cart (1 item)'], [2, 'My Cart (2 items)'], [0, 'My Cart']];
     }
 }

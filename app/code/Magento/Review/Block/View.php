@@ -54,7 +54,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Review\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_voteFactory = $voteFactory;
         $this->_reviewFactory = $reviewFactory;
@@ -92,7 +92,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/list', array('id' => $this->getProductData()->getId()));
+        return $this->getUrl('*/*/list', ['id' => $this->getProductData()->getId()]);
     }
 
     /**

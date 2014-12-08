@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Migration\System\Configuration\Logger;
 
-
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
 ) . '/tools/Magento/Tools/Migration//Acl/Db/AbstractLogger.php';
@@ -34,8 +33,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

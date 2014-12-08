@@ -37,7 +37,7 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Sales\Helper\Reorder $reorderHelper,
         \Magento\Rma\Helper\Data $rmaData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         parent::__construct($context, $registry, $salesConfig, $reorderHelper, $data);
@@ -54,13 +54,13 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
             $parentBlock = $this->getParentBlock();
             $buttonUrl = $this->_urlBuilder->getUrl(
                 'adminhtml/rma/new',
-                array('order_id' => $parentBlock->getOrderId())
+                ['order_id' => $parentBlock->getOrderId()]
             );
 
             $this->getToolbar()->addChild(
                 'create_rma',
                 'Magento\Backend\Block\Widget\Button',
-                array('label' => __('Create Returns'), 'onclick' => 'setLocation(\'' . $buttonUrl . '\')')
+                ['label' => __('Create Returns'), 'onclick' => 'setLocation(\'' . $buttonUrl . '\')']
             );
         }
         return $this;

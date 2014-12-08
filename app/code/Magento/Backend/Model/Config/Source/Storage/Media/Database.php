@@ -36,12 +36,12 @@ class Database implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $resourceOptions = array();
+        $resourceOptions = [];
         $resourceInfo = $this->_deploymentConfig->getSegment(ResourceConfig::CONFIG_KEY);
         if (null !== $resourceInfo) {
             $resourceConfig = new ResourceConfig($resourceInfo);
             foreach (array_keys($resourceConfig->getData()) as $resourceName) {
-                $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
+                $resourceOptions[] = ['value' => $resourceName, 'label' => $resourceName];
             }
             sort($resourceOptions);
             reset($resourceOptions);

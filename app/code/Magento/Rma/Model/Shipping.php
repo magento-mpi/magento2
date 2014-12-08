@@ -50,7 +50,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_trackingInfo = array();
+    protected $_trackingInfo = [];
 
     /**
      * Rma data
@@ -145,7 +145,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Resource\Shipping $resource,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rmaData = $rmaData;
         $this->_scopeConfig = $scopeConfig;
@@ -286,7 +286,7 @@ class Shipping extends \Magento\Framework\Model\AbstractModel
     {
         $carrierInstance = $this->_carrierFactory->create($this->getCarrierCode());
         if (!$carrierInstance) {
-            $custom = array();
+            $custom = [];
             $custom['title'] = $this->getCarierTitle();
             $custom['number'] = $this->getTrackNumber();
             return $custom;

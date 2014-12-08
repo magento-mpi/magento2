@@ -7,8 +7,8 @@
  */
 namespace Magento\Framework\View\Element;
 
+use Magento\Framework\View\Element\UiComponent\Context as RenderContext;
 use Magento\Framework\View\Element\UiComponent\ConfigBuilderInterface;
-use \Magento\Framework\View\Element\UiComponent\Context as RenderContext;
 
 /**
  * Class UiComponentInterface

@@ -8,9 +8,8 @@
 
 namespace Magento\Webapi\Model;
 
-use Magento\Webapi\Model\Config\Reader;
-use Zend\Code\Reflection\ClassReflection;
 use Magento\Webapi\Model\Cache\Type as WebapiCache;
+use Magento\Webapi\Model\Config\Reader;
 
 /**
  * Web API Config Model.

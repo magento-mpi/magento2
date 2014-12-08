@@ -32,7 +32,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentData = [
             'method' => 'checkmo',
-            'payment_details' => 'paymentDetailsTest'
+            'payment_details' => 'paymentDetailsTest',
         ];
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);
@@ -61,7 +61,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $paymentData = [
             'method' => 'notAvailableMethod',
-            'payment_details' => 'paymentDetailsTest'
+            'payment_details' => 'paymentDetailsTest',
         ];
 
         $paymentMethodMock = $this->getMock('\Magento\Checkout\Service\V1\Data\Cart\PaymentMethod', [], [], '', false);

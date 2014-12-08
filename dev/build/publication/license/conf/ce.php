@@ -8,32 +8,32 @@
  * @license    {license_link}
  */
 
-$magentoOslAfl = array(
+$magentoOslAfl = [
     'xml'   => 'AFL',
     'phtml' => 'AFL',
     'php'   => 'OSL',
     'css'   => 'AFL',
     'js'    => 'AFL',
     'less'  => 'AFL',
-);
+];
 $magentoAfl = $magentoOslAfl;
 unset($magentoAfl['php']);
 
-$config = array(
-    ''    => array('php' => 'OSL', '_recursive' => false),
-    'app' => array('php' => 'OSL', '_recursive' => false),
+$config = [
+    ''    => ['php' => 'OSL', '_recursive' => false],
+    'app' => ['php' => 'OSL', '_recursive' => false],
     'app/code/Magento'      => $magentoOslAfl,
-    'app/code/Magento/Ui'   => array('html' => 'AFL'),
+    'app/code/Magento/Ui'   => ['html' => 'AFL'],
     'app/design'            => $magentoAfl,
-    'app/etc'               => array('xml' => 'AFL', 'php' => 'OSL'),
-    'app/i18n'              => array('xml' => 'AFL'),
-    'dev'                   => array_merge($magentoOslAfl, array('sql' => 'OSL', 'html' => 'AFL')),
-    'lib/internal/flex'     => array('xml' => 'AFL', 'flex' => 'AFL'),
+    'app/etc'               => ['xml' => 'AFL', 'php' => 'OSL'],
+    'app/i18n'              => ['xml' => 'AFL'],
+    'dev'                   => array_merge($magentoOslAfl, ['sql' => 'OSL', 'html' => 'AFL']),
+    'lib/internal/flex'     => ['xml' => 'AFL', 'flex' => 'AFL'],
     'lib/internal/Magento'  => $magentoOslAfl,
     'lib/web'               => $magentoOslAfl,
     'pub'                   => $magentoOslAfl,
     'setup'                 => $magentoOslAfl,
-);
+];
 
 if (defined('EDITION_LICENSE')) {
     foreach ($config as $path => $settings) {

@@ -8,7 +8,7 @@
  */
 namespace Magento\Sitemap\Controller\Adminhtml\Sitemap;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
@@ -45,7 +45,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
                     // redirect to edit form
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('sitemap_id' => $this->getRequest()->getParam('sitemap_id'))
+                        ['sitemap_id' => $this->getRequest()->getParam('sitemap_id')]
                     );
                     return;
                 }
@@ -81,7 +81,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('adminhtml/*/edit', array('sitemap_id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', ['sitemap_id' => $model->getId()]);
                     return;
                 }
                 // go to grid or forward to generate action
@@ -100,7 +100,7 @@ class Save extends \Magento\Sitemap\Controller\Adminhtml\Sitemap
                 // redirect to edit form
                 $this->_redirect(
                     'adminhtml/*/edit',
-                    array('sitemap_id' => $this->getRequest()->getParam('sitemap_id'))
+                    ['sitemap_id' => $this->getRequest()->getParam('sitemap_id')]
                 );
                 return;
             }

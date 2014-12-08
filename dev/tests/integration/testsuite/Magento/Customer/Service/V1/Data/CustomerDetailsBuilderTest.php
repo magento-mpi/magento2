@@ -65,14 +65,14 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             $customer = $this->_customerBuilder->populateWithArray($customer)->create();
         }
         if (!is_null($expectedAddresses)) {
-            $addressArray = array();
+            $addressArray = [];
             foreach ($expectedAddresses as $expectedAddress) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($expectedAddress)->create();
             }
             $expectedAddresses = $addressArray;
         }
         if (!is_null($addresses)) {
-            $addressArray = array();
+            $addressArray = [];
             foreach ($addresses as $address) {
                 $addressArray[] = $this->_addressBuilder->populateWithArray($address)->create();
             }
@@ -89,18 +89,17 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
-
-        $customerData = array(
+        $customerData = [
             'group_id' => 1,
             'website_id' => 1,
             'firstname' => 'test firstname',
             'lastname' => 'test lastname',
             'email' => 'example@domain.com',
             'default_billing' => '_item1',
-            'password' => '123123q'
-        );
+            'password' => '123123q',
+        ];
 
-        $addressData = array(
+        $addressData = [
             'id' => 14,
             'default_shipping' => true,
             'default_billing' => false,
@@ -112,17 +111,17 @@ class CustomerDetailsBuilderTest extends \PHPUnit_Framework_TestCase
             'vat_id' => 'S45',
             'firstname' => 'Jane',
             'lastname' => 'Doe',
-            'street' => array('7700 W Parmer Ln'),
+            'street' => ['7700 W Parmer Ln'],
             'city' => 'Austin',
             'country_id' => 'US',
             'postcode' => '78620',
             'telephone' => '5125125125',
-            'region' => array('region_id' => 0, 'region' => 'Texas')
-        );
+            'region' => ['region_id' => 0, 'region' => 'Texas'],
+        ];
 
-        return array(
-            array($customerData, array($addressData, $addressData), $customerData, array($addressData, $addressData)),
-            array(null, array($addressData, $addressData), array(), array($addressData, $addressData))
-        );
+        return [
+            [$customerData, [$addressData, $addressData], $customerData, [$addressData, $addressData]],
+            [null, [$addressData, $addressData], [], [$addressData, $addressData]]
+        ];
     }
 }

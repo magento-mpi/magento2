@@ -18,7 +18,7 @@ class File extends \Magento\Framework\Data\Form\Element\File
      *
      * @var string[]
      */
-    protected $_htmlAttributes = array('accept', 'multiple');
+    protected $_htmlAttributes = ['accept', 'multiple'];
 
     /**
      * Html attributes

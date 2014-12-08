@@ -48,7 +48,7 @@ class CustomerSegment extends AbstractRepository
             'website_ids' => ['Main Website'],
             'is_active' => 'Active',
             'apply_to' => 'Registered Customers',
-            'conditions_serialized' =>'[Default Billing Address|exists]',
+            'conditions_serialized' => '[Default Billing Address|exists]',
         ];
 
         $this->_data['active_customer_segment_with_shipping_address'] = [
@@ -57,7 +57,7 @@ class CustomerSegment extends AbstractRepository
             'website_ids' => ['Main Website'],
             'is_active' => 'Active',
             'apply_to' => 'Registered Customers',
-            'conditions_serialized' =>'[Default Shipping Address|exists]',
+            'conditions_serialized' => '[Default Shipping Address|exists]',
         ];
     }
 }

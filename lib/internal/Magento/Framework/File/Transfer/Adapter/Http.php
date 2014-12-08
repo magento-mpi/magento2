@@ -42,7 +42,7 @@ class Http
     {
         if (is_string($options)) {
             $filepath = $options;
-        } else if (is_array($options) && isset($options['filepath'])) {
+        } elseif (is_array($options) && isset($options['filepath'])) {
             $filepath = $options['filepath'];
         } else {
             throw new \InvalidArgumentException("Filename is not set.");

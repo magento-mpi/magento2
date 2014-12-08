@@ -12,7 +12,7 @@
  * value => Magento2 table name
  */
 
-return array(
+return [
     'array(\'enterprise_rma/item\', \'datetime\')' => 'magento_rma_item_entity_datetime',
     'array(\'enterprise_rma/item\', \'decimal\')' => 'magento_rma_item_entity_decimal',
     'array(\'enterprise_rma/item\', \'int\')' => 'magento_rma_item_entity_int',
@@ -95,4 +95,4 @@ return array(
     'enterprise_targetrule/index_upsell' => 'magento_targetrule_index_upsell',
     'enterprise_targetrule/product' => 'magento_targetrule_product',
     'enterprise_targetrule/rule' => 'magento_targetrule'
-);
+];

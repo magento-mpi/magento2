@@ -142,7 +142,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\ImportExport\Model\Source\Import\Behavior\Factory $behaviorFactory,
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_importExportData = $importExportData;
         $this->_coreConfig = $coreConfig;
@@ -224,7 +224,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function getOperationResultMessages($validationResult)
     {
-        $messages = array();
+        $messages = [];
         if ($this->getProcessedRowsCount()) {
             if (!$validationResult) {
                 if ($this->getProcessedRowsCount() == $this->getInvalidRowsCount()) {
@@ -410,10 +410,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     public function importSource()
     {
         $this->setData(
-            array(
+            [
                 'entity' => $this->getDataSourceModel()->getEntityTypeCode(),
-                'behavior' => $this->getDataSourceModel()->getBehavior()
-            )
+                'behavior' => $this->getDataSourceModel()->getBehavior(),
+            ]
         );
 
         $this->addLogComment(__('Begin import of "%1" with "%2" behavior', $this->getEntity(), $this->getBehavior()));
@@ -421,7 +421,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $result = $this->_getEntityAdapter()->importData();
 
         $this->addLogComment(
-            array(
+            [
                 __(
                     'Checked rows: %1, checked entities: %2, invalid rows: %3, total errors: %4',
                     $this->getProcessedRowsCount(),
@@ -429,8 +429,8 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
                     $this->getInvalidRowsCount(),
                     $this->getErrorsCount()
                 ),
-                __('Import has been done successfuly.')
-            )
+                __('Import has been done successfuly.'),
+            ]
         );
 
         return $result;
@@ -468,7 +468,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
 
         $entity = $this->getEntity();
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader = $this->_uploaderFactory->create(['fileId' => self::FIELD_NAME_SOURCE_FILE]);
         $uploader->skipDbProcessing(true);
         $result = $uploader->save($this->getWorkingDir());
         $extension = pathinfo($result['file'], PATHINFO_EXTENSION);
@@ -582,17 +582,17 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function getEntityBehaviors()
     {
-        $behaviourData = array();
+        $behaviourData = [];
         $entities = $this->_importConfig->getEntities();
         foreach ($entities as $entityCode => $entityData) {
             $behaviorClassName = isset($entityData['behaviorModel']) ? $entityData['behaviorModel'] : null;
             if ($behaviorClassName && class_exists($behaviorClassName)) {
                 /** @var $behavior \Magento\ImportExport\Model\Source\Import\AbstractBehavior */
                 $behavior = $this->_behaviorFactory->create($behaviorClassName);
-                $behaviourData[$entityCode] = array(
+                $behaviourData[$entityCode] = [
                     'token' => $behaviorClassName,
-                    'code' => $behavior->getCode() . '_behavior'
-                );
+                    'code' => $behavior->getCode() . '_behavior',
+                ];
             } else {
                 throw new \Magento\Framework\Model\Exception(__('Invalid behavior token for %1', $entityCode));
             }
@@ -611,7 +611,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function getUniqueEntityBehaviors()
     {
-        $uniqueBehaviors = array();
+        $uniqueBehaviors = [];
         $behaviourData = $this->getEntityBehaviors();
         foreach ($behaviourData as $behavior) {
             $behaviorCode = $behavior['code'];

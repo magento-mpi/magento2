@@ -31,7 +31,7 @@ class EditTest extends \PHPUnit_Framework_TestCase
         );
 
         /** @var $block \Magento\UrlRewrite\Block\Edit */
-        $block = $layout->createBlock('Magento\UrlRewrite\Block\Edit', '', array('data' => $blockAttributes));
+        $block = $layout->createBlock('Magento\UrlRewrite\Block\Edit', '', ['data' => $blockAttributes]);
 
         $this->_checkSelector($block, $expected);
         $this->_checkButtons($block, $expected);
@@ -147,34 +147,34 @@ class EditTest extends \PHPUnit_Framework_TestCase
         /** @var $existingUrlRewrite \Magento\UrlRewrite\Model\UrlRewrite */
         $existingUrlRewrite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\UrlRewrite\Model\UrlRewrite',
-            array('data' => array('url_rewrite_id' => 1))
+            ['data' => ['url_rewrite_id' => 1]]
         );
 
-        return array(
+        return [
             // Creating new URL rewrite
-            array(
-                array('url_rewrite' => $urlRewrite),
-                array(
+            [
+                ['url_rewrite' => $urlRewrite],
+                [
                     'selector' => true,
                     'back_button' => true,
                     'save_button' => true,
                     'reset_button' => false,
                     'delete_button' => false,
-                    'form' => array('url_rewrite' => $urlRewrite)
-                )
-            ),
+                    'form' => ['url_rewrite' => $urlRewrite]
+                ]
+            ],
             // Editing URL rewrite
-            array(
-                array('url_rewrite' => $existingUrlRewrite),
-                array(
+            [
+                ['url_rewrite' => $existingUrlRewrite],
+                [
                     'selector' => true,
                     'back_button' => true,
                     'save_button' => true,
                     'reset_button' => true,
                     'delete_button' => true,
-                    'form' => array('url_rewrite' => $existingUrlRewrite)
-                )
-            )
-        );
+                    'form' => ['url_rewrite' => $existingUrlRewrite]
+                ]
+            ]
+        ];
     }
 }

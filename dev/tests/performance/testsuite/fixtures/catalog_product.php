@@ -33,7 +33,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     $setId
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Product 1'
 )->setShortDescription(

@@ -100,7 +100,7 @@
                 }
             });
     });
-    
+
     /**
      * This fix was made in order to properly handle 'stopImmediatePropagation'.
      */
@@ -108,7 +108,7 @@
         if ($('#new-variations-attribute-set-id').val() != '') {
             return; // affected attribute set was already chosen
         }
-        
+
         var extendingAttributes = [];
 
         $.each($('#configurable-attributes-container').variationsAttributes('getAttributes'), function () {

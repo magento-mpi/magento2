@@ -13,31 +13,31 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'type': The attribute 'id' is required but missing.",
             "Element 'type': Missing child element(s). Expected is ( label ).",
             "Element 'group': The attribute 'id' is required but missing.",
-            "Element 'group': Missing child element(s). Expected is ( label )."
-        );
+            "Element 'group': Missing child element(s). Expected is ( label ).",
+        ];
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 
     public function testFileSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'type': The attribute 'id' is required but missing.",
             "Element 'type': The attribute 'id' is required but missing.",
-            "Element 'group': The attribute 'id' is required but missing."
-        );
+            "Element 'group': The attribute 'id' is required but missing.",
+        ];
         parent::testFileSchemaUsingInvalidXml($expectedErrors);
     }
 
     public function testSchemaUsingPartialXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'type': The attribute 'order' is required but missing.",
-            "Element 'type': Missing child element(s). Expected is ( label )."
-        );
+            "Element 'type': Missing child element(s). Expected is ( label ).",
+        ];
         parent::testSchemaUsingPartialXml($expectedErrors);
     }
 

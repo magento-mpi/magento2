@@ -27,15 +27,15 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $layout = $objectManager->create('Magento\Framework\View\Layout');
         $formBlock = $layout->addBlock('Magento\Backend\Block\Widget\Form');
         $fieldSet = $objectManager->create('Magento\Framework\Data\Form\Element\Fieldset');
-        $arguments = array(
-            'data' => array(
+        $arguments = [
+            'data' => [
                 'attribute_code' => 'date',
                 'backend_type' => 'datetime',
                 'frontend_input' => 'date',
-                'frontend_label' => 'Date'
-            )
-        );
-        $attributes = array($objectManager->create('Magento\Eav\Model\Entity\Attribute', $arguments));
+                'frontend_label' => 'Date',
+            ],
+        ];
+        $attributes = [$objectManager->create('Magento\Eav\Model\Entity\Attribute', $arguments)];
         $method = new \ReflectionMethod('Magento\Backend\Block\Widget\Form', '_setFieldset');
         $method->setAccessible(true);
         $method->invoke($formBlock, $attributes, $fieldSet);

@@ -52,7 +52,7 @@ class OrderListTest extends WebapiAbstract
                 $filterBuilder
                     ->setField('status')
                     ->setValue('processing')
-                    ->create()
+                    ->create(),
             ]
         );
         $searchData = $searchCriteriaBuilder->create()->__toArray();
@@ -61,13 +61,13 @@ class OrderListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => Config::HTTP_METHOD_PUT
+                'httpMethod' => Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getList'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getList',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $requestData);

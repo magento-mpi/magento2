@@ -21,12 +21,12 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_translator = $this->getMock('Magento\Framework\TranslateInterface', array(), array(), '', false);
+        $this->_translator = $this->getMock('Magento\Framework\TranslateInterface', [], [], '', false);
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_renderer = $objectManagerHelper->getObject(
             'Magento\Framework\Phrase\Renderer\Translate',
-            array('translator' => $this->_translator)
+            ['translator' => $this->_translator]
         );
     }
 

@@ -17,7 +17,7 @@ class AddCommentTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
         $commentText = 'some comment';
         $visibleOnFront = true;
         $blockContents = [
-            $commentText
+            $commentText,
         ];
         $layoutMock = $this->getMock('Magento\Framework\View\LayoutInterface', [], [], '', false);
         $blockMock = $this->getMock('Magento\Framework\View\Element\BlockInterface', [], [], '', false);
@@ -30,7 +30,7 @@ class AddCommentTest extends \Magento\Rma\Controller\Adminhtml\RmaTest
                     [
                         'comment' => $commentText,
                         'is_visible_on_front' => $visibleOnFront,
-                        'is_customer_notified' => true
+                        'is_customer_notified' => true,
                     ]
                 )
             );

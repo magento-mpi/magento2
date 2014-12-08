@@ -38,7 +38,7 @@ class NotifierList
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param NotifierInterface[]|string[] $notifiers
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $notifiers = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, $notifiers = [])
     {
         $this->objectManager = $objectManager;
         $this->notifiers = $notifiers;

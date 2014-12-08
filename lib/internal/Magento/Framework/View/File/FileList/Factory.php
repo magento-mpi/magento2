@@ -50,6 +50,6 @@ class Factory
         if (!$collator instanceof CollateInterface) {
             throw new \UnexpectedValueException("$instanceName has to implement the collate interface.");
         }
-        return $this->objectManager->create('Magento\Framework\View\File\FileList', array('collator' => $collator));
+        return $this->objectManager->create('Magento\Framework\View\File\FileList', ['collator' => $collator]);
     }
 }

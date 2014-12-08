@@ -29,7 +29,7 @@ $product->setTypeId(
 )->setPrice(
     10
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 100)
+    ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 100]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(
@@ -37,7 +37,7 @@ $product->setTypeId(
 )->save();
 $product->load(1);
 
-$addressData = array(
+$addressData = [
     'region' => 'CA',
     'postcode' => '11111',
     'lastname' => 'lastname',
@@ -46,16 +46,16 @@ $addressData = array(
     'city' => 'Los Angeles',
     'email' => 'admin@example.com',
     'telephone' => '11111111',
-    'country_id' => 'US'
-);
+    'country_id' => 'US',
+];
 
-$billingData = array(
+$billingData = [
     'address_id' => '',
     'firstname' => 'testname',
     'lastname' => 'lastname',
     'company' => '',
     'email' => 'test@com.com',
-    'street' => array(0 => 'test1', 1 => ''),
+    'street' => [0 => 'test1', 1 => ''],
     'city' => 'Test',
     'region_id' => '1',
     'region' => '',
@@ -65,12 +65,12 @@ $billingData = array(
     'fax' => '',
     'confirm_password' => '',
     'save_in_address_book' => '1',
-    'use_for_shipping' => '1'
-);
+    'use_for_shipping' => '1',
+];
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Quote\Address',
-    array('data' => $billingData)
+    ['data' => $billingData]
 );
 $billingAddress->setAddressType('billing');
 
@@ -109,9 +109,9 @@ $quote->getPayment()->setMethod(\Magento\Paypal\Model\Config::METHOD_WPS)->save(
 /** @var $service \Magento\Sales\Model\Service\Quote */
 $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Service\Quote',
-    array('quote' => $quote)
+    ['quote' => $quote]
 );
-$service->setOrderData(array('increment_id' => '100000001'));
+$service->setOrderData(['increment_id' => '100000001']);
 $service->submitAllWithDataObject();
 
 $order = $service->getOrder();

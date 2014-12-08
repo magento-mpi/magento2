@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
 use Magento\Catalog\Test\Block\Adminhtml\Category\Tab\ProductGrid;
+use Mtf\Client\Element;
 
 /**
  * Class Product

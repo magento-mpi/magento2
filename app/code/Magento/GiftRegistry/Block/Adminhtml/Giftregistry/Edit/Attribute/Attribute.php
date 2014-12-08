@@ -59,7 +59,7 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->sourceYesNo = $sourceYesNo;
@@ -79,17 +79,17 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add Attribute'),
                 'class' => 'action-add',
                 'id' => $this->getFieldPrefix() . '_add_new_attribute'
-            )
+            ]
         );
 
         $this->addChild(
             'delete_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Delete Attribute'), 'class' => 'action-delete delete-attribute-option')
+            ['label' => __('Delete Attribute'), 'class' => 'action-delete delete-attribute-option']
         );
         return parent::_prepareLayout();
     }
@@ -176,10 +176,10 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_type',
-                'class' => 'select required-entry attribute-type global-scope'
-            )
+                'class' => 'select required-entry attribute-type global-scope',
+            ]
         )->setName(
             'attributes[' . $this->getFieldPrefix() . '][{{id}}][type]'
         )->setOptions(
@@ -199,10 +199,10 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_group',
-                'class' => 'select required-entry global-scope'
-            )
+                'class' => 'select required-entry global-scope',
+            ]
         )->setName(
             'attributes[' . $this->getFieldPrefix() . '][{{id}}][group]'
         )->setOptions(
@@ -222,10 +222,10 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
-                'class' => 'select required-entry global-scope'
-            )
+                'class' => 'select required-entry global-scope',
+            ]
         )->setName(
             'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_searcheable]'
         )->setOptions(
@@ -245,10 +245,10 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
-                'class' => 'select required-entry global-scope'
-            )
+                'class' => 'select required-entry global-scope',
+            ]
         )->setName(
             'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_listed]'
         )->setOptions(
@@ -268,10 +268,10 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array(
+            [
                 'id' => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
-                'class' => 'select required-entry global-scope'
-            )
+                'class' => 'select required-entry global-scope',
+            ]
         )->setName(
             'attributes[' . $this->getFieldPrefix() . '][{{id}}][frontend][is_required]'
         )->setOptions(
@@ -288,8 +288,8 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
      */
     public function getTemplatesHtml()
     {
-        $templates = array();
-        $types = array('Select', 'Date', 'Country');
+        $templates = [];
+        $types = ['Select', 'Date', 'Country'];
 
         foreach ($types as $type) {
             $renderer = 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type\\' . $type;
@@ -306,8 +306,8 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
      */
     public function getAttributeValues()
     {
-        $values = array();
-        $attributes = array();
+        $values = [];
+        $attributes = [];
         $groups = $this->getType()->getAttributes();
         $innerId = 0;
 
@@ -338,13 +338,13 @@ class Attribute extends \Magento\Backend\Block\Widget\Form
                 $selectId = 0;
                 $defaultCode = isset($value['default']) ? $value['default'] : '';
                 foreach ($value['options'] as $option) {
-                    $optionData = array(
+                    $optionData = [
                         'code' => $option['code'],
                         'label' => $option['label'],
                         'id' => $innerId,
                         'select_id' => $selectId,
-                        'checked' => $option['code'] == $defaultCode ? 'checked="checked"' : ''
-                    );
+                        'checked' => $option['code'] == $defaultCode ? 'checked="checked"' : '',
+                    ];
 
                     if ($this->getType()->getStoreId() != '0') {
                         $optionData['checkbox_scope'] = $this->getCheckboxScopeHtml(

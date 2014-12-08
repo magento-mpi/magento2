@@ -19,7 +19,7 @@ class Variable extends \Magento\Framework\Filter\Template\Tokenizer\AbstractToke
      */
     public function tokenize()
     {
-        $actions = array();
+        $actions = [];
         $parameterName = '';
         $variableSet = false;
         do {
@@ -32,15 +32,15 @@ class Variable extends \Magento\Framework\Filter\Template\Tokenizer\AbstractToke
             } elseif ($this->char() == '(') {
                 // Method declaration
                 $methodArgs = $this->getMethodArgs();
-                $actions[] = array('type' => 'method', 'name' => $parameterName, 'args' => $methodArgs);
+                $actions[] = ['type' => 'method', 'name' => $parameterName, 'args' => $methodArgs];
                 $parameterName = '';
             } elseif ($parameterName != '') {
                 // Property or variable declaration
                 if ($variableSet) {
-                    $actions[] = array('type' => 'property', 'name' => $parameterName);
+                    $actions[] = ['type' => 'property', 'name' => $parameterName];
                 } else {
                     $variableSet = true;
-                    $actions[] = array('type' => 'variable', 'name' => $parameterName);
+                    $actions[] = ['type' => 'variable', 'name' => $parameterName];
                 }
                 $parameterName = '';
             }
@@ -48,9 +48,9 @@ class Variable extends \Magento\Framework\Filter\Template\Tokenizer\AbstractToke
 
         if ($parameterName != '') {
             if ($variableSet) {
-                $actions[] = array('type' => 'property', 'name' => $parameterName);
+                $actions[] = ['type' => 'property', 'name' => $parameterName];
             } else {
-                $actions[] = array('type' => 'variable', 'name' => $parameterName);
+                $actions[] = ['type' => 'variable', 'name' => $parameterName];
             }
         }
 
@@ -120,7 +120,7 @@ class Variable extends \Magento\Framework\Filter\Template\Tokenizer\AbstractToke
      */
     public function getMethodArgs()
     {
-        $value = array();
+        $value = [];
 
         while ($this->next() && $this->char() != ')') {
             if ($this->isWhiteSpace() || $this->char() == ',') {

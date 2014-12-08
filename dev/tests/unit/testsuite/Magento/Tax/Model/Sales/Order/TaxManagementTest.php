@@ -51,7 +51,6 @@ class TaxManagementTest extends \PHPUnit_Framework_TestCase
      */
     private $orderTaxDetailsBuilderMock;
 
-
     public function setUp()
     {
         $this->orderMock = $this->getMock('Magento\Sales\Model\Order', [], [], '', false);

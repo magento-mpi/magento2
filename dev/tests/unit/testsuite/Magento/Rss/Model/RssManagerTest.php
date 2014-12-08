@@ -8,7 +8,7 @@
 
 namespace Magento\Rss\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class RssManagerTest extends \PHPUnit_Framework_TestCase
 {
@@ -31,10 +31,10 @@ class RssManagerTest extends \PHPUnit_Framework_TestCase
             'Magento\Rss\Model\RssManager',
             [
                 'objectManager' => $this->objectManager,
-                'dataProviders' => array(
+                'dataProviders' => [
                     'rss_feed' => 'Magento\Framework\App\Rss\DataProviderInterface',
                     'bad_rss_feed' => 'Some\Class\Not\Existent',
-                )
+                ]
             ]
         );
     }

@@ -99,7 +99,7 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
             [
                 'context' => $context,
                 'data' => [
-                    'template' => null
+                    'template' => null,
                 ]
             ]
         );
@@ -132,7 +132,7 @@ class SubstitutionTest extends \PHPUnit_Framework_TestCase
         $infoMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
         $this->block->setInfo($infoMock);
 
-        $fakeBlock = new \StdClass;
+        $fakeBlock = new \StdClass();
         $this->layout->expects(
             $this->any()
         )->method(

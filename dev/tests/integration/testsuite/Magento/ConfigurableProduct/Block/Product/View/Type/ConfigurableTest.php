@@ -73,6 +73,5 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->assertArrayHasKey('template', $config);
         $this->assertArrayHasKey('prices', $config);
         $this->assertArrayHasKey('basePrice', $config['prices']);
-
     }
 }

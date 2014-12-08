@@ -73,4 +73,3 @@ class ApplyBlockPersistentDataTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->observerMock, $this->subject->execute($eventObserverMock));
     }
 }
- 

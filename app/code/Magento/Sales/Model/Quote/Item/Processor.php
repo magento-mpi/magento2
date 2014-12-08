@@ -7,12 +7,12 @@
  */
 namespace Magento\Sales\Model\Quote\Item;
 
-use \Magento\Catalog\Model\Product;
-use \Magento\Sales\Model\Quote\ItemFactory;
-use \Magento\Sales\Model\Quote\Item;
+use Magento\Catalog\Model\Product;
+use Magento\Framework\App\State;
+use Magento\Framework\Object;
+use Magento\Sales\Model\Quote\Item;
+use Magento\Sales\Model\Quote\ItemFactory;
 use Magento\Framework\StoreManagerInterface;
-use \Magento\Framework\App\State;
-use \Magento\Framework\Object;
 
 /**
  * Class Processor

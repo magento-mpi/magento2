@@ -28,7 +28,7 @@ class Switcher extends \Magento\Backend\Block\System\Config\Switcher
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Store\Model\System\Store $systemStore,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $systemStore, $data);
     }

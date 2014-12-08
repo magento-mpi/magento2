@@ -125,32 +125,32 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'one_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                 ],
                 'isOpenAmount' => false,
-                'expected' => true
+                'expected' => true,
             ],
             'two_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                     [
                         'website_value' => 20.
-                    ]
+                    ],
                 ],
                 'isOpenAmount' => false,
-                'expected' => false
+                'expected' => false,
             ],
             'open_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                 ],
                 'isOpenAmount' => true,
-                'expected' => false
+                'expected' => false,
             ]
 
         ];
@@ -199,11 +199,11 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         return [
             'major' => [
                 'isOpenAmount' => true,
-                'expected' => true
+                'expected' => true,
             ],
             'minor' => [
                 'isOpenAmount' => false,
-                'expected' => false
+                'expected' => false,
             ],
         ];
     }
@@ -233,21 +233,21 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'one_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 20.
+                        'website_value' => 20.,
                     ],
                 ],
-                'expected' => 20.
+                'expected' => 20.,
             ],
             'two_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 20.
+                        'website_value' => 20.,
                     ],
                     [
                         'website_value' => 30.
-                    ]
+                    ],
                 ],
-                'expected' => false
+                'expected' => false,
             ],
         ];
     }
@@ -276,26 +276,26 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         return [
             'zero_amount' => [
                 'amounts' => [],
-                'expected' => []
+                'expected' => [],
             ],
             'one_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 50.
+                        'website_value' => 50.,
                     ],
                 ],
-                'expected' => [50.]
+                'expected' => [50.],
             ],
             'two_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 60.
+                        'website_value' => 60.,
                     ],
                     [
                         'website_value' => 70.
-                    ]
+                    ],
                 ],
-                'expected' => [60., 70.]
+                'expected' => [60., 70.],
             ],
         ];
     }
@@ -354,15 +354,15 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
         return [
             'zero_amount' => [
                 'amounts' => [],
-                'expected' => false
+                'expected' => false,
             ],
             'one_amount' => [
                 'amounts' => [
                     [
-                        'website_value' => 50.
+                        'website_value' => 50.,
                     ],
                 ],
-                'expected' => true
+                'expected' => true,
             ]
         ];
     }
@@ -459,7 +459,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'open_amount_minimal' => [
                 'amounts' => [
                     [
-                        'website_value' => 30.
+                        'website_value' => 30.,
                     ],
                     [
                         'website_value' => 60.
@@ -468,12 +468,12 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'openMinAmount' => 20.,
                 'openMaxAmount' => 90.,
                 'isOpenAmount' => true,
-                'expected' => 20.
+                'expected' => 20.,
             ],
             'amounts_minimal' => [
                 'amounts' => [
                     [
-                        'website_value' => 100.
+                        'website_value' => 100.,
                     ],
                     [
                         'website_value' => 90.
@@ -482,12 +482,12 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'openMinAmount' => 110.,
                 'openMaxAmount' => 120.,
                 'isOpenAmount' => true,
-                'expected' => 90.
+                'expected' => 90.,
             ],
             'open_amounts_disabled' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                     [
                         'website_value' => 20.
@@ -496,7 +496,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'openMinAmount' => 1.,
                 'openMaxAmount' => 2.,
                 'isOpenAmount' => false,
-                'expected' => 10.
+                'expected' => 10.,
             ]
         ];
     }
@@ -526,7 +526,7 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
             'equal_open_and_amounts' => [
                 'amounts' => [
                     [
-                        'website_value' => 20.
+                        'website_value' => 20.,
                     ],
                     [
                         'website_value' => 20.
@@ -535,12 +535,12 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'openMinAmount' => 20.,
                 'openMaxAmount' => 20.,
                 'isOpenAmount' => true,
-                'expected' => true
+                'expected' => true,
             ],
             'non_equal_open_and_amounts' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                     [
                         'website_value' => 20.
@@ -549,18 +549,18 @@ class FinalPriceBoxTest extends \PHPUnit_Framework_TestCase
                 'openMinAmount' => 10.,
                 'openMaxAmount' => 20.,
                 'isOpenAmount' => true,
-                'expected' => false
+                'expected' => false,
             ],
             'open_amounts_disabled' => [
                 'amounts' => [
                     [
-                        'website_value' => 10.
+                        'website_value' => 10.,
                     ],
                 ],
                 'openMinAmount' => 20.,
                 'openMaxAmount' => 30.,
                 'isOpenAmount' => false,
-                'expected' => true
+                'expected' => true,
             ]
         ];
     }

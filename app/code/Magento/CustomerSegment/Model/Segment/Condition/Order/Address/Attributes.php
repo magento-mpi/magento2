@@ -51,7 +51,7 @@ class Attributes extends AbstractCondition
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
         \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_countryFactory = $countryFactory;
@@ -68,7 +68,7 @@ class Attributes extends AbstractCondition
      */
     public function getMatchedEvents()
     {
-        return array('sales_order_save_commit_after');
+        return ['sales_order_save_commit_after'];
     }
 
     /**
@@ -79,12 +79,12 @@ class Attributes extends AbstractCondition
     public function getNewChildSelectOptions()
     {
         $attributes = $this->loadAttributeOptions()->getAttributeOption();
-        $conditions = array();
+        $conditions = [];
         foreach ($attributes as $code => $label) {
-            $conditions[] = array('value' => $this->getType() . '|' . $code, 'label' => $label);
+            $conditions[] = ['value' => $this->getType() . '|' . $code, 'label' => $label];
         }
 
-        return array('value' => $conditions, 'label' => __('Order Address Attributes'));
+        return ['value' => $conditions, 'label' => __('Order Address Attributes')];
     }
 
     /**
@@ -95,16 +95,16 @@ class Attributes extends AbstractCondition
     public function loadAttributeOptions()
     {
         if (is_null($this->_attributes)) {
-            $this->_attributes = array();
+            $this->_attributes = [];
 
-            $attributes = array();
+            $attributes = [];
             foreach ($this->_eavConfig->getEntityAttributeCodes('customer_address') as $attributeCode) {
                 $attribute = $this->_eavConfig->getAttribute('customer_address', $attributeCode);
                 if (!$attribute || !$attribute->getIsUsedForCustomerSegment()) {
                     continue;
                 }
                 // skip "binary" attributes
-                if (in_array($attribute->getFrontendInput(), array('file', 'image'))) {
+                if (in_array($attribute->getFrontendInput(), ['file', 'image'])) {
                     continue;
                 }
                 $attributes[$attribute->getAttributeCode()] = $attribute->getFrontendLabel();
@@ -135,7 +135,7 @@ class Attributes extends AbstractCondition
                     break;
 
                 default:
-                    $options = array();
+                    $options = [];
             }
             $this->setData('value_select_options', $options);
         }

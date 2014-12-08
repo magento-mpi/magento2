@@ -7,12 +7,11 @@
  */
 namespace Magento\TestFramework;
 
-use Magento\Framework\Code\Generator\FileResolver;
-use Magento\Framework\Autoload\AutoloaderInterface;
-use Magento\Framework\Filesystem;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Autoload\AutoloaderInterface;
+use Magento\Framework\Filesystem;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -80,7 +79,7 @@ class Application
      *
      * @var array
      */
-    protected $_initParams = array();
+    protected $_initParams = [];
 
     /**
      * Mode to run application
@@ -101,7 +100,7 @@ class Application
      *
      * @var array
      */
-    protected $_primaryConfigData = array();
+    protected $_primaryConfigData = [];
 
     /**
      * Object manager factory
@@ -144,11 +143,11 @@ class Application
         $customDirs = $this->getCustomDirs();
         $this->dirList = new \Magento\Framework\App\Filesystem\DirectoryList(BP, $customDirs);
         \Magento\Framework\Autoload\Populator::populateMappings($autoloadWrapper, $this->dirList);
-        $this->_initParams = array(
+        $this->_initParams = [
             \Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS => $customDirs,
-            \Magento\Framework\App\State::PARAM_MODE => $appMode
-        );
-        $driverPool = new \Magento\Framework\Filesystem\DriverPool;
+            \Magento\Framework\App\State::PARAM_MODE => $appMode,
+        ];
+        $driverPool = new \Magento\Framework\Filesystem\DriverPool();
         $this->_factory = new \Magento\TestFramework\ObjectManagerFactory($this->dirList, $driverPool);
 
         $this->_configDir = $this->dirList->getPath(DirectoryList::CONFIG);
@@ -251,13 +250,13 @@ class Application
      * @param array $overriddenParams
      * @return void
      */
-    public function initialize($overriddenParams = array())
+    public function initialize($overriddenParams = [])
     {
         $overriddenParams[\Magento\Framework\App\State::PARAM_MODE] = $this->_appMode;
         $overriddenParams = $this->_customizeParams($overriddenParams);
         $directories = isset($overriddenParams[\Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS])
             ? $overriddenParams[\Magento\Framework\App\Bootstrap::INIT_PARAM_FILESYSTEM_DIR_PATHS]
-            : array();
+            : [];
         $directoryList = new DirectoryList(BP, $directories);
 
         /** @var \Magento\TestFramework\ObjectManager $objectManager */
@@ -278,29 +277,28 @@ class Application
         Helper\Bootstrap::setObjectManager($objectManager);
 
         $objectManager->configure(
-            array(
+            [
                 'preferences' => [
                     'Magento\Framework\App\State' => 'Magento\TestFramework\App\State',
                     'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
-                    'Magento\Framework\Mail\Template\TransportBuilder' =>
-                        'Magento\TestFramework\Mail\Template\TransportBuilderMock',
+                    'Magento\Framework\Mail\Template\TransportBuilder' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock',
                 ],
-            )
+            ]
         );
 
         /** Register event observer of Integration Framework */
         /** @var \Magento\Framework\Event\Config\Data $eventConfigData */
         $eventConfigData = $objectManager->get('Magento\Framework\Event\Config\Data');
         $eventConfigData->merge(
-            array(
-                'core_app_init_current_store_after' => array(
-                    'integration_tests' => array(
+            [
+                'core_app_init_current_store_after' => [
+                    'integration_tests' => [
                         'instance' => 'Magento\TestFramework\Event\Magento',
                         'method' => 'initStoreAfter',
-                        'name' => 'integration_tests'
-                    )
-                )
-            )
+                        'name' => 'integration_tests',
+                    ],
+                ],
+            ]
         );
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
@@ -316,7 +314,7 @@ class Application
      * @param array $overriddenParams
      * @return void
      */
-    public function reinitialize(array $overriddenParams = array())
+    public function reinitialize(array $overriddenParams = [])
     {
         $this->_resetApp();
         $this->initialize($overriddenParams);
@@ -543,19 +541,19 @@ class Application
     {
         $path = DirectoryList::PATH;
         $var = "{$this->installDir}/var";
-        $customDirs = array(
-            DirectoryList::CONFIG => array($path => "{$this->installDir}/etc"),
-            DirectoryList::VAR_DIR => array($path => $var),
-            DirectoryList::MEDIA => array($path => "{$this->installDir}/media"),
-            DirectoryList::STATIC_VIEW => array($path => "{$this->installDir}/pub_static"),
-            DirectoryList::GENERATION => array($path => "{$var}/generation"),
-            DirectoryList::CACHE => array($path => "{$var}/cache"),
-            DirectoryList::LOG => array($path => "{$var}/log"),
-            DirectoryList::THEMES => array($path => BP . '/app/design'),
-            DirectoryList::SESSION => array($path => "{$var}/session"),
-            DirectoryList::TMP => array($path => "{$var}/tmp"),
-            DirectoryList::UPLOAD => array($path => "{$var}/upload"),
-        );
+        $customDirs = [
+            DirectoryList::CONFIG => [$path => "{$this->installDir}/etc"],
+            DirectoryList::VAR_DIR => [$path => $var],
+            DirectoryList::MEDIA => [$path => "{$this->installDir}/media"],
+            DirectoryList::STATIC_VIEW => [$path => "{$this->installDir}/pub_static"],
+            DirectoryList::GENERATION => [$path => "{$var}/generation"],
+            DirectoryList::CACHE => [$path => "{$var}/cache"],
+            DirectoryList::LOG => [$path => "{$var}/log"],
+            DirectoryList::THEMES => [$path => BP . '/app/design'],
+            DirectoryList::SESSION => [$path => "{$var}/session"],
+            DirectoryList::TMP => [$path => "{$var}/tmp"],
+            DirectoryList::UPLOAD => [$path => "{$var}/upload"],
+        ];
         return $customDirs;
     }
 }

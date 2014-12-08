@@ -9,7 +9,7 @@
 ?>
 <?php $_returns = $this->getReturns(); ?>
 <?php echo $this->getChildHtml('info');?>
-<?php if($_returns->getSize()): ?>
+<?php if ($_returns->getSize()): ?>
     <div class="table-wrapper returns">
         <table class="data table table-returns" id="my-returns-table">
             <caption class="table-caption"><?php echo __('My Returns') ?></caption>

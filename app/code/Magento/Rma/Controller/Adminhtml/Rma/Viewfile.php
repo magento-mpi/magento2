@@ -8,7 +8,7 @@
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
-use \Magento\Framework\App\Action\NotFoundException;
+use Magento\Framework\App\Action\NotFoundException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
@@ -21,7 +21,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
      */
     protected function _getPlainImageMimeType($extension)
     {
-        $mimeTypeMap = array('gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png');
+        $mimeTypeMap = ['gif' => 'image/gif', 'jpg' => 'image/jpeg', 'png' => 'image/png'];
         $contentType = 'application/octet-stream';
         if (isset($mimeTypeMap[$extension])) {
             $contentType = $mimeTypeMap[$extension];
@@ -89,7 +89,7 @@ class Viewfile extends \Magento\Rma\Controller\Adminhtml\Rma
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_fileFactory->create(
                 $name,
-                array('type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)),
+                ['type' => 'filename', 'value' => $this->readDirectory->getAbsolutePath($filePath)],
                 DirectoryList::MEDIA
             )->sendResponse();
         }

@@ -7,9 +7,9 @@
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
-use Magento\Framework\StoreManagerInterface;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
+use Magento\Framework\StoreManagerInterface;
 
 class NewObject implements HandlerInterface
 {
@@ -71,9 +71,9 @@ class NewObject implements HandlerInterface
                 $storeId = (int)$this->request->getParam('store', 0);
                 $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
                 $product->setGiftcardAmounts(
-                    array(
-                        array('website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '')
-                    )
+                    [
+                        ['website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => ''],
+                    ]
                 );
             }
         }

@@ -43,6 +43,6 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
         $ruleTwo = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\SalesRule\Model\Rule');
         $ruleTwo->load('50% Off on Large Orders', 'name');
 
-        $this->assertEquals(array($ruleOne->getId(), $ruleTwo->getId()), $this->_block->getCollection()->getAllIds());
+        $this->assertEquals([$ruleOne->getId(), $ruleTwo->getId()], $this->_block->getCollection()->getAllIds());
     }
 }

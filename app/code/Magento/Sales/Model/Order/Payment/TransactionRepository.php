@@ -8,9 +8,9 @@
 
 namespace Magento\Sales\Model\Order\Payment;
 
-use Magento\Sales\Model\Resource\Order\Payment\Transaction as TransactionResource;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Sales\Model\Resource\Order\Payment\Transaction as TransactionResource;
 
 /**
  * Repository class for \Magento\Sales\Model\Order\Payment\Transaction
@@ -36,7 +36,7 @@ class TransactionRepository
      *
      * @var array
      */
-    private $registry = array();
+    private $registry = [];
 
     /**
      * @var \Magento\Framework\Api\FilterBuilder

@@ -8,14 +8,13 @@
 
 namespace Magento\ConfigurableProduct\Pricing\Price;
 
-use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
-use Magento\Framework\Pricing\Price\AbstractPrice;
-use Magento\ConfigurableProduct\Block\Product\View;
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\PriceModifierInterface;
-use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Catalog\Pricing\Price\CustomOptionPriceInterface;
+use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
@@ -81,7 +80,7 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'id' => $attributeId,
                 'code' => $productAttribute->getAttributeCode(),
                 'label' => $attribute->getLabel(),
-                'options' => $this->getPriceOptions($attributeId, $attribute, $options)
+                'options' => $this->getPriceOptions($attributeId, $attribute, $options),
             ];
             $defaultValues[$attributeId] = $this->getAttributeConfigValue($attributeId);
             if ($this->validateAttributeInfo($info)) {
@@ -123,16 +122,16 @@ class AttributePrice extends AbstractPrice implements AttributePriceInterface
                 'label' => $value['label'],
                 'prices' => [
                     'oldPrice' => [
-                        'amount' => $this->convertDot($oldPrice)
+                        'amount' => $this->convertDot($oldPrice),
                     ],
                     'basePrice' => [
-                        'amount' => $this->convertDot($basePrice)
+                        'amount' => $this->convertDot($basePrice),
                     ],
                     'finalPrice' => [
                         'amount' => $this->convertDot($finalPrice),
                     ],
                 ],
-                'products' => $this->getProductsIndex($attributeId, $options, $value)
+                'products' => $this->getProductsIndex($attributeId, $options, $value),
             ];
         }
 

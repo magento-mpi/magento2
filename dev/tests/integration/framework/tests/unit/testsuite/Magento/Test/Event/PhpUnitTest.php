@@ -27,8 +27,8 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
     {
         $this->_eventManager = $this->getMock(
             'Magento\TestFramework\EventManager',
-            array('fireEvent'),
-            array(array())
+            ['fireEvent'],
+            [[]]
         );
         $this->_object = new \Magento\TestFramework\Event\PhpUnit($this->_eventManager);
     }
@@ -65,12 +65,12 @@ class PhpUnitTest extends \PHPUnit_Framework_TestCase
 
     public function doNotFireEventDataProvider()
     {
-        return array(
-            'method "addError"' => array('addError'),
-            'method "addFailure"' => array('addFailure'),
-            'method "addIncompleteTest"' => array('addIncompleteTest'),
-            'method "addSkippedTest"' => array('addSkippedTest')
-        );
+        return [
+            'method "addError"' => ['addError'],
+            'method "addFailure"' => ['addFailure'],
+            'method "addIncompleteTest"' => ['addIncompleteTest'],
+            'method "addSkippedTest"' => ['addSkippedTest']
+        ];
     }
 
     public function testStartTestSuiteFireEvent()

@@ -6,7 +6,6 @@
  * @license     {license_link}
  */
 
-
 /**
  * Block of links in Order view page
  */
@@ -43,7 +42,7 @@ class Buttons extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Http\Context $httpContext,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->httpContext = $httpContext;
@@ -70,9 +69,9 @@ class Buttons extends \Magento\Framework\View\Element\Template
     public function getPrintUrl($order)
     {
         if (!$this->httpContext->getValue(Context::CONTEXT_AUTH)) {
-            return $this->getUrl('sales/guest/print', array('order_id' => $order->getId()));
+            return $this->getUrl('sales/guest/print', ['order_id' => $order->getId()]);
         }
-        return $this->getUrl('sales/order/print', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/print', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -84,8 +83,8 @@ class Buttons extends \Magento\Framework\View\Element\Template
     public function getReorderUrl($order)
     {
         if (!$this->httpContext->getValue(Context::CONTEXT_AUTH)) {
-            return $this->getUrl('sales/guest/reorder', array('order_id' => $order->getId()));
+            return $this->getUrl('sales/guest/reorder', ['order_id' => $order->getId()]);
         }
-        return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/reorder', ['order_id' => $order->getId()]);
     }
 }

@@ -172,7 +172,7 @@ class Builder implements BuilderInterface
      */
     public function populateWithArray(array $data)
     {
-        $this->data = array();
+        $this->data = [];
         $this->_setDataValues($data);
         return $this;
     }
@@ -254,7 +254,7 @@ class Builder implements BuilderInterface
         $dataType = $this->_getDataObjectType();
         if (is_subclass_of($dataType, '\Magento\Framework\Api\AbstractSimpleObject')) {
             return self::TYPE_DATA_OBJECT;
-        } else if (is_subclass_of($dataType, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+        } elseif (is_subclass_of($dataType, '\Magento\Framework\Model\AbstractExtensibleModel')) {
             return self::TYPE_DATA_MODEL;
         }
 
@@ -267,7 +267,7 @@ class Builder implements BuilderInterface
 
         if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Api\AbstractSimpleObject')) {
             return self::TYPE_DATA_OBJECT;
-        } else if (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {
+        } elseif (is_subclass_of($sourceClassPreference, '\Magento\Framework\Model\AbstractExtensibleModel')) {
             return self::TYPE_DATA_MODEL;
         } else {
             throw new \LogicException(
@@ -312,10 +312,10 @@ class Builder implements BuilderInterface
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $camelCaseKey = \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key);
-            $possibleMethods = array(
+            $possibleMethods = [
                 'get' . $camelCaseKey,
-                'is' . $camelCaseKey
-            );
+                'is' . $camelCaseKey,
+            ];
             if ($key === ExtensibleDataInterface::CUSTOM_ATTRIBUTES
                 && is_array($data[$key])
                 && !empty($data[$key])

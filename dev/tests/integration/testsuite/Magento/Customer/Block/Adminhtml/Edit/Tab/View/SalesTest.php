@@ -56,7 +56,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View\Sales',
             'sales_' . mt_rand(),
-            array('coreRegistry' => $this->coreRegistry)
+            ['coreRegistry' => $this->coreRegistry]
         )->setTemplate(
             'tab/view/sales.phtml'
         );
@@ -97,7 +97,7 @@ class SalesTest extends \PHPUnit_Framework_TestCase
     public function testGetTotals()
     {
         $this->assertEquals(
-            array('lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0),
+            ['lifetime' => 0, 'base_lifetime' => 0, 'base_avgsale' => 0, 'num_orders' => 0],
             $this->block->getTotals()->getData()
         );
     }

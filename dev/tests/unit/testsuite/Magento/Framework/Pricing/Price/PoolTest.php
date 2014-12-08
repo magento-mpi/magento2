@@ -40,11 +40,11 @@ class PoolTest extends \PHPUnit_Framework_TestCase
     {
         $this->prices = [
             'regular_price' => 'RegularPrice',
-            'special_price' => 'SpecialPrice'
+            'special_price' => 'SpecialPrice',
         ];
         $this->target = [
             'group_price' => 'TargetGroupPrice',
-            'regular_price' => 'TargetRegularPrice'
+            'regular_price' => 'TargetRegularPrice',
         ];
         $this->targetPool = new Pool($this->target);
         $this->pool = new Pool($this->prices, $this->targetPool);
@@ -58,7 +58,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
         $expected = new Pool([
             'regular_price' => 'RegularPrice',
             'special_price' => 'SpecialPrice',
-            'group_price' => 'TargetGroupPrice'
+            'group_price' => 'TargetGroupPrice',
         ]);
         $this->assertEquals($expected, $this->pool);
     }

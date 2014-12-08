@@ -34,7 +34,7 @@ class CustomerCustomAttribute extends InjectableFixture
         'frontend_label' => 'attribute_%isolation%',
         'attribute_code' => 'attribute_%isolation%',
         'frontend_input' => 'Text Field',
-        'sort_order' => '10'
+        'sort_order' => '10',
     ];
 
     protected $attribute_id = [
@@ -43,7 +43,7 @@ class CustomerCustomAttribute extends InjectableFixture
         'is_required' => '1',
         'default_value' => '',
         'input' => '',
-        'group' => null
+        'group' => null,
     ];
 
     protected $entity_type_id = [

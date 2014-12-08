@@ -8,9 +8,9 @@
 
 namespace Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\General;
 
-use Mtf\ObjectManager;
-use Mtf\Client\Element\Locator;
 use Magento\SalesRule\Test\Block\Adminhtml\Promo\Grid as SalesRuleGrid;
+use Mtf\Client\Element\Locator;
+use Mtf\ObjectManager;
 
 /**
  * Typified element class for sales rule

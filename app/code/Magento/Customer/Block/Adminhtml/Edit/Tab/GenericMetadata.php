@@ -33,7 +33,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Reflection\DataObjectProcessor $dataObjectProcessor,
-        array $data = array()
+        array $data = []
     ) {
         $this->dataObjectProcessor = $dataObjectProcessor;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -47,7 +47,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
      * @param array $exclude attributes that should be skipped
      * @return void
      */
-    protected function _setFieldset($attributes, $fieldset, $exclude = array())
+    protected function _setFieldset($attributes, $fieldset, $exclude = [])
     {
         $this->_addElementTypes($fieldset);
 
@@ -58,18 +58,17 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
                 $exclude
             ) && ('media_image' != $inputType || $attribute->getAttributeCode() == 'image')
             ) {
-
                 $fieldType = $inputType;
                 $element = $fieldset->addField(
                     $attribute->getAttributeCode(),
                     $fieldType,
-                    array(
+                    [
                         'name' => $attribute->getAttributeCode(),
                         'label' => __($attribute->getFrontendLabel()),
                         'class' => $attribute->getFrontendClass(),
                         'required' => $attribute->isRequired(),
                         'note' => $attribute->getNote()
-                    )
+                    ]
                 );
 
                 $element->setAfterElementHtml($this->_getAdditionalElementHtml($element));
@@ -119,7 +118,7 @@ class GenericMetadata extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _getAttributeOptionsArray(AttributeMetadataInterface $attribute)
     {
         $options = $attribute->getOptions();
-        $result = array();
+        $result = [];
         foreach ($options as $option) {
             $result[] = $this->dataObjectProcessor->buildOutputDataArray(
                 $option,

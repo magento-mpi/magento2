@@ -23,7 +23,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->_customerMetadataService = $this->getMock('Magento\Customer\Api\CustomerMetadataInterface');
         $this->_helper = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Helper\View',
-            array('customerMetadataService' => $this->_customerMetadataService)
+            ['customerMetadataService' => $this->_customerMetadataService]
         );
         parent::setUp();
     }
@@ -43,7 +43,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $isMiddleNameAllowed = false,
         $isSuffixAllowed = false
     ) {
-
         $visibleAttribute = $this->getMock('Magento\Customer\Api\Data\AttributeMetadataInterface');
         $visibleAttribute->expects($this->any())->method('isVisible')->will($this->returnValue(true));
 
@@ -56,11 +55,11 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             'getAttributeMetadata'
         )->will(
             $this->returnValueMap(
-                array(
-                    array('prefix', $isPrefixAllowed ? $visibleAttribute : $invisibleAttribute),
-                    array('middlename', $isMiddleNameAllowed ? $visibleAttribute : $invisibleAttribute),
-                    array('suffix', $isSuffixAllowed ? $visibleAttribute : $invisibleAttribute)
-                )
+                [
+                    ['prefix', $isPrefixAllowed ? $visibleAttribute : $invisibleAttribute],
+                    ['middlename', $isMiddleNameAllowed ? $visibleAttribute : $invisibleAttribute],
+                    ['suffix', $isSuffixAllowed ? $visibleAttribute : $invisibleAttribute],
+                ]
             )
         );
 
@@ -75,8 +74,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder */
         $customerBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\CustomerDataBuilder');
-        return array(
-            'With disabled prefix, middle name, suffix' => array(
+        return [
+            'With disabled prefix, middle name, suffix' => [
                 $customerBuilder->setPrefix(
                     'prefix'
                 )->setFirstname(
@@ -88,9 +87,9 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 )->setSuffix(
                     'suffix'
                 )->create(),
-                'FirstName LastName'
-            ),
-            'With prefix, middle name, suffix' => array(
+                'FirstName LastName',
+            ],
+            'With prefix, middle name, suffix' => [
                 $customerBuilder->setPrefix(
                     'prefix'
                 )->setFirstname(
@@ -105,16 +104,16 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 'prefix FirstName MiddleName LastName suffix',
                 true, // $isPrefixAllowed
                 true, // $isMiddleNameAllowed
-                true //$isSuffixAllowed
-            ),
-            'Empty prefix, middle name, suffix' => array(
+                true, //$isSuffixAllowed
+            ],
+            'Empty prefix, middle name, suffix' => [
                 $customerBuilder->setFirstname('FirstName')->setLastname('LastName')->create(),
                 'FirstName LastName',
                 true, // $isPrefixAllowed
                 true, // $isMiddleNameAllowed
-                true //$isSuffixAllowed
-            ),
-            'Empty prefix and suffix, not empty middle name' => array(
+                true, //$isSuffixAllowed
+            ],
+            'Empty prefix and suffix, not empty middle name' => [
                 $customerBuilder->setFirstname(
                     'FirstName'
                 )->setMiddlename(
@@ -125,8 +124,8 @@ class ViewTest extends \PHPUnit_Framework_TestCase
                 'FirstName MiddleName LastName',
                 true, // $isPrefixAllowed
                 true, // $isMiddleNameAllowed
-                true //$isSuffixAllowed
-            )
-        );
+                true, //$isSuffixAllowed
+            ]
+        ];
     }
 }

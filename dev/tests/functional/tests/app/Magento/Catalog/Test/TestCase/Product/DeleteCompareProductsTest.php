@@ -8,9 +8,9 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test creation for removing CompareProducts

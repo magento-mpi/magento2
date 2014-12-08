@@ -16,7 +16,7 @@ return [
         'price_type' => 'fixed',
         'sku' => 'sku1',
         'max_characters' => 10,
-        'values' => []
+        'values' => [],
     ],
     [
         'title' => 'area option',
@@ -98,7 +98,7 @@ return [
                 'sort_order' => 1,
                 'price' => 10,
                 'price_type' => 'fixed',
-                'sku' => 'checkbox option 1 sku'
+                'sku' => 'checkbox option 1 sku',
             ],
             [
                 'title' => 'checkbox option 2',
@@ -120,7 +120,7 @@ return [
                 'sort_order' => 1,
                 'price' => 10,
                 'price_type' => 'fixed',
-                'sku' => 'multiple option 1 sku'
+                'sku' => 'multiple option 1 sku',
             ],
             [
                 'title' => 'multiple option 2',

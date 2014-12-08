@@ -6,7 +6,6 @@
  * @license    {license_link}
  */
 
-
 /**
  * Form Input/Output Strip HTML tags Filter
  *
@@ -54,10 +53,10 @@ class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
     public function inputFilter($value)
     {
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array('date_format' => $this->_dateFormat, 'locale' => $this->_locale)
+            ['date_format' => $this->_dateFormat, 'locale' => $this->_locale]
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale]
         );
 
         $value = $filterInput->filter($value);
@@ -74,10 +73,10 @@ class Date implements \Magento\Framework\Data\Form\Filter\FilterInterface
     public function outputFilter($value)
     {
         $filterInput = new \Zend_Filter_LocalizedToNormalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT, 'locale' => $this->_locale]
         );
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => $this->_dateFormat, 'locale' => $this->_locale)
+            ['date_format' => $this->_dateFormat, 'locale' => $this->_locale]
         );
 
         $value = $filterInput->filter($value);

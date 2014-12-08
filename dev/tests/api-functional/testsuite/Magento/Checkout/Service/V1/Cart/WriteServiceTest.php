@@ -99,7 +99,6 @@ class WriteServiceTest extends WebapiAbstract
         $this->assertEquals($customer->getId(), $quote->getCustomerId());
         $this->assertEquals($customer->getFirstname(), $quote->getCustomerFirstname());
         $this->assertEquals($customer->getLastname(), $quote->getCustomerLastname());
-
     }
 
     /**

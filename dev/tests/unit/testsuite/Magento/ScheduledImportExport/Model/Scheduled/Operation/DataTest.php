@@ -39,7 +39,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $expected = [
             Data::FILE_STORAGE => 'Local Server',
-            Data::FTP_STORAGE => 'Remote FTP'
+            Data::FTP_STORAGE => 'Remote FTP',
         ];
         $result = $this->model->getServerTypesOptionArray();
         $this->assertEquals($expected, $result);

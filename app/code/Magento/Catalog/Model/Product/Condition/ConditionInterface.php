@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Model\Product\Condition;
 
+use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\DB\Select;
-use Magento\Eav\Model\Entity\Collection\AbstractCollection;
 
 interface ConditionInterface
 {

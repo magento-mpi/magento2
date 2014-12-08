@@ -17,10 +17,10 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Framework\Config\View(
-            array(
+            [
                 file_get_contents(__DIR__ . '/_files/view_one.xml'),
-                file_get_contents(__DIR__ . '/_files/view_two.xml')
-            )
+                file_get_contents(__DIR__ . '/_files/view_two.xml'),
+            ]
         );
     }
 
@@ -29,7 +29,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstructException()
     {
-        new \Magento\Framework\Config\View(array());
+        new \Magento\Framework\Config\View([]);
     }
 
     public function testGetSchemaFile()
@@ -39,7 +39,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testGetVars()
     {
-        $this->assertEquals(array('one' => 'Value One', 'two' => 'Value Two'), $this->_model->getVars('Two'));
+        $this->assertEquals(['one' => 'Value One', 'two' => 'Value Two'], $this->_model->getVars('Two'));
     }
 
     public function testGetVarValue()
@@ -55,6 +55,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidXml()
     {
-        new \Magento\Framework\Config\View(array(file_get_contents(__DIR__ . '/_files/view_invalid.xml')));
+        new \Magento\Framework\Config\View([file_get_contents(__DIR__ . '/_files/view_invalid.xml')]);
     }
 }

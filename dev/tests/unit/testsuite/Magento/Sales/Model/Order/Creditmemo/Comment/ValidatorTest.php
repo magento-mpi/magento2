@@ -37,7 +37,6 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new \Magento\Sales\Model\Order\Creditmemo\Comment\Validator();
     }
 
-
     /**
      * Run test validate
      *
@@ -69,18 +68,18 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             [
                 [
                     ['parent_id', true],
-                    ['comment', true]
+                    ['comment', true],
                 ],
                 [
                     'parent_id' => 25,
                     'comment' => 'Hello world!'
                 ],
-                []
+                [],
             ],
             [
                 [
                     ['parent_id', true],
-                    ['comment', false]
+                    ['comment', false],
                 ],
                 [
                     'parent_id' => 0,
@@ -94,4 +93,3 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 }
- 

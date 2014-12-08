@@ -113,7 +113,7 @@ class StructurePluginTest extends \PHPUnit_Framework_TestCase
             [
                 ['payment', 'group1', 'group2', 'field'],
                 'any',
-                ['payment_other', 'group1', 'group2', 'field']
+                ['payment_other', 'group1', 'group2', 'field'],
             ],
             [
                 ['payment', 'group1', 'group2', 'field'],

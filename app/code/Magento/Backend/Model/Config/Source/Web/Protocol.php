@@ -14,10 +14,10 @@ class Protocol implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '', 'label' => ''),
-            array('value' => 'http', 'label' => __('HTTP (unsecure)')),
-            array('value' => 'https', 'label' => __('HTTPS (SSL)'))
-        );
+        return [
+            ['value' => '', 'label' => ''],
+            ['value' => 'http', 'label' => __('HTTP (unsecure)')],
+            ['value' => 'https', 'label' => __('HTTPS (SSL)')]
+        ];
     }
 }

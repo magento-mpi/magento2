@@ -33,7 +33,7 @@ class ReaderFactory
      * @return \Magento\Framework\View\Layout\ReaderInterface
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $reader = $this->objectManager->create($className, $data);
         if (!$reader instanceof \Magento\Framework\View\Layout\ReaderInterface) {

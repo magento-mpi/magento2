@@ -27,7 +27,7 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     public function __construct(
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_ruleResource = $ruleResource;
@@ -42,8 +42,8 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         if (null === $this->_defaultOperatorInputByType) {
             parent::getDefaultOperatorInputByType();
-            $this->_defaultOperatorInputByType['numeric'] = array('==', '!=', '>=', '>', '<=', '<');
-            $this->_defaultOperatorInputByType['string'] = array('==', '!=', '{}', '!{}');
+            $this->_defaultOperatorInputByType['numeric'] = ['==', '!=', '>=', '>', '<=', '<'];
+            $this->_defaultOperatorInputByType['string'] = ['==', '!=', '{}', '!{}'];
         }
         return $this->_defaultOperatorInputByType;
     }
@@ -82,9 +82,9 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     {
         $storeTable = $this->getResource()->getTable('store');
         $select->join(
-            array('store' => $storeTable),
+            ['store' => $storeTable],
             $storeIdField . '=store.store_id',
-            array()
+            []
         )->where(
             'store.website_id=?',
             $website

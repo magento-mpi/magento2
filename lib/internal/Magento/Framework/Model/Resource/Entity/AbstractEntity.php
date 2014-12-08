@@ -19,7 +19,7 @@ abstract class AbstractEntity
      *
      * @var \Magento\Framework\Simplexml\Config
      */
-    protected $_config = array();
+    protected $_config = [];
 
     /**
      * Set config

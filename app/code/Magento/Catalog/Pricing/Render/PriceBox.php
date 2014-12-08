@@ -8,12 +8,12 @@
 namespace Magento\Catalog\Pricing\Render;
 
 use Magento\Catalog\Model\Product;
-use Magento\Framework\Pricing\Price\PriceInterface;
-use Magento\Framework\Pricing\Render\PriceBox as PriceBoxRender;
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Framework\Pricing\Render\RendererPool;
 use Magento\Core\Helper\Data;
 use Magento\Framework\Math\Random;
+use Magento\Framework\Pricing\Price\PriceInterface;
+use Magento\Framework\Pricing\Render\PriceBox as PriceBoxRender;
+use Magento\Framework\Pricing\Render\RendererPool;
+use Magento\Framework\View\Element\Template\Context;
 
 /**
  * Default catalog price box render
@@ -49,7 +49,7 @@ class PriceBox extends PriceBoxRender
         RendererPool $rendererPool,
         Data $coreDataHelper,
         Random $mathRandom,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreDataHelper = $coreDataHelper;
         $this->mathRandom = $mathRandom;

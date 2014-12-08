@@ -8,7 +8,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 use Magento\Sales\Model\Order\Email\Sender\OrderCommentSender;
 
 class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
@@ -49,9 +49,9 @@ class AddComment extends \Magento\Sales\Controller\Adminhtml\Order
                 $this->_view->loadLayout();
                 $this->_view->renderLayout();
             } catch (\Magento\Framework\Model\Exception $e) {
-                $response = array('error' => true, 'message' => $e->getMessage());
+                $response = ['error' => true, 'message' => $e->getMessage()];
             } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('We cannot add order history.'));
+                $response = ['error' => true, 'message' => __('We cannot add order history.')];
             }
             if (is_array($response)) {
                 $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

@@ -30,7 +30,7 @@ class Options extends Widget
         $this->addChild(
             'add_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Add New Option'), 'class' => 'add', 'id' => 'add_new_defined_option')
+            ['label' => __('Add New Option'), 'class' => 'add', 'id' => 'add_new_defined_option']
         );
 
         $this->addChild('options_box', 'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options\Option');
@@ -38,7 +38,7 @@ class Options extends Widget
         $this->addChild(
             'import_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Import Options'), 'class' => 'add', 'id' => 'import_new_defined_option')
+            ['label' => __('Import Options'), 'class' => 'add', 'id' => 'import_new_defined_option']
         );
 
         return parent::_prepareLayout();

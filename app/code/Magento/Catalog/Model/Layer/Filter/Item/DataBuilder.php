@@ -37,11 +37,11 @@ class DataBuilder
      */
     public function addItemData($label, $value, $count)
     {
-        $this->_itemsData[] = array(
+        $this->_itemsData[] = [
             'label' => $label,
             'value' => $value,
-            'count' => $count
-        );
+            'count' => $count,
+        ];
     }
 
     /**

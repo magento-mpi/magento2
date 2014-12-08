@@ -8,8 +8,8 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class ExportExcel extends \Magento\Backend\App\Action
 {
@@ -45,7 +45,7 @@ class ExportExcel extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-         $this->_view->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'invoices.xml';
         $exportBlock = $this->_view->getLayout()->getChildBlock('sales.invoice.grid', 'grid.export');
         return $this->_fileFactory->create(

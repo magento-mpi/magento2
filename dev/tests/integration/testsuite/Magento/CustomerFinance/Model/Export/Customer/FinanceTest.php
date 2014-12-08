@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 namespace Magento\CustomerFinance\Model\Export\Customer;
+
 use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
 
 /**
@@ -36,7 +37,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                 'Magento\ImportExport\Model\Export\Adapter\Csv'
             )
         );
-        $customerFinance->setParameters(array());
+        $customerFinance->setParameters([]);
         $csvExportString = $customerFinance->export();
 
         // get data from CSV file
@@ -74,7 +75,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             $this->assertNotNull($csvCustomerData, 'Customer data for website "' . $websiteCode . '" must exist.');
 
             // prepare correct data
-            $correctCustomerData = array(
+            $correctCustomerData = [
                 Finance::COLUMN_EMAIL => $objectManager->get(
                     'Magento\Framework\Registry'
                 )->registry(
@@ -93,8 +94,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     'Magento\Framework\Registry'
                 )->registry(
                     'reward_point_balance_' . $websiteCode
-                )
-            );
+                ),
+            ];
 
             asort($csvCustomerData);
             asort($correctCustomerData);
@@ -141,7 +142,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             }
         }
 
-        return array($csvHeader, $csvData);
+        return [$csvHeader, $csvData];
     }
 
     /**

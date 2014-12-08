@@ -6,7 +6,6 @@
  * @license    {license_link}
  */
 
-
 /**
  * Form Input/Output Escape HTML entities Filter
  *

@@ -41,7 +41,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->events = [
             'eventName1' => 'someEvent1',
             'eventName2' => 'someEvent2',
-            'eventName3' => 'some_event_3'
+            'eventName3' => 'some_event_3',
         ];
         $this->observers = new \Magento\Framework\Event\Observer\Collection();
         $this->collection = new Collection($this->events, $this->observers);
@@ -85,7 +85,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function testAddObserver()
     {
         $testEvent = 'testEvent';
-        $observer = new \Magento\Framework\Event\Observer;
+        $observer = new \Magento\Framework\Event\Observer();
         $observer->setData('event_name', $testEvent);
 
         $eventName = 'eventName';
@@ -98,7 +98,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testAddObserverNoEventName()
     {
-        $observer = new \Magento\Framework\Event\Observer;
+        $observer = new \Magento\Framework\Event\Observer();
         $this->collection->addObserver($observer);
         $this->assertNotEmpty($this->collection->getGlobalObservers());
     }

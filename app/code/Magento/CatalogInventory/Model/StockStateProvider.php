@@ -7,13 +7,12 @@
  */
 namespace Magento\CatalogInventory\Model;
 
-use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
-
-use Magento\CatalogInventory\Api\Data\StockItemInterface;
-use Magento\Framework\Object\Factory as ObjectFactory;
-use Magento\Framework\Math\Division as MathDivision;
-use Magento\Framework\Locale\FormatInterface;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
+use Magento\Framework\Locale\FormatInterface;
+use Magento\Framework\Math\Division as MathDivision;
+use Magento\Framework\Object\Factory as ObjectFactory;
 
 /**
  * Interface StockStateProvider

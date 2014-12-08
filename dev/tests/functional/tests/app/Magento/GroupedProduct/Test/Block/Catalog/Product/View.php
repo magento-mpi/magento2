@@ -10,7 +10,6 @@ namespace Magento\GroupedProduct\Test\Block\Catalog\Product;
 
 use Magento\Catalog\Test\Block\Product\View as ParentView;
 use Mtf\Fixture\FixtureInterface;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 
 /**
  * Class View

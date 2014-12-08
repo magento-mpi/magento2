@@ -40,11 +40,11 @@ class GettersTest extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => $this->_soapService,
-                'operation' => $this->_soapService . 'Item'
+                'operation' => $this->_soapService . 'Item',
             ],
         ];
         $requestData = [AllSoapAndRest::ID => $itemId];

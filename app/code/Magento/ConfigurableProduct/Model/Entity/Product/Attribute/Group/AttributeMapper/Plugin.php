@@ -9,8 +9,8 @@
  */
 namespace Magento\ConfigurableProduct\Model\Entity\Product\Attribute\Group\AttributeMapper;
 
-use Magento\Framework\Registry;
 use Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\AttributeFactory;
+use Magento\Framework\Registry;
 
 class Plugin
 {

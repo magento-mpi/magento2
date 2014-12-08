@@ -35,7 +35,7 @@ class AggregationFactory
      */
     public function create(array $rawAggregation)
     {
-        $buckets = array();
+        $buckets = [];
         foreach ($rawAggregation as $rawBucketName => $rawBucket) {
             /** @var \Magento\Framework\Search\Response\Bucket[] $buckets */
             $buckets[$rawBucketName] = $this->objectManager->create(

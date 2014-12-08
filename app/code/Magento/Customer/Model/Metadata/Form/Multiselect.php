@@ -9,8 +9,8 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Framework\App\RequestInterface;
 use Magento\Customer\Model\Metadata\ElementFactory;
+use Magento\Framework\App\RequestInterface;
 
 class Multiselect extends Select
 {
@@ -21,7 +21,7 @@ class Multiselect extends Select
     {
         $values = $this->_getRequestValue($request);
         if ($values !== false && !is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
         return $values;
     }
@@ -55,7 +55,7 @@ class Multiselect extends Select
             return $values;
         }
 
-        $output = array();
+        $output = [];
         foreach ($values as $value) {
             if (!$value) {
                 continue;

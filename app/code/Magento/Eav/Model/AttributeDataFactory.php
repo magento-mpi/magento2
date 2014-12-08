@@ -33,7 +33,7 @@ class AttributeDataFactory
      *
      * @var array
      */
-    protected $_dataModels = array();
+    protected $_dataModels = [];
 
     /**
      * @var \Magento\Framework\ObjectManagerInterface
