@@ -54,7 +54,7 @@ class ProductVariationsBuilderTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->productFactory = $this->getMock('\Magento\Catalog\Model\ProductFactory', [], [], '', false);
+        $this->productFactory = $this->getMock('\Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
 
         $this->variationMatrix = $this->getMock(
             '\Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix',
