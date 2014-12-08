@@ -405,7 +405,7 @@ define([
                 if ($.isNumeric(checkoutPrice)) {
                     this.checkoutPrice = checkoutPrice;
                 }
-                if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+                if (this.checkoutPrice < this.options.minBalance) {
                     this._disablePaymentMethods();
                 } else {
                     this._enablePaymentMethods();
@@ -421,7 +421,7 @@ define([
                     if (data.totalPrice) {
                         data.totalPrice = this.checkoutPrice;
                     }
-                    if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+                    if (this.checkoutPrice < this.options.minBalance) {
                         // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
                         this._disablePaymentMethods();
                     } else {
@@ -471,7 +471,7 @@ define([
                 alert($.mage.__("We can't complete your order because you don't have a payment method available."));
                 return false;
             }
-            if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+            if (this.checkoutPrice < this.options.minBalance) {
                 return true;
             } else if (methods.filter('input:radio:checked').length) {
                 return true;
