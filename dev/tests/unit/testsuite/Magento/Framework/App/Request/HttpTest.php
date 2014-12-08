@@ -62,7 +62,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $this->_infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $this->_infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
         $this->cookieReaderMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieReaderInterface');
-        $this->configMock = $this->getMock('\Magento\Framework\App\Config\ReinitableConfigInterface');
+        $this->configMock = $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface');
 
         // Stash the $_SERVER array to protect it from modification in test
         $this->serverArray = $_SERVER;
