@@ -122,11 +122,6 @@ class AccountManagement implements AccountManagementInterface
     private $mathRandom;
 
     /**
-     * @var Converter
-     */
-    private $converter;
-
-    /**
      * @var Validator
      */
     private $validator;
@@ -224,7 +219,6 @@ class AccountManagement implements AccountManagementInterface
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
      * @param Random $mathRandom
-     * @param Converter $converter
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
@@ -254,7 +248,6 @@ class AccountManagement implements AccountManagementInterface
         ManagerInterface $eventManager,
         StoreManagerInterface $storeManager,
         Random $mathRandom,
-        Converter $converter,
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
