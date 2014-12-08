@@ -40,14 +40,14 @@ class Request extends \Magento\Webapi\Controller\Request
      *
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieReader
+     * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
      * @param \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory
      * @param null|string $uri
      */
     public function __construct(
         \Magento\Framework\App\AreaList $areaList,
         \Magento\Framework\Config\ScopeInterface $configScope,
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieReader,
+        \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
         \Magento\Webapi\Controller\Rest\Request\Deserializer\Factory $deserializerFactory,
         $uri = null
     ) {

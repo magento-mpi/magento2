@@ -15,7 +15,7 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
     protected $_consumerId = 0;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
+     * @var \Magento\Framework\Stdlib\Cookie\CookieReaderInterface
      */
     protected $_cookieReader;
 
@@ -24,7 +24,7 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
      *
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieReader
+     * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
      * @param null|string|\Zend_Uri $uri
      */
     public function __construct(
