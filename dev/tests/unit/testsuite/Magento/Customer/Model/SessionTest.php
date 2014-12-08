@@ -84,8 +84,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
-        $this->_converterMock->expects($this->any())
-            ->method('createCustomerFromModel')
+        $customer->expects($this->any())
+            ->method('getDataModel')
             ->will($this->returnValue($customerDto));
 
         $this->_eventManagerMock->expects($this->at(0))
