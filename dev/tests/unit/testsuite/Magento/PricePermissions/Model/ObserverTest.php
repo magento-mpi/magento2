@@ -24,8 +24,48 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_block;
 
+    /**
+     * @var \Magento\Framework\Registry
+     */
+    protected $_registry;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface
+     */
+    protected $_request;
+
+    /**
+     * @var \Magento\Framework\StoreManagerInterface
+     */
+    protected $_storeManager;
+
     protected function setUp()
     {
+        $this->_registry = $this->getMock(
+            'Magento\Framework\Registry',
+            array('registry'),
+            array(),
+            '',
+            false
+        );
+        $this->_request = $this->getMock(
+            'Magento\Framework\App\RequestInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+        $this->_storeManager = $this->getMock(
+            'Magento\Framework\StoreManagerInterface',
+            array(),
+            array(),
+            '',
+            false,
+            false
+        );
+
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments(
             'Magento\PricePermissions\Model\Observer',
@@ -37,6 +77,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     '',
                     false
                 ),
+                'coreRegistry' => $this->_registry,
+                'request' => $this->_request,
+                'storeManager' => $this->_storeManager,
                 'data' => array(
                     'can_edit_product_price' => false,
                     'can_read_product_price' => false,
@@ -48,7 +91,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_observer = $this->getMock(
             'Magento\PricePermissions\Model\Observer',
-            array('_removeColumnFromGrid', '_hidePriceElements'),
+            array('_removeColumnFromGrid'),
             $constructArguments
         );
         $this->_block = $this->getMock(
@@ -62,14 +105,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'getChildBlock',
                 'getParentBlock',
                 'setDefaultProductPrice',
-                'getForm'
+                'getForm',
+                'getGroup',
             ),
             array(),
             '',
             false
         );
-        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock'));
-        $this->_varienObserver->expects($this->once())->method('getBlock')->will($this->returnValue($this->_block));
+        $this->_varienObserver = $this->getMock('Magento\Framework\Event\Observer', array('getBlock', 'getEvent'));
+        $this->_varienObserver->expects($this->any())->method('getBlock')->will($this->returnValue($this->_block));
     }
 
     /**
@@ -237,14 +281,98 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_setGetNameInLayoutExpects('adminhtml.catalog.product.edit.tab.attributes');
 
-        $this->_observer->expects(
-            $this->once()
-        )->method(
-            '_hidePriceElements'
-        )->with(
-            $this->isInstanceOf('Magento\Backend\Block\Widget\Grid')
+        $product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('__wakeup', 'getTypeId', 'isObjectNew'),
+            array(),
+            '',
+            false
         );
-
+        $product->expects($this->any())
+            ->method('getTypeId')
+            ->will($this->returnValue(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE));
+        $product->expects($this->any())
+            ->method('isObjectNew')
+            ->will($this->returnValue(true));
+        $this->_registry
+            ->expects($this->any())
+            ->method('registry')
+            ->with($this->equalTo('product'))
+            ->will($this->returnValue($product));
+        $form = $this->getMock(
+            '\Magento\Framework\Data\Form',
+            array('getElement', 'setReadonly'),
+            array(),
+            '',
+            false
+        );
+        $form->expects($this->any())
+            ->method('setReadonly')
+            ->with($this->equalTo(true), $this->equalTo(true))
+            ->will($this->returnSelf());
+        $fieldsetGroup = $this->getMock(
+            '\Magento\Framework\Data\Form\Element\Fieldset',
+            array('removeField'),
+            array(),
+            '',
+            false
+        );
+        $fieldsetGroup->expects($this->any())->method('removeField')->will($this->returnSelf());
+        $elementPayment = $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement',
+            array('setReadonly', 'getForm'),
+            array(),
+            '',
+            false
+        );
+        $elementPayment->expects($this->any())
+            ->method('setReadonly')
+            ->with($this->equalTo(true), $this->equalTo(true))
+            ->will($this->returnSelf());
+        $elementPayment->expects($this->any())->method('getForm')->will($this->returnValue($form));
+        $giftcardAmounts = $this->getMock(
+            'Magento\Framework\Data\Form\Element\AbstractElement',
+            array('setValue'),
+            array(),
+            '',
+            false
+        );
+        $giftcardAmountsValue = array(
+            array(
+                'website_id' => 1,
+                'value' => 'default',
+                'website_value' => 0
+            )
+        );
+        $giftcardAmounts->expects($this->any())->method('setValue')->with($this->equalTo($giftcardAmountsValue));
+        $priceElement = $this->getMock(
+            'Magento\Framework\Data\Form\Element\AbstractElement',
+            array('setValue'),
+            array(),
+            '',
+            false
+        );
+        $priceElement->expects($this->any())->method('setValue')->with($this->equalTo('default'));
+        $map = array(
+            array('group_fields1', $fieldsetGroup),
+            array('recurring_payment', $elementPayment),
+            array('price', $priceElement),
+            array('giftcard_amounts', $giftcardAmounts),
+        );
+        $form->expects($this->any())->method('getElement')->will($this->returnValueMap($map));
+        $group = $this->getMock('\Magento\Framework\Object', array('getId'), array(), '', false);
+        $group->expects($this->any())->method('getId')->will($this->returnValue(1));
+        $this->_block->expects($this->once())->method('getForm')->will($this->returnValue($form));
+        $this->_block->expects($this->once())->method('getGroup')->will($this->returnValue($group));
+        $this->_request->expects($this->once())->method('getParam')->with('store', 0)->will($this->returnValue(1));
+        $store = $this->getMock(
+            'Magento\Store\Model\Store',
+            array('getWebsiteId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
+        $store->expects($this->any())->method('getWebsiteId')->will($this->returnValue(1));
+        $this->_storeManager->expects($this->any())->method('getStore')->with(1)->will($this->returnValue($store));
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
 
@@ -327,5 +455,119 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function checkoutItemsDataProvider()
     {
         return array(array('checkout.items'), array('items'));
+    }
+
+    /**
+     * @covers \Magento\PricePermissions\Model\Observer::viewBlockAbstractToHtmlBefore
+     * @dataProvider viewBlockAbstractToHtmlBeforeDataProvider
+     * @param string $nameInLayout
+     */
+    public function testViewBlockAbstractToHtmlBefore($nameInLayout)
+    {
+        $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->disableOriginalConstructor()
+            ->setMethods(['isObjectNew', 'getIsRecurring', '__wakeup'])
+            ->getMock();
+        $product->expects($this->any())->method('isObjectNew')->will($this->returnValue(false));
+        $product->expects($this->any())->method('getIsRecurring')->will($this->returnValue(true));
+
+        $productFactory = $this->getMockBuilder('Magento\Catalog\Model\ProductFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+        $productFactory->expects($this->any())->method('create')->will($this->returnValue($product));
+
+        $coreRegistry = $this->getMockBuilder('Magento\Framework\Registry')
+            ->disableOriginalConstructor()
+            ->setMethods(['registry'])
+            ->getMock();
+        $coreRegistry->expects($this->any())->method('registry')->with('product')->will($this->returnValue($product));
+        $data = ['can_read_product_price' => false, 'can_edit_product_price' => false];
+        $model = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\PricePermissions\Model\Observer',
+                [
+                    'coreRegistry' => $coreRegistry,
+                    'productFactory' => $productFactory,
+                    'data' => $data,
+                ]
+            );
+        $block = $this->getMockBuilder(
+            'Magento\Framework\View\Element\AbstractBlock'
+        )->disableOriginalConstructor()->setMethods(
+            [
+                'getNameInLayout',
+                'setProductEntity',
+                'setIsReadonly',
+                'addConfigOptions',
+                'addFieldDependence',
+                'setCanEditPrice'
+            ]
+        )->getMock();
+        $observer = $this->getMockBuilder(
+            'Magento\Framework\Event\Observer'
+        )->disableOriginalConstructor()->setMethods(
+            array('getBlock')
+        )->getMock();
+        $observer->expects($this->any())->method('getBlock')->will($this->returnValue($block));
+
+        switch ($nameInLayout) {
+            case 'adminhtml_recurring_payment_edit_form':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('setProductEntity')->with($product);
+                $block->expects($this->once())->method('setIsReadonly')->with(true);
+                break;
+            case 'adminhtml_recurring_payment_edit_form_dependence':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('addConfigOptions')->with(array('can_edit_price' => false));
+                $block->expects($this->once())
+                    ->method('addFieldDependence')
+                    ->with('product[recurring_payment]', 'product[is_recurring]', 0);
+                break;
+            case 'adminhtml.catalog.product.edit.tab.attributes':
+                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+                $block->expects($this->once())->method('setCanEditPrice')->with(false);
+                break;
+        }
+        $model->viewBlockAbstractToHtmlBefore($observer);
+    }
+
+    public function viewBlockAbstractToHtmlBeforeDataProvider()
+    {
+        return [
+            ['adminhtml_recurring_payment_edit_form'],
+            ['adminhtml_recurring_payment_edit_form_dependence'],
+            ['adminhtml.catalog.product.edit.tab.attributes'],
+        ];
+    }
+
+    public function testCatalogProductSaveBefore()
+    {
+        $helper = $this->getMockBuilder('\Magento\PricePermissions\Helper\Data')->disableOriginalConstructor()
+            ->setMethods(['getCanAdminEditProductStatus'])->getMock();
+        $helper->expects($this->once())->method('getCanAdminEditProductStatus')->will($this->returnValue(false));
+
+        $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')->disableOriginalConstructor()
+            ->setMethods(['isObjectNew', 'setStatus'])->getMock();
+        $product->expects($this->once())->method('isObjectNew')->will($this->returnValue(true));
+        $product->expects($this->once())->method('setStatus')
+            ->with(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED)
+            ->will($this->returnSelf());
+
+        $event = $this->getMockBuilder('\Magento\Framework\Event')->disableOriginalConstructor()
+            ->setMethods(['getDataObject'])->getMock();
+        $event->expects($this->once())->method('getDataObject')->will($this->returnValue($product));
+        $this->_varienObserver->expects($this->once())->method('getEvent')->will($this->returnValue($event));
+
+        /** @var \Magento\PricePermissions\Model\Observer $model */
+        $model = (new \Magento\TestFramework\Helper\ObjectManager($this))
+            ->getObject('Magento\PricePermissions\Model\Observer',
+                [
+                    'pricePermData' => $helper
+                ]
+            );
+
+
+        $model->catalogProductSaveBefore($this->_varienObserver);
+
     }
 }
