@@ -272,8 +272,6 @@ return array(
     'sales_quote_item' => 'Magento_Sales',
     'sales_quote_item_option' => 'Magento_Sales',
     'sales_quote_payment' => 'Magento_Sales',
-    'recurring_payment' => 'Magento_RecurringPayment',
-    'recurring_payment_order' => 'Magento_RecurringPayment',
     'sales_refunded_aggregated' => 'Magento_Sales',
     'sales_refunded_aggregated_order' => 'Magento_Sales',
     'sales_shipment' => 'Magento_Sales',
