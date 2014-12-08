@@ -309,7 +309,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
         $name = $json->name;
         if (isset($json->require)) {
             $errors = [];
-            foreach (array_keys($json->require) as $depName) {
+            foreach (array_keys((array)$json->require) as $depName) {
                 if ($depName == 'magento/magento-composer-installer') {
                     // Magento Composer Installer is not needed for already existing components
                     continue;

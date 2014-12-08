@@ -5,19 +5,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Pci\Model;
+namespace Magento\Framework\Encryption;
 
-class EncryptionTest extends \PHPUnit_Framework_TestCase
+class EncryptorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Pci\Model\Encryption
+     * @var \Magento\Framework\Encryption\Encryptor
      */
     protected $_model;
 
     protected function setUp()
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Pci\Model\Encryption'
+            'Magento\Framework\Encryption\Encryptor'
         );
     }
 

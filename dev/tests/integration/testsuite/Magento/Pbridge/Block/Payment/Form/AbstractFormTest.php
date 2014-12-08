@@ -14,7 +14,7 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $encryption = $this->getMock('Magento\Pci\Model\Encryption', [], [], '', false);
+        $encryption = $this->getMock('Magento\Framework\Encryption\Encryptor', [], [], '', false);
         $encryption->expects($this->any())
             ->method('encrypt')
             ->will($this->returnArgument(0));
