@@ -1,0 +1,47 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+namespace Magento\Bundle\Model\Option;
+
+use Magento\Framework\Exception\InputException;
+use Zend_Validate_Exception;
+
+class Validator extends \Magento\Framework\Validator\AbstractValidator
+{
+    /**
+     * @param \Magento\Bundle\Model\Option $value
+     * @return boolean
+     * @throws Zend_Validate_Exception If validation of $value is impossible
+     */
+    public function isValid($value)
+    {
+        $this->validateRequiredFields($value);
+
+        return !$this->hasMessages();
+    }
+
+    /**
+     * @param \Magento\Bundle\Model\Option $value
+     * @throws Zend_Validate_Exception
+     * @throws \Exception
+     */
+    protected function validateRequiredFields($value)
+    {
+        $messages = [];
+        $requiredFields = [
+            'title' => $value->getTitle(),
+            'type' => $value->getType()
+        ];
+        foreach ($requiredFields as $requiredField => $requiredValue) {
+            if (!\Zend_Validate::is(trim($requiredValue), 'NotEmpty')) {
+                $messages[$requiredField] = __(InputException::REQUIRED_FIELD, ['fieldName' => $requiredField]);
+            }
+        }
+        $this->_addMessages($messages);
+    }
+}
+ 
