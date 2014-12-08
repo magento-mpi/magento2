@@ -72,10 +72,6 @@ require([
                 $('body').trigger('refreshJsList', {jsList : data.result.files});
             } else {
                 $(progressSelector).removeClass('upload-progress').addClass('upload-failure');
-                /** fix for ie 8 to display error message if file wasn't uploaded */
-                if ($.browser.msie && $.browser.version == '8.0') {
-                    alert(data.result.message);
-                }
             }
 
             $('.ui-sortable').sortable('initButtons');
