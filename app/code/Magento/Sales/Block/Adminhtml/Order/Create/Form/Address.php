@@ -94,6 +94,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder
      * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -115,6 +116,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
         $this->options = $options;
@@ -126,6 +128,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         $this->addressMapper = $addressMapper;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
+        $this->addressMapper = $addressMapper;
         parent::__construct(
             $context,
             $sessionQuote,

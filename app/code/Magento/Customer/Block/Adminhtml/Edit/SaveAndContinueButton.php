@@ -7,7 +7,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
 /**
@@ -17,24 +17,24 @@ use Magento\Ui\Component\Control\ButtonProviderInterface;
 class SaveAndContinueButton extends GenericButton implements ButtonProviderInterface
 {
     /**
-     * @var CustomerAccountServiceInterface
+     * @var AccountManagementInterface
      */
-    protected $customerAccountService;
+    protected $customerAccountManagement;
 
     /**
      * Constructor
      *
      * @param \Magento\Backend\Block\Widget\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param CustomerAccountServiceInterface $customerAccountService
+     * @param AccountManagementInterface $customerAccountManagement
      */
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        CustomerAccountServiceInterface $customerAccountService
+        AccountManagementInterface $customerAccountManagement
     ) {
         parent::__construct($context, $registry);
-        $this->customerAccountService = $customerAccountService;
+        $this->customerAccountManagement = $customerAccountManagement;
     }
 
     /**
@@ -43,7 +43,7 @@ class SaveAndContinueButton extends GenericButton implements ButtonProviderInter
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = !$customerId || $this->customerAccountService->canModify($this->getCustomerId());
+        $canModify = !$customerId || $this->customerAccountManagement->isReadonly($this->getCustomerId());
         $data = [];
         if ($canModify) {
             $data = [

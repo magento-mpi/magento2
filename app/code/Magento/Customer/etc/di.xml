@@ -33,15 +33,10 @@
                 type="Magento\Framework\Api\SearchResults" />
     <preference for="Magento\Customer\Api\Data\AddressSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults" />
-    <preference for="Magento\Customer\Service\V1\CustomerAddressServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerAddressService" />
     <preference for="Magento\Customer\Service\V1\CustomerGroupServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerGroupService" />
-    <preference for="Magento\Customer\Service\V1\CustomerAccountServiceInterface"
-                type="Magento\Customer\Service\V1\CustomerAccountService" />
     <preference for="Magento\Customer\Api\AccountManagementInterface"
                 type="Magento\Customer\Model\AccountManagement" />
-
     <preference for="Magento\Customer\Service\V1\CustomerMetadataServiceInterface"
                 type="Magento\Customer\Service\V1\CustomerMetadataServiceCached" />
     <preference for="Magento\Customer\Api\CustomerMetadataInterface"
@@ -57,7 +52,7 @@
             <argument name="customerResource" xsi:type="object">Magento\Customer\Model\Resource\Customer\Proxy</argument>
             <argument name="storage" xsi:type="object">Magento\Customer\Model\Session\Storage</argument>
             <argument name="converter" xsi:type="object">Magento\Customer\Model\Converter\Proxy</argument>
-            <argument name="customerAccountService" xsi:type="object">Magento\Customer\Service\V1\CustomerAccountServiceInterface\Proxy</argument>
+            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface\Proxy</argument>
         </arguments>
     </type>
     <type name="Magento\Framework\Module\Updater\SetupFactory">
@@ -104,12 +99,6 @@
             <argument name="propertyMappers" xsi:type="array">
                 <item name="customer" xsi:type="string">Magento\Customer\Model\Resource\Setup\PropertyMapper</item>
             </argument>
-        </arguments>
-    </type>
-    <type name="Magento\Customer\Service\V1\CustomerAccountService">
-        <arguments>
-            <argument name="url" xsi:type="object">Magento\Framework\Url</argument>
-            <argument name="converter" xsi:type="object">Magento\Customer\Model\Converter\Proxy</argument>
         </arguments>
     </type>
     <virtualType name="Magento\Customer\Service\Config\CustomerMetadataConfig" type="Magento\Framework\Api\Config\MetadataConfig">
