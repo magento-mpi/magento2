@@ -130,7 +130,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
                         ->create();
                 }
             }
-            $option->setValues($prices);
+            $option->setValues($values);
             $options[] = $option;
         }
         return $options;
