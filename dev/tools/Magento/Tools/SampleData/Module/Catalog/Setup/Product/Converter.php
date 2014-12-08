@@ -171,11 +171,12 @@ class Converter
         $ids = [];
         $tree = $this->categoryReadService->getTree();
         foreach ($categories as $name) {
-            foreach ($tree->getChildren() as $child) {
+            foreach ($tree->getChildrenData() as $child) {
                 if ($child->getName() == $name) {
+                    /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface $child */
                     $tree = $child;
                     $ids[] = $child->getId();
-                    if (!$tree->getChildren()) {
+                    if (!$tree->getChildrenData()) {
                         $tree = $this->categoryReadService->getTree();
                     }
                     break;

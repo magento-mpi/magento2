@@ -85,9 +85,10 @@ class Rule implements SetupInterface
         $tree = $this->categoryReadService->getTree();
         foreach ($categoryPath as $categoryName) {
             $categoryId = null;
-            foreach ($tree->getChildren() as $child) {
+            foreach ($tree->getChildrenData() as $child) {
                 if ($child->getName() == $categoryName) {
                     $tree = $child;
+                    /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface $child */
                     $categoryId = $child->getId();
                     break;
                 }
