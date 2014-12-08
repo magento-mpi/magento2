@@ -1894,7 +1894,8 @@ return array(
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Observer'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
-    [   'getWebsites',
+    [
+        'getWebsites',
         'Magento\CatalogInventory\Model\StockIndex',
         'Magento\CatalogInventory\Model\StockIndex:getWebsitesWithDefaultStores'
     ],
