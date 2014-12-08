@@ -318,6 +318,13 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             $this->setDataUsingMethod($attributeCode, $attributeData);
         }
 
+        $customAttributes = $customer->getCustomAttributes();
+        if (!is_null($customAttributes)) {
+            foreach ($customAttributes as $attribute) {
+                $this->setDataUsingMethod($attribute->getAttributeCode(), $attribute->getValue());
+            }
+        }
+
         $customerId = $customer->getId();
         if ($customerId) {
             $this->setId($customerId);
