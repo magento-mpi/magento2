@@ -274,7 +274,6 @@ class AccountManagement implements AccountManagementInterface
         $this->eventManager = $eventManager;
         $this->storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
-        $this->converter = $converter;
         $this->validator = $validator;
         $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
