@@ -14,6 +14,7 @@ use Magento\Framework\Api\MetadataServiceInterface;
 
 /**
  * DataBuilder class for \Magento\Eav\Api\Data\AttributeSetInterface
+ * @codeCoverageIgnore
  */
 class AttributeSetDataBuilder extends \Magento\Framework\Api\Builder
 {

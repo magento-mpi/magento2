@@ -418,4 +418,55 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             array(true, false, true)
         );
     }
+
+    /**
+     * @dataProvider isCurrentlySecureDataProvider
+     *
+     * @param bool $expected
+     * @param array $serverValues
+     * @magentoConfigFixture current_store web/secure/offloader_header SSL_OFFLOADED
+     * @magentoConfigFixture current_store web/secure/base_url https://example.com:80
+     */
+    public function testIsCurrentlySecure($expected, $serverValues)
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Store\Model\Store $model */
+        $model = $objectManager->create('Magento\Store\Model\Store');
+
+        $server = $_SERVER;
+        foreach ($serverValues as $key => $value) {
+            $_SERVER[$key] = $value;
+        }
+
+        $this->assertEquals($expected, $model->isCurrentlySecure());
+        $_SERVER = $server;
+    }
+
+    public function isCurrentlySecureDataProvider()
+    {
+        return [
+            [true, ['HTTPS' => 'on']],
+            [true, ['SSL_OFFLOADED' => 'on']],
+            [true, ['HTTP_SSL_OFFLOADED' => 'on']],
+            [true, ['SERVER_PORT' => 80]],
+            [false, []],
+        ];
+    }
+
+    /**
+     * @magentoConfigFixture current_store web/secure/offloader_header SSL_OFFLOADED
+     * @magentoConfigFixture current_store web/secure/base_url
+     */
+    public function testIsCurrentlySecureNoSecureBaseUrl()
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Store\Model\Store $model */
+        $model = $objectManager->create('Magento\Store\Model\Store');
+
+        $server = $_SERVER;
+        $_SERVER['SERVER_PORT'] = 80;
+
+        $this->assertFalse($model->isCurrentlySecure());
+        $_SERVER = $server;
+    }
 }
