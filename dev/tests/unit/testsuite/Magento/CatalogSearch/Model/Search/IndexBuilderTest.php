@@ -25,6 +25,9 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|MockObject */
     private $config;
 
+    /** @var \Magento\Framework\StoreManagerInterface|MockObject */
+    private $storeManager;
+
     /** @var \Magento\Framework\Search\RequestInterface|MockObject */
     private $request;
 
@@ -45,7 +48,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
 
         $this->adapter = $this->getMockBuilder('\Magento\Framework\DB\Adapter\AdapterInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['select'])
+            ->setMethods(['select', 'quoteInto'])
             ->getMockForAbstractClass();
         $this->adapter->expects($this->once())
             ->method('select')
@@ -55,7 +58,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['getConnection', 'getTableName'])
             ->getMock();
-        $this->resource->expects($this->once())
+        $this->resource->expects($this->any())
             ->method('getConnection')
             ->with(\Magento\Framework\App\Resource::DEFAULT_READ_RESOURCE)
             ->will($this->returnValue($this->adapter));
@@ -70,12 +73,15 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['isSetFlag'])
             ->getMockForAbstractClass();
 
+        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')->getMock();
+
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->target = $objectManagerHelper->getObject(
             'Magento\CatalogSearch\Model\Search\IndexBuilder',
             [
                 'resource' => $this->resource,
                 'config' => $this->config,
+                'storeManager' => $this->storeManager
             ]
         );
     }
@@ -167,13 +173,18 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
             ->method('isSetFlag')
             ->with('cataloginventory/options/show_out_of_stock')
             ->will($this->returnValue(false));
+        $this->adapter->expects($this->once())->method('quoteInto')
+            ->with(' AND stock_index.website_id = ?', 1)->willReturn(' AND stock_index.website_id = 1');
+        $website = $this->getMockBuilder('Magento\Store\Model\Website')->disableOriginalConstructor()->getMock();
+        $website->expects($this->once())->method('getId')->willReturn(1);
+        $this->storeManager->expects($this->once())->method('getWebsite')->willReturn($website);
 
         $this->select->expects($this->at(2))
             ->method('joinLeft')
             ->with(
                 ['stock_index' => 'cataloginventory_stock_status' . $tableSuffix],
                 'search_index.product_id = stock_index.product_id'
-                . ' AND stock_index.website_id = 1 AND stock_index.stock_id = 1',
+                . ' AND stock_index.website_id = 1',
                 []
             )
             ->will($this->returnSelf());
