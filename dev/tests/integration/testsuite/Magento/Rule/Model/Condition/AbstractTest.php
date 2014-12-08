@@ -35,12 +35,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         );
         $model->expects($this->any())->method('getValueElementRenderer')->will($this->returnValue($editableBlock));
 
-        $rule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Rule\Model\Rule');
-        $model->setRule(
-            $rule->setForm(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Data\Form')
-            )
-        );
+        $rule = $this->getMockBuilder('Magento\Rule\Model\AbstractModel')
+            ->setMethods(['getForm'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
+        $rule->expects($this->any())->method('getForm')->willReturn(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Data\Form'));
+        $model->setRule($rule);
 
         $property = new \ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
         $property->setAccessible(true);
