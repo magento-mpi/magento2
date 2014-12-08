@@ -11,5 +11,9 @@
     <head>
         <css src="Magento_Paypal::styles.css"/>
     </head>
-    <body/>
+    <body>
+        <referenceContainer name="js">
+            <block class="Magento\Backend\Block\Template" template="Magento_Paypal::system/config/fieldset/location.phtml"/>
+        </referenceContainer>
+    </body>
 </page>
