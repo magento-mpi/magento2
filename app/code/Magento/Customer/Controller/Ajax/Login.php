@@ -11,11 +11,14 @@ namespace Magento\Customer\Controller\Ajax;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
-use Magento\Webapi\Exception as HttpException;
 use Magento\Webapi\Exception;
+use Magento\Webapi\Exception as HttpException;
 
 /**
  * Login controller
+ *
+ * @method \Zend_Controller_Request_Http getRequest()
+ * @method \Magento\Framework\App\Response\Http getResponse()
  */
 class Login extends \Magento\Framework\App\Action\Action
 {
@@ -57,7 +60,7 @@ class Login extends \Magento\Framework\App\Action\Action
     /**
      * Login registered users and initiate a session.
      *
-     * Expects a POST. ex for JSON  {"username":"user@magento.com", "password":"userpassword"}
+     * Expects a POST. ex for JSON {"username":"user@magento.com", "password":"userpassword"}
      */
     public function execute()
     {
@@ -82,7 +85,7 @@ class Login extends \Magento\Framework\App\Action\Action
         } catch (InvalidEmailOrPasswordException $e) {
             $responseText = $e->getMessage();
         } catch (\Exception $e) {
-            $responseText = __('There was an error validating the login and password.');
+            $responseText = __('There was an error validating the username and password.');
         }
         if ($responseText) {
             $this->getResponse()->setHttpResponseCode(HttpException::HTTP_UNAUTHORIZED);
