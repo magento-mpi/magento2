@@ -60,4 +60,3 @@ class Logout extends \Magento\Framework\App\Action\Action
         $this->getResponse()->representJson($this->helper->jsonEncode(['message' => 'Logout Successful']));
     }
 }
-

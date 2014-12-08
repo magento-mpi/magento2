@@ -11,8 +11,7 @@ namespace Magento\Customer\Controller\Ajax;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
-use Magento\Webapi\Exception;
-use Magento\Webapi\Exception as HttpException;
+use Zend\Http\Response;
 
 /**
  * Login controller
@@ -61,18 +60,20 @@ class Login extends \Magento\Framework\App\Action\Action
      * Login registered users and initiate a session.
      *
      * Expects a POST. ex for JSON {"username":"user@magento.com", "password":"userpassword"}
+     *
+     * @return void
      */
     public function execute()
     {
         $credentials = null;
         try {
             $credentials = $this->helper->jsonDecode($this->getRequest()->getRawBody());
-        } catch (Exception $e) {
-            $this->getResponse()->setHttpResponseCode($e->getCode());
+        } catch (\Exception $e) {
+            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_400);
             return;
         }
         if (!$credentials || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
-            $this->getResponse()->setHttpResponseCode(HttpException::HTTP_BAD_REQUEST);
+            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_400);
             return;
         }
         $responseText = null;
@@ -88,7 +89,7 @@ class Login extends \Magento\Framework\App\Action\Action
             $responseText = __('There was an error validating the username and password.');
         }
         if ($responseText) {
-            $this->getResponse()->setHttpResponseCode(HttpException::HTTP_UNAUTHORIZED);
+            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_401);
         } else {
             $responseText = __('Login successful.');
         }
