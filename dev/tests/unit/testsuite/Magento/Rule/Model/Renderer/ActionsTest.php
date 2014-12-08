@@ -43,7 +43,7 @@ class ActionsTest extends \PHPUnit_Framework_TestCase
     public function testRender()
     {
         $rule = $this->getMockBuilder('Magento\Rule\Model\AbstractModel')
-            ->setMethods(['getActions'])
+            ->setMethods(['getActions', '__sleep', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $actions = $this->getMock('\Magento\Rule\Model\Action\Collection', ['asHtmlRecursive'], [], '', false);

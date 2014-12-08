@@ -39,7 +39,11 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getForm'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
-        $rule->expects($this->any())->method('getForm')->willReturn(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Data\Form'));
+        $rule->expects($this->any())
+            ->method('getForm')
+            ->willReturn(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Framework\Data\Form')
+            );
         $model->setRule($rule);
 
         $property = new \ReflectionProperty('Magento\Rule\Model\Condition\AbstractCondition', '_inputType');
