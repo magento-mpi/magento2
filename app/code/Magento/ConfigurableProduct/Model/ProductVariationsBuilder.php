@@ -28,6 +28,7 @@ class ProductVariationsBuilder
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Framework\Api\AttributeDataBuilder $customAttributeBuilder
+     * @param Product\Type\VariationMatrix $variationMatrix
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
