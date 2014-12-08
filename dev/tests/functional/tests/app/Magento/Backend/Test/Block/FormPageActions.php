@@ -133,6 +133,6 @@ class FormPageActions extends PageActions
      */
     protected function waitBeforeClick()
     {
-        sleep(0.01);
+        usleep(500000);
     }
 }
