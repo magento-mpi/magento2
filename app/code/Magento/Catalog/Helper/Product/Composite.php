@@ -175,8 +175,10 @@ class Composite extends \Magento\Framework\App\Helper\AbstractHelper
             // Register customer we're working with
             $customerId = (int)$configureResult->getCurrentCustomerId();
             // TODO: Remove the customer model from the registry once all readers are refactored
-            $customerModel = $this->customerRepository->getById($customerId);
-            $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customerModel);
+            if ($customerId) {
+                $customerData = $this->customerRepository->getById($customerId);
+                $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customerData);
+            }
             $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customerId);
 
             // Prepare buy request values
