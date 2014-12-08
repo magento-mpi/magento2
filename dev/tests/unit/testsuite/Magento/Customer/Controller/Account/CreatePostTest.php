@@ -8,7 +8,7 @@
  */
 namespace Magento\Customer\Controller\Account;
 
-use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Model\Url;
 use Magento\Customer\Helper\Address;
 use Magento\Store\Model\ScopeInterface;
@@ -373,7 +373,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
                 1,
                 'customer@example.com',
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED,
                 false,
                 Address::TYPE_SHIPPING,
                 'Account confirmation is required',
@@ -382,7 +382,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
                 1,
                 'customer@example.com',
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED,
                 false,
                 Address::TYPE_SHIPPING,
                 'Thank you for registering with',
@@ -391,7 +391,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
                 1,
                 'customer@example.com',
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED,
                 true,
                 Address::TYPE_SHIPPING,
                 'enter you shipping address for proper VAT calculation',
@@ -400,7 +400,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
                 1,
                 'customer@example.com',
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_REQUIRED,
                 true,
                 Address::TYPE_BILLING,
                 'enter you billing address for proper VAT calculation',
@@ -524,7 +524,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             [
                 1,
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_NOT_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED,
                 'http://example.com/success',
                 true,
                 'Thank you for registering with',
@@ -532,7 +532,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
             [
                 1,
                 '123123q',
-                AccountManagement::ACCOUNT_CONFIRMATION_NOT_REQUIRED,
+                AccountManagementInterface::ACCOUNT_CONFIRMATION_NOT_REQUIRED,
                 'http://example.com/success',
                 false,
                 'Thank you for registering with',

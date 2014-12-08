@@ -6,9 +6,15 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .form.wishlist.items {
     .actions-toolbar {
-        &:extend(.abstract-reset-left-margin all);
+        &:extend(.abs-reset-left-margin all);
     }
 }
 
@@ -16,7 +22,7 @@
 .product-options-bottom,
 .block-bundle-summary {
     .action.towishlist {
-        &:extend(.abstract-action-addto-product all);
+        &:extend(.abs-action-addto-product all);
     }
 }
 
@@ -24,7 +30,7 @@
 .table-comparison {
     .action {
         &.towishlist {
-            &:extend(.abstract-actions-addto-gridlist all);
+            &:extend(.abs-actions-addto-gridlist all);
             .icon-font-symbol(
                 @icon-wishlist-empty
             );
@@ -50,7 +56,7 @@
         margin: @indent-s-base 0;
         .qty {
             vertical-align: middle;
-            &:extend(.abstract-input-qty all);
+            &:extend(.abs-input-qty all);
         }
     }
     .col {
@@ -80,10 +86,10 @@
 
 .block-wishlist {
     .block-title {
-        &:extend(.abstract-block-title all);
+        &:extend(.abs-block-title all);
     }
     .counter {
-        &:extend(.abstract-block-items-counter all);
+        &:extend(.abs-block-items-counter all);
     }
     .product-item-name {
         margin-right: @indent-m-base;
@@ -107,7 +113,7 @@
             }
             .comment-box {
                 .label {
-                    &:extend(.abstract-visually-hidden all);
+                    &:extend(.abs-visually-hidden all);
                 }
             }
             &-comment {
@@ -126,17 +132,19 @@
             .box-tocart {
                 input.qty {
                     height: 32px;
-                    &:extend(.abstract-input-qty all);
+                    &:extend(.abs-input-qty all);
                 }
             }
         }
     }
 }
 
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-m) {
     .products-grid.wishlist {
         margin-right: -@indent-s-base;
         margin-bottom: @indent-l-base;
@@ -222,7 +230,7 @@
 //
 //    Desktop
 //--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
+.responsive-min-l(@break) when (@break = @screen-m) {
     .products-grid.wishlist {
         .product {
             &-item {
@@ -266,7 +274,7 @@
     }
 }
 
-.responsive(@break) when (@break = @screen-l) {
+.responsive-min-l(@break) when (@break = @screen-l) {
     .wishlist-index-index .products-grid .product-items { margin: 0; }
     .wishlist-index-index .products-grid .product-item {
         width: 24%;
