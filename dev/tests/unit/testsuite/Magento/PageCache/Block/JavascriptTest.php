@@ -17,7 +17,7 @@ class JavascriptTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\PageCache\Block\Javascript|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $this;
+    protected $blockJavascript;
 
     /**
      * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
@@ -85,7 +85,7 @@ class JavascriptTest extends \PHPUnit_Framework_TestCase
             ->method('getUpdate')
             ->willReturn($this->layoutUpdateMock);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->this = $objectManager->getObject(
+        $this->blockJavascript = $objectManager->getObject(
             'Magento\PageCache\Block\Javascript',
             [
                 'context' => $this->contextMock
@@ -116,7 +116,7 @@ class JavascriptTest extends \PHPUnit_Framework_TestCase
         $this->layoutUpdateMock->expects($this->once())
             ->method('getHandles')
             ->willReturn($handles);
-        $this->assertRegExp($expectedResult, $this->this->getScriptOptions());
+        $this->assertRegExp($expectedResult, $this->blockJavascript->getScriptOptions());
     }
 
     public function getScriptOptionsDataProvider()

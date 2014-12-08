@@ -17,7 +17,7 @@ class BehaviourTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\MultipleWishlist\Block\Behaviour
      */
-    protected $this;
+    protected $blockBehaviour;
 
     /**
      * @var \Magento\Framework\View\Element\Template\Context|\PHPUnit_Framework_MockObject_MockObject
@@ -63,7 +63,7 @@ class BehaviourTest extends \PHPUnit_Framework_TestCase
             ->method('getUrlBuilder')
             ->willReturn($this->urlBuilderMock);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->this = $objectManager->getObject(
+        $this->blockBehaviour = $objectManager->getObject(
             'Magento\MultipleWishlist\Block\Behaviour',
             [
                 'context' => $this->contextMock
@@ -93,7 +93,7 @@ class BehaviourTest extends \PHPUnit_Framework_TestCase
             )
             ->willReturn($url);
 
-        $this->assertStringStartsWith($expectedResult, $this->this->getCreateUrl());
+        $this->assertStringStartsWith($expectedResult, $this->blockBehaviour->getCreateUrl());
     }
 
     public function getCreateUrlDataProvider()

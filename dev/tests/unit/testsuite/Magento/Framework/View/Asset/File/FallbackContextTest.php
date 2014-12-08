@@ -20,7 +20,7 @@ class FallbackContextTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Framework\View\Asset\File\FallbackContext
      */
-    protected $this;
+    protected $fallbackContext;
 
     protected function setUp()
     {
@@ -45,7 +45,7 @@ class FallbackContextTest extends \PHPUnit_Framework_TestCase
         $isSecure,
         $expectedResult
     ) {
-        $this->this = $this->objectManager->getObject(
+        $this->fallbackContext = $this->objectManager->getObject(
             'Magento\Framework\View\Asset\File\FallbackContext',
             [
                 'baseUrl' => $baseUrl,
@@ -55,7 +55,7 @@ class FallbackContextTest extends \PHPUnit_Framework_TestCase
                 'isSecure' => $isSecure
             ]
         );
-        $this->assertEquals($expectedResult, $this->this->getConfigPath());
+        $this->assertEquals($expectedResult, $this->fallbackContext->getConfigPath());
     }
 
     public function getConfigPathDataProvider()
