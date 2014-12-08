@@ -344,7 +344,6 @@ return array(
     array('deleteProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('display', 'Magento\Framework\Image\Adapter\AbstractAdapter', 'getImage()'),
     array('displayFullSummary', 'Magento\Tax\Model\Config'),
-    array('displayTaxColumn', 'Magento\Tax\Model\Config'),
     array('displayZeroTax', 'Magento\Tax\Model\Config'),
     array('drawItem', 'Magento\Catalog\Block\Navigation'),
     array('dropKey', 'Magento\Framework\DB\Adapter\Pdo\Mysql'),
@@ -2041,6 +2040,7 @@ return array(
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
     ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
+    ['getNoDisplay', 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category'],
     ['getSearchType', 'Magento\CatalogSearch\Model\Fulltext'],
     ['getEmailConfirmationUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getEmailConfirmationUrl'],
     ['getForgotPasswordUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getForgotPasswordUrl'],
@@ -2113,4 +2113,7 @@ return array(
     ],
     ['getProduct', 'Magento\Catalog\Helper\Product'],
     ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
+    ['getTaxConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
+    ['prepareAdjustmentConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
+    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract']
 );

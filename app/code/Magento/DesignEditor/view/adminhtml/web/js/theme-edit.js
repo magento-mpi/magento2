@@ -70,13 +70,10 @@ define([
         _reloadPage: function(event) {
             event.preventDefault();
             event.returnValue = false;
+            
             var childWindow = window.open([this.options.launchUrl + 'theme_id', this.themeId].join('/'));
-            if ($.browser.msie) {
-                $(childWindow.document).ready($.proxy(this._doReload, this, childWindow));
-            } else {
-                $(childWindow).load($.proxy(this._doReload, this, childWindow));
-            }
 
+            $(childWindow).load($.proxy(this._doReload, this, childWindow));
         },
 
         /**

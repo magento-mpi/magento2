@@ -13,6 +13,7 @@ use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
  * Class StockRegistryProviderTest
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @SuppressWarnings(PHPMD.TooManyFields)
  */
 class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
 {
@@ -109,13 +110,13 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
 
         $this->stock = $this->getMockForAbstractClass(
             'Magento\CatalogInventory\Api\Data\StockInterface',
-            ['__wakeup', 'getId'],
+            ['__wakeup', 'getStockId'],
             '',
             false
         );
         $this->stockItem = $this->getMockForAbstractClass(
             'Magento\CatalogInventory\Api\Data\StockItemInterface',
-            ['__wakeup', 'getId'],
+            ['__wakeup', 'getItemId'],
             '',
             false
         );
@@ -125,8 +126,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-
-
+        
         $this->stockFactory = $this->getMock(
             '\Magento\CatalogInventory\Api\Data\StockInterfaceFactory',
             ['create'],
@@ -246,7 +246,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
         );
         $stockCollection->expects($this->once())->method('getItems')->willReturn([$this->stock]);
         $this->stockRepository->expects($this->once())->method('getList')->willReturn($stockCollection);
-        $this->stock->expects($this->once())->method('getId')->willReturn(true);
+        $this->stock->expects($this->once())->method('getStockId')->willReturn(true);
         $this->assertEquals($this->stock, $this->stockRegistryProvider->getStock($this->websiteId));
     }
 
@@ -264,7 +264,7 @@ class StockRegistryProviderTest extends \PHPUnit_Framework_TestCase
         );
         $stockItemCollection->expects($this->once())->method('getItems')->willReturn([$this->stockItem]);
         $this->stockItemRepository->expects($this->once())->method('getList')->willReturn($stockItemCollection);
-        $this->stockItem->expects($this->once())->method('getId')->willReturn(true);
+        $this->stockItem->expects($this->once())->method('getItemId')->willReturn(true);
         $this->assertEquals(
             $this->stockItem,
             $this->stockRegistryProvider->getStockItem($this->productId, $this->websiteId)

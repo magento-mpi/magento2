@@ -36,11 +36,11 @@
                             <th class="col qty" scope="col"><?php echo __('Qty') ?></th>
                         </tr>
                         </thead>
-                        <tbody>
                         <?php foreach($this->getItems() as $_item): ?>
-                            <?php echo $this->getItemHtml($_item) ?>
+                            <tbody class="item">
+                                <?php echo $this->getItemHtml($_item) ?>
+                            </tbody>
                         <?php endforeach ?>
-                        </tbody>
                     </table>
                 </div>
                 <div class="actions-toolbar">

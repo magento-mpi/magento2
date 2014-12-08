@@ -26,6 +26,11 @@ class DumpNodeVisitor extends NodeVisitorAbstract
         $this->prefix .= '.';
     }
 
+    /**
+     * @param TreeNode $treeNode
+     *
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     */
     public function nodeExit(TreeNode $treeNode)
     {
         $this->prefix = substr($this->prefix, 0, strlen($this->prefix) - 1);

@@ -94,7 +94,13 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetFinalAmount()
     {
-        $expectedValue = 10;
+        $this->priceCurrencyMock->expects($this->once())
+            ->method('format')
+            ->with(10, true, 2)
+            ->will($this->returnValue("$10.00"));
+
+        $displayValue = 10;
+        $expectedValue = "$10.00";
         $typeOfDisplay = 1; //Just to set it to not false
         /** @var \Magento\Framework\Pricing\Render\Amount $amountRender */
         $amountRender = $this->getMockBuilder('Magento\Framework\Pricing\Render\Amount')
@@ -103,7 +109,7 @@ class AdjustmentTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $amountRender->expects($this->any())
             ->method('getDisplayValue')
-            ->will($this->returnValue($expectedValue));
+            ->will($this->returnValue($displayValue));
         $this->weeeHelperMock->expects($this->any())->method('typeOfDisplay')->will($this->returnValue($typeOfDisplay));
         /** @var \Magento\Framework\Pricing\Amount\Base $baseAmount */
         $baseAmount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')

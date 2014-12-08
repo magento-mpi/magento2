@@ -32,7 +32,7 @@
             </div>
             <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="type">
-                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
 
@@ -47,7 +47,7 @@
 
             <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="email">
-                <button type="submit" title="<?php echo __('Go') ?>" class="action search"><span><?php echo __('Search') ?></span></button>
+                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
 
@@ -61,7 +61,7 @@
             </div>
             <div class="actions-toolbar">
                 <input type="hidden" name="params[search]" value="id">
-                <button type="submit" title="<?php echo __('Go') ?>" class="action primary search"><span><?php echo __('Search') ?></span></button>
+                <button type="submit" title="<?php echo $this->escapeHtml(__('Search')) ?>" class="action primary search"><span><?php echo __('Search') ?></span></button>
             </div>
         </form>
     </div>

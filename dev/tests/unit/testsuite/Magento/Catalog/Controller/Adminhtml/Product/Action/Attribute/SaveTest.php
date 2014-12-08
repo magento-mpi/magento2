@@ -240,6 +240,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getStockItem', 'saveStockItem'])
             ->getMockForAbstractClass();
         $this->stockItem = $this->getMockBuilder('Magento\CatalogInventory\Api\Data\StockItemInterface')
+            ->setMethods(['getId', 'getProductId'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
 

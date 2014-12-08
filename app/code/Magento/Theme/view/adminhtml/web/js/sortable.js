@@ -4,7 +4,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-define(["jquery","jquery/ui"], function($){
+define([
+    "jquery",
+    "jquery/ui"
+], function($){
     /**
      * Widget panel
      */
@@ -43,5 +46,6 @@ define(["jquery","jquery/ui"], function($){
             data.item.insertAfter(data.item.next());
         }
     });
-
+    
+    return $.mage.sortable;
 });

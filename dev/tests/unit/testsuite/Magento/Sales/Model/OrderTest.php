@@ -61,14 +61,11 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         );
         $this->item = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Item',
-            ['isDeleted', 'getQtyToInvoice'],
+            ['isDeleted', 'getQtyToInvoice', 'getParentItemId', 'getQuoteItemId'],
             [],
             '',
             false
         );
-        $this->item->expects($this->any())
-            ->method('isDeleted')
-            ->willReturn(false);
         $collection = $this->getMock('Magento\Sales\Model\Resource\Order\Item\Collection', [], [], '', false);
         $collection->expects($this->any())
             ->method('setOrderFilter')
@@ -96,6 +93,77 @@ class OrderTest extends \PHPUnit_Framework_TestCase
                 'context' => $context
             ]
         );
+    }
+
+
+    /**
+     * @param int|null $gettingQuoteItemId
+     * @param int|null $quoteItemId
+     * @param string|null $result
+     *
+     * @dataProvider dataProviderGetItemByQuoteItemId
+     */
+    public function testGetItemByQuoteItemId($gettingQuoteItemId, $quoteItemId, $result)
+    {
+        $this->item->expects($this->any())
+            ->method('getQuoteItemId')
+            ->willReturn($gettingQuoteItemId);
+
+        if ($result !== null) {
+            $result = $this->item;
+        }
+
+        $this->assertEquals($result, $this->order->getItemByQuoteItemId($quoteItemId));
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetItemByQuoteItemId()
+    {
+        return [
+            [10, 10, 'replace-me'],
+            [10, 88, null],
+            [88, 10, null],
+        ];
+    }
+
+    /**
+     * @param bool $isDeleted
+     * @param int|null $parentItemId
+     * @param array $result
+     *
+     * @dataProvider dataProviderGetAllVisibleItems
+     */
+    public function testGetAllVisibleItems($isDeleted, $parentItemId, array $result)
+    {
+        $this->item->expects($this->once())
+            ->method('isDeleted')
+            ->willReturn($isDeleted);
+
+        $this->item->expects($this->any())
+            ->method('getParentItemId')
+            ->willReturn($parentItemId);
+
+        if (!empty($result)) {
+            $result = [$this->item];
+        }
+
+        $this->assertEquals($result, $this->order->getAllVisibleItems());
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderGetAllVisibleItems()
+    {
+        return [
+            [false, null, ['replace-me']],
+            [true, null, []],
+            [true, 10, []],
+            [false, 10, []],
+            [true, null, []],
+        ];
     }
 
     public function testCanCancelCanUnhold()
@@ -163,6 +231,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->order->setState(\Magento\Sales\Model\Order::STATE_NEW);
 
         $this->item->expects($this->any())
+            ->method('isDeleted')
+            ->willReturn(false);
+        $this->item->expects($this->any())
             ->method('getQtyToInvoice')
             ->willReturn(0);
 
@@ -220,6 +291,9 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         }
         $this->order->setData('state', \Magento\Sales\Model\Order::STATE_NEW);
 
+        $this->item->expects($this->any())
+            ->method('isDeleted')
+            ->willReturn(false);
         $this->item->expects($this->any())
             ->method('getQtyToInvoice')
             ->willReturn(42);

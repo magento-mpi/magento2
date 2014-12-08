@@ -204,7 +204,7 @@ $cmsPage = array(
 
 <h2>Redeeming Reward Points</h2>
 <p>You can redeem your reward points at checkout. If you have accumulated enough points to redeem them you will have the option of using points as one of the payment methods.  The option to use reward points, as well as your balance and the monetary equivalent this balance, will be shown to you in the Payment Method area of the checkout.  Redeemable reward points can be used in conjunction with other payment methods such as credit cards, gift cards and more.</p>
-<p><img src="{{view url="Magento_Reward::images/payment.gif"}}" alt="Payment Information" /></p>
+<p><img src="{{view url="Magento_Reward::images/payment.png"}}" alt="Payment Information" /></p>
 
 <h2>Reward Points Minimums and Maximums</h2>
 <p>Reward points may be capped at a minimum value required for redemption.  If this option is selected you will not be able to use your reward points until you accrue a minimum number of points, at which point they will become available for redemption.</p>
@@ -212,7 +212,7 @@ $cmsPage = array(
 
 <h2>Managing My Reward Points</h2>
 <p>You have the ability to view and manage your points through your <a href="{{store url="customer/account"}}">Customer Account</a>. From your account you will be able to view your total points (and currency equivalent), minimum needed to redeem, whether you have reached the maximum points limit and a cumulative history of points acquired, redeemed and lost. The history record will retain and display historical rates and currency for informational purposes. The history will also show you comprehensive informational messages regarding points, including expiration notifications.</p>
-<p><img src="{{view url="Magento_Reward::images/my_account.gif"}}" alt="My Account" /></p>
+<p><img src="{{view url="Magento_Reward::images/my_account.png"}}" alt="My Account" /></p>
 
 <h2>Reward Points Expiration</h2>
 <p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>

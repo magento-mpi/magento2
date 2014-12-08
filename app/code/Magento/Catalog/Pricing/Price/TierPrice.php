@@ -52,6 +52,11 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
     protected $priceList;
 
     /**
+     * @var GroupManagementInterface
+     */
+    protected $groupManagement;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator

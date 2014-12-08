@@ -41,6 +41,7 @@ use Magento\Framework\StoreManagerInterface;
  * @method \Magento\Search\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
  * @method \Magento\Search\Model\Query setUpdatedAt(string $value)
+ * @method \Magento\Search\Model\Query setIsQueryTextExceeded(bool $value)
  */
 class Query extends AbstractModel implements QueryInterface
 {

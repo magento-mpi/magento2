@@ -187,6 +187,10 @@ class Builder
         );
     }
 
+    /**
+     * @param array $dimensionsData
+     * @return array
+     */
     private function buildDimensions(array $dimensionsData)
     {
         $dimensions = [];

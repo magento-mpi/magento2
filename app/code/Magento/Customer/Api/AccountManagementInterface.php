@@ -14,6 +14,14 @@ namespace Magento\Customer\Api;
  */
 interface AccountManagementInterface
 {
+    /**#@+
+     * Constant for confirmation status
+     */
+    const ACCOUNT_CONFIRMED = 'account_confirmed';
+    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
+    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
+    /**#@-*/
+
     /**
      * Create customer account. Perform necessary business operations like sending email.
      *
@@ -77,6 +85,16 @@ interface AccountManagementInterface
     public function activate($email, $confirmationKey);
 
     /**
+     * Activate a customer account using a key that was sent in a confirmation e-mail.
+     *
+     * @param int $customerId
+     * @param string $confirmationKey
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function activateById($customerId, $confirmationKey);
+
+    /**
      * Authenticate a customer by username and password
      *
      * @param string $email
@@ -96,6 +114,17 @@ interface AccountManagementInterface
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function changePassword($email, $currentPassword, $newPassword);
+
+    /**
+     * Change customer password.
+     *
+     * @param int $customerId
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return bool true on success
+     * @throws \Magento\Framework\Exception\LocalizedException
+     */
+    public function changePasswordById($customerId, $currentPassword, $newPassword);
 
     /**
      * Send an email to the customer with a password reset link.
@@ -177,7 +206,7 @@ interface AccountManagementInterface
      * Retrieve default billing address for the given customerId.
      *
      * @param int $customerId
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the customer Id is invalid
      * @throws \Magento\Framework\Exception\LocalizedException
      */
@@ -187,9 +216,17 @@ interface AccountManagementInterface
      * Retrieve default shipping address for the given customerId.
      *
      * @param int $customerId
-     * @return \Magento\Customer\Api\Data\AddressInterface|null
+     * @return \Magento\Customer\Api\Data\AddressInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException If the customer Id is invalid
      * @throws \Magento\Framework\Exception\LocalizedException
      */
     public function getDefaultShippingAddress($customerId);
+
+    /**
+     * Return hashed password, which can be directly saved to database.
+     *
+     * @param string $password
+     * @return string
+     */
+    public function getPasswordHash($password);
 }

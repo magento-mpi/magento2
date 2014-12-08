@@ -65,7 +65,9 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     protected $_session;
 
-    /** @var  CustomerRepositoryInterface */
+    /**
+     * @var  CustomerRepositoryInterface
+     */
     protected $customerRepository;
 
     /**

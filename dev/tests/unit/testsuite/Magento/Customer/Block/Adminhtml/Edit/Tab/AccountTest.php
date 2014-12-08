@@ -8,11 +8,14 @@
 
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Model\AccountManagement;
+use Magento\Customer\Api\AccountManagementInterface;
 use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\Api\AbstractExtensibleObject;
 use Magento\Framework\Api\AttributeValue;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class AccountTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ObjectManagerHelper */
@@ -88,6 +91,8 @@ class AccountTest extends \PHPUnit_Framework_TestCase
      * @param $customerData
      * @param $isSingleStoreMode
      * @param $canModifyCustomer
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     private function _setupStoreMode($customerData, $isSingleStoreMode, $canModifyCustomer)
     {
@@ -192,7 +197,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(!$canModifyCustomer));
         $this->accountManagementMock->expects($this->any())->method('getConfirmationStatus')
             ->withAnyParameters()
-            ->will($this->returnValue(AccountManagement::ACCOUNT_CONFIRMED));
+            ->will($this->returnValue(AccountManagementInterface::ACCOUNT_CONFIRMED));
     }
 
     /**
