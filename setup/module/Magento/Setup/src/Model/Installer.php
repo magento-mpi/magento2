@@ -368,7 +368,9 @@ class Installer
         $cryptConfigData =
             array(ConfigMapper::$paramMap[ConfigMapper::KEY_ENCRYPTION_KEY] => $key);
 
-        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = array_pop(explode("\n", $key));
+        // find the latest key to display
+        $keys = explode("\n", $key);
+        $this->installInfo[EncryptConfig::KEY_ENCRYPTION_KEY] = array_pop($keys);
         return new EncryptConfig($cryptConfigData);
     }
 
