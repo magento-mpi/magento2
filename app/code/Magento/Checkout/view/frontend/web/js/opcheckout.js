@@ -52,8 +52,12 @@ define([
             events['click ' + this.options.backSelector] = function() {
                 this.element.trigger('enableSection', {selector: '#' + this.element.find('.active').prev().attr('id')});
             };
+
+            $(document).on({
+                'ajaxError': this._ajaxError.bind(this)
+            });
+
             $.extend(events, {
-                ajaxError: '_ajaxError',
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {

@@ -38,41 +38,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'Magento\Catalog\Model\Product'
         );
         $objectManager->get('Magento\Framework\Registry')->register('current_product', $product->load(1));
-
-        foreach (array(\Magento\Weee\Model\Tax::DISPLAY_INCL, \Magento\Weee\Model\Tax::DISPLAY_INCL_DESCR) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\App\Config\MutableScopeConfigInterface'
-            )->setValue(
-                Config::XML_PATH_FPT_DISPLAY_PRODUCT_VIEW,
-                $mode,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-            $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
-            $this->_model->updateProductOptions($eventObserver);
-            $this->assertEquals(
-                array('oldPlusDisposition' => 0.07, 'plusDisposition' => 0.07),
-                $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions()
-            );
-        }
-
-        foreach (array(
-            \Magento\Weee\Model\Tax::DISPLAY_EXCL,
-            \Magento\Weee\Model\Tax::DISPLAY_EXCL_DESCR_INCL
-        ) as $mode) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\App\Config\MutableScopeConfigInterface'
-            )->setValue(
-                Config::XML_PATH_FPT_DISPLAY_PRODUCT_VIEW,
-                $mode,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE
-            );
-            $eventObserver = $this->_createEventObserverForUpdateConfigurableProductOptions();
-            $this->_model->updateProductOptions($eventObserver);
-            $this->assertEquals(
-                array('oldPlusDisposition' => 0.07, 'plusDisposition' => 0.07, 'exclDisposition' => true),
-                $eventObserver->getEvent()->getResponseObject()->getAdditionalOptions()
-            );
-        }
     }
 
     /**
