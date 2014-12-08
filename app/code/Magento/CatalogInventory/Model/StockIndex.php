@@ -9,7 +9,7 @@ namespace Magento\CatalogInventory\Model;
 
 use Magento\CatalogInventory\Api\StockIndexInterface;
 use Magento\CatalogInventory\Model\Spi\StockRegistryProviderInterface;
-use Magento\Catalog\Model\ProductFactory;
+use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Catalog\Model\Product\Website as ProductWebsite;
 use Magento\Catalog\Model\Product\Type as ProductType;
 
@@ -24,9 +24,9 @@ class StockIndex implements StockIndexInterface
     protected $stockRegistryProvider;
 
     /**
-     * @var ProductFactory
+     * @var ProductRepositoryInterface
      */
-    protected $productFactory;
+    protected $productRepository;
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock\Status
@@ -54,18 +54,18 @@ class StockIndex implements StockIndexInterface
 
     /**
      * @param StockRegistryProviderInterface $stockRegistryProvider
-     * @param ProductFactory $productFactory
+     * @param ProductRepositoryInterface $productRepository
      * @param ProductWebsite $productWebsite
      * @param ProductType $productType
      */
     public function __construct(
         StockRegistryProviderInterface $stockRegistryProvider,
-        ProductFactory $productFactory,
+        ProductRepositoryInterface $productRepository,
         ProductWebsite $productWebsite,
         ProductType $productType
     ) {
         $this->stockRegistryProvider = $stockRegistryProvider;
-        $this->productFactory = $productFactory;
+        $this->productRepository = $productRepository;
         $this->productWebsite = $productWebsite;
         $this->productType = $productType;
     }
@@ -108,7 +108,6 @@ class StockIndex implements StockIndexInterface
      */
     public function updateProductStockStatus($productId, $websiteId)
     {
-        $productType = $this->getProductType($productId);
         $item = $this->stockRegistryProvider->getStockItem($productId, $websiteId);
 
         $status = \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK;
@@ -117,7 +116,7 @@ class StockIndex implements StockIndexInterface
             $status = $item->getIsInStock();
             $qty = $item->getQty();
         }
-        $this->processChildren($productId, $productType, $websiteId, $qty, $status);
+        $this->processChildren($productId, $websiteId, $qty, $status);
         $this->processParents($productId, $websiteId);
     }
 
@@ -125,7 +124,6 @@ class StockIndex implements StockIndexInterface
      * Process children stock status
      *
      * @param int $productId
-     * @param string $productType
      * @param int $websiteId
      * @param int $qty
      * @param int $status
@@ -133,7 +131,6 @@ class StockIndex implements StockIndexInterface
      */
     protected function processChildren(
         $productId,
-        $productType,
         $websiteId,
         $qty = 0,
         $status = \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK
@@ -144,17 +141,16 @@ class StockIndex implements StockIndexInterface
         }
 
         $statuses = [];
-        $websites = $this->getWebsites($websiteId);
+        $websitesWithStores = $this->getWebsitesWithDefaultStores($websiteId);
 
-        foreach (array_keys($websites) as $websiteId) {
+        foreach (array_keys($websitesWithStores) as $websiteId) {
             /* @var $website \Magento\Store\Model\Website */
             $statuses[$websiteId] = $status;
         }
 
-        $typeInstance = $this->getProductTypeInstance($productType);
-        if (!$typeInstance) {
-            return;
-        }
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->productRepository->getById($productId);
+        $typeInstance = $product->getTypeInstance();
 
         $requiredChildrenIds = $typeInstance->getChildrenIds($productId, true);
         if ($requiredChildrenIds) {
@@ -163,7 +159,7 @@ class StockIndex implements StockIndexInterface
                 $childrenIds = array_merge($childrenIds, $groupedChildrenIds);
             }
             $childrenWebsites = $this->productWebsite->getWebsites($childrenIds);
-            foreach ($websites as $websiteId => $storeId) {
+            foreach ($websitesWithStores as $websiteId => $storeId) {
                 $childrenStatus = $this->getStockStatusResource()->getProductStatus($childrenIds, $storeId);
                 $childrenStock = $this->getStockStatusResource()->getProductsStockStatuses($childrenIds, $websiteId);
                 $websiteStatus = $statuses[$websiteId];
@@ -195,10 +191,8 @@ class StockIndex implements StockIndexInterface
      *
      * @param int|null $websiteId
      * @return array
-     * @deprecated
-     * TODO move to \Magento\Store\Api\WebsiteList
      */
-    protected function getWebsites($websiteId = null)
+    protected function getWebsitesWithDefaultStores($websiteId = null)
     {
         if (is_null($this->websites)) {
             /** @var \Magento\CatalogInventory\Model\Resource\Stock\Status $resource */
@@ -231,9 +225,7 @@ class StockIndex implements StockIndexInterface
             return $this;
         }
 
-        $productTypes = $this->getProductType($parentIds);
         foreach ($parentIds as $parentId) {
-            $parentType = isset($productTypes[$parentId]) ? $productTypes[$parentId] : null;
             $item = $this->stockRegistryProvider->getStockItem($parentId, $websiteId);
             $status = \Magento\CatalogInventory\Model\Stock\Status::STATUS_IN_STOCK;
             $qty = 0;
@@ -241,22 +233,8 @@ class StockIndex implements StockIndexInterface
                 $status = $item->getIsInStock();
                 $qty = $item->getQty();
             }
-            $this->processChildren($parentId, $parentType, $websiteId, $qty, $status);
+            $this->processChildren($parentId, $websiteId, $qty, $status);
         }
-    }
-
-    /**
-     * Get Product type
-     *
-     * @param int $productId
-     * @return array|string
-     * @deprecated
-     */
-    protected function getProductType($productId)
-    {
-        $product = $this->productFactory->create();
-        $product->load($productId);
-        return $product->getTypeId();
     }
 
     /**
@@ -264,7 +242,6 @@ class StockIndex implements StockIndexInterface
      * as key - type code, value - instance model
      *
      * @return array
-     * @deprecated
      */
     protected function getProductTypeInstances()
     {
@@ -276,22 +253,6 @@ class StockIndex implements StockIndexInterface
             }
         }
         return $this->productTypes;
-    }
-
-    /**
-     * Retrieve Product Type Instance By Product Type
-     *
-     * @param string $productType
-     * @return ProductType\AbstractType|bool
-     * @deprecated
-     */
-    protected function getProductTypeInstance($productType)
-    {
-        $types = $this->getProductTypeInstances();
-        if (isset($types[$productType])) {
-            return $types[$productType];
-        }
-        return false;
     }
 
     /**
