@@ -29,7 +29,7 @@ class Builder
     protected $_conditionOperatorMap = [
         '=='    => ':field = ?',
         '!='    => ':field <> ?',
-        '>='    => ':field => ?',
+        '>='    => ':field >= ?',
         '>'     => ':field > ?',
         '<='    => ':field <= ?',
         '<'     => ':field < ?',
@@ -159,7 +159,7 @@ class Builder
             } else {
                 $out .= $this->_getMappedSqlCondition($condition, $value);
             }
-            $out.=  ' ' . $con;
+            $out .=  $out ? (' ' . $con) : '';
         }
         return $this->_expressionFactory->create(['expression' => $out]);
     }

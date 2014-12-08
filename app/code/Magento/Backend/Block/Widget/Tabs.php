@@ -120,10 +120,13 @@ class Tabs extends \Magento\Backend\Block\Widget
             }
         } elseif (is_string($tab)) {
             $this->_addTabByName($tab, $tabId);
+            if (!$this->_tabs[$tabId] instanceof TabInterface) {
+                unset($this->_tabs[$tabId]);
+                return $this;
+            }
         } else {
             throw new \Exception(__('Please correct the tab configuration and try again.'));
         }
-
         if (is_null($this->_tabs[$tabId]->getUrl())) {
             $this->_tabs[$tabId]->setUrl('#');
         }
@@ -163,7 +166,7 @@ class Tabs extends \Magento\Backend\Block\Widget
             $this->_tabs[$tabId] = null;
         }
 
-        if (!$this->_tabs[$tabId] instanceof TabInterface) {
+        if ($this->_tabs[$tabId] !== null && !$this->_tabs[$tabId] instanceof TabInterface) {
             throw new \Exception(__('Please correct the tab configuration and try again.'));
         }
     }

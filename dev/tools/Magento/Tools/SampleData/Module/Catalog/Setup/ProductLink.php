@@ -42,24 +42,32 @@ class ProductLink implements SetupInterface
     protected $postInstaller;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linksInitializer
      * @param \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks $linksInitializer,
-        \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller
+        \Magento\Tools\SampleData\Helper\PostInstaller $postInstaller,
+        \Magento\Tools\SampleData\Logger $logger
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->productFactory = $productFactory;
         $this->linksInitializer = $linksInitializer;
         $this->postInstaller = $postInstaller;
+        $this->logger = $logger;
     }
 
     /**
@@ -67,7 +75,7 @@ class ProductLink implements SetupInterface
      */
     public function run()
     {
-        echo "Installing product links\n";
+        $this->logger->log('Installing product links' . PHP_EOL);
         $entityFileAssociation = [
             'related',
             'upsell',
@@ -100,10 +108,10 @@ class ProductLink implements SetupInterface
                     }
                     $this->linksInitializer->initializeLinks($product, $links);
                     $product->getLinkInstance()->saveProductRelations($product);
-                    echo '.';
+                    $this->logger->log('.');
                 }
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 }

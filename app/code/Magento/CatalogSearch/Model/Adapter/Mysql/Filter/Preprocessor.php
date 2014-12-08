@@ -7,7 +7,6 @@
  */
 namespace Magento\CatalogSearch\Model\Adapter\Mysql\Filter;
 
-use Magento\CatalogSearch\Model\Resource\Engine;
 use Magento\Eav\Model\Config;
 use Magento\Framework\App\Resource;
 use Magento\Framework\App\ScopeResolverInterface;
@@ -39,21 +38,29 @@ class Preprocessor implements PreprocessorInterface
     private $resource;
 
     /**
+     * @var string
+     */
+    private $attributePrefix;
+
+    /**
      * @param ConditionManager $conditionManager
      * @param ScopeResolverInterface $scopeResolver
      * @param Config $config
      * @param Resource $resource
+     * @param string $attributePrefix
      */
     public function __construct(
         ConditionManager $conditionManager,
         ScopeResolverInterface $scopeResolver,
         Config $config,
-        Resource $resource
+        Resource $resource,
+        $attributePrefix
     ) {
         $this->conditionManager = $conditionManager;
         $this->scopeResolver = $scopeResolver;
         $this->config = $config;
         $this->resource = $resource;
+        $this->attributePrefix = $attributePrefix;
     }
 
     /**
@@ -92,7 +99,7 @@ class Preprocessor implements PreprocessorInterface
                 if ($filter->getType() == FilterInterface::TYPE_TERM) {
                     $field = $filter->getField();
                     $mapper = function ($value) use ($field, $isNegation) {
-                        return ($isNegation ? '-' : '') . Engine::ATTRIBUTE_PREFIX . $field . '_' . $value;
+                        return ($isNegation ? '-' : '') . $this->attributePrefix . $field . '_' . $value;
                     };
                     if (is_array($filter->getValue())) {
                         $value = implode(' ', array_map($mapper, $filter->getValue()));

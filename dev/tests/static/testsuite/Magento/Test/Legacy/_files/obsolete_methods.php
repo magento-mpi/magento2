@@ -2041,6 +2041,7 @@ return array(
     ['_getAllowedActions', 'Magento\Customer\Controller\Account', 'Magento\Customer\Controller\Account::getAllowedActions'],
     ['isRegistrationAllowed', 'Magento\Customer\Controller\Account\CreatePost'],
     ['isRegistrationAllowed', 'Magento\Invitation\Controller\Customer\Account\CreatePost'],
+    ['getNoDisplay', 'Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category'],
     ['getSearchType', 'Magento\CatalogSearch\Model\Fulltext'],
     ['getEmailConfirmationUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getEmailConfirmationUrl'],
     ['getForgotPasswordUrl', 'Magento\Customer\Helper\Data', 'Magento\Customer\Model\Url::getForgotPasswordUrl'],
