@@ -229,7 +229,7 @@ define([
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             billing: {
-                addressDropdownSelector: '#billing-address-select',
+                addressDropdownSelector: '#billing\\:address-select',
                 newAddressFormSelector: '#billing-new-address-form',
                 continueSelector: '#billing-buttons-container .button',
                 form: '#co-billing-form'
@@ -265,7 +265,7 @@ define([
         options: {
             shipping: {
                 form: '#co-shipping-form',
-                addressDropdownSelector: '#shipping-address-select',
+                addressDropdownSelector: '#shipping\\:address-select',
                 newAddressFormSelector: '#shipping-new-address-form',
                 copyBillingSelector: '#shipping\\:same_as_billing',
                 countrySelector: '#shipping\\:country_id',
@@ -276,12 +276,14 @@ define([
         _create: function() {
             this._super();
             var events = {};
-            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
-                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
-            };
             var onInputPropChange = function() {
                 $(this.options.shipping.copyBillingSelector).prop('checked', false);
             };
+            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
+                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
+                onInputPropChange.call(this);
+            };
+            // for guest checkout
             events['input ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['propertychange ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['click ' + this.options.shipping.copyBillingSelector] = function(e) {
