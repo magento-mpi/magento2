@@ -707,7 +707,7 @@ class AccountManagement implements AccountManagementInterface
                 ->create();
         }
 
-        $customerModel = $this->converter->createCustomerModel(
+        $customerModel = $this->customerFactory->create()->updateData(
             $this->customerDataBuilder->populate($customer)->setAddresses([])->create()
         );
 

@@ -47,7 +47,6 @@
             <argument name="customerUrl" xsi:type="object">Magento\Customer\Model\Url\Proxy</argument>
             <argument name="customerResource" xsi:type="object">Magento\Customer\Model\Resource\Customer\Proxy</argument>
             <argument name="storage" xsi:type="object">Magento\Customer\Model\Session\Storage</argument>
-            <argument name="converter" xsi:type="object">Magento\Customer\Model\Converter\Proxy</argument>
             <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface\Proxy</argument>
         </arguments>
     </type>

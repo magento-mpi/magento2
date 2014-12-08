@@ -2922,4 +2922,5 @@ return array(
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
     ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
     ['Magento\Customer\Model\Address\Converter'],
+    ['Magento\Customer\Model\Converter'],
 );
