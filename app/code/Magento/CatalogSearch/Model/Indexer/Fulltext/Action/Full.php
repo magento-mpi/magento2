@@ -677,7 +677,7 @@ class Full
             }
         }
 
-        if (!$this->engineProvider->get()->allowAdvancedIndex()) {
+        if ($this->engineProvider->get()->allowAdvancedIndex()) {
             $product = $this->getProductEmulator(
                 $productData['type_id']
             )->setId(

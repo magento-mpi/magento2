@@ -1,5 +1,4 @@
 sku,image
-24-WG06,/sample_data/w/g/wg06-pi-0.jpg
 24-UG01,/sample_data/u/g/ug01-bk-0.jpg
 24-UG02,/sample_data/u/g/ug02-bk-0.jpg
 24-UG03,/sample_data/u/g/ug03-bk-0.jpg
@@ -8,9 +7,15 @@ sku,image
 24-UG06,/sample_data/u/g/ug06-lb-0.jpg
 24-UG07,/sample_data/u/g/ug07-bk-0.jpg
 24-UG07,/sample_data/u/g/ug07-bk-0_alt1.jpg
-24-WG081,/sample_data/l/u/luma-stability-ball-gray.jpg
-24-WG082,/sample_data/l/u/luma-stability-ball-pink.jpg
-24-WG083,/sample_data/l/u/luma-stability-ball.jpg
+24-WG081-gray,/sample_data/l/u/luma-stability-ball-gray.jpg
+24-WG081-pink,/sample_data/l/u/luma-stability-ball-pink.jpg
+24-WG081-blue,/sample_data/l/u/luma-stability-ball.jpg
+24-WG082-gray,/sample_data/l/u/luma-stability-ball-gray.jpg
+24-WG082-pink,/sample_data/l/u/luma-stability-ball-pink.jpg
+24-WG082-blue,/sample_data/l/u/luma-stability-ball.jpg
+24-WG083-gray,/sample_data/l/u/luma-stability-ball-gray.jpg
+24-WG083-pink,/sample_data/l/u/luma-stability-ball-pink.jpg
+24-WG083-blue,/sample_data/l/u/luma-stability-ball.jpg
 24-WG084,/sample_data/l/u/luma-yoga-brick.jpg
 24-WG085,/sample_data/l/u/luma-yoga-strap.jpg
 24-WG086,/sample_data/l/u/luma-yoga-strap.jpg

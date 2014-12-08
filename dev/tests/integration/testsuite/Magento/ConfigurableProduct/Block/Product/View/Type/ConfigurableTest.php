@@ -64,13 +64,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testGetJsonConfig()
     {
-        $config = (array)json_decode($this->_block->getJsonConfig());
+        $config = json_decode($this->_block->getJsonConfig(), true);
         $this->assertNotEmpty($config);
+        $this->assertArrayHasKey('productId', $config);
+        $this->assertEquals(1, $config['productId']);
+        $this->assertArrayHasKey('baseImage', $config);
         $this->assertArrayHasKey('attributes', $config);
         $this->assertArrayHasKey('template', $config);
-        $this->assertArrayHasKey('basePrice', $config);
-        $this->assertArrayHasKey('productId', $config);
-        $this->assertArrayHasKey('baseImage', $config);
-        $this->assertEquals(1, $config['productId']);
+        $this->assertArrayHasKey('prices', $config);
+        $this->assertArrayHasKey('basePrice', $config['prices']);
+
     }
 }

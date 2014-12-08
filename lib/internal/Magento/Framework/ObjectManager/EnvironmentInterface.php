@@ -14,11 +14,6 @@ namespace Magento\Framework\ObjectManager;
 interface EnvironmentInterface
 {
     /**
-     * @param EnvironmentFactory $envFactory
-     */
-    public function __construct(EnvironmentFactory $envFactory);
-
-    /**
      * Return name of running mode
      *
      * @return string
