@@ -11,7 +11,6 @@ namespace Magento\Customer\Controller\Ajax;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Framework\Exception\EmailNotConfirmedException;
 use Magento\Framework\Exception\InvalidEmailOrPasswordException;
-use Zend\Http\Response;
 
 /**
  * Login controller
@@ -29,7 +28,7 @@ class Login extends \Magento\Framework\App\Action\Action
     /**
      * @var AccountManagementInterface
      */
-    protected $accountManagement;
+    protected $customerAccountManagement;
 
     /**
      * @var \Magento\Core\Helper\Data $helper
@@ -42,18 +41,18 @@ class Login extends \Magento\Framework\App\Action\Action
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Helper\Data $helper
-     * @param AccountManagementInterface $accountManagement
+     * @param AccountManagementInterface $customerAccountManagement
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Helper\Data $helper,
-        AccountManagementInterface $accountManagement
+        AccountManagementInterface $customerAccountManagement
     ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;
         $this->helper = $helper;
-        $this->accountManagement = $accountManagement;
+        $this->customerAccountManagement = $customerAccountManagement;
     }
 
     /**
@@ -66,19 +65,25 @@ class Login extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         $credentials = null;
+        $httpBadRequestCode = 400;
+        $httpUnauthorizedCode = 401;
+
         try {
             $credentials = $this->helper->jsonDecode($this->getRequest()->getRawBody());
         } catch (\Exception $e) {
-            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_400);
+            $this->getResponse()->setHttpResponseCode($httpBadRequestCode);
             return;
         }
-        if (!$credentials || $this->getRequest()->getMethod() !== \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST) {
-            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_400);
+        if (!$credentials || $this->getRequest()->getMethod() !== 'POST' || !$this->getRequest()->isXmlHttpRequest()) {
+            $this->getResponse()->setHttpResponseCode($httpBadRequestCode);
             return;
         }
         $responseText = null;
         try {
-            $customer = $this->accountManagement->authenticate($credentials['username'], $credentials['password']);
+            $customer = $this->customerAccountManagement->authenticate(
+                $credentials['username'],
+                $credentials['password']
+            );
             $this->customerSession->setCustomerDataAsLoggedIn($customer);
             $this->customerSession->regenerateId();
         } catch (EmailNotConfirmedException $e) {
@@ -89,7 +94,7 @@ class Login extends \Magento\Framework\App\Action\Action
             $responseText = __('There was an error validating the username and password.');
         }
         if ($responseText) {
-            $this->getResponse()->setHttpResponseCode(Response::STATUS_CODE_401);
+            $this->getResponse()->setHttpResponseCode($httpUnauthorizedCode);
         } else {
             $responseText = __('Login successful.');
         }
