@@ -35,6 +35,7 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getLabel()
     {
@@ -72,4 +73,5 @@ class Option extends AbstractExtensibleModel implements AttributeOptionInterface
     {
         return $this->getData(AttributeOptionInterface::STORE_LABELS);
     }
+    //@codeCoverageIgnoreEnd
 }

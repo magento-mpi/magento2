@@ -29,6 +29,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsHtmlAllowedOnFront()
@@ -107,6 +108,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_COMPARABLE);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -117,6 +119,7 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsVisibleOnFront()
@@ -147,4 +150,5 @@ class Attribute extends \Magento\Catalog\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_VISIBLE);
     }
+    //@codeCoverageIgnoreEnd
 }
