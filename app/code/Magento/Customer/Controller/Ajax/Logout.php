@@ -41,7 +41,7 @@ class Logout extends \Magento\Framework\App\Action\Action
     ) {
         parent::__construct($context);
         $this->customerSession = $customerSession;
-        $this->$helper = $helper;
+        $this->helper = $helper;
 
     }
 
