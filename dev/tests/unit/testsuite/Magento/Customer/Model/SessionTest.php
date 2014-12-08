@@ -14,11 +14,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_converterMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_storageMock;
 
     /**
@@ -37,6 +32,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected $urlFactoryMock;
 
     /**
+     * @var \Magento\Customer\Model\CustomerFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $customerFactoryMock;
+
+    /**
      * @var \Magento\Customer\Api\CustomerRepositoryInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $customerRepositoryMock;
@@ -48,7 +48,6 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_converterMock = $this->getMock('Magento\Customer\Model\Converter', [], [], '', false);
         $this->_storageMock = $this->getMock(
             'Magento\Customer\Model\Session\Storage',
             ['getIsCustomerEmulated', 'getData', 'unsIsCustomerEmulated', '__sleep', '__wakeup'],
@@ -59,6 +58,10 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_eventManagerMock = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
         $this->_httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
         $this->urlFactoryMock = $this->getMock('Magento\Framework\UrlFactory', [], [], '', false);
+        $this->customerFactoryMock = $this->getMockBuilder('Magento\Customer\Model\CustomerFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
         $this->customerRepositoryMock = $this->getMock(
             'Magento\Customer\Api\CustomerRepositoryInterface',
             [],
@@ -70,7 +73,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $this->_model = $helper->getObject(
             'Magento\Customer\Model\Session',
             [
-                'converter' => $this->_converterMock,
+                'customerFactory' => $this->customerFactoryMock,
                 'storage' => $this->_storageMock,
                 'eventManager' => $this->_eventManagerMock,
                 'httpContext' => $this->_httpContextMock,
@@ -84,8 +87,8 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
-        $this->_converterMock->expects($this->any())
-            ->method('createCustomerFromModel')
+        $customer->expects($this->any())
+            ->method('getDataModel')
             ->will($this->returnValue($customerDto));
 
         $this->_eventManagerMock->expects($this->at(0))
@@ -105,9 +108,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $customer = $this->getMock('Magento\Customer\Model\Customer', [], [], '', false);
         $customerDto = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
 
-        $this->_converterMock->expects($this->any())
-            ->method('createCustomerModel')
+        $this->customerFactoryMock->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($customer));
+        $customer->expects($this->once())
+            ->method('updateData')
+            ->with($customerDto)
+            ->will($this->returnSelf());
 
         $this->_eventManagerMock->expects($this->at(0))
             ->method('dispatch')
@@ -183,10 +190,13 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->method('getConfirmation')
             ->will($this->returnValue($customerId));
 
-        $this->_converterMock->expects($this->once())
-            ->method('createCustomerModel')
-            ->with($customerDataMock)
+        $this->customerFactoryMock->expects($this->once())
+            ->method('create')
             ->will($this->returnValue($customerMock));
+        $customerMock->expects($this->once())
+            ->method('updateData')
+            ->with($customerDataMock)
+            ->will($this->returnSelf());
 
         $this->_httpContextMock->expects($this->exactly(3))
             ->method('setValue');

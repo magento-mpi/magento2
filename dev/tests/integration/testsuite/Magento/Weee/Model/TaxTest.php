@@ -54,7 +54,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
+            'Magento\Customer\Api\CustomerMetadataInterface'
         );
         $customerBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Api\Data\CustomerDataBuilder',

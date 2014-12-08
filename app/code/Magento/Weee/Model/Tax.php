@@ -10,7 +10,6 @@ namespace Magento\Weee\Model;
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Website;
-use Magento\Customer\Model\Converter as CustomerConverter;
 use Magento\Tax\Model\Calculation;
 use Magento\Customer\Api\AccountManagementInterface;
 
@@ -74,11 +73,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $_customerSession;
 
     /**
-     * @var CustomerConverter
-     */
-    protected $customerConverter;
-
-    /**
      * Weee config
      *
      * @var \Magento\Weee\Model\Config
@@ -105,7 +99,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param AccountManagementInterface $accountManagement
      * @param \Magento\Tax\Helper\Data $taxData
      * @param Resource\Tax $resource
-     * @param CustomerConverter $customerConverter
      * @param Config $weeeConfig
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
@@ -121,7 +114,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         AccountManagementInterface $accountManagement,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Weee\Model\Resource\Tax $resource,
-        CustomerConverter $customerConverter,
         \Magento\Weee\Model\Config $weeeConfig,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
@@ -133,7 +125,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $this->_customerSession = $customerSession;
         $this->accountManagement = $accountManagement;
         $this->_taxData = $taxData;
-        $this->customerConverter = $customerConverter;
         $this->weeeConfig = $weeeConfig;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

@@ -7,7 +7,6 @@
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\OptionDataBuilder;
 use Magento\Customer\Api\Data\ValidationRuleDataBuilder;
 
