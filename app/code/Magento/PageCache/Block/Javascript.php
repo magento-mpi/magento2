@@ -23,6 +23,7 @@ class Javascript extends \Magento\Framework\View\Element\Template
             'url' => $this->getUrl(
                 'page_cache/block/render/',
                 [
+                    '_current' => true,
                     '_secure' => $this->templateContext->getRequest()->isSecure()
                 ]
             ),
