@@ -176,7 +176,10 @@ class TaxClassRepositoryTest extends WebapiAbstract
         $requestData = ['taxClassId' => $taxClassId];
         $taxClassData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($taxClassData[Data\TaxClassInterface::KEY_NAME], $taxClassName);
-        $this->assertEquals($taxClassData[Data\TaxClassInterface::KEY_TYPE], TaxClassManagementInterface::TYPE_CUSTOMER);
+        $this->assertEquals(
+            $taxClassData[Data\TaxClassInterface::KEY_TYPE],
+            TaxClassManagementInterface::TYPE_CUSTOMER
+        );
     }
 
     /**
@@ -220,8 +223,6 @@ class TaxClassRepositoryTest extends WebapiAbstract
      */
     public function testSearchTaxClass()
     {
-        $this->markTestSkipped('Should be enabled after fixing MAGETWO-29964');
-
         $taxClassName = 'Retail Customer';
         $taxClassNameField = Data\TaxClassInterface::KEY_NAME;
         $filter = $this->filterBuilder->setField($taxClassNameField)
@@ -251,8 +252,6 @@ class TaxClassRepositoryTest extends WebapiAbstract
      */
     public function testSearchTaxClassMultipleFilterGroups()
     {
-        $this->markTestSkipped('Should be enabled after fixing MAGETWO-29964');
-
         $productTaxClass = [
             Data\TaxClassInterface::KEY_NAME => 'Taxable Goods',
             Data\TaxClassInterface::KEY_TYPE => 'PRODUCT'

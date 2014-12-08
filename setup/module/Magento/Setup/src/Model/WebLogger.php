@@ -81,9 +81,9 @@ class WebLogger implements LoggerInterface
     /**
      * {@inheritdoc}
      */
-    public function log($message)
+    public function log($message, $addEol = true)
     {
-        $this->writeToFile('<span class="text-info">' . $message . '</span>');
+        $this->writeToFile('<span class="text-info">' . $message . '</span>', $addEol);
     }
 
     /**
@@ -98,12 +98,13 @@ class WebLogger implements LoggerInterface
      * Write the message to file
      *
      * @param string $message
+     * @param bool $addEol
      * @return void
      */
-    private function writeToFile($message)
+    private function writeToFile($message, $addEol = true)
     {
         $this->open('a+');
-        fwrite($this->resource, $message . PHP_EOL);
+        fwrite($this->resource, $message . ($addEol ? PHP_EOL : ''));
         $this->close();
     }
 

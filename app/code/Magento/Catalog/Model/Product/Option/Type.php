@@ -8,6 +8,9 @@
 
 namespace Magento\Catalog\Model\Product\Option;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Type extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Catalog\Api\Data\ProductCustomOptionTypeInterface
 {

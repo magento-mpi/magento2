@@ -1943,6 +1943,7 @@ return array(
     array('Magento\Sales\Block\Recurring\Profile\View\Data', 'Magento\RecurringPayment\Block\Payment\View\Data'),
     array('Magento\Sales\Block\Recurring\Profile\View\Fees', 'Magento\RecurringPayment\Block\Payment\View\Fees'),
     array('Magento\Sales\Block\Recurring\Profile\View\Item', 'Magento\RecurringPayment\Block\Payment\View\Item'),
+    array('Magento\Customer\Service\V1\Data\AddressConverter', '\Magento\Customer\Model\Address\Mapper'),
     array(
         'Magento\Sales\Block\Recurring\Profile\View\Reference',
         'Magento\RecurringPayment\Block\Payment\View\Reference'

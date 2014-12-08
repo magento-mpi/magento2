@@ -228,7 +228,10 @@ class ListsTest extends \PHPUnit_Framework_TestCase
         $this->setupForOptionLocales();
 
         $this->assertEquals(
-            [['value' => 'en_US', 'label' => 'English (United States)']],
+            [
+                ['value' => 'az_AZ', 'label' => 'Azerbaijani (Azerbaijan)'],
+                ['value' => 'en_US', 'label' => 'English (United States)'],
+            ],
             $this->listsModel->getOptionLocales()
         );
     }
@@ -238,7 +241,10 @@ class ListsTest extends \PHPUnit_Framework_TestCase
         $this->setupForOptionLocales();
 
         $this->assertEquals(
-            [['value' => 'en_US', 'label' => 'English (United States) / English (United States)']],
+            [
+                ['value' => 'az_AZ', 'label' => 'Azərbaycan (Azərbaycan) / Azerbaijani (Azerbaijan)'],
+                ['value' => 'en_US', 'label' => 'English (United States) / English (United States)'],
+            ],
             $this->listsModel->getTranslatedOptionLocales()
         );
     }
@@ -254,7 +260,7 @@ class ListsTest extends \PHPUnit_Framework_TestCase
             ->method('getLocale')
             ->will($this->returnValue($locale));
 
-        $allowedLocales = ['en_US'];
+        $allowedLocales = ['en_US', 'az_AZ'];
         $this->mockConfig->expects($this->once())
             ->method('getAllowedLocales')
             ->will($this->returnValue($allowedLocales));
