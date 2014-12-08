@@ -26,8 +26,9 @@ require([
     <?php echo $girthEnabled; ?>
     );
 
-    jQuery('body').trigger('packageInitialized');
-
+    setTimeout(function() {
+        jQuery('body').trigger('packageInitialized');
+    }, 500);
 });
 </script>
 <div id="packaging_window" class="packaging-window" style="display:none;">
