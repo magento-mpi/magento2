@@ -39,6 +39,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -53,6 +54,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter,
         array $data = array()
     ) {
         parent::__construct(
@@ -67,6 +69,7 @@ class Available extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerAddressService,
             $addressConfig,
             $httpContext,
+            $addressConverter,
             $data
         );
         $this->_isScopePrivate = true;

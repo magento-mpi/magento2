@@ -92,6 +92,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     protected $httpContext;
 
     /**
+     * @var \Magento\Customer\Service\V1\Data\AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Cache\Type\Config $configCacheType
@@ -103,6 +108,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter
      * @param array $data
      */
     public function __construct(
@@ -117,6 +123,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -126,6 +133,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->_countryCollectionFactory = $countryCollectionFactory;
         $this->_regionCollectionFactory = $regionCollectionFactory;
         $this->httpContext = $httpContext;
+        $this->addressConverter = $addressConverter;
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
         $this->_customerAccountService = $customerAccountService;
@@ -245,7 +253,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
                 $label = $this->_addressConfig->getFormatByCode(
                     AddressConfig::DEFAULT_ADDRESS_FORMAT
                 )->getRenderer()->renderArray(
-                    \Magento\Customer\Service\V1\Data\AddressConverter::toFlatArray($address)
+                    $this->addressConverter->toFlatArray($address)
                 );
 
                 $options[] = array('value' => $address->getId(), 'label' => $label);

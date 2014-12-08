@@ -262,6 +262,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param CustomerAddressBuilder $customerAddressBuilder
      * @param CustomerAddressServiceInterface $customerAddressService
      * @param Address\Validator $validator
+     * @param AddressConverter $addressConverter
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data

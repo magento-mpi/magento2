@@ -47,6 +47,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
      * @param CustomerAddressService $customerAddressService
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter
      * @param \Magento\Sales\Model\Quote\AddressFactory $addressFactory
      * @param array $data
      */
@@ -62,6 +63,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
         CustomerAddressService $customerAddressService,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
+        \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter,
         \Magento\Sales\Model\Quote\AddressFactory $addressFactory,
         array $data = array()
     ) {
@@ -78,6 +80,7 @@ class Billing extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerAddressService,
             $addressConfig,
             $httpContext,
+            $addressConverter,
             $data
         );
         $this->_isScopePrivate = true;

@@ -41,6 +41,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
      * @param \Magento\Customer\Model\Options $options
      * @param \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService
      * @param \Magento\Customer\Helper\Address $addressHelper
+     * @param \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter
      * @param \Magento\Framework\Registry $registry
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -58,6 +59,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
         \Magento\Customer\Model\Options $options,
         \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService,
         \Magento\Customer\Helper\Address $addressHelper,
+        \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter,
         \Magento\Framework\Registry $registry,
         array $data = array()
     ) {
@@ -75,6 +77,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\Address
             $options,
             $addressService,
             $addressHelper,
+            $addressConverter,
             $data
         );
     }
