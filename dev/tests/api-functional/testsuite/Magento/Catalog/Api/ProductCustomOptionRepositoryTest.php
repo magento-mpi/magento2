@@ -74,7 +74,8 @@ class ProductCustomOptionRepositoryTest extends WebapiAbstract
         $service = Bootstrap::getObjectManager()
             ->get('\Magento\Catalog\Api\ProductCustomOptionRepositoryInterface');
         $options = $service->getList('simple');
-        $optionId = $options[0]->getOptionId();
+        $option = current($options);
+        $optionId = $option->getOptionId();
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/products/' . $productSku . "/options/" . $optionId,
