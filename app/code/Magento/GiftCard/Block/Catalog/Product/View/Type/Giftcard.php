@@ -81,7 +81,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return bool
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable (MAGETWO-31471)
      */
     public function isOpenAmountAvailable($product)
     {
@@ -95,7 +95,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return bool
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable (MAGETWO-31471)
      */
     public function isAmountAvailable($product)
     {
@@ -109,7 +109,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return array
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts (MAGETWO-31471)
      */
     public function getAmounts($product)
     {
@@ -124,7 +124,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @return string
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency (MAGETWO-31471)
      */
     public function getCurrentCurrency()
     {

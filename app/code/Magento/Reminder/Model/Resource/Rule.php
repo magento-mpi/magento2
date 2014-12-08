@@ -556,7 +556,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
      *
      * @return \Magento\Framework\DB\Select
      *
-     * @deprecated after 1.11.2.0
+     * @deprecated after 1.11.2.0 (MAGETWO-31473)
      */
     public function createSelect()
     {

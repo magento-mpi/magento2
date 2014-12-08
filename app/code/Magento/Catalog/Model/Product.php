@@ -919,7 +919,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      *
      * @param   float $qty
      * @return  float|array
-     * @deprecated
+     * @deprecated (MAGETWO-31465)
      */
     public function getTierPrice($qty = null)
     {
@@ -1014,7 +1014,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns special price
      *
      * @return float
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialPrice()
     {
@@ -1025,7 +1024,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns starting date of the special price
      *
      * @return mixed
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialFromDate()
     {
@@ -1036,7 +1034,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns end date of the special price
      *
      * @return mixed
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialToDate()
     {
