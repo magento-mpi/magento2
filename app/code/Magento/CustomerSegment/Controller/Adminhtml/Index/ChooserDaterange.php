@@ -18,7 +18,7 @@ class ChooserDaterange extends \Magento\CustomerSegment\Controller\Adminhtml\Ind
     public function execute()
     {
         $block = $this->_view->getLayout()->createBlock(
-            'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange'
+            'Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser\Daterange'
         );
         if ($block) {
             // set block data from request

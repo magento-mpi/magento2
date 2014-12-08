@@ -247,6 +247,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             $file = array_pop($file);
             $analyser->analyseFile($file);
             foreach ($analyser->getFunctionDeclarations() as $function => $declaration) {
+                $declaration = $declaration; //avoid "unused local variable" error and non-effective array_keys call
                 if (strpos($function, '::') === false) {
                     $method = $function;
                 } else {
@@ -255,6 +256,7 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
                 $declared[$method] = $function;
             }
             foreach ($analyser->getFunctionCalls() as $function => $usages) {
+                $usages = $usages; //avoid "unused local variable" error and non-effective array_keys call
                 if (strpos($function, '::') === false) {
                     $method = $function;
                 } else {
@@ -264,7 +266,8 @@ class LiveCodeTest extends PHPUnit_Framework_TestCase
             }
         }
 
-        foreach ($called as $method => $_) {
+        foreach ($called as $method => $value) {
+            $value = $value; //avoid "unused local variable" error and non-effective array_keys call
             unset($declared[$method]);
         }
         $declared = $this->filterUsedObserverMethods($declared);

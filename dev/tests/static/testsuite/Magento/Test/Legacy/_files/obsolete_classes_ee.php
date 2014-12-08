@@ -142,4 +142,8 @@ return array(
     ['Magento\Reward\Model\Observer'],
     ['Magento\WebsiteRestriction\Model\Observer'],
     ['Magento\MultipleWishlist\Block\Rss'],
+    [
+        'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange',
+        'Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser\Daterange'
+    ],
 );
