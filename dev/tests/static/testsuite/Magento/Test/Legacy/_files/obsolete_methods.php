@@ -1867,6 +1867,11 @@ return array(
         'Magento\CatalogInventory\Helper\Minsaleqty',
         'Magento\CatalogInventory\Helper\Minsaleqty::decodeArrayFieldValue'
     ],
+    ['limitCustomerSegments', 'Magento\AdminGws\Model\Collections'],
+    ['limitPriceRules', 'Magento\AdminGws\Model\Collections'],
+    ['customerSegmentSaveBefore', 'Magento\AdminGws\Model\Models'],
+    ['customerSegmentDeleteBefore', 'Magento\AdminGws\Model\Models'],
+    ['customerSegmentLoadAfter', 'Magento\AdminGws\Model\Models'],
     ['updateOrderAction', 'Magento\Paypal\Controller\Express\AbstractExpress'],
     ['updateOrder', 'Magento\Paypal\Model\Express\Checkout'],
     ['_matchBnCountryCode', 'Magento\Paypal\Model\Config'],

@@ -455,28 +455,4 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
     {
         $collection->addWebsiteFilter($this->_role->getRelevantWebsiteIds());
     }
-
-    /**
-     * Limit customer segment collection
-     *
-     * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $collection
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
-     */
-    public function limitCustomerSegments($collection)
-    {
-        $this->limitRuleEntityCollection($collection);
-    }
-
-    /**
-     * Limit price rules collection
-     *
-     * @param \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection $collection
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->limitRuleEntityCollection() for any rule based collection
-     */
-    public function limitPriceRules($collection)
-    {
-        $this->limitRuleEntityCollection($collection);
-    }
 }

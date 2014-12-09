@@ -1332,40 +1332,4 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     {
         $this->_throwDelete();
     }
-
-    /**
-     * Limit customer segment save
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleSaveBefore() instead
-     */
-    public function customerSegmentSaveBefore($model)
-    {
-        $this->ruleSaveBefore($model);
-    }
-
-    /**
-     * Validate customer segment before delete
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleDeleteBefore() instead
-     */
-    public function customerSegmentDeleteBefore($model)
-    {
-        $this->ruleDeleteBefore($model);
-    }
-
-    /**
-     * Limit customer segment model on after load
-     *
-     * @param \Magento\CustomerSegment\Model\Segment $model
-     * @return void
-     * @deprecated after 1.12.0.0 use $this->ruleLoadAfter() instead
-     */
-    public function customerSegmentLoadAfter($model)
-    {
-        $this->ruleLoadAfter($model);
-    }
 }
