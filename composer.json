@@ -166,6 +166,10 @@
         "twbs/bootstrap": "3.1.0",
         "tinymce/tinymce": "3.4.7"
     },
+    "suggest": {
+        "magento/module-fedex": "0.1.0-alpha107",
+        "magento/module-ups": "0.1.0-alpha107"
+    },
     "extra": {
         "component_paths": {
             "oyejorge/less.php": "lib/internal/Less",
