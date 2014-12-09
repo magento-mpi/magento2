@@ -22,7 +22,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     /**
      * @param NotEmptyFactory $notEmptyFactory
      */
-    function __construct(NotEmptyFactory $notEmptyFactory)
+    public function __construct(NotEmptyFactory $notEmptyFactory)
     {
         $this->notEmpty = $notEmptyFactory->create(['options' => NotEmpty::ALL]);
     }
@@ -60,4 +60,3 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
         $this->_addMessages($messages);
     }
 }
- 
