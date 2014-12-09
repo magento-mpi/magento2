@@ -30,7 +30,7 @@ class FinalPrice extends CatalogFinalPrice
         }
 
         foreach ($this->product->getGiftcardAmounts() as $amount) {
-            $this->amountsCache[] = $amount['website_value'];
+            $this->amountsCache[] = $this->priceCurrency->convertAndRound($amount['website_value']);
         }
         sort($this->amountsCache);
         return $this->amountsCache;

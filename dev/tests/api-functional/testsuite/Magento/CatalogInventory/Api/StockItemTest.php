@@ -50,8 +50,17 @@ class StockItemTest extends WebapiAbstract
      */
     public function tearDown()
     {
+        /** @var \Magento\Framework\Registry $registry */
+        $registry = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\Registry');
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', true);
+
         $this->productCollection->addFieldToFilter('entity_id', array('in' => array(10, 11, 12)))->delete();
         unset($this->productCollection);
+
+        $registry->unregister('isSecureArea');
+        $registry->register('isSecureArea', false);
     }
 
     /**
@@ -74,7 +83,7 @@ class StockItemTest extends WebapiAbstract
         ];
         $arguments = ['productSku' => $productSku];
         $apiResult = $this->_webApiCall($serviceInfo, $arguments);
-        $result['id'] = $apiResult['id'];
+        $result['item_id'] = $apiResult['item_id'];
         $this->assertEquals($result, $apiResult, 'The stock data does not match.');
         return $apiResult;
     }
@@ -106,13 +115,13 @@ class StockItemTest extends WebapiAbstract
             'Magento\CatalogInventory\Api\Data\StockItemInterfaceBuilder'
         )->populateWithArray($newData)->create();
         $arguments = ['productSku' => $productSku, 'stockItem' => $stockItemDetailsDo->getData()];
-        $this->assertEquals($stockItemOld['id'], $this->_webApiCall($serviceInfo, $arguments));
+        $this->assertEquals($stockItemOld['item_id'], $this->_webApiCall($serviceInfo, $arguments));
 
         $stockItemFactory = $this->objectManager->get('Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory');
         $stockItem = $stockItemFactory->create();
         $stockItemResource = $this->objectManager->get('Magento\CatalogInventory\Model\Resource\Stock\Item');
         $stockItemResource->loadByProductId($stockItem, $stockItemOld['product_id'], $stockItemOld['website_id']);
-        $expectedResult['item_id'] = $stockItem->getId();
+        $expectedResult['item_id'] = $stockItem->getItemId();
         $this->assertEquals($expectedResult, $stockItem->getData());
     }
 
@@ -182,7 +191,7 @@ class StockItemTest extends WebapiAbstract
                     'type_id' => 'simple',
                 ],
                 [
-                    'id' => 1,
+                    'item_id' => 1,
                     'product_id' => 10,
                     'website_id' => 1,
                     'stock_id' => 1,

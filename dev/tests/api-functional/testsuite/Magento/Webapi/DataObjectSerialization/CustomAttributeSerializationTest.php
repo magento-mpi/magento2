@@ -124,6 +124,9 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
 
     public function testDataObjectCustomAttributes()
     {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $customAttributeDataObject = $this->customAttributeDataObjectBuilder
             ->setName('nameValue')
             ->setCustomAttribute('custom_attribute_int', 1)
@@ -157,6 +160,9 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
 
     public function testDataObjectCustomAttributesPreconfiguredItem()
     {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => $this->_restResourcePath . 'itemPreconfigured',
@@ -188,6 +194,9 @@ class CustomAttributeSerializationTest extends \Magento\Webapi\Routing\BaseServi
 
     public function testNestedDataObjectCustomAttributes()
     {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->markTestIncomplete('MAGETWO-31016: incompatible with ZF 1.12.9');
+        }
         $customAttributeNestedDataObject = $this->customAttributeNestedDataObjectBuilder
             ->setName('nestedNameValue')
             ->create();

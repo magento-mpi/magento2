@@ -8,7 +8,7 @@
 namespace Magento\CatalogInventory\Model;
 
 /**
- * Class ObserverTest
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,11 +68,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $stockItemBuilder;
 
     /**
-     * @var \Magento\CatalogInventory\Api\Data\StockInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $stock;
-
-    /**
      * @var \Magento\CatalogInventory\Api\Data\StockItemInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $stockItem;
@@ -94,8 +89,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->priceIndexer = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Price\Processor',
+        $this->stockStatus = $this->getMockBuilder('Magento\CatalogInventory\Model\Stock\Status')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->stockFactory = $this->getMockBuilder('Magento\CatalogInventory\Model\StockFactory')
+            ->disableOriginalConstructor()
+            ->setMethods(['create'])
+            ->getMock();
+
+        $this->catalogInventoryData = $this->getMock('Magento\CatalogInventory\Helper\Data', [], [], '', false);
+        $this->stock = $this->getMock('Magento\CatalogInventory\Model\Stock', [], [], '', false);
+        $this->stockIndexProcessor = $this->getMock(
+            '\Magento\Catalog\Model\Indexer\Product\Stock\Processor',
             ['reindexList', 'reindexRow'],
             [],
             '',
@@ -122,15 +127,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->stockRegistry->expects($this->any())->method('getStockItem')->willReturn($this->stockItem);
-        $this->stockManagement = $this->getMockForAbstractClass(
-            '\Magento\CatalogInventory\Api\StockManagementInterface',
-            [
-                'updateProductStockStatus',
-                'registerProductsSale',
-                'revertProductsSale',
-                'backItemQty',
-                'updateProductStockStatus'
-            ],
+        $this->stockManagement = $this->getMock(
+            'Magento\CatalogInventory\Model\StockManagement',
+            [],
+            [],
             '',
             false
         );
@@ -174,6 +174,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->priceIndexer = $this->getMockBuilder('Magento\Catalog\Model\Indexer\Product\Price\Processor')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->observer = $objectManagerHelper->getObject(

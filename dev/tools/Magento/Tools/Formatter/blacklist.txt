@@ -13,7 +13,7 @@ dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeMessTest/phpmd/input
 # sample tool files--intentionally invalid
 dev/tests/static/testsuite/Magento/Test/Php/Exemplar/CodeStyleTest/phpcs/input
 dev/tests/unit/testsuite/Magento/Core/Model/Config/_files/dirtest/etc/test.php
-dev/tests/unit/testsuite/Magento/Test/Tools/View/Generator/_files/ThemeDeployment/run/source/frontend/package1/theme11/non_public_file.php
+dev/tests/unit/testsuite/Magento/Tools/View/Generator/_files/ThemeDeployment/run/source/frontend/package1/theme11/non_public_file.php
 lib/internal/Magento/Framework/Translate/Adapter.php
 lib/internal/Magento/Framework/Translate/AdapterInterface.php
 # Pretty printer overrides methods that do not comply with standard, so just ignore entire file
@@ -23,7 +23,7 @@ lib/internal/Magento/Framework/DB/Adapter/Pdo/Mysql.php
 # formatter incorrectly formats these files causing failures
 dev/tests/unit/testsuite/Magento/Framework/DB/Adapter/Pdo/MysqlTest.php
 dev/tests/unit/testsuite/Magento/Framework/Simplexml/ElementTest.php
-dev/tests/unit/testsuite/Magento/Test/Tools/Migration/System/Configuration/ParserTest.php
+dev/tests/unit/testsuite/Magento/Tools/Migration/System/Configuration/ParserTest.php
 # The following is third party code not really in the correct location
 dev/tools/Magento/Tools/I18n/Zend
 # don't format the test files in these directories.

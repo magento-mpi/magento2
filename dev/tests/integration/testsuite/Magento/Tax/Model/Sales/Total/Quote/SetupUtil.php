@@ -102,6 +102,7 @@ class SetupUtil
     ];
 
     const CUSTOMER_TAX_CLASS_1 = 'customer_tax_class_1';
+    const CUSTOMER_PASSWORD = 'password';
 
     /**
      * List of customer tax class to be created
@@ -144,7 +145,17 @@ class SetupUtil
      *
      * @var \Magento\Framework\ObjectManagerInterface
      */
-    var $objectManager;
+    public $objectManager;
+
+    /**
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
+     */
+    protected $customerRepository;
+
+    /**
+     * @var \Magento\Customer\Api\AccountManagementInterface
+     */
+    protected $accountManagement;
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
@@ -152,6 +163,8 @@ class SetupUtil
     public function __construct($objectManager)
     {
         $this->objectManager = $objectManager;
+        $this->customerRepository = $this->objectManager->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $this->accountManagement = $this->objectManager->create('Magento\Customer\Api\AccountManagementInterface');
     }
 
     /**
@@ -249,26 +262,26 @@ class SetupUtil
      */
     protected function processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds)
     {
-        if (!empty($taxRuleOverrideData['tax_customer_class'])) {
+        if (!empty($taxRuleOverrideData['customer_tax_class_ids'])) {
             $customerTaxClassIds = [];
-            foreach ($taxRuleOverrideData['tax_customer_class'] as $customerClassCode) {
+            foreach ($taxRuleOverrideData['customer_tax_class_ids'] as $customerClassCode) {
                 $customerTaxClassIds[] = $this->customerTaxClasses[$customerClassCode];
             }
-            $taxRuleOverrideData['tax_customer_class'] = $customerTaxClassIds;
+            $taxRuleOverrideData['customer_tax_class_ids'] = $customerTaxClassIds;
         }
-        if (!empty($taxRuleOverrideData['tax_product_class'])) {
+        if (!empty($taxRuleOverrideData['product_tax_class_ids'])) {
             $productTaxClassIds = [];
-            foreach ($taxRuleOverrideData['tax_product_class'] as $productClassCode) {
+            foreach ($taxRuleOverrideData['product_tax_class_ids'] as $productClassCode) {
                 $productTaxClassIds[] = $this->productTaxClasses[$productClassCode];
             }
-            $taxRuleOverrideData['tax_product_class'] = $productTaxClassIds;
+            $taxRuleOverrideData['product_tax_class_ids'] = $productTaxClassIds;
         }
-        if (!empty($taxRuleOverrideData['tax_rate'])) {
+        if (!empty($taxRuleOverrideData['tax_rate_ids'])) {
             $taxRateIdsForRule = [];
-            foreach ($taxRuleOverrideData['tax_rate'] as $taxRateCode) {
+            foreach ($taxRuleOverrideData['tax_rate_ids'] as $taxRateCode) {
                 $taxRateIdsForRule[] = $taxRateIds[$taxRateCode];
             }
-            $taxRuleOverrideData['tax_rate'] = $taxRateIdsForRule;
+            $taxRuleOverrideData['tax_rate_ids'] = $taxRateIdsForRule;
         }
 
         return $taxRuleOverrideData;
@@ -344,9 +357,9 @@ class SetupUtil
             'code' => 'Test Rule',
             'priority' => '0',
             'position' => '0',
-            'tax_customer_class' => $customerClassIds,
-            'tax_product_class' => $this->getProductTaxClassIds(),
-            'tax_rate' => $this->getDefaultTaxRateIds(),
+            'customer_tax_class_ids' => $customerClassIds,
+            'product_tax_class_ids' => $this->getProductTaxClassIds(),
+            'tax_rate_ids' => $this->getDefaultTaxRateIds(),
         ];
 
         //Create tax rules
@@ -356,9 +369,9 @@ class SetupUtil
                 'code' => 'Shipping Tax Rule',
                 'priority' => '0',
                 'position' => '0',
-                'tax_customer_class' => $customerClassIds,
-                'tax_product_class' => [$this->productTaxClasses[self::SHIPPING_TAX_CLASS]],
-                'tax_rate' => [$this->taxRates[self::TAX_RATE_SHIPPING]['id']],
+                'customer_tax_class_ids' => $customerClassIds,
+                'product_tax_class_ids' => [$this->productTaxClasses[self::SHIPPING_TAX_CLASS]],
+                'tax_rate_ids' => [$this->taxRates[self::TAX_RATE_SHIPPING]['id']],
             ];
             $this->taxRules[$shippingTaxRuleData['code']] = $this->objectManager
                 ->create('Magento\Tax\Model\Calculation\Rule')
@@ -492,7 +505,7 @@ class SetupUtil
     /**
      * Create a customer
      *
-     * @return \Magento\Customer\Model\Customer
+     * @return \Magento\Customer\Api\Data\CustomerInterface
      */
     protected function createCustomer()
     {
@@ -512,7 +525,7 @@ class SetupUtil
             ->setLastname('Lastname')
             ->save();
 
-        return $customer;
+        return $this->customerRepository->getById($customer->getId());
     }
 
     /**
@@ -569,13 +582,13 @@ class SetupUtil
      * Create a quote object with customer
      *
      * @param array $quoteData
-     * @param \Magento\Customer\Model\Customer $customer
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
      * @return \Magento\Sales\Model\Quote
      */
     protected function createQuote($quoteData, $customer)
     {
-        /** @var \Magento\Customer\Service\V1\CustomerAddressServiceInterface $addressService */
-        $addressService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerAddressServiceInterface');
+        /** @var \Magento\Customer\Api\AddressRepositoryInterface $addressService */
+        $addressService = $this->objectManager->create('Magento\Customer\Api\AddressRepositoryInterface');
 
         /** @var array $shippingAddressOverride */
         $shippingAddressOverride = empty($quoteData['shipping_address']) ? [] : $quoteData['shipping_address'];
@@ -584,7 +597,7 @@ class SetupUtil
 
         /** @var \Magento\Sales\Model\Quote\Address $quoteShippingAddress */
         $quoteShippingAddress = $this->objectManager->create('Magento\Sales\Model\Quote\Address');
-        $quoteShippingAddress->importCustomerAddressData($addressService->getAddress($shippingAddress->getId()));
+        $quoteShippingAddress->importCustomerAddressData($addressService->getById($shippingAddress->getId()));
 
         /** @var array $billingAddressOverride */
         $billingAddressOverride = empty($quoteData['billing_address']) ? [] : $quoteData['billing_address'];
@@ -593,7 +606,7 @@ class SetupUtil
 
         /** @var \Magento\Sales\Model\Quote\Address $quoteBillingAddress */
         $quoteBillingAddress = $this->objectManager->create('Magento\Sales\Model\Quote\Address');
-        $quoteBillingAddress->importCustomerAddressData($addressService->getAddress($billingAddress->getId()));
+        $quoteBillingAddress->importCustomerAddressData($addressService->getById($billingAddress->getId()));
 
         /** @var \Magento\Sales\Model\Quote $quote */
         $quote = $this->objectManager->create('Magento\Sales\Model\Quote');
@@ -601,8 +614,8 @@ class SetupUtil
             ->setIsActive(true)
             ->setIsMultiShipping(false)
             ->assignCustomerWithAddressChange($customer, $quoteBillingAddress, $quoteShippingAddress)
-            ->setCheckoutMethod($customer->getMode())
-            ->setPasswordHash($customer->encryptPassword($customer->getPassword()));
+            ->setCheckoutMethod('register')
+            ->setPasswordHash($this->accountManagement->getPasswordHash(static::CUSTOMER_PASSWORD));
 
         return $quote;
     }

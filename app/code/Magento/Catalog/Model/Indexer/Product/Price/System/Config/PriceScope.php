@@ -42,7 +42,7 @@ class PriceScope extends \Magento\Framework\App\Config\Value
      *
      * @return \Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         $this->_getResource()->addCommitCallback(array($this, 'processValue'));
         return $this;

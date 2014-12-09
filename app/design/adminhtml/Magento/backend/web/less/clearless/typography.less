@@ -11,7 +11,6 @@
 
 .font-size-rems(@px-size) {
     @rem-size: @px-size / @base-font-size;
-    font-size: ~"@{px-size}px";
     font-size: ~"@{rem-size}rem";
 }
 
@@ -40,7 +39,6 @@
 }
 
 .wrap-words() {
-    -ms-word-break: break-all;
     word-break: break-all;
     word-break: break-word;
     -webkit-hyphens: auto;

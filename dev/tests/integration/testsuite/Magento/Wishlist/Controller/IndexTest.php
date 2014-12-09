@@ -32,8 +32,9 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Customer\Model\Session',
             array($logger)
         );
+        /** @var \Magento\Customer\Api\AccountManagementInterface $service */
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAccountService'
+            'Magento\Customer\Api\AccountManagementInterface'
         );
         $customer = $service->authenticate('customer@example.com', 'password');
         $this->_customerSession->setCustomerDataAsLoggedIn($customer);
@@ -118,20 +119,6 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testSendAction()
     {
-        $this->_objectManager->configure(
-            [
-                'Magento\Wishlist\Controller\Index\Send' => [
-                    'arguments' => [
-                        'transportBuilder' => [
-                            'instance' => 'Magento\TestFramework\Mail\Template\TransportBuilderMock'
-                        ]
-                    ]
-                ],
-                'preferences' => [
-                    'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock'
-                ]
-            ]
-        );
         \Magento\TestFramework\Helper\Bootstrap::getInstance()
             ->loadArea(\Magento\Framework\App\Area::AREA_FRONTEND);
 
@@ -153,10 +140,14 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         /** @var \Magento\TestFramework\Mail\Template\TransportBuilderMock $transportBuilder */
         $transportBuilder = $this->_objectManager->get('Magento\TestFramework\Mail\Template\TransportBuilderMock');
 
+        $actualResult = \Zend_Mime_Decode::decodeQuotedPrintable(
+            $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
+        );
+
         $this->assertStringMatchesFormat(
             '%AThank you, %A'
             . $this->_customerViewHelper->getCustomerName($this->_customerSession->getCustomerDataObject()) . '%A',
-            $transportBuilder->getSentMessage()->getBodyHtml()->getContent()
+            $actualResult
         );
     }
 }

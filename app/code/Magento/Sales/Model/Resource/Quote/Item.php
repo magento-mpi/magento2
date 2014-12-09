@@ -7,12 +7,14 @@
  */
 namespace Magento\Sales\Model\Resource\Quote;
 
+use \Magento\Framework\Model\Resource\Db\AbstractDb;
+
 /**
  * Quote resource model
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-class Item extends \Magento\Sales\Model\Resource\AbstractResource
+class Item extends AbstractDb
 {
     /**
      * Main table and field initialization
@@ -22,5 +24,21 @@ class Item extends \Magento\Sales\Model\Resource\AbstractResource
     protected function _construct()
     {
         $this->_init('sales_quote_item', 'item_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function save(\Magento\Framework\Model\AbstractModel $object)
+    {
+        $hasDataChanges = $object->hasDataChanges();
+        $object->setIsOptionsSaved(false);
+
+        $result = parent::save($object);
+
+        if ($hasDataChanges && !$object->isOptionsSaved()) {
+            $object->saveItemOptions();
+        }
+        return $result;
     }
 }

@@ -6,17 +6,17 @@
 //  * @license     {license_link}
 //  */
 
+//
+//    Common
+//--------------------------------------
+
+.responsive-common() {
+
 .table-wrapper.grouped {
     width: auto;
 }
 
-.table.data.grouped {
-    .table-bordered(
-        @_type: horizontal
-    );
-    td {
-        white-space: normal;
-    }
+.table.grouped {
     .row-tier-price {
         > td {
             border-top: 0;
@@ -27,8 +27,13 @@
     }
     .col.qty {
         width: 10%;
+        .control.qty {
+            .qty {
+                &:extend(.abs-input-qty all);
+            }
+        }
     }
-    .product.name {
+    .product-item-name {
         font-weight: @font-weight-base;
         margin-bottom: @indent-s-base;
         display: inline-block;
@@ -41,16 +46,8 @@
             font-weight: @font-weight-bold;
         }
         .old-price {
-            color: #575757;
             .price {
                 font-weight: normal;
-            }
-        }
-    }
-    .col.qty {
-        .control.qty {
-            .qty {
-                &:extend(.abstract-input-qty all);
             }
         }
     }
@@ -70,18 +67,37 @@
     width: auto;
     border: 0;
 }
+
+}
+
 //
 //    Mobile
 //--------------------------------------
-.responsive-smaller(@break) when (@break = @screen-m) {
+.responsive-max-m(@break) when (@break = @screen-s) {
+    .table.grouped {
+        > thead > tr > th {
+            display: table-cell;
+            border-bottom: @table-border-width @table-border-style @table-border-color;
+        }
+        > tbody {
+            border-bottom: @table-border-width @table-border-style @table-border-color;
+            > tr > td {
+                &:extend(.abs-col-no-prefix all);
+                border: 0;
+                display: table-cell;
+                padding: @table-cell-padding-vertical @table-cell-padding-horizontal;
+                &:last-child {
+                    border: 0;
+                }
+            }
+        } 
+    }
+}
+
+.responsive-max-m(@break) when (@break = @screen-m) {
     .table-wrapper.grouped {
         margin-left: -@layout-width-xs-indent;
         margin-right: -@layout-width-xs-indent;
     }
 }
 
-//
-//    Desktop
-//--------------------------------------
-.responsive(@break) when (@break = @screen-m) {
-}

@@ -19,7 +19,7 @@ class Index extends \Magento\GiftRegistry\Controller\Search
     {
         $this->_view->loadLayout();
         $this->_view->getLayout()->initMessages();
-        $this->_view->getPage()->getConfig()->setTitle(__('Gift Registry Search'));
+        $this->_view->getPage()->getConfig()->getTitle()->set(__('Gift Registry Search'));
         $this->_view->renderLayout();
     }
 }

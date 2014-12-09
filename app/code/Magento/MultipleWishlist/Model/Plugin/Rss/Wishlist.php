@@ -38,29 +38,29 @@ class Wishlist
     protected $customerViewHelper;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var \Magento\Customer\Api\CustomerRepositoryInterface
      */
-    protected $customerAccountService;
+    protected $customerRepository;
 
     /**
      * @param \Magento\MultipleWishlist\Helper\Rss $wishlistHelper
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Helper\View $customerViewHelper
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+     * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
         \Magento\MultipleWishlist\Helper\Rss $wishlistHelper,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Helper\View $customerViewHelper,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService
+        \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->wishlistHelper = $wishlistHelper;
         $this->urlBuilder = $urlBuilder;
         $this->scopeConfig = $scopeConfig;
         $this->customerViewHelper = $customerViewHelper;
-        $this->customerAccountService = $customerAccountService;
+        $this->customerRepository = $customerRepository;
     }
 
     /**
@@ -81,8 +81,7 @@ class Wishlist
         $customer = $this->wishlistHelper->getCustomer();
         $wishlist = $this->wishlistHelper->getWishlist();
         if ($wishlist->getCustomerId() !== $customer->getId()) {
-            /** @var \Magento\Customer\Service\V1\Data\Customer $customer */
-            $customer = $this->customerAccountService->getCustomer($wishlist->getCustomerId());
+            $customer = $this->customerRepository->getById($wishlist->getCustomerId());
         }
         $customerName = $this->customerViewHelper->getCustomerName($customer);
         if ($this->wishlistHelper->isWishlistDefault($wishlist)

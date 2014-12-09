@@ -182,7 +182,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
@@ -198,7 +198,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
@@ -217,7 +217,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         parent::__construct(
             $context,
             $registry,
-            $productFactory,
+            $productRepository,
             $priceCurrency,
             $resource,
             $resourceCollection,
@@ -240,9 +240,9 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
-        parent::_beforeSave();
+        parent::beforeSave();
         $this->setIsVirtual($this->getProduct()->getIsVirtual());
         if ($this->getQuote()) {
             $this->setQuoteId($this->getQuote()->getId());
@@ -710,7 +710,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return $this
      */
-    protected function _saveItemOptions()
+    public function saveItemOptions()
     {
         foreach ($this->_options as $index => $option) {
             if ($option->isDeleted()) {
@@ -729,21 +729,24 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     }
 
     /**
-     * Save model plus its options
-     * Ensures saving options in case when resource model was not changed
+     * Mar option save requirement
      *
-     * @return $this
+     * @param bool $flag
+     * @return void
      */
-    public function save()
+    public function setIsOptionsSaved($flag)
     {
-        $hasDataChanges = $this->hasDataChanges();
-        $this->_flagOptionsSaved = false;
+        $this->_flagOptionsSaved = $flag;
+    }
 
-        parent::save();
-
-        if ($hasDataChanges && !$this->_flagOptionsSaved) {
-            $this->_saveItemOptions();
-        }
+    /**
+     * Were options saved
+     *
+     * @return bool
+     */
+    public function isOptionsSaved()
+    {
+        return $this->_flagOptionsSaved;
     }
 
     /**
@@ -751,10 +754,10 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      *
      * @return \Magento\Sales\Model\Quote\Item
      */
-    protected function _afterSave()
+    public function afterSave()
     {
-        $this->_saveItemOptions();
-        return parent::_afterSave();
+        $this->saveItemOptions();
+        return parent::afterSave();
     }
 
     /**

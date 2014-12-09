@@ -159,7 +159,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
      *
      * @return $this
      */
-    protected function _afterSave()
+    public function afterSave()
     {
         if ($this->hasStoreContents()) {
             $this->_getResource()->saveStoreContents(
@@ -174,7 +174,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
         if ($this->hasBannerSalesRules()) {
             $this->_getResource()->saveSalesRules($this->getId(), $this->getBannerSalesRules());
         }
-        return parent::_afterSave();
+        return parent::afterSave();
     }
 
     /**
@@ -182,7 +182,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
      * @return $this
      * @throws \Magento\Framework\Model\Exception
      */
-    protected function _beforeSave()
+    public function beforeSave()
     {
         if ('' == trim($this->getName())) {
             throw new \Magento\Framework\Model\Exception(__('Please enter a name.'));
@@ -198,7 +198,7 @@ class Banner extends \Magento\Framework\Model\AbstractModel implements \Magento\
         if ($error) {
             throw new \Magento\Framework\Model\Exception(__('Please specify default content for at least one store view.'));
         }
-        return parent::_beforeSave();
+        return parent::beforeSave();
     }
 
     /**

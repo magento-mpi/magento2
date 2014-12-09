@@ -34,14 +34,8 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_eavAttSetCollection;
 
     /**
-     * @var \Magento\Catalog\Model\ProductFactory
-     */
-    protected $_catalogProduct;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
-     * @param \Magento\Catalog\Model\ProductFactory $catalogProduct
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $cpCollection
      * @param \Magento\Catalog\Model\Product\Type $catalogType
@@ -50,7 +44,6 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        \Magento\Catalog\Model\ProductFactory $catalogProduct,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavAttSetCollection,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $cpCollection,
         \Magento\Catalog\Model\Product\Type $catalogType,
@@ -59,7 +52,6 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_catalogType = $catalogType;
         $this->_cpCollection = $cpCollection;
         $this->_eavAttSetCollection = $eavAttSetCollection;
-        $this->_catalogProduct = $catalogProduct;
         parent::__construct($context, $backendHelper, $data);
     }
 

@@ -29,6 +29,7 @@ class SalesRuleGrid extends \Magento\Banner\Controller\Adminhtml\Banner
         }
 
         $this->_view->loadLayout();
+        $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Banners'));
         $this->_view->getLayout()->getBlock(
             'banner_salesrule_grid'
         )->setSelectedSalesRules(

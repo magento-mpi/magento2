@@ -8,6 +8,7 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <preference for="Magento\Framework\ObjectManager\FactoryInterface" type="Magento\Framework\ObjectManager\Factory\Dynamic\Developer" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Filter\PreprocessorInterface" type="Magento\Framework\Search\Adapter\Mysql\Filter\Preprocessor" />
     <preference for="Magento\Framework\Search\Adapter\Mysql\Field\ResolverInterface" type="Magento\Framework\Search\Adapter\Mysql\Field\Resolver" />
     <preference for="Magento\Framework\App\RequestInterface" type="Magento\Framework\App\Request\Http" />
@@ -171,7 +172,7 @@
             <argument name="request" xsi:type="object">Magento\Framework\App\Request\Http\Proxy</argument>
         </arguments>
     </type>
-     <type name="Magento\Framework\App\Helper\Context">
+    <type name="Magento\Framework\App\Helper\Context">
         <arguments>
             <argument name="translateInline" xsi:type="object">Magento\Framework\Translate\InlineInterface\Proxy</argument>
         </arguments>
@@ -288,7 +289,7 @@
     </virtualType>
     <virtualType name="layoutObjectArgumentInterpreter" type="Magento\Framework\View\Layout\Argument\Interpreter\Object">
         <arguments>
-            <argument name="expectedClass" xsi:type="string">Magento\Framework\Data\DataSourceInterface</argument>
+            <argument name="expectedClass" xsi:type="string">Magento\Framework\Data\CollectionDataSourceInterface</argument>
         </arguments>
     </virtualType>
     <type name="Magento\Framework\View\Layout\Argument\Interpreter\NamedParams">
@@ -296,12 +297,12 @@
             <argument name="paramInterpreter" xsi:type="object">Magento\Framework\Data\Argument\Interpreter\String</argument>
         </arguments>
     </type>
-    <virtualType name="containerRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="containerRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
                 <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
-                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
+                <item name="ui_component" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
             </argument>
         </arguments>
     </virtualType>
@@ -310,14 +311,14 @@
             <argument name="readerPool" xsi:type="object">containerRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="blockRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="blockRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
                 <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
-                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
                 <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
                 <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
+                <item name="ui_component" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
             </argument>
         </arguments>
     </virtualType>
@@ -332,14 +333,14 @@
             <argument name="scopeType" xsi:type="const">Magento\Store\Model\ScopeInterface::SCOPE_STORE</argument>
         </arguments>
     </type>
-    <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="bodyRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
                 <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
                 <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
                 <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
-                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
+                <item name="ui_component" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
             </argument>
         </arguments>
     </virtualType>
@@ -348,7 +349,7 @@
             <argument name="readerPool" xsi:type="object">bodyRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="commonRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="commonRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="html" xsi:type="string">Magento\Framework\View\Page\Config\Reader\Html</item>
@@ -358,23 +359,23 @@
                 <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
                 <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
                 <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
-                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
+                <item name="ui_component" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
             </argument>
         </arguments>
     </virtualType>
     <type name="Magento\Framework\View\Layout">
         <arguments>
-            <argument name="reader" xsi:type="object" shared="false">commonRenderPool</argument>
+            <argument name="readerPool" xsi:type="object" shared="false">commonRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="genericLayoutRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="container" xsi:type="string">Magento\Framework\View\Layout\Reader\Container</item>
                 <item name="block" xsi:type="string">Magento\Framework\View\Layout\Reader\Block</item>
                 <item name="move" xsi:type="string">Magento\Framework\View\Layout\Reader\Move</item>
                 <item name="remove" xsi:type="string">Magento\Framework\View\Layout\Reader\Remove</item>
-                <item name="uicomponent" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
+                <item name="ui_component" xsi:type="string">Magento\Framework\View\Layout\Reader\UiComponent</item>
             </argument>
         </arguments>
     </virtualType>
@@ -383,7 +384,7 @@
             <argument name="layoutReaderPool" xsi:type="object">genericLayoutRenderPool</argument>
         </arguments>
     </type>
-    <virtualType name="pageConfigRenderPool" type="Magento\Framework\View\Layout\Reader\Pool">
+    <virtualType name="pageConfigRenderPool" type="Magento\Framework\View\Layout\ReaderPool">
         <arguments>
             <argument name="readers" xsi:type="array">
                 <item name="html" xsi:type="string">Magento\Framework\View\Page\Config\Reader\Html</item>
@@ -403,9 +404,21 @@
             </argument>
         </arguments>
     </type>
+    <virtualType name="pageLayoutGeneratorPool" type="Magento\Framework\View\Layout\GeneratorPool">
+        <arguments>
+            <argument name="generators" xsi:type="array">
+                <item name="head" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Head</item>
+                <item name="body" xsi:type="object">Magento\Framework\View\Page\Config\Generator\Body</item>
+                <item name="block" xsi:type="object">Magento\Framework\View\Layout\Generator\Block</item>
+                <item name="container" xsi:type="object">Magento\Framework\View\Layout\Generator\Container</item>
+                <item name="ui_component" xsi:type="object">Magento\Framework\View\Layout\Generator\UiComponent</item>
+            </argument>
+        </arguments>
+    </virtualType>
     <type name="Magento\Framework\View\Result\Page">
         <arguments>
             <argument name="layoutReaderPool" xsi:type="object">pageConfigRenderPool</argument>
+            <argument name="generatorPool" xsi:type="object">pageLayoutGeneratorPool</argument>
             <argument name="template" xsi:type="string">Magento_Theme::root.phtml</argument>
         </arguments>
     </type>
@@ -516,6 +529,15 @@
                 <item name="termBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Term</item>
                 <item name="rangeBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Range</item>
                 <item name="dynamicBucket" xsi:type="object">Magento\Framework\Search\Adapter\Mysql\Aggregation\Builder\Dynamic</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\Search\Dynamic\Algorithm\Repository">
+        <arguments>
+            <argument name="algorithms" xsi:type="array">
+                <item name="auto" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Auto</item>
+                <item name="manual" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Manual</item>
+                <item name="improved" xsi:type="string">Magento\Framework\Search\Dynamic\Algorithm\Improved</item>
             </argument>
         </arguments>
     </type>

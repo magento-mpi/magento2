@@ -8,20 +8,12 @@
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Magento_PricePermissions" schema_version="1.11.0.0">
+    <module name="Magento_PricePermissions" schema_version="2.0.0">
         <sequence>
             <module name="Magento_Bundle"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_Downloadable"/>
             <module name="Magento_GiftCard"/>
         </sequence>
-        <depends>
-            <module name="Magento_Bundle"/>
-            <module name="Magento_Catalog"/>
-            <module name="Magento_Downloadable"/>
-            <module name="Magento_GiftCard"/>
-            <module name="Magento_Backend"/>
-            <module name="Magento_Msrp"/>
-        </depends>
     </module>
 </config>

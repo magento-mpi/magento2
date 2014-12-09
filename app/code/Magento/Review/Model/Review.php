@@ -66,7 +66,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      *
      * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
      */
-    protected $_productFactory;
+    protected $productCollectionFactory;
 
     /**
      * Review status collection factory
@@ -138,7 +138,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_productFactory = $productFactory;
+        $this->productCollectionFactory = $productFactory;
         $this->_statusFactory = $statusFactory;
         $this->_summaryFactory = $summaryFactory;
         $this->_summaryModFactory = $summaryModFactory;
@@ -165,7 +165,7 @@ class Review extends \Magento\Framework\Model\AbstractModel
      */
     public function getProductCollection()
     {
-        return $this->_productFactory->create();
+        return $this->productCollectionFactory->create();
     }
 
     /**
@@ -285,10 +285,10 @@ class Review extends \Magento\Framework\Model\AbstractModel
      *
      * @return \Magento\Framework\Model\AbstractModel
      */
-    protected function _afterDeleteCommit()
+    public function afterDeleteCommit()
     {
         $this->getResource()->afterDeleteCommit($this);
-        return parent::_afterDeleteCommit();
+        return parent::afterDeleteCommit();
     }
 
     /**
@@ -322,16 +322,6 @@ class Review extends \Magento\Framework\Model\AbstractModel
         }
 
         return $this;
-    }
-
-    /**
-     * Validate user before delete
-     *
-     * @return $this
-     */
-    protected function _beforeDelete()
-    {
-        return parent::_beforeDelete();
     }
 
     /**
