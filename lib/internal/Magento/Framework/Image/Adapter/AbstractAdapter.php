@@ -272,7 +272,7 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Assign image width, height, fileType and fileMimeType to object properties using getimagesize function
+     * Assign image width, height, fileMimeType to object properties using getimagesize function
      *
      * @return string|null
      */
@@ -287,7 +287,7 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Assign image width, height, fileType and fileMimeType to object properties using getimagesize function
+     * Assign image width, height, fileType to object properties using getimagesize function
      *
      * @return int|null
      */
@@ -296,7 +296,7 @@ abstract class AbstractAdapter implements AdapterInterface
         if ($this->_fileType) {
             return $this->_fileType;
         } else {
-            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType, ) = getimagesize($this->_fileName);
+            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType) = getimagesize($this->_fileName);
             return $this->_fileType;
         }
     }
@@ -308,7 +308,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getOriginalWidth()
     {
-        $this->getMimeType();
+        $this->getImageType();
         return $this->_imageSrcWidth;
     }
 
@@ -319,7 +319,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getOriginalHeight()
     {
-        $this->getMimeType();
+        $this->getImageType();
         return $this->_imageSrcHeight;
     }
 
@@ -715,6 +715,6 @@ abstract class AbstractAdapter implements AdapterInterface
         $this->checkDependencies();
         $this->open($filePath);
 
-        return $this->getMimeType() !== null;
+        return $this->getImageType() !== null;
     }
 }

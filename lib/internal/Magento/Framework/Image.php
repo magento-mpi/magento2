@@ -227,7 +227,7 @@ class Image
      * Get image type of handled image
      *
      * @access public
-     * @return string
+     * @return int
      */
     public function getImageType()
     {
