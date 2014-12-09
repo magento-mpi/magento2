@@ -497,10 +497,10 @@ function categoryMove(obj) {
                 data: pd.join(""),
                 showLoader: true
             }).done(function(data) {
+                if (data.messages && data.messages.length > 0) {
+                    $('.messages').html(data.messages);
+                }
                 if (data.error) {
-                    if (data.messages && data.messages.length > 0) {
-                        $('.messages').html(data.messages);
-                    }
                     reRenderTree();
                 } else {
                     $(obj.tree.container.dom).trigger('categoryMove.tree');
