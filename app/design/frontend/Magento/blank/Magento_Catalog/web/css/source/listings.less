@@ -66,7 +66,7 @@
             width: 150px;
             max-width: 100%;
             .page-products & {
-                width: 250px;
+                width: 240px;
             }
         }
 
@@ -328,11 +328,4 @@
     }
     .page-products.page-layout-1column .products-grid .product-item { width: 100%/5 }
     .page-products.page-layout-3columns .products-grid .product-item { width: 100%/4 }
-}
-
-.responsive-min-l(@break) when (@break = @screen-xl) {
-    .page-products .products-grid .product-item {
-        width: 24.7%;
-        margin-left: calc(~"(100% - 4 * 24.7%) / 3");
-    }
 }
