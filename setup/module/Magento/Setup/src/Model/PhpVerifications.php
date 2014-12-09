@@ -11,7 +11,7 @@ namespace Magento\Setup\Model;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 
-class PhpExtensions
+class PhpVerifications
 {
     /**
      * List of required extensions
@@ -28,11 +28,15 @@ class PhpExtensions
     protected $current = [];
 
     /**
+     * Interface to read composer.lock file
+     *
      * @var \Magento\Framework\Filesystem\Directory\ReadInterface
      */
     private $rootDir;
 
     /**
+     * Constructor
+     *
      * @param Filesystem $filesystem
      */
     public function __construct(
@@ -42,24 +46,45 @@ class PhpExtensions
     }
 
     /**
+     * Retrieves required php version
+     *
+     * @return string
+     * @throws \Exception If composer.lock file is not found or if attributes are missing.
+     */
+    public function getPhpVersion()
+    {
+        if (!$this->rootDir->isExist('composer.lock')) {
+            throw new \Exception('Cannot read `composer.lock` file');
+        }
+        $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
+        if (!empty($composerInfo['platform']['php'])) {
+            return $composerInfo['platform']['php'];
+        } else {
+            throw new \Exception('Missing php version in `composer.lock`');
+        }
+    }
+
+    /**
      * Retrieve list of required extensions
      *
      * Collect required extensions from composer.lock file
      *
      * @return array
+     * @throws \Exception If composer.lock file is not found or if attributes are missing.
      */
     public function getRequired()
     {
         if (null === $this->required) {
             if (!$this->rootDir->isExist('composer.lock')) {
-                $this->required = [];
-                return $this->required;
+                throw new \Exception('Cannot read `composer.lock` file');
             }
             $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
             $declaredDependencies = [];
 
             if (!empty($composerInfo['platform-dev'])) {
                 $declaredDependencies = array_merge($declaredDependencies, array_keys($composerInfo['platform-dev']));
+            } else {
+                throw new \Exception('Missing platform-dev in `composer.lock`');
             }
             if (!empty($composerInfo['packages'])) {
                 foreach ($composerInfo['packages'] as $package) {
@@ -67,6 +92,8 @@ class PhpExtensions
                         $declaredDependencies = array_merge($declaredDependencies, array_keys($package['require']));
                     }
                 }
+            } else {
+                throw new \Exception('Missing packages in `composer.lock`');
             }
             if ($declaredDependencies) {
                 $declaredDependencies = array_unique($declaredDependencies);

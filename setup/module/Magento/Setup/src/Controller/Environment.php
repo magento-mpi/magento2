@@ -7,30 +7,21 @@
  */
 namespace Magento\Setup\Controller;
 
-use Composer\Json\JsonFile;
 use Composer\Package\LinkConstraint\VersionConstraint;
 use Composer\Package\Version\VersionParser;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\PhpExtensions;
+use Magento\Setup\Model\PhpVerifications;
 use Magento\Setup\Model\FilePermissions;
 
 class Environment extends AbstractActionController
 {
     /**
-     * List of required php extensions.
+     * List of current and required php verifications.
      *
-     * @var \Magento\Setup\Model\PhpExtensions
+     * @var \Magento\Setup\Model\PhpVerifications
      */
-    protected $extensions;
-
-    /**
-     * Directory List to read composer.json
-     *
-     * @var DirectoryList
-     */
-    protected $directoryList;
+    protected $verifications;
 
     /**
      * Version parser
@@ -40,22 +31,25 @@ class Environment extends AbstractActionController
     protected $versionParser;
 
     /**
+     * Missing composer.lock file message
+     */
+    const NO_COMPOSER_ERROR = 'Whoops, it looks like composer.lock file does not exist or is not readable. Please
+        make sure to run `composer install` in the root directory. Additional details: ';
+
+    /**
      * Constructor
      *
-     * @param PhpExtensions $extensions
+     * @param PhpVerifications $verifications
      * @param FilePermissions $permissions
-     * @param DirectoryList $directoryList
      * @param VersionParser $versionParser
      */
     public function __construct(
-        PhpExtensions $extensions,
+        PhpVerifications $verifications,
         FilePermissions $permissions,
-        DirectoryList $directoryList,
         VersionParser $versionParser
     ) {
-        $this->extensions = $extensions;
+        $this->verifications = $verifications;
         $this->permissions = $permissions;
-        $this->directoryList = $directoryList;
         $this->versionParser = $versionParser;
     }
 
@@ -66,18 +60,29 @@ class Environment extends AbstractActionController
      */
     public function phpVersionAction()
     {
-        $jsonFile = (new JsonFile($this->directoryList->getRoot() . '/composer.json'))->read();
-        $multipleConstraints = $this->versionParser->parseConstraints($jsonFile['require']['php']);
+        try{
+            $requiredVersion = $this->verifications->getPhpVersion();
+        }catch (\Exception $e) {
+            return new JsonModel(
+                [
+                    'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
+                    'data' => [
+                        'error' => 'phpVersionError',
+                        'message' => self::NO_COMPOSER_ERROR . $e->getMessage()
+                    ],
+                ]
+            );
+        }
+        $multipleConstraints = $this->versionParser->parseConstraints($requiredVersion);
         $currentPhpVersion = new VersionConstraint('=', PHP_VERSION);
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
         if (!$multipleConstraints->matches($currentPhpVersion)) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
-
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => $jsonFile['require']['php'],
+                'required' => isset($requiredVersion) ? $requiredVersion : '' ,
                 'current' => PHP_VERSION,
             ],
         ];
@@ -85,21 +90,32 @@ class Environment extends AbstractActionController
     }
 
     /**
-     * Verifies php extensions
+     * Verifies php verifications
      *
      * @return JsonModel
      */
-    public function phpExtensionsAction()
+    public function phpverificationsAction()
     {
-        $required = $this->extensions->getRequired();
-        $current = $this->extensions->getCurrent();
+        try{
+            $required = $this->verifications->getRequired();
+            $current = $this->verifications->getCurrent();
 
+        } catch (\Exception $e) {
+            return new JsonModel(
+                [
+                    'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
+                    'data' => [
+                        'error' => 'phpExtensionError',
+                        'message' => self::NO_COMPOSER_ERROR . $e->getMessage()
+                    ],
+                ]
+            );
+        }
         $responseType = ResponseTypeInterface::RESPONSE_TYPE_SUCCESS;
         $missing = array_values(array_diff($required, $current));
         if ($missing) {
             $responseType = ResponseTypeInterface::RESPONSE_TYPE_ERROR;
         }
-
         $data = [
             'responseType' => $responseType,
             'data' => [
