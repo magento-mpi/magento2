@@ -37,7 +37,6 @@ $categoryId = $this->getCategoryId();
         <input name="form_key" type="hidden" value="<?php echo $this->getFormKey() ?>"/>
         <input type="hidden" name="category_products" id="in_category_products" value=""/>
         <input type="hidden" name="active_tab_id" id="active_tab_id" value=""/>
-        <input type="hidden" name="store" id="form_store_id" value="<?php echo $this->getStore()->getId()?>"/>
         <?php if ($parentId !== 0): ?>
             <input type="hidden" name="parent" value="<?php echo $parentId; ?>"/>
         <?php endif; ?>
