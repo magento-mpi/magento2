@@ -169,8 +169,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
                 throw new NoSuchEntityException('Requested option doesn\'t exist');
             }
 
-            $option->setOptionId($existingOption->getOptionId());
-            $option->setDefaultTitle(is_null($option->getTitle()) ? $existingOption->getTitle() : $option->getTitle());
+            $option->setData(array_merge($existingOption->getData(), $option->getData()));
 
             /** @var \Magento\Bundle\Api\Data\LinkInterface[] $existingLinks */
             $existingLinks = is_array($existingOption->getProductLinks()) ? $existingOption->getProductLinks() : [];
