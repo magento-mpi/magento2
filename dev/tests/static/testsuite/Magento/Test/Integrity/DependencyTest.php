@@ -641,6 +641,10 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $jsonFiles = \Magento\Framework\Test\Utility\Files::init()->getComposerFiles('code/Magento/*/', false);
         foreach ($jsonFiles as $file) {
             $contents = file_get_contents($file);
+            $decodedJson = json_decode($contents);
+            if (null == $decodedJson) {
+                throw new \Exception("Invalid Json: $file");
+            }
             $json = new \Magento\Framework\Config\Composer\Package(json_decode($contents));
             $moduleName = self::convertModuleName($json->get('name'));
             self::$_mapDependencies[$moduleName] = @(self::$_mapDependencies[$moduleName] ?: []);
