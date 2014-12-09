@@ -835,7 +835,7 @@ class Installer
     }
 
     /**
-     * Validates that deployment configuration exists
+     * Validates that MySQL is accessible and MySQL version is supported
      *
      * @return void
      */
