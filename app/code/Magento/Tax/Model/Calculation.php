@@ -399,7 +399,7 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
      * @param   null|string|bool|int|Store $store
      * @return  \Magento\Framework\Object
      */
-    public function getRateOriginRequest($store = null)
+    protected function getRateOriginRequest($store = null)
     {
         $request = new \Magento\Framework\Object();
         $request->setCountryId(
@@ -586,70 +586,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Compare data and rates for two tax rate requests for same products (product tax class ids).
-     * Returns true if requests are similar (i.e. equal taxes rates will be applied to them)
-     *
-     * Notice:
-     * a) productClassId MUST be identical for both requests,
-     *    because we intend to check selling SAME products to DIFFERENT locations
-     * b) due to optimization productClassId can be array of ids, not only single id
-     *
-     * @param   \Magento\Framework\Object $first
-     * @param   \Magento\Framework\Object $second
-     * @return  bool
-     */
-    public function compareRequests($first, $second)
-    {
-        $country = $first->getCountryId() == $second->getCountryId();
-        // "0" support for admin dropdown with --please select--
-        $region = (int)$first->getRegionId() == (int)$second->getRegionId();
-        $postcode = $first->getPostcode() == $second->getPostcode();
-        $taxClass = $first->getCustomerClassId() == $second->getCustomerClassId();
-
-        if ($country && $region && $postcode && $taxClass) {
-            return true;
-        }
-        /**
-         * Compare available tax rates for both requests
-         */
-        $firstReqRates = $this->_getResource()->getRateIds($first);
-        $secondReqRates = $this->_getResource()->getRateIds($second);
-        if ($firstReqRates === $secondReqRates) {
-            return true;
-        }
-
-        /**
-         * If rates are not equal by ids then compare actual values
-         * All product classes must have same rates to assume requests been similar
-         */
-        $productClassId1 = $first->getProductClassId();
-        // Save to set it back later
-        $productClassId2 = $second->getProductClassId();
-        // Save to set it back later
-
-        // Ids are equal for both requests, so take any of them to process
-        $ids = is_array($productClassId1) ? $productClassId1 : array($productClassId1);
-        $identical = true;
-        foreach ($ids as $productClassId) {
-            $first->setProductClassId($productClassId);
-            $rate1 = $this->getRate($first);
-
-            $second->setProductClassId($productClassId);
-            $rate2 = $this->getRate($second);
-
-            if ($rate1 != $rate2) {
-                $identical = false;
-                break;
-            }
-        }
-
-        $first->setProductClassId($productClassId1);
-        $second->setProductClassId($productClassId2);
-
-        return $identical;
-    }
-
-    /**
      * Get information about tax rates applied to request
      *
      * @param   \Magento\Framework\Object $request
@@ -680,29 +616,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Get rates by customer tax class
-     *
-     * @param int $customerTaxClass
-     * @return array
-     */
-    public function getRatesByCustomerTaxClass($customerTaxClass)
-    {
-        return $this->getResource()->getRatesByCustomerTaxClass($customerTaxClass);
-    }
-
-    /**
-     * Get rates by customer and product classes
-     *
-     * @param int $customerTaxClass
-     * @param int $productTaxClass
-     * @return array
-     */
-    public function getRatesByCustomerAndProductTaxClasses($customerTaxClass, $productTaxClass)
-    {
-        return $this->getResource()->getRatesByCustomerTaxClass($customerTaxClass, $productTaxClass);
-    }
-
-    /**
      * Calculate rated tax amount based on price and tax rate.
      * If you are using price including tax $priceIncludeTax should be true.
      *
@@ -730,20 +643,6 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Truncate number to specified precision
-     *
-     * @param   float $price
-     * @param   int $precision
-     * @return  float
-     */
-    public function truncate($price, $precision = 4)
-    {
-        $exp = pow(10, $precision);
-        $price = floor($price * $exp) / $exp;
-        return $price;
-    }
-
-    /**
      * Round tax amount
      *
      * @param   float $price
@@ -752,16 +651,5 @@ class Calculation extends \Magento\Framework\Model\AbstractModel
     public function round($price)
     {
         return $this->priceCurrency->round($price);
-    }
-
-    /**
-     * Round price up
-     *
-     * @param   float $price
-     * @return  float
-     */
-    public function roundUp($price)
-    {
-        return ceil($price * 100) / 100;
     }
 }

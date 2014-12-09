@@ -329,7 +329,6 @@ return array(
     array('deleteProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('display', 'Magento\Framework\Image\Adapter\AbstractAdapter', 'getImage()'),
     array('displayFullSummary', 'Magento\Tax\Model\Config'),
-    array('displayTaxColumn', 'Magento\Tax\Model\Config'),
     array('displayZeroTax', 'Magento\Tax\Model\Config'),
     array('drawItem', 'Magento\Catalog\Block\Navigation'),
     array('dropKey', 'Magento\Framework\DB\Adapter\Pdo\Mysql'),

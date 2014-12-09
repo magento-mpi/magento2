@@ -71,4 +71,6 @@ return [
     ['Magento\Tax\Service'],
     ['Magento\RecurringPayment'],
     ['Magento\PayPalRecurringPayment'],
+    ['Magento\ConfigurableProduct\Service'],
+    ['Magento\Catalog\Service']
 ];
