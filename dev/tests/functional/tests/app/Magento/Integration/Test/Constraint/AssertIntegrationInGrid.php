@@ -18,12 +18,9 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
  */
 class AssertIntegrationInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that data in grid on Integrations page according to fixture by name field

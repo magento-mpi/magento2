@@ -18,19 +18,16 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
  */
 abstract class AbstractAssertMultipleWishlistSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success message
      *
      * @var string
      */
     protected $message;
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert success message is displayed

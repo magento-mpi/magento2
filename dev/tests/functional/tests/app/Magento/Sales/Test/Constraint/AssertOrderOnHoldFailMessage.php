@@ -17,17 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertOrderOnHoldFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const FAIL_ON_HOLD_MESSAGE = 'No order(s) were put on hold.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert on hold fail message is displayed on order index page

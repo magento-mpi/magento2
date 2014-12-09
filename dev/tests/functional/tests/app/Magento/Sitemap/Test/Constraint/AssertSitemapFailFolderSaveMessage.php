@@ -17,14 +17,11 @@ use Magento\Sitemap\Test\Fixture\Sitemap;
  */
 class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
 {
-    const FAIL_FOLDER_MESSAGE = 'Please create the specified folder "%s" before saving the sitemap.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const FAIL_FOLDER_MESSAGE = 'Please create the specified folder "%s" before saving the sitemap.';
 
     /**
      * Assert that error message is displayed after creating sitemap with wrong folder

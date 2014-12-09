@@ -17,14 +17,11 @@ use Magento\Reward\Test\Page\RewardCustomerInfo;
  */
 class AssertRewardSubscriptionSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'You saved the settings.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_SAVE_MESSAGE = 'You saved the settings.';
 
     /**
      * Assert that reward points subscription settings success save message is present on page

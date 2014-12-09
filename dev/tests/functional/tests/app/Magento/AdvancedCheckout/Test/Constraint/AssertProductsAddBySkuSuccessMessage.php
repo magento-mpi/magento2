@@ -17,17 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductsAddBySkuSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success adding products to shopping cart message
      */
     const SUCCESS_MESSAGE = 'You added %d %s to your shopping cart.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed after adding products by sku to shopping cart

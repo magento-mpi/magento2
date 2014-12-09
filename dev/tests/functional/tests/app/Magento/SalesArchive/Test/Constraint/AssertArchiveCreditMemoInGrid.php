@@ -18,12 +18,9 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveCreditMemos;
  */
 class AssertArchiveCreditMemoInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Refund with corresponding fixture data is present in Archive Credit Memos grid

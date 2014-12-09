@@ -9,16 +9,16 @@
 -->
 <constraint>
     <assertDownloadableSamplesData module="Magento_Downloadable">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertDownloadableSamplesData>
     <assertDownloadableLinksData module="Magento_Downloadable">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertDownloadableLinksData>
     <assertDownloadableProductForm module="Magento_Downloadable">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertDownloadableProductForm>
     <assertDownloadableDuplicateForm module="Magento_Downloadable">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
             <productPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
@@ -26,6 +26,6 @@
         </require>
     </assertDownloadableDuplicateForm>
     <assertDownloadableProductInCustomerWishlistOnBackendGrid module="Magento_Downloadable">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertDownloadableProductInCustomerWishlistOnBackendGrid>
 </constraint>

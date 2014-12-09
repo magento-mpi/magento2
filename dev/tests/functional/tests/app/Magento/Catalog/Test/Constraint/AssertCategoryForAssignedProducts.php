@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertCategoryForAssignedProducts extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed assigned products on category page equals passed from fixture

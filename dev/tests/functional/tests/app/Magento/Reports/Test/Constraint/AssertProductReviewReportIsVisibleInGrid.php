@@ -18,12 +18,9 @@ use Magento\Reports\Test\Page\Adminhtml\ProductReportReview;
  */
 class AssertProductReviewReportIsVisibleInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Product Review Report is visible in reports grid

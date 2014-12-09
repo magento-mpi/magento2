@@ -19,12 +19,9 @@ use Magento\Widget\Test\Fixture\Widget;
  */
 class AssertWidgetOrderBySkuOnCategoryPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Order By Sku widget displayed on frontend in Catalog

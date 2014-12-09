@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertBundleItemsOnProductPage extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed product bundle items data on product page equals passed from fixture preset

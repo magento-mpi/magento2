@@ -19,17 +19,14 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
  */
 class AssertGiftCardAccountRedeemableOnFrontend extends AbstractAssertGiftCardAccountOnFrontend
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_MESSAGE = 'Gift Card "%s" was redeemed.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that gift card is redeemable on frontend

@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertProductVisibleInCategory extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Displays an error message

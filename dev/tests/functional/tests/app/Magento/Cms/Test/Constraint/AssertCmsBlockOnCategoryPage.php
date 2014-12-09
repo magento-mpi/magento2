@@ -20,12 +20,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertCmsBlockOnCategoryPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that created CMS block displayed on frontend category page (in order to assign block to category:

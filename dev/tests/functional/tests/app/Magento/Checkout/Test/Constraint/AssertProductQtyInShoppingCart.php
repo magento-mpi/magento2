@@ -21,12 +21,9 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertProductQtyInShoppingCart extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that quantity in the shopping cart is equals to expected quantity from data set

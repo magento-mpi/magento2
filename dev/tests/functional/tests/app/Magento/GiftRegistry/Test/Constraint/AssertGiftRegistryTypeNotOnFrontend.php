@@ -23,12 +23,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistryTypeNotOnFrontend extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted Gift Registry type is absent on creation new gift registry form on my account on frontend

@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertBundlePriceType extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Product price type

@@ -17,17 +17,14 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
  */
 class AssertGiftWrappingMassActionSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after delete gift wrapping
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted a total of %d records.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after mass delete Gift Wrapping successful message appears

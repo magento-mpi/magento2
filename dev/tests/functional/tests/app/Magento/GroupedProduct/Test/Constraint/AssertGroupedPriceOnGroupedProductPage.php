@@ -19,12 +19,9 @@ use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
  */
 class AssertGroupedPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedProductPage
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Format error message

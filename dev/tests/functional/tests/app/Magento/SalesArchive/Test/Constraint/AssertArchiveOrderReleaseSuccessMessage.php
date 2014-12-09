@@ -17,17 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertArchiveOrderReleaseSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_MESSAGE = '%d order(s) have been released from on hold status.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert release success message is displayed on archive order index page

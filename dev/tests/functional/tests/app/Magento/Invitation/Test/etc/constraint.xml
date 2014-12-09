@@ -9,36 +9,36 @@
 -->
 <constraint>
     <assertInvitationFrontendSuccessSentMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationFrontendSuccessSentMessage>
     <assertInvitationInGridOnFrontend module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationInGridOnFrontend>
     <assertInvitationInGrid module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationInGrid>
     <assertInvitationFrontendErrorSendDuplicateMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationFrontendErrorSendDuplicateMessage>
     <assertInvitationOneEntry module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationOneEntry>
     <assertInvitationSuccessSentMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationSuccessSentMessage>
     <assertInvitationForm module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationForm>
     <assertInvitationSuccessDiscardMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationSuccessDiscardMessage>
     <assertInvitationSuccessSentMessageOnBackend module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationSuccessSentMessageOnBackend>
     <assertInvitationNoticeMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationNoticeMessage>
     <assertInvitationErrorSentMessage module="Magento_Invitation">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertInvitationErrorSentMessage>
 </constraint>

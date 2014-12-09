@@ -16,17 +16,14 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeNew;
  */
 class AssertCustomerCustomAttributeErrorDuplicateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text of error duplicate message
      */
     const ERROR_DUPLICATE_MESSAGE = 'An attribute with this code already exists.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after customer attribute error duplicate message appears

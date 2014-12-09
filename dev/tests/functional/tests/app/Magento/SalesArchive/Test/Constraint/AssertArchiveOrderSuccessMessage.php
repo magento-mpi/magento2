@@ -17,17 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertArchiveOrderSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after moving order to archive
      */
     const SUCCESS_MESSAGE = 'We archived %d order(s).';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed on "Orders Grid" page

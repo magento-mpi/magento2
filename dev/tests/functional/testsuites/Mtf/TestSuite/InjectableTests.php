@@ -8,8 +8,8 @@
 
 namespace Mtf\TestSuite;
 
-use Mtf\ObjectManagerFactory;
 use Mtf\ObjectManager;
+use Mtf\ObjectManagerFactory;
 use Mtf\TestRunner\Configuration;
 
 /**
@@ -98,13 +98,13 @@ class InjectableTests extends \PHPUnit_Framework_TestSuite
             $configurationFileName = isset($_ENV['configuration:Mtf/TestSuite/InjectableTests'])
                 ? $_ENV['configuration:Mtf/TestSuite/InjectableTests']
                 : 'basic';
-            $confFilePath = __DIR__ . '/InjectableTests/' . $configurationFileName . '.xml';
-            $testRunnerConfiguration = new Configuration();
-            $testRunnerConfiguration->load($confFilePath);
+            $confDirPath = __DIR__ . '/InjectableTests/';
+            /** @var \Mtf\TestRunner\Configuration $testRunnerConfiguration */
+            $testRunnerConfiguration = $objectManagerFactory->getObjectManager()->get('\Mtf\TestRunner\Configuration');
+            $testRunnerConfiguration->load($confDirPath);
+            $testRunnerConfiguration->loadEnvConfig();
 
-            $shared = array(
-                'Mtf\TestRunner\Configuration' => $testRunnerConfiguration
-            );
+            $shared = ['Mtf\TestRunner\Configuration' => $testRunnerConfiguration];
             $this->objectManager = $objectManagerFactory->create($shared);
         }
     }

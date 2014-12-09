@@ -17,14 +17,11 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
  */
 class AssertBannerDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The banner has been deleted.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_DELETE_MESSAGE = 'The banner has been deleted.';
 
     /**
      * Assert that success delete message is appeared after banner has been deleted

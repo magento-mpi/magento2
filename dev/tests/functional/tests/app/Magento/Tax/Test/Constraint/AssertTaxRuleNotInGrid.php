@@ -17,12 +17,9 @@ use Magento\Tax\Test\Fixture\TaxRule;
  */
 class AssertTaxRuleNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that tax rule not available in Tax Rule grid

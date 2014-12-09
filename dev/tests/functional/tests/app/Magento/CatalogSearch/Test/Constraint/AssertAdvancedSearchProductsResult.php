@@ -17,6 +17,10 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertAdvancedSearchProductsResult extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text for notice messages
      */
@@ -26,13 +30,6 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
      * Text for error messages
      */
     const ERROR_MESSAGE = 'No items were found using the following search criteria.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Search results page

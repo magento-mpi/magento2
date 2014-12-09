@@ -21,12 +21,9 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  */
 class AssertRmaForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Array skipped fields.

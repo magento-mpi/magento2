@@ -15,12 +15,9 @@ use Magento\Catalog\Test\Constraint\AssertProductForm;
  */
 class AssertBundleProductForm extends AssertProductForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Formatting options for array values

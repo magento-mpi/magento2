@@ -17,17 +17,14 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
  */
 class AssertWebsiteSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success website delete message
      */
     const SUCCESS_DELETE_MESSAGE = 'The website has been deleted.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed after deleting website

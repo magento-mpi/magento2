@@ -17,14 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertOrderStatusSuccessCreateMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You have saved the order status.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You have saved the order status.';
 
     /**
      * Assert that success message is displayed after order status saved.

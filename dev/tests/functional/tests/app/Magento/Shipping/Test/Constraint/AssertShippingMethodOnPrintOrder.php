@@ -16,17 +16,14 @@ use Magento\Sales\Test\Page\SalesGuestPrint;
  */
 class AssertShippingMethodOnPrintOrder extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Shipping method and carrier template.
      */
     const SHIPPING_TEMPLATE = "%s - %s";
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that shipping method was printed correctly on sales guest print page.

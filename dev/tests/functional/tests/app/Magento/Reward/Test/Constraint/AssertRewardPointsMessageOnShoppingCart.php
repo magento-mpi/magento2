@@ -20,17 +20,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message about reward points on checkout page
      */
     const CHECKOUT_REWARD_MESSAGE = 'Check out now and earn %d Reward points for this order.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that reward points message is displayed on shopping cart page

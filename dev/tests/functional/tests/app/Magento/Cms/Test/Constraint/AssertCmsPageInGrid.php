@@ -18,12 +18,9 @@ use Magento\Cms\Test\Fixture\CmsPage;
  */
 class AssertCmsPageInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that cms page is present in pages grid

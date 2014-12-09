@@ -17,17 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertWrongPassConfirmationMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Conformation message
      */
     const CONFIRMATION_MESSAGE = 'Please enter the same value again.';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that conformation message is present.

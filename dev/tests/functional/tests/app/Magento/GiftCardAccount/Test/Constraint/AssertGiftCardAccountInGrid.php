@@ -17,12 +17,9 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
  */
 class AssertGiftCardAccountInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that gift card account in grid.

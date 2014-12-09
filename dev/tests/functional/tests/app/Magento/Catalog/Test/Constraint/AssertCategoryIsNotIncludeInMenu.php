@@ -20,12 +20,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertCategoryIsNotIncludeInMenu extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that the category is no longer available on the top menu bar

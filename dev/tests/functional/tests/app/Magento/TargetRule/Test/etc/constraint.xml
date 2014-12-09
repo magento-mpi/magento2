@@ -9,33 +9,33 @@
 -->
 <constraint>
     <assertTargetRuleSuccessDeleteMessage module="Magento_TargetRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
     </assertTargetRuleSuccessDeleteMessage>
     <assertTargetRuleSuccessSaveMessage module="Magento_TargetRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
     </assertTargetRuleSuccessSaveMessage>
     <assertTargetRuleInGrid module="Magento_TargetRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
     </assertTargetRuleInGrid>
     <assertTargetRuleIsNotPresentedInGrid module="Magento_TargetRule">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
         <require>
             <targetRule class="Magento\TargetRule\Test\Fixture\TargetRule" />
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
         </require>
     </assertTargetRuleIsNotPresentedInGrid>
     <assertTargetRuleForm module="Magento_TargetRule">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <targetRuleIndex class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex" />
             <targetRuleEdit class="Magento\TargetRule\Test\Page\Adminhtml\TargetRuleEdit" />
@@ -44,6 +44,6 @@
         </require>
     </assertTargetRuleForm>
     <assertCrossSellsProductsSectionForCustomerSegment module="Magento_TargetRule">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertCrossSellsProductsSectionForCustomerSegment>
 </constraint>

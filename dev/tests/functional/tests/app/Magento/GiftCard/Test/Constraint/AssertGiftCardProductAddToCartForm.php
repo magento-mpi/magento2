@@ -20,17 +20,14 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Value for choose custom option
      */
     const CUSTOM_OPTION = 'custom';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that displayed amount, "Sender Name", "Sender Email", "Recipient Name", "Recipient Email", "Message" data

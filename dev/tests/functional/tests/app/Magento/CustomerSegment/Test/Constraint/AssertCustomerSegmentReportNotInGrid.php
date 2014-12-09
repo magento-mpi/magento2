@@ -19,12 +19,9 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
  */
 class AssertCustomerSegmentReportNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that created customer is absent in a customer segment grid

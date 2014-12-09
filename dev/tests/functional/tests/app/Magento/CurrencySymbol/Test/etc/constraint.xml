@@ -9,13 +9,13 @@
 -->
 <constraint>
     <assertCurrencySymbolSuccessSaveMessage module="Magento_CurrencySymbol">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <currencySymbolIndex class="Magento\CurrencySymbol\Test\Page\Adminhtml\SystemCurrencySymbolIndex" />
         </require>
     </assertCurrencySymbolSuccessSaveMessage>
     <assertCurrencySymbolOnProductPage module="Magento_CurrencySymbol">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />
@@ -25,7 +25,7 @@
         </require>
     </assertCurrencySymbolOnProductPage>
     <assertCurrencySymbolOnCatalogPage module="Magento_CurrencySymbol">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogCategoryView class="Magento\Catalog\Test\Page\Category\CatalogCategoryView" />

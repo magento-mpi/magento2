@@ -17,17 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductRequiredAttentionFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Product requires attention error message
      */
     const ERROR_MESSAGE = '%d %s requires your attention.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that product requires attention error message is displayed after adding products by sku to shopping cart

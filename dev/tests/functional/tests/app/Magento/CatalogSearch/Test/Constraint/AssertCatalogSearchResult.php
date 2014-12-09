@@ -17,12 +17,9 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
  */
 class AssertCatalogSearchResult extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that result page contains all products, according to search request, from fixture

@@ -16,12 +16,9 @@ use Magento\Customer\Test\Page\CustomerAccountCreate;
  */
 class AssertCustomerFailRegisterMessage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that error message is displayed on "Create New Customer Account" page(frontend)

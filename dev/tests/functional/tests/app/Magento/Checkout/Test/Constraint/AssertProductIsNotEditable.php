@@ -17,12 +17,9 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductIsNotEditable extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that after adding products by sku to shopping cart products are not editable

@@ -20,12 +20,9 @@ use Mtf\Fixture\InjectableFixture;
  */
 class AssertProductDetailsInWishlist extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that the correct option details are displayed on the "View Details" tool tip

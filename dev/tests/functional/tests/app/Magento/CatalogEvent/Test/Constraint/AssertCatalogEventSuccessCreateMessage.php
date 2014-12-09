@@ -17,14 +17,11 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
  */
 class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the event.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You saved the event.';
 
     /**
      * Assert that message "You saved the event." is present on Event page

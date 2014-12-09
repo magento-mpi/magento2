@@ -18,12 +18,9 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertOrderInOrdersGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order with fixture data is present in Sales -> Orders Grid

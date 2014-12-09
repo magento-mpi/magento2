@@ -18,12 +18,9 @@ use Magento\Store\Test\Fixture\StoreGroup;
  */
 class AssertStoreGroupNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Store Group can not be found in Stores grid by name

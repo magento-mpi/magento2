@@ -9,13 +9,13 @@
 -->
 <constraint>
     <assertRewardPointsSuccessDeleteMessage module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <exchangeRateIndex class="Magento\Reward\Test\Page\Adminhtml\ExchangeRateIndex" />
         </require>
     </assertRewardPointsSuccessDeleteMessage>
     <assertRewardNoExchangeMessageForPointsToCurrency module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
@@ -26,7 +26,7 @@
         </require>
     </assertRewardNoExchangeMessageForPointsToCurrency>
     <assertRewardNoExchangeMessageForCurrencyToPoints module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
@@ -37,13 +37,13 @@
         </require>
     </assertRewardNoExchangeMessageForCurrencyToPoints>
     <assertRewardSubscriptionSaveMessage module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerAccountIndex class="Magento\Reward\Test\Page\RewardCustomerInfo" />
         </require>
     </assertRewardSubscriptionSaveMessage>
     <assertRewardSubscriptionOnBackend module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
@@ -52,20 +52,20 @@
         </require>
     </assertRewardSubscriptionOnBackend>
     <assertRateSuccessSaveMessage module="Magento_Reward">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <gridPage class="Magento\Reward\Test\Page\Adminhtml\RewardRateIndex" />
         </require>
     </assertRateSuccessSaveMessage>
     <assertRewardPointsMessageOnCustomerRegistration module="Magento_Reward">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <customerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
         </require>
     </assertRewardPointsMessageOnCustomerRegistration>
     <assertRewardPointsBalance module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerInjectable class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
@@ -76,7 +76,7 @@
         </require>
     </assertRewardPointsBalance>
     <assertRewardPointsMessageOnShoppingCart module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -84,7 +84,7 @@
         </require>
     </assertRewardPointsMessageOnShoppingCart>
     <assertRewardInHistoryGrid module="Magento_Reward">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerIndexEdit class="Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit" />
             <customerIndex class="Magento\Customer\Test\Page\Adminhtml\CustomerIndex" />
@@ -93,7 +93,7 @@
         </require>
     </assertRewardInHistoryGrid>
     <assertRewardPointsSuccessRemoveMessage module="Magento_Reward">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <checkoutCart class="Magento\Checkout\Test\Page\CheckoutCart" />
         </require>

@@ -14,12 +14,9 @@ namespace Magento\CatalogEvent\Test\Constraint;
  */
 class AssertCatalogEventIsUpcoming extends AssertCatalogEventStatus
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Event status 'Coming Soon' on category/product pages

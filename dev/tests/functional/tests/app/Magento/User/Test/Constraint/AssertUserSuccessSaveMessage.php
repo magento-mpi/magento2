@@ -16,14 +16,11 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
  */
 class AssertUserSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the user.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You saved the user.';
 
     /**
      * Asserts that success message equals to expected message.

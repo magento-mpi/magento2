@@ -18,12 +18,9 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
  */
 class AssertGiftWrappingForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields while verifying

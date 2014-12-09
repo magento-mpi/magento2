@@ -17,19 +17,16 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
  */
 class AssertInvitationNoticeMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     // @codingStandardsIgnoreStart
     /**
      * Notice message.
      */
     const NOTICE_MESSAGE = "%d invitation(s) were not sent, because customer accounts already exist for specified email addresses.";
     // @codingStandardsIgnoreEnd
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that notice message appears after sending invitation on backend.

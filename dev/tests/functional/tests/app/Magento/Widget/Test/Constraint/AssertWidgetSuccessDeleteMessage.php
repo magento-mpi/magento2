@@ -16,17 +16,14 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
  */
 class AssertWidgetSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after delete widget
      */
     const DELETE_MESSAGE = 'The widget instance has been deleted.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that Widget success delete message is present

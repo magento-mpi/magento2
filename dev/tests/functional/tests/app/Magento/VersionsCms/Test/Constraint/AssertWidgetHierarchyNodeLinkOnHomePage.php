@@ -19,12 +19,9 @@ use Magento\Backend\Test\Page\Adminhtml\AdminCache;
  */
 class AssertWidgetHierarchyNodeLinkOnHomePage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that widget hierarchy node link is present on Home page and after click to link widget redirects to page

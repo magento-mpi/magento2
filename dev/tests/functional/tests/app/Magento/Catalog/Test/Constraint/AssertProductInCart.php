@@ -21,12 +21,9 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertProductInCart extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assertion that the product is correctly displayed in cart

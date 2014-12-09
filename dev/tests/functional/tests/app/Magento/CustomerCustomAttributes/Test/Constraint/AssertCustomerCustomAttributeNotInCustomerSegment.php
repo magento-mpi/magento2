@@ -20,12 +20,9 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
  */
 class AssertCustomerCustomAttributeNotInCustomerSegment extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted customer attribute is not available during creation of customer segments

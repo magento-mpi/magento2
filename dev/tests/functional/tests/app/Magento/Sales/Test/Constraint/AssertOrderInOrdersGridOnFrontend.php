@@ -21,12 +21,9 @@ use Mtf\ObjectManager;
  */
 class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order is present in Orders grid on frontend

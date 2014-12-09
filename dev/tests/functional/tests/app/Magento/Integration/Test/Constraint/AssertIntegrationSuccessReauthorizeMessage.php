@@ -18,17 +18,14 @@ use Magento\Integration\Test\Fixture\Integration;
  */
 class AssertIntegrationSuccessReauthorizeMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Integration success reauthorize message.
      */
     const SUCCESS_REAUTHORIZE_MESSAGE = "The integration '%s' has been re-authorized.";
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that success reauthorize message is appeared on the Integrations page.

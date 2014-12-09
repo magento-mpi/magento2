@@ -19,12 +19,9 @@ use Magento\Store\Test\Fixture\Website;
  */
 class AssertWebsiteOnStoreForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Website visible on Store Group Form in Website dropdown

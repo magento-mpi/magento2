@@ -9,15 +9,15 @@
 -->
 <constraint>
     <assertReminderSuccessSaveMessage module="Magento_Reminder">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertReminderSuccessSaveMessage>
     <assertReminderInGrid module="Magento_Reminder">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertReminderInGrid>
     <assertReminderForm module="Magento_Reminder">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertReminderForm>
     <assertReminderMatchedCustomers module="Magento_Reminder">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertReminderMatchedCustomers>
 </constraint>

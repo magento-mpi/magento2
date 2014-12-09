@@ -18,12 +18,9 @@ use Magento\Catalog\Test\Constraint\AssertProductDuplicateForm;
  */
 class AssertGiftCardDuplicateForm extends AssertProductDuplicateForm
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert form data equals duplicate gift card data.

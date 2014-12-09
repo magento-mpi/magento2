@@ -18,12 +18,9 @@ use Magento\Backend\Test\Page\AdminAuthLogin;
  */
 class AssertUserSuccessLogin extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Verify whether customer has logged in to the Backend

@@ -17,17 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertArchiveOrderCancelMassActionSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after cancel order from archive
      */
     const SUCCESS_MESSAGE = 'We canceled %d order(s).';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed on "Archived Orders Grid" page
