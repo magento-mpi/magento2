@@ -20,7 +20,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
     private $notEmpty;
 
     /**
-     * @param \Magento\Framework\Validator\NotEmptyFactory
+     * @param NotEmptyFactory $notEmptyFactory
      */
     function __construct(NotEmptyFactory $notEmptyFactory)
     {
@@ -41,6 +41,7 @@ class Validator extends \Magento\Framework\Validator\AbstractValidator
 
     /**
      * @param \Magento\Bundle\Model\Option $value
+     * @return void
      * @throws Zend_Validate_Exception
      * @throws \Exception
      */
