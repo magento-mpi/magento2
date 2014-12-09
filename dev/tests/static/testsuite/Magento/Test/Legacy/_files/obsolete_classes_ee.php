@@ -143,7 +143,7 @@ return array(
     ['Magento\WebsiteRestriction\Model\Observer'],
     ['Magento\MultipleWishlist\Block\Rss'],
     ['Magento\VersionsCms\Model\Resource\Hierarchy\Lock'],
-    ['Magento\VersionsCms\Model\Hierarchy\Lock']
+    ['Magento\VersionsCms\Model\Hierarchy\Lock'],
     [
         'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange',
         'Magento\CustomerSegment\Block\Adminhtml\Widget\Chooser\Daterange'
