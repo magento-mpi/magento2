@@ -22,7 +22,7 @@ class DbVersionDetector
     const ERROR_KEY_MODULE = 'module';
     const ERROR_KEY_TYPE = 'type';
     const ERROR_KEY_CURRENT = 'current';
-    const ERROR_KEY_NEEDED = 'needed';
+    const ERROR_KEY_REQUIRED = 'required';
     /**#@-*/
 
     /**
@@ -88,7 +88,7 @@ class DbVersionDetector
     public function getDbVersionErrors()
     {
         $errors = [];
-        foreach (array_keys($this->moduleList->getModules()) as $moduleName) {
+        foreach ($this->moduleList->getNames() as $moduleName) {
             foreach ($this->resourceResolver->getResourceList($moduleName) as $resourceName) {
                 if (!$this->isDbSchemaUpToDate($moduleName, $resourceName)) {
                     $errors[] = $this->getDbSchemaVersionError($moduleName, $resourceName);
@@ -113,12 +113,12 @@ class DbVersionDetector
     {
 
         $dbVer = $this->moduleResource->getDbVersion($resourceName); // version saved in DB
-        $module = $this->moduleList->getModule($moduleName);
+        $module = $this->moduleList->getOne($moduleName);
         $configVer = $module['schema_version'];
         $dbVer = $dbVer ?: 'none';
         return [
             self::ERROR_KEY_CURRENT => $dbVer,
-            self::ERROR_KEY_NEEDED => $configVer,
+            self::ERROR_KEY_REQUIRED => $configVer,
             self::ERROR_KEY_MODULE => $moduleName,
             self::ERROR_KEY_TYPE => 'schema'
         ];
@@ -134,12 +134,12 @@ class DbVersionDetector
     private function getDbDataVersionError($moduleName, $resourceName)
     {
         $dataVer = $this->moduleResource->getDataVersion($resourceName);
-        $module = $this->moduleList->getModule($moduleName);
-        $configVer = $module['schema_version']; //// IS this right?
+        $module = $this->moduleList->getOne($moduleName);
+        $configVer = $module['schema_version'];
         $dataVer = $dataVer ?: 'none';
         return [
             self::ERROR_KEY_CURRENT => $dataVer,
-            self::ERROR_KEY_NEEDED => $configVer,
+            self::ERROR_KEY_REQUIRED => $configVer,
             self::ERROR_KEY_MODULE => $moduleName,
             self::ERROR_KEY_TYPE => 'data'
         ];
@@ -155,7 +155,7 @@ class DbVersionDetector
      */
     private function isModuleVersionEqual($moduleName, $version)
     {
-        $module = $this->moduleList->getModule($moduleName);
+        $module = $this->moduleList->getOne($moduleName);
         if (empty($module['schema_version'])) {
             throw new \UnexpectedValueException("Schema version for module '$moduleName' is not specified");
         }

@@ -32,26 +32,18 @@ class Manager
     private $_outputConfigPaths;
 
     /**
-     * @var ResourceInterface
-     */
-    private $_moduleResource;
-
-    /**
      * @param Output\ConfigInterface $outputConfig
      * @param ModuleListInterface $moduleList
-     * @param ResourceInterface $moduleResource
      * @param array $outputConfigPaths
      */
     public function __construct(
         Output\ConfigInterface $outputConfig,
         ModuleListInterface $moduleList,
-        ResourceInterface $moduleResource,
         array $outputConfigPaths = array()
     ) {
         $this->_outputConfig = $outputConfig;
         $this->_moduleList = $moduleList;
         $this->_outputConfigPaths = $outputConfigPaths;
-        $this->_moduleResource = $moduleResource;
     }
 
     /**

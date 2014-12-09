@@ -55,9 +55,9 @@ class DbStatusValidator
             if ($errors) {
                 $formattedErrors = $this->formatErrors($errors);
                 throw new \Magento\Framework\Module\Exception(
-                    'Please update your database: first run "composer install" from the Magento root/ and root/setup '.
-                    'directories. Then run "php –f index.php update" from the Magento root/setup directory.'. PHP_EOL .
-                    'Error details: database is out of date.' . PHP_EOL . implode(PHP_EOL, $formattedErrors)
+                    'Please update your database: first run "composer install" from the Magento root/ '.
+                    'directory. Then run "php –f index.php update" from the Magento root/setup directory.'. PHP_EOL .
+                    'The following modules are outdated:' . PHP_EOL . implode(PHP_EOL, $formattedErrors)
                 );
             } else {
                 $this->cache->save('true', 'db_is_up_to_date');
@@ -69,7 +69,7 @@ class DbStatusValidator
     /**
      * Format each error in the error data from getOutOfDataDbErrors into a single message
      *
-     * @param $errorsData array of error data from getOutOfDateDbErrors
+     * @param array $errorsData array of error data from getOutOfDateDbErrors
      * @return array Messages that can be used to log the error
      */
     private function formatErrors($errorsData)
@@ -79,9 +79,8 @@ class DbStatusValidator
             $formattedErrors[] = $error[DbVersionDetector::ERROR_KEY_MODULE] .
                 ' ' . $error[DbVersionDetector::ERROR_KEY_TYPE] .
                 ': current version - ' . $error[DbVersionDetector::ERROR_KEY_CURRENT ] .
-                ', latest version - ' . $error[DbVersionDetector::ERROR_KEY_NEEDED];
+                ', required version - ' . $error[DbVersionDetector::ERROR_KEY_REQUIRED];
         }
         return $formattedErrors;
     }
-
 }

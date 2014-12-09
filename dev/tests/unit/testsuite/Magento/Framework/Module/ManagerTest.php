@@ -31,11 +31,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
      */
     private $_outputConfig;
 
-    /**
-     * @var \Magento\Framework\Module\ResourceInterface|\PHPUnit_Framework_MockObject_MockObject
-     */
-    private $moduleResource;
-
     protected function setUp()
     {
         $this->_moduleList = $this->getMockForAbstractClass('Magento\Framework\Module\ModuleListInterface');
@@ -47,11 +42,9 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                 ['Module_Three', ['name' => 'Two_Three']],
             ]));
         $this->_outputConfig = $this->getMockForAbstractClass('Magento\Framework\Module\Output\ConfigInterface');
-        $this->moduleResource = $this->getMockForAbstractClass('\Magento\Framework\Module\ResourceInterface');
         $this->_model = new \Magento\Framework\Module\Manager(
             $this->_outputConfig,
             $this->_moduleList,
-            $this->moduleResource,
             array(
                 'Module_Two' => self::XML_PATH_OUTPUT_ENABLED,
             )
@@ -118,5 +111,4 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             'path literal, output enabled'  => array(true, true),
         );
     }
-
 }

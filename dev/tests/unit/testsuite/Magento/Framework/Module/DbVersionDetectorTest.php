@@ -25,21 +25,33 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
      */
     private $moduleResource;
 
+    /**
+     * @var Magento\Framework\Module\ResourceResolverInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    private $resourceResolver;
+
     protected function setUp()
     {
         $this->moduleList = $this->getMockForAbstractClass('Magento\Framework\Module\ModuleListInterface');
         $this->moduleList->expects($this->any())
-            ->method('getModule')
+            ->method('getOne')
             ->will($this->returnValueMap([
-                        ['Module_One', ['name' => 'One_Module', 'schema_version' => '1']],
-                        ['Module_Two', ['name' => 'Two_Module', 'schema_version' => '2']],
-                        ['Module_Three', ['name' => 'Two_Three']],
+                        ['Module_One', ['name' => 'Module_One', 'schema_version' => '1']],
+                        ['Module_Two', ['name' => 'Module_Two', 'schema_version' => '2']],
+                        ['Module_No_Schema', []],
                     ]));
+        $this->moduleList->expects($this->any())
+            ->method('getNames')
+            ->will($this->returnValue(['Module_One', 'Module_Two']));
+
         $this->_outputConfig = $this->getMockForAbstractClass('Magento\Framework\Module\Output\ConfigInterface');
         $this->moduleResource = $this->getMockForAbstractClass('\Magento\Framework\Module\ResourceInterface');
+        $this->resourceResolver = $this->getMockForAbstractClass('\Magento\Framework\Module\ResourceResolverInterface');
+
         $this->dbVersionDetector = new DbVersionDetector(
             $this->moduleList,
-            $this->moduleResource
+            $this->moduleResource,
+            $this->resourceResolver
         );
     }
 
@@ -114,33 +126,50 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDbVersionErrors()
     {
-        $this->moduleList->expects($this->any())
-            ->method('getModules')
-            ->will($this->returnValue([
-                        ['name' => 'One_Module', 'schema_version' => '1'],
-                        ['Module_Two', ['name' => 'Two_Module', 'schema_version' => '2']],
-                        ['Module_Three', ['name' => 'Two_Three']],
-                    ]));
+        $this->moduleResource->expects($this->any())
+            ->method('getDataVersion')
+            ->will($this->returnValue(2));
+        $this->moduleResource->expects($this->any())
+            ->method('getDbVersion')
+            ->will($this->returnValue(2));
 
-        $this->dbVersionDetector->getDbVersionErrors();
+        $this->resourceResolver->expects($this->any())->method('getResourceList')->will($this->returnValueMap([
+                    ['Module_One', ['resource_one']],
+                    ['Module_Two', ['resource_two']],
+                ]));
+
+        $expectedErrors = [
+            [
+                DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
+                DbVersionDetector::ERROR_KEY_CURRENT => '2',
+                DbVersionDetector::ERROR_KEY_REQUIRED => '1',
+                DbVersionDetector::ERROR_KEY_TYPE => 'schema',
+            ],
+            [
+                DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
+                DbVersionDetector::ERROR_KEY_CURRENT => '2',
+                DbVersionDetector::ERROR_KEY_REQUIRED => '1',
+                DbVersionDetector::ERROR_KEY_TYPE => 'data',
+            ]
+        ];
+        $this->assertEquals($expectedErrors, $this->dbVersionDetector->getDbVersionErrors());
     }
 
-//
-//    /**
-//     * @expectedException \UnexpectedValueException
-//     * @expectedExceptionMessage Schema version for module 'Module_Three' is not specified
-//     */
-//    public function testIsDbSchemaUpToDateException()
-//    {
-//        $this->dbVersionDetector->getDbSchemaVersionError('Module_Three', 'resource');
-//    }
-//
-//    /**
-//     * @expectedException \UnexpectedValueException
-//     * @expectedExceptionMessage Schema version for module 'Module_Three' is not specified
-//     */
-//    public function testIsDbDataUpToDateException()
-//    {
-//        $this->dbVersionDetector->getDbDataVersionError('Module_Three', 'resource');
-//    }
+    /**
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage Schema version for module 'Module_No_Schema' is not specified
+     */
+    public function testIsDbSchemaUpToDateException()
+    {
+        $this->dbVersionDetector->isDbSchemaUpToDate('Module_No_Schema', 'resource_name');
+    }
+
+    /**
+     * @expectedException \UnexpectedValueException
+     * @expectedExceptionMessage Schema version for module 'Module_No_Schema' is not specified
+     */
+    public function testIsDbDataUpToDateException()
+    {
+        $this->dbVersionDetector->isDbDataUpToDate('Module_No_Schema', 'resource_name');
+    }
 }

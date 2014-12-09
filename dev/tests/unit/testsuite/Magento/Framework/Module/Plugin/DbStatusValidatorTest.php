@@ -154,7 +154,7 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
                          DbVersionDetector::ERROR_KEY_TYPE => 'schema',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ]
                 ],
             ],
@@ -164,7 +164,7 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
                          DbVersionDetector::ERROR_KEY_TYPE => 'data',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ]
                 ],
             ],
@@ -174,25 +174,25 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
                          DbVersionDetector::ERROR_KEY_TYPE => 'schema',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ],
                      [
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
                          DbVersionDetector::ERROR_KEY_TYPE => 'schema',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ],
                      [
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
                          DbVersionDetector::ERROR_KEY_TYPE => 'data',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ],
                      [
                          DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
                          DbVersionDetector::ERROR_KEY_TYPE => 'data',
                          DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_NEEDED => '1'
+                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
                      ]
                 ],
             ],

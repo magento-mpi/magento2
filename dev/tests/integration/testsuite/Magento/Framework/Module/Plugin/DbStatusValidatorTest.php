@@ -14,6 +14,9 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
         $this->dispatch('index/index');
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testValidationOutdatedDb()
     {
         $resourceName = 'adminnotification_setup';
@@ -22,39 +25,22 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\Module\ResourceInterface'
         );
-        $dbVersion = $resource->getDbVersion($resourceName);
-        $dbDataVersion = $resource->getDataVersion($resourceName);
+
+        $resource->setDbVersion($resourceName, '0.1');
+        $resource->setDataVersion($resourceName, '0.1');
+
+        /** @var \Magento\Framework\Cache\FrontendInterface $cache */
+        $cache = $this->_objectManager->get('Magento\Framework\App\Cache\Type\Config');
+        $cache->clean();
+
         try {
-            $resource->setDbVersion($resourceName, '0.1');
-            $resource->setDataVersion($resourceName, '0.1');
-            /** @var \Magento\Framework\Cache\FrontendInterface $cache */
-            $cache = $this->_objectManager->get('Magento\Framework\App\Cache\Type\Config');
-            $cache->clean();
-
-            try {
-                /* This triggers plugin to be executed */
-                $this->dispatch('index/index');
-            } catch (\Magento\Framework\Module\Exception $e) {
-                if ($e->getMessage() != 'Please update your database: first run "composer install" from the Magento ' .
-                    'root/ and root/setup directories. Then run "php –f index.php update" from the Magento ' .
-                    'root/setup directory.' . PHP_EOL .
-                    'Error details: database is out of date.' . PHP_EOL .
-                    'Magento_AdminNotification schema: current version - 0.1, latest version - 2.0.0.0' . PHP_EOL .
-                    'Magento_AdminNotification data: current version - 0.1, latest version - 2.0.0.0'
-                ) {
-                    $failureMessage = "DB status validation doesn't work properly. Caught exception message is '"
-                        . $e->getMessage() ."'";
-                }
-            }
-        } catch (\Exception $e) {
-            $failureMessage = "Impossible to continue other tests, because database is broken: {$e}";
-        }
-
-        $resource->setDbVersion($resourceName, $dbVersion);
-        $resource->setDataVersion($resourceName, $dbDataVersion);
-
-        if (isset($failureMessage)) {
-            $this->fail($failureMessage);
+            /* This triggers plugin to be executed */
+            $this->dispatch('index/index');
+            $this->fail('Did not throw expected \Magento\Framework\Module\Exception.');
+        } catch (\Magento\Framework\Module\Exception $e) {
+            $this->assertStringStartsWith('Please update your database:', $e->getMessage());
+            $this->assertContains('Magento_AdminNotification schema:', $e->getMessage());
+            $this->assertContains('Magento_AdminNotification data:', $e->getMessage());
         }
     }
 }
