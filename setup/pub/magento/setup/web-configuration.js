@@ -67,21 +67,21 @@ angular.module('web-configuration', ['ngStorage'])
         }
 
         $scope.addSlash = function() {
-            if (angular.isUndefined($scope.config.address.web)) {
+            if (angular.isUndefined($scope.config.address.base_url)) {
                 return;
             }
 
-            var p = $scope.config.address.web;
+            var p = $scope.config.address.base_url;
             if (p.length > 1) {
                 var lastChar = p.substr(-1);
                 if (lastChar != '/') {
-                    $scope.config.address.web = p + '/';
+                    $scope.config.address.base_url = p + '/';
                 }
             }
         };
 
         $scope.populateHttps = function() {
-            $scope.config.https.text = $scope.config.address.web.replace('http', 'https');
+            $scope.config.https.text = $scope.config.address.base_url.replace('http', 'https');
         };
 
 
