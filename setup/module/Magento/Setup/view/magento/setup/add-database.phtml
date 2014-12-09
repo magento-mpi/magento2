@@ -15,7 +15,7 @@
     <h1>{{$state.current.header}}</h1>
 </div>
 
-<form novalidate name="database" class="form-horizontal" role="form" ng-submit="testConnection()">
+<form novalidate name="database" class="form-horizontal" role="form">
     <div class="bs-callout bs-callout-warning col-sm-12 hide">
         <h4>Did you want to use an existing or create a new database?</h4>
         <div class="radio col-sm-6">
@@ -129,22 +129,6 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <div class="col-sm-offset-4 col-sm-4">
-            <button type="submit" class="btn btn-default" style="width: 100%;">
-                Test Connection and Authentication
-            </button>
-        </div>
-        <div class="col-sm-4" style="padding-top: 8px;">
-            <div ng-show="testConnection.result.success && testConnection.pressed" class="animate-show text-success">
-                <span class="glyphicon glyphicon-ok-sign text-success"></span>&nbsp;Test connection successful.
-            </div>
-            <div ng-show="!testConnection.result.success && testConnection.pressed" class="animate-show text-danger">
-                <span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{testConnection.result.error}}
-            </div>
-        </div>
-    </div>
-
     <div class="form-group" ng-if="db.useExistingDb==0">
         <label class="col-sm-4 control-label">New Database Name&nbsp;<span class="required">*</span></label>
         <div class="col-sm-4">
@@ -172,6 +156,24 @@
                    name="dbTablePrefix"
                    ng-model="db.tablePrefix"
                    placeholder="(optional)" />
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-4">
+            <input type="hidden"
+                   ng-model="testConn"
+                   ng-show="testConnection.result !== undefined && !testConnection.result.success"
+                   ng-bind="testConn"
+                   required />
+        </div>
+        <div  class="col-sm-4" ng-show="database.submitted">
+            <div ng-show="testConnection.result.success === false && testConnection.result !== undefined" class="error-container animate-show text-danger">
+                <span class="glyphicon glyphicon-remove-sign">&nbsp;{{testConnection.result.error}}</span>
+            </div>
+            <div ng-show="testConnection.result.success === undefined && testConnection.result !== undefined" class="error-container animate-show text-danger">
+                <span class="glyphicon glyphicon-remove-sign">&nbsp;Unknown Database Server Host.</span>
+            </div>
         </div>
     </div>
 

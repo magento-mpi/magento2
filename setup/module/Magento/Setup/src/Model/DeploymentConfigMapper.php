@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Setup\Module\Setup;
+namespace Magento\Setup\Model;
 
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
@@ -14,7 +14,7 @@ use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
 use Magento\Framework\App\DeploymentConfig\SessionConfig;
 
-class ConfigMapper
+class DeploymentConfigMapper
 {
     /**#@+
      * Parameters for setup tool

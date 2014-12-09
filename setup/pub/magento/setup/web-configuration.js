@@ -16,8 +16,9 @@ angular.module('web-configuration', ['ngStorage'])
                 admin: 'admin'
             },
             https: {
-                front: true,
-                admin: true
+                front: false,
+                admin: false,
+                text: 'https://www.example.com/'
             },
             rewrites: {
                 allowed: true
@@ -60,6 +61,29 @@ angular.module('web-configuration', ['ngStorage'])
         $scope.showEncryptKey = function() {
             return angular.equals($scope.config.encrypt.type, 'user');
         }
+
+        $scope.showHttpsField = function() {
+            return ($scope.config.https.front || $scope.config.https.admin);
+        }
+
+        $scope.addSlash = function() {
+            if (angular.isUndefined($scope.config.address.web)) {
+                return;
+            }
+
+            var p = $scope.config.address.web;
+            if (p.length > 1) {
+                var lastChar = p.substr(-1);
+                if (lastChar != '/') {
+                    $scope.config.address.web = p + '/';
+                }
+            }
+        };
+
+        $scope.populateHttps = function() {
+            $scope.config.https.text = $scope.config.address.web.replace('http', 'https');
+        };
+
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
