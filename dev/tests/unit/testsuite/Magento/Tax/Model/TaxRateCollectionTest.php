@@ -1,23 +1,45 @@
 <?php
-/**
+/** 
+ * 
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Tax\Model;
 
+namespace Magento\Tax\Model;
+ 
 class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Tax\Model\TaxRateCollection
+     * @var TaxRateCollection
      */
     protected $model;
+    
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $entityFactoryMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $taxRateRepositoryMock;
+    protected $filterBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $searchCriteriaBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $sortOrderBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rateServiceMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -27,78 +49,126 @@ class TaxRateCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $searchCriteriaBuilderMock;
+    protected $searchCriteriaMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $searchResultsMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $taxRateMock;
 
     protected function setUp()
     {
-        $entityFactoryMock = $this->getMock('\Magento\Core\Model\EntityFactory', [], [], '', false);
-        $filterBuilderMock = $this->getMock('\Magento\Framework\Api\FilterBuilder', [], [], '', false);
-        $sortOrderBuilderMock = $this->getMock('\Magento\Framework\Api\SortOrderBuilder', [], [], '', false);
-        $this->taxRateRepositoryMock = $this->getMock('\Magento\Tax\Api\TaxRateRepositoryInterface', [], [], '', false);
-        $this->rateConverterMock = $this->getMock('\Magento\Tax\Model\Calculation\Rate\Converter', [], [], '', false);
-        $this->searchCriteriaBuilderMock = $this->getMock(
-            '\Magento\Framework\Api\SearchCriteriaBuilder',
+        $this->entityFactoryMock = $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false);
+        $this->filterBuilderMock = $this->getMock('Magento\Framework\Api\FilterBuilder', [], [], '', false);
+        $this->searchCriteriaBuilderMock =
+            $this->getMock('Magento\Framework\Api\SearchCriteriaBuilder', [], [], '', false);
+        $this->sortOrderBuilderMock = $this->getMock('Magento\Framework\Api\SortOrderBuilder', [], [], '', false);
+        $this->rateServiceMock = $this->getMock(
+            'Magento\Tax\Api\TaxRateRepositoryInterface',
+            [
+                'save',
+                'get',
+                'deleteById',
+                'getList',
+                'delete',
+                '__wakeup'
+            ],
+            [],
+            '',
+            false
+        );
+        $this->rateConverterMock = $this->getMock(
+            'Magento\Tax\Model\Calculation\Rate\Converter',
             [],
             [],
             '',
             false
         );
-        $this->model = new \Magento\Tax\Model\TaxRateCollection(
-            $entityFactoryMock,
-            $filterBuilderMock,
+        $this->searchCriteriaMock = $this->getMock(
+            'Magento\Framework\Api\SearchCriteriaInterface',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->searchResultsMock = $this->getMock(
+            'Magento\Tax\Api\Data\TaxRateSearchResultsInterface',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->taxRateMock = $this->getMock('Magento\Tax\Model\Calculation\Rate', [], [], '', false);
+
+        $this->searchCriteriaBuilderMock->expects($this->any())
+            ->method('create')
+            ->willReturn($this->searchCriteriaMock);
+
+        $this->model = new TaxRateCollection(
+            $this->entityFactoryMock,
+            $this->filterBuilderMock,
             $this->searchCriteriaBuilderMock,
-            $sortOrderBuilderMock,
-            $this->taxRateRepositoryMock,
+            $this->sortOrderBuilderMock,
+            $this->rateServiceMock,
             $this->rateConverterMock
         );
     }
 
-    /**
-     * @dataProvider createTaxRateCollectionItemDataProvider
-     * @param $zipFrom int|null
-     * @param $zipTo int|null
-     */
-    public function testLoadData($zipFrom, $zipTo)
+    public function testLoadData()
     {
-        $taxId = 42;
-        $taxCode = 'taxCode';
-        $taxCountryId = 'US';
-        $taxRegionId = 'CA';
-        $taxRegionName = 'California';
-        $taxPostcode = '1235674';
-        $taxRate = 8.375;
-        $taxTitles = ['taxTitle'];
-        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteria', [], [], '', false);
-        $searchResultsMock = $this->getMock('\Magento\Tax\Api\Data\TaxRateSearchResultsInterface', [], [], '', false);
-        $taxRateMock = $this->getMock('\Magento\Tax\Api\Data\TaxRateInterface', [], [], '', false);
+        $this->rateServiceMock->expects($this->once())
+            ->method('getList')
+            ->with($this->searchCriteriaMock)
+            ->willReturn($this->searchResultsMock);
 
-        $this->searchCriteriaBuilderMock->expects($this->once())->method('setCurrentPage')->with(1);
-        $this->searchCriteriaBuilderMock->expects($this->once())->method('setPageSize')->with(false);
-        $this->searchCriteriaBuilderMock->expects($this->once())->method('create')->willReturn($searchCriteriaMock);
-        $this->taxRateRepositoryMock->expects($this->once())->method('getList')->with($searchCriteriaMock)
-            ->willReturn($searchResultsMock);
-        $searchResultsMock->expects($this->once())->method('getTotalCount')->willReturn(42);
-        $searchResultsMock->expects($this->once())->method('getItems')->willReturn([$taxRateMock]);
-        $taxRateMock->expects($this->once())->method('getId')->willReturn($taxId);
-        $taxRateMock->expects($this->once())->method('getCode')->willReturn($taxCode);
-        $taxRateMock->expects($this->once())->method('getTaxCountryId')->willReturn($taxCountryId);
-        $taxRateMock->expects($this->once())->method('getTaxRegionId')->willReturn($taxRegionId);
-        $taxRateMock->expects($this->once())->method('getRegionName')->willReturn($taxRegionName);
-        $taxRateMock->expects($this->once())->method('getTaxPostcode')->willReturn($taxPostcode);
-        $taxRateMock->expects($this->once())->method('getRate')->willReturn($taxRate);
-        $this->rateConverterMock->expects($this->once())->method('createTitleArrayFromServiceObject')
-            ->with($taxRateMock)->willReturn($taxTitles);
-        $taxRateMock->expects($this->atLeastOnce())->method('getZipTo')->willReturn($zipTo);
-        $taxRateMock->expects($this->any())->method('getZipFrom')->willReturn($zipFrom);
-        $this->assertEquals($this->model, $this->model->loadData());
-        $this->assertTrue($this->model->isLoaded());
+        $this->searchResultsMock->expects($this->once())->method('getTotalCount')->willReturn(123);
+
+        $this->searchResultsMock->expects($this->once())->method('getItems')->willReturn([$this->taxRateMock]);
+        $this->taxRateMock->expects($this->once())->method('getId')->willReturn(33);
+        $this->taxRateMock->expects($this->once())->method('getCode')->willReturn(44);
+        $this->taxRateMock->expects($this->once())->method('getTaxCountryId')->willReturn('CountryId');
+        $this->taxRateMock->expects($this->once())->method('getTaxRegionId')->willReturn(55);
+        $this->taxRateMock->expects($this->once())->method('getRegionName')->willReturn('Region Name');
+        $this->taxRateMock->expects($this->once())->method('getTaxPostcode')->willReturn('Post Code');
+        $this->taxRateMock->expects($this->once())->method('getRate')->willReturn(1.85);
+        $this->rateConverterMock->expects($this->once())
+            ->method('createTitleArrayFromServiceObject')
+            ->with($this->taxRateMock)
+            ->willReturn([]);
+        $this->taxRateMock->expects($this->once())->method('getZipTo')->willReturn(null);
+        $this->taxRateMock->expects($this->never())->method('getZipFrom');
+
+        $this->model->loadData();
     }
 
-    public function createTaxRateCollectionItemDataProvider()
+    public function testCreateTaxRateCollectionItem()
     {
-        return [
-            [null, null],
-            [100, 200]
-        ];
+        $this->rateServiceMock->expects($this->once())
+            ->method('getList')
+            ->with($this->searchCriteriaMock)
+            ->willReturn($this->searchResultsMock);
+
+        $this->searchResultsMock->expects($this->once())->method('getTotalCount')->willReturn(123);
+        $this->searchResultsMock->expects($this->once())->method('getItems')->willReturn([$this->taxRateMock]);
+        $this->taxRateMock->expects($this->once())->method('getId')->willReturn(33);
+        $this->taxRateMock->expects($this->once())->method('getCode')->willReturn(44);
+        $this->taxRateMock->expects($this->once())->method('getTaxCountryId')->willReturn('CountryId');
+        $this->taxRateMock->expects($this->once())->method('getTaxRegionId')->willReturn(55);
+        $this->taxRateMock->expects($this->once())->method('getRegionName')->willReturn('Region Name');
+        $this->taxRateMock->expects($this->once())->method('getTaxPostcode')->willReturn('Post Code');
+        $this->taxRateMock->expects($this->once())->method('getRate')->willReturn(1.85);
+        $this->rateConverterMock->expects($this->once())
+            ->method('createTitleArrayFromServiceObject')
+            ->with($this->taxRateMock)
+            ->willReturn([]);
+        $this->taxRateMock->expects($this->exactly(2))->method('getZipTo')->willReturn(1);
+        $this->taxRateMock->expects($this->exactly(2))->method('getZipFrom')->willReturn(200);
+
+        $this->model->loadData();
     }
 }
