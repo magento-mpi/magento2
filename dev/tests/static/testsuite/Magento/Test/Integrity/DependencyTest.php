@@ -331,15 +331,9 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
     public function collectRedundant()
     {
         foreach (array_keys(self::$_mapDependencies) as $module) {
-            // Override 'soft' dependencies with 'hard'
-            $soft = $this->_getDependencies($module, self::TYPE_SOFT, self::MAP_TYPE_FOUND);
-            $hard = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_FOUND);
-            $this->_setDependencies($module, self::TYPE_SOFT, self::MAP_TYPE_FOUND, array_diff($soft, $hard));
-            foreach ($this->_getTypes() as $type) {
-                $declared = $this->_getDependencies($module, $type, self::MAP_TYPE_DECLARED);
-                $found = $this->_getDependencies($module, $type, self::MAP_TYPE_FOUND);
-                $this->_setDependencies($module, $type, self::MAP_TYPE_REDUNDANT, array_diff($declared, $found));
-            }
+            $declared = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_DECLARED);
+            $found = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_FOUND);
+            $this->_setDependencies($module, self::TYPE_HARD, self::MAP_TYPE_REDUNDANT, array_diff($declared, $found));
         }
     }
 
@@ -353,17 +347,16 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $output = [];
         foreach (array_keys(self::$_mapDependencies) as $module) {
             $result = [];
-            foreach ($this->_getTypes() as $type) {
-                $redundant = $this->_getDependencies($module, $type, self::MAP_TYPE_REDUNDANT);
-                if (count($redundant)) {
-                    $result[] = sprintf(
-                        "\r\nModule %s: %s [%s]",
-                        $module,
-                        $type,
-                        implode(', ', array_values($redundant))
-                    );
-                }
+            $redundant = $this->_getDependencies($module, self::TYPE_HARD, self::MAP_TYPE_REDUNDANT);
+            if (count($redundant)) {
+                $result[] = sprintf(
+                    "\r\nModule %s: %s [%s]",
+                    $module,
+                    self::TYPE_HARD,
+                    implode(', ', array_values($redundant))
+                );
             }
+
             if (count($result)) {
                 $output[] = implode(', ', $result);
             }
@@ -629,7 +622,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         }
         return $jsonName;
     }
-    
+
     /**
      * Initialise map of dependencies
      *
@@ -658,7 +651,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
                     ];
                 }
             }
-            
+
             $require = $json->get('require');
             if (isset($require) && !empty($require)) {
                 foreach ($require as $requiredModule => $version) {

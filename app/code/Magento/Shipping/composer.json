@@ -18,6 +18,10 @@
         "ext-gd": "*",
         "magento/magento-composer-installer": "*"
     },
+    "suggest": {
+        "magento/module-fedex": "0.1.0-alpha107",
+        "magento/module-ups": "0.1.0-alpha107"
+    },
     "type": "magento2-module",
     "version": "0.1.0-alpha107",
     "extra": {
