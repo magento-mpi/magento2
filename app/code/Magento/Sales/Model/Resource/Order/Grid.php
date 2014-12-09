@@ -59,7 +59,7 @@ class Grid extends AbstractGrid
             )
             ->joinLeft(
                 ['ssa' => $this->getTable($this->addressTableName)],
-                'sfo.billing_address_id = ssa.entity_id',
+                'sfo.shipping_address_id = ssa.entity_id',
                 []
             )
             ->columns(
