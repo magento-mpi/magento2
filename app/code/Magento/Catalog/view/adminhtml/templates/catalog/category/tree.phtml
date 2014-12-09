@@ -491,18 +491,16 @@ function categoryMove(obj) {
 
     mageDialog.onOk(function() {
         (function($){
-            var $categoryContainer = $('#category-edit-container');
             $.ajax({
                 url: '<?php echo $this->getMoveUrl() ?>',
                 method : 'POST',
                 data: pd.join(""),
-                context: $('body'),
                 showLoader: true
             }).done(function(data) {
+                if (data.messages && data.messages.length > 0) {
+                    $('.messages').html(data.messages);
+                }
                 if (data.error) {
-                    if (data.messages && data.messages.length > 0) {
-                        $('.messages').html(data.messages);
-                    }
                     reRenderTree();
                 } else {
                     $(obj.tree.container.dom).trigger('categoryMove.tree');
@@ -510,8 +508,6 @@ function categoryMove(obj) {
             }).fail(function(jqXHR, textStatus) {
                 if (window.console) {
                     console.log(textStatus);
-                } else {
-                    alert(textStatus);
                 }
                 location.reload();
             });
