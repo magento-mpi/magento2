@@ -344,7 +344,6 @@ return array(
     array('deleteProductPrices', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('display', 'Magento\Framework\Image\Adapter\AbstractAdapter', 'getImage()'),
     array('displayFullSummary', 'Magento\Tax\Model\Config'),
-    array('displayTaxColumn', 'Magento\Tax\Model\Config'),
     array('displayZeroTax', 'Magento\Tax\Model\Config'),
     array('drawItem', 'Magento\Catalog\Block\Navigation'),
     array('dropKey', 'Magento\Framework\DB\Adapter\Pdo\Mysql'),
@@ -2116,5 +2115,7 @@ return array(
     ['getCategoryModel', 'Magento\Catalog\Model\Resource\Url'],
     ['getTaxConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
     ['prepareAdjustmentConfig', 'Magento\ConfigurableProduct\Pricing\Price\AttributePrice'],
-    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract']
+    ['_escapeDefaultValue', 'Magento\Framework\Code\Generator\EntityAbstract'],
+    ['getIdentities', 'Magento\Wishlist\Block\Link'],
+    ['_getCustomerSession', 'Magento\Wishlist\Block\AbstractBlock'],
 );

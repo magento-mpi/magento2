@@ -8,6 +8,9 @@
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Entry extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface
 {
