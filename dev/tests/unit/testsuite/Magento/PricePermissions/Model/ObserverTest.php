@@ -354,7 +354,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $priceElement->expects($this->any())->method('setValue')->with($this->equalTo('default'));
         $map = array(
             array('group_fields1', $fieldsetGroup),
-            array('recurring_payment', $elementPayment),
             array('price', $priceElement),
             array('giftcard_amounts', $giftcardAmounts),
         );
@@ -459,10 +458,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\PricePermissions\Model\Observer::viewBlockAbstractToHtmlBefore
-     * @dataProvider viewBlockAbstractToHtmlBeforeDataProvider
-     * @param string $nameInLayout
      */
-    public function testViewBlockAbstractToHtmlBefore($nameInLayout)
+    public function testViewBlockAbstractToHtmlBefore()
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
@@ -510,34 +507,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         )->getMock();
         $observer->expects($this->any())->method('getBlock')->will($this->returnValue($block));
 
-        switch ($nameInLayout) {
-            case 'adminhtml_recurring_payment_edit_form':
-                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
-                $block->expects($this->once())->method('setProductEntity')->with($product);
-                $block->expects($this->once())->method('setIsReadonly')->with(true);
-                break;
-            case 'adminhtml_recurring_payment_edit_form_dependence':
-                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
-                $block->expects($this->once())->method('addConfigOptions')->with(array('can_edit_price' => false));
-                $block->expects($this->once())
-                    ->method('addFieldDependence')
-                    ->with('product[recurring_payment]', 'product[is_recurring]', 0);
-                break;
-            case 'adminhtml.catalog.product.edit.tab.attributes':
-                $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
-                $block->expects($this->once())->method('setCanEditPrice')->with(false);
-                break;
-        }
-        $model->viewBlockAbstractToHtmlBefore($observer);
-    }
+        $nameInLayout = 'adminhtml.catalog.product.edit.tab.attributes';
+        $block->expects($this->any())->method('getNameInLayout')->will($this->returnValue($nameInLayout));
+        $block->expects($this->once())->method('setCanEditPrice')->with(false);
 
-    public function viewBlockAbstractToHtmlBeforeDataProvider()
-    {
-        return [
-            ['adminhtml_recurring_payment_edit_form'],
-            ['adminhtml_recurring_payment_edit_form_dependence'],
-            ['adminhtml.catalog.product.edit.tab.attributes'],
-        ];
+        $model->viewBlockAbstractToHtmlBefore($observer);
     }
 
     public function testCatalogProductSaveBefore()
