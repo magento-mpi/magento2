@@ -94,6 +94,4 @@ class Manager
         }
         return true;
     }
-
-
 }
