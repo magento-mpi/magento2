@@ -15,7 +15,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     protected $variationMatrix;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -23,7 +23,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param \Magento\ConfigurableProduct\Model\Product\Type\VariationMatrix $variationMatrix
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,

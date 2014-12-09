@@ -8,6 +8,9 @@
 
 namespace Magento\Catalog\Model\ProductLink;
 
+/**
+ * @codeCoverageIgnore
+ */
 class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Catalog\Api\Data\ProductLinkInterface
 {
@@ -41,6 +44,7 @@ class Link extends \Magento\Framework\Model\AbstractExtensibleModel implements
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {
