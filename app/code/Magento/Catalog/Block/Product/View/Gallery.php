@@ -56,9 +56,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         $product = $this->getProduct();
         $img = $this->_imageHelper->init($product, $type, $image->getFile());
-        if ($whiteBorders) {
-            $img->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false);
-        }
+        $img->constrainOnly(true)->keepAspectRatio(true)->keepFrame($whiteBorders);
         if ($width || $height) {
             $img->resize($width, $height);
         }
