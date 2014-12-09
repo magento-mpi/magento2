@@ -19,7 +19,7 @@ use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as EventObserver;
@@ -74,7 +74,7 @@ class Observer
     protected $_customerSession;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -90,7 +90,7 @@ class Observer
 
     /**
      * @param ConfigInterface $permissionsConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Session $customerSession
      * @param Index $permissionIndex
      * @param Data $catalogPermData
@@ -98,7 +98,7 @@ class Observer
      */
     public function __construct(
         ConfigInterface $permissionsConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Session $customerSession,
         Index $permissionIndex,
         Data $catalogPermData,

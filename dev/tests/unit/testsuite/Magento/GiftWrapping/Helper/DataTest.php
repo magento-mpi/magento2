@@ -51,7 +51,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $context = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->qDetailsBuilderMock = $this->getMock(
             '\Magento\Tax\Api\Data\QuoteDetailsDataBuilder',
             [],

@@ -14,7 +14,7 @@ namespace Magento\Theme\Model\Config;
 class CustomizationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,7 +41,7 @@ class CustomizationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManager = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             '',
             true,

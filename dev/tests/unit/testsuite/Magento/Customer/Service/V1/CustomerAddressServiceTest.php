@@ -79,7 +79,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private $_customerModelMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
      */
     private $_storeManagerMock;
 
@@ -846,7 +846,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     private function _setupStoreMock()
     {
         $this->_storeManagerMock = $this->getMockBuilder(
-            '\Magento\Framework\StoreManagerInterface'
+            '\Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->getMock();
 
         $this->_storeMock = $this->getMockBuilder(

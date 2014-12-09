@@ -26,7 +26,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     protected $_objectManager;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\StoreManagerInterface
+     * @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManagerMock;
 
@@ -95,7 +95,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMock(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',

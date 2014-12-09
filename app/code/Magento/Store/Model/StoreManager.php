@@ -7,7 +7,7 @@
  */
 namespace Magento\Store\Model;
 
-class StoreManager implements \Magento\Framework\StoreManagerInterface
+class StoreManager implements \Magento\Store\Model\StoreManagerInterface
 {
     /**
      * Application run code
@@ -81,7 +81,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storage;
 
@@ -109,11 +109,11 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Framework\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStorage()
     {
-        if (!$this->_storage instanceof \Magento\Framework\StoreManagerInterface) {
+        if (!$this->_storage instanceof \Magento\Store\Model\StoreManagerInterface) {
             $arguments = array(
                 'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
                 'currentStore' => $this->_currentStore,

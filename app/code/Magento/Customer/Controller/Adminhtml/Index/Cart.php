@@ -36,7 +36,7 @@ class Cart extends \Magento\Customer\Controller\Adminhtml\Index
                 $quote = $quoteRepository->create();
             }
             $quote->setWebsite(
-                $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
+                $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
             );
             $item = $quote->getItemById($deleteItemId);
             if ($item && $item->getId()) {
