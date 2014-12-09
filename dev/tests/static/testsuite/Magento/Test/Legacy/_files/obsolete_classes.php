@@ -2820,4 +2820,6 @@ return array(
     ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
     ['Magento\Customer\Model\Address\Converter'],
     ['Magento\Customer\Model\Converter'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
 );
