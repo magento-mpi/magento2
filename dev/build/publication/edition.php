@@ -50,6 +50,8 @@ try {
         case 'ce':
             $lists[] = 'ee.txt';
             copyAll("{$dir}/dev/build/publication/extra_files/ce", $dir);
+            copyLicenseToComponents(["$dir/app", "$dir/lib/internal/Magento"]);
+
             break;
         case 'ee':
             $includeLists[] = 'ee.txt';
@@ -86,6 +88,25 @@ try {
 } catch (Exception $e) {
     echo $e->getMessage() . PHP_EOL;
     exit(1);
+}
+
+/**
+ * Copy license files into all published components
+ *
+ * @param array $directories
+ */
+function copyLicenseToComponents($directories)
+{
+    foreach ($directories as $componentsDirectory) {
+        foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($componentsDirectory)) as $fileInfo) {
+            $fileName = (string)$fileInfo;
+            if (preg_match('/^(.*)composer\.json$/', $fileName, $matches)) {
+                $componentDirectory = $matches[1];
+                copy(__DIR__ . '/../../../LICENSE.txt', $componentDirectory . 'LICENSE.txt');
+                copy(__DIR__ . '/../../../LICENSE_AFL.txt', $componentDirectory . 'LICENSE_AFL.txt');
+            }
+        }
+    }
 }
 
 /**
