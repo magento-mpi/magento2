@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
-use Magento\Tools\SampleData\TestLoogger;
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class ProductTest
@@ -40,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             'Magento\Tools\SampleData\Module\Catalog\Setup\Attribute',
             [
                 'fixtureHelper' => $fixtureHelper,
-                'logger' => TestLoogger::factory(),
+                'logger' => TestLogger::factory(),
             ]
         );
 
@@ -56,7 +56,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tools\SampleData\Module\Catalog\Setup\Category $categories */
         $categories = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Tools\SampleData\Module\Catalog\Setup\Category',
-            ['logger' => TestLoogger::factory()]
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();
@@ -80,7 +80,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             [
                 'fixtureHelper' => $fixtureHelper,
                 'fixtures' => $fixtures,
-                'logger' => TestLoogger::factory(),
+                'logger' => TestLogger::factory(),
             ]
         );
 

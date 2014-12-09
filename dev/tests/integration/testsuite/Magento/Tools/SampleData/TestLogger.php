@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData;
 
 use Magento\Setup\Model\LoggerInterface;
 
-class TestLoogger implements LoggerInterface
+class TestLogger implements LoggerInterface
 {
     /**
      * Creates a test logger
@@ -20,7 +20,7 @@ class TestLoogger implements LoggerInterface
     public static function factory()
     {
         $logger = new Logger;
-        $logger->setSubject(new TestLoogger);
+        $logger->setSubject(new TestLogger);
         return $logger;
     }
 

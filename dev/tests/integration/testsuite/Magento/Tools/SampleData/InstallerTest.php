@@ -32,7 +32,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
             'Magento\Tools\SampleData\Installer',
             [
                 'data' => ['admin_username' => 'adminUser'],
-                'logger' => TestLoogger::factory(),
+                'logger' => TestLogger::factory(),
             ]
         );
 

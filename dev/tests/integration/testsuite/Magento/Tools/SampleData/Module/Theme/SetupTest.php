@@ -8,7 +8,7 @@
 
 namespace Magento\Tools\SampleData\Module\Theme;
 
-use Magento\Tools\SampleData\TestLoogger;
+use Magento\Tools\SampleData\TestLogger;
 
 /**
  * Class ThemeTest
@@ -23,7 +23,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tools\SampleData\Module\Theme\Setup $model */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Tools\SampleData\Module\Theme\Setup',
-            ['logger' => TestLoogger::factory()]
+            ['logger' => TestLogger::factory()]
         );
 
         ob_start();
