@@ -94,7 +94,7 @@ class Environment extends AbstractActionController
      *
      * @return JsonModel
      */
-    public function phpverificationsAction()
+    public function phpVerificationsAction()
     {
         try{
             $required = $this->verifications->getRequired();
