@@ -45,13 +45,11 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
             '\Magento\Catalog\Model\Product',
             array(
                 '__wakeup',
-                'setIsRecurring',
                 'isObjectNew',
                 'getTypeId',
                 'getPriceType',
                 'setPrice',
                 'setGiftcardAmounts',
-                'unsRecurringPayment',
                 'setMsrpEnabled',
                 'setMsrpDisplayActualPriceType'
             ),
@@ -74,7 +72,6 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
     public function testHandleWithNotNewProduct()
     {
         $this->productMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(false));
-        $this->productMock->expects($this->never())->method('setIsRecurring');
         $this->model->handle($this->productMock);
     }
 

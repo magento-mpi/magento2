@@ -70,7 +70,6 @@ return array(
     array('_quoteImporter', 'Magento\Paypal\Model\Express\Checkout'),
     array('_ratingOptionTable', 'Magento\Review\Model\Resource\Rating\Option\Collection'),
     array('_readerFactory', 'Magento\Framework\App\ObjectManager\ConfigLoader'),
-    array('_recurringPaymentProfiles', '\Magento\Paypal\Model\Api\AbstractApi'),
     array('_resourceConfig', 'Magento\Core\Model\Resource\Setup'),
     array('_saveTemplateFlag', 'Magento\Newsletter\Model\Queue'),
     array('_searchTextFields'),

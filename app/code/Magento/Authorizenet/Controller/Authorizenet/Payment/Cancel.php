@@ -43,9 +43,9 @@ class Cancel extends \Magento\Framework\App\Action\Action
             )->getMethodInstance(
                 \Magento\Authorizenet\Model\Authorizenet::METHOD_CODE
             );
-            if ($paymentMethod) {
-                $paymentMethod->cancelPartialAuthorization($this->_session->getQuote()->getPayment());
-            }
+
+            $paymentMethod->cancelPartialAuthorization($this->_session->getQuote()->getPayment());
+
             $result['success'] = true;
             $result['update_html'] = $this->_objectManager->get(
                 'Magento\Authorizenet\Helper\Data'
