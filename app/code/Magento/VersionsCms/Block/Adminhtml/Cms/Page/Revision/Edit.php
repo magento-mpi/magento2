@@ -104,7 +104,11 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                         'class' => 'publish no-display',
                         'data_attribute' => array(
                             'mage-init' => array(
-                                'button' => array('event' => 'saveAndPublish', 'target' => '#edit_form')
+                                'button' => array(
+                                    'event' => 'save',
+                                    'target' => '#edit_form',
+                                    'eventData' => array('action' => $this->getSaveAndPublishUrl())
+                                )
                             )
                         )
                     ),
@@ -247,6 +251,16 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
     public function getPublishUrl()
     {
         return $this->getUrl('adminhtml/*/publish', array('_current' => true));
+    }
+
+    /**
+     * Get Url for save_publish button
+     *
+     * @return string
+     */
+    public function getSaveAndPublishUrl()
+    {
+        return $this->getUrl('adminhtml/cms_page_revision/save', array('back' => 'publish'));
     }
 
     /**
