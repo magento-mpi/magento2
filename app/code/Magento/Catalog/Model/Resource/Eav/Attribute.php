@@ -490,6 +490,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsWysiwygEnabled()
@@ -600,6 +601,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute implements
     {
         return $this->getData(self::IS_VISIBLE);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}

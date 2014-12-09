@@ -113,16 +113,4 @@ class Totals extends SidebarTotals
     {
         return $this->_taxConfig->displayCartSubtotalBoth();
     }
-
-    /**
-     * Get incl/excl tax label
-     *
-     * @param bool $flag
-     * @return string
-     */
-    public function getIncExcTaxLabel($flag)
-    {
-        $text = $this->_taxData->getIncExcText($flag);
-        return $text ? ' (' . $text . ')' : '';
-    }
 }

@@ -79,12 +79,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 true
             ],
             [
-                'isDiscounted',
-                Config::XML_PATH_FPT_DISCOUNTED,
-                true,
-                true
-            ],
-            [
                 'isTaxable',
                 Config::XML_PATH_FPT_TAXABLE,
                 true,

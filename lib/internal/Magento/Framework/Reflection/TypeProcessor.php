@@ -386,7 +386,6 @@ class TypeProcessor
      * Example:
      * <pre>
      *  \Magento\Customer\Api\Data\CustomerInterface => CustomerV1DataCustomer
-     *  \Magento\Catalog\Service\V2\Data\Product => CatalogV2DataProduct
      * </pre>
      *
      * @param string $class

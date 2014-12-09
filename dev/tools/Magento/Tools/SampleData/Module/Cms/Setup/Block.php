@@ -37,11 +37,6 @@ class Block implements SetupInterface
     protected $categoryRepository;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder
-     */
-    protected $categoryDataBuilder;
-
-    /**
      * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
      */
     protected $csvReaderFactory;

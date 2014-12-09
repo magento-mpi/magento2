@@ -309,7 +309,6 @@ return [
     'tax_order_aggregated_created' => 'Magento_Tax',
     'tax_order_aggregated_updated' => 'Magento_Tax',
     'translation' => 'Magento_Translation',
-    'weee_discount' => 'Magento_Weee',
     'weee_tax' => 'Magento_Weee',
     'widget' => 'Magento_Widget',
     'widget_instance' => 'Magento_Widget',

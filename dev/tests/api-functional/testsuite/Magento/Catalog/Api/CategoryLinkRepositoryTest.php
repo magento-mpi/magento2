@@ -138,7 +138,7 @@ class CategoryLinkRepositoryTest extends WebapiAbstract
      */
     private function isProductInCategory($categoryId, $productId, $productPosition)
     {
-        /** @var \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader */
+        /** @var \Magento\Catalog\Api\CategoryRepositoryInterface $categoryLoader */
         $categoryLoader = Bootstrap::getObjectManager()->create('\Magento\Catalog\Api\CategoryRepositoryInterface');
         $category = $categoryLoader->get($categoryId);
         $productsPosition = $category->getProductsPosition();

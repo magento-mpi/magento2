@@ -341,6 +341,7 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
 
     /**
      * {@inheritdoc}
+     * @codeCoverageIgnoreStart
      */
     public function getAttributeSetId()
     {
@@ -381,4 +382,5 @@ class Set extends \Magento\Framework\Model\AbstractExtensibleModel implements
     {
         $this->setData('attribute_set_name', $name);
     }
+    //@codeCoverageIgnoreEnd
 }

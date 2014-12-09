@@ -14,6 +14,7 @@ use Magento\Framework\Api\ObjectFactory;
 
 /**
  * DataBuilder class for \Magento\Eav\Api\Data\AttributeGroupInterface
+ * @codeCoverageIgnore
  */
 class AttributeGroupDataBuilder extends \Magento\Framework\Api\Builder
 {

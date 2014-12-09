@@ -158,6 +158,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setAttributeSetFilterBySetName($attributeSetName, $entityTypeCode)
     {
+        //@codeCoverageIgnoreStart
         $entityTypeId = $this->eavConfig->getEntityType($entityTypeCode)->getId();
         $this->join(
             ['entity_attribute' => $this->getTable('eav_entity_attribute')],
@@ -171,6 +172,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $this->addFieldToFilter('attribute_set.entity_type_id', $entityTypeId);
         $this->addFieldToFilter('attribute_set.attribute_set_name', $attributeSetName);
         $this->setOrder('entity_attribute.sort_order', self::SORT_ORDER_ASC);
+        //@codeCoverageIgnoreEnd
     }
 
     /**

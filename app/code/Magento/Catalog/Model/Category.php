@@ -1053,6 +1053,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * @return string|null
      */
     public function getPath()
@@ -1139,11 +1140,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     {
         return $this->getData('children_data');
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {

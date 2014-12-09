@@ -212,7 +212,7 @@ class Session extends \Magento\Framework\Session\SessionManager
                         ? $this->_customer->getId()
                         : $this->_customerSession->getCustomerId();
                     try {
-                        $quote = $this->quoteRepository->getForCustomer($customerId);
+                        $quote = $this->quoteRepository->getActiveForCustomer($customerId);
                         $this->setQuoteId($quote->getId());
                     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
                     }

@@ -18,11 +18,6 @@ class Converter
     protected $categoryFactory;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\CategoryLoader
-     */
-    protected $categoryLoader;
-
-    /**
      * @var \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter
      */
     protected $productConverter;
@@ -55,7 +50,6 @@ class Converter
     /**
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
@@ -64,7 +58,6 @@ class Converter
     public function __construct(
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Catalog\Service\V1\Category\CategoryLoader $categoryLoader,
         \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
@@ -72,7 +65,6 @@ class Converter
     ) {
         $this->categoryFactory = $categoryFactory;
         $this->eavConfig = $eavConfig;
-        $this->categoryLoader = $categoryLoader;
         $this->productConverter = $productConverter;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;

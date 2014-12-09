@@ -11,6 +11,9 @@ namespace Magento\Catalog\Model;
 
 use Magento\Catalog\Api\Data\ProductTypeInterface;
 
+/**
+ * @codeCoverageIgnore
+ */
 class ProductType extends \Magento\Framework\Api\AbstractExtensibleObject implements ProductTypeInterface
 {
     /**

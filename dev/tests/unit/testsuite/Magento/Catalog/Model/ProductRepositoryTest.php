@@ -38,6 +38,31 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     protected $productFactoryMock;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $collectionFactoryMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $searchCriteriaBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filterBuilderMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $metadataServiceMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $searchResultsBuilderMock;
+
+    /**
      * @var array data to create product
      */
     protected $productData = [
@@ -49,9 +74,38 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
         $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
+        $this->filterBuilderMock = $this->getMock('\Magento\Framework\Api\FilterBuilder', [], [], '', false);
         $this->initializationHelperMock = $this->getMock(
             '\Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper',
             [],
+            [],
+            '',
+            false
+        );
+        $this->collectionFactoryMock = $this->getMock(
+            '\Magento\Catalog\Model\Resource\Product\CollectionFactory',
+            ['create'],
+            [],
+            '',
+            false
+        );
+        $this->searchCriteriaBuilderMock = $this->getMock(
+            '\Magento\Framework\Api\SearchCriteriaDataBuilder',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->metadataServiceMock = $this->getMock(
+            '\Magento\Catalog\Api\ProductAttributeRepositoryInterface',
+            [],
+            [],
+            '',
+            false
+        );
+        $this->searchResultsBuilderMock = $this->getMock(
+            '\Magento\Catalog\Api\Data\ProductSearchResultsDataBuilder',
+            ['setSearchCriteria', 'setItems', 'setTotalCount', 'create'],
             [],
             '',
             false
@@ -63,7 +117,12 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             [
                 'productFactory' => $this->productFactoryMock,
                 'initializationHelper' => $this->initializationHelperMock,
-                'resourceModel' => $this->resourceModelMock
+                'resourceModel' => $this->resourceModelMock,
+                'filterBuilder' => $this->filterBuilderMock,
+                'collectionFactory' => $this->collectionFactoryMock,
+                'searchCriteriaBuilder' => $this->searchCriteriaBuilderMock,
+                'metadataServiceInterface' => $this->metadataServiceMock,
+                'searchResultsBuilder' => $this->searchResultsBuilderMock
             ]
         );
     }
@@ -268,5 +327,80 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('42'));
         $this->productMock->expects($this->once())->method('load')->with('42');
         $this->assertTrue($this->model->deleteById($sku));
+    }
+
+    public function testGetList()
+    {
+        $searchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaInterface', [], [], '', false);
+        $attributeCode = 'attribute_code';
+        $collectionMock = $this->getMock('\Magento\Catalog\Model\Resource\Product\Collection', [], [], '', false);
+        $filterMock = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
+        $searchCriteriaBuilderMock = $this->getMock('\Magento\Framework\Api\SearchCriteriaBuilder', [], [], '', false);
+        $extendedSearchCriteriaMock = $this->getMock('\Magento\Framework\Api\SearchCriteria', [], [], '', false);
+        $productAttributeSearchResultsMock = $this->getMockForAbstractClass(
+            '\Magento\Catalog\Api\Data\ProductAttributeInterface',
+            [],
+            '',
+            false,
+            false,
+            false,
+            ['getItems']
+        );
+        $productAttributeMock = $this->getMock(
+            '\Magento\Catalog\Api\Data\ProductAttributeInterface',
+            [],
+            [],
+            '',
+            false
+        );
+        $filterGroupMock = $this->getMock('\Magento\Framework\Api\Search\FilterGroup', [], [], '', false);
+        $filterGroupFilterMock = $this->getMock('\Magento\Framework\Api\Filter', [], [], '', false);
+        $sortOrderMock = $this->getMock('\Magento\Framework\Api\SortOrder', [], [], '', false);
+        $itemsMock = $this->getMock('\Magento\Framework\Object', [], [], '', false);
+
+        $this->collectionFactoryMock->expects($this->once())->method('create')->willReturn($collectionMock);
+        $this->filterBuilderMock->expects($this->any())->method('setField')->with('attribute_set_id')
+            ->will($this->returnSelf());
+        $this->filterBuilderMock->expects($this->once())->method('create')->willReturn($filterMock);
+        $this->filterBuilderMock->expects($this->once())->method('setValue')
+            ->with(\Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
+            ->willReturn($this->filterBuilderMock);
+        $this->searchCriteriaBuilderMock->expects($this->once())->method('addFilter')->with([$filterMock])
+            ->willReturn($searchCriteriaBuilderMock);
+        $searchCriteriaBuilderMock->expects($this->once())->method('create')->willReturn($extendedSearchCriteriaMock);
+        $this->metadataServiceMock->expects($this->once())->method('getList')->with($extendedSearchCriteriaMock)
+            ->willReturn($productAttributeSearchResultsMock);
+        $productAttributeSearchResultsMock->expects($this->once())->method('getItems')
+            ->willReturn([$productAttributeMock]);
+        $productAttributeMock->expects($this->once())->method('getAttributeCode')->willReturn($attributeCode);
+        $collectionMock->expects($this->once())->method('addAttributeToSelect')->with($attributeCode);
+        $collectionMock->expects($this->exactly(2))->method('joinAttribute')->withConsecutive(
+            ['status', 'catalog_product/status', 'entity_id', null, 'inner'],
+            ['visibility', 'catalog_product/visibility', 'entity_id', null, 'inner']
+        );
+        $searchCriteriaMock->expects($this->once())->method('getFilterGroups')->willReturn([$filterGroupMock]);
+        $filterGroupMock->expects($this->once())->method('getFilters')->willReturn([$filterGroupFilterMock]);
+        $filterGroupFilterMock->expects($this->exactly(2))->method('getConditionType')->willReturn('eq');
+        $filterGroupFilterMock->expects($this->once())->method('getField')->willReturn('field');
+        $filterGroupFilterMock->expects($this->once())->method('getValue')->willReturn('value');
+        $collectionMock->expects($this->once())->method('addFieldToFilter')
+            ->with([['attribute' => 'field', 'eq' => 'value']]);
+        $searchCriteriaMock->expects($this->once())->method('getSortOrders')->willReturn([$sortOrderMock]);
+        $sortOrderMock->expects($this->once())->method('getField')->willReturn('field');
+        $sortOrderMock->expects($this->once())->method('getDirection')
+            ->willReturn(\Magento\Framework\Api\SearchCriteriaInterface::SORT_ASC);
+        $collectionMock->expects($this->once())->method('addOrder')->with('field', 'ASC');
+        $searchCriteriaMock->expects($this->once())->method('getCurrentPage')->willReturn(4);
+        $collectionMock->expects($this->once())->method('setCurPage')->with(4);
+        $searchCriteriaMock->expects($this->once())->method('getPageSize')->willReturn(42);
+        $collectionMock->expects($this->once())->method('setPageSize')->with(42);
+        $collectionMock->expects($this->once())->method('load');
+        $this->searchResultsBuilderMock->expects($this->once())->method('setSearchCriteria')->with($searchCriteriaMock);
+        $collectionMock->expects($this->once())->method('getItems')->willReturn([$itemsMock]);
+        $this->searchResultsBuilderMock->expects($this->once())->method('setItems')->with([$itemsMock]);
+        $collectionMock->expects($this->once())->method('getSize')->willReturn(128);
+        $this->searchResultsBuilderMock->expects($this->once())->method('setTotalCount')->with(128);
+        $this->searchResultsBuilderMock->expects($this->once())->method('create')->willReturnSelf();
+        $this->assertEquals($this->searchResultsBuilderMock, $this->model->getList($searchCriteriaMock));
     }
 }

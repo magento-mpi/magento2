@@ -140,16 +140,4 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
     {
         return $this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId());
     }
-
-    /**
-     * Get url for ajax to refresh Gift Wrapping block
-     *
-     * @deprecated since 1.12.0.0
-     *
-     * @return string
-     */
-    public function getRefreshWrappingUrl()
-    {
-        return $this->getUrl('adminhtml/giftwrapping/orderOptions');
-    }
 }
