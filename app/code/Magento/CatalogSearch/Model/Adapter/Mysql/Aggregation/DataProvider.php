@@ -85,7 +85,11 @@ class DataProvider implements DataProviderInterface
             $currentScopeId = $this->scopeResolver->getScope($currentScope)
                 ->getId();
             $select = $this->getSelect();
-            $table = $this->resource->getTableName('catalog_product_index_eav');
+            $table = $this->resource->getTableName(
+                $attribute->getBackendType() == 'decimal'
+                    ? 'catalog_product_index_eav_decimal'
+                    : 'catalog_product_index_eav'
+            );
             $select->from(['main_table' => $table], ['value'])
                 ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
                 ->where('main_table.store_id = ? ', $currentScopeId);
