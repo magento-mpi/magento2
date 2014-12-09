@@ -36,7 +36,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     protected $mockResource;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerGroupServiceInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\GroupManagementInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $groupManagementMock;
 

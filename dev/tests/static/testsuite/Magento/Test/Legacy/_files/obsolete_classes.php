@@ -2481,6 +2481,8 @@ return array(
     ['Magento\Framework\View\Layout\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
     ['Magento\Framework\View\Layout\File\Factory', 'Magento\Framework\View\File\Factory'],
     ['Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File\FileList'],
+    ['Magento\Customer\Service\V1\CustomerAccountService'],
+    ['Magento\Customer\Service\V1\CustomerAccountServiceInterface'],
     ['Magento\Framework\View\Layout\File\SourceInterface', 'Magento\Framework\View\File\CollectorInterface'],
     ['Magento\Framework\View\Layout\File', 'Magento\Framework\View\File'],
     ['Magento\Framework\View\Url\Resolver', 'Magento\Framework\View\Asset\Repository'],
@@ -2816,4 +2818,8 @@ return array(
     ],
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
     ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
+    ['Magento\Customer\Model\Address\Converter'],
+    ['Magento\Customer\Model\Converter'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
 );

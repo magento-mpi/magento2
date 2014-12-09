@@ -117,7 +117,14 @@ class Drop extends \Magento\Backend\App\Action implements RevisionInterface
                 $selectedStoreId = $data['preview_selected_store'];
             } else {
                 if (!$selectedStoreId) {
-                    $selectedStoreId = $this->_storeManager->getDefaultStoreView()->getId();
+                    $defaultStore = $this->_storeManager->getDefaultStoreView();
+                    if (!$defaultStore) {
+                        $allStores = $this->_storeManager->getStores();
+                        if (isset($allStores[0])) {
+                            $defaultStore = $allStores[0];
+                        }
+                    }
+                    $selectedStoreId = $defaultStore ? $defaultStore->getId() : null;
                 }
             }
             $selectedStoreId = (int)$selectedStoreId;

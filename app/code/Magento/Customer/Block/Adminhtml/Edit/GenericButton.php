@@ -8,7 +8,6 @@
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 
 /**
  * Class GenericButton

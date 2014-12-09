@@ -317,7 +317,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->addressBuilder = $addressBuilder;
         $this->validator = $validator;
         $this->addressMapper = $addressMapper;
-
         parent::__construct(
             $context,
             $registry,

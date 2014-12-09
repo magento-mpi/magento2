@@ -29,7 +29,7 @@ class EmailLinkTest extends \PHPUnit_Framework_TestCase
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId', 'getSharingCode'], [], '', false);
         $wishlist->expects($this->any())->method('getId')->will($this->returnValue(5));
         $wishlist->expects($this->any())->method('getSharingCode')->will($this->returnValue('somesharingcode'));
-        $customer = $this->getMock('Magento\Customer\Service\V1\Data\Customer', [], [], '', false);
+        $customer = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $customer->expects($this->any())->method('getId')->will($this->returnValue(8));
         $customer->expects($this->any())->method('getEmail')->will($this->returnValue('test@example.com'));
 

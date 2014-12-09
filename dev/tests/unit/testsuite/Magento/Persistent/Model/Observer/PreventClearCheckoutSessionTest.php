@@ -54,7 +54,6 @@ class PreventClearCheckoutSessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $eventMethods = ['getControllerAction', 'dispatch', '__wakeUp'];
-        $this->customerAccountMock = $this->getMock('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
         $this->customerSessionMock = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
         $this->sessionHelperMock = $this->getMock('Magento\Persistent\Helper\Session', [], [], '', false);
         $this->helperMock = $this->getMock('Magento\Persistent\Helper\Data', [], [], '', false);

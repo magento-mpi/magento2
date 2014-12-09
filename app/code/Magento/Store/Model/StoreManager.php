@@ -226,7 +226,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return Store
+     * @return Store|null
      */
     public function getDefaultStoreView()
     {

@@ -86,11 +86,11 @@ class DataTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testWishlistCustomer()
     {
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = $this->objectManager->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $this->objectManager->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $customer = $customerAccountService->getCustomer(1);
+        $customer = $customerRepository->getById(1);
 
         $this->_wishlistHelper->setCustomer($customer);
         $this->assertSame($customer, $this->_wishlistHelper->getCustomer());

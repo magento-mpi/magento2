@@ -274,7 +274,7 @@ class SubtotalTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param $fixtureCustomerId
-     * @return \Magento\Customer\Service\V1\Data\Address
+     * @return \Magento\Customer\Api\Data\AddressInterface
      */
     protected function getShippingAddressDataObject($fixtureCustomerId)
     {

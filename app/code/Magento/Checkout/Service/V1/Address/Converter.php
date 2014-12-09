@@ -10,7 +10,7 @@ namespace Magento\Checkout\Service\V1\Address;
 use Magento\Checkout\Service\V1\Data\Cart\Address;
 use Magento\Checkout\Service\V1\Data\Cart\AddressBuilder;
 use Magento\Checkout\Service\V1\Data\Cart\Address\Region;
-use Magento\Customer\Service\V1\CustomerMetadataServiceInterface;
+use Magento\Customer\Api\CustomerMetadataInterface;
 use Magento\Framework\Api\AttributeValue;
 use Magento\Framework\Api\SimpleDataObjectConverter;
 
@@ -27,20 +27,20 @@ class Converter
     /**
      * Customer metadata service interface.
      *
-     * @var CustomerMetadataServiceInterface
+     * @var CustomerMetadataInterface
      */
-    protected $metadataService;
+    protected $customerMetadata;
 
     /**
      * Constructs a quote shipping address converter service object.
      *
      * @param AddressBuilder $addressBuilder Address builder.
-     * @param CustomerMetadataServiceInterface $metadataService Metadata service.
+     * @param CustomerMetadataInterface $customerMetadata Metadata service.
      */
-    public function __construct(AddressBuilder $addressBuilder, CustomerMetadataServiceInterface $metadataService)
+    public function __construct(AddressBuilder $addressBuilder, CustomerMetadataInterface $customerMetadata)
     {
         $this->addressBuilder = $addressBuilder;
-        $this->metadataService = $metadataService;
+        $this->customerMetadata = $customerMetadata;
     }
 
     /**
@@ -75,7 +75,7 @@ class Converter
             Address::KEY_VAT_ID => $address->getVatId()
         ];
 
-        foreach ($this->metadataService->getCustomAttributesMetadata() as $attributeMetadata) {
+        foreach ($this->customerMetadata->getCustomAttributesMetadata() as $attributeMetadata) {
             $attributeCode = $attributeMetadata->getAttributeCode();
             $method = 'get' . SimpleDataObjectConverter::snakeCaseToUpperCamelCase($attributeCode);
             $data[Address::CUSTOM_ATTRIBUTES_KEY][] =
