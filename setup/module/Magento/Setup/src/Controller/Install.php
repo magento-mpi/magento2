@@ -155,6 +155,9 @@ class Install extends AbstractActionController
             ? $source['config']['https']['front'] : '';
         $result[UserConfig::KEY_IS_SECURE_ADMIN] = isset($source['config']['https']['admin'])
             ? $source['config']['https']['admin'] : '';
+        $result[UserConfig::KEY_BASE_URL_SECURE] = (isset($source['config']['https']['front'])
+            || isset($source['config']['https']['admin']))
+            ? $source['config']['https']['text'] : '';
         $result[UserConfig::KEY_LANGUAGE] = isset($source['store']['language'])
             ? $source['store']['language'] : '';
         $result[UserConfig::KEY_TIMEZONE] = isset($source['store']['timezone'])

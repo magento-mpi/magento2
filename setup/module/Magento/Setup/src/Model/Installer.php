@@ -356,10 +356,8 @@ class Installer
     {
         $key = $data[DeploymentConfigMapper::KEY_ENCRYPTION_KEY];
         // retrieve old encryption keys
-        $reader = new Reader($this->directoryList);
-        $deploymentConfig = new Config($reader);
-        if ($deploymentConfig->isAvailable()) {
-            $encryptInfo = $deploymentConfig->getSegment(EncryptConfig::CONFIG_KEY);
+        if ($this->deploymentConfig->isAvailable()) {
+            $encryptInfo = $this->deploymentConfig->getSegment(EncryptConfig::CONFIG_KEY);
             $oldKeys = $encryptInfo[EncryptConfig::KEY_ENCRYPTION_KEY];
             $key = empty($key) ? $oldKeys : $oldKeys . "\n" . $key;
         } else if (empty($key)) {
@@ -746,9 +744,7 @@ class Installer
     {
         // stops cleanup if app/etc/config.php does not exist
         if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
-            $reader = new \Magento\Framework\App\DeploymentConfig\Reader($this->directoryList);
-            $deploymentConfig = new \Magento\Framework\App\DeploymentConfig($reader, []);
-            $dbConfig = new DbConfig($deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
+            $dbConfig = new DbConfig($this->deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
             $config = $dbConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
             if ($config) {
                 try {

@@ -18,7 +18,7 @@ angular.module('web-configuration', ['ngStorage'])
             https: {
                 front: false,
                 admin: false,
-                text: 'https://www.example.com/'
+                text: ''
             },
             rewrites: {
                 allowed: true
