@@ -272,7 +272,7 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Assign image width, height, fileMimeType to object properties using getimagesize function
+     * Assign image width, height, fileMimeType to object properties
      *
      * @return string|null
      */
