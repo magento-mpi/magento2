@@ -656,7 +656,7 @@ class Http extends \Zend_Controller_Request_Http implements
      */
     protected function initialRequestSecure($offLoaderHeader)
     {
-        return isset($offLoaderHeader) && // isset or !empty?
+        return !empty($offLoaderHeader) &&
             (
                 isset($_SERVER[$offLoaderHeader]) && $_SERVER[$offLoaderHeader] === 'https' ||
                 isset($_SERVER['HTTP_' . $offLoaderHeader]) && $_SERVER['HTTP_' . $offLoaderHeader] === 'https'

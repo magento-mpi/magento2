@@ -446,8 +446,8 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [true, ['HTTPS' => 'on']],
-            [true, ['SSL_OFFLOADED' => 'on']],
-            [true, ['HTTP_SSL_OFFLOADED' => 'on']],
+            [true, ['SSL_OFFLOADED' => 'https']],
+            [true, ['HTTP_SSL_OFFLOADED' => 'https']],
             [true, ['SERVER_PORT' => 80]],
             [false, []],
         ];
