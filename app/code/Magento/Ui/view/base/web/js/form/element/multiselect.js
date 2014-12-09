@@ -12,8 +12,7 @@ define([
     'use strict';
 
     var defaults = {
-        size: 5,
-        template: 'ui/form/element/multiselect'
+        size: 5
     };
 
     var __super__ = Select.prototype;
