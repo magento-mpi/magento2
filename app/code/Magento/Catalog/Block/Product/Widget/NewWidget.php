@@ -53,7 +53,9 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     {
         switch ($this->getDisplayType()) {
             case self::DISPLAY_TYPE_NEW_PRODUCTS:
-                $collection = parent::_getProductCollection();
+                $collection = parent::_getProductCollection()
+                    ->setPageSize($this->getProductsPerPage())
+                    ->setCurPage($this->getCurrentPage());
                 break;
             default:
                 $collection = $this->_getRecentlyAddedProductsCollection();
@@ -76,9 +78,19 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
         $collection = $this->_addProductAttributesAndPrices($collection)
             ->addStoreFilter()
             ->addAttributeToSort('created_at', 'desc')
-            ->setPageSize($this->getProductsCount())
-            ->setCurPage(1);
+            ->setPageSize($this->getProductsPerPage())
+            ->setCurPage($this->getCurrentPage());
         return $collection;
+    }
+
+    /**
+     * Get number of current page based on query value
+     *
+     * @return int
+     */
+    public function getCurrentPage()
+    {
+        return abs((int)$this->getRequest()->getParam(self::PAGE_VAR_NAME));
     }
 
     /**

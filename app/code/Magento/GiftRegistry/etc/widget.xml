@@ -18,7 +18,8 @@
                        source_model="Magento\GiftRegistry\Model\Source\Search">
                 <label translate="true">Quick Search Form Types</label>
             </parameter>
-            <parameter name="template" xsi:type="select" visible="false">
+            <parameter name="template" xsi:type="select" visible="true" required="true">
+                <label translate="true">Template</label>
                 <options>
                     <option name="default_template" value="search/widget/form.phtml">
                         <label translate="true">Default Template</label>
