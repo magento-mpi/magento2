@@ -281,9 +281,23 @@ abstract class AbstractAdapter implements AdapterInterface
         if ($this->_fileMimeType) {
             return $this->_fileMimeType;
         } else {
-            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType, ) = getimagesize($this->_fileName);
-            $this->_fileMimeType = image_type_to_mime_type($this->_fileType);
+            $this->_fileMimeType = image_type_to_mime_type($this->getImageType());
             return $this->_fileMimeType;
+        }
+    }
+
+    /**
+     * Assign image width, height, fileType and fileMimeType to object properties using getimagesize function
+     *
+     * @return int|null
+     */
+    public function getImageType()
+    {
+        if ($this->_fileType) {
+            return $this->_fileType;
+        } else {
+            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType, ) = getimagesize($this->_fileName);
+            return $this->_fileType;
         }
     }
 
