@@ -18,12 +18,9 @@ class AssertUserDuplicateMessage extends AbstractConstraint
 {
     const ERROR_MESSAGE = 'A user with the same user name or email already exists.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that error message equals to expected message.

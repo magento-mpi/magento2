@@ -18,12 +18,9 @@ use Magento\Integration\Test\Fixture\Integration;
  */
 class AssertIntegrationResourcesPopup extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that pop-up with resources, that were specified for integration are shown

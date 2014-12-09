@@ -19,12 +19,9 @@ class AssertCatalogEventSuccessCreateMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You saved the event.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that message "You saved the event." is present on Event page

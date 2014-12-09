@@ -21,12 +21,9 @@ class AssertCategoryIsNotActive extends AbstractConstraint
 {
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that the category cannot be accessed from the navigation bar in the frontend

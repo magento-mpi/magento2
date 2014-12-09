@@ -22,12 +22,9 @@ class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You saved this gift registry.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after gift registry has been created

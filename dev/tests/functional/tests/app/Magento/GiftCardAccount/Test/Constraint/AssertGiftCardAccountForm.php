@@ -26,12 +26,9 @@ class AssertGiftCardAccountForm extends AbstractAssertForm
      */
     protected $skippedFields = ['code'];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that gift card account equals to passed from fixture

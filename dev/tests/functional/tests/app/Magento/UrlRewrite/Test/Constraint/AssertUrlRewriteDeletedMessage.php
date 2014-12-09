@@ -22,12 +22,9 @@ class AssertUrlRewriteDeletedMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'The URL Rewrite has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that delete message is displayed

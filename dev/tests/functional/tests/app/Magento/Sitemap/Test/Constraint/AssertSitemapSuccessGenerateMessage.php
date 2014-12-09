@@ -19,12 +19,9 @@ class AssertSitemapSuccessGenerateMessage extends AbstractConstraint
 {
     const SUCCESS_GENERATE_MESSAGE = 'The sitemap "%s" has been generated.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after sitemap generate

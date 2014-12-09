@@ -21,12 +21,9 @@ class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You have no items to compare.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert the product is not displayed on Compare Products block on my account page

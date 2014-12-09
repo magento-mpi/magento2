@@ -19,12 +19,9 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
  */
 class AssertArchiveOrderStatusInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that status is correct on order page in backend (same with value of orderStatus variable)

@@ -19,12 +19,9 @@ class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'Thank you for registering with Main Website Store.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after customer registered on frontend

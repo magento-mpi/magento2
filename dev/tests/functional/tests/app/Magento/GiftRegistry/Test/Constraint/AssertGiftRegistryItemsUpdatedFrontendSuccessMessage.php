@@ -22,12 +22,9 @@ class AssertGiftRegistryItemsUpdatedFrontendSuccessMessage extends AbstractConst
      */
     const SUCCESS_MESSAGE = 'You updated the gift registry items.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after gift registry items has been updated

@@ -23,12 +23,9 @@ class AssertChildProductsInGrid extends AbstractConstraint
      */
     const NOT_VISIBLE_INDIVIDUALLY = 'Not Visible Individually';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that child products generated during configurable product are present in products grid

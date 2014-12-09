@@ -20,12 +20,9 @@ class AssertNewsletterSuccessCreateMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The newsletter template has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after newsletter template save

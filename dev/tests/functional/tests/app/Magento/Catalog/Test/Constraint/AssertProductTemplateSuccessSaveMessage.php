@@ -22,12 +22,9 @@ class AssertProductTemplateSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You saved the attribute set.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after save a product template "You saved the attribute set." successful message appears

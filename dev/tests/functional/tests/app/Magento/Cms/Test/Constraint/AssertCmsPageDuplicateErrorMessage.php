@@ -19,12 +19,9 @@ class AssertCmsPageDuplicateErrorMessage extends AbstractConstraint
 {
     const ERROR_SAVE_MESSAGE = 'A page URL key for specified store already exists.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Verify that page has not been created

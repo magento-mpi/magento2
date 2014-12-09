@@ -19,12 +19,9 @@ class AssertCmsPageSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = 'The page has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after save a CMS page "The page has been saved." successful message appears

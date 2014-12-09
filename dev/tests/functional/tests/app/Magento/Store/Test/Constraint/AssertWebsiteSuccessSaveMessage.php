@@ -22,12 +22,9 @@ class AssertWebsiteSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'The website has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after Website has been created

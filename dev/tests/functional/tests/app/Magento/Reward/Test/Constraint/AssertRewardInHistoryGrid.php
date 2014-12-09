@@ -21,12 +21,9 @@ use Magento\Reward\Test\Block\Adminhtml\Edit\Tab\Reward as RewardTab;
  */
 class AssertRewardInHistoryGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after updating reward balance - it reflects in history grid: check Points, Website, Comment

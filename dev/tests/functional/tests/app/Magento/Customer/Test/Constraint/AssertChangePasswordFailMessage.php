@@ -22,12 +22,9 @@ class AssertChangePasswordFailMessage extends AbstractConstraint
      */
     const FAIL_MESSAGE = "Password doesn't match for this account.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that fail message is present

@@ -25,12 +25,9 @@ class AssertGiftCardProductAddToCartForm extends AbstractAssertForm
      */
     const CUSTOM_OPTION = 'custom';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that displayed amount, "Sender Name", "Sender Email", "Recipient Name", "Recipient Email", "Message" data

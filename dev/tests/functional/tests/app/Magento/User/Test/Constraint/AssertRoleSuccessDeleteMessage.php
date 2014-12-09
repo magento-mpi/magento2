@@ -18,12 +18,9 @@ class AssertRoleSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'You deleted the role.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that success delete message equals to expected message.

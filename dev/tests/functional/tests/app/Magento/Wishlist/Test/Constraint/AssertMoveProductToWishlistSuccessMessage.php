@@ -23,12 +23,9 @@ class AssertMoveProductToWishlistSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = "%s has been moved to wish list Wish List";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message appears on My Wish List page after moving product to wishlist.

@@ -26,12 +26,9 @@ class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
      */
     const TAB_VARIATIONS = 'variations';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that deleted attribute can't be added to product template on Product Page via Add Attribute control

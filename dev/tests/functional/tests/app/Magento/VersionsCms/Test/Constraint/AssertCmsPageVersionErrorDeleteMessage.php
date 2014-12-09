@@ -22,12 +22,9 @@ class AssertCmsPageVersionErrorDeleteMessage extends AbstractConstraint
      */
     const ERROR_DELETE_MESSAGE = 'Version "%s" cannot be removed because its revision is published.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
+    /* tags */
+     const SEVERITY = 'medium';
+     /* end tags */
 
     /**
      * Assert that error delete message is displayed on the page

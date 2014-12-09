@@ -19,12 +19,9 @@ class AssertProductCompareSuccessAddMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You added product %s to the comparison list.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert success message is presented on page

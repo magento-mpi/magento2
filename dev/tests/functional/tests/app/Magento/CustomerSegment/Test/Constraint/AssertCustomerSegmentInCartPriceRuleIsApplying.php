@@ -14,12 +14,9 @@ namespace Magento\CustomerSegment\Test\Constraint;
  */
 class AssertCustomerSegmentInCartPriceRuleIsApplying extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that Catalog Price Rule is applied on product(s) in shopping cart according to rule condition has been

@@ -19,12 +19,9 @@ class AssertRewardSubscriptionSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = 'You saved the settings.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that reward points subscription settings success save message is present on page

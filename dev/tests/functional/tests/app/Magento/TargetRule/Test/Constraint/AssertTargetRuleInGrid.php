@@ -22,12 +22,9 @@ class AssertTargetRuleInGrid extends AbstractConstraint
      */
     const DAY = 86400;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert target rule availability in Target Rule Grid

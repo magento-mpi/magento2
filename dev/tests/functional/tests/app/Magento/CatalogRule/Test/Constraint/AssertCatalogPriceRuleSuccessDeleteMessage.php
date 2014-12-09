@@ -18,12 +18,9 @@ class AssertCatalogPriceRuleSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that message "The rule has been deleted." is appeared on Catalog Price Rules page.

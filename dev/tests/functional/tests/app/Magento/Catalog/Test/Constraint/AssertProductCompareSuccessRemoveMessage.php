@@ -20,12 +20,9 @@ class AssertProductCompareSuccessRemoveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You removed product %s from the comparison list.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert message is appeared on "Compare Products" block on myAccount page

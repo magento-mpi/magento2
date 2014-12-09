@@ -19,12 +19,9 @@ class AssertUserWrongCredentialsMessage extends AbstractConstraint
 {
     const INVALID_CREDENTIALS_MESSAGE = 'Please correct the user name or password.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Verify incorrect credentials message while login to admin

@@ -22,12 +22,9 @@ class AssertArchiveOrderSuccessRemoveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'We removed %d order(s) from the archive.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after removed orders success message presents

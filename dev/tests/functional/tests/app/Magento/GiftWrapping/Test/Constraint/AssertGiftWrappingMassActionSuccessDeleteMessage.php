@@ -22,12 +22,9 @@ class AssertGiftWrappingMassActionSuccessDeleteMessage extends AbstractConstrain
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted a total of %d records.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after mass delete Gift Wrapping successful message appears

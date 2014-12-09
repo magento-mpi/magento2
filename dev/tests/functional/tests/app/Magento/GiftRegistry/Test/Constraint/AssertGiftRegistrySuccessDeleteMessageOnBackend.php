@@ -22,12 +22,9 @@ class AssertGiftRegistrySuccessDeleteMessageOnBackend extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted this gift registry entity.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert message appears after delete gift registry on backend

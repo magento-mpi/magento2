@@ -27,12 +27,9 @@ class AssertOrderOnHoldSuccessMessage extends AbstractConstraint
      */
     const MULTIPLE_SUCCESS_ON_HOLD_MESSAGE = 'You have put %d order(s) on hold.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert on hold success message is displayed on order index page

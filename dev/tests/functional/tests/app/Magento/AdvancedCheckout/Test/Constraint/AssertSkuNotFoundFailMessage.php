@@ -22,12 +22,9 @@ class AssertSkuNotFoundFailMessage extends AbstractConstraint
      */
     const ERROR_MESSAGE = 'SKU not found in catalog.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that sku not found error message is displayed after adding products by sku to shopping cart

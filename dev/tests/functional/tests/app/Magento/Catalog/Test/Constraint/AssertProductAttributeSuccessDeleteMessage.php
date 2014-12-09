@@ -19,12 +19,9 @@ class AssertProductAttributeSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The product attribute has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that message "The product attribute has been deleted." is present on Attribute page

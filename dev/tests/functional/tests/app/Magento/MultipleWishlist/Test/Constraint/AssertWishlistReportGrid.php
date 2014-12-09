@@ -19,12 +19,9 @@ use Magento\MultipleWishlist\Test\Page\Adminhtml\CustomerWishlistReport;
  */
 class AssertWishlistReportGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that added to the customer wish list products present in the grid and products have correct values

@@ -22,12 +22,9 @@ class AssertGiftWrappingSuccessDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the gift wrapping.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after delete Gift Wrapping successful message appears

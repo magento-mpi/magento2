@@ -22,12 +22,9 @@ class AssertCmsPageRevisionSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_SAVE_MESSAGE = 'You have saved the revision.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success save message is displayed on the CmsVersionEdit page

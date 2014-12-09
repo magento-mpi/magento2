@@ -22,12 +22,9 @@ class AssertOrderSuccessCreateMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = "You created the order.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after create sales order successful message appears

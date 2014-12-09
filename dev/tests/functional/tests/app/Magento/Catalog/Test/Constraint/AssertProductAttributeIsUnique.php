@@ -25,12 +25,9 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
      */
     const UNIQUE_MESSAGE = 'The value of attribute "%s" must be unique';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Check whether the attribute is unique.

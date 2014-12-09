@@ -24,12 +24,9 @@ class AssertPageByUrlRewriteIsNotFound extends AbstractConstraint
      */
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Checking the server response 404 page on frontend

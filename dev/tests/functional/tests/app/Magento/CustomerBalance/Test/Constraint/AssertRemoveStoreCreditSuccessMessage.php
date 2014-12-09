@@ -22,12 +22,9 @@ class AssertRemoveStoreCreditSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_REMOVE_MESSAGE = 'The store credit payment has been removed from shopping cart.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after remove store credit successful message appears

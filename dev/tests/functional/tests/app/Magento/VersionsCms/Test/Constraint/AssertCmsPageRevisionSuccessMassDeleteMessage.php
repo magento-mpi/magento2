@@ -22,12 +22,9 @@ class AssertCmsPageRevisionSuccessMassDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_MASS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
+    /* tags */
+     const SEVERITY = 'medium';
+     /* end tags */
 
     /**
      * Assert that success mass delete message is displayed on the page

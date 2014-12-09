@@ -21,12 +21,9 @@ class AssertCustomerCustomAttributeErrorDuplicateMessage extends AbstractConstra
      */
     const ERROR_DUPLICATE_MESSAGE = 'An attribute with this code already exists.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after customer attribute error duplicate message appears

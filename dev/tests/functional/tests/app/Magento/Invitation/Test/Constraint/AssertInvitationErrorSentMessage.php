@@ -22,12 +22,9 @@ class AssertInvitationErrorSentMessage extends AbstractConstraint
      */
     const ERROR_MESSAGE = "Something went wrong sending %d of %d invitations.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error message appears after sending invitation on backend.

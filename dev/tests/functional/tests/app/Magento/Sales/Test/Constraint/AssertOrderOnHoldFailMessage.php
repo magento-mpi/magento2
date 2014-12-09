@@ -22,12 +22,9 @@ class AssertOrderOnHoldFailMessage extends AbstractConstraint
      */
     const FAIL_ON_HOLD_MESSAGE = 'No order(s) were put on hold.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert on hold fail message is displayed on order index page

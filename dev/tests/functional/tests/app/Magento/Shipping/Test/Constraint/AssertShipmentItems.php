@@ -20,12 +20,9 @@ use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
  */
 class AssertShipmentItems extends AbstractAssertItems
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Shipment index page

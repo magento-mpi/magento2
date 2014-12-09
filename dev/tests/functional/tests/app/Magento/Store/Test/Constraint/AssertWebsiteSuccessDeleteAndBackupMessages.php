@@ -27,12 +27,9 @@ class AssertWebsiteSuccessDeleteAndBackupMessages extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'The website has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success messages is displayed after deleting website

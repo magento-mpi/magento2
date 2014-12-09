@@ -18,12 +18,9 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistry;
  */
 class AssertGiftRegistryNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that created Gift Registry can not be found at Gift Registry grid by title

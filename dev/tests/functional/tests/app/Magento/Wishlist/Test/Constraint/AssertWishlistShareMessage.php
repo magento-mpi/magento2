@@ -22,12 +22,9 @@ class AssertWishlistShareMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'Your wish list has been shared.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after wishlist has been shared

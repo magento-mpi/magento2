@@ -23,12 +23,9 @@ class AssertCustomerSegmentReportMessage extends AbstractConstraint
      */
     const REPORT_MESSAGES = 'Viewing combined "%s" report from segments: %s.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that message is displayed on the customer segment report detail page

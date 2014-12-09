@@ -41,12 +41,9 @@ class AssertDownloadableLinksData extends AbstractAssertForm
         'price'
     ];
     
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert Link block for downloadable product on front-end

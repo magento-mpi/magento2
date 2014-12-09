@@ -17,12 +17,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  */
 class AssertProductDuplicatedInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that duplicated product is found by sku and has correct product type, product template,

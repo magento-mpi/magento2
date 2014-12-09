@@ -19,12 +19,9 @@ class AssertCatalogEventSuccessDeleteMessage extends AbstractConstraint
 {
     const DELETE_MESSAGE = 'You deleted the event.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that message "You deleted the event." is present on Event page

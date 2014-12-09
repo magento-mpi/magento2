@@ -19,12 +19,9 @@ class AssertCurrencySymbolSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = 'The custom currency symbols were applied.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after clicking on 'Save Currency Symbols' button success message appears.

@@ -27,12 +27,9 @@ class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
      */
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Product view page

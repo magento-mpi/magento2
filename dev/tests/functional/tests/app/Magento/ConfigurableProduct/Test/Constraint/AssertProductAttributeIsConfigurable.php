@@ -19,12 +19,9 @@ use Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Conf
  */
 class AssertProductAttributeIsConfigurable extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert check whether the attribute is used to create a configurable products.

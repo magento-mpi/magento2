@@ -19,12 +19,9 @@ use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
  */
 class AssertGiftWrappingNotOnOrderCreationPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that deleted Gift Wrapping can not be found on order creation page in backend

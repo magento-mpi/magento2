@@ -22,12 +22,9 @@ class AssertRateSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_SAVE_MESSAGE = 'You saved the rate.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that specified message is present on page

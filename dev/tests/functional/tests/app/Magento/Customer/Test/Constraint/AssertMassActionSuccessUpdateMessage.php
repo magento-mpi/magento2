@@ -23,12 +23,9 @@ class AssertMassActionSuccessUpdateMessage extends AbstractConstraint
      */
     const UPDATE_MESSAGE = 'A total of %d record(s) were updated.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert update message is appears on customer grid (Customers > All Customers)

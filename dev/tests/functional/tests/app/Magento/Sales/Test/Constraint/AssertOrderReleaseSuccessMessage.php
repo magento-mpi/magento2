@@ -22,12 +22,9 @@ class AssertOrderReleaseSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_RELEASE_MESSAGE = '%d order(s) have been released from on hold status.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert release success message is displayed on order index page

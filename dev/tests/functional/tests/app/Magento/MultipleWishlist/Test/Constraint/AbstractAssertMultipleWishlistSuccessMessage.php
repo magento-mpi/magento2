@@ -25,12 +25,9 @@ abstract class AbstractAssertMultipleWishlistSuccessMessage extends AbstractCons
      */
     protected $message;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert success message is displayed

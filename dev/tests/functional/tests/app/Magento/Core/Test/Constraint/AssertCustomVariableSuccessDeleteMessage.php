@@ -18,12 +18,9 @@ class AssertCustomVariableSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is correct after Custom System Variable deleted

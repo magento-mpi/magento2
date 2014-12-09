@@ -22,12 +22,9 @@ class AssertTermSuccessDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'The condition has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after deleting Term successful delete message appears.

@@ -19,12 +19,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertNewsletterInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      *  Assert that newsletter template is present in grid

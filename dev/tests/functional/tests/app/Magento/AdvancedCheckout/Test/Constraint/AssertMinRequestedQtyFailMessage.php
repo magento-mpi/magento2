@@ -27,12 +27,9 @@ class AssertMinRequestedQtyFailMessage extends AbstractConstraint
      */
     const ERROR_MINIMUM_QUANTITY_MESSAGE = 'The minimum quantity allowed for purchase is %d.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that requested quantity is less than allowed error message is displayed after adding products to cart

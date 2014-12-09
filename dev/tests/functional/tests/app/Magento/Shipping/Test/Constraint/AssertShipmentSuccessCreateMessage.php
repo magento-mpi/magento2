@@ -22,12 +22,9 @@ class AssertShipmentSuccessCreateMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'The shipment has been created.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert success message presents

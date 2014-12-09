@@ -22,12 +22,9 @@ class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'You have deleted the version.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
+    /* tags */
+     const SEVERITY = 'medium';
+     /* end tags */
 
     /**
      * Assert that success delete message is displayed on the page

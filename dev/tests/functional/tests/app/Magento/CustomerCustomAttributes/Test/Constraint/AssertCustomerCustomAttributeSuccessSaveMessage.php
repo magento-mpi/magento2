@@ -22,12 +22,9 @@ class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_SAVE_MESSAGE = 'You saved the customer attribute.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after customer attribute save successful message appears

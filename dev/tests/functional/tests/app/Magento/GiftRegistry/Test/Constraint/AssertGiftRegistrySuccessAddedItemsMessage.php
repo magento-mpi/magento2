@@ -22,12 +22,9 @@ class AssertGiftRegistrySuccessAddedItemsMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'Shopping cart items have been added to gift registry.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after adding products to gift registry on backend

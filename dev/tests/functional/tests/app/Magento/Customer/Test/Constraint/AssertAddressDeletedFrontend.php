@@ -22,12 +22,9 @@ class AssertAddressDeletedFrontend extends AbstractConstraint
      */
     const EXPECTED_MESSAGE = 'You have no additional address entries in your address book.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that Asserts that 'Additional Address Entries' contains expected message

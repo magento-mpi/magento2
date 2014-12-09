@@ -22,12 +22,9 @@ class AssertCmsPageVersionErrorSaveMessage extends AbstractConstraint
      */
     const ERROR_SAVE_MESSAGE = 'Cannot change version access level because it is the last public version for its page.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after change access level of last public version to private error message appears

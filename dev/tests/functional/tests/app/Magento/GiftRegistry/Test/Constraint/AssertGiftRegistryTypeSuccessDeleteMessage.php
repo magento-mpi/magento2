@@ -22,12 +22,9 @@ class AssertGiftRegistryTypeSuccessDeleteMessage extends AbstractConstraint
      */
     const DELETE_MESSAGE = 'You deleted the gift registry type.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is displayed after gift registry has been deleted

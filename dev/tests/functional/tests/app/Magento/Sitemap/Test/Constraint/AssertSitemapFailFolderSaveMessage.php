@@ -19,12 +19,9 @@ class AssertSitemapFailFolderSaveMessage extends AbstractConstraint
 {
     const FAIL_FOLDER_MESSAGE = 'Please create the specified folder "%s" before saving the sitemap.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error message is displayed after creating sitemap with wrong folder

@@ -18,12 +18,9 @@ class AssertCustomerGroupSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The customer group has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after customer group save

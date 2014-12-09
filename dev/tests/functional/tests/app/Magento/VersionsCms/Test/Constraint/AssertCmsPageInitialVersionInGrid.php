@@ -19,12 +19,9 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageInitialVersionInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * CmsNew Page

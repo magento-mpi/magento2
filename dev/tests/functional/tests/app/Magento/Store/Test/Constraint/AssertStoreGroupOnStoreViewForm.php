@@ -19,12 +19,9 @@ use Magento\Store\Test\Fixture\StoreGroup;
  */
 class AssertStoreGroupOnStoreViewForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that New Store Group visible on StoreView Form in Store dropdown

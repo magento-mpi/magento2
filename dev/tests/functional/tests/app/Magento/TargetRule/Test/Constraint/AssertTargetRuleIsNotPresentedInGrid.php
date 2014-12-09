@@ -22,12 +22,9 @@ class AssertTargetRuleIsNotPresentedInGrid extends AbstractConstraint
      */
     const DAY = 86400;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+     const SEVERITY = 'middle';
+     /* end tags */
 
     /**
      * Assert that Target Rule is not presented in grid

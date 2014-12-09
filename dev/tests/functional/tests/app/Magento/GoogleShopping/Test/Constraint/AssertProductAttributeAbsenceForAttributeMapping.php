@@ -20,12 +20,9 @@ use Magento\GoogleShopping\Test\Page\Adminhtml\GoogleShoppingTypesNew;
  */
 class AssertProductAttributeAbsenceForAttributeMapping extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that deleted attribute can't be mapped to Google Attribute (attribute doesn't appear in Attributes

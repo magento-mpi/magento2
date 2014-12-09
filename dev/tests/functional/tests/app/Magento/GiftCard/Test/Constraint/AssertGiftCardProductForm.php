@@ -24,10 +24,7 @@ class AssertGiftCardProductForm extends AssertProductForm
         'giftcard_amounts::price'
     ];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+     const SEVERITY = 'middle';
+     /* end tags */
 }

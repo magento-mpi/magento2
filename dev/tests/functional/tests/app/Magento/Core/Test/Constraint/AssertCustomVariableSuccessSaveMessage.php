@@ -19,12 +19,9 @@ class AssertCustomVariableSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = 'You saved the custom variable.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is correct after Custom System Variable deleted

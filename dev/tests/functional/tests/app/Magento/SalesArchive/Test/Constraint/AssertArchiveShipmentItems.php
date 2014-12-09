@@ -20,12 +20,9 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
  */
 class AssertArchiveShipmentItems extends AssertShipmentItems
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * @constructor

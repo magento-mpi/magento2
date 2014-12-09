@@ -22,12 +22,9 @@ class AssertInvoiceWithShipmentSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You created the invoice and shipment.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert success message presents

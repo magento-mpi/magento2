@@ -18,12 +18,9 @@ class AssertTargetRuleSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'You deleted the rule.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after target rule delete

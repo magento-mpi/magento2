@@ -20,12 +20,9 @@ class AssertBannerSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = 'You saved the banner.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after banner save "You saved the banner." successful message appears

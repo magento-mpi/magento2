@@ -18,12 +18,9 @@ use Magento\Cms\Test\Page\CmsIndex;
  */
 class AssertGiftCardAccountNotRedeemableOnFrontend extends AbstractAssertGiftCardAccountOnFrontend
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that gift card is not redeemable on frontend

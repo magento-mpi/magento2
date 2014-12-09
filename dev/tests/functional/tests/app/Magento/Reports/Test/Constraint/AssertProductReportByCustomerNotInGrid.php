@@ -22,12 +22,9 @@ use Magento\Review\Test\Constraint\AssertProductReviewNotInGrid;
  */
 class AssertProductReportByCustomerNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts Customer Product Review not available in grid

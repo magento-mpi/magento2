@@ -18,12 +18,9 @@ class AssertCmsPageDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'The page has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after Cms page delete

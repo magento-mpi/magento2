@@ -18,12 +18,9 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveInvoices;
  */
 class AssertArchiveInvoiceInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Invoice with corresponding data is present in Sales Archive Invoices grid

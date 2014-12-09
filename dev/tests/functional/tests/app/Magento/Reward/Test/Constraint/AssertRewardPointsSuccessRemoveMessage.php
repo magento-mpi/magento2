@@ -22,12 +22,9 @@ class AssertRewardPointsSuccessRemoveMessage extends AbstractConstraint
      */
     const SUCCESS_REMOVE_MESSAGE = 'You removed the reward points from this order.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after remove reward points successful message appears

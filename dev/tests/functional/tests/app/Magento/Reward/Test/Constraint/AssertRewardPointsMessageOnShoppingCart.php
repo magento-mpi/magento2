@@ -25,12 +25,9 @@ class AssertRewardPointsMessageOnShoppingCart extends AbstractConstraint
      */
     const CHECKOUT_REWARD_MESSAGE = 'Check out now and earn %d Reward points for this order.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that reward points message is displayed on shopping cart page

@@ -23,12 +23,9 @@ class AssertGiftCardSuccessAddMessage extends AbstractConstraint
      */
     const SUCCESS_APPLY_MESSAGE = 'Gift Card "%s" was added.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success apply message is displayed on "Shopping Cart" frontend page

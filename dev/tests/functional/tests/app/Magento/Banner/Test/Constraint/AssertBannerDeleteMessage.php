@@ -19,12 +19,9 @@ class AssertBannerDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE = 'The banner has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is appeared after banner has been deleted

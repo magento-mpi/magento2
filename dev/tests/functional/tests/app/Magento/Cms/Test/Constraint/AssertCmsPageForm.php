@@ -19,12 +19,9 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Skipped fields for verify data

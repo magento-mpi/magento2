@@ -21,12 +21,9 @@ class AssertProductDuplicateMessage extends AbstractConstraint
      */
     const DUPLICATE_MESSAGE = 'You duplicated the product.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Checking the output message successful product duplication

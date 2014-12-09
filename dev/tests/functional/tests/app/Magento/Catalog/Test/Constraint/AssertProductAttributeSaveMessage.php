@@ -18,12 +18,9 @@ class AssertProductAttributeSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You saved the product attribute.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that message "You saved the product attribute." is present on Attribute page

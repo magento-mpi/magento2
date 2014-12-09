@@ -23,12 +23,9 @@ class AssertBannerMassDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted %d record(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is appeared after banner has been deleted

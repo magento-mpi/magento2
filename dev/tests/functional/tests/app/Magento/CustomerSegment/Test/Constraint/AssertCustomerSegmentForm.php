@@ -26,12 +26,9 @@ class AssertCustomerSegmentForm extends AbstractAssertForm
      */
     protected $skippedFields = ['conditions_serialized', 'segment_id'];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that displayed segment data on edit page is equals passed from fixture

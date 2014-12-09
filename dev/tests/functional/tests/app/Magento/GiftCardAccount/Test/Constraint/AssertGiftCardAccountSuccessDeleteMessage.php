@@ -22,12 +22,9 @@ class AssertGiftCardAccountSuccessDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'This gift card account has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that gift card account delete success message is present

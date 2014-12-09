@@ -18,12 +18,9 @@ class AssertCustomerGroupSuccessDeleteMessage extends AbstractConstraint
 {
     const SUCCESS_DELETE_MESSAGE= "The customer group has been deleted.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that message "The customer group has been deleted." is displayed on Customer Group page.

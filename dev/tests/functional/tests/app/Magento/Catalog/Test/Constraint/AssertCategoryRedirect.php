@@ -18,12 +18,9 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
  */
 class AssertCategoryRedirect extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that old Category URL lead to appropriate Category in frontend

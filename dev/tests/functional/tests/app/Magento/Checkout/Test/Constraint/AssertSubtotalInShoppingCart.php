@@ -21,12 +21,9 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertSubtotalInShoppingCart extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that subtotal total in the shopping cart is equals to expected total from data set

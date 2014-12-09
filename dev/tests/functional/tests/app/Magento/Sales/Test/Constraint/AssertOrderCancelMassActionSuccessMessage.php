@@ -22,12 +22,9 @@ class AssertOrderCancelMassActionSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_CANCEL_MESSAGE = 'We canceled %d order(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert cancel success message is displayed on order index page

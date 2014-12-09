@@ -22,12 +22,9 @@ class AssertCmsPageRevisionErrorDeleteMessage extends AbstractConstraint
      */
     const ERROR_DELETE_MESSAGE = 'Revision #%d could not be removed because it is published.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error delete message is displayed on the page

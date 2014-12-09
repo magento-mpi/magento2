@@ -18,12 +18,9 @@ use Magento\Sales\Test\Page\Adminhtml\CreditMemoIndex;
  */
 class AssertRefundInRefundsGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that refund is present in the 'Refunds' grid with correct ID, order ID, refunded amount

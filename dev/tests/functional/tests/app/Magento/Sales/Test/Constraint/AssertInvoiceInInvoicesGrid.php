@@ -18,12 +18,9 @@ use Magento\Sales\Test\Page\Adminhtml\InvoiceIndex;
  */
 class AssertInvoiceInInvoicesGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert invoice with corresponding order ID is present in the invoices grid with corresponding amount

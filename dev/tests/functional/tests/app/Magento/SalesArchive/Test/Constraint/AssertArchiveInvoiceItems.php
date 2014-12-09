@@ -20,12 +20,9 @@ use Magento\Sales\Test\Constraint\AbstractAssertItems;
  */
 class AssertArchiveInvoiceItems extends AbstractAssertItems
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
+    /* tags */
+     const SEVERITY = 'medium';
+     /* end tags */
 
     /**
      * Assert invoiced product represented in invoice archive:

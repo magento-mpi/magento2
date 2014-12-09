@@ -18,12 +18,9 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  */
 class AssertCustomerSegmentNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that created customer segment not presents in grid

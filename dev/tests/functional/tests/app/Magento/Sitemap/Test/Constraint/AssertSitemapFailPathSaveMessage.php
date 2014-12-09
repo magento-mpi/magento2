@@ -19,12 +19,9 @@ class AssertSitemapFailPathSaveMessage extends AbstractConstraint
 {
     const FAIL_PATH_MESSAGE = 'Path "/%s" is not available and cannot be used.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error message is displayed after creating sitemap with wrong path

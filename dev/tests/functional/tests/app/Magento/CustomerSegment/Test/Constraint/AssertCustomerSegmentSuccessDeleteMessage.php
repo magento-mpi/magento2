@@ -22,12 +22,9 @@ class AssertCustomerSegmentSuccessDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the segment.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success delete message is displayed after Customer Segments has been deleted

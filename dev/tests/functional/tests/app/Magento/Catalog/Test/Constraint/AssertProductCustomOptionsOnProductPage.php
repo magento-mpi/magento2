@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertProductCustomOptionsOnProductPage extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Skipped field for custom options

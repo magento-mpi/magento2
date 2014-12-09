@@ -22,12 +22,9 @@ class AssertCategorySaveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You saved the category.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after category save

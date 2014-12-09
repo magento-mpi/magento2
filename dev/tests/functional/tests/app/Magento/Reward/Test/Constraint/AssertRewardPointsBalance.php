@@ -32,12 +32,9 @@ class AssertRewardPointsBalance extends AbstractConstraint
      */
     const REWARD_POINTS_EXCHANGE_RATE = 'Current exchange rates: Each %d Reward points can be redeemed for $%.2f.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that "Your balance is X Reward points ($X.00)." and current exchange message are appeared

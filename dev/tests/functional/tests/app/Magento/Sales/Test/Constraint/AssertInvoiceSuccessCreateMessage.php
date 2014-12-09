@@ -22,12 +22,9 @@ class AssertInvoiceSuccessCreateMessage extends AbstractConstraint
      */
     const SUCCESS_CREATE_MESSAGE = 'The invoice has been created.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message present after create invoice

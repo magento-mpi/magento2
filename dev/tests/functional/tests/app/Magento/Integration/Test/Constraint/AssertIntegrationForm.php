@@ -19,12 +19,9 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationNew;
  */
 class AssertIntegrationForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Skipped fields while verifying

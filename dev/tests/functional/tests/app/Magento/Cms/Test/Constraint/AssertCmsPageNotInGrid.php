@@ -17,12 +17,9 @@ use Magento\Cms\Test\Fixture\CmsPage;
  */
 class AssertCmsPageNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that Cms page is not present in pages grid

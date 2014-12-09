@@ -23,12 +23,9 @@ class AssertProductConfiguringFromRequiringAttention extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You added %s to your shopping cart.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that product can be configured and added to cart after added this product to cart by sku

@@ -19,12 +19,9 @@ class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You have no items to compare.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * After removing last product message is appeared on "Compare Products" page

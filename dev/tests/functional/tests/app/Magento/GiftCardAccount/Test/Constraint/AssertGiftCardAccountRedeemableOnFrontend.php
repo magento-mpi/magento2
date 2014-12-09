@@ -24,12 +24,9 @@ class AssertGiftCardAccountRedeemableOnFrontend extends AbstractAssertGiftCardAc
      */
     const SUCCESS_MESSAGE = 'Gift Card "%s" was redeemed.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that gift card is redeemable on frontend

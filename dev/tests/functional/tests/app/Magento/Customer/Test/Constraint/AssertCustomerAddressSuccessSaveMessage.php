@@ -18,12 +18,9 @@ class AssertCustomerAddressSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The address has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that success message equals to expected message

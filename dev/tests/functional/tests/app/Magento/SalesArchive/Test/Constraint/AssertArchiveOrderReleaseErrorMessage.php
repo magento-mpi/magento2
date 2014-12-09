@@ -22,12 +22,9 @@ class AssertArchiveOrderReleaseErrorMessage extends AbstractConstraint
      */
     const ERROR_MESSAGE = 'No order(s) were released from on hold status.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert release error message is displayed on archived order index page

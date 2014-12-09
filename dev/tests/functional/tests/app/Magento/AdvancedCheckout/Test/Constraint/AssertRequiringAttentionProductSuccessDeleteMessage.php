@@ -21,12 +21,9 @@ class AssertRequiringAttentionProductSuccessDeleteMessage extends AbstractConstr
      */
     const SUCCESS_MESSAGE = 'You removed the item.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is present after requiring attention product has been deleted from cart.

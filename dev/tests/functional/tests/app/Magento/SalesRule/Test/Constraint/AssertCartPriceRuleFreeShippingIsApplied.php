@@ -16,12 +16,9 @@ class AssertCartPriceRuleFreeShippingIsApplied extends AssertCartPriceRuleApplyi
 {
     const FREE_SHIPPING_PRICE = '0.00';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that free shipping is applied in shopping cart

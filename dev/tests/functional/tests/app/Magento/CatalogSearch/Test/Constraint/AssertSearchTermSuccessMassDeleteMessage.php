@@ -22,12 +22,9 @@ class AssertSearchTermSuccessMassDeleteMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'Total of %d record(s) were deleted';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after search terms were mass deleted

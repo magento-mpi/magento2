@@ -21,12 +21,9 @@ class AssertReviewCreationSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'Your review has been accepted for moderation.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after review created

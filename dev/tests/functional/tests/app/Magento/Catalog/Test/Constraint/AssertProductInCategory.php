@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertProductInCategory extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Checking the product in the page of its price

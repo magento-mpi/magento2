@@ -20,12 +20,9 @@ class AssertIntegrationSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_SAVE_MESSAGE = "The integration '%s' has been saved.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success save message is appeared on the Integrations page

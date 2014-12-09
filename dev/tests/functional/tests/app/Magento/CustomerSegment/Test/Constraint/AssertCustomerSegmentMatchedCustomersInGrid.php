@@ -21,12 +21,9 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  */
 class AssertCustomerSegmentMatchedCustomersInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that the customer according to search criteria presents in the grid and have correct values for

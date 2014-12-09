@@ -22,12 +22,9 @@ class AssertRefundSuccessCreateMessage extends AbstractConstraint
      */
     const SUCCESS_CREATE_MESSAGE = 'You created the credit memo.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success create credit memo message is present on order view page

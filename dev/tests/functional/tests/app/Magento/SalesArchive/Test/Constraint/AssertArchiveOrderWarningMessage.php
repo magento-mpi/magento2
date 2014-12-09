@@ -22,12 +22,9 @@ class AssertArchiveOrderWarningMessage extends AbstractConstraint
      */
     const WARNING_MESSAGE = "We can't archive the selected order(s).";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that warning message present on order grid page

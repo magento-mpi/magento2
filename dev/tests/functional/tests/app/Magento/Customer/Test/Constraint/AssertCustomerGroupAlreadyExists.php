@@ -18,12 +18,9 @@ class AssertCustomerGroupAlreadyExists extends AbstractConstraint
 {
     const ERROR_MESSAGE = 'Customer Group already exists.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that customer group already exist

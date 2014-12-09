@@ -19,12 +19,9 @@ class AssertOrderStatusDuplicateStatus extends AbstractConstraint
 {
     const DUPLICATE_MESSAGE = 'We found another order status with the same order status code.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that duplicate message is displayed

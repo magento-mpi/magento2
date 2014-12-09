@@ -27,12 +27,9 @@ class AssertAdvancedSearchProductsResult extends AbstractConstraint
      */
     const ERROR_MESSAGE = 'No items were found using the following search criteria.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Search results page

@@ -39,12 +39,9 @@ class AssertDownloadableSamplesData extends AbstractAssertForm
         'title',
     ];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert Sample block for downloadable product on front-end

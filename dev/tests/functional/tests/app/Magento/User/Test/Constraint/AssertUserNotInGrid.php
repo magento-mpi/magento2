@@ -17,12 +17,9 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
  */
 class AssertUserNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that User is not present in User Grid.

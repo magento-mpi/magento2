@@ -23,12 +23,9 @@ class AssertProductReviewMassActionSuccessDeleteMessage extends AbstractConstrai
      */
     const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after deletion via mass actions

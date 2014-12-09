@@ -43,12 +43,9 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
      */
     protected $catalogCategoryView;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that widget with type Recently Viewed Products is present on category page

@@ -17,12 +17,9 @@ use Magento\Logging\Test\Fixture\Logging;
  */
 class AssertAdminUserDataBlock extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that Admin User Data block with data according action is presented on page

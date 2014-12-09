@@ -27,12 +27,9 @@ class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
      */
     const ERROR_MAXIMUM_QUANTITY_MESSAGE = 'The maximum quantity allowed for purchase is %d.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that requested quantity is more than allowed error message is displayed after adding products to cart

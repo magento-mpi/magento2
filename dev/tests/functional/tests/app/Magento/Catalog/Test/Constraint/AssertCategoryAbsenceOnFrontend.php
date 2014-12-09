@@ -24,12 +24,9 @@ class AssertCategoryAbsenceOnFrontend extends AbstractConstraint
      */
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that not displayed category in frontend main menu

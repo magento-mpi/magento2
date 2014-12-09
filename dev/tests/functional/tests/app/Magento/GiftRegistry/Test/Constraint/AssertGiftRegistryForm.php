@@ -19,12 +19,9 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
  */
 class AssertGiftRegistryForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Skipped fields for verify data

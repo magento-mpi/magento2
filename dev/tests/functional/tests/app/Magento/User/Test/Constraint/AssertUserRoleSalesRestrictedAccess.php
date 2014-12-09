@@ -20,12 +20,9 @@ class AssertUserRoleSalesRestrictedAccess extends AbstractConstraint
     const ROLE_RESOURCE = 'sales';
     const DENIED_ACCESS = 'Access denied';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that user has only Sales-related permissions

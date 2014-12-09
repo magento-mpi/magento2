@@ -14,12 +14,9 @@ namespace Magento\MultipleWishlist\Test\Constraint;
  */
 class AssertMultipleWishlistPresentInMyAccount extends AbstractAssertMultipleWishlistExist
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert wish list is present

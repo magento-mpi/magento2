@@ -22,12 +22,9 @@ class AssertCustomerMassDeleteSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) were deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that message "A total of "x" record(s) were deleted."

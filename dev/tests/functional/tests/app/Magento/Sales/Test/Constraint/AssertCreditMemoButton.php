@@ -19,12 +19,9 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertCreditMemoButton extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that 'Credit Memo' button is present on order's page

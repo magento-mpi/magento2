@@ -59,12 +59,9 @@ class AssertConfigurableProductForm extends AssertProductForm
         'configurable_attribute'
     ];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Prepares fixture data for comparison

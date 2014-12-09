@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
  */
 class AssertProductAttributeAbsenceInTemplateGroups extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that deleted attribute isn't displayed in Product template's Groups section

@@ -22,12 +22,9 @@ class AssertArchiveOrderSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'We archived %d order(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed on "Orders Grid" page

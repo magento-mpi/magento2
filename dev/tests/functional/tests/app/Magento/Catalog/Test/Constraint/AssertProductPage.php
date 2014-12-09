@@ -35,12 +35,9 @@ class AssertProductPage extends AbstractAssertForm
      */
     protected $product;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+     const SEVERITY = 'middle';
+     /* end tags */
 
     /**
      * Assert that displayed product data on product page(front-end) equals passed from fixture:

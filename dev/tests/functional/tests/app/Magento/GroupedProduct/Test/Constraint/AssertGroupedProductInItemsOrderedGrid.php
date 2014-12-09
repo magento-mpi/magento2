@@ -18,12 +18,9 @@ use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
  */
 class AssertGroupedProductInItemsOrderedGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Fields for assert

@@ -23,12 +23,9 @@ class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'A total of %d record(s) have been updated.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after updated via mass actions

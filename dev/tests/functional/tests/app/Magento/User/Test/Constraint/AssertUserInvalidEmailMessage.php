@@ -19,12 +19,9 @@ class AssertUserInvalidEmailMessage extends AbstractConstraint
 {
     const ERROR_MESSAGE = 'Please correct this email address: "%s".';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that error message equals to expected message.

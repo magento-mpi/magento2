@@ -18,12 +18,9 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
  */
 class AssertSearchTermNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after delete a search term on grid page not displayed

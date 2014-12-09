@@ -18,12 +18,9 @@ class AssertProductRatingSuccessSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'You saved the rating.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after rating save

@@ -22,12 +22,9 @@ class AssertUsedSuperAttributeImpossibleDeleteMessages extends AbstractConstrain
      */
     const ERROR_DELETE_MESSAGE = 'This attribute is used in configurable products.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that it's impossible to delete configurable attribute that is used in created configurable product

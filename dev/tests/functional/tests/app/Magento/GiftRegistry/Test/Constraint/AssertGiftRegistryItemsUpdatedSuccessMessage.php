@@ -22,12 +22,9 @@ class AssertGiftRegistryItemsUpdatedSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You updated this gift registry.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success update message is displayed after gift registry items updating on backend

@@ -22,12 +22,9 @@ class AssertOrderStatusSuccessAssignMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You have assigned the order status.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed after order status assigning

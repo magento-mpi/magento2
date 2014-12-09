@@ -22,12 +22,9 @@ class AssertArchiveOrderCancelMassActionErrorMessage extends AbstractConstraint
      */
     const ERROR_MESSAGE = 'You cannot cancel the order(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error message is displayed on "Archived Orders Grid" page

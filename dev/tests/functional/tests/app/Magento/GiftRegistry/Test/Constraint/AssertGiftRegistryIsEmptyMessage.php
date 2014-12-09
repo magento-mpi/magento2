@@ -22,12 +22,9 @@ class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
      */
     const INFO_MESSAGE = 'This gift registry has no items.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that notice message appears if Gift Registry doesn't have any items after delete

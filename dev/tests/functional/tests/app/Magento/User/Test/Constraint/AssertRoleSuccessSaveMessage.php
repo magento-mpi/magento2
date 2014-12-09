@@ -19,12 +19,9 @@ class AssertRoleSuccessSaveMessage extends AbstractConstraint
 
     const SUCCESS_MESSAGE = 'You saved the role.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that success message equals to expected message.

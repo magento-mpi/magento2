@@ -23,12 +23,9 @@ class AssertRewardPointsMessageOnCustomerRegistration extends AbstractConstraint
      */
     const REGISTRATION_REWARD_MESSAGE = 'Register on our site now and earn %d Reward points.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that reward points message is appeared on the Create New Customer Account page

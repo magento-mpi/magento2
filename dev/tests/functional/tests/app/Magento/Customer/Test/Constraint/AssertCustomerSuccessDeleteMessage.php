@@ -18,12 +18,9 @@ class AssertCustomerSuccessDeleteMessage extends AbstractConstraint
 {
     const DELETE_MESSAGE = 'You deleted the customer.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that actual delete message equals expected

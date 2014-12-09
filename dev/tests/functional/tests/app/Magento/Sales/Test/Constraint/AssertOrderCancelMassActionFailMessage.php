@@ -22,12 +22,9 @@ class AssertOrderCancelMassActionFailMessage extends AbstractConstraint
      */
     const FAIL_CANCEL_MESSAGE = 'You cannot cancel the order(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert cancel fail message is displayed on order index page

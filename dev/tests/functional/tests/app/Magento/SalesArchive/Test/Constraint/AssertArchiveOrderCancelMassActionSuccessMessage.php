@@ -22,12 +22,9 @@ class AssertArchiveOrderCancelMassActionSuccessMessage extends AbstractConstrain
      */
     const SUCCESS_MESSAGE = 'We canceled %d order(s).';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success message is displayed on "Archived Orders Grid" page

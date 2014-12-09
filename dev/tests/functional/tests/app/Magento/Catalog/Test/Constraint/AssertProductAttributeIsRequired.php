@@ -24,12 +24,9 @@ class AssertProductAttributeIsRequired extends AbstractConstraint
      */
     const REQUIRE_MESSAGE = 'This is a required field.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Check whether the attribute is mandatory.

@@ -22,12 +22,9 @@ class AssertArchiveOrderOnHoldSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You have put %d order(s) on hold.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert on hold success message is displayed on archived order index page

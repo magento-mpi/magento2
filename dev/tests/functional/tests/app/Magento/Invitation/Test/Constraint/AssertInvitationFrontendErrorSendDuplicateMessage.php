@@ -22,12 +22,9 @@ class AssertInvitationFrontendErrorSendDuplicateMessage extends AbstractConstrai
      */
     const ERROR_MESSAGE = "Invitation for same email address already exists.";
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that error message appears after sent invitation to the same email address

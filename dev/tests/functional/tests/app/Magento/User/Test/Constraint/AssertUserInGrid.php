@@ -17,12 +17,9 @@ use Magento\User\Test\Page\Adminhtml\UserIndex;
  */
 class AssertUserInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Asserts that user is present in User Grid.

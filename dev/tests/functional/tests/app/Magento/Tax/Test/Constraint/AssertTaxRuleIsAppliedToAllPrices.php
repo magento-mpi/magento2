@@ -51,12 +51,9 @@ class AssertTaxRuleIsAppliedToAllPrices extends AbstractConstraint
      */
     protected $checkoutCart;
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that specified prices are actual on category, product and cart pages

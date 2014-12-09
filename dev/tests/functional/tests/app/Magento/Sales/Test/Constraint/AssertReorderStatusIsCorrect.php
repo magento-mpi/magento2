@@ -19,12 +19,9 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertReorderStatusIsCorrect extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that status is correct on order page in backend (same with value of orderStatus variable)

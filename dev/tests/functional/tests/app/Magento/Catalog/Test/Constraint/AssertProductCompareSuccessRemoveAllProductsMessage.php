@@ -18,12 +18,9 @@ class AssertProductCompareSuccessRemoveAllProductsMessage extends AbstractConstr
 {
     const SUCCESS_MESSAGE = 'You cleared the comparison list.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert message is appeared on "Compare Products" page.

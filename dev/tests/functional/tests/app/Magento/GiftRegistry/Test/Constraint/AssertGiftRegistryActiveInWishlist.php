@@ -28,12 +28,9 @@ class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'The wish list item has been added to this gift registry.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that product can be added to active gift registry from Wishlist

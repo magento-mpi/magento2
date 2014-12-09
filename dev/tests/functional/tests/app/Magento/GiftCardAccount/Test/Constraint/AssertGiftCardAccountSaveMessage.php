@@ -22,12 +22,9 @@ class AssertGiftCardAccountSaveMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'You saved the gift card account.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      *  Assert that success message is displayed after gift card account save

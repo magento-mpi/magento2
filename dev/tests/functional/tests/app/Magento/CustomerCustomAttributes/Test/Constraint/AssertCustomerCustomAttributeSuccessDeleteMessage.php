@@ -22,12 +22,9 @@ class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstrai
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the customer attribute.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after delete customer attribute successful message appears

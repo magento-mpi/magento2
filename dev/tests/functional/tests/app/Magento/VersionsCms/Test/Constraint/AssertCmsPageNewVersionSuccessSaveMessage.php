@@ -22,12 +22,9 @@ class AssertCmsPageNewVersionSuccessSaveMessage extends AbstractConstraint
      */
     const SUCCESS_SAVE_MESSAGE = 'You have created the new version.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after new CMS page version save successful message appears

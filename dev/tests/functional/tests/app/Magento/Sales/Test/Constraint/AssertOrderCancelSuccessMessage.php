@@ -22,12 +22,9 @@ class AssertOrderCancelSuccessMessage extends AbstractConstraint
      */
     const SUCCESS_CANCEL_MESSAGE = 'You canceled the order.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that after cancel sales order successful message appears

@@ -21,12 +21,9 @@ class AssertWidgetSuccessDeleteMessage extends AbstractConstraint
      */
     const DELETE_MESSAGE = 'The widget instance has been deleted.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that Widget success delete message is present

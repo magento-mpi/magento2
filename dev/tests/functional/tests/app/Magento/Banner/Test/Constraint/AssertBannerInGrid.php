@@ -18,12 +18,9 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
  */
 class AssertBannerInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that created banner is found by name and has correct banner types, visibility, status

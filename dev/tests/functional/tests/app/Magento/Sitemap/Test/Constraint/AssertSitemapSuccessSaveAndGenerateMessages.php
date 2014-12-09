@@ -21,12 +21,9 @@ class AssertSitemapSuccessSaveAndGenerateMessages extends AbstractConstraint
 
     const SUCCESS_SAVE_MESSAGE = 'The sitemap has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that success messages is displayed after sitemap generate

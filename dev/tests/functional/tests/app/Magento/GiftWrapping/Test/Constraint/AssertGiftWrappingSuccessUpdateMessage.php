@@ -22,12 +22,9 @@ class AssertGiftWrappingSuccessUpdateMessage extends AbstractConstraint
      */
     const SUCCESS_UPDATE_MESSAGE = 'You updated a total of %d records.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that after update Gift Wrapping successful message appears

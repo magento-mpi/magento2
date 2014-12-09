@@ -19,12 +19,9 @@ class AssertUrlRewriteSaveMessage extends AbstractConstraint
 {
     const SUCCESS_MESSAGE = 'The URL Rewrite has been saved.';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that url rewrite success message is displayed

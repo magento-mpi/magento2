@@ -22,12 +22,9 @@ class AssertOrderSuccessPlacedMessage extends AbstractConstraint
      */
     const SUCCESS_MESSAGE = 'Thank you for your purchase!';
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+     const SEVERITY = 'high';
+     /* end tags */
 
     /**
      * Assert that success message is correct

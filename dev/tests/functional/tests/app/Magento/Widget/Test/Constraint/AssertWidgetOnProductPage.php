@@ -19,12 +19,9 @@ use Mtf\Client\Browser;
  */
 class AssertWidgetOnProductPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that created widget displayed on frontend on Product page

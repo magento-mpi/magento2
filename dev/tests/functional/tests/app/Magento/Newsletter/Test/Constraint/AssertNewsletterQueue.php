@@ -25,12 +25,9 @@ class AssertNewsletterQueue extends AbstractAssertForm
      */
     protected $skippedFields = ['code'];
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+     const SEVERITY = 'low';
+     /* end tags */
 
     /**
      * Assert that "Edit Queue" page opened and subject, sender name, sender email and template content correct
