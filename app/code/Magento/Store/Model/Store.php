@@ -727,7 +727,9 @@ class Store extends AbstractModel implements
             )
         );
 
-        if (!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader]) || $standardRule) {
+        if (!empty($offloaderHeader)
+            && (!empty($_SERVER[$offloaderHeader]) || !empty($_SERVER['HTTP_' . $offloaderHeader]))
+            || $standardRule) {
             return true;
         }
 

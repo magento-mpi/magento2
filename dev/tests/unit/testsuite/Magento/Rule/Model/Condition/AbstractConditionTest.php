@@ -148,6 +148,7 @@ class AbstractConditionTest extends \PHPUnit_Framework_TestCase
      * @param $operator
      * @param $valueForValidate
      * @param $expectedResult
+     * @param $inputType
      *
      * @dataProvider validateAttributeArrayInputTypeDataProvider
      */
@@ -174,5 +175,13 @@ class AbstractConditionTest extends \PHPUnit_Framework_TestCase
             . $operator
             . var_export($valueForValidate, true)
         );
+    }
+
+    public function testGetValueParsed()
+    {
+        $value = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        $this->_condition->setValue(['1,2,3,4,5,6,7,8,9']);
+        $this->_condition->setOperator('()');
+        $this->assertEquals($value, $this->_condition->getValueParsed());
     }
 }

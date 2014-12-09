@@ -28,8 +28,8 @@ class ExportSearchExcel extends \Magento\Search\Controller\Adminhtml\Term
         \Magento\Framework\View\Result\PageFactory $resultPageFactory,
         \Magento\Framework\App\Response\Http\FileFactory $fileFactory
     ) {
-        $this->_fileFactory = $fileFactory;
         parent::__construct($context, $resultPageFactory);
+        $this->_fileFactory = $fileFactory;
     }
 
     /**

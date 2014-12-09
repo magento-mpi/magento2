@@ -41,29 +41,37 @@ class Rule implements SetupInterface
     protected $postInstaller;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Catalog\Api\CategoryManagementInterface
      */
     protected $categoryReadService;
+
+    /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
 
     /**
      * @param CsvReaderFactory $csvReaderFactory
      * @param FixtureHelper $fixtureHelper
      * @param RuleFactory $ruleFactory
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param PostInstaller $postInstaller
+     * @param \Magento\Tools\SampleData\Logger $logger
      */
     public function __construct(
         CsvReaderFactory $csvReaderFactory,
         FixtureHelper $fixtureHelper,
         RuleFactory $ruleFactory,
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
-        PostInstaller $postInstaller
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
+        PostInstaller $postInstaller,
+        \Magento\Tools\SampleData\Logger $logger
     ) {
         $this->csvReaderFactory = $csvReaderFactory;
         $this->fixtureHelper = $fixtureHelper;
         $this->ruleFactory = $ruleFactory;
         $this->categoryReadService = $categoryReadService;
         $this->postInstaller = $postInstaller;
+        $this->logger = $logger;
     }
 
     /**
@@ -74,12 +82,13 @@ class Rule implements SetupInterface
     protected function getConditionFromCategory($categoryPath, $ruleType = 'Rule')
     {
         $categoryId = null;
-        $tree = $this->categoryReadService->tree();
+        $tree = $this->categoryReadService->getTree();
         foreach ($categoryPath as $categoryName) {
             $categoryId = null;
-            foreach ($tree->getChildren() as $child) {
+            foreach ($tree->getChildrenData() as $child) {
                 if ($child->getName() == $categoryName) {
                     $tree = $child;
+                    /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface $child */
                     $categoryId = $child->getId();
                     break;
                 }
@@ -109,7 +118,7 @@ class Rule implements SetupInterface
      */
     public function run()
     {
-        echo "Installing related product rules\n";
+        $this->logger->log('Installing related product rules' . PHP_EOL);
         $this->postInstaller->removeSetupResourceType('Magento\Tools\SampleData\Module\Catalog\Setup\ProductLink');
         $entityFileAssociation = [
             \Magento\TargetRule\Model\Rule::RELATED_PRODUCTS => 'related',
@@ -154,10 +163,10 @@ class Rule implements SetupInterface
                     ->setPositionsLimit(empty($row['limit']) ? 0 : $row['limit']);
                 $rule->loadPost($ruleConditions);
                 $rule->save();
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**

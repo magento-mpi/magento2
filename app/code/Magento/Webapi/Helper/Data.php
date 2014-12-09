@@ -49,7 +49,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * <pre>
      * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => customerCustomerAccount
      * - 'Magento\Customer\Service\V1\CustomerAddressInterface', true  => customerCustomerAddressV1
-     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => catalogProductV2
      * </pre>
      *
      * @param string $interfaceName
@@ -70,7 +69,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * <pre>
      * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => ['CustomerCustomerAccount']
      * - 'Vendor\Customer\Service\V1\Customer\AddressInterface', true  => ['VendorCustomer', 'Address', 'V1']
-     * - 'Magento\Catalog\Service\V2\ProductInterface', true           => ['CatalogProduct', 'V2']
      * </pre>
      *
      * @param string $className
