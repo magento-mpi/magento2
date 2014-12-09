@@ -19,16 +19,16 @@ Product.Config = Class.create();
 Product.Config.prototype = {
     initialize: function(config){
         // Magic preprocessing
-        // TODO: Need to rewrite to follow principle from Storefront
+        // TODO MAGETWO-31539
         config.taxConfig = {
             showBothPrices: false,
             inclTaxTitle: jQuery.mage.__('Incl. Tax')
         };
-        for(var ii in config.attributes) {
-            if(config.attributes.hasOwnProperty(ii)) {
+        for (var ii in config.attributes) {
+            if (config.attributes.hasOwnProperty(ii)) {
                 var attribute = config.attributes[ii];
-                for(var jj in attribute.options) {
-                    if(attribute.options.hasOwnProperty(jj)) {
+                for (var jj in attribute.options) {
+                    if (attribute.options.hasOwnProperty(jj)) {
                         var option = attribute.options[jj];
                         option.price = +option.prices.finalPrice.amount;
                         option.inclTaxPrice = +option.prices.finalPrice.amount;
