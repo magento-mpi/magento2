@@ -16,14 +16,13 @@ use Magento\Framework\Model\Context;
  * @method Attribute getResource()
  * @method int getProductId()
  * @method Attribute setProductId(int $value)
- * @method int getAttributeId()
  * @method Attribute setAttributeId(int $value)
- * @method int getPosition()
  * @method Attribute setPosition(int $value)
  * @method Attribute setProductAttribute(\Magento\Eav\Model\Entity\Attribute\AbstractAttribute $value)
  * @method \Magento\Eav\Model\Entity\Attribute\AbstractAttribute getProductAttribute()
  */
-class Attribute extends \Magento\Framework\Model\AbstractModel
+class Attribute extends \Magento\Framework\Model\AbstractExtensibleModel implements
+    \Magento\ConfigurableProduct\Api\Data\OptionInterface
 {
     /**
      * Initialize resource model
@@ -53,9 +52,7 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     }
 
     /**
-     * Retrieve attribute label
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -105,5 +102,50 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
     public function deleteByProduct($product)
     {
         $this->_getResource()->deleteAttributesByProductId($product->getId());
+    }
+
+    /**
+     * {@inheritdoc}
+     * @codeCoverageIgnore
+     */
+    public function getAttributeId()
+    {
+        return $this->getData('attribute_id');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @codeCoverageIgnore
+     */
+    public function getType()
+    {
+        return $this->getData('type');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @codeCoverageIgnore
+     */
+    public function getPosition()
+    {
+        return $this->getData('position');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @codeCoverageIgnore
+     */
+    public function getIsUseDefault()
+    {
+        return $this->getData('is_use_default');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @codeCoverageIgnore
+     */
+    public function getValues()
+    {
+        return $this->getData('values');
     }
 }
