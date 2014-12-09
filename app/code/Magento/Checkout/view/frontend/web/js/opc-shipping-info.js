@@ -22,7 +22,7 @@ define([
             shipping: {
                 form: '#co-shipping-form',
                 continueSelector:'#opc-shipping [data-role=opc-continue]',
-                addressDropdownSelector: '#shipping-address-select',
+                addressDropdownSelector: '#shipping\\:address-select',
                 newAddressFormSelector: '#shipping-new-address-form',
                 copyBillingSelector: '#shipping\\:same_as_billing',
                 countrySelector: '#shipping\\:country_id'
@@ -32,12 +32,14 @@ define([
         _create: function() {
             this._super();
             var events = {};
-            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
-                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
-            };
             var onInputPropChange = function() {
                 $(this.options.shipping.copyBillingSelector).prop('checked', false);
             };
+            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
+                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
+                onInputPropChange.call(this);
+            };
+            // for guest checkout
             events['input ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['propertychange ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['click ' + this.options.shipping.copyBillingSelector] = function(e) {

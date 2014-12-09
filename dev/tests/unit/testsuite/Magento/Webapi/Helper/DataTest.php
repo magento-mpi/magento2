@@ -50,7 +50,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 true,
                 array('VendorCustomer', 'Address', 'V1')
             ),
-            array('Magento\Catalog\Service\V2\ProductInterface', true, array('CatalogProduct', 'V2'))
         );
     }
 
