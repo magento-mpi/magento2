@@ -11,7 +11,7 @@ namespace Magento\Setup\Model;
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\Filesystem;
 
-class PhpVerifications
+class PhpInformation
 {
     /**
      * List of required extensions
@@ -51,16 +51,18 @@ class PhpVerifications
      * @return string
      * @throws \Exception If composer.lock file is not found or if attributes are missing.
      */
-    public function getPhpVersion()
+    public function getRequiredPhpVersion()
     {
         if (!$this->rootDir->isExist('composer.lock')) {
-            throw new \Exception('Cannot read `composer.lock` file');
+            throw new \Exception('Cannot determine required PHP version from Composer information: '
+                . '\'composer.lock\'file is absent');
         }
         $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
         if (!empty($composerInfo['platform']['php'])) {
             return $composerInfo['platform']['php'];
         } else {
-            throw new \Exception('Missing php version in `composer.lock`');
+            throw new \Exception('Cannot determine required PHP version from Composer information: '
+            . 'Missing key \'platform=>php\' in \'composer.lock\' file');
         }
     }
 
@@ -76,7 +78,8 @@ class PhpVerifications
     {
         if (null === $this->required) {
             if (!$this->rootDir->isExist('composer.lock')) {
-                throw new \Exception('Cannot read `composer.lock` file');
+                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
+                    . '\'composer.lock\' file is absent');
             }
             $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
             $declaredDependencies = [];
@@ -84,7 +87,8 @@ class PhpVerifications
             if (!empty($composerInfo['platform-dev'])) {
                 $declaredDependencies = array_merge($declaredDependencies, array_keys($composerInfo['platform-dev']));
             } else {
-                throw new \Exception('Missing platform-dev in `composer.lock`');
+                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
+                    . 'Missing key \'platform-dev\' in \'composer.lock\' file');
             }
             if (!empty($composerInfo['packages'])) {
                 foreach ($composerInfo['packages'] as $package) {
@@ -93,7 +97,8 @@ class PhpVerifications
                     }
                 }
             } else {
-                throw new \Exception('Missing packages in `composer.lock`');
+                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
+                    . 'Missing key \'packages\' in \'composer.lock\' file');
             }
             if ($declaredDependencies) {
                 $declaredDependencies = array_unique($declaredDependencies);

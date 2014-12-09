@@ -60,7 +60,7 @@ angular.module('readiness-check', [])
                 }
             },
             'php-extensions': {
-                url:'index.php/environment/php-verifications',
+                url:'index.php/environment/php-extensions',
                 show: function() {
                     $scope.startProgress();
                     $scope.extensions.visible = true;

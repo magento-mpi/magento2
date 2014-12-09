@@ -11,17 +11,17 @@ use Composer\Package\LinkConstraint\VersionConstraint;
 use Composer\Package\Version\VersionParser;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\PhpVerifications;
+use Magento\Setup\Model\PhpInformation;
 use Magento\Setup\Model\FilePermissions;
 
 class Environment extends AbstractActionController
 {
     /**
-     * List of current and required php verifications.
+     * Model to determine PHP version, currently installed and required PHP extensions.
      *
-     * @var \Magento\Setup\Model\PhpVerifications
+     * @var \Magento\Setup\Model\PhpInformation
      */
-    protected $verifications;
+    protected $phpInformation;
 
     /**
      * Version parser
@@ -31,24 +31,18 @@ class Environment extends AbstractActionController
     protected $versionParser;
 
     /**
-     * Missing composer.lock file message
-     */
-    const NO_COMPOSER_ERROR = 'Whoops, it looks like composer.lock file does not exist or is not readable. Please
-        make sure to run `composer install` in the root directory. Additional details: ';
-
-    /**
      * Constructor
      *
-     * @param PhpVerifications $verifications
+     * @param PhpInformation $phpInformation
      * @param FilePermissions $permissions
      * @param VersionParser $versionParser
      */
     public function __construct(
-        PhpVerifications $verifications,
+        PhpInformation $phpInformation,
         FilePermissions $permissions,
         VersionParser $versionParser
     ) {
-        $this->verifications = $verifications;
+        $this->phpInformation = $phpInformation;
         $this->permissions = $permissions;
         $this->versionParser = $versionParser;
     }
@@ -61,14 +55,14 @@ class Environment extends AbstractActionController
     public function phpVersionAction()
     {
         try{
-            $requiredVersion = $this->verifications->getPhpVersion();
+            $requiredVersion = $this->phpInformation->getRequiredPhpVersion();
         }catch (\Exception $e) {
             return new JsonModel(
                 [
                     'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
                     'data' => [
                         'error' => 'phpVersionError',
-                        'message' => self::NO_COMPOSER_ERROR . $e->getMessage()
+                        'message' => 'Cannot determine required PHP version' . $e->getMessage()
                     ],
                 ]
             );
@@ -94,11 +88,11 @@ class Environment extends AbstractActionController
      *
      * @return JsonModel
      */
-    public function phpVerificationsAction()
+    public function phpExtensionsAction()
     {
         try{
-            $required = $this->verifications->getRequired();
-            $current = $this->verifications->getCurrent();
+            $required = $this->phpInformation->getRequired();
+            $current = $this->phpInformation->getCurrent();
 
         } catch (\Exception $e) {
             return new JsonModel(
@@ -106,7 +100,7 @@ class Environment extends AbstractActionController
                     'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
                     'data' => [
                         'error' => 'phpExtensionError',
-                        'message' => self::NO_COMPOSER_ERROR . $e->getMessage()
+                        'message' => 'Cannot determine required PHP extensions' . $e->getMessage()
                     ],
                 ]
             );
