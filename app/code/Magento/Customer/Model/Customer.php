@@ -318,6 +318,13 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             $this->setDataUsingMethod($attributeCode, $attributeData);
         }
 
+        $customAttributes = $customer->getCustomAttributes();
+        if (!is_null($customAttributes)) {
+            foreach ($customAttributes as $attribute) {
+                $this->setDataUsingMethod($attribute->getAttributeCode(), $attribute->getValue());
+            }
+        }
+
         $customerId = $customer->getId();
         if ($customerId) {
             $this->setId($customerId);
@@ -875,46 +882,6 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
             array('customer' => $this, 'store' => $this->getStore()),
             $storeId
         );
-
-        return $this;
-    }
-
-    /**
-     * Send email to when password is resetting
-     *
-     * @return $this
-     * @deprecated Moved to \Magento\Customer\Model\AccountManagement::sendPasswordResetNotificationEmail. Will be
-     * deleted once the Customer/Services/V1 are removed.
-     */
-    public function sendPasswordResetNotificationEmail()
-    {
-        $storeId = $this->getStoreId();
-        if (!$storeId) {
-            $storeId = $this->_getWebsiteStoreId();
-        }
-
-        /** @var \Magento\Framework\Mail\TransportInterface $transport */
-        $transport = $this->_transportBuilder->setTemplateIdentifier(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_RESET_PASSWORD_TEMPLATE,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
-        )->setTemplateVars(
-            array('customer' => $this, 'store' => $this->getStore())
-        )->setFrom(
-            $this->_scopeConfig->getValue(
-                self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-                $storeId
-            )
-        )->addTo(
-            $this->getEmail(),
-            $this->getName()
-        )->getTransport();
-        $transport->sendMessage();
 
         return $this;
     }

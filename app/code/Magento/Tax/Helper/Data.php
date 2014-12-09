@@ -15,7 +15,6 @@ use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
 use Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Api\OrderTaxManagementInterface;
 use Magento\Sales\Model\Order\Invoice;
@@ -125,13 +124,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $taxCalculation;
 
     /**
-     * Address converter
-     *
-     * @var AddressConverter
-     */
-    protected $addressConverter;
-
-    /**
      * @var CustomerSession
      */
     protected $customerSession;
@@ -177,7 +169,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param TaxCalculationInterface $taxCalculation
      * @param CustomerSession $customerSession
-     * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
      * @param OrderTaxManagementInterface $orderTaxManagement
      * @param PriceCurrencyInterface $priceCurrency
@@ -199,7 +190,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         TaxClassKeyDataBuilder $taxClassKeyBuilder,
         TaxCalculationInterface $taxCalculation,
         CustomerSession $customerSession,
-        AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
         OrderTaxManagementInterface $orderTaxManagement,
         PriceCurrencyInterface $priceCurrency
@@ -221,7 +211,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
         $this->taxCalculation = $taxCalculation;
         $this->customerSession = $customerSession;
-        $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
         $this->orderTaxManagement = $orderTaxManagement;
     }

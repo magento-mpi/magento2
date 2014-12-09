@@ -77,7 +77,7 @@ interface StoreManagerInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return \Magento\Store\Model\Store
+     * @return \Magento\Store\Model\Store|null
      */
     public function getDefaultStoreView();
 

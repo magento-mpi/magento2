@@ -272,19 +272,32 @@ abstract class AbstractAdapter implements AdapterInterface
     }
 
     /**
-     * Assign image width, height, fileType and fileMimeType to object properties
-     * using getimagesize function
+     * Assign image width, height, fileMimeType to object properties
+     *
+     * @return string|null
+     */
+    public function getMimeType()
+    {
+        if ($this->_fileMimeType) {
+            return $this->_fileMimeType;
+        } else {
+            $this->_fileMimeType = image_type_to_mime_type($this->getImageType());
+            return $this->_fileMimeType;
+        }
+    }
+
+    /**
+     * Assign image width, height, fileType to object properties using getimagesize function
      *
      * @return int|null
      */
-    public function getMimeType()
+    public function getImageType()
     {
         if ($this->_fileType) {
             return $this->_fileType;
         } else {
-            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType, ) = getimagesize($this->_fileName);
-            $this->_fileMimeType = image_type_to_mime_type($this->_fileType);
-            return $this->_fileMimeType;
+            list($this->_imageSrcWidth, $this->_imageSrcHeight, $this->_fileType) = getimagesize($this->_fileName);
+            return $this->_fileType;
         }
     }
 
@@ -295,7 +308,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getOriginalWidth()
     {
-        $this->getMimeType();
+        $this->getImageType();
         return $this->_imageSrcWidth;
     }
 
@@ -306,7 +319,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getOriginalHeight()
     {
-        $this->getMimeType();
+        $this->getImageType();
         return $this->_imageSrcHeight;
     }
 
@@ -702,6 +715,6 @@ abstract class AbstractAdapter implements AdapterInterface
         $this->checkDependencies();
         $this->open($filePath);
 
-        return $this->getMimeType() !== null;
+        return $this->getImageType() !== null;
     }
 }

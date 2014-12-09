@@ -40,13 +40,6 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
     protected $_addressMetadataService;
 
     /**
-     * Address converter
-     *
-     * @var \Magento\Customer\Model\Address\Converter
-     */
-    protected $_addressConverter;
-
-    /**
      * @var Mapper
      */
     protected $addressMapper;
@@ -57,7 +50,6 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
      * @param \Magento\Framework\View\Element\Context $context
      * @param ElementFactory $elementFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory ,
-     * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\Customer\Api\AddressMetadataInterface $metadataService
      * @param Mapper $addressMapper
      * @param array $data
@@ -66,13 +58,11 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
         \Magento\Framework\View\Element\Context $context,
         ElementFactory $elementFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\Customer\Api\AddressMetadataInterface $metadataService,
         Mapper $addressMapper,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
-        $this->_addressConverter = $addressConverter;
         $this->_countryFactory = $countryFactory;
         $this->_addressMetadataService = $metadataService;
         $this->addressMapper = $addressMapper;
@@ -126,7 +116,7 @@ class DefaultRenderer extends AbstractBlock implements RendererInterface
      */
     public function render(AbstractAddress $address, $format = null)
     {
-        $address = $this->_addressConverter->createAddressFromModel($address, 0, 0);
+        $address = $address->getDataModel(0, 0);
         return $this->renderArray($this->addressMapper->toFlatArray($address), $format);
     }
 

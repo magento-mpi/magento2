@@ -83,7 +83,7 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
             $store->load($code);
         }
 
-        if (!$store->getCode()) {
+        if (!($store && $store->getCode())) {
             throw NoSuchEntityException::singleField('storeCode', $code);
         }
         $websiteConfig = $this->_scopePool->getScope(

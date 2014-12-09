@@ -38,11 +38,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $taxCalcServiceMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $addressConverterMock;
-
-    /**
      * @var \Magento\GiftWrapping\Helper\Data
      */
     protected $subject;
@@ -67,7 +62,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->taxCalcServiceMock = $this->getMock('\Magento\Tax\Api\TaxCalculationInterface');
-        $this->addressConverterMock = $this->getMock('\Magento\Customer\Model\Address\Converter', [], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->subject = $objectManager->getObject(
@@ -78,8 +72,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManagerMock,
                 'quoteDetailsBuilder' => $this->qDetailsBuilderMock,
                 'quoteDetailsItemBuilder' => $this->itemBuilderMock,
-                'taxCalculationService' => $this->taxCalcServiceMock,
-                'addressConverter' => $this->addressConverterMock
+                'taxCalculationService' => $this->taxCalcServiceMock
             ]
         );
     }

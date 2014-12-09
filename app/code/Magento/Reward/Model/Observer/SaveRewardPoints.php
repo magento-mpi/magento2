@@ -80,7 +80,14 @@ class SaveRewardPoints
 
             if (!isset($data['store_id'])) {
                 if ($customer->getStoreId() == 0) {
-                    $data['store_id'] = $this->_storeManager->getDefaultStoreView()->getStoreId();
+                    $defaultStore = $this->_storeManager->getDefaultStoreView();
+                    if (!$defaultStore) {
+                        $allStores = $this->_storeManager->getStores();
+                        if (isset($allStores[0])) {
+                            $defaultStore = $allStores[0];
+                        }
+                    }
+                    $data['store_id'] = $defaultStore ? $defaultStore->getStoreId() : null;
                 } else {
                     $data['store_id'] = $customer->getStoreId();
                 }

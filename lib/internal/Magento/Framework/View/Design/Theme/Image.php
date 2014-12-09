@@ -131,7 +131,7 @@ class Image
         $image->backgroundColor(array(255, 255, 255));
         $image->resize($imageWidth, $imageHeight);
 
-        $imageName = uniqid('preview_image_') . image_type_to_extension($image->getMimeType());
+        $imageName = uniqid('preview_image_') . image_type_to_extension($image->getImageType());
         $image->save($this->themeImagePath->getImagePreviewDirectory(), $imageName);
         $this->theme->setPreviewImage($imageName);
         return $this;
