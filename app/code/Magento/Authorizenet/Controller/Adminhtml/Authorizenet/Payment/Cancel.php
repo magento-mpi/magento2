@@ -44,10 +44,8 @@ class Cancel extends \Magento\Backend\App\Action
                 \Magento\Authorizenet\Model\Authorizenet::METHOD_CODE
             );
 
-            if ($paymentMethod) {
-                $paymentMethod->setStore($this->_sessionQuote->getQuote()->getStoreId());
-                $paymentMethod->cancelPartialAuthorization($this->_sessionQuote->getQuote()->getPayment());
-            }
+            $paymentMethod->setStore($this->_sessionQuote->getQuote()->getStoreId());
+            $paymentMethod->cancelPartialAuthorization($this->_sessionQuote->getQuote()->getPayment());
 
             $result['success'] = true;
             $result['update_html'] = $this->_objectManager->get(

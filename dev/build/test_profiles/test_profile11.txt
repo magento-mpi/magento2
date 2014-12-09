@@ -60,7 +60,6 @@ Magento_Multishipping
 Magento_Newsletter
 Magento_OfflinePayments
 Magento_OfflineShipping
-Magento_PayPalRecurringPayment
 Magento_Payment
 Magento_Paypal
 Magento_Pbridge
@@ -69,7 +68,6 @@ Magento_Pci
 Magento_Persistent
 Magento_PricePermissions
 Magento_ProductAlert
-Magento_RecurringPayment
 Magento_Reminder
 Magento_Reports
 Magento_RequireJs

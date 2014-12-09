@@ -61,7 +61,6 @@ Magento_PbridgePaypal
 Magento_Persistent
 Magento_PricePermissions
 Magento_ProductAlert
-Magento_RecurringPayment
 Magento_Reminder
 Magento_Reports
 Magento_RequireJs
