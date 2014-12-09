@@ -16,6 +16,10 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSuccessfulReadinessCheck extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * PHP version message.
      */
@@ -30,13 +34,6 @@ class AssertSuccessfulReadinessCheck extends AbstractConstraint
      * File permission message.
      */
     const FILE_PERMISSION_MESSAGE = 'You meet 4 out of 4 writable file permission requirements.';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that PHP Version, PHP Extensions and File Permission are ok.

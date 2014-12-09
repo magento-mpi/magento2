@@ -40,6 +40,7 @@
         <env name="configuration:Mtf/TestSuite/InjectableTests" value="{{tests_configuration}}"/>
         <env name="log_directory" value="var/log"/>
         <env name="events_preset" value="base"/>
+        <env name="module_whitelist" value="{{module_whitelist}}" />
         <!--{{parallel_instances}}-->
     </php>
 

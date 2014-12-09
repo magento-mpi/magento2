@@ -18,12 +18,9 @@ use Magento\Install\Test\Fixture\Install as InstallConfig;
  */
 class AssertSuccessInstall extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Admin info fields mapping.

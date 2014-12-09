@@ -9,30 +9,30 @@
 -->
 <constraint>
     <assertAgreementTextPresent module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertAgreementTextPresent>
     <assertSuccessDbConnection module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertSuccessDbConnection>
     <assertSuccessfulReadinessCheck module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertSuccessfulReadinessCheck>
     <assertSuccessInstall module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertSuccessInstall>
     <assertKeyCreated module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertKeyCreated>
     <assertLanguageSelected module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertLanguageSelected>
     <assertCurrencySelected module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCurrencySelected>
     <assertRewritesEnabled module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertRewritesEnabled>
     <assertSecureUrlEnabled module="Magento_Install">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertSecureUrlEnabled>
 </constraint>

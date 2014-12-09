@@ -203,10 +203,6 @@
             <replacefilter token="{{secure_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
         </replace>
 
-        <condition property="env.bamboo_tests_configuration" value="basic">
-            <not><isset property="env.bamboo_tests_configuration"/></not>
-        </condition>
-
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/server.yml.dist">
             <replacefilter token="{{selenium_host}}" value="${env.selenium_host}"/>
             <replacefilter token="{{selenium_port}}" value="${env.selenium_port}"/>
@@ -214,10 +210,18 @@
             <replacefilter token="{{selenium_browser}}" value="${env.selenium_browser}"/>
         </replace>
 
+        <condition property="env.bamboo_tests_configuration" value="basic">
+            <not><isset property="env.bamboo_tests_configuration"/></not>
+        </condition>
+        <condition property="env.bamboo_module_whitelist" value="">
+            <not><isset property="env.bamboo_module_whitelist"/></not>
+        </condition>
+
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/phpunit.xml">
-            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/"/>
-            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}"/>
+            <replacefilter token="{{admin_url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}/backend/" />
+            <replacefilter token="{{url}}" value="${env.http_host}${env.build.key}/instance-${instanceIndex}" />
             <replacefilter token="{{tests_configuration}}" value="${env.bamboo_tests_configuration}" />
+            <replacefilter token="{{module_whitelist}}" value="${env.bamboo_module_whitelist}" />
         </replace>
 
         <replace file="${dir.build_directory}/instance-${instanceIndex}/dev/tests/functional/config/install_data.yml.dist">
@@ -230,7 +234,7 @@
 
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
-            if (currentInstance > 0) {
+            if (currentInstance > 0 && project.getProperty('env.bamboo_is_magento_installed') == 1) {
                 self.project.executeTarget('_import_mysql_dump');
                 self.project.executeTarget('_copy_config_php');
                 self.project.executeTarget('_update_db');
@@ -280,9 +284,13 @@
             <param name="target_composer_dir" value="${basedir}/dev/tests/functional"/>
         </antcall>
 
+        <condition property="env.bamboo_is_magento_installed" value="1">
+            <not><isset property="env.bamboo_is_magento_installed"/></not>
+        </condition>
+
         <script language="javascript"><![CDATA[
             var currentInstance = project.getProperty('instanceIndex');
-            if (currentInstance == 0) {
+            if (currentInstance == 0 && project.getProperty('env.bamboo_is_magento_installed') == 1) {
                 self.project.executeTarget( '_install_standalone_application' );
             }
         ]]></script>
