@@ -1,0 +1,34 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <web />
+        <admin />
+        <keyOwn>
+            <selector>[value="user"]</selector>
+            <input>checkbox</input>
+        </keyOwn>
+        <keyValue>
+            <selector>[name="key"]</selector>
+        </keyValue>
+        <apacheRewrites>
+            <selector>[ng-model*="rewrites"]</selector>
+            <input>checkbox</input>
+        </apacheRewrites>
+        <httpsFront>
+            <selector>[ng-model*="front"]</selector>
+            <input>checkbox</input>
+        </httpsFront>
+        <httpsAdmin>
+            <selector>[ng-model*="admin"]</selector>
+            <input>checkbox</input>
+        </httpsAdmin>
+    </fields>
+</mapping>

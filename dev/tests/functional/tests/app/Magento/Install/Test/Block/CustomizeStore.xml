@@ -1,0 +1,21 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <currency>
+            <selector>[ng-model*='currency']</selector>
+            <input>select</input>
+        </currency>
+        <language>
+            <selector>[ng-model*='language']</selector>
+            <input>select</input>
+        </language>
+    </fields>
+</mapping>

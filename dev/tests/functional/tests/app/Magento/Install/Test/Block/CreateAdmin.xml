@@ -1,0 +1,25 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <username>
+            <selector>[name='adminUsername']</selector>
+        </username>
+        <email>
+            <selector>[name='adminEmail']</selector>
+        </email>
+        <password>
+            <selector>[name='adminPassword']</selector>
+        </password>
+        <password_confirmation>
+            <selector>[name='adminConfirm']</selector>
+        </password_confirmation>
+    </fields>
+</mapping>

@@ -38,6 +38,7 @@ class AssertUserSuccessLogin extends AbstractConstraint
         Dashboard $dashboard,
         User $customAdmin = null
     ) {
+        $adminAuth->open();
         $adminUser = $customAdmin === null ? $user : $customAdmin;
         if ($dashboard->getAdminPanelHeader()->isVisible()) {
             $dashboard->getAdminPanelHeader()->logOut();

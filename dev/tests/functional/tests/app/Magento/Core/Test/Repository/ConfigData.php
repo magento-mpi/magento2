@@ -27,6 +27,15 @@ class ConfigData extends AbstractRepository
      */
     public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
+        $this->_data['secure_url'] = [
+            'section' => [
+                'path' => 'web/secure/base_url',
+                'scope' => 'default',
+                'scope_id' => 1,
+                'value' => str_replace('http:', 'https:', $_ENV['app_backend_url']),
+            ]
+        ];
+
         $this->_data['compare_products'] = [
             'section' => [
                 [
