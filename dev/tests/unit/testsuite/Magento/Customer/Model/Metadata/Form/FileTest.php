@@ -14,8 +14,8 @@ use Magento\Customer\Model\Metadata\ElementFactory;
 class FileTest extends AbstractFormTestCase
 {
     const ENTITY_TYPE = 0;
-    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Helper\Data */
-    protected $coreDataMock;
+    /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Framework\Url\EncoderInterface */
+    protected $urlEncode;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject | \Magento\Core\Model\File\Validator\NotProtectedExtension */
     protected $fileValidatorMock;
@@ -34,7 +34,7 @@ class FileTest extends AbstractFormTestCase
     protected function setUp()
     {
         parent::setUp();
-        $this->coreDataMock = $this->getMockBuilder('Magento\Core\Helper\Data')
+        $this->urlEncode = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
             ->disableOriginalConstructor()->getMock();
         $this->fileValidatorMock = $this->getMockBuilder('Magento\Core\Model\File\Validator\NotProtectedExtension')
             ->disableOriginalConstructor()->getMock();
@@ -357,10 +357,10 @@ class FileTest extends AbstractFormTestCase
         $value = 'value';
         $urlKey = 'url_key';
         $fileForm = $this->getClass($value, false);
-        $this->coreDataMock->expects(
+        $this->urlEncode->expects(
             $this->once()
         )->method(
-            'urlEncode'
+            'encode'
         )->with(
             $this->equalTo($value)
         )->will(
@@ -390,7 +390,7 @@ class FileTest extends AbstractFormTestCase
                 $value,
                 self::ENTITY_TYPE,
                 $isAjax,
-                $this->coreDataMock,
+                $this->urlEncode,
                 $this->fileValidatorMock,
                 $this->fileSystemMock,
                 $this->uploaderFactoryMock

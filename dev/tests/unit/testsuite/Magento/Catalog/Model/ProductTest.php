@@ -29,9 +29,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogDataMock;
+    protected $moduleManager;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -110,9 +110,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->categoryIndexerMock = $this->getMockForAbstractClass('\Magento\Indexer\Model\IndexerInterface');
 
-        $this->catalogDataMock = $this->getMock(
-            'Magento\Catalog\Helper\Data',
-            ['isModuleEnabled'],
+        $this->moduleManager = $this->getMock(
+            'Magento\Framework\Module\Manager',
+            ['isEnabled'],
             [],
             '',
             false
@@ -219,7 +219,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $storeManager,
                 'resource' => $this->resource,
                 'registry' => $this->registry,
-                'catalogData' => $this->catalogDataMock,
+                'moduleManager' => $this->moduleManager,
                 'stockItemBuilder' => $this->stockItemBuilderMock,
                 'indexerRegistry' => $this->indexerRegistryMock,
                 'categoryRepository' => $this->categoryRepository,
@@ -559,8 +559,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ['setProduct']
         );
 
-        $this->catalogDataMock->expects($this->once())
-            ->method('isModuleEnabled')
+        $this->moduleManager->expects($this->once())
+            ->method('isEnabled')
             ->with('Magento_CatalogInventory')
             ->will($this->returnValue(true));
         $this->stockItemBuilderMock->expects($this->once())

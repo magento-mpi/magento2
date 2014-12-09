@@ -66,11 +66,13 @@ class Observer
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\PromotionPermissions\Helper\Data $promoPermData,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
+        \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection,
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_request = $request;
         $this->_bannerCollection = $bannerCollection;
@@ -78,8 +80,8 @@ class Observer
         $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = $promoPermData->isModuleEnabled('Magento_Banner');
-        $this->_isEnterpriseReminderEnabled = $promoPermData->isModuleEnabled('Magento_Reminder');
+        $this->_isEnterpriseBannerEnabled = $moduleManager->isEnabled('Magento_Banner');
+        $this->_isEnterpriseReminderEnabled = $moduleManager->isEnabled('Magento_Reminder');
     }
 
     /**

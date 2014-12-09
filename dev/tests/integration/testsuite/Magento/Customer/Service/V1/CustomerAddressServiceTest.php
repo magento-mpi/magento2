@@ -36,6 +36,11 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Customer\Service\V1\Data\CustomerBuilder */
     private $_customerBuilder;
 
+    /**
+     * @var \Magento\Customer\Service\V1\Data\AddressConverter
+     */
+    protected $addressConverter;
+
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -84,6 +89,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $address2 = $this->_addressBuilder->create();
 
         $this->_expectedAddresses = array($address, $address2);
+
+        $this->addressConverter = $this->_objectManager->get('Magento\Customer\Service\V1\Data\AddressConverter');
     }
 
     protected function tearDown()
@@ -220,8 +227,8 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
         $expectedNewAddressBuilder->setId($addresses[1]->getId());
         $expectedNewAddress = $expectedNewAddressBuilder->create();
         $this->assertEquals(
-            AddressConverter::toFlatArray($expectedNewAddress),
-            AddressConverter::toFlatArray($addresses[1])
+            $this->addressConverter->toFlatArray($expectedNewAddress),
+            $this->addressConverter->toFlatArray($addresses[1])
         );
     }
 
@@ -234,7 +241,7 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_addressBuilder->populateWithArray(
             array_merge(
-                AddressConverter::toFlatArray($this->_expectedAddresses[1]),
+                $this->addressConverter->toFlatArray($this->_expectedAddresses[1]),
                 array('firstname' => 'Jane', 'id' => 4200, 'weird' => 'something_strange_with_hair')
             )
         )->setId(
@@ -247,17 +254,17 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
 
         $addresses = $this->_service->getAddresses($customerId);
         $this->assertNotEquals(
-            V1\Data\AddressConverter::toFlatArray($proposedAddress),
-            V1\Data\AddressConverter::toFlatArray($addresses[1])
+            $this->addressConverter->toFlatArray($proposedAddress),
+            $this->addressConverter->toFlatArray($addresses[1])
         );
         $this->assertArrayNotHasKey(
             'weird',
-            V1\Data\AddressConverter::toFlatArray($proposedAddress),
+            $this->addressConverter->toFlatArray($proposedAddress),
             'Only valid attributes should be available.'
         );
         $this->assertArrayNotHasKey(
             'weird',
-            V1\Data\AddressConverter::toFlatArray($addresses[1]),
+            $this->addressConverter->toFlatArray($addresses[1]),
             'Only valid attributes should be available.'
         );
     }
@@ -270,13 +277,13 @@ class CustomerAddressServiceTest extends \PHPUnit_Framework_TestCase
     public function testSaveNewInvalidAddresses()
     {
         $firstAddressBuilder = $this->_addressBuilder->populateWithArray(
-            array_merge(AddressConverter::toFlatArray($this->_expectedAddresses[0]), array('firstname' => null))
+            array_merge($this->addressConverter->toFlatArray($this->_expectedAddresses[0]), array('firstname' => null))
         )->setId(
             null
         );
         $firstAddress = $firstAddressBuilder->create();
         $secondAddressBuilder = $this->_addressBuilder->populateWithArray(
-            array_merge(AddressConverter::toFlatArray($this->_expectedAddresses[0]), array('lastname' => null))
+            array_merge($this->addressConverter->toFlatArray($this->_expectedAddresses[0]), array('lastname' => null))
         )->setId(
             null
         );

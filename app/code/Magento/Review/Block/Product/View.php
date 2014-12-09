@@ -34,7 +34,7 @@ class View extends \Magento\Catalog\Block\Product\View
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
@@ -42,14 +42,13 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
      * @param TaxCalculationInterface $taxCalculationService
-     * @param \Magento\Framework\View\Page\Config $pageConfig
      * @param ProductRepositoryInterface $productRepository
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -64,7 +63,7 @@ class View extends \Magento\Catalog\Block\Product\View
         $this->_reviewsColFactory = $collectionFactory;
         parent::__construct(
             $context,
-            $coreData,
+            $urlEncoder,
             $jsonEncoder,
             $string,
             $productHelper,

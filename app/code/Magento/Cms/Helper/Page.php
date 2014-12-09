@@ -72,6 +72,7 @@ class Page extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @var \Magento\Framework\App\ViewInterface
      */
     protected $_view;

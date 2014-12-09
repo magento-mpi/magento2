@@ -186,7 +186,7 @@ class Price
      *
      * @param Product $product
      * @return float
-     * @deprecated see \Magento\Catalog\Pricing\Price\GroupPrice
+     * @deprecated see \Magento\Catalog\Pricing\Price\GroupPrice (MAGETWO-31468)
      */
     public function getGroupPrice($product)
     {
@@ -245,7 +245,7 @@ class Price
      * @param   float $qty
      * @param   Product $product
      * @return  float|array
-     * @deprecated
+     * @deprecated (MAGETWO-31465)
      */
     public function getTierPrice($qty, $product)
     {
@@ -412,7 +412,7 @@ class Price
      * @param int $qty
      * @param float $finalPrice
      * @return float
-     * @deprecated
+     * @deprecated (MAGETWO-31469)
      */
     protected function _applyOptionsPrice($product, $qty, $finalPrice)
     {

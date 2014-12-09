@@ -59,4 +59,5 @@ return array(
     ['indexerFactory', 'Magento\Solr\Model\Observer'],
     ['_coreRegistry', 'Magento\Solr\Model\Observer'],
     ['_engineProvider', 'Magento\Solr\Model\Observer'],
+    ['_hierarchyLock', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
 );

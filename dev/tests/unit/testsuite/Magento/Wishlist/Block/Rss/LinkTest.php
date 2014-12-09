@@ -27,6 +27,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $scopeConfig;
 
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlEncoder;
+
     protected function setUp()
     {
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId'], [], '', false);
@@ -43,11 +48,15 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', ['encode'], [], '', false);
+
         $this->wishlistHelper->expects($this->any())->method('getWishlist')->will($this->returnValue($wishlist));
         $this->wishlistHelper->expects($this->any())->method('getCustomer')->will($this->returnValue($customer));
-        $this->wishlistHelper->expects($this->any())->method('urlEncode')->willReturnCallback(function ($url) {
-            return strtr(base64_encode($url), '+/=', '-_,');
-        });
+        $this->urlEncoder->expects($this->any())
+            ->method('encode')
+            ->willReturnCallback(function ($url) {
+                return strtr(base64_encode($url), '+/=', '-_,');
+            });
 
         $this->urlBuilder = $this->getMock('Magento\Framework\App\Rss\UrlBuilderInterface');
         $this->scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
@@ -58,7 +67,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             [
                 'wishlistHelper' => $this->wishlistHelper,
                 'rssUrlBuilder' => $this->urlBuilder,
-                'scopeConfig' => $this->scopeConfig
+                'scopeConfig' => $this->scopeConfig,
+                'urlEncoder' => $this->urlEncoder,
             ]
         );
     }

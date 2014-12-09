@@ -250,7 +250,7 @@ class Compare extends \Magento\Core\Helper\Url
     {
         $refererUrl = $this->_getRequest()->getServer('HTTP_REFERER');
         $params = array(
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->urlEncode($refererUrl)
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->urlEncoder->encode($refererUrl)
         );
         return $this->_coreHelper->getPostData($this->getClearListUrl(), $params);
     }

@@ -58,6 +58,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')->getMock();
+        $this->urlEncoder->expects($this->any())
+            ->method('encode')
+            ->will($this->returnArgument(0));
         $this->context->expects($this->once())
             ->method('getUrlBuilder')
             ->will($this->returnValue($this->urlBuilder));
@@ -88,8 +91,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $removeUrl = 'catalog/product_compare/remove';
         $compareListUrl = 'catalog/product_compare';
         $postParams = array(
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper
-                ->urlEncode($compareListUrl),
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $compareListUrl,
             'product' => $productId
         );
 
@@ -136,7 +138,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $refererUrl = 'home/';
         $clearUrl = 'catalog/product_compare/clear';
         $postParams = array(
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper->urlEncode($refererUrl)
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $refererUrl
         );
 
         //Verification

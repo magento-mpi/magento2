@@ -98,7 +98,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      *
-     * @deprecated
+     * @deprecated (MAGETWO-31472)
      */
     public function getMinAmount($product)
     {
@@ -112,7 +112,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      *
-     * @deprecated
+     * @deprecated (MAGETWO-31472)
      */
     public function getMaxAmount($product)
     {

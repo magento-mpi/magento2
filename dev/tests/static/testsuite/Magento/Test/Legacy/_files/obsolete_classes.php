@@ -2918,4 +2918,8 @@ return array(
     ],
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
     ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
+    ['Magento\Backend\Block\System\Config\Switcher'],
+    ['Magento\VersionsCms\Block\Adminhtml\Scope\Switcher'],
+    ['Magento\Backend\Block\Widget\View\Container'],
+    ['Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview\Store'],
 );

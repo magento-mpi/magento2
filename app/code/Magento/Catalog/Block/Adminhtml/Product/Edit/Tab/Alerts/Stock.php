@@ -22,9 +22,9 @@ class Stock extends Extended
     /**
      * Catalog data
      *
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_catalogData = null;
+    protected $moduleManager;
 
     /**
      * @var \Magento\ProductAlert\Model\StockFactory
@@ -35,18 +35,18 @@ class Stock extends Extended
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\ProductAlert\Model\StockFactory $stockFactory
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\ProductAlert\Model\StockFactory $stockFactory,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->_stockFactory = $stockFactory;
-        $this->_catalogData = $catalogData;
+        $this->moduleManager = $moduleManager;
         parent::__construct($context, $backendHelper, $data);
     }
 
@@ -75,7 +75,7 @@ class Stock extends Extended
         if ($store = $this->getRequest()->getParam('store')) {
             $websiteId = $this->_storeManager->getStore($store)->getWebsiteId();
         }
-        if ($this->_catalogData->isModuleEnabled('Magento_ProductAlert')) {
+        if ($this->moduleManager->isEnabled('Magento_ProductAlert')) {
             $collection = $this->_stockFactory->create()->getCustomerCollection()->join($productId, $websiteId);
             $this->setCollection($collection);
         }

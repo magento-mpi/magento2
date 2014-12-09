@@ -87,7 +87,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      *
      * @param \Magento\Catalog\Model\Product $product
      * @return float
-     * @deprecated
+     * @deprecated (MAGETWO-31476)
      */
     public function getPrice($product)
     {
@@ -361,7 +361,7 @@ class Price extends \Magento\Catalog\Model\Product\Type\Price
      * @param null|bool                  $multiplyQty      Whether to multiply selection's price by its quantity
      * @return float
      *
-     * @deprecated after 1.6.2.0
+     * @deprecated after 1.6.2.0 (MAGETWO-31475)
      * @see \Magento\Bundle\Model\Product\Price::getSelectionFinalTotalPrice()
      */
     public function getSelectionPrice($bundleProduct, $selectionProduct, $selectionQty = null, $multiplyQty = true)

@@ -54,7 +54,6 @@ class Onepage extends \Magento\Checkout\Block\Onepage\AbstractOnepage
             $customerRepository,
             $addressConfig,
             $httpContext,
-            $dataObjectConverter,
             $data
         );
         $this->_isScopePrivate = true;

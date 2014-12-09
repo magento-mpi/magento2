@@ -20,16 +20,24 @@ class Tree extends \Magento\Backend\Block\Template
     protected $_storageHelper;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Theme\Helper\Storage $storageHelper
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Theme\Helper\Storage $storageHelper,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         array $data = array()
     ) {
         $this->_storageHelper = $storageHelper;
+        $this->urlEncoder = $urlEncoder;
         parent::__construct($context, $data);
     }
 
@@ -79,7 +87,7 @@ class Tree extends \Magento\Backend\Block\Template
             foreach (explode('/', $path) as $dirName) {
                 if ($dirName) {
                     $relative .= '/' . $dirName;
-                    $treePath .= '/' . $this->_storageHelper->urlEncode($relative);
+                    $treePath .= '/' . $this->urlEncoder->encode($relative);
                 }
             }
         }

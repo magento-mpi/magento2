@@ -26,9 +26,9 @@ class File extends AbstractData
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData = null;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Core\Model\File\Validator\NotProtectedExtension
@@ -53,7 +53,7 @@ class File extends AbstractData
      * @param null $value
      * @param string $entityTypeCode
      * @param bool $isAjax
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator
      * @param Filesystem $fileSystem
      * @param UploaderFactory $uploaderFactory
@@ -66,13 +66,13 @@ class File extends AbstractData
         $value,
         $entityTypeCode,
         $isAjax,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Core\Model\File\Validator\NotProtectedExtension $fileValidator,
         Filesystem $fileSystem,
         UploaderFactory $uploaderFactory
     ) {
         parent::__construct($localeDate, $logger, $attribute, $localeResolver, $value, $entityTypeCode, $isAjax);
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_fileValidator = $fileValidator;
         $this->_fileSystem = $fileSystem;
         $this->uploaderFactory = $uploaderFactory;
@@ -297,7 +297,7 @@ class File extends AbstractData
         if ($this->_value) {
             switch ($format) {
                 case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                    $output = array('value' => $this->_value, 'url_key' => $this->_coreData->urlEncode($this->_value));
+                    $output = array('value' => $this->_value, 'url_key' => $this->urlEncoder->encode($this->_value));
                     break;
             }
         }

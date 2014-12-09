@@ -24,6 +24,11 @@ class EmailLinkTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Rss\UrlBuilderInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $urlBuilder;
 
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlEncoder;
+
     protected function setUp()
     {
         $wishlist = $this->getMock('Magento\Wishlist\Model\Wishlist', ['getId', 'getSharingCode'], [], '', false);
@@ -40,10 +45,12 @@ class EmailLinkTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', ['encode'], [], '', false);
+
         $this->wishlistHelper->expects($this->any())->method('getWishlist')->will($this->returnValue($wishlist));
         $this->wishlistHelper->expects($this->any())->method('getCustomer')->will($this->returnValue($customer));
-        $this->wishlistHelper->expects($this->any())
-            ->method('urlEncode')
+        $this->urlEncoder->expects($this->any())
+            ->method('encode')
             ->willReturnCallback(function ($url) {
                 return strtr(base64_encode($url), '+/=', '-_,');
             });
@@ -54,7 +61,8 @@ class EmailLinkTest extends \PHPUnit_Framework_TestCase
             'Magento\Wishlist\Block\Rss\EmailLink',
             [
                 'wishlistHelper' => $this->wishlistHelper,
-                'rssUrlBuilder' => $this->urlBuilder
+                'rssUrlBuilder' => $this->urlBuilder,
+                'urlEncoder' => $this->urlEncoder,
             ]
         );
     }

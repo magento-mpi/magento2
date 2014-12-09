@@ -49,6 +49,7 @@ class Login extends AbstractOnepage
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
+     * @param \Magento\Customer\Service\V1\Data\AddressConverter $addressConverter
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Framework\Message\ManagerInterface $messageManager
      * @param \Magento\Customer\Model\Url $customerUrl
