@@ -18,11 +18,6 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_checkoutData;
 
     /**
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrl;
-
-    /**
      * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
@@ -45,7 +40,6 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
-     * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
@@ -61,14 +55,12 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\AdvancedCheckout\Model\Cart $cart,
-        \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->stockRegistry = $stockRegistry;
         $this->urlEncoder = $urlEncoder;

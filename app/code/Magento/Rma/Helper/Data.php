@@ -59,13 +59,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_regionFactory;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core store manager interface
      *
      * @var \Magento\Framework\StoreManagerInterface
@@ -140,7 +133,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -158,7 +150,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -174,7 +165,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;

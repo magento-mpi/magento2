@@ -254,7 +254,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      * Get collection instance
      *
      * @deprecated
-     * @TODO MAGETWO-23541: Incorrect dependencies between \Magento\Model\AbstractModel and \Magento\Data\Collection\Db
+     * @TODO MAGETWO-23541: Incorrect dependencies between Model\AbstractModel and Data\Collection\Db from Framework
      * @throws \Magento\Framework\Model\Exception
      * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
@@ -274,7 +274,7 @@ abstract class AbstractModel extends \Magento\Framework\Object
      * Retrieve collection instance
      *
      * @deprecated
-     * @TODO MAGETWO-23541: Incorrect dependencies between \Magento\Model\AbstractModel and \Magento\Data\Collection\Db
+     * @TODO MAGETWO-23541: Incorrect dependencies between Model\AbstractModel and Data\Collection\Db from Framework
      * @return \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
      */
     public function getCollection()
