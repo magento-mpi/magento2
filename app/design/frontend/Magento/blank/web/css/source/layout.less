@@ -95,6 +95,9 @@
         padding-left: @layout-indent;
         max-width: @layout-max-width + @layout-indent * 2;
         width: 100%;
+        .vendor-prefix-flex-grow(1);
+        .vendor-prefix-flex-shrink(0);
+        .vendor-prefix-flex-basis(auto);
         .ie9 & {
             width: auto;
         }
