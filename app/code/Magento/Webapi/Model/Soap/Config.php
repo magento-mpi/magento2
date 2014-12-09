@@ -204,7 +204,7 @@ class Config
     /**
      * Generate SOAP operation name.
      *
-     * @param string $interfaceName e.g. \Magento\Catalog\Service\ProductInterfaceV1
+     * @param string $interfaceName e.g. \Magento\Catalog\Api\ProductInterfaceV1
      * @param string $methodName e.g. create
      * @return string e.g. catalogProductCreate
      */

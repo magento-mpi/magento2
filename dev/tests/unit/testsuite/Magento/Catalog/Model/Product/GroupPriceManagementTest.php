@@ -236,21 +236,6 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
 
     public function testSetUpdatedPriceWithGlobalPriceScope()
     {
-        $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\GroupPriceBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $priceBuilder->expects($this->any())->method('getData')->will(
-            $this->returnValue(
-                array(
-                    'customer_group_id' => 2,
-                    'value' => 100
-                )
-            )
-        );
         $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
         $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock
