@@ -62,7 +62,7 @@ class Environment extends AbstractActionController
                     'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
                     'data' => [
                         'error' => 'phpVersionError',
-                        'message' => 'Cannot determine required PHP version' . $e->getMessage()
+                        'message' => 'Cannot determine required PHP version: ' . $e->getMessage()
                     ],
                 ]
             );
@@ -100,7 +100,7 @@ class Environment extends AbstractActionController
                     'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
                     'data' => [
                         'error' => 'phpExtensionError',
-                        'message' => 'Cannot determine required PHP extensions' . $e->getMessage()
+                        'message' => 'Cannot determine required PHP extensions: ' . $e->getMessage()
                     ],
                 ]
             );
