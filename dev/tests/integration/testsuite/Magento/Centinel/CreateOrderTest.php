@@ -31,7 +31,7 @@ class CreateOrderTest extends \Magento\Backend\Utility\Controller
         $customer = $customerRepository->getById(1);
         $quote->setCustomer($customer);
 
-        $defaultStore = $this->_objectManager->get('Magento\Framework\StoreManagerInterface');
+        $defaultStore = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $defaultStoreId = $defaultStore->getStore('default')->getId();
         $quote->setStoreId($defaultStoreId);
 
