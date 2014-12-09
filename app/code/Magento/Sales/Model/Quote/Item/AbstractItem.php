@@ -494,10 +494,7 @@ abstract class AbstractItem extends \Magento\Framework\Model\AbstractModel imple
      */
     public function isNominal()
     {
-        if (!$this->hasData('is_nominal')) {
-            $this->setData('is_nominal', $this->getProduct() ? $this->getProduct()->getIsRecurring() : false);
-        }
-        return $this->_getData('is_nominal');
+        return false;
     }
 
     /**

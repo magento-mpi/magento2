@@ -94,10 +94,10 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
                 Config::METHOD_WPP_EXPRESS
             );
         }
-        if ($quote && $this->_ecInstance) {
+        if ($quote) {
             $this->_ecInstance->setStore($quote->getStoreId());
         }
-        return $this->_ecInstance ? !$this->_ecInstance->isAvailable() : false;
+        return !$this->_ecInstance->isAvailable();
     }
 
     /**
