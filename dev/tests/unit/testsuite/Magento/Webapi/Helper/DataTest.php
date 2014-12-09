@@ -50,7 +50,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 true,
                 array('VendorCustomerAddressRepository', 'V1')
             ),
-            array('Magento\Catalog\Api\ProductRepositoryInterface', true, array('CatalogProductRepository', 'V1'))
         );
     }
 

@@ -22,6 +22,7 @@
             <?php if ($this->showSingle()): ?>
                 <?php echo $this->getSelectionTitlePrice($_selections[0]) ?>
                 <input type="hidden"
+                       class="bundle-option-<?php echo $_option->getId() ?>  product bundle option"
                        name="bundle_option[<?php echo $_option->getId() ?>]"
                        value="<?php echo $_selections[0]->getSelectionId() ?>" />
             <?php else:?>

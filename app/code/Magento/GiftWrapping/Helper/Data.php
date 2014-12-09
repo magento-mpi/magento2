@@ -544,6 +544,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param null|\Magento\Customer\Model\Address $billingAddress
      * @param null|int $ctc
      * @param mixed $store
+     * @param bool $roundPrice
      * @return float
      */
     public function getPrice(
@@ -553,7 +554,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $shippingAddress = null,
         $billingAddress = null,
         $ctc = null,
-        $store = null
+        $store = null,
+        $roundPrice = true
     ) {
         if (!$price) {
             return $price;
@@ -589,7 +591,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($store) {
                 $storeId = $store->getId();
             }
-            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetails = $this->taxCalculationService->calculateTax($quoteDetails, $storeId, $roundPrice);
             $taxDetailsItems = $taxDetails->getItems();
             $taxDetailsItem = array_pop($taxDetailsItems);
             return $taxDetailsItem->getPriceInclTax();

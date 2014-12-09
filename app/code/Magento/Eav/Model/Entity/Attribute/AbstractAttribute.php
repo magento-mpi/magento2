@@ -908,6 +908,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsUnique()
@@ -938,6 +939,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     {
         return $this->getData(self::IS_REQUIRED);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -968,6 +970,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * {@inheritdoc}
      */
     public function getIsUserDefined()
@@ -1006,6 +1009,7 @@ abstract class AbstractAttribute extends \Magento\Framework\Model\AbstractExtens
     {
         return $this->getData(self::SOURCE_MODEL);
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * {@inheritdoc}

@@ -524,7 +524,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($store) {
                 $storeId = $store->getId();
             }
-            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId, $roundPrice);
             $items = $taxDetails->getItems();
             $taxDetailsItem = array_shift($items);
 

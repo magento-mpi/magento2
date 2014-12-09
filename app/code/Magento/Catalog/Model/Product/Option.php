@@ -588,6 +588,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
      * Get option id
      *
      * @return int|null
+     * @codeCoverageIgnoreStart
      */
     public function getOptionId()
     {
@@ -686,4 +687,5 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
     {
         return $this->getData('image_size_y');
     }
+    //@codeCoverageIgnoreEnd
 }

@@ -29,6 +29,8 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Gallery $gallery
+     * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
      */
     public function __construct(
@@ -38,6 +40,8 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Gallery $gallery,
+        \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         $fixtures = array(
             'GiftCard/products_giftcard.csv'
         )
@@ -52,7 +56,20 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtureHelper,
             $csvReaderFactory,
             $gallery,
+            $logger,
+            $storeManager,
             $fixtures
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function prepareProduct($product, $data)
+    {
+        if ($product->getGiftcardType() == \Magento\GiftCard\Model\Giftcard::TYPE_VIRTUAL) {
+            $this->setVirtualStockData($product);
+        }
+        return $this;
     }
 }

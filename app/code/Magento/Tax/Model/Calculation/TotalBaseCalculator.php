@@ -14,8 +14,13 @@ class TotalBaseCalculator extends AbstractAggregateCalculator
     /**
      * {@inheritdoc}
      */
-    protected function roundAmount($amount, $rate = null, $direction = null, $type = self::KEY_REGULAR_DELTA_ROUNDING)
-    {
-        return $this->deltaRound($amount, $rate, $direction, $type);
+    protected function roundAmount(
+        $amount,
+        $rate = null,
+        $direction = null,
+        $type = self::KEY_REGULAR_DELTA_ROUNDING,
+        $round = true
+    ) {
+        return $this->deltaRound($amount, $rate, $direction, $type, $round);
     }
 }
