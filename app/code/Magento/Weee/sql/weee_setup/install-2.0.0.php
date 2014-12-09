@@ -17,62 +17,62 @@ $table = $this->getConnection()->newTable(
     'value_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    ['identity' => true, 'nullable' => false, 'primary' => true],
+    array('identity' => true, 'nullable' => false, 'primary' => true),
     'Value Id'
 )->addColumn(
     'website_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Website Id'
 )->addColumn(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Entity Id'
 )->addColumn(
     'country',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     2,
-    ['nullable' => true],
+    array('nullable' => true),
     'Country'
 )->addColumn(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    ['nullable' => false, 'default' => '0.0000'],
+    array('nullable' => false, 'default' => '0.0000'),
     'Value'
 )->addColumn(
     'state',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    ['nullable' => false, 'default' => '*'],
+    array('nullable' => false, 'default' => '*'),
     'State'
 )->addColumn(
     'attribute_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    ['unsigned' => true, 'nullable' => false],
+    array('unsigned' => true, 'nullable' => false),
     'Attribute Id'
 )->addColumn(
     'entity_type_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    ['unsigned' => true, 'nullable' => false],
+    array('unsigned' => true, 'nullable' => false),
     'Entity Type Id'
 )->addIndex(
-    $this->getIdxName('weee_tax', ['website_id']),
-    ['website_id']
+    $this->getIdxName('weee_tax', array('website_id')),
+    array('website_id')
 )->addIndex(
-    $this->getIdxName('weee_tax', ['entity_id']),
-    ['entity_id']
+    $this->getIdxName('weee_tax', array('entity_id')),
+    array('entity_id')
 )->addIndex(
-    $this->getIdxName('weee_tax', ['country']),
-    ['country']
+    $this->getIdxName('weee_tax', array('country')),
+    array('country')
 )->addIndex(
-    $this->getIdxName('weee_tax', ['attribute_id']),
-    ['attribute_id']
+    $this->getIdxName('weee_tax', array('attribute_id')),
+    array('attribute_id')
 )->addForeignKey(
     $this->getFkName('weee_tax', 'country', 'directory_country', 'country_id'),
     'country',
@@ -115,35 +115,35 @@ $table = $this->getConnection()->newTable(
     'entity_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Entity Id'
 )->addColumn(
     'website_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Website Id'
 )->addColumn(
     'customer_group_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    ['unsigned' => true, 'nullable' => false],
+    array('unsigned' => true, 'nullable' => false),
     'Customer Group Id'
 )->addColumn(
     'value',
     \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL,
     '12,4',
-    ['nullable' => false, 'default' => '0.0000'],
+    array('nullable' => false, 'default' => '0.0000'),
     'Value'
 )->addIndex(
-    $this->getIdxName('weee_discount', ['website_id']),
-    ['website_id']
+    $this->getIdxName('weee_discount', array('website_id')),
+    array('website_id')
 )->addIndex(
-    $this->getIdxName('weee_discount', ['entity_id']),
-    ['entity_id']
+    $this->getIdxName('weee_discount', array('entity_id')),
+    array('entity_id')
 )->addIndex(
-    $this->getIdxName('weee_discount', ['customer_group_id']),
-    ['customer_group_id']
+    $this->getIdxName('weee_discount', array('customer_group_id')),
+    array('customer_group_id')
 )->addForeignKey(
     $this->getFkName('weee_discount', 'customer_group_id', 'customer_group', 'customer_group_id'),
     'customer_group_id',

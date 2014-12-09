@@ -95,7 +95,7 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getWriteAdapter();
 
         $select = $this->_getReadAdapter()->select();
-        $select->from(['data' => $this->getTable('catalogrule_product')]);
+        $select->from(array('data' => $this->getTable('catalogrule_product')));
 
         $deleteCondition = '';
         if ($productCondition) {
@@ -115,12 +115,12 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
         $adapter->delete($this->getTable('weee_discount'), $deleteCondition);
 
-        $select->order(['data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order']);
+        $select->order(array('data.website_id', 'data.customer_group_id', 'data.product_id', 'data.sort_order'));
 
         $data = $this->_getReadAdapter()->query($select);
 
-        $productData = [];
-        $stops = [];
+        $productData = array();
+        $stops = array();
         $prevKey = false;
         while ($row = $data->fetch()) {
             $key = "{$row['product_id']}-{$row['website_id']}-{$row['customer_group_id']}";
@@ -132,18 +132,18 @@ class Tax extends \Magento\Framework\Model\Resource\Db\AbstractDb
                 foreach ($productData as $product) {
                     $adapter->insert($this->getTable('weee_discount'), $product);
                 }
-                $productData = [];
+                $productData = array();
             }
             if ($row['action_operator'] == 'by_percent') {
                 if (isset($productData[$key])) {
                     $productData[$key]['value'] -= $productData[$key]['value'] / 100 * $row['action_amount'];
                 } else {
-                    $productData[$key] = [
+                    $productData[$key] = array(
                         'entity_id' => $row['product_id'],
                         'customer_group_id' => $row['customer_group_id'],
                         'website_id' => $row['website_id'],
-                        'value' => 100 - max(0, min(100, $row['action_amount'])),
-                    ];
+                        'value' => 100 - max(0, min(100, $row['action_amount']))
+                    );
                 }
             }
 

@@ -58,8 +58,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = [],
-        array $priceBlockTypes = []
+        array $data = array(),
+        array $priceBlockTypes = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
@@ -124,14 +124,15 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         /** @var \Magento\Bundle\Model\Option[] $optionsArray */
         $optionsArray = $this->getOptions();
-        $options = [];
-        $selected = [];
+        $options = array();
+        $selected = array();
         $currentProduct = $this->getProduct();
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
-            $defaultValues = [];
+            $defaultValues = array();
         }
+
 
         $position = 0;
         foreach ($optionsArray as $optionItem) {
@@ -141,12 +142,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             }
 
             $optionId = $optionItem->getId();
-            $option = [
-                'selections' => [],
+            $option = array(
+                'selections' => array(),
                 'title' => $optionItem->getTitle(),
-                'isMulti' => in_array($optionItem->getType(), ['multi', 'checkbox']),
-                'position' => $position++,
-            ];
+                'isMulti' => in_array($optionItem->getType(), array('multi', 'checkbox')),
+                'position' => $position++
+            );
 
             $selectionCount = count($optionItem->getSelections());
 
@@ -172,14 +173,14 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
                     $tierPriceInfo['prices'] = [
                         'oldPrice' => [
-                            'amount' => $priceBaseAmount,
+                            'amount' => $priceBaseAmount
                         ],
                         'basePrice' => [
-                            'amount' => $priceBaseAmount,
+                            'amount' => $priceBaseAmount
                         ],
                         'finalPrice' => [
-                            'amount' => $priceValue,
-                        ],
+                            'amount' => $priceValue
+                        ]
                     ];
                 }
                 $bundleOptionPriceAmount = $currentProduct->getPriceInfo()->getPrice('bundle_option')
@@ -187,28 +188,28 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $finalPrice = $bundleOptionPriceAmount->getValue();
                 $basePrice = $bundleOptionPriceAmount->getBaseAmount();
 
-                $selection = [
+                $selection = array(
                     'qty' => $qty,
                     'customQty' => $selectionItem->getSelectionCanChangeQty(),
                     'prices' => [
                         'oldPrice' => [
-                            'amount' => $basePrice,
+                            'amount' => $basePrice
                         ],
                         'basePrice' => [
-                            'amount' => $basePrice,
+                            'amount' => $basePrice
                         ],
                         'finalPrice' => [
-                            'amount' => $finalPrice,
-                        ],
+                            'amount' => $finalPrice
+                        ]
                     ],
                     'priceType' => $selectionItem->getSelectionPriceType(),
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
-                    'canApplyMsrp' => false,
-                ];
+                    'canApplyMsrp' => false
+                );
 
                 $responseObject = new \Magento\Framework\Object();
-                $args = ['response_object' => $responseObject, 'selection' => $selectionItem];
+                $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
                 $this->_eventManager->dispatch('bundle_product_view_config', $args);
                 if (is_array($responseObject->getAdditionalOptions())) {
                     foreach ($responseObject->getAdditionalOptions() as $index => $value) {
@@ -245,25 +246,25 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE)
             ->getAmount();
 
-        $config = [
+        $config = array(
             'options' => $options,
             'selected' => $selected,
             'bundleId' => $currentProduct->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'prices' => [
                 'oldPrice' => [
-                    'amount' => $isFixedPrice ?  $baseProductAmount->getValue() : 0,
+                    'amount' => $isFixedPrice ?  $baseProductAmount->getValue() : 0
                 ],
                 'basePrice' => [
-                    'amount' => $isFixedPrice ? $productAmount->getBaseAmount() : 0,
+                    'amount' => $isFixedPrice ? $productAmount->getBaseAmount() : 0
                 ],
                 'finalPrice' => [
-                    'amount' => $isFixedPrice ? $productAmount->getValue() : 0,
-                ],
+                    'amount' => $isFixedPrice ? $productAmount->getValue() : 0
+                ]
             ],
             'priceType' => $currentProduct->getPriceType(),
             'isFixedPrice' => $isFixedPrice,
-        ];
+        );
 
         if ($preConfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;

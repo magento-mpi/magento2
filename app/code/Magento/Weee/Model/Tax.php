@@ -8,11 +8,11 @@
 namespace Magento\Weee\Model;
 
 use Magento\Catalog\Model\Product;
-use Magento\Customer\Model\Converter as CustomerConverter;
-use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Store\Model\Website;
+use Magento\Customer\Model\Converter as CustomerConverter;
 use Magento\Tax\Model\Calculation;
+use Magento\Customer\Service\V1\CustomerAddressServiceInterface as AddressServiceInterface;
 
 class Tax extends \Magento\Framework\Model\AbstractModel
 {
@@ -44,7 +44,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     /**
      * @var array
      */
-    protected $_productDiscounts = [];
+    protected $_productDiscounts = array();
 
     /**
      * Tax data
@@ -125,7 +125,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         \Magento\Weee\Model\Config $weeeConfig,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = []
+        array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;
         $this->_storeManager = $storeManager;
@@ -200,7 +200,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     public function getWeeeTaxAttributeCodes($store = null, $forceEnabled = false)
     {
         if (!$forceEnabled && !$this->weeeConfig->isEnabled($store)) {
-            return [];
+            return array();
         }
 
         if (is_null($this->_allAttributes)) {
@@ -226,7 +226,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $calculateTax = null,
         $ignoreDiscount = false
     ) {
-        $result = [];
+        $result = array();
 
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
         /** @var \Magento\Store\Model\Store $store */
@@ -267,6 +267,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $productAttributes = $product->getTypeInstance()->getSetAttributes($product);
         foreach ($productAttributes as $code => $attribute) {
             if (in_array($code, $allWeee)) {
+
                 $attributeSelect = $this->getResource()->getReadConnection()->select();
                 $attributeSelect->from(
                     $this->getResource()->getTable('weee_tax'),
@@ -276,13 +277,13 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     (int)$attribute->getId()
                 )->where(
                     'website_id IN(?)',
-                    [$websiteId, 0]
+                    array($websiteId, 0)
                 )->where(
                     'country = ?',
                     $rateRequest->getCountryId()
                 )->where(
                     'state IN(?)',
-                    [$rateRequest->getRegionId(), '*']
+                    array($rateRequest->getRegionId(), '*')
                 )->where(
                     'entity_id = ?',
                     (int)$product->getId()
@@ -290,8 +291,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     1
                 );
 
-                $order = ['state ' . \Magento\Framework\DB\Select::SQL_DESC,
-                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC, ];
+                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC,
+                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
@@ -356,7 +357,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     {
         $website = $this->_storeManager->getStore()->getWebsiteId();
         $group = $this->_customerSession->getCustomerGroupId();
-        $key = implode('-', [$website, $group, $product->getId()]);
+        $key = implode('-', array($website, $group, $product->getId()));
         if (!isset($this->_productDiscounts[$key])) {
             $this->_productDiscounts[$key] = (int)$this->getResource()->getProductDiscountPercent(
                 $product->getId(),

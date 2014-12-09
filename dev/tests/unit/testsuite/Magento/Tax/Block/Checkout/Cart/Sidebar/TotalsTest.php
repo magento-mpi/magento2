@@ -56,14 +56,14 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
         $this->taxHelper = $this->getMockBuilder('\Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
             ->setMethods([
-                'getIncExcText',
+                'getIncExcText'
             ])
             ->getMock();
 
         $this->taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
             ->disableOriginalConstructor()
             ->setMethods([
-                'displayCartSubtotalInclTax', 'displayCartSubtotalExclTax', 'displayCartSubtotalBoth',
+                'displayCartSubtotalInclTax', 'displayCartSubtotalExclTax', 'displayCartSubtotalBoth'
             ])
             ->getMock();
 
@@ -116,7 +116,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             'no_subtotal' => [
                 'totals' => [],
                 'expected' => 0,
-            ],
+            ]
         ];
         return $data;
     }
@@ -160,7 +160,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             'no_subtotal' => [
                 'totals' => [],
                 'expected' => 0,
-            ],
+            ]
         ];
         return $data;
     }
