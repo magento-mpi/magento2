@@ -16,12 +16,11 @@ use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
  */
 class AssertRoleSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     const SUCCESS_MESSAGE = 'You saved the role.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Asserts that success message equals to expected message.

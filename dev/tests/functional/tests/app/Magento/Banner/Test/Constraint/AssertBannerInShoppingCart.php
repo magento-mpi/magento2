@@ -24,8 +24,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertBannerInShoppingCart extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that banner presents on Shopping Cart page

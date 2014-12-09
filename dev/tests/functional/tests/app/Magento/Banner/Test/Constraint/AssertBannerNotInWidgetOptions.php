@@ -21,8 +21,8 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 class AssertBannerNotInWidgetOptions extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted banner is absent in Widget options bunnerGrid and can't be found by name

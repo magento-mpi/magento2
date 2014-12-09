@@ -20,14 +20,14 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertCartIsEmpty extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
     /**
      * Text of empty cart.
      */
     const TEXT_EMPTY_CART = 'You have no items in your shopping cart. Click here to continue shopping.';
-
-    /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
 
     /**
      * Check that Shopping Cart is empty, opened page contains text "You have no items in your shopping cart.

@@ -21,8 +21,8 @@ use Mtf\Fixture\InjectableFixture;
 class AssertUrlRewriteProductRedirect extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Check that product available by new URL on the front

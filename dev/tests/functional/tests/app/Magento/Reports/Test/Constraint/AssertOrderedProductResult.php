@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertOrderedProductResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert product name and qty in Ordered Products report

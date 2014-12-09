@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractAssertForm;
 class AssertGiftRegistryTypeForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that GiftRegistryType form filled correctly

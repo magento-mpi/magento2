@@ -19,8 +19,8 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
 class AssertUrlRewriteCategoryNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that category url rewrite not in grid

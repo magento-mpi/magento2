@@ -18,11 +18,11 @@ use Magento\Integration\Test\Fixture\Integration;
  */
 class AssertIntegrationSuccessActivationMessage extends AbstractConstraint
 {
-    const SUCCESS_ACTIVATION_MESSAGE = "The integration '%s' has been activated.";
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_ACTIVATION_MESSAGE = "The integration '%s' has been activated.";
 
     /**
      * Assert that success activation message is appeared on the Integrations page

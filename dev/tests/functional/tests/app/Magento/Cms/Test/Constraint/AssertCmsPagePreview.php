@@ -22,8 +22,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCmsPagePreview extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that content of created cms page displayed in section 'maincontent' and equals passed from fixture.

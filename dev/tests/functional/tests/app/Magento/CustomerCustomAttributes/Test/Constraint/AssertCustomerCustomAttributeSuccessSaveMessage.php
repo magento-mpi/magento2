@@ -17,14 +17,14 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
  */
 class AssertCustomerCustomAttributeSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text of save success message
      */
     const SUCCESS_SAVE_MESSAGE = 'You saved the customer attribute.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after customer attribute save successful message appears

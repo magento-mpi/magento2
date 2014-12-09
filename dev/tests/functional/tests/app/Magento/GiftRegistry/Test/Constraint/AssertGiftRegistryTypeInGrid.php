@@ -19,8 +19,8 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistryType;
 class AssertGiftRegistryTypeInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Gift Registry type can be found at Stores > Gift Registry grid in backend

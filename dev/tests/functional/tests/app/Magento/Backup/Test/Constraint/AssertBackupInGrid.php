@@ -18,8 +18,8 @@ use Magento\Backup\Test\Page\Adminhtml\BackupIndex;
 class AssertBackupInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that one backup row is present in Backups grid

@@ -20,8 +20,8 @@ use Mtf\Fixture\InjectableFixture;
 class AssertProductAttributeIsHtmlAllowed extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Check whether html tags are using in attribute value.

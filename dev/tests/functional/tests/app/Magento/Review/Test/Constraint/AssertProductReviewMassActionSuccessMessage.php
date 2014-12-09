@@ -18,14 +18,14 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
  */
 class AssertProductReviewMassActionSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message that appears after updates via mass actions
      */
     const SUCCESS_MESSAGE = 'A total of %d record(s) have been updated.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after updated via mass actions

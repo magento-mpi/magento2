@@ -16,11 +16,11 @@ use Magento\User\Test\Page\Adminhtml\UserEdit;
  */
 class AssertUserDuplicateMessage extends AbstractConstraint
 {
-    const ERROR_MESSAGE = 'A user with the same user name or email already exists.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const ERROR_MESSAGE = 'A user with the same user name or email already exists.';
 
     /**
      * Asserts that error message equals to expected message.

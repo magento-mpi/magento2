@@ -24,8 +24,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 class AssertProductTemplateOnProductForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that created product template:

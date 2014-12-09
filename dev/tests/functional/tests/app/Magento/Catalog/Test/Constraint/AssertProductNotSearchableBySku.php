@@ -20,8 +20,8 @@ use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
 class AssertProductNotSearchableBySku extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product cannot be found via Quick Search using searchable product attributes.

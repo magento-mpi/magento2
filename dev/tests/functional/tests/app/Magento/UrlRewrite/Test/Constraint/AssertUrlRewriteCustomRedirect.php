@@ -20,8 +20,8 @@ use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 class AssertUrlRewriteCustomRedirect extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert check URL rewrite custom redirect

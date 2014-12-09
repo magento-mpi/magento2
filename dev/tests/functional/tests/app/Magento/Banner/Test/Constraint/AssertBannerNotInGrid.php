@@ -19,8 +19,8 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
 class AssertBannerNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted banner is absent in grid and can't be found by name

@@ -20,8 +20,8 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertNoInvoiceButton extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert no Invoice button the order grid

@@ -26,8 +26,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertGiftWrappingNotOnFrontendCheckout extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted Gift Wrapping can not be found during one page checkout on frontend

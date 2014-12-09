@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 class AssertBundleInCategory extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Check bundle product on the category page

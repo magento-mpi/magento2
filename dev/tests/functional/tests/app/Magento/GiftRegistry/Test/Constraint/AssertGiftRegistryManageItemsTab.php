@@ -23,8 +23,8 @@ use Mtf\Fixture\InjectableFixture;
 class AssertGiftRegistryManageItemsTab extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Manage Items page on frontend contains correct product name and quantity

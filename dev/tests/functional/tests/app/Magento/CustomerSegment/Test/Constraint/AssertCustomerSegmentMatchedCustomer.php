@@ -22,8 +22,8 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 class AssertCustomerSegmentMatchedCustomer extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that grid on 'Matched Customer' tab contains customer according to conditions

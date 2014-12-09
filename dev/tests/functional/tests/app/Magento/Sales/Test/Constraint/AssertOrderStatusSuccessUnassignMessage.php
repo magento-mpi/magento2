@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderStatusIndex;
  */
 class AssertOrderStatusSuccessUnassignMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * OrderStatus unassign success message
      */
     const SUCCESS_MESSAGE = 'You have unassigned the order status.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after order status unassign

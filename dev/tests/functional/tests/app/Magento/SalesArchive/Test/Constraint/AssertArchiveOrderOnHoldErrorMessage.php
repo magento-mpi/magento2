@@ -17,14 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertArchiveOrderOnHoldErrorMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const ERROR_MESSAGE = 'No order(s) were put on hold.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert on hold fail message is displayed on archive order index page

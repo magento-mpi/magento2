@@ -17,14 +17,14 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
  */
 class AssertStoreGroupSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success store group delete message
      */
     const SUCCESS_DELETE_MESSAGE = 'The store has been deleted.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after deleting store group

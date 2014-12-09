@@ -19,8 +19,8 @@ use Magento\Store\Test\Fixture\Website;
 class AssertWebsiteNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Website can't be found in grid by name

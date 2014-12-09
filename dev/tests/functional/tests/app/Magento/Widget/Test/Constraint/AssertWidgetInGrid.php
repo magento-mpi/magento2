@@ -18,8 +18,8 @@ use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceIndex;
 class AssertWidgetInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert widget availability in widget grid

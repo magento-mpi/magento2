@@ -21,8 +21,8 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 class AssertInvitationOneEntry extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert only one invitation was sent to unique email on frontend

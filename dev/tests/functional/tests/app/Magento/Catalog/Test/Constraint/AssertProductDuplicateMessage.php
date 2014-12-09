@@ -16,14 +16,14 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertProductDuplicateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const DUPLICATE_MESSAGE = 'You duplicated the product.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Checking the output message successful product duplication

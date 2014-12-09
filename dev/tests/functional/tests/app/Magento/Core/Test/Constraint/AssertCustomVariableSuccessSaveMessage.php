@@ -17,11 +17,11 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableIndex;
  */
 class AssertCustomVariableSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'You saved the custom variable.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_SAVE_MESSAGE = 'You saved the custom variable.';
 
     /**
      * Assert that success delete message is correct after Custom System Variable deleted

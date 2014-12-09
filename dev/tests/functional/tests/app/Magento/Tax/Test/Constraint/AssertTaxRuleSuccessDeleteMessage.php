@@ -16,11 +16,11 @@ use Magento\Tax\Test\Page\Adminhtml\TaxRuleIndex;
  */
 class AssertTaxRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The tax rule has been deleted.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_DELETE_MESSAGE = 'The tax rule has been deleted.';
 
     /**
      * Assert that success delete message is displayed after tax rule deleted

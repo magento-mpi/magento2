@@ -18,14 +18,14 @@ use Mtf\Fixture\FixtureInterface;
  */
 class AssertAddedProductToCartSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success add to cart message
      */
     const SUCCESS_MESSAGE = 'You added %s to your shopping cart.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert success message is appeared on Shopping Cart page

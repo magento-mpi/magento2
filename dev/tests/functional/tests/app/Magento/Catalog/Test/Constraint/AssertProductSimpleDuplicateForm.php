@@ -15,6 +15,6 @@ namespace Magento\Catalog\Test\Constraint;
 class AssertProductSimpleDuplicateForm extends AssertProductDuplicateForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 }

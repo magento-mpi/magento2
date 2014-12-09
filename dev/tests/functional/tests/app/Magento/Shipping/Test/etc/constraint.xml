@@ -9,24 +9,24 @@
 -->
 <constraint>
     <assertNoShipButton module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertNoShipButton>
     <assertShipmentInShipmentsTab module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShipmentInShipmentsTab>
     <assertShipmentSuccessCreateMessage module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShipmentSuccessCreateMessage>
     <assertShipmentInShipmentsGrid module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShipmentInShipmentsGrid>
     <assertShipTotalQuantity module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShipTotalQuantity>
     <assertShipmentItems module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShipmentItems>
     <assertShippingMethodOnPrintOrder module="Magento_Shipping">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertShippingMethodOnPrintOrder>
 </constraint>

@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertGlobalSearchCustomerName extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that customer name is present in search results

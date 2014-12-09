@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
  */
 class AssertOrderCancelSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after cancel sales order
      */
     const SUCCESS_CANCEL_MESSAGE = 'You canceled the order.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after cancel sales order successful message appears

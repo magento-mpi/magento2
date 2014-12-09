@@ -17,14 +17,14 @@ use Magento\Invitation\Test\Page\InvitationIndex;
  */
 class AssertInvitationFrontendErrorSendDuplicateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Error duplicate message
      */
     const ERROR_MESSAGE = "Invitation for same email address already exists.";
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that error message appears after sent invitation to the same email address

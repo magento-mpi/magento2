@@ -17,14 +17,14 @@ use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
  */
 class AssertGiftCardAccountSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_DELETE_MESSAGE = 'This gift card account has been deleted.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that gift card account delete success message is present

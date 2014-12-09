@@ -23,8 +23,8 @@ use Magento\Review\Test\Constraint\AssertProductReviewInGrid;
 class AssertProductReportByCustomerInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Customer review is displayed in grid

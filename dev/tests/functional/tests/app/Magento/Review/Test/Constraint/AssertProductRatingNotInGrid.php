@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductRatingNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert product Rating is absent on product Rating grid

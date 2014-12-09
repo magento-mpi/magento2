@@ -20,8 +20,8 @@ use Magento\Widget\Test\Fixture\Widget;
 class AssertWidgetProductLink extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that after click on widget link on frontend system redirects you to Product page defined in widget

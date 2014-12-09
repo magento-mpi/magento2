@@ -16,8 +16,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductDuplicateIsNotDisplayingOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that product duplicate is not displayed on front-end

@@ -20,8 +20,8 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 class AssertGiftCardAccountStatusInCustomerAccount extends AbstractAssertGiftCardAccountOnFrontend
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created gift card account can be verified on the frontend on My Account page

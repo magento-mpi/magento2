@@ -20,8 +20,8 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertUnholdButton extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that 'Unhold' button present on order page

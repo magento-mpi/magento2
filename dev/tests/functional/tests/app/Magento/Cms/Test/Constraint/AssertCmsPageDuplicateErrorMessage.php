@@ -17,11 +17,11 @@ use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
  */
 class AssertCmsPageDuplicateErrorMessage extends AbstractConstraint
 {
-    const ERROR_SAVE_MESSAGE = 'A page URL key for specified store already exists.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const ERROR_SAVE_MESSAGE = 'A page URL key for specified store already exists.';
 
     /**
      * Verify that page has not been created

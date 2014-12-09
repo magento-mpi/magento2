@@ -19,8 +19,8 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 class AssertWishlistIsEmpty extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert wish list is empty

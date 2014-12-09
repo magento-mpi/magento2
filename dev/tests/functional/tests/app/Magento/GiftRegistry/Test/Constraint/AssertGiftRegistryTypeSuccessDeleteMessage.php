@@ -17,14 +17,14 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
  */
 class AssertGiftRegistryTypeSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success gift registry delete message
      */
     const DELETE_MESSAGE = 'You deleted the gift registry type.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success delete message is displayed after gift registry has been deleted

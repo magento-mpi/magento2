@@ -19,8 +19,8 @@ use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
 class AssertCartPriceRuleForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

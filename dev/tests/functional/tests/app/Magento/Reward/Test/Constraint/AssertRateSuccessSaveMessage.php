@@ -17,14 +17,14 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
  */
 class AssertRateSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message after success saved Exchange Rate
      */
     const SUCCESS_SAVE_MESSAGE = 'You saved the rate.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that specified message is present on page

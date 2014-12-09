@@ -17,11 +17,11 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageVersionSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'You have saved the version.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_SAVE_MESSAGE = 'You have saved the version.';
 
     /**
      * Assert that success save message is displayed on the page

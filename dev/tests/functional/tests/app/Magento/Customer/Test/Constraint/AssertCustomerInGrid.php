@@ -19,8 +19,8 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
 class AssertCustomerInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert customer availability in Customer Grid

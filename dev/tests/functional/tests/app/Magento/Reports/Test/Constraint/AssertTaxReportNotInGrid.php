@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertTaxReportNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert Tax report is absent on tax report page

@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertGiftCardAccountIsNotUsableInCartOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that gift card is not usable in cart on frontend

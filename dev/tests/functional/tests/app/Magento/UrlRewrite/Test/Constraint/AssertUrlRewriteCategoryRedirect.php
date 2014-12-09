@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
 class AssertUrlRewriteCategoryRedirect extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert check URL rewrite category redirect

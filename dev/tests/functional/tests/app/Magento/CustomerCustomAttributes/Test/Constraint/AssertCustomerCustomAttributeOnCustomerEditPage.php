@@ -22,8 +22,8 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 class AssertCustomerCustomAttributeOnCustomerEditPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer attribute is available during edit customer account on frontend

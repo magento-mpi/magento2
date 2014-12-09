@@ -19,8 +19,8 @@ use Magento\Banner\Test\Page\Adminhtml\BannerNew;
 class AssertCustomerSegmentAvailableInBannerForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer segment is available in Banner edit page

@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertArchiveOrdersInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that orders with specified id and status is in archive orders grid

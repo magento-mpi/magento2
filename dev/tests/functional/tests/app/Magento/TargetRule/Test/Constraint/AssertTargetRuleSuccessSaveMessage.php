@@ -16,11 +16,11 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
  */
 class AssertTargetRuleSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the rule.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'You saved the rule.';
 
     /**
      * Assert that success message is displayed after target rule save

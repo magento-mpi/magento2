@@ -21,8 +21,8 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 class AssertUrlRewriteCmsPageRedirect extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS Page URL Rewrite lead to appropriate page in frontend

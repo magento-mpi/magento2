@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertGlobalSearchProductName extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product name is present in search results

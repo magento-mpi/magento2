@@ -18,8 +18,8 @@ use Magento\Tax\Test\Fixture\TaxRate;
 class AssertTaxRateInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert tax rule availability in Tax Rate grid

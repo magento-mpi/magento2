@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertNoUpSellsProductsSection extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product is not displayed in up-sell section

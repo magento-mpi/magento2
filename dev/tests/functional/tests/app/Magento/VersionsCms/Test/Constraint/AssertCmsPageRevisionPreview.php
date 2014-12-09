@@ -24,8 +24,8 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
 class AssertCmsPageRevisionPreview extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS page revision content can be found in CMS page revisions preview

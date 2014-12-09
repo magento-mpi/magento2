@@ -18,8 +18,8 @@ use Magento\Reports\Test\Page\Adminhtml\SearchIndex;
 class AssertSearchTermsInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Search Terms report in grid

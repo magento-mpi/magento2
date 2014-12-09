@@ -17,11 +17,11 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
  */
 class AssertProductAttributeSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The product attribute has been deleted.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The product attribute has been deleted.';
 
     /**
      * Assert that message "The product attribute has been deleted." is present on Attribute page

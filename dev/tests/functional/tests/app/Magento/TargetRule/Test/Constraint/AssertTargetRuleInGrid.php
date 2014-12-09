@@ -17,14 +17,14 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
  */
 class AssertTargetRuleInGrid extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Day in seconds
      */
     const DAY = 86400;
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert target rule availability in Target Rule Grid

@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertCrossSellsProductsSection extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product is displayed in cross-sell section

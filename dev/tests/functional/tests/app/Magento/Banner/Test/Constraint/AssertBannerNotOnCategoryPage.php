@@ -22,8 +22,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertBannerNotOnCategoryPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that banner is absent on specific category page

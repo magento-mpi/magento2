@@ -17,16 +17,16 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductWithPaymentAgreementsOrderFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     // @codingStandardsIgnoreStart
     /**
      * Product with payment agreements can't be ordered with other items error message
      */
     const ERROR_MESSAGE = 'Sorry, but items with payment agreements must be ordered one at a time To continue, please remove or buy the other items in your cart, then order this item by itself.';
     // @codingStandardsIgnoreEnd
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that error message that product with payment agreements can't be ordered with other items is displayed

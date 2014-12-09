@@ -17,11 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'The page has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_SAVE_MESSAGE = 'The page has been saved.';
 
     /**
      * Assert that after save a CMS page "The page has been saved." successful message appears

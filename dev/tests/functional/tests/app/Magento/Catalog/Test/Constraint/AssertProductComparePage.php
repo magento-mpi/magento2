@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
 class AssertProductComparePage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Product attribute on compare product page

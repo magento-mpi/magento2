@@ -20,8 +20,8 @@ use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 class AssertGiftRegistryForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

@@ -20,8 +20,8 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertNoCreditMemoButton extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that after refunding full amount 'Credit Memo' is not available any more

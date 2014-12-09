@@ -22,8 +22,8 @@ use Mtf\ObjectManager;
 class AssertOrderInOrdersGridOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order is present in Orders grid on frontend

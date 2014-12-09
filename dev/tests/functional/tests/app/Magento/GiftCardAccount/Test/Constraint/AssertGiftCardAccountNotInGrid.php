@@ -19,8 +19,8 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
 class AssertGiftCardAccountNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that gift card account not in grid

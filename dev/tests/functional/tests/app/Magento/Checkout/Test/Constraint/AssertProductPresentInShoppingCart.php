@@ -18,8 +18,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertProductPresentInShoppingCart extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that products are present in shopping cart

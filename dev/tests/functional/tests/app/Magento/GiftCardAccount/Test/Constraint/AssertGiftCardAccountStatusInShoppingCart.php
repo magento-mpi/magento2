@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertGiftCardAccountStatusInShoppingCart extends AbstractAssertGiftCardAccountOnFrontend
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created gift card account can be verified on the frontend in Shopping Cart

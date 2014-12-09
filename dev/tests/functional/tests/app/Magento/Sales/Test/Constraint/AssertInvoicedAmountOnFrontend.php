@@ -20,8 +20,8 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 class AssertInvoicedAmountOnFrontend extends AbstractAssertOrderOnFrontend
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that invoiced Grand Total amount is equal to placed order Grand total amount on invoice page (frontend)

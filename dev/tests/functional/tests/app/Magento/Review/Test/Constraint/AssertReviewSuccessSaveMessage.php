@@ -16,11 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertReviewSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the review.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'You saved the review.';
 
     /**
      * Assert that success message is displayed after review save

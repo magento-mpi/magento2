@@ -17,14 +17,14 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
  */
 class AssertSearchTermSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the search.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after search term deleted

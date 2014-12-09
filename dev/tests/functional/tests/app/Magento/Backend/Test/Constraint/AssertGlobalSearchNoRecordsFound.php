@@ -17,14 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGlobalSearchNoRecordsFound extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Expected search result text
      */
     const EXPECTED_RESULT = 'No records found.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that search result contains expected text

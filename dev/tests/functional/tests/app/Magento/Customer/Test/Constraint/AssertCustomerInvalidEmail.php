@@ -18,11 +18,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexNew;
  */
 class AssertCustomerInvalidEmail extends AbstractConstraint
 {
-    const ERROR_EMAIL_MESSAGE = 'Please correct this email address: "%email%".';
-
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
+    const ERROR_EMAIL_MESSAGE = 'Please correct this email address: "%email%".';
 
     /**
      * Assert that error message "Please correct this email address: "%email%"." is displayed

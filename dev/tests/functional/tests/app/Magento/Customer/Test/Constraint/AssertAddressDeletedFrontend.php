@@ -17,14 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertAddressDeletedFrontend extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Expected message
      */
     const EXPECTED_MESSAGE = 'You have no additional address entries in your address book.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Asserts that Asserts that 'Additional Address Entries' contains expected message

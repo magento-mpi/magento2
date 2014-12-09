@@ -15,8 +15,8 @@ namespace Magento\MultipleWishlist\Test\Constraint;
 class AssertMultipleWishlistAbsentInMyAccount extends AbstractAssertMultipleWishlistExist
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert wish list is absent

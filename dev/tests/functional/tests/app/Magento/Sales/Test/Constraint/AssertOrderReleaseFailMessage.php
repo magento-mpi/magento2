@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertOrderReleaseFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const FAIL_RELEASE_MESSAGE = 'No order(s) were released from on hold status.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert release fail message is displayed on order index page

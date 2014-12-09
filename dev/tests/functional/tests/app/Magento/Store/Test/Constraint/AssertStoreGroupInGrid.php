@@ -19,8 +19,8 @@ use Magento\Store\Test\Fixture\StoreGroup;
 class AssertStoreGroupInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Store Group can be found in Stores grid by name

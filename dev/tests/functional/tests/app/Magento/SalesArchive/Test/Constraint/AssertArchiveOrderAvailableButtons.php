@@ -20,8 +20,8 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 class AssertArchiveOrderAvailableButtons extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that specified in data set buttons exist on order page in backend

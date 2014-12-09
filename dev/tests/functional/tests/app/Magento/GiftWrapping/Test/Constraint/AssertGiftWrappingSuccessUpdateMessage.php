@@ -17,14 +17,14 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
  */
 class AssertGiftWrappingSuccessUpdateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after update gift wrapping
      */
     const SUCCESS_UPDATE_MESSAGE = 'You updated a total of %d records.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that after update Gift Wrapping successful message appears

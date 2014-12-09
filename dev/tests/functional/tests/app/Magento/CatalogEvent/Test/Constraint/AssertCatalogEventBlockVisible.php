@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 class AssertCatalogEventBlockVisible extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Category Page on Frontend

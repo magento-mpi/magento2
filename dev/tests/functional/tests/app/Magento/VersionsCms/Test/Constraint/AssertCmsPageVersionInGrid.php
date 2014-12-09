@@ -19,8 +19,8 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 class AssertCmsPageVersionInGrid extends AssertCmsPageInitialVersionInGrid
 {
     /* tags */
-     const SEVERITY = 'medium';
-     /* end tags */
+    const SEVERITY = 'medium';
+    /* end tags */
 
     /**
      * Assert that created CMS page version can be found on CMS page Versions tab in grid via:

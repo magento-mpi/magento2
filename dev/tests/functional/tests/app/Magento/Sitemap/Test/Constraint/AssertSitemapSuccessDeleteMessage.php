@@ -16,11 +16,11 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
  */
 class AssertSitemapSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The sitemap has been deleted.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_DELETE_MESSAGE = 'The sitemap has been deleted.';
 
     /**
      * Assert that success message is displayed after sitemap delete

@@ -20,8 +20,8 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 class AssertSearchTermMassActionNotOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that after mass delete a search term not redirect to url in dataset

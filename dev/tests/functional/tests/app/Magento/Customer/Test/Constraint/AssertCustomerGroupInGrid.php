@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCustomerGroupInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that customer group in grid

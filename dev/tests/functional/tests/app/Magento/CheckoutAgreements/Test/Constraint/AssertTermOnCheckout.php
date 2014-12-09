@@ -26,14 +26,14 @@ use Magento\Checkout\Test\Constraint\AssertOrderSuccessPlacedMessage;
  */
 class AssertTermOnCheckout extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Notification message
      */
     const NOTIFICATION_MESSAGE = 'This is a required field.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Check that checkbox is present on the last checkout step - Order Review.

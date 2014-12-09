@@ -17,8 +17,8 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
 class AssertInvoiceReportIntervalResult extends AbstractAssertInvoiceReportResult
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sales info in report grid is actual

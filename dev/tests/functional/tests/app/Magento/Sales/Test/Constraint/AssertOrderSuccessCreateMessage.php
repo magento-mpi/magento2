@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
  */
 class AssertOrderSuccessCreateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after created sales order
      */
     const SUCCESS_MESSAGE = "You created the order.";
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after create sales order successful message appears

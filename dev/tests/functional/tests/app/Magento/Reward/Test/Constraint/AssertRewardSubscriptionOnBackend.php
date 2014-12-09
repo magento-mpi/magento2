@@ -21,8 +21,8 @@ use Mtf\Constraint\AbstractAssertForm;
 class AssertRewardSubscriptionOnBackend extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that customer reward subscriptions checkboxes are empty

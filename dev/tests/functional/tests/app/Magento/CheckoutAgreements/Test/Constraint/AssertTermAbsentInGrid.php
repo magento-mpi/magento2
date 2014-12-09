@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertTermAbsentInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that checkout agreement is absent in agreement grid.

@@ -16,11 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCustomVariableSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the custom variable.';
 
     /**
      * Assert that success delete message is correct after Custom System Variable deleted

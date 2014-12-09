@@ -17,14 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertArchiveOrderCancelMassActionErrorMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message displayed after unsuccessful orders canceling
      */
     const ERROR_MESSAGE = 'You cannot cancel the order(s).';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that error message is displayed on "Archived Orders Grid" page

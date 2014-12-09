@@ -17,14 +17,14 @@ use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
  */
 class AssertRewardPointsSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message about successful deletion reward exchange rate
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the rate.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Asserts that success delete message equals to expected message

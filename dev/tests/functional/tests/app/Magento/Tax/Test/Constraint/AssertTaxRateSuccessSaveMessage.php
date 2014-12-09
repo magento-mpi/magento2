@@ -16,11 +16,11 @@ use Magento\Tax\Test\Page\Adminhtml\TaxRateIndex;
  */
 class AssertTaxRateSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The tax rate has been saved.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The tax rate has been saved.';
 
     /**
      * Assert that success message is displayed after tax rate saved

@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertProductView extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * @param CatalogProductView $catalogProductView

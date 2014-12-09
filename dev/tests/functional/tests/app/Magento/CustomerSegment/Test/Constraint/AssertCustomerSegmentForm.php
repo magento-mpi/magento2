@@ -19,16 +19,16 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  */
 class AssertCustomerSegmentForm extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Skipped fields for verify data
      *
      * @var array
      */
     protected $skippedFields = ['conditions_serialized', 'segment_id'];
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that displayed segment data on edit page is equals passed from fixture

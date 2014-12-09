@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Add this attribute to Default attribute Template. Create product and Assert that created attribute

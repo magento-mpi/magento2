@@ -17,14 +17,14 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
  */
 class AssertGiftRegistrySuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success gift registry save message
      */
     const SUCCESS_MESSAGE = 'You saved this gift registry.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after gift registry has been created

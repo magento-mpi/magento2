@@ -19,8 +19,8 @@ use Magento\Integration\Test\Fixture\Integration;
 class AssertIntegrationNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that Integration is not presented in grid and cannot be found using name

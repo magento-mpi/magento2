@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductCompareBlockOnCmsPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Compare Products block is presented on CMS pages.

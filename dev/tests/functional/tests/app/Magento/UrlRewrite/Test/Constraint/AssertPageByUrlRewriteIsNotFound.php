@@ -19,14 +19,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertPageByUrlRewriteIsNotFound extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message on the product page 404
      */
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Checking the server response 404 page on frontend

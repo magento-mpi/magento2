@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 class AssertCatalogPriceRuleAppliedCatalogPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that Catalog Price Rule is applied for product(s) in Catalog

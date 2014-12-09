@@ -20,8 +20,8 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
 class AssertChildProductIsNotDisplayedSeparately extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that products generated during configurable product creation - are not visible on frontend(by default).

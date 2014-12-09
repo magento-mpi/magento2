@@ -19,8 +19,8 @@ use Magento\GiftRegistry\TEst\Fixture\GiftRegistryType;
 class AssertGiftRegistryTypeNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted Gift Registry type is absent in Stores > Gift Registry grid in backend

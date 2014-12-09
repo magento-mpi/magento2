@@ -19,8 +19,8 @@ use Magento\Store\Test\Fixture\Website;
 class AssertWebsiteInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Website can be found in Stores grid by name

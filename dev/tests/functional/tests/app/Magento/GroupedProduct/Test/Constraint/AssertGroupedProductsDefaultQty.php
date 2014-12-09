@@ -20,8 +20,8 @@ use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 class AssertGroupedProductsDefaultQty extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that default qty for sub products in grouped product displays according to dataset on product page

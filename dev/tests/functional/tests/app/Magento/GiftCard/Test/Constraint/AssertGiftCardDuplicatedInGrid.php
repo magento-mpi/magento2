@@ -18,8 +18,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertGiftCardDuplicatedInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that duplicated product is found by sku and has correct product type, product template,

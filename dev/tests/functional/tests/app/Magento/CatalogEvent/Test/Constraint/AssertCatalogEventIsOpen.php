@@ -15,8 +15,8 @@ namespace Magento\CatalogEvent\Test\Constraint;
 class AssertCatalogEventIsOpen extends AssertCatalogEventStatus
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Event status 'Sale Ends In' on category/product pages

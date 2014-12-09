@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertGrandTotalInShoppingCart extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that grand total is equal to expected

@@ -15,8 +15,8 @@ namespace Magento\CatalogEvent\Test\Constraint;
 class AssertCatalogEventIsClosed extends AssertCatalogEventStatus
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Event status 'Closed' on category/product pages

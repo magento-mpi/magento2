@@ -21,8 +21,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCustomerBalanceAmount extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that customer balance amount is changed

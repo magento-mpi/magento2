@@ -18,8 +18,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertProductTierPriceMessage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product has tier price message appears after adding products by sku to shopping cart

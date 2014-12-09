@@ -16,11 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTaxRuleSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The tax rule has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The tax rule has been saved.';
 
     /**
      * Assert that success message is displayed after tax rule saved

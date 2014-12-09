@@ -17,11 +17,11 @@ use Magento\Sitemap\Test\Fixture\Sitemap;
  */
 class AssertSitemapSuccessGenerateMessage extends AbstractConstraint
 {
-    const SUCCESS_GENERATE_MESSAGE = 'The sitemap "%s" has been generated.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_GENERATE_MESSAGE = 'The sitemap "%s" has been generated.';
 
     /**
      * Assert that success message is displayed after sitemap generate

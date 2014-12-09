@@ -19,8 +19,8 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchEdit;
 class AssertSearchTermReportForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Search Term Report form data equals to passed from dataSet

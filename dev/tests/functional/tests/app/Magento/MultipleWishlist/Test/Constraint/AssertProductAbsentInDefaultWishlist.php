@@ -21,8 +21,8 @@ use Mtf\Fixture\InjectableFixture;
 class AssertProductAbsentInDefaultWishlist extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product is absent in default wishlist

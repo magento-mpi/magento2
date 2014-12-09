@@ -20,8 +20,8 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
 class AssertGiftWrappingMassActionForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * @param GiftWrappingIndex $giftWrappingIndexPage

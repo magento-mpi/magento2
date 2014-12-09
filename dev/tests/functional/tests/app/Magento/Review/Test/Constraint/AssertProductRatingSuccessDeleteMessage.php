@@ -16,11 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertProductRatingSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the rating.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the rating.';
 
     /**
      * Assert that success message is displayed after rating delete

@@ -21,8 +21,8 @@ use Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Invoices\Grid;
 class AssertInvoiceInInvoicesTab extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that invoice is present in the invoices tab of the order with corresponding amount(Grand Total)

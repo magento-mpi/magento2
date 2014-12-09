@@ -17,14 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertChangePasswordFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Fail message
      */
     const FAIL_MESSAGE = "Password doesn't match for this account.";
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that fail message is present

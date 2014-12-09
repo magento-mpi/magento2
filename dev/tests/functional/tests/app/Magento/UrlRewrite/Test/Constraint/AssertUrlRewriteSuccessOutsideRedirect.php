@@ -19,8 +19,8 @@ use Magento\UrlRewrite\Test\Fixture\UrlRewrite;
 class AssertUrlRewriteSuccessOutsideRedirect extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that outside redirect was success

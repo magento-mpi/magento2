@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCustomerGroupForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields while verifying

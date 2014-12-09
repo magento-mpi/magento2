@@ -20,8 +20,8 @@ use Magento\Sales\Test\Page\Adminhtml\SalesInvoiceView;
 class AssertInvoiceItems extends AbstractAssertItems
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert invoice items on invoice view page

@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 class AssertAddToCartButtonAbsent extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Category Page

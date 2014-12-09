@@ -17,14 +17,14 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  */
 class AssertGiftRegistryItemsUpdatedFrontendSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success gift registry items update message
      */
     const SUCCESS_MESSAGE = 'You updated the gift registry items.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after gift registry items has been updated

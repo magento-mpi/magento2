@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertOrderStatusNotAssigned extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order status with status code from fixture have empty "State Code and Title" value

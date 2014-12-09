@@ -20,8 +20,8 @@ use Magento\TargetRule\Test\Page\Adminhtml\TargetRuleIndex;
 class AssertTargetRuleForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

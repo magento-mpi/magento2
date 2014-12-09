@@ -17,14 +17,14 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
  */
 class AssertWebsiteSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success website create message
      */
     const SUCCESS_MESSAGE = 'The website has been saved.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after Website has been created

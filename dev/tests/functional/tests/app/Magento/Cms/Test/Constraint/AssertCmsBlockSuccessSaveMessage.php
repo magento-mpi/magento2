@@ -17,11 +17,11 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
  */
 class AssertCmsBlockSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'The block has been saved.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_SAVE_MESSAGE = 'The block has been saved.';
 
     /**
      * Assert that after save block successful message appears

@@ -18,6 +18,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
  */
 class AssertProductForm extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * List skipped fixture fields in verify
      *
@@ -46,10 +50,6 @@ class AssertProductForm extends AbstractAssertForm
      * @var array
      */
     protected $specialArray = [];
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert form data equals fixture data

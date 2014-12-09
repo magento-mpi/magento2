@@ -18,14 +18,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductConfiguringFromRequiringAttention extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success adding product to cart message
      */
     const SUCCESS_MESSAGE = 'You added %s to your shopping cart.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that product can be configured and added to cart after added this product to cart by sku

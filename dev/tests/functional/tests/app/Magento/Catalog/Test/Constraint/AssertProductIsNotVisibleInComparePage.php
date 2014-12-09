@@ -18,11 +18,11 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  */
 class AssertProductIsNotVisibleInComparePage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You have no items to compare.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'You have no items to compare.';
 
     /**
      * Assert the product is not displayed on Compare Products page

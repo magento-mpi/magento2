@@ -19,8 +19,8 @@ use Magento\Cms\Test\Page\Adminhtml\CmsBlockIndex;
 class AssertCmsBlockInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS block can be found in grid via:

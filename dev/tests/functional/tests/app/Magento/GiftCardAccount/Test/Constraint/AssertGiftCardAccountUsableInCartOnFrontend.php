@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertGiftCardAccountUsableInCartOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that gift card usable in frontend

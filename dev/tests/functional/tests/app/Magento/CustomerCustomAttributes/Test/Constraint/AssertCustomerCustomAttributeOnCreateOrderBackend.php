@@ -21,8 +21,8 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 class AssertCustomerCustomAttributeOnCreateOrderBackend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer attribute is available during creating order on backend

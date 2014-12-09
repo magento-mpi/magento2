@@ -20,8 +20,8 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 class AssertBannerNotInCatalogRule extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted banner is absent on catalog rule creation page and can't be found by name

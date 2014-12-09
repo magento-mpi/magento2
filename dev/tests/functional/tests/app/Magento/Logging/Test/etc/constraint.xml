@@ -9,7 +9,7 @@
 -->
 <constraint>
     <assertAdminUserDataBlock module="Magento_Logging">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <pageDetails class="Magento\Logging\Test\Page\Adminhtml\Details" />
             <logging class="Magento\Logging\Test\Fixture\Logging" />

@@ -17,6 +17,10 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  */
 class AssertProductDuplicateForm extends AssertProductForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Formatting options for numeric values.
      *
@@ -39,13 +43,6 @@ class AssertProductDuplicateForm extends AssertProductForm
             'thousands_sep' => ''
         ]
     ];
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert form data equals fixture data.

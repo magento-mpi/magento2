@@ -19,8 +19,8 @@ use Mtf\Fixture\FixtureInterface;
 class AssertProductAbsentInMiniShoppingCart extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert product is absent on mini shopping cart

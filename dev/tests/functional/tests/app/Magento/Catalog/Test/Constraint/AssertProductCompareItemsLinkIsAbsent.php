@@ -17,8 +17,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductCompareItemsLinkIsAbsent extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert compare products link is NOT visible at the top of page.

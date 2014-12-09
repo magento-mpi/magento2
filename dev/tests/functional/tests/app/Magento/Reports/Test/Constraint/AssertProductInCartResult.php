@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertProductInCartResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product is present in Products in Carts report grid by name, price, carts

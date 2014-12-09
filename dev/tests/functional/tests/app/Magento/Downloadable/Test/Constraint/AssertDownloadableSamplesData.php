@@ -20,6 +20,10 @@ use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
  */
 class AssertDownloadableSamplesData extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * List downloadable sample links fields for verify
      *
@@ -38,10 +42,6 @@ class AssertDownloadableSamplesData extends AbstractAssertForm
     protected $linkField = [
         'title',
     ];
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert Sample block for downloadable product on front-end

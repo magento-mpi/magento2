@@ -18,14 +18,14 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
  */
 class AssertBannerMassDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Message that appears after deletion via mass actions
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted %d record(s).';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success delete message is appeared after banner has been deleted

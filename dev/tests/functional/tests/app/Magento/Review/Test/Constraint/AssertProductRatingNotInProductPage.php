@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductRatingNotInProductPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product rating is not displayed on frontend on product review

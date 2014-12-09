@@ -16,11 +16,11 @@ use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
  */
 class AssertCatalogPriceRuleSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The rule has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The rule has been saved.';
 
     /**
      * Assert that success message is displayed after Catalog Price Rule saved

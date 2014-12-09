@@ -17,14 +17,14 @@ use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
  */
 class AssertStoreSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success store delete message
      */
     const SUCCESS_DELETE_MESSAGE = 'The store view has been deleted.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that after store delete successful message appears

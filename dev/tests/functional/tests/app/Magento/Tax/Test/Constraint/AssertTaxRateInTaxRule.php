@@ -16,8 +16,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertTaxRateInTaxRule extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * @return void

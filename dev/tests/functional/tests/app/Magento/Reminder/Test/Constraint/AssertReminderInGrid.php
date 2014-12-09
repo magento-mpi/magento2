@@ -17,12 +17,9 @@ use Magento\Reminder\Test\Fixture\Reminder;
  */
 class AssertReminderInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert reminder with following fields is present in grid:

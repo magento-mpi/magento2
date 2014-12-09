@@ -29,8 +29,8 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 abstract class AbstractAssertMultipleWishlistState extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'Medium';
-     /* end tags */
+    const SEVERITY = 'Medium';
+    /* end tags */
 
     /**
      * Notice type

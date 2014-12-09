@@ -18,8 +18,8 @@ use Magento\Tax\Test\Fixture\TaxRate;
 class AssertTaxRateNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that tax rate not available in Tax Rate grid

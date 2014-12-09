@@ -22,8 +22,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertBannerOnCategoryPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that banner presents on specific category page

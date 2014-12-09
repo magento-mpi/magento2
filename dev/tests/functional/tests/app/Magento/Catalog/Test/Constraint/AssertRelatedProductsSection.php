@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertRelatedProductsSection extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product is displayed in related products section

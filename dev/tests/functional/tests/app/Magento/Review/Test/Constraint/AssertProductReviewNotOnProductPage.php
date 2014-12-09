@@ -21,8 +21,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertProductReviewNotOnProductPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product review Not available on product page

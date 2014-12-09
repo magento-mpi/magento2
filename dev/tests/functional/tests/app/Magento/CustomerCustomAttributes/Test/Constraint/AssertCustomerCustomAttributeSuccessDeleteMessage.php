@@ -17,14 +17,14 @@ use Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex;
  */
 class AssertCustomerCustomAttributeSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text of delete success message
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the customer attribute.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after delete customer attribute successful message appears

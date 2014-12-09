@@ -20,8 +20,8 @@ use Magento\Newsletter\Test\Page\Adminhtml\TemplatePreview;
 class AssertNewsletterPreview extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that newsletter preview opened in new window and template content correct

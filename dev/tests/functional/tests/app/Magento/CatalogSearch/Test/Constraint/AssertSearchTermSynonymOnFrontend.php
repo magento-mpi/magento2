@@ -20,8 +20,8 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 class AssertSearchTermSynonymOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that you will be redirected to url from dataset

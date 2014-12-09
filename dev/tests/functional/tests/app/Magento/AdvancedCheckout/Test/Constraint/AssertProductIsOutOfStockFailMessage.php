@@ -17,14 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertProductIsOutOfStockFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Out of stock error message
      */
     const ERROR_MESSAGE = 'Availability: Out of stock.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that out of stock error message is displayed after adding products to cart

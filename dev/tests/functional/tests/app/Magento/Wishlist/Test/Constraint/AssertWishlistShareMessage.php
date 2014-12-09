@@ -17,14 +17,14 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
  */
 class AssertWishlistShareMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success wishlist share message
      */
     const SUCCESS_MESSAGE = 'Your wish list has been shared.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after wishlist has been shared

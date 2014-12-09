@@ -20,8 +20,8 @@ use Mtf\Client\Browser;
 class AssertWidgetBannerRotatorOnProductPage extends AssertWidgetOnProductPage
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Banner Rotator widget displayed on frontend on Product page

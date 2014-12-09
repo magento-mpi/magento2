@@ -18,8 +18,8 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 class AssertSuggestSearchingResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Check that after input some text(e.g. product name) into search field, drop-down window is appeared.

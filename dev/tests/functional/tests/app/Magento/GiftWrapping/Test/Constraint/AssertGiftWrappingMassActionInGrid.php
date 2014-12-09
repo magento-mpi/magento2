@@ -19,8 +19,8 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
 class AssertGiftWrappingMassActionInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert Gift Wrapping availability in Gift Wrapping grid after mass action

@@ -18,8 +18,8 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
 abstract class AbstractAssertCustomerOrderReportResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Prepare filter

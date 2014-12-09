@@ -15,8 +15,8 @@ namespace Magento\CustomerSegment\Test\Constraint;
 class AssertCustomerSegmentMatchedCustomerWithCart extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that grid on 'Matched Customer' tab contains customer according to conditions(it need save condition

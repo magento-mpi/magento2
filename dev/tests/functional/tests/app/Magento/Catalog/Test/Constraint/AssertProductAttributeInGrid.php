@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
 class AssertProductAttributeInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created product attribute is found in grid

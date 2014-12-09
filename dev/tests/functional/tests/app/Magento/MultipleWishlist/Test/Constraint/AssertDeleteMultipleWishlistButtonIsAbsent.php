@@ -18,8 +18,8 @@ use Magento\Wishlist\Test\Page\WishlistIndex;
 class AssertDeleteMultipleWishlistButtonIsAbsent extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'Medium';
-     /* end tags */
+    const SEVERITY = 'Medium';
+    /* end tags */
 
     /**
      * Assert that there is no "Delete Wishlist" button for Customer

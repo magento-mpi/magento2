@@ -16,11 +16,11 @@ use Magento\User\Test\Page\Adminhtml\UserEdit;
  */
 class AssertImpossibleDeleteYourOwnAccount extends AbstractConstraint
 {
-    const ERROR_MESSAGE = 'You cannot delete your own account.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const ERROR_MESSAGE = 'You cannot delete your own account.';
 
     /**
      * Asserts that error message equals to expected message.

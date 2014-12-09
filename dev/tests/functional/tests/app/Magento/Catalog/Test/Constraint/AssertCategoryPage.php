@@ -21,8 +21,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCategoryPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed category data on category page equals to passed from fixture

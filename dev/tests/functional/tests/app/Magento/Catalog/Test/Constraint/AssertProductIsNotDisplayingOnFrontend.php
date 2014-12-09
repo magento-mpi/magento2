@@ -22,14 +22,14 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertProductIsNotDisplayingOnFrontend extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message on the product page 404
      */
     const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Product view page

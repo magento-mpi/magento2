@@ -18,14 +18,14 @@ use Magento\Invitation\Test\Page\InvitationIndex;
  */
 class AssertInvitationFrontendSuccessSentMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success sent message
      */
     const SUCCESS_MESSAGE = "You sent the invitation for %s.";
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message appears after sent invitation on frontend

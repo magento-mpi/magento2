@@ -19,8 +19,8 @@ use Magento\CatalogSearch\Test\Page\CatalogsearchResult;
 class AssertProductSearchableBySku extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Displays an error message

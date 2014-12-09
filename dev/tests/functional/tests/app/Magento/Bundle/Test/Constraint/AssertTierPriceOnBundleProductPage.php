@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
 class AssertTierPriceOnBundleProductPage extends AssertProductTierPriceOnProductPage
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Tier price block

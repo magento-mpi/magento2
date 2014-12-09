@@ -24,8 +24,8 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
 class AssertCustomerCustomAttributeOnCheckoutRegister extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer attribute is available during register customer on checkout

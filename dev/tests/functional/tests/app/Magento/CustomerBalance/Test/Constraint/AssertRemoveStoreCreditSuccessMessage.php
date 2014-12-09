@@ -17,14 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertRemoveStoreCreditSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after remove store credit
      */
     const SUCCESS_REMOVE_MESSAGE = 'The store credit payment has been removed from shopping cart.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after remove store credit successful message appears

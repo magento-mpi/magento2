@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCategoryAbsenceOnBackend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that not displayed category in backend catalog category tree

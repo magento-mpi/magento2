@@ -22,8 +22,8 @@ use Magento\Widget\Test\Fixture\Widget;
 class AssertWidgetCatalogEvent extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that widget catalog event carousel is present on category page and link "Go To Sale" on widget redirects

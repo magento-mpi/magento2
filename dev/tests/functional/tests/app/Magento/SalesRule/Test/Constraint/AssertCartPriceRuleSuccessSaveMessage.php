@@ -16,11 +16,11 @@ use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
  */
 class AssertCartPriceRuleSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The rule has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The rule has been saved.';
 
     /**
      * Assert that success message is displayed after sales rule save

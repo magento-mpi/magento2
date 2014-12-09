@@ -19,8 +19,8 @@ use Magento\Reports\Test\Page\Adminhtml\SalesCouponReportView;
 class AssertCouponReportResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert coupon info in report: code, rule name, subtotal, discount on coupons report page

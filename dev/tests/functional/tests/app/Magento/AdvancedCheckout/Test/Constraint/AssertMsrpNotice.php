@@ -18,8 +18,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertMsrpNotice extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that notice is present that product with enabled MAP

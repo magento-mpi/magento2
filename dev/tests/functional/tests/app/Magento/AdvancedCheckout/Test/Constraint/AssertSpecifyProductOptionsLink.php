@@ -18,8 +18,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertSpecifyProductOptionsLink extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that specify products options link is displayed after adding products to cart

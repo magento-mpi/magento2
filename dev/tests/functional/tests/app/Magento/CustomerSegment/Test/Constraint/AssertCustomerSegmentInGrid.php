@@ -19,8 +19,8 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
 class AssertCustomerSegmentInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer segment presents in grid and has correct 'Segment','Status','Website'

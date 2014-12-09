@@ -19,12 +19,9 @@ use Magento\Sales\Test\Fixture\OrderInjectable;
  */
 class AssertRmaOnFrontendForGuest extends AbstractAssertRmaOnFrontend
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that rma is correct display for guest on frontend (Orders and Returns):

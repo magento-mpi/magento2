@@ -17,14 +17,14 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageVersionSuccessMassDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'medium';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
-
-    /* tags */
-     const SEVERITY = 'medium';
-     /* end tags */
 
     /**
      * Assert that success delete message is displayed on the page

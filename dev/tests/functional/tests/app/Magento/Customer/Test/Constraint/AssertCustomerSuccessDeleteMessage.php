@@ -16,11 +16,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
  */
 class AssertCustomerSuccessDeleteMessage extends AbstractConstraint
 {
-    const DELETE_MESSAGE = 'You deleted the customer.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const DELETE_MESSAGE = 'You deleted the customer.';
 
     /**
      * Asserts that actual delete message equals expected

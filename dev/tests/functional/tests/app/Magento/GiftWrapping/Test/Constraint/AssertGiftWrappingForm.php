@@ -19,8 +19,8 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingNew;
 class AssertGiftWrappingForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields while verifying

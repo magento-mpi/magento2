@@ -21,8 +21,8 @@ use Magento\CatalogSearch\Test\Fixture\CatalogSearchQuery;
 class AssertSearchTermOnFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Search block on CMS index page

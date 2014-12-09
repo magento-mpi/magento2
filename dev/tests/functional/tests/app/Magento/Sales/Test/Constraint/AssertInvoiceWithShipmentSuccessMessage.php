@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
  */
 class AssertInvoiceWithShipmentSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_MESSAGE = 'You created the invoice and shipment.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert success message presents

@@ -20,6 +20,10 @@ use Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
  */
 class AssertDownloadableLinksData extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * List downloadable link fields for verify
      *
@@ -40,10 +44,6 @@ class AssertDownloadableLinksData extends AbstractAssertForm
         'links_purchased_separately',
         'price'
     ];
-    
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert Link block for downloadable product on front-end

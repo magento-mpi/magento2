@@ -14,8 +14,8 @@ namespace Magento\Tax\Test\Constraint;
 class AssertTaxRuleIsNotApplied extends AssertTaxRuleApplying
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that tax rule is not applied on product in shopping cart.

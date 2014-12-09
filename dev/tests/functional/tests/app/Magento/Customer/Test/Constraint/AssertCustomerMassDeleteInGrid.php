@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCustomerMassDeleteInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that customers which haven't been deleted are present in customer grid

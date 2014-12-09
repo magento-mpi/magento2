@@ -17,14 +17,14 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
  */
 class AssertInvitationErrorSentMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Error send message.
      */
     const ERROR_MESSAGE = "Something went wrong sending %d of %d invitations.";
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that error message appears after sending invitation on backend.

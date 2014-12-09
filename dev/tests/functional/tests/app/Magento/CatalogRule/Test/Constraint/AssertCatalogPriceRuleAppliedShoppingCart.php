@@ -21,8 +21,8 @@ use Magento\Checkout\Test\Page\CheckoutCart;
 class AssertCatalogPriceRuleAppliedShoppingCart extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that Catalog Price Rule is applied for product(s) in Shopping Cart

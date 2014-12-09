@@ -20,11 +20,11 @@ use Magento\Cms\Test\Fixture\CmsPage;
  */
 class AssertCmsPageDisabledOnFrontend extends AbstractConstraint
 {
-    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
     /**
      * Assert that created CMS page with 'Status' - Disabled displays with '404 Not Found' message on Frontend.

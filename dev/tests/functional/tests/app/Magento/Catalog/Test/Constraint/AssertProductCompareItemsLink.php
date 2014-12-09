@@ -17,8 +17,8 @@ use Magento\Cms\Test\Page\CmsIndex;
 class AssertProductCompareItemsLink extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that link "Compare Products..." on top menu of page

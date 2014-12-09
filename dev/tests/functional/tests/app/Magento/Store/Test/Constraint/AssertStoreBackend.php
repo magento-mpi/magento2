@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertStoreBackend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created store view displays in backend configuration (Stores > Configuration > "Scope" dropdown)

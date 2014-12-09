@@ -18,11 +18,11 @@ use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
  */
 class AssertBannerSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'You saved the banner.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_SAVE_MESSAGE = 'You saved the banner.';
 
     /**
      * Assert that after banner save "You saved the banner." successful message appears

@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
 abstract class AssertCatalogEventStatus extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Catalog Event status

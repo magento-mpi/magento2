@@ -19,8 +19,8 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 class AssertSearchTermInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that after save a term search on edit term search page displays:

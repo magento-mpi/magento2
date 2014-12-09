@@ -20,8 +20,8 @@ use Magento\Widget\Test\Fixture\Widget;
 class AssertWidgetOnFrontendInCatalog extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created widget displayed on frontent in Catalog

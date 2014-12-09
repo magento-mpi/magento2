@@ -16,11 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertTargetRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the rule.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the rule.';
 
     /**
      * Assert that success message is displayed after target rule delete

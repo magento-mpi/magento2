@@ -17,14 +17,14 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
  */
 class AssertProductTemplateSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_DELETE_MESSAGE = 'The attribute set has been removed.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after deleting product template success delete message appears

@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertProductQtyInMiniShoppingCart extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product quantity in the mini shopping cart is equals to expected quantity from data set

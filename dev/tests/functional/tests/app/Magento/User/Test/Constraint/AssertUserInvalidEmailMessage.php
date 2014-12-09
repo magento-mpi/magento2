@@ -17,11 +17,11 @@ use Magento\User\Test\Fixture\User;
  */
 class AssertUserInvalidEmailMessage extends AbstractConstraint
 {
-    const ERROR_MESSAGE = 'Please correct this email address: "%s".';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const ERROR_MESSAGE = 'Please correct this email address: "%s".';
 
     /**
      * Asserts that error message equals to expected message.

@@ -15,8 +15,8 @@ namespace Magento\CustomerSegment\Test\Constraint;
 class AssertCustomerSegmentInCartPriceRuleIsNotApplying extends AbstractAssertCustomerSegmentPriceRuleApplying
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that shopping cart subtotal equals with grand total

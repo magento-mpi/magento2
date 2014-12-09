@@ -17,14 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertRewardPointsSuccessRemoveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after remove reward points
      */
     const SUCCESS_REMOVE_MESSAGE = 'You removed the reward points from this order.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after remove reward points successful message appears

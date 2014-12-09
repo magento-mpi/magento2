@@ -19,8 +19,8 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveShipments;
 class AssertArchiveShipmentInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Shipment with corresponding fixture data is present in Sales Archive Shipments grid

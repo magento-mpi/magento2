@@ -22,8 +22,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 class AssertPriceInShoppingCart extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that price in the shopping cart equals to expected price from data set

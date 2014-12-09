@@ -19,8 +19,8 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 class AssertArchiveOrderNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order is absent in archive orders grid

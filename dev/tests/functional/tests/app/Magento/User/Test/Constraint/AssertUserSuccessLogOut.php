@@ -18,8 +18,8 @@ use Magento\Backend\Test\Page\AdminAuthLogin;
 class AssertUserSuccessLogOut extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Asserts that 'You have logged out.' message is present on page

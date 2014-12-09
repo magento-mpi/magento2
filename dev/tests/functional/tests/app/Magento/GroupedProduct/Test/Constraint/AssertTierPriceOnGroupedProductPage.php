@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Constraint\AssertProductTierPriceOnProductPage;
 class AssertTierPriceOnGroupedProductPage extends AbstractAssertPriceOnGroupedProductPage
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Format error message

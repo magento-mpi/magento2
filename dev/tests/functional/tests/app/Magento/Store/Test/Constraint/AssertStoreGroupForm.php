@@ -20,8 +20,8 @@ use Magento\Backend\Test\Page\Adminhtml\EditGroup;
 class AssertStoreGroupForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

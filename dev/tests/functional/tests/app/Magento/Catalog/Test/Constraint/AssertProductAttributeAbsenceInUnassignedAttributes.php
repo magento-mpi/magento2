@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductSetIndex;
 class AssertProductAttributeAbsenceInUnassignedAttributes extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that deleted attribute isn't displayed in Product template's Unassigned Attributes section

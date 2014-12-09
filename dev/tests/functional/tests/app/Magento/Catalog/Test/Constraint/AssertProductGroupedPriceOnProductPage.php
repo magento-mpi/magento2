@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertProductGroupedPriceOnProductPage extends AbstractConstraint implements AssertPriceOnProductPageInterface
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Error message

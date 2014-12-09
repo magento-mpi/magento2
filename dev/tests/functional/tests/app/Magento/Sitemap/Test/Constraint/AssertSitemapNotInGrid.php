@@ -18,8 +18,8 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 class AssertSitemapNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sitemap not availability in sitemap grid

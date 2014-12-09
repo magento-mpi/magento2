@@ -19,8 +19,8 @@ use Magento\SalesArchive\Test\Page\Adminhtml\ArchiveOrders;
 class AssertArchiveOrderInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order with fixture data is in archive orders grid

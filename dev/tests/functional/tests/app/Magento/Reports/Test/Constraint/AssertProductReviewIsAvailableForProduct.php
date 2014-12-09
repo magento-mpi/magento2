@@ -21,8 +21,8 @@ use Magento\Review\Test\Constraint\AssertProductReviewInGrid;
 class AssertProductReviewIsAvailableForProduct extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that review is visible in review grid for select product

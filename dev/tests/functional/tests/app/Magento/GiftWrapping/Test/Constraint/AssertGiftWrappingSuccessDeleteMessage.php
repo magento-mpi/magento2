@@ -17,14 +17,14 @@ use Magento\GiftWrapping\Test\Page\Adminhtml\GiftWrappingIndex;
  */
 class AssertGiftWrappingSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message displayed after delete gift wrapping
      */
     const SUCCESS_DELETE_MESSAGE = 'You deleted the gift wrapping.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that after delete Gift Wrapping successful message appears

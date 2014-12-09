@@ -18,12 +18,9 @@ use Magento\UrlRewrite\Test\Page\Adminhtml\UrlRewriteIndex;
  */
 class AssertUrlRewriteUpdatedProductInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product url in url rewrite grid.

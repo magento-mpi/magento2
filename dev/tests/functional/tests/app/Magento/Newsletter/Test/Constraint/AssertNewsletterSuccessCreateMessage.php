@@ -18,11 +18,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertNewsletterSuccessCreateMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The newsletter template has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The newsletter template has been saved.';
 
     /**
      * Assert that success message is displayed after newsletter template save

@@ -9,16 +9,16 @@
 -->
 <constraint>
     <assertGiftCardProductAddToCartForm module="Magento_GiftCard">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertGiftCardProductAddToCartForm>
     <assertGiftCardProductForm module="Magento_GiftCard">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertGiftCardProductForm>
     <assertGiftCardProductPage module="Magento_GiftCard">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertGiftCardProductPage>
     <assertGiftCardDuplicatedInGrid module="Magento_GiftCard">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
             <productPage class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit" />
@@ -26,16 +26,16 @@
         </require>
     </assertGiftCardDuplicatedInGrid>
     <assertGiftCardDuplicateForm module="Magento_GiftCard">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <product class="Mtf\Fixture\FixtureInterface" />
             <productGrid class="Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex" />
         </require>
     </assertGiftCardDuplicateForm>
     <assertGiftCardProductInCustomerWishlistOnBackendGrid module="Magento_GiftCard">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardProductInCustomerWishlistOnBackendGrid>
     <assertGiftCardInGrid module="Magento_GiftCard">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertGiftCardInGrid>
 </constraint>

@@ -18,14 +18,14 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
  */
 class AssertChildProductsInGrid extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Default status visibility on child products
      */
     const NOT_VISIBLE_INDIVIDUALLY = 'Not Visible Individually';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that child products generated during configurable product are present in products grid

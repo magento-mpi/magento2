@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertCustomVariableInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert custom variable is displayed on backend in custom variable grid

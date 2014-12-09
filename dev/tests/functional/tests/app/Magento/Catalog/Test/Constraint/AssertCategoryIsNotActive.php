@@ -19,11 +19,11 @@ use Magento\Catalog\Test\Fixture\CatalogCategory;
  */
 class AssertCategoryIsNotActive extends AbstractConstraint
 {
-    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const NOT_FOUND_MESSAGE = 'Whoops, our bad...';
 
     /**
      * Assert that the category cannot be accessed from the navigation bar in the frontend

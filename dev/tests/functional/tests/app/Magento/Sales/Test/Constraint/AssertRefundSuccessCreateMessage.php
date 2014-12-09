@@ -17,14 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderView;
  */
 class AssertRefundSuccessCreateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_CREATE_MESSAGE = 'You created the credit memo.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success create credit memo message is present on order view page

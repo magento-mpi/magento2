@@ -21,8 +21,8 @@ use Magento\Sales\Test\Constraint\AbstractAssertItems;
 class AssertArchiveCreditMemoItems extends AbstractAssertItems
 {
     /* tags */
-     const SEVERITY = 'medium';
-     /* end tags */
+    const SEVERITY = 'medium';
+    /* end tags */
 
     /**
      * Assert returned product represented on Credit memo page:

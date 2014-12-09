@@ -20,8 +20,8 @@ use Magento\Sales\Test\Page\Adminhtml\SalesCreditMemoView;
 class AssertCreditMemoItems extends AbstractAssertItems
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert credit memo items on credit memo view page

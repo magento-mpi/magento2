@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 class AssertProductAttributeAbsenceInSearchOnProductForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that deleted attribute can't be added to product template on Product Page via Add Attribute control

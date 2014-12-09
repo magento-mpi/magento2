@@ -21,8 +21,8 @@ use Magento\Core\Test\Page\Adminhtml\SystemVariableNew;
 class AssertCustomVariableForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

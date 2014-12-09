@@ -20,8 +20,8 @@ use Mtf\Constraint\AbstractAssertForm;
 class AssertNewsletterForm extends AbstractAssertForm
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that newsletter template form data equals to data passed from fixture

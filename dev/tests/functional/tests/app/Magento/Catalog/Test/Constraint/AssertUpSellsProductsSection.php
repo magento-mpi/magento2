@@ -21,8 +21,8 @@ use Mtf\Fixture\FixtureInterface;
 class AssertUpSellsProductsSection extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product is displayed in up-sell section

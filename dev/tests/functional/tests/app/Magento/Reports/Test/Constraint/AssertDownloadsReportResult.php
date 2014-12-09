@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertDownloadsReportResult extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert product info in report: product name, link title, sku, downloads number (Reports > Products > Downloads)

@@ -16,11 +16,11 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductAttributeIndex;
  */
 class AssertProductAttributeSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the product attribute.';
-
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'You saved the product attribute.';
 
     /**
      * Assert that message "You saved the product attribute." is present on Attribute page

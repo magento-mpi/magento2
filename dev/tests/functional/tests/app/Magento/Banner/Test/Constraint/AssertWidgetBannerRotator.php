@@ -20,8 +20,8 @@ use Magento\CatalogSearch\Test\Page\AdvancedSearch;
 class AssertWidgetBannerRotator extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Banner Rotator widget displayed on frontent on Home page and on Advanced Search

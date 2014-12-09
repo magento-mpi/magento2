@@ -23,8 +23,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertProductReviewOnProductPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that product review available on product page

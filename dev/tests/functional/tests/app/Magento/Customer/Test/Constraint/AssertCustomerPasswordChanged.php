@@ -18,12 +18,9 @@ use Mtf\Fixture\FixtureFactory;
  */
 class AssertCustomerPasswordChanged extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that login again to frontend with new password was success.

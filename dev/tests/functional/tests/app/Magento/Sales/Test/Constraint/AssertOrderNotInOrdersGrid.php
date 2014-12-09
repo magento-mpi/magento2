@@ -19,8 +19,8 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertOrderNotInOrdersGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that order with fixture data in not more in the Orders grid

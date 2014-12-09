@@ -17,12 +17,12 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertUserRoleSalesRestrictedAccess extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     const ROLE_RESOURCE = 'sales';
     const DENIED_ACCESS = 'Access denied';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Asserts that user has only Sales-related permissions

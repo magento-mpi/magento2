@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertGiftWrappingInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert Gift Wrapping availability in Gift Wrapping grid

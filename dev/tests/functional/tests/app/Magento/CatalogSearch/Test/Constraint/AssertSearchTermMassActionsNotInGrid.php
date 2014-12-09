@@ -19,8 +19,8 @@ use Magento\CatalogSearch\Test\Page\Adminhtml\CatalogSearchIndex;
 class AssertSearchTermMassActionsNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that after mass delete search terms on grid page are not displayed

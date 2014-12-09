@@ -21,6 +21,10 @@ use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
  */
 class AssertProductPage extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
+
     /**
      * Product view block on frontend page
      *
@@ -34,10 +38,6 @@ class AssertProductPage extends AbstractAssertForm
      * @var ConfigurableProductInjectable
      */
     protected $product;
-
-    /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
 
     /**
      * Assert that displayed product data on product page(front-end) equals passed from fixture:

@@ -19,8 +19,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertStoreFrontend extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created store view available on frontend (store view selector on page top)

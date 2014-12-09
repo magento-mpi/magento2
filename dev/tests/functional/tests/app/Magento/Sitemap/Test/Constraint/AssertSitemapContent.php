@@ -22,8 +22,8 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 class AssertSitemapContent extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sitemap.xml file contains correct content according to dataset:

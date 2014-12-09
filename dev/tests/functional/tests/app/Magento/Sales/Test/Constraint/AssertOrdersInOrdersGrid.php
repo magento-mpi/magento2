@@ -19,8 +19,8 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
 class AssertOrdersInOrdersGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that orders are present in Sales -> Orders Grid

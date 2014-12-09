@@ -24,8 +24,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertRewardNoExchangeMessageForCurrencyToPoints extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that "Each $X spent will earn X Reward points" message is not displayed on the RewardCustomerInfo page.

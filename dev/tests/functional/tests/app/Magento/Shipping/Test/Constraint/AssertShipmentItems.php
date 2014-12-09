@@ -21,8 +21,8 @@ use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
 class AssertShipmentItems extends AbstractAssertItems
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Shipment index page

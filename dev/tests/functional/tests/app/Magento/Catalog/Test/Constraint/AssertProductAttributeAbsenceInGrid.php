@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 class AssertProductAttributeAbsenceInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that after deleted product attribute cannot be found by attribute code.

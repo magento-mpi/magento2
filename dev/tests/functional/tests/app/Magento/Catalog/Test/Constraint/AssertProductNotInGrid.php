@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class AssertProductNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product cannot be found by name and sku

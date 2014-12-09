@@ -20,8 +20,8 @@ use Mtf\Client\Browser;
 class AssertWidgetOnProductPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created widget displayed on frontend on Product page

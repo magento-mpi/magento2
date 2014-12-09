@@ -18,16 +18,16 @@ use Magento\Newsletter\Test\Page\Adminhtml\TemplateQueue;
  */
 class AssertNewsletterQueue extends AbstractAssertForm
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Skipped fields for verify data
      *
      * @var array
      */
     protected $skippedFields = ['code'];
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that "Edit Queue" page opened and subject, sender name, sender email and template content correct

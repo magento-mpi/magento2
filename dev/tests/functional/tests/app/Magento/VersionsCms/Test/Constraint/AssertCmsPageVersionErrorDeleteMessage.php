@@ -17,14 +17,14 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageVersionErrorDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'medium';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const ERROR_DELETE_MESSAGE = 'Version "%s" cannot be removed because its revision is published.';
-
-    /* tags */
-     const SEVERITY = 'medium';
-     /* end tags */
 
     /**
      * Assert that error delete message is displayed on the page

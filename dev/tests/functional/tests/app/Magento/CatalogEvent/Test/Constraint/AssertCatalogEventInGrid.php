@@ -20,8 +20,8 @@ use Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex;
 class AssertCatalogEventInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Catalog Event fixture

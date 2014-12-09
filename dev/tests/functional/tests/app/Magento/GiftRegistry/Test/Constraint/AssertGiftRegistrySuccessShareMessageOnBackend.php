@@ -17,14 +17,14 @@ use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
  */
 class AssertGiftRegistrySuccessShareMessageOnBackend extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success gift registry share message on backend
      */
     const SUCCESS_MESSAGE = '%d email(s) were sent.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after gift registry has been share on backend

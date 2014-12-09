@@ -19,14 +19,14 @@ use Mtf\Fixture\InjectableFixture;
  */
 class AssertProductAttributeIsRequired extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Expected message.
      */
     const REQUIRE_MESSAGE = 'This is a required field.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Check whether the attribute is mandatory.

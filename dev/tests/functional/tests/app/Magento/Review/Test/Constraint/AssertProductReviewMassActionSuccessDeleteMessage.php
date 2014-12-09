@@ -18,14 +18,14 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
  */
 class AssertProductReviewMassActionSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Message that appears after deletion via mass actions
      */
     const SUCCESS_DELETE_MESSAGE = 'A total of %d record(s) have been deleted.';
-
-    /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
 
     /**
      * Assert that success message is displayed after deletion via mass actions

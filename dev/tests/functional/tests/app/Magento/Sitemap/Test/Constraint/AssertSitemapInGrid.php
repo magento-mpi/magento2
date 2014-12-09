@@ -18,8 +18,8 @@ use Magento\Sitemap\Test\Page\Adminhtml\SitemapIndex;
 class AssertSitemapInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sitemap availability in sitemap grid

@@ -21,8 +21,8 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 class AssertCustomerForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'middle';
-     /* end tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

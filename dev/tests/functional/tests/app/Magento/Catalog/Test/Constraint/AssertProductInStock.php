@@ -19,8 +19,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertProductInStock extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Text value for checking Stock Availability

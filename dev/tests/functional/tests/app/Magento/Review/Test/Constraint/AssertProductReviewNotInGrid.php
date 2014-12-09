@@ -20,8 +20,8 @@ use Magento\Review\Test\Page\Adminhtml\ReviewIndex;
 class AssertProductReviewNotInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Filter params

@@ -18,14 +18,14 @@ use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
  */
 class AssertGiftCardSuccessAddMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_APPLY_MESSAGE = 'Gift Card "%s" was added.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that success apply message is displayed on "Shopping Cart" frontend page

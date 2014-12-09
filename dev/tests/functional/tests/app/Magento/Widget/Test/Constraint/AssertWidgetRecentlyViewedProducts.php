@@ -22,6 +22,10 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Browser
      *
@@ -42,10 +46,6 @@ class AssertWidgetRecentlyViewedProducts extends AbstractConstraint
      * @var CatalogCategoryView
      */
     protected $catalogCategoryView;
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert that widget with type Recently Viewed Products is present on category page

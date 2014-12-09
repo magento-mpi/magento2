@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertOrderTotalOnReviewPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that Order Grand Total is correct on checkoutOnePage

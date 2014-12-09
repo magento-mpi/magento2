@@ -20,8 +20,8 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
 class AssertBundlePriceType extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Product price type

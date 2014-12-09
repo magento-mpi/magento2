@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertTaxRuleInGrid extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'high';
-     /* end tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert tax rule availability in Tax Rule grid

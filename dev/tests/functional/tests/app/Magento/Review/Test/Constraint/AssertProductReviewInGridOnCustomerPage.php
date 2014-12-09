@@ -22,8 +22,8 @@ use Magento\Review\Test\Block\Adminhtml\Product\Grid as ReviewsGrid;
 class AssertProductReviewInGridOnCustomerPage extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Asserts all Product Review variables in the reviews grid on customer page

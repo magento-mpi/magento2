@@ -18,14 +18,14 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
  */
 class AssertMassActionSuccessUpdateMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const UPDATE_MESSAGE = 'A total of %d record(s) were updated.';
-
-    /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
 
     /**
      * Assert update message is appears on customer grid (Customers > All Customers)

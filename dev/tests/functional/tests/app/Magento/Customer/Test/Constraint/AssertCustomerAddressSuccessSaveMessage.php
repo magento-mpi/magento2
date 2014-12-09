@@ -16,11 +16,11 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
  */
 class AssertCustomerAddressSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The address has been saved.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'The address has been saved.';
 
     /**
      * Asserts that success message equals to expected message

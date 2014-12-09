@@ -17,11 +17,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
  */
 class AssertCustomerSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the customer.';
-
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
+    const SUCCESS_MESSAGE = 'You saved the customer.';
 
     /**
      * Assert that success message is displayed after customer save

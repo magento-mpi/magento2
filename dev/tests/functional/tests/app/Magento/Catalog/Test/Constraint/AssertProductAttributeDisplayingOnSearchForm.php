@@ -18,8 +18,8 @@ use Mtf\Constraint\AbstractConstraint;
 class AssertProductAttributeDisplayingOnSearchForm extends AbstractConstraint
 {
     /* tags */
-     const SEVERITY = 'low';
-     /* end tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Check whether attribute is displayed in the advanced search form on the frontend.
