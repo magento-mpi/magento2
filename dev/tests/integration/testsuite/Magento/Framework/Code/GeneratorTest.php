@@ -97,7 +97,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . 'Factory'))
             );
             $expectedContent = $this->_clearDocBlock(
-                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceFactory.php')
+                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceFactory.php.sample')
             );
             $this->assertEquals($expectedContent, $content);
         }
@@ -122,7 +122,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 file_get_contents($this->_ioObject->getResultFileName(self::CLASS_NAME_WITH_NAMESPACE . '\Proxy'))
             );
             $expectedContent = $this->_clearDocBlock(
-                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceProxy.php')
+                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceProxy.php.sample')
             );
             $this->assertEquals($expectedContent, $content);
         }
@@ -145,7 +145,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 )
             );
             $expectedContent = $this->_clearDocBlock(
-                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceInterceptor.php')
+                file_get_contents(__DIR__ . '/_expected/SourceClassWithNamespaceInterceptor.php.sample')
             );
             $this->assertEquals($expectedContent, $content);
         }

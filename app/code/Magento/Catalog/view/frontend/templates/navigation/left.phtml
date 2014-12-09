@@ -13,10 +13,10 @@
  */
 ?>
 <?php if (!$this->getCategory()) {
-    return ?>
-<?php $_categories = $this->getCurrentChildCategories() ?>
-<?php $_count = is_array($_categories) ? count($_categories) : $_categories->count();
+    return;
 } ?>
+<?php $_categories = $this->getCurrentChildCategories(); ?>
+<?php $_count = is_array($_categories) ? count($_categories) : $_categories->count(); ?>
 <?php if ($_count): ?>
     <div class="block filter">
         <div class="title">

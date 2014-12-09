@@ -8,9 +8,9 @@
 
 namespace Magento\Test\Integrity;
 
-use Magento\Framework\Exception;
-use Magento\Framework\Shell;
 use Magento\Framework\Test\Utility\Files;
+use Magento\Framework\Shell;
+use Magento\Framework\Exception;
 use Magento\Tools\Composer\Helper\ReplaceFilter;
 
 /**
@@ -318,7 +318,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
      */
     private static function createShell()
     {
-        return new Shell(new Shell\CommandRenderer(), null);
+        return new Shell(new Shell\CommandRenderer, null);
     }
 
     /**

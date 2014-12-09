@@ -9,7 +9,7 @@ namespace Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace;
  * @copyright {copyright}
  * @license   {license_link}
  */
-class SourceClassWithNamespaceProxy extends \Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace
+class Proxy extends \Magento\Framework\Code\GeneratorTest\SourceClassWithNamespace
 {
     /**
      * Object Manager instance
@@ -58,7 +58,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Framework\Code\GeneratorTes
      */
     public function __sleep()
     {
-        return ['_subject', '_isShared'];
+        return array('_subject', '_isShared');
     }
 
     /**
@@ -95,7 +95,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Framework\Code\GeneratorTes
     /**
      * {@inheritdoc}
      */
-    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = [])
+    public function publicChildMethod(\Zend\Code\Generator\ClassGenerator $classGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
     {
         return $this->_getSubject()->publicChildMethod($classGenerator, $param1, $param2, $param3, $array);
     }
@@ -119,7 +119,7 @@ class SourceClassWithNamespaceProxy extends \Magento\Framework\Code\GeneratorTes
     /**
      * {@inheritdoc}
      */
-    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = [])
+    public function publicParentMethod(\Zend\Code\Generator\DocBlockGenerator $docBlockGenerator, $param1 = '', $param2 = '\\', $param3 = '\'', array $array = array())
     {
         return $this->_getSubject()->publicParentMethod($docBlockGenerator, $param1, $param2, $param3, $array);
     }
