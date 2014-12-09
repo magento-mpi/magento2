@@ -88,9 +88,7 @@
         .bundle-summary .subtitle {
             border-bottom: 1px #e4e4e4 solid;
             padding-bottom: 16px;
-            margin-bottom: 25px;
-        }
-        .product-details {
+            margin-bottom: @indent-m-base;
         }
         .price-box {
             margin-bottom: @indent-base;
@@ -98,14 +96,6 @@
                 display: block;
                 margin-bottom: @indent-xs-base;
             }
-            .price {
-                font-size: @price-size;
-                line-height: @price-size;
-                font-weight: @font-weight-semibold;
-                color: @price-color;
-            }
-        }
-        .field.qty {
         }
 
         .bundle-summary {
@@ -200,11 +190,9 @@
             float: right;
             width: 40%;
             position: relative;
-            > .title,
-            .bundle-summary .subtitle {
-            }
             .price-box {
-                .price {
+                .price-wrapper,
+                .price-wrapper > .price {
                     font-size: @price-size-desktop;
                     line-height: @price-size-desktop;
                 }
