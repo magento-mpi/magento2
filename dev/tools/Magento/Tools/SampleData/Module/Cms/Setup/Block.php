@@ -32,14 +32,9 @@ class Block implements SetupInterface
     protected $fixtures;
 
     /**
-     * @var \Magento\Catalog\Service\V1\Category\WriteServiceInterface
+     * @var \Magento\Catalog\Api\CategoryRepositoryInterface
      */
-    protected $categoryWriteService;
-
-    /**
-     * @var \Magento\Catalog\Service\V1\Data\CategoryBuilder
-     */
-    protected $categoryDataBuilder;
+    protected $categoryRepository;
 
     /**
      * @var \Magento\Tools\SampleData\Helper\Csv\ReaderFactory
@@ -47,12 +42,17 @@ class Block implements SetupInterface
     protected $csvReaderFactory;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param Block\Converter $converter
-     * @param \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService
-     * @param \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder
+     * @param \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository
+     * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
      */
     public function __construct(
@@ -60,20 +60,20 @@ class Block implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         Block\Converter $converter,
-        \Magento\Catalog\Service\V1\Category\WriteServiceInterface $categoryWriteService,
-        \Magento\Catalog\Service\V1\Data\CategoryBuilder $categoryDataBuilder,
+        \Magento\Catalog\Api\CategoryRepositoryInterface $categoryRepository,
+        \Magento\Tools\SampleData\Logger $logger,
         $fixtures = array()
     ) {
         $this->fixtureHelper = $fixtureHelper;
         $this->csvReaderFactory = $csvReaderFactory;
         $this->blockFactory = $blockFactory;
         $this->converter = $converter;
-        $this->categoryWriteService = $categoryWriteService;
-        $this->categoryDataBuilder = $categoryDataBuilder;
+        $this->categoryRepository = $categoryRepository;
         $this->fixtures = $fixtures;
         if (empty($this->fixtures)) {
             $this->fixtures = $this->fixtureHelper->getDirectoryFiles('Cms/Block');
         }
+        $this->logger = $logger;
     }
 
     /**
@@ -81,7 +81,7 @@ class Block implements SetupInterface
      */
     public function run()
     {
-        echo "Installing CMS blocks\n";
+        $this->logger->log('Installing CMS blocks' . PHP_EOL);
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader */
             $fileName = $this->fixtureHelper->getPath($file);
@@ -90,10 +90,10 @@ class Block implements SetupInterface
                 $data = $this->converter->convertRow($row);
                 $cmsBlock = $this->saveCmsBlock($data['block']);
                 $cmsBlock->unsetData();
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -106,10 +106,12 @@ class Block implements SetupInterface
         $cmsBlock->getResource()->load($cmsBlock, $data['identifier']);
         if (!$cmsBlock->getData()) {
             $cmsBlock->setData($data);
-            $cmsBlock->setStores(array('0'));
-            $cmsBlock->setIsActive(1);
-            $cmsBlock->save();
+        } else {
+            $cmsBlock->addData($data);
         }
+        $cmsBlock->setStores(array(\Magento\Store\Model\Store::DEFAULT_STORE_ID));
+        $cmsBlock->setIsActive(1);
+        $cmsBlock->save();
         return $cmsBlock;
     }
 
@@ -125,8 +127,9 @@ class Block implements SetupInterface
             'display_mode' => 'PRODUCTS_AND_PAGE'
         );
         if (!empty($categoryId)) {
-            $updateCategoryData = $this->categoryDataBuilder->populateWithArray($categoryCms)->create();
-            $this->categoryWriteService->update($categoryId, $updateCategoryData);
+            $category = $this->categoryRepository->get($categoryId);
+            $category->setData($categoryCms);
+            $this->categoryRepository->save($categoryId);
         }
     }
 }

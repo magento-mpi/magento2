@@ -48,7 +48,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'Magento\Tax\Service\V1\Data\TaxRate' => [
             ],
-            'Magento\Catalog\Service\Data\V1\Product' => [
+            'Magento\Catalog\Api\Data\ProductInterface' => [
                 'stock_item' => 'Magento\CatalogInventory\Service\Data\V1\StockItem'
             ],
             'Magento\Customer\Api\Data\CustomerInterface' => [

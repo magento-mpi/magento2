@@ -7,6 +7,11 @@
  */
 namespace Magento\Sales\Model\Quote;
 
+use Magento\Customer\Api\AddressMetadataInterface;
+use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\RegionDataBuilder;
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * Sales Quote address model
  *
@@ -234,19 +239,23 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $validator;
 
     /**
-     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $dataObjectConverter;
+    protected $addressMapper;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
+     * @param AddressMetadataInterface $addressMetadataService
+     * @param AddressDataBuilder $addressBuilder
+     * @param RegionDataBuilder $regionBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Address\ItemFactory $addressItemFactory
      * @param \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory
@@ -258,9 +267,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @param Address\TotalFactory $addressTotalFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
      * @param Address\CarrierFactoryInterface $carrierFactory
-     * @param \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder
      * @param Address\Validator $validator
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -269,11 +277,15 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
+        AddressMetadataInterface $addressMetadataService,
+        AddressDataBuilder $addressBuilder,
+        RegionDataBuilder $regionBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sales\Model\Quote\Address\ItemFactory $addressItemFactory,
         \Magento\Sales\Model\Resource\Quote\Address\Item\CollectionFactory $itemCollectionFactory,
@@ -285,9 +297,8 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Sales\Model\Quote\Address\TotalFactory $addressTotalFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
         \Magento\Sales\Model\Quote\Address\CarrierFactoryInterface $carrierFactory,
-        \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder,
         Address\Validator $validator,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []
@@ -305,17 +316,21 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_carrierFactory = $carrierFactory;
         $this->addressBuilder = $addressBuilder;
         $this->validator = $validator;
-        $this->dataObjectConverter = $dataObjectConverter;
+        $this->addressMapper = $addressMapper;
 
         parent::__construct(
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $directoryData,
             $eavConfig,
             $addressConfig,
             $regionFactory,
             $countryFactory,
+            $addressMetadataService,
+            $addressBuilder,
+            $regionBuilder,
             $resource,
             $resourceCollection,
             $data
@@ -473,7 +488,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         $this->_objectCopyService->copyFieldsetToTarget(
             'customer_address',
             'to_quote_address',
-            $this->dataObjectConverter->toFlatArray($address),
+            $this->addressMapper->toFlatArray($address),
             $this
         );
         $region = $this->getRegion();

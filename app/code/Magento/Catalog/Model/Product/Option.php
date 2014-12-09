@@ -14,6 +14,7 @@ use Magento\Framework\Model\Exception;
 use Magento\Framework\Model\AbstractModel;
 use \Magento\Framework\Model\AbstractExtensibleModel;
 use \Magento\Catalog\Api\Data\ProductCustomOptionValuesInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Catalog product option model
@@ -97,6 +98,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param Option\Value $productOptionValue
      * @param Option\Type\Factory $optionFactory
      * @param \Magento\Framework\Stdlib\String $string
@@ -109,6 +111,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         Option\Value $productOptionValue,
         \Magento\Catalog\Model\Product\Option\Type\Factory $optionFactory,
         \Magento\Framework\Stdlib\String $string,
@@ -121,7 +124,15 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
         $this->_optionFactory = $optionFactory;
         $this->validatorPool = $validatorPool;
         $this->string = $string;
-        parent::__construct($context, $registry, $metadataService, $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $metadataService,
+            $customAttributeBuilder,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
@@ -577,6 +588,7 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
      * Get option id
      *
      * @return int|null
+     * @codeCoverageIgnoreStart
      */
     public function getOptionId()
     {
@@ -675,4 +687,5 @@ class Option extends AbstractExtensibleModel implements \Magento\Catalog\Api\Dat
     {
         return $this->getData('image_size_y');
     }
+    //@codeCoverageIgnoreEnd
 }
