@@ -30,7 +30,10 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Tools\SampleData\Installer $installer */
         $installer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Tools\SampleData\Installer',
-            ['data' => ['admin_username' => 'adminUser']]
+            [
+                'data' => ['admin_username' => 'adminUser'],
+                'logger' => TestLoogger::factory(),
+            ]
         );
 
         ob_start();

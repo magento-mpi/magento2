@@ -8,6 +8,8 @@
 
 namespace Magento\Tools\SampleData\Module\Cms\Setup;
 
+use Magento\Tools\SampleData\TestLoogger;
+
 /**
  * Class PageTest
  */
@@ -20,7 +22,8 @@ class PageTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\Cms\Setup\Page $model */
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Cms\Setup\Page'
+            'Magento\Tools\SampleData\Module\Cms\Setup\Page',
+            ['logger' => TestLoogger::factory()]
         );
 
         ob_start();

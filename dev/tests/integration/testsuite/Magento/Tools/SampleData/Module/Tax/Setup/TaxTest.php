@@ -8,6 +8,8 @@
 
 namespace Magento\Tools\SampleData\Module\Tax\Setup;
 
+use Magento\Tools\SampleData\TestLoogger;
+
 /**
  * Class TaxTest
  */
@@ -20,7 +22,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Tools\SampleData\Module\Tax\Setup\Tax $tax */
         $tax = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Tools\SampleData\Module\Tax\Setup\Tax'
+            'Magento\Tools\SampleData\Module\Tax\Setup\Tax',
+            ['logger' => TestLoogger::factory()]
         );
 
         ob_start();
