@@ -69,8 +69,8 @@ class Front extends Generic
             'select',
             array(
                 'name'     => 'is_searchable',
-                'label'    => __('Use in Quick Search'),
-                'title'    => __('Use in Quick Search'),
+                'label'    => __('Use in Search'),
+                'title'    => __('Use in Search'),
                 'values'   => $yesnoSource,
             )
         );
@@ -80,8 +80,8 @@ class Front extends Generic
             'select',
             array(
                 'name' => 'is_visible_in_advanced_search',
-                'label' => __('Use in Advanced Search'),
-                'title' => __('Use in Advanced Search'),
+                'label' => __('Visible in Advanced Search'),
+                'title' => __('Visible in Advanced Search'),
                 'values' => $yesnoSource,
             )
         );

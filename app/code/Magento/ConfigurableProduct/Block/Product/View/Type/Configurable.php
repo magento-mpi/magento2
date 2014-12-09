@@ -165,6 +165,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $store = $this->getCurrentStore();
         $currentProduct = $this->getProduct();
 
+        $regularPrice = $currentProduct->getPriceInfo()->getPrice('regular_price');
+        $finalPrice = $currentProduct->getPriceInfo()->getPrice('final_price');
+
         /**
          * @var \Magento\ConfigurableProduct\Pricing\Price\AttributePrice $attributePrice
          */
@@ -177,11 +180,19 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         $config = array(
             'attributes' => $attributes['priceOptions'],
             'template' => str_replace('%s', '#{price}', $store->getCurrentCurrency()->getOutputFormat()),
-            'basePrice' => $this->_registerJsPrice($this->_convertPrice($currentProduct->getFinalPrice())),
-            'oldPrice' => $this->_registerJsPrice($this->_convertPrice($currentProduct->getPrice())),
+            'prices' => [
+                'oldPrice' => [
+                    'amount' => $this->_registerJsPrice($this->_convertPrice($regularPrice->getAmount()->getValue()))
+                ],
+                'basePrice' => [
+                    'amount' => $this->_registerJsPrice($this->_convertPrice($finalPrice->getAmount()->getBaseAmount()))
+                ],
+                'finalPrice' => [
+                    'amount' => $this->_registerJsPrice($this->_convertPrice($finalPrice->getAmount()->getValue()))
+                ]
+            ],
             'productId' => $currentProduct->getId(),
             'chooseText' => __('Choose an Option...'),
-            'taxConfig' => $attributePrice->getTaxConfig($this->currentCustomer->getCustomerId()),
             'images' => isset($options['images']) ? $options['images'] : [],
             'baseImage' => $options['baseImage']
         );

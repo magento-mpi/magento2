@@ -13,6 +13,7 @@ use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\Framework\Convert\ConvertArray;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 /**
@@ -174,6 +175,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\StoreManagerInterface $storeManager
      * @param Resource\Category\Tree $categoryTreeResource
      * @param Resource\Category\TreeFactory $categoryTreeFactory
@@ -195,6 +197,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
@@ -228,6 +231,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $storeManager,
             $resource,
             $resourceCollection,
@@ -1049,6 +1053,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * @return string|null
      */
     public function getPath()
@@ -1135,11 +1140,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     {
         return $this->getData('children_data');
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {

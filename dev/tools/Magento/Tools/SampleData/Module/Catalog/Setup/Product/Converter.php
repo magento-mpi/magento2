@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData\Module\Catalog\Setup\Product;
 class Converter
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Catalog\Api\CategoryManagementInterface
      */
     protected $categoryReadService;
 
@@ -45,21 +45,34 @@ class Converter
     protected $attributeSetId;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected $productCollection;
+
+    /**
+     * @var array
+     */
+    protected $productIds;
+
+    /**
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+     * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
+        \Magento\Catalog\Model\Resource\Product\Collection $productCollection
     ) {
         $this->categoryReadService = $categoryReadService;
         $this->eavConfig = $eavConfig;
         $this->attributeCollectionFactory = $attributeCollectionFactory;
         $this->attrOptionCollectionFactory = $attrOptionCollectionFactory;
+        $this->productCollection = $productCollection->removeAllItems()->clear()->addAttributeToSelect('sku');
     }
 
     /**
@@ -156,12 +169,16 @@ class Converter
     protected function getCategoryIds($categories)
     {
         $ids = [];
-        $tree = $this->categoryReadService->tree();
+        $tree = $this->categoryReadService->getTree();
         foreach ($categories as $name) {
-            foreach ($tree->getChildren() as $child) {
+            foreach ($tree->getChildrenData() as $child) {
                 if ($child->getName() == $name) {
+                    /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface $child */
                     $tree = $child;
                     $ids[] = $child->getId();
+                    if (!$tree->getChildrenData()) {
+                        $tree = $this->categoryReadService->getTree();
+                    }
                     break;
                 }
             }
@@ -247,5 +264,24 @@ class Converter
         }
         $this->attributeSetId = $value;
         return $this;
+    }
+
+    /**
+     * Retrieve product ID by sku
+     *
+     * @param string $sku
+     * @return int|null
+     */
+    protected function getProductIdBySku($sku)
+    {
+        if (empty($this->productIds)) {
+            foreach ($this->productCollection as $product) {
+                $this->productIds[$product->getSku()] = $product->getId();
+            }
+        }
+        if (isset($this->productIds[$sku])) {
+            return $this->productIds[$sku];
+        }
+        return null;
     }
 }

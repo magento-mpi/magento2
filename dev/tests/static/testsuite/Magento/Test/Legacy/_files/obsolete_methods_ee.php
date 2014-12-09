@@ -274,4 +274,5 @@ return array(
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData'],
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1'],
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\Store\AbstractPlugin'],
+    ['getRefreshWrappingUrl', 'Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info'],
 );

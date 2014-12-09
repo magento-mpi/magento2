@@ -89,7 +89,6 @@ class NewProducts
                 'special_price',
                 'special_from_date',
                 'special_to_date',
-                'msrp_enabled',
                 'msrp_display_actual_price_type',
                 'msrp',
                 'thumbnail'
