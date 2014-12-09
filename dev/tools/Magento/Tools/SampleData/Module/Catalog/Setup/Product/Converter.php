@@ -10,7 +10,7 @@ namespace Magento\Tools\SampleData\Module\Catalog\Setup\Product;
 class Converter
 {
     /**
-     * @var \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface
+     * @var \Magento\Catalog\Api\CategoryManagementInterface
      */
     protected $categoryReadService;
 
@@ -55,14 +55,14 @@ class Converter
     protected $productIds;
 
     /**
-     * @param \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService
+     * @param \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory
      * @param \Magento\Catalog\Model\Resource\Product\Collection $productCollection
      */
     public function __construct(
-        \Magento\Catalog\Service\V1\Category\Tree\ReadServiceInterface $categoryReadService,
+        \Magento\Catalog\Api\CategoryManagementInterface $categoryReadService,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $attrOptionCollectionFactory,
@@ -169,14 +169,15 @@ class Converter
     protected function getCategoryIds($categories)
     {
         $ids = [];
-        $tree = $this->categoryReadService->tree();
+        $tree = $this->categoryReadService->getTree();
         foreach ($categories as $name) {
-            foreach ($tree->getChildren() as $child) {
+            foreach ($tree->getChildrenData() as $child) {
                 if ($child->getName() == $name) {
+                    /** @var \Magento\Catalog\Api\Data\CategoryTreeInterface $child */
                     $tree = $child;
                     $ids[] = $child->getId();
-                    if (!$tree->getChildren()) {
-                        $tree = $this->categoryReadService->tree();
+                    if (!$tree->getChildrenData()) {
+                        $tree = $this->categoryReadService->getTree();
                     }
                     break;
                 }

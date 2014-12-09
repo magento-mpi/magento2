@@ -43,7 +43,7 @@ class SaveAndContinueButton extends GenericButton implements ButtonProviderInter
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = !$customerId || $this->customerAccountManagement->isReadonly($this->getCustomerId());
+        $canModify = !$customerId || !$this->customerAccountManagement->isReadonly($this->getCustomerId());
         $data = [];
         if ($canModify) {
             $data = [

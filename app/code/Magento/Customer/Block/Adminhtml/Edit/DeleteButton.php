@@ -43,7 +43,7 @@ class DeleteButton extends GenericButton implements ButtonProviderInterface
     public function getButtonData()
     {
         $customerId = $this->getCustomerId();
-        $canModify = $customerId && $this->customerAccountManagement->isReadonly($this->getCustomerId());
+        $canModify = $customerId && !$this->customerAccountManagement->isReadonly($this->getCustomerId());
         $data = [];
         if ($customerId && $canModify) {
             $data = [

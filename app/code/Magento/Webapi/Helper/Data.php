@@ -47,9 +47,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * Translate service interface name into service name.
      * Example:
      * <pre>
-     * - 'Magento\Customer\Api\AccountManagementInterface', false => customerAccountManagement
-     * - 'Magento\Customer\Api\AddressRepositoryInterface', true  => customerAddressRepositoryV1
-     * - 'Magento\Catalog\Api\ProductRepositoryInterface', true   => catalogProductRepositoryV1
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => customerCustomerAccount
+     * - 'Magento\Customer\Service\V1\CustomerAddressInterface', true  => customerCustomerAddressV1
      * </pre>
      *
      * @param string $interfaceName
@@ -68,9 +67,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * Examples of input/output pairs:
      * <pre>
-     * - 'Magento\Customer\Api\AccountManagementInterface', false => ['CustomerAccountManagement']
-     * - 'Vendor\Customer\Api\AddressRepositoryInterface', true   => ['VendorCustomerAddressRepository', 'V1']
-     * - 'Magento\Catalog\Api\ProductRepositoryInterface', true   => ['CatalogProductRepository', 'V2']
+     * - 'Magento\Customer\Service\V1\CustomerAccountInterface', false => ['CustomerCustomerAccount']
+     * - 'Vendor\Customer\Service\V1\Customer\AddressInterface', true  => ['VendorCustomer', 'Address', 'V1']
      * </pre>
      *
      * @param string $className

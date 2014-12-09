@@ -41,11 +41,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     protected $_allAttributes = null;
 
     /**
-     * @var array
-     */
-    protected $_productDiscounts = array();
-
-    /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
@@ -146,7 +141,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param null|false|\Magento\Framework\Object $billing
      * @param Website $website
      * @param bool $calculateTax
-     * @param bool $ignoreDiscount
      * @return int
      */
     public function getWeeeAmount(
@@ -154,8 +148,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $shipping = null,
         $billing = null,
         $website = null,
-        $calculateTax = false,
-        $ignoreDiscount = false
+        $calculateTax = false
     ) {
         $amount = 0;
         $attributes = $this->getProductWeeeAttributes(
@@ -163,8 +156,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
             $shipping,
             $billing,
             $website,
-            $calculateTax,
-            $ignoreDiscount
+            $calculateTax
         );
         foreach ($attributes as $attribute) {
             $amount += $attribute->getAmount();
@@ -206,7 +198,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
      * @param null|false|\Magento\Sales\Model\Quote\Address $billing
      * @param Website $website
      * @param bool $calculateTax
-     * @param bool $ignoreDiscount
      * @return \Magento\Framework\Object[]
      */
     public function getProductWeeeAttributes(
@@ -214,8 +205,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $shipping = null,
         $billing = null,
         $website = null,
-        $calculateTax = null,
-        $ignoreDiscount = false
+        $calculateTax = null
     ) {
         $result = array();
 
@@ -250,11 +240,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         );
         $defaultRateRequest = $calculator->getDefaultRateRequest($store);
 
-        $discountPercent = 0;
-        if (!$ignoreDiscount && $this->weeeConfig->isDiscounted($store)) {
-            $discountPercent = $this->_getDiscountPercentForProduct($product);
-        }
-
         $productAttributes = $product->getTypeInstance()->getSetAttributes($product);
         foreach ($productAttributes as $code => $attribute) {
             if (in_array($code, $allWeee)) {
@@ -288,12 +273,6 @@ class Tax extends \Magento\Framework\Model\AbstractModel
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);
                 if ($value) {
-                    if ($discountPercent) {
-                        $value = $this->priceCurrency->round(
-                            $value - $value * $discountPercent / 100
-                        );
-                    }
-
                     $taxAmount = $amount = 0;
                     $amount = $value;
                     if ($calculateTax && $this->weeeConfig->isTaxable($store)) {
@@ -338,51 +317,5 @@ class Tax extends \Magento\Framework\Model\AbstractModel
             }
         }
         return $result;
-    }
-
-    /**
-     * @param Product $product
-     * @return int
-     */
-    protected function _getDiscountPercentForProduct($product)
-    {
-        $website = $this->_storeManager->getStore()->getWebsiteId();
-        $group = $this->_customerSession->getCustomerGroupId();
-        $key = implode('-', array($website, $group, $product->getId()));
-        if (!isset($this->_productDiscounts[$key])) {
-            $this->_productDiscounts[$key] = (int)$this->getResource()->getProductDiscountPercent(
-                $product->getId(),
-                $website,
-                $group
-            );
-        }
-        if ($value = $this->_productDiscounts[$key]) {
-            return 100 - min(100, max(0, $value));
-        } else {
-            return 0;
-        }
-    }
-
-    /**
-     * Update discounts for FPT amounts of all products
-     *
-     * @return $this
-     */
-    public function updateDiscountPercents()
-    {
-        $this->getResource()->updateDiscountPercents();
-        return $this;
-    }
-
-    /**
-     * Update discounts for FPT amounts base on products condiotion
-     *
-     * @param  mixed $products
-     * @return $this
-     */
-    public function updateProductsDiscountPercent($products)
-    {
-        $this->getResource()->updateProductsDiscountPercent($products);
-        return $this;
     }
 }

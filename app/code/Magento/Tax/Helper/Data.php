@@ -240,25 +240,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get product price including store convertion rate
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param null|string $format
-     * @return float|string
-     * @deprecated
-     */
-    public function getProductPrice($product, $format = null)
-    {
-        try {
-            $value = $product->getPrice();
-            $value = $format ? $this->priceCurrency->convertAndFormat($value) : $this->priceCurrency->convert($value);
-        } catch (\Exception $e) {
-            $value = $e->getMessage();
-        }
-        return $value;
-    }
-
-    /**
      * Check if product prices inputed include tax
      *
      * @param   null|int|string|Store $store
@@ -278,17 +259,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function applyTaxAfterDiscount($store = null)
     {
         return $this->_config->applyTaxAfterDiscount($store);
-    }
-
-    /**
-     * Retrieves the "including tax" or "excluding tax" label
-     *
-     * @param bool $flag
-     * @return string
-     */
-    public function getIncExcText($flag)
-    {
-        return $flag ? __('Incl. Tax') : __('Excl. Tax');
     }
 
     /**
@@ -439,16 +409,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Check if need display tax column in for shopping cart/order items
-     *
-     * @return bool
-     */
-    public function displayTaxColumn()
-    {
-        return $this->_config->displayCartPricesBoth();
-    }
-
-    /**
      * Get prices javascript format json
      *
      * @param null|int|string|Store $store
@@ -494,18 +454,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function displayBothPrices($store = null)
     {
         return $this->getPriceDisplayType($store) == Config::DISPLAY_TYPE_BOTH;
-    }
-
-    /**
-     * Returns the include / exclude tax label
-     *
-     * @param  bool $flag
-     * @return string
-     */
-    public function getIncExcTaxLabel($flag)
-    {
-        $text = $this->getIncExcText($flag);
-        return $text ? ' <span class="tax-flag">(' . $text . ')</span>' : '';
     }
 
     /**
