@@ -344,6 +344,9 @@ class Url extends \Magento\Framework\Object implements \Magento\Framework\UrlInt
             if ($this->_getType() == UrlInterface::URL_TYPE_LINK) {
                 $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->_getActionPath());
                 $this->_routeParamsResolver->setData('secure', $pathSecure);
+            } elseif ($this->_getType() == UrlInterface::URL_TYPE_STATIC) {
+                $isRequestSecure = $this->_getRequest()->isSecure();
+                $this->_routeParamsResolver->setData('secure', $isRequestSecure);
             } else {
                 $this->_routeParamsResolver->setData('secure', true);
             }
