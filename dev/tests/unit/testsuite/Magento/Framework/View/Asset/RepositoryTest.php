@@ -40,16 +40,34 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
      */
     private $object;
 
+    /**
+     * @var \Magento\Framework\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
+
     protected function setUp()
     {
         $this->themeList = $this->getMockForAbstractClass('\Magento\Framework\View\Design\Theme\ListInterface');
         $this->source = $this->getMock(
-            'Magento\Framework\View\Asset\Source', array('getFile', 'getContent'), array(), '', false
+            'Magento\Framework\View\Asset\Source',
+            array('getFile', 'getContent'),
+            array(),
+            '',
+            false
         );
         $this->baseUrl = $this->getMockForAbstractClass('Magento\Framework\UrlInterface');
         $this->design = $this->getMockForAbstractClass('Magento\Framework\View\DesignInterface');
         $this->theme = $this->getMockForAbstractClass('Magento\Framework\View\Design\ThemeInterface');
-        $this->object = new Repository($this->baseUrl, $this->design, $this->themeList, $this->source);
+        $this->requestMock = $this->getMockBuilder('Magento\Framework\App\Request\Http')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->object = new Repository(
+            $this->baseUrl,
+            $this->design,
+            $this->themeList,
+            $this->source,
+            $this->requestMock
+        );
     }
 
     /**

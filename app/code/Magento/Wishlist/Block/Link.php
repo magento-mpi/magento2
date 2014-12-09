@@ -16,7 +16,7 @@ namespace Magento\Wishlist\Block;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento\Framework\View\Block\IdentityInterface
+class Link extends \Magento\Framework\View\Element\Html\Link
 {
     /**
      * Template name
@@ -112,22 +112,5 @@ class Link extends \Magento\Framework\View\Element\Html\Link implements \Magento
         } else {
             return;
         }
-    }
-
-    /**
-     * Retrieve block cache tags
-     *
-     * @return array
-     */
-    public function getIdentities()
-    {
-        /** @var $wishlist \Magento\Wishlist\Model\Wishlist */
-        $wishlist = $this->_wishlistHelper->getWishlist();
-        $identities = $wishlist->getIdentities();
-        foreach ($wishlist->getItemCollection() as $item) {
-            /** @var $item \Magento\Wishlist\Model\Item */
-            $identities = array_merge($identities, $item->getProduct()->getIdentities());
-        }
-        return $identities;
     }
 }

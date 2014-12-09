@@ -16,6 +16,11 @@ use Magento\Framework\App\Filesystem\DirectoryList;
 class FallbackContext extends Context
 {
     /**
+     * Secure path
+     */
+    const SECURE_PATH = 'secure';
+
+    /**
      * @var string
      */
     private $area;
@@ -31,16 +36,23 @@ class FallbackContext extends Context
     private $locale;
 
     /**
+     * @var bool
+     */
+    private $isSecure;
+
+    /**
      * @param string $baseUrl
      * @param string $areaType
      * @param string $themePath
      * @param string $localeCode
+     * @param bool $isSecure
      */
-    public function __construct($baseUrl, $areaType, $themePath, $localeCode)
+    public function __construct($baseUrl, $areaType, $themePath, $localeCode, $isSecure = false)
     {
         $this->area = $areaType;
         $this->theme = $themePath;
         $this->locale = $localeCode;
+        $this->isSecure = $isSecure;
         parent::__construct($baseUrl, DirectoryList::STATIC_VIEW, $this->generatePath());
     }
 
@@ -81,6 +93,18 @@ class FallbackContext extends Context
      */
     private function generatePath()
     {
-        return $this->area . ($this->theme ? '/' . $this->theme : '') . ($this->locale ? '/' . $this->locale : '');
+        return $this->area .
+            ($this->theme ? '/' . $this->theme : '') .
+            ($this->locale ? '/' . $this->locale : '');
+    }
+
+    /**
+     * Returns path to Require.js config object depending on HTTPS or HTTP protocol being used
+     *
+     * @return string
+     */
+    public function getConfigPath()
+    {
+        return $this->getPath() . ($this->isSecure ? '/' . self::SECURE_PATH : '');
     }
 }
