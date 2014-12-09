@@ -14,7 +14,7 @@ use Magento\Framework\Autoload\AutoloaderRegistry;
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\TestFramework\getTemporaryDir::getTemoraryDir()
+     * @covers \Magento\TestFramework\Application::getTempDir
      * @covers \Magento\TestFramework\Application::getDbInstance()
      * @covers \Magento\TestFramework\Application::getInitParams()
      */
