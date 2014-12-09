@@ -24,7 +24,6 @@ use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\FilesystemException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 use Magento\Setup\Mvc\Bootstrap\InitParamListener;
-use Magento\Framework\App\DeploymentConfig as Config;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
