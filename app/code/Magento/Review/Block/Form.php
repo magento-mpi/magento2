@@ -164,7 +164,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getProductInfo()
     {
-        return $this->getProduct();
+        return $this->productRepository->getById($this->getProductId());
     }
 
     /**
@@ -213,15 +213,5 @@ class Form extends \Magento\Framework\View\Element\Template
     protected function getProductId()
     {
         return $this->getRequest()->getParam('id', false);
-    }
-
-    /**
-     * Get product
-     *
-     * @return Product
-     */
-    protected function getProduct()
-    {
-        return $this->productRepository->getById($this->getProductId());
     }
 }

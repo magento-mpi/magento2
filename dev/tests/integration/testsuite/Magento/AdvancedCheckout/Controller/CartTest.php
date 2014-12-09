@@ -31,7 +31,9 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 
-        $this->dispatch('checkout/cart/configure/id/' . $quoteItem->getId());
+        $this->dispatch(
+            'checkout/cart/configure/id/' . $quoteItem->getId() . '/product_id/' . $quoteItem->getProduct()->getId()
+        );
         $response = $this->getResponse();
 
         $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);
