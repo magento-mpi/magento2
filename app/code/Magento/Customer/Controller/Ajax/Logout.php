@@ -28,7 +28,7 @@ class Logout extends \Magento\Framework\App\Action\Action
     protected $helper;
 
     /**
-     * Initialize Login Service
+     * Initialize Logout controller
      *
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
