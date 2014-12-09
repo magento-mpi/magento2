@@ -70,4 +70,5 @@ return [
     ['Magento\Bundle\Service'],
     ['Magento\Tax\Service'],
     ['Magento\ConfigurableProduct\Service'],
+    ['Magento\Catalog\Service'],
 ];
