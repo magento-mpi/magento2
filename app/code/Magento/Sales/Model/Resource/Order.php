@@ -196,8 +196,6 @@ class Order extends SalesResource implements OrderResourceInterface
         foreach ($object->getRelatedObjects() as $relatedObject) {
             $relatedObject->save();
         }
-
-        $object->load($object->getId());
         return parent::_afterSave($object);
     }
 }
