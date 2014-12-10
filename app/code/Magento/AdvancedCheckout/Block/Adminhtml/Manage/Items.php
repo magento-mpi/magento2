@@ -8,6 +8,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Shopping Cart items grid
@@ -260,5 +261,44 @@ class Items extends \Magento\Backend\Block\Template
     {
         /* @var \Magento\Wishlist\Model\Resource\Wishlist\Collection $wishlistCollection */
         return $this->_wishlistFactory->create()->getCollection()->filterByCustomerId($this->getCustomerId());
+    }
+
+    /**
+     * Get the item unit price html
+     *
+     * @param Item $item
+     * @return string
+     */
+    public function getItemUnitPriceHtml(Item $item)
+    {
+        $block = $this->getLayout()->getBlock('item_unit_price');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Get the item row total html
+     *
+     * @param Item $item
+     * @return string
+     */
+    public function getItemRowTotalHtml(Item $item)
+    {
+        $block = $this->getLayout()->getBlock('item_row_total');
+        $block->setItem($item);
+        return $block->toHtml();
+    }
+
+    /**
+     * Return html for row total with discount
+     *
+     * @param Item $item
+     * @return string
+     */
+    public function getItemRowTotalWithDiscountHtml(Item $item)
+    {
+        $block = $this->getLayout()->getBlock('item_row_total_with_discount');
+        $block->setItem($item);
+        return $block->toHtml();
     }
 }
