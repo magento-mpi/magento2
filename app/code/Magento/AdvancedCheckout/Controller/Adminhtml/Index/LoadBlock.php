@@ -296,9 +296,9 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                 $item = $this->_objectManager->create(
                     'Magento\Wishlist\Model\Item'
                 )->loadWithOptions(
-                        $itemId,
-                        'info_buyRequest'
-                    );
+                    $itemId,
+                    'info_buyRequest'
+                );
                 if ($item->getId()) {
                     $productId = $item->getProductId();
                     $buyRequest = $item->getBuyRequest();
