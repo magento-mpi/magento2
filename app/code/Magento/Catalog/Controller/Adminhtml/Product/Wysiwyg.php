@@ -46,7 +46,7 @@ class Wysiwyg extends \Magento\Catalog\Controller\Adminhtml\Product
     {
         $elementId = $this->getRequest()->getParam('element_id', md5(microtime()));
         $storeId = $this->getRequest()->getParam('store_id', 0);
-        $storeMediaUrl = $this->_objectManager->get('Magento\Framework\StoreManagerInterface')
+        $storeMediaUrl = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')
             ->getStore($storeId)
             ->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
 

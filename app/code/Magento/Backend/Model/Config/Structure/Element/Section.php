@@ -17,12 +17,12 @@ class Section extends AbstractComposite
     protected $_authorization;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Iterator $childrenIterator
      * @param \Magento\Framework\AuthorizationInterface $authorization
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Iterator $childrenIterator,
         \Magento\Framework\AuthorizationInterface $authorization
     ) {

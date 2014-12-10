@@ -57,7 +57,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
     /**#@-*/
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -96,7 +96,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Framework\Session\SessionManagerInterface $session
      * @param \Magento\Authorizenet\Helper\Data $authorizenetData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory
      * @param \Magento\Authorizenet\Model\Directpost\Response $response
@@ -121,7 +121,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\Session\SessionManagerInterface $session,
         \Magento\Authorizenet\Helper\Data $authorizenetData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory,
         \Magento\Authorizenet\Model\Directpost\Response $response,

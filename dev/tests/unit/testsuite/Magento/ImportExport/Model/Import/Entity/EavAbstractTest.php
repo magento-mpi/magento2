@@ -51,7 +51,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected $_resourceHelper;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

@@ -20,14 +20,15 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testConfigureActionWithConfigurableProduct()
     {
-        $this->markTestIncomplete('MAGETWO-30916');
         /** @var $session \Magento\Checkout\Model\Session  */
         $session = $this->_objectManager->create('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for configurable product');
 
-        $this->dispatch('checkout/cart/configure/id/' . $quoteItem->getId());
+        $this->dispatch(
+            'checkout/cart/configure/id/' . $quoteItem->getId() . '/product_id/' . $quoteItem->getProduct()->getId()
+        );
         $response = $this->getResponse();
 
         $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);

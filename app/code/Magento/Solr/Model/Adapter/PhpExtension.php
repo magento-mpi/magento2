@@ -25,7 +25,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
      * @param \Magento\Solr\Model\Resource\Index $resourceIndex
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection
      * @param \Magento\Framework\Logger $logger
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Solr\Model\Factory\Factory $searchFactory
@@ -43,7 +43,7 @@ class PhpExtension extends \Magento\Solr\Model\Adapter\Solr\AbstractSolr impleme
         \Magento\Solr\Model\Resource\Index $resourceIndex,
         \Magento\Catalog\Model\Resource\Product\Attribute\Collection $attributeCollection,
         \Magento\Framework\Logger $logger,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Solr\Model\Factory\Factory $searchFactory,

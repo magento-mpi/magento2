@@ -8,32 +8,19 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\Dashboard;
 
-class CustomersMost extends \Magento\Backend\Controller\Adminhtml\Dashboard
+class CustomersMost extends AjaxBlock
 {
-    /**
-     * @var \Magento\Framework\View\Result\PageFactory
-     */
-    protected $resultPageFactory;
-
-    /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
-     */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory
-    ) {
-        parent::__construct($context);
-        $this->resultPageFactory = $resultPageFactory;
-    }
-
     /**
      * Gets the list of most active customers
      *
-     * @return \Magento\Backend\Model\View\Result\Page
+     * @return \Magento\Framework\Controller\Result\Raw
      */
     public function execute()
     {
-        return $this->resultPageFactory->create();
+        $output = $this->layoutFactory->create()
+            ->createBlock('Magento\Backend\Block\Dashboard\Tab\Customers\Most')
+            ->toHtml();
+        $resultRaw = $this->resultRawFactory->create();
+        return $resultRaw->setContents($output);
     }
 }

@@ -139,7 +139,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      * Init merge model
      *
      * @param \Magento\Framework\View\DesignInterface $design
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\File\CollectorInterface $fileSource
      * @param \Magento\Framework\View\File\CollectorInterface $pageLayoutFileSource
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
@@ -153,7 +153,7 @@ class Merge implements \Magento\Framework\View\Layout\ProcessorInterface
      */
     public function __construct(
         \Magento\Framework\View\DesignInterface $design,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\File\CollectorInterface $fileSource,
         \Magento\Framework\View\File\CollectorInterface $pageLayoutFileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,

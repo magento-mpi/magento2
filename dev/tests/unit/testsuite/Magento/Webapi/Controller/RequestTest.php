@@ -21,19 +21,19 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     private $request;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
+     * @var \Magento\Framework\Stdlib\Cookie\CookieReaderInterface
      */
-    private $cookieManager;
+    private $cookieReader;
 
     public function setUp()
     {
 
         $objectManager = new ObjectManager($this);
-        $this->cookieManager = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
+        $this->cookieReader = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieReaderInterface');
 
         $this->request = $objectManager->getObject(
             '\Magento\Webapi\Controller\Request',
-            ['cookieManager' => $this->cookieManager]
+            ['cookieReader' => $this->cookieReader]
         );
     }
 
@@ -42,7 +42,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $key = "cookieName";
         $default = "defaultValue";
 
-        $this->cookieManager
+        $this->cookieReader
             ->expects($this->once())
             ->method('getCookie')
             ->with($key, $default);

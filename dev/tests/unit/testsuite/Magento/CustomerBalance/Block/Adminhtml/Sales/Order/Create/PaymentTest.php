@@ -36,22 +36,22 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     protected $_orderCreateMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_helperMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_balanceInstance;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeMock;
 
@@ -111,7 +111,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $this->_sessionQuoteMock = $this->getMock('Magento\Backend\Model\Session\Quote', array(), array(), '', false);
         $this->_orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',

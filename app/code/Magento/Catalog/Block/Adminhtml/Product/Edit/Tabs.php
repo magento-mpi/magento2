@@ -158,10 +158,6 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                         'group_code' => $group->getTabGroupCode() ?: self::BASIC_TAB_GROUP_CODE
                     );
 
-                    if ($group->getAttributeGroupCode() === 'recurring-payment') {
-                        $tabData['parent_tab'] = 'advanced-pricing';
-                    }
-
                     if ($tabData['group_code'] === self::BASIC_TAB_GROUP_CODE) {
                         $this->addTab($group->getAttributeGroupCode(), $tabData);
                     } else {
