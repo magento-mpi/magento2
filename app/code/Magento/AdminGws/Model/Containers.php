@@ -37,7 +37,7 @@ class Containers implements CallbackProcessorInterface
     protected $categoryResource;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected  $storeManager;
 
@@ -46,14 +46,14 @@ class Containers implements CallbackProcessorInterface
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         Role $role,
         \Magento\Framework\Registry $registry,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_role = $role;
         $this->registry = $registry;
