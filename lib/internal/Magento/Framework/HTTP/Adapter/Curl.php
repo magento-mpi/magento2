@@ -123,8 +123,7 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
      * @param int     $port
      * @param boolean $secure
      * @return $this
-     *
-     * @deprecated since 1.4.0.0-rc1
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function connect($host, $port = 80, $secure = false)
     {
