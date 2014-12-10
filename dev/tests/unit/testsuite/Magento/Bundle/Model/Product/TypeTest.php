@@ -25,7 +25,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     protected $catalogData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -51,7 +51,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->bundleOptionFactory = $this->getMockBuilder('Magento\Bundle\Model\OptionFactory')
@@ -66,13 +66,19 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getStockQty'])
             ->disableOriginalConstructor()
             ->getMock();
+        $bundleModelSelection = $this->getMockBuilder('\Magento\Bundle\Model\SelectionFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $bundleFactory = $this->getMockBuilder('\Magento\Bundle\Model\Resource\BundleFactory')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject(
             'Magento\Bundle\Model\Product\Type',
             array(
-                'bundleModelSelection' => $this->getMock('Magento\Bundle\Model\SelectionFactory'),
-                'bundleFactory' => $this->getMock('Magento\Bundle\Model\Resource\BundleFactory'),
+                'bundleModelSelection' => $bundleModelSelection,
+                'bundleFactory' => $bundleFactory,
                 'bundleCollection' => $this->bundleCollection,
                 'bundleOption' => $this->bundleOptionFactory,
                 'catalogData' => $this->catalogData,
@@ -85,7 +91,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testHasWeightTrue()
     {
-        $this->assertTrue($this->model->hasWeight(), 'This product has not weight, but it should');
+        $this->assertTrue($this->model->hasWeight(), 'This product has no weight, but it should');
     }
 
     public function testGetIdentities()

@@ -33,7 +33,8 @@ define([
             responseFieldElements: 'ul li',
             selectClass: 'selected',
             template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>',
-            submitBtn: 'button[type="submit"]'
+            submitBtn: 'button[type="submit"]',
+            searchLabel: '[data-role=minisearch-label]'
         },
 
         _create: function() {
@@ -41,6 +42,7 @@ define([
             this.autoComplete = $(this.options.destinationSelector);
             this.searchForm = $(this.options.formSelector);
             this.submitBtn = this.searchForm.find(this.options.submitBtn)[0];
+            this.searchLabel = $(this.options.searchLabel);
 
             _.bindAll(this, '_onKeyDown', '_onPropertyChange', '_onSubmit');
 
@@ -49,13 +51,20 @@ define([
             this.element.attr('autocomplete', this.options.autocomplete);
 
             this.element.on('blur', $.proxy(function() {
+
                 setTimeout($.proxy(function () {
+                    if (this.autoComplete.is(':hidden')) {
+                        this.searchLabel.removeClass('active');
+                    }
                     this.autoComplete.hide();
                 }, this), 250);
             }, this));
 
             this.element.trigger('blur');
 
+            this.element.on('focus', $.proxy(function() {
+                this.searchLabel.addClass('active');
+            }, this));
             this.element.on('keydown', this._onKeyDown);
             this.element.on('input propertychange', this._onPropertyChange);
 

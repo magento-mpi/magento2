@@ -25,14 +25,12 @@ class Review extends \Magento\Pbridge\Controller\Pbridge
             )->getMethodInstance(
                 $methodCode
             );
-            if ($methodInstance) {
-                $block = $this->_view->getLayout()->createBlock(
-                    'Magento\Pbridge\Block\Checkout\Payment\Review\Iframe'
-                );
-                $block->setMethod($methodInstance);
-                if ($block) {
-                    $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
-                }
+            $block = $this->_view->getLayout()->createBlock(
+                'Magento\Pbridge\Block\Checkout\Payment\Review\Iframe'
+            );
+            $block->setMethod($methodInstance);
+            if ($block) {
+                $this->getResponse()->setBody($block->getIframeBlock()->toHtml());
             }
         } else {
             throw new \Magento\Framework\Model\Exception(__('Payment Method Code is not passed.'));
