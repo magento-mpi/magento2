@@ -42,7 +42,7 @@ class Index extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\
                 'adminhtml/*/',
                 array(
                     'store' => $this->_objectManager->get(
-                        'Magento\Framework\StoreManagerInterface'
+                        'Magento\Store\Model\StoreManagerInterface'
                     )->getStore()->getId(),
                     '_current' => true
                 )

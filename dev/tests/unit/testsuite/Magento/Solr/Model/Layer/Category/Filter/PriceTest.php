@@ -18,7 +18,7 @@ use Magento\TestFramework\Helper\ObjectManager;
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManager;
 
@@ -70,7 +70,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->_store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->_storeManager = $this->getMock(
-            '\Magento\Framework\StoreManagerInterface',
+            '\Magento\Store\Model\StoreManagerInterface',
             [],
             [],
             '',

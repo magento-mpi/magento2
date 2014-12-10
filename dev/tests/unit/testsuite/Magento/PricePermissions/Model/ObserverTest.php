@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_request;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -57,7 +57,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_storeManager = $this->getMock(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',

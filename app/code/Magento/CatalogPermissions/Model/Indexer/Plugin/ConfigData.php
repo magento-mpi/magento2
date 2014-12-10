@@ -31,7 +31,7 @@ class ConfigData
     protected $configLoader;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -40,14 +40,14 @@ class ConfigData
      * @param ConfigInterface $appConfig
      * @param \Magento\Indexer\Model\IndexerRegistry $indexerRegistry
      * @param \Magento\Backend\Model\Config\Loader $configLoader
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         CacheInterface $coreCache,
         ConfigInterface $appConfig,
         \Magento\Indexer\Model\IndexerRegistry $indexerRegistry,
         \Magento\Backend\Model\Config\Loader $configLoader,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->indexerRegistry = $indexerRegistry;
         $this->appConfig = $appConfig;
