@@ -9,6 +9,9 @@
 
 namespace Magento\Catalog\Model\Product;
 
+/**
+ * @codeCoverageIgnore
+ */
 class TierPrice extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Catalog\Api\Data\ProductTierPriceInterface
 {

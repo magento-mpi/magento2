@@ -13,7 +13,8 @@ use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Product
- * @package Magento\Tools\SampleData\Module\Catalog\Setup
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Product implements SetupInterface
 {
@@ -63,13 +64,26 @@ class Product implements SetupInterface
     protected $gallery;
 
     /**
+     * @var \Magento\Tools\SampleData\Logger
+     */
+    protected $logger;
+
+    /**
+     * @var \Magento\Tools\SampleData\Helper\StoreManager
+     */
+    protected $storeManager;
+
+    /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param Product\Converter $converter
      * @param FixtureHelper $fixtureHelper
      * @param CsvReaderFactory $csvReaderFactory
      * @param Product\Gallery $gallery
+     * @param \Magento\Tools\SampleData\Logger $logger
+     * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -78,9 +92,13 @@ class Product implements SetupInterface
         FixtureHelper $fixtureHelper,
         CsvReaderFactory $csvReaderFactory,
         Product\Gallery $gallery,
+        \Magento\Tools\SampleData\Logger $logger,
+        \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
         $fixtures = array(
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
+            'Catalog/SimpleProduct/products_gear_fitness_equipment_ball.csv',
+            'Catalog/SimpleProduct/products_gear_fitness_equipment_strap.csv',
             'Catalog/SimpleProduct/products_gear_watches.csv',
         )
     ) {
@@ -91,6 +109,8 @@ class Product implements SetupInterface
         $this->csvReaderFactory = $csvReaderFactory;
         $this->gallery = $gallery;
         $this->fixtures = $fixtures;
+        $this->logger = $logger;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -98,7 +118,7 @@ class Product implements SetupInterface
      */
     public function run()
     {
-        echo "Installing {$this->productType} products\n";
+        $this->logger->log("Installing {$this->productType} products" . PHP_EOL);
 
         $product = $this->productFactory->create();
 
@@ -119,10 +139,10 @@ class Product implements SetupInterface
                 $product
                     ->setTypeId($this->productType)
                     ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array(1))
+                    ->setWebsiteIds(array($this->storeManager->getWebsiteId()))
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
                     ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0))
-                    ->setStoreId(0);
+                    ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
                 if (empty($data['visibility'])) {
                     $product->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH);
@@ -132,10 +152,10 @@ class Product implements SetupInterface
 
                 $product->save();
                 $this->gallery->install($product);
-                echo '.';
+                $this->logger->log('.');
             }
         }
-        echo "\n";
+        $this->logger->log(PHP_EOL);
     }
 
     /**
@@ -159,5 +179,20 @@ class Product implements SetupInterface
     {
         $this->fixtures = $fixtures;
         return $this;
+    }
+
+    /**
+     * @param \Magento\Framework\Model\AbstractModel $product
+     * @return void
+     */
+    public function setVirtualStockData($product)
+    {
+        $product->setStockData(
+            [
+                'use_config_manage_stock' => 0,
+                'is_in_stock' => 1,
+                'manage_stock' => 0
+            ]
+        );
     }
 }

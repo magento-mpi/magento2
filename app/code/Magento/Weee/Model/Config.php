@@ -31,8 +31,6 @@ class Config
     // misc
     const XML_PATH_FPT_INCLUDE_IN_SUBTOTAL = 'tax/weee/include_in_subtotal';
 
-    const XML_PATH_FPT_DISCOUNTED = 'tax/weee/discount';
-
     const XML_PATH_FPT_TAXABLE = 'tax/weee/apply_vat';
 
     /**
@@ -115,22 +113,6 @@ class Config
     }
 
     /**
-     * Check if weee amount includes tax already
-     * Returns true if weee is taxable and catalog price includes tax
-     *
-     * @param   null|string|bool|int|Store $store
-     * @return  bool
-     */
-    public function isTaxIncluded($store = null)
-    {
-        $isFPTTaxable = $this->isTaxable($store);
-
-        $isCatalogPriceIncludeTax = $this->taxHelper->priceIncludesTax($store);
-
-        return $isFPTTaxable && $isCatalogPriceIncludeTax;
-    }
-
-    /**
      * Check if weee tax amount should be included to subtotal
      *
      * @param   null|string|bool|int|Store $store
@@ -140,21 +122,6 @@ class Config
     {
         return $this->scopeConfig->isSetFlag(
             self::XML_PATH_FPT_INCLUDE_IN_SUBTOTAL,
-            \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
-            $store
-        );
-    }
-
-    /**
-     * Check if weee tax amount should be discounted
-     *
-     * @param   null|string|bool|int|Store $store
-     * @return  bool
-     */
-    public function isDiscounted($store = null)
-    {
-        return $this->scopeConfig->isSetFlag(
-            self::XML_PATH_FPT_DISCOUNTED,
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );

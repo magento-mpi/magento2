@@ -103,6 +103,17 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <xs:complexType name="conditions">
+        <xs:annotation>
+            <xs:documentation>Parameter type which provide conditions functionality.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="parameterType">
+                <xs:attribute name="class" type="xs:string" use="required" />
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <xs:complexType name="dataType">
         <xs:annotation>
             <xs:documentation>Data for the renderer.</xs:documentation>

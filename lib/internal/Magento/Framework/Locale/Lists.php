@@ -80,8 +80,24 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
             2
         );
 
+        //Zend locale codes for internal allowed locale codes
         $allowed = $this->_config->getAllowedLocales();
-        foreach (array_keys($locales) as $code) {
+        $allowedAliases = [];
+        foreach ($allowed as $code) {
+            $allowedAliases[\Zend_Locale::getAlias($code)] = $code;
+        }
+
+        //Process translating to internal locale codes from Zend locale codes
+        $processedLocales = [];
+        foreach ($locales as $code => $active) {
+            if (array_key_exists($code, $allowedAliases)) {
+                $processedLocales[$allowedAliases[$code]] = $active;
+            } else {
+                $processedLocales[$code] = $active;
+            }
+        }
+
+        foreach (array_keys($processedLocales) as $code) {
             if (strstr($code, '_')) {
                 if (!in_array($code, $allowed)) {
                     continue;
