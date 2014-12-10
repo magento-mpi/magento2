@@ -104,10 +104,13 @@ class BundleSelectionPrice extends AbstractPrice
 
         $priceCode = $this->useRegularPrice ? BundleRegularPrice::PRICE_CODE : FinalPrice::PRICE_CODE;
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            // just return whatever the product's value is
             $value = $this->priceInfo
                 ->getPrice($priceCode)
                 ->getValue();
         } else {
+            // don't multiply by quantity.  Instead just keep as quantity = 1
+            $selectionPriceValue = $this->selection->getSelectionPriceValue();
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 $price = $this->bundleProduct->getPriceInfo()
@@ -119,11 +122,10 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($selectionPriceValue / 100);
             } else {
                 // calculate price for selection type fixed
-                $selectionPriceValue = $this->selection->getSelectionPriceValue();
-                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
+                $value = $this->priceCurrency->convertAndRound($selectionPriceValue);
             }
         }
         if (!$this->useRegularPrice) {

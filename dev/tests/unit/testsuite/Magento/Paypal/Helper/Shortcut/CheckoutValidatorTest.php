@@ -63,16 +63,6 @@ class CheckoutValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->checkoutValidator->validate($code, $isInCatalog));
     }
 
-    public function testIsMethodQuoteAvailableNoQuoteNoMethodFalse()
-    {
-        $isInCatalog = true;
-        $paymentCode = 'code';
-        $methodInstanceMock = null;
-
-        $this->paymentHelperMock->expects($this->once())->method('getMethodInstance')->with($paymentCode)
-            ->will($this->returnValue($methodInstanceMock));
-        $this->assertFalse($this->checkoutValidator->isMethodQuoteAvailable($paymentCode, $isInCatalog));
-    }
     public function testIsMethodQuoteAvailableNoQuoteMethodNotAvailableFalse()
     {
         $quote = null;

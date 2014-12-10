@@ -20,7 +20,13 @@ class Javascript extends \Magento\Framework\View\Element\Template
     public function getScriptOptions()
     {
         $params = array(
-            'url' => $this->getUrl('page_cache/block/render/'),
+            'url' => $this->getUrl(
+                'page_cache/block/render/',
+                [
+                    '_current' => true,
+                    '_secure' => $this->templateContext->getRequest()->isSecure()
+                ]
+            ),
             'handles' => $this->_layout->getUpdate()->getHandles(),
             'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
         );

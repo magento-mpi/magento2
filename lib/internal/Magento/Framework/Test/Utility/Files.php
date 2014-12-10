@@ -122,7 +122,8 @@ class Files
                     $files,
                     glob($this->_path . '/*.php', GLOB_NOSORT),
                     glob($this->_path . '/pub/*.php', GLOB_NOSORT),
-                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php')
+                    self::getFiles(array("{$this->_path}/lib/internal/Magento"), '*.php'),
+                    self::getFiles(array("{$this->_path}/dev/tools/Magento/Tools/SampleData"), '*.php')
                 );
             }
             if ($templates) {
@@ -187,6 +188,7 @@ class Files
         return array_merge(
             $this->getMainConfigFiles(),
             $this->getLayoutFiles(),
+            $this->getPageLayoutFiles(),
             $this->getConfigFiles(),
             $this->getDiConfigs(true),
             $this->getLayoutConfigFiles(),
@@ -272,7 +274,7 @@ class Files
     }
 
     /**
-     * Returns list of layout files, used by Magento application modules
+     * Returns list of page configuration and generic layout files, used by Magento application modules
      *
      * An incoming array can contain the following items
      * array (
@@ -291,7 +293,41 @@ class Files
      */
     public function getLayoutFiles($incomingParams = array(), $asDataSet = true)
     {
-        $params = array(
+        return $this->getLayoutXmlFiles('layout', $incomingParams, $asDataSet);
+    }
+
+    /**
+     * Returns list of page layout files, used by Magento application modules
+     *
+     * An incoming array can contain the following items
+     * array (
+     *     'namespace'      => 'namespace_name',
+     *     'module'         => 'module_name',
+     *     'area'           => 'area_name',
+     *     'theme'          => 'theme_name',
+     *     'include_code'   => true|false,
+     *     'include_design' => true|false,
+     *     'with_metainfo'  => true|false,
+     * )
+     *
+     * @param array $incomingParams
+     * @param bool $asDataSet
+     * @return array
+     */
+    public function getPageLayoutFiles($incomingParams = array(), $asDataSet = true)
+    {
+        return $this->getLayoutXmlFiles('page_layout', $incomingParams, $asDataSet);
+    }
+
+    /**
+     * @param string $location
+     * @param array $incomingParams
+     * @param bool $asDataSet
+     * @return array
+     */
+    protected function getLayoutXmlFiles($location, $incomingParams = array(), $asDataSet = true)
+    {
+        $params = [
             'namespace' => '*',
             'module' => '*',
             'area' => '*',
@@ -299,22 +335,22 @@ class Files
             'include_code' => true,
             'include_design' => true,
             'with_metainfo' => false
-        );
+        ];
         foreach (array_keys($params) as $key) {
             if (isset($incomingParams[$key])) {
                 $params[$key] = $incomingParams[$key];
             }
         }
-        $cacheKey = md5($this->_path . '|' . implode('|', $params));
+        $cacheKey = md5($this->_path . '|' . $location . '|' . implode('|', $params));
 
         if (!isset(self::$_cache[__METHOD__][$cacheKey])) {
-            $files = array();
+            $files = [];
             $area = $params['area'];
             $namespace = $params['namespace'];
             $module = $params['module'];
             if ($params['include_code']) {
                 $this->_accumulateFilesByPatterns(
-                    array("{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/layout"),
+                    ["{$this->_path}/app/code/{$namespace}/{$module}/view/{$area}/{$location}"],
                     '*.xml',
                     $files,
                     $params['with_metainfo'] ? '_parseModuleLayout' : false
@@ -322,7 +358,7 @@ class Files
             }
             if ($params['include_design']) {
                 $this->_accumulateFilesByPatterns(
-                    array("{$this->_path}/app/design/{$area}/{$params['theme_path']}/{$namespace}_{$module}/layout"),
+                    ["{$this->_path}/app/design/{$area}/{$params['theme_path']}/{$namespace}_{$module}/{$location}"],
                     '*.xml',
                     $files,
                     $params['with_metainfo'] ? '_parseThemeLayout' : false

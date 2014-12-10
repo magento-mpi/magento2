@@ -7,7 +7,7 @@
  */
 
 $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getDefaultStoreView()->getId();
 /** @var $change \Magento\Core\Model\Design */
 $change = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Core\Model\Design');

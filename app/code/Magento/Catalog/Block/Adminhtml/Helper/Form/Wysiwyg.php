@@ -73,6 +73,9 @@ class Wysiwyg extends \Magento\Framework\Data\Form\Element\Textarea
      */
     public function getAfterElementHtml()
     {
+        $config = $this->_wysiwygConfig->getConfig();
+        $config = json_encode($config->getData());
+
         $html = parent::getAfterElementHtml();
         if ($this->getIsWysiwygEnabled()) {
             $disabled = $this->getDisabled() || $this->getReadonly();
@@ -98,25 +101,34 @@ require([
     'mage/adminhtml/wysiwyg/tiny_mce/setup'
 ], function(jQuery){
 
+var config = {},
+    editor;
+
+jQuery.extend(config, {
+    settings: {
+        theme_advanced_buttons1 : 'bold,italic,|,justifyleft,justifycenter,justifyright,|,' +
+            'fontselect,fontsizeselect,|,forecolor,backcolor,|,link,unlink,image,|,bullist,numlist,|,code',
+        theme_advanced_buttons2: null,
+        theme_advanced_buttons3: null,
+        theme_advanced_buttons4: null,
+        theme_advanced_statusbar_location: null
+    },
+    add_images: false
+});
+
+editor = new tinyMceWysiwygSetup(
+    '{$this->getHtmlId()}',
+    config
+);
+
+editor.turnOn();
+
 jQuery('#{$this->getHtmlId()}')
     .addClass('wysiwyg-editor')
     .data(
         'wysiwygEditor',
-        new tinyMceWysiwygSetup(
-            '{$this->getHtmlId()}',
-             {
-                settings: {
-                    theme_advanced_buttons1 : 'bold,italic,|,justifyleft,justifycenter,justifyright,|,' +
-                        'fontselect,fontsizeselect,|,forecolor,backcolor,|,link,unlink,image,|,bullist,numlist,|,code',
-                    theme_advanced_buttons2: null,
-                    theme_advanced_buttons3: null,
-                    theme_advanced_buttons4: null,
-                    theme_advanced_statusbar_location: null
-                }
-            }
-        ).turnOn()
+        editor
     );
-
 });
 </script>
 HTML;

@@ -321,7 +321,10 @@ class Renderer extends \Magento\Framework\View\Element\Template implements \Mage
      */
     public function getConfigureUrl()
     {
-        return $this->getUrl('checkout/cart/configure', array('id' => $this->getItem()->getId()));
+        return $this->getUrl(
+            'checkout/cart/configure',
+            array('id' => $this->getItem()->getId(), 'product_id' => $this->getItem()->getProduct()->getId())
+        );
     }
 
     /**

@@ -151,28 +151,9 @@ class Nvp extends \Magento\Paypal\Model\Api\AbstractApi
         'VPAS' => 'centinel_vpas_result',
         'ECISUBMITTED3DS' => 'centinel_eci_result',
 
-        // recurring payments
-        'SUBSCRIBERNAME' => 'subscriber_name',
-        'PROFILESTARTDATE' => 'start_datetime',
-        'PROFILEREFERENCE' => 'internal_reference_id',
-        'DESC' => 'schedule_description',
-        'MAXFAILEDPAYMENTS' => 'suspension_threshold',
-        'AUTOBILLAMT' => 'bill_failed_later',
-        'BILLINGPERIOD' => 'period_unit',
-        'BILLINGFREQUENCY' => 'period_frequency',
-        'TOTALBILLINGCYCLES' => 'period_max_cycles',
-        //'AMT' => 'billing_amount', // have to use 'amount', see above
-        'TRIALBILLINGPERIOD' => 'trial_period_unit',
-        'TRIALBILLINGFREQUENCY' => 'trial_period_frequency',
-        'TRIALTOTALBILLINGCYCLES' => 'trial_period_max_cycles',
-        'TRIALAMT' => 'trial_billing_amount',
-        // 'CURRENCYCODE' => 'currency_code',
         'SHIPPINGAMT' => 'shipping_amount',
         'TAXAMT' => 'tax_amount',
         'INITAMT' => 'init_amount',
-        'FAILEDINITAMTACTION' => 'init_may_fail',
-        'PROFILEID' => 'recurring_payment_id',
-        'PROFILESTATUS' => 'recurring_payment_status',
         'STATUS' => 'status',
 
         //Next two fields are used for Brazil only

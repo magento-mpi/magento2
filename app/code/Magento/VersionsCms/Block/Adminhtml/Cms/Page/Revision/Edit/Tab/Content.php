@@ -55,7 +55,7 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
      */
     protected function _prepareForm()
     {
-        /* @var $model \Magento\Cms\Model\Page */
+        /* @var \Magento\VersionsCms\Model\Resource\Page\Revision $model */
         $model = $this->_coreRegistry->registry('cms_page');
 
         parent::_prepareForm();
@@ -65,7 +65,7 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
         /* @var $fieldset \Magento\Framework\Data\Form\Element\Fieldset */
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
-        if ($model->getId()) {
+        if ($model->getPageId()) {
             $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
 
             $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));

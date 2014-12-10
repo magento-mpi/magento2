@@ -17,7 +17,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Store model manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -35,13 +35,13 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Store\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Store\Model\WebsiteFactory $websiteFactory,
         \Magento\Eav\Model\Config $eavConfig
     ) {
@@ -69,19 +69,22 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param int $status
      * @param float|int $qty
      * @param int|null $websiteId
+     * @param int $stockId
      * @return $this
      */
     public function saveProductStatus(
         $productId,
         $status,
         $qty,
-        $websiteId
+        $websiteId,
+        $stockId = Stock::DEFAULT_STOCK_ID
     ) {
         $adapter = $this->_getWriteAdapter();
         $select = $adapter->select()->from($this->getMainTable())
             ->where('product_id = :product_id')
-            ->where('website_id = :website_id');
-        $bind = array(':product_id' => $productId, ':website_id' => $websiteId);
+            ->where('website_id = :website_id')
+            ->where('stock_id = :stock_id');
+        $bind = array(':product_id' => $productId, ':website_id' => $websiteId, ':stock_id' => $stockId);
         $row = $adapter->fetchRow($select, $bind);
         if ($row) {
             $bind = array('qty' => $qty, 'stock_status' => $status);
@@ -94,6 +97,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $bind = array(
                 'product_id' => $productId,
                 'website_id' => $websiteId,
+                'stock_id' => $stockId,
                 'qty' => $qty,
                 'stock_status' => $status
             );
@@ -109,9 +113,10 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param int[] $productIds
      * @param int $websiteId
+     * @param int $stockId
      * @return array
      */
-    public function getProductsStockStatuses($productIds, $websiteId)
+    public function getProductsStockStatuses($productIds, $websiteId, $stockId = Stock::DEFAULT_STOCK_ID)
     {
         if (!is_array($productIds)) {
             $productIds = array($productIds);
@@ -120,6 +125,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = $this->_getReadAdapter()->select()
             ->from($this->getMainTable(), array('product_id', 'stock_status'))
             ->where('product_id IN(?)', $productIds)
+            ->where('stock_id=?', (int) $stockId)
             ->where('website_id=?', (int) $websiteId);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
@@ -213,8 +219,8 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
         );
 
         $joinCondition .= $this->_getReadAdapter()->quoteInto(
-            ' AND stock_status_index.website_id = ?',
-            $websiteId
+            ' AND stock_status_index.stock_id = ?',
+            Stock::DEFAULT_STOCK_ID
         );
 
         $collection->getSelect()->join(

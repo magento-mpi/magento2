@@ -59,14 +59,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    /**
-     * @param string $code
-     * @param string $class
-     * @param string $methodInstance
-     * @dataProvider getMethodInstanceDataProvider
-     */
-    public function testGetMethodInstance($code, $class, $methodInstance)
+
+    public function testGetMethodInstance()
     {
+        list($code, $class, $methodInstance) = ['method_code', 'method_class', 'method_instance'];
+
         $this->scopeConfig->expects(
             $this->once()
         )->method(
@@ -89,6 +86,18 @@ class DataTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertEquals($methodInstance, $this->helper->getMethodInstance($code));
+    }
+
+    /**
+     * @expectedException \UnexpectedValueException
+     */
+    public function testGetMethodInstanceWithException()
+    {
+        $this->scopeConfig->expects($this->once())
+            ->method('getValue')
+            ->willReturn(null);
+
+        $this->helper->getMethodInstance('code');
     }
 
     /**
@@ -116,9 +125,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->scopeConfig->expects(new MethodInvokedAtIndex(0))
             ->method('getValue')
-            ->with(
-                    sprintf('%s/%s/model', Data::XML_PATH_PAYMENT_METHODS, $methodA['code'])
-            )
+            ->with(sprintf('%s/%s/model', Data::XML_PATH_PAYMENT_METHODS, $methodA['code']))
             ->will($this->returnValue('Magento\Payment\Model\Method\AbstractMethod'));
         $this->scopeConfig->expects(new MethodInvokedAtIndex(1))
             ->method('getValue')
@@ -262,14 +269,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->appEmulation->expects($this->once())->method('stopEnvironmentEmulation');
 
         $this->assertEquals($blockHtml, $this->helper->getInfoBlockHtml($infoMock, $storeId));
-    }
-
-    public function getMethodInstanceDataProvider()
-    {
-        return array(
-            ['method_code', 'method_class', 'method_instance'],
-            ['method_code', false, false]
-        );
     }
 
     public function getSortMethodsDataProvider()

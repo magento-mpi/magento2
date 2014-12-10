@@ -70,7 +70,6 @@ return array(
     'qty_options' => array(),
     'product' => null,
     'tax_class_id' => '0',
-    'is_recurring' => null,
     'has_error' => false,
     'is_nominal' => false,
     'base_calculation_price' => 8,

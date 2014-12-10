@@ -55,7 +55,6 @@ Magento_MultipleWishlist
 Magento_Newsletter
 Magento_OfflinePayments
 Magento_Ogone
-Magento_PayPalRecurringPayment
 Magento_Payment
 Magento_Paypal
 Magento_Pbridge
@@ -65,7 +64,6 @@ Magento_PersistentHistory
 Magento_PricePermissions
 Magento_ProductAlert
 Magento_PromotionPermissions
-Magento_RecurringPayment
 Magento_Reports
 Magento_RequireJs
 Magento_Review

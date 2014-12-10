@@ -28,7 +28,7 @@ class Category extends AbstractFilter
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -38,7 +38,7 @@ class Category extends AbstractFilter
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
@@ -115,9 +115,14 @@ class Category extends AbstractFilter
         $category = $this->dataProvider->getCategory();
         $categories = $category->getChildrenCategories();
 
+        $collectionSize = $productCollection->getSize();
+
         if ($category->getIsActive()) {
             foreach ($categories as $category) {
-                if ($category->getIsActive() && isset($optionsFacetedData[$category->getId()])) {
+                if ($category->getIsActive()
+                    && isset($optionsFacetedData[$category->getId()])
+                    && $this->isOptionReducesResults($optionsFacetedData[$category->getId()]['count'], $collectionSize)
+                ) {
                     $this->itemDataBuilder->addItemData(
                         $this->escaper->escapeHtml($category->getName()),
                         $category->getId(),
