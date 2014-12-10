@@ -53,7 +53,12 @@ class Improved implements AlgorithmInterface
             $aggregations['count']
         );
 
+        $this->algorithm->setLimits($aggregations['min'], $aggregations['max']);
+
         $interval = $this->dataProvider->getInterval($bucket, $dimensions, $entityIds);
-        return $this->algorithm->calculateSeparators($interval);
+        $data =  $this->algorithm->calculateSeparators($interval);
+        $data[0]['from'] = '';
+        $data[count($data) - 1]['to'] = '';
+        return $data;
     }
 }
