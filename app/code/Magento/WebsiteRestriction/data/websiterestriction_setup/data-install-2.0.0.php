@@ -11,6 +11,7 @@
 $cmsPages = array(
     array(
         'title' => '503 Service Unavailable',
+        'page_layout' => '1column',
         'identifier' => 'service-unavailable',
         'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
 <p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
@@ -20,6 +21,7 @@ $cmsPages = array(
     ),
     array(
         'title' => 'Welcome to our Exclusive Online Store',
+        'page_layout' => '1column',
         'identifier' => 'private-sales',
         'content' => '<div class="private-sales-index">
 <div class="box">

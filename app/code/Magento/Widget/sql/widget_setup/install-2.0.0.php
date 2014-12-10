@@ -120,11 +120,11 @@ $table = $installer->getConnection()->newTable(
     array(),
     'Instance Type'
 )->addColumn(
-    'package_theme',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array(),
-    'Package Theme'
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    null,
+    array('unsigned' => true, 'nullable' => false),
+    'Theme id'
 )->addColumn(
     'title',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -149,6 +149,13 @@ $table = $installer->getConnection()->newTable(
     null,
     array('unsigned' => true, 'nullable' => false, 'default' => '0'),
     'Sort order'
+)->addForeignKey(
+    $installer->getFkName('widget_instance', 'theme_id', 'core_theme', 'theme_id'),
+    'theme_id',
+    $installer->getTable('core_theme'),
+    'theme_id',
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
 )->setComment(
     'Instances of Widget for Package Theme'
 );

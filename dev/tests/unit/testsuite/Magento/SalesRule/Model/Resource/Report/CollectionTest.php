@@ -157,7 +157,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('group')
             ->with($this->equalTo(null));
 
-        $this->object->isSubTotals(true);
+        $this->object->setIsSubTotals(true);
         $this->assertInstanceOf(get_class($this->object), $this->object->loadWithFilter());
     }
 

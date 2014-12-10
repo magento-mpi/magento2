@@ -11,7 +11,6 @@ namespace Magento\Customer\Model\Resource;
 
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Api\Search\FilterGroup;
-use Magento\Framework\Api\SearchCriteria;
 use Magento\Framework\Api\SortOrder;
 use Magento\Customer\Model\Address as CustomerAddressModel;
 use Magento\Customer\Model\Resource\Address\Collection;

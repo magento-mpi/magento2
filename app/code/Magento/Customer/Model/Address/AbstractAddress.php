@@ -484,7 +484,11 @@ class AbstractAddress extends \Magento\Framework\Model\AbstractExtensibleModel
         foreach ($attributes as $attribute) {
             $code = $attribute->getAttributeCode();
             if (!is_null($this->getData($code))) {
-                $addressData[$code] = $this->getDataUsingMethod($code);
+                if ($code === AddressInterface::STREET) {
+                    $addressData[$code] = $this->getDataUsingMethod($code);
+                } else {
+                    $addressData[$code] = $this->getData($code);
+                }
             }
         }
 
