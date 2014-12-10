@@ -487,4 +487,16 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         return $condition;
     }
+
+    /**
+     * Get empty select object
+     *
+     * @return \Magento\Framework\DB\Select
+     *
+     * @deprecated after 1.11.2.0 (MAGETWO-31473)
+     */
+    public function createSelect()
+    {
+        return $this->_getReadAdapter()->select();
+    }
 }

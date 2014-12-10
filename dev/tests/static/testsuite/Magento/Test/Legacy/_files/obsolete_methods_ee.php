@@ -284,7 +284,6 @@ return [
     ['quoteInto', 'Magento\Reminder\Model\Resource\Rule'],
     ['_saveMatchedCustomerData', 'Magento\Reminder\Model\Resource\Rule'],
     ['_saveWebsiteIds', 'Magento\Reminder\Model\Resource\Rule'],
-    ['createSelect', 'Magento\Reminder\Model\Resource\Rule'],
     ['_matchProductIds', 'Magento\TargetRule\Model\Resource\Index'],
     ['getLockAlertMessage', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
 ];
