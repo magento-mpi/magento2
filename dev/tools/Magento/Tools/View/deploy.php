@@ -6,10 +6,7 @@
  * They can be used not only by the server where Magento instance is,
  * but also can be copied to a CDN, and the Magento instance may be configured to generate base URL to the CDN.
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 use Magento\Framework\Autoload\AutoloaderRegistry;
 

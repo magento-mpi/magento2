@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\ToolkitFramework\Application $this */
 $configurablesCount = \Magento\ToolkitFramework\Config::getInstance()->getValue('configurable_products', 90);

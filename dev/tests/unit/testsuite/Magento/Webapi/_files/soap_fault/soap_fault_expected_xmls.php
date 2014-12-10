@@ -2,10 +2,7 @@
 /**
  * The list of all expected soap fault XMLs.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 return [
     'expectedResultArrayDataDetails' => '<?xml version="1.0" encoding="utf-8" ?>

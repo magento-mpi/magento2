@@ -1,10 +1,7 @@
 /**
- * {license_notice}
- *
  * @category    one page checkout second step
  * @package     mage
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint browser:true jquery:true*/
 /*global alert*/

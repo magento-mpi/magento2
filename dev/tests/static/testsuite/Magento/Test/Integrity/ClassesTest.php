@@ -2,10 +2,7 @@
 /**
  * Scan source code for references to classes and see if they indeed exist
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity;
 

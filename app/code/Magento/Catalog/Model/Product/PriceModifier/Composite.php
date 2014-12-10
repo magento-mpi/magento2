@@ -3,10 +3,7 @@
  * Composite price modifier can be used.
  * Any module can add its price modifier to extend price modification from other modules.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\PriceModifier;
 

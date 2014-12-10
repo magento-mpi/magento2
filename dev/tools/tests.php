@@ -2,10 +2,7 @@
 /**
  * Batch tool for running all or some of tests
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $vendorDir = require '../../app/etc/vendor_path.php';

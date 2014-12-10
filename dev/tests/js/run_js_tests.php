@@ -2,10 +2,7 @@
 /**
  * This script executes all Magento JavaScript unit tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 define('RELATIVE_APP_ROOT', '../../..');

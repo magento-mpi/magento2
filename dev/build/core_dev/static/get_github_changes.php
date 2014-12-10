@@ -3,12 +3,9 @@
 /**
  * Script to get changes between feature branch and the mainline
  *
- * {license_notice}
- *
  * @category   dev
  * @package    build
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 define('GITHUB_URL_CHANGES', 'https://%OAUTH_TOKEN%@github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');

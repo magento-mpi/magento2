@@ -3,10 +3,7 @@
  * Returns an array containing the configuration used to generate the JsTestDriver configuration
  * file that gets used by JsTestDriver when it executes the Javascript unit tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  * @return array
  */

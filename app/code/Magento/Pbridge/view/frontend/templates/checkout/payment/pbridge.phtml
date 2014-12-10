@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="pbridge items" id="payment_form_<?php echo $this->getMethodCode() ?>" data-payment="<?php echo $this->getMethodCode() ?>" data-mage-init='{"pbridge": {"method": "<?php echo $this->getMethodCode() ?>", "reviewUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/review', ['_current' => true, '_secure' => true]); ?>", "frameUrl": "<?php echo $this->getUrl('magento_pbridge/pbridge/iframe', ['_current' => true, '_secure' => true]); ?>"}}' style="display: none;">

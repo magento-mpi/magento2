@@ -5,10 +5,7 @@
  * Uses OS tools to provide accurate information about factual memory consumption.
  * The PHP standard functions may return incorrect information because the process itself may have leaks.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Helper;
 

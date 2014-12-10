@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_CatalogInventory
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogInventory\Model\Indexer\Stock\Plugin;

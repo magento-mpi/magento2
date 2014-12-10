@@ -2,10 +2,7 @@
 /**
  * Framework for unit tests containing helper methods
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  * Number of fields is necessary because of the number of fields used by multiple layers
  * of parent classes.

@@ -2,10 +2,7 @@
 /**
  * Public media files entry point
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 use Magento\Framework\App\Cache\Frontend\Factory;

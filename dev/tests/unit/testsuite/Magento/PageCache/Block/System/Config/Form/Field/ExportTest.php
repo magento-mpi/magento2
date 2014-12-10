@@ -1,11 +1,6 @@
 <?php
 /**
- * {license_notice}
- * Page cache data helper
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Block\System\Config\Form\Field;
 

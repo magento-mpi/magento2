@@ -1,13 +1,10 @@
 #!/usr/bin/env php
 <?php
 /**
- * {license_notice}
- *
  * @category Magento
  * @package Magento
  * @subpackage integration_tests
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define('INTEGRATION_TESTSUITE_NAME', 'Magento Integration Tests');
 define('DEFAULT_PROCESS_DURATION', 1200);

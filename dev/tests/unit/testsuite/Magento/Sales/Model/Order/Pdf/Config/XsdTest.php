@@ -2,10 +2,7 @@
 /**
  * Test for validation rules implemented by XSD schema for sales PDF rendering configuration
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf\Config;
 

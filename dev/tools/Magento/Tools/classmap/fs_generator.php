@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 $basePath = realpath(__DIR__ . '/../../../../../') . DIRECTORY_SEPARATOR;
 set_include_path(get_include_path() . PATH_SEPARATOR . $basePath);

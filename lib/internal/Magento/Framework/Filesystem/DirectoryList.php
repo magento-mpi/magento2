@@ -5,10 +5,7 @@
  * Provides information about what directories are available in the application
  * Serves as customizaiton point to specify different directories or add own
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem;
 

@@ -1,9 +1,6 @@
 /**
- * {license_notice}
- *
  * @category    gift registry multi-ship address option
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /*jshint jquery:true*/
 /*global alert:true*/

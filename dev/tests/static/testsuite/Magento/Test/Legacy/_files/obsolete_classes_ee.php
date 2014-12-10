@@ -2,10 +2,7 @@
 /**
  * Same as obsolete_classes.php, but specific to Magento EE
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 return array(
     array('Magento\CatalogEvent\Block\Adminhtml\Event\Grid'),

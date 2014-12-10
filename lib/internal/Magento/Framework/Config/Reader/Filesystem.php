@@ -2,10 +2,7 @@
 /**
  * Filesystem configuration loader. Loads configuration from XML files, split by scopes
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Framework\Config\Reader;

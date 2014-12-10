@@ -2,10 +2,7 @@
 /**
  * Test for validation rules implemented by XSD schema for customer address format configuration
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Address\Config;
 

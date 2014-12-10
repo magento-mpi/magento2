@@ -2,10 +2,7 @@
 /**
  * Interception config. Responsible for providing list of plugins configured for instance
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Config;
 

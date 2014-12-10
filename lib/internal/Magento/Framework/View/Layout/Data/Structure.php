@@ -1,14 +1,14 @@
 <?php
 /**
- * An associative data structure, that features "nested set" parent-child relations
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout\Data;
 
 use Magento\Framework\Data\Structure as DataStructure;
 
+/**
+ * An associative data structure, that features "nested set" parent-child relations
+ */
 class Structure extends DataStructure
 {
     /**

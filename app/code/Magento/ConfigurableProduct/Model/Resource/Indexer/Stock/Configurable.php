@@ -2,10 +2,7 @@
 /**
  * CatalogInventory Configurable Products Stock Status Indexer Resource Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Indexer\Stock;
 

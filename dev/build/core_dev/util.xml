@@ -3,10 +3,7 @@
 /**
  * Apache Ant's build file with general-purpose routines common to various CI builds
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <project name="Core Development General-Purpose Routines" basedir="../../../" default="_community_edition">
