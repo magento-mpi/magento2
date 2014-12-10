@@ -145,11 +145,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     protected $_catalogProduct = null;
 
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_catalogData = null;
+    protected $moduleManager;
 
     /**
      * Catalog image
@@ -245,7 +243,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService
      * @param AttributeDataBuilder $customAttributeBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Product\Url $url
      * @param Product\Link $productLink
      * @param Product\Configuration\Item\OptionFactory $itemOptionFactory
@@ -256,7 +254,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * @param Product\Media\Config $catalogProductMediaConfig
      * @param Product\Type $catalogProductType
      * @param \Magento\Catalog\Helper\Image $catalogImage
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param Resource\Product $resource
      * @param Resource\Product\Collection $resourceCollection
@@ -276,7 +274,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $metadataService,
         AttributeDataBuilder $customAttributeBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Product\Url $url,
         Product\Link $productLink,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
@@ -287,7 +285,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         Product\Type $catalogProductType,
         \Magento\Catalog\Helper\Image $catalogImage,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         Resource\Product $resource,
         Resource\Product\Collection $resourceCollection,
@@ -308,7 +306,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_catalogProductType = $catalogProductType;
         $this->_catalogImage = $catalogImage;
-        $this->_catalogData = $catalogData;
+        $this->moduleManager = $moduleManager;
         $this->_catalogProduct = $catalogProduct;
         $this->_collectionFactory = $collectionFactory;
         $this->_urlModel = $url;
@@ -928,7 +926,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      *
      * @param   float $qty
      * @return  float|array
-     * @deprecated
+     * @deprecated (MAGETWO-31465)
      */
     public function getTierPrice($qty = null)
     {
@@ -1023,7 +1021,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns special price
      *
      * @return float
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialPrice()
     {
@@ -1034,7 +1031,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns starting date of the special price
      *
      * @return mixed
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialFromDate()
     {
@@ -1045,7 +1041,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
      * Returns end date of the special price
      *
      * @return mixed
-     * @deprecated see \Magento\Catalog\Pricing\Price\SpecialPrice
      */
     public function getSpecialToDate()
     {
@@ -1575,7 +1570,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     public function fromArray(array $data)
     {
         if (isset($data['stock_item'])) {
-            if ($this->_catalogData->isModuleEnabled('Magento_CatalogInventory')) {
+            if ($this->moduleManager->isEnabled('Magento_CatalogInventory')) {
                 $stockItem = $this->_stockItemBuilder->populateWithArray($data['stock_item'])->create();
                 $stockItem->setProduct($this);
                 $this->setStockItem($stockItem);

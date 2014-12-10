@@ -70,7 +70,6 @@ return array(
     array('_quoteImporter', 'Magento\Paypal\Model\Express\Checkout'),
     array('_ratingOptionTable', 'Magento\Review\Model\Resource\Rating\Option\Collection'),
     array('_readerFactory', 'Magento\Framework\App\ObjectManager\ConfigLoader'),
-    array('_recurringPaymentProfiles', '\Magento\Paypal\Model\Api\AbstractApi'),
     array('_resourceConfig', 'Magento\Core\Model\Resource\Setup'),
     array('_saveTemplateFlag', 'Magento\Newsletter\Model\Queue'),
     array('_searchTextFields'),
@@ -317,7 +316,6 @@ return array(
     ['_viewFileResolution', 'Magento\Framework\View\FileSystem', '_fileResolution, _localeFileResolution'],
     ['_inventoryModel', 'Magento\AdvancedCheckout\Model\Resource\Sku\Errors\Grid\Collection'],
     ['_productInstance', 'Magento\CatalogInventory\Model\Stock\Item'],
-    ['_regionBuilder', 'Magento\Customer\Model\Address\Converter'],
     ['_scopeConfig', 'Magento\CatalogInventory\Helper\Minsaleqty', 'scopeConfig'],
     ['_stopFurtherRules', 'Magento\SalesRule\Model\Validator'],
     ['_usageFactory', 'Magento\SalesRule\Model\Validator', 'Magento\SalesRule\Model\Validator\Utility'],
@@ -366,4 +364,5 @@ return array(
     ['_directoryData', 'Magento\Customer\Model\Attribute\Data\Postcode', 'Magento\Customer\Model\Attribute\Data\Postcode::directoryHelper'],
     ['_conditionModels', 'Magento\Rule\Model\Condition\Combine'],
     ['_lables', 'Magento\SalesRule\Model\Rule'],
+    ['_catalogData', 'Magento\Catalog\Block\Product\AbstractProduct'],
 );

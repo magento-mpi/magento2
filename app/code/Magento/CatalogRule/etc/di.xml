@@ -42,7 +42,4 @@
             </argument>
         </arguments>
     </virtualType>
-    <type name="Magento\CatalogRule\Model\Indexer\IndexBuilder">
-        <plugin name="invalidate_price_indexer" type="Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer"/>
-    </type>
 </config>

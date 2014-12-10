@@ -8,7 +8,7 @@
 namespace Magento\Solr\Model\Resource;
 
 use Magento\CatalogSearch\Model\Resource\EngineProvider;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Search\Model\Resource\Helper;
 
 /**
@@ -24,7 +24,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
     protected $engineProvider;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -33,7 +33,7 @@ class Index extends \Magento\CatalogSearch\Model\Resource\Fulltext
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\Filter\FilterManager $filter
      * @param Helper $resourceHelper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      */
     public function __construct(

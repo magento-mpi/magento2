@@ -303,6 +303,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      * Set redirect into response
      *
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @param   string $path
      * @param   array $arguments
      * @return \Magento\Framework\App\ResponseInterface
@@ -318,6 +319,7 @@ abstract class AbstractAction extends \Magento\Framework\App\Action\Action
      * Forward to action
      *
      * @deprecated
+     * @TODO MAGETWO-28356: Refactor controller actions to new ResultInterface
      * @param string $action
      * @param string|null $controller
      * @param string|null $module

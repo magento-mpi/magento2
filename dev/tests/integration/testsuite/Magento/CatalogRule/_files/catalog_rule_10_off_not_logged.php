@@ -17,7 +17,7 @@ $catalogRule = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->crea
 $catalogRule
     ->setIsActive(1)
     ->setName('Test Catalog Rule')
-    ->setCustomerGroupIds(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID)
+    ->setCustomerGroupIds(\Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID)
     ->setDiscountAmount(10)
     ->setWebsiteIds([0 => 1])
     ->setSimpleAction('by_percent')

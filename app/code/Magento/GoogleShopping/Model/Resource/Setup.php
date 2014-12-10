@@ -10,9 +10,9 @@ namespace Magento\GoogleShopping\Model\Resource;
 class Setup extends \Magento\Framework\Module\DataSetup
 {
     /**
-     * @var \Magento\GoogleShopping\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_googleShoppingData;
+    protected $moduleManager;
 
     /**
      * @var \Magento\GoogleShopping\Model\ConfigFactory
@@ -23,7 +23,7 @@ class Setup extends \Magento\Framework\Module\DataSetup
      * @param \Magento\Framework\Module\Setup\Context $context
      * @param string $resourceName
      * @param \Magento\GoogleShopping\Model\ConfigFactory $configFactory
-     * @param \Magento\GoogleShopping\Helper\Data $googleShoppingData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param string $moduleName
      * @param string $connectionName
      */
@@ -31,20 +31,20 @@ class Setup extends \Magento\Framework\Module\DataSetup
         \Magento\Framework\Module\Setup\Context $context,
         $resourceName,
         \Magento\GoogleShopping\Model\ConfigFactory $configFactory,
-        \Magento\GoogleShopping\Helper\Data $googleShoppingData,
+        \Magento\Framework\Module\Manager $moduleManager,
         $moduleName = 'Magento_GoogleShopping',
         $connectionName = \Magento\Framework\Module\Updater\SetupInterface::DEFAULT_SETUP_CONNECTION
     ) {
         $this->_configFactory = $configFactory;
-        $this->_googleShoppingData = $googleShoppingData;
+        $this->moduleManager = $moduleManager;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
     /**
-     * @return \Magento\GoogleShopping\Helper\Data
+     * @return \Magento\Framework\Module\Manager
      */
-    public function getGoogleShoppingData()
+    public function getModuleManager()
     {
-        return $this->_googleShoppingData;
+        return $this->moduleManager;
     }
 }

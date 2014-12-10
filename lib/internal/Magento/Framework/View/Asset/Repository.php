@@ -63,17 +63,20 @@ class Repository
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\View\Design\Theme\ListInterface $themeList
      * @param \Magento\Framework\View\Asset\Source $assetSource
+     * @param \Magento\Framework\App\Request\Http $request
      */
     public function __construct(
         \Magento\Framework\UrlInterface $baseUrl,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\View\Design\Theme\ListInterface $themeList,
-        \Magento\Framework\View\Asset\Source $assetSource
+        \Magento\Framework\View\Asset\Source $assetSource,
+        \Magento\Framework\App\Request\Http $request
     ) {
         $this->baseUrl = $baseUrl;
         $this->design = $design;
         $this->themeList = $themeList;
         $this->assetSource = $assetSource;
+        $this->request = $request;
     }
 
     /**
@@ -178,9 +181,10 @@ class Repository
         $params = [];
         $this->updateDesignParams($params);
         $themePath = $this->design->getThemePath($params['themeModel']);
+        $isSecure = $this->request->isSecure();
         return $this->getFallbackContext(
             UrlInterface::URL_TYPE_STATIC,
-            null,
+            $isSecure,
             $params['area'],
             $themePath,
             $params['locale']
@@ -210,7 +214,8 @@ class Repository
                 $url,
                 $area,
                 $themePath,
-                $locale
+                $locale,
+                $isSecure
             );
         }
         return $this->fallbackContext[$id];

@@ -275,6 +275,11 @@ class Application
         $objectManager->removeSharedInstance('Magento\Framework\Filesystem');
         $objectManager->addSharedInstance($filesystem, 'Magento\Framework\Filesystem');
 
+        /** @var \Magento\Framework\Logger $logger */
+        $logger = $objectManager->get('Magento\TestFramework\ErrorLog\Logger');
+        $objectManager->removeSharedInstance('Magento\Framework\Logger');
+        $objectManager->addSharedInstance($logger, 'Magento\Framework\Logger');
+
         Helper\Bootstrap::setObjectManager($objectManager);
 
         $objectManager->configure(
@@ -282,8 +287,8 @@ class Application
                 'preferences' => [
                     'Magento\Framework\App\State' => 'Magento\TestFramework\App\State',
                     'Magento\Framework\Mail\TransportInterface' => 'Magento\TestFramework\Mail\TransportInterfaceMock',
-                    'Magento\Framework\Mail\Template\TransportBuilder' =>
-                        'Magento\TestFramework\Mail\Template\TransportBuilderMock',
+                    'Magento\Framework\Mail\Template\TransportBuilder'
+                        => 'Magento\TestFramework\Mail\Template\TransportBuilderMock',
                 ],
             )
         );

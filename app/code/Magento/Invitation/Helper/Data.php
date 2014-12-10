@@ -20,13 +20,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_isRegistrationAllowed = null;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Customer registration
      *
      * @var \Magento\Customer\Model\Registration
@@ -43,18 +36,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Customer\Model\Registration $registration
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Customer\Model\Registration $registration,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
     ) {
         parent::__construct($context);
         $this->registration = $registration;
-        $this->_coreData = $coreData;
         $this->_invitationStatus = $invitationStatus;
     }
 
@@ -82,7 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         )->getUrl(
             'magento_invitation/customer_account/create',
             array(
-                'invitation' => $this->_coreData->urlEncode($invitation->getInvitationCode()),
+                'invitation' => $this->urlEncoder->encode($invitation->getInvitationCode()),
                 '_scope_to_url' => true,
                 '_nosid' => true
             )

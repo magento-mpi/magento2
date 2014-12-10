@@ -59,16 +59,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_regionFactory;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -140,11 +133,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -158,11 +150,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -174,7 +165,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Sales\Model\Order\Admin\Item $adminOrderItem,
         \Magento\Shipping\Helper\Carrier $carrierHelper
     ) {
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_countryFactory = $countryFactory;
         $this->_regionFactory = $regionFactory;
@@ -538,7 +528,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $key = 'rma_id';
         $method = 'getId';
         $param = array(
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+            'hash' => $this->urlEncoder->encode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -572,7 +562,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
         $param = array(
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+            'hash' => $this->urlEncoder->encode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
         );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;
@@ -588,7 +578,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', $this->_coreData->urlDecode($hash));
+        $hash = explode(':', $this->urlDecoder->decode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }

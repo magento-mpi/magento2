@@ -22,12 +22,12 @@ class Url extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData
     ) {
         $this->_coreData = $coreData;
@@ -51,7 +51,7 @@ class Url extends \Magento\Core\Helper\Url
         } else {
             $url = $this->_urlBuilder->getCurrentUrl();
         }
-        $params[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->_coreData->urlEncode($url);
+        $params[\Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED] = $this->urlEncoder->encode($url);
         return $this->_getUrl('directory/currency/switch', $params);
     }
 }

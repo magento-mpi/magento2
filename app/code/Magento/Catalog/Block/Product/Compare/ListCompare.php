@@ -72,9 +72,9 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_itemCollectionFactory;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Customer\Helper\Session\CurrentCustomer
@@ -83,7 +83,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
 
     /**
      * @param \Magento\Catalog\Block\Product\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory
      * @param Product\Visibility $catalogProductVisibility
      * @param \Magento\Customer\Model\Visitor $customerVisitor
@@ -93,7 +93,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Customer\Model\Visitor $customerVisitor,
@@ -101,7 +101,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         array $data = []
     ) {
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_customerVisitor = $customerVisitor;
@@ -122,7 +122,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
      */
     public function getAddToWishlistParams($product)
     {
-        $continueUrl = $this->_coreData->urlEncode($this->getUrl('customer/account'));
+        $continueUrl = $this->urlEncoder->encode($this->getUrl('customer/account'));
         $urlParamName = Action::PARAM_NAME_URL_ENCODED;
 
         $continueUrlParams = [$urlParamName => $continueUrl];

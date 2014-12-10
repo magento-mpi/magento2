@@ -30,13 +30,6 @@ class Cart extends \Magento\Core\Helper\Url
     const COUPON_CODE_MAX_LENGTH = 255;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Framework\App\Config\ScopeConfigInterface
@@ -55,21 +48,18 @@ class Cart extends \Magento\Core\Helper\Url
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Checkout\Model\Session $checkoutSession
     ) {
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_checkoutCart = $checkoutCart;
         $this->_checkoutSession = $checkoutSession;
@@ -95,7 +85,7 @@ class Cart extends \Magento\Core\Helper\Url
      */
     public function getAddUrl($product, $additional = [])
     {
-        $continueUrl = $this->_coreData->urlEncode($this->_urlBuilder->getCurrentUrl());
+        $continueUrl = $this->urlEncoder->encode($this->_urlBuilder->getCurrentUrl());
         $urlParamName = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
 
         $routeParams = [$urlParamName => $continueUrl, 'product' => $product->getEntityId()];

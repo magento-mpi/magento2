@@ -57,7 +57,6 @@ Magento_Newsletter
 Magento_OfflinePayments
 Magento_Ogone
 Magento_PageCache
-Magento_PayPalRecurringPayment
 Magento_Payment
 Magento_Paypal
 Magento_Pbridge
@@ -66,7 +65,6 @@ Magento_Persistent
 Magento_PricePermissions
 Magento_ProductAlert
 Magento_PromotionPermissions
-Magento_RecurringPayment
 Magento_Reminder
 Magento_Reports
 Magento_RequireJs

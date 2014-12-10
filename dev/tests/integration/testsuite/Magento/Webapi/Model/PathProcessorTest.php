@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model;
 class PathProcessorTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -23,7 +23,7 @@ class PathProcessorTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->storeManager = $objectManager->get('Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $this->pathProcessor = $objectManager->get('\Magento\Webapi\Model\PathProcessor');
     }
 

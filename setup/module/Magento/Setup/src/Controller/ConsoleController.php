@@ -154,7 +154,8 @@ class ConsoleController extends AbstractActionController
             . ' [--' . ConfigMapper::KEY_SESSION_SAVE . '=]'
             . ' [--' . ConfigMapper::KEY_ENCRYPTION_KEY . '=]'
             . ' [--' . Installer::ENABLE_MODULES . '=]'
-            . ' [--' . Installer::DISABLE_MODULES . '=]';
+            . ' [--' . Installer::DISABLE_MODULES . '=]'
+            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
             . ' [--' . UserConfig::KEY_LANGUAGE . '=]'
             . ' [--' . UserConfig::KEY_TIMEZONE . '=]'
@@ -163,8 +164,7 @@ class ConsoleController extends AbstractActionController
             . ' [--' . UserConfig::KEY_IS_SECURE . '=]'
             . ' [--' . UserConfig::KEY_BASE_URL_SECURE . '=]'
             . ' [--' . UserConfig::KEY_IS_SECURE_ADMIN . '=]'
-            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]'
-            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
+            . ' [--' . UserConfig::KEY_ADMIN_USE_SECURITY_KEY . '=]';
         $adminUser = '--' . AdminAccount::KEY_USERNAME . '='
             . ' --' . AdminAccount::KEY_PASSWORD . '='
             . ' --' . AdminAccount::KEY_EMAIL . '='

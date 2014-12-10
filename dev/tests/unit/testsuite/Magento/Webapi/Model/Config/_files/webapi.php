@@ -7,23 +7,22 @@
  */
 return [
     'services' => [
-        'Magento\Customer\Service\V1\CustomerServiceInterface' => [
-            'getCustomer' => [
+        'Magento\Customer\Api\CustomerRepositoryInterface' => [
+            'getById' => [
                 'resources' => [
                     'Magento_Customer::customer_self',
                     'Magento_Customer::read',
                 ],
                 'secure' => false,
             ],
-            'updateCustomer' => [
-                'resources' => ['Magento_Customer::customer_self'],
+            'save' => [
+                'resources' => [
+                    'Magento_Customer::customer_self',
+                    'Magento_Customer::manage'
+                ],
                 'secure' => true,
             ],
-            'createCustomer' => [
-                'resources' => ['Magento_Customer::manage'],
-                'secure' => false,
-            ],
-            'deleteCustomer' => [
+            'deleteById' => [
                 'resources' => [
                     'Magento_Customer::manage',
                     'Magento_Customer::delete',
@@ -37,8 +36,8 @@ return [
             'GET' => [
                 'secure' => false,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'getCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'getById',
                 ],
                 'resources' => [
                     'Magento_Customer::customer_self' => true,
@@ -55,8 +54,8 @@ return [
             'GET' => [
                 'secure' => false,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'getCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'getById',
                 ],
                 'resources' => [
                     'Magento_Customer::customer_self' => true,
@@ -71,8 +70,8 @@ return [
             'PUT' => [
                 'secure' => true,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'updateCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'save',
                 ],
                 'resources' => [
                     'Magento_Customer::customer_self' => true,
@@ -89,8 +88,8 @@ return [
             'POST' => [
                 'secure' => false,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'createCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'save',
                 ],
                 'resources' => [
                     'Magento_Customer::manage' => true,
@@ -103,8 +102,8 @@ return [
             'GET' => [
                 'secure' => false,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'getCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'getById',
                 ],
                 'resources' => [
                     'Magento_Customer::read' => true,
@@ -115,8 +114,8 @@ return [
             'DELETE' => [
                 'secure' => false,
                 'service' => [
-                    'class' => 'Magento\Customer\Service\V1\CustomerServiceInterface',
-                    'method' => 'deleteCustomer',
+                    'class' => 'Magento\Customer\Api\CustomerRepositoryInterface',
+                    'method' => 'deleteById',
                 ],
                 'resources' => [
                     'Magento_Customer::manage' => true,

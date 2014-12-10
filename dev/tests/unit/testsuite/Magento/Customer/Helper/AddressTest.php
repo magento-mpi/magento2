@@ -22,7 +22,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\View\Element\BlockFactory|\PHPUnit_Framework_MockObject_MockObject */
     protected $blockFactory;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|\PHPUnit_Framework_MockObject_MockObject */
@@ -46,7 +46,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\Element\BlockFactory'
         )->disableOriginalConstructor()->getMock();
         $this->storeManager = $this->getMockBuilder(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->getMock();
         $this->scopeConfig = $this->getMockBuilder(
             'Magento\Framework\App\Config\ScopeConfigInterface'

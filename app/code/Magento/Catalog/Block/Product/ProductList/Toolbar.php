@@ -108,9 +108,9 @@ class Toolbar extends \Magento\Framework\View\Element\Template
     protected $_productListHelper;
 
     /**
-     * @var \Magento\Catalog\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_catalogHelper;
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Core\Helper\PostData
@@ -122,7 +122,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param ToolbarModel $toolbarModel
-     * @param Data $helper
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Catalog\Helper\Product\ProductList $productListHelper
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param array $data
@@ -132,7 +132,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,
         ToolbarModel $toolbarModel,
-        \Magento\Catalog\Helper\Data $helper,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Catalog\Helper\Product\ProductList $productListHelper,
         \Magento\Core\Helper\PostData $postDataHelper,
         array $data = []
@@ -140,7 +140,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
         $this->_catalogSession = $catalogSession;
         $this->_catalogConfig = $catalogConfig;
         $this->_toolbarModel = $toolbarModel;
-        $this->_catalogHelper = $helper;
+        $this->urlEncoder = $urlEncoder;
         $this->_productListHelper = $productListHelper;
         $this->_postDataHelper = $postDataHelper;
         parent::__construct($context, $data);
@@ -397,7 +397,7 @@ class Toolbar extends \Magento\Framework\View\Element\Template
      */
     public function getPagerEncodedUrl($params = [])
     {
-        return $this->_catalogHelper->urlEncode($this->getPagerUrl($params));
+        return $this->urlEncoder->encode($this->getPagerUrl($params));
     }
 
     /**

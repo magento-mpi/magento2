@@ -12,7 +12,7 @@ use Magento\Customer\Api\AccountManagementInterface as CustomerAccountManagement
 use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Newsletter\Model\SubscriberFactory;
 
 class NewAction extends \Magento\Newsletter\Controller\Subscriber

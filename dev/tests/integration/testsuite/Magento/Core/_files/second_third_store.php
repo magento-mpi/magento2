@@ -32,5 +32,5 @@ $store->save();
 
 /* Refresh stores memory cache */
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->reinitStores();

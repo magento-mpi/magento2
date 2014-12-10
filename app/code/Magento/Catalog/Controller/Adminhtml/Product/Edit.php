@@ -70,7 +70,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
         $resultPage->getConfig()->getTitle()->prepend(__('Products'));
         $resultPage->getConfig()->getTitle()->prepend($product->getName());
 
-        if (!$this->_objectManager->get('Magento\Framework\StoreManagerInterface')->isSingleStoreMode()
+        if (!$this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->isSingleStoreMode()
             &&
             ($switchBlock = $resultPage->getLayout()->getBlock('store_switcher'))
         ) {

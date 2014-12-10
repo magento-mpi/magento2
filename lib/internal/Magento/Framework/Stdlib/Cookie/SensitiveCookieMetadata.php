@@ -8,7 +8,7 @@
 
 namespace Magento\Framework\Stdlib\Cookie;
 
-use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\App\Http\RequestInterface;
 
 /**
  * Class SensitiveCookieMetadata
@@ -19,20 +19,20 @@ use Magento\Framework\StoreManagerInterface;
 class SensitiveCookieMetadata extends CookieMetadata
 {
     /**
-     * @var StoreManagerInterface
+     * @var RequestInterface
      */
-    protected $storeManager;
+    protected $request;
 
     /**
-     * @param StoreManagerInterface $storeManager
+     * @param RequestInterface $request
      * @param array $metadata
      */
-    public function __construct(StoreManagerInterface $storeManager, $metadata = [])
+    public function __construct(RequestInterface $request, $metadata = [])
     {
         if (!isset($metadata[self::KEY_HTTP_ONLY])) {
             $metadata[self::KEY_HTTP_ONLY] = true;
         }
-        $this->storeManager = $storeManager;
+        $this->request = $request;
         parent::__construct($metadata);
     }
 
@@ -55,19 +55,14 @@ class SensitiveCookieMetadata extends CookieMetadata
     }
 
     /**
-     * Update secure value, set it to store setting if it has no explicit value assigned.
+     * Update secure value, set it to request setting if it has no explicit value assigned.
      *
      * @return void
      */
     private function updateSecureValue()
     {
         if (null === $this->get(self::KEY_SECURE)) {
-            $store = $this->storeManager->getStore();
-            if (empty($store)) {
-                $this->set(self::KEY_SECURE, true);
-            } else {
-                $this->set(self::KEY_SECURE, $store->isCurrentlySecure());
-            }
+            $this->set(self::KEY_SECURE, $this->request->isSecure());
         }
     }
 }

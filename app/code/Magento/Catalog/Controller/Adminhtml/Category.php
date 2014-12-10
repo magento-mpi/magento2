@@ -47,7 +47,7 @@ class Category extends \Magento\Backend\App\Action
             $category->load($categoryId);
             if ($storeId) {
                 $rootId = $this->_objectManager->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore(
                     $storeId
                 )->getRootCategoryId();

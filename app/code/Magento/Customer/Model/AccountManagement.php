@@ -35,7 +35,7 @@ use Magento\Framework\Math\Random;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String as StringHelper;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 
 /**
@@ -111,7 +111,7 @@ class AccountManagement implements AccountManagementInterface
     private $eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
 
@@ -119,11 +119,6 @@ class AccountManagement implements AccountManagementInterface
      * @var Random
      */
     private $mathRandom;
-
-    /**
-     * @var Converter
-     */
-    private $converter;
 
     /**
      * @var Validator
@@ -223,7 +218,6 @@ class AccountManagement implements AccountManagementInterface
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
      * @param Random $mathRandom
-     * @param Converter $converter
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
@@ -253,7 +247,6 @@ class AccountManagement implements AccountManagementInterface
         ManagerInterface $eventManager,
         StoreManagerInterface $storeManager,
         Random $mathRandom,
-        Converter $converter,
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
@@ -280,7 +273,6 @@ class AccountManagement implements AccountManagementInterface
         $this->eventManager = $eventManager;
         $this->storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
-        $this->converter = $converter;
         $this->validator = $validator;
         $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
@@ -706,7 +698,7 @@ class AccountManagement implements AccountManagementInterface
                 ->create();
         }
 
-        $customerModel = $this->converter->createCustomerModel(
+        $customerModel = $this->customerFactory->create()->updateData(
             $this->customerDataBuilder->populate($customer)->setAddresses([])->create()
         );
 

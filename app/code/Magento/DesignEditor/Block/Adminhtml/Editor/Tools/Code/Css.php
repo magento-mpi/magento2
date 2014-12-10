@@ -13,21 +13,21 @@ namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Code;
 class Css extends \Magento\Backend\Block\Widget\Form
 {
     /**
-     * @var \Magento\DesignEditor\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_designEditorHelper;
+    protected $urlEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\DesignEditor\Helper\Data $designEditorHelper,
+        \Magento\DesignEditor\Helper\Data $urlEncoder,
         array $data = array()
     ) {
-        $this->_designEditorHelper = $designEditorHelper;
+        $this->urlEncoder = $urlEncoder;
         parent::__construct($context, $data);
     }
 
@@ -54,7 +54,7 @@ class Css extends \Magento\Backend\Block\Widget\Form
     {
         return $this->getUrl(
             'adminhtml/system_design_theme/downloadCss',
-            ['theme_id' => $themeId, 'file' => $this->_designEditorHelper->urlEncode($fileId)]
+            ['theme_id' => $themeId, 'file' => $this->urlEncoder->encode($fileId)]
         );
     }
 

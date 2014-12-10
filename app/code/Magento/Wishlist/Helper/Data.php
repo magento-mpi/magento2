@@ -55,13 +55,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_wishlistItemCollection;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core registry
      *
      * @var \Magento\Framework\Registry
@@ -86,7 +79,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_wishlistFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -107,30 +100,27 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param WishlistProviderInterface $wishlistProvider
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         WishlistProviderInterface $wishlistProvider
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
         $this->_customerSession = $customerSession;
         $this->_wishlistFactory = $wishlistFactory;
@@ -401,7 +391,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _getCartUrlParameters($item)
     {
-        $continueUrl = $this->_coreData->urlEncode(
+        $continueUrl = $this->urlEncoder->encode(
             $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
         );
 
@@ -433,7 +423,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function isAllow()
     {
-        if ($this->isModuleOutputEnabled() && $this->_scopeConfig->getValue(
+        if ($this->_moduleManager->isOutputEnabled($this->_getModuleName()) && $this->_scopeConfig->getValue(
             'wishlist/general/active',
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE
         )
@@ -476,7 +466,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array('data' => $this->_coreData->urlEncode($key), '_secure' => false);
+            $params = array('data' => $this->urlEncoder->encode($key), '_secure' => false);
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

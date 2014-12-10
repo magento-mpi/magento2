@@ -12,13 +12,15 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
     public function testGetValue()
     {
         $uri = 'index.php/customer';
+        $isSecure = 0;
         $vary = 1;
-        $expected = md5(serialize(array($uri, $vary)));
+        $expected = md5(serialize(array($isSecure, $uri, $vary)));
 
         $requestMock = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
-        $requestMock->expects($this->once())->method('getRequestUri')->will($this->returnValue($uri));
+        $requestMock->expects($this->once())->method('isSecure')->willReturn($isSecure);
+        $requestMock->expects($this->once())->method('getRequestUri')->willReturn($uri);
         $requestMock->expects(
             $this->once()
         )->method(

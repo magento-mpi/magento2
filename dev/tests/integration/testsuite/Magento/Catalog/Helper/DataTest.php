@@ -203,7 +203,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
@@ -224,7 +224,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());

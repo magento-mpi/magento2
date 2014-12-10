@@ -19,7 +19,8 @@ class RequestTest extends \PHPUnit_Framework_TestCase
         $this->_model = new \Magento\TestFramework\Request(
             $this->getMock('Magento\Framework\App\Route\ConfigInterface\Proxy', [], [], '', false),
             $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface', [], [], '', false),
-            $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface')
+            $this->getMock('Magento\Framework\Stdlib\Cookie\CookieReaderInterface'),
+            $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface')
         );
     }
 

@@ -32,7 +32,7 @@ class AdminConfig extends Config
     protected $_frontNameResolver;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -45,7 +45,7 @@ class AdminConfig extends Config
      * @param DeploymentConfig $deploymentConfig
      * @param string $scopeType
      * @param FrontNameResolver $frontNameResolver
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string $lifetimePath
      * @param string $sessionName
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -59,7 +59,7 @@ class AdminConfig extends Config
         DeploymentConfig $deploymentConfig,
         $scopeType,
         FrontNameResolver $frontNameResolver,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $lifetimePath = self::XML_PATH_COOKIE_LIFETIME,
         $sessionName = self::SESSION_NAME_ADMIN
     ) {

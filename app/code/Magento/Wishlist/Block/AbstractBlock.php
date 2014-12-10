@@ -69,16 +69,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     }
 
     /**
-     * Retrieve Customer Session instance
-     *
-     * @return \Magento\Customer\Model\Session
-     */
-    protected function _getCustomerSession()
-    {
-        return $this->_customerSession;
-    }
-
-    /**
      * Retrieve Wishlist model
      *
      * @return \Magento\Wishlist\Model\Wishlist

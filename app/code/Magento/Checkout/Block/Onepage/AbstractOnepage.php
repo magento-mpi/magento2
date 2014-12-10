@@ -238,11 +238,11 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $label = $this->_addressConfig->getFormatByCode(
-                    AddressConfig::DEFAULT_ADDRESS_FORMAT
-                )->getRenderer()->renderArray(
-                    $this->addressMapper->toFlatArray($address)
-                );
+                $builtOutputAddressData = $this->addressMapper->toFlatArray($address);
+                $label = $this->_addressConfig
+                    ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
+                    ->getRenderer()
+                    ->renderArray($builtOutputAddressData);
 
                 $options[] = ['value' => $address->getId(), 'label' => $label];
             }
@@ -262,10 +262,8 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
 
             $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
                 ->setName($type . '_address_id')
-                ->setId($type . '-address-select')
+                ->setId($type . ':address-select')
                 ->setClass('address-select')
-                //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
-                // temp disable inline javascript, need to clean this later
                 ->setValue($addressId)
                 ->setOptions($options);
 

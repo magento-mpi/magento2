@@ -56,11 +56,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $addressConverterMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $eventManagerMock;
 
     /**
@@ -227,9 +222,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
-        $this->addressConverterMock = $this->getMockBuilder('Magento\Customer\Model\Address\Converter')
-            ->disableOriginalConstructor()
-            ->getMock();
         $this->groupRepositoryMock = $this->getMockBuilder('Magento\Customer\Api\GroupRepositoryInterface')
             ->disableOriginalConstructor()
             ->getMock();
@@ -294,7 +286,6 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
                     'resource' => $this->resourceMock,
                     'context' => $this->contextMock,
                     'customerFactory' => $this->customerFactoryMock,
-                    'addressConverter' => $this->addressConverterMock,
                     'groupRepository' => $this->groupRepositoryMock,
                     'objectFactory' => $this->objectFactoryMock,
                     'addressRepository' => $this->addressRepositoryMock,
@@ -344,7 +335,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomerGroupIdNotSet()
     {
         $this->assertEquals(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
             $this->quote->getCustomerGroupId(),
             "Customer group ID is invalid"
         );

@@ -1869,17 +1869,13 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->_errors[] = __('A payment method must be specified.');
         } else {
             $method = $this->getQuote()->getPayment()->getMethodInstance();
-            if (!$method) {
-                $this->_errors[] = __('This payment method instance is not available.');
+            if (!$method->isAvailable($this->getQuote())) {
+                $this->_errors[] = __('This payment method is not available.');
             } else {
-                if (!$method->isAvailable($this->getQuote())) {
-                    $this->_errors[] = __('This payment method is not available.');
-                } else {
-                    try {
-                        $method->validate();
-                    } catch (\Magento\Framework\Model\Exception $e) {
-                        $this->_errors[] = $e->getMessage();
-                    }
+                try {
+                    $method->validate();
+                } catch (\Magento\Framework\Model\Exception $e) {
+                    $this->_errors[] = $e->getMessage();
                 }
             }
         }

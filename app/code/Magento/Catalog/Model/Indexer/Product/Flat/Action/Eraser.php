@@ -22,19 +22,19 @@ class Eraser
     protected $connection;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productIndexerHelper = $productHelper;
         $this->connection = $resource->getConnection('default');

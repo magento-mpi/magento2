@@ -68,7 +68,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -106,7 +106,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Persistent\Helper\Data $persistentData
      * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Math\Random $mathRandom
      * @param \Magento\Framework\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -121,7 +121,7 @@ class Session extends \Magento\Framework\Model\AbstractModel
         \Magento\Persistent\Helper\Data $persistentData,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Framework\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

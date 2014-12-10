@@ -43,11 +43,18 @@ class PhpCookieManager implements CookieManagerInterface
     private $scope;
 
     /**
-     * @param CookieScopeInterface $scope
+     * @var CookieReaderInterface
      */
-    public function __construct(CookieScopeInterface $scope)
+    private $reader;
+
+    /**
+     * @param CookieScopeInterface $scope
+     * @param CookieReaderInterface $reader
+     */
+    public function __construct(CookieScopeInterface $scope, CookieReaderInterface $reader)
     {
         $this->scope = $scope;
+        $this->reader = $reader;
     }
 
     /**
@@ -234,7 +241,7 @@ class PhpCookieManager implements CookieManagerInterface
      */
     public function getCookie($name, $default = null)
     {
-        return (isset($_COOKIE[$name])) ? $_COOKIE[$name] : $default;
+        return $this->reader->getCookie($name, $default);
     }
 
     /**

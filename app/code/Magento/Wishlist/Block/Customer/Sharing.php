@@ -69,7 +69,7 @@ class Sharing extends \Magento\Framework\View\Element\Template
      */
     public function getSendUrl()
     {
-        return $this->getUrl('*/*/send');
+        return $this->getUrl('wishlist/index/send');
     }
 
     /**
@@ -98,7 +98,7 @@ class Sharing extends \Magento\Framework\View\Element\Template
      */
     public function getBackUrl()
     {
-        return $this->getUrl('*/*/index');
+        return $this->getUrl('wishlist');
     }
 
     /**

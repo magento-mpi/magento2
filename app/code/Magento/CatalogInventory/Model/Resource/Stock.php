@@ -9,7 +9,7 @@
 namespace Magento\CatalogInventory\Model\Resource;
 
 use Magento\CatalogInventory\Api\StockConfigurationInterface;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Stock resource model

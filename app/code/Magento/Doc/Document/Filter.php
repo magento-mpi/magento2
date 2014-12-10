@@ -32,7 +32,7 @@ class Filter extends \Magento\Framework\Filter\Template
     protected $escaper = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -53,7 +53,7 @@ class Filter extends \Magento\Framework\Filter\Template
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $variables
      */
     public function __construct(
@@ -61,7 +61,7 @@ class Filter extends \Magento\Framework\Filter\Template
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $variables = []
     ) {
         $this->escaper = $escaper;

@@ -18,4 +18,17 @@ class PageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('/enable-cookies/');
         $this->assertContains('What are Cookies?', $this->getResponse()->getBody());
     }
+
+    /**
+     * Test \Magento\Cms\Block\Page::_addBreadcrumbs
+     */
+    public function testAddBreadcrumbs()
+    {
+        $this->dispatch('/enable-cookies/');
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Framework\View\LayoutInterface'
+        );
+        $breadcrumbsBlock = $layout->getBlock('breadcrumbs');
+        $this->assertContains($breadcrumbsBlock->toHtml(), $this->getResponse()->getBody());
+    }
 }

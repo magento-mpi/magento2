@@ -21,7 +21,7 @@ class Collection extends \Magento\Search\Model\Resource\Query\Collection
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Search\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Registry $registry
      * @param mixed $connection
@@ -32,7 +32,7 @@ class Collection extends \Magento\Search\Model\Resource\Query\Collection
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Search\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Registry $registry,
         $connection = null,

@@ -52,13 +52,13 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Framework\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     private function getMockedStoreManager()
     {
         $mockedStore = $this->getMockedStore();
 
-        $mockBuilder = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface');
+        $mockBuilder = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface');
         $mock = $mockBuilder->setMethods(['getStore'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();

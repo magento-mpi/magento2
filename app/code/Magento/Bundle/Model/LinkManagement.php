@@ -45,7 +45,7 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
      * @param \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory
      * @param \Magento\Bundle\Model\SelectionFactory $bundleSelection
      * @param \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         ProductRepositoryInterface $productRepository,
@@ -53,7 +53,7 @@ class LinkManagement implements \Magento\Bundle\Api\ProductLinkManagementInterfa
         \Magento\Bundle\Model\SelectionFactory $bundleSelection,
         \Magento\Bundle\Model\Resource\BundleFactory $bundleFactory,
         \Magento\Bundle\Model\Resource\Option\CollectionFactory $optionCollection,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productRepository = $productRepository;
         $this->linkBuilder = $linkBuilder;

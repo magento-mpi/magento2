@@ -23,7 +23,8 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected function _toHtml()
     {
         $payment = $this->getQuote()->getPayment();
-        if ($payment && ($method = $payment->getMethodInstance())) {
+        if ($payment) {
+            $method = $payment->getMethodInstance();
             if ($method->getIsCentinelValidationEnabled() && ($centinel = $method->getCentinelValidator())) {
                 $this->setFrameUrl(
                     $centinel->getValidatePaymentDataUrl()

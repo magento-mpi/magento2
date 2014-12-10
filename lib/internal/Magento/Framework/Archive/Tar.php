@@ -237,45 +237,6 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
     }
 
     /**
-     * Walk through directory and add to tar file or directory.
-     * Result is packed string on TAR format.
-     *
-     * @param bool $skipRoot
-     * @return string
-     * @throws \Magento\Framework\Exception
-     *
-     * @deprecated after 1.7.0.0
-     */
-    protected function _packToTar($skipRoot = false)
-    {
-        $file = $this->_getCurrentFile();
-        $header = '';
-        $data = '';
-        if (!$skipRoot) {
-            $header = $this->_composeHeader();
-            $data = $this->_readFile($file);
-            $data = str_pad($data, floor(((is_dir($file) ? 0 : filesize($file)) + 512 - 1) / 512) * 512, "\0");
-        }
-        $sub = '';
-        if (is_dir($file)) {
-            $treeDir = scandir($file);
-            if (empty($treeDir)) {
-                throw new \Magento\Framework\Exception('Can\'t scan dir: ' . $file);
-            }
-            array_shift($treeDir);
-            /* remove  './'*/
-            array_shift($treeDir);
-            /* remove  '../'*/
-            foreach ($treeDir as $item) {
-                $sub .= $this->_setCurrentFile($file . $item)->_packToTar(false);
-            }
-        }
-        $tarData = $header . $data . $sub;
-        $tarData = str_pad($tarData, floor((strlen($tarData) - 1) / 1536) * 1536, "\0");
-        return $tarData;
-    }
-
-    /**
      * Recursively walk through file tree and create tarball
      *
      * @param bool $skipRoot
@@ -463,71 +424,6 @@ class Tar extends \Magento\Framework\Archive\AbstractArchive implements \Magento
             }
         }
         return $list;
-    }
-
-    /**
-     * Get header from TAR string and unpacked it by format.
-     *
-     * @param resource &$pointer
-     * @return string|bool
-     *
-     * @deprecated after 1.7.0.0
-     */
-    protected function _parseHeader(&$pointer)
-    {
-        $firstLine = fread($pointer, 512);
-
-        if (strlen($firstLine) < 512) {
-            return false;
-        }
-
-        $fmt = self::_getFormatParseHeader();
-        $header = unpack($fmt, $firstLine);
-
-        $header['mode'] = $header['mode'] + 0;
-        $header['uid'] = octdec($header['uid']);
-        $header['gid'] = octdec($header['gid']);
-        $header['size'] = octdec($header['size']);
-        $header['mtime'] = octdec($header['mtime']);
-        $header['checksum'] = octdec($header['checksum']);
-
-        if ($header['type'] == "5") {
-            $header['size'] = 0;
-        }
-
-        $checksum = 0;
-        $firstLine = substr_replace($firstLine, '        ', 148, 8);
-        for ($i = 0; $i < 512; $i++) {
-            $checksum += ord(substr($firstLine, $i, 1));
-        }
-
-        $isUstar = 'ustar' == strtolower(substr($header['magic'], 0, 5));
-
-        $checksumOk = $header['checksum'] == $checksum;
-        if (isset($header['name']) && $checksumOk) {
-            if ($header['name'] == '././@LongLink' && $header['type'] == 'L') {
-                $realName = substr(
-                    fread($pointer, floor(($header['size'] + 512 - 1) / 512) * 512),
-                    0,
-                    $header['size']
-                );
-                $headerMain = $this->_parseHeader($pointer);
-                $headerMain['name'] = $realName;
-                return $headerMain;
-            } else {
-                if ($header['size'] > 0) {
-                    $header['data'] = substr(
-                        fread($pointer, floor(($header['size'] + 512 - 1) / 512) * 512),
-                        0,
-                        $header['size']
-                    );
-                } else {
-                    $header['data'] = '';
-                }
-                return $header;
-            }
-        }
-        return false;
     }
 
     /**

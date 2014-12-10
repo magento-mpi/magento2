@@ -32,9 +32,9 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Module\Manager
      */
-    protected $_coreData = null;
+    protected $moduleManager;
 
     /**
      * Core event manager proxy
@@ -47,16 +47,16 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Data $coreData
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreData = $coreData;
+        $this->moduleManager = $moduleManager;
         parent::__construct($resource, $eavConfig);
     }
 
@@ -256,7 +256,7 @@ class DefaultPrice extends \Magento\Catalog\Model\Resource\Product\Indexer\Abstr
         // add enable products limitation
         $statusCond = $write->quoteInto('=?', \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED);
         $this->_addAttributeToSelect($select, 'status', 'e.entity_id', 'cs.store_id', $statusCond, true);
-        if ($this->_coreData->isModuleEnabled('Magento_Tax')) {
+        if ($this->moduleManager->isEnabled('Magento_Tax')) {
             $taxClassId = $this->_addAttributeToSelect($select, 'tax_class_id', 'e.entity_id', 'cs.store_id');
         } else {
             $taxClassId = new \Zend_Db_Expr('0');

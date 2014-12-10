@@ -38,20 +38,18 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->requestMock = $this->getMock('\Magento\Framework\App\RequestInterface');
         $this->pricePerDataMock = $this->getMock('\Magento\PricePermissions\Helper\Data', [], [], '', false);
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
             [
                 '__wakeup',
-                'setIsRecurring',
                 'isObjectNew',
                 'getTypeId',
                 'getPriceType',
                 'setPrice',
                 'setGiftcardAmounts',
-                'unsRecurringPayment',
                 'setMsrpEnabled',
                 'setMsrpDisplayActualPriceType'
             ],
@@ -74,7 +72,6 @@ class NewObjectTest extends \PHPUnit_Framework_TestCase
     public function testHandleWithNotNewProduct()
     {
         $this->productMock->expects($this->once())->method('isObjectNew')->will($this->returnValue(false));
-        $this->productMock->expects($this->never())->method('setIsRecurring');
         $this->model->handle($this->productMock);
     }
 

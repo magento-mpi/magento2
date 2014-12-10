@@ -24,7 +24,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Theme\Helper\Storage
+     * @var \Magento\Theme\Helper\Storage|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperStorage;
 
@@ -48,6 +48,16 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     protected $directoryWrite;
 
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlEncoder;
+
+    /**
+     * @var \Magento\Framework\Url\DecoderInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $urlDecoder;
+
     protected function setUp()
     {
         $this->_filesystem = $this->getMock('Magento\Framework\Filesystem', [], [], '', false);
@@ -61,6 +71,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
+        $this->urlEncoder = $this->getMock('Magento\Framework\Url\EncoderInterface', ['encode'], [], '', false);
+        $this->urlDecoder = $this->getMock('Magento\Framework\Url\DecoderInterface', ['decode'], [], '', false);
 
         $this->_filesystem->expects(
             $this->once()
@@ -74,7 +86,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $this->_filesystem,
             $this->_helperStorage,
             $this->_objectManager,
-            $this->_imageFactory
+            $this->_imageFactory,
+            $this->urlEncoder,
+            $this->urlDecoder
         );
 
         $this->_storageRoot = '/root';
@@ -460,15 +474,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->method('getCurrentPath')
             ->will($this->returnValue($this->_storageRoot));
 
-        $this->_helperStorage->expects(
-            $this->atLeastOnce()
-        )->method(
-            'urlDecode'
-        )->with(
-            $image
-        )->will(
-            $this->returnArgument(0)
-        );
+        $this->urlDecoder->expects($this->any())
+            ->method('decode')
+            ->with($image)
+            ->willReturnArgument(0);
 
         $this->directoryWrite->expects(
             $this->at(0)

@@ -32,7 +32,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -67,7 +67,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string $formBlock
      * @param array $data
      *
@@ -83,7 +83,7 @@ class Method extends \Magento\Payment\Model\Method\Cc
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $formBlock = '',
         array $data = []
     ) {

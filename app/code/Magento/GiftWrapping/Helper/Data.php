@@ -72,7 +72,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -92,11 +92,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $taxCalculationService;
 
     /**
-     * @var \Magento\Customer\Model\Address\Converter
-     */
-    protected $addressConverter;
-
-    /**
      * @var PriceCurrencyInterface
      */
     protected $priceCurrency;
@@ -104,21 +99,19 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder
      * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param TaxCalculationInterface $taxCalculationService
-     * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Api\Data\QuoteDetailsDataBuilder $quoteDetailsBuilder,
         \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         TaxCalculationInterface $taxCalculationService,
-        AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency
     ) {
         $this->_scopeConfig = $scopeConfig;
@@ -126,7 +119,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->quoteDetailsBuilder = $quoteDetailsBuilder;
         $this->quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->taxCalculationService = $taxCalculationService;
-        $this->addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
         parent::__construct($context);
     }
@@ -574,20 +566,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         if ($taxClassId && $includeTax) {
             $shippingAddressDataObject = null;
             if ($shippingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $shippingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $shippingAddress,
-                    null,
-                    null
-                );
+                $shippingAddressDataObject = $shippingAddress->getDataModel();
             }
 
             $billingAddressDataObject = null;
             if ($billingAddress instanceof \Magento\Customer\Model\Address\AbstractAddress) {
-                $billingAddressDataObject = $this->addressConverter->createAddressFromModel(
-                    $billingAddress,
-                    null,
-                    null
-                );
+                $billingAddressDataObject = $billingAddress->getDataModel();
             }
 
             $taxableItem = $this->quoteDetailsItemBuilder->setQuantity(1)

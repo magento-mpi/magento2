@@ -37,7 +37,7 @@ class CheckRatesTest extends \PHPUnit_Framework_TestCase
 
         $this->rateFactoryMock = $this->getMock('\Magento\Reward\Model\Reward\RateFactory', ['create'], [], '', false);
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
 
         $this->subject = $objectManager->getObject(
             '\Magento\Reward\Model\Observer\CheckRates',

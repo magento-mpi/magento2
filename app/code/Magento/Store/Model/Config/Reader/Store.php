@@ -37,7 +37,7 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
     protected $_storeFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -47,7 +47,7 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
      * @param \Magento\Store\Model\Config\Converter $converter
      * @param \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory
      * @param \Magento\Store\Model\StoreFactory $storeFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Config\Initial $initialConfig,
@@ -55,7 +55,7 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
         \Magento\Store\Model\Config\Converter $converter,
         \Magento\Store\Model\Resource\Config\Collection\ScopedFactory $collectionFactory,
         \Magento\Store\Model\StoreFactory $storeFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_initialConfig = $initialConfig;
         $this->_scopePool = $scopePool;
@@ -83,7 +83,7 @@ class Store implements \Magento\Framework\App\Config\Scope\ReaderInterface
             $store->load($code);
         }
 
-        if (!$store->getCode()) {
+        if (!($store && $store->getCode())) {
             throw NoSuchEntityException::singleField('storeCode', $code);
         }
         $websiteConfig = $this->_scopePool->getScope(

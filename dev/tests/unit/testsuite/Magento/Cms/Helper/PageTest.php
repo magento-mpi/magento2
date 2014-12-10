@@ -36,7 +36,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
     protected $pageMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -143,7 +143,7 @@ class PageTest extends \PHPUnit_Framework_TestCase
                 ]
             )
             ->getMock();
-        $this->storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->getMockForAbstractClass();
         $this->localeDateMock = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime\TimezoneInterface')
             ->getMockForAbstractClass();

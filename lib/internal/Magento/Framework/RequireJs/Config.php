@@ -120,7 +120,7 @@ config;
      */
     public function getConfigFileRelativePath()
     {
-        return self::DIR_NAME . '/' . $this->staticContext->getPath() . '/' . self::CONFIG_FILE_NAME;
+        return self::DIR_NAME . '/' . $this->staticContext->getConfigPath() . '/' . self::CONFIG_FILE_NAME;
     }
 
     /**

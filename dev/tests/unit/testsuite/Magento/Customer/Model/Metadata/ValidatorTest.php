@@ -52,7 +52,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     public function testIsValidWithNoModel()
     {
         $attribute = $this->getMockBuilder(
-            '\Magento\Customer\Service\V1\Data\Eav\AttributeMetadata'
+            '\Magento\Customer\Api\Data\AttributeMetadataInterface'
         )->disableOriginalConstructor()->getMock();
         $this->attrDataFactoryMock->expects($this->never())->method('create');
         $this->validator->setAttributes([$attribute]);

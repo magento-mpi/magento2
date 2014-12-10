@@ -103,7 +103,6 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->customerGroupServiceMock = $this->getMock('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
 
         $this->itemUpdater = $this->getMock('Magento\Sales\Model\Quote\Item\Updater', [], [], '', false);
 
@@ -206,7 +205,7 @@ class CreateTest extends \PHPUnit_Framework_TestCase
 
         foreach ($attributes as $attribute) {
             $attributeMock = $this->getMock(
-                'Magento\Customer\Service\V1\Data\Eav\AttributeMetadata',
+                'Magento\Customer\Api\Data\AttributeMetadataInterface',
                 [],
                 [],
                 '',

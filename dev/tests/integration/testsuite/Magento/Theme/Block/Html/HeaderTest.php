@@ -41,12 +41,10 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         //Setup customer session
         $customerIdFromFixture = 1;
         $customerSession = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session');
-        /**
-         * @var $customerService \Magento\Customer\Service\V1\CustomerAccountServiceInterface
-         */
+        /** @var $customerService \Magento\Customer\Api\CustomerRepositoryInterface */
         $customerService = Bootstrap::getObjectManager()
-            ->create('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customerData = $customerService->getCustomer($customerIdFromFixture);
+            ->create('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customerData = $customerService->getById($customerIdFromFixture);
         $customerSession->setCustomerDataObject($customerData);
 
         //Create block and inject customer session

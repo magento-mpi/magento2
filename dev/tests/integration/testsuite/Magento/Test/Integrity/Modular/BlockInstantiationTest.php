@@ -35,8 +35,8 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
                 $context->setValue(Context::CONTEXT_AUTH, false, false);
                 $context->setValue(
                     Context::CONTEXT_GROUP,
-                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
-                    \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID
+                    \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
+                    \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID
                 );
                 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea($area);
 
@@ -59,7 +59,7 @@ class BlockInstantiationTest extends \Magento\TestFramework\TestCase\AbstractInt
         try {
             /** @var $website \Magento\Store\Model\Website */
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->setWebsiteId(
                 0
             );

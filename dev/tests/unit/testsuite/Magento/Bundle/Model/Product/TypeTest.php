@@ -25,7 +25,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     protected $catalogData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -51,7 +51,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $this->catalogData = $this->getMockBuilder('Magento\Catalog\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $this->bundleOptionFactory = $this->getMockBuilder('Magento\Bundle\Model\OptionFactory')

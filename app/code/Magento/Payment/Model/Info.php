@@ -94,24 +94,24 @@ class Info extends AbstractExtensibleModel
     /**
      * Retrieve payment method model object
      *
-     * @return MethodInterface
+     * @return \Magento\Payment\Model\MethodInterface
      * @throws \Magento\Framework\Model\Exception
      */
     public function getMethodInstance()
     {
         if (!$this->hasMethodInstance()) {
-            if ($this->getMethod()) {
-                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
-                if (!$instance) {
-                    $instance = $this->_paymentData->getMethodInstance(
-                        Method\Substitution::CODE
-                    );
-                }
-                $instance->setInfoInstance($this);
-                $this->setMethodInstance($instance);
-                return $instance;
+            if (!$this->getMethod()) {
+                throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
             }
-            throw new \Magento\Framework\Model\Exception(__('The payment method you requested is not available.'));
+
+            try {
+                $instance = $this->_paymentData->getMethodInstance($this->getMethod());
+            } catch (\UnexpectedValueException $e) {
+                $instance = $this->_paymentData->getMethodInstance(Method\Substitution::CODE);
+            }
+
+            $instance->setInfoInstance($this);
+            $this->setMethodInstance($instance);
         }
 
         return $this->_getData('method_instance');

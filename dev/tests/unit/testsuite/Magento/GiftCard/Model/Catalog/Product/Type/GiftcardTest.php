@@ -40,7 +40,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     protected $_store;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManagerMock;
 
@@ -62,7 +62,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_storeManagerMock = $this->getMockBuilder(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
             ['getStore']
         )->getMockForAbstractClass();

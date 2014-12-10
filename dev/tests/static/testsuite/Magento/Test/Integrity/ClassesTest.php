@@ -528,4 +528,33 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         }
         $this->fail("Incorrect namespace usage(s) found in file {$file}:\n" . implode("\n", $badClasses));
     }
+
+    public function testCoversAnnotation()
+    {
+        $files = \Magento\Framework\Test\Utility\Files::init();
+        $errors = [];
+        foreach ($files->getFiles([BP . '/dev/tests/{integration,unit}'], '*') as $file) {
+            $code = file_get_contents($file);
+            if (preg_match('/@covers(DefaultClass)?\s+([\w\\\\]+)(::([\w\\\\]+))?/', $code, $matches)) {
+                if ($this->isNonexistentEntityCovered($matches, $files)) {
+                    $errors[] = $file . ': ' . $matches[0];
+                }
+            }
+        }
+        if ($errors) {
+            $this->fail(implode(PHP_EOL, $errors));
+        }
+    }
+
+    /**
+     * @param array $matches
+     * @param \Magento\Framework\Test\Utility\Files $files
+     * @return bool
+     */
+    private function isNonexistentEntityCovered($matches, $files)
+    {
+        return (!empty($matches[2]) && !class_exists($matches[2])
+            || !empty($matches[4]) && !method_exists($matches[2], $matches[4]))
+            && strpos($matches[2], 'Magento\TestFramework') === false; // not autoloaded currently
+    }
 }

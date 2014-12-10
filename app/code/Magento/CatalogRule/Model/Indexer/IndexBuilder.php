@@ -24,7 +24,7 @@ class IndexBuilder
     protected $resource;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -77,7 +77,7 @@ class IndexBuilder
      * @param RuleCollectionFactory $ruleCollectionFactory
      * @param PriceCurrencyInterface $priceCurrency
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Framework\Stdlib\DateTime $dateFormat
@@ -89,7 +89,7 @@ class IndexBuilder
         RuleCollectionFactory $ruleCollectionFactory,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Logger $logger,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Framework\Stdlib\DateTime $dateFormat,

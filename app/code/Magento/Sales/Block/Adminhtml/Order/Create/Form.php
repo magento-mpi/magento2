@@ -10,15 +10,10 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 
 /**
- * Class Form
  * Adminhtml sales order create form block
  */
 class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 {
-    /**
-     * @var \Magento\Customer\Model\Address\Mapper
-     */
-    protected $addressConverter;
     /**
      * Customer form factory
      *
@@ -51,7 +46,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $addressMapper;
 
     /**
-     * Constructor
+     * Initialize dependencies.
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
@@ -173,13 +168,13 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
             $addresses = $this->customerRepository->getById($this->getCustomerId())->getAddresses();
 
-            foreach ($addresses as $addressDataObject) {
+            foreach ($addresses as $address) {
                 $addressForm = $this->_customerFormFactory->create(
                     'customer_address',
                     'adminhtml_customer_address',
-                    $this->addressMapper->toFlatArray($addressDataObject)
+                    $this->addressMapper->toFlatArray($address)
                 );
-                $data['addresses'][$addressDataObject->getId()] = $addressForm->outputData(
+                $data['addresses'][$address->getId()] = $addressForm->outputData(
                     \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
                 );
             }

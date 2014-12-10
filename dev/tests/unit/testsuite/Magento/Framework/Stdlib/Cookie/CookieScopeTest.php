@@ -24,8 +24,14 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
 
     private $defaultScopeParams;
 
+    private $requestMock;
+
     public function setUp()
     {
+        $this->requestMock = $this->getMockBuilder('Magento\Framework\App\Http\RequestInterface')
+            ->disableOriginalConstructor()->getMock();
+        $this->requestMock->expects($this->any())
+            ->method('isSecure')->willReturn(true);
         $this->objectManager = new ObjectManager($this);
         $cookieMetadataFactory = $this
             ->getMockBuilder('Magento\Framework\Stdlib\Cookie\CookieMetadataFactory')
@@ -289,7 +295,7 @@ class CookieScopeTest extends \PHPUnit_Framework_TestCase
     {
         return $this->objectManager->getObject(
             'Magento\Framework\Stdlib\Cookie\SensitiveCookieMetadata',
-            ['metadata' => $metadata]
+            ['metadata' => $metadata, 'request' => $this->requestMock]
         );
     }
 

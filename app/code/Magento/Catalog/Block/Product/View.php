@@ -28,9 +28,14 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
     protected $_jsonEncoder;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Pricing\PriceCurrencyInterface
      */
-    protected $_coreData;
+    protected $priceCurrency;
+
+    /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
 
     /**
      * @var \Magento\Catalog\Helper\Product
@@ -59,19 +64,19 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
     /**
      * @param Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Framework\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $productRepository
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Catalog\Helper\Product $productHelper,
@@ -79,16 +84,18 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         array $data = array()
     ) {
         $this->_productHelper = $productHelper;
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_jsonEncoder = $jsonEncoder;
         $this->productTypeConfig = $productTypeConfig;
         $this->string = $string;
         $this->_localeFormat = $localeFormat;
         $this->customerSession = $customerSession;
         $this->productRepository = $productRepository;
+        $this->priceCurrency = $priceCurrency;
         parent::__construct(
             $context,
             $data
@@ -192,7 +199,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
 
         $addUrlKey = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
-        $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
+        $additional[$addUrlKey] = $this->urlEncoder->encode($addUrlValue);
 
         return $this->_cartHelper->getAddUrl($product, $additional);
     }
@@ -220,33 +227,27 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         $tierPrices = [];
         $tierPricesList = $product->getPriceInfo()->getPrice('tier_price')->getTierPriceList();
         foreach ($tierPricesList as $tierPrice) {
-            $tierPrices[] = $this->_coreData->currency($tierPrice['price']->getValue(), false, false);
+            $tierPrices[] = $this->priceCurrency->convert($tierPrice['price']->getValue());
         }
         $config = array(
             'productId' => $product->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'prices' => [
                 'oldPrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('regular_price')->getAmount()->getValue()
                     ),
                     'adjustments' => []
                 ],
                 'basePrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getBaseAmount()
                     ),
                     'adjustments' => []
                 ],
                 'finalPrice' => [
-                    'amount' => $this->_coreData->currency(
-                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue(),
-                        false,
-                        false
+                    'amount' => $this->priceCurrency->convert(
+                        $product->getPriceInfo()->getPrice('final_price')->getAmount()->getValue()
                     ),
                     'adjustments' => []
                 ]

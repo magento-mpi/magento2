@@ -25,20 +25,28 @@ class Link extends \Magento\Framework\View\Element\Template
     protected $rssUrlBuilder;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Wishlist\Helper\Data $wishlistHelper
      * @param \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->wishlistHelper = $wishlistHelper;
         $this->rssUrlBuilder = $rssUrlBuilder;
+        $this->urlEncoder = $urlEncoder;
     }
 
     /**
@@ -74,7 +82,7 @@ class Link extends \Magento\Framework\View\Element\Template
             $key = $customer->getId() . ',' . $customer->getEmail();
             $params = array(
                 'type' => 'wishlist',
-                'data' => $this->wishlistHelper->urlEncode($key),
+                'data' => $this->urlEncoder->encode($key),
                 '_secure' => false
             );
         }

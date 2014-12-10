@@ -27,12 +27,11 @@ class Rss extends \Magento\Wishlist\Helper\Data
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\PostData $postDataHelper
      * @param \Magento\Customer\Helper\View $customerViewHelper
      * @param \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider
@@ -41,12 +40,11 @@ class Rss extends \Magento\Wishlist\Helper\Data
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\PostData $postDataHelper,
         \Magento\Customer\Helper\View $customerViewHelper,
         \Magento\Wishlist\Controller\WishlistProviderInterface $wishlistProvider,
@@ -58,7 +56,6 @@ class Rss extends \Magento\Wishlist\Helper\Data
 
         parent::__construct(
             $context,
-            $coreData,
             $coreRegistry,
             $scopeConfig,
             $customerSession,
@@ -100,7 +97,7 @@ class Rss extends \Magento\Wishlist\Helper\Data
     public function getCustomer()
     {
         if (is_null($this->_customer)) {
-            $params = $this->_coreData->urlDecode($this->_getRequest()->getParam('data'));
+            $params = $this->urlDecoder->decode($this->_getRequest()->getParam('data'));
             $data   = explode(',', $params);
             $customerId    = abs(intval($data[0]));
             if ($customerId && ($customerId == $this->_customerSession->getCustomerId())) {

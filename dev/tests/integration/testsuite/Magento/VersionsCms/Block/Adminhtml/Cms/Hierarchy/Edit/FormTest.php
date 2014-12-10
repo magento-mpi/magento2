@@ -49,4 +49,46 @@ class FormTest extends \PHPUnit_Framework_TestCase
         );
         $this->assertEquals($pageGrid->getJsObjectName(), $this->_block->getGridJsObject());
     }
+
+    /**
+     * @param int $isMetadataEnabled
+     * @param bool $result
+     *
+     * @dataProvider prepareFormDataProvider
+     */
+    public function testPrepareForm($isMetadataEnabled, $result)
+    {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $cmsHierarchyMock = $this->getMockBuilder('\Magento\VersionsCms\Helper\Hierarchy')
+            ->setMethods(array('isMetadataEnabled'))
+            ->disableOriginalConstructor()
+            ->getMock();
+        $cmsHierarchyMock->expects($this->any())
+            ->method('isMetadataEnabled')
+            ->will($this->returnValue($isMetadataEnabled));
+        $block = $objectManager->create('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form',
+            array('cmsHierarchy' =>$cmsHierarchyMock)
+        );
+        $prepareFormMethod = new \ReflectionMethod(
+            'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form',
+            '_prepareForm'
+        );
+        $prepareFormMethod->setAccessible(true);
+        $prepareFormMethod->invoke($block);
+        $form = $block->getForm();
+        $this->assertEquals($result, is_null($form->getElement('top_menu_fieldset')));
+    }
+
+    /**
+     * Data provider for testPrepareForm
+     *
+     * @return array
+     */
+    public function prepareFormDataProvider()
+    {
+        return array(
+            array(1, false),
+            array(0, true)
+        );
+    }
 }

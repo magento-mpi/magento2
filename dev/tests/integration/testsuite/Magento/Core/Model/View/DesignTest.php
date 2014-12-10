@@ -133,7 +133,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigurationDesignThemeStore()
     {
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId();
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme());
         $this->assertEquals('one', $this->_model->getConfigurationDesignTheme(null, ['store' => $storeId]));

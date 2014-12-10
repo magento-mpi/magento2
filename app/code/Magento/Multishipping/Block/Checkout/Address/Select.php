@@ -27,6 +27,16 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $addressMapper;
 
     /**
+     * @var AddressConverter
+     */
+    protected $addressConverter;
+
+    /**
+     * @var bool
+     */
+    protected $_isScopePrivate = true;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -46,11 +56,6 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $this->addressMapper = $addressMapper;
         parent::__construct($context, $multishipping, $data);
     }
-
-    /**
-     * @var bool
-     */
-    protected $_isScopePrivate = true;
 
     /**
      * @return $this

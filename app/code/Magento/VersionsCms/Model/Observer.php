@@ -35,7 +35,7 @@ class Observer
     protected $_hierarchyNodeFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -53,7 +53,7 @@ class Observer
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $coreUrl
      * @param \Magento\Framework\App\ViewInterface $view
      */
@@ -61,7 +61,7 @@ class Observer
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $coreUrl,
         \Magento\Framework\App\ViewInterface $view
     ) {

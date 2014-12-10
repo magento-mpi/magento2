@@ -46,13 +46,6 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
     protected $_coreRegistry;
 
     /**
-     * Catalog data
-     *
-     * @var \Magento\Catalog\Helper\Data
-     */
-    protected $_catalogData;
-
-    /**
      * Tax data
      *
      * @var \Magento\Tax\Helper\Data
@@ -114,7 +107,6 @@ class AbstractProduct extends \Magento\Framework\View\Element\Template
         $this->_catalogConfig = $context->getCatalogConfig();
         $this->_coreRegistry = $context->getRegistry();
         $this->_taxData = $context->getTaxData();
-        $this->_catalogData = $context->getCatalogHelper();
         $this->_mathRandom = $context->getMathRandom();
         $this->reviewRenderer = $context->getReviewRenderer();
         $this->stockRegistry = $context->getStockRegistry();

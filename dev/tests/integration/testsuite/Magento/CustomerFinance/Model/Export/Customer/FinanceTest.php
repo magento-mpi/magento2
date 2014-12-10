@@ -18,7 +18,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->reinitStores();
     }
 
@@ -45,7 +45,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $this->assertCount(
             count(
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getWebsites()
             ),
             $csvData
@@ -66,7 +66,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCode = $website->getCode();
@@ -82,7 +82,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
                     'customer_finance_email'
                 ),
                 Finance::COLUMN_WEBSITE => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getWebsite()->getCode(),
                 Finance::COLUMN_FINANCE_WEBSITE => $websiteCode,
                 FinanceAttributeCollection::COLUMN_CUSTOMER_BALANCE => $objectManager->get(

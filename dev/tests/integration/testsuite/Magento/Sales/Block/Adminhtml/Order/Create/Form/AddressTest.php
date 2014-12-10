@@ -191,7 +191,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\Customer\Service\V1\Data\Address[]
+     * @return \Magento\Customer\Api\Data\AddressInterface[]
      */
     protected function _getAddresses()
     {

@@ -81,7 +81,7 @@ class Payment extends \Magento\Framework\View\Element\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Framework\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {

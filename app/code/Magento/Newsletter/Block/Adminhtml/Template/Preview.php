@@ -62,7 +62,14 @@ class Preview extends \Magento\Backend\Block\Widget
 
         $storeId = (int)$this->getRequest()->getParam('store_id');
         if (!$storeId) {
-            $storeId = $this->_storeManager->getDefaultStoreView()->getId();
+            $defaultStore = $this->_storeManager->getDefaultStoreView();
+            if (!$defaultStore) {
+                $allStores = $this->_storeManager->getStores();
+                if (isset($allStores[0])) {
+                    $defaultStore = $allStores[0];
+                }
+            }
+            $storeId = $defaultStore ? $defaultStore->getId() : null;
         }
 
         \Magento\Framework\Profiler::start("newsletter_template_proccessing");

@@ -16,15 +16,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     protected $testable;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
     public function setUp()
     {
-        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManager = $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->getMock();
-        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
         $this->testable = new Store($storeManager);
     }
 

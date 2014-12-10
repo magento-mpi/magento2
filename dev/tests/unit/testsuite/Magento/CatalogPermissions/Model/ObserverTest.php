@@ -28,13 +28,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_permissionIndex;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     public function setUp()
     {
-        $this->_storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->_storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 

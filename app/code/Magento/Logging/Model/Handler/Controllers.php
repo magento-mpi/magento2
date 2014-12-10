@@ -712,23 +712,6 @@ class Controllers
     }
 
     /**
-     * Custom handler for Recurring Payments status update
-     *
-     * @param array $config
-     * @param \Magento\Logging\Model\Event $eventModel
-     * @return \Magento\Logging\Model\Event
-     */
-    public function postDispatchRecurringPaymentsUpdate($config, $eventModel)
-    {
-        $message = '';
-        if ($this->_request->getParam('action')) {
-            $message .= ucfirst($this->_request->getParam('action')) . ' action: ';
-        }
-        $message .= $this->messageManager->getMessages()->getLastAddedMessage()->getText();
-        return $eventModel->setInfo($message);
-    }
-
-    /**
      * Log tax class event
      * @param string $classType
      * @param \Magento\Logging\Model\Event $eventModel

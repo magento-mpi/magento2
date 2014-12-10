@@ -90,11 +90,6 @@ class Session extends \Magento\Framework\Session\SessionManager
     protected $_httpContext;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_converter;
-
-    /**
      * @var GroupManagementInterface
      */
     protected $groupManagement;
@@ -117,7 +112,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param Converter $converter
      * @param CustomerRepositoryInterface $customerRepository
      * @param GroupManagementInterface $groupManagement
      */
@@ -139,7 +133,6 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Converter $converter,
         CustomerRepositoryInterface $customerRepository,
         GroupManagementInterface $groupManagement
     ) {
@@ -164,7 +157,6 @@ class Session extends \Magento\Framework\Session\SessionManager
             $cookieMetadataFactory
         );
         $this->start();
-        $this->_converter = $converter;
         $this->groupManagement = $groupManagement;
         $this->_eventManager->dispatch('customer_session_init', ['customer_session' => $this]);
     }
@@ -224,7 +216,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function getCustomerDataObject()
     {
         /* TODO refactor this after all usages of the setCustomer is refactored */
-        return $this->_converter->createCustomerFromModel($this->getCustomer());
+        return $this->getCustomer()->getDataModel();
     }
 
     /**
@@ -236,7 +228,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function setCustomerDataObject(CustomerData $customerData)
     {
         $this->setId($customerData->getId());
-        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        $this->getCustomer()->updateData($customerData);
         return $this;
     }
 
@@ -416,7 +408,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_httpContext->setValue(Context::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
 
-        $customerModel = $this->_converter->createCustomerModel($customer);
+        $customerModel = $this->_customerFactory->create()->updateData($customer);
 
         $this->setCustomer($customerModel);
 

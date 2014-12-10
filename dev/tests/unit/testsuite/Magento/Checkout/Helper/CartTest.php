@@ -31,11 +31,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $coreHelperMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $scopeConfigMock;
 
     /**
@@ -84,7 +79,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($this->urlBuilderMock));
         $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->requestMock));
         $contextMock->expects($this->any())->method('getUrlEncoder')->will($this->returnValue($this->urlEncoder));
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->coreHelperMock = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
         $this->scopeConfigMock = $this->getMock('\Magento\Framework\App\Config\ScopeConfigInterface');
         $this->cartMock = $this->getMock('\Magento\Checkout\Model\Cart', [], [], '', false);
@@ -93,7 +88,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $this->helper = new Cart(
             $contextMock,
             $this->storeManagerMock,
-            $this->coreHelperMock,
             $this->scopeConfigMock,
             $this->cartMock,
             $this->checkoutSessionMock
@@ -185,14 +179,12 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
         $currentUrl = 'http://www.example.com/';
         $this->urlBuilderMock->expects($this->any())->method('getCurrentUrl')->will($this->returnValue($currentUrl));
-        $this->coreHelperMock->expects($this->any())->method('urlEncode')->with($currentUrl)
-            ->will($this->returnValue($currentUrl));
 
         $this->requestMock->expects($this->any())->method('getRouteName')->will($this->returnValue('checkout'));
         $this->requestMock->expects($this->any())->method('getControllerName')->will($this->returnValue('cart'));
 
         $params = [
-            Action::PARAM_NAME_URL_ENCODED => $currentUrl,
+            Action::PARAM_NAME_URL_ENCODED => strtr(base64_encode($currentUrl), '+/=', '-_,'),
             'product' => $productEntityId,
             'custom_param' => 'value',
             '_scope' => $storeId,
@@ -214,7 +206,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDeletePostJson($id, $url, $isAjax, $expectedPostData)
     {
-        $storeManager = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $coreData = $this->getMock('\Magento\Core\Helper\Data', [], [], '', false);
         $scopeConfig = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ScopeConfigInterface');
         $checkoutCart = $this->getMock('\Magento\Checkout\Model\Cart', [], [], '', false);
@@ -238,7 +230,6 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $helper = new Cart(
             $context,
             $storeManager,
-            $coreData,
             $scopeConfig,
             $checkoutCart,
             $checkoutSession

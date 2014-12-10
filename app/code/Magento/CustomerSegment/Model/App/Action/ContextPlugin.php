@@ -29,7 +29,7 @@ class ContextPlugin
     protected $customerSegment;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -37,13 +37,13 @@ class ContextPlugin
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\CustomerSegment\Model\Customer $customerSegment
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\CustomerSegment\Model\Customer $customerSegment,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->customerSession = $customerSession;
         $this->httpContext = $httpContext;

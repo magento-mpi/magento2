@@ -118,7 +118,7 @@ class Shortcut extends \Magento\Framework\View\Element\Template implements Catal
 
         /** @var \Magento\Paypal\Model\Express $method */
         $method = $this->_paymentData->getMethodInstance($this->_bmlMethodCode);
-        if (!$method || !$method->isAvailable()) {
+        if (!$method->isAvailable()) {
             $this->_shouldRender = false;
             return $result;
         }

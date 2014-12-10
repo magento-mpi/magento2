@@ -78,7 +78,12 @@ class Behaviour extends \Magento\Framework\View\Element\Template
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('wishlist/index/createwishlist');
+        return $this->getUrl(
+            'wishlist/index/createwishlist',
+            [
+                '_secure' => $this->getRequest()->isSecure()
+            ]
+        );
     }
 
     /**

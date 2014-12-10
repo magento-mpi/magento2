@@ -183,11 +183,11 @@ class OnepageTest extends \PHPUnit_Framework_TestCase
         $emailFromFixture = 'customer@example.com';
         /** @var $customerSession \Magento\Customer\Model\Session*/
         $customerSession = Bootstrap::getObjectManager()->create('Magento\Customer\Model\Session');
-        /** @var $customerService \Magento\Customer\Service\V1\CustomerAccountServiceInterface */
-        $customerService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        /** @var $customerRepository \Magento\Customer\Api\CustomerRepositoryInterface */
+        $customerRepository = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
-        $customerData = $customerService->getCustomer($customerIdFromFixture);
+        $customerData = $customerRepository->getById($customerIdFromFixture);
         $customerSession->setCustomerDataObject($customerData);
         $this->_model = Bootstrap::getObjectManager()->create(
             'Magento\Checkout\Model\Type\Onepage',

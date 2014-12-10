@@ -35,7 +35,7 @@ abstract class AbstractAction
     protected $_resource;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -53,14 +53,14 @@ abstract class AbstractAction
      * @param \Magento\TargetRule\Model\RuleFactory $ruleFactory
      * @param \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory
      * @param \Magento\TargetRule\Model\Resource\Index $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      */
     public function __construct(
         \Magento\TargetRule\Model\RuleFactory $ruleFactory,
         \Magento\TargetRule\Model\Resource\Rule\CollectionFactory $ruleCollectionFactory,
         \Magento\TargetRule\Model\Resource\Index $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
     ) {
         $this->_ruleFactory = $ruleFactory;

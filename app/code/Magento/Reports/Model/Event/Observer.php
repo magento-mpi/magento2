@@ -13,7 +13,7 @@ namespace Magento\Reports\Model\Event;
 class Observer
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,7 +43,7 @@ class Observer
     protected $_customerVisitor;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reports\Model\EventFactory $event
      * @param \Magento\Reports\Model\Product\Index\ComparedFactory $productCompFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $productIndxFactory
@@ -51,7 +51,7 @@ class Observer
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reports\Model\EventFactory $event,
         \Magento\Reports\Model\Product\Index\ComparedFactory $productCompFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $productIndxFactory,

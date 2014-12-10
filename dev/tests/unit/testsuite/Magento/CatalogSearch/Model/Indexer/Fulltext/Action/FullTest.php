@@ -12,7 +12,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Framework\Search\Request\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $searchRequestConfig;
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
     /** @var \Magento\CatalogSearch\Model\Indexer\Fulltext\Action\Full */
     protected $object;
@@ -47,7 +47,7 @@ class FullTest extends \PHPUnit_Framework_TestCase
         $scopeConfig = $this->getMockBuilder('Magento\Framework\App\Config\ScopeConfigInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $dateTime = $this->getMockBuilder('Magento\Framework\Stdlib\DateTime')

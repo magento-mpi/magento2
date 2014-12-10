@@ -29,7 +29,7 @@ class ImageTest extends FileTest
                 $value,
                 0,
                 $isAjax,
-                $this->coreDataMock,
+                $this->urlEncode,
                 $this->fileValidatorMock,
                 $this->fileSystemMock,
                 $this->uploaderFactoryMock

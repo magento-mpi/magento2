@@ -27,7 +27,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $contextMock = $this->getMock('\Magento\Framework\App\Helper\Context', [], [], '', false);
         $this->storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
 

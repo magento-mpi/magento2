@@ -18,11 +18,6 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_checkoutData;
 
     /**
-     * @var \Magento\Core\Helper\Url
-     */
-    protected $_coreUrl;
-
-    /**
      * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
@@ -33,6 +28,11 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $stockRegistry;
 
     /**
+     * @var \Magento\Framework\Url\EncoderInterface
+     */
+    protected $urlEncoder;
+
+    /**
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -40,9 +40,9 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\Framework\App\Http\Context $httpContext
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
-     * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -55,15 +55,15 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\AdvancedCheckout\Model\Cart $cart,
-        \Magento\Core\Helper\Url $coreUrl,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
         $this->stockRegistry = $stockRegistry;
+        $this->urlEncoder = $urlEncoder;
         parent::__construct(
             $context,
             $customerSession,
@@ -177,7 +177,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
-            $this->getUrl('checkout/cart/removeFailed', array('sku' => $this->_coreUrl->urlEncode($item->getSku())))
+            $this->getUrl('checkout/cart/removeFailed', array('sku' => $this->urlEncoder->encode($item->getSku())))
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
 

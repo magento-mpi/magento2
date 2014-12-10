@@ -21,7 +21,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentBase64Url()
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
         ->disableOriginalConstructor()
         ->getMock();
         $urlBuilderMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
@@ -31,22 +31,22 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $urlBuilderMock->expects($this->once())
             ->method('getCurrentUrl')
             ->will($this->returnValue($url));
+        $encodedUrl = 'encodedUrl';
+        $urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlEncoder->expects($this->once())
+            ->method('encode')
+            ->will($this->returnValue($encodedUrl));
         $context = $this->objectManager->getObject(
             'Magento\Framework\App\Helper\Context',
             [
                 'urlBuilder' => $urlBuilderMock,
+                'urlEncoder' => $urlEncoder,
             ]
         );
-        /** @var \Magento\Core\Helper\Url | \PHPUnit_Framework_MockObject_MockObject $helper */
-        $helper = $this->getMockBuilder('Magento\Core\Helper\Url')
-            ->setConstructorArgs([$context, $storeManagerMock])
-            ->setMethods(['urlEncode'])
-            ->getMock();
-        $encodedUrl = 'encodedUrl';
-        $helper->expects($this->once())
-            ->method('urlEncode')
-            ->with($url)
-            ->will($this->returnValue($encodedUrl));
+        /** @var \Magento\Core\Helper\Url $helper */
+        $helper = new Url($context, $storeManagerMock);
         $this->assertEquals($encodedUrl, $helper->getCurrentBase64Url());
     }
 
@@ -57,7 +57,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEncodedUrl($url, $callNum)
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $urlBuilderMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
@@ -67,22 +67,24 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $urlBuilderMock->expects($this->exactly($callNum))
             ->method('getCurrentUrl')
             ->will($this->returnValue($encodingUrl));
+        $encodedUrl = 'encodedUrl';
+        $encodedUrl = 'encodedUrl';
+        $urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlEncoder->expects($this->once())
+            ->method('encode')
+            ->will($this->returnValue($encodedUrl));
         $context = $this->objectManager->getObject(
             'Magento\Framework\App\Helper\Context',
             [
                 'urlBuilder' => $urlBuilderMock,
+                'urlEncoder' => $urlEncoder,
             ]
         );
-        /** @var \Magento\Core\Helper\Url | \PHPUnit_Framework_MockObject_MockObject $helper */
-        $helper = $this->getMockBuilder('Magento\Core\Helper\Url')
-            ->setConstructorArgs([$context, $storeManagerMock])
-            ->setMethods(['urlEncode'])
-            ->getMock();
-        $encodedUrl = 'encodedUrl';
-        $helper->expects($this->once())
-            ->method('urlEncode')
-            ->with($encodingUrl)
-            ->will($this->returnValue($encodedUrl));
+
+        /** @var \Magento\Core\Helper\Url $helper */
+        $helper = new Url($context, $storeManagerMock);
         $this->assertEquals($encodedUrl, $helper->getEncodedUrl($url));
     }
 
@@ -96,7 +98,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHomeUrl()
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')

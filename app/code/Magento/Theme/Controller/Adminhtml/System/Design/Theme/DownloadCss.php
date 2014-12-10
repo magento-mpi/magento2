@@ -23,9 +23,9 @@ class DownloadCss extends \Magento\Theme\Controller\Adminhtml\System\Design\Them
         $themeId = $this->getRequest()->getParam('theme_id');
         $file = $this->getRequest()->getParam('file');
 
-        /** @var $helper \Magento\Core\Helper\Theme */
-        $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
-        $fileId = $helper->urlDecode($file);
+        /** @var $urlDecoder \Magento\Framework\Url\DecoderInterface */
+        $urlDecoder = $this->_objectManager->get('Magento\Framework\Url\DecoderInterface');
+        $fileId = $urlDecoder->decode($file);
         try {
             /** @var $theme \Magento\Framework\View\Design\ThemeInterface */
             $theme = $this->_objectManager->create('Magento\Framework\View\Design\ThemeInterface')->load($themeId);

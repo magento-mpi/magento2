@@ -35,7 +35,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -43,13 +43,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreData = $coreData;
         $this->_scopeConfig = $scopeConfig;
@@ -65,7 +65,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function decodeTrackingHash($hash)
     {
-        $hash = explode(':', $this->_coreData->urlDecode($hash));
+        $hash = explode(':', $this->urlDecoder->decode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
             return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
@@ -83,7 +83,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
         $urlPart = "{$key}:{$model->{$method}()}:{$model->getProtectCode()}";
-        $param = array('hash' => $this->_coreData->urlEncode($urlPart));
+        $param = array('hash' => $this->urlEncoder->encode($urlPart));
 
         $storeModel = $this->_storeManager->getStore($model->getStoreId());
         return $storeModel->getUrl('shipping/tracking/popup', $param);

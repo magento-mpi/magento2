@@ -15,19 +15,30 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
     protected $block;
 
     /**
-     * @var \Magento\Framework\View\LayoutInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\View\LayoutInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $layout;
+
+    /**
+     * @var \Magento\Framework\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $requestMock;
 
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $contextMock = $this->getMock('Magento\Catalog\Block\Product\Context', [], [], '', false, false);
         $this->layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
+        $this->requestMock = $this->getMockBuilder('Magento\Framework\App\RequestInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $contextMock->expects($this->once())
             ->method('getLayout')
             ->will($this->returnValue($this->layout));
+        $contextMock->expects($this->once())
+            ->method('getRequest')
+            ->willReturn($this->requestMock);
 
         $this->block = $objectManager->getObject(
             'Magento\Catalog\Block\Product\Widget\NewWidget',
@@ -77,5 +88,29 @@ class NewWidgetTest extends \PHPUnit_Framework_TestCase
 
         $result = $this->block->getProductPriceHtml($productMock, $type);
         $this->assertEquals($expectedHtml, $result);
+    }
+
+    /**
+     * @param int $pageNumber
+     * @param int $expectedResult
+     * @dataProvider getCurrentPageDataProvider
+     */
+    public function testGetCurrentPage($pageNumber, $expectedResult)
+    {
+        $this->requestMock->expects($this->any())
+            ->method('getParam')
+            ->with(\Magento\Catalog\Block\Product\Widget\NewWidget::PAGE_VAR_NAME)
+            ->willReturn($pageNumber);
+
+        $this->assertEquals($expectedResult, $this->block->getCurrentPage());
+    }
+
+    public function getCurrentPageDataProvider()
+    {
+        return [
+            [1, 1],
+            [5, 5],
+            [10, 10]
+        ];
     }
 }

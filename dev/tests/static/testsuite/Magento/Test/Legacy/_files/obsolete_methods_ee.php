@@ -274,5 +274,9 @@ return array(
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\ConfigData'],
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\CustomerGroupV1'],
     ['getIndexer', 'Magento\CatalogPermissions\Model\Indexer\Plugin\Store\AbstractPlugin'],
+    ['getLockLifetime', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
+    ['isLockedByMe', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
+    ['isLockedByOther', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
+    ['canDragNodes', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
     ['getRefreshWrappingUrl', 'Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info'],
 );

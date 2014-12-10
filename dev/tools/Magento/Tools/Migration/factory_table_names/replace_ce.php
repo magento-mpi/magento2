@@ -314,8 +314,6 @@ return [
     'sales/quote_item' => 'sales_quote_item',
     'sales/quote_item_option' => 'sales_quote_item_option',
     'sales/quote_payment' => 'sales_quote_payment',
-    'sales/recurring_payment' => 'recurring_payment',
-    'sales/recurring_payment_order' => 'recurring_payment_order',
     'sales/refunded_aggregated' => 'sales_refunded_aggregated',
     'sales/refunded_aggregated_order' => 'sales_refunded_aggregated_order',
     'sales/shipment' => 'sales_shipment',
