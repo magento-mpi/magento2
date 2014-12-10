@@ -5,7 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
+
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Class Converter
@@ -13,9 +16,9 @@ namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
 class Converter
 {
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerRepositoryInterface
      */
-    protected $customerAccount;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Catalog\Model\ProductFactory
@@ -33,18 +36,18 @@ class Converter
     protected $eavConfig;
 
     /**
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
+     * @param CustomerRepositoryInterface $customerAccount
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter
      * @param \Magento\Eav\Model\Config $eavConfig
      */
     public function __construct(
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
+        CustomerRepositoryInterface $customerAccount,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Tools\SampleData\Module\Catalog\Setup\Product\Converter $productConverter,
         \Magento\Eav\Model\Config $eavConfig
     ) {
-        $this->customerAccount = $customerAccount;
+        $this->customerRepository = $customerAccount;
         $this->productFactory = $productFactory;
         $this->productConverter = $productConverter;
         $this->eavConfig = $eavConfig;
@@ -115,12 +118,12 @@ class Converter
      */
     protected function getAccountInformation($email)
     {
-        $customerDetails = $this->customerAccount->getCustomerDetailsByEmail($email);
+        $customer = $this->customerRepository->get($email);
         $account = [
-            'email' => $customerDetails->getCustomer()->getEmail(),
-            'group_id' => $customerDetails->getCustomer()->getGroupId()
+            'email' => $customer->getEmail(),
+            'group_id' => $customer->getGroupId()
         ];
-        foreach ($customerDetails->getAddresses() as $customerAddress) {
+        foreach ($customer->getAddresses() as $customerAddress) {
             if ($customerAddress->isDefaultBilling()) {
                 $account['billing_address'] = $this->getAddresses($customerAddress);
             }
@@ -132,10 +135,10 @@ class Converter
     }
 
     /**
-     * @param \Magento\Customer\Service\V1\Data\Address $addressData
+     * @param \Magento\Customer\Api\Data\AddressInterface $addressData
      * @return array
      */
-    protected function getAddresses(\Magento\Customer\Service\V1\Data\Address $addressData)
+    protected function getAddresses(\Magento\Customer\Api\Data\AddressInterface $addressData)
     {
         $addressData = [
             'customer_address_id' => $addressData->getId(),

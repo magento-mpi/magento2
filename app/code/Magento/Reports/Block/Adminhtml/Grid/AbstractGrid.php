@@ -327,7 +327,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
             $this->_getStoreIds()
         )->setAggregatedColumns(
             $this->_getAggregatedColumns()
-        )->isSubTotals(
+        )->setIsSubTotals(
             true
         );
 
