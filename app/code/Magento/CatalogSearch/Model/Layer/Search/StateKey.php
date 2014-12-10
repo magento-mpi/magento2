@@ -19,12 +19,12 @@ class StateKey extends \Magento\Catalog\Model\Layer\Category\StateKey implements
     protected $queryFactory;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Search\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Search\Model\QueryFactory $queryFactory
     ) {

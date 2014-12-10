@@ -224,6 +224,17 @@ class Image
     }
 
     /**
+     * Get image type of handled image
+     *
+     * @access public
+     * @return int
+     */
+    public function getImageType()
+    {
+        return $this->_adapter->getImageType();
+    }
+
+    /**
      * Process
      *
      * @access public

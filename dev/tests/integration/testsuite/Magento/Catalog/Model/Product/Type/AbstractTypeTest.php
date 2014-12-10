@@ -364,9 +364,6 @@ class AbstractTypeTest extends \PHPUnit_Framework_TestCase
 
         $product = new \Magento\Framework\Object(array('has_options' => true));
         $this->assertTrue($this->_model->hasOptions($product));
-
-        $product = new \Magento\Framework\Object(array('is_recurring' => 1));
-        $this->assertTrue($this->_model->hasOptions($product));
     }
 
     public function testHasRequiredOptions()

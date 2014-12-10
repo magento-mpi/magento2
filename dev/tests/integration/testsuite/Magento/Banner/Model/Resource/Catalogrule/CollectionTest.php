@@ -31,7 +31,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var int
      */
-    protected $_customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {

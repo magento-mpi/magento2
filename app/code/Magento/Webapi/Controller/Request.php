@@ -15,22 +15,22 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
     protected $_consumerId = 0;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface
+     * @var \Magento\Framework\Stdlib\Cookie\CookieReaderInterface
      */
-    protected $_cookieManager;
+    protected $_cookieReader;
 
     /**
      * Modify pathInfo: strip down the front name and query parameters.
      *
      * @param \Magento\Framework\App\AreaList $areaList
      * @param \Magento\Framework\Config\ScopeInterface $configScope
-     * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager
+     * @param \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader
      * @param null|string|\Zend_Uri $uri
      */
     public function __construct(
         \Magento\Framework\App\AreaList $areaList,
         \Magento\Framework\Config\ScopeInterface $configScope,
-        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
         $uri = null
     ) {
         parent::__construct($uri);
@@ -40,7 +40,7 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
         $this->_pathInfo = preg_replace("#.*?/{$areaFrontName}/?#", '/', $this->_pathInfo);
         /** Remove GET parameters from path */
         $this->_pathInfo = preg_replace('#\?.*#', '', $this->_pathInfo);
-        $this->_cookieManager = $cookieManager;
+        $this->_cookieReader = $cookieReader;
     }
 
     /**
@@ -52,6 +52,6 @@ class Request extends \Zend_Controller_Request_Http implements \Magento\Framewor
      */
     public function getCookie($name = null, $default = null)
     {
-        return $this->_cookieManager->getCookie($name, $default);
+        return $this->_cookieReader->getCookie($name, $default);
     }
 }

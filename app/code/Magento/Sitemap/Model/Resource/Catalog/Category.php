@@ -31,7 +31,7 @@ class Category extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_attributesCache = array();
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -42,12 +42,12 @@ class Category extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category $categoryResource
     ) {
         $this->_storeManager = $storeManager;

@@ -69,7 +69,7 @@ class ThemeModular implements CollectorInterface
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}*/{$filePath}";
+        $searchPattern = "{$themePath}/{$namespace}_{$module}/{$this->subDir}*/*/{$filePath}";
         $files = $this->themesDirectory->search($searchPattern);
 
         if (empty($files)) {
@@ -82,7 +82,7 @@ class ThemeModular implements CollectorInterface
             $themes[$currentTheme->getCode()] = $currentTheme;
         }
         $result = array();
-        $pattern = "#/(?<module>[^/]+)/{$this->subDir}(?<themeName>[^/]+)/"
+        $pattern = "#/(?<module>[^/]+)/{$this->subDir}(?<themeVendor>[^/]+)/(?<themeName>[^/]+)/"
             . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
@@ -90,7 +90,7 @@ class ThemeModular implements CollectorInterface
                 continue;
             }
             $moduleFull = $matches['module'];
-            $ancestorThemeCode = $matches['themeName'];
+            $ancestorThemeCode = $matches['themeVendor'] . '/' . $matches['themeName'];
             if (!isset($themes[$ancestorThemeCode])) {
                 throw new Exception(
                     sprintf(

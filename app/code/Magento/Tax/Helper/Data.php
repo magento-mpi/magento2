@@ -15,7 +15,6 @@ use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
 use Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
 use Magento\Tax\Api\TaxCalculationInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Api\OrderTaxManagementInterface;
 use Magento\Sales\Model\Order\Invoice;
@@ -74,7 +73,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -125,13 +124,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $taxCalculation;
 
     /**
-     * Address converter
-     *
-     * @var AddressConverter
-     */
-    protected $addressConverter;
-
-    /**
      * @var CustomerSession
      */
     protected $customerSession;
@@ -166,7 +158,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Config $taxConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory
@@ -177,7 +169,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param TaxClassKeyDataBuilder $taxClassKeyBuilder
      * @param TaxCalculationInterface $taxCalculation
      * @param CustomerSession $customerSession
-     * @param AddressConverter $addressConverter
      * @param \Magento\Catalog\Helper\Data $catalogHelper
      * @param OrderTaxManagementInterface $orderTaxManagement
      * @param PriceCurrencyInterface $priceCurrency
@@ -188,7 +179,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         Config $taxConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Eav\Model\Entity\AttributeFactory $attributeFactory,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\ItemFactory $taxItemFactory,
@@ -199,7 +190,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         TaxClassKeyDataBuilder $taxClassKeyBuilder,
         TaxCalculationInterface $taxCalculation,
         CustomerSession $customerSession,
-        AddressConverter $addressConverter,
         \Magento\Catalog\Helper\Data $catalogHelper,
         OrderTaxManagementInterface $orderTaxManagement,
         PriceCurrencyInterface $priceCurrency
@@ -221,7 +211,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->taxClassKeyBuilder = $taxClassKeyBuilder;
         $this->taxCalculation = $taxCalculation;
         $this->customerSession = $customerSession;
-        $this->addressConverter = $addressConverter;
         $this->catalogHelper = $catalogHelper;
         $this->orderTaxManagement = $orderTaxManagement;
     }
@@ -251,25 +240,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Get product price including store convertion rate
-     *
-     * @param \Magento\Catalog\Model\Product $product
-     * @param null|string $format
-     * @return float|string
-     * @deprecated
-     */
-    public function getProductPrice($product, $format = null)
-    {
-        try {
-            $value = $product->getPrice();
-            $value = $format ? $this->priceCurrency->convertAndFormat($value) : $this->priceCurrency->convert($value);
-        } catch (\Exception $e) {
-            $value = $e->getMessage();
-        }
-        return $value;
-    }
-
-    /**
      * Check if product prices inputed include tax
      *
      * @param   null|int|string|Store $store
@@ -289,17 +259,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function applyTaxAfterDiscount($store = null)
     {
         return $this->_config->applyTaxAfterDiscount($store);
-    }
-
-    /**
-     * Retrieves the "including tax" or "excluding tax" label
-     *
-     * @param bool $flag
-     * @return string
-     */
-    public function getIncExcText($flag)
-    {
-        return $flag ? __('Incl. Tax') : __('Excl. Tax');
     }
 
     /**
@@ -450,16 +409,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     }
 
     /**
-     * Check if need display tax column in for shopping cart/order items
-     *
-     * @return bool
-     */
-    public function displayTaxColumn()
-    {
-        return $this->_config->displayCartPricesBoth();
-    }
-
-    /**
      * Get prices javascript format json
      *
      * @param null|int|string|Store $store
@@ -505,18 +454,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function displayBothPrices($store = null)
     {
         return $this->getPriceDisplayType($store) == Config::DISPLAY_TYPE_BOTH;
-    }
-
-    /**
-     * Returns the include / exclude tax label
-     *
-     * @param  bool $flag
-     * @return string
-     */
-    public function getIncExcTaxLabel($flag)
-    {
-        $text = $this->getIncExcText($flag);
-        return $text ? ' <span class="tax-flag">(' . $text . ')</span>' : '';
     }
 
     /**

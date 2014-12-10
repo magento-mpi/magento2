@@ -9,7 +9,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
 use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AddressMetadataInterface;
-use Magento\Customer\Api\Data\AttributeMetadataDataBuilder;
+use Magento\Customer\Model\AttributeMetadataDataBuilder;
 use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AccountManagementInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;

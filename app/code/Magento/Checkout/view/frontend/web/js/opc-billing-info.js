@@ -22,7 +22,7 @@ define([
             billing: {
                 form: '#co-billing-form',
                 continueSelector: '#opc-billing [data-role=opc-continue]',
-                addressDropdownSelector: '#billing-address-select',
+                addressDropdownSelector: '#billing\\:address-select',
                 newAddressFormSelector: '#billing-new-address-form',
                 emailAddressName: 'billing[email]'
             }

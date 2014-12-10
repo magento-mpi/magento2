@@ -93,7 +93,6 @@
         "magento/module-offline-shipping": "self.version",
         "magento/module-ogone": "self.version",
         "magento/module-page-cache": "self.version",
-        "magento/module-pay-pal-recurring-payment": "self.version",
         "magento/module-payment": "self.version",
         "magento/module-paypal": "self.version",
         "magento/module-pbridge": "self.version",
@@ -104,7 +103,6 @@
         "magento/module-price-permissions": "self.version",
         "magento/module-product-alert": "self.version",
         "magento/module-promotion-permissions": "self.version",
-        "magento/module-recurring-payment": "self.version",
         "magento/module-reminder": "self.version",
         "magento/module-reports": "self.version",
         "magento/module-require-js": "self.version",
@@ -165,6 +163,10 @@
         "components/jqueryui": "1.10.4",
         "twbs/bootstrap": "3.1.0",
         "tinymce/tinymce": "3.4.7"
+    },
+    "suggest": {
+        "magento/module-fedex": "0.1.0-alpha107",
+        "magento/module-ups": "0.1.0-alpha107"
     },
     "extra": {
         "component_paths": {

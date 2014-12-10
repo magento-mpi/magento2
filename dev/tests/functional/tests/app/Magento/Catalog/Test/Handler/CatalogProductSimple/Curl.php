@@ -83,10 +83,6 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
             'Yes' => 1,
             'No' => 0
         ],
-        'is_recurring' => [
-            'Yes' => 1,
-            'No' => 0
-        ],
         'msrp_display_actual_price_type' => [
             'Use config' => 0,
             'On Gesture' => 1,

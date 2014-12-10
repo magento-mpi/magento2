@@ -28,7 +28,7 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -39,13 +39,13 @@ class Discount extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
     /**
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\Validator $validator
      * @param PriceCurrencyInterface $priceCurrency
      */
     public function __construct(
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\Validator $validator,
         PriceCurrencyInterface $priceCurrency
     ) {

@@ -70,7 +70,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
         $wishListFactoryMock = $this->getMock('Magento\Wishlist\Model\WishlistFactory', array(), array(), '', false);
         $this->quoteMock = $this->getMock('Magento\Sales\Model\Quote', ['getStore', '__wakeup'], [], '', false);
         $this->quoteRepositoryMock = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
-        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->localeFormatMock = $this->getMock('Magento\Framework\Locale\FormatInterface');
         $messageManagerMock = $this->getMock('Magento\Framework\Message\ManagerInterface');
         $customerSessionMock = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);

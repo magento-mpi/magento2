@@ -61,7 +61,6 @@ Magento_Pci
 Magento_Persistent
 Magento_PersistentHistory
 Magento_ProductAlert
-Magento_RecurringPayment
 Magento_Reminder
 Magento_Reports
 Magento_RequireJs
