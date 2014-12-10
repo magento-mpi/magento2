@@ -70,17 +70,17 @@ class ThemeModular implements CollectorInterface
         $files = $this->themesDirectory->search($searchPattern);
 
         if (empty($files)) {
-            return array();
+            return [];
         }
 
-        $themes = array();
+        $themes = [];
         $currentTheme = $theme;
         while ($currentTheme = $currentTheme->getParentTheme()) {
             $themes[$currentTheme->getCode()] = $currentTheme;
         }
-        $result = array();
+        $result = [];
         $pattern = "#/(?<module>[^/]+)/{$this->subDir}(?<themeVendor>[^/]+)/(?<themeName>[^/]+)/"
-            . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "$#i";
+            . strtr(preg_quote($filePath), ['\*' => '[^/]+']) . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
