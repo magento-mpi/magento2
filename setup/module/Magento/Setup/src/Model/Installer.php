@@ -704,7 +704,7 @@ class Installer
                 if (isset($matches[1]) && !empty($matches[1])) {
                     if (version_compare($matches[1], self::MYSQL_VERSION_REQUIRED) < 0) {
                         throw new \Magento\Setup\Exception(
-                            'Sorry, but we support MySQL version '. self::MYSQL_VERSION_REQUIRED . ' or later."'
+                            'Sorry, but we support MySQL version '. self::MYSQL_VERSION_REQUIRED . ' or later.'
                         );
                     }
                 }
