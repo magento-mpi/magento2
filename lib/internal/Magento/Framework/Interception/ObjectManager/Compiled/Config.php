@@ -7,9 +7,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Interception\ObjectManager;
+namespace Magento\Framework\Interception\ObjectManager\Compiled;
 
-class Config extends \Magento\Framework\ObjectManager\Config\Config
+class Config extends \Magento\Framework\ObjectManager\Config\Compiled
 {
     /**
      * @var \Magento\Framework\Interception\ConfigInterface

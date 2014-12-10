@@ -49,8 +49,8 @@ class Compiled extends AbstractEnvironment implements EnvironmentInterface
     public function getDiConfig()
     {
         if (!$this->config) {
-            $this->config = new \Magento\Framework\Interception\ObjectManager\Config(
-                new \Magento\Framework\ObjectManager\Config\Compiled($this->getConfigData())
+            $this->config = new \Magento\Framework\Interception\ObjectManager\Compiled\Config(
+                $this->getConfigData()
             );
         }
 
