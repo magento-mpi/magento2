@@ -2819,4 +2819,11 @@ return [
     ['Magento\Customer\Model\Converter'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
+    ['Magento\Catalog\Block\Product\Send'],
+    ['Magento\Catalog\Helper\Product\Options'],
+    ['Magento\Cms\Model\Resource\Page\Service'],
+    ['Magento\Directory\Helper\Url'],
+    ['Magento\GiftMessage\Helper\Url'],
+    ['Magento\Rss\Helper\Data'],
+    ['Magento\Sales\Model\ConverterInterface'],
 ];

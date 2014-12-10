@@ -59,14 +59,6 @@ class ProductPriceTest extends \PHPUnit_Framework_TestCase
     /**
      * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
      */
-    public function testGetFormatedTierPrice()
-    {
-        $this->assertEquals([], $this->_model->getFormatedTierPrice());
-    }
-
-    /**
-     * See detailed tests at \Magento\Catalog\Model\Product\Type*_PriceTest
-     */
     public function testGetFormatedPrice()
     {
         $this->assertEquals('<span class="price">$0.00</span>', $this->_model->getFormatedPrice());

@@ -59,13 +59,6 @@
             <path>lib/internal/LinLibertineFont</path>
         </item>
         <item>
-            <word>CHANGELOG</word>
-            <path>lib/internal/Magento/Framework/Pear/Package.php</path>
-        </item>
-        <item>
-            <path>lib/internal/Symfony</path>
-        </item>
-        <item>
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files</path>
         </item>
         <item>

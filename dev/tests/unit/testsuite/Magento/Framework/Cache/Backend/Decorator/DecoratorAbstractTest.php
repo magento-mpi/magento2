@@ -106,7 +106,6 @@ class DecoratorAbstractTest extends \PHPUnit_Framework_TestCase
             'getCapabilities',
             'setOption',
             'getLifetime',
-            'isAutomaticCleaningAvailable',
             'getTmpDir',
         ];
         foreach ($allMethods as $method) {

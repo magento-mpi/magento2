@@ -27,15 +27,6 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     ];
 
     /**
-     * Rule websites table name
-     *
-     * @var string
-     *
-     * @deprecated after 1.11.2.0
-     */
-    protected $_websiteTable;
-
-    /**
      * Core resource helper
      *
      * @var \Magento\Framework\DB\Helper
@@ -495,68 +486,5 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
         }
 
         return $condition;
-    }
-
-    /**
-     * Quote parameters into condition string
-     *
-     * @param string $string
-     * @param string|array $param
-     * @return string
-     *
-     * @deprecated since 1.10.0.0 - please use quoteInto of current adapter
-     */
-    public function quoteInto($string, $param)
-    {
-        return $this->_getReadAdapter()->quoteInto($string, $param);
-    }
-
-    /**
-     * Save customer data by matched customer coupons
-     *
-     * @param array $data
-     * @return void
-     *
-     * @deprecated after 1.11.2.0
-     */
-    protected function _saveMatchedCustomerData($data)
-    {
-        if ($data) {
-            $table = $this->getTable('magento_reminder_rule_coupon');
-            $this->_getWriteAdapter()->insertOnDuplicate($table, $data, ['is_active']);
-        }
-    }
-
-    /**
-     * Save all website ids associated to rule
-     *
-     * @param \Magento\Reminder\Model\Rule $rule
-     * @return $this
-     *
-     * @deprecated after 1.11.2.0 use $this->bindRuleToEntity() instead
-     */
-    protected function _saveWebsiteIds($rule)
-    {
-        if ($rule->hasWebsiteIds()) {
-            $websiteIds = $rule->getWebsiteIds();
-            if (!is_array($websiteIds)) {
-                $websiteIds = explode(',', (string)$websiteIds);
-            }
-            $this->bindRuleToEntity($rule->getId(), $websiteIds, 'website');
-        }
-
-        return $this;
-    }
-
-    /**
-     * Get empty select object
-     *
-     * @return \Magento\Framework\DB\Select
-     *
-     * @deprecated after 1.11.2.0 (MAGETWO-31473)
-     */
-    public function createSelect()
-    {
-        return $this->_getReadAdapter()->select();
     }
 }

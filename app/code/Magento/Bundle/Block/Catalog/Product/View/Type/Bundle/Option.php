@@ -278,44 +278,6 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     }
 
     /**
-     * Format price string
-     *
-     * @param float $price
-     * @param bool $includeContainer
-     * @return string
-     * @deprecated
-     */
-    public function formatPriceString($price, $includeContainer = true)
-    {
-        $catalogHelper = $this->_catalogHelper;
-        $taxHelper = $this->_taxHelper;
-        $coreHelper = $this->_coreHelper;
-        $currentProduct = $this->getProduct();
-        if ($currentProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC && $this->getFormatProduct()) {
-            $product = $this->getFormatProduct();
-        } else {
-            $product = $currentProduct;
-        }
-
-        $priceTax = $catalogHelper->getTaxPrice($product, $price);
-        $priceIncTax = $catalogHelper->getTaxPrice($product, $price, true);
-
-        $formatted = $coreHelper->currencyByStore($priceTax, $product->getStore(), true, $includeContainer);
-        if ($taxHelper->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formatted .= ' (+' . $coreHelper->currencyByStore(
-                $priceIncTax,
-                $product->getStore(),
-                true,
-                $includeContainer
-            ) . ' ' . __(
-                'Incl. Tax'
-            ) . ')';
-        }
-
-        return $formatted;
-    }
-
-    /**
      * Clear selected option when setting new option
      *
      * @param \Magento\Bundle\Model\Option $option

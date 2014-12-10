@@ -251,34 +251,6 @@ class Index extends \Magento\Framework\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Match, save and return applicable product ids by index object
-     *
-     * @param \Magento\TargetRule\Model\Index $object
-     * @return array
-     * @deprecated after 1.12.0.0
-     */
-    protected function _matchProductIds($object)
-    {
-        $limit = $object->getLimit() + $this->getOverfillLimit();
-        $productIds = $object->getExcludeProductIds();
-        $ruleCollection = $object->getRuleCollection();
-        foreach ($ruleCollection as $rule) {
-            /* @var $rule \Magento\TargetRule\Model\Rule */
-            if (count($productIds) >= $limit) {
-                break;
-            }
-            if (!$rule->checkDateForStore($object->getStoreId())) {
-                continue;
-            }
-
-            $resultIds = $this->_getProductIdsByRule($rule, $object, $rule->getPositionsLimit(), $productIds);
-            $productIds = array_merge($productIds, $resultIds);
-        }
-
-        return array_diff($productIds, $object->getExcludeProductIds());
-    }
-
-    /**
      * Retrieve found product ids by Rule action conditions
      * If rule has cached select - get it
      *

@@ -104,16 +104,6 @@
             <path>lib/internal/LinLibertineFont</path>
         </item>
         <item>
-            <word>CHANGELOG</word>
-            <path>lib/internal/Magento/Framework/Pear/Package.php</path>
-        </item>
-        <item>
-            <path>lib/internal/Symfony</path>
-        </item>
-        <item>
-            <path>lib/internal/Zend</path>
-        </item>
-        <item>
             <path>dev/build</path>
         </item>
         <item>

@@ -440,37 +440,4 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         }
         return $this;
     }
-
-    /**
-     * @deprecated after 1.11.2.0
-     *
-     * @param string $format
-     *
-     * @return string
-     */
-    public function toString($format = '')
-    {
-        return '';
-    }
-
-    /**
-     * Returns rule as an array for admin interface
-     *
-     * @deprecated after 1.11.2.0
-     *
-     * @param array $arrAttributes
-     *
-     * Output example:
-     * array(
-     *   'name'=>'Example rule',
-     *   'conditions'=>{condition_combine::toArray}
-     *   'actions'=>{action_collection::toArray}
-     * )
-     *
-     * @return array
-     */
-    public function toArray(array $arrAttributes = [])
-    {
-        return parent::toArray($arrAttributes);
-    }
 }

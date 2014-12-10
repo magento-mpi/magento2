@@ -47,7 +47,6 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
         'lib/internal/Cm',
         'lib/internal/JSMin',
         'lib/internal/Less',
-        'lib/internal/PEAR',
         'lib/internal/phpseclib',
         'lib/web/dnd.js',
         'lib/web/extjs',

@@ -279,19 +279,6 @@ abstract class AbstractDecorator extends \Zend_Cache_Backend implements \Zend_Ca
     }
 
     /**
-     * Return true if the automatic cleaning is available for the backend
-     *
-     * DEPRECATED : use getCapabilities() instead
-     *
-     * @deprecated
-     * @return boolean
-     */
-    public function isAutomaticCleaningAvailable()
-    {
-        return $this->_backend->isAutomaticCleaningAvailable();
-    }
-
-    /**
      * Determine system TMP directory and detect if we have read access
      *
      * inspired from \Zend_File_Transfer_Adapter_Abstract

@@ -59,17 +59,6 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
     }
 
     /**
-     * Retrieve websites rates and base currency codes
-     *
-     * @deprecated since 1.12.0.0
-     * @return array
-     */
-    public function _getWebsiteRates()
-    {
-        return $this->_getWebsiteCurrencyRates();
-    }
-
-    /**
      * Add price qty to unique fields
      *
      * @param array $objectArray

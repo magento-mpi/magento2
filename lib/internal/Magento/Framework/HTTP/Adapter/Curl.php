@@ -10,7 +10,7 @@
  */
 namespace Magento\Framework\HTTP\Adapter;
 
-class Curl implements \Zend_Http_Client_Adapter_Interface
+class Curl
 {
     /**
      * Parameters array
@@ -111,21 +111,6 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
     {
         $this->_config = $config;
         return $this;
-    }
-
-    /**
-     * Connect to the remote server
-     *
-     * @param string  $host
-     * @param int     $port
-     * @param boolean $secure
-     * @return $this
-     *
-     * @deprecated since 1.4.0.0-rc1
-     */
-    public function connect($host, $port = 80, $secure = false)
-    {
-        return $this->_applyConfig();
     }
 
     /**

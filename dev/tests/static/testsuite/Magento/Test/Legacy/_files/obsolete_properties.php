@@ -362,4 +362,5 @@ return [
     ['_conditionModels', 'Magento\Rule\Model\Condition\Combine'],
     ['_lables', 'Magento\SalesRule\Model\Rule'],
     ['_catalogData', 'Magento\Catalog\Block\Product\AbstractProduct'],
+    ['_env', 'Magento\Rule\Model\Resource\Rule\Collection\AbstractCollection'],
 ];

@@ -750,17 +750,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
-     * Retrieve lock message for js alert
-     *
-     * @deprecated since 1.12.0.0
-     * @return string
-     */
-    public function getLockAlertMessage()
-    {
-        return __('The page lock expires in 60 seconds. Save now to avoid data loss.');
-    }
-
-    /**
      * Retrieve Url to Hierarchy delete action
      *
      * @return string

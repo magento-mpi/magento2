@@ -57,4 +57,5 @@ return [
     ['_coreRegistry', 'Magento\Solr\Model\Observer'],
     ['_engineProvider', 'Magento\Solr\Model\Observer'],
     ['_hierarchyLock', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
+    ['_websiteTable', 'Magento\Reminder\Model\Resource\Rule'],
 ];

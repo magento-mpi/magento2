@@ -96,15 +96,6 @@ class AbstractCollection extends AbstractSearchResult
     }
 
     /**
-     * @deprecated
-     * @return void
-     */
-    public function addStoreFilter()
-    {
-        //
-    }
-
-    /**
      * Perform operations after collection load
      *
      * @return void

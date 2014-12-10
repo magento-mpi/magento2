@@ -46,7 +46,6 @@ class ReplaceFilterTest extends \PHPUnit_Framework_TestCase
             'magento/framework' => 'self.version',
             'magento/module-store' => 'self.version',
             'magento/module-fedex' => 'self.version',
-            'symfony/yaml' => 'self.version',
         ];
         $package = $this->getMockBuilder('Magento\Tools\Composer\Package\Package')
             ->disableOriginalConstructor()->getMock();

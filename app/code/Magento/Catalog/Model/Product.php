@@ -931,29 +931,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel implements
     }
 
     /**
-     * Count how many tier prices we have for the product
-     *
-     * @return  int
-     * @deprecated
-     */
-    public function getTierPriceCount()
-    {
-        return $this->getPriceModel()->getTierPriceCount($this);
-    }
-
-    /**
-     * Get formatted by currency tier price
-     *
-     * @param   float $qty
-     * @return  array || double
-     * @deprecated
-     */
-    public function getFormatedTierPrice($qty = null)
-    {
-        return $this->getPriceModel()->getFormatedTierPrice($qty, $this);
-    }
-
-    /**
      * Get formatted by currency product price
      *
      * @return  array || double
