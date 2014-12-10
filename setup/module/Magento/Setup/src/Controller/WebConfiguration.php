@@ -9,28 +9,10 @@ namespace Magento\Setup\Controller;
 
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\SetupInfo;
 
 class WebConfiguration extends AbstractActionController
 {
-    /**
-     * Directory list
-     *
-     * @var DirectoryList
-     */
-    private $dirList;
-
-    /**
-     * Constructor
-     *
-     * @param DirectoryList $dirList
-     */
-    public function __construct(DirectoryList $dirList)
-    {
-        $this->dirList = $dirList;
-    }
-
     /**
      * Displays web configuration form
      *
@@ -39,14 +21,7 @@ class WebConfiguration extends AbstractActionController
     public function indexAction()
     {
         $setupInfo = new SetupInfo($_SERVER);
-        $projectRoot = $this->dirList->getRoot();
-        $docRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
-        if ($setupInfo->isAvailable($this->dirList->getRoot())) {
-            $urlPath = substr($projectRoot, strlen($docRoot));
-        } else {
-            $urlPath = '';
-        }
-        $view = new ViewModel(['autoBaseUrl' => 'http://' . $_SERVER['HTTP_HOST'] . $urlPath . '/']);
+        $view = new ViewModel(['autoBaseUrl' => $setupInfo->getProjectUrl()]);
         $view->setTerminal(true);
         return $view;
     }

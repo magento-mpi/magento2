@@ -22,11 +22,11 @@
         <div class="col-sm-6">Password:</div>
         <div class="col-sm-6">******</div>
     </div>
-    <div class="row p-top-10">
+    <div class="row p-top-10" ng-show="config.address.actual_base_url">
         <div class="col-sm-6">Your Store Address:</div>
         <div class="col-sm-6"><a href="{{config.address.actual_base_url}}">{{config.address.actual_base_url}}</a></div>
     </div>
-    <div class="row p-top-10">
+    <div class="row p-top-10" ng-show="config.address.actual_base_url">
         <div class="col-sm-6">Magento Admin Address:</div>
         <div class="col-sm-6"><a href="{{config.address.actual_base_url}}{{config.address.admin}}/">{{config.address.actual_base_url}}{{config.address.admin}}/</a></div>
     </div>
@@ -51,6 +51,6 @@
     </div>
 </div>
 <div class="text-center">
-    <div class="bold" ng-repeat="message in messages">{{message}}</div><br/>
-    <a type="button" class="btn btn-primary" href="{{config.address.actual_base_url}}{{config.address.admin}}/">Launch Magento Admin</a>
+    <div class="bold" ng-repeat="message in messages">{{message}}</div>
+    <div ng-show="config.address.actual_base_url"><a type="button" class="btn btn-primary" href="{{config.address.actual_base_url}}{{config.address.admin}}/">Launch Magento Admin</a></div>
 </div>

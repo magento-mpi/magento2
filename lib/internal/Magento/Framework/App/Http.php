@@ -182,7 +182,7 @@ class Http implements \Magento\Framework\AppInterface
     {
         $setupInfo = new SetupInfo($bootstrap->getParams());
         $projectRoot = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT)->getAbsolutePath();
-        if ($setupInfo->isAvailable($projectRoot)) {
+        if ($setupInfo->isAvailable()) {
             $this->_response->setRedirect($setupInfo->getUrl());
             $this->_response->sendHeaders();
         } else {
