@@ -24,7 +24,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Registry */
     private $_coreRegistry;
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     private $_storeManager;
 
     /** @var Cart */

@@ -584,31 +584,6 @@ return array(
         '\Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE'
     ),
     array(
-        'PERIOD_UNIT_DAY',
-        '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringPayment\Model\PeriodUnits::DAY'
-    ),
-    array(
-        'PERIOD_UNIT_WEEK',
-        '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringPayment\Model\PeriodUnits::WEEK'
-    ),
-    array(
-        'PERIOD_UNIT_SEMI_MONTH',
-        '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringPayment\Model\PeriodUnits::SEMI_MONTH'
-    ),
-    array(
-        'PERIOD_UNIT_MONTH',
-        '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringPayment\Model\PeriodUnits::MONTH'
-    ),
-    array(
-        'PERIOD_UNIT_YEAR',
-        '\Magento\Payment\Model\Recurring\Profile',
-        '\Magento\RecurringPayment\Model\PeriodUnits::YEAR'
-    ),
-    array(
         'XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY',
         '\Magento\Catalog\Helper\Category\Flat',
         '\Magento\Catalog\Model\Indexer\Category\Flat\Config::XML_PATH_IS_ENABLED_FLAT_CATALOG_CATEGORY'

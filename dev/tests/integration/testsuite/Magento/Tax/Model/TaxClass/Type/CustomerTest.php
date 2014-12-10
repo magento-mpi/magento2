@@ -7,8 +7,6 @@
  */
 namespace Magento\Tax\Model\TaxClass\Type;
 
-use Magento\Customer\Service\V1\Data\CustomerGroupBuilder;
-
 class CustomerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -25,7 +23,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $builder = $this->_objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder');
+        $builder = $this->_objectManager->create('Magento\Customer\Api\Data\GroupDataBuilder');
 
         /* Create a tax class */
         $model = $this->_objectManager->create('Magento\Tax\Model\ClassModel');
@@ -36,11 +34,11 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $taxClassId = $model->getId();
 
         $model->setId($taxClassId);
-        /** @var $customerGroupService \Magento\Customer\Service\V1\CustomerGroupServiceInterface */
-        $customerGroupService = $this->_objectManager->create('\Magento\Customer\Service\V1\CustomerGroupService');
+        /** @var $groupRepository \Magento\Customer\Api\GroupRepositoryInterface */
+        $groupRepository = $this->_objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
         $group = $builder->setId(null)->setCode(self::GROUP_CODE)->setTaxClassId($taxClassId)
             ->create();
-        $customerGroupService->createGroup($group);
+        $groupRepository->save($group);
 
         /** @var $model \Magento\Tax\Model\TaxClass\Type\Customer */
         $model = $this->_objectManager->create('Magento\Tax\Model\TaxClass\Type\Customer');

@@ -94,11 +94,5 @@
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
             <replacefilter token="{{testsuite}}" value="${testsuite}"/>
         </replace>
-
-        <!--Make test modules available over HTTP-->
-        <copy todir="${product_root_dir}/app/code/Magento" overwrite="true" failonerror="true">
-            <fileset dir="${product_root_dir}/dev/tests/api-functional/_files/Magento" includes="TestModule*/**"/>
-        </copy>
-
     </target>
 </project>

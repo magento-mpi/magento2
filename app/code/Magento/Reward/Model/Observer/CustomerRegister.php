@@ -25,7 +25,7 @@ class CustomerRegister
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -38,13 +38,13 @@ class CustomerRegister
 
     /**
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Framework\Logger $logger
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Framework\Logger $logger
     ) {

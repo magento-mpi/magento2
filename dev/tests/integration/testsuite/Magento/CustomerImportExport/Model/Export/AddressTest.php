@@ -35,7 +35,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         );
 
         $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getWebsites(
             true
         );

@@ -205,7 +205,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -272,11 +272,6 @@ class Quote extends \Magento\Framework\Model\AbstractModel
     protected $_objectCopyService;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_converter;
-
-    /**
      * Address repository
      *
      * @var \Magento\Customer\Api\AddressRepositoryInterface
@@ -338,7 +333,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param Quote\AddressFactory $quoteAddressFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -351,8 +346,6 @@ class Quote extends \Magento\Framework\Model\AbstractModel
      * @param Quote\PaymentFactory $quotePaymentFactory
      * @param Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory
      * @param \Magento\Framework\Object\Copy $objectCopyService
-     * @param \Magento\Customer\Model\Converter $converter
-     * @param \Magento\Customer\Model\Address\Converter $addressConverter
      * @param \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry
      * @param Quote\Item\Processor $itemProcessor
      * @param \Magento\Framework\Object\Factory $objectFactory
@@ -373,7 +366,7 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Sales\Model\Quote\AddressFactory $quoteAddressFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -386,8 +379,6 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
         \Magento\Sales\Model\Resource\Quote\Payment\CollectionFactory $quotePaymentCollectionFactory,
         \Magento\Framework\Object\Copy $objectCopyService,
-        \Magento\Customer\Model\Converter $converter,
-        \Magento\Customer\Model\Address\Converter $addressConverter,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Sales\Model\Quote\Item\Processor $itemProcessor,
         \Magento\Framework\Object\Factory $objectFactory,
@@ -418,7 +409,6 @@ class Quote extends \Magento\Framework\Model\AbstractModel
         $this->_quotePaymentFactory = $quotePaymentFactory;
         $this->_quotePaymentCollectionFactory = $quotePaymentCollectionFactory;
         $this->_objectCopyService = $objectCopyService;
-        $this->_converter = $converter;
         $this->addressRepository = $addressRepository;
         $this->criteriaBuilder = $criteriaBuilder;
         $this->filterBuilder = $filterBuilder;
