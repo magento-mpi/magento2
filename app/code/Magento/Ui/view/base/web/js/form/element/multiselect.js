@@ -29,6 +29,12 @@ define([
             __super__.initialize.apply(this, arguments);
         },
 
+        getInititalValue: function(){
+            var value = __super__.getInititalValue.apply(this, arguments);
+
+            return _.isString(value) ? value.split(',') : value;
+        },
+
         /**
          * Defines if value has changed
          * @return {Boolean}
