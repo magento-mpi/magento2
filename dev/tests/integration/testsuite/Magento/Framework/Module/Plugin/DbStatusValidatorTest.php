@@ -21,15 +21,27 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
      */
     public function testValidationOutdatedDb()
     {
-        $resourceName = 'adminnotification_setup';
-        /*reset versions*/
-        /** @var \Magento\Framework\Module\ResourceInterface $resource */
-        $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Framework\Module\ResourceInterface'
-        );
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        $resource->setDbVersion($resourceName, '0.1');
-        $resource->setDataVersion($resourceName, '0.1');
+        /** @var Magento\Framework\Module\ModuleListInterface $moduleList */
+        $moduleList = $objectManager->get('Magento\Framework\Module\ModuleListInterface');
+
+        /** @var \Magento\Framework\Module\ResourceResolverInterface $resourceResolver */
+        $resourceResolver = $objectManager->get('\Magento\Framework\Module\ResourceResolverInterface');
+
+        // get first resource, we don't care which one it is.
+        foreach ($moduleList->getNames() as $moduleName) {
+            if ($resourceList = $resourceResolver->getResourceList($moduleName)) {
+                $resourceName = $resourceList[0];
+                break;
+            }
+        }
+
+        // Prepend '0.' to DB Version, to cause it to be an older version
+        /** @var \Magento\Framework\Module\ResourceInterface $resource */
+        $resource = $objectManager->create('Magento\Framework\Module\ResourceInterface');
+        $currentDbVersion = $resource->getDbVersion($resourceName);
+        $resource->setDbVersion($resourceName, '0.' . $currentDbVersion);
 
         /** @var \Magento\Framework\Cache\FrontendInterface $cache */
         $cache = $this->_objectManager->get('Magento\Framework\App\Cache\Type\Config');
