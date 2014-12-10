@@ -132,7 +132,7 @@ class SetupUtil
     protected $defaultShoppingCartPriceRule = [
         'name' => 'Shopping Cart Rule',
         'is_active' => 1,
-        'customer_group_ids' => array(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL),
+        'customer_group_ids' => array(\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL),
         'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON,
         'simple_action' => 'by_percent',
         'discount_amount' => 40,
@@ -326,9 +326,9 @@ class SetupUtil
      */
     public function getDefaultCustomerTaxClassId()
     {
-        /** @var  \Magento\Customer\Service\V1\CustomerGroupServiceInterface $groupService */
-        $groupService = $this->objectManager->get('Magento\Customer\Service\V1\CustomerGroupServiceInterface');
-        $defaultGroup = $groupService->getDefaultGroup();
+        /** @var  \Magento\Customer\Api\GroupManagementInterface $groupManagement */
+        $groupManagement = $this->objectManager->get('Magento\Customer\Api\GroupManagementInterface');
+        $defaultGroup = $groupManagement->getDefaultGroup();
         return $defaultGroup->getTaxClassId();
     }
 
@@ -492,13 +492,13 @@ class SetupUtil
      */
     protected function createCustomerGroup($customerTaxClassId)
     {
-        /** @var \Magento\Customer\Service\V1\CustomerGroupService $customerGroupService */
-        $customerGroupService = $this->objectManager->create('Magento\Customer\Service\V1\CustomerGroupService');
-        $customerGroupBuilder = $this->objectManager->create('\Magento\Customer\Service\V1\Data\CustomerGroupBuilder')
-            ->setCode('custom_group')
+        /** @var \Magento\Customer\Api\GroupRepositoryInterface $groupRepository */
+        $groupRepository = $this->objectManager->create('Magento\Customer\Api\GroupRepositoryInterface');
+        $customerGroupBuilder = $this->objectManager->create('Magento\Customer\Api\Data\GroupDataBuilder');
+        $customerGroupBuilder->setCode('custom_group')
             ->setTaxClassId($customerTaxClassId);
-        $customerGroup = new \Magento\Customer\Service\V1\Data\CustomerGroup($customerGroupBuilder);
-        $customerGroupId = $customerGroupService->createGroup($customerGroup);
+        $customerGroup = $customerGroupBuilder->create();
+        $customerGroupId = $groupRepository->save($customerGroup)->getId();
         return $customerGroupId;
     }
 

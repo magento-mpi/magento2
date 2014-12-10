@@ -33,7 +33,7 @@ class ConfigDataTest extends \PHPUnit_Framework_TestCase
     protected $configLoaderMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 

@@ -36,7 +36,7 @@ class InvitationToCustomerTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', ['isEnabledOnFront'], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
 
         $this->subject = $objectManager->getObject('\Magento\Reward\Model\Observer\InvitationToCustomer',

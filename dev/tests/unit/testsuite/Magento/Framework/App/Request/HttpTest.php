@@ -9,6 +9,7 @@
 namespace Magento\Framework\App\Request;
 
 use Magento\Framework\App\Request\Http as Request;
+use Magento\Framework\App\ScopeInterface;
 
 class HttpTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,14 +29,24 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     protected $_infoProcessorMock;
 
     /**
-     * @var \Magento\Framework\Stdlib\CookieManagerInterface | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Stdlib\Cookie\CookieReaderInterface | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_cookieManagerMock;
+    protected $cookieReaderMock;
 
     /**
      * @var \Magento\TestFramework\Helper\ObjectManager
      */
     protected $_objectManager;
+
+    /**
+     * @var \Magento\Framework\App\Config\ReinitableConfigInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configMock;
+
+    /**
+     * @var array
+     */
+    private $serverArray;
 
     protected function setUp()
     {
@@ -50,7 +61,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         );
         $this->_infoProcessorMock = $this->getMock('Magento\Framework\App\Request\PathInfoProcessorInterface');
         $this->_infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
-        $this->_cookieManagerMock = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
+        $this->cookieReaderMock = $this->getMock('Magento\Framework\Stdlib\Cookie\CookieReaderInterface');
+        $this->configMock = $this->getMock('Magento\Framework\App\Config\ReinitableConfigInterface');
+
+        // Stash the $_SERVER array to protect it from modification in test
+        $this->serverArray = $_SERVER;
+    }
+
+    public function tearDown()
+    {
+        $_SERVER = $this->serverArray;
     }
 
     public function testGetOriginalPathInfoWithTestUri()
@@ -68,8 +88,9 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             [
                 'pathInfoProcessor' => $this->_infoProcessorMock,
                 'routeConfig' => $this->_routerListMock,
-                'cookieManager' => $this->_cookieManagerMock,
-                'uri' => $uri
+                'cookieReader' => $this->cookieReaderMock,
+                'uri' => $uri,
+                'config' => $this->configMock
             ]
         );
     }
@@ -413,7 +434,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $key = "cookieName";
         $default = "defaultValue";
 
-        $this->_cookieManagerMock
+        $this->cookieReaderMock
             ->expects($this->once())
             ->method('getCookie')
             ->with($key, $default)
@@ -428,7 +449,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $default = "defaultValue";
         $value = "cookieValue";
 
-        $this->_cookieManagerMock
+        $this->cookieReaderMock
             ->expects($this->once())
             ->method('getCookie')
             ->with($key, $default)
@@ -442,7 +463,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         $nullKey = null;
         $default = "defaultValue";
 
-        $this->_cookieManagerMock
+        $this->cookieReaderMock
             ->expects($this->once())
             ->method('getCookie')
             ->with($nullKey, $default)
@@ -499,5 +520,54 @@ class HttpTest extends \PHPUnit_Framework_TestCase
         return $returnValue;
     }
 
+    /**
+     * @dataProvider isSecureDataProvider
+     *
+     * @param bool $isSecure expected output of isSecure method
+     * @param string $serverHttps value of $_SERVER['HTTPS']
+     * @param string $headerOffloadKey <Name-Of-Offload-Header>
+     * @param string $headerOffloadValue value of $_SERVER[<Name-Of-Offload-Header>]
+     * @param int $configCall number of times config->getValue is expected to be called
+     */
+    public function testIsSecure($isSecure, $serverHttps, $headerOffloadKey, $headerOffloadValue, $configCall)
+    {
+        $this->_model = $this->getModel();
+        $configOffloadHeader = 'Header-From-Proxy';
+        $this->configMock->expects($this->exactly($configCall))
+            ->method('getValue')
+            ->with(Request::XML_PATH_OFFLOADER_HEADER, ScopeInterface::SCOPE_DEFAULT)
+            ->willReturn($configOffloadHeader);
+        $_SERVER[$headerOffloadKey] = $headerOffloadValue;
+        $_SERVER['HTTPS'] = $serverHttps;
 
+        $this->assertSame($isSecure, $this->_model->isSecure());
+    }
+
+    public function isSecureDataProvider()
+    {
+        /**
+         * Data structure:
+         * 'Test #' => [
+         *      expected output of isSecure method
+         *      value of $_SERVER['HTTPS'],
+         *      <Name-Of-Offload-Header>,
+         *      value of $_SERVER[<Name-Of-Offload-Header>]
+         *      number of times config->getValue is expected to be called
+         *  ]
+         */
+        return [
+            'Test 1' => [true, 'on', 'Header-From-Proxy', 'https', 0],
+            'Test 2' => [true, 'off', 'Header-From-Proxy', 'https', 1],
+            'Test 3' => [true, 'any-string', 'Header-From-Proxy', 'https', 0],
+            'Test 4' => [true, 'on', 'Header-From-Proxy', 'http', 0],
+            'Test 5' => [false, 'off', 'Header-From-Proxy', 'http', 1],
+            'Test 6' => [true, 'any-string', 'Header-From-Proxy', 'http', 0],
+            'Test 7' => [true, 'on', 'Header-From-Proxy', 'any-string', 0],
+            'Test 8' => [false, 'off', 'Header-From-Proxy', 'any-string', 1],
+            'Test 9' => [true, 'any-string', 'Header-From-Proxy', 'any-string', 0],
+            'blank HTTPS with proxy set https' => [true, '', 'Header-From-Proxy', 'https', 1],
+            'blank HTTPS with proxy set http' => [false, '', 'Header-From-Proxy', 'http', 1],
+            'HTTPS off with HTTP_ prefixed proxy set to https' => [true, 'off', 'HTTP_Header-From-Proxy', 'https', 1],
+        ];
+    }
 }

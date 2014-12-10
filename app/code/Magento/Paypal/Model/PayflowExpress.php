@@ -40,7 +40,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Logger\AdapterFactory $logAdapterFactory
      * @param ProFactory $proFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param CartFactory $cartFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -54,7 +54,7 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         ProFactory $proFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         CartFactory $cartFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -94,10 +94,10 @@ class PayflowExpress extends \Magento\Paypal\Model\Express
                 Config::METHOD_WPP_EXPRESS
             );
         }
-        if ($quote && $this->_ecInstance) {
+        if ($quote) {
             $this->_ecInstance->setStore($quote->getStoreId());
         }
-        return $this->_ecInstance ? !$this->_ecInstance->isAvailable() : false;
+        return !$this->_ecInstance->isAvailable();
     }
 
     /**

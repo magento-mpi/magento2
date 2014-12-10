@@ -81,9 +81,9 @@ class ExpressTest extends \Magento\TestFramework\TestCase\AbstractController
         /** Preconditions */
         /** @var \Magento\Customer\Model\Session $customerSession */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
-        /** @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerService */
-        $customerService = $this->_objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
-        $customerData = $customerService->getCustomer($fixtureCustomerId);
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $this->_objectManager->get('Magento\Customer\Api\CustomerRepositoryInterface');
+        $customerData = $customerRepository->getById($fixtureCustomerId);
         $customerSession->setCustomerDataObject($customerData);
 
         /** @var \Magento\Sales\Model\Quote $quote */
