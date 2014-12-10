@@ -19,12 +19,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertProductNotVisibleInCategory extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that product is not visible in the assigned category

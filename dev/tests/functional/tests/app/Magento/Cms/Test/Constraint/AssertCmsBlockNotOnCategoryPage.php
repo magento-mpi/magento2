@@ -20,12 +20,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertCmsBlockNotOnCategoryPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that created CMS block non visible on frontend category page

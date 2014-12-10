@@ -17,12 +17,9 @@ use Magento\Integration\Test\Page\Adminhtml\IntegrationIndex;
  */
 class AssertIntegrationTokensPopup extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Fields to be checked

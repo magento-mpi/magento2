@@ -20,12 +20,9 @@ use Magento\CurrencySymbol\Test\Fixture\CurrencySymbolEntity;
  */
 class AssertCurrencySymbolOnCatalogPage extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that after applying changes, currency symbol changed on Catalog page

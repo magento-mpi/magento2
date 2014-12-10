@@ -91,6 +91,7 @@ class CreateGiftRegistryTypeEntityTest extends Injectable
      */
     public function test(GiftRegistryType $giftRegistryType)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-31247');
         // Steps
         $this->giftRegistryIndex->open();
         $this->giftRegistryIndex->getPageActions()->addNew();

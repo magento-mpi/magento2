@@ -17,17 +17,14 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  */
 class AssertCmsPageRevisionSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_SAVE_MESSAGE = 'You have saved the revision.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that success save message is displayed on the CmsVersionEdit page

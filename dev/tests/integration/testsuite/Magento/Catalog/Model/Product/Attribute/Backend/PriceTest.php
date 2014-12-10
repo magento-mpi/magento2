@@ -81,7 +81,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
                 $product->getId(),
                 $this->_model->getAttribute()->getId(),
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                    'Magento\Framework\StoreManagerInterface'
+                    'Magento\Store\Model\StoreManagerInterface'
                 )->getStore()->getId()
             )
         );

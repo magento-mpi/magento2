@@ -19,12 +19,9 @@ use Mtf\Constraint\AbstractAssertForm;
  */
 class AssertGiftRegistryTypeForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that GiftRegistryType form filled correctly

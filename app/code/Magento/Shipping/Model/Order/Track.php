@@ -6,6 +6,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\Shipping\Model\Order;
+
+use Magento\Framework\Api\AttributeDataBuilder;
+
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Track _getResource()
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Track getResource()
@@ -29,8 +33,6 @@
  * @method \Magento\Sales\Model\Order\Shipment\Track setUpdatedAt(string $value)
  *
  */
-namespace Magento\Shipping\Model\Order;
-
 class Track extends \Magento\Sales\Model\Order\Shipment\Track
 {
     /**
@@ -42,9 +44,10 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Api\MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory
      * @param \Magento\Shipping\Model\CarrierFactory $carrierFactory
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -57,9 +60,10 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Api\MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\ShipmentFactory $shipmentFactory,
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
@@ -70,6 +74,7 @@ class Track extends \Magento\Sales\Model\Order\Shipment\Track
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $localeDate,
             $dateTime,
             $storeManager,

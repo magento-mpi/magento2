@@ -19,12 +19,9 @@ use Magento\Backend\Test\Page\Adminhtml\StoreNew;
  */
 class AssertStoreForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed Store View data on edit page equals passed from fixture

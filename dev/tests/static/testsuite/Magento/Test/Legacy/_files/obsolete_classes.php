@@ -825,8 +825,8 @@ return array(
     array('Mage_Core_Model_Session_Abstract_Varien'),
     array('Mage_Core_Model_Session_Abstract_Zend'),
     array('Magento\Core\Model\Source\Email\Variables', 'Magento\Email\Model\Source\Variables'),
-    array('Magento\Core\Model\Store\ListInterface', 'Magento\Framework\StoreManagerInterface'),
-    array('Magento\Core\Model\Store\StorageInterface', 'Magento\Framework\StoreManagerInterface'),
+    array('Magento\Core\Model\Store\ListInterface', 'Magento\Store\Model\StoreManagerInterface'),
+    array('Magento\Core\Model\Store\StorageInterface', 'Magento\Store\Model\StoreManagerInterface'),
     array('Mage_Core_Model_Store_Group_Limitation'),
     array('Mage_Core_Model_Store_Limitation'),
     array('Magento\Core\Model\Variable\Observer'),
@@ -1255,22 +1255,6 @@ return array(
     array('Magento\Backup\Model\Resource\Helper\Mysql4', 'Magento\Backup\Model\Resource\Helper'),
     array('Magento\Sales\Model\CarrierFactory', 'Magento\Shipping\Model\CarrierFactory'),
     array('Magento\Sales\Model\Order\Pdf\Shipment\Packaging', 'Magento\Shipping\Model\Order\Pdf\Packaging'),
-    array(
-        'Magento\Sales\Model\Observer\Backend\RecurringPayment\FormRenderer',
-        'Magento\RecurringPayment\Model\Observer'
-    ),
-    array(
-        'Magento\Sales\Model\Quote\Address\Total\Nominal\AbstractRecurring',
-        'Magento\RecurringPayment\Model\Quote\Total\AbstractRecurring'
-    ),
-    array(
-        'Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Initial',
-        'Magento\RecurringPayment\Model\Quote\Total\Initial'
-    ),
-    array(
-        'Magento\Sales\Model\Quote\Address\Total\Nominal\Recurring\Trial',
-        'Magento\RecurringPayment\Model\Quote\Total\Trial'
-    ),
     array('Magento\Sales\Model\ResourceFactory'),
     array('Magento\Sales\Model\Resource\Helper\Mysql4', 'Magento\Sales\Model\Resource\Helper'),
     array('Magento\Core\Model\Resource\Helper\Mysql4', 'Magento\Framework\DB\Helper'),
@@ -1287,10 +1271,6 @@ return array(
     ),
     array('Magento\Sales\Model\Resource\Helper\HelperInterface', 'Magento\Sales\Model\Resource\HelperInterface'),
     array('Magento\Reports\Model\Resource\Helper\HelperInterface', 'Magento\Reports\Model\Resource\HelperInterface'),
-    array(
-        'Magento\Payment\Block\Catalog\Product\View\Profile',
-        'Magento\RecurringPayment\Block\Catalog\Product\View\Payment'
-    ),
     ['Magento\Payment\Block\Form\Banktransfer', 'Magento\OfflinePayments\Block\Form\Banktransfer'],
     ['Magento\Payment\Block\Form\Cashondelivery', 'Magento\OfflinePayments\Block\Form\Cashondelivery'],
     ['Magento\Payment\Block\Form\Ccsave', 'Magento\OfflinePayments\Block\Form\Ccsave'],
@@ -1304,10 +1284,6 @@ return array(
     ['Magento\Payment\Model\Method\Ccsave', 'Magento\OfflinePayments\Model\Ccsave'],
     ['Magento\Payment\Model\Method\Checkmo', 'Magento\OfflinePayments\Model\Checkmo'],
     ['Magento\Payment\Model\Method\Purchaseorder', 'Magento\OfflinePayments\Model\Purchaseorder'],
-    array(
-        'Magento\Payment\Model\Recurring\Profile\MethodInterface',
-        'Magento\RecurringPayment\Model\ManagerInterface'
-    ),
     array('Magento\Poll\Block\ActivePoll'),
     array('Magento\Poll\Controller\Vote'),
     array('Magento\Poll\Helper\Data'),
@@ -1845,10 +1821,6 @@ return array(
     array('Magento\Core\Model\ConfigInterface', 'Magento\Framework\App\Config\ScopeConfigInterface'),
     array('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser'),
     array(
-        'Magento\Catalog\Model\Product\Attribute\Backend\Recurring',
-        'Magento\RecurringPayment\Model\Product\Attribute\Backend\Recurring'
-    ),
-    array(
         'Magento\Catalog\Model\Product\Type\Grouped\Backend',
         'Magento\GroupedProduct\Model\Product\Type\Grouped\Backend'
     ),
@@ -1869,10 +1841,6 @@ return array(
         'Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Grouped',
         'Magento\GroupedProduct\Block\Adminhtml\Product\Composite\Fieldset\Grouped'
     ),
-    array(
-        'Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Price\Recurring',
-        'Magento\RecurringPayment\Block\Adminhtml\Product\Edit\Tab\Price\Recurring'
-    ),
     array('Magento\Catalog\Block\Adminhtml\Product\Edit\Tabs\Grouped'),
     array(
         'Magento\Catalog\Block\Product\Grouped\AssociatedProducts',
@@ -1884,45 +1852,8 @@ return array(
     ),
     array('Magento\Catalog\Block\Product\View\Type\Grouped', 'Magento\GroupedProduct\Block\Product\View\Type\Grouped'),
     array(
-        'Magento\Sales\Block\Adminhtml\Customer\Edit\Tab\Recurring\Payment',
-        'Magento\RecurringPayment\Block\Adminhtml\Customer\Edit\Tab\RecurringPayment'
-    ),
-    array(
         'Magento\Sales\Block\Adminhtml\Items\Column\Name\Grouped',
         'Magento\GroupedProduct\Block\Adminhtml\Items\Column\Name\Grouped'
-    ),
-    array('Magento\Sales\Block\Adminhtml\Recurring\Profile', 'Magento\RecurringPayment\Block\Adminhtml\Payment'),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\Edit\Form',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\Edit\Form'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\Grid',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\Grid'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Getawayinfo',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Getawayinfo'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Info',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Info'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Items',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Info'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Info',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Info'
-    ),
-    array(
-        'Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab\Orders',
-        'Magento\RecurringPayment\Block\Adminhtml\Payment\View\Tab\Orders'
     ),
     array(
         'Magento\Sales\Model\Order\Pdf\Items\Invoice\Grouped',
@@ -1931,25 +1862,6 @@ return array(
     array(
         'Magento\Sales\Block\Order\Item\Renderer\Grouped',
         'Magento\GroupedProduct\Block\Order\Item\Renderer\Grouped'
-    ),
-    array(
-        'Magento\Sales\Block\Recurring\Profile\Related\Orders\Grid',
-        'Magento\RecurringPayment\Block\Payment\Related\Orders\Grid'
-    ),
-    array('Magento\Sales\Block\Recurring\Profiles', 'Magento\RecurringPayment\Block\Profiles'),
-    array('Magento\Sales\Block\Recurring\Profile\Grid', 'Magento\RecurringPayment\Block\Payment\Grid'),
-    array('Magento\Sales\Block\Recurring\Profile\View', 'Magento\RecurringPayment\Block\Payment\View'),
-    array('Magento\Sales\Block\Recurring\Profile\View\Address', 'Magento\RecurringPayment\Block\Payment\View\Address'),
-    array('Magento\Sales\Block\Recurring\Profile\View\Data', 'Magento\RecurringPayment\Block\Payment\View\Data'),
-    array('Magento\Sales\Block\Recurring\Profile\View\Fees', 'Magento\RecurringPayment\Block\Payment\View\Fees'),
-    array('Magento\Sales\Block\Recurring\Profile\View\Item', 'Magento\RecurringPayment\Block\Payment\View\Item'),
-    array(
-        'Magento\Sales\Block\Recurring\Profile\View\Reference',
-        'Magento\RecurringPayment\Block\Payment\View\Reference'
-    ),
-    array(
-        'Magento\Sales\Block\Recurring\Profile\View\Schedule',
-        'Magento\RecurringPayment\Block\Payment\View\Schedule'
     ),
     array(
         'Magento\ImportExport\Model\Export\Entity\Product\Type\Grouped',
@@ -1989,13 +1901,6 @@ return array(
     array('Magento\Catalog\Model\Category\Indexer\Flat'),
     array('Magento\Framework\Config\Dom\Converter\ArrayConverter'),
     array('Magento\Framework\Acl\Resource\Config\Dom'),
-    array('Magento\Sales\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\Payment'),
-    array('Magento\Sales\Model\Resource\Recurring\Profile', 'Magento\RecurringPayment\Model\Resource\Payment'),
-    array(
-        'Magento\Sales\Model\Resource\Recurring\Profile\Collection',
-        'Magento\RecurringPayment\Model\Resource\Payment\Collection'
-    ),
-    array('Magento\Payment\Model\Recurring\Profile', 'Magento\RecurringPayment\Model\RecurringPayment'),
     array('Magento\Validator\Composite\VarienObject', 'Magento\Framework\Validator\Object'),
     array('Magento\GoogleShopping\Helper\Price', 'Magento\Catalog\Model\Product\CatalogPrice'),
     array(
@@ -2079,11 +1984,6 @@ return array(
         'Magento\ConfigurableProduct\Model\Resource\Product\Collection\AssociatedProduct'
     ),
     array('Magento\Catalog\Model\Resource\Product\Collection\AssociatedProductUpdater'),
-    array(
-        'Magento\Sales\Controller\Adminhtml\Recurring\Profile',
-        'Magento\RecurringPayment\Controller\Adminhtml\Payment'
-    ),
-    array('Magento\Sales\Controller\Recurring\Profile', 'Magento\RecurringPayment\Controller\Payment'),
     array('Magento\Core\Model\Image\Adapter\Config', 'Magento\Framework\Image\Adapter\Config'),
     array('Magento\Core\Model\AbstractShell', 'Magento\Framework\App\AbstractShell'),
     array('Magento\Core\Model\Calculator', 'Magento\Framework\Math\Calculator'),
@@ -2096,8 +1996,6 @@ return array(
     array('Magento\Core\Model\Context', 'Magento\Framework\Model\Context'),
     array('Magento\Core\Model\Registry', 'Magento\Framework\Registry'),
     array('Magento\Framework\Code\Plugin\InvocationChain'),
-    array('RecurringProfile', 'RecurringPayment'), // recurring profile was renamed to recurring payment
-    array('Recurring\Profile', 'Recurring\Payment'), // recurring profile was renamed to recurring payment
     array('Magento\Catalog\Helper\Product\Flat'),
     array('Magento\Catalog\Helper\Flat\AbstractFlat'),
     array('Magento\Core\App\Action\Plugin\Install', 'Magento\Framework\App\Bootstrap'),
@@ -2318,7 +2216,6 @@ return array(
     ['Magento\Core\Model\Store\Storage\DefaultStorage', 'Magento\Store\Model\Storage\DefaultStorage'],
     ['Magento\Core\Model\Store\StorageFactory', 'Magento\Store\Model\StorageFactory'],
     ['Magento\Core\Model\StoreManager', 'Magento\Store\Model\StoreManager'],
-    ['Magento\Store\Model\StoreManagerInterface', 'Magento\Framework\StoreManagerInterface'],
     ['Magento\Core\Model\System\Store', 'Magento\Store\Model\System\Store'],
     ['Magento\Core\Model\Website', 'Magento\Store\Model\Website'],
     ['Magento\Core\Model\Website\Factory', 'Magento\Store\Model\WebsiteFactory'],
@@ -2326,6 +2223,7 @@ return array(
     ['Magento\BaseScopeInterface', 'Magento\Framework\App\ScopeInterface'],
     ['Magento\BaseScopeResolverInterface', 'Magento\Framework\App\ScopeResolverInterface'],
     ['Magento\Framework\Locale\ScopeConfigInterface'],
+    ['Magento\Framework\StoreManagerInterface', 'Magento\Store\Model\StoreManagerInterface'],
     ['Magento\Core\Model\Module\Output\Config', 'Magento\Framework\Module\Output\Config'],
     ['Magento\Core\Model\Resource\Setup\Context', 'Magento\Framework\Module\Setup\Context'],
     ['Magento\Core\Model\Resource\Setup\Migration', 'Magento\Framework\Module\Setup\Migration'],
@@ -2583,6 +2481,8 @@ return array(
     ['Magento\Framework\View\Layout\File\Source\Theme', 'Magento\Framework\View\File\Collector\ThemeModular'],
     ['Magento\Framework\View\Layout\File\Factory', 'Magento\Framework\View\File\Factory'],
     ['Magento\Framework\View\Layout\File\FileList', 'Magento\Framework\View\File\FileList'],
+    ['Magento\Customer\Service\V1\CustomerAccountService'],
+    ['Magento\Customer\Service\V1\CustomerAccountServiceInterface'],
     ['Magento\Framework\View\Layout\File\SourceInterface', 'Magento\Framework\View\File\CollectorInterface'],
     ['Magento\Framework\View\Layout\File', 'Magento\Framework\View\File'],
     ['Magento\Framework\View\Url\Resolver', 'Magento\Framework\View\Asset\Repository'],
@@ -2894,6 +2794,32 @@ return array(
     ['Magento\Framework\Module\DependencyManagerInterface'],
     ['Magento\Framework\App\Arguments\Loader'],
     ['Magento\Framework\App\Arguments', 'Magento\Framework\App\DeploymentConfig'],
+    ['Magento\Bundle\Service\V1\Data\Product\Link', 'Magento\Bundle\Api\Data\LinkInterface'],
+    ['Magento\Bundle\Service\V1\Data\Product\Option', 'Magento\Bundle\Api\Data\OptionInterface'],
+    [
+        'Magento\Bundle\Service\V1\Product\Link\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductLinkManagementInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Link\WriteServiceInterface',
+        'Magento\Bundle\Api\ProductLinkManagementInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductOptionRepositoryInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\WriteServiceInterface',
+        'Magento\Bundle\Api\ProductOptionRepositoryInterface'
+    ],
+    [
+        'Magento\Bundle\Service\V1\Product\Option\Type\ReadServiceInterface',
+        'Magento\Bundle\Api\ProductOptionTypeListInterface'
+    ],
     ['Magento\Sales\Controller\Adminhtml\Order\InvoiceLoader'],
     ['Magento\Sales\Model\Resource\AbstractResource', 'Magento\Framework\Model\Resource\Db\AbstractDb'],
+    ['Magento\Customer\Model\Address\Converter'],
+    ['Magento\Customer\Model\Converter'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
+    ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
 );

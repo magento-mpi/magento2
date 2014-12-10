@@ -18,12 +18,9 @@ use Magento\Backend\Test\Page\Adminhtml\AdminCache;
  */
 class AssertWidgetAbsentOnFrontendHome extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created widget is absent on frontend on Home page

@@ -17,14 +17,11 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentIndex;
  */
 class AssertCustomerSegmentSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You saved the segment.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You saved the segment.';
 
     /**
      * Assert that success message is displayed after Customer Segments saved

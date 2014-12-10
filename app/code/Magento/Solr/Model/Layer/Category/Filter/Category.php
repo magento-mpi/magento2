@@ -25,10 +25,11 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
-     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
+     * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Escaper $escaper
+     * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory
      * @param \Magento\Framework\Registry $coreRegistry
      * @param CategoryRepositoryInterface $categoryRepository
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -36,14 +37,15 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Escaper $escaper,
+        \Magento\Catalog\Model\Layer\Filter\DataProvider\CategoryFactory $categoryFactory,
         \Magento\Framework\Registry $coreRegistry,
         CategoryRepositoryInterface $categoryRepository,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct(
@@ -52,8 +54,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
             $layer,
             $itemDataBuilder,
             $escaper,
-            $coreRegistry,
-            $categoryRepository,
+            $categoryFactory,
             $data
         );
     }

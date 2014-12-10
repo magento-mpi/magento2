@@ -14,12 +14,9 @@ namespace Magento\SalesRule\Test\Constraint;
  */
 class AssertCartPriceRuleConditionIsApplied extends AssertCartPriceRuleApplying
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that shopping cart subtotal not equals with grand total

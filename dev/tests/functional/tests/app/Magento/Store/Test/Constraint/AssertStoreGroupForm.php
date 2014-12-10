@@ -19,12 +19,9 @@ use Magento\Backend\Test\Page\Adminhtml\EditGroup;
  */
 class AssertStoreGroupForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data

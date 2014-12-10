@@ -19,12 +19,9 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  */
 class AssertRmaInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Assert that return request displayed in Returns grid:

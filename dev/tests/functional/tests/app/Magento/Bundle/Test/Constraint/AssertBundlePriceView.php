@@ -18,12 +18,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertBundlePriceView extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that displayed price view for bundle product on product page equals passed from fixture.

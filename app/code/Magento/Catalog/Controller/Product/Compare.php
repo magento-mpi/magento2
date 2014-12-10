@@ -69,7 +69,7 @@ class Compare extends \Magento\Framework\App\Action\Action
     protected $_compareItemFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -103,7 +103,7 @@ class Compare extends \Magento\Framework\App\Action\Action
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList
      * @param \Magento\Catalog\Model\Session $catalogSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param FormKeyValidator $formKeyValidator
      * @param \Magento\Framework\Controller\Result\RedirectFactory $resultRedirectFactory
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
@@ -117,7 +117,7 @@ class Compare extends \Magento\Framework\App\Action\Action
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Catalog\Model\Product\Compare\ListCompare $catalogProductCompareList,
         \Magento\Catalog\Model\Session $catalogSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         FormKeyValidator $formKeyValidator,
         Result\RedirectFactory $resultRedirectFactory,
         PageFactory $resultPageFactory,

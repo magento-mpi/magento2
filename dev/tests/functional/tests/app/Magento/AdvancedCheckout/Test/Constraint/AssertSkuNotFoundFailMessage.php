@@ -17,17 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertSkuNotFoundFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Sku not found error message
      */
     const ERROR_MESSAGE = 'SKU not found in catalog.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that sku not found error message is displayed after adding products by sku to shopping cart

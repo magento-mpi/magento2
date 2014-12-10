@@ -42,7 +42,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Module\Manager $moduleManager ,
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -67,7 +67,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -136,11 +136,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $attributeCode = $this->_eavConfig->getAttribute(Product::ENTITY, $attributeCode)
                             ->getAttributeCode();
                     }
-                    if (!empty($attributeValue['from']) || !empty($attributeValue['to'])) {
-                        if (!empty($attributeValue['from'])) {
+                    if (isset($attributeValue['from']) || isset($attributeValue['to'])) {
+                        if (isset($attributeValue['from']) && '' !== $attributeValue['from']) {
                             $this->requestBuilder->bind("{$attributeCode}.from", $attributeValue['from']);
                         }
-                        if (!empty($attributeValue['to'])) {
+                        if (isset($attributeValue['to']) && '' !== $attributeValue['to']) {
                             $this->requestBuilder->bind("{$attributeCode}.to", $attributeValue['to']);
                         }
                     } elseif (!is_array($attributeValue)) {

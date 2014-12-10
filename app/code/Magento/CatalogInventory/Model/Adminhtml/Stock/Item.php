@@ -9,6 +9,7 @@ namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\CatalogInventory\Api\StockConfigurationInterface as StockConfigurationInterface;
 use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 use Magento\CatalogInventory\Api\StockRegistryInterface;
@@ -27,8 +28,9 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param MetadataServiceInterface $metadataService
+     * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param StockConfigurationInterface $stockConfiguration
      * @param StockRegistryInterface $stockRegistry
      * @param StockItemRepositoryInterface $stockItemRepository
@@ -41,8 +43,9 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         MetadataServiceInterface $metadataService,
+        AttributeDataBuilder $customAttributeBuilder,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         StockConfigurationInterface $stockConfiguration,
         StockRegistryInterface $stockRegistry,
         StockItemRepositoryInterface $stockItemRepository,
@@ -55,6 +58,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
             $context,
             $registry,
             $metadataService,
+            $customAttributeBuilder,
             $customerSession,
             $storeManager,
             $stockConfiguration,

@@ -50,11 +50,6 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $customerAccountServiceMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     private $taxClassManagementMock;
 
     public function setUp()
@@ -82,10 +77,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $this->customerAccountServiceMock = $this->getMock(
-            '\Magento\Customer\Service\V1\CustomerAccountServiceInterface'
-        );
+        $this->storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->taxClassManagementMock = $this->getMock('\Magento\Tax\Api\TaxClassManagementInterface');
 
         $objectManager = new ObjectManager($this);
@@ -98,7 +90,6 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                 'taxDetailsBuilder' => $this->taxDetailsBuilder,
                 'taxDetailsItemBuilder' => $this->taxDetailsItemBuilder,
                 'storeManager' => $this->storeManager,
-                'customerAccountService' => $this->customerAccountServiceMock,
                 'taxClassManagement' => $this->taxClassManagementMock
             ]
         );
@@ -210,8 +201,8 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
         $this->storeManager->expects($this->once())->method('getStore')->willReturn($storeMock);
         $storeMock->expects($this->once())->method('getStoreId')->willReturn($storeId);
 
-        $billAddressMock = $this->getMock('\Magento\Customer\Service\V1\Data\Address', [], [], '', false);
-        $shipAddressMock = $this->getMock('\Magento\Customer\Service\V1\Data\Address', [], [], '', false);
+        $billAddressMock = $this->getMock('Magento\Customer\Api\Data\AddressInterface', [], [], '', false);
+        $shipAddressMock = $this->getMock('Magento\Customer\Api\Data\AddressInterface', [], [], '', false);
         $taxClassKeyMock = $this->getMock('\Magento\Tax\Api\Data\TaxClassKeyInterface');
 
         $quoteDetailsItemMock = $this->getMock('\Magento\Tax\Api\Data\QuoteDetailsItemInterface');
@@ -248,4 +239,3 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($taxDetailsMock, $this->taxCalculationService->calculateTax($quoteDetailsMock));
     }
 }
- 

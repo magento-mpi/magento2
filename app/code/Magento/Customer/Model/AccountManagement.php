@@ -34,7 +34,7 @@ use Magento\Framework\Mail\Template\TransportBuilder;
 use Magento\Framework\Math\Random;
 use Magento\Framework\Stdlib\DateTime;
 use Magento\Framework\Stdlib\String as StringHelper;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\UrlInterface;
 use Magento\Framework\Reflection\DataObjectProcessor;
 use Magento\Customer\Api\Data\AddressInterface;
@@ -80,15 +80,6 @@ class AccountManagement implements AccountManagementInterface
     // welcome email, when confirmation is enabled
     const NEW_ACCOUNT_EMAIL_CONFIRMATION = 'confirmation';
 
-    // email with confirmation link
-
-    // Constants for confirmation statuses
-    const ACCOUNT_CONFIRMED = 'account_confirmed';
-
-    const ACCOUNT_CONFIRMATION_REQUIRED = 'account_confirmation_required';
-
-    const ACCOUNT_CONFIRMATION_NOT_REQUIRED = 'account_confirmation_not_required';
-
     /**
      * Constants for types of emails to send out.
      * pdl:
@@ -121,7 +112,7 @@ class AccountManagement implements AccountManagementInterface
     private $eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     private $storeManager;
 
@@ -129,11 +120,6 @@ class AccountManagement implements AccountManagementInterface
      * @var Random
      */
     private $mathRandom;
-
-    /**
-     * @var Converter
-     */
-    private $converter;
 
     /**
      * @var Validator
@@ -233,7 +219,6 @@ class AccountManagement implements AccountManagementInterface
      * @param ManagerInterface $eventManager
      * @param StoreManagerInterface $storeManager
      * @param Random $mathRandom
-     * @param Converter $converter
      * @param Validator $validator
      * @param \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder
      * @param AddressRepositoryInterface $addressRepository
@@ -263,7 +248,6 @@ class AccountManagement implements AccountManagementInterface
         ManagerInterface $eventManager,
         StoreManagerInterface $storeManager,
         Random $mathRandom,
-        Converter $converter,
         Validator $validator,
         \Magento\Customer\Api\Data\ValidationResultsDataBuilder $validationResultsDataBuilder,
         AddressRepositoryInterface $addressRepository,
@@ -290,7 +274,6 @@ class AccountManagement implements AccountManagementInterface
         $this->eventManager = $eventManager;
         $this->storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
-        $this->converter = $converter;
         $this->validator = $validator;
         $this->validationResultsDataBuilder = $validationResultsDataBuilder;
         $this->addressRepository = $addressRepository;
@@ -343,7 +326,27 @@ class AccountManagement implements AccountManagementInterface
     public function activate($email, $confirmationKey)
     {
         $customer = $this->customerRepository->get($email);
+        return $this->activateCustomer($customer, $confirmationKey);
+    }
 
+    /**
+     * {@inheritdoc}
+     */
+    public function activateById($customerId, $confirmationKey)
+    {
+        $customer = $this->customerRepository->getById($customerId);
+        return $this->activateCustomer($customer, $confirmationKey);
+    }
+
+    /**
+     * Activate a customer account using a key that was sent in a confirmation e-mail.
+     *
+     * @param \Magento\Customer\Api\Data\CustomerInterface $customer
+     * @param string $confirmationKey
+     * @return \Magento\Customer\Api\Data\CustomerInterface
+     */
+    private function activateCustomer($customer, $confirmationKey)
+    {
         // check if customer is inactive
         if (!$customer->getConfirmation()) {
             throw new InvalidTransitionException('Account already active');
@@ -600,6 +603,32 @@ class AccountManagement implements AccountManagementInterface
         } catch (NoSuchEntityException $e) {
             throw new InvalidEmailOrPasswordException('Invalid login or password.');
         }
+        return $this->changePasswordForCustomer($customer, $currentPassword, $newPassword);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function changePasswordById($customerId, $currentPassword, $newPassword)
+    {
+        try {
+            $customer = $this->customerRepository->getById($customerId);
+        } catch (NoSuchEntityException $e) {
+            throw new InvalidEmailOrPasswordException('Invalid login or password.');
+        }
+        return $this->changePasswordForCustomer($customer, $currentPassword, $newPassword);
+    }
+
+    /**
+     * Change customer password.
+     *
+     * @param string $email
+     * @param string $currentPassword
+     * @param string $newPassword
+     * @return bool true on success
+     */
+    private function changePasswordForCustomer($customer, $currentPassword, $newPassword)
+    {
         $customerSecure = $this->customerRegistry->retrieveSecureData($customer->getId());
         $hash = $customerSecure->getPasswordHash();
         if (!$this->encryptor->validateHash($currentPassword, $hash)) {
@@ -670,7 +699,9 @@ class AccountManagement implements AccountManagementInterface
                 ->create();
         }
 
-        $customerModel = $this->converter->createCustomerModel($customer);
+        $customerModel = $this->customerFactory->create()->updateData(
+            $this->customerDataBuilder->populate($customer)->setAddresses([])->create()
+        );
 
         $result = $customerModel->validate();
         if (true !== $result && is_array($result)) {

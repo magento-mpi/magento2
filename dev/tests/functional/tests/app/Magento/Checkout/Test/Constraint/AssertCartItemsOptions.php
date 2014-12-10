@@ -23,12 +23,9 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertCartItemsOptions extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Error message for verify options

@@ -20,12 +20,9 @@ use Magento\VersionsCms\Test\Fixture\Revision;
  */
 class AssertCmsPageCurrentlyPublishedRevision extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that link to Currently Published Revision on CMS Page Information Form is available

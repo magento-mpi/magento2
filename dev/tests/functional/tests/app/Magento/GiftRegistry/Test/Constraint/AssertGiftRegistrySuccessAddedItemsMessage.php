@@ -17,17 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistrySuccessAddedItemsMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success added to gift registry message
      */
     const SUCCESS_MESSAGE = 'Shopping cart items have been added to gift registry.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message is displayed after adding products to gift registry on backend

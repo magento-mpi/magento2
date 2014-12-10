@@ -17,17 +17,14 @@ use Magento\Cms\Test\Page\AdminHtml\CmsIndex;
  */
 class AssertCmsPageRevisionSuccessPublishMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_PUBLISH_MESSAGE = 'You have published the revision.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert success publish message is displayed on the page

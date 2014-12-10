@@ -9,33 +9,33 @@
 -->
 <constraint>
     <assertCustomerCustomAttributeSuccessSaveMessage module="Magento_CustomerCustomAttributes">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
         </require>
     </assertCustomerCustomAttributeSuccessSaveMessage>
     <assertCustomerCustomAttributeSuccessDeleteMessage module="Magento_CustomerCustomAttributes">
-        <severeness>high</severeness>
+        <severity>high</severity>
         <require>
             <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
         </require>
     </assertCustomerCustomAttributeSuccessDeleteMessage>
     <assertCustomerCustomAttributeInGrid module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
             <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
         </require>
     </assertCustomerCustomAttributeInGrid>
     <assertCustomerCustomAttributeNotInGrid module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerAttribute class="Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute"/>
             <customerAttributeIndex class="Magento\CustomerCustomAttributes\Test\Page\Adminhtml\CustomerAttributeIndex"/>
         </require>
     </assertCustomerCustomAttributeNotInGrid>
     <assertCustomerCustomAttributeOnCheckoutRegister module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <fixtureFactory class="Mtf\Fixture\FixtureFactory" />
@@ -46,7 +46,7 @@
         </require>
     </assertCustomerCustomAttributeOnCheckoutRegister>
     <assertCustomerCustomAttributeNotOnCheckoutRegister module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <productSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
@@ -57,7 +57,7 @@
         </require>
     </assertCustomerCustomAttributeNotOnCheckoutRegister>
     <assertCustomerCustomAttributeOnCustomerRegister module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <pageCustomerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
@@ -66,7 +66,7 @@
         </require>
     </assertCustomerCustomAttributeOnCustomerRegister>
     <assertCustomerCustomAttributeOnCustomerEditPage module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
             <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
@@ -77,7 +77,7 @@
         </require>
     </assertCustomerCustomAttributeOnCustomerEditPage>
     <assertCustomerCustomAttributeOnCreateOrderBackend module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customer class="Magento\Customer\Test\Fixture\CustomerInjectable" />
             <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
@@ -86,7 +86,7 @@
         </require>
     </assertCustomerCustomAttributeOnCreateOrderBackend>
     <assertCustomerCustomAttributeInCustomerSegment module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
             <customerSegmentNew class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew" />
@@ -95,7 +95,7 @@
         </require>
     </assertCustomerCustomAttributeInCustomerSegment>
     <assertCustomerCustomAttributeNotInCustomerSegment module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerSegment class="Magento\CustomerSegment\Test\Fixture\CustomerSegment" />
             <customerSegmentNew class="Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentNew" />
@@ -104,7 +104,7 @@
         </require>
     </assertCustomerCustomAttributeNotInCustomerSegment>
     <assertCustomerCustomAttributeNotOnCustomerRegister module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <pageCustomerAccountCreate class="Magento\Customer\Test\Page\CustomerAccountCreate" />
@@ -112,7 +112,7 @@
         </require>
     </assertCustomerCustomAttributeNotOnCustomerRegister>
     <assertCustomerCustomAttributeNotOnCreateOrderBackend module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <salesOrder class="Magento\Sales\Test\Page\SalesOrder" />
             <orderCreateIndex class="Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex" />
@@ -121,7 +121,7 @@
         </require>
     </assertCustomerCustomAttributeNotOnCreateOrderBackend>
     <assertCustomerCustomAttributeNotOnCustomerEditPage module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <customerAccountLogin class="Magento\Customer\Test\Page\CustomerAccountLogin" />
             <customerAccountIndex class="Magento\Customer\Test\Page\CustomerAccountIndex" />
@@ -131,6 +131,6 @@
         </require>
     </assertCustomerCustomAttributeNotOnCustomerEditPage>
     <assertCustomerCustomAttributeErrorDuplicateMessage module="Magento_CustomerCustomAttributes">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertCustomerCustomAttributeErrorDuplicateMessage>
 </constraint>

@@ -21,7 +21,6 @@
             "Mtf\\": ["lib/Mtf/", "generated/Mtf/", "testsuites/Mtf/"],
             "Magento\\": ["generated/Magento/", "tests/app/Magento/"],
             "Test\\": "generated/Test/"
-
         }
     }
 }

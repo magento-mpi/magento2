@@ -17,14 +17,11 @@ use Magento\Customer\Test\Page\CustomerAccountCreate;
  */
 class AssertCustomerSuccessRegisterMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'Thank you for registering with Main Website Store.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'Thank you for registering with Main Website Store.';
 
     /**
      * Assert that success message is displayed after customer registered on frontend

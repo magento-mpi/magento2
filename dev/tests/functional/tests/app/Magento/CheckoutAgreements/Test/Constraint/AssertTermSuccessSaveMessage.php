@@ -17,17 +17,14 @@ use Magento\CheckoutAgreements\Test\Page\Adminhtml\CheckoutAgreementIndex;
  */
 class AssertTermSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Success terms and conditions save message
      */
     const SUCCESS_SAVE_MESSAGE = 'The condition has been saved.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that after save block successful message appears.

@@ -17,12 +17,9 @@ use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
  */
 class AssertCartPriceRuleIsNotPresentedInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that sales rule is not present in cart price rules grid

@@ -9,27 +9,27 @@
 -->
 <constraint>
     <assertRmaSuccessSaveMessage module="Magento_Rma">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertRmaSuccessSaveMessage>
     <assertRmaInGrid module="Magento_Rma">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertRmaInGrid>
     <assertRmaForm module="Magento_Rma">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertRmaForm>
     <assertRmaConfigurableForm module="Magento_Rma">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertRmaConfigurableForm>
     <assertRmaOnFrontendForCustomer module="Magento_Rma">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertRmaOnFrontendForCustomer>
     <assertRmaBundleOnFrontendForCustomer module="Magento_Rma">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertRmaBundleOnFrontendForCustomer>
     <assertRmaConfigurableOnFrontendForCustomer module="Magento_Rma">
-        <severeness>middle</severeness>
+        <severity>middle</severity>
     </assertRmaConfigurableOnFrontendForCustomer>
     <assertRmaOnFrontendForGuest module="Magento_Rma">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertRmaOnFrontendForGuest>
 </constraint>

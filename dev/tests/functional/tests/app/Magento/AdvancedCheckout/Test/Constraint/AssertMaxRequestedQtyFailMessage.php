@@ -17,6 +17,10 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Error requested quantity message
      */
@@ -26,13 +30,6 @@ class AssertMaxRequestedQtyFailMessage extends AbstractConstraint
      * Error maximum quantity allowed message
      */
     const ERROR_MAXIMUM_QUANTITY_MESSAGE = 'The maximum quantity allowed for purchase is %d.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that requested quantity is more than allowed error message is displayed after adding products to cart

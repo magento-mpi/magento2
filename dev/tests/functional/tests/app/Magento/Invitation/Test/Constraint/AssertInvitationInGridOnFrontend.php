@@ -20,12 +20,9 @@ use Magento\Customer\Test\Fixture\CustomerInjectable;
  */
 class AssertInvitationInGridOnFrontend extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert Invitation appears on frontend in My Invitations grid

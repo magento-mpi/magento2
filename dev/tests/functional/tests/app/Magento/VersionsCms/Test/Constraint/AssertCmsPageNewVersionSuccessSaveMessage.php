@@ -17,17 +17,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertCmsPageNewVersionSuccessSaveMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * New version success save message
      */
     const SUCCESS_SAVE_MESSAGE = 'You have created the new version.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that after new CMS page version save successful message appears

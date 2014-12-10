@@ -20,12 +20,9 @@ use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
  */
 class AssertCmsPageRevisionInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created CMS page revision can be found in CMS page Version Revisions grid

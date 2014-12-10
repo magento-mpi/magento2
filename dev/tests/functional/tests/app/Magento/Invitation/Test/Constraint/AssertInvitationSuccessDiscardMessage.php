@@ -18,17 +18,14 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
  */
 class AssertInvitationSuccessDiscardMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success discard message.
      */
     const SUCCESS_MESSAGE = "We discarded %d of %d invitations.";
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that success message appears after discard invitation on backend.

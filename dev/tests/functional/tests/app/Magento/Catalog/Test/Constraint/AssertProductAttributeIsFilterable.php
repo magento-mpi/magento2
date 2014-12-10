@@ -23,12 +23,9 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm;
  */
 class AssertProductAttributeIsFilterable extends AbstractConstraint
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Check whether the attribute filter is displayed on the frontend in Layered navigation.

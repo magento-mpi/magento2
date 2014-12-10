@@ -9,36 +9,36 @@
 -->
 <constraint>
     <assertWidgetSuccessSaveMessage module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetSuccessSaveMessage>
     <assertWidgetInGrid module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetInGrid>
     <assertWidgetOnFrontendInCatalog module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetOnFrontendInCatalog>
     <assertWidgetOnProductPage module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetOnProductPage>
     <assertWidgetCmsPageLink module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetCmsPageLink>
     <assertWidgetCatalogCategoryLink module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetCatalogCategoryLink>
     <assertWidgetProductLink module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetProductLink>
     <assertWidgetRecentlyViewedProducts module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetRecentlyViewedProducts>
     <assertWidgetSuccessDeleteMessage module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetSuccessDeleteMessage>
     <assertWidgetRecentlyComparedProducts module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetRecentlyComparedProducts>
     <assertWidgetAbsentOnFrontendHome module="Magento_Widget">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetAbsentOnFrontendHome>
 </constraint>

@@ -23,12 +23,9 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertBannerNotInShoppingCart extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that banner is absent on Shopping Cart page

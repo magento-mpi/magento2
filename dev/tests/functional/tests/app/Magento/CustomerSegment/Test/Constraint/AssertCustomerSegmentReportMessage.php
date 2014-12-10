@@ -18,17 +18,14 @@ use Magento\CustomerSegment\Test\Page\Adminhtml\CustomerSegmentReportDetail;
  */
 class AssertCustomerSegmentReportMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Customer segments report messages
      */
     const REPORT_MESSAGES = 'Viewing combined "%s" report from segments: %s.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that message is displayed on the customer segment report detail page

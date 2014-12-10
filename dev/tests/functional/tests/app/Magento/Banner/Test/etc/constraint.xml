@@ -9,45 +9,45 @@
 -->
 <constraint>
     <assertBannerSuccessSaveMessage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerSuccessSaveMessage>
     <assertBannerInGrid module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerInGrid>
     <assertBannerDeleteMessage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerDeleteMessage>
     <assertBannerNotInGrid module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotInGrid>
     <assertBannerNotInCatalogRule module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotInCatalogRule>
     <assertBannerNotInCartRule module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotInCartRule>
     <assertBannerMassDeleteMessage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerMassDeleteMessage>
     <assertBannerInShoppingCart module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerInShoppingCart>
     <assertBannerNotOnCategoryPage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotOnCategoryPage>
     <assertBannerNotInShoppingCart module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotInShoppingCart>
     <assertBannerOnCategoryPage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerOnCategoryPage>
     <assertBannerNotInWidgetOptions module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBannerNotInWidgetOptions>
     <assertWidgetBannerRotatorOnProductPage module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetBannerRotatorOnProductPage>
     <assertWidgetBannerRotator module="Magento_Banner">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetBannerRotator>
 </constraint>

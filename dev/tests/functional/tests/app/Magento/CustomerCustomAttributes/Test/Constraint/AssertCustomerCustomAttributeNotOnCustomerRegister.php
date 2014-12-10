@@ -19,12 +19,9 @@ use Magento\CustomerCustomAttributes\Test\Fixture\CustomerCustomAttribute;
  */
 class AssertCustomerCustomAttributeNotOnCustomerRegister extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created customer attribute is absent during register customer on frontend

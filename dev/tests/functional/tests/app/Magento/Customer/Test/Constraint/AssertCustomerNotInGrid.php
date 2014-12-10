@@ -18,12 +18,9 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
  */
 class AssertCustomerNotInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'middle';
+    /* tags */
+    const SEVERITY = 'middle';
+    /* end tags */
 
     /**
      * Asserts that customer is not in customer's grid

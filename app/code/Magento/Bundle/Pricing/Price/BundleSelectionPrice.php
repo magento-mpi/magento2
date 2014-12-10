@@ -12,6 +12,7 @@ use Magento\Catalog\Model\Product;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\AbstractPrice;
 
@@ -53,6 +54,13 @@ class BundleSelectionPrice extends AbstractPrice
     protected $selection;
 
     /**
+     * Code of parent adjustment to be skipped from calculation
+     *
+     * @var string
+     */
+    protected $excludeAdjustment = null;
+
+    /**
      * @param Product $saleableItem
      * @param float $quantity
      * @param CalculatorInterface $calculator
@@ -61,6 +69,7 @@ class BundleSelectionPrice extends AbstractPrice
      * @param ManagerInterface $eventManager
      * @param DiscountCalculator $discountCalculator
      * @param bool $useRegularPrice
+     * @param string $excludeAdjustment
      */
     public function __construct(
         Product $saleableItem,
@@ -70,7 +79,8 @@ class BundleSelectionPrice extends AbstractPrice
         SaleableInterface $bundleProduct,
         ManagerInterface $eventManager,
         DiscountCalculator $discountCalculator,
-        $useRegularPrice = false
+        $useRegularPrice = false,
+        $excludeAdjustment = null
     ) {
         parent::__construct($saleableItem, $quantity, $calculator, $priceCurrency);
         $this->bundleProduct = $bundleProduct;
@@ -78,6 +88,7 @@ class BundleSelectionPrice extends AbstractPrice
         $this->discountCalculator = $discountCalculator;
         $this->useRegularPrice = $useRegularPrice;
         $this->selection = $saleableItem;
+        $this->excludeAdjustment = $excludeAdjustment;
     }
 
     /**
@@ -93,10 +104,13 @@ class BundleSelectionPrice extends AbstractPrice
 
         $priceCode = $this->useRegularPrice ? BundleRegularPrice::PRICE_CODE : FinalPrice::PRICE_CODE;
         if ($this->bundleProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC) {
+            // just return whatever the product's value is
             $value = $this->priceInfo
                 ->getPrice($priceCode)
                 ->getValue();
         } else {
+            // don't multiply by quantity.  Instead just keep as quantity = 1
+            $selectionPriceValue = $this->selection->getSelectionPriceValue();
             if ($this->product->getSelectionPriceType()) {
                 // calculate price for selection type percent
                 $price = $this->bundleProduct->getPriceInfo()
@@ -108,11 +122,10 @@ class BundleSelectionPrice extends AbstractPrice
                     'catalog_product_get_final_price',
                     array('product' => $product, 'qty' => $this->bundleProduct->getQty())
                 );
-                $value = $product->getData('final_price') * ($this->selection->getSelectionPriceValue() / 100);
+                $value = $product->getData('final_price') * ($selectionPriceValue / 100);
             } else {
                 // calculate price for selection type fixed
-                $selectionPriceValue = $this->selection->getSelectionPriceValue();
-                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
+                $value = $this->priceCurrency->convertAndRound($selectionPriceValue);
             }
         }
         if (!$this->useRegularPrice) {
@@ -120,6 +133,23 @@ class BundleSelectionPrice extends AbstractPrice
         }
         $this->value = $value;
         return $this->value;
+    }
+
+    /**
+     * Get Price Amount object
+     *
+     * @return AmountInterface
+     */
+    public function getAmount()
+    {
+        if (null === $this->amount) {
+            $exclude = null;
+            if ($this->getProduct()->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
+                $exclude = $this->excludeAdjustment;
+            }
+            $this->amount = $this->calculator->getAmount($this->getValue(), $this->getProduct(), $exclude);
+        }
+        return $this->amount;
     }
 
     /**

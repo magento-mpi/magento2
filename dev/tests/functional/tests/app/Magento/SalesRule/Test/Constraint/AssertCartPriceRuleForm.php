@@ -18,12 +18,9 @@ use Magento\SalesRule\Test\Fixture\SalesRuleInjectable;
  */
 class AssertCartPriceRuleForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Skipped fields for verify data
@@ -34,7 +31,8 @@ class AssertCartPriceRuleForm extends AbstractConstraint
         'conditions_serialized',
         'actions_serialized',
         'from_date',
-        'to_date'
+        'to_date',
+        'id'
     ];
 
     /**
@@ -91,7 +89,7 @@ class AssertCartPriceRuleForm extends AbstractConstraint
                         . "\nActual: " . implode(", ", $formData[$key]);
                 }
             } else {
-                if ($value !== $formData[$key] && !in_array($key, $this->skippedFields)) {
+                if (!in_array($key, $this->skippedFields) && $value !== $formData[$key]) {
                     $errorMessage[] = "Data in " . $key . " field not equal."
                         . "\nExpected: " . $value
                         . "\nActual: " . $formData[$key];

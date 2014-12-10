@@ -140,6 +140,7 @@ class UpdateGiftRegistryFrontendEntityTest extends Injectable
      */
     public function test(GiftRegistry $giftRegistryOrigin, GiftRegistry $giftRegistry, CustomerInjectable $customer)
     {
+        $this->markTestIncomplete('Bug: MAGETWO-31328');
         // Preconditions
         $this->customerAccountLogin->open()->getLoginBlock()->login($customer);
         $giftRegistryOrigin->persist();

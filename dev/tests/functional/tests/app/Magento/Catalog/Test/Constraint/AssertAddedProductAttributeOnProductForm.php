@@ -22,12 +22,9 @@ use Mtf\ObjectManager;
  */
 class AssertAddedProductAttributeOnProductForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Add this attribute to Default attribute Template. Create product and Assert that created attribute

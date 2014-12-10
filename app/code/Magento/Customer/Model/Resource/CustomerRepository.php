@@ -20,11 +20,6 @@ use Magento\Framework\Api\SearchCriteriaInterface;
 class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInterface
 {
     /**
-     * @var \Magento\Framework\Reflection\DataObjectProcessor
-     */
-    protected $dataProcessor;
-
-    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $customerFactory;
@@ -75,12 +70,16 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     protected $eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
-     * @param \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor
+     * @var \Magento\Framework\Api\ExtensibleDataObjectConverter
+     */
+    protected $extensibleDataObjectConverter;
+
+    /**
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory
      * @param \Magento\Customer\Model\CustomerRegistry $customerRegistry
@@ -91,10 +90,10 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
      * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
      * @param \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
-        \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\Data\CustomerSecureFactory $customerSecureFactory,
         \Magento\Customer\Model\CustomerRegistry $customerRegistry,
@@ -105,9 +104,9 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Api\Data\CustomerSearchResultsDataBuilder $searchResultsDataBuilder,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
     ) {
-        $this->dataProcessor = $dataProcessor;
         $this->customerFactory = $customerFactory;
         $this->customerSecureFactory = $customerSecureFactory;
         $this->customerRegistry = $customerRegistry;
@@ -119,6 +118,7 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
         $this->searchResultsBuilder = $searchResultsDataBuilder;
         $this->eventManager = $eventManager;
         $this->storeManager = $storeManager;
+        $this->extensibleDataObjectConverter = $extensibleDataObjectConverter;
     }
 
     /**
@@ -127,22 +127,16 @@ class CustomerRepository implements \Magento\Customer\Api\CustomerRepositoryInte
     public function save(\Magento\Customer\Api\Data\CustomerInterface $customer, $passwordHash = null)
     {
         $this->validate($customer);
-        $customerModel = $this->customerFactory->create(
-            [
-                'data' => $this->dataProcessor->buildOutputDataArray(
-                    $customer,
-                    'Magento\Customer\Api\Data\CustomerInterface'
-                )
-            ]
+        $customerData = $this->extensibleDataObjectConverter->toFlatArray(
+            $this->customerBuilder->populate($customer)->setAddresses([])->create()
         );
+        $customerModel = $this->customerFactory->create(['data' => $customerData]);
         $storeId = $customerModel->getStoreId();
         if ($storeId === null) {
             $customerModel->setStoreId($this->storeManager->getStore()->getId());
         }
-        $customerModel->getGroupId();
         $customerModel->setId($customer->getId());
-        /** Prevent addresses being processed by resource model */
-        $customerModel->unsAddresses();
+
         // Need to use attribute set or future updates can cause data loss
         if (!$customerModel->getAttributeSetId()) {
             $customerModel->setAttributeSetId(

@@ -16,14 +16,11 @@ use Magento\User\Test\Page\Adminhtml\UserRoleIndex;
  */
 class AssertRoleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'You deleted the role.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_DELETE_MESSAGE = 'You deleted the role.';
 
     /**
      * Asserts that success delete message equals to expected message.

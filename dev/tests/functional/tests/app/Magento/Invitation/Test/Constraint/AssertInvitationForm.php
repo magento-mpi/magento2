@@ -18,12 +18,9 @@ use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndexView;
  */
 class AssertInvitationForm extends AbstractAssertForm
 {
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Invitation form was filled correctly: email, message, status.

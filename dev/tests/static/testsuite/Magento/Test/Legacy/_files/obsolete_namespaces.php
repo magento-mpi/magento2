@@ -67,5 +67,10 @@ return [
     ['Magento\Object', 'Magento\Framework\Object'],
     ['Magento\Connect'],
     ['Magento\Framework\Connect'],
+    ['Magento\Bundle\Service'],
     ['Magento\Tax\Service'],
+    ['Magento\RecurringPayment'],
+    ['Magento\PayPalRecurringPayment'],
+    ['Magento\ConfigurableProduct\Service'],
+    ['Magento\Catalog\Service']
 ];

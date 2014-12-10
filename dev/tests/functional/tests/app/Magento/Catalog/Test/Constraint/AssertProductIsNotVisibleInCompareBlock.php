@@ -19,14 +19,11 @@ use Magento\Customer\Test\Page\CustomerAccountIndex;
  */
 class AssertProductIsNotVisibleInCompareBlock extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You have no items to compare.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You have no items to compare.';
 
     /**
      * Assert the product is not displayed on Compare Products block on my account page

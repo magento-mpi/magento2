@@ -21,12 +21,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftRegistryTypeOnFrontend extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that created Gift Registry type can be found at Customer Account > Gift Registry

@@ -19,17 +19,17 @@ class Special
     protected $productFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productFactory = $productFactory;
         $this->storeManager = $storeManager;
@@ -61,7 +61,6 @@ class Special
                     'thumbnail',
                     'special_price',
                     'special_to_date',
-                    'msrp_enabled',
                     'msrp_display_actual_price_type',
                     'msrp'
                 ),

@@ -9,39 +9,39 @@
 -->
 <constraint>
     <assertMultipleWishlistSuccessSaveMessage module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertMultipleWishlistSuccessSaveMessage>
     <assertMultipleWishlistPresentInMyAccount module="Magento_MultipleWishlist">
-        <severeness>high</severeness>
+        <severity>high</severity>
     </assertMultipleWishlistPresentInMyAccount>
     <assertMultipleWishlistIsPublic module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertMultipleWishlistIsPublic>
     <assertMultipleWishlistIsPrivate module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertMultipleWishlistIsPrivate>
     <assertMultipleWishlistSuccessDeleteMessage module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertMultipleWishlistSuccessDeleteMessage>
     <assertMultipleWishlistAbsentInMyAccount module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertMultipleWishlistAbsentInMyAccount>
     <assertDeleteMultipleWishlistButtonIsAbsent module="Magento_MultipleWishlist">
-        <severeness>medium</severeness>
+        <severity>medium</severity>
     </assertDeleteMultipleWishlistButtonIsAbsent>
     <assertWishlistReportGrid module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWishlistReportGrid>
     <assertProductInCustomWishlist module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertProductInCustomWishlist>
     <assertProductInDefaultWishlist module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertProductInDefaultWishlist>
     <assertProductAbsentInDefaultWishlist module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertProductAbsentInDefaultWishlist>
     <assertBundleProductDetailsInMultipleWishlist module="Magento_MultipleWishlist">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertBundleProductDetailsInMultipleWishlist>
 </constraint>

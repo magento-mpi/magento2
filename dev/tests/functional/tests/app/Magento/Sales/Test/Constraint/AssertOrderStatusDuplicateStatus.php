@@ -17,14 +17,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertOrderStatusDuplicateStatus extends AbstractConstraint
 {
-    const DUPLICATE_MESSAGE = 'We found another order status with the same order status code.';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    const DUPLICATE_MESSAGE = 'We found another order status with the same order status code.';
 
     /**
      * Assert that duplicate message is displayed

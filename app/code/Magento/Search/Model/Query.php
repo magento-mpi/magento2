@@ -16,7 +16,7 @@ use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Registry;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Search query model
@@ -41,6 +41,7 @@ use Magento\Framework\StoreManagerInterface;
  * @method \Magento\Search\Model\Query setIsProcessed(int $value)
  * @method string getUpdatedAt()
  * @method \Magento\Search\Model\Query setUpdatedAt(string $value)
+ * @method \Magento\Search\Model\Query setIsQueryTextExceeded(bool $value)
  */
 class Query extends AbstractModel implements QueryInterface
 {

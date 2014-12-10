@@ -20,12 +20,12 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
     protected $context;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManagerMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $requestMock;
 
@@ -72,7 +72,7 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Framework\StoreManagerInterface',
+            '\Magento\Store\Model\StoreManagerInterface',
             array(),
             array(),
             '',

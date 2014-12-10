@@ -12,9 +12,8 @@
 namespace Magento\Newsletter\Controller;
 
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
 use Magento\Newsletter\Model\SubscriberFactory;
 use Magento\Customer\Model\Url as CustomerUrl;
 
@@ -28,13 +27,6 @@ class Subscriber extends \Magento\Framework\App\Action\Action
     protected $_customerSession;
 
     /**
-     * Customer Service
-     *
-     * @var CustomerAccountServiceInterface
-     */
-    protected $_customerService;
-
-    /**
      * Subscriber factory
      *
      * @var SubscriberFactory
@@ -42,7 +34,7 @@ class Subscriber extends \Magento\Framework\App\Action\Action
     protected $_subscriberFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -54,7 +46,6 @@ class Subscriber extends \Magento\Framework\App\Action\Action
     /**
      * @param Context $context
      * @param SubscriberFactory $subscriberFactory
-     * @param CustomerAccountServiceInterface $customerService
      * @param Session $customerSession
      * @param StoreManagerInterface $storeManager
      * @param CustomerUrl $customerUrl
@@ -62,7 +53,6 @@ class Subscriber extends \Magento\Framework\App\Action\Action
     public function __construct(
         Context $context,
         SubscriberFactory $subscriberFactory,
-        CustomerAccountServiceInterface $customerService,
         Session $customerSession,
         StoreManagerInterface $storeManager,
         CustomerUrl $customerUrl
@@ -70,7 +60,6 @@ class Subscriber extends \Magento\Framework\App\Action\Action
         parent::__construct($context);
         $this->_storeManager = $storeManager;
         $this->_subscriberFactory = $subscriberFactory;
-        $this->_customerService = $customerService;
         $this->_customerSession = $customerSession;
         $this->_customerUrl = $customerUrl;
     }

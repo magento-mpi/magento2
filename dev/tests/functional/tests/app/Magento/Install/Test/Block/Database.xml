@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<mapping strict="0">
+    <fields>
+        <dbHost />
+        <dbUser />
+        <dbPassword />
+        <dbName>
+            <selector>[name="dbname"]</selector>
+        </dbName>
+        <dbTablePrefix />
+    </fields>
+</mapping>

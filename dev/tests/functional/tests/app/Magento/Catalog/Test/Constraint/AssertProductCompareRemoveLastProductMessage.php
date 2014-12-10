@@ -17,14 +17,11 @@ use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
  */
 class AssertProductCompareRemoveLastProductMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'You have no items to compare.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'You have no items to compare.';
 
     /**
      * After removing last product message is appeared on "Compare Products" page

@@ -16,14 +16,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
  */
 class AssertCustomerGroupSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_MESSAGE = 'The customer group has been saved.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_MESSAGE = 'The customer group has been saved.';
 
     /**
      * Assert that success message is displayed after customer group save

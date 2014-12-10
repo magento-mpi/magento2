@@ -16,14 +16,11 @@ use Magento\Customer\Test\Page\Adminhtml\CustomerGroupIndex;
  */
 class AssertCustomerGroupSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE= "The customer group has been deleted.";
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    const SUCCESS_DELETE_MESSAGE= "The customer group has been deleted.";
 
     /**
      * Assert that message "The customer group has been deleted." is displayed on Customer Group page.

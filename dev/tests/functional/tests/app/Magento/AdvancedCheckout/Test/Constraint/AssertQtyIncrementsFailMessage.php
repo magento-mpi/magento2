@@ -17,17 +17,14 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertQtyIncrementsFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Qty increments error message
      */
     const QTY_INCREMENTS_ERROR_MESSAGE = 'You can buy this product only in quantities of %d at a time.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that requested qty does not meet the increments error message is displayed after adding products to cart

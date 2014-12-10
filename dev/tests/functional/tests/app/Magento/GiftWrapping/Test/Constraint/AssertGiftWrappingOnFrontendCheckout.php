@@ -25,12 +25,9 @@ use Magento\Catalog\Test\Page\Product\CatalogProductView;
  */
 class AssertGiftWrappingOnFrontendCheckout extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that Gift Wrapping can be found during one page checkout on frontend

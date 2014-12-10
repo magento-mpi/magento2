@@ -23,6 +23,10 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
  */
 class AssertTaxRuleIsAppliedToAllPrices extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
+
     /**
      * Cms index page
      *
@@ -50,13 +54,6 @@ class AssertTaxRuleIsAppliedToAllPrices extends AbstractConstraint
      * @var CheckoutCart
      */
     protected $checkoutCart;
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
 
     /**
      * Assert that specified prices are actual on category, product and cart pages

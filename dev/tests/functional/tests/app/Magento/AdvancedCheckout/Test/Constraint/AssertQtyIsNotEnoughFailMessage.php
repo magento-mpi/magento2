@@ -17,6 +17,10 @@ use Magento\Checkout\Test\Page\CheckoutCart;
  */
 class AssertQtyIsNotEnoughFailMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Requested quantity is not available error message
      */
@@ -26,13 +30,6 @@ class AssertQtyIsNotEnoughFailMessage extends AbstractConstraint
      * Quantity left in stock error message
      */
     const LEFT_IN_STOCK_ERROR_MESSAGE = 'Only %d left in stock';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that requested quantity is not available error message is displayed after adding products by sku to cart

@@ -17,17 +17,14 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertOrderCancelMassActionSuccessMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_CANCEL_MESSAGE = 'We canceled %d order(s).';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert cancel success message is displayed on order index page

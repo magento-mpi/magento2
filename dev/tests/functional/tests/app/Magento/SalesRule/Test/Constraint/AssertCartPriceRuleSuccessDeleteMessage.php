@@ -16,14 +16,11 @@ use Magento\SalesRule\Test\Page\Adminhtml\PromoQuoteIndex;
  */
 class AssertCartPriceRuleSuccessDeleteMessage extends AbstractConstraint
 {
-    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_DELETE_MESSAGE = 'The rule has been deleted.';
 
     /**
      * Assert that success message is displayed after sales rule delete

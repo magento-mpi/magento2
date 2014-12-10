@@ -18,12 +18,9 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertUrlRewriteInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that url rewrite category in grid

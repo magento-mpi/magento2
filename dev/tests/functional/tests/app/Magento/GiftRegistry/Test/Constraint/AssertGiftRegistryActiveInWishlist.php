@@ -23,17 +23,14 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  */
 class AssertGiftRegistryActiveInWishlist extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Success message after gift registry has been added
      */
     const SUCCESS_MESSAGE = 'The wish list item has been added to this gift registry.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that product can be added to active gift registry from Wishlist

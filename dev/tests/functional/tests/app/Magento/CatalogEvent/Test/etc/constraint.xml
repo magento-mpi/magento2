@@ -11,20 +11,20 @@
 
 <constraint>
     <assertCatalogEventSuccessCreateMessage module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
         </require>
     </assertCatalogEventSuccessCreateMessage>
     <assertCatalogEventInGrid module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <catalogProductSimple class="Magento\Catalog\Test\Fixture\CatalogProductSimple" />
             <catalogEventEntity class="Magento\CatalogEvent\Test\Fixture\CatalogEventEntity" />
         </require>
     </assertCatalogEventInGrid>
     <assertCatalogEventIsClosed module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -34,7 +34,7 @@
         </require>
     </assertCatalogEventIsClosed>
     <assertCatalogEventBlockVisible module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -44,7 +44,7 @@
         </require>
     </assertCatalogEventBlockVisible>
     <assertCatalogEventIsUpcoming module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -54,7 +54,7 @@
         </require>
     </assertCatalogEventIsUpcoming>
     <assertCatalogEventIsOpen module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -64,19 +64,19 @@
         </require>
     </assertCatalogEventIsOpen>
     <assertCatalogEventSuccessDeleteMessage module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
         </require>
     </assertCatalogEventSuccessDeleteMessage>
     <assertCatalogEventSuccessDeleteMessage module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <adminCatalogEventIndex class="Magento\CatalogEvent\Test\Page\Adminhtml\CatalogEventIndex" />
         </require>
     </assertCatalogEventSuccessDeleteMessage>
     <assertCatalogEventBlockAbsent module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
         <require>
             <cmsIndex class="Magento\Cms\Test\Page\CmsIndex" />
             <catalogProductView class="Magento\Catalog\Test\Page\Product\CatalogProductView" />
@@ -85,6 +85,6 @@
         </require>
     </assertCatalogEventBlockAbsent>
     <assertWidgetCatalogEvent module="Magento_CatalogEvent">
-        <severeness>low</severeness>
+        <severity>low</severity>
     </assertWidgetCatalogEvent>
 </constraint>

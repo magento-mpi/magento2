@@ -21,17 +21,14 @@ use Mtf\Fixture\FixtureFactory;
  */
 class AssertProductAttributeIsUnique extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Expected message.
      */
     const UNIQUE_MESSAGE = 'The value of attribute "%s" must be unique';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Check whether the attribute is unique.

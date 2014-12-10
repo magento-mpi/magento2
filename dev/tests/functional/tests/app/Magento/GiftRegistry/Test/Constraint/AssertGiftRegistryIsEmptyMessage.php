@@ -17,17 +17,14 @@ use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
  */
 class AssertGiftRegistryIsEmptyMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Gift registry info message
      */
     const INFO_MESSAGE = 'This gift registry has no items.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that notice message appears if Gift Registry doesn't have any items after delete

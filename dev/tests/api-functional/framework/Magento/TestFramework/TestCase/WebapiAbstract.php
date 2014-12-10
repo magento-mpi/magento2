@@ -488,7 +488,7 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
         if ($cleanAppCache) {
             if ($updateLocalConfig) {
                 $objectManager->get('Magento\Framework\App\Config\ReinitableConfigInterface')->reinit();
-                $objectManager->get('Magento\Framework\StoreManagerInterface')->reinitStores();
+                $objectManager->get('Magento\Store\Model\StoreManagerInterface')->reinitStores();
             }
 
             if (!$this->_cleanAppConfigCache()) {
@@ -541,41 +541,43 @@ abstract class WebapiAbstract extends \PHPUnit_Framework_TestCase
      * @param string $expectedMessage
      * @param string $expectedFaultCode
      * @param array $expectedErrorParams
-     * @param bool $isTraceExpected
      * @param array $expectedWrappedErrors
+     * @param string $traceString
      */
     protected function checkSoapFault(
         $soapFault,
         $expectedMessage,
         $expectedFaultCode,
         $expectedErrorParams = array(),
-        $isTraceExpected = false,
-        $expectedWrappedErrors = array()
+        $expectedWrappedErrors = array(),
+        $traceString = null
     ) {
         $this->assertContains($expectedMessage, $soapFault->getMessage(), "Fault message is invalid.");
 
         $errorDetailsNode = 'GenericFault';
         $errorDetails = isset($soapFault->detail->$errorDetailsNode) ? $soapFault->detail->$errorDetailsNode : null;
-        if (!empty($expectedErrorParams) || $isTraceExpected || !empty($expectedWrappedErrors)) {
+        if (!empty($expectedErrorParams) || !empty($expectedWrappedErrors)) {
             /** Check SOAP fault details */
             $this->assertNotNull($errorDetails, "Details must be present.");
             $this->_checkFaultParams($expectedErrorParams, $errorDetails);
             $this->_checkWrappedErrors($expectedWrappedErrors, $errorDetails);
+        }
 
+        if ($traceString) {
             /** Check error trace */
             $traceNode = Fault::NODE_DETAIL_TRACE;
             $mode = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\State')
                 ->getMode();
-            if ($mode != \Magento\Framework\App\State::MODE_DEVELOPER) {
+            if ($mode == \Magento\Framework\App\State::MODE_DEVELOPER) {
                 /** Developer mode changes tested behavior and it cannot properly be tested for now */
-                if ($isTraceExpected) {
-                    $this->assertTrue(isset($errorDetails->$traceNode), "Exception trace was expected.");
-                } else {
-                    $this->assertFalse(isset($errorDetails->$traceNode), "Exception trace was not expected.");
-                }
+                $this->assertContains(
+                    $traceString,
+                    $errorDetails->$traceNode,
+                    'Trace Information is incorrect.'
+                );
+            } else {
+                $this->assertNull($errorDetails, "Details are not expected.");
             }
-        } else {
-            $this->assertNull($errorDetails, "Details are not expected.");
         }
 
         /** Check SOAP fault code */

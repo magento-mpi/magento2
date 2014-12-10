@@ -203,7 +203,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertTrue($this->helper->isUsingStaticUrlsAllowed());
@@ -224,7 +224,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());
         $this->helper->setStoreId(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId()
         );
         $this->assertFalse($this->helper->isUrlDirectivesParsingAllowed());
@@ -275,7 +275,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
             $input->getPriceIncludesTax(),
             $input->getRoundPrice()
         );
-        $this->assertEquals($expectOutputPrice, $price);
+        if ($input->getNotEqual()) {
+            $this->assertNotEquals($expectOutputPrice, $price);
+        } else {
+            $this->assertEquals($expectOutputPrice, $price);
+        }
     }
 
     /**
@@ -311,8 +315,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 ]
             ],
             'price conversion, display including tax, no round' => [
-                (new \Magento\Framework\Object())->setPrice(3.256),
-                '3.5',  // rounding issue: old code expects 3.5002
+                (new \Magento\Framework\Object())->setPrice(3.256)->setNotEqual(true),
+                '3.5',  // should be not equal to rounded value (eg, 3.5045009999999999)
                 [
                     [
                         'path' => Config::CONFIG_XML_PATH_PRICE_INCLUDES_TAX,

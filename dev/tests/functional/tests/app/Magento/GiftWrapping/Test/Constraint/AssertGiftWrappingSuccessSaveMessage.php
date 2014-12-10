@@ -16,14 +16,11 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertGiftWrappingSuccessSaveMessage extends AbstractConstraint
 {
-    const SUCCESS_SAVE_MESSAGE = 'You saved the gift wrapping.';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    const SUCCESS_SAVE_MESSAGE = 'You saved the gift wrapping.';
 
     /**
      * Assert that success message is displayed after Gift Wrapping saved

@@ -21,17 +21,14 @@ use \Magento\ConfigurableProduct\Test\Block\Adminhtml\Product\Edit\Tab\Super\Con
  */
 class AssertProductAttributeAbsenceInVariationsSearch extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Label "Variations" tab
      */
     const TAB_VARIATIONS = 'variations';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that deleted attribute can't be added to product template on Product Page via Add Attribute control

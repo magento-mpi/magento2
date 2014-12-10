@@ -49,18 +49,19 @@ class TaxTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductWeeeAttributes()
     {
-        $customerAccountService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerAccountServiceInterface'
+        /** @var \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository */
+        $customerRepository = Bootstrap::getObjectManager()->create(
+            'Magento\Customer\Api\CustomerRepositoryInterface'
         );
         $customerMetadataService = Bootstrap::getObjectManager()->create(
-            'Magento\Customer\Service\V1\CustomerMetadataService'
+            'Magento\Customer\Api\CustomerMetadataInterface'
         );
         $customerBuilder = Bootstrap::getObjectManager()->create(
             'Magento\Customer\Api\Data\CustomerDataBuilder',
             ['metadataService' => $customerMetadataService]
         );
         $expected = $this->_extensibleDataObjectConverter->toFlatArray(
-            $customerAccountService->getCustomer(1)
+            $customerRepository->getById(1)
         );
         $customerBuilder->populateWithArray($expected);
         $customerDataSet = $customerBuilder->create();

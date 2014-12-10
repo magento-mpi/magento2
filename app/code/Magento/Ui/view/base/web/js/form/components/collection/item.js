@@ -67,6 +67,7 @@ define([
             __super__.initProperties.apply(this, arguments);
 
             this.displayed = [];
+            
             utils.add(this.regions, 'body', 'head');
 
             return this;

@@ -20,12 +20,9 @@ use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
  */
 class AssertAddToCartButtonPresent extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Category Page on Frontend

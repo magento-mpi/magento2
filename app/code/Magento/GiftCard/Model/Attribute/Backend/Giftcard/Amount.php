@@ -19,7 +19,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -32,7 +32,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 
     /**
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
@@ -40,7 +40,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function __construct(
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,

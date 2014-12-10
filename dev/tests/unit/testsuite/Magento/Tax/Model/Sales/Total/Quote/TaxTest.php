@@ -86,7 +86,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getItems')
             ->will($this->returnValue($items));
 
-        $storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
+        $storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods(['getStore', 'hasSingleStore', 'isSingleStoreMode', 'getStores', 'getWebsite', 'getWebsites',
                 'reinitStores', 'getDefaultStoreView', 'setIsSingleStoreModeAllowed', 'getGroup', 'getGroups',
@@ -169,16 +169,16 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getAssociatedTaxables')
             ->will($this->returnValue(null));
 
-        $regionBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\RegionBuilder')
+        $regionBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\RegionDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['setRegionId', 'create'])
             ->getMock();
 
-        $addressBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\AddressBuilder')
+        $addressBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\AddressDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['getRegionBuilder', 'create'])
             ->getMock();
-        $region = $this->getMock('Magento\Customer\Service\V1\Data\Region', [], [], '', false);
+        $region = $this->getMockForAbstractClass('Magento\Customer\Api\Data\RegionInterface', [], '', false);
         $regionBuilder
             ->expects($this->any())
             ->method('setRegionId')
@@ -492,16 +492,16 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->method('getAssociatedTaxables')
             ->will($this->returnValue(null));
 
-        $regionBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\RegionBuilder')
+        $regionBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\RegionDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['setRegionId', 'create'])
             ->getMock();
 
-        $addressBuilder = $this->getMockBuilder('\Magento\Customer\Service\V1\Data\AddressBuilder')
+        $addressBuilder = $this->getMockBuilder('Magento\Customer\Api\Data\AddressDataBuilder')
             ->disableOriginalConstructor()
             ->setMethods(['getRegionBuilder', 'create'])
             ->getMock();
-        $region = $this->getMock('Magento\Customer\Service\V1\Data\Region', [], [], '', false);
+        $region = $this->getMockForAbstractClass('Magento\Customer\Api\Data\RegionInterface', [], '', false);
         $regionBuilder
             ->expects($this->any())
             ->method('setRegionId')

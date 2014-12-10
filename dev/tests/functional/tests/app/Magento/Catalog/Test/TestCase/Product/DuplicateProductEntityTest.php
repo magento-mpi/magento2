@@ -15,8 +15,6 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 
 /**
- * Test Creation for DuplicateProductEntity
- *
  * Test Flow:
  *
  * Precondition:
@@ -35,35 +33,35 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 class DuplicateProductEntityTest extends Injectable
 {
     /**
-     * Category fixture
+     * Category fixture.
      *
      * @var CatalogCategory
      */
     protected $category;
 
     /**
-     * Product page with a grid
+     * Product page with a grid.
      *
      * @var CatalogProductIndex
      */
     protected $productGrid;
 
     /**
-     * Page to update a product
+     * Page to update a product.
      *
      * @var CatalogProductEdit
      */
     protected $editProductPage;
 
     /**
-     * Fixture factory
+     * Fixture factory.
      *
      * @var FixtureFactory
      */
     protected $fixtureFactory;
 
     /**
-     * Prepare data
+     * Prepare data.
      *
      * @param CatalogCategory $category
      * @param CatalogProductIndex $productGrid
@@ -85,27 +83,27 @@ class DuplicateProductEntityTest extends Injectable
     }
 
     /**
-     * Run test duplicate product entity
+     * Run test duplicate product entity.
      *
      * @param string $productType
      * @return array
      */
     public function test($productType)
     {
-        $this->markTestIncomplete("MAGETWO-28138");
         // Precondition
         $product = $this->createProduct($productType);
 
         // Steps
         $filter = ['sku' => $product->getSku()];
-        $this->productGrid->open()->getProductGrid()->searchAndOpen($filter);
+        $this->productGrid->open();
+        $this->productGrid->getProductGrid()->searchAndOpen($filter);
         $this->editProductPage->getFormPageActions()->saveAndDuplicate();
 
         return ['product' => $product];
     }
 
     /**
-     * Creating a product according to the type of
+     * Creating a product according to the type of.
      *
      * @param string $productType
      * @return array

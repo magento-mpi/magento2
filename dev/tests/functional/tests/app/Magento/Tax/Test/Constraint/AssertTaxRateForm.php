@@ -18,12 +18,9 @@ use Magento\Tax\Test\Fixture\TaxRate;
  */
 class AssertTaxRateForm extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Assert that tax rate form filled correctly

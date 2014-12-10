@@ -96,7 +96,7 @@ class Full
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -151,7 +151,7 @@ class Full
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -169,7 +169,7 @@ class Full
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -677,7 +677,7 @@ class Full
             }
         }
 
-        if (!$this->engineProvider->get()->allowAdvancedIndex()) {
+        if ($this->engineProvider->get()->allowAdvancedIndex()) {
             $product = $this->getProductEmulator(
                 $productData['type_id']
             )->setId(

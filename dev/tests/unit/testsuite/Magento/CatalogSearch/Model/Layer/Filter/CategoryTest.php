@@ -89,7 +89,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             '\Magento\CatalogSearch\Model\Resource\Fulltext\Collection'
         )
             ->disableOriginalConstructor()
-            ->setMethods(['addCategoryFilter', 'getFacetedData'])
+            ->setMethods(['addCategoryFilter', 'getFacetedData', 'getSize'])
             ->getMock();
 
         $this->layer->expects($this->any())
@@ -263,9 +263,24 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $category2->expects($this->once())
             ->method('getIsActive')
             ->will($this->returnValue(true));
+
+        $category3 = $this->getMockBuilder('\Magento\Catalog\Model\Category')
+            ->disableOriginalConstructor()
+            ->setMethods(['getId', 'getName', 'getIsActive'])
+            ->getMock();
+        $category3->expects($this->atLeastOnce())
+            ->method('getId')
+            ->will($this->returnValue(777));
+        $category3->expects($this->never())
+            ->method('getName');
+        $category3->expects($this->once())
+            ->method('getIsActive')
+            ->will($this->returnValue(true));
+
         $categories = [
             $category1,
             $category2,
+            $category3,
         ];
         $this->category->expects($this->once())
             ->method('getChildrenCategories')
@@ -274,7 +289,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $facetedData = [
             120 => ['count' => 10],
             5641 => ['count' => 45],
+            777 => ['count' => 80],
         ];
+
+        $this->fulltextCollection->expects($this->once())
+            ->method('getSize')
+            ->will($this->returnValue(50));
+
         $this->fulltextCollection->expects($this->once())
             ->method('getFacetedData')
             ->with('category')

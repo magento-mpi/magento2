@@ -18,12 +18,9 @@ use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
  */
 class AssertProductInGrid extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'high';
+    /* tags */
+    const SEVERITY = 'high';
+    /* end tags */
 
     /**
      * Product fixture

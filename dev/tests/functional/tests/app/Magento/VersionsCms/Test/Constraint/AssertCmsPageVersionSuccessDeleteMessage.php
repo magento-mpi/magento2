@@ -17,17 +17,14 @@ use Magento\Cms\Test\Page\Adminhtml\CmsNew;
  */
 class AssertCmsPageVersionSuccessDeleteMessage extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'medium';
+    /* end tags */
+
     /**
      * Text value to be checked
      */
     const SUCCESS_DELETE_MESSAGE = 'You have deleted the version.';
-
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'medium';
 
     /**
      * Assert that success delete message is displayed on the page

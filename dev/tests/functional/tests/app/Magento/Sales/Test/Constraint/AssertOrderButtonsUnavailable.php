@@ -19,12 +19,9 @@ use Magento\Sales\Test\Page\Adminhtml\OrderIndex;
  */
 class AssertOrderButtonsUnavailable extends AbstractConstraint
 {
-    /**
-     * Constraint severeness
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
 
     /**
      * Assert that buttons from dataSet are not present on page

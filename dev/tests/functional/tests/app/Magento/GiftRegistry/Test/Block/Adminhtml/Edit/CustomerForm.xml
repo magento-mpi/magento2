@@ -10,7 +10,7 @@
 <tabs>
     <gift_registry>
         <class>\Magento\GiftRegistry\Test\Block\Adminhtml\Customer\Edit\Tab\GiftRegistry</class>
-        <selector>#customer_info_tabs_giftregistry</selector>
+        <selector>#tab_giftregistry</selector>
         <strategy>css selector</strategy>
     </gift_registry>
 </tabs>
