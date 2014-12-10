@@ -1986,7 +1986,6 @@ return [
         'Magento\Framework\Cache\Backend\Decorator\AbstractDecorator',
         'Magento\Framework\Cache\Backend\Decorator\AbstractDecorator::getCapabilities'
     ],
-    ['connect', 'Magento\Framework\HTTP\Adapter\Curl'],
     ['getLanguageTranslationList', 'Magento\Framework\LocaleInterface'],
     ['getScriptTranslationList', 'Magento\Framework\LocaleInterface'],
     ['getCountryTranslationList', 'Magento\Framework\LocaleInterface'],
