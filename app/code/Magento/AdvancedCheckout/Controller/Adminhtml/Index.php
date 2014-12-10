@@ -33,13 +33,25 @@ class Index extends \Magento\Backend\App\Action
     protected $_registry = null;
 
     /**
-     * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Framework\Registry $registry
+     * Customer builder
+     *
+     * @var \Magento\Customer\Api\Data\CustomerDataBuilder
      */
-    public function __construct(\Magento\Backend\App\Action\Context $context, \Magento\Framework\Registry $registry)
-    {
+    protected $customerBuilder;
+
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Framework\Registry $registry
+     * @param \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Framework\Registry $registry,
+        \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder
+    ) {
         parent::__construct($context);
         $this->_registry = $registry;
+        $this->customerBuilder = $customerBuilder;
     }
 
     /**
@@ -144,7 +156,8 @@ class Index extends \Magento\Backend\App\Action
         } else {
             // customer and addresses should be set to resolve situation when no quote was saved for customer previously
             // otherwise quote would be saved with customer_id = null and zero totals
-            $quote->setStore($storeManager->getStore($storeId))->setCustomer($customer);
+            $customerDataObject = $this->customerBuilder->populateWithArray($customer->getData())->create();
+            $quote->setStore($storeManager->getStore($storeId))->setCustomer($customerDataObject);
             $quote->getBillingAddress();
             $quote->getShippingAddress();
             $this->_objectManager->get('Magento\Sales\Model\QuoteRepository')->save($quote);
