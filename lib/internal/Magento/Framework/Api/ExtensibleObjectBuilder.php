@@ -184,19 +184,6 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Bui
     }
 
     /**
-     * Set data item value.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
-     * @deprecated This method should not be used in the client code and will be removed after Service Layer refactoring
-     */
-    public function set($key, $value)
-    {
-        return $this->_set($key, $value);
-    }
-
-    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
