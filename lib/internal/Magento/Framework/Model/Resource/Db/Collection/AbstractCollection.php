@@ -507,7 +507,7 @@ abstract class AbstractCollection extends \Magento\Framework\Data\Collection\Db
             $alias = $table;
         }
 
-        if (!isset($this->_joinedTables[$table])) {
+        if (!isset($this->_joinedTables[$alias])) {
             $this->getSelect()->join(array($alias => $this->getTable($table)), $cond, $cols);
             $this->_joinedTables[$alias] = true;
         }
