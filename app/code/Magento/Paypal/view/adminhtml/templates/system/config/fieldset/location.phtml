@@ -26,9 +26,7 @@ require([
             "ecMissed": false,
             sharePayflowEnabling: function (enabler, isEvent) {
 
-                var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
-                    isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
-                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[+isPayflowLinkEnabled];
+                var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
                 if (typeof ecPayflowEnabler == "undefined") {
                     return;
                 }
@@ -54,7 +52,7 @@ require([
 
                 var ecEnabler = $$(".paypal-ec-enabler")[0];
                 if (ecPayflowEnabler.value != enabler.value
-                    && (isEvent || enabler.value == 1 && !isPayflowLinkEnabled)
+                    && (isEvent || enabler.value == 1)
                 ) {
                     ecPayflowEnabler.value = enabler.value;
                     paypalConflictsObject.checklessEventAction(ecPayflowEnabler, true);
@@ -187,7 +185,7 @@ require([
                     if (conflict && !confirmationShowed && anotherEnabler.value == 1) {
                         if (isEvent) {
                             confirmationApproved = confirm(
-                                $.mage.__('There is already another PayPal solution enabled. Enable this solution instead?')
+                                jQuery.mage.__('There is already another PayPal solution enabled. Enable this solution instead?')
                             );
                         } else {
                             paypalConflictsObject.isConflict = true;
@@ -288,11 +286,9 @@ require([
         });
 
         // initially uncheck payflow
-        var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
-            isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
-        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[+isPayflowLinkEnabled];
+        var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
         if (typeof ecPayflowEnabler != "undefined") {
-            if (ecPayflowEnabler.value == 1 && !isPayflowLinkEnabled) {
+            if (ecPayflowEnabler.value == 1) {
                 ecPayflowEnabler.value = 0;
                 fireEvent(ecPayflowEnabler, "change");
             }
@@ -317,14 +313,14 @@ require([
             paypalConflictsObject.toggleBmlEnabler(enablerElement);
         });
         if (paypalConflictsObject.isConflict || paypalConflictsObject.ecMissed) {
-            var notification = $.mage.__('The following error(s) occured:');
+            var notification = jQuery.mage.__('The following error(s) occured:');
             if (paypalConflictsObject.isConflict) {
-                notification += "\\n  " + $.mage.__('Some PayPal solutions conflict.');
+                notification += "\n  " + jQuery.mage.__('Some PayPal solutions conflict.');
             }
             if (paypalConflictsObject.ecMissed) {
-                notification += "\\n  " + $.mage.__('PayPal Express Checkout is not enabled.');
+                notification += "\n  " + jQuery.mage.__('PayPal Express Checkout is not enabled.');
             }
-            notification += "\\n" + $.mage.__('Please re-enable the previously enabled payment solutions.');
+            notification += "\n" + jQuery.mage.__('Please re-enable the previously enabled payment solutions.');
             setTimeout(function () {
                 alert(notification);
             }, 1);
@@ -332,7 +328,7 @@ require([
 
         $$(".requires").each(function (dependent) {
             var $dependent = $(dependent);
-            if ($dependent.hasClassName("paypal-ec-enabler") || $dependent.hasClassName("paypal-ec-payflow-enabler")) {
+            if ($dependent.hasClassName("paypal-ec-enabler")) {
                 $dependent.requiresObj.callback = function (required) {
                     if ($(required).hasClassName("paypal-enabler") && required.value == 0) {
                         $dependent.disable();
@@ -345,9 +341,7 @@ require([
         });
 
         configForm.on('afterValidate', function () {
-            var isPayflowLinkEnabled = !!$$(".paypal-payflowlink")[0],
-                isPayflowAdvancedEnabled = !!$$(".paypal-payflow-advanced")[0];
-            var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[+isPayflowLinkEnabled];
+            var ecPayflowEnabler = $$(".paypal-ec-payflow-enabler")[0];
             if (typeof ecPayflowEnabler == "undefined") {
                 return;
             }
