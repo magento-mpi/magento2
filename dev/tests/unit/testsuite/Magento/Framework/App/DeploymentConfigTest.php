@@ -95,6 +95,15 @@ class DeploymentConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($object->isAvailable());
     }
 
+    public function testNotAvailableThenAvailable()
+    {
+        $this->reader->expects($this->at(0))->method('load')->willReturn([]);
+        $this->reader->expects($this->at(1))->method('load')->willReturn(['a' => 1]);
+        $object = new DeploymentConfig($this->reader);
+        $this->assertFalse($object->isAvailable());
+        $this->assertTrue($object->isAvailable());
+    }
+
     /**
      * @param array $data
      * @expectedException \Exception
