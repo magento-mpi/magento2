@@ -456,9 +456,10 @@ string',
         return [
             'Test 1' => ['Stone1Color', 'stone_1_color'],
             'Test 2' => ['StoneColor', 'stone_color'],
-            'Test 3' => ['StoneToXML', 'stone_to_x_m_l'],
+            'Test 3' => ['StoneToXML', 'stone_to_xml'],
             'Test 4' => ['1StoneColor', '1_stone_color'],
-            'Test 5' => ['getCcLast4', 'get_cc_last_4']
+            'Test 5' => ['getCcLast4', 'get_cc_last_4'],
+            'Test 6' => ['99Bottles', '99_bottles']
         ];
     }
 }

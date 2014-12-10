@@ -39,7 +39,7 @@ class Info
 
     const AVS_CODE = 'avs_result';
 
-    const CVV2_MATCH = 'cvv2_check_result';
+    const CVV2_MATCH = 'cvv_2_check_result';
 
     const CENTINEL_VPAS = 'centinel_vpas_result';
 
