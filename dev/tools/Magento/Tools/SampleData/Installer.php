@@ -11,7 +11,8 @@ namespace Magento\Tools\SampleData;
 /**
  * Model for installation Sample Data
  */
-class Installer {
+class Installer
+{
     /**
      * @var Helper\Deploy
      */
@@ -65,6 +66,8 @@ class Installer {
      *
      * @param \Magento\User\Model\User $adminUser
      * @throws \Exception
+     *
+     * @return void
      */
     public function run(\Magento\User\Model\User $adminUser)
     {
