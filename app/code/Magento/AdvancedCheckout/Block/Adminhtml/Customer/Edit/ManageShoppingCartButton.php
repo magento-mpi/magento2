@@ -8,7 +8,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
 
 use Magento\Customer\Controller\RegistryConstants;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Ui\Component\Control\ButtonProviderInterface;
 
 /**

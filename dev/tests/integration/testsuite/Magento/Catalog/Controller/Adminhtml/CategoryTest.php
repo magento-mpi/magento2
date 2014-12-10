@@ -288,4 +288,54 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
             \Magento\Framework\Message\MessageInterface::TYPE_ERROR
         );
     }
+
+    /**
+     * @magentoDataFixture Magento/Catalog/_files/category_tree.php
+     * @dataProvider moveActionDataProvider
+     *
+     * @param int $parentId
+     * @param int $childId
+     * @param string $childUrlKey
+     * @param int $grandChildId
+     * @param string $grandChildUrlKey
+     * @param boolean $error
+     */
+    public function testMoveAction($parentId, $childId, $childUrlKey, $grandChildId, $grandChildUrlKey, $error)
+    {
+        $urlKeys = [
+            $childId => $childUrlKey,
+            $grandChildId => $grandChildUrlKey,
+        ];
+        foreach ($urlKeys as $categoryId => $urlKey) {
+            /** @var $category \Magento\Catalog\Model\Category */
+            $category = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+                'Magento\Catalog\Model\Category'
+            );
+            if ($categoryId > 0) {
+                $category->load($categoryId)
+                    ->setUrlKey($urlKey)
+                    ->save();
+            }
+        }
+        $this->getRequest()
+            ->setPost('id', $grandChildId)
+            ->setPost('pid', $parentId);
+        $this->dispatch('backend/catalog/category/move');
+        $jsonResponse = json_decode($this->getResponse()->getBody());
+        $this->assertNotNull($jsonResponse);
+        $this->assertEquals($error, $jsonResponse->error);
+    }
+
+    /**
+     * @return array
+     */
+    public function moveActionDataProvider()
+    {
+        return [
+            [400, 401, 'first_url_key', 402, 'second_url_key', false],
+            [400, 401, 'duplicated_url_key', 402, 'duplicated_url_key', true],
+            [0, 401, 'first_url_key', 402, 'second_url_key', true],
+            [400, 401, 'first_url_key', 0, 'second_url_key', true],
+        ];
+    }
 }

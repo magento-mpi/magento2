@@ -152,7 +152,7 @@ class BillingTest extends \PHPUnit_Framework_TestCase
         Bootstrap::getObjectManager()->get('Magento\Customer\Model\Session')->setCustomerId(1);
         // @codingStandardsIgnoreStart
         $expected = <<<OUTPUT
-<select name="billing_address_id" id="billing-address-select" class="address-select" title="" ><option value="1" selected="selected" >John Smith, Green str, 67, CityM, Alabama 75477, United States</option><option value="" >New Address</option></select>
+<select name="billing_address_id" id="billing:address-select" class="address-select" title="" ><option value="1" selected="selected" >John Smith, Green str, 67, CityM, Alabama 75477, United States</option><option value="" >New Address</option></select>
 OUTPUT;
         // @codingStandardsIgnoreEnd
         $this->assertEquals($expected, $this->_block->getAddressesHtmlSelect('billing'));

@@ -25,7 +25,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
     /** @var \Magento\UrlRewrite\Helper\UrlRewrite */
     protected $urlRewriteHelper;
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\UrlRewrite\Model\UrlFinderInterface */
@@ -41,7 +41,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Resource $appResource
      * @param \Magento\UrlRewrite\Model\UrlFinderInterface $urlFinder
      * @param array $data
@@ -51,7 +51,7 @@ class Suffix extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Registry $registry,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\UrlRewrite\Helper\UrlRewrite $urlRewriteHelper,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Resource $appResource,
         \Magento\UrlRewrite\Model\UrlFinderInterface $urlFinder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,

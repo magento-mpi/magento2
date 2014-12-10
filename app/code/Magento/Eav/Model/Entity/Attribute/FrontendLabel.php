@@ -8,6 +8,9 @@
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
+/**
+ * @codeCoverageIgnore
+ */
 class FrontendLabel extends \Magento\Framework\Model\AbstractExtensibleModel implements
     \Magento\Eav\Api\Data\AttributeFrontendLabelInterface
 {

@@ -8,7 +8,7 @@
 namespace Magento\Checkout\Block\Cart\Item;
 
 /**
- * @magentoDataFixture Magento/Catalog/_files/product_with_image.php
+ * @magentoDataFixture Magento/Checkout/_files/quote_with_simple_product_and_image.php
  */
 class RendererTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,8 +24,14 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\View\LayoutInterface'
         )->createBlock('Magento\Checkout\Block\Cart\Item\Renderer');
-        /** @var $item \Magento\Sales\Model\Quote\Item */
-        $item = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Sales\Model\Quote\Item');
+
+        /** @var $session \Magento\Checkout\Model\Session  */
+        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Checkout\Model\Session');
+
+        $item = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
+        $this->assertNotNull($item, 'Cannot get quote item for simple product');
+
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Catalog\Model\Product'
         );
@@ -44,5 +50,30 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $this->assertContains('/' . $sidebarSize, $this->_block->getProductThumbnailSidebarUrl());
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getProductThumbnailUrl());
         $this->assertStringEndsWith('magento_image.jpg', $this->_block->getProductThumbnailSidebarUrl());
+    }
+
+    public function testGetConfigureUrl()
+    {
+        $testString = 'checkout/cart/configure/id/' . $this->_block->getItem()->getId() . '/product_id/1/';
+        $this->assertStringEndsWith($testString, $this->_block->getConfigureUrl());
+    }
+
+    /**
+     * Gets \Magento\Sales\Model\Quote\Item from \Magento\Sales\Model\Quote by product id
+     *
+     * @param \Magento\Sales\Model\Quote $quote
+     * @param $productId
+     * @return \Magento\Sales\Model\Quote\Item|null
+     */
+    private function _getQuoteItemIdByProductId($quote, $productId)
+    {
+        /** @var $quoteItems \Magento\Sales\Model\Quote\Item[] */
+        $quoteItems = $quote->getAllItems();
+        foreach ($quoteItems as $quoteItem) {
+            if ($productId == $quoteItem->getProductId()) {
+                return $quoteItem;
+            }
+        }
+        return null;
     }
 }

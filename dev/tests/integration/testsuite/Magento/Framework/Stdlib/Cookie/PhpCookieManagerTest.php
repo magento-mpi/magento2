@@ -37,6 +37,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCookie()
     {
+        $preTestCookies = $_COOKIE;
         $cookieName = 'cookie name';
         $cookieValue = 'cookie value';
         $defaultCookieValue = 'default';
@@ -48,6 +49,7 @@ class PhpCookieManagerTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cookieValue, $this->cookieManager->getCookie($cookieName, $defaultCookieValue));
         $this->assertEquals($defaultCookieValue, $this->cookieManager->getCookie(null, $defaultCookieValue));
         $this->assertNull($this->cookieManager->getCookie(null));
+        $_COOKIE = $preTestCookies;
     }
 
     /**

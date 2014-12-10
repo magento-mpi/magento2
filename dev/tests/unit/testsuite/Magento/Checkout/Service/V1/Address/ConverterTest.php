@@ -36,13 +36,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Service\V1\Data\Cart\AddressBuilder', [], [], '', false
         );
         $this->metadataServiceMock = $this
-            ->getMockBuilder('Magento\Customer\Service\V1\CustomerMetadataServiceInterface')
+            ->getMockBuilder('Magento\Customer\Api\CustomerMetadataInterface')
             ->setMethods(['getCustomAttributesMetadata'])
             ->getMockForAbstractClass();
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectManager->getObject(
             'Magento\Checkout\Service\V1\Address\Converter',
-            ['addressBuilder' => $this->addressBuilderMock, 'metadataService' => $this->metadataServiceMock]
+            ['addressBuilder' => $this->addressBuilderMock, 'customerMetadata' => $this->metadataServiceMock]
         );
     }
 

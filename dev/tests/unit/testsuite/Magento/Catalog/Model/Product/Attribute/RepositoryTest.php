@@ -200,7 +200,7 @@ class RepositoryTest extends \PHPUnit_Framework_TestCase
             ->willReturnSelf();
         $searchCriteriaMock = $this->getMock('Magento\Framework\Api\SearchCriteria', [], [], '', false);
         $this->searchCriteriaBuilderMock->expects($this->once())->method('create')->willReturn($searchCriteriaMock);
-        $itemMock = $this->getMock('Magento\Catalog\Service\V1\Data\Product', [], [], '', false);
+        $itemMock = $this->getMock('Magento\Catalog\Api\Data\ProductInterface');
         $this->eavAttributeRepositoryMock->expects($this->once())
             ->method('getList')
             ->with(

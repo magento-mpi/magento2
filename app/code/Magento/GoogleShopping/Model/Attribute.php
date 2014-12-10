@@ -37,7 +37,6 @@ class Attribute extends \Magento\Framework\Model\AbstractModel
         'use_config_email_template',
         'tier_price',
         'minimal_price',
-        'recurring_payment',
         'shipment_type'
     );
 
