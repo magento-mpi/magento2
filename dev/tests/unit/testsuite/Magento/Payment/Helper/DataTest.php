@@ -137,7 +137,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockA = $this->getMock(
             'Magento\Framework\Object',
-            ['isAvailable','getConfigData'],
+            ['isAvailable', 'getConfigData'],
             [],
             '',
             false
@@ -151,7 +151,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockB = $this->getMock(
             'Magento\Framework\Object',
-            ['isAvailable','getConfigData'],
+            ['isAvailable', 'getConfigData'],
             [],
             '',
             false

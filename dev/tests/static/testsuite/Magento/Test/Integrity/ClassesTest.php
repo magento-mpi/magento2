@@ -533,7 +533,7 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
         foreach ($files->getFiles([BP . '/dev/tests/{integration,unit}'], '*') as $file) {
             $code = file_get_contents($file);
             if (preg_match('/@covers(DefaultClass)?\s+([\w\\\\]+)(::([\w\\\\]+))?/', $code, $matches)) {
-                if ($this->isNonexistentEntityCovered($matches, $files)) {
+                if ($this->isNonexistentEntityCovered($matches)) {
                     $errors[] = $file . ': ' . $matches[0];
                 }
             }
@@ -545,10 +545,9 @@ class ClassesTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param array $matches
-     * @param \Magento\Framework\Test\Utility\Files $files
      * @return bool
      */
-    private function isNonexistentEntityCovered($matches, $files)
+    private function isNonexistentEntityCovered($matches)
     {
         return (!empty($matches[2]) && !class_exists($matches[2])
             || !empty($matches[4]) && !method_exists($matches[2], $matches[4]))

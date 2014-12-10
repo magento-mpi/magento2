@@ -47,6 +47,7 @@ class PhpCsFixerReview extends AbstractReview
      * @param ReporterInterface $reporter
      * @param FileInterface $file
      * @return void
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {
