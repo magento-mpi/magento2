@@ -98,7 +98,7 @@ require([
     'mage/adminhtml/wysiwyg/tiny_mce/setup'
 ], function(jQuery){
 
-var config = {},
+var config = $config,
     editor;
 
 jQuery.extend(config, {
@@ -110,7 +110,7 @@ jQuery.extend(config, {
         theme_advanced_buttons4: null,
         theme_advanced_statusbar_location: null
     },
-    add_images: false
+    files_browser_window_url: false
 });
 
 editor = new tinyMceWysiwygSetup(

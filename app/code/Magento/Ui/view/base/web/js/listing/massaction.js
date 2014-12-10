@@ -2,10 +2,12 @@
  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
+    'jquery',
     'underscore',
     'Magento_Ui/js/lib/ko/scope',
-    'Magento_Ui/js/lib/component'
-], function (_, Scope, Component) {
+    'Magento_Ui/js/lib/component',
+    'mage/translate'
+], function ($, _, Scope, Component) {
     'use strict';
 
     function capitaliseFirstLetter(string) {
@@ -13,7 +15,9 @@ define([
     }
 
     var defaults = {
-        actions: [],
+        actions:        [],
+        deleteMsg:      $.mage.__("Are you sure you want to delete these records?"),
+        notSelected:    $.mage.__("You haven't selected any items!"),
         selects: [
             { value: 'selectAll',    label: 'Select all'                },
             { value: 'deselectAll',  label: 'Deselect all'              },
@@ -188,10 +192,19 @@ define([
          * @returns {MassActions} Chainable.
          */
         submit: function(action) {
-            var client = this.provider.client;
+            var client      = this.provider.client,
+                value       = action.value,
+                confirmed   = true;
 
-            if (this.count) {
+            if (!this.count) {
+                confirmed = false;
 
+                alert(this.notSelected);
+            } else if (value === 'delete') {
+                confirmed = confirm(this.deleteMsg);
+            }
+
+            if (confirmed) {
                 client.submit({
                     method: 'post',
                     action: action.url,
@@ -199,9 +212,6 @@ define([
                         massaction: this.buildParams()
                     }
                 });
-            } else {
-                
-                alert("You haven't selected any items!");
             }
 
             return this;
