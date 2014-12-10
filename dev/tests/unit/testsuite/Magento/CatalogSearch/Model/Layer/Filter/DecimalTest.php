@@ -16,6 +16,7 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
  */
 class DecimalTest extends \PHPUnit_Framework_TestCase
 {
+    private $filterItem;
 
     /**
      * @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection|MockObject
@@ -62,23 +63,23 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['create'])
             ->getMock();
 
-        $filterItem = $this->getMockBuilder(
+        $this->filterItem = $this->getMockBuilder(
             '\Magento\Catalog\Model\Layer\Filter\Item'
         )
             ->disableOriginalConstructor()
             ->setMethods(['setFilter', 'setLabel', 'setValue', 'setCount'])
             ->getMock();
-        $filterItem->expects($this->any())
+        $this->filterItem->expects($this->any())
             ->method($this->anything())
             ->will($this->returnSelf());
         $this->filterItemFactory->expects($this->any())
             ->method('create')
-            ->will($this->returnValue($filterItem));
+            ->will($this->returnValue($this->filterItem));
+
         $this->fulltextCollection = $this->fulltextCollection = $this->getMockBuilder(
             '\Magento\CatalogSearch\Model\Resource\Fulltext\Collection'
         )
             ->disableOriginalConstructor()
-            ->setMethods(['addFieldToFilter'])
             ->getMock();
 
         $this->layer->expects($this->any())
@@ -205,5 +206,25 @@ class DecimalTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
 
         $this->target->apply($this->request);
+    }
+
+    public function testItemData()
+    {
+        $this->fulltextCollection->expects($this->any())
+            ->method('getSize')
+            ->willReturn(5);
+
+        $this->fulltextCollection->expects($this->any())
+            ->method('getFacetedData')
+            ->willReturn([
+                '2_10' => ['count' => 5],
+                '*_*' => ['count' => 2]
+            ]);
+        $this->assertEquals(
+            [
+                $this->filterItem
+            ],
+            $this->target->getItems()
+        );
     }
 }

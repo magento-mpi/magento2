@@ -86,9 +86,7 @@ class DataProvider implements DataProviderInterface
                 ->getId();
             $select = $this->getSelect();
             $table = $this->resource->getTableName(
-                $attribute->getBackendType() == 'decimal'
-                    ? 'catalog_product_index_eav_decimal'
-                    : 'catalog_product_index_eav'
+                'catalog_product_index_eav' . ($attribute->getBackendType() == 'decimal' ? '_decimal' : '')
             );
             $select->from(['main_table' => $table], ['value'])
                 ->where('main_table.attribute_id = ?', $attribute->getAttributeId())
