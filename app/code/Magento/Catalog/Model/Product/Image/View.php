@@ -134,7 +134,7 @@ class View extends \Magento\Framework\Object
      */
     public function getLabel()
     {
-        $label = $this->_product->getData($this->getType() . self::VAR_NAME_SEPARATOR . 'label');
+        $label = $this->_product->getData($this->getType() . '_' . 'label');
         if (empty($label)) {
             $label = $this->_product->getName();
         }
