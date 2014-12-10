@@ -458,6 +458,7 @@ string',
             'Test 2' => ['StoneColor', 'stone_color'],
             'Test 3' => ['StoneToXML', 'stone_to_x_m_l'],
             'Test 4' => ['1StoneColor', '1_stone_color'],
+            'Test 5' => ['getCcLast4', 'get_cc_last_4']
         ];
     }
 }
