@@ -96,38 +96,18 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getJsonConfig()
     {
-        $priceInfo = $this->getProduct()->getPriceInfo();
-        $finalPrice = $priceInfo->getPrice(FinalPrice::PRICE_CODE);
-        $regularPrice = $priceInfo->getPrice(RegularPrice::PRICE_CODE);
-        $config = [
-            'price' => $finalPrice->getAmount()->getValue(),
-            'oldPrice' => $regularPrice->getValue(),
-        ];
-        $config['links'] = $this->getLinksConfig();
+        $finalPrice = $this->getProduct()->getPriceInfo()
+            ->getPrice(FinalPrice::PRICE_CODE);
 
-        return json_encode($config);
-    }
-
-    /**
-     * Get links price config
-     *
-     * @return array
-     */
-    protected function getLinksConfig()
-    {
-        $finalPrice = $this->getProduct()->getPriceInfo()->getPrice(FinalPrice::PRICE_CODE);
         $linksConfig = [];
         foreach ($this->getLinks() as $link) {
             $amount = $finalPrice->getCustomAmount($link->getPrice());
-            $price = $this->coreData->currency($link->getPrice(), false, false);
             $linksConfig[$link->getId()] = [
-                'price' => $price,
-                'oldPrice' => $price,
-                'inclTaxPrice' => $amount->getValue(),
-                'exclTaxPrice' => $amount->getBaseAmount()
+                'finalPrice' => $amount->getValue(),
             ];
         }
-        return $linksConfig;
+
+        return json_encode(['links' => $linksConfig]);
     }
 
     /**
