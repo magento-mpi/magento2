@@ -24,7 +24,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     protected $_adminGwsData = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -36,13 +36,13 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver implement
     /**
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         CategoryRepositoryInterface $categoryRepository
     ) {
         parent::__construct($role);

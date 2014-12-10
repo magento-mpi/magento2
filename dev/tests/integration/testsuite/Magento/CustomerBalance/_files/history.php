@@ -19,7 +19,7 @@ $balance->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $balance->save();
@@ -32,7 +32,7 @@ $history->setCustomerId(
     $customer->getId()
 )->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 )->setBalanceModel(
     $balance

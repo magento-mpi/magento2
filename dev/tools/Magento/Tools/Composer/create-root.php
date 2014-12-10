@@ -148,6 +148,7 @@ function createDefault($package, $defaults, $source)
     // filter the "replace" elements
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package);
+    $package->unsetProperty('suggest');
 
     return $package;
 }
@@ -202,6 +203,7 @@ function createProduct($package, $defaults, $source, $useWildcard)
     $replaceFilter = new ReplaceFilter($source);
     $replaceFilter->removeMissing($package);
     $replaceFilter->moveMagentoComponentsToRequire($package, $useWildcard);
+    $package->unsetProperty('suggest');
     $package->unsetProperty('replace');
     $package->unsetProperty('extra->component_paths');
     $extra = (array)$package->get('extra');
