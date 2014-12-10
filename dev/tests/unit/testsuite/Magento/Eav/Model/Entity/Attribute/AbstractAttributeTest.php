@@ -98,7 +98,13 @@ class AbstractAttributeTest extends \PHPUnit_Framework_TestCase
 
     public function testConvertToObjects()
     {
-        $dataBuilderMock = $this->getMock('Magento\Eav\Api\Data\AttributeOptionDataBuilder', [], [], '', false);
+        $dataBuilderMock = $this->getMock(
+            'Magento\Eav\Api\Data\AttributeOptionDataBuilder',
+            ['populateWithArray', 'create'],
+            [],
+            '',
+            false
+        );
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $model = $objectManagerHelper->getObject(
             '\Magento\Catalog\Model\Entity\Attribute',

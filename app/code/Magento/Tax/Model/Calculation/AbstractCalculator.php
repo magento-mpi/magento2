@@ -212,14 +212,15 @@ abstract class AbstractCalculator
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    public function calculate(QuoteDetailsItemInterface $item, $quantity)
+    public function calculate(QuoteDetailsItemInterface $item, $quantity, $round = true)
     {
         if ($item->getTaxIncluded()) {
-            return $this->calculateWithTaxInPrice($item, $quantity);
+            return $this->calculateWithTaxInPrice($item, $quantity, $round);
         } else {
-            return $this->calculateWithTaxNotInPrice($item, $quantity);
+            return $this->calculateWithTaxNotInPrice($item, $quantity, $round);
         }
     }
 
@@ -228,18 +229,20 @@ abstract class AbstractCalculator
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxInPrice(QuoteDetailsItemInterface $item, $quantity);
+    abstract protected function calculateWithTaxInPrice(QuoteDetailsItemInterface $item, $quantity, $round = true);
 
     /**
      * Calculate tax details for quote item with tax not in price with given quantity
      *
      * @param QuoteDetailsItemInterface $item
      * @param int $quantity
+     * @param bool $round
      * @return TaxDetailsItemInterface
      */
-    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItemInterface $item, $quantity);
+    abstract protected function calculateWithTaxNotInPrice(QuoteDetailsItemInterface $item, $quantity, $round = true);
 
     /**
      * Get address rate request
@@ -404,9 +407,10 @@ abstract class AbstractCalculator
      * @param string $rate
      * @param bool $direction
      * @param string $type
+     * @param bool $round
      * @return float
      */
-    protected function deltaRound($price, $rate, $direction, $type = self::KEY_REGULAR_DELTA_ROUNDING)
+    protected function deltaRound($price, $rate, $direction, $type = self::KEY_REGULAR_DELTA_ROUNDING, $round = true)
     {
         if ($price) {
             $rate = (string)$rate;
@@ -416,7 +420,10 @@ abstract class AbstractCalculator
                 $this->roundingDeltas[$type][$rate] :
                 0.000001;
             $price += $delta;
-            $roundPrice = $this->calculationTool->round($price);
+            $roundPrice = $price;
+            if ($round) {
+                $roundPrice = $this->calculationTool->round($roundPrice);
+            }
             $this->roundingDeltas[$type][$rate] = $price - $roundPrice;
             $price = $roundPrice;
         }

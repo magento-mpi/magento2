@@ -115,9 +115,14 @@ class Category extends AbstractFilter
         $category = $this->dataProvider->getCategory();
         $categories = $category->getChildrenCategories();
 
+        $collectionSize = $productCollection->getSize();
+
         if ($category->getIsActive()) {
             foreach ($categories as $category) {
-                if ($category->getIsActive() && isset($optionsFacetedData[$category->getId()])) {
+                if ($category->getIsActive()
+                    && isset($optionsFacetedData[$category->getId()])
+                    && $this->isOptionReducesResults($optionsFacetedData[$category->getId()]['count'], $collectionSize)
+                ) {
                     $this->itemDataBuilder->addItemData(
                         $this->escaper->escapeHtml($category->getName()),
                         $category->getId(),

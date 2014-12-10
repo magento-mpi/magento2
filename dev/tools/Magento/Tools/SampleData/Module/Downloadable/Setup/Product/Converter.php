@@ -43,8 +43,6 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             if (!empty($dataValue)) {
                 if ((preg_match('/^(link_item)/', $dataKey, $matches)) && is_array($matches)) {
                     $groupedData['link'][$dataKey] = $dataValue;
-                } elseif ((preg_match('/^(sample_item)/', $dataKey, $matches)) && $matches >=1) {
-                    $groupedData['sample'][$dataKey] = $dataValue;
                 }
             }
             unset($dataKey);
@@ -64,46 +62,12 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
     {
         $formattedData = [];
         foreach (array_keys($groupedData) as $dataType) {
-            switch ($dataType) {
-                case 'link':
-                    $formattedData['link'] = $this->formatDownloadableLinkData($groupedData['link']);
-                    break;
-                case 'sample':
-                    $formattedData['sample'] = $this->formatDownloadableSampleData($groupedData['sample']);
-                    break;
+            if ($dataType == 'link') {
+                $formattedData['link'] = $this->formatDownloadableLinkData($groupedData['link']);
             }
         }
 
         return $formattedData;
-    }
-
-    /**
-     * Format downloadable sample data
-     *
-     * @param array $sampleData
-     * @return array
-     */
-    public function formatDownloadableSampleData($sampleData)
-    {
-        $sampleItems = array(
-            'sample_item_title',
-            'sample_item_url'
-        );
-        foreach ($sampleItems as $csvRow) {
-            $sampleData[$csvRow] = isset($sampleData[$csvRow]) ? $sampleData[$csvRow] : '';
-        }
-        $sample =
-            [
-                'is_delete' => '',
-                'sample_id' => '0',
-                'title' => $sampleData['sample_item_title'],
-                'sample_url' => $sampleData['sample_item_url'],
-                'file' => '[]',
-                'type' => 'url',
-                'sort_order' => ''
-            ];
-
-        return $sample;
     }
 
     /**
@@ -117,33 +81,50 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
         $linkItems = array(
             'link_item_title',
             'link_item_price',
-            'link_item_sample_url',
-            'link_item_url'
+            'link_item_file'
         );
         foreach ($linkItems as $csvRow) {
             $linkData[$csvRow] = isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
         }
 
-        $link =
-            [
-                'is_delete' => '',
-                'link_id' => '0',
-                'title' => $linkData['link_item_title'],
-                'price' => $linkData['link_item_price'],
-                'number_of_downloads' => '0',
-                'is_shareable' => '2',
-                'sample' =>
-                    [
-                        'file' => '[]',
-                        'type' => 'url',
-                        'url' => $linkData['link_item_sample_url']
-                    ],
-                'file' => '[]',
-                'type' => 'url',
-                'link_url' => $linkData['link_item_url'],
-                'sort_order' => ''
-            ];
+        $link = [
+            'is_delete' => '',
+            'link_id' => '0',
+            'title' => $linkData['link_item_title'],
+            'price' => $linkData['link_item_price'],
+            'number_of_downloads' => '0',
+            'is_shareable' => '2',
+            'type' => 'file',
+            'file' => json_encode(array(array('file' => $linkData['link_item_file'], 'status' => 'old'))),
+            'sort_order' => ''
+        ];
 
         return $link;
+    }
+
+    /**
+     * Returns information about product's samples
+     * @return array
+     */
+    public function getSamplesInfo()
+    {
+        $sample = [
+            'is_delete' => '',
+            'sample_id' => '0',
+            'file' => json_encode([[
+                'file' => '/l/u/luma_background_-_model_against_fence_4_sec_.mp4',
+                'status' => 'old'
+            ]]),
+            'type' => 'file',
+            'sort_order' => ''
+        ];
+
+        $samples = [];
+        for ($i = 1; $i <= 3; $i++) {
+            $sample['title'] = 'Trailer #' . $i;
+            $samples[] = $sample;
+        }
+
+        return $samples;
     }
 }

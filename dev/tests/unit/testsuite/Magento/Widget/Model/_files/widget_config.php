@@ -57,7 +57,15 @@ return array(
                 'required' => '1',
                 'sort_order' => '10',
                 'label' => 'Product'
-            )
+            ),
+            'condition' => array (
+                'type' => 'Magento\CatalogWidget\Block\Product\Widget\Conditions',
+                'visible' => '1',
+                'required' => '1',
+                'sort_order' => '10',
+                'label' => 'Conditions'
+             )
+
         ),
         'supported_containers' => array(
             '0' => array('container_name' => 'left', 'template' => array('default' => 'default_template')),
