@@ -11,14 +11,14 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\App\ResponseInterface;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\CatalogEvent\Model\EventFactory;
-use Magento\Framework\App\RequestInterface;
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Registry;
 use Magento\Framework\Stdlib\DateTime\Filter\DateTime;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\Registry;
 
 class Event extends Action
 {

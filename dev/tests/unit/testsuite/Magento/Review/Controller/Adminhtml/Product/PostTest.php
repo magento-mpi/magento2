@@ -23,6 +23,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerHelper;
 
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -88,6 +89,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
      */
     protected $_helperMock;
 
+
     protected function setUp()
     {
         $this->_prepareMockObjects();
@@ -107,6 +109,7 @@ class PostTest extends \PHPUnit_Framework_TestCase
                 'helper' => $this->_helperMock
             ]
         );
+
     }
 
     /**
@@ -114,60 +117,60 @@ class PostTest extends \PHPUnit_Framework_TestCase
      */
     protected function _prepareMockObjects()
     {
-        $requestMethods = [
+        $requestMethods = array(
             'getPost',
             'getModuleName',
             'setModuleName',
             'getActionName',
             'setActionName',
             'getParam',
-            'getCookie',
-        ];
-        $this->_registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+            'getCookie'
+        );
+        $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_requestMock = $this->getMock(
             '\Magento\Framework\App\RequestInterface', $requestMethods
         );
         $this->_responseMock = $this->getMock(
-            '\Magento\Framework\App\ResponseInterface', ['setRedirect', 'sendResponse']
+            '\Magento\Framework\App\ResponseInterface', array('setRedirect', 'sendResponse')
         );
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $this->_messageManagerMock = $this->getMock('\Magento\Framework\Message\Manager', [], [], '', false);
+        $this->_messageManagerMock = $this->getMock('\Magento\Framework\Message\Manager', array(), array(), '', false);
         $this->_storeManagerInterfaceMock = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
         $this->_storeModelMock = $this->getMock(
-            'Magento\Store\Model\Store', ['__wakeup', 'getId'], [], '', false
+            'Magento\Store\Model\Store', array('__wakeup', 'getId'), array(), '', false
         );
         $this->_reviewModelMock = $this->getMock(
             'Magento\Review\Model\Review',
-            ['__wakeup', 'create', 'save', 'getId', 'getResource', 'aggregate'],
-            [],
+            array('__wakeup', 'create', 'save', 'getId', 'getResource', 'aggregate'),
+            array(),
             '',
             false
         );
 
         $this->_reviewFactoryMock = $this->getMock(
             'Magento\Review\Model\ReviewFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
 
         $this->_ratingModelMock = $this->getMock(
             'Magento\Review\Model\Rating',
-            ['__wakeup', 'setRatingId', 'setReviewId', 'addOptionVote'],
-            [],
+            array('__wakeup', 'setRatingId', 'setReviewId', 'addOptionVote'),
+            array(),
             '',
             false);
 
         $this->_ratingFactoryMock = $this->getMock(
             'Magento\Review\Model\RatingFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
 
-        $this->_helperMock = $this->getMock('\Magento\Backend\Helper\Data', [], [], '', false);
+        $this->_helperMock = $this->getMock('\Magento\Backend\Helper\Data', array(), array(), '', false);
     }
 
     /**
@@ -178,9 +181,9 @@ class PostTest extends \PHPUnit_Framework_TestCase
         $this->_requestMock->expects($this->at(0))->method('getParam')
             ->will($this->returnValue(1));
         $this->_requestMock->expects($this->at(2))->method('getParam')
-            ->will($this->returnValue(['1' => '1']));
+            ->will($this->returnValue(array('1' => '1')));
         $this->_requestMock->expects($this->once())->method('getPost')
-            ->will($this->returnValue(['status_id' => 1]));
+            ->will($this->returnValue(array('status_id' => 1)));
         $this->_objectManagerMock->expects($this->at(0))->method('get')
             ->with('Magento\Framework\StoreManagerInterface')
             ->will($this->returnValue($this->_storeManagerInterfaceMock));
@@ -211,4 +214,5 @@ class PostTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->execute();
     }
+
 }

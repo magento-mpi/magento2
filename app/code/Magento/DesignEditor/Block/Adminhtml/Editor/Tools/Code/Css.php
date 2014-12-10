@@ -25,7 +25,7 @@ class Css extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
-        array $data = []
+        array $data = array()
     ) {
         $this->_designEditorHelper = $designEditorHelper;
         parent::__construct($context, $data);

@@ -47,13 +47,13 @@ class CompareTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->urlBuilder = $this->getMock('Magento\Framework\Url', ['getUrl'], [], '', false);
-        $this->request = $this->getMock('Magento\Framework\App\Request\Http', ['getServer'], [], '', false);
+        $this->urlBuilder = $this->getMock('Magento\Framework\Url', array('getUrl'), array(), '', false);
+        $this->request = $this->getMock('Magento\Framework\App\Request\Http', array('getServer'), array(), '', false);
         /** @var \Magento\Framework\App\Helper\Context $context */
         $this->context = $this->getMock(
             'Magento\Framework\App\Helper\Context',
-            ['getUrlBuilder', 'getRequest', 'getUrlEncoder'],
-            [],
+            array('getUrlBuilder', 'getRequest', 'getUrlEncoder'),
+            array(),
             '',
             false
         );
@@ -69,15 +69,15 @@ class CompareTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->urlEncoder));
         $this->postDataHelper = $this->getMock(
             'Magento\Core\Helper\PostData',
-            ['getPostData'],
-            [],
+            array('getPostData'),
+            array(),
             '',
             false
         );
 
         $this->compareHelper = $objectManager->getObject(
             'Magento\Catalog\Helper\Product\Compare',
-            ['context' => $this->context, 'coreHelper' => $this->postDataHelper]
+            array('context' => $this->context, 'coreHelper' => $this->postDataHelper)
         );
     }
 
@@ -87,11 +87,11 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         $productId = 1;
         $removeUrl = 'catalog/product_compare/remove';
         $compareListUrl = 'catalog/product_compare';
-        $postParams = [
+        $postParams = array(
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper
                 ->urlEncode($compareListUrl),
-            'product' => $productId,
-        ];
+            'product' => $productId
+        );
 
         //Verification
         $this->urlBuilder->expects($this->at(0))
@@ -108,7 +108,7 @@ class CompareTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         /** @var \Magento\Catalog\Model\Product | \PHPUnit_Framework_MockObject_MockObject $product */
-        $product = $this->getMock('Magento\Catalog\Model\Product', ['getId', '__wakeup'], [], '', false);
+        $product = $this->getMock('Magento\Catalog\Model\Product', array('getId', '__wakeup'), array(), '', false);
         $product->expects($this->once())
             ->method('getId')
             ->will($this->returnValue($productId));
@@ -135,9 +135,9 @@ class CompareTest extends \PHPUnit_Framework_TestCase
         //Data
         $refererUrl = 'home/';
         $clearUrl = 'catalog/product_compare/clear';
-        $postParams = [
-            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper->urlEncode($refererUrl),
-        ];
+        $postParams = array(
+            \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->compareHelper->urlEncode($refererUrl)
+        );
 
         //Verification
         $this->request->expects($this->once())

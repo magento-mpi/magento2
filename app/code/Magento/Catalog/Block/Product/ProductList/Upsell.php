@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Block\Product\ProductList;
 
 use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Catalog product upsell items block
@@ -34,7 +35,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     /**
      * @var array
      */
-    protected $_itemLimits = [];
+    protected $_itemLimits = array();
 
     /**
      * Checkout session
@@ -69,7 +70,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = []
+        array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -100,7 +101,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
          */
         $this->_eventManager->dispatch(
             'catalog_product_upsell',
-            ['product' => $product, 'collection' => $this->_itemCollection, 'limit' => null]
+            array('product' => $product, 'collection' => $this->_itemCollection, 'limit' => null)
         );
 
         foreach ($this->_itemCollection as $product) {
@@ -224,7 +225,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
      */
     public function getIdentities()
     {
-        $identities = [];
+        $identities = array();
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

@@ -164,7 +164,7 @@ class Images extends \Magento\Framework\App\Helper\AbstractHelper
         $checkResult->isAllowed = false;
         $this->_eventManager->dispatch(
             'cms_wysiwyg_images_static_urls_allowed',
-            ['result' => $checkResult, 'store_id' => $this->_storeId]
+            array('result' => $checkResult, 'store_id' => $this->_storeId)
         );
         return $checkResult->isAllowed;
     }
@@ -189,7 +189,7 @@ class Images extends \Magento\Framework\App\Helper\AbstractHelper
                 $html = $fileurl; // $mediaPath;
             } else {
                 $directive = $this->_coreData->urlEncode($directive);
-                $html = $this->_backendData->getUrl('cms/wysiwyg/directive', ['___directive' => $directive]);
+                $html = $this->_backendData->getUrl('cms/wysiwyg/directive', array('___directive' => $directive));
             }
         }
         return $html;

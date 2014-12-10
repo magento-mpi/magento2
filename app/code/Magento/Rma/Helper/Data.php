@@ -35,7 +35,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var string[]
      */
-    protected $_allowedHashKeys = ['rma_id', 'track_id'];
+    protected $_allowedHashKeys = array('rma_id', 'track_id');
 
     /**
      * Store config model
@@ -259,9 +259,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getReturnCreateUrl($order)
     {
         if ($this->_customerSession->isLoggedIn()) {
-            return $this->_getUrl('rma/returns/create', ['order_id' => $order->getId()]);
+            return $this->_getUrl('rma/returns/create', array('order_id' => $order->getId()));
         } else {
-            return $this->_getUrl('rma/guest/create', ['order_id' => $order->getId()]);
+            return $this->_getUrl('rma/guest/create', array('order_id' => $order->getId()));
         }
     }
 
@@ -273,7 +273,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param int|null $storeId - Store Id
      * @return string
      */
-    public function getReturnAddress($formatCode = 'html', $data = [], $storeId = null)
+    public function getReturnAddress($formatCode = 'html', $data = array(), $storeId = null)
     {
         if (empty($data)) {
             $data = $this->getReturnAddressData($storeId);
@@ -291,7 +291,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $format = $this->_scopeConfig->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId);
         }
 
-        return $this->_filterManager->template($format, ['variables' => $data]);
+        return $this->_filterManager->template($format, array('variables' => $data));
     }
 
     /**
@@ -360,7 +360,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $store
         )
         ) {
-            $data = [
+            $data = array(
                 'city' => $this->_scopeConfig->getValue(
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_CITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -390,10 +390,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     \Magento\Sales\Model\Order\Shipment::XML_PATH_STORE_ADDRESS1,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
-                ),
-            ];
+                )
+            );
         } else {
-            $data = [
+            $data = array(
                 'city' => $this->_scopeConfig->getValue(
                     Shipping::XML_PATH_CITY,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
@@ -428,8 +428,8 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     Shipping::XML_PATH_CONTACT_NAME,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                     $store
-                ),
-            ];
+                )
+            );
         }
 
         $data['country'] = !empty($data['countryId']) ? $this->_countryFactory->create()->loadByCode(
@@ -483,7 +483,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getShippingCarriers($store = null)
     {
-        $carriers = [];
+        $carriers = array();
         foreach ($this->carrierHelper->getOnlineCarrierCodes($store) as $carrierCode) {
             $carriers[$carrierCode] = $this->carrierHelper->getCarrierConfigValue($carrierCode, 'title', $store);
         }
@@ -537,9 +537,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $key = 'rma_id';
         $method = 'getId';
-        $param = [
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}"),
-        ];
+        $param = array(
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+        );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;
         $storeModel = $this->_storeManager->getStore($storeId);
@@ -571,9 +571,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
-        $param = [
-            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}"),
-        ];
+        $param = array(
+            'hash' => $this->_coreData->urlEncode("{$key}:{$model->{$method}()}:{$model->getProtectCode()}")
+        );
 
         $storeId = is_object($model) ? $model->getStoreId() : null;
         $storeModel = $this->_storeManager->getStore($storeId);
@@ -590,9 +590,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $hash = explode(':', $this->_coreData->urlDecode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
-            return ['key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]];
+            return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
         }
-        return [];
+        return array();
     }
 
     /**
@@ -652,7 +652,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getAdminProductName($item)
     {
         $name = $item->getName();
-        $result = [];
+        $result = array();
         if ($options = $item->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);
@@ -665,7 +665,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (!empty($result)) {
-                $implode = [];
+                $implode = array();
                 foreach ($result as $val) {
                     $implode[] = isset($val['print_value']) ? $val['print_value'] : $val['value'];
                 }

@@ -7,12 +7,12 @@
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
-use Magento\Catalog\Model\Config as CatalogConfig;
-use Magento\CatalogPermissions\App\ConfigInterface;
-use Magento\CatalogPermissions\Model\Permission;
-use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Store\Model\Resource\Website\CollectionFactory as WebsiteCollectionFactory;
+use Magento\Customer\Model\Resource\Group\CollectionFactory as GroupCollectionFactory;
+use Magento\CatalogPermissions\Model\Permission;
+use Magento\CatalogPermissions\App\ConfigInterface;
+use Magento\Framework\StoreManagerInterface;
+use Magento\Catalog\Model\Config as CatalogConfig;
 
 abstract class AbstractAction
 {
@@ -68,12 +68,12 @@ abstract class AbstractAction
     /**
      * @var int[]
      */
-    protected $websitesIds = [];
+    protected $websitesIds = array();
 
     /**
      * @var int[]
      */
-    protected $customerGroupIds = [];
+    protected $customerGroupIds = array();
 
     /**
      * Whether to use index or temporary index table
@@ -87,18 +87,18 @@ abstract class AbstractAction
      *
      * @var array
      */
-    protected $indexCategoryPermissions = [];
+    protected $indexCategoryPermissions = array();
 
     /**
      * Grant values for permission inheritance
      *
      * @var array
      */
-    protected $grantsInheritance = [
+    protected $grantsInheritance = array(
         'grant_catalog_category_view' => self::GRANT_DENY,
         'grant_catalog_product_price' => self::GRANT_ALLOW,
-        'grant_checkout_items' => self::GRANT_ALLOW,
-    ];
+        'grant_checkout_items' => self::GRANT_ALLOW
+    );
 
     /**
      * @var ConfigInterface
@@ -258,7 +258,7 @@ abstract class AbstractAction
         if (!$this->websitesIds) {
             $this->websitesIds = $this->websiteCollectionFactory->create()->addFieldToFilter(
                 'website_id',
-                ['neq' => 0]
+                array('neq' => 0)
             )->getAllIds();
         }
         return $this->websitesIds;
@@ -288,9 +288,9 @@ abstract class AbstractAction
             $field,
             $select,
             $stepCount
-        ) : [
+        ) : array(
             $select
-        ];
+        );
     }
 
     /**
@@ -334,7 +334,7 @@ abstract class AbstractAction
      */
     protected function getCategoryPermissions(array $entityIds)
     {
-        $grants = [];
+        $grants = array();
         foreach (array_keys($this->grantsInheritance) as $grant) {
             $grants[] = $this->getReadAdapter()->quoteInto(
                 sprintf('permission.%s != ?', $grant),
@@ -343,19 +343,19 @@ abstract class AbstractAction
         }
 
         $select = $this->getReadAdapter()->select()->from(
-            ['permission' => $this->getTable('magento_catalogpermissions')],
-            [
+            array('permission' => $this->getTable('magento_catalogpermissions')),
+            array(
                 'category_id',
                 'website_id',
                 'customer_group_id',
                 'grant_catalog_category_view',
                 'grant_catalog_product_price',
                 'grant_checkout_items'
-            ]
+            )
         )->where(
             '(' . implode(' OR ', $grants) . ')'
         )->order(
-            ['category_id', 'website_id', 'customer_group_id']
+            array('category_id', 'website_id', 'customer_group_id')
         );
 
         if (!empty($entityIds)) {
@@ -374,13 +374,13 @@ abstract class AbstractAction
      */
     protected function prepareCategoryIndexPermissions(array $permission, $path)
     {
-        $websiteIds = is_null($permission['website_id']) ? $this->getWebsitesIds() : [$permission['website_id']];
+        $websiteIds = is_null($permission['website_id']) ? $this->getWebsitesIds() : array($permission['website_id']);
 
         $customerGroupIds = is_null(
             $permission['customer_group_id']
-        ) ? $this->getCustomerGroupIds() : [
+        ) ? $this->getCustomerGroupIds() : array(
             $permission['customer_group_id']
-        ];
+        );
 
         foreach ($websiteIds as $websiteId) {
             foreach ($customerGroupIds as $customerGroupId) {
@@ -446,7 +446,7 @@ abstract class AbstractAction
             foreach ($this->indexCategoryPermissions[$parentPath] as $uniqKey => $permission) {
                 $this->indexCategoryPermissions[$path][$uniqKey] = array_merge(
                     $permission,
-                    ['category_id' => $categoryId]
+                    array('category_id' => $categoryId)
                 );
             }
         }
@@ -470,14 +470,14 @@ abstract class AbstractAction
 
                 $this->getWriteAdapter()->insertOnDuplicate(
                     $this->getIndexTempTable(),
-                    [
+                    array(
                         'category_id' => $permission['category_id'],
                         'website_id' => $permission['website_id'],
                         'customer_group_id' => $permission['customer_group_id'],
                         'grant_catalog_category_view' => $permission['grant_catalog_category_view'],
                         'grant_catalog_product_price' => $permission['grant_catalog_product_price'],
                         'grant_checkout_items' => $permission['grant_checkout_items']
-                    ]
+                    )
                 );
             }
         }
@@ -521,7 +521,7 @@ abstract class AbstractAction
             'grant_checkout_items'
         );
 
-        return [
+        return array(
             'grant_catalog_category_view' => 'MAX(' . $adapter->getCheckSql(
                 $adapter->quoteInto('? IS NULL', $exprCatalogCategoryView),
                 $adapter->quoteInto('?', $grantView),
@@ -537,7 +537,7 @@ abstract class AbstractAction
                 $adapter->quoteInto('?', $grantCheckout),
                 $adapter->quoteInto('?', $exprCheckoutItems)
             ) . ')'
-        ];
+        );
     }
 
     /**
@@ -560,99 +560,100 @@ abstract class AbstractAction
             'is_active'
         )->getId();
 
+
         $select = $this->getReadAdapter()->select()->from(
-            ['category_product' => $this->getTable('catalog_category_product')],
-            []
+            array('category_product' => $this->getTable('catalog_category_product')),
+            array()
         )->columns(
             array_merge(
-                ['category_product.product_id', 'store.store_id', 'customer_group.customer_group_id'],
+                array('category_product.product_id', 'store.store_id', 'customer_group.customer_group_id'),
                 $this->getPermissionColumns()
             )
         )->joinInner(
-            ['product_website' => $this->getTable('catalog_product_website')],
+            array('product_website' => $this->getTable('catalog_product_website')),
             'product_website.product_id = category_product.product_id',
-            []
+            array()
         )->joinInner(
-            ['store_group' => $this->getTable('store_group')],
+            array('store_group' => $this->getTable('store_group')),
             'store_group.website_id = product_website.website_id',
-            []
+            array()
         )->joinInner(
-            ['store' => $this->getTable('store')],
+            array('store' => $this->getTable('store')),
             'store.website_id = product_website.website_id' . ' AND store.group_id = store_group.group_id',
-            []
+            array()
         )->joinInner(
-            ['category' => $this->getTable('catalog_category_entity')],
+            array('category' => $this->getTable('catalog_category_entity')),
             'category.entity_id = category_product.category_id' .
             ' AND category.path LIKE ' .
             $this->getReadAdapter()->getConcatSql(
-                [
+                array(
                     $this->getReadAdapter()->quote(\Magento\Catalog\Model\Category::TREE_ROOT_ID . '/'),
                     $this->getReadAdapter()->quoteIdentifier('store_group.root_category_id'),
-                    $this->getReadAdapter()->quote('/%'),
-                ]
+                    $this->getReadAdapter()->quote('/%')
+                )
             ),
-            []
+            array()
         )->joinInner(
-            ['cpsd' => $this->getTable('catalog_product_entity_int')],
+            array('cpsd' => $this->getTable('catalog_product_entity_int')),
             'cpsd.entity_id = category_product.product_id AND cpsd.store_id = 0' . $this->getReadAdapter()->quoteInto(
                 ' AND cpsd.attribute_id = ?',
                 $statusAttributeId
             ),
-            []
+            array()
         )->joinLeft(
-            ['cpss' => $this->getTable('catalog_product_entity_int')],
+            array('cpss' => $this->getTable('catalog_product_entity_int')),
             'cpss.entity_id = category_product.product_id AND cpss.attribute_id = cpsd.attribute_id' .
             ' AND cpss.store_id = store.store_id',
-            []
+            array()
         )->joinInner(
-            ['cpvd' => $this->getTable('catalog_product_entity_int')],
+            array('cpvd' => $this->getTable('catalog_product_entity_int')),
             'cpvd.entity_id = category_product.product_id AND cpvd.store_id = 0' . $this->getReadAdapter()->quoteInto(
                 ' AND cpvd.attribute_id = ?',
                 $visibilityAttributeId
             ),
-            []
+            array()
         )->joinLeft(
-            ['cpvs' => $this->getTable('catalog_product_entity_int')],
+            array('cpvs' => $this->getTable('catalog_product_entity_int')),
             'cpvs.entity_id = category_product.product_id AND cpvs.attribute_id = cpvd.attribute_id' .
             ' AND cpvs.store_id = store.store_id',
-            []
+            array()
         )->joinInner(
-            ['ccad' => $this->getTable('catalog_category_entity_int')],
+            array('ccad' => $this->getTable('catalog_category_entity_int')),
             'ccad.entity_id = category_product.category_id AND ccad.store_id = 0' . $this->getReadAdapter()->quoteInto(
                 ' AND ccad.attribute_id = ?',
                 $isActiveAttributeId
             ),
-            []
+            array()
         )->joinLeft(
-            ['ccas' => $this->getTable('catalog_category_entity_int')],
+            array('ccas' => $this->getTable('catalog_category_entity_int')),
             'ccas.entity_id = category_product.category_id AND ccas.attribute_id = ccad.attribute_id' .
             ' AND ccas.store_id = store.store_id',
-            []
+            array()
         )->joinInner(
-            ['customer_group' => $this->getTable('customer_group')],
+            array('customer_group' => $this->getTable('customer_group')),
             '',
-            []
+            array()
         )->joinInner(
-            ['permission_index' => $this->getIndexTempTable()],
+            array('permission_index' => $this->getIndexTempTable()),
             'permission_index.category_id = category_product.category_id' .
             ' AND permission_index.website_id = product_website.website_id' .
             ' AND permission_index.customer_group_id = customer_group.customer_group_id',
-            []
+            array()
         )->where(
             $this->getReadAdapter()->getIfNullSql('cpss.value', 'cpsd.value') . ' = ?',
             \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
         )->where(
             $this->getReadAdapter()->getIfNullSql('cpvs.value', 'cpvd.value') . ' IN (?)',
-            [
+            array(
                 \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
                 \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
                 \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
-            ]
+            )
         )->where(
             $this->getReadAdapter()->getIfNullSql('ccas.value', 'ccad.value') . ' = ?',
             1
         )->group(
-            ['store.store_id', 'category_product.product_id', 'customer_group.customer_group_id']
+            array('store.store_id', 'category_product.product_id', 'customer_group.customer_group_id')
         );
 
         if ($this->getProductList()) {
@@ -683,14 +684,14 @@ abstract class AbstractAction
                 $this->getWriteAdapter()->insertFromSelect(
                     $select,
                     $this->getProductIndexTempTable(),
-                    [
+                    array(
                         'product_id',
                         'store_id',
                         'customer_group_id',
                         'grant_catalog_category_view',
                         'grant_catalog_product_price',
                         'grant_checkout_items'
-                    ],
+                    ),
                     \Magento\Framework\DB\Adapter\AdapterInterface::INSERT_ON_DUPLICATE
                 )
             );
@@ -707,7 +708,7 @@ abstract class AbstractAction
     protected function fixProductPermissions()
     {
         $deny = (int)Permission::PERMISSION_DENY;
-        $data = [
+        $data = array(
             'grant_catalog_product_price' => $this->getReadAdapter()->getCheckSql(
                 $this->getReadAdapter()->quoteInto('grant_catalog_category_view = ?', $deny),
                 $deny,
@@ -723,10 +724,10 @@ abstract class AbstractAction
                 ),
                 $deny,
                 'grant_checkout_items'
-            ),
-        ];
+            )
+        );
 
-        $condition = $this->getProductList() ? ['product_id IN (?)' => $this->getProductList()] : '';
+        $condition = $this->getProductList() ? array('product_id IN (?)' => $this->getProductList()) : '';
 
         $this->getWriteAdapter()->update($this->getProductIndexTempTable(), $data, $condition);
 
@@ -743,7 +744,7 @@ abstract class AbstractAction
     protected function getConfigGrantDbExpr($mode, $groups)
     {
         $result = new \Zend_Db_Expr('0');
-        $conditions = [];
+        $conditions = array();
         $readAdapter = $this->getReadAdapter();
 
         foreach ($this->storeManager->getStores() as $store) {

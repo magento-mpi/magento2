@@ -8,14 +8,14 @@
 namespace Magento\Catalog\Helper\Product;
 
 use Magento\Catalog\Api\ProductRepositoryInterface;
-use Magento\Catalog\Helper\Product;
-use Magento\Customer\Controller\RegistryConstants;
-use Magento\Customer\Model\Converter;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\ViewInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
-use Magento\Framework\Registry;
+use Magento\Catalog\Helper\Product;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Customer\Controller\RegistryConstants;
+use Magento\Customer\Model\Converter;
+use Magento\Framework\Registry;
 
 /**
  * Adminhtml catalog product composite helper

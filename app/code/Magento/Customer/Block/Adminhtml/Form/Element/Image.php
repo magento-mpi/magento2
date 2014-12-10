@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Customer Widget Form Image File Element Block
  *
@@ -46,16 +47,16 @@ class Image extends \Magento\Customer\Block\Adminhtml\Form\Element\File
         if ($this->getValue() && !is_array($this->getValue())) {
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
-            $image = [
+            $image = array(
                 'alt' => __('View Full Size'),
                 'title' => __('View Full Size'),
                 'src' => $url,
                 'class' => 'small-image-preview v-middle',
                 'height' => 22,
                 'width' => 22,
-                'id' => $imageId,
-            ];
-            $link = ['href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;"];
+                'id' => $imageId
+            );
+            $link = array('href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;");
 
             $html = sprintf(
                 '%s%s</a> ',
@@ -75,7 +76,7 @@ class Image extends \Magento\Customer\Block\Adminhtml\Form\Element\File
     {
         return $this->_adminhtmlData->getUrl(
             'customer/index/viewfile',
-            ['image' => $this->_adminhtmlData->urlEncode($this->getValue())]
+            array('image' => $this->_adminhtmlData->urlEncode($this->getValue()))
         );
     }
 }

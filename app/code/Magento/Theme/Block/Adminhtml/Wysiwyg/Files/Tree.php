@@ -27,7 +27,7 @@ class Tree extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Theme\Helper\Storage $storageHelper,
-        array $data = []
+        array $data = array()
     ) {
         $this->_storageHelper = $storageHelper;
         parent::__construct($context, $data);

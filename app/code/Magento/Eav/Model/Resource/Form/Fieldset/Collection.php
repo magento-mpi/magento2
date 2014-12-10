@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Eav Form Fieldset Resource Collection
  *
@@ -15,10 +16,10 @@ namespace Magento\Eav\Model\Resource\Form\Fieldset;
 
 use Magento\Core\Model\EntityFactory;
 use Magento\Eav\Model\Form\Type;
-use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\Logger;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Logger;
 use Magento\Framework\StoreManagerInterface;
 
 class Collection extends \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
@@ -128,9 +129,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         parent::_initSelect();
         $select = $this->getSelect();
         $select->join(
-            ['default_label' => $this->getTable('eav_form_fieldset_label')],
+            array('default_label' => $this->getTable('eav_form_fieldset_label')),
             'main_table.fieldset_id = default_label.fieldset_id AND default_label.store_id = 0',
-            []
+            array()
         );
         if ($this->getStoreId() == 0) {
             $select->columns('label', 'default_label');
@@ -141,9 +142,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 (int)$this->getStoreId()
             );
             $select->joinLeft(
-                ['store_label' => $this->getTable('eav_form_fieldset_label')],
+                array('store_label' => $this->getTable('eav_form_fieldset_label')),
                 $joinCondition,
-                ['label' => $labelExpr]
+                array('label' => $labelExpr)
             );
         }
 

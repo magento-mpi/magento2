@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Wishlist block customer items
  */
@@ -33,7 +34,7 @@ class Link extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = []
+        array $data = array()
     ) {
         parent::__construct($context, $data);
         $this->wishlistHelper = $wishlistHelper;
@@ -66,16 +67,16 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        $params = [];
+        $params = array();
         $wishlistId = $this->wishlistHelper->getWishlist()->getId();
         $customer = $this->wishlistHelper->getCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = [
+            $params = array(
                 'type' => 'wishlist',
                 'data' => $this->wishlistHelper->urlEncode($key),
-                '_secure' => false,
-            ];
+                '_secure' => false
+            );
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

@@ -40,7 +40,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        $data = []
+        $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
         $this->_assetRepo = $assetRepo;
@@ -83,14 +83,14 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
         $html = '';
         if ($this->getValue() && !$this->getRequired() && !is_array($this->getValue())) {
             $checkboxId = sprintf('%s_delete', $this->getHtmlId());
-            $checkbox = [
+            $checkbox = array(
                 'type' => 'checkbox',
                 'name' => sprintf('%s[delete]', $this->getName()),
                 'value' => '1',
                 'class' => 'checkbox',
-                'id' => $checkboxId,
-            ];
-            $label = ['for' => $checkboxId];
+                'id' => $checkboxId
+            );
+            $label = array('for' => $checkboxId);
             if ($this->getDisabled()) {
                 $checkbox['disabled'] = 'disabled';
                 $label['class'] = 'disabled';
@@ -133,12 +133,12 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
     {
         $html = '';
         if ($this->getValue() && !is_array($this->getValue())) {
-            $image = [
+            $image = array(
                 'alt' => __('Download'),
                 'title' => __('Download'),
                 'src'   => $this->_assetRepo->getUrl('images/fam_bullet_disk.gif'),
-                'class' => 'v-middle',
-            ];
+                'class' => 'v-middle'
+            );
             $url = $this->_getPreviewUrl();
             $html .= '<span>';
             $html .= '<a href="' . $url . '">' . $this->_drawElementHtml('img', $image) . '</a> ';
@@ -157,12 +157,12 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
     {
         return $this->_drawElementHtml(
             'input',
-            [
+            array(
                 'type' => 'hidden',
                 'name' => sprintf('%s[value]', $this->getName()),
                 'id' => sprintf('%s_value', $this->getHtmlId()),
                 'value' => $this->getEscapedValue()
-            ]
+            )
         );
     }
 
@@ -175,7 +175,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
     {
         return $this->_adminhtmlData->getUrl(
             'customer/index/viewfile',
-            ['file' => $this->_adminhtmlData->urlEncode($this->getValue())]
+            array('file' => $this->_adminhtmlData->urlEncode($this->getValue()))
         );
     }
 
@@ -189,7 +189,7 @@ class File extends \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _drawElementHtml($element, array $attributes, $closed = true)
     {
-        $parts = [];
+        $parts = array();
         foreach ($attributes as $k => $v) {
             $parts[] = sprintf('%s="%s"', $k, $v);
         }

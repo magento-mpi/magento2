@@ -35,27 +35,28 @@ class PriceScopeTest extends \PHPUnit_Framework_TestCase
 
         $this->_indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            ['load', 'invalidate'],
-            [],
+            array('load', 'invalidate'),
+            array(),
             '',
             false
         );
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
 
-        $contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
-        $registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
-        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
+        $contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
+        $registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false);
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
+
 
         $this->_model = $this->_objectManager->getObject(
             '\Magento\Catalog\Model\Indexer\Product\Price\System\Config\PriceScope',
-            [
+            array(
                 'context' => $contextMock,
                 'registry' => $registryMock,
                 'storeManager' => $storeManagerMock,
                 'config' => $configMock,
                 'indexerRegistry' => $this->indexerRegistryMock
-            ]
+            )
         );
     }
 

@@ -29,12 +29,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $extensibleDataObjectConverterMock;
 
+
     protected function setUp()
     {
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data',
-            ['isEnabled', 'addSegmentFieldsToForm'],
-            [],
+            array('isEnabled', 'addSegmentFieldsToForm'),
+            array(),
             '',
             false
         );
@@ -46,12 +47,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
         $this->_model = new \Magento\CustomerSegment\Model\Observer(
-            $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
-            $this->getMock('Magento\Customer\Model\Session', [], [], '', false),
-            $this->getMock('Magento\CustomerSegment\Model\Customer', [], [], '', false),
-            $this->getMock('Magento\Backend\Model\Config\Source\Yesno', [], [], '', false),
+            $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false),
+            $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),
+            $this->getMock('Magento\CustomerSegment\Model\Customer', array(), array(), '', false),
+            $this->getMock('Magento\Backend\Model\Config\Source\Yesno', array(), array(), '', false),
             $this->_segmentHelper,
             $coreRegistry,
             $this->customerFactoryMock,
@@ -71,13 +72,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $formDependency = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', ['createBlock'], [], '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
         $layout->expects(
             $this->once()
         )->method(
@@ -88,18 +89,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($formDependency)
         );
 
-        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
+        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
-        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
+        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
         $model = new \Magento\Framework\Object();
-        $block = new \Magento\Framework\Object(['layout' => $layout]);
+        $block = new \Magento\Framework\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects(
             $this->once()
@@ -113,11 +114,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                [
+                array(
                     'event' => new \Magento\Framework\Object(
-                            ['form' => $form, 'model' => $model, 'block' => $block]
-                        ),
-                ]
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }
@@ -126,31 +127,31 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', ['createBlock'], [], '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
+        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
-        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
+        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
         $model = new \Magento\Framework\Object();
-        $block = new \Magento\Framework\Object(['layout' => $layout]);
+        $block = new \Magento\Framework\Object(array('layout' => $layout));
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                [
+                array(
                     'event' => new \Magento\Framework\Object(
-                            ['form' => $form, 'model' => $model, 'block' => $block]
-                        ),
-                ]
+                            array('form' => $form, 'model' => $model, 'block' => $block)
+                        )
+                )
             )
         );
     }

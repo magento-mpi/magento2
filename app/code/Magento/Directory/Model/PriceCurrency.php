@@ -8,8 +8,8 @@
 namespace Magento\Directory\Model;
 
 use Magento\Framework\App\ScopeInterface;
-use Magento\Framework\Logger;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\Logger;
 use Magento\Store\Model\Store;
 
 /**

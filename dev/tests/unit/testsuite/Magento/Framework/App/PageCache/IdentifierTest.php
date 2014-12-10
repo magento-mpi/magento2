@@ -13,7 +13,7 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
     {
         $uri = 'index.php/customer';
         $vary = 1;
-        $expected = md5(serialize([$uri, $vary]));
+        $expected = md5(serialize(array($uri, $vary)));
 
         $requestMock = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()

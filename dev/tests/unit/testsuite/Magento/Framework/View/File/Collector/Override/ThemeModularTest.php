@@ -29,8 +29,8 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $filesystem = $this->getMock('Magento\Framework\Filesystem', ['getDirectoryRead'], [], '', false);
-        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
+        $filesystem = $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $this->_directory = $this->getMock('Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
         $this->_directory->expects($this->any())
             ->method('getAbsolutePath')
             ->will($this->returnArgument(0));
@@ -38,7 +38,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
         $filesystem->expects($this->any())->method('getDirectoryRead')
             ->with($this->equalTo(DirectoryList::THEMES))
             ->will($this->returnValue($this->_directory));
-        $this->_fileFactory = $this->getMock('Magento\Framework\View\File\Factory', [], [], '', false);
+        $this->_fileFactory = $this->getMock('Magento\Framework\View\File\Factory', array(), array(), '', false);
         $this->_model = new \Magento\Framework\View\File\Collector\Override\ThemeModular(
             $filesystem, $this->_fileFactory, 'override/theme'
         );
@@ -62,19 +62,20 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
         $this->_directory->expects($this->once())
             ->method('search')
             ->with($this->equalTo('area/theme_path/*_*/override/theme/*/*.xml'))
-            ->will($this->returnValue([$filePathOne, $filePathTwo]));
+            ->will($this->returnValue(array($filePathOne, $filePathTwo)));
 
         $fileOne = new \Magento\Framework\View\File('1.xml', 'Module_One', $parentTheme);
         $fileTwo = new \Magento\Framework\View\File('2.xml', 'Module_Two', $grandparentTheme);
         $this->_fileFactory
             ->expects($this->exactly(2))
             ->method('create')
-            ->will($this->returnValueMap([
-                [$filePathOne, 'Module_One', $parentTheme, false, $fileOne],
-                [$filePathTwo, 'Module_Two', $grandparentTheme, false, $fileTwo],
-            ]));
+            ->will($this->returnValueMap(array(
+                array($filePathOne, 'Module_One', $parentTheme, false, $fileOne),
+                array($filePathTwo, 'Module_Two', $grandparentTheme, false, $fileTwo),
+            )))
+        ;
 
-        $this->assertSame([$fileOne, $fileTwo], $this->_model->getFiles($theme, '*.xml'));
+        $this->assertSame(array($fileOne, $fileTwo), $this->_model->getFiles($theme, '*.xml'));
     }
 
     public function testGetFilesWithPreset()
@@ -94,16 +95,18 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
         $this->_directory->expects($this->once())
             ->method('search')
             ->with('area/theme_path/*_*/override/theme/*/preset/3.xml')
-            ->will($this->returnValue([$filePathOne]));
+            ->will($this->returnValue(array($filePathOne)))
+        ;
 
         $fileOne = new \Magento\Framework\View\File('3.xml', 'Module_Two', $grandparentTheme);
         $this->_fileFactory
             ->expects($this->once())
             ->method('create')
             ->with($filePathOne, 'Module_Two', $grandparentTheme)
-            ->will($this->returnValue($fileOne));
+            ->will($this->returnValue($fileOne))
+        ;
 
-        $this->assertSame([$fileOne], $this->_model->getFiles($theme, 'preset/3.xml'));
+        $this->assertSame(array($fileOne), $this->_model->getFiles($theme, 'preset/3.xml'));
     }
 
     public function testGetFilesWrongAncestor()
@@ -123,7 +126,7 @@ class ThemeModularTest extends \PHPUnit_Framework_TestCase
         $this->_directory->expects($this->once())
             ->method('search')
             ->with('area/theme_path/*_*/override/theme/*/*.xml')
-            ->will($this->returnValue([$filePath]));
+            ->will($this->returnValue(array($filePath)));
 
         $this->_model->getFiles($theme, '*.xml');
     }

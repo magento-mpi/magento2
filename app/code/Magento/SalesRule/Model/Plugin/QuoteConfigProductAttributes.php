@@ -7,6 +7,8 @@
  */
 namespace Magento\SalesRule\Model\Plugin;
 
+use Magento\Framework\StoreManagerInterface;
+use Magento\Customer\Model\Session;
 use Magento\SalesRule\Model\Resource\Rule;
 
 class QuoteConfigProductAttributes

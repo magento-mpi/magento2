@@ -34,7 +34,7 @@ class Image extends \Magento\Framework\Data\Form\Element\Image
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        $data = []
+        $data = array()
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $urlBuilder, $data);

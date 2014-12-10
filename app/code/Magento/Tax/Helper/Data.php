@@ -7,21 +7,21 @@
  */
 namespace Magento\Tax\Helper;
 
-use Magento\Customer\Model\Address;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
-use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
-use Magento\Sales\Model\EntityInterface;
-use Magento\Sales\Model\Order\Creditmemo;
-use Magento\Sales\Model\Order\Invoice;
 use Magento\Store\Model\Store;
-use Magento\Tax\Api\Data\OrderTaxDetailsItemInterface;
+use Magento\Customer\Model\Address;
+use Magento\Tax\Model\Config;
 use Magento\Tax\Api\Data\QuoteDetailsDataBuilder;
 use Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder;
 use Magento\Tax\Api\Data\TaxClassKeyDataBuilder;
-use Magento\Tax\Api\OrderTaxManagementInterface;
 use Magento\Tax\Api\TaxCalculationInterface;
-use Magento\Tax\Model\Config;
+use Magento\Customer\Model\Address\Converter as AddressConverter;
+use Magento\Customer\Model\Session as CustomerSession;
+use Magento\Tax\Api\OrderTaxManagementInterface;
+use Magento\Sales\Model\Order\Invoice;
+use Magento\Sales\Model\Order\Creditmemo;
+use Magento\Tax\Api\Data\OrderTaxDetailsItemInterface;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Catalog data helper

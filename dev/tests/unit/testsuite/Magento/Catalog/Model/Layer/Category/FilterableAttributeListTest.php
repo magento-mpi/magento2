@@ -33,14 +33,14 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->collectionFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', ['create'], [], '', false);
+            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', array('create'), array(), '', false);
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Framework\StoreManagerInterface', [], [], '', false
+            '\Magento\Framework\StoreManagerInterface', array(), array(), '', false
         );
 
         $this->layerMock = $this->getMock(
-            'Magento\Catalog\Model\Layer\Search', [], [], '', false
+            'Magento\Catalog\Model\Layer\Search', array(), array(), '', false
         );
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Layer\Resolver $layerResolver */
@@ -57,39 +57,40 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
             $this->storeManagerMock,
             $layerResolver
         );
+
     }
 
     public function testGetListWithEmptyIds()
     {
         $productCollectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', [], [], '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollectionMock));
-        $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue([]));
+        $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue(array()));
 
         $this->collectionFactoryMock->expects($this->never())->method('create');
-        $this->assertEquals([], $this->model->getList());
+        $this->assertEquals(array(), $this->model->getList());
     }
 
     public function testGetList()
     {
         $productCollectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', [], [], '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollectionMock));
-        $setIds = [2, 3, 5];
+        $setIds = array(2, 3, 5);
         $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue($setIds));
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $storeId = 4321;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection', [], [], '', false
+            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection', array(), array(), '', false
         );
         $this->collectionFactoryMock
             ->expects($this->once())

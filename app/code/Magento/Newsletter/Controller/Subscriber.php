@@ -11,11 +11,11 @@
  */
 namespace Magento\Newsletter\Controller;
 
-use Magento\Customer\Model\Session;
-use Magento\Customer\Model\Url as CustomerUrl;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Customer\Model\Session;
 use Magento\Newsletter\Model\SubscriberFactory;
+use Magento\Customer\Model\Url as CustomerUrl;
 
 class Subscriber extends \Magento\Framework\App\Action\Action
 {

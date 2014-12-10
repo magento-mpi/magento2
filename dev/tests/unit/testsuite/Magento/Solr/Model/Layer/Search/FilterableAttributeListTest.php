@@ -40,29 +40,29 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->collectionFactoryMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
 
         $this->storeManagerMock = $this->getMock(
             '\Magento\Framework\StoreManagerInterface',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
 
         $this->layerMock = $this->getMock(
             '\Magento\Catalog\Model\Layer\Search',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
 
-        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', [], [], '', false);
+        $this->helperMock = $this->getMock('\Magento\Solr\Helper\Data', array(), array(), '', false);
 
         $this->model = new \Magento\Solr\Model\Layer\Search\FilterableAttributeList(
             $this->collectionFactoryMock,
@@ -70,23 +70,24 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
             $this->layerMock,
             $this->helperMock
         );
+
     }
 
     public function testGetListWithEmptyIds()
     {
         $productCollectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollectionMock));
-        $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue([]));
+        $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue(array()));
 
         $this->collectionFactoryMock->expects($this->never())->method('create');
-        $this->assertEquals([], $this->model->getList());
+        $this->assertEquals(array(), $this->model->getList());
     }
 
     public function testGetList()
@@ -94,21 +95,21 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         //retriving set ids
         $productCollectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection') //+
             ->will($this->returnValue($productCollectionMock));
-        $setIds = [2, 3, 5];
+        $setIds = array(2, 3, 5);
         $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue($setIds));
 
         // creating attribute collection
         $collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Attribute\Collection',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
@@ -127,7 +128,7 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
         $collectionMock->expects($this->once())->method('removePriceFilter');
 
         //store mocks for collection chain
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeId = 4321;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));

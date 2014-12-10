@@ -7,7 +7,7 @@
  */
 namespace Magento\Catalog\Model\Product\Media;
 
-use Magento\Catalog\Model\Product;
+use \Magento\Catalog\Model\Product;
 
 class AttributeManagementTest extends \PHPUnit_Framework_TestCase
 {
@@ -35,14 +35,14 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
     {
         $this->factoryMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory',
-            ['create'],
-            [],
+            array('create'),
+            array(),
             '',
             false
         );
         $this->storeId = 1;
         $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
         $storeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue($this->storeId));
@@ -59,13 +59,13 @@ class AttributeManagementTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $attributeSetName = 'Default Attribute Set';
-        $expectedResult = [
+        $expectedResult = array(
             $this->getMock('\Magento\Catalog\Api\Data\ProductAttributeInterface'),
-        ];
+        );
         $collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Attribute\Collection',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );

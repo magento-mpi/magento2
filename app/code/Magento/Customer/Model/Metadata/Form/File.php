@@ -9,10 +9,10 @@
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
-use Magento\Framework\Api\ArrayObjectSearch;
-use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\File\UploaderFactory;
 use Magento\Framework\Filesystem;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Api\ArrayObjectSearch;
 
 class File extends AbstractData
 {
@@ -91,13 +91,13 @@ class File extends AbstractData
 
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
-            $value = [];
+            $value = array();
             if (strpos($this->_requestScope, '/') !== false) {
                 $scopes = explode('/', $this->_requestScope);
                 $mainScope = array_shift($scopes);
             } else {
                 $mainScope = $this->_requestScope;
-                $scopes = [];
+                $scopes = array();
             }
 
             if (!empty($_FILES[$mainScope])) {
@@ -106,7 +106,7 @@ class File extends AbstractData
                         if (isset($scopeData[$scopeName])) {
                             $scopeData = $scopeData[$scopeName];
                         } else {
-                            $scopeData[$scopeName] = [];
+                            $scopeData[$scopeName] = array();
                         }
                     }
 
@@ -115,13 +115,13 @@ class File extends AbstractData
                     }
                 }
             } else {
-                $value = [];
+                $value = array();
             }
         } else {
             if (isset($_FILES[$attrCode])) {
                 $value = $_FILES[$attrCode];
             } else {
-                $value = [];
+                $value = array();
             }
         }
 
@@ -152,7 +152,7 @@ class File extends AbstractData
             $extensions = explode(',', $fileExtensions);
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
-                return [__('"%1" is not a valid file extension.', $extension)];
+                return array(__('"%1" is not a valid file extension.', $extension));
             }
         }
 
@@ -164,7 +164,7 @@ class File extends AbstractData
         }
 
         if (!$this->_isUploadedFile($value['tmp_name'])) {
-            return [__('"%1" is not a valid file.', $label)];
+            return array(__('"%1" is not a valid file.', $label));
         }
 
         $maxFileSize = ArrayObjectSearch::getArrayElementByName(
@@ -174,11 +174,11 @@ class File extends AbstractData
         if (!is_null($maxFileSize)) {
             $size = $value['size'];
             if ($maxFileSize < $size) {
-                return [__('"%1" exceeds the allowed file size.', $label)];
+                return array(__('"%1" exceeds the allowed file size.', $label));
             }
         }
 
-        return [];
+        return array();
     }
 
     /**
@@ -203,7 +203,7 @@ class File extends AbstractData
             return true;
         }
 
-        $errors = [];
+        $errors = array();
         $attribute = $this->getAttribute();
         $label = $attribute->getStoreLabel();
 
@@ -297,7 +297,7 @@ class File extends AbstractData
         if ($this->_value) {
             switch ($format) {
                 case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                    $output = ['value' => $this->_value, 'url_key' => $this->_coreData->urlEncode($this->_value)];
+                    $output = array('value' => $this->_value, 'url_key' => $this->_coreData->urlEncode($this->_value));
                     break;
             }
         }

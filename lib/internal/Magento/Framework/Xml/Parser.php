@@ -22,7 +22,7 @@ class Parser
     /**
      * @var array
      */
-    protected $_content = [];
+    protected $_content = array();
 
     /**
      *
@@ -78,7 +78,7 @@ class Parser
         if (!$currentNode) {
             $currentNode = $this->getDom();
         }
-        $content = [];
+        $content = array();
         foreach ($currentNode->childNodes as $node) {
             switch ($node->nodeType) {
                 case XML_ELEMENT_NODE:
@@ -87,17 +87,17 @@ class Parser
                     if ($node->hasChildNodes()) {
                         $value = $this->_xmlToArray($node);
                     }
-                    $attributes = [];
+                    $attributes = array();
                     if ($node->hasAttributes()) {
                         foreach ($node->attributes as $attribute) {
-                            $attributes += [$attribute->name => $attribute->value];
+                            $attributes += array($attribute->name => $attribute->value);
                         }
-                        $value = ['_value' => $value, '_attribute' => $attributes];
+                        $value = array('_value' => $value, '_attribute' => $attributes);
                     }
                     if (isset($content[$node->nodeName])) {
                         if (!isset($content[$node->nodeName][0]) || !is_array($content[$node->nodeName][0])) {
                             $oldValue = $content[$node->nodeName];
-                            $content[$node->nodeName] = [];
+                            $content[$node->nodeName] = array();
                             $content[$node->nodeName][] = $oldValue;
                         }
                         $content[$node->nodeName][] = $value;

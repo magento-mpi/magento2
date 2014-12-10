@@ -10,6 +10,7 @@
 
 namespace Magento\Webapi\Controller;
 
+
 use Magento\TestFramework\Helper\ObjectManager;
 
 class RequestTest extends \PHPUnit_Framework_TestCase
@@ -26,6 +27,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+
         $objectManager = new ObjectManager($this);
         $this->cookieManager = $this->getMock('Magento\Framework\Stdlib\CookieManagerInterface');
 
@@ -47,4 +49,4 @@ class RequestTest extends \PHPUnit_Framework_TestCase
 
         $this->request->getCookie($key, $default);
     }
-}
+} 

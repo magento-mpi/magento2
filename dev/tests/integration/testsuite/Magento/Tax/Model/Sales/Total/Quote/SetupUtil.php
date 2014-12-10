@@ -7,8 +7,8 @@
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
-use Magento\Tax\Model\Calculation;
 use Magento\Tax\Model\Config;
+use Magento\Tax\Model\Calculation;
 
 class SetupUtil
 {
@@ -132,7 +132,7 @@ class SetupUtil
     protected $defaultShoppingCartPriceRule = [
         'name' => 'Shopping Cart Rule',
         'is_active' => 1,
-        'customer_group_ids' => [\Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL],
+        'customer_group_ids' => array(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::CUST_GROUP_ALL),
         'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON,
         'simple_action' => 'by_percent',
         'discount_amount' => 40,
@@ -348,7 +348,7 @@ class SetupUtil
         //The default customer tax class id is used to calculate store tax rate
         $customerClassIds = [
             $this->customerTaxClasses[self::CUSTOMER_TAX_CLASS_1],
-            $this->getDefaultCustomerTaxClassId(),
+            $this->getDefaultCustomerTaxClassId()
         ];
 
         //By default create tax rule that covers all product tax classes except SHIPPING_TAX_CLASS
@@ -386,7 +386,7 @@ class SetupUtil
                 ->save()
                 ->getId();
         } else {
-            foreach ($overrides[self::TAX_RULE_OVERRIDES] as $taxRuleOverrideData) {
+            foreach ($overrides[self::TAX_RULE_OVERRIDES] as $taxRuleOverrideData ) {
                 //convert code to id for productTaxClass, customerTaxClass and taxRate
                 $taxRuleOverrideData = $this->processTaxRuleOverrides($taxRuleOverrideData, $taxRateIds);
                 $mergedTaxRuleData = array_merge($taxRuleDefaultData, $taxRuleOverrideData);
@@ -471,7 +471,7 @@ class SetupUtil
                     'use_config_manage_stock' => 1,
                     'qty' => 100,
                     'is_qty_decimal' => 0,
-                    'is_in_stock' => 1,
+                    'is_in_stock' => 1
                 ]
             )->setMetaTitle('meta title')
             ->setMetaKeyword('meta keyword')
@@ -665,7 +665,7 @@ class SetupUtil
         //create shopping cart rules if necessary
         if (!empty($quoteData['shopping_cart_rules'])) {
             foreach ($quoteData['shopping_cart_rules'] as $ruleData) {
-                $ruleData['customer_group_ids'] = [$customer->getGroupId()];
+                $ruleData['customer_group_ids'] = array($customer->getGroupId());
                 $this->createCartRule($ruleData);
             }
         }

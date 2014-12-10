@@ -9,12 +9,12 @@
 namespace Magento\Framework\View\File\Collector\Override;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\Exception;
+use Magento\Framework\View\File\CollectorInterface;
+use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
-use Magento\Framework\View\Design\ThemeInterface;
-use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
+use Magento\Framework\Exception;
 
 /**
  * Source of view files that explicitly override modular files of ancestor themes
@@ -73,17 +73,17 @@ class ThemeModular implements CollectorInterface
         $files = $this->themesDirectory->search($searchPattern);
 
         if (empty($files)) {
-            return [];
+            return array();
         }
 
-        $themes = [];
+        $themes = array();
         $currentTheme = $theme;
         while ($currentTheme = $currentTheme->getParentTheme()) {
             $themes[$currentTheme->getCode()] = $currentTheme;
         }
-        $result = [];
+        $result = array();
         $pattern = "#/(?<module>[^/]+)/{$this->subDir}(?<themeName>[^/]+)/"
-            . strtr(preg_quote($filePath), ['\*' => '[^/]+']) . "$#i";
+            . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "$#i";
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {

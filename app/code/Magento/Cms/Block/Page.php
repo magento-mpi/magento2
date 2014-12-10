@@ -59,7 +59,7 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         \Magento\Framework\StoreManagerInterface $storeManager,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Framework\View\Page\Config $pageConfig,
-        array $data = []
+        array $data = array()
     ) {
         parent::__construct($context, $data);
         // used singleton (instead factory) because there exist dependencies on \Magento\Cms\Helper\Page
@@ -115,13 +115,13 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
         ) {
             $breadcrumbs->addCrumb(
                 'home',
-                [
+                array(
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                ]
+                )
             );
-            $breadcrumbs->addCrumb('cms_page', ['label' => $page->getTitle(), 'title' => $page->getTitle()]);
+            $breadcrumbs->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
         }
 
         $this->pageConfig->addBodyClass('cms-' . $page->getIdentifier());
@@ -158,6 +158,6 @@ class Page extends \Magento\Framework\View\Element\AbstractBlock implements \Mag
      */
     public function getIdentities()
     {
-        return [\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId()];
+        return array(\Magento\Cms\Model\Page::CACHE_TAG . '_' . $this->getPage()->getId());
     }
 }

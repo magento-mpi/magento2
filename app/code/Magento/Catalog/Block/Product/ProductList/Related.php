@@ -8,6 +8,7 @@
 namespace Magento\Catalog\Block\Product\ProductList;
 
 use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Framework\View\Element\AbstractBlock;
 
 /**
  * Catalog product related items block
@@ -54,7 +55,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        array $data = []
+        array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -115,7 +116,7 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct implements 
      */
     public function getIdentities()
     {
-        $identities = [];
+        $identities = array();
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

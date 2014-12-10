@@ -7,16 +7,16 @@
  */
 namespace Magento\Search\Model;
 
+use Magento\Search\Model\Resource\Query\Collection as QueryCollection;
+use Magento\Search\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
+use Magento\Search\Model\SearchCollectionInterface as Collection;
+use Magento\Search\Model\SearchCollectionFactory as CollectionFactory;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Registry;
 use Magento\Framework\StoreManagerInterface;
-use Magento\Search\Model\Resource\Query\Collection as QueryCollection;
-use Magento\Search\Model\Resource\Query\CollectionFactory as QueryCollectionFactory;
-use Magento\Search\Model\SearchCollectionFactory as CollectionFactory;
-use Magento\Search\Model\SearchCollectionInterface as Collection;
 
 /**
  * Search query model
@@ -115,7 +115,7 @@ class Query extends AbstractModel implements QueryInterface
         ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
-        array $data = []
+        array $data = array()
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_searchCollectionFactory = $searchCollectionFactory;

@@ -8,14 +8,14 @@
 namespace Magento\Customer\Model;
 
 use Magento\Customer\Api\CustomerMetadataInterface;
-use Magento\Customer\Api\Data\CustomerDataBuilder;
 use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Model\Config\Share;
-use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Customer\Model\Resource\Address\CollectionFactory;
 use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
-use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Model\Data\Customer as CustomerData;
 use Magento\Framework\Reflection\DataObjectProcessor;
+use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * Customer model
@@ -100,7 +100,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      *
      * @var array
      */
-    protected $_errors = [];
+    protected $_errors = array();
 
     /**
      * Assoc array of customer attributes
@@ -242,7 +242,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         CustomerDataBuilder $customerDataBuilder,
         DataObjectProcessor $dataObjectProcessor,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = []
+        array $data = array()
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;
@@ -369,7 +369,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         }
         $this->_eventManager->dispatch(
             'customer_customer_authenticated',
-            ['model' => $this, 'password' => $password]
+            array('model' => $this, 'password' => $password)
         );
 
         return true;
@@ -418,7 +418,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $origDataObject = $this->customerDataBuilder->populateWithArray($customerOrigData)->create();
         $this->_eventManager->dispatch(
             'customer_save_after_data_object',
-            ['customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject]
+            array('customer_data_object' => $dataObject, 'orig_customer_data_object' => $origDataObject)
         );
         return parent::afterSave();
     }
@@ -683,7 +683,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getPrimaryAddressIds()
     {
-        $ids = [];
+        $ids = array();
         if ($this->getDefaultBilling()) {
             $ids[] = $this->getDefaultBilling();
         }
@@ -700,7 +700,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getPrimaryAddresses()
     {
-        $addresses = [];
+        $addresses = array();
         $primaryBilling = $this->getPrimaryBillingAddress();
         if ($primaryBilling) {
             $addresses[] = $primaryBilling;
@@ -726,7 +726,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function getAdditionalAddresses()
     {
-        $addresses = [];
+        $addresses = array();
         $primatyIds = $this->getPrimaryAddressIds();
         foreach ($this->getAddressesCollection() as $address) {
             if (!in_array($address->getId(), $primatyIds)) {
@@ -774,7 +774,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             $types[$type],
             self::XML_PATH_REGISTER_EMAIL_IDENTITY,
-            ['customer' => $this, 'back_url' => $backUrl, 'store' => $this->getStore()],
+            array('customer' => $this, 'back_url' => $backUrl, 'store' => $this->getStore()),
             $storeId
         );
 
@@ -821,7 +821,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             self::XML_PATH_REMIND_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            ['customer' => $this, 'store' => $this->getStore()],
+            array('customer' => $this, 'store' => $this->getStore()),
             $this->getStoreId()
         );
 
@@ -837,13 +837,13 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      * @param int|null $storeId
      * @return $this
      */
-    protected function _sendEmailTemplate($template, $sender, $templateParams = [], $storeId = null)
+    protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
         /** @var \Magento\Framework\Mail\TransportInterface $transport */
         $transport = $this->_transportBuilder->setTemplateIdentifier(
             $this->_scopeConfig->getValue($template, \Magento\Store\Model\ScopeInterface::SCOPE_STORE, $storeId)
         )->setTemplateOptions(
-            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
             $templateParams
         )->setFrom(
@@ -872,7 +872,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
         $this->_sendEmailTemplate(
             self::XML_PATH_FORGOT_EMAIL_TEMPLATE,
             self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            ['customer' => $this, 'store' => $this->getStore()],
+            array('customer' => $this, 'store' => $this->getStore()),
             $storeId
         );
 
@@ -901,9 +901,9 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
                 $storeId
             )
         )->setTemplateOptions(
-            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
+            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
         )->setTemplateVars(
-            ['customer' => $this, 'store' => $this->getStore()]
+            array('customer' => $this, 'store' => $this->getStore())
         )->setFrom(
             $this->_scopeConfig->getValue(
                 self::XML_PATH_FORGOT_EMAIL_IDENTITY,
@@ -971,7 +971,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $ids = $this->_getData('shared_store_ids');
         if ($ids === null) {
-            $ids = [];
+            $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
                 $ids = $this->_storeManager->getWebsite($this->getWebsiteId())->getStoreIds();
             } else {
@@ -994,7 +994,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
     {
         $ids = $this->_getData('shared_website_ids');
         if ($ids === null) {
-            $ids = [];
+            $ids = array();
             if ((bool)$this->getSharingConfig()->isWebsiteScope()) {
                 $ids[] = $this->getWebsiteId();
             } else {
@@ -1029,7 +1029,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function validate()
     {
-        $errors = [];
+        $errors = array();
         if (!\Zend_Validate::is(trim($this->getFirstname()), 'NotEmpty')) {
             $errors[] = __('The first name cannot be empty.');
         }
@@ -1117,7 +1117,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function resetErrors()
     {
-        $this->_errors = [];
+        $this->_errors = array();
         return $this;
     }
 
@@ -1153,7 +1153,7 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
      */
     public function reset()
     {
-        $this->setData([]);
+        $this->setData(array());
         $this->setOrigData();
         $this->_attributes = null;
 
@@ -1383,11 +1383,11 @@ class Customer extends \Magento\Framework\Model\AbstractExtensibleModel
          * 'confirmed'    welcome email, when confirmation is enabled
          * 'confirmation' email with confirmation link
          */
-        $types = [
+        $types = array(
             'registered' => self::XML_PATH_REGISTER_EMAIL_TEMPLATE,
             'confirmed' => self::XML_PATH_CONFIRMED_EMAIL_TEMPLATE,
             'confirmation' => self::XML_PATH_CONFIRM_EMAIL_TEMPLATE,
-        ];
+        );
         return $types;
     }
 }

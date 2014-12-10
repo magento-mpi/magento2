@@ -33,7 +33,7 @@ $review
     )
     ->setStores([
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface')
-            ->getStore()->getId(),
+            ->getStore()->getId()
     ])
     ->save();
 

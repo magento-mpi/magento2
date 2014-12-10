@@ -61,35 +61,35 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $objectManager = new ObjectManager($this);
 
         $this->connection = $this->getMock('\Magento\Framework\DB\Adapter\AdapterInterface');
-        $this->resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
+        $this->resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
         $this->resource->expects($this->any())->method('getConnection')
             ->with('default')
             ->will($this->returnValue($this->connection));
         $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
-        $this->store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->store->expects($this->any())->method('getId')->will($this->returnValue('store_id_1'));
-        $this->storeManager->expects($this->any())->method('getStores')->will($this->returnValue([$this->store]));
+        $this->storeManager->expects($this->any())->method('getStores')->will($this->returnValue(array($this->store)));
         $this->productIndexerHelper = $this->getMock(
-            'Magento\Catalog\Helper\Product\Flat\Indexer', [], [], '', false
+            'Magento\Catalog\Helper\Product\Flat\Indexer', array(), array(), '', false
         );
         $this->flatItemEraser = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Flat\Action\Eraser', [], [], '', false
+            '\Magento\Catalog\Model\Indexer\Product\Flat\Action\Eraser', array(), array(), '', false
         );
         $this->flatItemWriter = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Flat\Action\Indexer', [], [], '', false
+            '\Magento\Catalog\Model\Indexer\Product\Flat\Action\Indexer', array(), array(), '', false
         );
         $this->flatTableBuilder = $this->getMock(
-            '\Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder', [], [], '', false
+            '\Magento\Catalog\Model\Indexer\Product\Flat\FlatTableBuilder', array(), array(), '', false
         );
 
-        $this->model = $objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Action\Row', [
+        $this->model = $objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Action\Row', array(
             'resource' => $this->resource,
             'storeManager' => $this->storeManager,
             'productHelper' => $this->productIndexerHelper,
             'flatItemEraser' => $this->flatItemEraser,
             'flatItemWriter' => $this->flatItemWriter,
             'flatTableBuilder' => $this->flatTableBuilder
-        ]);
+        ));
     }
 
     /**
@@ -108,7 +108,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->any())->method('isTableExists')->with('store_flat_table')
             ->will($this->returnValue(false));
         $this->flatItemEraser->expects($this->never())->method('removeDeletedProducts');
-        $this->flatTableBuilder->expects($this->once())->method('build')->with('store_id_1', ['product_id_1']);
+        $this->flatTableBuilder->expects($this->once())->method('build')->with('store_id_1', array('product_id_1'));
         $this->flatItemWriter->expects($this->once())->method('write')->with('store_id_1', 'product_id_1');
         $this->model->execute('product_id_1');
     }
@@ -120,7 +120,8 @@ class RowTest extends \PHPUnit_Framework_TestCase
         $this->connection->expects($this->any())->method('isTableExists')->with('store_flat_table')
             ->will($this->returnValue(true));
         $this->flatItemEraser->expects($this->once())->method('removeDeletedProducts');
-        $this->flatTableBuilder->expects($this->never())->method('build')->with('store_id_1', ['product_id_1']);
+        $this->flatTableBuilder->expects($this->never())->method('build')->with('store_id_1', array('product_id_1'));
         $this->model->execute('product_id_1');
     }
 }
+

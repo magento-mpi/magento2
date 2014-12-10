@@ -12,17 +12,17 @@
  */
 namespace Magento\CatalogPermissions\Model;
 
+use Magento\Framework\App\Action\Action;
+use Magento\Framework\App\ActionFlag;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Model\Session;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\App\ActionFlag;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as EventObserver;
-use Magento\Framework\StoreManagerInterface;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\Quote\Item;
 
@@ -47,14 +47,14 @@ class Observer
      *
      * @var array
      */
-    protected $_queue = [];
+    protected $_queue = array();
 
     /**
      * Permissions cache for products in cart
      *
      * @var array
      */
-    protected $_permissionsQuoteCache = [];
+    protected $_permissionsQuoteCache = array();
 
     /**
      * Catalog permission helper
@@ -147,7 +147,7 @@ class Observer
             return $this;
         }
 
-        $permissions = [];
+        $permissions = array();
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
         $categoryIds = $categoryCollection->getColumnValues('entity_id');
 
@@ -218,6 +218,7 @@ class Observer
 
         $this->_applyPermissionsOnCategory($category);
         if ($observer->getEvent()->getCategory()->getIsHidden()) {
+
             $observer->getEvent()->getControllerAction()->getResponse()->setRedirect(
                 $this->_catalogPermData->getLandingPageUrl()
             );
@@ -260,11 +261,11 @@ class Observer
         foreach ($collection as $product) {
             if ($collection->hasFlag('product_children')) {
                 $product->addData(
-                    [
+                    array(
                         'grant_catalog_category_view' => -1,
                         'grant_catalog_product_price' => -1,
-                        'grant_checkout_items' => -1,
-                    ]
+                        'grant_checkout_items' => -1
+                    )
                 );
             }
             $this->_applyPermissionsOnProduct($product);
@@ -362,7 +363,7 @@ class Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)
     {
-        $productIds = [];
+        $productIds = array();
 
         foreach ($quote->getAllItems() as $item) {
             if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) && $item->getProductId()) {
@@ -384,11 +385,11 @@ class Observer
             }
         }
 
-        $defaultGrants = [
+        $defaultGrants = array(
             'grant_catalog_category_view' => $this->_catalogPermData->isAllowedCategoryView(),
             'grant_catalog_product_price' => $this->_catalogPermData->isAllowedProductPrice(),
-            'grant_checkout_items' => $this->_catalogPermData->isAllowedCheckoutItems(),
-        ];
+            'grant_checkout_items' => $this->_catalogPermData->isAllowedCheckoutItems()
+        );
 
         foreach ($quote->getAllItems() as $item) {
             if ($item->getProductId()) {
@@ -475,6 +476,7 @@ class Observer
         ) {
             $product->setIsHidden(true);
         }
+
 
         if ($product->getData(
             'grant_catalog_product_price'

@@ -9,10 +9,10 @@ namespace Magento\Catalog\Model\Resource\Category\Flat;
 
 use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\Core\Model\EntityFactory;
-use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Event\ManagerInterface;
-use Magento\Framework\Logger;
+use Magento\Framework\Data\Collection\Db\FetchStrategyInterface;
 use Magento\Framework\Model\Resource\Db\AbstractDb;
+use Magento\Framework\Logger;
 use Magento\Framework\StoreManagerInterface;
 
 /**
@@ -88,8 +88,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            ['main_table' => $this->getResource()->getMainStoreTable($this->getStoreId())],
-            ['entity_id', 'level', 'path', 'position', 'is_active', 'is_anchor']
+            array('main_table' => $this->getResource()->getMainStoreTable($this->getStoreId())),
+            array('entity_id', 'level', 'path', 'position', 'is_active', 'is_anchor')
         );
         return $this;
     }
@@ -106,7 +106,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (empty($categoryIds)) {
                 $condition = '';
             } else {
-                $condition = ['in' => $categoryIds];
+                $condition = array('in' => $categoryIds);
             }
         } elseif (is_numeric($categoryIds)) {
             $condition = $categoryIds;
@@ -115,7 +115,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (empty($ids)) {
                 $condition = $categoryIds;
             } else {
-                $condition = ['in' => $ids];
+                $condition = array('in' => $ids);
             }
         }
         $this->addFieldToFilter('entity_id', $condition);
@@ -129,7 +129,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _beforeLoad()
     {
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_before', [$this->_eventObject => $this]);
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_before', array($this->_eventObject => $this));
         return parent::_beforeLoad();
     }
 
@@ -140,7 +140,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     protected function _afterLoad()
     {
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', [$this->_eventObject => $this]);
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
         return parent::_afterLoad();
     }
 
@@ -178,7 +178,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addParentPathFilter($parent)
     {
-        $this->addFieldToFilter('path', ['like' => "{$parent}/%"]);
+        $this->addFieldToFilter('path', array('like' => "{$parent}/%"));
         return $this;
     }
 
@@ -217,7 +217,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $this->addFieldToFilter('is_active', 1);
         $this->_eventManager->dispatch(
             $this->_eventPrefix . '_add_is_active_filter',
-            [$this->_eventObject => $this]
+            array($this->_eventObject => $this)
         );
         return $this;
     }
@@ -254,7 +254,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
                 // Joined columns
                 if ($column[2] !== null) {
-                    $expression = [$column[2] => $column[1]];
+                    $expression = array($column[2] => $column[1]);
                 } else {
                     $expression = $column[2];
                 }
@@ -266,7 +266,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         }
 
         if (!is_array($attribute)) {
-            $attribute = [$attribute];
+            $attribute = array($attribute);
         }
 
         $this->getSelect()->columns($attribute, 'main_table');
@@ -339,7 +339,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addPathsFilter($paths)
     {
         if (!is_array($paths)) {
-            $paths = [$paths];
+            $paths = array($paths);
         }
         $select = $this->getSelect();
         $orWhere = false;

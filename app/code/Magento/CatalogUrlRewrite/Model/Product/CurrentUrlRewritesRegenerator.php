@@ -9,13 +9,14 @@ namespace Magento\CatalogUrlRewrite\Model\Product;
 
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\Product;
-use Magento\CatalogUrlRewrite\Model\ObjectRegistry;
-use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
-use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
-use Magento\UrlRewrite\Model\OptionProvider;
-use Magento\UrlRewrite\Model\UrlFinderInterface;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Model\OptionProvider;
+use Magento\CatalogUrlRewrite\Model\ObjectRegistry;
+use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\CatalogUrlRewrite\Model\ProductUrlRewriteGenerator;
+use Magento\CatalogUrlRewrite\Model\ProductUrlPathGenerator;
 use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
+use Magento\Framework\StoreManagerInterface;
 
 class CurrentUrlRewritesRegenerator
 {

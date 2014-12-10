@@ -23,27 +23,27 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', ['isPriceGlobal'], [], '', false);
+        $this->_helper = $this->getMock('Magento\Catalog\Helper\Data', array('isPriceGlobal'), array(), '', false);
         $this->_helper->expects($this->any())->method('isPriceGlobal')->will($this->returnValue(true));
 
-        $currencyFactoryMock = $this->getMock('Magento\Directory\Model\CurrencyFactory', [], [], '', false);
-        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false);
-        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
+        $currencyFactoryMock = $this->getMock('Magento\Directory\Model\CurrencyFactory', array(), array(), '', false);
+        $storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface', array(), array(), '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
         $configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $groupManagement = $this->getMock('Magento\Customer\Api\GroupManagementInterface', [], [], '', false);
+        $groupManagement = $this->getMock('Magento\Customer\Api\GroupManagementInterface', array(), array(), '', false);
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Catalog\Model\Product\Attribute\Backend\Groupprice\AbstractGroupprice',
-            [
+            array(
                 'currencyFactory' => $currencyFactoryMock,
                 'storeManager' => $storeManagerMock,
                 'catalogData' => $this->_helper,
                 'config' => $configMock,
                 'catalogProductType' => $productTypeMock,
                 'groupManagement' => $groupManagement
-            ]
+            )
         );
-        $resource = $this->getMock('StdClass', ['getMainTable']);
+        $resource = $this->getMock('StdClass', array('getMainTable'));
         $resource->expects($this->any())->method('getMainTable')->will($this->returnValue('table'));
 
         $this->_model->expects($this->any())->method('_getResource')->will($this->returnValue($resource));
@@ -56,8 +56,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            ['getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'],
-            [],
+            array('getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'),
+            array(),
             '',
             false
         );
@@ -72,15 +72,15 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         $this->_model->setAttribute($attribute);
 
         $object = new \Magento\Framework\Object();
-        $object->setGroupPrice([['price_id' => 10]]);
+        $object->setGroupPrice(array(array('price_id' => 10)));
         $object->setId(555);
 
         $this->assertEquals(
-            [
-                'table' => [
-                    ['value_id' => $valueId, 'attribute_id' => $attributeId, 'entity_id' => $object->getId()],
-                ],
-            ],
+            array(
+                'table' => array(
+                    array('value_id' => $valueId, 'attribute_id' => $attributeId, 'entity_id' => $object->getId())
+                )
+            ),
             $this->_model->getAffectedFields($object)
         );
     }

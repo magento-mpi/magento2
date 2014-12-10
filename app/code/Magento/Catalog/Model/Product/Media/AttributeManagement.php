@@ -7,9 +7,9 @@
  */
 namespace Magento\Catalog\Model\Product\Media;
 
-use Magento\Catalog\Api\ProductMediaAttributeManagementInterface;
-use Magento\Catalog\Model\Product;
-use Magento\Framework\StoreManagerInterface;
+use \Magento\Catalog\Api\ProductMediaAttributeManagementInterface;
+use \Magento\Framework\StoreManagerInterface;
+use \Magento\Catalog\Model\Product;
 
 class AttributeManagement implements ProductMediaAttributeManagementInterface
 {

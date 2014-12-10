@@ -8,25 +8,25 @@
  */
 namespace Magento\Invitation\Controller\Customer\Account;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Customer\Model\Session;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Helper\Address;
+use Magento\Framework\UrlFactory;
+use Magento\Customer\Model\Metadata\FormFactory;
+use Magento\Newsletter\Model\SubscriberFactory;
+use Magento\Customer\Api\Data\RegionDataBuilder;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
-use Magento\Customer\Api\Data\RegionDataBuilder;
-use Magento\Customer\Helper\Address;
-use Magento\Customer\Model\CustomerExtractor;
-use Magento\Customer\Model\Metadata\FormFactory;
-use Magento\Customer\Model\Registration;
-use Magento\Customer\Model\Session;
 use Magento\Customer\Model\Url as CustomerUrl;
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Config\ScopeConfigInterface;
+use Magento\Customer\Model\Registration;
 use Magento\Framework\Escaper;
-use Magento\Framework\Model\Exception as FrameworkException;
-use Magento\Framework\StoreManagerInterface;
-use Magento\Framework\UrlFactory;
-use Magento\Invitation\Model\Invitation;
+use Magento\Customer\Model\CustomerExtractor;
 use Magento\Invitation\Model\InvitationProvider;
-use Magento\Newsletter\Model\SubscriberFactory;
+use Magento\Invitation\Model\Invitation;
+use Magento\Framework\Model\Exception as FrameworkException;
 use Magento\Store\Model\ScopeInterface;
 
 class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
@@ -122,10 +122,10 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $this->_redirect('customer/account/');
             return;
         } catch (FrameworkException $e) {
-            $_definedErrorCodes = [
+            $_definedErrorCodes = array(
                 Invitation::ERROR_CUSTOMER_EXISTS,
-                Invitation::ERROR_INVALID_DATA,
-            ];
+                Invitation::ERROR_INVALID_DATA
+            );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
@@ -152,6 +152,6 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirect('magento_invitation/customer_account/create', ['_current' => true, '_secure' => true]);
+        $this->_redirect('magento_invitation/customer_account/create', array('_current' => true, '_secure' => true));
     }
 }

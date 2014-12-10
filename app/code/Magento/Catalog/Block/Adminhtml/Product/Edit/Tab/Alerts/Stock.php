@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Sign up for an alert when the product price changes grid
  *
@@ -42,7 +43,7 @@ class Stock extends Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\ProductAlert\Model\StockFactory $stockFactory,
         \Magento\Catalog\Helper\Data $catalogData,
-        array $data = []
+        array $data = array()
     ) {
         $this->_stockFactory = $stockFactory;
         $this->_catalogData = $catalogData;
@@ -86,20 +87,20 @@ class Stock extends Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('firstname', ['header' => __('First Name'), 'index' => 'firstname']);
+        $this->addColumn('firstname', array('header' => __('First Name'), 'index' => 'firstname'));
 
-        $this->addColumn('lastname', ['header' => __('Last Name'), 'index' => 'lastname']);
+        $this->addColumn('lastname', array('header' => __('Last Name'), 'index' => 'lastname'));
 
-        $this->addColumn('email', ['header' => __('Email'), 'index' => 'email']);
+        $this->addColumn('email', array('header' => __('Email'), 'index' => 'email'));
 
-        $this->addColumn('add_date', ['header' => __('Subscribe Date'), 'index' => 'add_date', 'type' => 'date']);
+        $this->addColumn('add_date', array('header' => __('Subscribe Date'), 'index' => 'add_date', 'type' => 'date'));
 
         $this->addColumn(
             'send_date',
-            ['header' => __('Last Notified'), 'index' => 'send_date', 'type' => 'date']
+            array('header' => __('Last Notified'), 'index' => 'send_date', 'type' => 'date')
         );
 
-        $this->addColumn('send_count', ['header' => __('Send Count'), 'index' => 'send_count']);
+        $this->addColumn('send_count', array('header' => __('Send Count'), 'index' => 'send_count'));
 
         return parent::_prepareColumns();
     }
@@ -114,6 +115,6 @@ class Stock extends Extended
         if ($storeId) {
             $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
-        return $this->getUrl('catalog/product/alertsStockGrid', ['id' => $productId, 'store' => $storeId]);
+        return $this->getUrl('catalog/product/alertsStockGrid', array('id' => $productId, 'store' => $storeId));
     }
 }

@@ -61,19 +61,19 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', [], [], '', false);
+        $resource = $this->getMock('Magento\GiftRegistry\Model\Resource\Entity', array(), array(), '', false);
 
-        $this->_store = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->_store = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
             ->disableOriginalConstructor()
-            ->setMethods(['getStore'])
+            ->setMethods(array('getStore'))
             ->getMockForAbstractClass();
         $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
 
         $this->_transportBuilderMock = $this->getMock(
             '\Magento\Framework\Mail\Template\TransportBuilder',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
@@ -88,22 +88,22 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
         $this->_store->expects($this->any())->method('getId')->will($this->returnValue(1));
 
-        $appState = $this->getMock('Magento\Framework\App\State', [], [], '', false);
+        $appState = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
 
         $eventDispatcher = $this->getMock(
             'Magento\Framework\Event\ManagerInterface',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false,
             false
         );
-        $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface', [], [], '', false, false);
-        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $cacheManager = $this->getMock('Magento\Framework\App\CacheInterface', array(), array(), '', false, false);
+        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
         $actionValidatorMock = $this->getMock(
             '\Magento\Framework\Model\ActionValidator\RemoveAction',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
@@ -116,22 +116,22 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         );
         $giftRegistryData = $this->getMock(
             'Magento\GiftRegistry\Helper\Data',
-            ['getRegistryLink'],
-            [],
+            array('getRegistryLink'),
+            array(),
             '',
             false,
             false
         );
         $giftRegistryData->expects($this->any())->method('getRegistryLink')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
 
-        $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', [], [], '', false);
-        $this->itemModelMock = $this->getMock('Magento\GiftRegistry\Model\Item', [], [], '', false);
-        $type = $this->getMock('Magento\GiftRegistry\Model\Type', [], [], '', false);
+        $attributeConfig = $this->getMock('Magento\GiftRegistry\Model\Attribute\Config', array(), array(), '', false);
+        $this->itemModelMock = $this->getMock('Magento\GiftRegistry\Model\Item', array(), array(), '', false);
+        $type = $this->getMock('Magento\GiftRegistry\Model\Type', array(), array(), '', false);
         $this->stockRegistryMock = $this->getMock(
             'Magento\CatalogInventory\Model\StockRegistry',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false
         );
@@ -142,23 +142,23 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $session = $this->getMock('Magento\Customer\Model\Session', [], [], '', false);
+        $session = $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false);
 
-        $quoteRepository = $this->getMock('Magento\Sales\Model\QuoteRepository', [], [], '', false);
-        $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', [], [], '', false);
-        $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', [], [], '', false);
+        $quoteRepository = $this->getMock('Magento\Sales\Model\QuoteRepository', array(), array(), '', false);
+        $customerFactory = $this->getMock('Magento\Customer\Model\CustomerFactory', array(), array(), '', false);
+        $personFactory = $this->getMock('Magento\GiftRegistry\Model\PersonFactory', array(), array(), '', false);
         $this->itemFactoryMock = $this->getMock('Magento\GiftRegistry\Model\ItemFactory', ['create'], [], '', false);
-        $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', [], [], '', false);
-        $productRepository = $this->getMock('Magento\Catalog\Model\ProductRepository', [], [], '', false);
-        $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', [], [], '', false);
-        $escaper = $this->getMock('Magento\Framework\Escaper', ['escapeHtml'], [], '', false, false);
+        $addressFactory = $this->getMock('Magento\Customer\Model\AddressFactory', array(), array(), '', false);
+        $productRepository = $this->getMock('Magento\Catalog\Model\ProductRepository', array(), array(), '', false);
+        $dateFactory = $this->getMock('Magento\Framework\Stdlib\DateTime\DateTimeFactory', array(), array(), '', false);
+        $escaper = $this->getMock('Magento\Framework\Escaper', array('escapeHtml'), array(), '', false, false);
         $escaper->expects($this->any())->method('escapeHtml')->will($this->returnArgument(0));
-        $mathRandom = $this->getMock('Magento\Framework\Math\Random', [], [], '', false, false);
+        $mathRandom = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false, false);
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $inlineTranslate = $this->getMock(
             '\Magento\Framework\Translate\Inline\StateInterface',
-            [],
-            [],
+            array(),
+            array(),
             '',
             false,
             false
@@ -188,7 +188,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
             $inlineTranslate,
             $resource,
             null,
-            []
+            array()
         );
     }
 
@@ -221,44 +221,44 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     protected function _invalidSenderInfoDataProvider()
     {
-        return [
-            [
-                [
+        return array(
+            array(
+                array(
                     'sender_name' => null,
                     'sender_message' => 'Hello world',
                     'sender_email' => 'email',
-                    'recipients' => [],
-                ],
-                ['success' => false, 'error_message' => 'You need to enter sender data.'],
-            ],
-            [
-                [
+                    'recipients' => array()
+                ),
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
+            ),
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => null,
                     'sender_email' => 'email',
-                    'recipients' => [],
-                ],
-                ['success' => false, 'error_message' => 'You need to enter sender data.']
-            ],
-            [
-                [
+                    'recipients' => array()
+                ),
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
+            ),
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => null,
-                    'recipients' => [],
-                ],
-                ['success' => false, 'error_message' => 'You need to enter sender data.']
-            ],
-            [
-                [
+                    'recipients' => array()
+                ),
+                array('success' => false, 'error_message' => 'You need to enter sender data.')
+            ),
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'invalid_email',
-                    'recipients' => [],
-                ],
-                ['success' => false, 'error_message' => 'Please enter a valid sender email address.']
-            ]
-        ];
+                    'recipients' => array()
+                ),
+                array('success' => false, 'error_message' => 'Please enter a valid sender email address.')
+            )
+        );
     }
 
     /**
@@ -268,35 +268,35 @@ class EntityTest extends \PHPUnit_Framework_TestCase
      */
     protected function _invalidRecipientInfoDataProvider()
     {
-        return [
-            [
-                [
+        return array(
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'john.doe@example.com',
-                    'recipients' => [['email' => 'invalid_email']],
-                ],
-                ['success' => false, 'error_message' => 'Please enter a valid recipient email address.'],
-            ],
-            [
-                [
+                    'recipients' => array(array('email' => 'invalid_email'))
+                ),
+                array('success' => false, 'error_message' => 'Please enter a valid recipient email address.')
+            ),
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'john.doe@example.com',
-                    'recipients' => [['email' => 'john.doe@example.com', 'name' => '']],
-                ],
-                ['success' => false, 'error_message' => 'Please enter a recipient name.']
-            ],
-            [
-                [
+                    'recipients' => array(array('email' => 'john.doe@example.com', 'name' => ''))
+                ),
+                array('success' => false, 'error_message' => 'Please enter a recipient name.')
+            ),
+            array(
+                array(
                     'sender_name' => 'John Doe',
                     'sender_message' => 'Hello world',
                     'sender_email' => 'john.doe@example.com',
-                    'recipients' => [],
-                ],
-                ['success' => false, 'error_message' => null]
-            ]
-        ];
+                    'recipients' => array()
+                ),
+                array('success' => false, 'error_message' => null)
+            )
+        );
     }
 
     /**
@@ -318,7 +318,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $productId = 1;
         $items = [
             1 => ['note' => 'test', 'qty' => 5],
-            2 => ['note' => '', 'qty' => 1, 'delete' => 1],
+            2 => ['note' => '', 'qty' => 1, 'delete' => 1]
         ];
         $this->_model->setId($modelId);
         $modelMock = $this->getMock(
@@ -352,7 +352,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
         $modelId = 1;
         $productId = 1;
         $items = [
-            1 => ['note' => 'test', 'qty' => '.1'],
+            1 => ['note' => 'test', 'qty' => '.1']
         ];
         $this->_model->setId($modelId);
         $modelMock = $this->getMock(
@@ -380,7 +380,7 @@ class EntityTest extends \PHPUnit_Framework_TestCase
     {
         $modelId = 1;
         $items = [
-            1 => ['note' => 'test', 'qty' => '.1'],
+            1 => ['note' => 'test', 'qty' => '.1']
         ];
         $this->_model->setId($modelId);
         $modelMock = $this->getMock(

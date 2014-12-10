@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Sign up for an alert when the product price changes grid
  *
@@ -42,7 +43,7 @@ class Price extends Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\ProductAlert\Model\PriceFactory $priceFactory,
         \Magento\Catalog\Helper\Data $catalogData,
-        array $data = []
+        array $data = array()
     ) {
         $this->_priceFactory = $priceFactory;
         $this->_catalogData = $catalogData;
@@ -86,15 +87,15 @@ class Price extends Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('firstname', ['header' => __('First Name'), 'index' => 'firstname']);
+        $this->addColumn('firstname', array('header' => __('First Name'), 'index' => 'firstname'));
 
-        $this->addColumn('lastname', ['header' => __('Last Name'), 'index' => 'lastname']);
+        $this->addColumn('lastname', array('header' => __('Last Name'), 'index' => 'lastname'));
 
-        $this->addColumn('email', ['header' => __('Email'), 'index' => 'email']);
+        $this->addColumn('email', array('header' => __('Email'), 'index' => 'email'));
 
         $this->addColumn(
             'price',
-            [
+            array(
                 'header' => __('Price'),
                 'index' => 'price',
                 'type' => 'currency',
@@ -102,17 +103,17 @@ class Price extends Extended
                     \Magento\Directory\Model\Currency::XML_PATH_CURRENCY_BASE,
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
-            ]
+            )
         );
 
-        $this->addColumn('add_date', ['header' => __('Subscribe Date'), 'index' => 'add_date', 'type' => 'date']);
+        $this->addColumn('add_date', array('header' => __('Subscribe Date'), 'index' => 'add_date', 'type' => 'date'));
 
         $this->addColumn(
             'last_send_date',
-            ['header' => __('Last Notified'), 'index' => 'last_send_date', 'type' => 'date']
+            array('header' => __('Last Notified'), 'index' => 'last_send_date', 'type' => 'date')
         );
 
-        $this->addColumn('send_count', ['header' => __('Send Count'), 'index' => 'send_count']);
+        $this->addColumn('send_count', array('header' => __('Send Count'), 'index' => 'send_count'));
 
         return parent::_prepareColumns();
     }
@@ -127,6 +128,6 @@ class Price extends Extended
         if ($storeId) {
             $storeId = $this->_storeManager->getStore($storeId)->getId();
         }
-        return $this->getUrl('catalog/product/alertsPriceGrid', ['id' => $productId, 'store' => $storeId]);
+        return $this->getUrl('catalog/product/alertsPriceGrid', array('id' => $productId, 'store' => $storeId));
     }
 }

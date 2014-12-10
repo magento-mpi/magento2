@@ -42,7 +42,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
-        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->_storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects(
             $this->any()
         )->method(
@@ -50,7 +50,7 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($this->_storeMock)
         );
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
         $this->closureMock = function () {
             return 'Expected';
         };
@@ -80,4 +80,5 @@ class StoreCheckTest extends \PHPUnit_Framework_TestCase
             $this->_plugin->aroundDispatch($this->subjectMock, $this->closureMock, $this->requestMock)
         );
     }
+
 }

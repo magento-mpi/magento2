@@ -8,11 +8,11 @@
 
 namespace Magento\Catalog\Test\Handler\CatalogProductSimple;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\System\Config;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Handler\Curl as AbstractCurl;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 
 /**
@@ -28,70 +28,70 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
     protected $mappingData = [
         'links_purchased_separately' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'use_config_notify_stock_qty' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'is_shareable' => [
             'Yes' => 1,
             'No' => 0,
-            'Use config' => 2,
+            'Use config' => 2
         ],
         'required' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'manage_stock' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'use_config_manage_stock' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'is_virtual' => [
-            'Yes' => 1,
+            'Yes' => 1
         ],
         'use_config_enable_qty_increments' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'use_config_qty_increments' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'is_in_stock' => [
             'In Stock' => 1,
-            'Out of Stock' => 0,
+            'Out of Stock' => 0
         ],
         'visibility' => [
             'Not Visible Individually' => 1,
             'Catalog' => 2,
             'Search' => 3,
-            'Catalog, Search' => 4,
+            'Catalog, Search' => 4
         ],
         'website_ids' => [
-            'Main Website' => 1,
+            'Main Website' => 1
         ],
         'status' => [
             'Product offline' => 2,
-            'Product online' => 1,
+            'Product online' => 1
         ],
         'is_require' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'is_recurring' => [
             'Yes' => 1,
-            'No' => 0,
+            'No' => 0
         ],
         'msrp_display_actual_price_type' => [
             'Use config' => 0,
             'On Gesture' => 1,
             'In Cart' => 2,
-            'Before Order Confirmation' => 3,
+            'Before Order Confirmation' => 3
         ],
         'enable_qty_increments' => [
             'Yes' => 1,
@@ -108,17 +108,17 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'website' => [
             'name' => 'website_id',
             'data' => [
-                'All Websites [USD]' => 0,
-            ],
+                'All Websites [USD]' => 0
+            ]
         ],
         'customer_group' => [
             'name' => 'cust_group',
             'data' => [
                 'ALL GROUPS' => 32000,
                 'NOT LOGGED IN' => 0,
-                'General' => 1,
-            ],
-        ],
+                'General' => 1
+            ]
+        ]
     ];
 
     /**
@@ -130,22 +130,22 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         'website' => [
             'name' => 'website_id',
             'data' => [
-                'All Websites [USD]' => 0,
-            ],
+                'All Websites [USD]' => 0
+            ]
         ],
         'country_name' => [
             'name' => 'country',
             'data' => [
-                'United States' => 'US',
-            ],
+                'United States' => 'US'
+            ]
         ],
         'state_name' => [
             'name' => 'state',
             'data' => [
                 'California' => 12,
-                '*' => 0,
-            ],
-        ],
+                '*' => 0
+            ]
+        ]
     ];
 
     /**
@@ -310,7 +310,7 @@ class Curl extends AbstractCurl implements CatalogProductSimpleInterface
         if (isset($fields['quantity_and_stock_status']) && !is_array($fields['quantity_and_stock_status'])) {
             $fields['quantity_and_stock_status'] = [
                 'qty' => $fields['qty'],
-                'is_in_stock' => $fields['quantity_and_stock_status'],
+                'is_in_stock' => $fields['quantity_and_stock_status']
             ];
         }
 

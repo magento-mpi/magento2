@@ -81,7 +81,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        array $data = []
+        array $data = array()
     ) {
         $this->_design = $design;
         $this->_area = isset($data['area']) ? $data['area'] : null;
@@ -134,7 +134,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
                 $this->_store = $this->_storeManager->getStore()->getId();
             }
             $this->_designConfig = new \Magento\Framework\Object(
-                ['area' => $this->_area, 'store' => $this->_store]
+                array('area' => $this->_area, 'store' => $this->_store)
             );
         }
         return $this->_designConfig;
@@ -170,7 +170,7 @@ abstract class AbstractTemplate extends AbstractModel implements TemplateTypesIn
             // save current design settings
             $this->_emulatedDesignConfig = clone $this->getDesignConfig();
             if ($this->getDesignConfig()->getStore() != $storeId) {
-                $this->setDesignConfig(['area' => $area, 'store' => $storeId]);
+                $this->setDesignConfig(array('area' => $area, 'store' => $storeId));
                 $this->_applyDesignConfig();
             }
         } else {

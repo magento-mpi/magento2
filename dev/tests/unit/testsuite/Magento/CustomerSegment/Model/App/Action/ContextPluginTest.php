@@ -65,34 +65,34 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     {
         $this->customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            ['getCustomerId', '__wakeup'],
-            [],
+            array('getCustomerId', '__wakeup'),
+            array(),
             '',
             false
         );
-        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', [], [], '', false);
+        $this->httpContextMock = $this->getMock('Magento\Framework\App\Http\Context', array(), array(), '', false);
         $this->customerSegmentMock = $this->getMock(
             'Magento\CustomerSegment\Model\Customer',
-            ['getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'],
-            [],
+            array('getCustomerId', '__wakeup', 'getCustomerSegmentIdsForWebsite'),
+            array(),
             '',
             false
         );
         $this->storeManagerMock = $this->getMockForAbstractClass(
             'Magento\Framework\StoreManagerInterface',
-            [],
+            array(),
             '',
             false
         );
         $this->closureMock = function () {
             return 'ExpectedValue';
         };
-        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', [], [], '', false);
+        $this->subjectMock = $this->getMock('Magento\Framework\App\Action\Action', array(), array(), '', false);
         $this->requestMock = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->websiteMock = $this->getMock(
             'Magento\Store\Model\Website',
-            ['__wakeup', 'getId'],
-            [],
+            array('__wakeup', 'getId'),
+            array(),
             '',
             false
         );
@@ -111,7 +111,7 @@ class ContextPluginTest extends \PHPUnit_Framework_TestCase
     public function testAroundDispatch()
     {
         $customerId = 1;
-        $customerSegmentIds = [1, 2, 3];
+        $customerSegmentIds = array(1, 2, 3);
         $websiteId  = 1;
 
         $this->customerSessionMock->expects($this->exactly(2))

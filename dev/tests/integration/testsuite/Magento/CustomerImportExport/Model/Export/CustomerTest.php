@@ -32,7 +32,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExport()
     {
-        $expectedAttributes = [];
+        $expectedAttributes = array();
         /** @var $collection \Magento\Customer\Model\Resource\Attribute\Collection */
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Customer\Model\Resource\Attribute\Collection'
@@ -112,7 +112,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /**
          * Check that disabled attributes is not existed in attribute collection
          */
-        $existedAttributes = [];
+        $existedAttributes = array();
         /** @var $attribute \Magento\Customer\Model\Attribute */
         foreach ($collection as $attribute) {
             $existedAttributes[] = $attribute->getAttributeCode();
@@ -179,15 +179,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         /**
          * Prepare filter.asd
          */
-        $parameters = [
-            \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP => [
+        $parameters = array(
+            \Magento\ImportExport\Model\Export::FILTER_ELEMENT_GROUP => array(
                 'email' => 'example.com',
-                'created_at' => [$createdAtDate, ''],
+                'created_at' => array($createdAtDate, ''),
                 'store_id' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
                     'Magento\Framework\StoreManagerInterface'
-                )->getStore()->getId(),
-            ],
-        ];
+                )->getStore()->getId()
+            )
+        );
         $this->_model->setParameters($parameters);
         /** @var $customers \Magento\Customer\Model\Resource\Customer\Collection */
         $collection = $this->_model->filterEntityCollection(
@@ -210,7 +210,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function _csvToArray($content, $entityId = null)
     {
-        $data = ['header' => [], 'data' => []];
+        $data = array('header' => array(), 'data' => array());
 
         $lines = str_getcsv($content, "\n");
         foreach ($lines as $index => $line) {

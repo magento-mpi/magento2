@@ -21,9 +21,9 @@ $block->setTitle(
 )->setIsActive(
     1
 )->setStores(
-    [
+    array(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\StoreManagerInterface'
-        )->getStore()->getId(),
-    ]
+        )->getStore()->getId()
+    )
 )->save();

@@ -7,10 +7,11 @@
  */
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use Magento\Payment\Model\MethodList;
-use Magento\Sales\Model\QuoteRepository;
+use \Magento\Sales\Model\QuoteRepository;
+use \Magento\Framework\StoreManagerInterface;
 use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Converter as QuoteMethodConverter;
 use Magento\Checkout\Service\V1\Data\PaymentMethod\Converter as PaymentMethodConverter;
+use \Magento\Payment\Model\MethodList;
 
 /**
  * Payment method read service object.

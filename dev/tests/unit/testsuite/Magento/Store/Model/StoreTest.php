@@ -139,6 +139,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $defaultStore = $this->getMock('\Magento\Store\Model\Store', ['getId', '__wakeup'], [], '', false);
         $defaultStore->expects($this->atLeastOnce())->method('getId')->will($this->returnValue(5));
 
+
         $url = $this->getMockForAbstractClass('\Magento\Framework\UrlInterface');
         $url->expects($this->atLeastOnce())->method('setScope')->will($this->returnSelf());
         $url->expects($this->atLeastOnce())->method('getUrl')
@@ -208,7 +209,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                 \Magento\Framework\UrlInterface::URL_TYPE_WEB,
                 false,
                 'web/unsecure/base_url',
-                'http://domain.com/web/unsecure/base_url/',
+                'http://domain.com/web/unsecure/base_url/'
             ],
             [
                 \Magento\Framework\UrlInterface::URL_TYPE_LINK,
@@ -320,10 +321,12 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $config = $this->getMockForAbstractClass('\Magento\Framework\App\Config\ReinitableConfigInterface');
 
+
         $this->requestMock->expects($this->atLeastOnce())->method('getRequestString')->will($this->returnValue(''));
         $this->requestMock->expects($this->atLeastOnce())->method('getQuery')->will($this->returnValue([
-            'SID' => 'sid',
+            'SID' => 'sid'
         ]));
+
 
         $urlMock = $this->getMockForAbstractClass('\Magento\Framework\UrlInterface');
         $urlMock->expects($this->atLeastOnce())->method('setScope')->will($this->returnSelf());
@@ -523,7 +526,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
                             Store::XML_PATH_OFFLOADER_HEADER,
                             \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT,
                             null,
-                            'SSL_OFFLOADED',
+                            'SSL_OFFLOADED'
                         ],
                         [
                             Store::XML_PATH_SECURE_BASE_URL,

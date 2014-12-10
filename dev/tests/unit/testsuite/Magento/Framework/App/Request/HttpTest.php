@@ -43,8 +43,8 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
         $this->_routerListMock = $this->getMock(
             'Magento\Framework\App\Route\ConfigInterface\Proxy',
-            ['getRouteFrontName', 'getRouteByFrontName', '__wakeup'],
-            [],
+            array('getRouteFrontName', 'getRouteByFrontName', '__wakeup'),
+            array(),
             '',
             false
         );
@@ -97,6 +97,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSetPathInfoWithQueryPart()
     {
+
         $uri = 'http://test.com/node?queryValue';
         $this->_model = $this->_model = $this->getModel($uri);
         $this->_model->setPathInfo();
@@ -124,6 +125,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePathWithPath()
     {
+
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setBasePath('http:\/test.com\one/two');
         $this->assertEquals('http://test.com/one/two', $this->_model->getBasePath());
@@ -138,6 +140,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBaseUrlWithUrl()
     {
+
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setBaseUrl('http:\/test.com\one/two');
         $this->assertEquals('http://test.com/one/two', $this->_model->getBaseUrl());
@@ -152,7 +155,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testSetRouteNameWithRouter()
     {
-        $router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', [], [], '', false);
+        $router = $this->getMock('Magento\Framework\App\Router\AbstractRouter', array(), array(), '', false);
         $this->_routerListMock->expects($this->any())->method('getRouteFrontName')->will($this->returnValue($router));
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setRouteName('RouterName');
@@ -168,6 +171,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFrontName()
     {
+
         $uri = 'http://test.com/one/two';
         $this->_model = $this->getModel($uri);
         $this->assertEquals('one', $this->_model->getFrontName());
@@ -190,7 +194,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->_model = $this->getModel();
         $this->_model->setAlias('AliasName', 'AliasTarget');
-        $this->assertEquals(['AliasName' => 'AliasTarget'], $this->_model->getAliases());
+        $this->assertEquals(array('AliasName' => 'AliasTarget'), $this->_model->getAliases());
     }
 
     public function testGetAliasesWhenAliasAreEmpty()
@@ -202,7 +206,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedRouteNameWhenRequestedRouteIsSet()
     {
         $this->_model = $this->_model = $this->getModel();
-        $this->_model->setRoutingInfo(['requested_route' => 'ExpectedValue']);
+        $this->_model->setRoutingInfo(array('requested_route' => 'ExpectedValue'));
         $this->assertEquals('ExpectedValue', $this->_model->getRequestedRouteName());
     }
 
@@ -242,7 +246,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedControllerNameWithRequestedController()
     {
         $this->_model = $this->_model = $this->getModel();
-        $expected = ['requested_controller' => 'ControllerName'];
+        $expected = array('requested_controller' => 'ControllerName');
         $this->_model->setRoutingInfo($expected);
         $test = $this->_model->getRequestedControllerName();
         $this->assertEquals($expected['requested_controller'], $test);
@@ -260,7 +264,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     public function testGetRequestedActionNameWithRoutingInfo()
     {
         $this->_model = $this->_model = $this->getModel();
-        $this->_model->setRoutingInfo(['requested_action' => 'ExpectedValue']);
+        $this->_model->setRoutingInfo(array('requested_action' => 'ExpectedValue'));
         $this->assertEquals('ExpectedValue', $this->_model->getRequestedActionName());
     }
 
@@ -323,7 +327,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             'action_name' => 'ActionName',
             'controller_name' => 'ControllerName',
             'module_name' => 'ModuleName',
-            'route_name' => 'RouteName',
+            'route_name' => 'RouteName'
         ];
         $this->_model->setParams($beforeForwardInfo['params']);
         $this->_model->setActionName($beforeForwardInfo['action_name']);
@@ -449,49 +453,51 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function serverVariablesProvider()
     {
-        $returnValue = [];
-        $defaultServerData = [
+        $returnValue = array();
+        $defaultServerData = array(
             'SCRIPT_NAME' => 'index.php',
             'HTTP_HOST' => 'sample.host.com',
             'SERVER_PORT' => '80',
-            'HTTPS' => '1',
-        ];
+            'HTTPS' => '1'
+        );
 
         $secureUnusualPort = $noHttpsData = $httpsOffData = $noHostData = $noScriptNameData = $defaultServerData;
 
         unset($noScriptNameData['SCRIPT_NAME']);
-        $returnValue['no SCRIPT_NAME'] = [$noScriptNameData, 'http://localhost/'];
+        $returnValue['no SCRIPT_NAME'] = array($noScriptNameData, 'http://localhost/');
 
         unset($noHostData['HTTP_HOST']);
-        $returnValue['no HTTP_HOST'] = [$noHostData, 'http://localhost/'];
+        $returnValue['no HTTP_HOST'] = array($noHostData, 'http://localhost/');
 
         $httpsOffData['HTTPS'] = 'off';
-        $returnValue['HTTPS off'] = [$httpsOffData, 'http://sample.host.com/'];
+        $returnValue['HTTPS off'] = array($httpsOffData, 'http://sample.host.com/');
 
         unset($noHttpsData['HTTPS']);
-        $returnValue['no HTTPS'] = [$noHttpsData, 'http://sample.host.com/'];
+        $returnValue['no HTTPS'] = array($noHttpsData, 'http://sample.host.com/');
 
         $noHttpsNoServerPort = $noHttpsData;
         unset($noHttpsNoServerPort['SERVER_PORT']);
-        $returnValue['no SERVER_PORT'] = [$noHttpsNoServerPort, 'http://sample.host.com/'];
+        $returnValue['no SERVER_PORT'] = array($noHttpsNoServerPort, 'http://sample.host.com/');
 
         $noHttpsButSecurePort = $noHttpsData;
         $noHttpsButSecurePort['SERVER_PORT'] = 443;
-        $returnValue['no HTTP but secure port'] = [$noHttpsButSecurePort, 'https://sample.host.com/'];
+        $returnValue['no HTTP but secure port'] = array($noHttpsButSecurePort, 'https://sample.host.com/');
 
         $notSecurePort = $noHttpsData;
         $notSecurePort['SERVER_PORT'] = 81;
         $notSecurePort['HTTP_HOST'] = 'sample.host.com:81';
-        $returnValue['not secure not standard port'] = [$notSecurePort, 'http://sample.host.com:81/'];
+        $returnValue['not secure not standard port'] = array($notSecurePort, 'http://sample.host.com:81/');
 
         $secureUnusualPort['SERVER_PORT'] = 441;
         $secureUnusualPort['HTTP_HOST'] = 'sample.host.com:441';
-        $returnValue['not standard secure port'] = [$secureUnusualPort, 'https://sample.host.com:441/'];
+        $returnValue['not standard secure port'] = array($secureUnusualPort, 'https://sample.host.com:441/');
 
         $customUrlPathData = $noHttpsData;
         $customUrlPathData['SCRIPT_FILENAME'] = '/some/dir/custom.php';
-        $returnValue['custom path'] = [$customUrlPathData, 'http://sample.host.com/'];
+        $returnValue['custom path'] = array($customUrlPathData, 'http://sample.host.com/');
 
         return $returnValue;
     }
+
+
 }

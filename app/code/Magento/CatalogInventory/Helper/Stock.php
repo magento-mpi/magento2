@@ -8,9 +8,9 @@
 namespace Magento\CatalogInventory\Helper;
 
 use Magento\CatalogInventory\Api\StockRegistryInterface;
+use Magento\Framework\StoreManagerInterface;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\ObjectManagerInterface;
-use Magento\Framework\StoreManagerInterface;
 
 /**
  * Class Stock
@@ -114,7 +114,7 @@ class Stock
         );
         $cond = [
             '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=1 AND {{table}}.is_in_stock=1',
-            '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0',
+            '{{table}}.use_config_manage_stock = 0 AND {{table}}.manage_stock=0'
         ];
 
         if ($manageStock) {

@@ -10,13 +10,13 @@ namespace Magento\Cms\Model\Resource;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\Data\AbstractSearchResult;
-use Magento\Framework\Data\Collection\EntityFactoryInterface;
-use Magento\Framework\Data\SearchResultIteratorFactory;
-use Magento\Framework\Data\SearchResultProcessor;
-use Magento\Framework\Data\SearchResultProcessorFactory;
-use Magento\Framework\DB\QueryInterface;
-use Magento\Framework\Event\ManagerInterface;
 use Magento\Framework\StoreManagerInterface;
+use Magento\Framework\Data\SearchResultProcessorFactory;
+use Magento\Framework\Data\SearchResultProcessor;
+use Magento\Framework\DB\QueryInterface;
+use Magento\Framework\Data\Collection\EntityFactoryInterface;
+use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Data\SearchResultIteratorFactory;
 
 /**
  * CMS block model

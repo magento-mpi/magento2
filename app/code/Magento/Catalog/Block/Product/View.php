@@ -51,7 +51,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @var \Magento\Customer\Model\Session
      */
     protected $customerSession;
-
+    
     /**
      * @var ProductRepositoryInterface
      */
@@ -79,7 +79,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
         ProductRepositoryInterface $productRepository,
-        array $data = []
+        array $data = array()
     ) {
         $this->_productHelper = $productHelper;
         $this->_coreData = $coreData;
@@ -138,7 +138,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         if ($this->_productHelper->canUseCanonicalTag()) {
             $this->pageConfig->addRemotePageAsset(
                 $product->getUrlModel()->getUrl($product, ['_ignore_category' => true]),
-                ['attributes' => ['rel' => 'canonical']]
+                ['attributes' => array('rel' => 'canonical')]
             );
         }
 
@@ -180,7 +180,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param array $additional
      * @return string
      */
-    public function getAddToCartUrl($product, $additional = [])
+    public function getAddToCartUrl($product, $additional = array())
     {
         if ($this->hasCustomAddToCartUrl()) {
             return $this->getCustomAddToCartUrl();
@@ -191,7 +191,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         }
 
         $addUrlKey = \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED;
-        $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', ['_use_rewrite' => true, '_current' => true]);
+        $addUrlValue = $this->_urlBuilder->getUrl('*/*/*', array('_use_rewrite' => true, '_current' => true));
         $additional[$addUrlKey] = $this->_coreData->urlEncode($addUrlValue);
 
         return $this->_cartHelper->getAddUrl($product, $additional);
@@ -208,11 +208,11 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         /* @var $product \Magento\Catalog\Model\Product */
         $product = $this->getProduct();
 
-        $config = [];
+        $config = array();
         if (!$this->hasOptions()) {
             $config = [
                 'productId' => $product->getId(),
-                'priceFormat' => $this->_localeFormat->getPriceFormat(),
+                'priceFormat' => $this->_localeFormat->getPriceFormat()
                 ];
             return $this->_jsonEncoder->encode($config);
         }
@@ -222,7 +222,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
         foreach ($tierPricesList as $tierPrice) {
             $tierPrices[] = $this->_coreData->currency($tierPrice['price']->getValue(), false, false);
         }
-        $config = [
+        $config = array(
             'productId' => $product->getId(),
             'priceFormat' => $this->_localeFormat->getPriceFormat(),
             'prices' => [
@@ -232,7 +232,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
                         false,
                         false
                     ),
-                    'adjustments' => [],
+                    'adjustments' => []
                 ],
                 'basePrice' => [
                     'amount' => $this->_coreData->currency(
@@ -240,7 +240,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
                         false,
                         false
                     ),
-                    'adjustments' => [],
+                    'adjustments' => []
                 ],
                 'finalPrice' => [
                     'amount' => $this->_coreData->currency(
@@ -248,15 +248,15 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
                         false,
                         false
                     ),
-                    'adjustments' => [],
-                ],
+                    'adjustments' => []
+                ]
             ],
             'idSuffix' => '_clone',
-            'tierPrices' => $tierPrices,
-        ];
+            'tierPrices' => $tierPrices
+        );
 
         $responseObject = new \Magento\Framework\Object();
-        $this->_eventManager->dispatch('catalog_product_view_config', ['response_object' => $responseObject]);
+        $this->_eventManager->dispatch('catalog_product_view_config', array('response_object' => $responseObject));
         if (is_array($responseObject->getAdditionalOptions())) {
             foreach ($responseObject->getAdditionalOptions() as $option => $value) {
                 $config[$option] = $value;

@@ -40,16 +40,16 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileSource = $this->getMock(
-            '\Magento\Framework\RequireJs\Config\File\Collector\Aggregated', [], [], '', false
+            '\Magento\Framework\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->baseDir));
-        $repo = $this->getMock('\Magento\Framework\View\Asset\Repository', [], [], '', false);
+        $repo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
         $this->context = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\ContextInterface');
         $repo->expects($this->once())->method('getStaticViewFileContext')->will($this->returnValue($this->context));
         $this->object = new \Magento\Framework\RequireJs\Config($this->fileSource, $this->design, $filesystem, $repo);
@@ -67,14 +67,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function ($file) {
                 return $file . ' content';
             }));
-        $fileOne = $this->getMock('\Magento\Framework\View\File', [], [], '', false);
+        $fileOne = $this->getMock('\Magento\Framework\View\File', array(), array(), '', false);
         $fileOne->expects($this->once())
             ->method('getFilename')
             ->will($this->returnValue('file_one.js'));
         $fileOne->expects($this->once())
             ->method('getModule')
             ->will($this->returnValue('Module_One'));
-        $fileTwo = $this->getMock('\Magento\Framework\View\File', [], [], '', false);
+        $fileTwo = $this->getMock('\Magento\Framework\View\File', array(), array(), '', false);
         $fileTwo->expects($this->once())
             ->method('getFilename')
             ->will($this->returnValue('file_two.js'));
@@ -85,7 +85,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->fileSource->expects($this->once())
             ->method('getFiles')
             ->with($theme, Config::CONFIG_FILE_NAME)
-            ->will($this->returnValue([$fileOne, $fileTwo]));
+            ->will($this->returnValue(array($fileOne, $fileTwo)));
 
         $expected = <<<expected
 (function(require){

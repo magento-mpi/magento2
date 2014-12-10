@@ -63,7 +63,7 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
     {
         $constructor = $this->getMock('Magento\Tools\Di\Compiler\ConstructorArgument', [], [], '', false);
         $expected = [
-            'attributeMetadataBuilder' => ['__val__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder'],
+            'attributeMetadataBuilder' => ['__val__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder']
         ];
         return [
             [$constructor, false, false, true, $expected]
@@ -164,8 +164,8 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'virtualType' => [
                 '__arg__' => 'object',
-                '__default__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder',
-            ],
+                '__default__' => 'Magento\Customer\Service\V1\Data\Eav\AttributeMetadataBuilder'
+            ]
         ];
         return [
             [$constructor, false, false, true, $expected]
@@ -213,8 +213,8 @@ class ArgumentsResolverTest extends \PHPUnit_Framework_TestCase
         $expected = [
             'virtualType' => [
                 '__non_shared__' => true,
-                '__instance__' => 'Magento\Framework\Api\Config\MetadataConfig',
-            ],
+                '__instance__' => 'Magento\Framework\Api\Config\MetadataConfig'
+            ]
         ];
         return [
             [$constructor, false, true, false, $expected]

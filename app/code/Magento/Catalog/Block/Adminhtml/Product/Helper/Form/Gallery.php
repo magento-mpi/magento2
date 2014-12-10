@@ -6,6 +6,7 @@
  * @license     {license_link}
  */
 
+
 /**
  * Catalog product gallery attribute
  *
@@ -13,8 +14,8 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
-use Magento\Eav\Model\Entity\Attribute;
 use Magento\Framework\Data\Form\Element\AbstractElement;
+use Magento\Eav\Model\Entity\Attribute;
 
 class Gallery extends AbstractElement
 {
@@ -42,7 +43,7 @@ class Gallery extends AbstractElement
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\LayoutInterface $layout,
         \Magento\Framework\StoreManagerInterface $storeManager,
-        $data = []
+        $data = array()
     ) {
         $this->_layout = $layout;
         $this->_storeManager = $storeManager;
@@ -65,6 +66,7 @@ class Gallery extends AbstractElement
      */
     public function getContentHtml()
     {
+
         /* @var $content \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content */
         $content = $this->_layout->createBlock('Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Gallery\Content');
         $content->setId($this->getHtmlId() . '_content')->setElement($this);

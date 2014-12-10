@@ -21,7 +21,7 @@ class Resource extends DataFixture
      *
      * @var array
      */
-    protected $resources = [
+    protected $resources = array(
         'Magento_Adminhtml::dashboard' => null,
         'Magento_Sales::sales' => null,
         'Magento_Sales::sales_operation' => 'Magento_Sales::sales',
@@ -53,7 +53,7 @@ class Resource extends DataFixture
         'Magento_Sales::transactions' => 'Magento_Sales::sales_operation',
         'Magento_Sales::transactions_fetch' => 'Magento_Sales::transactions',
         'Magento_Sales::recurring_payment' => 'Magento_Sales::sales_operation',
-    ];
+    );
 
     /**
      * {@inheritdoc}
@@ -98,10 +98,10 @@ class Resource extends DataFixture
     protected function getParents($resourceId)
     {
         if (is_null($this->resources[$resourceId])) {
-            return [];
+            return array();
         }
 
-        $parents = [];
+        $parents = array();
         $current = $this->resources[$resourceId];
 
         while (!is_null($this->resources[$current])) {
