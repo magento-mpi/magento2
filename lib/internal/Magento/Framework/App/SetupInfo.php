@@ -56,7 +56,7 @@ class SetupInfo
     public function __construct($server, $projectRoot = '')
     {
         $this->server = $server;
-        if (!isset($server['DOCUMENT_ROOT'])) {
+        if (empty($server['DOCUMENT_ROOT'])) {
             throw new \InvalidArgumentException('DOCUMENT_ROOT variable is unavailable.');
         }
         $this->docRoot = str_replace('\\', '/', $server['DOCUMENT_ROOT']);
@@ -76,7 +76,7 @@ class SetupInfo
      */
     private function detectProjectRoot()
     {
-        if (!isset($this->server['SCRIPT_FILENAME'])) {
+        if (empty($this->server['SCRIPT_FILENAME'])) {
             throw new \InvalidArgumentException('Project root cannot be automatically detected.');
         }
         $haystack = str_replace('\\', '/', dirname($this->server['SCRIPT_FILENAME']));
@@ -109,7 +109,7 @@ class SetupInfo
     public function getProjectUrl()
     {
         $isProjectInDocRoot = false !== strpos($this->projectRoot . '/', $this->docRoot . '/');
-        if (!$isProjectInDocRoot || !isset($this->server['HTTP_HOST'])) {
+        if (!$isProjectInDocRoot || empty($this->server['HTTP_HOST'])) {
             return '';
         }
         return 'http://' . $this->server['HTTP_HOST'] . substr($this->projectRoot . '/', strlen($this->docRoot));
