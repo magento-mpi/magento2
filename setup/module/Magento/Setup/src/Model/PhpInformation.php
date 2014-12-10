@@ -57,8 +57,7 @@ class PhpInformation
         if (!empty($composerInfo['platform']['php'])) {
             return $composerInfo['platform']['php'];
         } else {
-            throw new \Exception('Cannot determine required PHP version from Composer information: '
-            . 'Missing key \'platform=>php\' in \'composer.lock\' file');
+            throw new \Exception('Missing key \'platform=>php\' in \'composer.lock\' file');
         }
     }
 
@@ -79,8 +78,7 @@ class PhpInformation
             if (!empty($composerInfo['platform-dev'])) {
                 $declaredDependencies = array_merge($declaredDependencies, array_keys($composerInfo['platform-dev']));
             } else {
-                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
-                    . 'Missing key \'platform-dev\' in \'composer.lock\' file');
+                throw new \Exception('Missing key \'platform-dev\' in \'composer.lock\' file');
             }
             if (!empty($composerInfo['packages'])) {
                 foreach ($composerInfo['packages'] as $package) {
@@ -89,8 +87,7 @@ class PhpInformation
                     }
                 }
             } else {
-                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
-                    . 'Missing key \'packages\' in \'composer.lock\' file');
+                throw new \Exception('Missing key \'packages\' in \'composer.lock\' file');
             }
             if ($declaredDependencies) {
                 $declaredDependencies = array_unique($declaredDependencies);
@@ -115,8 +112,7 @@ class PhpInformation
     private function getComposerInfo()
     {
         if (!$this->rootDir->isExist('composer.lock')) {
-            throw new \Exception('Cannot determine required PHP version from Composer information: '
-                . '\'composer.lock\'file is absent');
+            throw new \Exception('Cannot read \'composer.lock\' file');
         }
         return json_decode($this->rootDir->readFile('composer.lock'), true);
     }
