@@ -123,13 +123,14 @@ class BundleSelectionPrice extends AbstractPrice
             } else {
                 // calculate price for selection type fixed
                 $selectionPriceValue = $this->selection->getSelectionPriceValue();
-                $value = $this->priceCurrency->convertAndRound($selectionPriceValue) * $this->quantity;
+                $value = $this->priceCurrency->convert($selectionPriceValue) * $this->quantity;
             }
         }
         if (!$this->useRegularPrice) {
             $value = $this->discountCalculator->calculateDiscount($this->bundleProduct, $value);
         }
-        $this->value = $value;
+        $this->value = $this->priceCurrency->round($value);
+
         return $this->value;
     }
 
