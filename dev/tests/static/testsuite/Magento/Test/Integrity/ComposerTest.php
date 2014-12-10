@@ -128,6 +128,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertMagentoConventions($dir, $packageType, \StdClass $json)
     {
         $this->assertObjectHasAttribute('name', $json);
+        $this->assertObjectHasAttribute('license', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
         $this->assertVersionInSync($json->name, $json->version);

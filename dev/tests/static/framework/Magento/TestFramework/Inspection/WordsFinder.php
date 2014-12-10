@@ -15,7 +15,31 @@ class WordsFinder
      *
      * @var array
      */
-    protected $_binaryExtensions = ['jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip'];
+    protected $_binaryExtensions = [
+        'jpg', 'jpeg', 'png', 'gif', 'swf', 'mp3', 'avi', 'mov', 'flv', 'jar', 'zip',
+        'eot', 'ttf', 'woff', 'ico', 'svg',
+    ];
+
+    /**
+     * Copyright string which must be present in every non-binary file
+     *
+     * @var string
+     */
+    protected $copyrightString = '@copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)';
+
+    /**
+     * List of extensions for which copyright check must be skipped
+     *
+     * @var array
+     */
+    protected $copyrightSkipExtensions = ['csv', 'json', 'lock', 'md', 'txt'];
+
+    /**
+     * List of paths where copyright check must be skipped
+     *
+     * @var array
+     */
+    protected $copyrightSkipList = [];
 
     /**
      * Words to search for
@@ -201,8 +225,7 @@ class WordsFinder
      */
     protected function _findWords($file)
     {
-        // MAGETWO-1569: Yaml files are not checked until license placeholder replacement is implemented for them
-        $checkContents = !$this->_isBinaryFile($file) && pathinfo($file, PATHINFO_EXTENSION) !== 'yml';
+        $checkContents = !$this->_isBinaryFile($file);
 
         $relPath = $this->_getRelPath($file);
         $contents = $checkContents ? file_get_contents($file) : '';
@@ -213,7 +236,29 @@ class WordsFinder
                 $foundWords[] = $word;
             }
         }
+        if ($contents && !$this->isCopyrightCheckSkipped($file)
+            && strpos($contents, $this->copyrightString) === false
+        ) {
+            $foundWords[] = 'Copyright string is missing';
+        }
         return $foundWords;
+    }
+
+    /**
+     * @param string $path
+     * @return bool
+     */
+    protected function isCopyrightCheckSkipped($path)
+    {
+        if (in_array(pathinfo($path, PATHINFO_EXTENSION), $this->copyrightSkipExtensions)) {
+            return true;
+        }
+        foreach ($this->copyrightSkipList as $dir) {
+            if (strpos($path, $dir) !== false) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

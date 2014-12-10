@@ -87,14 +87,6 @@ try {
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
     echo $commitMsg . PHP_EOL;
 
-    // replace license notices
-    $licenseToolDir = __DIR__ . '/license';
-    execVerbose(
-        'php -f %s -- -w %s -e ce -v -0',
-        "$licenseToolDir/license-tool.php",
-        $targetDir
-    );
-
     // commit
     execVerbose("$gitCmd add --update");
     execVerbose("$gitCmd status");

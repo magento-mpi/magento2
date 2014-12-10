@@ -210,12 +210,9 @@ class TestCase extends AbstractGenerate
 
         $content = "<?php\n";
         $content .= "/**\n";
-        $content .= " * {license_notice}\n";
-        $content .= " *\n";
-        $content .= " * @copyright   {copyright}\n";
-        $content .= " * @license     {license_link}\n";
-        $content .= " */\n\n";
-        $content .= "namespace {$namespace};\n\n";
+        $content .= " * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)\n";
+        $content .= " */\n";
+        $content .= "namespace {$namespace};\n";
         $content .= "use Mtf\\TestCase\\Injectable;\n\n";
 
         $content .= "/**\n";
