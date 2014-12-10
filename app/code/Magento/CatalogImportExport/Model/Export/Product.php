@@ -444,7 +444,7 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             '(mg.value_id = mgv.value_id AND mgv.store_id = 0)',
             []
         )->where(
-            'entity_id IN(?)',
+            'mg.entity_id IN(?)',
             $productIds
         );
 

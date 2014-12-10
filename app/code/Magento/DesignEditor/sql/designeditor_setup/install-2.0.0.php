@@ -7,6 +7,7 @@
 $installer = $this;
 
 $installer->startSetup();
+$connection = $installer->getConnection();
 
 /**
  * Create table 'vde_theme_change'

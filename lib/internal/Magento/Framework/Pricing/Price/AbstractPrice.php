@@ -133,4 +133,12 @@ abstract class AbstractPrice implements PriceInterface
     {
         return $this->product;
     }
+
+    /**
+     * @return float
+     */
+    public function getQuantity()
+    {
+        return $this->quantity;
+    }
 }

@@ -82,23 +82,11 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
 
         $this->baseCalculator = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
         $this->amountFactory = $this->getMock('Magento\Framework\Pricing\Amount\AmountFactory', [], [], '', false);
+
         $this->selectionFactory = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleSelectionFactory')
             ->disableOriginalConstructor()
             ->getMock();
-
-        $factoryCallback = $this->returnCallback(
-            function () {
-                list(, $selectionMock) = func_get_args();
-                $bundlePrice = $this->getMockBuilder('Magento\Bundle\Pricing\Price\BundleSelectionPrice')
-                    ->setMethods(['getAmount'])
-                    ->disableOriginalConstructor()
-                    ->getMock();
-                $bundlePrice->expects($this->any())->method('getAmount')
-                    ->will($this->returnValue($selectionMock->getAmountMock()));
-                return $bundlePrice;
-            }
-        );
-        $this->selectionFactory->expects($this->any())->method('create')->will($factoryCallback);
+        $this->selectionFactory->expects($this->any())->method('create')->will($this->returnArgument(1));
 
         $this->taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
@@ -189,7 +177,10 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     protected function createAmountMock($amountData)
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Framework\Pricing\Amount\Base $amount */
-        $amount = $this->getMock('Magento\Framework\Pricing\Amount\Base', [], [], '', false);
+        $amount = $this->getMockBuilder('Magento\Framework\Pricing\Amount\Base')
+            ->setMethods(['getAdjustmentAmounts', 'getValue', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
         $amount->expects($this->any())->method('getAdjustmentAmounts')
             ->will($this->returnValue($amountData['adjustmentsAmounts']));
         $amount->expects($this->any())->method('getValue')->will($this->returnValue($amountData['amount']));
@@ -227,15 +218,24 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Product $selection */
         $selection = $this->getMockBuilder('Magento\Catalog\Model\Product')
-            ->setMethods(['isSalable', '__wakeup', 'getAmountMock'])
+            ->setMethods(['isSalable', 'getQuantity', 'getAmount', 'getProduct', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
+
         // All items are saleable
         $selection->expects($this->any())->method('isSalable')->will($this->returnValue(true));
         $selection->setData($selectionData['data']);
-        // Virtual method to bind a creation of amount mock through factory
         $amountMock = $this->createAmountMock($selectionData['amount']);
-        $selection->expects($this->any())->method('getAmountMock')->will($this->returnValue($amountMock));
+        $selection->expects($this->any())->method('getAmount')->will($this->returnValue($amountMock));
+        $selection->expects($this->any())->method('getQuantity')->will($this->returnValue(1));
+
+        $innerProduct = $this->getMockBuilder('Magento\Catalog\Model\Product')
+            ->setMethods(['getSelectionCanChangeQty', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMock();
+        $innerProduct->expects($this->any())->method('getSelectionCanChangeQty')->will($this->returnValue(false));
+        $selection->expects($this->any())->method('getProduct')->will($this->returnValue($innerProduct));
+
         return $selection;
     }
 

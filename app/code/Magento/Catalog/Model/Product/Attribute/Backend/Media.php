@@ -313,6 +313,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             $data['position'] = isset($image['position']) ? (int)$image['position'] : 0;
             $data['disabled'] = isset($image['disabled']) ? (int)$image['disabled'] : 0;
             $data['store_id'] = (int)$object->getStoreId();
+            $data['entity_id'] = (int)$object->getId();
 
             $this->_getResource()->insertGalleryValueInStore($data);
         }

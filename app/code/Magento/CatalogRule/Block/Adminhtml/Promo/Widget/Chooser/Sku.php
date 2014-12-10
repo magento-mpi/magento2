@@ -26,6 +26,11 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_cpCollection;
 
     /**
+     * @var \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected $_cpCollectionInstance;
+
+    /**
      * @var \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory
      */
     protected $_eavAttSetCollection;
@@ -106,7 +111,7 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
-        $collection = $this->_cpCollection->create()->setStoreId(
+        $collection = $this->_getCpCollectionInstance()->setStoreId(
             0
         )->addAttributeToSelect(
             'name',
@@ -117,6 +122,19 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->setCollection($collection);
 
         return parent::_prepareCollection();
+    }
+
+    /**
+     * Get catalog product resource collection instance
+     *
+     * @return \Magento\Catalog\Model\Resource\Product\Collection
+     */
+    protected function _getCpCollectionInstance()
+    {
+        if (!$this->_cpCollectionInstance) {
+            $this->_cpCollectionInstance = $this->_cpCollection->create();
+        }
+        return $this->_cpCollectionInstance;
     }
 
     /**
@@ -156,7 +174,7 @@ class Sku extends \Magento\Backend\Block\Widget\Grid\Extended
         );
 
         $sets = $this->_eavAttSetCollection->create()->setEntityTypeFilter(
-            $this->_catalogProduct->create()->getResource()->getTypeId()
+            $this->_getCpCollectionInstance()->getEntity()->getTypeId()
         )->load()->toOptionHash();
 
         $this->addColumn(

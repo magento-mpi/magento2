@@ -112,11 +112,11 @@ $table = $installer->getConnection()->newTable(
     ['nullable' => false],
     'Page Id'
 )->addColumn(
-    'root_template',
+    'page_layout',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    [],
-    'Root Template'
+    array(),
+    'Page Layout'
 )->addColumn(
     'meta_keywords',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -160,11 +160,11 @@ $table = $installer->getConnection()->newTable(
     [],
     'Custom Theme'
 )->addColumn(
-    'custom_root_template',
+    'custom_page_layout',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    [],
-    'Custom Root Template'
+    array(),
+    'Custom Page Layout'
 )->addColumn(
     'custom_layout_update_xml',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
@@ -345,14 +345,26 @@ $table = $installer->getConnection()->newTable(
     255,
     [],
     'Xpath'
+)->addColumn(
+    'scope',
+    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+    8,
+    array('nullable' => false, 'default=>' => 'default'),
+    'Scope: default|website|store'
+)->addColumn(
+    'scope_id',
+    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+    8,
+    array('nullable' => false, 'default=>' => '0', 'unsigned' => true),
+    'Scope Id'
 )->addIndex(
     $installer->getIdxName(
         'magento_versionscms_hierarchy_node',
-        ['request_url'],
+        array('request_url', 'scope', 'scope_id'),
         \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
     ),
-    ['request_url'],
-    ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
+    array('request_url', 'scope', 'scope_id'),
+    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
 )->addIndex(
     $installer->getIdxName('magento_versionscms_hierarchy_node', ['parent_node_id']),
     ['parent_node_id']
@@ -484,6 +496,18 @@ $table = $installer->getConnection()->newTable(
     50,
     [],
     'Menu List Type'
+)->addColumn(
+    'top_menu_visibility',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => true, 'default' => null, 'unsigned' => true),
+    'Top Menu Visibility'
+)->addColumn(
+    'top_menu_excluded',
+    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
+    null,
+    array('nullable' => true, 'default' => null, 'unsigned' => true),
+    'Top Menu Excluded'
 )->addForeignKey(
     $installer->getFkName(
         'magento_versionscms_hierarchy_metadata',

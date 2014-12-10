@@ -221,64 +221,6 @@ $table = $installer->getConnection()->newTable(
 $installer->getConnection()->createTable($table);
 
 /**
- * Create table 'core_translate'
- */
-$table = $installer->getConnection()->newTable(
-    $installer->getTable('core_translate')
-)->addColumn(
-    'key_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-    null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
-    'Key Id of Translation'
-)->addColumn(
-    'string',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array('nullable' => false, 'default' => 'Translate String'),
-    'Translation String'
-)->addColumn(
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
-    null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
-    'Store Id'
-)->addColumn(
-    'translate',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    255,
-    array(),
-    'Translate'
-)->addColumn(
-    'locale',
-    \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-    20,
-    array('nullable' => false, 'default' => 'en_US'),
-    'Locale'
-)->addIndex(
-    $installer->getIdxName(
-        'core_translate',
-        array('store_id', 'locale', 'string'),
-        \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
-    ),
-    array('store_id', 'locale', 'string'),
-    array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
-)->addIndex(
-    $installer->getIdxName('core_translate', array('store_id')),
-    array('store_id')
-)->addForeignKey(
-    $installer->getFkName('core_translate', 'store_id', 'store', 'store_id'),
-    'store_id',
-    $installer->getTable('store'),
-    'store_id',
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
-    \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
-)->setComment(
-    'Translations'
-);
-$installer->getConnection()->createTable($table);
-
-/**
  * Create table 'design_change'
  */
 $table = $installer->getConnection()->newTable(

@@ -9,36 +9,6 @@ $installer = $this;
 $installer->startSetup();
 
 /**
- * Create table 'admin_assert'
- */
-if (!$installer->getConnection()->isTableExists($installer->getTable('admin_assert'))) {
-    $table = $installer->getConnection()->newTable(
-        $installer->getTable('admin_assert')
-    )->addColumn(
-        'assert_id',
-        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
-        null,
-        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
-        'Assert ID'
-    )->addColumn(
-        'assert_type',
-        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-        20,
-        ['nullable' => true, 'default' => null],
-        'Assert Type'
-    )->addColumn(
-        'assert_data',
-        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-        '64k',
-        [],
-        'Assert Data'
-    )->setComment(
-        'Admin Assert Table'
-    );
-    $installer->getConnection()->createTable($table);
-}
-
-/**
  * Create table 'admin_user'
  */
 if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user'))) {
@@ -77,8 +47,8 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
     )->addColumn(
         'password',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
-        40,
-        ['nullable' => true],
+        255,
+        array('nullable' => false),
         'User Password'
     )->addColumn(
         'created',
@@ -122,6 +92,24 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         '64k',
         [],
         'User Extra Data'
+    )->addColumn(
+        'rp_token',
+        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+        256,
+        array('nullable' => true, 'default' => null),
+        'Reset Password Link Token'
+    )->addColumn(
+        'rp_token_created_at',
+        \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+        null,
+        array('nullable' => true, 'default' => null),
+        'Reset Password Link Token Creation Date'
+    )->addColumn(
+        'interface_locale',
+        \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+        5,
+        array('nullable' => false, 'default' => 'en_US'),
+        'Backend interface locale'
     )->addIndex(
         $installer->getIdxName(
             'admin_user',

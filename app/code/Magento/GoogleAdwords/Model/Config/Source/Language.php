@@ -53,7 +53,7 @@ class Language implements \Magento\Framework\Option\ArrayInterface
         $languages = [];
         foreach ($this->_helper->getLanguageCodes() as $languageCode) {
             $localeCode = $this->_helper->convertLanguageCodeToLocaleCode($languageCode);
-            $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $languageCode);
+            $translationForSpecifiedLanguage = $this->_locale->getTranslation($localeCode, 'language', $localeCode);
             $translationForDefaultLanguage = $this->_locale->getTranslation($localeCode, 'language');
 
             $label = sprintf(

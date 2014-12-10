@@ -138,7 +138,6 @@ return [
     'core/session' => 'core_session',
     'core/store' => 'store',
     'core/store_group' => 'store_group',
-    'core/translate' => 'core_translate',
     'core/variable' => 'core_variable',
     'core/variable_value' => 'core_variable_value',
     'core/website' => 'store_website',

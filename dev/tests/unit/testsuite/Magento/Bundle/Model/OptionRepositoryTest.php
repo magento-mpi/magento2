@@ -386,13 +386,9 @@ class OptionRepositoryTest extends \PHPUnit_Framework_TestCase
         $optCollectionMock->expects($this->once())->method('setIdFilter')->with($optionId)->willReturnSelf();
         $optCollectionMock->expects($this->once())->method('getFirstItem')->willReturn($existingOptionMock);
         $existingOptionMock->expects($this->any())->method('getOptionId')->willReturn($existingOptionId);
-        $existingOptionMock->expects($this->once())->method('getTitle')->willReturn($existingOptionTitle);
         $existingOptionMock->expects($this->once())->method('getProductLinks')->willReturn(null);
 
         $linkedProductMock = $this->getMock('\Magento\Bundle\Api\Data\LinkInterface');
-        $optionMock->expects($this->once())->method('setOptionId')->with($existingOptionId)->willReturnSelf();
-        $optionMock->expects($this->once())->method('setDefaultTitle')->with($existingOptionTitle)->willReturnSelf();
-        $optionMock->expects($this->once())->method('getTitle')->willReturn(null);
         $optionMock->expects($this->exactly(2))->method('getProductLinks')->willReturn([$linkedProductMock]);
 
         $this->optionResourceMock->expects($this->once())->method('save')->with($optionMock)->willReturnSelf();

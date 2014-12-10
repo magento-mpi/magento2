@@ -124,6 +124,7 @@ class Gallery
             $this->galleryAttribute->insertGalleryValueInStore([
                 'value_id' => $id,
                 'store_id' => \Magento\Store\Model\Store::DEFAULT_STORE_ID,
+                'entity_id' => $product->getId(),
                 'label' => 'Image',
                 'position' => $i,
                 'disables' => 0,

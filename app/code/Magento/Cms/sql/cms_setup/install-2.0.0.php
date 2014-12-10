@@ -117,11 +117,11 @@ $table = $installer->getConnection()->newTable(
     ['nullable' => true],
     'Page Title'
 )->addColumn(
-    'root_template',
+    'page_layout',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    ['nullable' => true],
-    'Page Template'
+    array('nullable' => true),
+    'Page Layout'
 )->addColumn(
     'meta_keywords',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,

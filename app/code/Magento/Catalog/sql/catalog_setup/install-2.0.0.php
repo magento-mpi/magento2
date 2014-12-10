@@ -2061,6 +2061,13 @@ $table = $installer->getConnection()
         'Store ID'
     )
     ->addColumn(
+        'entity_id',
+        \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+        null,
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
+        'Entity ID'
+    )
+    ->addColumn(
         'label',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         255,
@@ -2085,6 +2092,10 @@ $table = $installer->getConnection()
         $installer->getIdxName('catalog_product_entity_media_gallery_value', ['store_id']),
         ['store_id']
     )
+    ->addIndex(
+        $installer->getIdxName('catalog_product_entity_media_gallery_value', ['entity_id']),
+        ['entity_id']
+    )
     ->addForeignKey(
         $installer->getFkName(
             'catalog_product_entity_media_gallery_value',
@@ -2103,6 +2114,19 @@ $table = $installer->getConnection()
         'store_id',
         $installer->getTable('store'),
         'store_id',
+        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
+        \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
+    )
+    ->addForeignKey(
+        $installer->getFkName(
+            'catalog_product_entity_media_gallery_value',
+            'entity_id',
+            'catalog_product_entity',
+            'entity_id'
+        ),
+        'entity_id',
+        $installer->getTable('catalog_product_entity'),
+        'entity_id',
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE,
         \Magento\Framework\DB\Ddl\Table::ACTION_CASCADE
     )

@@ -89,6 +89,10 @@ class ProductServiceTest extends WebapiAbstract
             "price" => 50,
             'attribute_set_id' => 4,
             "custom_attributes" => [
+                "price_type" => [
+                    'attribute_code' => 'price_type',
+                    'value' => \Magento\Bundle\Model\Product\Price::PRICE_TYPE_DYNAMIC
+                ],
                 "bundle_product_options" => $bundleProductOptions,
                 "price_view" => [
                     "attribute_code" => "price_view",

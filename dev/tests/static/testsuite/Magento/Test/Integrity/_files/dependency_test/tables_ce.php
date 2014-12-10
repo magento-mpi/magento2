@@ -118,7 +118,6 @@ return [
     'core_layout_link' => 'Magento_Core',
     'core_layout_update' => 'Magento_Core',
     'core_resource' => 'Magento_Core',
-    'core_translate' => 'Magento_Core',
     'core_variable' => 'Magento_Core',
     'core_variable_value' => 'Magento_Core',
     'core_session' => 'Magento_Core',

@@ -132,6 +132,14 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         if (!$this->getAttributeSetId()) {
             $this->setAttributeSetId(AddressMetadataInterface::ATTRIBUTE_SET_ID_ADDRESS);
         }
+
+        $customAttributes = $address->getCustomAttributes();
+        if (!is_null($customAttributes)) {
+            foreach ($customAttributes as $attribute) {
+                $this->setData($attribute->getAttributeCode(), $attribute->getValue());
+            }
+        }
+
         return $this;
     }
 

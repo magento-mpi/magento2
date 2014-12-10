@@ -49,7 +49,7 @@ $installer->addAttribute(
         'class' => '',
         'source' => '',
         'global' => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL,
-        'visible' => false,
+        'visible' => true,
         'required' => true,
         'user_defined' => false,
         'default' => '',
