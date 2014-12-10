@@ -80,7 +80,6 @@ class CreateAttributeSetEntityTest extends Injectable
         CatalogAttributeSet $attributeSet,
         CatalogProductAttribute $productAttribute
     ) {
-        $this->markTestIncomplete('CICD-1041');
         $productAttribute->persist();
 
         //Steps

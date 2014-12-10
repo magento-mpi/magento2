@@ -8,13 +8,14 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\InjectableFixture;
+use Magento\Cms\Test\Page\CmsIndex;
+use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Category\CatalogCategoryView;
-use Magento\Cms\Test\Page\CmsIndex;
-use Mtf\Constraint\AbstractConstraint;
-use Mtf\Fixture\InjectableFixture;
 use Magento\Catalog\Test\Block\Adminhtml\Product\ProductForm;
 
 /**
@@ -38,6 +39,7 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
      * @param CmsIndex $cmsIndex
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
+     * @param FixtureFactory $fixtureFactory
      * @return void
      */
     public function processAssert(
@@ -46,8 +48,22 @@ class AssertProductAttributeIsFilterable extends AbstractConstraint
         CatalogProductAttribute $attribute,
         CmsIndex $cmsIndex,
         CatalogProductIndex $catalogProductIndex,
-        CatalogProductEdit $catalogProductEdit
+        CatalogProductEdit $catalogProductEdit,
+        FixtureFactory $fixtureFactory
     ) {
+        $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            [
+                'dataSet' => 'product_with_category_with_anchor',
+                'data' => [
+                    'category_ids' => [
+                        'presets' => null,
+                        'category' => $product->getDataFieldConfig('category_ids')['source']->getCategories()[0]
+                    ]
+                ],
+            ]
+        )->persist();
+
         $catalogProductIndex->open()->getProductGrid()->searchAndOpen(['sku' => $product->getSku()]);
         $productForm = $catalogProductEdit->getProductForm();
         $this->setDefaultAttributeValue($productForm, $attribute);

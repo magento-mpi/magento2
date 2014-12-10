@@ -10,7 +10,6 @@ namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Set;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Mtf\ObjectManager;
 
 /**
  * Class Main
@@ -51,7 +50,7 @@ class Main extends Block
      *
      * @var string
      */
-    protected $noteBlock = 'p.note-block';
+    protected $noteBlock = '.attribute-set .title';
 
     /**
      * Move Attribute to Attribute Group

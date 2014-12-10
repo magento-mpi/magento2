@@ -8,6 +8,7 @@
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Mtf\ObjectManager;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Constraint\AbstractConstraint;
 use Magento\Catalog\Test\Fixture\CatalogAttributeSet;
@@ -67,7 +68,8 @@ class AssertProductTemplateGroupOnProductForm extends AbstractConstraint
             ]
         );
         $productBlockForm->fill($productSimple);
-
+        $eventManager = ObjectManager::getInstance()->create('Mtf\System\Event\EventManager');
+        $eventManager->dispatchEvent(['exception'], ['Screenshot for searching button.']);
         \PHPUnit_Framework_Assert::assertTrue(
             $productEdit->getProductForm()->isTabVisible($attributeSet->getGroup()),
             "Product Group is absent on Product form tabs."

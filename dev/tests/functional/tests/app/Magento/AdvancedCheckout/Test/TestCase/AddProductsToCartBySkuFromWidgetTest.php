@@ -146,6 +146,7 @@ class AddProductsToCartBySkuFromWidgetTest extends AbstractAdvancedCheckoutEntit
         $this->cmsIndex->open();
         $this->loginCustomer($customer);
         $this->cmsIndex->getLinksBlock()->openLink("My Account");
+        $this->customerAccountIndex->getAccountMenuBlock()->openMenuItem("Order by SKU");
         $this->customerAccountIndex->getOrderBySkuBlock()->fillForm($orderOptions);
         $this->customerAccountIndex->getOrderBySkuBlock()->addToCart();
 
