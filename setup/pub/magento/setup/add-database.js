@@ -15,7 +15,6 @@ angular.module('add-database', ['ngStorage'])
             user: 'root',
             name: 'magento'
         };
-        $scope.testConn = 'mock';
 
         if ($localStorage.db) {
             $scope.db = $localStorage.db;
@@ -25,11 +24,8 @@ angular.module('add-database', ['ngStorage'])
             $http.post('index.php/database-check', $scope.db)
                 .success(function (data) {
                     $scope.testConnection.result = data;
-                    if (($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success)) {
-                        $scope.testConn = '';
-                    } else {
-                        $scope.testConn = 'mock';
-                        $scope.database.$valid = true;
+                    if (!(($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success))) {
+                        $scope.nextState();
                     }
                 });
         };
@@ -38,33 +34,9 @@ angular.module('add-database', ['ngStorage'])
             $localStorage.db = $scope.db;
         });
 
-        $scope.initialCall = function () {
-            $scope.testConnection();
-        };
-
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
             $scope.validate();
-        });
-
-        $scope.$watch('db.host', function(newVal, oldVal) {
-            $scope.database.$valid = false;
-            $scope.testConnection();
-        });
-
-        $scope.$watch('db.user', function(newVal, oldVal) {
-            $scope.database.$valid = false;
-            $scope.testConnection();
-        });
-
-        $scope.$watch('db.password', function(newVal, oldVal) {
-            $scope.database.$valid = false;
-            $scope.testConnection();
-        });
-
-        $scope.$watch('db.name', function(newVal, oldVal) {
-            $scope.database.$valid = false;
-            $scope.testConnection();
         });
 
         // Dispatch 'validation-response' event to parent controller
