@@ -5,7 +5,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Tools\SampleData\Module\Sales\Setup\Order;
+
 use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
