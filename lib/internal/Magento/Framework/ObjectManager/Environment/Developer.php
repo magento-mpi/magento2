@@ -38,10 +38,8 @@ class Developer extends AbstractEnvironment implements EnvironmentInterface
     {
         if (!$this->config) {
             $this->config = new \Magento\Framework\Interception\ObjectManager\Config(
-                new \Magento\Framework\ObjectManager\Config\Config(
-                    $this->envFactory->getRelations(),
-                    $this->envFactory->getDefinitions()
-                )
+                $this->envFactory->getRelations(),
+                $this->envFactory->getDefinitions()
             );
         }
 
