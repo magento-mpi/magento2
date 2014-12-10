@@ -28,8 +28,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $this->_viewFileSystem = $this->getMock(
             'Magento\Framework\View\FileSystem',
-            array('getLocaleFileName', 'getDesignTheme'),
-            array(),
+            ['getLocaleFileName', 'getDesignTheme'],
+            [],
             '',
             false
         );
@@ -41,7 +41,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $this->returnValue(dirname(__DIR__) . '/Core/Model/_files/design/frontend/Test/default/i18n/en_US.csv')
             );
 
-        $theme = $this->getMock('\Magento\Framework\View\Design\ThemeInterface', array());
+        $theme = $this->getMock('\Magento\Framework\View\Design\ThemeInterface', []);
         $theme->expects($this->any())->method('getId')->will($this->returnValue(10));
 
         $this->_viewFileSystem->expects($this->any())->method('getDesignTheme')->will($this->returnValue($theme));
@@ -61,16 +61,16 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\View\Design _designModel */
         $this->_designModel = $this->getMock(
             'Magento\Core\Model\View\Design',
-            array('getDesignTheme'),
-            array(
+            ['getDesignTheme'],
+            [
                 $objectManager->get('Magento\Store\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\Framework\View\Design\Theme\FlyweightFactory'),
                 $objectManager->get('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ThemeFactory'),
                 $objectManager->get('Magento\Framework\ObjectManagerInterface'),
                 $objectManager->get('Magento\Framework\App\State'),
-                array('frontend' => 'Test/default')
-            )
+                ['frontend' => 'Test/default']
+            ]
         );
 
         $this->_designModel->expects($this->any())->method('getDesignTheme')->will($this->returnValue($theme));
@@ -129,11 +129,11 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
      */
     public function translateDataProvider()
     {
-        return array(
-            array('', ''),
-            array('Text with different translation on different modules', 'Text translation that was last loaded'),
-            array('text_with_no_translation', 'text_with_no_translation'),
-            array('Design value to translate', 'Design translated value')
-        );
+        return [
+            ['', ''],
+            ['Text with different translation on different modules', 'Text translation that was last loaded'],
+            ['text_with_no_translation', 'text_with_no_translation'],
+            ['Design value to translate', 'Design translated value']
+        ];
     }
 }

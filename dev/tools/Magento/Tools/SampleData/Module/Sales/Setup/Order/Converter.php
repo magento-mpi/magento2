@@ -170,7 +170,7 @@ class Converter
         if (isset($productValues['configurable_options'])) {
             $productData['super_attribute'] = $this->getProductAttributes($productValues['configurable_options']);
         }
-        return array($productId => $productData);
+        return [$productId => $productData];
 
     }
 

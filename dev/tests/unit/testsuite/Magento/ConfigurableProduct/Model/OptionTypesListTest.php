@@ -25,10 +25,10 @@ class OptionTypesListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetItems()
     {
-        $data = array(
-            array('value' => 'multiselect', 'label' => __('Multiple Select')),
-            array('value' => 'select', 'label' => __('Dropdown'))
-        );
+        $data = [
+            ['value' => 'multiselect', 'label' => __('Multiple Select')],
+            ['value' => 'select', 'label' => __('Dropdown')]
+        ];
         $this->sourceMock->expects($this->once())->method('toOptionArray')->willReturn($data);
         $expected = ['multiselect', 'select'];
         $this->assertEquals($expected, $this->model->getItems());

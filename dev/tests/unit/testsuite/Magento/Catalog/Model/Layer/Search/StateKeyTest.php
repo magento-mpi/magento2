@@ -32,11 +32,11 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
-        $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', array(), array(), '', false);
+        $this->customerSessionMock = $this->getMock('\Magento\Customer\Model\Session', [], [], '', false);
         $this->queryFactoryMock = $this->getMock(
             '\Magento\Search\Model\QueryFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -50,16 +50,16 @@ class StateKeyTest extends \PHPUnit_Framework_TestCase
      */
     public function testToString()
     {
-        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects($this->once())->method('getId')->will($this->returnValue('1'));
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue('2'));
 
         $this->customerSessionMock->expects($this->once())->method('getCustomerGroupId')->will($this->returnValue('3'));
 
-        $queryMock = $this->getMock('\Magento\CatalogSearch\Helper\Query', array('getId'), array(), '', false);
+        $queryMock = $this->getMock('\Magento\CatalogSearch\Helper\Query', ['getId'], [], '', false);
         $queryMock->expects($this->once())->method('getId')->will($this->returnValue('4'));
         $this->queryFactoryMock->expects($this->once())->method('get')->will($this->returnValue($queryMock));
 

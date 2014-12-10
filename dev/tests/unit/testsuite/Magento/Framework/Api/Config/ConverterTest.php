@@ -24,7 +24,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidData()
     {
-        $result = $this->_converter->convert(array('invalid data'));
+        $result = $this->_converter->convert(['invalid data']);
         $this->assertEmpty($result);
     }
 

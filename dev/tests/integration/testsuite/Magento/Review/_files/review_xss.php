@@ -17,11 +17,11 @@ $review->setEntityId(
         'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getId()
 )->setStores(
-    array(
+    [
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId()
-    )
+    ]
 )->setNickname(
     'Nickname'
 )->setTitle(

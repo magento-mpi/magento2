@@ -30,14 +30,14 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->collectionFactoryMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', array('create'), array(), '', false);
+            '\Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory', ['create'], [], '', false);
 
         $this->storeManagerMock = $this->getMock(
-            '\Magento\Store\Model\StoreManagerInterface', array(), array(), '', false
+            '\Magento\Store\Model\StoreManagerInterface', [], [], '', false
         );
 
         $this->layerMock = $this->getMock(
-            '\Magento\Catalog\Model\Layer\Search', array(), array(), '', false
+            '\Magento\Catalog\Model\Layer\Search', [], [], '', false
         );
 
         /** @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Catalog\Model\Layer\Resolver $layerResolver */
@@ -63,21 +63,21 @@ class FilterableAttributeListTest extends \PHPUnit_Framework_TestCase
     public function testGetList()
     {
         $productCollectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Collection', [], [], '', false
         );
         $this->layerMock->expects($this->once())->method('getProductCollection')
             ->will($this->returnValue($productCollectionMock));
-        $setIds = array(2, 3, 5);
+        $setIds = [2, 3, 5];
         $productCollectionMock->expects($this->once())->method('getSetIds')->will($this->returnValue($setIds));
 
-        $storeMock = $this->getMock('\Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $this->storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($storeMock));
 
         $storeId = 4321;
         $storeMock->expects($this->once())->method('getId')->will($this->returnValue($storeId));
 
         $collectionMock = $this->getMock(
-            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection', array(), array(), '', false
+            '\Magento\Catalog\Model\Resource\Product\Attribute\Collection', [], [], '', false
         );
         $this->collectionFactoryMock
             ->expects($this->once())

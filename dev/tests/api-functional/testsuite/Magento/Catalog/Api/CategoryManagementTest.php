@@ -45,12 +45,12 @@ class CategoryManagementTest extends WebapiAbstract
 
     public function treeDataProvider()
     {
-        return array(
+        return [
             [2, 100, 3, 402],
             [2, null, 3, 402],
             [400, 1, 1, 401],
             [401, 0, 0, 401],
-        );
+        ];
     }
 
     /**
@@ -84,11 +84,11 @@ class CategoryManagementTest extends WebapiAbstract
 
     public function updateMoveDataProvider()
     {
-        return array(
+        return [
             [402, 400, null, 2],
             [402, 400, 401, 2],
             [402, 400, 999, 2],
             [402, 400, 0, 1]
-        );
+        ];
     }
 }

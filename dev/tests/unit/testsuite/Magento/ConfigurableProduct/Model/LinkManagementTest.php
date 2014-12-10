@@ -221,7 +221,7 @@ class LinkManagementTest extends \PHPUnit_Framework_TestCase
         $productType->expects($this->once())->method('getUsedProducts')
             ->will($this->returnValue([$option]));
 
-        $product->expects($this->once())->method('addData')->with(['associated_product_ids' => array()]);
+        $product->expects($this->once())->method('addData')->with(['associated_product_ids' => []]);
         $product->expects($this->once())->method('save');
         $this->assertTrue($this->object->removeChild($productSku, $childSku));
     }

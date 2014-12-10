@@ -90,7 +90,7 @@ class LinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
                 'operation' => self::SERVICE_NAME . 'RemoveChild'
             ]
         ];
-        $requestData = array('productSku' => $productSku, 'childSku' => $childSku);
+        $requestData = ['productSku' => $productSku, 'childSku' => $childSku];
         return $this->_webApiCall($serviceInfo, $requestData);
     }
 

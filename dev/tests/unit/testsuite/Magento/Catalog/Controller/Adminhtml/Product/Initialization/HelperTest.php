@@ -58,30 +58,30 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->jsHelperMock = $this->getMock('Magento\Backend\Helper\Js', array(), array(), '', false);
-        $this->storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
-        $this->websiteMock = $this->getMock('Magento\Store\Model\Website', array(), array(), '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->jsHelperMock = $this->getMock('Magento\Backend\Helper\Js', [], [], '', false);
+        $this->storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
+        $this->websiteMock = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
         $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->stockFilterMock = $this->getMock(
             'Magento\Catalog\Controller\Adminhtml\Product\Initialization\StockDataFilter',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->productLinksMock = $this->getMock(
             'Magento\Catalog\Model\Product\Initialization\Helper\ProductLinks',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(
+            [
                 'setData',
                 'addData',
                 'getId',
@@ -94,8 +94,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
                 'setCanSaveCustomOptions',
                 '__sleep',
                 '__wakeup'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -129,12 +129,12 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             $this->jsHelperMock
         );
 
-        $productData = array(
-            'stock_data' => array('stock_data'),
-            'options' => array('option1', 'option2')
-        );
+        $productData = [
+            'stock_data' => ['stock_data'],
+            'options' => ['option1', 'option2']
+        ];
 
-        $useDefaults = array('attributeCode1', 'attributeCode2');
+        $useDefaults = ['attributeCode1', 'attributeCode2'];
 
         $this->requestMock->expects($this->at(0))
             ->method('getPost')
@@ -158,8 +158,8 @@ class HelperTest extends \PHPUnit_Framework_TestCase
 
         $this->stockFilterMock->expects($this->once())
             ->method('filter')
-            ->with(array('stock_data'))
-            ->will($this->returnValue(array('stock_data')));
+            ->with(['stock_data'])
+            ->will($this->returnValue(['stock_data']));
 
         $this->storeManagerMock->expects($this->once())
             ->method('hasSingleStore')
@@ -183,15 +183,15 @@ class HelperTest extends \PHPUnit_Framework_TestCase
             ->method('lockAttribute')
             ->with('media');
 
-        $productData['category_ids'] = array();
-        $productData['website_ids'] = array();
+        $productData['category_ids'] = [];
+        $productData['website_ids'] = [];
         $this->productMock->expects($this->once())
             ->method('addData')
             ->with($productData);
 
         $this->productMock->expects($this->once())
             ->method('setWebsiteIds')
-            ->with(array($this->websiteId));
+            ->with([$this->websiteId]);
 
         $this->productMock->expects($this->any())
             ->method('getOptionsReadOnly')

@@ -40,14 +40,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function serviceNamePartsDataProvider()
     {
-        return array(
-            array('Magento\Customer\Api\AccountManagementInterface', false, array('CustomerAccountManagement')),
-            array(
+        return [
+            ['Magento\Customer\Api\AccountManagementInterface', false, ['CustomerAccountManagement']],
+            [
                 'Vendor\Customer\Api\AddressRepositoryInterface',
                 true,
-                array('VendorCustomerAddressRepository', 'V1')
-            ),
-        );
+                ['VendorCustomerAddressRepository', 'V1']
+            ],
+        ];
     }
 
     /**
@@ -61,15 +61,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForTestGetServiceNamePartsInvalidName()
     {
-        return array(
-            array('BarV1Interface'), // Missed vendor, module, 'Service'
-            array('Service\\V1Interface'), // Missed vendor and module
-            array('Magento\\Foo\\Service\\BarVxInterface'), // Version number should be a number
-            array('Magento\\Foo\\Service\\BarInterface'), // Version missed
-            array('Magento\\Foo\\Service\\BarV1'), // 'Interface' missed
-            array('Foo\\Service\\BarV1Interface'), // Module missed
-            array('Foo\\BarV1Interface') // Module and 'Service' missed
-        );
+        return [
+            ['BarV1Interface'], // Missed vendor, module, 'Service'
+            ['Service\\V1Interface'], // Missed vendor and module
+            ['Magento\\Foo\\Service\\BarVxInterface'], // Version number should be a number
+            ['Magento\\Foo\\Service\\BarInterface'], // Version missed
+            ['Magento\\Foo\\Service\\BarV1'], // 'Interface' missed
+            ['Foo\\Service\\BarV1Interface'], // Module missed
+            ['Foo\\BarV1Interface'] // Module and 'Service' missed
+        ];
     }
 }
 

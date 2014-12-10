@@ -31,8 +31,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data',
-            array('isEnabled', 'addSegmentFieldsToForm'),
-            array(),
+            ['isEnabled', 'addSegmentFieldsToForm'],
+            [],
             '',
             false
         );
@@ -44,12 +44,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->_model = new \Magento\CustomerSegment\Model\Observer(
-            $this->getMock('Magento\Store\Model\StoreManagerInterface', array(), array(), '', false),
-            $this->getMock('Magento\Customer\Model\Session', array(), array(), '', false),
-            $this->getMock('Magento\CustomerSegment\Model\Customer', array(), array(), '', false),
-            $this->getMock('Magento\Backend\Model\Config\Source\Yesno', array(), array(), '', false),
+            $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false),
+            $this->getMock('Magento\Customer\Model\Session', [], [], '', false),
+            $this->getMock('Magento\CustomerSegment\Model\Customer', [], [], '', false),
+            $this->getMock('Magento\Backend\Model\Config\Source\Yesno', [], [], '', false),
             $this->_segmentHelper,
             $coreRegistry,
             $this->customerFactoryMock,
@@ -69,13 +69,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $formDependency = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Element\Dependence',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', ['createBlock'], [], '', false);
         $layout->expects(
             $this->once()
         )->method(
@@ -86,18 +86,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($formDependency)
         );
 
-        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
+        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
         $model = new \Magento\Framework\Object();
-        $block = new \Magento\Framework\Object(array('layout' => $layout));
+        $block = new \Magento\Framework\Object(['layout' => $layout]);
 
         $this->_segmentHelper->expects(
             $this->once()
@@ -111,11 +111,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                array(
+                [
                     'event' => new \Magento\Framework\Object(
-                            array('form' => $form, 'model' => $model, 'block' => $block)
+                            ['form' => $form, 'model' => $model, 'block' => $block]
                         )
-                )
+                ]
             )
         );
     }
@@ -124,31 +124,31 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_segmentHelper->expects($this->any())->method('isEnabled')->will($this->returnValue(false));
 
-        $layout = $this->getMock('Magento\Framework\View\Layout', array('createBlock'), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', ['createBlock'], [], '', false);
         $layout->expects($this->never())->method('createBlock');
 
-        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', array(), array(), '', false);
+        $factoryElement = $this->getMock('Magento\Framework\Data\Form\Element\Factory', [], [], '', false);
         $collectionFactory = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', array(), array(), '', false);
+        $formKey = $this->getMock('Magento\Framework\Data\Form\FormKey', [], [], '', false);
         $form = new \Magento\Framework\Data\Form($factoryElement, $collectionFactory, $formKey);
         $model = new \Magento\Framework\Object();
-        $block = new \Magento\Framework\Object(array('layout' => $layout));
+        $block = new \Magento\Framework\Object(['layout' => $layout]);
 
         $this->_segmentHelper->expects($this->never())->method('addSegmentFieldsToForm');
 
         $this->_model->addFieldsToTargetRuleForm(
             new \Magento\Framework\Event\Observer(
-                array(
+                [
                     'event' => new \Magento\Framework\Object(
-                            array('form' => $form, 'model' => $model, 'block' => $block)
+                            ['form' => $form, 'model' => $model, 'block' => $block]
                         )
-                )
+                ]
             )
         );
     }

@@ -11,7 +11,7 @@ class IdentifierTest extends \PHPUnit_Framework_TestCase
         $uri = 'index.php/customer';
         $isSecure = 0;
         $vary = 1;
-        $expected = md5(serialize(array($isSecure, $uri, $vary)));
+        $expected = md5(serialize([$isSecure, $uri, $vary]));
 
         $requestMock = $this->getMockBuilder('\Magento\Framework\App\Request\Http')
             ->disableOriginalConstructor()

@@ -116,7 +116,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = $this->getMockBuilder(
             'Magento\Framework\App\ObjectManager'
         )->disableOriginalConstructor()->setMethods(
-            array('get', 'create')
+            ['get', 'create']
         )->getMock();
         $frontControllerMock = $this->getMockBuilder(
             'Magento\Framework\App\FrontController'
@@ -129,23 +129,23 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->_session = $this->getMockBuilder(
             'Magento\Backend\Model\Session'
         )->disableOriginalConstructor()->setMethods(
-            array('setIsUrlNotice', '__wakeup')
+            ['setIsUrlNotice', '__wakeup']
         )->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
         $this->_helper = $this->getMockBuilder(
             'Magento\Backend\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('getUrl')
+            ['getUrl']
         )->getMock();
 
         $this->messageManager = $this->getMockBuilder(
             'Magento\Framework\Message\Manager'
         )->disableOriginalConstructor()->setMethods(
-            array('addSuccess', 'addMessage', 'addException')
+            ['addSuccess', 'addMessage', 'addException']
         )->getMock();
 
-        $contextArgs = array(
+        $contextArgs = [
             'getHelper',
             'getSession',
             'getAuthorization',
@@ -160,7 +160,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
             'getResponse',
             'getTitle',
             'getView'
-        );
+        ];
         $contextMock = $this->getMockBuilder(
             '\Magento\Backend\App\Action\Context'
         )->disableOriginalConstructor()->setMethods(
@@ -212,7 +212,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
             'Magento\Customer\Api\AccountManagementInterface'
         )->getMock();
 
-        $args = array('context' => $contextMock, 'customerAccountManagement' => $this->customerAccountManagement);
+        $args = ['context' => $contextMock, 'customerAccountManagement' => $this->customerAccountManagement];
 
         $this->viewInterfaceMock->expects($this->any())->method('getPage')->will(
             $this->returnValue($this->resultPageMock)
@@ -234,8 +234,8 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
     {
         $subscriberMock = $this->getMock(
             '\Magento\Newsletter\Model\Subscriber',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

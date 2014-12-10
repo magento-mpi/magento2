@@ -33,40 +33,40 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
-        $this->storeModel = $this->getMock('Magento\Store\Model\Store', array('__wakeup', 'getId'), array(), '', false);
+        $this->storeModel = $this->getMock('Magento\Store\Model\Store', ['__wakeup', 'getId'], [], '', false);
         $this->combineFactory = $this->getMock(
             'Magento\CatalogRule\Model\Rule\Condition\CombineFactory',
-            array(
+            [
                 'create'
-            )
+            ]
         );
         $this->productModel = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array(
+            [
                 '__wakeup', 'getId'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->condition = $this->getMock(
             'Magento\Rule\Model\Condition\Combine',
-            array(
+            [
                 'setRule',
                 'validate'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->websiteModel = $this->getMock(
             'Magento\Store\Model\Website',
-            array(
+            [
                 '__wakeup',
                 'getId',
                 'getDefaultStore'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
@@ -74,10 +74,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new ObjectManagerHelper($this);
         $this->rule = $this->objectManagerHelper->getObject(
             'Magento\CatalogRule\Model\Rule',
-            array(
+            [
                 'storeManager' => $this->storeManager,
                 'combineFactory' => $this->combineFactory
-            )
+            ]
         );
     }
 
@@ -88,9 +88,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     public function testCallbackValidateProduct($validate)
     {
         $args['product'] = $this->productModel;
-        $args['attributes'] = array();
+        $args['attributes'] = [];
         $args['idx'] = 0;
-        $args['row'] = array(
+        $args['row'] = [
             'entity_id' => '1',
             'entity_type_id' => '4',
             'attribute_set_id' => '4',
@@ -100,9 +100,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             'required_options' => '0',
             'created_at' => '2014-06-25 13:14:30',
             'updated_at' => '2014-06-25 14:37:15'
-        );
+        ];
         $this->storeManager->expects($this->any())->method('getWebsites')->with(true)
-            ->will($this->returnValue(array($this->websiteModel, $this->websiteModel)));
+            ->will($this->returnValue([$this->websiteModel, $this->websiteModel]));
         $this->websiteModel->expects($this->at(0))->method('getId')
             ->will($this->returnValue('1'));
         $this->websiteModel->expects($this->at(2))->method('getId')
@@ -132,9 +132,9 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderCallbackValidateProduct()
     {
-        return array(
-            array(false),
-            array(true),
-        );
+        return [
+            [false],
+            [true],
+        ];
     }
 }

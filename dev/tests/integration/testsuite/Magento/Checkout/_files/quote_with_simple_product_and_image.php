@@ -13,11 +13,11 @@ $product->load(1)
     ->setImage('/m/a/magento_image.jpg')
     ->setSmallImage('/m/a/magento_image.jpg')
     ->setThumbnail('/m/a/magento_image.jpg')
-    ->setData('media_gallery', array('images' => array(
-        array(
+    ->setData('media_gallery', ['images' => [
+        [
             'file' => '/m/a/magento_image.jpg',
             'position' => 1,
             'label' => 'Image Alt Text',
             'disabled' => 0,
-        ),
-    )))->save();
+        ],
+    ]])->save();

@@ -70,24 +70,24 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
     {
         $this->storeManagerMock = $this->getMock(
             '\Magento\Store\Model\StoreManagerInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->requestMock = $this->getMock(
             '\Magento\Framework\App\RequestInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->context = $this->getMock(
             '\Magento\Backend\Block\Template\Context',
-            array('getStoreManager', 'getRequest'),
-            array(),
+            ['getStoreManager', 'getRequest'],
+            [],
             '',
             false
         );
@@ -102,64 +102,64 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
 
         $this->categoryTree = $this->getMock(
             '\Magento\Catalog\Model\Resource\Category\Tree',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->registry = $this->getMock(
             '\Magento\Framework\Registry',
-            array('registry'),
-            array(),
+            ['registry'],
+            [],
             '',
             false
         );
 
         $this->categoryFactory = $this->getMock(
             '\Magento\Catalog\Model\CategoryFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->jsonEncoder = $this->getMock(
             '\Magento\Framework\Json\EncoderInterface',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->permIndexFactory = $this->getMock(
             '\Magento\CatalogPermissions\Model\Permission\IndexFactory',
-            array('create', 'getIndexForCategory'),
-            array(),
+            ['create', 'getIndexForCategory'],
+            [],
             '',
             false
         );
 
         $this->permissionCollectionFactory = $this->getMock(
             '\Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $this->groupCollectionFactory = $this->getMock(
             '\Magento\Customer\Model\Resource\Group\CollectionFactory',
-            array('create', 'getAllIds'),
-            array(),
+            ['create', 'getAllIds'],
+            [],
             '',
             false
         );
 
         $this->catalogPermData = $this->getMock(
             '\Magento\CatalogPermissions\Helper\Data',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -188,16 +188,16 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
     {
         $categoryMock = $this->getMock(
             '\Magento\Catalog\Model\Category',
-            array('getId', 'getParentId'),
-            array(),
+            ['getId', 'getParentId'],
+            [],
             '',
             false
         );
 
         $websiteMock = $this->getMock(
             '\Magento\Store\Model\Website',
-            array('getId', 'getDefaultStore'),
-            array(),
+            ['getId', 'getDefaultStore'],
+            [],
             '',
             false
         );
@@ -217,7 +217,7 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
         $this->groupCollectionFactory->expects($this->any())->method('getAllIds')->will($this->returnValue($groupIds));
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue(1));
         $this->storeManagerMock->expects($this->any())->method('getWebsites')->will(
-            $this->returnValue(array($websiteMock))
+            $this->returnValue([$websiteMock])
         );
         $this->assertEquals($result, $this->model->getParentPermissions());
     }
@@ -227,35 +227,35 @@ class PermissionsTest extends \PHPUnit_Framework_TestCase
      */
     public function getParentPermissionsDataProvider()
     {
-        $index = array(
-            1 => array(
+        $index = [
+            1 => [
                 'website_id' => 1,
                 'customer_group_id' => 1,
                 'grant_catalog_category_view' => '0',
                 'grant_catalog_product_price' => '-1',
                 'grant_checkout_items' => '-2'
-            ),
-            2 => array(
+            ],
+            2 => [
                 'website_id' => 2,
                 'customer_group_id' => 2,
                 'grant_catalog_category_view' => '-1',
                 'grant_catalog_product_price' => '-2',
                 'grant_checkout_items' => '0'
-            )
-        );
-        $groupIds = array(1, 2);
-        $groupIdsSecond = array(1, 2, 3);
-        $result = array(
-            '1_1' => array('category' => '-1', 'product' => '-1', 'checkout' => '-2'),
-            '2_2' => array('category' => '-1', 'product' => '-2', 'checkout' => '0'),
-            '1_2' => array('category' => '-1', 'product' => '-1', 'checkout' => '-1')
-        );
-        $resultSecond = array(
-            '1_1' => array('category' => '-1', 'product' => '-1', 'checkout' => '-2'),
-            '2_2' => array('category' => '-1', 'product' => '-2', 'checkout' => '0'),
-            '1_2' => array('category' => '-1', 'product' => '-1', 'checkout' => '-1'),
-            '1_3' => array('category' => '-1', 'product' => '-1', 'checkout' => '-1')
-        );
-        return array(array(3, $index, $groupIds, $result), array(0, $index, $groupIdsSecond, $resultSecond));
+            ]
+        ];
+        $groupIds = [1, 2];
+        $groupIdsSecond = [1, 2, 3];
+        $result = [
+            '1_1' => ['category' => '-1', 'product' => '-1', 'checkout' => '-2'],
+            '2_2' => ['category' => '-1', 'product' => '-2', 'checkout' => '0'],
+            '1_2' => ['category' => '-1', 'product' => '-1', 'checkout' => '-1']
+        ];
+        $resultSecond = [
+            '1_1' => ['category' => '-1', 'product' => '-1', 'checkout' => '-2'],
+            '2_2' => ['category' => '-1', 'product' => '-2', 'checkout' => '0'],
+            '1_2' => ['category' => '-1', 'product' => '-1', 'checkout' => '-1'],
+            '1_3' => ['category' => '-1', 'product' => '-1', 'checkout' => '-1']
+        ];
+        return [[3, $index, $groupIds, $result], [0, $index, $groupIdsSecond, $resultSecond]];
     }
 }

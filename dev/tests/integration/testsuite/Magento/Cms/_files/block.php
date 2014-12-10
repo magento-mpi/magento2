@@ -18,9 +18,9 @@ $block->setTitle(
 )->setIsActive(
     1
 )->setStores(
-    array(
+    [
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId()
-    )
+    ]
 )->save();

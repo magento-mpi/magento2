@@ -66,7 +66,7 @@ function processFile($path)
  */
 function processDir($path)
 {
-    static $excluded = array('.', '..', '.git', '.idea');
+    static $excluded = ['.', '..', '.git', '.idea'];
 
     if (is_dir($path)) {
         $handle = opendir($path);
