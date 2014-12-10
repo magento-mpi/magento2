@@ -742,7 +742,7 @@ class Installer
     private function cleanupDb()
     {
         // stops cleanup if app/etc/config.php does not exist
-        if ($this->filesystem->getDirectoryWrite(DirectoryList::CONFIG)->isFile('config.php')) {
+        if ($this->deploymentConfig->isAvailable()) {
             $dbConfig = new DbConfig($this->deploymentConfig->getSegment(DbConfig::CONFIG_KEY));
             $config = $dbConfig->getConnection(\Magento\Framework\App\Resource\Config::DEFAULT_SETUP_CONNECTION);
             if ($config) {
