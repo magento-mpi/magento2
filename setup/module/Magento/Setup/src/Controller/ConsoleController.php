@@ -294,7 +294,6 @@ class ConsoleController extends AbstractActionController
      * Controller for Install Command
      *
      * @return void
-     * @throws \Exception
      */
     public function installAction()
     {
@@ -307,7 +306,6 @@ class ConsoleController extends AbstractActionController
      * Creates the config.php file
      *
      * @return void
-     * @throws \Exception
      */
     public function installDeploymentConfigAction()
     {
@@ -320,7 +318,6 @@ class ConsoleController extends AbstractActionController
      * Installs and updates database schema
      *
      * @return void
-     * @throws \Exception
      */
     public function installSchemaAction()
     {
@@ -331,7 +328,6 @@ class ConsoleController extends AbstractActionController
      * Installs and updates data fixtures
      *
      * @return void
-     * @throws \Exception
      */
     public function installDataAction()
     {
@@ -342,7 +338,6 @@ class ConsoleController extends AbstractActionController
      * Updates database schema and data
      *
      * @return void
-     * @throws \Exception
      */
     public function updateAction()
     {
@@ -378,7 +373,6 @@ class ConsoleController extends AbstractActionController
      * Controller for Uninstall Command
      *
      * @return void
-     * @throws \Exception
      */
     public function uninstallAction()
     {
@@ -420,7 +414,7 @@ class ConsoleController extends AbstractActionController
      * Shows necessary information for installing Magento
      *
      * @return string
-     * @throws \Exception
+     * @throws \InvalidArgumentException
      */
     public function helpAction()
     {

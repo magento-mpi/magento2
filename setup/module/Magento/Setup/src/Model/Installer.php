@@ -682,7 +682,7 @@ class Installer
      * @param string $dbUser
      * @param string $dbPass
      * @return boolean
-     * @throws \Exception
+     * @throws \Magento\Setup\Exception
      */
     public function checkDatabaseConnection($dbName, $dbHost, $dbUser, $dbPass = '')
     {
