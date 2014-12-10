@@ -751,7 +751,34 @@ $data = array(
     array('LT', 'LT-TA', 'Tauragės Apskritis'),
     array('LT', 'LT-TE', 'Telšių Apskritis'),
     array('LT', 'LT-UT', 'Utenos Apskritis'),
-    array('LT', 'LT-VL', 'Vilniaus Apskritis')
+    array('LT', 'LT-VL', 'Vilniaus Apskritis'),
+    array('BR', 'AC', 'Acre'),
+    array('BR', 'AL', 'Alagoas'),
+    array('BR', 'AP', 'Amapá'),
+    array('BR', 'AM', 'Amazonas'),
+    array('BR', 'BA', 'Bahia'),
+    array('BR', 'CE', 'Ceará'),
+    array('BR', 'ES', 'Espírito Santo'),
+    array('BR', 'GO', 'Goiás'),
+    array('BR', 'MA', 'Maranhão'),
+    array('BR', 'MT', 'Mato Grosso'),
+    array('BR', 'MS', 'Mato Grosso do Sul'),
+    array('BR', 'MG', 'Minas Gerais'),
+    array('BR', 'PA', 'Pará'),
+    array('BR', 'PB', 'Paraíba'),
+    array('BR', 'PR', 'Paraná'),
+    array('BR', 'PE', 'Pernambuco'),
+    array('BR', 'PI', 'Piauí'),
+    array('BR', 'RJ', 'Rio de Janeiro'),
+    array('BR', 'RN', 'Rio Grande do Norte'),
+    array('BR', 'RS', 'Rio Grande do Sul'),
+    array('BR', 'RO', 'Rondônia'),
+    array('BR', 'RR', 'Roraima'),
+    array('BR', 'SC', 'Santa Catarina'),
+    array('BR', 'SP', 'São Paulo'),
+    array('BR', 'SE', 'Sergipe'),
+    array('BR', 'TO', 'Tocantins'),
+    array('BR', 'DF', 'Distrito Federal')
 );
 
 foreach ($data as $row) {
@@ -775,3 +802,33 @@ $data = array(
 
 $columns = array('currency_from', 'currency_to', 'rate');
 $installer->getConnection()->insertArray($installer->getTable('directory_currency_rate'), $columns, $data);
+
+$installer->getConnection()->insert(
+    $installer->getTable('core_config_data'),
+    array(
+        'scope' => 'default',
+        'scope_id' => 0,
+        'path' => \Magento\Directory\Helper\Data::XML_PATH_DISPLAY_ALL_STATES,
+        'value' => 1
+    )
+);
+
+/**
+ * @var $countries array
+ */
+$countries = array();
+foreach ($installer->getDirectoryData()->getCountryCollection() as $country) {
+    if ($country->getRegionCollection()->getSize() > 0) {
+        $countries[] = $country->getId();
+    }
+}
+
+$installer->getConnection()->insert(
+    $installer->getTable('core_config_data'),
+    array(
+        'scope' => 'default',
+        'scope_id' => 0,
+        'path' => \Magento\Directory\Helper\Data::XML_PATH_STATES_REQUIRED,
+        'value' => implode(',', $countries)
+    )
+);
