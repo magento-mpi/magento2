@@ -3,6 +3,10 @@
     "description": "Magento project mainline",
     "type": "project",
     "version": "0.1.0-alpha107",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "require": {
         "php": "~5.4.11|~5.5.0",
         "zendframework/zend-stdlib": "2.3.1",
