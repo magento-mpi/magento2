@@ -8,41 +8,40 @@
 namespace Magento\Downloadable\Block\Catalog\Product;
 
 use Magento\Catalog\Pricing\Price\FinalPrice;
-use Magento\Catalog\Pricing\Price\RegularPrice;
 use Magento\Downloadable\Model\Link;
 use Magento\Downloadable\Pricing\Price\LinkPrice;
+use Magento\Framework\Json\EncoderInterface;
 
 /**
  * Downloadable Product Links part block
- *
  */
 class Links extends \Magento\Catalog\Block\Product\AbstractProduct
 {
-    /**
-     * @var \Magento\Framework\Json\EncoderInterface
-     */
-    protected $jsonEncoder;
-
     /**
      * @var \Magento\Core\Helper\Data
      */
     protected $coreData;
 
     /**
+     * @var EncoderInterface
+     */
+    protected $encoder;
+
+    /**
      * @param \Magento\Catalog\Block\Product\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param EncoderInterface $encoder
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        EncoderInterface $encoder,
         array $data = array()
     ) {
         $this->coreData = $coreData;
-        parent::__construct(
-            $context,
-            $data
-        );
+        $this->encoder = $encoder;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -107,7 +106,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
             ];
         }
 
-        return json_encode(['links' => $linksConfig]);
+        return $this->encoder->encode(['links' => $linksConfig]);
     }
 
     /**
