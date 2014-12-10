@@ -35,8 +35,9 @@ class PageCollectionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->repositoryMock = $this->getMockForAbstractClass(
-            'Magento\Cms\Api\PageRepositoryInterface',
+        $this->repositoryMock = $this->getMock(
+            'Magento\Cms\Model\PageRepository',
+            [],
             [],
             '',
             false
