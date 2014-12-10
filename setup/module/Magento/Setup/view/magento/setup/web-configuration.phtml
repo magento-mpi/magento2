@@ -56,7 +56,7 @@ $hints = [
     <div class="form-group" ng-class="{'has-error': webconfig.admin.$invalid && webconfig.submitted}">
         <label class="col-md-3 control-label">Magento Admin Address&nbsp;<span class="required">*</span></label>
         <div class="col-md-4 input-group" style="padding-left: 15px; padding-right: 15px;">
-            <span class="input-group-addon">{{config.address.base_url}}</span>
+            <span class="input-group-addon">{{config.address.actual_base_url}}</span>
             <input type="text"
                    name="admin"
                    class="form-control"
