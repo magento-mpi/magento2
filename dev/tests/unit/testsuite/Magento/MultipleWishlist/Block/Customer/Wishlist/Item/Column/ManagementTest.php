@@ -29,7 +29,7 @@ class ManagementTest extends \PHPUnit_Framework_TestCase
     protected $wishlistHelperMock;
 
     /**
-     * @var \Magento\Customer\Service\V1\Data\Customer|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Customer\Api\Data\CustomerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $dataCustomerMock;
 

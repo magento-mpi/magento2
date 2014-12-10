@@ -68,8 +68,6 @@ class Store extends AbstractModel implements
 
     const XML_PATH_UNSECURE_BASE_MEDIA_URL = 'web/unsecure/base_media_url';
 
-    const XML_PATH_OFFLOADER_HEADER = 'web/secure/offloader_header';
-
     const XML_PATH_PRICE_SCOPE = 'catalog/price/scope';
 
     /**#@-*/
@@ -310,7 +308,7 @@ class Store extends AbstractModel implements
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\App\Config\ReinitableConfigInterface $config
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Session\SidResolverInterface $sidResolver
      * @param \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory
      * @param \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
@@ -329,11 +327,11 @@ class Store extends AbstractModel implements
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Framework\App\Cache\Type\Config $configCacheType,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\App\RequestInterface $request,
+        \Magento\Framework\App\Http\RequestInterface $request,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Framework\Filesystem $filesystem,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Session\SidResolverInterface $sidResolver,
         \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory $cookieMetadataFactory,
         \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
@@ -719,15 +717,7 @@ class Store extends AbstractModel implements
      */
     public function isCurrentlySecure()
     {
-        $standardRule = !empty($_SERVER['HTTPS']) && 'off' != $_SERVER['HTTPS'];
-        $offloaderHeader = trim(
-            (string)$this->_config->getValue(
-                self::XML_PATH_OFFLOADER_HEADER,
-                \Magento\Framework\App\ScopeInterface::SCOPE_DEFAULT
-            )
-        );
-
-        if (!empty($offloaderHeader) && !empty($_SERVER[$offloaderHeader]) || $standardRule) {
+        if ($this->_request->isSecure()) {
             return true;
         }
 

@@ -143,7 +143,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             );
         } else {
-            return (int)$product->getAllowMessage();
+            return (int)$product->getGiftMessageAvailable();
         }
     }
 

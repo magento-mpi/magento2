@@ -30,7 +30,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         if ($testWebsite->getId()) {
             // Clear test website info from application cache.
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->clearWebsiteCache(
                 $testWebsite->getId()
             );
@@ -66,11 +66,11 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         )->load(
             'test'
         );
-        $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($testWebsite->getId());
+        $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
         $websiteCodes = array();
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();

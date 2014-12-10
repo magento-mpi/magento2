@@ -72,7 +72,7 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
+        $this->storeManagerMock = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
             ->setMethods(['getWebsite'])
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
@@ -94,7 +94,7 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
         $this->productRepositoryMock->expects($this->any())->method('get')->with('product_sku')
             ->will($this->returnValue($this->productMock));
         $this->configMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->groupPriceManagement = new GroupPriceManagement(
             $this->productRepositoryMock,
             $this->priceBuilderMock,
@@ -236,21 +236,6 @@ class GroupPriceManagementTest extends \PHPUnit_Framework_TestCase
 
     public function testSetUpdatedPriceWithGlobalPriceScope()
     {
-        $priceBuilder = $this->getMock(
-            '\Magento\Catalog\Service\V1\Data\Product\GroupPriceBuilder',
-            array(),
-            array(),
-            '',
-            false
-        );
-        $priceBuilder->expects($this->any())->method('getData')->will(
-            $this->returnValue(
-                array(
-                    'customer_group_id' => 2,
-                    'value' => 100
-                )
-            )
-        );
         $group = $this->getMock('\Magento\Customer\Model\Data\Group', [], [], '', false);
         $this->groupServiceMock->expects($this->once())->method('getById')->will($this->returnValue($group));
         $this->productMock

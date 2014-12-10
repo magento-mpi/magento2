@@ -278,4 +278,5 @@ return array(
     ['isLockedByMe', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
     ['isLockedByOther', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
     ['canDragNodes', 'Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Edit\Form'],
+    ['getRefreshWrappingUrl', 'Magento\GiftWrapping\Block\Adminhtml\Order\Create\Info'],
 );

@@ -195,7 +195,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMockForAbstractClass();
         $storeManager->expects($this->any())
@@ -546,7 +546,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     public function testFromArray()
     {
         $data = [
-            'stock_item' => 'stock-item-data'
+            'stock_item' => ['stock-item-data']
         ];
 
         $stockItemMock = $this->getMockForAbstractClass(

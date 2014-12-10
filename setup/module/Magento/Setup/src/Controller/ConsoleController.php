@@ -154,7 +154,8 @@ class ConsoleController extends AbstractActionController
             . ' [--' . ConfigMapper::KEY_SESSION_SAVE . '=]'
             . ' [--' . ConfigMapper::KEY_ENCRYPTION_KEY . '=]'
             . ' [--' . Installer::ENABLE_MODULES . '=]'
-            . ' [--' . Installer::DISABLE_MODULES . '=]';
+            . ' [--' . Installer::DISABLE_MODULES . '=]'
+            . ' [--' . Installer::USE_SAMPLE_DATA . ']';
         $userConfig = '[--' . UserConfig::KEY_BASE_URL . '=]'
             . ' [--' . UserConfig::KEY_LANGUAGE . '=]'
             . ' [--' . UserConfig::KEY_TIMEZONE . '=]'

@@ -46,6 +46,11 @@ class Stock extends AbstractExtensibleModel implements StockInterface
     const STOCK_IN_STOCK = 1;
 
     /**
+     * Default stock id
+     */
+    const DEFAULT_STOCK_ID = 1;
+
+    /**
      * @return void
      */
     protected function _construct()

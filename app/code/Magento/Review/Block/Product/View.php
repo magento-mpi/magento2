@@ -41,8 +41,8 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param TaxCalculationInterface $taxCalculationService
      * @param ProductRepositoryInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
@@ -55,8 +55,8 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Customer\Model\Session $customerSession,
-        TaxCalculationInterface $taxCalculationService,
         ProductRepositoryInterface $productRepository,
+        \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -70,8 +70,8 @@ class View extends \Magento\Catalog\Block\Product\View
             $productTypeConfig,
             $localeFormat,
             $customerSession,
-            $taxCalculationService,
             $productRepository,
+            $priceCurrency,
             $data
         );
     }

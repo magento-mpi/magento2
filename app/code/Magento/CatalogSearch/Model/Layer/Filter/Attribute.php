@@ -22,7 +22,7 @@ class Attribute extends AbstractFilter
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -30,7 +30,7 @@ class Attribute extends AbstractFilter
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Filter\StripTags $tagFilter,
@@ -83,8 +83,7 @@ class Attribute extends AbstractFilter
     {
         $attribute = $this->getAttributeModel();
         /** @var \Magento\CatalogSearch\Model\Resource\Fulltext\Collection $productCollection */
-        $productCollection = $this->getLayer()
-            ->getProductCollection();
+        $productCollection = $this->getLayer()->getProductCollection();
         $optionsFacetedData = $productCollection->getFacetedData($attribute->getAttributeCode());
 
         $productSize = $productCollection->getSize();
@@ -98,7 +97,7 @@ class Attribute extends AbstractFilter
             // Check filter type
             if ($this->getAttributeIsFilterable($attribute) == static::ATTRIBUTE_OPTIONS_ONLY_WITH_RESULTS
                 && (empty($optionsFacetedData[$option['value']]['count'])
-                    || $productSize <= $optionsFacetedData[$option['value']]['count'])
+                    || !$this->isOptionReducesResults($optionsFacetedData[$option['value']]['count'], $productSize))
             ) {
                 continue;
             }

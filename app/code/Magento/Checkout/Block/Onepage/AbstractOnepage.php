@@ -87,7 +87,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
     /**
      * @var \Magento\Customer\Model\Address\Mapper
      */
-    protected $dataObjectConverter;
+    protected $addressMapper;
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
@@ -100,7 +100,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
      * @param CustomerRepositoryInterface $customerRepository
      * @param AddressConfig $addressConfig
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param \Magento\Customer\Model\Address\Mapper $dataObjectConverter
+     * @param \Magento\Customer\Model\Address\Mapper $addressMapper
      * @param array $data
      */
     public function __construct(
@@ -114,10 +114,9 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         CustomerRepositoryInterface $customerRepository,
         AddressConfig $addressConfig,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Address\Mapper $dataObjectConverter,
+        \Magento\Customer\Model\Address\Mapper $addressMapper,
         array $data = array()
     ) {
-        $this->dataObjectConverter = $dataObjectConverter;
         $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
@@ -129,6 +128,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
         $this->_isScopePrivate = true;
         $this->customerRepository = $customerRepository;
         $this->_addressConfig = $addressConfig;
+        $this->addressMapper = $addressMapper;
     }
 
     /**
@@ -238,7 +238,7 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
             }
 
             foreach ($addresses as $address) {
-                $builtOutputAddressData = $this->dataObjectConverter->toFlatArray($address);
+                $builtOutputAddressData = $this->addressMapper->toFlatArray($address);
                 $label = $this->_addressConfig
                     ->getFormatByCode(AddressConfig::DEFAULT_ADDRESS_FORMAT)
                     ->getRenderer()
@@ -262,10 +262,8 @@ abstract class AbstractOnepage extends \Magento\Framework\View\Element\Template
 
             $select = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
                 ->setName($type . '_address_id')
-                ->setId($type . '-address-select')
+                ->setId($type . ':address-select')
                 ->setClass('address-select')
-                //->setExtraParams('onchange="'.$type.'.newAddress(!this.value)"')
-                // temp disable inline javascript, need to clean this later
                 ->setValue($addressId)
                 ->setOptions($options);
 

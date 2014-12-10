@@ -12,7 +12,6 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
-use Magento\Customer\Model\Address\Converter as AddressConverter;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Tax\Model\Config;
 
@@ -99,7 +98,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -139,13 +138,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_quoteDetailsItemBuilder;
 
     /**
-     * Address converter
-     *
-     * @var AddressConverter
-     */
-    protected $_addressConverter;
-
-    /**
      * @var CustomerSession
      */
     protected $_customerSession;
@@ -176,7 +168,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Framework\Stdlib\String $string
      * @param Category $catalogCategory
@@ -191,14 +183,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder
      * @param \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService
      * @param CustomerSession $customerSession
-     * @param AddressConverter $addressConverter
      * @param PriceCurrencyInterface $priceCurrency
      * @param ProductRepositoryInterface $productRepository
      * @param CategoryRepositoryInterface $categoryRepository
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Framework\Stdlib\String $string,
         Category $catalogCategory,
@@ -213,7 +204,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Tax\Api\Data\QuoteDetailsItemDataBuilder $quoteDetailsItemBuilder,
         \Magento\Tax\Api\TaxCalculationInterface $taxCalculationService,
         CustomerSession $customerSession,
-        AddressConverter $addressConverter,
         PriceCurrencyInterface $priceCurrency,
         ProductRepositoryInterface $productRepository,
         CategoryRepositoryInterface $categoryRepository
@@ -233,7 +223,6 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $this->_quoteDetailsItemBuilder = $quoteDetailsItemBuilder;
         $this->_taxCalculationService = $taxCalculationService;
         $this->_customerSession = $customerSession;
-        $this->_addressConverter = $addressConverter;
         $this->priceCurrency = $priceCurrency;
         $this->productRepository = $productRepository;
         $this->categoryRepository = $categoryRepository;
@@ -535,7 +524,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             if ($store) {
                 $storeId = $store->getId();
             }
-            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId);
+            $taxDetails = $this->_taxCalculationService->calculateTax($quoteDetails, $storeId, $roundPrice);
             $items = $taxDetails->getItems();
             $taxDetailsItem = array_shift($items);
 

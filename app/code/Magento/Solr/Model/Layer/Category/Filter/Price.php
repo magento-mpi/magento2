@@ -56,8 +56,18 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     private $intervalFactory;
 
     /**
+     * @var \Magento\Framework\Registry
+     */
+    private $coreRegistry;
+
+    /**
+     * @var \Magento\Framework\App\Config\ScopeConfigInterface
+     */
+    private $scopeConfig;
+
+    /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource
@@ -66,14 +76,17 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory
      * @param \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory
+     * @param \Magento\Framework\Registry $coreRegistry
+     * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine
      * @param \Magento\Framework\App\CacheInterface $cache
      * @param \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags
+     * @param IntervalFactory $intervalFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\Price $resource,
@@ -82,11 +95,17 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory $algorithmFactory,
         \Magento\Catalog\Model\Layer\Filter\DataProvider\PriceFactory $dataProviderFactory,
+        \Magento\Framework\Registry $coreRegistry,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
         \Magento\Framework\App\CacheInterface $cache,
         \Magento\Solr\Model\Layer\Category\CacheStateTags $cacheStateTags,
+        IntervalFactory $intervalFactory,
         array $data = []
     ) {
+        $this->_resourceEngine = $resourceEngine;
+        $this->_cache = $cache;
+        $this->cacheStateTags = $cacheStateTags;
         parent::__construct(
             $filterItemFactory,
             $storeManager,
@@ -100,8 +119,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $dataProviderFactory,
             $data
         );
+        $this->intervalFactory = $intervalFactory;
+        $this->coreRegistry = $coreRegistry;
+        $this->scopeConfig = $scopeConfig;
     }
-
 
     /**
      * Return cache tag for layered price filter

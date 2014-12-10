@@ -483,25 +483,6 @@
     top: 30px;
 }
 
-/*
-    Advanced Pricing tab
--------------------------------------- */
-.field-recurring_payment > .control > .field-row:first-child + .fieldset {
-    margin-top: -14px;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .label {
-    width: 30%;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .control {
-    width: 70%;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .field-service {
-    display: none;
-}
-
 /* Change Attribute Set */
 #product_info_tabs li.removed,
 div.removed,

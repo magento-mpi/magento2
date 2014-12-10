@@ -20,10 +20,10 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\GoogleShopping\Model\Attribute\Price $model */
         $model = Bootstrap::getObjectManager()->create('Magento\GoogleShopping\Model\Attribute\Price');
-        $customerGroupService = Bootstrap::getObjectManager()->get(
-            'Magento\Customer\Service\V1\CustomerGroupServiceInterface'
+        $groupManagement = Bootstrap::getObjectManager()->get(
+            'Magento\Customer\Api\GroupManagementInterface'
         );
-        $defaultCustomerGroup = $customerGroupService->getDefaultGroup($product->getStoreId());
+        $defaultCustomerGroup = $groupManagement->getDefaultGroup($product->getStoreId());
         $model->convertAttribute($product, $entry);
         $this->assertEquals($defaultCustomerGroup->getId(), $product->getCustomerGroupId());
     }

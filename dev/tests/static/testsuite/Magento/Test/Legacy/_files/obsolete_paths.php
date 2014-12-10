@@ -234,4 +234,6 @@ return [
     ['/dev/shell/uninstall.php'],
     ['/app/design/install'],
     ['/app/etc/local.xml', '/app/etc/config.php'],
+    ['/app/code/Magento/RecurringPayment'],
+    ['/app/code/Magento/PayPalRecurringPayment'],
 ];

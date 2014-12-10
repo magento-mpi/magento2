@@ -411,33 +411,38 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         /**
          * Top menu options
          */
-        $menuFieldset = $form->addFieldset('top_menu_fieldset', array('legend' => __('Main Navigation Menu Options')));
+        if ($this->_cmsHierarchy->isMetadataEnabled()) {
+            $menuFieldset = $form->addFieldset(
+                'top_menu_fieldset',
+                array('legend' => __('Main Navigation Menu Options'))
+            );
 
-        $menuFieldset->addField(
-            'top_menu_excluded',
-            'select',
-            array(
-                'label' => __('Exclude from Navigation Menu'),
-                'name' => 'top_menu_excluded',
-                'values' => $yesNoOptions,
-                'onchange' => "hierarchyNodes.nodeChanged()",
-                'container_id' => 'field_top_menu_excluded',
-                'tabindex' => '170'
-            )
-        );
+            $menuFieldset->addField(
+                'top_menu_excluded',
+                'select',
+                array(
+                    'label' => __('Exclude from Navigation Menu'),
+                    'name' => 'top_menu_excluded',
+                    'values' => $yesNoOptions,
+                    'onchange' => "hierarchyNodes.nodeChanged()",
+                    'container_id' => 'field_top_menu_excluded',
+                    'tabindex' => '170'
+                )
+            );
 
-        $menuFieldset->addField(
-            'top_menu_visibility',
-            'select',
-            array(
-                'label' => __('Show in navigation menu.'),
-                'name' => 'top_menu_visibility',
-                'values' => $yesNoOptions,
-                'onchange' => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
-                'container_id' => 'field_top_menu_visibility',
-                'tabindex' => '160'
-            )
-        );
+            $menuFieldset->addField(
+                'top_menu_visibility',
+                'select',
+                array(
+                    'label' => __('Show in navigation menu.'),
+                    'name' => 'top_menu_visibility',
+                    'values' => $yesNoOptions,
+                    'onchange' => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
+                    'container_id' => 'field_top_menu_visibility',
+                    'tabindex' => '160'
+                )
+            );
+        }
 
         $form->setUseContainer(true);
         $this->setForm($form);

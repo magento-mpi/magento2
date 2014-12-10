@@ -52,8 +52,12 @@ define([
             events['click ' + this.options.backSelector] = function() {
                 this.element.trigger('enableSection', {selector: '#' + this.element.find('.active').prev().attr('id')});
             };
+
+            $(document).on({
+                'ajaxError': this._ajaxError.bind(this)
+            });
+
             $.extend(events, {
-                ajaxError: '_ajaxError',
                 showAjaxLoader: '_ajaxSend',
                 hideAjaxLoader: '_ajaxComplete',
                 gotoSection: function(e, section) {
@@ -225,7 +229,7 @@ define([
     $.widget('mage.opcheckout', $.mage.opcheckout, {
         options: {
             billing: {
-                addressDropdownSelector: '#billing-address-select',
+                addressDropdownSelector: '#billing\\:address-select',
                 newAddressFormSelector: '#billing-new-address-form',
                 continueSelector: '#billing-buttons-container .button',
                 form: '#co-billing-form'
@@ -261,7 +265,7 @@ define([
         options: {
             shipping: {
                 form: '#co-shipping-form',
-                addressDropdownSelector: '#shipping-address-select',
+                addressDropdownSelector: '#shipping\\:address-select',
                 newAddressFormSelector: '#shipping-new-address-form',
                 copyBillingSelector: '#shipping\\:same_as_billing',
                 countrySelector: '#shipping\\:country_id',
@@ -272,12 +276,14 @@ define([
         _create: function() {
             this._super();
             var events = {};
-            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
-                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
-            };
             var onInputPropChange = function() {
                 $(this.options.shipping.copyBillingSelector).prop('checked', false);
             };
+            events['change ' + this.options.shipping.addressDropdownSelector] = function(e) {
+                $(this.options.shipping.newAddressFormSelector).toggle(!$(e.target).val());
+                onInputPropChange.call(this);
+            };
+            // for guest checkout
             events['input ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['propertychange ' + this.options.shipping.form + ' :input[name]'] = onInputPropChange;
             events['click ' + this.options.shipping.copyBillingSelector] = function(e) {
@@ -399,7 +405,7 @@ define([
                 if ($.isNumeric(checkoutPrice)) {
                     this.checkoutPrice = checkoutPrice;
                 }
-                if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+                if (this.checkoutPrice < this.options.minBalance) {
                     this._disablePaymentMethods();
                 } else {
                     this._enablePaymentMethods();
@@ -415,7 +421,7 @@ define([
                     if (data.totalPrice) {
                         data.totalPrice = this.checkoutPrice;
                     }
-                    if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+                    if (this.checkoutPrice < this.options.minBalance) {
                         // Add free input field, hide and disable unchecked checkbox payment method and all radio button payment methods
                         this._disablePaymentMethods();
                     } else {
@@ -465,7 +471,7 @@ define([
                 alert($.mage.__("We can't complete your order because you don't have a payment method available."));
                 return false;
             }
-            if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
+            if (this.checkoutPrice < this.options.minBalance) {
                 return true;
             } else if (methods.filter('input:radio:checked').length) {
                 return true;

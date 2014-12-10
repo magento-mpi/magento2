@@ -14,6 +14,27 @@ namespace Magento\Directory\Helper;
 class Url extends \Magento\Core\Helper\Url
 {
     /**
+     * Core data
+     *
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData = null;
+
+    /**
+     * @param \Magento\Framework\App\Helper\Context $context
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     */
+    public function __construct(
+        \Magento\Framework\App\Helper\Context $context,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData
+    ) {
+        $this->_coreData = $coreData;
+        parent::__construct($context, $storeManager);
+    }
+
+    /**
      * Retrieve switch currency url
      *
      * @param array $params Additional url params

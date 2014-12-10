@@ -21,7 +21,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCurrentBase64Url()
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
         ->disableOriginalConstructor()
         ->getMock();
         $urlBuilderMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
@@ -57,7 +57,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEncodedUrl($url, $callNum)
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $urlBuilderMock = $this->getMockBuilder('Magento\Framework\UrlInterface')
@@ -98,7 +98,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHomeUrl()
     {
-        $storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
         $storeMock = $this->getMockBuilder('Magento\Store\Model\Store')

@@ -39,11 +39,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $productLoaderMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $giftMessageMock;
 
     /**
@@ -71,12 +66,10 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->giftMessageManagerMock =
             $this->getMock('\Magento\GiftMessage\Model\GiftMessageManager', [], [], '', false);
         $this->helperMock = $this->getMock('\Magento\GiftMessage\Helper\Message', [], [], '', false);
-        $this->productLoaderMock =
-            $this->getMock('\Magento\Catalog\Service\V1\Product\ProductLoader', [], [], '', false);
         $this->giftMessageMock = $this->getMock('\Magento\GiftMessage\Service\V1\Data\Message', [], [], '', false);
         $this->quoteMock = $this->getMock(
             '\Magento\Sales\Model\Quote',
@@ -104,8 +97,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
                 'quoteRepository' => $this->quoteRepositoryMock,
                 'storeManager' => $this->storeManagerMock,
                 'giftMessageManager' => $this->giftMessageManagerMock,
-                'helper' => $this->helperMock,
-                'productLoader' => $this->productLoaderMock,
+                'helper' => $this->helperMock
             ]
         );
     }

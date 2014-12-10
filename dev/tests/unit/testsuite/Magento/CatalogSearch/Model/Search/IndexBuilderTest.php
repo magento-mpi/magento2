@@ -25,7 +25,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface|MockObject */
     private $config;
 
-    /** @var \Magento\Framework\StoreManagerInterface|MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|MockObject */
     private $storeManager;
 
     /** @var \Magento\Framework\Search\RequestInterface|MockObject */
@@ -73,7 +73,7 @@ class IndexBuilderTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['isSetFlag'])
             ->getMockForAbstractClass();
 
-        $this->storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')->getMock();
+        $this->storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')->getMock();
 
         $objectManagerHelper = new ObjectManagerHelper($this);
         $this->target = $objectManagerHelper->getObject(

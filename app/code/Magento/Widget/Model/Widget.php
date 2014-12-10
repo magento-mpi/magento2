@@ -53,24 +53,32 @@ class Widget
     protected $_widgetsArray = array();
 
     /**
+     * @var \Magento\Widget\Helper\Conditions
+     */
+    protected $conditionsHelper;
+
+    /**
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Framework\View\Asset\Source $assetSource
      * @param \Magento\Framework\View\FileSystem $viewFileSystem
+     * @param \Magento\Widget\Helper\Conditions $conditionsHelper
      */
     public function __construct(
         \Magento\Framework\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
         \Magento\Framework\View\Asset\Repository $assetRepo,
         \Magento\Framework\View\Asset\Source $assetSource,
-        \Magento\Framework\View\FileSystem $viewFileSystem
+        \Magento\Framework\View\FileSystem $viewFileSystem,
+        \Magento\Widget\Helper\Conditions $conditionsHelper
     ) {
         $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
         $this->_assetRepo = $assetRepo;
         $this->_assetSource = $assetSource;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->conditionsHelper = $conditionsHelper;
     }
 
     /**
@@ -238,7 +246,10 @@ class Widget
 
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
-            if (is_array($value)) {
+            if ($name == 'conditions') {
+                $name='conditions_encoded';
+                $value = $this->conditionsHelper->encode($value);
+            } elseif (is_array($value)) {
                 $value = implode(',', $value);
             } elseif (trim($value) == '') {
                 $widget = $this->getConfigAsObject($type);

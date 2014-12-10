@@ -49,7 +49,7 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
     protected $regularPriceMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -154,10 +154,17 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                                         [
                                             'id' => $valueIndex,
                                             'label' => $attributeLabel,
-                                            'price' => $modifiedValue,
-                                            'oldPrice' => $modifiedValue,
-                                            'inclTaxPrice' => $modifiedValue,
-                                            'exclTaxPrice' => $pricingValue,
+                                            'prices' => [
+                                                'oldPrice' => [
+                                                    'amount' => $modifiedValue
+                                                ],
+                                                'basePrice' => [
+                                                    'amount' => $pricingValue
+                                                ],
+                                                'finalPrice' => [
+                                                    'amount' => $modifiedValue
+                                                ],
+                                            ],
                                             'products' => []
                                         ],
                                 ],
@@ -350,40 +357,5 @@ class AttributePriceTest extends \PHPUnit_Framework_TestCase
                 ]
             )
         );
-    }
-
-    /**
-     * test for method getTaxConfig
-     */
-    public function testGetTaxConfig()
-    {
-        $expectedTaxConfig = [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'customerId' => 1
-        ];
-        $this->assertEquals($expectedTaxConfig, $this->attribute->getTaxConfig(1));
-    }
-
-    /**
-     *  test for method prepareAdjustmentConfig
-     */
-    public function testPrepareAdjustmentConfig()
-    {
-        $expectedAdjustmentConfig = [
-            'includeTax' => false,
-            'showIncludeTax' => false,
-            'showBothPrices' => false,
-            'defaultTax' => 0,
-            'currentTax' => 0,
-            'inclTaxTitle' => __('Incl. Tax'),
-            'product' => $this->saleableItemMock,
-            'customerId' => 1
-        ];
-        $this->assertEquals($expectedAdjustmentConfig, $this->attribute->prepareAdjustmentConfig(1));
     }
 }

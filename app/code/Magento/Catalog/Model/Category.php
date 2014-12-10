@@ -176,7 +176,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService
      * @param AttributeDataBuilder $customAttributeBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Resource\Category\Tree $categoryTreeResource
      * @param Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory
@@ -198,7 +198,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
         \Magento\Framework\Registry $registry,
         \Magento\Catalog\Api\CategoryAttributeRepositoryInterface $metadataService,
         AttributeDataBuilder $customAttributeBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Store\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
@@ -1053,6 +1053,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     }
 
     /**
+     * @codeCoverageIgnoreStart
      * @return string|null
      */
     public function getPath()
@@ -1139,11 +1140,13 @@ class Category extends \Magento\Catalog\Model\AbstractModel implements
     {
         return $this->getData('children_data');
     }
+    //@codeCoverageIgnoreEnd
 
     /**
      * Return Data Object data in array format.
      *
      * @return array
+     * @todo refactor with converter for AbstractExtensibleModel
      */
     public function __toArray()
     {

@@ -8,7 +8,6 @@
 namespace Magento\GiftRegistry\Block;
 
 /**
- * @deprecated after 1.11.2.0
  * Gift registry view block
  */
 class View extends \Magento\GiftRegistry\Block\Customer\Items
