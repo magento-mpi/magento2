@@ -20,16 +20,16 @@ class ReturnRewardPoints
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory
     ) {
         $this->_storeManager = $storeManager;

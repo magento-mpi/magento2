@@ -8,7 +8,6 @@
 
 namespace Magento\Integration\Service\V1;
 
-use Magento\Customer\Service\V1\CustomerAccountService;
 use Magento\Framework\Exception\InputException;
 use Magento\Integration\Model\Oauth\Token as TokenModel;
 use Magento\TestFramework\Helper\Bootstrap;

@@ -1153,19 +1153,5 @@
                 </event>
             </events>
         </group>
-        <group name="sales_recurring_payment">
-            <label translate="true">Recurring Billing Payments</label>
-            <expected_models>
-                <expected_model class="Magento\RecurringPayment\Model\Payment" />
-            </expected_models>
-            <events>
-                <event controller_action="sales_recurringpayment_updatePayment"
-                       action_alias="updatePayment"
-                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
-                <event controller_action="sales_recurringpayment_updateState"
-                       action_alias="updateState"
-                       post_dispatch="postDispatchRecurringPaymentsUpdate" />
-            </events>
-        </group>
     </groups>
 </logging>

@@ -230,14 +230,6 @@ class ConfigurableProductInjectable extends InjectableFixture
         'input' => 'text',
     ];
 
-    protected $is_recurring = [
-        'attribute_code' => 'is_recurring',
-        'backend_type' => 'int',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'select',
-    ];
-
     protected $manufacturer = [
         'attribute_code' => 'manufacturer',
         'backend_type' => 'int',
@@ -368,14 +360,6 @@ class ConfigurableProductInjectable extends InjectableFixture
         'default_value' => '',
         'input' => 'select',
         'group' => 'product-details',
-    ];
-
-    protected $recurring_profile = [
-        'attribute_code' => 'recurring_profile',
-        'backend_type' => 'text',
-        'is_required' => '0',
-        'default_value' => '',
-        'input' => 'text',
     ];
 
     protected $required_options = [
@@ -687,11 +671,6 @@ class ConfigurableProductInjectable extends InjectableFixture
         return $this->getData('image_label');
     }
 
-    public function getIsRecurring()
-    {
-        return $this->getData('is_recurring');
-    }
-
     public function getManufacturer()
     {
         return $this->getData('manufacturer');
@@ -770,11 +749,6 @@ class ConfigurableProductInjectable extends InjectableFixture
     public function getQuantityAndStockStatus()
     {
         return $this->getData('quantity_and_stock_status');
-    }
-
-    public function getRecurringProfile()
-    {
-        return $this->getData('recurring_profile');
     }
 
     public function getRequiredOptions()

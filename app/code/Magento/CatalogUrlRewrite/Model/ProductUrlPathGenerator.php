@@ -18,7 +18,7 @@ class ProductUrlPathGenerator
      */
     protected $productUrlSuffix = [];
 
-    /** @var \Magento\Framework\StoreManagerInterface */
+    /** @var \Magento\Store\Model\StoreManagerInterface */
     protected $storeManager;
 
     /** @var \Magento\Framework\App\Config\ScopeConfigInterface */
@@ -28,12 +28,12 @@ class ProductUrlPathGenerator
     protected $categoryUrlPathGenerator;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param CategoryUrlPathGenerator $categoryUrlPathGenerator
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator $categoryUrlPathGenerator
     ) {

@@ -16,7 +16,7 @@ use Magento\Framework\Data\Collection\Db;
 use Magento\Framework\Model\AbstractModel;
 use Magento\Framework\Model\Resource\AbstractResource;
 use Magento\Framework\Registry;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Search query model

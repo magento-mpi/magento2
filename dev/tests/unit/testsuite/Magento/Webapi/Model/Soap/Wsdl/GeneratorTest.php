@@ -26,7 +26,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Reflection\TypeProcessor|\PHPUnit_Framework_MockObject_MockObject */
     protected $_typeProcessor;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManagerMock;
 
     protected function setUp()
@@ -75,7 +75,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->storeManagerMock = $this->getMockBuilder(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->setMethods(['getStore'])->disableOriginalConstructor()->getMockForAbstractClass();
 
         $storeMock = $this->getMockBuilder(

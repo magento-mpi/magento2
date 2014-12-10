@@ -73,7 +73,7 @@ class Onepage
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -174,7 +174,7 @@ class Onepage
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Customer\Model\AddressFactory $customrAddrFactory
      * @param \Magento\Customer\Model\FormFactory $customerFormFactory
@@ -202,7 +202,7 @@ class Onepage
         \Magento\Framework\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Customer\Model\AddressFactory $customrAddrFactory,
         \Magento\Customer\Model\FormFactory $customerFormFactory,

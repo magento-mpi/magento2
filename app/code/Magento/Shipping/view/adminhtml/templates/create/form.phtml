@@ -52,7 +52,6 @@
         <?php echo $this->getItemsHtml() ?>
     </div>
 </form>
-<?php echo $this->getChildHtml('shipment_packaging') ?>
 <script type="text/javascript">
 require([
     "jquery",
@@ -88,3 +87,4 @@ require([
 
 });
 </script>
+<?php echo $this->getChildHtml('shipment_packaging');

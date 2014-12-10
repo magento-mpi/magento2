@@ -22,7 +22,7 @@ class Attribute extends AbstractFilter
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Framework\Filter\StripTags $tagFilter
@@ -30,7 +30,7 @@ class Attribute extends AbstractFilter
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Filter\StripTags $tagFilter,

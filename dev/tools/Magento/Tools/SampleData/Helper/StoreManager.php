@@ -7,7 +7,7 @@
  */
 namespace Magento\Tools\SampleData\Helper;
 
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Class StoreManager

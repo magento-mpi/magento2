@@ -32,7 +32,7 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_currencyFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,14 +41,14 @@ class Link extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $configuration
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $configuration,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_catalogData = $catalogData;
         $this->_configuration = $configuration;
