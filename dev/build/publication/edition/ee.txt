@@ -39,6 +39,10 @@ dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Logging
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PricePermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/PromotionPermissions
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reminder
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Authorizenet
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Centinel
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Ogone
+{app/code,dev/tests/{integration,unit}/testsuite}/Magento/Paypal
 
 {app/code,dev/tests/{integration,unit}/testsuite}/Magento/Reward
 dev/tests/static/testsuite/Magento/Test/Integrity/Magento/Reward
