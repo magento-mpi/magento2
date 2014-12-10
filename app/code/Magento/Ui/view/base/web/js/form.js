@@ -5,13 +5,12 @@
  * @license     {license_link}
  */
 define([
+    'underscore',
     'Magento_Ui/js/form/component',
     'Magento_Ui/js/lib/spinner',
     './form/adapter'
-], function (Component, loader, adapter) {
+], function (_, Component, loader, adapter) {
     'use strict';
-
-    var __super__ = Component.prototype;
 
     function collectData(selector){
         var items = document.querySelectorAll(selector),
@@ -29,11 +28,12 @@ define([
     return Component.extend({
 
         initialize: function(){
-            __super__.initialize.apply(this, arguments);
-
-            this.initAdapter()
+            this._super()
+                .initAdapter()
                 .initSelector()
                 .hideLoader();
+
+            return this;
         },
 
         initAdapter: function(){

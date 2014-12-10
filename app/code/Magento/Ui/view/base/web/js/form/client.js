@@ -50,6 +50,8 @@ define([
          */
         initialize: function(config) {
             _.extend(this, defaults, config);
+
+            return this;
         },
 
         /**

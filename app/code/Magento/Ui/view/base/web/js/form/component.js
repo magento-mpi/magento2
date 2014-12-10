@@ -77,7 +77,9 @@ define([
             this.initProperties()
                 .initObservable()
                 .initListeners()
-                .initUnique()
+                .initUnique();
+
+            return this;
         },
 
         /**

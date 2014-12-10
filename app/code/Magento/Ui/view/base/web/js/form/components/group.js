@@ -10,18 +10,7 @@ define([
     'mage/utils'
 ], function(_, Component, utils) {
     'use strict';
-
-    var defaults = {
-        hidden:         false,
-        label:          '',
-        required:       false,
-        template:       'ui/group/group',
-        fieldTemplate:  'ui/group/field',
-        breakLine:      true
-    };
-
-    var __super__ = Component.prototype;
-
+    
     function extractData(container, field){
         var data,
             value;
@@ -40,6 +29,14 @@ define([
     }
 
     return Component.extend({
+        defaults: {
+            hidden:         false,
+            label:          '',
+            required:       false,
+            template:       'ui/group/group',
+            fieldTemplate:  'ui/group/field',
+            breakLine:      true
+        },
 
         /**
          * Extends this with defaults and config.
@@ -47,12 +44,10 @@ define([
          * 
          * @param  {Object} config
          */
-        initialize: function() {
-            _.extend(this, defaults);
-            
+        initialize: function() {            
             _.bindAll(this, 'toggle');
 
-            __super__.initialize.apply(this, arguments);
+            return this._super();
         },
 
         /**
@@ -62,9 +57,10 @@ define([
          * @return {Object} - reference to instance
          */
         initObservable: function(){
-            __super__.initObservable.apply(this, arguments);
+            this._super()
+                .observe('hidden label required');
 
-            return this.observe('hidden label required');
+            return this;
         },
 
         /**
@@ -74,7 +70,7 @@ define([
          * @return {Object} - reference to instance
          */
         initElement: function(elem){
-            __super__.initElement.apply(this, arguments);
+            this._super();
 
             elem.on({
                 'toggle': this.toggle

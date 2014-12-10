@@ -18,6 +18,8 @@ define([
             this.types = {};
 
             this.set(types);
+
+            return this;
         },
 
         set: function(types){

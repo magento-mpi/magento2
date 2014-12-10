@@ -5,13 +5,12 @@
  * @license     {license_link}
  */
 define([
+    'underscore',
     './collapsible',
     'Magento_Ui/js/lib/spinner'
-], function(Collapsible, loader) {
+], function(_, Collapsible, loader) {
     'use strict';
    
-    var __super__ = Collapsible.prototype;
-
     return Collapsible.extend({
 
         /**
@@ -21,9 +20,8 @@ define([
          * @returns {Object} - reference to instance
          */
         initElement: function(elem){
-            __super__.initElement.apply(this, arguments);    
-
-            this.initActivation(elem)
+            this._super()
+                .initActivation(elem)
                 .hideLoader();
 
             return this;
@@ -38,7 +36,7 @@ define([
             var data    = this.provider.data,
                 handler = this.onValidate.bind(this);
 
-            __super__.initListeners.apply(this, arguments); 
+            this._super();
 
             data.on('validate', handler, this.name);
             
@@ -48,8 +46,9 @@ define([
         /**
          * Activates element if one is first or if one has 'active' propert
          * set to true.
+         *
          * @param  {Object} elem
-         * @return {Object} - reference to instance
+         * @returns {Object} - reference to instance
          */
         initActivation: function(elem){
             var elems   = this.elems(),
@@ -71,6 +70,7 @@ define([
          * of params storage, and if defined, activates element, sets 
          * 'allValid' property of instance to false and sets invalid's
          * 'focused' property to true.
+         *
          * @param {Object} elem
          */
         validate: function(elem){

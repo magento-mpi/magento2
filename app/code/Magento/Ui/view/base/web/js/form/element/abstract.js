@@ -12,27 +12,24 @@ define([
 ], function (_, utils, Component, validator) {
     'use strict';
 
-    var defaults = {
-        hidden:             false,
-        preview:            '',
-        focused:            false,
-        tooltip:            null,
-        required:           false,
-        disabled:           false,
-        tmpPath:            'ui/form/element/',
-        tooltipTpl:         'ui/form/element/helper/tooltip',
-        input_type:         'input',
-        placeholder:        null,
-        noticeid:           null,
-        description:        '',
-        label:              '',
-        error:              '',
-        notice:             null
-    };
-
-    var __super__ = Component.prototype;
-
     return Component.extend({
+        defaults: {
+            hidden:             false,
+            preview:            '',
+            focused:            false,
+            tooltip:            null,
+            required:           false,
+            disabled:           false,
+            tmpPath:            'ui/form/element/',
+            tooltipTpl:         'ui/form/element/helper/tooltip',
+            input_type:         'input',
+            placeholder:        null,
+            noticeid:           null,
+            description:        '',
+            label:              '',
+            error:              '',
+            notice:             null
+        },
 
         /**
          * Invokes initialize method of parent class, contains initialization
@@ -41,14 +38,13 @@ define([
          * @param {Object} config - form element configuration
          */
         initialize: function () {
-            _.extend(this, defaults);
-
             _.bindAll(this, 'onUpdate', 'reset');
 
-            __super__.initialize.apply(this, arguments);
-
-            this.setHidden(this.hidden())
+            this._super()
+                .setHidden(this.hidden())
                 .store(this.value());
+
+            return this;
         },
 
         /**
@@ -60,7 +56,7 @@ define([
             var value = this.getInititalValue(), 
                 rules;
 
-            __super__.initObservable.apply(this, arguments);
+            this._super();
 
             rules = this.validation = this.validation || {};
 
@@ -81,7 +77,7 @@ define([
          * @returns {Abstract} Chainable.
          */
         initProperties: function () {
-            __super__.initProperties.apply(this, arguments);
+            this._super();
 
             _.extend(this, {
                 'uid':        utils.uniqueid(),
@@ -104,7 +100,7 @@ define([
             var provider  = this.provider,
                 data      = provider.data;
 
-            __super__.initListeners.apply(this, arguments);
+            this._super();
 
             data.on('reset', this.reset, this.name);
             
