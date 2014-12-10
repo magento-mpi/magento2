@@ -52,11 +52,11 @@ class Converter
             Address::KEY_COUNTRY_ID => $address->getCountryId(),
             Address::KEY_ID => $address->getId(),
             Address::KEY_CUSTOMER_ID => $address->getCustomerId(),
-            Address::KEY_REGION => array(
+            Address::KEY_REGION => [
                 Region::REGION => $address->getRegion(),
                 Region::REGION_ID => $address->getRegionId(),
                 Region::REGION_CODE => $address->getRegionCode()
-            ),
+            ],
             Address::KEY_STREET => $address->getStreet(),
             Address::KEY_COMPANY => $address->getCompany(),
             Address::KEY_TELEPHONE => $address->getTelephone(),

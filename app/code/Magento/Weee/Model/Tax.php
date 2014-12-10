@@ -109,7 +109,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         \Magento\Weee\Model\Config $weeeConfig,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeFactory = $attributeFactory;
         $this->_storeManager = $storeManager;
@@ -180,7 +180,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
     public function getWeeeTaxAttributeCodes($store = null, $forceEnabled = false)
     {
         if (!$forceEnabled && !$this->weeeConfig->isEnabled($store)) {
-            return array();
+            return [];
         }
 
         if (is_null($this->_allAttributes)) {
@@ -204,7 +204,7 @@ class Tax extends \Magento\Framework\Model\AbstractModel
         $website = null,
         $calculateTax = null
     ) {
-        $result = array();
+        $result = [];
 
         $websiteId = $this->_storeManager->getWebsite($website)->getId();
         /** @var \Magento\Store\Model\Store $store */
@@ -250,13 +250,13 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     (int)$attribute->getId()
                 )->where(
                     'website_id IN(?)',
-                    array($websiteId, 0)
+                    [$websiteId, 0]
                 )->where(
                     'country = ?',
                     $rateRequest->getCountryId()
                 )->where(
                     'state IN(?)',
-                    array($rateRequest->getRegionId(), '*')
+                    [$rateRequest->getRegionId(), '*']
                 )->where(
                     'entity_id = ?',
                     (int)$product->getId()
@@ -264,8 +264,8 @@ class Tax extends \Magento\Framework\Model\AbstractModel
                     1
                 );
 
-                $order = array('state ' . \Magento\Framework\DB\Select::SQL_DESC,
-                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC);
+                $order = ['state ' . \Magento\Framework\DB\Select::SQL_DESC,
+                    'website_id ' . \Magento\Framework\DB\Select::SQL_DESC];
                 $attributeSelect->order($order);
 
                 $value = $this->getResource()->getReadConnection()->fetchOne($attributeSelect);

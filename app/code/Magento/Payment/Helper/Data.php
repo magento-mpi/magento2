@@ -154,7 +154,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $res[] = $methodInstance;
         }
 
-        uasort($res, array($this, '_sortMethods'));
+        uasort($res, [$this, '_sortMethods']);
 
         return $res;
     }
@@ -267,9 +267,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getPaymentMethodList($sorted = true, $asLabelValue = false, $withGroups = false, $store = null)
     {
-        $methods = array();
-        $groups = array();
-        $groupRelations = array();
+        $methods = [];
+        $groups = [];
+        $groupRelations = [];
 
         foreach ($this->getPaymentMethods() as $code => $data) {
             if (isset($data['title'])) {
@@ -291,18 +291,18 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             asort($methods);
         }
         if ($asLabelValue) {
-            $labelValues = array();
+            $labelValues = [];
             foreach ($methods as $code => $title) {
-                $labelValues[$code] = array();
+                $labelValues[$code] = [];
             }
             foreach ($methods as $code => $title) {
                 if (isset($groups[$code])) {
                     $labelValues[$code]['label'] = $title;
                 } elseif (isset($groupRelations[$code])) {
                     unset($labelValues[$code]);
-                    $labelValues[$groupRelations[$code]]['value'][$code] = array('value' => $code, 'label' => $title);
+                    $labelValues[$groupRelations[$code]]['value'][$code] = ['value' => $code, 'label' => $title];
                 } else {
-                    $labelValues[$code] = array('value' => $code, 'label' => $title);
+                    $labelValues[$code] = ['value' => $code, 'label' => $title];
                 }
             }
             return $labelValues;

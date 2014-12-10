@@ -37,7 +37,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Framework\Escaper $escaper,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
-        $data = array()
+        $data = []
     ) {
         $this->_backendData = $backendData;
         $this->urlEncoder = $urlEncoder;
@@ -90,14 +90,14 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         $html = '';
         if ($this->getValue() && !$this->getRequired() && !is_array($this->getValue())) {
             $checkboxId = sprintf('%s_delete', $this->getHtmlId());
-            $checkbox = array(
+            $checkbox = [
                 'type' => 'checkbox',
                 'name' => sprintf('%s[delete]', $this->getName()),
                 'value' => '1',
                 'class' => 'checkbox',
                 'id' => $checkboxId
-            );
-            $label = array('for' => $checkboxId);
+            ];
+            $label = ['for' => $checkboxId];
             if ($this->getDisabled()) {
                 $checkbox['disabled'] = 'disabled';
                 $label['class'] = 'disabled';
@@ -132,7 +132,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         if ($this->getValue() && !is_array($this->getValue())) {
             $url = $this->_getPreviewUrl();
             $imageId = sprintf('%s_image', $this->getHtmlId());
-            $image = array(
+            $image = [
                 'alt' => __('View Full Size'),
                 'title' => __('View Full Size'),
                 'src' => $url,
@@ -140,8 +140,8 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
                 'height' => 22,
                 'width' => 22,
                 'id' => $imageId
-            );
-            $link = array('href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;");
+            ];
+            $link = ['href' => $url, 'onclick' => "imagePreview('{$imageId}'); return false;"];
 
             $html = sprintf(
                 '%s%s</a> ',
@@ -164,7 +164,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
         }
         return $this->_backendData->getUrl(
             'adminhtml/rma/viewfile',
-            array('image' => $this->urlEncoder->encode($this->getValue()))
+            ['image' => $this->urlEncoder->encode($this->getValue())]
         );
     }
 
@@ -177,12 +177,12 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
     {
         return $this->_drawElementHtml(
             'input',
-            array(
+            [
                 'type' => 'hidden',
                 'name' => sprintf('%s', $this->getName()),
                 'id' => sprintf('%s_value', $this->getHtmlId()),
                 'value' => $this->getEscapedValue()
-            )
+            ]
         );
     }
 
@@ -196,7 +196,7 @@ class Image extends \Magento\Framework\Data\Form\Element\AbstractElement
      */
     protected function _drawElementHtml($element, array $attributes, $closed = true)
     {
-        $parts = array();
+        $parts = [];
         foreach ($attributes as $k => $v) {
             $parts[] = sprintf('%s="%s"', $k, $v);
         }

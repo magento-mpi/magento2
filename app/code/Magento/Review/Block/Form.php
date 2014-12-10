@@ -97,7 +97,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->urlEncoder = $urlEncoder;
         $this->_reviewSession = $reviewSession;
@@ -137,12 +137,12 @@ class Form extends \Magento\Framework\View\Element\Template
         );
         if (!$this->getAllowWriteReviewFlag()) {
             $queryParam = $this->urlEncoder->encode(
-                $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
+                $this->getUrl('*/*/*', ['_current' => true]) . '#review-form'
             );
             $this->setLoginLink(
                 $this->getUrl(
                     'customer/account/login/',
-                    array(Url::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    [Url::REFERER_QUERY_PARAM_NAME => $queryParam]
                 )
             );
         }
@@ -169,7 +169,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getAction()
     {
-        return $this->getUrl('review/product/post', array('id' => $this->getProductId()));
+        return $this->getUrl('review/product/post', ['id' => $this->getProductId()]);
     }
 
     /**

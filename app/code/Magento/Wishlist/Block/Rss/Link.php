@@ -38,7 +38,7 @@ class Link extends \Magento\Framework\View\Element\Template
         \Magento\Wishlist\Helper\Data $wishlistHelper,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->wishlistHelper = $wishlistHelper;
@@ -72,16 +72,16 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        $params = array();
+        $params = [];
         $wishlistId = $this->wishlistHelper->getWishlist()->getId();
         $customer = $this->wishlistHelper->getCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array(
+            $params = [
                 'type' => 'wishlist',
                 'data' => $this->urlEncoder->encode($key),
                 '_secure' => false
-            );
+            ];
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

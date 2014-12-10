@@ -32,7 +32,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
     /**
      * @var array
      */
-    protected $_itemLimits = array();
+    protected $_itemLimits = [];
 
     /**
      * Checkout session
@@ -74,7 +74,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Module\Manager $moduleManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
@@ -106,7 +106,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
          */
         $this->_eventManager->dispatch(
             'catalog_product_upsell',
-            array('product' => $product, 'collection' => $this->_itemCollection, 'limit' => null)
+            ['product' => $product, 'collection' => $this->_itemCollection, 'limit' => null]
         );
 
         foreach ($this->_itemCollection as $product) {
@@ -230,7 +230,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct implements \
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

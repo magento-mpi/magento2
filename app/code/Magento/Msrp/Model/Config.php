@@ -108,7 +108,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 
@@ -125,7 +125,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 }

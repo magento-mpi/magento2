@@ -112,7 +112,7 @@ class Address extends \Magento\Sales\Block\Adminhtml\Order\Create\Form\AbstractF
         \Magento\Framework\Api\SearchCriteriaBuilder $criteriaBuilder,
         \Magento\Framework\Api\FilterBuilder $filterBuilder,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->options = $options;
         $this->_coreData = $coreData;

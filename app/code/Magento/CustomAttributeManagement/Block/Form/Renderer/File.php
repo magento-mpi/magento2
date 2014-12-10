@@ -27,7 +27,7 @@ class File extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Abstra
     public function __construct(
         Template\Context $context,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->urlEncoder = $urlEncoder;
         parent::__construct($context, $data);

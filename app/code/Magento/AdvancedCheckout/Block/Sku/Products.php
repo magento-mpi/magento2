@@ -55,7 +55,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cart = $cart;
         $this->_checkoutData = $checkoutData;
@@ -120,7 +120,7 @@ class Products extends \Magento\Checkout\Block\Cart
      */
     public function prepareItemUrls()
     {
-        $products = array();
+        $products = [];
         /* @var $item \Magento\Sales\Model\Quote\Item */
         foreach ($this->getItems() as $item) {
             if ($item->getProductType() == 'undefined') {
@@ -174,7 +174,7 @@ class Products extends \Magento\Checkout\Block\Cart
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(
-            $this->getUrl('checkout/cart/removeFailed', array('sku' => $this->urlEncoder->encode($item->getSku())))
+            $this->getUrl('checkout/cart/removeFailed', ['sku' => $this->urlEncoder->encode($item->getSku())])
         );
         $renderer->setIgnoreProductUrl(!$this->showItemLink($item));
 

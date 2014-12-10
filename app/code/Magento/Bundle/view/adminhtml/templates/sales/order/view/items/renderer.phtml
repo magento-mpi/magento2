@@ -11,7 +11,7 @@
 ?>
 
 <?php $_item = $this->getItem() ?>
-<?php $items = array_merge(array($_item), $_item->getChildrenItems()); ?>
+<?php $items = array_merge([$_item], $_item->getChildrenItems()); ?>
 <?php $_count = count ($items) ?>
 <?php $_index = 0 ?>
 

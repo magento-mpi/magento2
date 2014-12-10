@@ -74,13 +74,13 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
 
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
-            $value = array();
+            $value = [];
             if (strpos($this->_requestScope, '/') !== false) {
                 $scopes = explode('/', $this->_requestScope);
                 $mainScope = array_shift($scopes);
             } else {
                 $mainScope = $this->_requestScope;
-                $scopes = array();
+                $scopes = [];
             }
 
             if (!empty($_FILES[$mainScope])) {
@@ -89,7 +89,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
                         if (isset($scopeData[$scopeName])) {
                             $scopeData = $scopeData[$scopeName];
                         } else {
-                            $scopeData[$scopeName] = array();
+                            $scopeData[$scopeName] = [];
                         }
                     }
 
@@ -98,13 +98,13 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
                     }
                 }
             } else {
-                $value = array();
+                $value = [];
             }
         } else {
             if (isset($_FILES[$attrCode])) {
                 $value = $_FILES[$attrCode];
             } else {
-                $value = array();
+                $value = [];
             }
         }
 
@@ -132,7 +132,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
             $extensions = explode(',', $rules['file_extensions']);
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
-                return array(__('"%1" is not a valid file extension.', $label));
+                return [__('"%1" is not a valid file extension.', $label)];
             }
         }
 
@@ -144,17 +144,17 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         }
 
         if (!is_uploaded_file($value['tmp_name'])) {
-            return array(__('"%1" is not a valid file.', $label));
+            return [__('"%1" is not a valid file.', $label)];
         }
 
         if (!empty($rules['max_file_size'])) {
             $size = $value['size'];
             if ($rules['max_file_size'] < $size) {
-                return array(__('"%1" exceeds the allowed file size.', $label));
+                return [__('"%1" exceeds the allowed file size.', $label)];
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -169,7 +169,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
             return true;
         }
 
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = $attribute->getStoreLabel();
 
@@ -275,7 +275,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         if ($value) {
             switch ($format) {
                 case \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON:
-                    $output = array('value' => $value, 'url_key' => $this->urlEncoder->encode($value));
+                    $output = ['value' => $value, 'url_key' => $this->urlEncoder->encode($value)];
                     break;
             }
         }

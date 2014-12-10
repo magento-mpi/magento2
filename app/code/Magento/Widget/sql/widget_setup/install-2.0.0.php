@@ -119,7 +119,7 @@ $table = $installer->getConnection()->newTable(
     'theme_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false),
+    ['unsigned' => true, 'nullable' => false],
     'Theme id'
 )->addColumn(
     'title',

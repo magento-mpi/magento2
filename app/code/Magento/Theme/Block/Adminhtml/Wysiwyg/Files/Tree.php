@@ -31,7 +31,7 @@ class Tree extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Theme\Helper\Storage $storageHelper,
         \Magento\Framework\Url\EncoderInterface $urlEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageHelper = $storageHelper;
         $this->urlEncoder = $urlEncoder;

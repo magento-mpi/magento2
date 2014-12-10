@@ -68,9 +68,9 @@ class NewObject implements HandlerInterface
                 $storeId = (int)$this->request->getParam('store', 0);
                 $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
                 $product->setGiftcardAmounts(
-                    array(
-                        array('website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '')
-                    )
+                    [
+                        ['website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '']
+                    ]
                 );
             }
         }

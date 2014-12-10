@@ -87,7 +87,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         \Magento\Framework\Registry $registry,
         GroupManagementInterface $groupManagement,
         \Magento\Framework\Api\SearchCriteriaDataBuilder $searchCriteriaDataBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_groupRepository = $groupRepository;
         $this->_directoryHelper = $directoryHelper;
@@ -149,7 +149,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      */
     public function getValues()
     {
-        $values = array();
+        $values = [];
         $data = $this->getElement()->getValue();
 
         if (is_array($data)) {
@@ -186,7 +186,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
     {
         if ($this->_customerGroups === null) {
             if (!$this->moduleManager->isEnabled('Magento_Customer')) {
-                return array();
+                return [];
             }
             $this->_customerGroups = $this->_getInitialCustomerGroups();
             /** @var \Magento\Customer\Api\Data\GroupInterface[] $groups */
@@ -197,7 +197,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
         }
 
         if ($groupId !== null) {
-            return isset($this->_customerGroups[$groupId]) ? $this->_customerGroups[$groupId] : array();
+            return isset($this->_customerGroups[$groupId]) ? $this->_customerGroups[$groupId] : [];
         }
 
         return $this->_customerGroups;
@@ -210,7 +210,7 @@ abstract class AbstractGroup extends Widget implements RendererInterface
      */
     protected function _getInitialCustomerGroups()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -244,18 +244,18 @@ abstract class AbstractGroup extends Widget implements RendererInterface
             return $this->_websites;
         }
 
-        $this->_websites = array(
-            0 => array('name' => __('All Websites'), 'currency' => $this->_directoryHelper->getBaseCurrencyCode())
-        );
+        $this->_websites = [
+            0 => ['name' => __('All Websites'), 'currency' => $this->_directoryHelper->getBaseCurrencyCode()]
+        ];
 
         if (!$this->isScopeGlobal() && $this->getProduct()->getStoreId()) {
             /** @var $website \Magento\Store\Model\Website */
             $website = $this->_storeManager->getStore($this->getProduct()->getStoreId())->getWebsite();
 
-            $this->_websites[$website->getId()] = array(
+            $this->_websites[$website->getId()] = [
                 'name' => $website->getName(),
                 'currency' => $website->getBaseCurrencyCode()
-            );
+            ];
         } elseif (!$this->isScopeGlobal()) {
             $websites = $this->_storeManager->getWebsites(false);
             $productWebsiteIds = $this->getProduct()->getWebsiteIds();
@@ -264,10 +264,10 @@ abstract class AbstractGroup extends Widget implements RendererInterface
                 if (!in_array($website->getId(), $productWebsiteIds)) {
                     continue;
                 }
-                $this->_websites[$website->getId()] = array(
+                $this->_websites[$website->getId()] = [
                     'name' => $website->getName(),
                     'currency' => $website->getBaseCurrencyCode()
-                );
+                ];
             }
         }
 

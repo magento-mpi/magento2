@@ -37,7 +37,7 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
@@ -63,15 +63,15 @@ class Content extends \Magento\Cms\Block\Adminhtml\Page\Edit\Tab\Content
         $fieldset = $this->getForm()->getElement('content_fieldset');
 
         if ($model->getPageId()) {
-            $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
+            $fieldset->addField('page_id', 'hidden', ['name' => 'page_id']);
 
-            $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));
+            $fieldset->addField('version_id', 'hidden', ['name' => 'version_id']);
 
-            $fieldset->addField('revision_id', 'hidden', array('name' => 'revision_id'));
+            $fieldset->addField('revision_id', 'hidden', ['name' => 'revision_id']);
 
-            $fieldset->addField('label', 'hidden', array('name' => 'label'));
+            $fieldset->addField('label', 'hidden', ['name' => 'label']);
 
-            $fieldset->addField('user_id', 'hidden', array('name' => 'user_id'));
+            $fieldset->addField('user_id', 'hidden', ['name' => 'user_id']);
         }
 
         $this->getForm()->setValues($model->getData());

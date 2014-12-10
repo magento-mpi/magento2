@@ -92,7 +92,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Chapter $menuChapter,
         \Magento\VersionsCms\Model\Source\Hierarchy\Visibility $hierarchyVisibility,
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout $menuLayout,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_cmsHierarchy = $cmsHierarchy;
@@ -121,68 +121,68 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array('id' => 'edit_form', 'action' => $this->getUrl('adminhtml/*/save'), 'method' => 'post')
-            )
+            [
+                'data' => ['id' => 'edit_form', 'action' => $this->getUrl('adminhtml/*/save'), 'method' => 'post']
+            ]
         );
 
         /**
          * Define general properties for each node
          */
-        $fieldset = $form->addFieldset('node_properties_fieldset', array('legend' => __('Page Properties')));
+        $fieldset = $form->addFieldset('node_properties_fieldset', ['legend' => __('Page Properties')]);
 
-        $fieldset->addField('nodes_data', 'hidden', array('name' => 'nodes_data'));
+        $fieldset->addField('nodes_data', 'hidden', ['name' => 'nodes_data']);
 
-        $fieldset->addField('use_default_scope_property', 'hidden', array('name' => 'use_default_scope_property'));
+        $fieldset->addField('use_default_scope_property', 'hidden', ['name' => 'use_default_scope_property']);
 
         $currentWebsite = $this->getRequest()->getParam('website');
         $currentStore = $this->getRequest()->getParam('store');
         if ($currentStore) {
-            $fieldset->addField('store', 'hidden', array('name' => 'store', 'value' => $currentStore));
+            $fieldset->addField('store', 'hidden', ['name' => 'store', 'value' => $currentStore]);
         }
         if ($currentWebsite) {
-            $fieldset->addField('website', 'hidden', array('name' => 'website', 'value' => $currentWebsite));
+            $fieldset->addField('website', 'hidden', ['name' => 'website', 'value' => $currentWebsite]);
         }
 
-        $fieldset->addField('removed_nodes', 'hidden', array('name' => 'removed_nodes'));
+        $fieldset->addField('removed_nodes', 'hidden', ['name' => 'removed_nodes']);
 
-        $fieldset->addField('node_id', 'hidden', array('name' => 'node_id'));
+        $fieldset->addField('node_id', 'hidden', ['name' => 'node_id']);
 
-        $fieldset->addField('node_page_id', 'hidden', array('name' => 'node_page_id'));
+        $fieldset->addField('node_page_id', 'hidden', ['name' => 'node_page_id']);
 
         $fieldset->addField(
             'node_label',
             'text',
-            array(
+            [
                 'name' => 'label',
                 'label' => __('Title'),
                 'required' => true,
                 'onchange' => 'hierarchyNodes.nodeChanged()',
                 'tabindex' => '10'
-            )
+            ]
         );
 
         $fieldset->addField(
             'node_identifier',
             'text',
-            array(
+            [
                 'name' => 'identifier',
                 'label' => __('URL Key'),
                 'required' => true,
                 'class' => 'validate-identifier',
                 'onchange' => 'hierarchyNodes.nodeChanged()',
                 'tabindex' => '20'
-            )
+            ]
         );
 
-        $fieldset->addField('node_label_text', 'note', array('label' => __('Title')));
+        $fieldset->addField('node_label_text', 'note', ['label' => __('Title')]);
 
-        $fieldset->addField('node_identifier_text', 'note', array('label' => __('URL Key')));
+        $fieldset->addField('node_identifier_text', 'note', ['label' => __('URL Key')]);
 
         $fieldset->addField(
             'node_preview',
             'link',
-            array('label' => __('Preview'), 'href' => '#', 'value' => __('Preview is not available.'))
+            ['label' => __('Preview'), 'href' => '#', 'value' => __('Preview is not available.')]
         );
 
         $yesNoOptions = $this->_sourceYesno->toOptionArray();
@@ -193,14 +193,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $fieldset = $form->addFieldset(
                 'metadata_fieldset',
-                array('legend' => __('Render Metadata in HTML Head.'))
+                ['legend' => __('Render Metadata in HTML Head.')]
             );
 
 
             $fieldset->addField(
                 'meta_first_last',
                 'select',
-                array(
+                [
                     'label' => __('First'),
                     'title' => __('First'),
                     'name' => 'meta_first_last',
@@ -208,13 +208,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'onchange' => 'hierarchyNodes.nodeChanged()',
                     'container_id' => 'field_meta_first_last',
                     'tabindex' => '30'
-                )
+                ]
             );
 
             $fieldset->addField(
                 'meta_next_previous',
                 'select',
-                array(
+                [
                     'label' => __('Next/Previous'),
                     'title' => __('Next/Previous'),
                     'name' => 'meta_next_previous',
@@ -222,13 +222,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'onchange' => 'hierarchyNodes.nodeChanged()',
                     'container_id' => 'field_meta_next_previous',
                     'tabindex' => '40'
-                )
+                ]
             );
 
             $fieldset->addField(
                 'meta_cs_enabled',
                 'select',
-                array(
+                [
                     'label' => __('Enable Chapter/Section'),
                     'title' => __('Enable Chapter/Section'),
                     'name' => 'meta_cs_enabled',
@@ -237,13 +237,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'container_id' => 'field_meta_cs_enabled',
                     'note' => __('Enables Chapter/Section functionality for this node, its sub-nodes and pages'),
                     'tabindex' => '45'
-                )
+                ]
             );
 
             $fieldset->addField(
                 'meta_chapter_section',
                 'select',
-                array(
+                [
                     'label' => __('Chapter/Section'),
                     'title' => __('Chapter/Section'),
                     'name' => 'meta_chapter_section',
@@ -252,7 +252,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'container_id' => 'field_meta_chapter_section',
                     'note' => __('Defines this node as Chapter/Section'),
                     'tabindex' => '50'
-                )
+                ]
             );
         }
 
@@ -261,25 +261,25 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
          */
         $pagerFieldset = $form->addFieldset(
             'pager_fieldset',
-            array('legend' => __('Pagination Options for Nested Pages'))
+            ['legend' => __('Pagination Options for Nested Pages')]
         );
 
         $pagerFieldset->addField(
             'pager_visibility',
             'select',
-            array(
+            [
                 'label' => __('Enable Pagination'),
                 'name' => 'pager_visibility',
                 'values' => $this->_hierarchyVisibility->toOptionArray(),
                 'value' => \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT,
                 'onchange' => "hierarchyNodes.metadataChanged('pager_visibility', 'pager_fieldset')",
                 'tabindex' => '70'
-            )
+            ]
         );
         $pagerFieldset->addField(
             'pager_frame',
             'text',
-            array(
+            [
                 'name' => 'pager_frame',
                 'label' => __('Frame'),
                 'class' => 'validate-digits',
@@ -287,12 +287,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'container_id' => 'field_pager_frame',
                 'note' => __('Set the number of links to display at one time.'),
                 'tabindex' => '80'
-            )
+            ]
         );
         $pagerFieldset->addField(
             'pager_jump',
             'text',
-            array(
+            [
                 'name' => 'pager_jump',
                 'label' => __('Frame Skip'),
                 'class' => 'validate-digits',
@@ -302,73 +302,73 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     'If the Current Frame Position does not cover Utmost Pages, will render Link to Current Position plus/minus this Value'
                 ),
                 'tabindex' => '90'
-            )
+            ]
         );
 
         /**
          * Context menu options
          */
-        $menuFieldset = $form->addFieldset('menu_fieldset', array('legend' => __('Page Navigation Menu Options')));
+        $menuFieldset = $form->addFieldset('menu_fieldset', ['legend' => __('Page Navigation Menu Options')]);
 
         $menuFieldset->addField(
             'menu_excluded',
             'select',
-            array(
+            [
                 'label' => __('Exclude from Navigation Menu'),
                 'name' => 'menu_excluded',
                 'values' => $yesNoOptions,
                 'onchange' => "hierarchyNodes.nodeChanged()",
                 'container_id' => 'field_menu_excluded',
                 'tabindex' => '100'
-            )
+            ]
         );
 
         $menuFieldset->addField(
             'menu_visibility',
             'select',
-            array(
+            [
                 'label' => __('Show in navigation menu.'),
                 'name' => 'menu_visibility',
                 'values' => $yesNoOptions,
                 'onchange' => "hierarchyNodes.metadataChanged('menu_visibility', 'menu_fieldset')",
                 'container_id' => 'field_menu_visibility',
                 'tabindex' => '110'
-            )
+            ]
         );
 
         $menuFieldset->addField(
             'menu_layout',
             'select',
-            array(
+            [
                 'label' => __('Menu Layout'),
                 'name' => 'menu_layout',
                 'values' => $this->_menuLayout->toOptionArray(true),
                 'onchange' => "hierarchyNodes.nodeChanged()",
                 'container_id' => 'field_menu_layout',
                 'tabindex' => '115'
-            )
+            ]
         );
 
-        $menuBriefOptions = array(
-            array('value' => 1, 'label' => __('Only Children')),
-            array('value' => 0, 'label' => __('Neighbours and Children'))
-        );
+        $menuBriefOptions = [
+            ['value' => 1, 'label' => __('Only Children')],
+            ['value' => 0, 'label' => __('Neighbours and Children')]
+        ];
         $menuFieldset->addField(
             'menu_brief',
             'select',
-            array(
+            [
                 'label' => __('Menu Detalization'),
                 'name' => 'menu_brief',
                 'values' => $menuBriefOptions,
                 'onchange' => "hierarchyNodes.nodeChanged()",
                 'container_id' => 'field_menu_brief',
                 'tabindex' => '120'
-            )
+            ]
         );
         $menuFieldset->addField(
             'menu_levels_down',
             'text',
-            array(
+            [
                 'name' => 'menu_levels_down',
                 'label' => __('Maximal Depth'),
                 'class' => 'validate-digits',
@@ -376,12 +376,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'container_id' => 'field_menu_levels_down',
                 'note' => __('Node Levels to Include'),
                 'tabindex' => '130'
-            )
+            ]
         );
         $menuFieldset->addField(
             'menu_ordered',
             'select',
-            array(
+            [
                 'label' => __('List Type'),
                 'title' => __('List Type'),
                 'name' => 'menu_ordered',
@@ -389,12 +389,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'onchange' => 'hierarchyNodes.menuListTypeChanged()',
                 'container_id' => 'field_menu_ordered',
                 'tabindex' => '140'
-            )
+            ]
         );
         $menuFieldset->addField(
             'menu_list_type',
             'select',
-            array(
+            [
                 'label' => __('List Style'),
                 'title' => __('List Style'),
                 'name' => 'menu_list_type',
@@ -402,7 +402,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                 'onchange' => 'hierarchyNodes.nodeChanged()',
                 'container_id' => 'field_menu_list_type',
                 'tabindex' => '150'
-            )
+            ]
         );
 
         /**
@@ -411,33 +411,33 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($this->_cmsHierarchy->isMetadataEnabled()) {
             $menuFieldset = $form->addFieldset(
                 'top_menu_fieldset',
-                array('legend' => __('Main Navigation Menu Options'))
+                ['legend' => __('Main Navigation Menu Options')]
             );
 
             $menuFieldset->addField(
                 'top_menu_excluded',
                 'select',
-                array(
+                [
                     'label' => __('Exclude from Navigation Menu'),
                     'name' => 'top_menu_excluded',
                     'values' => $yesNoOptions,
                     'onchange' => "hierarchyNodes.nodeChanged()",
                     'container_id' => 'field_top_menu_excluded',
                     'tabindex' => '170'
-                )
+                ]
             );
 
             $menuFieldset->addField(
                 'top_menu_visibility',
                 'select',
-                array(
+                [
                     'label' => __('Show in navigation menu.'),
                     'name' => 'top_menu_visibility',
                     'values' => $yesNoOptions,
                     'onchange' => "hierarchyNodes.metadataChanged('top_menu_visibility', 'top_menu_fieldset')",
                     'container_id' => 'field_top_menu_visibility',
                     'tabindex' => '160'
-                )
+                ]
             );
         }
 
@@ -454,12 +454,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getPageGridButtonsHtml()
     {
-        $addButtonData = array(
+        $addButtonData = [
             'id' => 'add_cms_pages',
             'label' => __('Add selected page(s) to the tree.'),
             'onclick' => 'hierarchyNodes.pageGridAddSelected()',
             'class' => 'add'
-        );
+        ];
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
@@ -474,36 +474,36 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getPagePropertiesButtons()
     {
-        $buttons = array();
+        $buttons = [];
         $buttons[] = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'delete_node_button',
                 'label' => __('Remove from tree.'),
                 'onclick' => 'hierarchyNodes.deleteNodePage()',
                 'class' => 'delete'
-            )
+            ]
         )->toHtml();
         $buttons[] = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'cancel_node_button',
                 'label' => __('Cancel'),
                 'onclick' => 'hierarchyNodes.cancelNodePage()',
                 'class' => 'cancel'
-            )
+            ]
         )->toHtml();
         $buttons[] = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'save_node_button',
                 'label' => __('Save'),
                 'onclick' => 'hierarchyNodes.saveNodePage()',
                 'class' => 'save'
-            )
+            ]
         )->toHtml();
 
         return join(' ', $buttons);
@@ -519,12 +519,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         return $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'new_node_button',
                 'label' => __('Add Node...'),
                 'onclick' => 'hierarchyNodes.newNodePage()',
                 'class' => 'add'
-            )
+            ]
         )->toHtml();
     }
 
@@ -737,12 +737,12 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getListModesJson()
     {
         $listModes = $this->_menuListmode->toOptionArray();
-        $result = array();
+        $result = [];
         foreach ($listModes as $type => $label) {
             if ($type == '') {
                 continue;
             }
-            $listType = in_array($type, array('circle', 'disc', 'square')) ? '0' : '1';
+            $listType = in_array($type, ['circle', 'disc', 'square']) ? '0' : '1';
             $result[$listType][$type] = $label;
         }
 
@@ -767,11 +767,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getDeleteHierarchyUrl()
     {
-        $params = array(
+        $params = [
             'website' => $this->getRequest()->getParam('website'),
             'store' => $this->getRequest()->getParam('store'),
             'scopes' => $this->getData('current_scope') . '_' . $this->getData('current_scope_id')
-        );
+        ];
         return $this->getUrl('adminhtml/*/delete', $params);
     }
 }

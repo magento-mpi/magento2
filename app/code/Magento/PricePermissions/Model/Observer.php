@@ -55,9 +55,9 @@ class Observer
      *
      * @var array
      */
-    protected $_filterRules = array(
-        '_removeStatusMassaction' => array('product.grid', 'admin.product.grid'),
-        '_removeColumnPrice' => array(
+    protected $_filterRules = [
+        '_removeStatusMassaction' => ['product.grid', 'admin.product.grid'],
+        '_removeColumnPrice' => [
             'catalog.product.edit.tab.related',
             'catalog.product.edit.tab.upsell',
             'catalog.product.edit.tab.crosssell',
@@ -79,18 +79,18 @@ class Observer
             'catalog.product.edit.tab.super.group',
             'product.grid',
             'admin.product.grid'
-        ),
-        '_removeColumnsPriceTotal' => array('admin.customer.view.cart'),
-        '_setCanReadPriceFalse' => array('checkout.items', 'items'),
-        '_setCanEditReadPriceFalse' => array(
+        ],
+        '_removeColumnsPriceTotal' => ['admin.customer.view.cart'],
+        '_setCanReadPriceFalse' => ['checkout.items', 'items'],
+        '_setCanEditReadPriceFalse' => [
             'catalog.product.edit.tab.downloadable.links',
             'adminhtml.catalog.product.bundle.edit.tab.attributes.price'
-        ),
-        '_setOptionsEditReadFalse' => array('admin.product.options'),
-        '_setCanEditReadDefaultPrice' => array('adminhtml.catalog.product.bundle.edit.tab.attributes.price'),
-        '_setCanEditReadChildBlock' => array('adminhtml.catalog.product.edit.tab.bundle.option'),
-        '_hidePriceElements' => array('adminhtml.catalog.product.edit.tab.attributes')
-    );
+        ],
+        '_setOptionsEditReadFalse' => ['admin.product.options'],
+        '_setCanEditReadDefaultPrice' => ['adminhtml.catalog.product.bundle.edit.tab.attributes.price'],
+        '_setCanEditReadChildBlock' => ['adminhtml.catalog.product.edit.tab.bundle.option'],
+        '_hidePriceElements' => ['adminhtml.catalog.product.edit.tab.attributes']
+    ];
 
     /**
      * Price permissions data
@@ -143,7 +143,7 @@ class Observer
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_pricePermData = $pricePermData;
@@ -197,7 +197,7 @@ class Observer
         $blockName = $block->getNameInLayout();
         foreach ($this->_filterRules as $function => $list) {
             if (in_array($blockName, $list)) {
-                call_user_func(array($this, $function), $block);
+                call_user_func([$this, $function], $block);
             }
         }
     }
@@ -223,7 +223,7 @@ class Observer
      */
     protected function _removeColumnPrice($block)
     {
-        $this->_removeColumnsFromGrid($block, array('price'));
+        $this->_removeColumnsFromGrid($block, ['price']);
     }
 
     /**
@@ -234,7 +234,7 @@ class Observer
      */
     protected function _removeColumnsPriceTotal($block)
     {
-        $this->_removeColumnsFromGrid($block, array('price', 'total'));
+        $this->_removeColumnsFromGrid($block, ['price', 'total']);
     }
 
     /**
@@ -485,10 +485,10 @@ class Observer
     {
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $block = $observer->getEvent()->getObject();
-        $excludedFieldList = array();
+        $excludedFieldList = [];
 
         if (!$this->_canEditProductPrice) {
-            $excludedFieldList = array(
+            $excludedFieldList = [
                 'price',
                 'special_price',
                 'tier_price',
@@ -503,7 +503,7 @@ class Observer
                 'giftcard_amounts',
                 'msrp',
                 'msrp_display_actual_price_type',
-            );
+            ];
         }
         if (!$this->_canEditProductStatus) {
             $excludedFieldList[] = 'status';
@@ -522,10 +522,10 @@ class Observer
     {
         /** @var $block \Magento\Catalog\Block\Adminhtml\Product\Edit\Action\Attribute\Tab_Attributes */
         $attributesData = $observer->getEvent()->getAttributesData();
-        $excludedAttributes = array();
+        $excludedAttributes = [];
 
         if (!$this->_canEditProductPrice) {
-            $excludedAttributes = array(
+            $excludedAttributes = [
                 'price',
                 'special_price',
                 'tier_price',
@@ -540,7 +540,7 @@ class Observer
                 'giftcard_amounts',
                 'msrp',
                 'msrp_display_actual_price_type',
-            );
+            ];
         }
         if (!$this->_canEditProductStatus) {
             $excludedAttributes[] = 'status';
@@ -572,7 +572,7 @@ class Observer
         }
 
         if (!is_null($product) && !is_null($form) && !is_null($group) && !is_null($fieldset)) {
-            $priceElementIds = array(
+            $priceElementIds = [
                 'special_price',
                 'tier_price',
                 'group_price',
@@ -585,7 +585,7 @@ class Observer
                 'giftcard_amounts',
                 'msrp',
                 'msrp_display_actual_price_type',
-            );
+            ];
 
             // Leave price element for bundle product active in order to change/view price type when product is created
             $typeId = $this->_coreRegistry->registry('product')->getTypeId();
@@ -621,13 +621,13 @@ class Observer
                         $storeId = (int)$this->_request->getParam('store', 0);
                         $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                         $amountsElement->setValue(
-                            array(
-                                array(
+                            [
+                                [
                                     'website_id' => $websiteId,
                                     'value' => $this->_defaultProductPriceString,
                                     'website_value' => (double)$this->_defaultProductPriceString
-                                )
-                            )
+                                ]
+                            ]
                         );
                     }
                 }

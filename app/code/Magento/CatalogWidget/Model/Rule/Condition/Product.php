@@ -22,7 +22,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     /**
      * @var array
      */
-    protected $joinedAttributes = array();
+    protected $joinedAttributes = [];
 
     /**
      * Store manager
@@ -53,7 +53,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->storeManager = $storeManager;
         parent::__construct(
@@ -76,7 +76,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     {
         $productAttributes = $this->_productResource->loadAllAttributes()->getAttributesByCode();
 
-        $attributes = array();
+        $attributes = [];
         foreach ($productAttributes as $attribute) {
             if (!$attribute->getFrontendLabel() || $attribute->getFrontendInput() == 'text') {
                 continue;
@@ -148,10 +148,10 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
             default:
                 $alias = 'at_'. md5($this->getId()) . $attribute->getAttributeCode();
                 $collection->getSelect()->join(
-                    array($alias => $collection->getTable('catalog_product_index_eav')),
+                    [$alias => $collection->getTable('catalog_product_index_eav')],
                     "($alias.entity_id = e.entity_id) AND ($alias.store_id = $storeId)" .
                     " AND ($alias.attribute_id = {$attribute->getId()})",
-                    array()
+                    []
                 );
         }
 
@@ -171,7 +171,7 @@ class Product extends \Magento\Rule\Model\Condition\Product\AbstractProduct
     ) {
         $storeId =  $this->storeManager->getStore()->getId();
         $values = $collection->getAllAttributeValues($attribute);
-        $validEntities = array();
+        $validEntities = [];
         if ($values) {
             foreach ($values as $entityId => $storeValues) {
                 if (isset($storeValues[$storeId])) {

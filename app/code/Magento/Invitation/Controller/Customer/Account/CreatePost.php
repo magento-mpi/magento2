@@ -119,10 +119,10 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $this->_redirect('customer/account/');
             return;
         } catch (FrameworkException $e) {
-            $_definedErrorCodes = array(
+            $_definedErrorCodes = [
                 Invitation::ERROR_CUSTOMER_EXISTS,
                 Invitation::ERROR_INVALID_DATA
-            );
+            ];
             if (in_array($e->getCode(), $_definedErrorCodes)) {
                 $this->messageManager->addError($e->getMessage())->setCustomerFormData($this->getRequest()->getPost());
             } else {
@@ -149,6 +149,6 @@ class CreatePost extends \Magento\Customer\Controller\Account\CreatePost
             $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirect('magento_invitation/customer_account/create', array('_current' => true, '_secure' => true));
+        $this->_redirect('magento_invitation/customer_account/create', ['_current' => true, '_secure' => true]);
     }
 }

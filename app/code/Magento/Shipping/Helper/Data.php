@@ -15,7 +15,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_allowedHashKeys = array('ship_id', 'order_id', 'track_id');
+    protected $_allowedHashKeys = ['ship_id', 'order_id', 'track_id'];
 
     /**
      * Core data
@@ -64,9 +64,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $hash = explode(':', $this->urlDecoder->decode($hash));
         if (count($hash) === 3 && in_array($hash[0], $this->_allowedHashKeys)) {
-            return array('key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]);
+            return ['key' => $hash[0], 'id' => (int)$hash[1], 'hash' => $hash[2]];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -80,7 +80,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getTrackingUrl($key, $model, $method = 'getId')
     {
         $urlPart = "{$key}:{$model->{$method}()}:{$model->getProtectCode()}";
-        $param = array('hash' => $this->urlEncoder->encode($urlPart));
+        $param = ['hash' => $this->urlEncoder->encode($urlPart)];
 
         $storeModel = $this->_storeManager->getStore($model->getStoreId());
         return $storeModel->getUrl('shipping/tracking/popup', $param);

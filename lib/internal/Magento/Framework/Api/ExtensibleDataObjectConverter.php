@@ -33,7 +33,7 @@ class ExtensibleDataObjectConverter
      * @param string[] $skipCustomAttributes
      * @return array
      */
-    public function toNestedArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = array())
+    public function toNestedArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = [])
     {
         $dataObjectType = get_class($dataObject);
         $dataObjectArray = $this->dataObjectProcessor->buildOutputDataArray($dataObject, $dataObjectType);
@@ -59,7 +59,7 @@ class ExtensibleDataObjectConverter
      * @param string[] $skipCustomAttributes
      * @return array
      */
-    public function toFlatArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = array())
+    public function toFlatArray(ExtensibleDataInterface $dataObject, $skipCustomAttributes = [])
     {
         $dataObjectArray = $this->toNestedArray($dataObject, $skipCustomAttributes);
         return ConvertArray::toFlatArray($dataObjectArray);

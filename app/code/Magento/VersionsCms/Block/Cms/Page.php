@@ -61,7 +61,7 @@ class Page extends \Magento\Cms\Block\Page
      */
     protected function _addBreadcrumbs(\Magento\Cms\Model\Page $page)
     {
-        $breadcrumbs = array();
+        $breadcrumbs = [];
         if ($this->_scopeConfig->getValue('web/default/show_cms_breadcrumbs', ScopeInterface::SCOPE_STORE)
             && ($breadcrumbsBlock = $this->getLayout()->getBlock('breadcrumbs'))
             && $page->getIdentifier() !== $this->_scopeConfig->getValue(
@@ -75,11 +75,11 @@ class Page extends \Magento\Cms\Block\Page
         ) {
             $breadcrumbsBlock->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             );
 
             if ($currentNode = $this->_coreRegistry->registry('current_cms_hierarchy_node')) {
@@ -88,12 +88,12 @@ class Page extends \Magento\Cms\Block\Page
                     if ($currentNode->getId() != $nodeId) {
                         $nodeModel = $this->_hierarchyNodeFactory->create();
                         $node = $nodeModel->load($nodeId);
-                        $breadcrumbs[] = array(
+                        $breadcrumbs[] = [
                             'crumbName' => 'cms_node_' . $node->getId(),
-                            'crumbInfo' => array(
+                            'crumbInfo' => [
                                 'label' => $node->getLabel(),
                                 'link' => $node->getUrl(),
-                                'title' => $node->getLabel()));
+                                'title' => $node->getLabel()]];
                     }
                 }
             }
@@ -102,7 +102,7 @@ class Page extends \Magento\Cms\Block\Page
                 $breadcrumbsBlock->addCrumb($breadcrumbsItem['crumbName'], $breadcrumbsItem['crumbInfo']);
             }
 
-            $breadcrumbsBlock->addCrumb('cms_page', array('label' => $page->getTitle(), 'title' => $page->getTitle()));
+            $breadcrumbsBlock->addCrumb('cms_page', ['label' => $page->getTitle(), 'title' => $page->getTitle()]);
         }
     }
 }

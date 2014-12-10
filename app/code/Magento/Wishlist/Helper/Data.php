@@ -278,7 +278,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getRemoveParams($item)
     {
         $url = $this->_getUrl('wishlist/index/remove');
-        $params = array('item' => $item->getWishlistItemId());
+        $params = ['item' => $item->getWishlistItemId()];
         return $this->_postDataHelper->getPostData($url, $params);
     }
 
@@ -290,7 +290,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getConfigureUrl($item)
     {
-        return $this->_getUrl('wishlist/index/configure', array('id' => $item->getWishlistItemId()));
+        return $this->_getUrl('wishlist/index/configure', ['id' => $item->getWishlistItemId()]);
     }
 
     /**
@@ -300,7 +300,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getAddParams($item, array $params = array())
+    public function getAddParams($item, array $params = [])
     {
         $productId = null;
         if ($item instanceof \Magento\Catalog\Model\Product) {
@@ -328,7 +328,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getMoveFromCartParams($itemId)
     {
         $url = $this->_getUrl('wishlist/index/fromcart');
-        $params = array('item' => $itemId);
+        $params = ['item' => $itemId];
         return $this->_postDataHelper->getPostData($url, $params);
     }
 
@@ -353,7 +353,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         $url = $this->_getUrl('wishlist/index/updateItemOptions');
         if ($itemId) {
-            $params = array('id' => $itemId, 'product' => $productId, 'qty' => $item->getQty());
+            $params = ['id' => $itemId, 'product' => $productId, 'qty' => $item->getQty()];
             return $this->_postDataHelper->getPostData($url, $params);
         }
 
@@ -389,13 +389,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected function _getCartUrlParameters($item)
     {
         $continueUrl = $this->urlEncoder->encode(
-            $this->_getUrl('*/*/*', array('_current' => true, '_use_rewrite' => true, '_scope_to_url' => true))
+            $this->_getUrl('*/*/*', ['_current' => true, '_use_rewrite' => true, '_scope_to_url' => true])
         );
 
-        return array(
+        return [
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $continueUrl
-        );
+        ];
     }
 
     /**
@@ -406,7 +406,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getListUrl($wishlistId = null)
     {
-        $params = array();
+        $params = [];
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;
         }
@@ -463,7 +463,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $customer = $this->_getCurrentCustomer();
         if ($customer) {
             $key = $customer->getId() . ',' . $customer->getEmail();
-            $params = array('data' => $this->urlEncoder->encode($key), '_secure' => false);
+            $params = ['data' => $this->urlEncoder->encode($key), '_secure' => false];
         }
         if ($wishlistId) {
             $params['wishlist_id'] = $wishlistId;

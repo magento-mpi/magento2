@@ -103,7 +103,7 @@ class Confirm extends \Magento\Customer\Controller\Account
             $this->messageManager->addException($e, __('There was an error confirming the account'));
         }
         // die unhappy
-        $url = $this->urlModel->getUrl('*/*/index', array('_secure' => true));
+        $url = $this->urlModel->getUrl('*/*/index', ['_secure' => true]);
         $this->getResponse()->setRedirect($this->_redirect->error($url));
         return;
     }
@@ -152,7 +152,7 @@ class Confirm extends \Magento\Customer\Controller\Account
         if (!$redirectToDashboard && $this->_getSession()->getBeforeAuthUrl()) {
             $successUrl = $this->_getSession()->getBeforeAuthUrl(true);
         } else {
-            $successUrl = $this->urlModel->getUrl('*/*/index', array('_secure' => true));
+            $successUrl = $this->urlModel->getUrl('*/*/index', ['_secure' => true]);
         }
         return $this->_redirect->success($backUrl ? $backUrl : $successUrl);
     }

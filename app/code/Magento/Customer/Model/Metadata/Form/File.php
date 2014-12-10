@@ -88,13 +88,13 @@ class File extends AbstractData
 
         $attrCode = $this->getAttribute()->getAttributeCode();
         if ($this->_requestScope) {
-            $value = array();
+            $value = [];
             if (strpos($this->_requestScope, '/') !== false) {
                 $scopes = explode('/', $this->_requestScope);
                 $mainScope = array_shift($scopes);
             } else {
                 $mainScope = $this->_requestScope;
-                $scopes = array();
+                $scopes = [];
             }
 
             if (!empty($_FILES[$mainScope])) {
@@ -103,7 +103,7 @@ class File extends AbstractData
                         if (isset($scopeData[$scopeName])) {
                             $scopeData = $scopeData[$scopeName];
                         } else {
-                            $scopeData[$scopeName] = array();
+                            $scopeData[$scopeName] = [];
                         }
                     }
 
@@ -112,13 +112,13 @@ class File extends AbstractData
                     }
                 }
             } else {
-                $value = array();
+                $value = [];
             }
         } else {
             if (isset($_FILES[$attrCode])) {
                 $value = $_FILES[$attrCode];
             } else {
-                $value = array();
+                $value = [];
             }
         }
 
@@ -149,7 +149,7 @@ class File extends AbstractData
             $extensions = explode(',', $fileExtensions);
             $extensions = array_map('trim', $extensions);
             if (!in_array($extension, $extensions)) {
-                return array(__('"%1" is not a valid file extension.', $extension));
+                return [__('"%1" is not a valid file extension.', $extension)];
             }
         }
 
@@ -161,7 +161,7 @@ class File extends AbstractData
         }
 
         if (!$this->_isUploadedFile($value['tmp_name'])) {
-            return array(__('"%1" is not a valid file.', $label));
+            return [__('"%1" is not a valid file.', $label)];
         }
 
         $maxFileSize = ArrayObjectSearch::getArrayElementByName(
@@ -171,11 +171,11 @@ class File extends AbstractData
         if (!is_null($maxFileSize)) {
             $size = $value['size'];
             if ($maxFileSize < $size) {
-                return array(__('"%1" exceeds the allowed file size.', $label));
+                return [__('"%1" exceeds the allowed file size.', $label)];
             }
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -200,7 +200,7 @@ class File extends AbstractData
             return true;
         }
 
-        $errors = array();
+        $errors = [];
         $attribute = $this->getAttribute();
         $label = $attribute->getStoreLabel();
 
@@ -294,7 +294,7 @@ class File extends AbstractData
         if ($this->_value) {
             switch ($format) {
                 case \Magento\Customer\Model\Metadata\ElementFactory::OUTPUT_FORMAT_JSON:
-                    $output = array('value' => $this->_value, 'url_key' => $this->urlEncoder->encode($this->_value));
+                    $output = ['value' => $this->_value, 'url_key' => $this->urlEncoder->encode($this->_value)];
                     break;
             }
         }

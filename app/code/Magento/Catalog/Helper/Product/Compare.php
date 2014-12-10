@@ -134,15 +134,15 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getListUrl()
     {
-        $itemIds = array();
+        $itemIds = [];
         foreach ($this->getItemCollection() as $item) {
             $itemIds[] = $item->getId();
         }
 
-        $params = array(
+        $params = [
             'items' => implode(',', $itemIds),
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-        );
+        ];
 
         return $this->_getUrl('catalog/product_compare', $params);
     }
@@ -155,7 +155,7 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getPostDataParams($product)
     {
-        return $this->_coreHelper->getPostData($this->getAddUrl(), array('product' => $product->getId()));
+        return $this->_coreHelper->getPostData($this->getAddUrl(), ['product' => $product->getId()]);
     }
 
     /**
@@ -178,9 +178,9 @@ class Compare extends \Magento\Core\Helper\Url
     {
         $beforeCompareUrl = $this->_catalogSession->getBeforeCompareUrl();
 
-        $encodedUrl = array(
+        $encodedUrl = [
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
-        );
+        ];
 
         return $this->_wishlistHelper->getAddParams($product, $encodedUrl);
     }
@@ -194,10 +194,10 @@ class Compare extends \Magento\Core\Helper\Url
     public function getAddToCartUrl($product)
     {
         $beforeCompareUrl = $this->_catalogSession->getBeforeCompareUrl();
-        $params = array(
+        $params = [
             'product' => $product->getId(),
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl($beforeCompareUrl)
-        );
+        ];
 
         return $this->_getUrl('checkout/cart/add', $params);
     }
@@ -221,10 +221,10 @@ class Compare extends \Magento\Core\Helper\Url
     public function getPostDataRemove($product)
     {
         $listCleanUrl = $this->getEncodedUrl($this->_getUrl('catalog/product_compare'));
-        $data = array(
+        $data = [
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $listCleanUrl,
             'product' => $product->getId()
-        );
+        ];
         return $this->_coreHelper->getPostData($this->getRemoveUrl(), $data);
     }
 
@@ -246,9 +246,9 @@ class Compare extends \Magento\Core\Helper\Url
     public function getPostDataClearList()
     {
         $refererUrl = $this->_getRequest()->getServer('HTTP_REFERER');
-        $params = array(
+        $params = [
             \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->urlEncoder->encode($refererUrl)
-        );
+        ];
         return $this->_coreHelper->getPostData($this->getClearListUrl(), $params);
     }
 

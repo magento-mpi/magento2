@@ -69,12 +69,12 @@ class Confirmation extends \Magento\Customer\Controller\Account
             } catch (\Exception $e) {
                 $this->messageManager->addException($e, __('Wrong email.'));
                 $this->getResponse()->setRedirect(
-                    $this->urlModel->getUrl('*/*/*', array('email' => $email, '_secure' => true))
+                    $this->urlModel->getUrl('*/*/*', ['email' => $email, '_secure' => true])
                 );
                 return;
             }
             $this->_getSession()->setUsername($email);
-            $this->getResponse()->setRedirect($this->urlModel->getUrl('*/*/index', array('_secure' => true)));
+            $this->getResponse()->setRedirect($this->urlModel->getUrl('*/*/index', ['_secure' => true]));
             return;
         }
 

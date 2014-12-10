@@ -26,7 +26,7 @@ class Report extends \Magento\Reports\Controller\Adminhtml\Index
      */
     public function execute()
     {
-        $this->_eventManager->dispatch('on_view_report', array('report' => 'search'));
+        $this->_eventManager->dispatch('on_view_report', ['report' => 'search']);
 
         $this->_initAction()->_setActiveMenu(
             'Magento_Reports::report_search'

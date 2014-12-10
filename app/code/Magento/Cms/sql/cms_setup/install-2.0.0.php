@@ -120,7 +120,7 @@ $table = $installer->getConnection()->newTable(
     'page_layout',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => true),
+    ['nullable' => true],
     'Page Layout'
 )->addColumn(
     'meta_keywords',

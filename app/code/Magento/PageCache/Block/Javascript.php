@@ -16,7 +16,7 @@ class Javascript extends \Magento\Framework\View\Element\Template
      */
     public function getScriptOptions()
     {
-        $params = array(
+        $params = [
             'url' => $this->getUrl(
                 'page_cache/block/render/',
                 [
@@ -26,7 +26,7 @@ class Javascript extends \Magento\Framework\View\Element\Template
             ),
             'handles' => $this->_layout->getUpdate()->getHandles(),
             'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
-        );
+        ];
         return json_encode($params);
     }
 }

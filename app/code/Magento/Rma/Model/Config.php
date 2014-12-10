@@ -75,7 +75,7 @@ class Config extends \Magento\Framework\Object
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        array $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         $this->_storeManager = $storeManager;

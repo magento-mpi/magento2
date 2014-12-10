@@ -44,14 +44,14 @@ class Observer
      *
      * @var array
      */
-    protected $_queue = array();
+    protected $_queue = [];
 
     /**
      * Permissions cache for products in cart
      *
      * @var array
      */
-    protected $_permissionsQuoteCache = array();
+    protected $_permissionsQuoteCache = [];
 
     /**
      * Catalog permission helper
@@ -144,7 +144,7 @@ class Observer
             return $this;
         }
 
-        $permissions = array();
+        $permissions = [];
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
         $categoryIds = $categoryCollection->getColumnValues('entity_id');
 
@@ -258,11 +258,11 @@ class Observer
         foreach ($collection as $product) {
             if ($collection->hasFlag('product_children')) {
                 $product->addData(
-                    array(
+                    [
                         'grant_catalog_category_view' => -1,
                         'grant_catalog_product_price' => -1,
                         'grant_checkout_items' => -1
-                    )
+                    ]
                 );
             }
             $this->_applyPermissionsOnProduct($product);
@@ -360,7 +360,7 @@ class Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)
     {
-        $productIds = array();
+        $productIds = [];
 
         foreach ($quote->getAllItems() as $item) {
             if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) && $item->getProductId()) {
@@ -382,11 +382,11 @@ class Observer
             }
         }
 
-        $defaultGrants = array(
+        $defaultGrants = [
             'grant_catalog_category_view' => $this->_catalogPermData->isAllowedCategoryView(),
             'grant_catalog_product_price' => $this->_catalogPermData->isAllowedProductPrice(),
             'grant_checkout_items' => $this->_catalogPermData->isAllowedCheckoutItems()
-        );
+        ];
 
         foreach ($quote->getAllItems() as $item) {
             if ($item->getProductId()) {

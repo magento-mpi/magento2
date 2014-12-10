@@ -48,7 +48,7 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         'password',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         255,
-        array('nullable' => false),
+        ['nullable' => false],
         'User Password'
     )->addColumn(
         'created',
@@ -96,19 +96,19 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         'rp_token',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         256,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Reset Password Link Token'
     )->addColumn(
         'rp_token_created_at',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Reset Password Link Token Creation Date'
     )->addColumn(
         'interface_locale',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         5,
-        array('nullable' => false, 'default' => 'en_US'),
+        ['nullable' => false, 'default' => 'en_US'],
         'Backend interface locale'
     )->addIndex(
         $installer->getIdxName(

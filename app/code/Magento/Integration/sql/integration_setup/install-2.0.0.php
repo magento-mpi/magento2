@@ -107,7 +107,7 @@ $table = $installer->getConnection()->newTable(
     'consumer_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => true),
+    ['unsigned' => true, 'nullable' => true],
     'Oauth Consumer ID'
 )->addColumn(
     'admin_id',
@@ -167,7 +167,7 @@ $table = $installer->getConnection()->newTable(
     'user_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array(),
+    [],
     'User type'
 )->addColumn(
     'created_at',
@@ -317,13 +317,13 @@ $table = $installer->getConnection()->newTable(
     'setup_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => 0),
+    ['unsigned' => true, 'nullable' => false, 'default' => 0],
     'Integration type - manual or config file'
 )->addColumn(
     'identity_link_url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Identity linking Url'
 )->addIndex(
     $installer->getIdxName(

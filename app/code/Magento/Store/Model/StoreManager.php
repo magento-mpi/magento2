@@ -111,12 +111,12 @@ class StoreManager implements \Magento\Store\Model\StoreManagerInterface
     protected function _getStorage()
     {
         if (!$this->_storage instanceof \Magento\Store\Model\StoreManagerInterface) {
-            $arguments = array(
+            $arguments = [
                 'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
                 'currentStore' => $this->_currentStore,
                 'scopeCode' => $this->_scopeCode,
                 'scopeType' => $this->_scopeType
-            );
+            ];
             $this->_storage = $this->_factory->get($arguments);
         }
         return $this->_storage;

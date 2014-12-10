@@ -109,7 +109,7 @@ class Group
         $collection = $this->productFactory->create()
             ->getCollection()
             ->addCategoryIds()
-            ->addAttributeToSelect(array('name', 'url_path', 'url_key'))
+            ->addAttributeToSelect(['name', 'url_path', 'url_key'])
             ->addWebsiteFilter($websiteIds);
         foreach ($collection as $product) {
             /** @var \Magento\Catalog\Model\Product $product */

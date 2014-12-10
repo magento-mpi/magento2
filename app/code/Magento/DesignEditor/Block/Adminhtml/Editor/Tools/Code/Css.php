@@ -22,7 +22,7 @@ class Css extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\DesignEditor\Helper\Data $urlEncoder,
-        array $data = array()
+        array $data = []
     ) {
         $this->urlEncoder = $urlEncoder;
         parent::__construct($context, $data);

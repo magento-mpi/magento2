@@ -112,7 +112,7 @@ class Query extends AbstractModel implements QueryInterface
         ScopeConfigInterface $scopeConfig,
         AbstractResource $resource = null,
         Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_queryCollectionFactory = $queryCollectionFactory;
         $this->_searchCollectionFactory = $searchCollectionFactory;
