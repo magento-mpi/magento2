@@ -43,7 +43,7 @@ class Environment extends AbstractActionController
         VersionParser $versionParser
     ) {
         $this->phpInformation = $phpInformation;
-        $this->permissions = $permissions;
+            $this->permissions = $permissions;
         $this->versionParser = $versionParser;
     }
 
@@ -56,7 +56,7 @@ class Environment extends AbstractActionController
     {
         try{
             $requiredVersion = $this->phpInformation->getRequiredPhpVersion();
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             return new JsonModel(
                 [
                     'responseType' => ResponseTypeInterface::RESPONSE_TYPE_ERROR,
@@ -76,7 +76,7 @@ class Environment extends AbstractActionController
         $data = [
             'responseType' => $responseType,
             'data' => [
-                'required' => isset($requiredVersion) ? $requiredVersion : '' ,
+                'required' => $requiredVersion,
                 'current' => PHP_VERSION,
             ],
         ];

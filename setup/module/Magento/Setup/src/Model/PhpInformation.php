@@ -49,15 +49,11 @@ class PhpInformation
      * Retrieves required php version
      *
      * @return string
-     * @throws \Exception If composer.lock file is not found or if attributes are missing.
+     * @throws \Exception If attributes are missing in composer.lock file.
      */
     public function getRequiredPhpVersion()
     {
-        if (!$this->rootDir->isExist('composer.lock')) {
-            throw new \Exception('Cannot determine required PHP version from Composer information: '
-                . '\'composer.lock\'file is absent');
-        }
-        $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
+        $composerInfo = $this->getComposerInfo();
         if (!empty($composerInfo['platform']['php'])) {
             return $composerInfo['platform']['php'];
         } else {
@@ -72,16 +68,12 @@ class PhpInformation
      * Collect required extensions from composer.lock file
      *
      * @return array
-     * @throws \Exception If composer.lock file is not found or if attributes are missing.
+     * @throws \Exception If attributes are missing in composer.lock file.
      */
     public function getRequired()
     {
         if (null === $this->required) {
-            if (!$this->rootDir->isExist('composer.lock')) {
-                throw new \Exception('Cannot determine required PHP extensions from Composer information: '
-                    . '\'composer.lock\' file is absent');
-            }
-            $composerInfo = json_decode($this->rootDir->readFile('composer.lock'), true);
+            $composerInfo = $this->getComposerInfo();
             $declaredDependencies = [];
 
             if (!empty($composerInfo['platform-dev'])) {
@@ -112,6 +104,21 @@ class PhpInformation
             }
         }
         return $this->required;
+    }
+
+    /**
+     * Checks existence of composer.lock and returns its contents
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getComposerInfo()
+    {
+        if (!$this->rootDir->isExist('composer.lock')) {
+            throw new \Exception('Cannot determine required PHP version from Composer information: '
+                . '\'composer.lock\'file is absent');
+        }
+        return json_decode($this->rootDir->readFile('composer.lock'), true);
     }
 
     /**
