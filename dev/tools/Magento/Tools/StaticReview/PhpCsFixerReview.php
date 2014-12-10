@@ -43,6 +43,10 @@ class PhpCsFixerReview extends AbstractReview
 
     /**
      * Checks and fixes PHP files using PHP Coding Standards Fixer.
+     *
+     * @param ReporterInterface $reporter
+     * @param FileInterface $file
+     * @return void
      */
     public function review(ReporterInterface $reporter, FileInterface $file)
     {

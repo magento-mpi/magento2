@@ -195,7 +195,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $website = $this->getMock('Magento\Store\Model\Website', [], [], '', false);
         $website->expects($this->once())
             ->method('getStoreIds')
-            ->will($this->returnValue([1,2,3,4]));
+            ->will($this->returnValue([1, 2, 3, 4]));
         $this->_storeManager->expects($this->once())
             ->method('getWebsite')
             ->with(1)

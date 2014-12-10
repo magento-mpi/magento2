@@ -466,6 +466,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
      * @param string $saveAction
      * @param string $idFieldName
      * @return bool
+     * @codingStandardsIgnoreStart
      */
     public function validateNoWebsiteGeneric(
         $denyActions = ['new', 'delete'],
@@ -487,6 +488,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
         }
         return true;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Validate Manage Stores pages actions

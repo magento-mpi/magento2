@@ -228,6 +228,7 @@ class Files
      * @param array $excludedFileNames
      * @param bool $asDataSet
      * @return array
+     * @codingStandardsIgnoreStart
      */
     public function getConfigFiles(
         $fileNamePattern = '*.xml',
@@ -250,6 +251,7 @@ class Files
         }
         return self::$_cache[$cacheKey];
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Returns a list of configuration files found under the app/design directory.

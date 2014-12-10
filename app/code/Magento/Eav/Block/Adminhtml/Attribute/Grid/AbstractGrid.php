@@ -81,8 +81,8 @@ abstract class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'index' => 'is_user_defined',
                 'type' => 'options',
                 'options' => [
-                    '0' => __('Yes'),   // intended reverted use
-                    '1' => __('No'),    // intended reverted use
+                    '0' => __('Yes'), // intended reverted use
+                    '1' => __('No'), // intended reverted use
                 ],
                 'header_css_class' => 'col-system',
                 'column_css_class' => 'col-system'

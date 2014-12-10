@@ -111,10 +111,10 @@ class Payment extends \Magento\Backend\Block\Template
         if (!$this->_getData('reward')) {
             $customerData = $this->getQuote()->getCustomer();
             $customer = $this->customerFactory->create(
-                    [
-                        'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
-                    ]
-                );
+                [
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
+                ]
+            );
             /* @var $reward \Magento\Reward\Model\Reward */
             $reward = $this->_rewardFactory->create()->setCustomer($customer);
             $reward->setStore($this->getQuote()->getStore());

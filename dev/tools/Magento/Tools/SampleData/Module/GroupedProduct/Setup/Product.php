@@ -29,6 +29,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -58,4 +59,5 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+    // @codingStandardsIgnoreEnd
 }

@@ -45,6 +45,7 @@ class Page implements SetupInterface
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param array $fixtures
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         FixtureHelper $fixtureHelper,
@@ -61,6 +62,7 @@ class Page implements SetupInterface
         $this->fixtures = $fixtures;
         $this->logger = $logger;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * {@inheritdoc}

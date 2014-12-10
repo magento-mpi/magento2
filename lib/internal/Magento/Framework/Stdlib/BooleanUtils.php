@@ -26,6 +26,7 @@ class BooleanUtils
     /**
      * @param array $trueValues
      * @param array $falseValues
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         array $trueValues = [true, 1, 'true', '1'],
@@ -34,6 +35,7 @@ class BooleanUtils
         $this->trueValues = $trueValues;
         $this->falseValues = $falseValues;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Retrieve boolean value for an expression

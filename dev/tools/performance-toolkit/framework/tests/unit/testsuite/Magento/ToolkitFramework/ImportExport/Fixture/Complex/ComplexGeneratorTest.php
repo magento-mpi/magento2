@@ -63,11 +63,11 @@ class ComplexGeneratorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             [
                 ['id' => '1', 'name' => 'Static', 'calculated' => 10],
-                ['id' => '',  'name' => 'xxx 1',  'calculated' => ''],
-                ['id' => '',  'name' => 'yyy 1',  'calculated' => ''],
+                ['id' => '', 'name' => 'xxx 1', 'calculated' => ''],
+                ['id' => '', 'name' => 'yyy 1', 'calculated' => ''],
                 ['id' => '2', 'name' => 'Static', 'calculated' => 20],
-                ['id' => '',  'name' => 'xxx 2',  'calculated' => ''],
-                ['id' => '',  'name' => 'yyy 2',  'calculated' => ''],
+                ['id' => '', 'name' => 'xxx 2', 'calculated' => ''],
+                ['id' => '', 'name' => 'yyy 2', 'calculated' => ''],
             ],
             $rows
         );

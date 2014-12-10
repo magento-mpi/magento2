@@ -81,6 +81,7 @@ class Product implements SetupInterface
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -109,6 +110,7 @@ class Product implements SetupInterface
         $this->logger = $logger;
         $this->storeManager = $storeManager;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * {@inheritdoc}

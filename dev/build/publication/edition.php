@@ -91,6 +91,7 @@ try {
  * Copy license files into all published components
  *
  * @param array $directories
+ * @return void
  */
 function copyLicenseToComponents($directories)
 {

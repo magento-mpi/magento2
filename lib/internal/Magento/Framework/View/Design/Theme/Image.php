@@ -91,6 +91,7 @@ class Image
      * @param \Magento\Framework\Logger $logger
      * @param array $imageParams
      * @param ThemeInterface $theme
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Framework\Filesystem $filesystem,
@@ -110,6 +111,7 @@ class Image
         $this->imageParams = $imageParams;
         $this->theme = $theme;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Create preview image

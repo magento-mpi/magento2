@@ -46,6 +46,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $fixtures
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -81,6 +82,7 @@ class Product extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product imp
             $fixtures
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * @inheritdoc

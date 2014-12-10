@@ -7,7 +7,7 @@ namespace Magento\Framework\Error;
 /**
  * Error processor
  */
-class processor
+class Processor
 {
     const MAGE_ERRORS_LOCAL_XML = 'local.xml';
     const MAGE_ERRORS_DESIGN_XML = 'design.xml';

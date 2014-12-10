@@ -407,9 +407,11 @@ abstract class AbstractBlock extends \Magento\Framework\Object implements BlockI
                 $params = $args;
             }
 
+            // @codingStandardsIgnoreStart
             if ($result == call_user_func_array([&$child, $callback], $params)) {
                 $this->unsetChild($alias);
             }
+            // @codingStandardsIgnoreEnd
         }
         return $this;
     }

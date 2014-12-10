@@ -68,8 +68,10 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
      * @param \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $productRepository
+     * @param ProductRepositoryInterface|\Magento\Framework\Pricing\PriceCurrencyInterface $productRepository
+     * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
      * @param array $data
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Block\Product\Context $context,
@@ -98,6 +100,7 @@ class View extends AbstractProduct implements \Magento\Framework\View\Block\Iden
             $data
         );
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * Return wishlist widget options
