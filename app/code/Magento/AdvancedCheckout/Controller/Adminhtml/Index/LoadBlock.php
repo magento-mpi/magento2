@@ -313,7 +313,7 @@ class LoadBlock extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
                 break;
         }
 
-        return new \Magento\Framework\Object(array('product_id' => $productId, 'buy_request' => $buyRequest));
+        return new \Magento\Framework\Object(['product_id' => $productId, 'buy_request' => $buyRequest]);
     }
 
     /**
