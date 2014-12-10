@@ -19,6 +19,7 @@ main.controller('navigationController', ['$scope', '$state', '$rootScope', 'navi
     '$scope', '$state', 'navigationService',
     function ($scope, $state, navigationService) {
         $scope.$on('$stateChangeSuccess', function (event, state) {
+            $scope.valid = true;
             $scope.class = 'col-lg-9';
             if (state.main) {
                 $scope.class = 'col-lg-offset-3 col-lg-6';

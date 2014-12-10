@@ -7,7 +7,7 @@
 
 'use strict';
 angular.module('add-database', ['ngStorage'])
-    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', '$timeout', '$interval', function ($scope, $state, $localStorage, $http, $timeout, $interval) {
+    .controller('addDatabaseController', ['$scope', '$state', '$localStorage', '$http', function ($scope, $state, $localStorage, $http) {
         $scope.db = {
             useExistingDb: 1,
             useAccess: 1,
@@ -16,19 +16,6 @@ angular.module('add-database', ['ngStorage'])
             name: 'magento'
         };
         $scope.testConn = 'mock';
-        var intervalPromise = $interval(function () {
-            $http.post('index.php/database-check', $scope.db)
-                .success(function (data) {
-                    $scope.testConnection.result = data;
-                    if (($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success)) {
-                        $scope.testConn = '';
-                    } else {
-                        $scope.testConn = 'mock';
-                    }
-                });
-        }, 500);
-
-        $scope.$on('$destroy', function () {$interval.cancel(intervalPromise);});
 
         if ($localStorage.db) {
             $scope.db = $localStorage.db;
@@ -38,13 +25,22 @@ angular.module('add-database', ['ngStorage'])
             $http.post('index.php/database-check', $scope.db)
                 .success(function (data) {
                     $scope.testConnection.result = data;
+                    if (($scope.testConnection.result !== undefined) && (!$scope.testConnection.result.success)) {
+                        $scope.testConn = '';
+                    } else {
+                        $scope.testConn = 'mock';
+                        $scope.database.$valid = true;
+                    }
                 });
         };
 
         $scope.$on('nextState', function () {
             $localStorage.db = $scope.db;
-            $interval.cancel(intervalPromise);
         });
+
+        $scope.initialCall = function () {
+            $scope.testConnection();
+        };
 
         // Listens on form validate event, dispatched by parent controller
         $scope.$on('validate-' + $state.current.id, function() {
@@ -53,18 +49,22 @@ angular.module('add-database', ['ngStorage'])
 
         $scope.$watch('db.host', function(newVal, oldVal) {
             $scope.database.$valid = false;
+            $scope.testConnection();
         });
 
         $scope.$watch('db.user', function(newVal, oldVal) {
             $scope.database.$valid = false;
+            $scope.testConnection();
         });
 
         $scope.$watch('db.password', function(newVal, oldVal) {
             $scope.database.$valid = false;
+            $scope.testConnection();
         });
 
         $scope.$watch('db.name', function(newVal, oldVal) {
             $scope.database.$valid = false;
+            $scope.testConnection();
         });
 
         // Dispatch 'validation-response' event to parent controller
