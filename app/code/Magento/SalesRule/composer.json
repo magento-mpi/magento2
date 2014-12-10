@@ -17,7 +17,6 @@
         "magento/module-reports": "0.1.0-alpha107",
         "magento/module-catalog-rule": "0.1.0-alpha107",
         "magento/module-widget": "0.1.0-alpha107",
-        "magento/module-cron": "0.1.0-alpha107",
         "magento/framework": "0.1.0-alpha107",
         "magento/magento-composer-installer": "*"
     },
