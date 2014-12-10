@@ -281,8 +281,8 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             "Precondition failed: Customer address ID was not set."
         );
 
-        /** @var \Magento\Customer\Service\V1\Data\AddressBuilder $addressBuilder */
-        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Service\V1\Data\AddressBuilder');
+        /** @var \Magento\Customer\Api\Data\AddressDataBuilder $addressBuilder */
+        $addressBuilder = Bootstrap::getObjectManager()->create('Magento\Customer\Api\Data\AddressDataBuilder');
         $customerAddressData = $addressBuilder->setId($customerAddressId)->create();
         $this->_address->setCustomerAddressData($customerAddressData);
         $this->_address->save();

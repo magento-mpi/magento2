@@ -10,7 +10,7 @@ namespace Magento\Cms\Model\Resource;
 use Magento\Cms\Api\Data\BlockInterface;
 use Magento\Cms\Api\Data\PageInterface;
 use Magento\Framework\Data\AbstractSearchResult;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
 use Magento\Framework\DB\QueryInterface;

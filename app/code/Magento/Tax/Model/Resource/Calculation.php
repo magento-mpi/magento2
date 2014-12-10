@@ -41,19 +41,19 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected $_taxData;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->_taxData = $taxData;
         $this->_storeManager = $storeManager;
@@ -467,76 +467,6 @@ class Calculation extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $result[] = $rate['tax_calculation_rate_id'];
             while (isset($rates[$i + 1]) && $rates[$i + 1]['tax_calculation_rule_id'] == $rule) {
                 $i++;
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-     * Retrieve rates by customer tax class
-     *
-     * @param int $customerTaxClassId
-     * @param int $productTaxClassId
-     * @return array
-     */
-    public function getRatesByCustomerTaxClass($customerTaxClass, $productTaxClass = null)
-    {
-        $adapter = $this->_getReadAdapter();
-        $customerTaxClassId = (int)$customerTaxClass;
-        $calcJoinConditions = array(
-            'calc_table.tax_calculation_rate_id = main_table.tax_calculation_rate_id',
-            $adapter->quoteInto('calc_table.customer_tax_class_id = ?', $customerTaxClassId)
-        );
-        if ($productTaxClass !== null) {
-            $productTaxClassId = (int)$productTaxClass;
-            $calcJoinConditions[] = $adapter->quoteInto('calc_table.product_tax_class_id = ?', $productTaxClassId);
-        }
-
-        $selectCSP = $adapter->select();
-        $selectCSP->from(
-            array('main_table' => $this->getTable('tax_calculation_rate')),
-            array('country' => 'tax_country_id', 'region_id' => 'tax_region_id', 'postcode' => 'tax_postcode')
-        )->joinInner(
-            array('calc_table' => $this->getTable('tax_calculation')),
-            implode(' AND ', $calcJoinConditions),
-            array('product_class' => 'calc_table.product_tax_class_id')
-        )->joinLeft(
-            array('state_table' => $this->getTable('directory_country_region')),
-            'state_table.region_id = main_table.tax_region_id',
-            array('region_code' => 'state_table.code')
-        )->distinct(
-            true
-        );
-
-        $CSP = $adapter->fetchAll($selectCSP);
-
-        $result = array();
-        foreach ($CSP as $one) {
-            $request = new \Magento\Framework\Object();
-            $request->setCountryId(
-                $one['country']
-            )->setRegionId(
-                $one['region_id']
-            )->setPostcode(
-                $one['postcode']
-            )->setCustomerClassId(
-                $customerTaxClassId
-            )->setProductClassId(
-                $one['product_class']
-            );
-
-            $rate = $this->getRate($request);
-            if ($rate) {
-                $row = array(
-                    'value' => $rate / 100,
-                    'country' => $one['country'],
-                    'state' => $one['region_code'],
-                    'postcode' => $one['postcode'],
-                    'product_class' => $one['product_class']
-                );
-
-                $result[] = $row;
             }
         }
 

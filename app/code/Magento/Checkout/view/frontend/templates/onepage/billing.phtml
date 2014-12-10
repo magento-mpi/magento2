@@ -11,7 +11,7 @@
 
     <?php if ($this->customerHasAddresses()): ?>
         <div class="field addresses">
-            <label class="label" for="billing-address-select"><span><?php echo __('Select a billing address from your address book or enter a new address.') ?></span></label>
+            <label class="label" for="billing:address-select"><span><?php echo __('Select a billing address from your address book or enter a new address.') ?></span></label>
             <div class="control">
                 <?php echo $this->getAddressesHtmlSelect('billing') ?>
             </div>

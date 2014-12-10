@@ -23,7 +23,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         // fixture
 
         $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getWebsite(
             'base'
         )->getId();

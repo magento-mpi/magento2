@@ -15,13 +15,10 @@ $productId = $this->getSaleableItem()->getId();
 $finalPriceModel = $this->getPrice();
 $minimalPrice = $finalPriceModel->getMinimalPrice();
 $maximalPrice = $finalPriceModel->getMaximalPrice();
-$hasSpecialPrice = $this->hasSpecialPrice();
-if ($hasSpecialPrice) {
-    /** @var \Magento\Bundle\Pricing\Price\BundleRegularPrice $regularPriceModel */
-    $regularPriceModel = $this->getPriceType('regular_price');
-    $maximalRegularPrice = $regularPriceModel->getMaximalPrice();
-    $minimalRegularPrice = $regularPriceModel->getMinimalPrice();
-}
+/** @var \Magento\Bundle\Pricing\Price\BundleRegularPrice $regularPriceModel */
+$regularPriceModel = $this->getPriceType('regular_price');
+$maximalRegularPrice = $regularPriceModel->getMaximalPrice();
+$minimalRegularPrice = $regularPriceModel->getMinimalPrice();
 ?>
 <?php if ($this->getSaleableItem()->getPriceView()): ?>
     <p class="minimal-price">
@@ -30,7 +27,7 @@ if ($hasSpecialPrice) {
             'price_id'          => $this->getPriceId('from-'),
             'include_container' => true
         ]); ?>
-        <?php if ($hasSpecialPrice): ?>
+        <?php if ($minimalPrice < $minimalRegularPrice): ?>
             <span class="old-price">
                 <?php echo $this->renderAmount($minimalRegularPrice, [
                     'display_label'     => __('Regular Price'),
@@ -50,7 +47,7 @@ if ($hasSpecialPrice) {
                 'price_type'        => 'minPrice',
                 'include_container' => true
             ]); ?>
-            <?php if ($hasSpecialPrice): ?>
+            <?php if ($minimalPrice < $minimalRegularPrice): ?>
                 <span class="old-price">
                     <?php echo $this->renderAmount($minimalRegularPrice, [
                         'display_label'     => __('Regular Price'),
@@ -68,7 +65,7 @@ if ($hasSpecialPrice) {
                 'price_type'        => 'maxPrice',
                 'include_container' => true
             ]); ?>
-            <?php if ($hasSpecialPrice): ?>
+            <?php if ($maximalPrice < $maximalRegularPrice): ?>
                 <span class="old-price">
                     <?php echo $this->renderAmount($maximalRegularPrice, [
                         'display_label'     => __('Regular Price'),
@@ -84,7 +81,7 @@ if ($hasSpecialPrice) {
             'price_id'          => $this->getPriceId('product-price-'),
             'include_container' => true
         ]); ?>
-        <?php if ($hasSpecialPrice): ?>
+        <?php if ($minimalPrice < $minimalRegularPrice): ?>
             <span class="old-price">
                 <?php echo $this->renderAmount($minimalRegularPrice, [
                     'display_label'     => __('Regular Price'),

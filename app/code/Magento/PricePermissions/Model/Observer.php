@@ -126,7 +126,7 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -135,7 +135,7 @@ class Observer
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
@@ -144,7 +144,7 @@ class Observer
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\App\RequestInterface $request,
         \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
@@ -391,31 +391,6 @@ class Observer
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
-            // Handle product Recurring Payment tab
-            case 'adminhtml_recurring_payment_edit_form':
-                if (!$this->_coreRegistry->registry('product')->isObjectNew()) {
-                    if (!$this->_canReadProductPrice) {
-                        $block->setProductEntity($this->_productFactory->create());
-                    }
-                }
-                if (!$this->_canEditProductPrice) {
-                    $block->setIsReadonly(true);
-                }
-                break;
-            case 'adminhtml_recurring_payment_edit_form_dependence':
-                if (!$this->_canEditProductPrice) {
-                    $block->addConfigOptions(array('can_edit_price' => false));
-                    if (!$this->_canReadProductPrice) {
-                        $dependenceValue = $this->_coreRegistry->registry('product')->getIsRecurring() ? '0' : '1';
-                        // Override previous dependence value
-                        $block->addFieldDependence(
-                            'product[recurring_payment]',
-                            'product[is_recurring]',
-                            $dependenceValue
-                        );
-                    }
-                }
-                break;
                 // Handle Msrp functionality for bundle products
             case 'adminhtml.catalog.product.edit.tab.attributes':
                 if (!$this->_canEditProductPrice) {
@@ -444,7 +419,6 @@ class Observer
             $product->lockAttribute('group_price');
             $product->lockAttribute('special_from_date');
             $product->lockAttribute('special_to_date');
-            $product->lockAttribute('is_recurring');
             $product->lockAttribute('cost');
             // For bundle product
             $product->lockAttribute('price_type');
@@ -524,7 +498,6 @@ class Observer
                 'group_price',
                 'special_from_date',
                 'special_to_date',
-                'is_recurring',
                 'cost',
                 'price_type',
                 'open_amount_max',
@@ -562,7 +535,6 @@ class Observer
                 'group_price',
                 'special_from_date',
                 'special_to_date',
-                'is_recurring',
                 'cost',
                 'price_type',
                 'open_amount_max',
@@ -633,21 +605,6 @@ class Observer
                     if (!is_null($priceElement)) {
                         $priceElement->setReadonly(true, true);
                     }
-                }
-            }
-
-            if (!$this->_canEditProductPrice) {
-                // Handle Recurring Payment tab
-                if ($form->getElement('recurring_payment')) {
-                    $form->getElement(
-                        'recurring_payment'
-                    )->setReadonly(
-                        true,
-                        true
-                    )->getForm()->setReadonly(
-                        true,
-                        true
-                    );
                 }
             }
 

@@ -43,7 +43,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
     protected $optionResource;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -62,7 +62,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
      * @param \Magento\ConfigurableProduct\Api\Data\OptionValueDataBuilder $optionValueBuilder
      * @param ConfigurableType $configurableType
      * @param Resource\Product\Type\Configurable\Attribute $optionResource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository
      * @param ConfigurableType\AttributeFactory $configurableAttributeFactory
      */
@@ -71,7 +71,7 @@ class OptionRepository implements \Magento\ConfigurableProduct\Api\OptionReposit
         \Magento\ConfigurableProduct\Api\Data\OptionValueDataBuilder $optionValueBuilder,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute $optionResource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $productAttributeRepository,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable\AttributeFactory $configurableAttributeFactory
     ) {
