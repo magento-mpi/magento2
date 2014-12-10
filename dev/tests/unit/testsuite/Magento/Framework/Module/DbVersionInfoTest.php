@@ -8,12 +8,12 @@
 namespace Magento\Framework\Module;
 
 
-class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
+class DbVersionInfoTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var DbVersionDetector
+     * @var DbVersionInfo
      */
-    private $dbVersionDetector;
+    private $dbVersionInfo;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -48,7 +48,7 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
         $this->moduleResource = $this->getMockForAbstractClass('\Magento\Framework\Module\ResourceInterface');
         $this->resourceResolver = $this->getMockForAbstractClass('\Magento\Framework\Module\ResourceResolverInterface');
 
-        $this->dbVersionDetector = new DbVersionDetector(
+        $this->dbVersionInfo = new DbVersionInfo(
             $this->moduleList,
             $this->moduleResource,
             $this->resourceResolver
@@ -71,7 +71,7 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($dbVersion));
         $this->assertEquals(
             $expectedResult,
-            $this->dbVersionDetector->isDbSchemaUpToDate($moduleName, $resourceName)
+            $this->dbVersionInfo->isSchemaUpToDate($moduleName, $resourceName)
         );
     }
 
@@ -91,7 +91,7 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($dbVersion));
         $this->assertEquals(
             $expectedResult,
-            $this->dbVersionDetector->isDbDataUpToDate($moduleName, $resourceName)
+            $this->dbVersionInfo->isDataUpToDate($moduleName, $resourceName)
         );
     }
 
@@ -140,19 +140,19 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
 
         $expectedErrors = [
             [
-                DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
-                DbVersionDetector::ERROR_KEY_CURRENT => '2',
-                DbVersionDetector::ERROR_KEY_REQUIRED => '1',
-                DbVersionDetector::ERROR_KEY_TYPE => 'schema',
+                DbVersionInfo::KEY_MODULE => 'Module_One',
+                DbVersionInfo::KEY_CURRENT => '2',
+                DbVersionInfo::KEY_REQUIRED => '1',
+                DbVersionInfo::KEY_TYPE => 'schema',
             ],
             [
-                DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
-                DbVersionDetector::ERROR_KEY_CURRENT => '2',
-                DbVersionDetector::ERROR_KEY_REQUIRED => '1',
-                DbVersionDetector::ERROR_KEY_TYPE => 'data',
+                DbVersionInfo::KEY_MODULE => 'Module_One',
+                DbVersionInfo::KEY_CURRENT => '2',
+                DbVersionInfo::KEY_REQUIRED => '1',
+                DbVersionInfo::KEY_TYPE => 'data',
             ]
         ];
-        $this->assertEquals($expectedErrors, $this->dbVersionDetector->getDbVersionErrors());
+        $this->assertEquals($expectedErrors, $this->dbVersionInfo->getDbVersionErrors());
     }
 
     /**
@@ -161,7 +161,7 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDbSchemaUpToDateException()
     {
-        $this->dbVersionDetector->isDbSchemaUpToDate('Module_No_Schema', 'resource_name');
+        $this->dbVersionInfo->isSchemaUpToDate('Module_No_Schema', 'resource_name');
     }
 
     /**
@@ -170,6 +170,6 @@ class DbVersionDetectorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsDbDataUpToDateException()
     {
-        $this->dbVersionDetector->isDbDataUpToDate('Module_No_Schema', 'resource_name');
+        $this->dbVersionInfo->isDataUpToDate('Module_No_Schema', 'resource_name');
     }
 }

@@ -11,18 +11,18 @@ namespace Magento\Framework\Module;
 use Magento\Framework\Module\Updater\SetupInterface;
 
 /**
- * Class DbVersionDetector
+ * Class DbVersionInfo
  *
  */
-class DbVersionDetector
+class DbVersionInfo
 {
     /**#@+
-     * Constants defined for keys of error array
+     * Constants defined for keys of version info array
      */
-    const ERROR_KEY_MODULE = 'module';
-    const ERROR_KEY_TYPE = 'type';
-    const ERROR_KEY_CURRENT = 'current';
-    const ERROR_KEY_REQUIRED = 'required';
+    const KEY_MODULE = 'module';
+    const KEY_TYPE = 'type';
+    const KEY_CURRENT = 'current';
+    const KEY_REQUIRED = 'required';
     /**#@-*/
 
     /**
@@ -62,7 +62,7 @@ class DbVersionDetector
      * @param string $resourceName
      * @return bool
      */
-    public function isDbSchemaUpToDate($moduleName, $resourceName)
+    public function isSchemaUpToDate($moduleName, $resourceName)
     {
         $dbVer = $this->moduleResource->getDbVersion($resourceName);
         return $this->isModuleVersionEqual($moduleName, $dbVer);
@@ -73,7 +73,7 @@ class DbVersionDetector
      * @param string $resourceName
      * @return bool
      */
-    public function isDbDataUpToDate($moduleName, $resourceName)
+    public function isDataUpToDate($moduleName, $resourceName)
     {
         $dataVer = $this->moduleResource->getDataVersion($resourceName);
         return $this->isModuleVersionEqual($moduleName, $dataVer);
@@ -82,20 +82,20 @@ class DbVersionDetector
     /**
      * Get array of errors if DB is out of date, return [] if DB is current
      *
-     * @return [] Array of errors, each error contains module name, current version, needed version,
-     *              and type (schema or data).  The array will be empty if all schema and data are current.
+     * @return string[] Array of errors, each error contains module name, current version, required version,
+     *                  and type (schema or data).  The array will be empty if all schema and data are current.
      */
     public function getDbVersionErrors()
     {
         $errors = [];
         foreach ($this->moduleList->getNames() as $moduleName) {
             foreach ($this->resourceResolver->getResourceList($moduleName) as $resourceName) {
-                if (!$this->isDbSchemaUpToDate($moduleName, $resourceName)) {
-                    $errors[] = $this->getDbSchemaVersionError($moduleName, $resourceName);
+                if (!$this->isSchemaUpToDate($moduleName, $resourceName)) {
+                    $errors[] = $this->getSchemaInfo($moduleName, $resourceName);
                 }
 
-                if (!$this->isDbDataUpToDate($moduleName, $resourceName)) {
-                    $errors[] = $this->getDbDataVersionError($moduleName, $resourceName);
+                if (!$this->isDataUpToDate($moduleName, $resourceName)) {
+                    $errors[] = $this->getDataInfo($moduleName, $resourceName);
                 }
             }
         }
@@ -103,24 +103,23 @@ class DbVersionDetector
     }
 
     /**
-     * Check if DB schema is up to date, return error data if it is not.
+     * Check if DB schema is up to date, version info if it is not.
      *
      * @param string $moduleName
      * @param string $resourceName
-     * @return [] Contains current and needed version strings
+     * @return string[] Contains current and needed version strings
      */
-    private function getDbSchemaVersionError($moduleName, $resourceName)
+    private function getSchemaInfo($moduleName, $resourceName)
     {
-
         $dbVer = $this->moduleResource->getDbVersion($resourceName); // version saved in DB
         $module = $this->moduleList->getOne($moduleName);
         $configVer = $module['schema_version'];
         $dbVer = $dbVer ?: 'none';
         return [
-            self::ERROR_KEY_CURRENT => $dbVer,
-            self::ERROR_KEY_REQUIRED => $configVer,
-            self::ERROR_KEY_MODULE => $moduleName,
-            self::ERROR_KEY_TYPE => 'schema'
+            self::KEY_CURRENT => $dbVer,
+            self::KEY_REQUIRED => $configVer,
+            self::KEY_MODULE => $moduleName,
+            self::KEY_TYPE => 'schema'
         ];
     }
 
@@ -129,19 +128,19 @@ class DbVersionDetector
      *
      * @param string $moduleName
      * @param string $resourceName
-     * @return []
+     * @return string[]
      */
-    private function getDbDataVersionError($moduleName, $resourceName)
+    private function getDataInfo($moduleName, $resourceName)
     {
         $dataVer = $this->moduleResource->getDataVersion($resourceName);
         $module = $this->moduleList->getOne($moduleName);
         $configVer = $module['schema_version'];
         $dataVer = $dataVer ?: 'none';
         return [
-            self::ERROR_KEY_CURRENT => $dataVer,
-            self::ERROR_KEY_REQUIRED => $configVer,
-            self::ERROR_KEY_MODULE => $moduleName,
-            self::ERROR_KEY_TYPE => 'data'
+            self::KEY_CURRENT => $dataVer,
+            self::KEY_REQUIRED => $configVer,
+            self::KEY_MODULE => $moduleName,
+            self::KEY_TYPE => 'data'
         ];
     }
 

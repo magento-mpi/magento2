@@ -7,7 +7,7 @@
  */
 namespace Magento\Framework\Module\Plugin;
 
-use Magento\Framework\Module\DbVersionDetector;
+use Magento\Framework\Module\DbVersionInfo;
 
 class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,9 +47,9 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
     private $moduleManager;
 
     /**
-     * @var \Magento\Framework\Module\DbVersionDetector|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\DbVersionInfo|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $dbVersionDetectorMock;
+    private $dbVersionInfoMock;
 
     protected function setUp()
     {
@@ -71,10 +71,10 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
                 return ['resource_' . $moduleName];
             }));
         $this->moduleManager = $this->getMock('\Magento\Framework\Module\Manager', [], [], '', false);
-        $this->dbVersionDetectorMock = $this->getMock('\Magento\Framework\Module\DbVersionDetector', [], [], '', false);
+        $this->dbVersionInfoMock = $this->getMock('\Magento\Framework\Module\DbVersionInfo', [], [], '', false);
         $this->_model = new DbStatusValidator(
             $this->_cacheMock,
-            $this->dbVersionDetectorMock
+            $this->dbVersionInfoMock
         );
     }
 
@@ -124,7 +124,7 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
      *
      * @dataProvider aroundDispatchExceptionDataProvider
      * @expectedException \Magento\Framework\Module\Exception
-     * @expectedExceptionMessage Please update your database: first run "composer install" from the Magento
+     * @expectedExceptionMessage Please update your database:
      */
     public function testAroundDispatchException(array $dbVersionErrors)
     {
@@ -135,7 +135,7 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
         ;
         $this->_cacheMock->expects($this->never())->method('save');
 
-        $this->dbVersionDetectorMock->expects($this->any())
+        $this->dbVersionInfoMock->expects($this->any())
             ->method('getDbVersionErrors')
             ->will($this->returnValue($dbVersionErrors));
 
@@ -151,48 +151,48 @@ class DbStatusValidatorTest extends \PHPUnit_Framework_TestCase
             'schema is outdated' => [
                 [
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'schema',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_One',
+                         DbVersionInfo::KEY_TYPE => 'schema',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ]
                 ],
             ],
             'data is outdated' => [
                 [
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'data',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_Two',
+                         DbVersionInfo::KEY_TYPE => 'data',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ]
                 ],
             ],
             'both schema and data are outdated' => [
                 [
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'schema',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_One',
+                         DbVersionInfo::KEY_TYPE => 'schema',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ],
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'schema',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_Two',
+                         DbVersionInfo::KEY_TYPE => 'schema',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ],
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_One',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'data',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_One',
+                         DbVersionInfo::KEY_TYPE => 'data',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ],
                      [
-                         DbVersionDetector::ERROR_KEY_MODULE => 'Module_Two',
-                         DbVersionDetector::ERROR_KEY_TYPE => 'data',
-                         DbVersionDetector::ERROR_KEY_CURRENT => 'none',
-                         DbVersionDetector::ERROR_KEY_REQUIRED => '1'
+                         DbVersionInfo::KEY_MODULE => 'Module_Two',
+                         DbVersionInfo::KEY_TYPE => 'data',
+                         DbVersionInfo::KEY_CURRENT => 'none',
+                         DbVersionInfo::KEY_REQUIRED => '1'
                      ]
                 ],
             ],

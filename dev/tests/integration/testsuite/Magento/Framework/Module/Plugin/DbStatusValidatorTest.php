@@ -16,6 +16,8 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
 
     /**
      * @magentoDbIsolation enabled
+     * @expectedException \Magento\Framework\Module\Exception
+     * @expectedExceptionMessage Please update your database
      */
     public function testValidationOutdatedDb()
     {
@@ -33,14 +35,7 @@ class DbStatusValidatorTest extends \Magento\TestFramework\TestCase\AbstractCont
         $cache = $this->_objectManager->get('Magento\Framework\App\Cache\Type\Config');
         $cache->clean();
 
-        try {
-            /* This triggers plugin to be executed */
-            $this->dispatch('index/index');
-            $this->fail('Did not throw expected \Magento\Framework\Module\Exception.');
-        } catch (\Magento\Framework\Module\Exception $e) {
-            $this->assertStringStartsWith('Please update your database:', $e->getMessage());
-            $this->assertContains('Magento_AdminNotification schema:', $e->getMessage());
-            $this->assertContains('Magento_AdminNotification data:', $e->getMessage());
-        }
+        /* This triggers plugin to be executed */
+        $this->dispatch('index/index');
     }
 }

@@ -27,26 +27,26 @@ class Updater
     protected $_setupFactory;
 
     /**
-     * @var DbVersionDetector
+     * @var DbVersionInfo
      */
-    private $_dbVersionDetector;
+    private $_dbVersionInfo;
 
     /**
      * @param Updater\SetupFactory $setupFactory
      * @param ModuleListInterface $moduleList
      * @param ResourceResolverInterface $resourceResolver
-     * @param DbVersionDetector $dbVersionDetector
+     * @param DbVersionInfo $dbVersionInfo
      */
     public function __construct(
         Updater\SetupFactory $setupFactory,
         ModuleListInterface $moduleList,
         ResourceResolverInterface $resourceResolver,
-        DbVersionDetector $dbVersionDetector
+        DbVersionInfo $dbVersionInfo
     ) {
         $this->_moduleList = $moduleList;
         $this->_resourceResolver = $resourceResolver;
         $this->_setupFactory = $setupFactory;
-        $this->_dbVersionDetector = $dbVersionDetector;
+        $this->_dbVersionInfo = $dbVersionInfo;
     }
 
     /**
@@ -58,7 +58,7 @@ class Updater
     {
         foreach ($this->_moduleList->getNames() as $moduleName) {
             foreach ($this->_resourceResolver->getResourceList($moduleName) as $resourceName) {
-                if (!$this->_dbVersionDetector->isDbDataUpToDate($moduleName, $resourceName)) {
+                if (!$this->_dbVersionInfo->isDataUpToDate($moduleName, $resourceName)) {
                     $this->_setupFactory->create($resourceName, $moduleName)->applyDataUpdates();
                 }
             }

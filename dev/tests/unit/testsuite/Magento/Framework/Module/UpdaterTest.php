@@ -30,9 +30,9 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     protected $_resourceSetupMock;
 
     /**
-     * @var \Magento\Framework\Module\DbVersionDetector|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\DbVersionInfo|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $_dbVersionDetector;
+    private $_dbVersionInfo;
 
     /**
      * @var \Magento\Framework\Module\Updater
@@ -67,20 +67,20 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($resourceList))
         ;
 
-        $this->_dbVersionDetector = $this->getMock('Magento\Framework\Module\DbVersionDetector', [], [], '', false);
+        $this->_dbVersionInfo = $this->getMock('Magento\Framework\Module\DbVersionInfo', [], [], '', false);
 
         $this->_model = new \Magento\Framework\Module\Updater(
             $this->_factoryMock,
             $this->_moduleListMock,
             $this->_resourceResolver,
-            $this->_dbVersionDetector
+            $this->_dbVersionInfo
         );
     }
 
     public function testUpdateData()
     {
-        $this->_dbVersionDetector->expects($this->once())
-            ->method('isDbDataUpToDate')
+        $this->_dbVersionInfo->expects($this->once())
+            ->method('isDataUpToDate')
             ->with('Test_Module', 'catalog_setup')
             ->will(
                 $this->returnValue(false)
@@ -98,8 +98,8 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateDataNoUpdates()
     {
-        $this->_dbVersionDetector->expects($this->once())
-            ->method('isDbDataUpToDate')
+        $this->_dbVersionInfo->expects($this->once())
+            ->method('isDataUpToDate')
             ->with('Test_Module', 'catalog_setup')
             ->will($this->returnValue(true));
         $this->_factoryMock->expects($this->never())
