@@ -42,6 +42,13 @@ class WordsFinder
     protected $copyrightSkipList = [];
 
     /**
+     * Whether copyright presence should be checked or not
+     *
+     * @var bool
+     */
+    protected $isCopyrightChecked;
+
+    /**
      * Words to search for
      *
      * @var array
@@ -65,9 +72,10 @@ class WordsFinder
     /**
      * @param string|array $configFiles
      * @param string $baseDir
+     * @param bool $isCopyrightChecked
      * @throws \Magento\TestFramework\Inspection\Exception
      */
-    public function __construct($configFiles, $baseDir)
+    public function __construct($configFiles, $baseDir, $isCopyrightChecked = false)
     {
         if (!is_dir($baseDir)) {
             throw new \Magento\TestFramework\Inspection\Exception("Base directory {$baseDir} does not exist");
@@ -99,6 +107,8 @@ class WordsFinder
         if (!$this->_words) {
             throw new \Magento\TestFramework\Inspection\Exception('No words to check');
         }
+
+        $this->isCopyrightChecked = $isCopyrightChecked;
     }
 
     /**
@@ -236,7 +246,7 @@ class WordsFinder
                 $foundWords[] = $word;
             }
         }
-        if ($contents && !$this->isCopyrightCheckSkipped($file)
+        if ($contents && $this->isCopyrightChecked && !$this->isCopyrightCheckSkipped($file)
             && strpos($contents, $this->copyrightString) === false
         ) {
             $foundWords[] = 'Copyright string is missing';

@@ -85,6 +85,17 @@ class SanityWordsFinder extends \Magento\TestFramework\Inspection\WordsFinder
     ];
 
     /**
+     * @param string|array $configFiles
+     * @param string $baseDir
+     * @param bool $isCopyrightChecked
+     * @throws \Magento\TestFramework\Inspection\Exception
+     */
+    public function __construct($configFiles, $baseDir, $isCopyrightChecked = true)
+    {
+        parent::__construct($configFiles, $baseDir, $isCopyrightChecked);
+    }
+
+    /**
      * Get list of words, configured to be searched
      *
      * @return array
