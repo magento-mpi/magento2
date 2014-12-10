@@ -41,9 +41,11 @@
         <const name="TESTS_GLOBAL_CONFIG_DIR" value="../../../app/etc"/>
         <const name="TESTS_CLEANUP" value="{{tests_cleanup}}"/>
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
+        <const name="TESTS_ERROR_LOG_LISTENER_LEVEL" value="-1"/>
     </php>
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>
+        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
     </listeners>
     <logging>
         <!--parallel_run_placeholder
