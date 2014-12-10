@@ -25,11 +25,11 @@ class ShippingMethodConverter
      * Constructs a shipping method builder object.
      *
      * @param ShippingMethodBuilder $builder Shipping method builder.
-     * @param \Magento\Framework\StoreManagerInterface $storeManager Store manager interface.
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager Store manager interface.
      */
     public function __construct(
         \Magento\Checkout\Service\V1\Data\Cart\ShippingMethodBuilder $builder,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->builder = $builder;
         $this->storeManager = $storeManager;

@@ -59,7 +59,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
      * @param Product\Type $type
      * @param \Magento\Bundle\Api\Data\OptionDataBuilder $optionBuilder
      * @param Resource\Option $optionResource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Bundle\Api\ProductLinkManagementInterface $linkManagement
      * @param Product\OptionList $productOptionList
      * @param Product\LinksList $linkList
@@ -69,7 +69,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
         \Magento\Bundle\Model\Product\Type $type,
         \Magento\Bundle\Api\Data\OptionDataBuilder $optionBuilder,
         \Magento\Bundle\Model\Resource\Option $optionResource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Bundle\Api\ProductLinkManagementInterface $linkManagement,
         \Magento\Bundle\Model\Product\OptionList $productOptionList,
         \Magento\Bundle\Model\Product\LinksList $linkList
@@ -169,8 +169,7 @@ class OptionRepository implements \Magento\Bundle\Api\ProductOptionRepositoryInt
                 throw new NoSuchEntityException('Requested option doesn\'t exist');
             }
 
-            $option->setOptionId($existingOption->getOptionId());
-            $option->setDefaultTitle(is_null($option->getTitle()) ? $existingOption->getTitle() : $option->getTitle());
+            $option->setData(array_merge($existingOption->getData(), $option->getData()));
 
             /** @var \Magento\Bundle\Api\Data\LinkInterface[] $existingLinks */
             $existingLinks = is_array($existingOption->getProductLinks()) ? $existingOption->getProductLinks() : [];

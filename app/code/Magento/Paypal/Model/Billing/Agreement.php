@@ -143,7 +143,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     public function initToken()
     {
         $this->getPaymentMethodInstance()
-            ->initBillingAgreementToken($this);
+             ->initBillingAgreementToken($this);
+
         return $this->getRedirectUrl();
     }
 
@@ -156,7 +157,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     public function verifyToken()
     {
         $this->getPaymentMethodInstance()
-            ->getBillingAgreementTokenInfo($this);
+             ->getBillingAgreementTokenInfo($this);
+
         return $this;
     }
 
@@ -169,8 +171,8 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
     {
         $this->verifyToken();
 
-        $paymentMethodInstance = $this->getPaymentMethodInstance()
-            ->placeBillingAgreement($this);
+        $paymentMethodInstance = $this->getPaymentMethodInstance();
+        $paymentMethodInstance->placeBillingAgreement($this);
 
         $this->setCustomerId($this->getCustomerId())
             ->setMethodCode($this->getMethodCode())
@@ -178,6 +180,7 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
             ->setStatus(self::STATUS_ACTIVE)
             ->setAgreementLabel($paymentMethodInstance->getTitle())
             ->save();
+
         return $this;
     }
 
@@ -250,13 +253,14 @@ class Agreement extends \Magento\Paypal\Model\Billing\AbstractAgreement
         $this->_paymentMethodInstance = (isset($baData['method_code']))
             ? $this->_paymentData->getMethodInstance($baData['method_code'])
             : $payment->getMethodInstance();
-        if ($this->_paymentMethodInstance) {
-            $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());
-            $this->setCustomerId($payment->getOrder()->getCustomerId())
-                ->setMethodCode($this->_paymentMethodInstance->getCode())
-                ->setReferenceId($baData['billing_agreement_id'])
-                ->setStatus(self::STATUS_ACTIVE);
-        }
+
+        $this->_paymentMethodInstance->setStore($payment->getMethodInstance()->getStore());
+        $this->setCustomerId($payment->getOrder()->getCustomerId())
+            ->setMethodCode($this->_paymentMethodInstance->getCode())
+            ->setReferenceId($baData['billing_agreement_id'])
+            ->setStatus(self::STATUS_ACTIVE)
+            ->setAgreementLabel($this->_paymentMethodInstance->getTitle());
+
         return $this;
     }
 

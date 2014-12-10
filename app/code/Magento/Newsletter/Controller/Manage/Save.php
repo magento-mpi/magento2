@@ -19,7 +19,7 @@ class Save extends \Magento\Newsletter\Controller\Manage
     protected $formKeyValidator;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -44,7 +44,7 @@ class Save extends \Magento\Newsletter\Controller\Manage
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param CustomerRepository $customerRepository
      * @param CustomerDataBuilder $customerBuilder
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
@@ -53,7 +53,7 @@ class Save extends \Magento\Newsletter\Controller\Manage
         \Magento\Framework\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         CustomerRepository $customerRepository,
         CustomerDataBuilder $customerBuilder,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory

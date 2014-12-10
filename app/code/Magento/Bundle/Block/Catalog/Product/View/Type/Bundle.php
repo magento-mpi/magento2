@@ -208,14 +208,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'canApplyMsrp' => false
                 );
 
-                $responseObject = new \Magento\Framework\Object();
-                $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
-                $this->_eventManager->dispatch('bundle_product_view_config', $args);
-                if (is_array($responseObject->getAdditionalOptions())) {
-                    foreach ($responseObject->getAdditionalOptions() as $index => $value) {
-                        $selection[$index] = $value;
-                    }
-                }
                 $option['selections'][$selectionId] = $selection;
 
                 if (($selectionItem->getIsDefault() || $selectionCount == 1 && $optionItem->getRequired())

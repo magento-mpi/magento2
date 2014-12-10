@@ -52,7 +52,6 @@ class Resource extends DataFixture
         'Magento_Paypal::use' => 'Magento_Paypal::billing_agreement_actions',
         'Magento_Sales::transactions' => 'Magento_Sales::sales_operation',
         'Magento_Sales::transactions_fetch' => 'Magento_Sales::transactions',
-        'Magento_Sales::recurring_payment' => 'Magento_Sales::sales_operation',
     );
 
     /**

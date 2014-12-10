@@ -31,7 +31,7 @@ class SaveRewardPoints
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -44,13 +44,13 @@ class SaveRewardPoints
 
     /**
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param CustomerRegistry $customerRegistry
      */
     public function __construct(
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         CustomerRegistry $customerRegistry
     ) {
@@ -80,7 +80,14 @@ class SaveRewardPoints
 
             if (!isset($data['store_id'])) {
                 if ($customer->getStoreId() == 0) {
-                    $data['store_id'] = $this->_storeManager->getDefaultStoreView()->getStoreId();
+                    $defaultStore = $this->_storeManager->getDefaultStoreView();
+                    if (!$defaultStore) {
+                        $allStores = $this->_storeManager->getStores();
+                        if (isset($allStores[0])) {
+                            $defaultStore = $allStores[0];
+                        }
+                    }
+                    $data['store_id'] = $defaultStore ? $defaultStore->getStoreId() : null;
                 } else {
                     $data['store_id'] = $customer->getStoreId();
                 }

@@ -23,7 +23,7 @@ $block->setTitle(
 )->setStores(
     array(
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->getStore()->getId()
     )
 )->save();

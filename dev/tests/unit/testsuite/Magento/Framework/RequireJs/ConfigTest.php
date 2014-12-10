@@ -40,7 +40,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->fileSource = $this->getMock(
-            '\Magento\Framework\RequireJs\Config\File\Collector\Aggregated', array(), array(), '', false
+            '\Magento\Framework\RequireJs\Config\File\Collector\Aggregated',
+            array(),
+            array(),
+            '',
+            false
         );
         $this->design = $this->getMockForAbstractClass('\Magento\Framework\View\DesignInterface');
         $this->baseDir = $this->getMockForAbstractClass('\Magento\Framework\Filesystem\Directory\ReadInterface');
@@ -50,7 +54,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->with(DirectoryList::ROOT)
             ->will($this->returnValue($this->baseDir));
         $repo = $this->getMock('\Magento\Framework\View\Asset\Repository', array(), array(), '', false);
-        $this->context = $this->getMockForAbstractClass('\Magento\Framework\View\Asset\ContextInterface');
+        $this->context = $this->getMockBuilder('Magento\Framework\View\Asset\ContextInterface')
+            ->setMethods(
+                [
+                    'getConfigPath',
+                    'getPath',
+                    'getBaseUrl'
+                ]
+            )
+            ->getMock();
         $repo->expects($this->once())->method('getStaticViewFileContext')->will($this->returnValue($this->context));
         $this->object = new \Magento\Framework\RequireJs\Config($this->fileSource, $this->design, $filesystem, $repo);
     }
@@ -110,7 +122,7 @@ expected;
 
     public function testGetConfigFileRelativePath()
     {
-        $this->context->expects($this->once())->method('getPath')->will($this->returnValue('path'));
+        $this->context->expects($this->once())->method('getConfigPath')->will($this->returnValue('path'));
         $actual = $this->object->getConfigFileRelativePath();
         $this->assertSame('_requirejs/path/requirejs-config.js', $actual);
     }

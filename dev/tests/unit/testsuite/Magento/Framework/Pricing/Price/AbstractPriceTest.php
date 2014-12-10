@@ -123,4 +123,9 @@ class AbstractPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals($customAmount, $this->price->getCustomAmount());
     }
+
+    public function testGetQuantity()
+    {
+        $this->assertEquals(1, $this->price->getQuantity());
+    }
 }
