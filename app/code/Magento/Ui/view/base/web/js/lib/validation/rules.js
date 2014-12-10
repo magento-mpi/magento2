@@ -64,6 +64,18 @@ define([
      * @type {Object}
      */
     return {
+        "min_text_length": [
+            function (value, params) {
+                return value.length >= +params;
+            },
+            $.mage.__('Please enter more or equal than {0} symbols.')
+        ],
+        "max_text_length": [
+            function (value, params) {
+                return value.length <= +params;
+            },
+            $.mage.__('Please enter less or equal than {0} symbols.')
+        ],
         "max-words": [
             function(value, params) {
                 return utils.stripHtml(value).match(/\b\w+\b/g).length < params;

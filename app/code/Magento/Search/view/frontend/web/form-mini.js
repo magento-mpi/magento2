@@ -8,12 +8,23 @@
 /*global Handlebars*/
 define([
     "jquery",
+    "underscore",
     "jquery/ui",
     "jquery/template",
     "handlebars",
     "mage/translate"
-], function($){
+], function($, _){
     "use strict";
+
+    /**
+     * Check wether the incoming string is not empty or if doesn't consist of spaces.
+     *
+     * @param {String} value - Value to check.
+     * @returns {Boolean}
+     */
+    function isEmpty(value){
+        return (value.length === 0) || (value == null)  || /^\s+$/.test(value);
+    }
 
     $.widget('mage.quickSearch', {
         options: {
@@ -21,21 +32,23 @@ define([
             minSearchLength: 2,
             responseFieldElements: 'ul li',
             selectClass: 'selected',
-            template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>'
-
+            template: '<li class="{{row_class}}" title="{{title}}">{{title}}<span class="amount">{{num_of_results}}</span></li>',
+            submitBtn: 'button[type="submit"]'
         },
 
         _create: function() {
             this.responseList = { indexList: null, selected: null };
             this.autoComplete = $(this.options.destinationSelector);
             this.searchForm = $(this.options.formSelector);
+            this.submitBtn = this.searchForm.find(this.options.submitBtn)[0];
+
+            _.bindAll(this, '_onKeyDown', '_onPropertyChange', '_onSubmit');
+
+            this.submitBtn.disabled = true;
 
             this.element.attr('autocomplete', this.options.autocomplete);
 
             this.element.on('blur', $.proxy(function() {
-                if (this.element.val() === '') {
-                    this.element.val(this.options.placeholder);
-                }
                 setTimeout($.proxy(function () {
                     this.autoComplete.hide();
                 }, this), 250);
@@ -43,16 +56,10 @@ define([
 
             this.element.trigger('blur');
 
-            this.element.on('focus', $.proxy(function() {
-                if (this.element.val() === this.options.placeholder) {
-                    this.element.val('');
-                }
-            }, this));
+            this.element.on('keydown', this._onKeyDown);
+            this.element.on('input propertychange', this._onPropertyChange);
 
-            this.element.on('keydown', $.proxy(this._onKeyDown, this));
-            this.element.on('input propertychange', $.proxy(this._onPropertyChange, this));
-
-            this.searchForm.on('submit', $.proxy(this._onSubmit, this));
+            this.searchForm.on('submit', this._onSubmit);
         },
         /**
          * @private
@@ -89,11 +96,12 @@ define([
          * @param {Event} e The submit event
          */
         _onSubmit: function(e) {
-            if (this.element.val() === this.options.placeholder || this.element.val() === '') {
-                this.options.placeholder = $.mage.__('Please specify at least one search term.');
-                this.element.val(this.options.placeholder);
+            var value = this.element.val();
+
+            if (isEmpty(value)) {
                 e.preventDefault();
             }
+            
             if (this.responseList.selected) {
                 this.element.val(this.responseList.selected.attr('title'));
             }
@@ -108,6 +116,7 @@ define([
          */
         _onKeyDown: function(e) {
             var keyCode = e.keyCode || e.which;
+
             switch (keyCode) {
                 case $.ui.keyCode.HOME:
                     this._getFirstVisibleElement().addClass(this.options.selectClass);
@@ -173,9 +182,13 @@ define([
                 },
                 source = this.options.template,
                 template = Handlebars.compile(source),
-                dropdown = $('<ul></ul>');
-            if (searchField.val().length >= parseInt(this.options.minSearchLength, 10)) {
-                $.get(this.options.url, {q: searchField.val()}, $.proxy(function (data) {
+                dropdown = $('<ul></ul>'),
+                value = this.element.val();
+
+            this.submitBtn.disabled = isEmpty(value);
+
+            if (value.length >= parseInt(this.options.minSearchLength, 10)) {
+                $.get(this.options.url, {q: value}, $.proxy(function (data) {
                     $.each(data, function(index, element){
                         var html = template(element);
                         dropdown.append(html);

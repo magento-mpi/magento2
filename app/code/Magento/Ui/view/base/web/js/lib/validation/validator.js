@@ -18,7 +18,10 @@ define([
         if (rule) {
             validator = rule[0];
             isValid   = validator(value, params);
-            message   = rule[1];
+            params    = Array.isArray(params) ? params : [params];
+            message   = params.reduce(function (message, param, idx) {
+                return message.replace(new RegExp('\\{' + idx + '\\}', 'g'), param);
+            }, rule[1]);
         }
 
         return !isValid ? message : '';

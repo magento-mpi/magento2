@@ -52,7 +52,9 @@ define([
         component = bindingContext.createChildContext(component);
         
         ko.utils.extend(component, { $t: i18n });
-        ko.cleanNode(el);
+
+        ko.utils.arrayForEach(el.childNodes, ko.cleanNode);
+        
         ko.applyBindingsToDescendants(component, el);
     }
 
