@@ -8,11 +8,13 @@
 
 namespace Magento\Install\Test\Constraint;
 
-use Mtf\Client\Browser;
+use Magento\Cms\Test\Page\CmsIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Client\Driver\Selenium\Browser;
+use \Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
- * Assert that apache redirect correct work.
+ * Assert that apache redirect correct works.
  */
 class AssertRewritesEnabled extends AbstractConstraint
 {
@@ -21,24 +23,22 @@ class AssertRewritesEnabled extends AbstractConstraint
     /* end tags */
 
     /**
-     * Assert that apache redirect correct work.
+     * Assert that apache redirect works by opening category page and asserting index.php in its url
      *
+     * @param CatalogCategory $category
+     * @param CmsIndex $homePage
      * @param Browser $browser
-     * @return void
      */
-    public function processAssert(Browser $browser)
+    public function processAssert(CatalogCategory $category, CmsIndex $homePage, Browser $browser)
     {
-        $frontUrl = str_replace('index.php/', '', $_ENV['app_frontend_url']);
-        $browser->open($frontUrl . 'index.php/');
-        \PHPUnit_Framework_Assert::assertEquals(
-            $frontUrl,
-            $browser->getUrl(),
-            'Apache redirect on front page does not work.'
-        );
+        $category->persist();
+        $homePage->open();
+        $homePage->getTopmenu()->selectCategoryByName($category->getName());
 
-        $browser->open($frontUrl . 'index.php/backend/');
-        $isRedirect = strpos($browser->getUrl(), 'index.php') !== false;
-        \PHPUnit_Framework_Assert::assertTrue($isRedirect, 'Apache redirect on backend does not work.');
+        \PHPUnit_Framework_Assert::assertTrue(
+            strpos($browser->getUrl(), 'index.php') === false,
+            'Apache redirect for category does not work.'
+        );
     }
 
     /**

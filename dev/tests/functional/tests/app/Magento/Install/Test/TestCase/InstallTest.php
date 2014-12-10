@@ -63,6 +63,16 @@ class InstallTest extends Injectable
     protected $homePage;
 
     /**
+     * Ignore test due to the issue
+     *
+     * @return void
+     */
+    public static function setUpBeforeClass()
+    {
+        self::markTestIncomplete('Bug: MAGETWO-31622');
+    }
+
+    /**
      * Uninstall Magento before test.
      *
      * @param Config $systemConfig
