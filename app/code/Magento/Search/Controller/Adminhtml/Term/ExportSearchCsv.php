@@ -10,25 +10,25 @@ namespace Magento\Search\Controller\Adminhtml\Term;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
 use Magento\Framework\App\ResponseInterface;
+use Magento\Backend\App\Action\Context;
+use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\App\Response\Http\FileFactory;
 
 class ExportSearchCsv extends \Magento\Search\Controller\Adminhtml\Term
 {
     /**
      * @var \Magento\Framework\App\Response\Http\FileFactory
      */
-    protected $_fileFactory;
+    protected $_httpFileFactory;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Framework\View\Result\PageFactory $resultPageFactory
      * @param \Magento\Framework\App\Response\Http\FileFactory $fileFactory
      */
-    public function __construct(
-        \Magento\Backend\App\Action\Context $context,
-        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
-        \Magento\Framework\App\Response\Http\FileFactory $fileFactory
-    ) {
-        $this->_fileFactory = $fileFactory;
+    public function __construct(Context $context, PageFactory $resultPageFactory, FileFactory $fileFactory)
+    {
+        $this->_httpFileFactory = $fileFactory;
         parent::__construct($context, $resultPageFactory);
     }
 
@@ -41,6 +41,6 @@ class ExportSearchCsv extends \Magento\Search\Controller\Adminhtml\Term
     {
         $this->_view->loadLayout(false);
         $content = $this->_view->getLayout()->getChildBlock('adminhtml.report.search.grid', 'grid.export');
-        return $this->_fileFactory->create('search.csv', $content->getCsvFile(), DirectoryList::VAR_DIR);
+        return $this->_httpFileFactory->create('search.csv', $content->getCsvFile(), DirectoryList::VAR_DIR);
     }
 }
