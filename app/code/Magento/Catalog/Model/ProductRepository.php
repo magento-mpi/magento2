@@ -152,13 +152,23 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     }
 
     /**
+     * Get key for cache
+     *
      * @param array $data
      * @return string
      */
     protected function getCacheKey($data)
     {
-        unset($data[0]);
-        return md5(serialize($data));
+        $serializeData = [];
+        foreach ($data as $key => $value) {
+            if (is_object($value)) {
+                $serializeData[$key] = $value->getId();
+            } else {
+                $serializeData[$key] = $value;
+            }
+        }
+
+        return md5(serialize($serializeData));
     }
 
     /**
