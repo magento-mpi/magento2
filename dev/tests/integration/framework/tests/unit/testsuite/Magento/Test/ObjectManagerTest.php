@@ -67,7 +67,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
                 ),
                 'Magento\Framework\Config\ScopeInterface' => $this->getMock('Magento\Framework\Config\ScopeInterface'),
                 'Magento\Framework\Config\CacheInterface' => $this->getMock('Magento\Framework\Config\CacheInterface'),
-                'Magento\Framework\Cache\FrontendInterface' => $this->getMock('Magento\Framework\Cache\FrontendInterface'),
+                'Magento\Framework\Cache\FrontendInterface' =>
+                    $this->getMock('Magento\Framework\Cache\FrontendInterface'),
                 'Magento\Framework\App\Resource' => $this->getMockBuilder('Magento\Framework\App\Resource')
                         ->disableOriginalConstructor()
                         ->getMock(),

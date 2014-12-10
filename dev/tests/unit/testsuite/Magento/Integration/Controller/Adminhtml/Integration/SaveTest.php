@@ -6,6 +6,7 @@
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 use Magento\Integration\Model\Integration as IntegrationModel;
 
 class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
@@ -21,7 +22,7 @@ class SaveTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
             )->will(
                 $this->returnValue(
                     [
-                        \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID => self::INTEGRATION_ID,
+                        IntegrationController::PARAM_INTEGRATION_ID => self::INTEGRATION_ID,
                     ]
                 )
             );

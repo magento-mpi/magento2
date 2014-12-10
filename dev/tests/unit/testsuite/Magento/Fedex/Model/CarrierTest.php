@@ -75,14 +75,17 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
             ['_getCachedQuotes', '_debug'],
             [
                 'scopeConfig' => $scopeConfig,
-                'rateErrorFactory' => $this->getMock('Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory', [], [], '', false),
+                'rateErrorFactory' =>
+                    $this->getMock('Magento\Sales\Model\Quote\Address\RateResult\ErrorFactory', [], [], '', false),
                 'logAdapterFactory' => $this->getMock('Magento\Framework\Logger\AdapterFactory', [], [], '', false),
                 'xmlElFactory' => $this->getMock('Magento\Shipping\Model\Simplexml\ElementFactory', [], [], '', false),
                 'rateFactory' => $rateFactory,
                 'rateMethodFactory' => $rateMethodFactory,
                 'trackFactory' => $this->getMock('Magento\Shipping\Model\Tracking\ResultFactory', [], [], '', false),
-                'trackErrorFactory' => $this->getMock('Magento\Shipping\Model\Tracking\Result\ErrorFactory', [], [], '', false),
-                'trackStatusFactory' => $this->getMock('Magento\Shipping\Model\Tracking\Result\StatusFactory', [], [], '', false),
+                'trackErrorFactory' =>
+                    $this->getMock('Magento\Shipping\Model\Tracking\Result\ErrorFactory', [], [], '', false),
+                'trackStatusFactory' =>
+                    $this->getMock('Magento\Shipping\Model\Tracking\Result\StatusFactory', [], [], '', false),
                 'regionFactory' => $this->getMock('Magento\Directory\Model\RegionFactory', [], [], '', false),
                 'countryFactory' => $countryFactory,
                 'currencyFactory' => $this->getMock('Magento\Directory\Model\CurrencyFactory', [], [], '', false),
@@ -91,7 +94,8 @@ class CarrierTest extends \PHPUnit_Framework_TestCase
                 'logger' => $this->getMock('Magento\Framework\Logger', [], [], '', false),
                 'storeManager' => $storeManager,
                 'configReader' => $this->getMock('Magento\Framework\Module\Dir\Reader', [], [], '', false),
-                'productCollectionFactory' => $this->getMock('Magento\Catalog\Model\Resource\Product\CollectionFactory', [], [], '', false),
+                'productCollectionFactory' =>
+                    $this->getMock('Magento\Catalog\Model\Resource\Product\CollectionFactory', [], [], '', false),
                 'data' => []
             ]
         );

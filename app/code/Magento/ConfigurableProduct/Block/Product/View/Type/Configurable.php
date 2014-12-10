@@ -182,7 +182,8 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     'amount' => $this->_registerJsPrice($this->_convertPrice($regularPrice->getAmount()->getValue())),
                 ],
                 'basePrice' => [
-                    'amount' => $this->_registerJsPrice($this->_convertPrice($finalPrice->getAmount()->getBaseAmount())),
+                    'amount' =>
+                        $this->_registerJsPrice($this->_convertPrice($finalPrice->getAmount()->getBaseAmount())),
                 ],
                 'finalPrice' => [
                     'amount' => $this->_registerJsPrice($this->_convertPrice($finalPrice->getAmount()->getValue())),

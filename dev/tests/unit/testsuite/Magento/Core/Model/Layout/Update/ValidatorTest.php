@@ -4,6 +4,8 @@
  */
 namespace Magento\Core\Model\Layout\Update;
 
+use Magento\Core\Model\Layout\Update\Validator;
+
 class ValidatorTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +21,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @param string $layoutUpdate
      * @param boolean $isSchemaValid
-     * @return \Magento\Core\Model\Layout\Update\Validator
+     * @return Validator
      */
     protected function _createValidator($layoutUpdate, $isSchemaValid = true)
     {
@@ -80,7 +82,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             $expectedResult,
             $model->isValid(
                 $layoutUpdate,
-                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
+                Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
                 false
             )
         );
@@ -99,7 +101,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
                 false,
                 false,
                 [
-                    \Magento\Core\Model\Layout\Update\Validator::XML_INVALID => 'Please correct the XML data and try again. validation exception'
+                    Validator::XML_INVALID => 'Please correct the XML data and try again. validation exception'
                 ]
             ]
         ];
@@ -117,7 +119,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(
             $model->isValid(
                 $layoutUpdate,
-                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
+                Validator::LAYOUT_SCHEMA_PAGE_HANDLE,
                 true
             ),
             $expectedResult
@@ -171,14 +173,14 @@ XML;
                 $insecureHelper,
                 false,
                 [
-                    \Magento\Core\Model\Layout\Update\Validator::HELPER_ARGUMENT_TYPE => 'Helper arguments should not be used in custom layout updates.'
+                    Validator::HELPER_ARGUMENT_TYPE => 'Helper arguments should not be used in custom layout updates.'
                 ],
             ],
             [
                 $insecureUpdater,
                 false,
                 [
-                    \Magento\Core\Model\Layout\Update\Validator::UPDATER_MODEL => 'Updater model should not be used in custom layout updates.'
+                    Validator::UPDATER_MODEL => 'Updater model should not be used in custom layout updates.'
                 ]
             ],
             [$secureLayout, true, []]

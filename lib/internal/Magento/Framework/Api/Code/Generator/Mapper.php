@@ -21,6 +21,7 @@ class Mapper extends \Magento\Framework\Code\Generator\EntityAbstract
      */
     protected function _getClassProperties()
     {
+        $qualifiedClassName = $this->_getFullyQualifiedClassName($this->_getSourceClassName());
         $properties = [
             [
                 'name' => $this->_getSourceBuilderPropertyName(),
@@ -30,7 +31,7 @@ class Mapper extends \Magento\Framework\Code\Generator\EntityAbstract
                     'tags' => [
                         [
                             'name' => 'var',
-                            'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName()) . 'Builder',
+                            'description' => $qualifiedClassName . 'Builder',
                         ],
                     ],
                 ],

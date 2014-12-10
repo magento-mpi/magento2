@@ -4,6 +4,7 @@
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab;
 
+use Magento\Theme\Helper\Storage;
 /**
  * Theme form, Css editor tab
  *
@@ -185,8 +186,8 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
                     'adminhtml/system_design_wysiwyg_files/index',
                     [
                         'target_element_id' => 'custom_css_content',
-                        \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
-                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
+                        Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
+                        Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE
                     ]
                 ) . "', null, null,'" . $this->escapeQuote(
                     __('Upload Images'),
@@ -213,8 +214,8 @@ class Css extends \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Abstra
                     'adminhtml/system_design_wysiwyg_files/index',
                     [
                         'target_element_id' => 'custom_css_content',
-                        \Magento\Theme\Helper\Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
-                        \Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
+                        Storage::PARAM_THEME_ID => $this->_getCurrentTheme()->getId(),
+                        Storage::PARAM_CONTENT_TYPE => \Magento\Theme\Model\Wysiwyg\Storage::TYPE_FONT
                     ]
                 ) . "', null, null,'" . $this->escapeQuote(
                     __('Upload Fonts'),

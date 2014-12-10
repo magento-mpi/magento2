@@ -6,6 +6,7 @@
 namespace Magento\Tools\Di\App;
 
 use Magento\Framework\App;
+use Magento\Framework\Interception\Code\Generator\Interceptor;
 use Magento\Tools\Di\Code\Generator\InterceptionConfigurationBuilder;
 use Magento\Tools\Di\Code\Reader\ClassesScanner;
 use Magento\Tools\Di\Compiler\Config;
@@ -145,7 +146,7 @@ class Compiler implements \Magento\Framework\AppInterface
         $generator = new \Magento\Tools\Di\Code\Generator(
             $generatorIo,
             [
-                \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE => 'Magento\Tools\Di\Code\Generator\Interceptor',
+                Interceptor::ENTITY_TYPE => 'Magento\Tools\Di\Code\Generator\Interceptor',
             ]
         );
         $configuration = $this->interceptionConfigurationBuilder->getInterceptionConfiguration(get_declared_classes());

@@ -152,7 +152,8 @@ class ConfigurableProduct extends Product
                         'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . ' %isolation%_edit',
                     ],
                     'sku' => [
-                        'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%_edit',
+                        'value' =>
+                            substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%_edit',
                     ],
                     'price' => [
                         'value' => '15',

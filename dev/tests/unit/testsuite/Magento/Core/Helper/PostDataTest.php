@@ -4,6 +4,8 @@
  */
 namespace Magento\Core\Helper;
 
+use Magento\Framework\App\Action\Action;
+
 class PostDataTest extends \PHPUnit_Framework_TestCase
 {
     public function testGetPostData()
@@ -14,7 +16,7 @@ class PostDataTest extends \PHPUnit_Framework_TestCase
             'action' => $url,
             'data' => [
                 'product' => new \Magento\Framework\Object(['id' => 1]),
-                \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => strtr(base64_encode($url . 'for_uenc'), '+/=', '-_,'),
+                Action::PARAM_NAME_URL_ENCODED => strtr(base64_encode($url . 'for_uenc'), '+/=', '-_,'),
             ],
         ]);
 

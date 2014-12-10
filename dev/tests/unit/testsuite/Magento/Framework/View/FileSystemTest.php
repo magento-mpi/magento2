@@ -101,8 +101,8 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
             'themeModel' => $this->getMock(
                     'Magento\Framework\View\Design\ThemeInterface', [], [], '', false, false
                 ),
-            'module'     => 'Some_Module',   //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
-                                            // but PHPUnit has troubles with passing arguments by reference
+            'module'     => 'Some_Module', //It should be set in \Magento\Framework\View\Asset\Repository::extractScope
+                                           // but PHPUnit has troubles with passing arguments by reference
         ];
         $file = 'Some_Module::some_file.ext';
         $expected = 'path/to/some_file.ext';

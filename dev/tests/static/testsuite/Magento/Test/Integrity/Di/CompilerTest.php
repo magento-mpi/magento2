@@ -6,6 +6,14 @@
  */
 namespace Magento\Test\Integrity\Di;
 
+use Magento\Framework\Api\Code\Generator\DataBuilder;
+use Magento\Framework\Api\Code\Generator\Mapper;
+use Magento\Framework\Api\Code\Generator\SearchResults;
+use Magento\Framework\Api\Code\Generator\SearchResultsBuilder;
+use Magento\Framework\ObjectManager\Code\Generator\Converter;
+use Magento\Framework\ObjectManager\Code\Generator\Factory;
+use Magento\Framework\ObjectManager\Code\Generator\Repository;
+
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -302,14 +310,14 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $generator = new \Magento\Framework\Code\Generator(
             $generatorIo,
             [
-                \Magento\Framework\Api\Code\Generator\DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-                \Magento\Framework\Api\Code\Generator\SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
-                \Magento\Framework\Api\Code\Generator\DataBuilder::ENTITY_TYPE_BUILDER => 'Magento\Framework\Api\Code\Generator\DataBuilder',
-                \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
-                \Magento\Framework\ObjectManager\Code\Generator\Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
-                \Magento\Framework\ObjectManager\Code\Generator\Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
-                \Magento\Framework\Api\Code\Generator\Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
-                \Magento\Framework\Api\Code\Generator\SearchResults::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResults'
+                DataBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\DataBuilder',
+                SearchResultsBuilder::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResultsBuilder',
+                DataBuilder::ENTITY_TYPE_BUILDER => 'Magento\Framework\Api\Code\Generator\DataBuilder',
+                Factory::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Factory',
+                Repository::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Repository',
+                Converter::ENTITY_TYPE => 'Magento\Framework\ObjectManager\Code\Generator\Converter',
+                Mapper::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\Mapper',
+                SearchResults::ENTITY_TYPE => 'Magento\Framework\Api\Code\Generator\SearchResults'
             ]
         );
         $generationAutoloader = new \Magento\Framework\Code\Generator\Autoloader($generator);

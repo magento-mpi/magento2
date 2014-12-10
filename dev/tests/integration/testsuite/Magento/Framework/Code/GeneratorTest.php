@@ -55,7 +55,8 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
                 'generatedEntities' => [
                     DIGenerator\Factory::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Factory',
                     DIGenerator\Proxy::ENTITY_TYPE => '\Magento\Framework\ObjectManager\Code\Generator\Proxy',
-                    InterceptionGenerator\Interceptor::ENTITY_TYPE => '\Magento\Framework\Interception\Code\Generator\Interceptor',
+                    InterceptionGenerator\Interceptor::ENTITY_TYPE =>
+                        '\Magento\Framework\Interception\Code\Generator\Interceptor',
                 ]
             ]
         );

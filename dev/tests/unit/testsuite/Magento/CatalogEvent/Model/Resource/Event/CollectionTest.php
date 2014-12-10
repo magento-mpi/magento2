@@ -42,7 +42,8 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         ],
         3 => [
             'name' => ['event_image_default' => self::MAIN_TABLE],
-            'condition' => 'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = %STORE_ID%',
+            'condition' =>
+                'event_image_default.event_id = main_table.event_id AND event_image_default.store_id = %STORE_ID%',
             'columns' => [],
         ],
     ];
