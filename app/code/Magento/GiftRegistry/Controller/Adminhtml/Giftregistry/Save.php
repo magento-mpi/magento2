@@ -1,18 +1,14 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Save extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
 {
-
     /**
      * Filter post data
      *
@@ -62,13 +58,13 @@ class Save extends \Magento\GiftRegistry\Controller\Adminhtml\Giftregistry
                 if ($redirectBack) {
                     $this->_redirect(
                         'adminhtml/*/edit',
-                        array('id' => $model->getId(), 'store' => $model->getStoreId())
+                        ['id' => $model->getId(), 'store' => $model->getStoreId()]
                     );
                     return;
                 }
             } catch (Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError(__("We couldn't save this gift registry type."));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Option\Type\File;
@@ -96,7 +93,6 @@ class ValidatorInfo extends Validator
             $result = $this->rootDirectory->isReadable($this->fileRelativePath)
                 && isset($optionValue['secret_key'])
                 && $this->buildSecretKey($this->fileRelativePath) == $optionValue['secret_key'];
-
         } elseif ($validatorChain->getErrors()) {
             $errors = $this->getValidatorErrors($validatorChain->getErrors(), $optionValue, $option);
 
@@ -130,7 +126,7 @@ class ValidatorInfo extends Validator
          *              quote_path. So we must form both full paths manually and
          *              check them.
          */
-        $checkPaths = array();
+        $checkPaths = [];
         if (isset($optionValue['quote_path'])) {
             $checkPaths[] = $optionValue['quote_path'];
         }

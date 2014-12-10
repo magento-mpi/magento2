@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -21,15 +18,15 @@ class CompositeScannerTest extends \PHPUnit_Framework_TestCase
 
     public function testScan()
     {
-        $phpFiles = array('one/file/php', 'two/file/php');
-        $configFiles = array('one/file/config', 'two/file/config');
-        $files = array('php' => $phpFiles, 'config' => $configFiles);
+        $phpFiles = ['one/file/php', 'two/file/php'];
+        $configFiles = ['one/file/config', 'two/file/config'];
+        $files = ['php' => $phpFiles, 'config' => $configFiles];
 
         $scannerPhp = $this->getMock('Magento\Tools\Di\Code\Scanner\ScannerInterface');
         $scannerXml = $this->getMock('Magento\Tools\Di\Code\Scanner\ScannerInterface');
 
-        $scannerPhpExpected = array('Model_OneProxy', 'Model_TwoFactory');
-        $scannerXmlExpected = array('Model_OneProxy', 'Model_ThreeFactory');
+        $scannerPhpExpected = ['Model_OneProxy', 'Model_TwoFactory'];
+        $scannerXmlExpected = ['Model_OneProxy', 'Model_ThreeFactory'];
         $scannerPhp->expects(
             $this->once()
         )->method(
@@ -54,7 +51,7 @@ class CompositeScannerTest extends \PHPUnit_Framework_TestCase
         $this->_model->addChild($scannerXml, 'config');
 
         $actual = $this->_model->collectEntities($files);
-        $expected = array($scannerPhpExpected, $scannerXmlExpected);
+        $expected = [$scannerPhpExpected, $scannerXmlExpected];
 
         $this->assertEquals($expected, array_values($actual));
     }

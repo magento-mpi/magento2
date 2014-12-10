@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Resource\Report;
 
@@ -53,7 +50,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $selectMock;
-
 
     protected function setUp()
     {
@@ -188,7 +184,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
 
     public function testApplyRulesFilterWithRulesList()
     {
-
         $rulesList = [1 => 'test rule 1', 10 => 'test rule 10', 30 => 'test rule 30'];
         $this->connection->expects($this->at(1))
             ->method('quoteInto')
@@ -203,7 +198,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('where')
             ->with($this->equalTo(implode([
                 'test_1',
-                'test_2'
+                'test_2',
             ], ' OR ')));
 
         $ruleMock = $this->getRuleMock();

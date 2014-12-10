@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Product List Sortable allowed sortable attributes source
@@ -40,10 +36,10 @@ class ListSort implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $options = array();
-        $options[] = array('label' => __('Position'), 'value' => 'position');
+        $options = [];
+        $options[] = ['label' => __('Position'), 'value' => 'position'];
         foreach ($this->_getCatalogConfig()->getAttributesUsedForSortBy() as $attribute) {
-            $options[] = array('label' => __($attribute['frontend_label']), 'value' => $attribute['attribute_code']);
+            $options[] = ['label' => __($attribute['frontend_label']), 'value' => $attribute['attribute_code']];
         }
         return $options;
     }

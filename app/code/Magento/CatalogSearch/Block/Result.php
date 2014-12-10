@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Block;
 
@@ -58,7 +55,7 @@ class Result extends Template
         LayerResolver $layerResolver,
         Data $catalogSearchData,
         QueryFactory $queryFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->catalogLayer = $layerResolver->get();
         $this->catalogSearchData = $catalogSearchData;
@@ -90,14 +87,14 @@ class Result extends Template
         if ($breadcrumbs) {
             $breadcrumbs->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             )->addCrumb(
                 'search',
-                array('label' => $title, 'title' => $title)
+                ['label' => $title, 'title' => $title]
             );
         }
 
@@ -155,7 +152,7 @@ class Result extends Template
     public function setListModes()
     {
         $test = $this->getListBlock();
-        $test->setModes(array('grid' => __('Grid'), 'list' => __('List')));
+        $test->setModes(['grid' => __('Grid'), 'list' => __('List')]);
         return $this;
     }
 

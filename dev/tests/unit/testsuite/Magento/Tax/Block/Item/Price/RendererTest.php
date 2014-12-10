@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Block\Item\Price;
 
-use Magento\Framework\Object;
 use Magento\Framework\Pricing\Render;
 
 class RendererTest extends \PHPUnit_Framework_TestCase
@@ -102,20 +98,20 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $data = [
             'cart' => [
                 'zone' => Render::ZONE_CART,
-                'method_name' => 'displayCartPriceInclTax'
+                'method_name' => 'displayCartPriceInclTax',
             ],
             'anythingelse' => [
                 'zone' => 'anythingelse',
-                'method_name' => 'displayCartPriceInclTax'
+                'method_name' => 'displayCartPriceInclTax',
             ],
             'sale' => [
                 'zone' => Render::ZONE_SALES,
-                'method_name' => 'displaySalesPriceInclTax'
+                'method_name' => 'displaySalesPriceInclTax',
             ],
             'email' => [
                 'zone' => Render::ZONE_EMAIL,
-                'method_name' => 'displaySalesPriceInclTax'
-            ]
+                'method_name' => 'displaySalesPriceInclTax',
+            ],
         ];
 
         return $data;
@@ -149,20 +145,20 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $data = [
             'cart' => [
                 'zone' => Render::ZONE_CART,
-                'method_name' => 'displayCartPriceExclTax'
+                'method_name' => 'displayCartPriceExclTax',
             ],
             'anythingelse' => [
                 'zone' => 'anythingelse',
-                'method_name' => 'displayCartPriceExclTax'
+                'method_name' => 'displayCartPriceExclTax',
             ],
             'sale' => [
                 'zone' => Render::ZONE_SALES,
-                'method_name' => 'displaySalesPriceExclTax'
+                'method_name' => 'displaySalesPriceExclTax',
             ],
             'email' => [
                 'zone' => Render::ZONE_EMAIL,
-                'method_name' => 'displaySalesPriceExclTax'
-            ]
+                'method_name' => 'displaySalesPriceExclTax',
+            ],
         ];
 
         return $data;
@@ -196,20 +192,20 @@ class RendererTest extends \PHPUnit_Framework_TestCase
         $data = [
             'cart' => [
                 'zone' => Render::ZONE_CART,
-                'method_name' => 'displayCartBothPrices'
+                'method_name' => 'displayCartBothPrices',
             ],
             'anythingelse' => [
                 'zone' => 'anythingelse',
-                'method_name' => 'displayCartBothPrices'
+                'method_name' => 'displayCartBothPrices',
             ],
             'sale' => [
                 'zone' => Render::ZONE_SALES,
-                'method_name' => 'displaySalesBothPrices'
+                'method_name' => 'displaySalesBothPrices',
             ],
             'email' => [
                 'zone' => Render::ZONE_EMAIL,
-                'method_name' => 'displaySalesBothPrices'
-            ]
+                'method_name' => 'displaySalesBothPrices',
+            ],
         ];
 
         return $data;
@@ -284,7 +280,6 @@ class RendererTest extends \PHPUnit_Framework_TestCase
             ->method('formatPrice')
             ->with($price, false)
             ->will($this->returnValue($formattedPrice));
-
 
         $orderItemMock = $this->getMockBuilder('\Magento\Sales\Model\Order\Item')
             ->disableOriginalConstructor()

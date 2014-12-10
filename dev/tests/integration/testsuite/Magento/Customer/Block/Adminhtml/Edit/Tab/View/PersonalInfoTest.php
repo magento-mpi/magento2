@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Controller\RegistryConstants;
 
 /**
  * Magento\Customer\Block\Adminhtml\Edit\Tab\View
@@ -57,7 +54,7 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
         $this->_storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
         $this->_context = $this->_objectManager->get(
             'Magento\Backend\Block\Template\Context',
-            array('storeManager' => $this->_storeManager)
+            ['storeManager' => $this->_storeManager]
         );
 
         $this->_customerBuilder = $this->_objectManager->get('Magento\Customer\Api\Data\CustomerDataBuilder');
@@ -75,11 +72,11 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
         )->createBlock(
             'Magento\Customer\Block\Adminhtml\Edit\Tab\View\PersonalInfo',
             '',
-            array(
+            [
                 'context' => $this->_context,
                 'groupService' => $this->_groupRepository,
                 'registry' => $this->_coreRegistry
-            )
+            ]
         );
     }
 
@@ -244,8 +241,8 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
         )->setEmail(
             'email@email.com'
         )->create();
-        $data = array('account' => $this->_dataObjectProcessor
-            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'));
+        $data = ['account' => $this->_dataObjectProcessor
+            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'), ];
         $this->_context->getBackendSession()->setCustomerData($data);
         return $customer;
     }
@@ -256,8 +253,8 @@ class PersonalInfoTest extends \PHPUnit_Framework_TestCase
     private function _loadCustomer()
     {
         $customer = $this->_customerRepository->getById(1);
-        $data = array('account' => $this->_dataObjectProcessor
-            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'));
+        $data = ['account' => $this->_dataObjectProcessor
+            ->buildOutputDataArray($customer, 'Magento\Customer\Api\Data\CustomerInterface'), ];
         $this->_context->getBackendSession()->setCustomerData($data);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
         return $customer;

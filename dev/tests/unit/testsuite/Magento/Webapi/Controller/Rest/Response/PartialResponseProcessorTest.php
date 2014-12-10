@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Controller\Rest\Response;
@@ -33,22 +30,19 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
     {
         $this->requestMock = $this->getMock('Magento\Webapi\Controller\Rest\Request', [], [], '', false);
         $this->processor = new PartialResponseProcessor($this->requestMock);
-        $this->sampleResponseValue = array(
-            'customer' =>
-                array(
+        $this->sampleResponseValue = [
+            'customer' => [
                     'id' => '1',
                     'website_id' => '0',
                     'created_in' => 'Default Store View',
                     'store_id' => '1',
                     'group_id' => '1',
-                    'custom_attributes' =>
-                        array(
-                            0 =>
-                                array(
+                    'custom_attributes' => [
+                            0 => [
                                     'attribute_code' => 'disable_auto_group_change',
                                     'value' => '0',
-                                ),
-                        ),
+                                ],
+                        ],
                     'firstname' => 'Jane',
                     'lastname' => 'Doe',
                     'email' => 'jdoe@ebay.com',
@@ -58,62 +52,55 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
                     'dob' => '1983-05-26 00:00:00',
                     'taxvat' => '1212121212',
                     'gender' => '1',
-                ),
-            'addresses' =>
-                array(
-                    0 =>
-                        array(
+                ],
+            'addresses' => [
+                    0 => [
                             'firstname' => 'Jane',
                             'lastname' => 'Doe',
-                            'street' =>
-                                array(
+                            'street' => [
                                     0 => '7700  Parmer ln',
-                                ),
+                                ],
                             'city' => 'Austin',
                             'country_id' => 'US',
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'Texas',
                                     'region_id' => 57,
                                     'region_code' => 'TX',
-                                ),
+                                ],
                             'postcode' => '78728',
                             'telephone' => '1111111111',
                             'default_billing' => true,
                             'default_shipping' => true,
                             'id' => '1',
                             'customer_id' => '1',
-                        ),
-                    1 =>
-                        array(
+                        ],
+                    1 => [
                             'firstname' => 'Jane',
                             'lastname' => 'Doe',
-                            'street' =>
-                                array(
+                            'street' => [
                                     0 => '2211 N First St ',
-                                ),
+                                ],
                             'city' => 'San Jose',
                             'country_id' => 'US',
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'California',
                                     'region_id' => 23,
                                     'region_code' => 'CA',
-                                ),
+                                ],
                             'postcode' => '98454',
                             'telephone' => '2222222222',
                             'default_billing' => true,
                             'default_shipping' => true,
                             'id' => '2',
                             'customer_id' => '1',
-                        ),
-                ),
-        );
+                        ],
+                ],
+        ];
     }
 
     public function testFilterNoNesting()
     {
-        $expected = array('customer' => $this->sampleResponseValue['customer']);
+        $expected = ['customer' => $this->sampleResponseValue['customer']];
 
         $simpleFilter = 'customer';
         $this->requestMock->expects($this->any())->method('getParam')->will($this->returnValue($simpleFilter));
@@ -124,12 +111,12 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterSimpleNesting()
     {
-        $expected = array(
+        $expected = [
             'customer' => [
                 'email' => $this->sampleResponseValue['customer']['email'],
-                'id' => $this->sampleResponseValue['customer']['id']
-            ]
-        );
+                'id' => $this->sampleResponseValue['customer']['id'],
+            ],
+        ];
 
         $simpleFilter = "customer[email,id]";
 
@@ -141,36 +128,30 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterMultilevelNesting()
     {
-        $expected = array(
-            'customer' =>
-                array(
+        $expected = [
+            'customer' => [
                     'id' => '1',
                     'email' => 'jdoe@ebay.com',
-                ),
-            'addresses' =>
-                array(
-                    0 =>
-                        array(
+                ],
+            'addresses' => [
+                    0 => [
                             'city' => 'Austin',
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'Texas',
                                     'region_code' => 'TX',
-                                ),
+                                ],
                             'postcode' => '78728',
-                        ),
-                    1 =>
-                        array(
+                        ],
+                    1 => [
                             'city' => 'San Jose',
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'California',
                                     'region_code' => 'CA',
-                                ),
+                                ],
                             'postcode' => '98454',
-                        ),
-                ),
-        );
+                        ],
+                ],
+        ];
 
         $nestedFilter = 'customer[id,email],addresses[city,postcode,region[region_code,region]]';
 
@@ -183,36 +164,30 @@ class PartialResponseProcessorTest extends \PHPUnit_Framework_TestCase
     public function testNonExistentFieldFilter()
     {
         //TODO : Make sure if this behavior is acceptable
-        $expected = array(
-            'customer' =>
-                array(
+        $expected = [
+            'customer' => [
                     'id' => '1',
                     'email' => 'jdoe@ebay.com',
-                ),
-            'addresses' =>
-                array(
-                    0 =>
-                        array(
+                ],
+            'addresses' => [
+                    0 => [
                             //'city' => 'Austin', //City has been substituted with 'invalid' field
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'Texas',
                                     'region_code' => 'TX',
-                                ),
+                                ],
                             'postcode' => '78728',
-                        ),
-                    1 =>
-                        array(
+                        ],
+                    1 => [
                             //'city' => 'San Jose',
-                            'region' =>
-                                array(
+                            'region' => [
                                     'region' => 'California',
                                     'region_code' => 'CA',
-                                ),
+                                ],
                             'postcode' => '98454',
-                        ),
-                ),
-        );
+                        ],
+                ],
+        ];
 
         $nonExistentFieldFilter = 'customer[id,email],addresses[invalid,postcode,region[region_code,region]]';
 

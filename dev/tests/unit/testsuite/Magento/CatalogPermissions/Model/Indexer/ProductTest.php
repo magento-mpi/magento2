@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
@@ -38,24 +35,24 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $this->fullMock = $this->getMock(
             'Magento\CatalogPermissions\Model\Indexer\Category\Action\FullFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->rowsMock = $this->getMock(
             'Magento\CatalogPermissions\Model\Indexer\Product\Action\RowsFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
-        $methods = array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup');
+        $methods = ['getId', 'load', 'isInvalid', 'isWorking', '__wakeup'];
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
@@ -74,7 +71,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
         $this->indexerRegistryMock->expects($this->once())
@@ -84,8 +81,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $rowMock = $this->getMock(
             'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows',
-            array('execute'),
-            array(),
+            ['execute'],
+            [],
             '',
             false
         );
@@ -99,7 +96,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerNotWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
         $this->indexerRegistryMock->expects($this->once())
@@ -109,8 +106,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $rowMock = $this->getMock(
             'Magento\CatalogPermissions\Model\Indexer\Product\Action\Rows',
-            array('execute'),
-            array(),
+            ['execute'],
+            [],
             '',
             false
         );

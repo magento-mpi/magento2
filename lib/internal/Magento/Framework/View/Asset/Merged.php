@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Asset;
 
@@ -71,7 +68,7 @@ class Merged implements \Iterator
             }
             if (!$this->contentType) {
                 $this->contentType = $asset->getContentType();
-            } else if ($asset->getContentType() != $this->contentType) {
+            } elseif ($asset->getContentType() != $this->contentType) {
                 throw new \InvalidArgumentException(
                     "Content type '{$asset->getContentType()}' cannot be merged with '{$this->contentType}'."
                 );
@@ -92,7 +89,7 @@ class Merged implements \Iterator
             try {
                 $mergedAsset = $this->createMergedAsset($this->assets);
                 $this->mergeStrategy->merge($this->assets, $mergedAsset);
-                $this->assets = array($mergedAsset);
+                $this->assets = [$mergedAsset];
             } catch (\Exception $e) {
                 $this->logger->logException($e);
             }
@@ -107,7 +104,7 @@ class Merged implements \Iterator
      */
     private function createMergedAsset(array $assets)
     {
-        $paths = array();
+        $paths = [];
         /** @var MergeableInterface $asset */
         foreach ($assets as $asset) {
             $paths[] = $asset->getPath();

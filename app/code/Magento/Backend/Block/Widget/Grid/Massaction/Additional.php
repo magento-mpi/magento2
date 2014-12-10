@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
@@ -29,7 +26,7 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\View\Layout\Argument\Interpreter\Options $optionsInterpreter,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_optionsInterpreter = $optionsInterpreter;
@@ -62,7 +59,7 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
     {
         if ($item['type'] == 'select' && is_string($item['values'])) {
             $modelClass = $item['values'];
-            $item['values'] = $this->_optionsInterpreter->evaluate(array('model' => $modelClass));
+            $item['values'] = $this->_optionsInterpreter->evaluate(['model' => $modelClass]);
         }
         $item['class'] = isset($item['class']) ? $item['class'] . ' absolute-advice' : 'absolute-advice';
     }

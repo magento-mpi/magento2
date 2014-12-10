@@ -2,10 +2,7 @@
 /**
  * Test client for REST API testing.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
@@ -64,7 +61,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
      * {@inheritdoc}
      * @throws \Exception
      */
-    public function call($serviceInfo, $arguments = array())
+    public function call($serviceInfo, $arguments = [])
     {
         $resourcePath = '/' . $this->defaultStoreCode . $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
@@ -74,7 +71,7 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $oAuthClient = $accessCredentials['oauth_client'];
         $urlFormEncoded = false;
         // we're always using JSON
-        $authHeader = array();
+        $authHeader = [];
         $restServiceInfo = $serviceInfo['rest'];
         if (array_key_exists('token', $restServiceInfo)) {
             $authHeader = $oAuthClient->buildBearerTokenAuthorizationHeader($restServiceInfo['token']);
@@ -83,14 +80,14 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
                 $this->curlClient->constructResourceUrl($resourcePath),
                 $accessCredentials['key'],
                 $accessCredentials['secret'],
-                ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : array(),
+                ($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded ? $arguments : [],
                 $httpMethod
             );
         }
         $authHeader = array_merge($authHeader, ['Accept: application/json', 'Content-Type: application/json']);
         switch ($httpMethod) {
             case Config::HTTP_METHOD_GET:
-                $response = $this->curlClient->get($resourcePath, array(), $authHeader);
+                $response = $this->curlClient->get($resourcePath, [], $authHeader);
                 break;
             case Config::HTTP_METHOD_POST:
                 $response = $this->curlClient->post($resourcePath, $arguments, $authHeader);

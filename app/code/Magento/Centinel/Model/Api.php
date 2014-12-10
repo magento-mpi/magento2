@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Centinel\Model;
-
 
 /**
  * 3D Secure Validation Library for Payment
@@ -22,14 +18,14 @@ class Api extends \Magento\Framework\Object
      *
      * @var string[]
      */
-    protected $_debugReplacePrivateDataKeys = array('TransactionPwd', 'CardNumber', 'CardExpMonth', 'CardExpYear');
+    protected $_debugReplacePrivateDataKeys = ['TransactionPwd', 'CardNumber', 'CardExpMonth', 'CardExpYear'];
 
     /**
      * Array of ISO 4217 Currency codes and numbers
      *
      * @var array
      */
-    protected static $_iso4217Currencies = array(
+    protected static $_iso4217Currencies = [
         'AED' => '784',
         'AFN' => '971',
         'ALL' => '008',
@@ -206,8 +202,8 @@ class Api extends \Magento\Framework\Object
         'YER' => '886',
         'ZAR' => '710',
         'ZMK' => '894',
-        'ZWL' => '932'
-    );
+        'ZWL' => '932',
+    ];
 
     /**
      * Centinel validation client
@@ -227,7 +223,7 @@ class Api extends \Magento\Framework\Object
      * @param \Magento\Framework\Logger\AdapterFactory $logFactory
      * @param array $data
      */
-    public function __construct(\Magento\Framework\Logger\AdapterFactory $logFactory, array $data = array())
+    public function __construct(\Magento\Framework\Logger\AdapterFactory $logFactory, array $data = [])
     {
         $this->_logFactory = $logFactory;
         parent::__construct($data);
@@ -298,18 +294,18 @@ class Api extends \Magento\Framework\Object
     {
         $client = $this->_getClientInstance();
         $request = array_merge(
-            array(
+            [
                 'MsgType' => $method,
                 'Version' => $this->_getVersion(),
                 'ProcessorId' => $this->getProcessorId(),
                 'MerchantId' => $this->getMerchantId(),
                 'TransactionPwd' => $this->getTransactionPwd(),
-                'TransactionType' => $this->_getTransactionType()
-            ),
+                'TransactionType' => $this->_getTransactionType(),
+            ],
             $data
         );
 
-        $debugData = array('request' => $request);
+        $debugData = ['request' => $request];
 
         try {
             foreach ($request as $key => $val) {
@@ -317,7 +313,7 @@ class Api extends \Magento\Framework\Object
             }
             $client->sendHttp($this->_getApiEndpointUrl(), $this->_getTimeoutConnect(), $this->_getTimeoutRead());
         } catch (\Exception $e) {
-            $debugData['response'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $debugData['response'] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
             $this->_debug($debugData);
             throw $e;
         }
@@ -367,14 +363,14 @@ class Api extends \Magento\Framework\Object
 
         $clientResponse = $this->_call(
             'cmpi_lookup',
-            array(
+            [
                 'Amount' => round($data->getAmount() * 100),
                 'CurrencyCode' => $currencyNumber,
                 'CardNumber' => $data->getCardNumber(),
                 'CardExpMonth' => $month,
                 'CardExpYear' => $data->getCardExpYear(),
                 'OrderNumber' => $data->getOrderNumber()
-            )
+            ]
         );
 
         $result->setErrorNo($clientResponse->getValue('ErrorNo'));
@@ -400,7 +396,7 @@ class Api extends \Magento\Framework\Object
 
         $clientResponse = $this->_call(
             'cmpi_authenticate',
-            array('TransactionId' => $data->getTransactionId(), 'PAResPayload' => $data->getPaResPayload())
+            ['TransactionId' => $data->getTransactionId(), 'PAResPayload' => $data->getPaResPayload()]
         );
 
         $result->setErrorNo($clientResponse->getValue('ErrorNo'));
@@ -424,7 +420,7 @@ class Api extends \Magento\Framework\Object
     {
         if ($this->getDebugFlag()) {
             $this->_logFactory->create(
-                array('fileName' => 'card_validation_3d_secure.log')
+                ['fileName' => 'card_validation_3d_secure.log']
             )->setFilterDataKeys(
                 $this->_debugReplacePrivateDataKeys
             )->log(

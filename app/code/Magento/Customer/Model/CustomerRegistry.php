@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Model\CustomerFactory;
 use Magento\Customer\Model\Data\CustomerSecure;
 use Magento\Customer\Model\Data\CustomerSecureFactory;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -177,7 +173,6 @@ class CustomerRegistry
             unset($this->customerRegistryByEmail[$emailKey]);
             unset($this->customerRegistryById[$customerId]);
             unset($this->customerSecureRegistryById[$customerId]);
-
         }
     }
 

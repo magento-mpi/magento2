@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Msrp\Model;
 
@@ -111,7 +108,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 
@@ -128,7 +125,7 @@ class Config
                 ScopeInterface::SCOPE_STORE,
                 $this->storeId
             ),
-            array('b', 'br', 'strong', 'i', 'u', 'p', 'span')
+            ['b', 'br', 'strong', 'i', 'u', 'p', 'span']
         );
     }
 }

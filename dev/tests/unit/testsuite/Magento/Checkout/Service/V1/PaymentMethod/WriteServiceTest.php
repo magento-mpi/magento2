@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\PaymentMethod;
@@ -187,7 +184,6 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
         $methodMock = $this->getMockForAbstractClass(
             '\Magento\Payment\Model\Method\AbstractMethod', [], '', false, false
         );
-
 
         $paymentMock->expects($this->once())->method('getMethodInstance')->will($this->returnValue($methodMock));
 

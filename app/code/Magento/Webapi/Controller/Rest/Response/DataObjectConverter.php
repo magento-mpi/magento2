@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Response;
 
@@ -59,11 +56,11 @@ class DataObjectConverter
                 $result[] = $datum;
             }
             return $result;
-        } else if (is_object($data)) {
+        } elseif (is_object($data)) {
             return $this->processDataObject(
                 $this->dataObjectProcessor->buildOutputDataArray($data, $dataType)
             );
-        } else if (is_null($data)) {
+        } elseif (is_null($data)) {
             return [];
         } else {
             /** No processing is required for scalar types */

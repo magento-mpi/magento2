@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ups\Model\Config\Source;
 
@@ -25,9 +22,9 @@ class Pickup extends \Magento\Ups\Model\Config\Source\Generic
     public function toOptionArray()
     {
         $ups = $this->carrierConfig->getCode($this->_code);
-        $arr = array();
+        $arr = [];
         foreach ($ups as $k => $v) {
-            $arr[] = array('value' => $k, 'label' => __($v['label']));
+            $arr[] = ['value' => $k, 'label' => __($v['label'])];
         }
         return $arr;
     }

@@ -2,10 +2,7 @@
 /**
  * Paid invoice fixture.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require 'default_rollback.php';
@@ -14,7 +11,7 @@ require 'order.php';
 
 $orderService = \Magento\TestFramework\ObjectManager::getInstance()->create(
     'Magento\Sales\Model\Service\Order',
-    array('order' => $order)
+    ['order' => $order]
 );
 $invoice = $orderService->prepareInvoice();
 $invoice->register();

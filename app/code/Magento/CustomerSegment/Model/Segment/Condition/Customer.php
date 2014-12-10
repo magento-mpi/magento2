@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
@@ -29,7 +26,7 @@ class Customer extends AbstractCondition
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditionFactory = $conditionFactory;
         parent::__construct($context, $resourceSegment, $data);
@@ -53,6 +50,6 @@ class Customer extends AbstractCondition
             $conditions,
             $this->_conditionFactory->create('Customer\Storecredit')->getNewChildSelectOptions()
         );
-        return array('value' => $conditions, 'label' => __('Customer'));
+        return ['value' => $conditions, 'label' => __('Customer')];
     }
 }

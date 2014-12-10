@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form\Element;
 
@@ -18,14 +15,14 @@ class EditablemultiselectTest extends \PHPUnit_Framework_TestCase
     {
         $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $testHelper->getObject('Magento\Framework\Data\Form\Element\Editablemultiselect');
-        $values = array(
-            array('value' => 1, 'label' => 'Value1'),
-            array('value' => 2, 'label' => 'Value2'),
-            array('value' => 3, 'label' => 'Value3')
-        );
-        $value = array(1, 3);
+        $values = [
+            ['value' => 1, 'label' => 'Value1'],
+            ['value' => 2, 'label' => 'Value2'],
+            ['value' => 3, 'label' => 'Value3'],
+        ];
+        $value = [1, 3];
         $this->_model->setForm(new \Magento\Framework\Object());
-        $this->_model->setData(array('values' => $values, 'value' => $value));
+        $this->_model->setData(['values' => $values, 'value' => $value]);
     }
 
     public function testGetElementHtmlRendersDataAttributesWhenDisabled()

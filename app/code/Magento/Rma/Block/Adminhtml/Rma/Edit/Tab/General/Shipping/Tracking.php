@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
@@ -54,7 +51,7 @@ class Tracking extends \Magento\Backend\Block\Template
         \Magento\Shipping\Model\CarrierFactory $carrierFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shippingCollectionFactory = $shippingCollectionFactory;
         $this->_carrierFactory = $carrierFactory;
@@ -95,7 +92,7 @@ class Tracking extends \Magento\Backend\Block\Template
             $this->getRma()->getId()
         )->addFieldToFilter(
             'is_admin',
-            array("neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL)
+            ["neq" => \Magento\Rma\Model\Shipping::IS_ADMIN_STATUS_ADMIN_LABEL]
         );
     }
 
@@ -112,7 +109,7 @@ class Tracking extends \Magento\Backend\Block\Template
             $this->getLayout()->createBlock(
                 'Magento\Backend\Block\Widget\Button'
             )->setData(
-                array('label' => __('Add'), 'class' => 'save', 'onclick' => $onclick)
+                ['label' => __('Add'), 'class' => 'save', 'onclick' => $onclick]
             )
         );
     }
@@ -134,7 +131,7 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function getSubmitUrl()
     {
-        return $this->getUrl('adminhtml/*/addTrack/', array('id' => $this->getRma()->getId()));
+        return $this->getUrl('adminhtml/*/addTrack/', ['id' => $this->getRma()->getId()]);
     }
 
     /**
@@ -157,7 +154,7 @@ class Tracking extends \Magento\Backend\Block\Template
     {
         return $this->getUrl(
             'adminhtml/*/removeTrack/',
-            array('id' => $this->getRma()->getId(), 'track_id' => $track->getId())
+            ['id' => $this->getRma()->getId(), 'track_id' => $track->getId()]
         );
     }
 

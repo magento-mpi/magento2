@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -25,7 +22,7 @@ class NewActionTest extends \Magento\Catalog\Controller\Adminhtml\ProductTest
     protected function setUp()
     {
         $productBuilder = $this->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Builder')->setMethods([
-                'build'
+                'build',
             ])->disableOriginalConstructor()->getMock();
 
         $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')->disableOriginalConstructor()
@@ -69,7 +66,6 @@ class NewActionTest extends \Magento\Catalog\Controller\Adminhtml\ProductTest
         $this->resultPage->expects($this->atLeastOnce())
             ->method('getLayout')
             ->willReturn($this->layout);
-
     }
 
     /**

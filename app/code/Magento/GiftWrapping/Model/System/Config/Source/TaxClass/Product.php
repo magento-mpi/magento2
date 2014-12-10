@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model\System\Config\Source\TaxClass;
 
-use Magento\Tax\Api\TaxClassRepositoryInterface;
-use Magento\Tax\Api\TaxClassManagementInterface;
-use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
+use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Framework\Api\FilterBuilder;
+use Magento\Tax\Api\Data\TaxClassInterface as TaxClass;
+use Magento\Tax\Api\TaxClassManagementInterface;
+use Magento\Tax\Api\TaxClassRepositoryInterface;
 
 class Product implements \Magento\Framework\Option\ArrayInterface
 {
@@ -58,7 +55,7 @@ class Product implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         if (!$this->options) {
-            $this->options = array();
+            $this->options = [];
 
             $filter = $this->filterBuilder->setField(TaxClass::KEY_TYPE)
                 ->setValue(TaxClassManagementInterface::TYPE_PRODUCT)

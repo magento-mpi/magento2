@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\Widget\Model\Config;
@@ -25,7 +22,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $reader = $objectManager->create('Magento\Widget\Model\Config\Reader', ['fileResolver' => $fileResolver]);
         /** @var \Magento\Widget\Model\Config\Data $configData */
-        $configData = $objectManager->create('Magento\Widget\Model\Config\Data', array('reader' => $reader));
+        $configData = $objectManager->create('Magento\Widget\Model\Config\Data', ['reader' => $reader]);
         $result = $configData->get();
         $expected = include '_files/expectedGlobalDesignArray.php';
         $this->assertEquals($expected, $result);

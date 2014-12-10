@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View;
 
@@ -21,7 +18,7 @@ class TemplateEnginePoolTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factory = $this->getMock('Magento\Framework\View\TemplateEngineFactory', array(), array(), '', false);
+        $this->_factory = $this->getMock('Magento\Framework\View\TemplateEngineFactory', [], [], '', false);
         $this->_model = new TemplateEnginePool($this->_factory);
     }
 

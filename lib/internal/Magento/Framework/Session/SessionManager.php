@@ -2,10 +2,7 @@
 /**
  * Magento session manager
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Session;
 
@@ -25,14 +22,14 @@ class SessionManager implements SessionManagerInterface
      *
      * @var array
      */
-    protected $defaultDestroyOptions = array('send_expire_cookie' => true, 'clear_storage' => true);
+    protected $defaultDestroyOptions = ['send_expire_cookie' => true, 'clear_storage' => true];
 
     /**
      * URL host cache
      *
      * @var array
      */
-    protected static $urlHostCache = array();
+    protected static $urlHostCache = [];
 
     /**
      * Validator
@@ -78,7 +75,7 @@ class SessionManager implements SessionManagerInterface
 
     /**
      * Cookie Manager
-     * 
+     *
      * @var \Magento\Framework\Stdlib\CookieManagerInterface
      */
     protected $cookieManager;
@@ -87,7 +84,7 @@ class SessionManager implements SessionManagerInterface
      * @var \Magento\Framework\Stdlib\Cookie\CookieMetadataFactory
      */
     protected $cookieMetadataFactory;
-    
+
     /**
      * Constructor
      *
@@ -142,12 +139,12 @@ class SessionManager implements SessionManagerInterface
      */
     public function __call($method, $args)
     {
-        if (!in_array(substr($method, 0, 3), array('get', 'set', 'uns', 'has'))) {
+        if (!in_array(substr($method, 0, 3), ['get', 'set', 'uns', 'has'])) {
             throw new \InvalidArgumentException(
                 sprintf('Invalid method %s::%s(%s)', get_class($this), $method, print_r($args, 1))
             );
         }
-        $return = call_user_func_array(array($this->storage, $method), $args);
+        $return = call_user_func_array([$this->storage, $method], $args);
         return $return === $this->storage ? $this : $return;
     }
 
@@ -169,12 +166,12 @@ class SessionManager implements SessionManagerInterface
             session_start();
             $this->validator->validate($this);
 
-            register_shutdown_function(array($this, 'writeClose'));
+            register_shutdown_function([$this, 'writeClose']);
 
             $this->_addHost();
             \Magento\Framework\Profiler::stop('session_start');
         }
-        $this->storage->init(isset($_SESSION) ? $_SESSION : array());
+        $this->storage->init(isset($_SESSION) ? $_SESSION : []);
         return $this;
     }
 
@@ -186,12 +183,12 @@ class SessionManager implements SessionManagerInterface
     protected function registerSaveHandler()
     {
         return session_set_save_handler(
-            array($this->saveHandler, 'open'),
-            array($this->saveHandler, 'close'),
-            array($this->saveHandler, 'read'),
-            array($this->saveHandler, 'write'),
-            array($this->saveHandler, 'destroy'),
-            array($this->saveHandler, 'gc')
+            [$this->saveHandler, 'open'],
+            [$this->saveHandler, 'close'],
+            [$this->saveHandler, 'read'],
+            [$this->saveHandler, 'write'],
+            [$this->saveHandler, 'destroy'],
+            [$this->saveHandler, 'gc']
         );
     }
 
@@ -424,7 +421,7 @@ class SessionManager implements SessionManagerInterface
      */
     protected function _getHosts()
     {
-        return isset($_SESSION[self::HOST_KEY]) ? $_SESSION[self::HOST_KEY] : array();
+        return isset($_SESSION[self::HOST_KEY]) ? $_SESSION[self::HOST_KEY] : [];
     }
 
     /**

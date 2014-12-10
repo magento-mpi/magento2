@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Form;
 
@@ -51,7 +48,7 @@ class Register extends \Magento\Directory\Block\Data
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerUrl = $customerUrl;
         $this->_moduleManager = $moduleManager;
@@ -158,7 +155,7 @@ class Register extends \Magento\Directory\Block\Data
     {
         if (null !== ($region = $this->getFormData()->getRegion())) {
             return $region;
-        } else if (null !== ($region = $this->getFormData()->getRegionId())) {
+        } elseif (null !== ($region = $this->getFormData()->getRegionId())) {
             return $region;
         }
         return null;

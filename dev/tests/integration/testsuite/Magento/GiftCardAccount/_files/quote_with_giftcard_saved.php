@@ -5,10 +5,7 @@
  * The quote is not saved inside the original fixture. It is later saved inside child fixtures, but along with some
  * additional data which may break some tests.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require 'giftcardaccount.php';
 
@@ -18,4 +15,3 @@ $giftCardAccount = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\GiftCardAccount\Model\Giftcardaccount');
 $giftCardAccount->loadByCode('giftcardaccount_fixture');
 $giftCardAccount->addToCart(true, $quote);
-

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -43,12 +40,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $themeRegistration = $this->getMock(
             'Magento\Core\Model\Theme\Registration',
-            array('register'),
-            array(
+            ['register'],
+            [
                 $this->_objectManager->create('Magento\Core\Model\Resource\Theme\Data\CollectionFactory'),
                 $this->_objectManager->create('Magento\Core\Model\Theme\Data\Collection'),
                 $this->_objectManager->create('Magento\Framework\Filesystem')
-            )
+            ]
         );
         $themeRegistration->expects($this->once())->method('register')->with($this->equalTo($pattern));
         $this->_objectManager->addSharedInstance($themeRegistration, 'Magento\Core\Model\Theme\Registration');
@@ -67,15 +64,15 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $response = $this->_objectManager->create(
             'Magento\Framework\Object',
-            array('data' => array('additional_options' => array()))
+            ['data' => ['additional_options' => []]]
         );
         $event = $this->_objectManager->create(
             'Magento\Framework\Event',
-            array('data' => array('response_object' => $response))
+            ['data' => ['response_object' => $response]]
         );
         return $this->_objectManager->create(
             'Magento\Framework\Event\Observer',
-            array('data' => array('event' => $event))
+            ['data' => ['event' => $event]]
         );
     }
 }

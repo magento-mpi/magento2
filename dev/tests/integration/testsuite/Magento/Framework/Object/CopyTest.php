@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Object;
 
@@ -24,15 +21,15 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     {
         $fieldset = 'sales_copy_order';
         $aspect = 'to_edit';
-        $data = array('customer_email' => 'admin@example.com', 'customer_group_id' => '1');
+        $data = ['customer_email' => 'admin@example.com', 'customer_group_id' => '1'];
         $source = new \Magento\Framework\Object($data);
         $target = new \Magento\Framework\Object();
         $expectedTarget = new \Magento\Framework\Object($data);
         $expectedTarget->setDataChanges(true);
         // hack for assertion
 
-        $this->assertNull($this->_service->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', array()));
-        $this->assertNull($this->_service->copyFieldsetToTarget($fieldset, $aspect, array(), 'invalid_target'));
+        $this->assertNull($this->_service->copyFieldsetToTarget($fieldset, $aspect, 'invalid_source', []));
+        $this->assertNull($this->_service->copyFieldsetToTarget($fieldset, $aspect, [], 'invalid_target'));
         $this->assertEquals(
             $target,
             $this->_service->copyFieldsetToTarget('invalid_fieldset', $aspect, $source, $target)
@@ -45,9 +42,9 @@ class CopyTest extends \PHPUnit_Framework_TestCase
     {
         $fieldset = 'sales_copy_order';
         $aspect = 'to_edit';
-        $data = array('customer_email' => 'admin@example.com', 'customer_group_id' => '1');
+        $data = ['customer_email' => 'admin@example.com', 'customer_group_id' => '1'];
         $source = new \Magento\Framework\Object($data);
-        $target = array();
+        $target = [];
         $expectedTarget = $data;
 
         $this->assertEquals(

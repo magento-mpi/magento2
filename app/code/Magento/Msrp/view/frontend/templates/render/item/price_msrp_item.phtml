@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -26,8 +23,8 @@
     $_msrpPrice = '';
 ?>
 <div class="price-box msrp">
-    <?php if($_product->getMsrp()): ?>
-        <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(),true,false) ?>
+    <?php if ($_product->getMsrp()): ?>
+        <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(), true, false) ?>
         <span class="old-price" ><?php echo $_msrpPrice ?></span>
     <?php endif; ?>
     <?php if ($_catalogHelper->isShowPriceOnGesture($_product)): ?>

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,7 +26,7 @@ class ReviewTest extends \PHPUnit_Framework_TestCase
         $addressData = include __DIR__ . '/../../../Sales/_files/address_data.php';
         $address = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Quote\Address',
-            array('data' => $addressData)
+            ['data' => $addressData]
         );
         $address->setAddressType('billing');
         $address->setQuote($quote);

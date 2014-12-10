@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Payment\Method\Billing;
 
-use Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement;
 
 class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
 {
@@ -22,7 +18,7 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
         $proMock->expects($this->any())->method('getConfig')->will($this->returnValue($config));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Paypal\Model\Method\Agreement',
-            array('data' => array($proMock))
+            ['data' => [$proMock]]
         );
     }
 
@@ -61,7 +57,7 @@ class AbstractAgreementTest extends \PHPUnit_Framework_TestCase
         $billingAgreement = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Paypal\Model\Resource\Billing\Agreement\Collection'
         )->getFirstItem();
-        $data = array(AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID => $billingAgreement->getId());
+        $data = [AbstractAgreement::TRANSPORT_BILLING_AGREEMENT_ID => $billingAgreement->getId()];
         $this->_model->assignData($data);
         $this->assertEquals(
             'REF-ID-TEST-678',

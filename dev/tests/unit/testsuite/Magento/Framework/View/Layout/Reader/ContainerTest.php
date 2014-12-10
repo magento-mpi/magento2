@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Layout\Reader;
 
-use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Framework\View\Layout\ScheduledStructure;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 class ContainerTest extends \PHPUnit_Framework_TestCase
 {
@@ -65,7 +62,6 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         $structureElement,
         $expectedData
     ) {
-
         /** @var ScheduledStructure|\PHPUnit_Framework_MockObject_MockObject $scheduledStructureMock */
         $scheduledStructureMock = $this->getMockBuilder('Magento\Framework\View\Layout\ScheduledStructure')
             ->disableOriginalConstructor()->getMock();
@@ -111,15 +107,15 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                         'id' => 'id_value',
                         'tag' => 'tag_value',
                         'unchanged' => 'unchanged_value',
-                    ]
+                    ],
                 ],
                 'expectedData' => [
                     'attributes' => [
                         'id' => 'id_add',
                         'tag' => 'body',
                         'unchanged' => 'unchanged_value',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'referenceContainer' => [
                 'elementCurrent' => $this->getElement(
@@ -133,8 +129,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
                         Container::CONTAINER_OPT_HTML_ID    => 'id_add',
                         Container::CONTAINER_OPT_HTML_CLASS => 'new',
                         Container::CONTAINER_OPT_LABEL      => 'Add',
-                    ]
-                ]
+                    ],
+                ],
             ]
         ];
     }

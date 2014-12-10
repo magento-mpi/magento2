@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
@@ -48,6 +45,6 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/index/globalSearch');
 
         $actual = $this->getResponse()->getBody();
-        $this->assertEquals(array(), json_decode($actual));
+        $this->assertEquals([], json_decode($actual));
     }
 }

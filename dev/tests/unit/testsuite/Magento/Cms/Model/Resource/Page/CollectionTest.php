@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource\Page;
 
@@ -198,7 +195,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         ['id_field_name', null, null],
-                        ['page_id', null, 123]
+                        ['page_id', null, 123],
                     ]
                 )
             );
@@ -260,7 +257,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $expected = [
             [
                 'value' => 'identifier-value',
-                'label' => 'item-value'
+                'label' => 'item-value',
             ],
             [
                 'value' => 'identifier-value|123',
@@ -273,7 +270,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => 'identifier-value|123',
                 'label' => 'item-value'
-            ]
+            ],
         ];
         $this->assertEquals($expected, $this->collection->toOptionIdArray());
     }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -256,7 +253,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->resourceModelMock->expects($this->once())->method('validate')->with($this->productMock)
             ->willReturn(true);
         $this->resourceModelMock->expects($this->once())->method('save')->with($this->productMock)
-            ->willThrowException(new \Exception);
+            ->willThrowException(new \Exception());
         $this->model->save($this->productMock);
     }
 
@@ -314,7 +311,7 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock->expects($this->once())->method('getSku')->willReturn('product-42');
         $this->resourceModelMock->expects($this->once())->method('delete')->with($this->productMock)
-            ->willThrowException(new \Exception);
+            ->willThrowException(new \Exception());
         $this->model->delete($this->productMock);
     }
 

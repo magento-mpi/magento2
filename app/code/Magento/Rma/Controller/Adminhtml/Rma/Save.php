@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -45,13 +42,13 @@ class Save extends SaveNew
             $this->messageManager->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
-                $this->_redirect('adminhtml/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
+                $this->_redirect('adminhtml/*/edit', ['id' => $rmaId, 'store' => $model->getStoreId()]);
                 return;
             }
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Framework\Session\Generic')->getRmaErrorKeys();
-            $controllerParams = array('id' => $rmaId);
+            $controllerParams = ['id' => $rmaId];
             if (isset($errorKeys['tabs']) && $errorKeys['tabs'] == 'items_section') {
                 $controllerParams['active_tab'] = 'items_section';
             }

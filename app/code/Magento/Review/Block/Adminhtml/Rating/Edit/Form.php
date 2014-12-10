@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rating\Edit;
 
@@ -21,13 +18,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
-                    'action' => $this->getUrl('review/rating/save', array('id' => $this->getRequest()->getParam('id'))),
-                    'method' => 'post'
-                )
-            )
+                    'action' => $this->getUrl('review/rating/save', ['id' => $this->getRequest()->getParam('id')]),
+                    'method' => 'post',
+                ],
+            ]
         );
 
         $form->setUseContainer(true);

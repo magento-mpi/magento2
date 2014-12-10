@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Url;
 
@@ -35,7 +32,7 @@ class Factory
      */
     public function replaceClassName($className)
     {
-        $this->_objectManager->configure(array('preferences' => array(self::CLASS_NAME => $className)));
+        $this->_objectManager->configure(['preferences' => [self::CLASS_NAME => $className]]);
 
         return $this;
     }
@@ -46,7 +43,7 @@ class Factory
      * @param array $arguments
      * @return \Magento\Framework\UrlInterface
      */
-    public function create(array $arguments = array())
+    public function create(array $arguments = [])
     {
         return $this->_objectManager->create(self::CLASS_NAME, $arguments);
     }

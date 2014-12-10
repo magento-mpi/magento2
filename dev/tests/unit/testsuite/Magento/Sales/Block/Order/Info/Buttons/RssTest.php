@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Info\Buttons;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class RssTest
@@ -68,7 +65,7 @@ class RssTest extends \PHPUnit_Framework_TestCase
     public function testGetLink()
     {
         $order = $this->getMockBuilder('Magento\Sales\Model\Order')
-            ->setMethods(array('getId', 'getCustomerId', 'getIncrementId', 'load', '__wakeup', '__sleep'))
+            ->setMethods(['getId', 'getCustomerId', 'getIncrementId', 'load', '__wakeup', '__sleep'])
             ->disableOriginalConstructor()
             ->getMock();
         $order->expects($this->once())->method('load')->will($this->returnSelf());
@@ -78,14 +75,14 @@ class RssTest extends \PHPUnit_Framework_TestCase
 
         $this->orderFactory->expects($this->once())->method('create')->will($this->returnValue($order));
 
-        $data = base64_encode(json_encode(array('order_id' => 1, 'increment_id' => '100000001', 'customer_id' => 1, )));
+        $data = base64_encode(json_encode(['order_id' => 1, 'increment_id' => '100000001', 'customer_id' => 1]));
         $link = 'http://magento.com/rss/feed/index/type/order_status?data=' . $data;
         $this->urlBuilderInterface->expects($this->once())->method('getUrl')
-            ->with(array(
+            ->with([
                 'type' => 'order_status',
                 '_secure' => true,
-                '_query' => array('data' => $data)
-            ))->will($this->returnValue($link));
+                '_query' => ['data' => $data],
+            ])->will($this->returnValue($link));
         $this->assertEquals($link, $this->rss->getLink());
     }
 

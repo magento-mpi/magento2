@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Pricing\Price;
 
@@ -189,8 +186,8 @@ class GroupPriceTest extends \PHPUnit_Framework_TestCase
                     [
                         [
                             'cust_group' => 3,
-                            'website_price' => 80
-                        ]
+                            'website_price' => 80,
+                        ],
                     ]
 
                 )

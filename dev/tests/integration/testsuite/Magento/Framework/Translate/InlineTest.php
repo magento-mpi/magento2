@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Translate;
 
@@ -122,10 +119,10 @@ class InlineTest extends \PHPUnit_Framework_TestCase
             'Magento\Framework\View\DesignInterface'
         )->getDesignTheme()->getPackageCode();
         $expectedText = str_replace('{{design_package}}', $package, $expectedText);
-        return array(
-            'plain text' => array('text with no translations and tags', 'text with no translations and tags'),
-            'html string' => array($originalText, $expectedText),
-            'html array' => array(array($originalText), array($expectedText))
-        );
+        return [
+            'plain text' => ['text with no translations and tags', 'text with no translations and tags'],
+            'html string' => [$originalText, $expectedText],
+            'html array' => [[$originalText], [$expectedText]]
+        ];
     }
 }

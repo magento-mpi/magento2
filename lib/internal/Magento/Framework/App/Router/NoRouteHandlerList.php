@@ -2,10 +2,7 @@
 /**
  * No route handlers retriever
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Router;
 
@@ -46,9 +43,8 @@ class NoRouteHandlerList
     public function getHandlers()
     {
         if (!$this->_handlers) {
-
             //sorting handlers list
-            $sortedHandlersList = array();
+            $sortedHandlersList = [];
             foreach ($this->_handlerList as $handlerInfo) {
                 if (isset($handlerInfo['class']) && isset($handlerInfo['sortOrder'])) {
                     $sortedHandlersList[$handlerInfo['class']] = $handlerInfo['sortOrder'];

@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
+return [
     'magento_rma_item_entity_datetime' => 'Magento_Rma',
     'magento_rma_item_entity_decimal' => 'Magento_Rma',
     'magento_rma_item_entity_int' => 'Magento_Rma',
@@ -89,4 +86,4 @@ return array(
     'magento_targetrule_product' => 'Magento_TargetRule',
     'magento_targetrule' => 'Magento_TargetRule',
     'job_queue' => 'Magento_Queue'
-);
+];

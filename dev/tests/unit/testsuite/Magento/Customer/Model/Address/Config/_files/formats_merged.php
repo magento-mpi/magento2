@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
-    'format_one' => array('code' => 'format_one', 'title' => 'format_one_title'),
-    'format_two' => array('code' => 'format_two', 'title' => 'format_two_title', 'escapeHtml' => 'true')
-);
+return [
+    'format_one' => ['code' => 'format_one', 'title' => 'format_one_title'],
+    'format_two' => ['code' => 'format_two', 'title' => 'format_two_title', 'escapeHtml' => 'true']
+];

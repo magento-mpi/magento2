@@ -2,15 +2,12 @@
 /**
  * A tool for creating root composer.json files
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Composer\Package;
 
-use \Magento\Tools\Composer\Helper\ReplaceFilter;
+use Magento\Tools\Composer\Helper\ReplaceFilter;
 use Magento\Tools\Composer\Helper\VersionCalculator;
 
 require __DIR__ . '/../../../bootstrap.php';
@@ -63,7 +60,7 @@ try {
         'version' => $package->get('version'),
         'require' => [
             'magento/magento-composer-installer' => '*',
-        ]
+        ],
     ];
     $replaceFilter = new ReplaceFilter($source);
     $useWildcard = isset($opt['wildcard']);
@@ -81,8 +78,8 @@ try {
         'repositories' => [
             [
                 'type' => 'composer',
-                'url' => 'http://packages.magento.com/'
-            ]
+                'url' => 'http://packages.magento.com/',
+            ],
         ],
         'require->' . $baseName => $baseVersion,
     ];

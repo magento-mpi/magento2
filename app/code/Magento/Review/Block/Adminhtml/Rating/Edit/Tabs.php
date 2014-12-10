@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rating\Edit;
 
@@ -32,13 +29,13 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'form_section',
-            array(
+            [
                 'label' => __('Rating Information'),
                 'title' => __('Rating Information'),
                 'content' => $this->getLayout()
                         ->createBlock('Magento\Review\Block\Adminhtml\Rating\Edit\Tab\Form')
                         ->toHtml()
-            )
+            ]
         );
         return parent::_beforeToHtml();
     }

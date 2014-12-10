@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -19,10 +16,10 @@ class Checkbox extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rendere
      *
      * @var string[]
      */
-    protected $_templates = array(
+    protected $_templates = [
         'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
         'Magento_DesignEditor::editor/form/renderer/checkbox-utility.phtml',
         'Magento_DesignEditor::editor/form/renderer/element/wrapper.phtml',
-        'Magento_DesignEditor::editor/form/renderer/template.phtml'
-    );
+        'Magento_DesignEditor::editor/form/renderer/template.phtml',
+    ];
 }

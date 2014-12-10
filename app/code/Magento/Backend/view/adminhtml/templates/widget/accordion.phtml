@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -12,7 +9,7 @@
  */
 $items = $this->getItems();
 ?>
-<?php if(!empty($items)): ?>
+<?php if (!empty($items)): ?>
     <dl id="tab_content_<?php echo $this->getHtmlId() ?>" name="tab_content_<?php echo $this->getHtmlId() ?>" class="accordion">
     <?php foreach ($items as $_item): ?>
         <?php echo $this->getChildHtml($_item->getId()) ?>

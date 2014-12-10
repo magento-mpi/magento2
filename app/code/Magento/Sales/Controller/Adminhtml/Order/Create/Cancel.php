@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
 
 class Cancel extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
@@ -21,7 +17,7 @@ class Cancel extends \Magento\Sales\Controller\Adminhtml\Order\Create
     {
         if ($orderId = $this->_getSession()->getReordered()) {
             $this->_getSession()->clearStorage();
-            $this->_redirect('sales/order/view', array('order_id' => $orderId));
+            $this->_redirect('sales/order/view', ['order_id' => $orderId]);
         } else {
             $this->_getSession()->clearStorage();
             $this->_redirect('sales/*');

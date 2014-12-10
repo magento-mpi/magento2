@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Model;
 
-use Magento\Framework\Api\MetadataServiceInterface;
-use Magento\Framework\Api\ExtensibleDataInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Api\ExtensibleDataInterface;
+use Magento\Framework\Api\MetadataServiceInterface;
 use Symfony\Component\DependencyInjection\Exception\LogicException;
 
 /**
@@ -52,7 +49,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
         AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->metadataService = $metadataService;
         $this->customAttributeBuilder = $customAttributeBuilder;
@@ -125,7 +122,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     {
         if (is_array($key)) {
             $key = $this->filterCustomAttributes($key);
-        } else if ($key == self::CUSTOM_ATTRIBUTES) {
+        } elseif ($key == self::CUSTOM_ATTRIBUTES) {
             $filteredData = $this->filterCustomAttributes([self::CUSTOM_ATTRIBUTES => $value]);
             $value = $filteredData[self::CUSTOM_ATTRIBUTES];
         }
@@ -153,7 +150,7 @@ abstract class AbstractExtensibleModel extends AbstractModel implements Extensib
     {
         if ($key === self::CUSTOM_ATTRIBUTES) {
             throw new \LogicException("Custom attributes array should be retrieved via getCustomAttributes() only.");
-        } else if ($key === '') {
+        } elseif ($key === '') {
             /** Represent model data and custom attributes as a flat array */
             $customAttributes = isset($this->_data[self::CUSTOM_ATTRIBUTES])
                 ? $this->_data[self::CUSTOM_ATTRIBUTES]

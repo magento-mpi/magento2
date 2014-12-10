@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Product attribute add/edit form main tab
@@ -46,7 +42,7 @@ class Advanced extends Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         Yesno $yesNo,
         Data $eavData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_yesNo = $yesNo;
         $this->_eavData = $eavData;
@@ -63,12 +59,12 @@ class Advanced extends Generic
         $attributeObject = $this->getAttributeObject();
 
         $form = $this->_formFactory->create(
-            array('data' => array('id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post'))
+            ['data' => ['id' => 'edit_form', 'action' => $this->getData('action'), 'method' => 'post']]
         );
 
         $fieldset = $form->addFieldset(
             'advanced_fieldset',
-            array('legend' => __('Advanced Attribute Properties'), 'collapsable' => true)
+            ['legend' => __('Advanced Attribute Properties'), 'collapsable' => true]
         );
 
         $yesno = $this->_yesNo->toOptionArray();
@@ -80,7 +76,7 @@ class Advanced extends Generic
         $fieldset->addField(
             'attribute_code',
             'text',
-            array(
+            [
                 'name' => 'attribute_code',
                 'label' => __('Attribute Code'),
                 'title' => __('Attribute Code'),
@@ -89,78 +85,78 @@ class Advanced extends Generic
                     \Magento\Eav\Model\Entity\Attribute::ATTRIBUTE_CODE_MAX_LENGTH
                 ),
                 'class' => $validateClass
-            )
+            ]
         );
 
         $fieldset->addField(
             'default_value_text',
             'text',
-            array(
+            [
                 'name' => 'default_value_text',
                 'label' => __('Default Value'),
                 'title' => __('Default Value'),
                 'value' => $attributeObject->getDefaultValue()
-            )
+            ]
         );
 
         $fieldset->addField(
             'default_value_yesno',
             'select',
-            array(
+            [
                 'name' => 'default_value_yesno',
                 'label' => __('Default Value'),
                 'title' => __('Default Value'),
                 'values' => $yesno,
                 'value' => $attributeObject->getDefaultValue()
-            )
+            ]
         );
 
         $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $fieldset->addField(
             'default_value_date',
             'date',
-            array(
+            [
                 'name' => 'default_value_date',
                 'label' => __('Default Value'),
                 'title' => __('Default Value'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'value' => $attributeObject->getDefaultValue(),
                 'date_format' => $dateFormat
-            )
+            ]
         );
 
         $fieldset->addField(
             'default_value_textarea',
             'textarea',
-            array(
+            [
                 'name' => 'default_value_textarea',
                 'label' => __('Default Value'),
                 'title' => __('Default Value'),
                 'value' => $attributeObject->getDefaultValue()
-            )
+            ]
         );
 
         $fieldset->addField(
             'is_unique',
             'select',
-            array(
+            [
                 'name' => 'is_unique',
                 'label' => __('Unique Value'),
                 'title' => __('Unique Value (not shared with other products)'),
                 'note' => __('Not shared with other products'),
                 'values' => $yesno
-            )
+            ]
         );
 
         $fieldset->addField(
             'frontend_class',
             'select',
-            array(
+            [
                 'name' => 'frontend_class',
                 'label' => __('Input Validation for Store Owner'),
                 'title' => __('Input Validation for Store Owner'),
                 'values' => $this->_eavData->getFrontendClasses($attributeObject->getEntityType()->getEntityTypeCode())
-            )
+            ]
         );
 
         if ($attributeObject->getId()) {
@@ -170,11 +166,11 @@ class Advanced extends Generic
             }
         }
 
-        $scopes = array(
+        $scopes = [
             \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE => __('Store View'),
             \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE => __('Website'),
-            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL => __('Global')
-        );
+            \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL => __('Global'),
+        ];
 
         if ($attributeObject->getAttributeCode() == 'status' || $attributeObject->getAttributeCode() == 'tax_class_id'
         ) {
@@ -184,17 +180,17 @@ class Advanced extends Generic
         $fieldset->addField(
             'is_global',
             'select',
-            array(
+            [
                 'name' => 'is_global',
                 'label' => __('Scope'),
                 'title' => __('Scope'),
                 'note' => __('Declare attribute value saving scope'),
                 'values' => $scopes
-            ),
+            ],
             'attribute_code'
         );
 
-        $this->_eventManager->dispatch('product_attribute_form_build', array('form' => $form));
+        $this->_eventManager->dispatch('product_attribute_form_build', ['form' => $form]);
         $this->setForm($form);
         return $this;
     }

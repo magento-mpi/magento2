@@ -111,8 +111,6 @@ lib/internal/Magento/Framework/Image.php
 lib/internal/Magento/Framework/Io
 lib/internal/Magento/Framework/Object
 lib/internal/Magento/Framework/Object.php
-lib/internal/Magento/Framework/Pear
-lib/internal/Magento/Framework/Pear.php
 lib/internal/Magento/Framework/Simplexml
 lib/internal/Magento/Framework/System
 lib/internal/Magento/Framework/Util.php

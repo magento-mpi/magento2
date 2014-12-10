@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -16,7 +13,7 @@ class Area implements \Magento\Framework\App\AreaInterface
     const AREA_GLOBAL = 'global';
 
     const AREA_FRONTEND = 'frontend';
-    
+
     const AREA_ADMIN    = 'admin';
 
     /**
@@ -196,7 +193,7 @@ class Area implements \Magento\Framework\App\AreaInterface
         }
         \Magento\Framework\Profiler::start(
             'load_area:' . $this->_code . '.' . $part,
-            array('group' => 'load_area', 'area_code' => $this->_code, 'part' => $part)
+            ['group' => 'load_area', 'area_code' => $this->_code, 'part' => $part]
         );
         switch ($part) {
             case self::PART_CONFIG:

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Message;
 
-use Magento\Framework\Logger;
 use Magento\Framework\Event\ManagerInterface as EventManagerInterface;
+use Magento\Framework\Logger;
 
 /**
  * Message manager model
@@ -210,13 +207,13 @@ class Manager implements ManagerInterface
     public function addUniqueMessages($messages, $group = null)
     {
         if (!is_array($messages)) {
-            $messages = array($messages);
+            $messages = [$messages];
         }
         if (empty($messages)) {
             return $this;
         }
 
-        $messagesAlready = array();
+        $messagesAlready = [];
         $items = $this->getMessages(false, $group)->getItems();
         foreach ($items as $item) {
             if ($item instanceof MessageInterface) {

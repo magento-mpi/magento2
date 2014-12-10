@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Validator\Attribute;
 
@@ -23,7 +20,7 @@ class Backend extends \Magento\Framework\Validator\AbstractValidator
      */
     public function isValid($entity)
     {
-        $this->_messages = array();
+        $this->_messages = [];
         if (!$entity instanceof \Magento\Framework\Model\AbstractModel) {
             throw new \InvalidArgumentException('Model must be extended from \Magento\Framework\Model\AbstractModel');
         }

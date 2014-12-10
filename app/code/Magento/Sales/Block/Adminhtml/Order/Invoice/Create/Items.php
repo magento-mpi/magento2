@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Invoice\Create;
 
@@ -40,7 +37,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         \Magento\CatalogInventory\Api\StockConfigurationInterface $stockConfiguration,
         \Magento\Framework\Registry $registry,
         \Magento\Sales\Helper\Data $salesData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_salesData = $salesData;
         parent::__construct($context, $stockRegistry, $stockConfiguration, $registry, $data);
@@ -57,7 +54,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         $this->addChild(
             'update_button',
             'Magento\Backend\Block\Widget\Button',
-            array('class' => 'update-button', 'label' => __('Update Qty\'s'), 'onclick' => $onclick)
+            ['class' => 'update-button', 'label' => __('Update Qty\'s'), 'onclick' => $onclick]
         );
         $this->_disableSubmitButton = true;
         $submitButtonClass = ' disabled';
@@ -79,12 +76,12 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
         $this->addChild(
             'submit_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => $_submitLabel,
                 'class' => 'save submit-button primary' . $submitButtonClass,
                 'onclick' => 'disableElements(\'submit-button\');$(\'edit_form\').submit()',
                 'disabled' => $this->_disableSubmitButton
-            )
+            ]
         );
 
         return parent::_prepareLayout();
@@ -137,7 +134,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getOrderTotalData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -149,12 +146,12 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
     {
         $this->setPriceDataObject($this->getInvoice()->getOrder());
 
-        $totalbarData = array();
-        $totalbarData[] = array(__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false);
-        $totalbarData[] = array(__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false);
-        $totalbarData[] = array(__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false);
-        $totalbarData[] = array(__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false);
-        $totalbarData[] = array(__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true);
+        $totalbarData = [];
+        $totalbarData[] = [__('Paid Amount'), $this->displayPriceAttribute('amount_paid'), false];
+        $totalbarData[] = [__('Refund Amount'), $this->displayPriceAttribute('amount_refunded'), false];
+        $totalbarData[] = [__('Shipping Amount'), $this->displayPriceAttribute('shipping_captured'), false];
+        $totalbarData[] = [__('Shipping Refund'), $this->displayPriceAttribute('shipping_refunded'), false];
+        $totalbarData[] = [__('Order Grand Total'), $this->displayPriceAttribute('grand_total'), true];
         return $totalbarData;
     }
 
@@ -186,7 +183,7 @@ class Items extends \Magento\Sales\Block\Adminhtml\Items\AbstractItems
      */
     public function getUpdateUrl()
     {
-        return $this->getUrl('sales/*/updateQty', array('order_id' => $this->getInvoice()->getOrderId()));
+        return $this->getUrl('sales/*/updateQty', ['order_id' => $this->getInvoice()->getOrderId()]);
     }
 
     /**

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form;
 
-use Mtf\Client\Element\Locator;
-use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form\Items\Product;
-use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Block\Adminhtml\Order\AbstractItemsNewBlock;
+use Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Form\Items\Product;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Items

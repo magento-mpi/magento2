@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Shell;
 
@@ -51,9 +48,9 @@ class CommandRendererBackgroundTest extends \PHPUnit_Framework_TestCase
      */
     public function commandPerOsTypeDataProvider()
     {
-        return array(
-            'windows' => array(true, 'start /B "magento background task" ' . $this->testCommand . ' 2>&1'),
-            'unix'    => array(false, $this->testCommand . ' 2>&1 > /dev/null &'),
-        );
+        return [
+            'windows' => [true, 'start /B "magento background task" ' . $this->testCommand . ' 2>&1'],
+            'unix'    => [false, $this->testCommand . ' 2>&1 > /dev/null &'],
+        ];
     }
 }

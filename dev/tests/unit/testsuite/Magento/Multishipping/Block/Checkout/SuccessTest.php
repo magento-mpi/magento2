@@ -1,21 +1,18 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Multishipping\Block\Checkout;
- 
+
 class SuccessTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var Success
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -29,7 +26,7 @@ class SuccessTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
-    
+
     protected function setUp()
     {
         $this->sessionMock = $this->getMock(

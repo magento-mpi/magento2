@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source\Price;
 
@@ -19,19 +16,19 @@ class Step implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_AUTO,
-                'label' => __('Automatic (equalize price ranges)')
-            ),
-            array(
+                'label' => __('Automatic (equalize price ranges)'),
+            ],
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_IMPROVED,
                 'label' => __('Automatic (equalize product counts)')
-            ),
-            array(
+            ],
+            [
                 'value' => AlgorithmFactory::RANGE_CALCULATION_MANUAL,
                 'label' => __('Manual')
-            )
-        );
+            ]
+        ];
     }
 }

@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Service\V1;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Catalog\Model\Category;
-use \Magento\Catalog\Model\Product;
 
 class StoreViewServiceTest extends \PHPUnit_Framework_TestCase
 {

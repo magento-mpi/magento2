@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model\Backend;
 
@@ -337,11 +334,11 @@ class Observer
         if (!$session->isLoggedIn()) {
             return;
         }
-        $actionList = array(
+        $actionList = [
             'adminhtml_system_account_index',
             'adminhtml_system_account_save',
-            'adminhtml_auth_logout'
-        );
+            'adminhtml_auth_logout',
+        ];
         $controller = $observer->getEvent()->getControllerAction();
         /** @var \Magento\Framework\App\RequestInterface $request */
         $request = $observer->getEvent()->getRequest();

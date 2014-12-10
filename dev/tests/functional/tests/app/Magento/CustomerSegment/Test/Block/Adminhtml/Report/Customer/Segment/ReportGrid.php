@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Test\Block\Adminhtml\Report\Customer\Segment;
@@ -30,21 +27,21 @@ class ReportGrid extends WidgetGrid
      */
     protected $filters = [
         'segment_id' => [
-            'selector' => 'input[name="segment_id"]'
+            'selector' => 'input[name="segment_id"]',
         ],
         'name' => [
-            'selector' => 'input[name="name"]'
+            'selector' => 'input[name="name"]',
         ],
         'is_active' => [
             'selector' => 'select[name="is_active"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'website' => [
             'selector' => 'select[name="website"]',
-            'input' => 'select'
+            'input' => 'select',
         ],
         'customer_count' => [
-            'selector' => 'input[name="customer_count"]'
+            'selector' => 'input[name="customer_count"]',
         ],
     ];
 }

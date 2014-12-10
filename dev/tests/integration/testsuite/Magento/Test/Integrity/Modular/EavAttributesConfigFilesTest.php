@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -36,7 +33,7 @@ class EavAttributesConfigFilesTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $objectManager->create(
             'Magento\Eav\Model\Entity\Attribute\Config\Reader',
-            array('fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock)
+            ['fileResolver' => $fileResolverMock, 'validationState' => $validationStateMock]
         );
     }
 

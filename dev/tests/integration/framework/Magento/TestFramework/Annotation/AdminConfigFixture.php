@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,7 +22,7 @@ class AdminConfigFixture
      *
      * @var array
      */
-    private $_configValues = array();
+    private $_configValues = [];
 
     /**
      * Retrieve configuration node value
@@ -87,7 +84,7 @@ class AdminConfigFixture
         foreach ($this->_configValues as $configPath => $originalValue) {
             $this->_setConfigValue($configPath, $originalValue);
         }
-        $this->_configValues = array();
+        $this->_configValues = [];
     }
 
     /**

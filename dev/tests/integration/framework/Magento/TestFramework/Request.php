@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -18,7 +15,7 @@ class Request extends \Magento\Framework\App\Request\Http
      *
      * @var array
      */
-    protected $_server = array();
+    protected $_server = [];
 
     /**
      * Retrieve HTTP HOST.

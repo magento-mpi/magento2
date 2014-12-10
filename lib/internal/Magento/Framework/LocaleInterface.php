@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -123,43 +120,6 @@ interface LocaleInterface
     public static function getTranslationList($path = null, $locale = null, $value = null);
 
     /**
-     * Returns an array with the name of all languages translated to the given language
-     *
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for language translation
-     * @return array
-     * @deprecated
-     */
-    public static function getLanguageTranslationList($locale = null);
-
-    /**
-     * Returns an array with the name of all scripts translated to the given language
-     *
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for script translation
-     * @return array
-     * @deprecated
-     */
-    public static function getScriptTranslationList($locale = null);
-
-    /**
-     * Returns an array with the name of all countries translated to the given language
-     *
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for country translation
-     * @return array
-     * @deprecated
-     */
-    public static function getCountryTranslationList($locale = null);
-
-    /**
-     * Returns an array with the name of all territories translated to the given language
-     * All territories contains other countries.
-     *
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for territory translation
-     * @return array
-     * @deprecated
-     */
-    public static function getTerritoryTranslationList($locale = null);
-
-    /**
      * Returns a localized information string, supported are several types of informations.
      * For detailed information about the types look into the documentation
      *
@@ -170,47 +130,6 @@ interface LocaleInterface
      * @return string|false The wished information in the given language
      */
     public static function getTranslation($value = null, $path = null, $locale = null);
-
-    /**
-     * Returns the localized language name
-     *
-     * @param  string $value  Name to get detailed information about
-     * @param  string $locale (Optional) Locale for language translation
-     * @return array
-     * @deprecated
-     */
-    public static function getLanguageTranslation($value, $locale = null);
-
-    /**
-     * Returns the localized script name
-     *
-     * @param  string $value  Name to get detailed information about
-     * @param  string $locale (Optional) locale for script translation
-     * @return array
-     * @deprecated
-     */
-    public static function getScriptTranslation($value, $locale = null);
-
-    /**
-     * Returns the localized country name
-     *
-     * @param  string             $value  Name to get detailed information about
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for country translation
-     * @return array
-     * @deprecated
-     */
-    public static function getCountryTranslation($value, $locale = null);
-
-    /**
-     * Returns the localized territory name
-     * All territories contains other countries.
-     *
-     * @param  string             $value  Name to get detailed information about
-     * @param  string|\Magento\Framework\LocaleInterface $locale (Optional) Locale for territory translation
-     * @return array
-     * @deprecated
-     */
-    public static function getTerritoryTranslation($value, $locale = null);
 
     /**
      * Returns an array with translated yes strings

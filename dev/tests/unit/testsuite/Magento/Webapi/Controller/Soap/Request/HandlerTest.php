@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Soap\Request;
 
@@ -46,7 +43,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     {
         /** Prepare mocks for SUT constructor. */
         $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
-            ->setMethods(array('getServiceMethodInfo'))->disableOriginalConstructor()->getMock();
+            ->setMethods(['getServiceMethodInfo'])->disableOriginalConstructor()->getMock();
         $this->_requestMock = $this->getMock('Magento\Webapi\Controller\Soap\Request', [], [], '', false);
         $this->_objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
         $this->_authorizationMock = $this->getMock('Magento\Framework\AuthorizationInterface', [], [], '', false);
@@ -80,7 +77,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
     public function testCall()
     {
-        $requestedServices = array('requestedServices');
+        $requestedServices = ['requestedServices'];
         $this->_requestMock->expects($this->once())
             ->method('getRequestedServices')
             ->will($this->returnValue($requestedServices));
@@ -91,28 +88,28 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $className = 'Magento\Framework\Object';
         $methodName = 'testMethod';
         $isSecure = false;
-        $aclResources = array(array('Magento_TestModule::resourceA'));
+        $aclResources = [['Magento_TestModule::resourceA']];
         $this->_apiConfigMock->expects($this->once())
             ->method('getServiceMethodInfo')
             ->with($operationName, $requestedServices)
             ->will(
                 $this->returnValue(
-                    array(
+                    [
                         SoapConfig::KEY_CLASS => $className,
                         SoapConfig::KEY_METHOD => $methodName,
                         SoapConfig::KEY_IS_SECURE => $isSecure,
-                        SoapConfig::KEY_ACL_RESOURCES => $aclResources
-                    )
+                        SoapConfig::KEY_ACL_RESOURCES => $aclResources,
+                    ]
                 )
             );
 
         $this->_authorizationMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $serviceMock = $this->getMockBuilder($className)
             ->disableOriginalConstructor()
-            ->setMethods(array($methodName))
+            ->setMethods([$methodName])
             ->getMock();
 
-        $serviceResponse = array('foo' => 'bar');
+        $serviceResponse = ['foo' => 'bar'];
         $serviceMock->expects($this->once())->method($methodName)->will($this->returnValue($serviceResponse));
         $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
             ->will($this->returnValue($serviceMock));
@@ -124,8 +121,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
         /** Execute SUT. */
         $this->assertEquals(
-            array('result' => $serviceResponse),
-            $this->_handler->__call($operationName, array((object)array('field' => 1)))
+            ['result' => $serviceResponse],
+            $this->_handler->__call($operationName, [(object)['field' => 1]])
         );
     }
 }

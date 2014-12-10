@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote;
 
-use Magento\Framework\App\ObjectManager;
 use Magento\TestFramework\Helper\Bootstrap;
 
 /**
@@ -138,7 +134,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->setDefaultShipping(-1)
             ->setAddresses(
                 [
-                    $addressRepository->getById($this->_address->getId())
+                    $addressRepository->getById($this->_address->getId()),
                 ]
             )->create();
 

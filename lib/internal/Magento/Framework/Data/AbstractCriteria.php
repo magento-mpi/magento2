@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -21,7 +18,7 @@ abstract class AbstractCriteria implements \Magento\Framework\Api\CriteriaInterf
         self::PART_FIELDS => ['list' => []],
         self::PART_FILTERS => ['list' => []],
         self::PART_ORDERS => ['list' => []],
-        self::PART_CRITERIA_LIST => ['list' => []]
+        self::PART_CRITERIA_LIST => ['list' => []],
     ];
 
     /**
@@ -290,7 +287,7 @@ abstract class AbstractCriteria implements \Magento\Framework\Api\CriteriaInterf
             self::PART_FIELDS => ['list' => []],
             self::PART_FILTERS => ['list' => []],
             self::PART_ORDERS => ['list' => []],
-            self::PART_CRITERIA_LIST => ['list' => []]
+            self::PART_CRITERIA_LIST => ['list' => []],
         ];
     }
 }

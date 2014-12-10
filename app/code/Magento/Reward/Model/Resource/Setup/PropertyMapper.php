@@ -2,10 +2,7 @@
 /**
  * Reward attribute property mapper
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Resource\Setup;
 
@@ -36,15 +33,15 @@ class PropertyMapper extends PropertyMapperAbstract
     public function map(array $input, $entityTypeId)
     {
         if ($entityTypeId == $this->entityTypeId) {
-            return array(
+            return [
                 'is_visible' => $this->_getValue($input, 'visible', 1),
                 'is_visible_on_front' => $this->_getValue($input, 'visible_on_front', 0),
                 'input_filter' => $this->_getValue($input, 'input_filter', ''),
                 'lines_to_divide_multiline' => $this->_getValue($input, 'lines_to_divide', 0),
                 'min_text_length' => $this->_getValue($input, 'min_text_length', 0),
                 'max_text_length' => $this->_getValue($input, 'max_text_length', 0)
-            );
+            ];
         }
-        return array();
+        return [];
     }
 }

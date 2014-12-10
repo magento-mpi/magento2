@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Form;
 
@@ -166,7 +163,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             'postcode',
             'telephone',
             'fax',
-            'vat_id'
+            'vat_id',
         ];
         $form = $this->_addressBlock->getForm();
         $this->assertEquals(1, $form->getElements()->count(), "Form has invalid number of fieldsets");

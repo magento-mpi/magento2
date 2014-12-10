@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Source\Website;
 
-use Magento\Store\Model\System\Store;
 use Magento\Framework\Option\ArrayInterface;
+use Magento\Store\Model\System\Store;
 
 class OptionHash implements ArrayInterface
 {

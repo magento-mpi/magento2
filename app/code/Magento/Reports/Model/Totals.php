@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model;
 
@@ -24,9 +21,9 @@ class Totals
      */
     public function countTotals($grid, $from, $to)
     {
-        $columns = array();
+        $columns = [];
         foreach ($grid->getColumns() as $col) {
-            $columns[$col->getIndex()] = array("total" => $col->getTotal(), "value" => 0);
+            $columns[$col->getIndex()] = ["total" => $col->getTotal(), "value" => 0];
         }
 
         $count = 0;
@@ -47,7 +44,7 @@ class Totals
             }
             $count++;
         }
-        $data = array();
+        $data = [];
         foreach ($columns as $field => $a) {
             if ($a['total'] == 'avg') {
                 if ($field !== '') {

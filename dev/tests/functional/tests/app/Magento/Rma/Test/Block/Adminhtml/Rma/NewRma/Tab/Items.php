@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab;
 
-use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Template;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Grid as ItemsGrid;
 use Magento\Rma\Test\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid as OrderItemsGrid;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Items product tab.

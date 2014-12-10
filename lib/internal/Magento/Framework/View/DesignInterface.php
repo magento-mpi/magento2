@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View;
 
@@ -35,6 +32,7 @@ interface DesignInterface
      * @param string $area
      * @return DesignInterface
      * @deprecated
+     * @TODO MAGETWO-31474: Remove deprecated method setArea
      */
     public function setArea($area);
 
@@ -61,7 +59,7 @@ interface DesignInterface
      * @param array $params
      * @return string
      */
-    public function getConfigurationDesignTheme($area = null, array $params = array());
+    public function getConfigurationDesignTheme($area = null, array $params = []);
 
     /**
      * Set default design theme

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Block\Adminhtml\Order;
 
+use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking\Item;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Shipping\Test\Block\Adminhtml\Order\Tracking\Item;
 
 /**
  * Class Tracking

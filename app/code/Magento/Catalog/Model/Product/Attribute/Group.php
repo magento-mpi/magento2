@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @author      Magento Core Team <core@magentocommerce.com>
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
@@ -37,7 +34,7 @@ class Group extends \Magento\Eav\Model\Entity\Attribute\Group
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeCollectionFactory = $attributeCollectionFactory;
         parent::__construct(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model;
 
@@ -17,7 +14,7 @@ class Item extends \Magento\Framework\Object
     /**
      * @var array
      */
-    protected $_children = array();
+    protected $_children = [];
 
     /**
      * Set is empty indicator

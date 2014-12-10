@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Block\Adminhtml;
@@ -21,13 +18,13 @@ class SearchTermsGrid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'query_text' => [
-            'selector' => 'input[name="query_text"]'
+            'selector' => 'input[name="query_text"]',
         ],
         'num_results' => [
-            'selector' => 'input[name="num_results[from]"]'
+            'selector' => 'input[name="num_results[from]"]',
         ],
         'popularity' => [
-            'selector' => 'input[name="popularity[from]"]'
+            'selector' => 'input[name="popularity[from]"]',
         ],
     ];
 

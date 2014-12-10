@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product\Widget;
 
@@ -102,11 +99,11 @@ class NewWidget extends \Magento\Catalog\Block\Product\NewProduct implements \Ma
     {
         return array_merge(
             parent::getCacheKeyInfo(),
-            array(
+            [
                 $this->getDisplayType(),
                 $this->getProductsPerPage(),
                 intval($this->getRequest()->getParam(self::PAGE_VAR_NAME))
-            )
+            ]
         );
     }
 

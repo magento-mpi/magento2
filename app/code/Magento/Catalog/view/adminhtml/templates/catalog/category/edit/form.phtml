@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Catalog\Block\Adminhtml\Category\Edit\Form $this */
@@ -134,7 +131,7 @@ require(['jquery', 'jquery/ui', "mage/mage", "mage/translate"], function($){
         }});
 });
 
-<?php if(($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject=$block->getJsObjectName())): ?>
+<?php if (($block = $this->getLayout()->getBlock('category.product.grid')) && ($_gridJsObject = $block->getJsObjectName())): ?>
 require([
     "mage/adminhtml/grid"
 ], function(){
@@ -199,7 +196,7 @@ require([
         }
 });
 <?php endif; ?>
-<?php if($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject=$block->getJsObjectName())): ?>
+<?php if ($this->isAjax() && ($block = $this->getLayout()->getBlock('tabs')) && ($_tabsJsObject = $block->getJsObjectName())): ?>
     // Temporary solution, will be replaced after refactoring of manage category functionality
     <?php $tabsBlock = $this->getLayout()->getBlock('tabs'); ?>
     require(["jquery","mage/backend/tabs"],function($){

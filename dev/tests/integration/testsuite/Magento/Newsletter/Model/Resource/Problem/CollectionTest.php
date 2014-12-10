@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Newsletter\Model\Resource\Problem;
@@ -49,5 +46,4 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($customer->getLastname(), $item->getCustomerLastName());
         $this->assertContains($customer->getFirstname(), $item->getCustomerName());
     }
-
 }

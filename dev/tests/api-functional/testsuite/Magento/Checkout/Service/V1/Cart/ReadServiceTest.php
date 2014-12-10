@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
-use \Magento\Framework\Api\SearchCriteriaBuilder;
-use \Magento\Framework\Api\FilterBuilder;
-use \Magento\TestFramework\ObjectManager;
-use \Magento\Checkout\Service\V1\Data\Cart;
-use \Magento\Framework\Api\SearchCriteria;
+use Magento\Checkout\Service\V1\Data\Cart;
+use Magento\Framework\Api\FilterBuilder;
+use Magento\Framework\Api\SearchCriteria;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\TestFramework\ObjectManager;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -88,19 +85,19 @@ class ReadServiceTest extends WebapiAbstract
         $cart = $this->getCart('test01');
         $cartId = $cart->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutCartReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartReadServiceV1GetCart',
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array('cartId' => $cartId);
+        $requestData = ['cartId' => $cartId];
         $cartData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($cart->getId(), $cartData['id']);
         $this->assertEquals($cart->getCreatedAt(), $cartData['created_at']);
@@ -136,19 +133,19 @@ class ReadServiceTest extends WebapiAbstract
     {
         $cartId = 9999;
 
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartReadServiceV1GetCart',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts/' . $cartId,
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array('cartId' => $cartId);
+        $requestData = ['cartId' => $cartId];
         $this->_webApiCall($serviceInfo, $requestData);
     }
 
@@ -160,19 +157,19 @@ class ReadServiceTest extends WebapiAbstract
         $cart = $this->getCart('test01');
         $customerId = $cart->getCustomer()->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/customer/' . $customerId . '/cart',
                 'httpMethod' => RestConfig::HTTP_METHOD_GET,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutCartReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartReadServiceV1GetCartForCustomer',
-            ),
-        );
+            ],
+        ];
 
-        $requestData = array('customerId' => $customerId);
+        $requestData = ['customerId' => $customerId];
         $cartData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($cart->getId(), $cartData['id']);
         $this->assertEquals($cart->getCreatedAt(), $cartData['created_at']);
@@ -207,17 +204,17 @@ class ReadServiceTest extends WebapiAbstract
     {
         $cart = $this->getCart('test01');
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/carts',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-            'soap' => array(
+            ],
+            'soap' => [
                 'service' => 'checkoutCartReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartReadServiceV1GetCartList',
-            ),
-        );
+            ],
+        ];
 
         // The following two filters are used as alternatives. The target cart does not match the first one.
         $grandTotalFilter = $this->filterBuilder->setField('grand_total')
@@ -240,15 +237,15 @@ class ReadServiceTest extends WebapiAbstract
             ->setValue($tomorrowDate)
             ->create();
 
-        $this->searchBuilder->addFilter(array($grandTotalFilter, $subtotalFilter));
-        $this->searchBuilder->addFilter(array($minCreatedAtFilter));
-        $this->searchBuilder->addFilter(array($maxCreatedAtFilter));
+        $this->searchBuilder->addFilter([$grandTotalFilter, $subtotalFilter]);
+        $this->searchBuilder->addFilter([$minCreatedAtFilter]);
+        $this->searchBuilder->addFilter([$maxCreatedAtFilter]);
         /** @var SortOrder $sortOrder */
         $sortOrder = $this->sortOrderBuilder->setField('subtotal')->setDirection(SearchCriteria::SORT_ASC)->create();
         $this->searchBuilder->setSortOrders([$sortOrder]);
         $searchCriteria = $this->searchBuilder->create()->__toArray();
 
-        $requestData = array('searchCriteria' => $searchCriteria);
+        $requestData = ['searchCriteria' => $searchCriteria];
         $searchResult = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('total_count', $searchResult);
         $this->assertEquals(1, $searchResult['total_count']);
@@ -275,26 +272,26 @@ class ReadServiceTest extends WebapiAbstract
      */
     public function testGetCartListThrowsExceptionIfProvidedSearchFieldIsInvalid()
     {
-        $serviceInfo = array(
-            'soap' => array(
+        $serviceInfo = [
+            'soap' => [
                 'service' => 'checkoutCartReadServiceV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'checkoutCartReadServiceV1GetCartList',
-            ),
-            'rest' => array(
+            ],
+            'rest' => [
                 'resourcePath' => '/V1/carts',
                 'httpMethod' => RestConfig::HTTP_METHOD_PUT,
-            ),
-        );
+            ],
+        ];
 
         $invalidFilter = $this->filterBuilder->setField('invalid_field')
             ->setConditionType('eq')
             ->setValue(0)
             ->create();
 
-        $this->searchBuilder->addFilter(array($invalidFilter));
+        $this->searchBuilder->addFilter([$invalidFilter]);
         $searchCriteria = $this->searchBuilder->create()->__toArray();
-        $requestData = array('searchCriteria' => $searchCriteria);
+        $requestData = ['searchCriteria' => $searchCriteria];
         $this->_webApiCall($serviceInfo, $requestData);
     }
 }

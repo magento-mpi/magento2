@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Quote;
 
@@ -15,7 +12,6 @@ use Magento\Tax\Api\Data\QuoteDetailsItemInterface;
  */
 class ItemDetails extends AbstractExtensibleModel implements QuoteDetailsItemInterface
 {
-
     /**
      * {@inheritdoc}
      */

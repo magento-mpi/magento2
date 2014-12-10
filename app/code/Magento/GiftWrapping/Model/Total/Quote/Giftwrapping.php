@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * GiftWrapping total calculator for quote
@@ -219,15 +215,15 @@ class Giftwrapping extends \Magento\Sales\Model\Quote\Address\Total\AbstractTota
     public function fetch(\Magento\Sales\Model\Quote\Address $address)
     {
         $address->addTotal(
-            array(
+            [
                 'code' => $this->getCode(),
                 'gw_price' => $address->getGwPrice(),
                 'gw_base_price' => $address->getGwBasePrice(),
                 'gw_items_price' => $address->getGwItemsPrice(),
                 'gw_items_base_price' => $address->getGwItemsBasePrice(),
                 'gw_card_price' => $address->getGwCardPrice(),
-                'gw_card_base_price' => $address->getGwCardBasePrice()
-            )
+                'gw_card_base_price' => $address->getGwCardBasePrice(),
+            ]
         );
         return $this;
     }

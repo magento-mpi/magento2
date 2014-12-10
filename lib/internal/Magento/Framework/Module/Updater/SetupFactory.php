@@ -2,10 +2,7 @@
 /**
  * Module setup factory. Creates setups used during application install/upgrade.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module\Updater;
 
@@ -53,7 +50,7 @@ class SetupFactory
 
         return $this->_objectManager->create(
             $className,
-            array('resourceName' => $resourceName, 'moduleName' => $moduleName)
+            ['resourceName' => $resourceName, 'moduleName' => $moduleName]
         );
     }
 }

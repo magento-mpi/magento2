@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
@@ -22,7 +19,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
      *
      * @var \Magento\Framework\Object[]
      */
-    protected static $_currencies = array();
+    protected static $_currencies = [];
 
     /**
      * @var \Magento\Framework\Locale\CurrencyInterface
@@ -37,7 +34,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_localeCurrency = $localeCurrency;

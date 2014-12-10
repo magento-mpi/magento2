@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model;
 
@@ -17,7 +14,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
      */
     public function testPostDispatchCustomerSegmentMatch($qty, $customerSegmentId, $expectedText)
     {
-        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
         $requestMock->expects(
             $this->atLeastOnce()
         )->method(
@@ -27,7 +24,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($customerSegmentId)
         );
-        $resourceMock = $this->getMock('Magento\CustomerSegment\Model\Resource\Segment', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento\CustomerSegment\Model\Resource\Segment', [], [], '', false);
         $resourceMock->expects(
             $this->once()
         )->method(
@@ -40,7 +37,7 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
 
         $model = new \Magento\CustomerSegment\Model\Logging($resourceMock, $requestMock);
         $config = new \Magento\Framework\Simplexml\Element('<config/>');
-        $eventMock = $this->getMock('Magento\Logging\Model\Event', array('setInfo', '__wakeup'), array(), '', false);
+        $eventMock = $this->getMock('Magento\Logging\Model\Event', ['setInfo', '__wakeup'], [], '', false);
         $eventMock->expects($this->once())->method('setInfo')->with($expectedText);
 
         $model->postDispatchCustomerSegmentMatch($config, $eventMock);
@@ -48,9 +45,9 @@ class LoggingTest extends \PHPUnit_Framework_TestCase
 
     public function postDispatchCustomerSegmentMatchDataProvider()
     {
-        return array(
-            'specific segment' => array(10, 1, "Matched 10 Customers of Segment 1"),
-            'no segment' => array(10, null, '-')
-        );
+        return [
+            'specific segment' => [10, 1, "Matched 10 Customers of Segment 1"],
+            'no segment' => [10, null, '-']
+        ];
     }
 }

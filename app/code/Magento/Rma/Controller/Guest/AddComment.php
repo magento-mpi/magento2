@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Guest;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class AddComment extends \Magento\Rma\Controller\Guest
 {
@@ -36,14 +33,14 @@ class AddComment extends \Magento\Rma\Controller\Guest
                     throw new \Magento\Framework\Model\Exception(__('Please enter a valid message.'));
                 }
             } catch (\Magento\Framework\Model\Exception $e) {
-                $response = array('error' => true, 'message' => $e->getMessage());
+                $response = ['error' => true, 'message' => $e->getMessage()];
             } catch (\Exception $e) {
-                $response = array('error' => true, 'message' => __('We cannot add a message.'));
+                $response = ['error' => true, 'message' => __('We cannot add a message.')];
             }
             if (is_array($response)) {
                 $this->messageManager->addError($response['message']);
             }
-            $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
+            $this->_redirect('*/*/view', ['entity_id' => (int)$this->getRequest()->getParam('entity_id')]);
             return;
         }
         return;

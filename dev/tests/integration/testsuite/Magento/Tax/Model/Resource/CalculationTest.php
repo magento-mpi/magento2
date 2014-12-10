@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource;
 
@@ -28,13 +25,13 @@ class CalculationTest extends \PHPUnit_Framework_TestCase
             ->registry('_fixture/Magento_Tax_Model_Calculation_Rate');
         $data = new \Magento\Framework\Object();
         $data->setData(
-            array(
+            [
                 'tax_country_id' => 'US',
                 'taxregion_id' => '12',
                 'tax_postcode' => '5555',
                 'customer_class_id' => $customerTaxClasses[0],
-                'product_class_id' => $productTaxClasses[0]
-            )
+                'product_class_id' => $productTaxClasses[0],
+            ]
         );
         $taxCalculation = $objectManager->get('Magento\Tax\Model\Resource\Calculation');
         $this->assertEquals($taxRate->getRateIds(), $taxCalculation->getRate($data));

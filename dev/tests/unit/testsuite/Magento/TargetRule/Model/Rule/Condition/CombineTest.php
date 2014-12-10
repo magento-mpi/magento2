@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Rule\Condition;
@@ -17,10 +14,10 @@ class CombineTest extends \PHPUnit_Framework_TestCase
      */
     protected $_combine;
 
-    protected $returnArray = array(
+    protected $returnArray = [
         'value' => 'Test',
-        'label' => 'Test Conditions'
-    );
+        'label' => 'Test Conditions',
+    ];
 
     public function setUp()
     {
@@ -68,17 +65,17 @@ class CombineTest extends \PHPUnit_Framework_TestCase
 
     public function testGetNewChildSelectOptions()
     {
-        $result = array(
-            '0' => array(
+        $result = [
+            '0' => [
                 'value' => '',
-                'label' => 'Please choose a condition to add.'
-            ),
-            '1' => array(
+                'label' => 'Please choose a condition to add.',
+            ],
+            '1' => [
                 'value' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
-                'label' => 'Conditions Combination'
-            ),
+                'label' => 'Conditions Combination',
+            ],
             '2' => $this->returnArray,
-        );
+        ];
 
         $this->assertEquals($result, $this->_combine->getNewChildSelectOptions());
     }
@@ -92,7 +89,7 @@ class CombineTest extends \PHPUnit_Framework_TestCase
             ->method('collectValidatedAttributes')
             ->will($this->returnSelf());
 
-        $this->_combine->setConditions(array($condition));
+        $this->_combine->setConditions([$condition]);
 
         $this->assertEquals($this->_combine, $this->_combine->collectValidatedAttributes($productCollection));
     }

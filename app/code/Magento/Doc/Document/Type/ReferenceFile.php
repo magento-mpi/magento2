@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Doc\Document\Type;
@@ -51,7 +48,7 @@ class ReferenceFile extends AbstractType implements ReferenceInterface
      */
     public function getContent(Item $item)
     {
-        list ($dirType, $path) = explode('::', $item->getData('reference'));
+        list($dirType, $path) = explode('::', $item->getData('reference'));
         $dir = $this->filesystem->getDirectoryRead($dirType);
         if ($dir->isFile($path)) {
             $content = $dir->readFile($path);

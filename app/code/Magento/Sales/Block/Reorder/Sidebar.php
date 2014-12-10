@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Reorder;
 
@@ -69,7 +66,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\CatalogInventory\Api\StockRegistryInterface $stockRegistry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_orderConfig = $orderConfig;
@@ -104,7 +101,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
 
         $orders = $this->_orderCollectionFactory->create()
             ->addAttributeToFilter('customer_id', $customerId)
-            ->addAttributeToFilter('status', array('in' => $this->_orderConfig->getVisibleOnFrontStatuses()))
+            ->addAttributeToFilter('status', ['in' => $this->_orderConfig->getVisibleOnFrontStatuses()])
             ->addAttributeToSort('created_at', 'desc')
             ->setPage(1, 1);
         //TODO: add filter by current website
@@ -118,7 +115,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      */
     public function getItems()
     {
-        $items = array();
+        $items = [];
         $order = $this->getLastOrder();
         $limit = self::SIDEBAR_ORDER_LIMIT;
 
@@ -161,7 +158,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('checkout/cart/addgroup', array('_secure' => true));
+        return $this->getUrl('checkout/cart/addgroup', ['_secure' => true]);
     }
 
     /**
@@ -197,7 +194,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template implements Identi
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItems() as $item) {
             $identities = array_merge($identities, $item->getProduct()->getIdentities());
         }

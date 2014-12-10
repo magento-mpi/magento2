@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerCustomAttributes\Model\Resource\Sales\Quote;
 
-use Magento\Customer\Model\Attribute;
-use Magento\Framework\DB\Ddl\Table;
 
 class AddressTest extends \PHPUnit_Framework_TestCase
 {

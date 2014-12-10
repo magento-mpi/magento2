@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,7 +22,7 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'giftwrapping_design_item', 'class' => 'select')
+            ['id' => 'giftwrapping_design_item', 'class' => 'select']
         )->setOptions(
             $this->getDesignCollection()->toOptionArray()
         );
@@ -39,13 +36,13 @@ class Items extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractC
      */
     public function getItemsInfo()
     {
-        $data = array();
+        $data = [];
         foreach ($this->getQuote()->getAllItems() as $item) {
             if ($item->getParentItem()) {
                 continue;
             }
             if ($this->getDisplayGiftWrappingForItem($item)) {
-                $temp = array();
+                $temp = [];
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(new \Magento\Framework\Object(), $price, true);

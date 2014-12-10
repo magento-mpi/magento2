@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Indexer\Model\Processor;
-
 
 class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -42,13 +38,13 @@ class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->subjectMock = $this->getMock('Magento\Indexer\Model\Processor',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->contextMock = $this->getMock('Magento\Indexer\Model\CacheContext',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->moduleManager = $this->getMock('Magento\Framework\Module\Manager',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->plugin = new \Magento\Indexer\Model\Processor\InvalidateCache(
             $this->contextMock, $this->eventManagerMock, $this->moduleManager);
     }
@@ -65,7 +61,7 @@ class InvalidateCacheTest extends \PHPUnit_Framework_TestCase
         $this->eventManagerMock->expects($this->once())
             ->method('dispatch')
             ->with($this->equalTo('clean_cache_after_reindex'),
-                $this->equalTo(array('object' => $this->contextMock)));
+                $this->equalTo(['object' => $this->contextMock]));
         $actualResult = $this->plugin->afterUpdateMview($this->subjectMock);
         $this->assertNull($actualResult);
     }

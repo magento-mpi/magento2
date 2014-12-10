@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Config;
 
@@ -56,7 +53,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_customerResource = $customerResource;
@@ -93,7 +90,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     public function toOptionArray()
     {
-        return array(self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website'));
+        return [self::SHARE_GLOBAL => __('Global'), self::SHARE_WEBSITE => __('Per Website')];
     }
 
     /**
@@ -127,7 +124,7 @@ class Share extends \Magento\Framework\App\Config\Value implements \Magento\Fram
      */
     public function getSharedWebsiteIds($websiteId)
     {
-        $ids = array();
+        $ids = [];
         if ($this->isWebsiteScope()) {
             $ids[] = $websiteId;
         } else {

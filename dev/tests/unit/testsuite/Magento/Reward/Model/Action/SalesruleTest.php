@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -51,15 +48,15 @@ class SalesruleTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Earned promotion extra points from order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Earned promotion extra points from order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Earned promotion extra points from order #1'
-            )
-        );
+            ]
+        ];
     }
 }

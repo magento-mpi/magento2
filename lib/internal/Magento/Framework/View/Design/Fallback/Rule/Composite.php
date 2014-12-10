@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Fallback\Rule;
 
@@ -19,7 +16,7 @@ class Composite implements RuleInterface
      *
      * @var RuleInterface[]
      */
-    protected $rules = array();
+    protected $rules = [];
 
     /**
      * Constructors
@@ -45,7 +42,7 @@ class Composite implements RuleInterface
      */
     public function getPatternDirs(array $params)
     {
-        $result = array();
+        $result = [];
         foreach ($this->rules as $rule) {
             $result = array_merge($result, $rule->getPatternDirs($params));
         }

@@ -2,10 +2,7 @@
 /**
  * Crypt object factory.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Encryption;
 
@@ -35,7 +32,7 @@ class CryptFactory
      * @param array $data
      * @return \Magento\Framework\Encryption\Crypt
      */
-    public function create($data = array())
+    public function create($data = [])
     {
         return $this->_objectManager->create('Magento\Framework\Encryption\Crypt', $data);
     }

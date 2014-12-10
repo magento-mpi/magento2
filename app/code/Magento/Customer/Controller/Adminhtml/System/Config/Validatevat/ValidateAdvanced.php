@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\System\Config\Validatevat;
 
@@ -38,7 +35,7 @@ class ValidateAdvanced extends \Magento\Customer\Controller\Adminhtml\System\Con
             $storeId
         );
 
-        $body = $coreHelper->jsonEncode(array('valid' => $valid, 'group' => $groupId, 'success' => $success));
+        $body = $coreHelper->jsonEncode(['valid' => $valid, 'group' => $groupId, 'success' => $success]);
         $this->getResponse()->representJson($body);
     }
 }

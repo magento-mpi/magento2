@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Constraint;
 
-use Mtf\ObjectManager;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Sales\Test\Constraint\AbstractAssertItems;
-use Magento\Shipping\Test\Page\Adminhtml\ShipmentIndex;
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Shipping\Test\Page\Adminhtml\SalesShipmentView;
+use Magento\Shipping\Test\Page\Adminhtml\ShipmentIndex;
+use Mtf\ObjectManager;
 
 /**
  * Class AssertShipmentItems
@@ -84,7 +81,7 @@ class AssertShipmentItems extends AbstractAssertItems
         foreach ($ids['shipmentIds'] as $shipmentId) {
             $filter = [
                 'order_id' => $orderId,
-                'id' => $shipmentId
+                'id' => $shipmentId,
             ];
             $this->shipmentPage->getShipmentsGrid()->searchAndOpen($filter);
             $itemsData = $this->preparePageItems($salesShipmentView->getItemsBlock()->getData());

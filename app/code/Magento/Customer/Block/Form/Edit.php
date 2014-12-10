@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Form;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer edit form block
@@ -31,7 +28,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         CustomerRepositoryInterface $customerRepository,
         AccountManagementInterface $customerAccountManagement,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -54,7 +51,7 @@ class Edit extends \Magento\Customer\Block\Account\Dashboard
         $data = $this->getData('form_data');
         if (is_null($data)) {
             $formData = $this->customerSession->getCustomerFormData(true);
-            $data = array();
+            $data = [];
             if ($formData) {
                 $data['data'] = $formData;
                 $data['customer_data'] = 1;

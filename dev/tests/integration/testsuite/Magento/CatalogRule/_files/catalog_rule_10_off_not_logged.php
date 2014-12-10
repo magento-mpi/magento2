@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,7 +16,7 @@ $catalogRule
     ->setName('Test Catalog Rule')
     ->setCustomerGroupIds(\Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID)
     ->setDiscountAmount(10)
-    ->setWebsiteIds(array(0 => 1))
+    ->setWebsiteIds([0 => 1])
     ->setSimpleAction('by_percent')
     ->save();
 

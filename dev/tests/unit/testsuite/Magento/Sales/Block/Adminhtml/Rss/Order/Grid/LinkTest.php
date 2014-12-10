@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Rss\Order\Grid;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class LinkTest
@@ -61,7 +58,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $link = 'http://magento.com/backend/rss/feed/index/type/new_order';
         $this->urlBuilderInterface->expects($this->once())->method('getUrl')
-            ->with(array('type' => 'new_order'))
+            ->with(['type' => 'new_order'])
             ->will($this->returnValue($link));
         $this->assertEquals($link, $this->link->getLink());
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Payment\Info\Billing;
 
@@ -27,7 +24,7 @@ class Agreement extends \Magento\Payment\Block\Info
         $referenceID = $info->getAdditionalInformation(
             \Magento\Paypal\Model\Payment\Method\Billing\AbstractAgreement::PAYMENT_INFO_REFERENCE_ID
         );
-        $transport = new \Magento\Framework\Object(array((string)__('Reference ID') => $referenceID));
+        $transport = new \Magento\Framework\Object([(string)__('Reference ID') => $referenceID]);
         $transport = parent::_prepareSpecificInformation($transport);
 
         return $transport;

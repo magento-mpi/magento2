@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model\Payment\Method\Eway;
@@ -22,7 +19,7 @@ class Direct extends \Magento\Pbridge\Model\Payment\Method
      *
      * @var array
      */
-    protected $_allowCurrencyCode = array('AUD','USD', 'GBP', 'NZD', 'CAD', 'HKD', 'SGD', 'EUR', 'JPY');
+    protected $_allowCurrencyCode = ['AUD','USD', 'GBP', 'NZD', 'CAD', 'HKD', 'SGD', 'EUR', 'JPY'];
 
     /**#@+
      * Availability options

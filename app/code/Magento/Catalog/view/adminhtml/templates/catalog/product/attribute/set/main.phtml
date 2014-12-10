@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="attribute-set">
@@ -16,7 +13,7 @@ require([
 ], function(jQuery){
 
     jQuery('#set-prop-form').mage('validation', {errorClass: 'mage-error'});
-        
+
 });
 </script>
     </div>
@@ -41,8 +38,8 @@ require([
 require(['jquery'], function(jQuery){
 
             //<![CDATA[
-            var allowDragAndDrop = <?php echo ($this->getIsReadOnly() ? 'false' : 'true'); ?>;
-            var canEditGroups = <?php echo ($this->getIsReadOnly() ? 'false' : 'true'); ?>;
+            var allowDragAndDrop = <?php echo($this->getIsReadOnly() ? 'false' : 'true'); ?>;
+            var canEditGroups = <?php echo($this->getIsReadOnly() ? 'false' : 'true'); ?>;
 
             var TreePanels = function() {
                 // shorthand
@@ -403,7 +400,7 @@ require(['jquery'], function(jQuery){
                 TreePanels.init();
             });
             //]]>
-            
+
 });
 </script>
     </div>

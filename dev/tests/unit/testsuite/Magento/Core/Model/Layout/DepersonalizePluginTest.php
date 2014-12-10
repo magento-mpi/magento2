@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Model\Layout;
@@ -53,14 +50,14 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', array(), array(), '', false);
-        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', array(), array(), '', false);
-        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', array(), array(), '', false);
+        $this->layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->moduleManagerMock = $this->getMock('Magento\Framework\Module\Manager', [], [], '', false);
+        $this->eventManagerMock = $this->getMock('Magento\Framework\Event\Manager', [], [], '', false);
+        $this->cacheConfigMock = $this->getMock('Magento\PageCache\Model\Config', [], [], '', false);
         $this->messageSessionMock = $this->getMock('Magento\Framework\Message\Session',
-            array('clearStorage'),
-            array(),
+            ['clearStorage'],
+            [],
             '',
             false
         );
@@ -78,7 +75,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheEnabled()
     {
-        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->cacheConfigMock->expects($this->once())
             ->method('isEnabled')
             ->will($this->returnValue(true));
@@ -108,7 +105,7 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
      */
     public function testAfterGenerateXmlPageCacheDisabled()
     {
-        $expectedResult = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $expectedResult = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
         $this->moduleManagerMock->expects($this->once())
             ->method('isEnabled')
             ->with($this->equalTo('Magento_PageCache'))
@@ -120,4 +117,3 @@ class DepersonalizePluginTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedResult, $actualResult);
     }
 }
- 

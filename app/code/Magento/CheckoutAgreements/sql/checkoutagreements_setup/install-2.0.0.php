@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -19,43 +16,43 @@ $table = $installer->getConnection()->newTable(
     'agreement_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Agreement Id'
 )->addColumn(
     'name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Name'
 )->addColumn(
     'content',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Content'
 )->addColumn(
     'content_height',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     25,
-    array(),
+    [],
     'Content Height'
 )->addColumn(
     'checkbox_text',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Checkbox Text'
 )->addColumn(
     'is_active',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('nullable' => false, 'default' => '0'),
+    ['nullable' => false, 'default' => '0'],
     'Is Active'
 )->addColumn(
     'is_html',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('nullable' => false, 'default' => '0'),
+    ['nullable' => false, 'default' => '0'],
     'Is Html'
 )->setComment(
     'Checkout Agreement'
@@ -71,13 +68,13 @@ $table = $installer->getConnection()->newTable(
     'agreement_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Agreement Id'
 )->addColumn(
     'store_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['unsigned' => true, 'nullable' => false, 'primary' => true],
     'Store Id'
 )->addForeignKey(
     $installer->getFkName('checkout_agreement_store', 'agreement_id', 'checkout_agreement', 'agreement_id'),

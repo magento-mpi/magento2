@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model;
 
@@ -49,7 +46,7 @@ class Variable extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Escaper $escaper,
         \Magento\Core\Model\Resource\Variable $resource,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_escaper = $escaper;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -149,15 +146,15 @@ class Variable extends \Magento\Framework\Model\AbstractModel
     {
         /* @var $collection \Magento\Core\Model\Resource\Variable\Collection */
         $collection = $this->getCollection();
-        $variables = array();
+        $variables = [];
         foreach ($collection->toOptionArray() as $variable) {
-            $variables[] = array(
+            $variables[] = [
                 'value' => '{{customVar code=' . $variable['value'] . '}}',
-                'label' => __('%1', $variable['label'])
-            );
+                'label' => __('%1', $variable['label']),
+            ];
         }
         if ($withGroup && $variables) {
-            $variables = array('label' => __('Custom Variables'), 'value' => $variables);
+            $variables = ['label' => __('Custom Variables'), 'value' => $variables];
         }
         return $variables;
     }

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Model\Resource\Transaction\Grid;
-
 
 class Collection extends \Magento\Sales\Model\Resource\Order\Payment\Transaction\Collection
 {
@@ -52,8 +48,8 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Payment\Transaction
         if ($order) {
             $this->addOrderIdFilter($order->getId());
         }
-        $this->addOrderInformation(array('increment_id'));
-        $this->addPaymentInformation(array('method'));
+        $this->addOrderInformation(['increment_id']);
+        $this->addPaymentInformation(['method']);
         return $this;
     }
 }

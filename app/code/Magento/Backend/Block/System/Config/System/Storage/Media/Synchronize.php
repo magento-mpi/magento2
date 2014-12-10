@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Config\System\Storage\Media;
 
@@ -30,7 +27,7 @@ class Synchronize extends \Magento\Backend\Block\System\Config\Form\Field
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\File\Storage $fileStorage,
-        array $data = array()
+        array $data = []
     ) {
         $this->_fileStorage = $fileStorage;
         parent::__construct($context, $data);
@@ -89,11 +86,11 @@ class Synchronize extends \Magento\Backend\Block\System\Config\Form\Field
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'synchronize_button',
                 'label' => __('Synchronize'),
-                'onclick' => 'javascript:synchronize(); return false;'
-            )
+                'onclick' => 'javascript:synchronize(); return false;',
+            ]
         );
 
         return $button->toHtml();
@@ -130,6 +127,6 @@ class Synchronize extends \Magento\Backend\Block\System\Config\Form\Field
             $connectionName = '';
         }
 
-        return array('storage_type' => $storageType, 'connection_name' => $connectionName);
+        return ['storage_type' => $storageType, 'connection_name' => $connectionName];
     }
 }

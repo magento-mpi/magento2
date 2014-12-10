@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Msrp\Model\Observer\Frontend\Quote;
 
-use Magento\Framework\Object;
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Sales\Model\Quote\Address;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Tests Magento\Msrp\Model\Observer\Frontend\Quote\SetCanApplyMsrp

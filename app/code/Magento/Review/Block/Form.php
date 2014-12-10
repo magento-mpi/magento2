@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block;
 
@@ -55,11 +52,9 @@ class Form extends \Magento\Framework\View\Element\Template
     protected $_reviewSession;
 
     /**
-     * Core helper data
-     *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Framework\Url\EncoderInterface
      */
-    protected $_coreData;
+    protected $urlEncoder;
 
     /**
      * Message manager interface
@@ -80,7 +75,7 @@ class Form extends \Magento\Framework\View\Element\Template
 
     /**
      * @param \Magento\Framework\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Framework\Url\EncoderInterface $urlEncoder
      * @param \Magento\Framework\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -93,7 +88,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Framework\Url\EncoderInterface $urlEncoder,
         \Magento\Framework\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Customer\Model\Session $customerSession,
@@ -102,9 +97,9 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Framework\Message\ManagerInterface $messageManager,
         \Magento\Framework\App\Http\Context $httpContext,
         \Magento\Customer\Model\Url $customerUrl,
-        array $data = array()
+        array $data = []
     ) {
-        $this->_coreData = $coreData;
+        $this->urlEncoder = $urlEncoder;
         $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
@@ -141,13 +136,13 @@ class Form extends \Magento\Framework\View\Element\Template
             || $this->_reviewData->getIsGuestAllowToWrite()
         );
         if (!$this->getAllowWriteReviewFlag()) {
-            $queryParam = $this->_coreData->urlEncode(
-                $this->getUrl('*/*/*', array('_current' => true)) . '#review-form'
+            $queryParam = $this->urlEncoder->encode(
+                $this->getUrl('*/*/*', ['_current' => true]) . '#review-form'
             );
             $this->setLoginLink(
                 $this->getUrl(
                     'customer/account/login/',
-                    array(Url::REFERER_QUERY_PARAM_NAME => $queryParam)
+                    [Url::REFERER_QUERY_PARAM_NAME => $queryParam]
                 )
             );
         }
@@ -174,7 +169,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getAction()
     {
-        return $this->getUrl('review/product/post', array('id' => $this->getProductId()));
+        return $this->getUrl('review/product/post', ['id' => $this->getProductId()]);
     }
 
     /**

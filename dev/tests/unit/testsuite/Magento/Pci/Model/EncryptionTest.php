@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model;
 
+use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Encryption\Crypt;
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Class EncryptionTest tests Magento\Pci\Model\Encryption

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php $_order = $this->getOrder() ?>
@@ -25,7 +22,9 @@
         <?php $_count = $_items->count(); ?>
         <?php $_giftMessage = ''?>
         <?php foreach ($_items as $_item): ?>
-            <?php if ($_item->getParentItem()) continue; ?>
+            <?php if ($_item->getParentItem()) {
+    continue;
+} ?>
             <tbody>
                 <?php echo $this->getItemHtml($_item) ?>
                 <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>

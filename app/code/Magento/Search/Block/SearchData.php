@@ -1,20 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Block;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Search\Model\SearchDataProviderInterface;
-use Magento\Search\Model\QueryInterface;
 use Magento\Search\Model\QueryFactoryInterface;
+use Magento\Search\Model\QueryInterface;
+use Magento\Search\Model\SearchDataProviderInterface;
 
 abstract class SearchData extends Template implements SearchDataInterface
 {
-
     /**
      * @var QueryInterface
      */
@@ -47,7 +43,7 @@ abstract class SearchData extends Template implements SearchDataInterface
         SearchDataProviderInterface $searchDataProvider,
         QueryFactoryInterface $queryFactory,
         $title,
-        array $data = array()
+        array $data = []
     ) {
         $this->searchDataProvider = $searchDataProvider;
         $this->query = $queryFactory->get();

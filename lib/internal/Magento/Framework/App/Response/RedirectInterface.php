@@ -2,10 +2,7 @@
 /**
  * Response redirect interface
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Response;
 
@@ -64,5 +61,5 @@ interface RedirectInterface
      * @param array $arguments
      * @return void
      */
-    public function redirect(\Magento\Framework\App\ResponseInterface $response, $path, $arguments = array());
+    public function redirect(\Magento\Framework\App\ResponseInterface $response, $path, $arguments = []);
 }

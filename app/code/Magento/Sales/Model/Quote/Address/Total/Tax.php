@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -14,7 +11,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
     /**
      * @var array
      */
-    protected $_appliedTaxes = array();
+    protected $_appliedTaxes = [];
 
     /**
      * Tax data
@@ -69,7 +66,7 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         $address->setTaxAmount(0);
         $address->setBaseTaxAmount(0);
-        $address->setAppliedTaxes(array());
+        $address->setAppliedTaxes([]);
 
         $items = $address->getAllItems();
         if (!count($items)) {
@@ -283,12 +280,12 @@ class Tax extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
 
         if ($amount != 0 || $this->_taxData->displayZeroTax($store)) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Tax'),
-                    'full_info' => $applied ? $applied : array(),
-                    'value' => $amount
-                )
+                    'full_info' => $applied ? $applied : [],
+                    'value' => $amount,
+                ]
             );
         }
         return $this;

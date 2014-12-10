@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Cache\Backend;
 
@@ -22,7 +19,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @param  array $options associative array of options
      * @throws \Zend_Cache_Exception
      */
-    public function __construct(array $options = array())
+    public function __construct(array $options = [])
     {
         if (!extension_loaded('eaccelerator')) {
             \Zend_Cache::throwException('The eaccelerator extension must be loaded for using this backend !');
@@ -75,10 +72,10 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @param int|bool $specificLifetime if != false, set a specific lifetime for this cache record (null => infinite lifetime)
      * @return bool true if no problem
      */
-    public function save($data, $id, $tags = array(), $specificLifetime = false)
+    public function save($data, $id, $tags = [], $specificLifetime = false)
     {
         $lifetime = $this->getLifetime($specificLifetime);
-        $result = eaccelerator_put($id, array($data, time(), $lifetime), $lifetime);
+        $result = eaccelerator_put($id, [$data, time(), $lifetime], $lifetime);
         if (count($tags) > 0) {
             $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND);
         }
@@ -111,7 +108,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @throws \Zend_Cache_Exception
      * @return bool|void true if no problem
      */
-    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = array())
+    public function clean($mode = \Zend_Cache::CLEANING_MODE_ALL, $tags = [])
     {
         switch ($mode) {
             case \Zend_Cache::CLEANING_MODE_ALL:
@@ -162,7 +159,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
     public function getTags()
     {
         $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND);
-        return array();
+        return [];
     }
 
     /**
@@ -173,10 +170,10 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @param array $tags array of tags
      * @return string[] array of matching cache ids (string)
      */
-    public function getIdsMatchingTags($tags = array())
+    public function getIdsMatchingTags($tags = [])
     {
         $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND);
-        return array();
+        return [];
     }
 
     /**
@@ -187,10 +184,10 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @param string[] $tags array of tags
      * @return string[] array of not matching cache ids (string)
      */
-    public function getIdsNotMatchingTags($tags = array())
+    public function getIdsNotMatchingTags($tags = [])
     {
         $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND);
-        return array();
+        return [];
     }
 
     /**
@@ -201,10 +198,10 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      * @param string[] $tags array of tags
      * @return string[] array of any matching cache ids (string)
      */
-    public function getIdsMatchingAnyTags($tags = array())
+    public function getIdsMatchingAnyTags($tags = [])
     {
         $this->_log(self::TAGS_UNSUPPORTED_BY_SAVE_OF_EACCELERATOR_BACKEND);
-        return array();
+        return [];
     }
 
     /**
@@ -214,7 +211,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      */
     public function getIds()
     {
-        $res = array();
+        $res = [];
         $array = eaccelerator_list_keys();
         foreach ($array as $key => $info) {
             $res[] = $key;
@@ -245,7 +242,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
                 return false;
             }
             $lifetime = $tmp[2];
-            return array('expire' => $mtime + $lifetime, 'tags' => array(), 'mtime' => $mtime);
+            return ['expire' => $mtime + $lifetime, 'tags' => [], 'mtime' => $mtime];
         }
         return false;
     }
@@ -273,7 +270,7 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
             if ($newLifetime <= 0) {
                 return false;
             }
-            eaccelerator_put($id, array($data, time(), $newLifetime), $newLifetime);
+            eaccelerator_put($id, [$data, time(), $newLifetime], $newLifetime);
             return true;
         }
         return false;
@@ -295,13 +292,13 @@ class Eaccelerator extends \Zend_Cache_Backend implements \Zend_Cache_Backend_Ex
      */
     public function getCapabilities()
     {
-        return array(
+        return [
             'automatic_cleaning' => false,
             'tags' => false,
             'expired_read' => false,
             'priority' => false,
             'infinite_lifetime' => false,
             'get_list' => true
-        );
+        ];
     }
 }

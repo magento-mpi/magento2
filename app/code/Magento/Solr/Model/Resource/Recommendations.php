@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Resource;
 
@@ -52,24 +49,24 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * @param array $relatedQueries
      * @return $this
      */
-    public function saveRelatedQueries($queryId, $relatedQueries = array())
+    public function saveRelatedQueries($queryId, $relatedQueries = [])
     {
         $adapter = $this->_getWriteAdapter();
-        $whereOr = array();
+        $whereOr = [];
         if (count($relatedQueries) > 0) {
             $whereOr[] = implode(
                 ' AND ',
-                array(
+                [
                     $adapter->quoteInto('query_id=?', $queryId),
                     $adapter->quoteInto('relation_id NOT IN(?)', $relatedQueries)
-                )
+                ]
             );
             $whereOr[] = implode(
                 ' AND ',
-                array(
+                [
                     $adapter->quoteInto('relation_id = ?', $queryId),
                     $adapter->quoteInto('query_id NOT IN(?)', $relatedQueries)
-                )
+                ]
             );
         } else {
             $whereOr[] = $adapter->quoteInto('query_id = ?', $queryId);
@@ -81,7 +78,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $existsRelatedQueries = $this->getRelatedQueries($queryId);
         $neededRelatedQueries = array_diff($relatedQueries, $existsRelatedQueries);
         foreach ($neededRelatedQueries as $relationId) {
-            $adapter->insert($this->getMainTable(), array("query_id" => $queryId, "relation_id" => $relationId));
+            $adapter->insert($this->getMainTable(), ["query_id" => $queryId, "relation_id" => $relationId]);
         }
         return $this;
     }
@@ -102,14 +99,14 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $queryIdCond = $adapter->quoteInto('main_table.query_id IN (?)', $queryId);
 
         $collection->getSelect()->join(
-            array('sr' => $collection->getTable('catalogsearch_recommendations')),
+            ['sr' => $collection->getTable('catalogsearch_recommendations')],
             '(sr.query_id=main_table.query_id OR sr.relation_id=main_table.query_id) AND ' . $queryIdCond
         )->reset(
             \Zend_Db_Select::COLUMNS
         )->columns(
-            array(
-                'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id')
-            )
+            [
+                'rel_id' => $adapter->getCheckSql('main_table.query_id=sr.query_id', 'sr.relation_id', 'sr.query_id'),
+            ]
         );
         if (!empty($limit)) {
             $collection->getSelect()->limit($limit);
@@ -138,13 +135,13 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $this->_searchQueryModel->setStoreId($params['store_id']);
         }
         $relatedQueriesIds = $this->loadByQuery($query, $searchRecommendationsCount);
-        $relatedQueries = array();
+        $relatedQueries = [];
         if (count($relatedQueriesIds)) {
             $adapter = $this->_getReadAdapter();
             $mainTable = $this->_searchQueryModel->getResourceCollection()->getMainTable();
             $select = $adapter->select()->from(
-                array('main_table' => $mainTable),
-                array('query_text', 'num_results')
+                ['main_table' => $mainTable],
+                ['query_text', 'num_results']
             )->where(
                 'query_id IN(?)',
                 $relatedQueriesIds
@@ -173,7 +170,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
             return $relatedQueries;
         }
 
-        $queryWords = array($query);
+        $queryWords = [$query];
         if (strpos($query, ' ') !== false) {
             $queryWords = array_unique(array_merge($queryWords, explode(' ', $query)));
             foreach ($queryWords as $key => $word) {
@@ -184,7 +181,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
             }
         }
 
-        $likeCondition = array();
+        $likeCondition = [];
         foreach ($queryWords as $word) {
             $likeCondition[] = $adapter->quoteInto('query_text LIKE ?', $word . '%');
         }
@@ -192,7 +189,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $select = $adapter->select()->from(
             $this->_searchQueryModel->getResource()->getMainTable(),
-            array('query_id')
+            ['query_id']
         )->where(
             new \Zend_Db_Expr($likeCondition)
         )->where(
@@ -206,7 +203,7 @@ class Recommendations extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $ids = $adapter->fetchCol($select);
 
         if (!is_array($ids)) {
-            $ids = array();
+            $ids = [];
         }
 
         $key = array_search($queryId, $ids);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Form;
 
@@ -33,7 +30,7 @@ class Factory
      * @throws \InvalidArgumentException
      * @return \Magento\Eav\Model\Form
      */
-    public function create($form, array $data = array())
+    public function create($form, array $data = [])
     {
         $formInstance = $this->_objectManager->create($form, $data);
         if (false == $formInstance instanceof \Magento\Eav\Model\Form) {

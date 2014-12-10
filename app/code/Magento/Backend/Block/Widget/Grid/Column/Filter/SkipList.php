@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 
@@ -19,6 +16,6 @@ class SkipList extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Abstract
      */
     public function getCondition()
     {
-        return array('nin' => $this->getValue() ?: array(0));
+        return ['nin' => $this->getValue() ?: [0]];
     }
 }

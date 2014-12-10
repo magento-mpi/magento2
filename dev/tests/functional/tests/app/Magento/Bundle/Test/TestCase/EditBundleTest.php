@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\TestCase;
 
+use Magento\Bundle\Test\Fixture\Bundle;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Bundle\Test\Fixture\Bundle;
 
 /**
  * Class EditBundleTest
@@ -58,7 +55,7 @@ class EditBundleTest extends Functional
         $productGridPage->open();
         $gridBlock->searchAndOpen([
             'sku' => $product->getSku(),
-            'type' => 'Bundle Product'
+            'type' => 'Bundle Product',
         ]);
         $productForm->fill($editProduct);
         $editProductPage->getFormPageActions()->save();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 // @codingStandardsIgnoreStart
@@ -35,7 +32,6 @@ namespace Magento\Framework\Stdlib\Cookie {
             PhpCookieManagerTest::$isSetCookieInvoked = true;
             return PhpCookieManagerTest::assertCookie($name, $value, $expiry, $path, $domain, $secure, $httpOnly);
         } else {
-
             return call_user_func_array(__FUNCTION__, func_get_args());
         }
     }
@@ -86,7 +82,6 @@ namespace Magento\Framework\Stdlib\Cookie {
             self::PUBLIC_COOKIE_NAME_SOME_FIELDS_SET => 'self::assertPublicCookieWithSomeFieldSet',
             self::MAX_COOKIE_SIZE_TEST_NAME => 'self::assertCookieSize',
         ];
-
 
         /**
          * @var \Magento\TestFramework\Helper\ObjectManager
@@ -503,7 +498,6 @@ namespace Magento\Framework\Stdlib\Cookie {
             for ($i = 0; $i < self::MAX_COOKIE_SIZE + 1; $i++) {
                 $cookieValue = $cookieValue . 'a';
             }
-
 
             try {
                 $this->cookieManager->setPublicCookie(

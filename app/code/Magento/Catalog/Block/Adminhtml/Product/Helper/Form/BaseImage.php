@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -60,7 +57,7 @@ class BaseImage extends \Magento\Framework\Data\Form\Element\AbstractElement
         \Magento\Backend\Model\UrlFactory $backendUrlFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\File\Size $fileConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
 

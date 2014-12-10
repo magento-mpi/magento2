@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,7 +19,7 @@ class Details extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
      */
     public function getOrderLink()
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $this->getOrder()->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $this->getOrder()->getId()]);
     }
 
     /**
@@ -48,7 +45,7 @@ class Details extends \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Abstract
         if ($this->getOrder()->getCustomerIsGuest()) {
             return false;
         }
-        return $this->getUrl('customer/index/edit', array('id' => $this->getOrder()->getCustomerId()));
+        return $this->getUrl('customer/index/edit', ['id' => $this->getOrder()->getCustomerId()]);
     }
 
     /**

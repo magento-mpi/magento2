@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rule\Model\Condition\Sql;
 
-use \Magento\Rule\Model\Condition\Combine;
-use \Magento\Rule\Model\Condition\AbstractCondition;
+use Magento\Rule\Model\Condition\AbstractCondition;
+use Magento\Rule\Model\Condition\Combine;
 
 /**
  * Class SQL Builder
@@ -71,7 +68,7 @@ class Builder
      * @param array $tables
      * @return array
      */
-    protected function _getChildCombineTablesToJoin(Combine $combine, $tables = array())
+    protected function _getChildCombineTablesToJoin(Combine $combine, $tables = [])
     {
         foreach ($combine->getConditions() as $condition) {
             if ($condition->getConditions()) {

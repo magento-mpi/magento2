@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Filter;
 
@@ -30,7 +27,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $prepareFormMethod->invoke($block);
 
         $form = $block->getForm();
-        foreach (array('from', 'to') as $id) {
+        foreach (['from', 'to'] as $id) {
             $element = $form->getElement($id);
             $this->assertNotNull($element);
             $this->assertNotEmpty($element->getDateFormat());

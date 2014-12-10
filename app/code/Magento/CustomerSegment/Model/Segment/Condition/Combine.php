@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition;
 
@@ -26,7 +23,7 @@ class Combine extends AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Combine');
@@ -39,43 +36,43 @@ class Combine extends AbstractCombine
      */
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
+        $conditions = [
             // Subconditions combo
-            array(
+            [
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine',
                 'label' => __('Conditions Combination'),
                 'available_in_guest_mode' => true
-            ),
+            ],
             // Customer address combo
-            array(
+            [
                 'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Address',
                 'label' => __('Customer Address')
-            ),
+            ],
             // Customer attribute group
             $this->_conditionFactory->create('Customer')->getNewChildSelectOptions(),
             // Shopping cart group
             $this->_conditionFactory->create('Shoppingcart')->getNewChildSelectOptions(),
-            array(
-                'value' => array(
+            [
+                'value' => [
                     // Product list combo
-                    array(
+                    [
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\ListCombine',
                         'label' => __('Product List'),
                         'available_in_guest_mode' => true
-                    ),
+                    ],
                     // Product history combo
-                    array(
+                    [
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Product\Combine\History',
                         'label' => __('Product History'),
                         'available_in_guest_mode' => true
-                    )
-                ),
+                    ],
+                ],
                 'label' => __('Products'),
                 'available_in_guest_mode' => true
-            ),
+            ],
             // Sales group
-            $this->_conditionFactory->create('Sales')->getNewChildSelectOptions()
-        );
+            $this->_conditionFactory->create('Sales')->getNewChildSelectOptions(),
+        ];
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $this->_prepareConditionAccordingApplyToValue($conditions);
     }

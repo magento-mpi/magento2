@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -131,11 +128,11 @@ class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterfa
         if ($this->_data) {
             $children = $this->_data['sections'];
         }
-        $child = array();
+        $child = [];
         foreach ($pathParts as $pathPart) {
             if ($children && (array_key_exists($pathPart, $children))) {
                 $child = $children[$pathPart];
-                $children = array_key_exists('children', $child) ? $child['children'] : array();
+                $children = array_key_exists('children', $child) ? $child['children'] : [];
             } else {
                 $child = $this->_createEmptyElement($pathParts);
                 break;
@@ -165,7 +162,7 @@ class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterfa
                 $elementType = 'field';
         }
         $elementId = array_pop($pathParts);
-        return array('id' => $elementId, 'path' => implode('/', $pathParts), '_elementType' => $elementType);
+        return ['id' => $elementId, 'path' => implode('/', $pathParts), '_elementType' => $elementType];
     }
 
     /**
@@ -177,7 +174,7 @@ class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterfa
      */
     public function getFieldPathsByAttribute($attributeName, $attributeValue)
     {
-        $result = array();
+        $result = [];
         foreach ($this->_data['sections'] as $section) {
             if (!isset($section['children'])) {
                 continue;
@@ -211,7 +208,7 @@ class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterfa
      */
     protected function _getGroupFieldPathsByAttribute(array $fields, $parentPath, $attributeName, $attributeValue)
     {
-        $result = array();
+        $result = [];
         foreach ($fields as $field) {
             if (isset($field['children'])) {
                 $result += $this->_getGroupFieldPathsByAttribute(
@@ -220,7 +217,7 @@ class Structure implements \Magento\Backend\Model\Config\Structure\SearchInterfa
                     $attributeName,
                     $attributeValue
                 );
-            } else if (isset($field[$attributeName]) && $field[$attributeName] == $attributeValue) {
+            } elseif (isset($field[$attributeName]) && $field[$attributeName] == $attributeValue) {
                 $result[] = $parentPath . '/' . $field['id'];
             }
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource;
 
@@ -75,7 +72,7 @@ class Customer extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
     /**
      * Retrieve select object for load object data
-     * 
+     *
      * @param string $field
      * @param mixed $value
      * @param \Magento\Log\Model\Customer $object
@@ -88,17 +85,17 @@ class Customer extends \Magento\Framework\Model\Resource\Db\AbstractDb
             // load additional data by last login
             $table = $this->getMainTable();
             $select->joinInner(
-                array('lvt' => $this->_visitorTable),
+                ['lvt' => $this->_visitorTable],
                 "lvt.visitor_id = {$table}.visitor_id",
-                array('last_visit_at')
+                ['last_visit_at']
             )->joinInner(
-                array('lvit' => $this->_visitorInfoTable),
+                ['lvit' => $this->_visitorInfoTable],
                 'lvt.visitor_id = lvit.visitor_id',
-                array('http_referer', 'remote_addr')
+                ['http_referer', 'remote_addr']
             )->joinInner(
-                array('luit' => $this->_urlInfoTable),
+                ['luit' => $this->_urlInfoTable],
                 'luit.url_id = lvt.last_url_id',
-                array('url')
+                ['url']
             )->order(
                 "{$table}.login_at DESC"
             )->limit(

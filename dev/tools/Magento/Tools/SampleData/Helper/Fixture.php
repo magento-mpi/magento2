@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Helper;
 
@@ -26,7 +23,7 @@ class Fixture
      */
     public function getDirectoryFiles($subPath)
     {
-        $result = array();
+        $result = [];
         $dir = $this->getPath($subPath);
         if (!is_dir($dir)) {
             return $result;

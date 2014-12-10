@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Resource\Customer;
 
@@ -87,45 +84,45 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         $logTable = $this->getTable('magento_reminder_rule_log');
         $salesRuleCouponTable = $this->getTable('salesrule_coupon');
 
-        $select->from(array('c' => $couponTable), array('associated_at', 'emails_failed', 'is_active'));
+        $select->from(['c' => $couponTable], ['associated_at', 'emails_failed', 'is_active']);
         $select->where('c.rule_id = ?', $rule->getId());
 
-        $select->joinInner(array('e' => $customerTable), 'e.entity_id = c.customer_id', array('entity_id', 'email'));
+        $select->joinInner(['e' => $customerTable], 'e.entity_id = c.customer_id', ['entity_id', 'email']);
 
         $subSelect = $this->getConnection()->select();
         $subSelect->from(
-            array('g' => $logTable),
-            array(
+            ['g' => $logTable],
+            [
                 'customer_id',
                 'rule_id',
                 'emails_sent' => new \Zend_Db_Expr('COUNT(log_id)'),
                 'last_sent' => new \Zend_Db_Expr('MAX(sent_at)')
-            )
+            ]
         );
 
         $subSelect->where('rule_id = ?', $rule->getId());
-        $subSelect->group(array('customer_id', 'rule_id'));
+        $subSelect->group(['customer_id', 'rule_id']);
 
         $select->joinLeft(
-            array('l' => $subSelect),
+            ['l' => $subSelect],
             'l.rule_id = c.rule_id AND l.customer_id = c.customer_id',
-            array('l.emails_sent', 'l.last_sent')
+            ['l.emails_sent', 'l.last_sent']
         );
 
         $select->joinLeft(
-            array('sc' => $salesRuleCouponTable),
+            ['sc' => $salesRuleCouponTable],
             'sc.coupon_id = c.coupon_id',
-            array('code', 'usage_limit', 'usage_per_customer')
+            ['code', 'usage_limit', 'usage_per_customer']
         );
 
-        $this->_joinFields['associated_at'] = array('table' => 'c', 'field' => 'associated_at');
-        $this->_joinFields['emails_failed'] = array('table' => 'c', 'field' => 'emails_failed');
-        $this->_joinFields['is_active'] = array('table' => 'c', 'field' => 'is_active');
-        $this->_joinFields['code'] = array('table' => 'sc', 'field' => 'code');
-        $this->_joinFields['usage_limit'] = array('table' => 'sc', 'field' => 'usage_limit');
-        $this->_joinFields['usage_per_customer'] = array('table' => 'sc', 'field' => 'usage_per_customer');
-        $this->_joinFields['emails_sent'] = array('table' => 'l', 'field' => 'emails_sent');
-        $this->_joinFields['last_sent'] = array('table' => 'l', 'field' => 'last_sent');
+        $this->_joinFields['associated_at'] = ['table' => 'c', 'field' => 'associated_at'];
+        $this->_joinFields['emails_failed'] = ['table' => 'c', 'field' => 'emails_failed'];
+        $this->_joinFields['is_active'] = ['table' => 'c', 'field' => 'is_active'];
+        $this->_joinFields['code'] = ['table' => 'sc', 'field' => 'code'];
+        $this->_joinFields['usage_limit'] = ['table' => 'sc', 'field' => 'usage_limit'];
+        $this->_joinFields['usage_per_customer'] = ['table' => 'sc', 'field' => 'usage_per_customer'];
+        $this->_joinFields['emails_sent'] = ['table' => 'l', 'field' => 'emails_sent'];
+        $this->_joinFields['last_sent'] = ['table' => 'l', 'field' => 'last_sent'];
 
         return $this;
     }

@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
 use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AddressRepositoryInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\CustomerDataBuilder;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Model\Address\Mapper;
 use Magento\Framework\Message\Error;
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Framework\ObjectFactory;
 
 /**

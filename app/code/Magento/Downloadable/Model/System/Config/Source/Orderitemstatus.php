@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Model\System\Config\Source;
 
@@ -19,9 +16,9 @@ class Orderitemstatus implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING, 'label' => __('Pending')),
-            array('value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED, 'label' => __('Invoiced'))
-        );
+        return [
+            ['value' => \Magento\Sales\Model\Order\Item::STATUS_PENDING, 'label' => __('Pending')],
+            ['value' => \Magento\Sales\Model\Order\Item::STATUS_INVOICED, 'label' => __('Invoiced')]
+        ];
     }
 }

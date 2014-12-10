@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Operation\Edit\Form;
 
@@ -63,7 +60,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         \Magento\ImportExport\Model\Source\Export\Format $sourceExportFormat,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sourceExportFormat = $sourceExportFormat;
         $this->_templateFactory = $templateFactory;
@@ -102,13 +99,13 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
         $fieldset->addField(
             'file_format',
             'select',
-            array(
+            [
                 'name' => 'file_info[file_format]',
                 'title' => __('File Format'),
                 'label' => __('File Format'),
                 'required' => true,
                 'values' => $this->_sourceExportFormat->toOptionArray()
-            )
+            ]
         );
 
         $form->getElement(
@@ -123,7 +120,7 @@ class Export extends \Magento\ScheduledImportExport\Block\Adminhtml\Scheduled\Op
 
         $fieldset = $form->addFieldset(
             'export_filter_grid_container',
-            array('legend' => __('Entity Attributes'), 'fieldset_container_id' => 'export_filter_container')
+            ['legend' => __('Entity Attributes'), 'fieldset_container_id' => 'export_filter_container']
         );
 
         // prepare filter grid data

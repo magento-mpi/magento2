@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,8 +22,8 @@ class ToolbarEntryTest extends \PHPUnit_Framework_TestCase
         // mock collection of unread notifications
         $notificationList = $this->getMock(
             'Magento\AdminNotification\Model\Resource\Inbox\Collection\Unread',
-            array('getSize', 'setCurPage', 'setPageSize'),
-            array(),
+            ['getSize', 'setCurPage', 'setPageSize'],
+            [],
             '',
             false
         );
@@ -34,7 +31,7 @@ class ToolbarEntryTest extends \PHPUnit_Framework_TestCase
 
         $block = $objectManagerHelper->getObject(
             'Magento\AdminNotification\Block\ToolbarEntry',
-            array('notificationList' => $notificationList)
+            ['notificationList' => $notificationList]
         );
 
         return $block;

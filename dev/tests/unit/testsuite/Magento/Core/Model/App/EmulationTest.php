@@ -2,10 +2,7 @@
 /**
  * Tests Magento\Core\Model\App\Emulation
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\App;
 
@@ -157,7 +154,6 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
 
         // Test
         $this->model->startEnvironmentEmulation(self::NEW_STORE_ID, \Magento\Framework\App\Area::AREA_FRONTEND);
-
     }
 
     public function testStop()
@@ -184,7 +180,6 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
             ->method('getLocaleCode')
             ->willReturn($initLocale);
 
-
         $this->model->storeCurrentEnvironmentInfo();
 
         // Expectations
@@ -207,4 +202,4 @@ class EmulationTest extends \PHPUnit_Framework_TestCase
         // Test
         $this->model->stopEnvironmentEmulation();
     }
-} 
+}

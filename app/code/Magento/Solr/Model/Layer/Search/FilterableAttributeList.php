@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Layer\Search;
 
@@ -31,7 +28,6 @@ class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Search\Filter
         parent::__construct($collectionFactory, $storeManager, $layerResolver);
     }
 
-
     /**
      * Get collection of all filterable attributes for layer products set
      *
@@ -41,7 +37,7 @@ class FilterableAttributeList extends \Magento\Catalog\Model\Layer\Search\Filter
     {
         $setIds = $this->layer->getProductCollection()->getSetIds();
         if (!$setIds) {
-            return array();
+            return [];
         }
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->collectionFactory->create()

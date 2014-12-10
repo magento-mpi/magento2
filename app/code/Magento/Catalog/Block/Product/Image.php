@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -56,7 +53,7 @@ class Image extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Product\Image\View $productImageView,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productImageView = $productImageView;
         parent::__construct($context, $data);

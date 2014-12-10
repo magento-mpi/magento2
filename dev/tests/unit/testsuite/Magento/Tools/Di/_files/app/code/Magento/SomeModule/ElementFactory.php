@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SomeModule;
 
@@ -28,7 +25,7 @@ class ElementFactory
      * @param array $data
      * @return mixed
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $instance = $this->_objectManager->create($className, $data);
         return $instance;

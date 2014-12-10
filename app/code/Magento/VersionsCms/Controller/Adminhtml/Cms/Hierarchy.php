@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
@@ -127,7 +124,7 @@ class Hierarchy extends \Magento\Backend\App\Action
             $scopeId = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID;
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT;
         }
-        return array($scope, $scopeId);
+        return [$scope, $scopeId];
     }
 
     /**

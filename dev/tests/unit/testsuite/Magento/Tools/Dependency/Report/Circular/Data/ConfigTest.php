@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Circular\Data;
 
@@ -30,15 +27,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->moduleFirst = $this->getMock(
             'Magento\Tools\Dependency\Report\Circular\Data\Module',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->moduleSecond = $this->getMock(
             'Magento\Tools\Dependency\Report\Circular\Data\Module',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -46,7 +43,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         $this->config = $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Circular\Data\Config',
-            array('modules' => array($this->moduleFirst, $this->moduleSecond))
+            ['modules' => [$this->moduleFirst, $this->moduleSecond]]
         );
     }
 

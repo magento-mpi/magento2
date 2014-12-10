@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\TestCase;
 
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class CreateConfigurableTest
@@ -60,7 +57,7 @@ class CreateConfigurableTest extends Functional
         //Search data
         $configurableSearch = [
             'sku' => $product->getSku(),
-            'type' => 'Configurable Product'
+            'type' => 'Configurable Product',
         ];
         $variationSkus = $product->getVariationSkus();
         //Page & Block

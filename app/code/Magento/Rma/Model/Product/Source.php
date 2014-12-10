@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Product;
 
@@ -36,11 +33,11 @@ class Source extends \Magento\Eav\Model\Entity\Attribute\Source\Boolean
     public function getAllOptions()
     {
         if (!$this->_options) {
-            $this->_options = array(
-                array('label' => __('Yes'), 'value' => self::ATTRIBUTE_ENABLE_RMA_YES),
-                array('label' => __('No'), 'value' => self::ATTRIBUTE_ENABLE_RMA_NO),
-                array('label' => __('Use config'), 'value' => self::ATTRIBUTE_ENABLE_RMA_USE_CONFIG)
-            );
+            $this->_options = [
+                ['label' => __('Yes'), 'value' => self::ATTRIBUTE_ENABLE_RMA_YES],
+                ['label' => __('No'), 'value' => self::ATTRIBUTE_ENABLE_RMA_NO],
+                ['label' => __('Use config'), 'value' => self::ATTRIBUTE_ENABLE_RMA_USE_CONFIG],
+            ];
         }
         return $this->_options;
     }

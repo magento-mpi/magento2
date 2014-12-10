@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account;
 
@@ -37,21 +34,21 @@ class AuthorizationLinkTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->httpContext = $this->getMockBuilder('\Magento\Framework\App\Http\Context')
             ->disableOriginalConstructor()
-            ->setMethods(array('getValue'))
+            ->setMethods(['getValue'])
             ->getMock();
         $this->_customerUrl = $this->getMockBuilder('Magento\Customer\Model\Url')
             ->disableOriginalConstructor()
-            ->setMethods(array('getLogoutUrl', 'getLoginUrl'))
+            ->setMethods(['getLogoutUrl', 'getLoginUrl'])
             ->getMock();
 
         $context = $this->_objectManager->getObject('Magento\Framework\View\Element\Template\Context');
         $this->_block = $this->_objectManager->getObject(
             'Magento\Customer\Block\Account\AuthorizationLink',
-            array(
+            [
                 'context' => $context,
                 'httpContext' => $this->httpContext,
                 'customerUrl' => $this->_customerUrl,
-            )
+            ]
         );
     }
 

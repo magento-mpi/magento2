@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Form;
 
@@ -23,8 +20,8 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Backend\Block\Widget\Form\Container */
         $block = $this->getMock(
             'Magento\Backend\Block\Widget\Form\Container',
-            array('_prepareLayout'),
-            array($objectManager->create('Magento\Backend\Block\Widget\Context'))
+            ['_prepareLayout'],
+            [$objectManager->create('Magento\Backend\Block\Widget\Context')]
         );
 
         $layout->addBlock($block, 'block');

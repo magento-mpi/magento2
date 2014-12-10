@@ -26,7 +26,6 @@ lib/internal/Magento/Framework/Mview
 lib/internal/Magento/Framework/Notification
 lib/internal/Magento/Framework/Oauth
 lib/internal/Magento/Framework/Parse
-lib/internal/Magento/Framework/Pear
 lib/internal/Magento/Framework/Pricing
 lib/internal/Magento/Framework/Reflection
 lib/internal/Magento/Framework/RequireJs

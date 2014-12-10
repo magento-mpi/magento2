@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
@@ -48,7 +45,7 @@ class DbConfig extends AbstractSegment
                     self::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                     self::KEY_ACTIVE => '1',
                 ],
-            ]
+            ],
         ];
         $data = $this->update($data);
         $this->checkData($data);
@@ -113,6 +110,6 @@ class DbConfig extends AbstractSegment
      */
     public function getConnections()
     {
-        return isset($this->data['connection']) ? $this->data['connection'] : array();
+        return isset($this->data['connection']) ? $this->data['connection'] : [];
     }
 }

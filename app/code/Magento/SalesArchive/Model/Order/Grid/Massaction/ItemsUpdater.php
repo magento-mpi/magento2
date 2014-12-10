@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model\Order\Grid\Massaction;
 
@@ -28,7 +25,7 @@ class ItemsUpdater implements \Magento\Framework\View\Layout\Argument\UpdaterInt
     public function __construct(
         \Magento\SalesArchive\Model\Config $config,
         \Magento\Framework\AuthorizationInterface $authorization,
-        $data = array()
+        $data = []
     ) {
         $this->_salesArchiveConfig = $config;
         $this->_authorizationModel = $authorization;

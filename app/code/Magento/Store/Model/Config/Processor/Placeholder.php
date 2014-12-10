@@ -2,10 +2,7 @@
 /**
  * Placeholder configuration values processor. Replace placeholders in configuration with config values
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config\Processor;
 
@@ -44,7 +41,7 @@ class Placeholder
      * @param array $data
      * @return array
      */
-    public function process(array $data = array())
+    public function process(array $data = [])
     {
         foreach (array_keys($data) as $key) {
             $this->_processData($data, $key);
@@ -136,7 +133,7 @@ class Placeholder
         $keys = explode('/', $path);
         foreach ($keys as $key) {
             if (is_array($data) && (isset($data[$key]) || array_key_exists($key, $data))) {
-                 $data = $data[$key];
+                $data = $data[$key];
             } else {
                 return null;
             }
@@ -155,12 +152,12 @@ class Placeholder
     protected function _setValue(array &$container, $path, $value)
     {
         $segments = explode('/', $path);
-        $currentPointer =& $container;
+        $currentPointer = & $container;
         foreach ($segments as $segment) {
             if (!isset($currentPointer[$segment])) {
-                $currentPointer[$segment] = array();
+                $currentPointer[$segment] = [];
             }
-            $currentPointer =& $currentPointer[$segment];
+            $currentPointer = & $currentPointer[$segment];
         }
         $currentPointer = $value;
     }

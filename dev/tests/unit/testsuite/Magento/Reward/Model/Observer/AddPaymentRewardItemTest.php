@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -36,12 +33,12 @@ class AddPaymentRewardItemTest extends \PHPUnit_Framework_TestCase
         );
         $this->eventMock = $this->getMock(
             '\Magento\Framework\Event',
-            array('getCart', 'getInvoice'),
-            array(),
+            ['getCart', 'getInvoice'],
+            [],
             '',
             false
         );
-        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->observerMock = $this->getMock('\Magento\Framework\Event\Observer', [], [], '', false);
         $this->observerMock->expects($this->any())->method('getEvent')->will($this->returnValue($this->eventMock));
     }
 
@@ -61,7 +58,7 @@ class AddPaymentRewardItemTest extends \PHPUnit_Framework_TestCase
             )->will(
                 $this->returnValue($amount)
             );
-        $cart = $this->getMock('Magento\Payment\Model\Cart', array(), array(), '', false);
+        $cart = $this->getMock('Magento\Payment\Model\Cart', [], [], '', false);
         $cart->expects($this->once())->method('getSalesModel')->will($this->returnValue($salesModel));
         if (abs($amount) > 0.0001) {
             $cart->expects($this->once())->method('addDiscount')->with(abs($amount));
@@ -74,6 +71,6 @@ class AddPaymentRewardItemTest extends \PHPUnit_Framework_TestCase
 
     public function addPaymentRewardItemDataProvider()
     {
-        return array(array(0.0), array(0.1), array(-0.1));
+        return [[0.0], [0.1], [-0.1]];
     }
 }

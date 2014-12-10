@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\View\Url;
 
@@ -53,11 +50,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function getConfigDataProvider()
     {
-        return array(
-            array('some/valid/path1', 'someValue'),
-            array('some/valid/path2', 2),
-            array('some/valid/path3', false),
-            array('some/invalid/path3', null)
-        );
+        return [
+            ['some/valid/path1', 'someValue'],
+            ['some/valid/path2', 2],
+            ['some/valid/path3', false],
+            ['some/invalid/path3', null]
+        ];
     }
 }

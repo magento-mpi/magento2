@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element;
 
 /**
  * Class Options

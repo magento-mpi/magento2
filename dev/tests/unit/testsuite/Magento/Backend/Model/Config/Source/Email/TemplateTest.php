@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Source\Email;
 
@@ -31,12 +28,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false, false);
-        $this->_emailConfig = $this->getMock('Magento\Email\Model\Template\Config', array(), array(), '', false);
+        $this->_coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false, false);
+        $this->_emailConfig = $this->getMock('Magento\Email\Model\Template\Config', [], [], '', false);
         $this->_templatesFactory = $this->getMock(
             'Magento\Email\Model\Resource\Template\CollectionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -49,17 +46,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $collection = $this->getMock('Magento\Email\Model\Resource\Template\Collection', array(), array(), '', false);
+        $collection = $this->getMock('Magento\Email\Model\Resource\Template\Collection', [], [], '', false);
         $collection->expects(
             $this->once()
         )->method(
             'toOptionArray'
         )->will(
             $this->returnValue(
-                array(
-                    array('value' => 'template_one', 'label' => 'Template One'),
-                    array('value' => 'template_two', 'label' => 'Template Two')
-                )
+                [
+                    ['value' => 'template_one', 'label' => 'Template One'],
+                    ['value' => 'template_two', 'label' => 'Template Two'],
+                ]
             )
         );
         $this->_coreRegistry->expects(
@@ -80,11 +77,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('Template New')
         );
-        $expectedResult = array(
-            array('value' => 'template_new', 'label' => 'Template New (Default)'),
-            array('value' => 'template_one', 'label' => 'Template One'),
-            array('value' => 'template_two', 'label' => 'Template Two')
-        );
+        $expectedResult = [
+            ['value' => 'template_new', 'label' => 'Template New (Default)'],
+            ['value' => 'template_one', 'label' => 'Template One'],
+            ['value' => 'template_two', 'label' => 'Template Two'],
+        ];
         $this->_model->setPath('template/new');
         $this->assertEquals($expectedResult, $this->_model->toOptionArray());
     }

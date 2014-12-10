@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
@@ -40,20 +37,20 @@ class Bundle implements HandlerInterface
         $selectionCollection = $type->getSelectionsCollection($type->getOptionsIds($product), $product);
 
         $origBundleOptions = $optionCollection->appendSelections($selectionCollection);
-        $origBundleOptionsAssoc = array();
+        $origBundleOptionsAssoc = [];
 
         foreach ($origBundleOptions as $origBundleOption) {
             /** @var \Magento\Bundle\Model\Option $origBundleOption */
             $optionId = $origBundleOption->getOptionId();
-            $origBundleOptionsAssoc[$optionId] = array();
+            $origBundleOptionsAssoc[$optionId] = [];
             if ($origBundleOption->getSelections()) {
                 foreach ($origBundleOption->getSelections() as $selection) {
                     /** @var \Magento\Bundle\Model\Selection $selection */
                     $selectionProductId = $selection->getProductId();
-                    $origBundleOptionsAssoc[$optionId][$selectionProductId] = array(
+                    $origBundleOptionsAssoc[$optionId][$selectionProductId] = [
                         'selection_price_type' => $selection->getSelectionPriceType(),
-                        'selection_price_value' => $selection->getSelectionPriceValue()
-                    );
+                        'selection_price_value' => $selection->getSelectionPriceValue(),
+                    ];
                 }
             }
         }

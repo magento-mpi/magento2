@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
@@ -43,7 +40,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cmsData = $cmsData;
         $this->_cmsConfig = $cmsConfig;
@@ -59,13 +56,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
-                    'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
-                    'method' => 'post'
-                )
-            )
+                    'action' => $this->getUrl('adminhtml/*/save', ['_current' => true]),
+                    'method' => 'post',
+                ],
+            ]
         );
 
         $form->setUseContainer(true);
@@ -78,42 +75,42 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'version_fieldset',
-            array('legend' => __('Version Information'), 'class' => 'fieldset-wide')
+            ['legend' => __('Version Information'), 'class' => 'fieldset-wide']
         );
 
-        $fieldset->addField('version_id', 'hidden', array('name' => 'version_id'));
+        $fieldset->addField('version_id', 'hidden', ['name' => 'version_id']);
 
-        $fieldset->addField('page_id', 'hidden', array('name' => 'page_id'));
+        $fieldset->addField('page_id', 'hidden', ['name' => 'page_id']);
 
         $fieldset->addField(
             'label',
             'text',
-            array('name' => 'label', 'label' => __('Version Label'), 'disabled' => !$isOwner, 'required' => true)
+            ['name' => 'label', 'label' => __('Version Label'), 'disabled' => !$isOwner, 'required' => true]
         );
 
         $fieldset->addField(
             'access_level',
             'select',
-            array(
+            [
                 'label' => __('Access Level'),
                 'title' => __('Access Level'),
                 'name' => 'access_level',
                 'options' => $this->_cmsData->getVersionAccessLevels(),
                 'disabled' => !$isOwner && !$isPublisher
-            )
+            ]
         );
 
         if ($isPublisher) {
             $fieldset->addField(
                 'user_id',
                 'select',
-                array(
+                [
                     'label' => __('Owner'),
                     'title' => __('Owner'),
                     'name' => 'user_id',
                     'options' => $this->_cmsData->getUsersArray(!$version->getUserId()),
                     'required' => !$version->getUserId()
-                )
+                ]
             );
         }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Model;
@@ -97,7 +94,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'getTitle',
                 'getIsPendingOrderRequired',
                 'getRedirectUrlSuccess',
-                'getRedirectUrlError'
+                'getRedirectUrlError',
             ]
         )->getMock();
 
@@ -170,10 +167,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'error' => '',
             'update_section' => [
                 'name' => 'pbridgeiframe',
-                'html' => $html
+                'html' => $html,
             ],
             'redirect' => false,
-            'success' => false
+            'success' => false,
         ];
         $expectedResultJson = '{}';
         $this->coreHelperMock->expects($this->once())->method('jsonEncode')->with($expectedResult)->will(

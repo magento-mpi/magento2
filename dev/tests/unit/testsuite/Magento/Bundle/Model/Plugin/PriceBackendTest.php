@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Model\Plugin;
@@ -11,7 +8,6 @@ namespace Magento\Bundle\Model\Plugin;
 use Magento\Bundle\Model\Product\Price;
 use Magento\Catalog\Model\Product\Type;
 use Magento\TestFramework\Helper\ObjectManager;
-
 
 class PriceBackendTest extends \PHPUnit_Framework_TestCase
 {
@@ -68,13 +64,13 @@ class PriceBackendTest extends \PHPUnit_Framework_TestCase
      */
     public function aroundValidateDataProvider()
     {
-        return array(
+        return [
             ['type' => Type::TYPE_SIMPLE, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
             ['type' => Type::TYPE_SIMPLE, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => static::CLOSURE_VALUE],
             ['type' => Type::TYPE_BUNDLE, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
             ['type' => Type::TYPE_BUNDLE, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => true],
             ['type' => Type::TYPE_VIRTUAL, 'priceType' => Price::PRICE_TYPE_FIXED, 'result' => static::CLOSURE_VALUE],
             ['type' => Type::TYPE_VIRTUAL, 'priceType' => Price::PRICE_TYPE_DYNAMIC, 'result' => static::CLOSURE_VALUE],
-        );
+        ];
     }
 }

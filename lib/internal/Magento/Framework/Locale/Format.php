@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Locale;
 
@@ -59,7 +56,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface
         }
 
         //trim spaces and apostrophes
-        $value = str_replace(array('\'', ' '), '', $value);
+        $value = str_replace(['\'', ' '], '', $value);
 
         $separatorComa = strpos($value, ',');
         $separatorDot = strpos($value, '.');
@@ -114,7 +111,7 @@ class Format implements \Magento\Framework\Locale\FormatInterface
         }
         $integerRequired = strpos($format, '.') - strpos($format, '0');
 
-        $result = array(
+        $result = [
             //TODO: change interface
             'pattern' => $this->_scopeResolver->getScope()->getCurrentCurrency()->getOutputFormat(),
             'precision' => $totalPrecision,
@@ -122,8 +119,8 @@ class Format implements \Magento\Framework\Locale\FormatInterface
             'decimalSymbol' => $symbols['decimal'],
             'groupSymbol' => $symbols['group'],
             'groupLength' => $group,
-            'integerRequired' => $integerRequired
-        );
+            'integerRequired' => $integerRequired,
+        ];
 
         return $result;
     }

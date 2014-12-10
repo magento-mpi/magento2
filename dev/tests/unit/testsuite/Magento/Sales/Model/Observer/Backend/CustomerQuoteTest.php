@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
@@ -143,12 +140,12 @@ class CustomerQuoteTest extends \PHPUnit_Framework_TestCase
         $quoteMock = $this->getMockBuilder(
             'Magento\Sales\Model\Quote'
         )->setMethods(
-                array(
+                [
                     'setWebsite',
                     'setCustomerGroupId',
                     'collectTotals',
-                    '__wakeup'
-                )
+                    '__wakeup',
+                ]
             )->disableOriginalConstructor(
             )->getMock();
         $websiteCount = count($websites);

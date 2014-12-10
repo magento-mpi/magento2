@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\TestCase;
 
-use Mtf\Factory\Factory;
 use Magento\UrlRewrite\Test\Fixture\UrlRewriteCategory;
+use Mtf\Factory\Factory;
 use Mtf\TestCase\Injectable;
 
 /**

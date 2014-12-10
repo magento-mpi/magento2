@@ -2,17 +2,14 @@
 /**
  * HTTP response
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Response;
 
-use Magento\Framework\App\ObjectManager;
-use Magento\Framework\Stdlib\CookieManagerInterface;
-use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
 use Magento\Framework\App\Http\Context;
+use Magento\Framework\App\ObjectManager;
+use Magento\Framework\Stdlib\Cookie\CookieMetadataFactory;
+use Magento\Framework\Stdlib\CookieManagerInterface;
 
 class Http extends \Zend_Controller_Response_Http implements HttpInterface
 {
@@ -76,7 +73,6 @@ class Http extends \Zend_Controller_Response_Http implements HttpInterface
      */
     public function sendVary()
     {
-
         $data = $this->context->getData();
         if (!empty($data)) {
             ksort($data);

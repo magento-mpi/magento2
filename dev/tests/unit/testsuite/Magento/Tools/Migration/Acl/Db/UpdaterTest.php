@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db;
-
 
 require_once realpath(__DIR__ . '/../../../../../../../../') . '/tools/Magento/Tools/Migration/Acl/Db/Updater.php';
 class UpdaterTest extends \PHPUnit_Framework_TestCase
@@ -29,38 +25,38 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $_map = array();
+    protected $_map = [];
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\Tools\Migration\Acl\Db\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Tools\Migration\Acl\Db\Reader', [], [], '', false);
         $this->_readerMock->expects(
             $this->once()
         )->method(
             'fetchAll'
         )->will(
             $this->returnValue(
-                array('oldResource1' => 1, 'oldResource2' => 2, 'Test::newResource3' => 3, 'additionalResource' => 4)
+                ['oldResource1' => 1, 'oldResource2' => 2, 'Test::newResource3' => 3, 'additionalResource' => 4]
             )
         );
 
-        $this->_map = array(
+        $this->_map = [
             "oldResource1" => "Test::newResource1",
             "oldResource2" => "Test::newResource2",
             "oldResource3" => "Test::newResource3",
             "oldResource4" => "Test::newResource4",
-            "oldResource5" => "Test::newResource5"
-        );
+            "oldResource5" => "Test::newResource5",
+        ];
 
-        $this->_writerMock = $this->getMock('Magento\Tools\Migration\Acl\Db\Writer', array(), array(), '', false);
+        $this->_writerMock = $this->getMock('Magento\Tools\Migration\Acl\Db\Writer', [], [], '', false);
         $this->_loggerMock = $this->getMockForAbstractClass(
             'Magento\Tools\Migration\Acl\Db\AbstractLogger',
-            array(),
+            [],
             '',
             false,
             false,
             false,
-            array('add')
+            ['add']
         );
     }
 

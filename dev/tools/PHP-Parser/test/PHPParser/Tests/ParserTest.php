@@ -7,9 +7,10 @@ class PHPParser_Tests_ParserTest extends PHPParser_Tests_CodeTestAbstract
     /**
      * @dataProvider provideTestParse
      */
-    public function testParse($name, $code, $dump) {
-        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
-        $dumper = new PHPParser_NodeDumper;
+    public function testParse($name, $code, $dump)
+    {
+        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative());
+        $dumper = new PHPParser_NodeDumper();
 
         $stmts = $parser->parse($code);
         $this->assertEquals(
@@ -19,15 +20,17 @@ class PHPParser_Tests_ParserTest extends PHPParser_Tests_CodeTestAbstract
         );
     }
 
-    public function provideTestParse() {
+    public function provideTestParse()
+    {
         return $this->getTests(dirname(__FILE__) . '/../../code/parser', 'test');
     }
 
     /**
      * @dataProvider provideTestParseFail
      */
-    public function testParseFail($name, $code, $msg) {
-        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative);
+    public function testParseFail($name, $code, $msg)
+    {
+        $parser = new PHPParser_Parser(new PHPParser_Lexer_Emulative());
 
         try {
             $parser->parse($code);
@@ -38,7 +41,8 @@ class PHPParser_Tests_ParserTest extends PHPParser_Tests_CodeTestAbstract
         }
     }
 
-    public function provideTestParseFail() {
+    public function provideTestParseFail()
+    {
         return $this->getTests(dirname(__FILE__) . '/../../code/parser', 'test-fail');
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Currency\Import\Source;
 
@@ -23,8 +20,8 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_importConfig = $this->getMock(
             'Magento\Directory\Model\Currency\Import\Config',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -38,7 +35,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getAvailableServices'
         )->will(
-            $this->returnValue(array('service_one', 'service_two'))
+            $this->returnValue(['service_one', 'service_two'])
         );
         $this->_importConfig->expects(
             $this->at(1)
@@ -58,10 +55,10 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue('Service Two')
         );
-        $expectedResult = array(
-            array('value' => 'service_one', 'label' => 'Service One'),
-            array('value' => 'service_two', 'label' => 'Service Two')
-        );
+        $expectedResult = [
+            ['value' => 'service_one', 'label' => 'Service One'],
+            ['value' => 'service_two', 'label' => 'Service Two'],
+        ];
         $this->assertEquals($expectedResult, $this->_model->toOptionArray());
         // Makes sure the value is calculated only once
         $this->assertEquals($expectedResult, $this->_model->toOptionArray());
