@@ -71,7 +71,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     protected $_eventManager;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -94,7 +94,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Sales\Model\QuoteRepository $quoteRepository
      * @param \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      */
     public function __construct(
@@ -111,7 +111,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
     ) {
         $this->_orderFactory = $orderFactory;

@@ -75,7 +75,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -203,7 +203,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Framework\Session\Generic $session
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
      * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
@@ -233,7 +233,7 @@ class Rma extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Framework\Session\Generic $session,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\ItemFactory $rmaItemFactory,
         \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory,

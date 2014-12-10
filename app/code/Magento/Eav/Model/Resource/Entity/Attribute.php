@@ -27,7 +27,7 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected static $_entityAttributes = array();
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -40,12 +40,12 @@ class Attribute extends \Magento\Framework\Model\Resource\Db\AbstractDb
      * Class constructor
      *
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Type $eavEntityType
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Type $eavEntityType
     ) {
         $this->_storeManager = $storeManager;

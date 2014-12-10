@@ -29,7 +29,7 @@ class NodeTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $storeManager = $this->getMockForAbstractClass('Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMockForAbstractClass('Magento\Store\Model\StoreManagerInterface');
         $storeManager->expects($this->once())
             ->method('getStore')
             ->will($this->returnValue($this->store));

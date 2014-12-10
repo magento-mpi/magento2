@@ -73,7 +73,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testGetSetCustomerGroupId()
     {
         $this->assertEquals(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
             $this->_model->getCustomerGroupId()
         );
 

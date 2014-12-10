@@ -1,6 +1,6 @@
 <?php
 /**
- * Unit test for converter \Magento\Customer\Model\Converter
+ * Unit test for converter \Magento\Customer\Model\AddressRegistry
  *
  * {license_notice}
  *
