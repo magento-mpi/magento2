@@ -26,7 +26,7 @@ abstract class AbstractValidator implements \Magento\Framework\Validator\Validat
      *
      * @var array
      */
-    protected $_messages = array();
+    protected $_messages = [];
 
     /**
      * Set default translator instance
@@ -87,11 +87,21 @@ abstract class AbstractValidator implements \Magento\Framework\Validator\Validat
     /**
      * Get validation failure messages
      *
-     * @return array
+     * @return string[]
      */
     public function getMessages()
     {
         return $this->_messages;
+    }
+
+    /**
+     * Whether it has failure messages
+     *
+     * @return bool
+     */
+    public function hasMessages()
+    {
+        return !empty($this->_messages);
     }
 
     /**
@@ -101,7 +111,7 @@ abstract class AbstractValidator implements \Magento\Framework\Validator\Validat
      */
     protected function _clearMessages()
     {
-        $this->_messages = array();
+        $this->_messages = [];
     }
 
     /**
