@@ -233,10 +233,10 @@ class CreateTest extends \PHPUnit_Framework_TestCase
             ->method('prepareRequest')
             ->will($this->returnValue($this->getMock('Magento\Framework\App\RequestInterface')));
 
-        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', array(), array(), '', false);
+        $customerMock = $this->getMock('Magento\Customer\Api\Data\CustomerInterface', [], [], '', false);
         $this->customerMapper->expects($this->any())->method('toFlatArray')
-            ->will($this->returnValue(array('email' => 'user@example.com', 'group_id' => 1)));
-        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
+            ->will($this->returnValue(['email' => 'user@example.com', 'group_id' => 1]));
+        $quoteMock = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
         $quoteMock->expects($this->any())->method('getCustomer')->will($this->returnValue($customerMock));
         $quoteMock->expects($this->once())
             ->method('addData')

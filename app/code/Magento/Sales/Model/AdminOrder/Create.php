@@ -244,7 +244,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
         \Magento\Customer\Api\AccountManagementInterface $accountManagement,
         \Magento\Customer\Api\Data\CustomerDataBuilder $customerBuilder,
         \Magento\Customer\Model\Customer\Mapper $customerMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
