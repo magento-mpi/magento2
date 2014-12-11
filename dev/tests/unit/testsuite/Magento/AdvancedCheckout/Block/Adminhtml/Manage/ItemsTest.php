@@ -58,12 +58,12 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
 
         $this->block = $this->objectManager->getObject(
             'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Items',
-            array(
+            [
                 'context' => $this->objectManager->getObject(
                         'Magento\Backend\Block\Template\Context',
-                        array('layout' => $this->layoutMock)
+                        ['layout' => $this->layoutMock]
                     )
-            )
+            ]
         );
     }
 
