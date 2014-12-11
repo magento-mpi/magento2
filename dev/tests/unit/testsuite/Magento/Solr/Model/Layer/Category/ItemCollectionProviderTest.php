@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Solr\Model\Layer\Category;
@@ -25,8 +22,8 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
         $this->markTestSkipped('Solr module disabled');
         $this->engineProviderMock = $this->getMock(
             '\Magento\CatalogSearch\Model\Resource\EngineProvider',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -40,13 +37,13 @@ class ItemCollectionProviderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetCollection()
     {
-        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', array(), array(), '', false);
+        $categoryMock = $this->getMock('\Magento\Catalog\Model\Category', [], [], '', false);
         $categoryMock->expects($this->once())->method('getStoreId');
 
         $collectionMock = $this->getMock(
             '\Magento\Catalog\Model\Resource\Product\Collection',
-            array('setStoreId',  'addCategoryFilter', 'setGeneralDefaultQuery'),
-            array(),
+            ['setStoreId',  'addCategoryFilter', 'setGeneralDefaultQuery'],
+            [],
             '',
             false
         );

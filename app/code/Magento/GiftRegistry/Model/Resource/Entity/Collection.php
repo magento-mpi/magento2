@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Resource\Entity;
 
@@ -20,7 +17,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected $attributeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -35,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper
      * @param \Zend_Db_Adapter_Abstract $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
@@ -46,7 +43,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\GiftRegistry\Model\Resource\Helper $resourceHelper,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
@@ -112,21 +109,21 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _addQtyItemsData()
     {
         $select = $this->getConnection()->select()->from(
-            array('item' => $this->getTable('magento_giftregistry_item')),
-            array(
+            ['item' => $this->getTable('magento_giftregistry_item')],
+            [
                 'entity_id',
                 'qty' => new \Zend_Db_Expr('SUM(item.qty)'),
                 'qty_fulfilled' => new \Zend_Db_Expr('SUM(item.qty_fulfilled)'),
                 'qty_remaining' => new \Zend_Db_Expr('SUM(item.qty - item.qty_fulfilled)')
-            )
+            ]
         )->group(
             'entity_id'
         );
 
         $this->getSelect()->joinLeft(
-            array('items' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
+            ['items' => new \Zend_Db_Expr(sprintf('(%s)', $select))],
             'main_table.entity_id = items.entity_id',
-            array('qty', 'qty_fulfilled', 'qty_remaining')
+            ['qty', 'qty_fulfilled', 'qty_remaining']
         );
 
         return $this;
@@ -140,9 +137,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     protected function _addEventData()
     {
         $this->getSelect()->joinLeft(
-            array('data' => $this->getTable('magento_giftregistry_data')),
+            ['data' => $this->getTable('magento_giftregistry_data')],
             'main_table.entity_id = data.entity_id',
-            array('data.event_date')
+            ['data.event_date']
         );
         return $this;
     }
@@ -156,17 +153,17 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $select = $this->getConnection()->select()->from(
             $this->getTable('magento_giftregistry_person'),
-            array('entity_id')
+            ['entity_id']
         )->group(
             'entity_id'
         );
 
-        $this->resourceHelper->addGroupConcatColumn($select, 'registrants', array('firstname', 'lastname'), ', ', ' ');
+        $this->resourceHelper->addGroupConcatColumn($select, 'registrants', ['firstname', 'lastname'], ', ', ' ');
 
         $this->getSelect()->joinLeft(
-            array('person' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
+            ['person' => new \Zend_Db_Expr(sprintf('(%s)', $select))],
             'main_table.entity_id = person.entity_id',
-            array('registrants')
+            ['registrants']
         );
 
         return $this;
@@ -183,8 +180,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         $adapter = $this->getConnection();
         $select = $adapter->select();
         $select->from(
-            array('m' => $this->getMainTable()),
-            array('*')
+            ['m' => $this->getMainTable()],
+            ['*']
         )->where(
             'm.is_public = ?',
             1
@@ -200,37 +197,37 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
          * Join registry type store label
          */
         $select->joinLeft(
-            array('i1' => $this->getTable('magento_giftregistry_type_info')),
+            ['i1' => $this->getTable('magento_giftregistry_type_info')],
             'i1.type_id = m.type_id AND i1.store_id = 0',
-            array()
+            []
         );
         $typeExpr = $adapter->getCheckSql('i2.label IS NULL', 'i1.label', 'i2.label');
         $select->joinLeft(
-            array('i2' => $this->getTable('magento_giftregistry_type_info')),
+            ['i2' => $this->getTable('magento_giftregistry_type_info')],
             $adapter->quoteInto(
                 'i2.type_id = m.type_id AND i2.store_id = ?',
                 (int)$this->storeManager->getStore()->getId()
             ),
-            array('type' => $typeExpr)
+            ['type' => $typeExpr]
         );
 
         /*
          * Join registrant data
          */
-        $registrantExpr = $adapter->getConcatSql(array('firstname', 'lastname'), ' ');
+        $registrantExpr = $adapter->getConcatSql(['firstname', 'lastname'], ' ');
         $select->joinInner(
-            array('p' => $this->getTable('magento_giftregistry_person')),
+            ['p' => $this->getTable('magento_giftregistry_person')],
             'm.entity_id = p.entity_id',
-            array('registrant' => $registrantExpr)
+            ['registrant' => $registrantExpr]
         );
 
         /*
          * Join entity event data
          */
         $select->joinLeft(
-            array('d' => $this->getTable('magento_giftregistry_data')),
+            ['d' => $this->getTable('magento_giftregistry_data')],
             'm.entity_id = d.entity_id',
-            array('event_date', 'event_location')
+            ['event_date', 'event_location']
         );
 
         /*
@@ -272,8 +269,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $select->group('m.entity_id');
         $this->getSelect()->reset()->from(
-            array('main_table' => new \Zend_Db_Expr(sprintf('(%s)', $select))),
-            array('*')
+            ['main_table' => new \Zend_Db_Expr(sprintf('(%s)', $select))],
+            ['*']
         );
 
         return $this;

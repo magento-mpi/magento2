@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
-use \Magento\ImportExport\Model\Import as ImportModel;
+use Magento\ImportExport\Model\Import as ImportModel;
 
 class Import extends AbstractPlugin
 {

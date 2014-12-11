@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Dynamic;
 
@@ -196,7 +193,7 @@ class Algorithm
                     $separatorData = [
                         'from' => $isEqualValue !== false ? $isEqualValue : $lastSeparator,
                         'to' => $isEqualValue !== false ? $isEqualValue : $bestSeparator[1],
-                        'count' => $count
+                        'count' => $count,
                     ];
                     if (abs(1 - $count / $valuesPerInterval) <= self::INTERVAL_DEFLECTION_LIMIT) {
                         $newLastSeparator = $bestSeparator[1];
@@ -207,7 +204,7 @@ class Algorithm
                             $bestSeparator[0],
                             $separatorData,
                             $bestSeparator[1],
-                            $this->_values[$bestSeparator[2]]
+                            $this->_values[$bestSeparator[2]],
                         ];
                     }
                 }
@@ -234,7 +231,7 @@ class Algorithm
             $result[$this->getIntervalsNumber()] = [
                 'from' => $isEqualValue ? $isEqualValue : $lastSeparator,
                 'to' => $isEqualValue ? $isEqualValue : (is_null($this->_upperLimit) ? '' : $this->_upperLimit),
-                'count' => $this->_count - $lastCount
+                'count' => $this->_count - $lastCount,
             ];
         }
 
@@ -382,7 +379,7 @@ class Algorithm
         $deflectionLimit = floor($this->_count / 2 / $this->getIntervalsNumber());
         $limits = [
             min(floor($quantile - $deflectionLimit), floor($quantile)),
-            max(ceil($quantile + $deflectionLimit - 1), ceil($quantile))
+            max(ceil($quantile + $deflectionLimit - 1), ceil($quantile)),
         ];
 
         $sqrtParam = $this->_count * $quantileNumber * ($this->getIntervalsNumber() - $quantileNumber);

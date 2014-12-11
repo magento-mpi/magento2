@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model\Observer;
 
@@ -26,12 +23,12 @@ class FlushAllCacheTest extends \PHPUnit_Framework_TestCase
     {
         $this->_configMock = $this->getMock(
             'Magento\PageCache\Model\Config',
-            array('getType', 'isEnabled'),
-            array(),
+            ['getType', 'isEnabled'],
+            [],
             '',
             false
         );
-        $this->_cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', array('clean'), array(), '', false);
+        $this->_cacheMock = $this->getMock('Magento\Framework\App\PageCache\Cache', ['clean'], [], '', false);
 
         $this->_model = new \Magento\PageCache\Model\Observer\FlushAllCache(
             $this->_configMock,

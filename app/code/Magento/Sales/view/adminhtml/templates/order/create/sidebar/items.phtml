@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /* @var $this \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\AbstractSidebar */ ?>
@@ -14,16 +11,16 @@
     </div>
     <div class="content">
         <div class="auto-scroll">
-        <?php if($this->getItemCount()): ?>
+        <?php if ($this->getItemCount()): ?>
         <table class="data-table" cellspacing="0">
             <col />
             <?php if ($this->canDisplayItemQty()): ?>
             <col width="20" />
             <?php endif; ?>
-            <?php if($this->canDisplayPrice()): ?>
+            <?php if ($this->canDisplayPrice()): ?>
             <col width="60" />
             <?php endif; ?>
-            <?php if($this->canRemoveItems()): ?>
+            <?php if ($this->canRemoveItems()): ?>
             <col width="16" />
             <?php endif; ?>
             <col width="16" />
@@ -33,10 +30,10 @@
                     <?php if ($this->canDisplayItemQty()): ?>
                     <th class="a-center"><?php echo __('Qty') ?></th>
                     <?php endif; ?>
-                    <?php if($this->canDisplayPrice()): ?>
+                    <?php if ($this->canDisplayPrice()): ?>
                     <th><?php echo __('Price') ?></th>
                     <?php endif; ?>
-                    <?php if($this->canRemoveItems()): ?>
+                    <?php if ($this->canRemoveItems()): ?>
                     <th class="a-center">
                         <span class="icon icon-remove"><?php echo __('Remove') ?></span>
                     </th>
@@ -55,10 +52,10 @@
                         <?php echo $this->getItemQty($_item); ?>
                     </td>
                     <?php endif; ?>
-                    <?php if($this->canDisplayPrice()): ?>
+                    <?php if ($this->canDisplayPrice()): ?>
                     <td><?php echo $this->convertPrice($_item->getPrice()) ?></td>
                     <?php endif; ?>
-                    <?php if($this->canRemoveItems()): ?>
+                    <?php if ($this->canRemoveItems()): ?>
                     <td class="a-center"><input type="checkbox" name="sidebar[remove][<?php echo $this->getItemId($_item) ?>]" value="<?php echo $this->getDataId() ?>" title="<?php echo __('Remove') ?>"/></td>
                     <?php endif; ?>
                     <td class="a-center">

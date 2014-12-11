@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit;
 
@@ -23,14 +20,14 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getUrl('adminhtml/*/save'),
                     'enctype' => 'multipart/form-data',
-                    'method' => 'post'
-                )
-            )
+                    'method' => 'post',
+                ],
+            ]
         );
 
         $form->setUseContainer(true);

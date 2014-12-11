@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Block\Catalog\Product;
@@ -106,15 +103,15 @@ class View extends \Magento\Catalog\Test\Block\Product\View
                 'title' => $this->getDownloadableLinksBlock()->getTitle(),
                 'downloadable' => [
                     'link' => $this->getDownloadableLinksBlock()->getLinks(),
-                ]
+                ],
             ];
         }
         if ($this->_rootElement->find($this->blockDownloadableSamples)->isVisible()) {
             $downloadableOptions['downloadable_sample'] = [
                 'title' => $this->getDownloadableSamplesBlock()->getTitle(),
                 'downloadable' => [
-                    'sample' => $this->getDownloadableSamplesBlock()->getLinks()
-                ]
+                    'sample' => $this->getDownloadableSamplesBlock()->getLinks(),
+                ],
             ];
         }
 

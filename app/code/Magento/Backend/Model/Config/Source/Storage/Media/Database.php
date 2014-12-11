@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -36,12 +33,12 @@ class Database implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $resourceOptions = array();
+        $resourceOptions = [];
         $resourceInfo = $this->_deploymentConfig->getSegment(ResourceConfig::CONFIG_KEY);
         if (null !== $resourceInfo) {
             $resourceConfig = new ResourceConfig($resourceInfo);
             foreach (array_keys($resourceConfig->getData()) as $resourceName) {
-                $resourceOptions[] = array('value' => $resourceName, 'label' => $resourceName);
+                $resourceOptions[] = ['value' => $resourceName, 'label' => $resourceName];
             }
             sort($resourceOptions);
             reset($resourceOptions);

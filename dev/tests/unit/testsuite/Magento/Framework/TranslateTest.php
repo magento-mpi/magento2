@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -246,7 +243,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     {
         $this->request->expects($this->at(0))->method('getParam')->with('theme')->will($this->returnValue(''));
 
-        $requestTheme = array('theme_title' => 'Theme Title');
+        $requestTheme = ['theme_title' => 'Theme Title'];
         $this->request->expects($this->at(1))->method('getParam')->with('theme')
             ->will($this->returnValue($requestTheme));
 
@@ -279,7 +276,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
                 $this->returnValueMap(
                     [
                         [null, $scope],
-                        ['admin', $scopeAdmin]
+                        ['admin', $scopeAdmin],
                     ]
                 )
             );

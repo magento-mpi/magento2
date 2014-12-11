@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element\UiComponent;
 
-use Magento\Framework\Registry;
-use Magento\Framework\View\LayoutInterface;
 use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Registry;
 use Magento\Framework\View\Element\UiComponentFactory;
+use Magento\Framework\View\LayoutInterface;
 
 /**
  * Class Context

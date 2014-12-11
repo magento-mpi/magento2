@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Invoice\Create;
 
@@ -51,7 +48,7 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('sales/*/save', array('order_id' => $this->getInvoice()->getOrderId()));
+        return $this->getUrl('sales/*/save', ['order_id' => $this->getInvoice()->getOrderId()]);
     }
 
     /**

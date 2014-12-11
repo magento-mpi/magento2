@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Action;
@@ -49,7 +46,7 @@ class RowTest extends \PHPUnit_Framework_TestCase
                     ),
                 'resource' => $this->getMock('\Magento\TargetRule\Model\Resource\Index', [], [], '', false),
                 'storeManager' => $this->getMockForAbstractClass(
-                        '\Magento\Framework\StoreManagerInterface',
+                        '\Magento\Store\Model\StoreManagerInterface',
                         [],
                         '',
                         false

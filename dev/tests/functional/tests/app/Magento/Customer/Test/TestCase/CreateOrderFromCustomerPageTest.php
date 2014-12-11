@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\TestCase;
 
-use Mtf\TestCase\Scenario;
+use Magento\Customer\Test\Page\CustomerAccountLogout;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateIndex;
 use Magento\Reward\Test\Page\Adminhtml\RewardRateNew;
-use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Mtf\TestCase\Scenario;
 
 /**
  * Test Creation for CreateOrderFromCustomerPage

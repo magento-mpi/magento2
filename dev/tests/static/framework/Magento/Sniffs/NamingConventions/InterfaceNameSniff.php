@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sniffs\NamingConventions;
 
-use PHP_CodeSniffer_Sniff;
 use PHP_CodeSniffer_File;
+use PHP_CodeSniffer_Sniff;
 
 class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
 {
@@ -19,7 +16,7 @@ class InterfaceNameSniff implements PHP_CodeSniffer_Sniff
      */
     public function register()
     {
-        return array(T_INTERFACE);
+        return [T_INTERFACE];
     }
 
     /**

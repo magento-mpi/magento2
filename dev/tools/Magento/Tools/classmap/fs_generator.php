@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 $basePath = realpath(__DIR__ . '/../../../../../') . DIRECTORY_SEPARATOR;
 set_include_path(get_include_path() . PATH_SEPARATOR . $basePath);
@@ -24,7 +21,7 @@ $args = getopt('t:i::p::');
 $includePath = isset($args['i']) ? $args['i'] : "{$basePath}app/code;{$basePath}lib/internal";
 $pathSeparator = isset($args['p']) ? $args['p'] : ';';
 $targetFile = isset($args['i']) ? $args['i'] : "{$basePath}var/classmap.ser";
-$map = array();
+$map = [];
 
 foreach (array_reverse(explode($pathSeparator, $includePath)) as $path) {
     echo 'Scanning: ' . $path . PHP_EOL;

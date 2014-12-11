@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $product \Magento\Catalog\Model\Product */
@@ -13,7 +10,7 @@ $product->isObjectNew(true);
 $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setId(1)
     ->setAttributeSetId(4)
-    ->setWebsiteIds(array(1))
+    ->setWebsiteIds([1])
     ->setName('Simple Product Group Price')
     ->setSku('simple_with_group_price')
     ->setPrice(10)
@@ -21,18 +18,18 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setShortDescription("Short description")
     ->setTaxClassId(0)
     ->setGroupPrice(
-        array(
-            array(
+        [
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Model\Group::NOT_LOGGED_IN_ID,
                 'price'      => 9,
-            ),
-            array(
+            ],
+            [
                 'website_id' => 0,
                 'cust_group' => \Magento\Customer\Model\Group::CUST_GROUP_ALL,
                 'price'      => 7,
-            ),
-        )
+            ],
+        ]
     )
     ->setDescription('Description with <b>html tag</b>')
     ->setMetaTitle('meta title')
@@ -40,13 +37,13 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setMetaDescription('meta description')
     ->setVisibility(\Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH)
     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-    ->setCategoryIds(array(2))
+    ->setCategoryIds([2])
     ->setStockData(
-        array(
+        [
             'use_config_manage_stock'   => 1,
             'qty'                       => 100,
             'is_qty_decimal'            => 0,
             'is_in_stock'               => 1,
-        )
+        ]
     )
     ->save();

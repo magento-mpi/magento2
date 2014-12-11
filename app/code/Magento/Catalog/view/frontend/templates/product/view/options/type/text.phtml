@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -32,7 +29,9 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
             <input type="text"
                    id="options_<?php echo $_option->getId() ?>_text"
                    class="input-text product-custom-option"
-                   <?php if (!empty($_textValidate)) echo 'data-validate=' . json_encode($_textValidate); ?>
+                   <?php if (!empty($_textValidate)) {
+    echo 'data-validate=' . json_encode($_textValidate);
+} ?>
                    name="options[<?php echo $_option->getId() ?>]"
                    value="<?php echo $this->escapeHtml($this->getDefaultValue()) ?>"/>
         <?php elseif ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA): ?>
@@ -46,7 +45,9 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
             ?>
             <textarea id="options_<?php echo $_option->getId() ?>_text"
                       class="product-custom-option"
-                      <?php if (!empty($_textAreaValidate)) echo 'data-validate=' . json_encode($_textAreaValidate); ?>
+                      <?php if (!empty($_textAreaValidate)) {
+    echo 'data-validate=' . json_encode($_textAreaValidate);
+} ?>
                       name="options[<?php echo $_option->getId() ?>]"
                       rows="5"
                       cols="25"><?php echo $this->escapeHtml($this->getDefaultValue()) ?></textarea>

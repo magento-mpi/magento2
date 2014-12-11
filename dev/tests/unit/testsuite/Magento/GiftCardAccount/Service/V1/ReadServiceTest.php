@@ -1,15 +1,12 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCardAccount\Service\V1;
 
-use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
+use Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
 
 class ReadServiceTest extends \PHPUnit_Framework_TestCase
 {
@@ -45,7 +42,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager =new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->giftCardBuilderMock =
@@ -78,7 +75,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testGetList()
     {
-        $cartId= 12;
+        $cartId = 12;
 
         $this->quoteRepositoryMock
             ->expects($this->once())
@@ -95,7 +92,7 @@ class ReadServiceTest extends \PHPUnit_Framework_TestCase
             GiftCardAccount::GIFT_CARDS_AMOUNT => 100,
             GiftCardAccount::BASE_GIFT_CARDS_AMOUNT => 90,
             GiftCardAccount::GIFT_CARDS_AMOUNT_USED => 50,
-            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => 40
+            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => 40,
         ];
         $this->quoteMock->expects($this->once())->method('getGiftCardsAmount')->will($this->returnValue(100));
         $this->quoteMock->expects($this->once())->method('getBaseGiftCardsAmount')->will($this->returnValue(90));

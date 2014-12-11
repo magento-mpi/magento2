@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Eav\Plugin;
 
@@ -28,7 +25,7 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
 
         $objectMock = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'dataHasChangedFor', 'getIsActive', '__wakeup'))
+            ->setMethods(['getId', 'dataHasChangedFor', 'getIsActive', '__wakeup'])
             ->getMock();
         $objectMock->expects($this->any())
             ->method('getId')
@@ -50,71 +47,71 @@ class StoreViewTest extends \PHPUnit_Framework_TestCase
      */
     public function beforeSaveDataProvider()
     {
-        return array(
-            array(
-                array(
+        return [
+            [
+                [
                     'matcher' => 'once',
                     'object_id' => 1,
                     'has_group_id_changed' => true,
-                    'is_active' => true
-                )
-            ),
-            array(
-                array(
+                    'is_active' => true,
+                ],
+            ],
+            [
+                [
                     'matcher' => 'never',
                     'object_id' => 1,
                     'has_group_id_changed' => false,
-                    'is_active' => true
-                )
-            ),
-            array(
-                array(
+                    'is_active' => true,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'never',
                     'object_id' => 1,
                     'has_group_id_changed' => true,
-                    'is_active' => false
-                )
-            ),
-            array(
-                array(
+                    'is_active' => false,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'never',
                     'object_id' => 1,
                     'has_group_id_changed' => false,
-                    'is_active' => false
-                )
-            ),
-            array(
-                array(
+                    'is_active' => false,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'once',
                     'object_id' => 0,
                     'has_group_id_changed' => true,
-                    'is_active' => true
-                )
-            ),
-            array(
-                array(
+                    'is_active' => true,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'once',
                     'object_id' => 0,
                     'has_group_id_changed' => false,
-                    'is_active' => true
-                )
-            ),
-            array(
-                array(
+                    'is_active' => true,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'never',
                     'object_id' => 0,
                     'has_group_id_changed' => true,
-                    'is_active' => false
-                )
-            ),
-            array(
-                array(
+                    'is_active' => false,
+                ]
+            ],
+            [
+                [
                     'matcher' => 'never',
                     'object_id' => 0,
                     'has_group_id_changed' => false,
-                    'is_active' => false
-                )
-            ),
-        );
+                    'is_active' => false,
+                ]
+            ],
+        ];
     }
 }

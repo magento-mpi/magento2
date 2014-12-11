@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Controller;
 
-use Magento\Setup\Model\Lists;
-use Magento\Setup\Model\InstallerFactory;
-use Magento\Setup\Model\Installer;
+use Magento\Framework\App\MaintenanceMode;
+use Magento\Setup\Model\AdminAccount;
 use Magento\Setup\Model\ConsoleLogger;
+use Magento\Setup\Model\DeploymentConfigMapper;
+use Magento\Setup\Model\Installer;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\Lists;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Zend\Console\Request as ConsoleRequest;
 use Zend\EventManager\EventManagerInterface;
 use Zend\Mvc\Controller\AbstractActionController;
-use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
-use Magento\Setup\Model\AdminAccount;
-use Magento\Framework\App\MaintenanceMode;
-use Magento\Setup\Model\DeploymentConfigMapper;
 
 /**
  * Controller that handles all setup commands via command line interface.

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -19,11 +16,11 @@ class FlyweightFactory
      *
      * @var array
      */
-    protected $_flyweightMap = array(
+    protected $_flyweightMap = [
         'section' => 'Magento\Backend\Model\Config\Structure\Element\Section',
         'group' => 'Magento\Backend\Model\Config\Structure\Element\Group',
-        'field' => 'Magento\Backend\Model\Config\Structure\Element\Field'
-    );
+        'field' => 'Magento\Backend\Model\Config\Structure\Element\Field',
+    ];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager

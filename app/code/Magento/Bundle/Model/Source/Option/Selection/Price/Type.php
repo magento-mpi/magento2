@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Source\Option\Selection\Price;
 
@@ -19,6 +16,6 @@ class Type implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => '0', 'label' => __('Fixed')), array('value' => '1', 'label' => __('Percent')));
+        return [['value' => '0', 'label' => __('Fixed')], ['value' => '1', 'label' => __('Percent')]];
     }
 }

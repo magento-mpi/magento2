@@ -1,21 +1,18 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Catalog\Model\Product\Attribute;
- 
+
 class TypesListTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var TypesList
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -25,10 +22,10 @@ class TypesListTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $attributeTypeBuilderMock;
-    
+
     protected function setUp()
     {
-        $this->inputTypeFactoryMock =$this->getMock(
+        $this->inputTypeFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Product\Attribute\Source\InputtypeFactory',
             ['create', '__wakeup'],
             [],

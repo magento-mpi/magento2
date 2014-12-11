@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ogone\Model;
 
@@ -118,7 +115,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getPayPageTemplate()
     {
-        return $this->_urlBuilder->getUrl('ogone/api/paypage', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/paypage', ['_nosid' => true]);
     }
 
     /**
@@ -128,7 +125,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getAcceptUrl()
     {
-        return $this->_urlBuilder->getUrl('ogone/api/accept', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/accept', ['_nosid' => true]);
     }
 
     /**
@@ -138,7 +135,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getDeclineUrl()
     {
-        return $this->_urlBuilder->getUrl('ogone/api/decline', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/decline', ['_nosid' => true]);
     }
 
     /**
@@ -148,7 +145,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getExceptionUrl()
     {
-        return $this->_urlBuilder->getUrl('ogone/api/exception', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/exception', ['_nosid' => true]);
     }
 
     /**
@@ -158,7 +155,7 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getCancelUrl()
     {
-        return $this->_urlBuilder->getUrl('ogone/api/cancel', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('ogone/api/cancel', ['_nosid' => true]);
     }
 
     /**
@@ -168,6 +165,6 @@ class Config extends \Magento\Payment\Model\Config
      */
     public function getHomeUrl()
     {
-        return $this->_urlBuilder->getUrl('checkout/cart', array('_nosid' => true));
+        return $this->_urlBuilder->getUrl('checkout/cart', ['_nosid' => true]);
     }
 }

@@ -2,10 +2,7 @@
 /**
  * Test case for \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver\Standard\Output;
 
@@ -38,7 +35,7 @@ class CsvfileTest extends \PHPUnit_Framework_TestCase
     public function testDisplay($statFile, $expectedFile, $delimiter = ',', $enclosure = '"')
     {
         $this->_output = new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(
-            array('filePath' => $this->_outputFile, 'delimiter' => $delimiter, 'enclosure' => $enclosure)
+            ['filePath' => $this->_outputFile, 'delimiter' => $delimiter, 'enclosure' => $enclosure]
         );
         $stat = include $statFile;
         $this->_output->display($stat);
@@ -50,17 +47,17 @@ class CsvfileTest extends \PHPUnit_Framework_TestCase
      */
     public function displayDataProvider()
     {
-        return array(
-            'Default delimiter & enclosure' => array(
+        return [
+            'Default delimiter & enclosure' => [
                 'statFile' => __DIR__ . '/_files/timers.php',
-                'expectedHtmlFile' => __DIR__ . '/_files/output_default.csv'
-            ),
-            'Custom delimiter & enclosure' => array(
+                'expectedHtmlFile' => __DIR__ . '/_files/output_default.csv',
+            ],
+            'Custom delimiter & enclosure' => [
                 'statFile' => __DIR__ . '/_files/timers.php',
                 'expectedHtmlFile' => __DIR__ . '/_files/output_custom.csv',
                 '.',
-                '`'
-            )
-        );
+                '`',
+            ]
+        ];
     }
 }

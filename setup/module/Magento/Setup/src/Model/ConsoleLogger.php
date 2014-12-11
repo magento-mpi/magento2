@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
-use Zend\Console\Console;
 use Zend\Console\ColorInterface;
+use Zend\Console\Console;
 
 /**
  * Console Logger

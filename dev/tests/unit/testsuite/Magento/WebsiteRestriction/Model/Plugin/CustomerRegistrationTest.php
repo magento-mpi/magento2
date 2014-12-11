@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\Plugin;
 
@@ -27,13 +24,13 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->restrictionConfig = $this->getMock('Magento\WebsiteRestriction\Model\ConfigInterface');
-        $this->subjectMock = $this->getMock('Magento\Customer\Model\Registration', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Customer\Model\Registration', [], [], '', false);
         $this->model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration($this->restrictionConfig);
     }
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfRestrictionModeForbidsIt()
     {
-        $storeMock = $this->getMock('Magento\Store\Model\Store', array(), array(), '', false);
+        $storeMock = $this->getMock('Magento\Store\Model\Store', [], [], '', false);
         $storeMock->expects($this->any())->method('isAdmin')->will($this->returnValue(false));
         $this->restrictionConfig->expects(
             $this->any()

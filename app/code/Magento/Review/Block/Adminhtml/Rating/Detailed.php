@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rating;
 
@@ -64,7 +61,7 @@ class Detailed extends \Magento\Backend\Block\Template
         \Magento\Review\Model\Resource\Rating\CollectionFactory $ratingsFactory,
         \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ratingsFactory = $ratingsFactory;
         $this->_votesFactory = $votesFactory;
@@ -97,7 +94,7 @@ class Detailed extends \Magento\Backend\Block\Template
             if ($this->_coreRegistry->registry('review_data')) {
                 $stores = $this->_coreRegistry->registry('review_data')->getStores();
 
-                $stores = array_diff($stores, array(0));
+                $stores = array_diff($stores, [0]);
 
                 $ratingCollection = $this->_ratingsFactory->create()->addEntityFilter(
                     'product'

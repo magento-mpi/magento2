@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
@@ -51,7 +48,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
                     false
                 ),
             'calculatorFactory' => $this->getMock('Magento\Framework\Math\CalculatorFactory', [], [], '', false),
-            'storeManager' => $this->getMock('Magento\Framework\StoreManagerInterface', [], [], '', false),
+            'storeManager' => $this->getMock('Magento\Store\Model\StoreManagerInterface', [], [], '', false),
             'commentFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\Creditmemo\CommentFactory',
                     [],

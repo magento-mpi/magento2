@@ -2,10 +2,7 @@
 /**
  * Automated replacement of factory names into real ones
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require realpath(dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/dev/tests/static/framework/bootstrap.php';
 
@@ -17,8 +14,8 @@ foreach (\Magento\Framework\Test\Utility\Files::init()->getPhpFiles(true, true, 
     if (!$factoryNames) {
         continue;
     }
-    $search = array();
-    $replace = array();
+    $search = [];
+    $replace = [];
     foreach ($factoryNames as $factoryName) {
         list($module, $name) = getModuleName($factoryName);
         addReplace($factoryName, $module, $name, '::getModel(\'%s\'', '_Model_', $search, $replace);
@@ -35,7 +32,7 @@ foreach (\Magento\Framework\Test\Utility\Files::init()->getPhpFiles(true, true, 
 }
 
 // layouts
-$layouts = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles(array(), false);
+$layouts = \Magento\Framework\Test\Utility\Files::init()->getLayoutFiles([], false);
 foreach ($layouts as $file) {
     $xml = simplexml_load_file($file);
     $classes = \Magento\Framework\Test\Utility\Classes::collectLayoutClasses($xml);
@@ -43,8 +40,8 @@ foreach ($layouts as $file) {
     if (!$factoryNames) {
         continue;
     }
-    $search = array();
-    $replace = array();
+    $search = [];
+    $replace = [];
     foreach ($factoryNames as $factoryName) {
         list($module, $name) = getModuleName($factoryName);
         addReplace($factoryName, $module, $name, 'type="%s"', '_Block_', $search, $replace);
@@ -55,7 +52,7 @@ foreach ($layouts as $file) {
 // modules in configuration and layouts
 $configs = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles(
     '*.xml',
-    array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
+    ['wsdl.xml', 'wsdl2.xml', 'wsi.xml'],
     false
 );
 foreach (array_merge($layouts, $configs) as $file) {
@@ -70,8 +67,8 @@ foreach (array_merge($layouts, $configs) as $file) {
     if (!$factoryNames) {
         continue;
     }
-    $search = array();
-    $replace = array();
+    $search = [];
+    $replace = [];
     foreach ($factoryNames as $factoryName) {
         list($module, $name) = getModuleName($factoryName);
         if ($module) {
@@ -129,7 +126,7 @@ function getModuleName($factoryName)
         }
     }
 
-    return array($module, $name);
+    return [$module, $name];
 }
 
 /**

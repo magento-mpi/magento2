@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="block block-dashboard-orders">
 <?php $_orders = $this->getOrders(); ?>
     <div class="block-title order">
         <strong><?php echo __('Recent Orders') ?></strong>
-        <?php if( sizeof($_orders->getItems()) > 0 ): ?>
+        <?php if (sizeof($_orders->getItems()) > 0): ?>
             <a class="action view" href="<?php echo $this->getUrl('sales/order/history') ?>">
                 <span><?php echo __('View All') ?></span>
             </a>
@@ -18,7 +15,7 @@
     </div>
     <div class="block-content">
     <?php echo $this->getChildHtml()?>
-    <?php if( sizeof($_orders->getItems()) > 0 ): ?>
+    <?php if (sizeof($_orders->getItems()) > 0): ?>
         <div class="table-wrapper orders-recent">
             <table class="data table table-order-items recent" id="my-orders-table">
                 <caption class="table-caption"><?php echo __('Recent Orders') ?></caption>

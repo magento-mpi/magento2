@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Cart;
 
@@ -63,9 +60,9 @@ class ConfigureFailed extends \Magento\AdvancedCheckout\Controller\Cart
             $params = new \Magento\Framework\Object();
             $params->setCategoryId(false);
             $params->setConfigureMode(true);
-            $buyRequest = new \Magento\Framework\Object(array('product' => $id, 'qty' => $qty));
+            $buyRequest = new \Magento\Framework\Object(['product' => $id, 'qty' => $qty]);
             $params->setBuyRequest($buyRequest);
-            $params->setBeforeHandles(array('catalog_product_view'));
+            $params->setBeforeHandles(['catalog_product_view']);
             $page = $this->resultPageFactory->create();
             $this->viewHelper->prepareAndRender($page, $id, $this, $params);
             return $page;

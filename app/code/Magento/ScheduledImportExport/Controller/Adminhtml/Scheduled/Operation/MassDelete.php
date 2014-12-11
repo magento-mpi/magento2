@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Controller\Adminhtml\Scheduled\Operation;
 
@@ -25,7 +22,7 @@ class MassDelete extends \Magento\ScheduledImportExport\Controller\Adminhtml\Sch
                 $operations = $this->_objectManager->create(
                     'Magento\ScheduledImportExport\Model\Resource\Scheduled\Operation\Collection'
                 );
-                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), array('in' => $ids));
+                $operations->addFieldToFilter($operations->getResource()->getIdFieldName(), ['in' => $ids]);
                 foreach ($operations as $operation) {
                     $operation->delete();
                 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Model\Layer\Filter;
@@ -13,7 +10,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class AttributeTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\CatalogSearch\Model\Layer\Filter\Attribute
      */
@@ -40,7 +36,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
     /** @var  \Magento\Catalog\Model\Layer\Filter\ItemFactory|MockObject */
     private $filterItemFactory;
 
-    /** @var  \Magento\Framework\StoreManagerInterface|MockObject */
+    /** @var  \Magento\Store\Model\StoreManagerInterface|MockObject */
     private $storeManager;
 
     /** @var  \Magento\Catalog\Model\Layer|MockObject */
@@ -51,15 +47,14 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         /** @var \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory */
         $this->filterItemFactory = $this->getMockBuilder('\Magento\Catalog\Model\Layer\Filter\ItemFactory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])
             ->getMock();
 
-        /** @var \Magento\Framework\StoreManagerInterface $storeManager */
-        $this->storeManager = $this->getMockBuilder('\Magento\Framework\StoreManagerInterface')
+        /** @var \Magento\Store\Model\StoreManagerInterface $storeManager */
+        $this->storeManager = $this->getMockBuilder('\Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->setMethods([])
             ->getMockForAbstractClass();
@@ -216,7 +211,6 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
             ->with($attributeCode, $attributeValue)
             ->will($this->returnSelf());
 
-
         $this->frontend->expects($this->once())
             ->method('getOption')
             ->with($attributeValue)
@@ -265,7 +259,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
                 'label' => $selectedOptions[1]['label'],
                 'value' => $selectedOptions[1]['value'],
                 'count' => $facetedData[$selectedOptions[1]['value']]['count'],
-            ]
+            ],
         ];
 
         $this->attribute->expects($this->exactly(2))

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Layout;
 
@@ -34,10 +31,10 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
      */
     public function testCrud()
     {
-        $this->_model->setData(array('handle' => 'default', 'xml' => '<layout/>', 'sort_order' => 123));
+        $this->_model->setData(['handle' => 'default', 'xml' => '<layout/>', 'sort_order' => 123]);
         $entityHelper = new \Magento\TestFramework\Entity(
             $this->_model,
-            array('handle' => 'custom', 'xml' => '<layout version="0.1.0"/>', 'sort_order' => 456)
+            ['handle' => 'custom', 'xml' => '<layout version="0.1.0"/>', 'sort_order' => 456]
         );
         $entityHelper->testCrud();
     }

@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
+return [
     'id' => '18',
     'item_id' => '18',
     'quote_id' => '1',
@@ -67,14 +64,13 @@ return array(
     'gw_price' => null,
     'gw_base_tax_amount' => null,
     'gw_tax_amount' => null,
-    'qty_options' => array(),
+    'qty_options' => [],
     'product' => null,
     'tax_class_id' => '2',
-    'is_recurring' => '0',
     'has_error' => false,
     'is_nominal' => false,
     'base_calculation_price' => 10,
     'calculation_price' => 10,
     'converted_price' => 10,
     'base_original_price' => 10
-);
+];

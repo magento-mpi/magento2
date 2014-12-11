@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Entity\Attribute;
 
@@ -113,9 +110,8 @@ class Set extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     public function validate($object, $attributeSetName)
     {
-
         $adapter = $this->_getReadAdapter();
-        $bind = array('attribute_set_name' => trim($attributeSetName), 'entity_type_id' => $object->getEntityTypeId());
+        $bind = ['attribute_set_name' => trim($attributeSetName), 'entity_type_id' => $object->getEntityTypeId()];
         $select = $adapter->select()->from(
             $this->getMainTable()
         )->where(
@@ -142,22 +138,22 @@ class Set extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getSetInfo(array $attributeIds, $setId = null)
     {
         $adapter = $this->_getReadAdapter();
-        $setInfo = array();
-        $attributeToSetInfo = array();
+        $setInfo = [];
+        $attributeToSetInfo = [];
 
         if (count($attributeIds) > 0) {
             $select = $adapter->select()->from(
-                array('entity' => $this->getTable('eav_entity_attribute')),
-                array('attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order')
+                ['entity' => $this->getTable('eav_entity_attribute')],
+                ['attribute_id', 'attribute_set_id', 'attribute_group_id', 'sort_order']
             )->joinLeft(
-                array('attribute_group' => $this->getTable('eav_attribute_group')),
+                ['attribute_group' => $this->getTable('eav_attribute_group')],
                 'entity.attribute_group_id = attribute_group.attribute_group_id',
-                array('group_sort_order' => 'sort_order')
+                ['group_sort_order' => 'sort_order']
             )->where(
                 'entity.attribute_id IN (?)',
                 $attributeIds
             );
-            $bind = array();
+            $bind = [];
             if (is_numeric($setId)) {
                 $bind[':attribute_set_id'] = $setId;
                 $select->where('entity.attribute_set_id = :attribute_set_id');
@@ -165,11 +161,11 @@ class Set extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $result = $adapter->fetchAll($select, $bind);
 
             foreach ($result as $row) {
-                $data = array(
+                $data = [
                     'group_id' => $row['attribute_group_id'],
                     'group_sort' => $row['group_sort_order'],
-                    'sort' => $row['sort_order']
-                );
+                    'sort' => $row['sort_order'],
+                ];
                 $attributeToSetInfo[$row['attribute_id']][$row['attribute_set_id']] = $data;
             }
         }
@@ -177,7 +173,7 @@ class Set extends \Magento\Framework\Model\Resource\Db\AbstractDb
         foreach ($attributeIds as $atttibuteId) {
             $setInfo[$atttibuteId] = isset(
                 $attributeToSetInfo[$atttibuteId]
-            ) ? $attributeToSetInfo[$atttibuteId] : array();
+            ) ? $attributeToSetInfo[$atttibuteId] : [];
         }
 
         return $setInfo;
@@ -192,7 +188,7 @@ class Set extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getDefaultGroupId($setId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array('attribute_set_id' => (int)$setId);
+        $bind = ['attribute_set_id' => (int)$setId];
         $select = $adapter->select()->from(
             $this->getTable('eav_attribute_group'),
             'attribute_group_id'

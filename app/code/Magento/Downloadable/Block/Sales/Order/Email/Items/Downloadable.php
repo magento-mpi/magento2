@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Sales\Order\Email\Items;
 
-use Magento\Downloadable\Model\Link\Purchased\Item;
 use Magento\Downloadable\Model\Link\Purchased;
+use Magento\Downloadable\Model\Link\Purchased\Item;
 
 /**
  * Downlaodable Sales Order Email items renderer
@@ -47,7 +44,7 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Downloadable\Model\Link\PurchasedFactory $purchasedFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_purchasedFactory = $purchasedFactory;
         $this->_itemsFactory = $itemsFactory;
@@ -93,12 +90,12 @@ class Downloadable extends \Magento\Sales\Block\Order\Email\Items\DefaultItems
     {
         return $this->_urlBuilder->getUrl(
             'downloadable/download/link',
-            array(
+            [
                 'id' => $item->getLinkHash(),
                 '_scope' => $this->getOrder()->getStore(),
                 '_secure' => true,
                 '_nosid' => true
-            )
+            ]
         );
     }
 }

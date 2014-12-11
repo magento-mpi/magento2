@@ -2,12 +2,12 @@
 namespace OAuth\OAuth1\Service;
 
 use OAuth\Common\Consumer\Credentials;
+use OAuth\Common\Http\Client\ClientInterface;
+use OAuth\Common\Http\Exception\TokenResponseException;
+use OAuth\Common\Http\Uri\UriInterface;
+use OAuth\Common\Service\ServiceInterface as BaseServiceInterface;
 use OAuth\Common\Storage\TokenStorageInterface;
 use OAuth\Common\Token\TokenInterface;
-use OAuth\Common\Http\Client\ClientInterface;
-use OAuth\Common\Http\Uri\UriInterface;
-use OAuth\Common\Http\Exception\TokenResponseException;
-use OAuth\Common\Service\ServiceInterface as BaseServiceInterface;
 use OAuth\OAuth1\Signature\SignatureInterface;
 
 /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Pack\Writer\File;
 
@@ -108,7 +105,7 @@ abstract class AbstractFile implements WriterInterface
      */
     protected function _buildPackFilesData(Dictionary $dictionary)
     {
-        $files = array();
+        $files = [];
         foreach ($dictionary->getPhrases() as $key => $phrase) {
             if (!$phrase->getContextType() || !$phrase->getContextValue()) {
                 throw new \RuntimeException(

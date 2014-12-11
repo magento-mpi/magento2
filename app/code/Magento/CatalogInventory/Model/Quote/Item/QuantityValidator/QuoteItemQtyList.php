@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator;
 
@@ -15,7 +12,7 @@ class QuoteItemQtyList
      *
      * @var array
      */
-    protected $_checkedQuoteItems = array();
+    protected $_checkedQuoteItems = [];
 
     /**
      * Get product qty includes information from all quote items

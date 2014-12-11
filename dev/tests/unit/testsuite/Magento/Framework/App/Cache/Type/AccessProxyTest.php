@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache\Type;
 
@@ -43,12 +40,12 @@ class AccessProxyTest extends \PHPUnit_Framework_TestCase
      */
     public static function proxyMethodDataProvider()
     {
-        return array(
-            array('test', array('record_id'), false, 111),
-            array('load', array('record_id'), false, '111'),
-            array('save', array('record_value', 'record_id', array('tag'), 555), true, false),
-            array('remove', array('record_id'), true, false),
-            array('clean', array(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, array('tag')), true, false)
-        );
+        return [
+            ['test', ['record_id'], false, 111],
+            ['load', ['record_id'], false, '111'],
+            ['save', ['record_value', 'record_id', ['tag'], 555], true, false],
+            ['remove', ['record_id'], true, false],
+            ['clean', [\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, ['tag']], true, false]
+        ];
     }
 }

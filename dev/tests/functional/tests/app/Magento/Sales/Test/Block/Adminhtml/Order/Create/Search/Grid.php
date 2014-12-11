@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Search;
@@ -28,7 +25,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'sku' => [
-            'selector' => '#sales_order_create_search_grid_filter_sku'
-        ]
+            'selector' => '#sales_order_create_search_grid_filter_sku',
+        ],
     ];
 }

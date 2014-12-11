@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
@@ -53,7 +50,7 @@ class Result extends Template
         Advanced $catalogSearchAdvanced,
         LayerResolver $layerResolver,
         UrlFactory $urlFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_catalogLayer = $layerResolver->get();
@@ -70,17 +67,17 @@ class Result extends Template
         if ($breadcrumbs) {
             $breadcrumbs->addCrumb(
                 'home',
-                array(
+                [
                     'label' => __('Home'),
                     'title' => __('Go to Home Page'),
                     'link' => $this->_storeManager->getStore()->getBaseUrl()
-                )
+                ]
             )->addCrumb(
                 'search',
-                array('label' => __('Catalog Advanced Search'), 'link' => $this->getUrl('*/*/'))
+                ['label' => __('Catalog Advanced Search'), 'link' => $this->getUrl('*/*/')]
             )->addCrumb(
                 'search_result',
-                array('label' => __('Results'))
+                ['label' => __('Results')]
             );
         }
         return parent::_prepareLayout();
@@ -109,7 +106,7 @@ class Result extends Template
      */
     public function setListModes()
     {
-        $this->getChildBlock('search_result_list')->setModes(array('grid' => __('Grid'), 'list' => __('List')));
+        $this->getChildBlock('search_result_list')->setModes(['grid' => __('Grid'), 'list' => __('List')]);
     }
 
     /**
@@ -165,7 +162,7 @@ class Result extends Template
             $this->getRequest()->getQuery()
         )->getUrl(
             '*/*/',
-            array('_escape' => true)
+            ['_escape' => true]
         );
     }
 
@@ -179,6 +176,6 @@ class Result extends Template
         $left = array_slice($searchCriterias, 0, $middle);
         $right = array_slice($searchCriterias, $middle);
 
-        return array('left' => $left, 'right' => $right);
+        return ['left' => $left, 'right' => $right];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Performance\Testsuite;
 
@@ -40,21 +37,21 @@ class OptimizerTest extends \PHPUnit_Framework_TestCase
      */
     public function optimizeFixtureSetsDataProvider()
     {
-        return array(
-            'empty_list' => array('fixtureSets' => array(), 'expected' => array()),
-            'single_scenario' => array('fixtureSets' => array('a' => array('f1', 'f2')), 'expected' => array('a')),
-            'empty_fixtures' => array(
-                'fixtureSets' => array('a' => array(), 'b' => array()),
-                'expected' => array('a', 'b')
-            ),
-            'from_smaller_to_bigger' => array(
-                'fixtureSets' => array('a' => array('f1', 'f2'), 'b' => array('f2'), 'c' => array('f3')),
-                'expected' => array('b', 'a', 'c')
-            ),
-            'same_together' => array(
-                'fixtureSets' => array('a' => array('f1', 'f2'), 'b' => array('f1'), 'c' => array('f1')),
-                'expected' => array('b', 'c', 'a')
-            )
-        );
+        return [
+            'empty_list' => ['fixtureSets' => [], 'expected' => []],
+            'single_scenario' => ['fixtureSets' => ['a' => ['f1', 'f2']], 'expected' => ['a']],
+            'empty_fixtures' => [
+                'fixtureSets' => ['a' => [], 'b' => []],
+                'expected' => ['a', 'b'],
+            ],
+            'from_smaller_to_bigger' => [
+                'fixtureSets' => ['a' => ['f1', 'f2'], 'b' => ['f2'], 'c' => ['f3']],
+                'expected' => ['b', 'a', 'c'],
+            ],
+            'same_together' => [
+                'fixtureSets' => ['a' => ['f1', 'f2'], 'b' => ['f1'], 'c' => ['f1']],
+                'expected' => ['b', 'c', 'a'],
+            ]
+        ];
     }
 }

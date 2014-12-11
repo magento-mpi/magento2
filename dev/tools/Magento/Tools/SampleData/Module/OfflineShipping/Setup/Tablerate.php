@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\OfflineShipping\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 use Magento\Tools\SampleData\Logger;
 use Magento\Tools\SampleData\SetupInterface;
-use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
 
 /**
  * Class Tablerate
@@ -110,7 +107,7 @@ class Tablerate implements SetupInterface
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         $regions = $this->loadDirectoryRegions();
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $data) {
             $regionId = ($data['region'] != '*')
                 ? $regions[$data['country']][$data['region']]
@@ -122,7 +119,7 @@ class Tablerate implements SetupInterface
                     'dest_country_id' => $data['country'],
                     'dest_region_id' => $regionId,
                     'dest_zip' => $data['zip'],
-                    'condition_name' =>'package_value',
+                    'condition_name' => 'package_value',
                     'condition_value' => $data['order_subtotal'],
                     'price' => $data['price'],
                     'cost' => 0,

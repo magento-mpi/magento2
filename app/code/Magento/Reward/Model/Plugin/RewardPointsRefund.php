@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Model\Plugin;
@@ -27,7 +24,7 @@ class RewardPointsRefund
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -54,7 +51,7 @@ class RewardPointsRefund
 
     /**
      * @param \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -62,7 +59,7 @@ class RewardPointsRefund
      */
     public function __construct(
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyCollectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Reward\Helper\Data $rewardData,
@@ -171,7 +168,7 @@ class RewardPointsRefund
         $creditmemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);
         $this->eventManager->dispatch(
             'rewarded_amount_after_refund_calculation',
-            array('creditmemo' => $creditmemo)
+            ['creditmemo' => $creditmemo]
         );
         $rewardedAmountAfterRefund = $creditmemo->getRewardedAmountAfterRefund();
 
@@ -230,9 +227,9 @@ class RewardPointsRefund
          * Config option deduct_automatically is not considered here because points for refunded amount that
          * were not been voided automatically need to be counted in possible future automatic deductions.
          */
-        $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, array(
+        $rewardHistoryRecord->getResource()->updateHistoryRow($rewardHistoryRecord, [
             'points_voided' => $rewardPointsVoided + $rewardPointsAmountToVoid
-        ));
+        ]);
     }
 
     /**

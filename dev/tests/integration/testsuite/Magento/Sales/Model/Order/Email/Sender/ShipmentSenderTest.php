@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
@@ -53,7 +50,7 @@ class ShipmentSenderTest extends \PHPUnit_Framework_TestCase
         $shipment = $objectManager->create('Magento\Sales\Model\Order\Shipment');
         $shipment->setOrder($order);
 
-        $packages = array(array('1'), array('2'));
+        $packages = [['1'], ['2']];
 
         $shipment->addItem($objectManager->create('Magento\Sales\Model\Order\Shipment\Item'));
         $shipment->setPackages($packages);

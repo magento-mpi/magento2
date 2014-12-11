@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
@@ -30,7 +27,7 @@ class IframeTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Pbridge\Block\Checkout\Payment\Review\Iframe $block */
         $block = $objectManager->create('Magento\Pbridge\Block\Checkout\Payment\Review\Iframe', [
             'pbridgeData' => $pbridgeData,
-            'data' => array('method' => $paymentMethod)
+            'data' => ['method' => $paymentMethod]
         ]);
 
         $sourceUrl = $block->getSourceUrl();
@@ -54,7 +51,7 @@ class IframeTest extends \PHPUnit_Framework_TestCase
             'customer_id',
             'customer_name',
             'customer_email',
-            'client_ip'
+            'client_ip',
         ];
 
         foreach ($requiredParams as $param) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Indexer;
 
@@ -17,7 +14,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $entityFactory = $this->getMockBuilder(
             'Magento\Framework\Data\Collection\EntityFactoryInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
 
         $config = $this->getMockBuilder('Magento\Indexer\Model\ConfigInterface')->getMock();
@@ -25,7 +22,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $statesFactory = $this->getMockBuilder(
             'Magento\Indexer\Model\Resource\Indexer\State\CollectionFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
 
         $states = $this->getMockBuilder(
@@ -35,7 +32,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $state = $this->getMockBuilder(
             'Magento\Indexer\Model\Indexer\State'
         )->setMethods(
-            array('getIndexerId', '__wakeup')
+            ['getIndexerId', '__wakeup']
         )->disableOriginalConstructor()->getMock();
 
         $state->expects($this->any())->method('getIndexerId')->will($this->returnValue('second_indexer_id'));
@@ -43,7 +40,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $indexer = $this->getMockBuilder(
             'Magento\Indexer\Model\Indexer\Collection'
         )->setMethods(
-            array('load', 'setState')
+            ['load', 'setState']
         )->disableOriginalConstructor()->getMock();
 
         $indexer->expects($this->once())->method('setState')->with($state);
@@ -67,10 +64,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getIndexers'
         )->will(
-            $this->returnValue(array($indexerIdOne => 1, $indexerIdSecond => 2))
+            $this->returnValue([$indexerIdOne => 1, $indexerIdSecond => 2])
         );
 
-        $states->expects($this->any())->method('getItems')->will($this->returnValue(array($state)));
+        $states->expects($this->any())->method('getItems')->will($this->returnValue([$state]));
 
         $collection = new \Magento\Indexer\Model\Indexer\Collection($entityFactory, $config, $statesFactory);
         $this->assertInstanceOf('Magento\Indexer\Model\Indexer\Collection', $collection->loadData());

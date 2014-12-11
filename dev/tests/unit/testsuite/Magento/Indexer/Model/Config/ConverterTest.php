@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Config;
 
@@ -45,6 +42,6 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function wrongXmlDataProvider()
     {
-        return array(array('<?xml version="1.0"?><config>'));
+        return [['<?xml version="1.0"?><config>']];
     }
 }

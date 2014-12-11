@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pci\Model;
 
@@ -40,7 +37,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->customerMock = $this->getMockBuilder(
             '\Magento\Customer\Model\Customer'
         )->disableOriginalConstructor()->setMethods(
-            array('getPasswordHash', 'changePassword', '__wakeup')
+            ['getPasswordHash', 'changePassword', '__wakeup']
         )->getMock();
     }
 
@@ -62,7 +59,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         );
 
         $event = new \Magento\Framework\Object();
-        $event->setData(array('password' => $password, 'model' => $this->customerMock));
+        $event->setData(['password' => $password, 'model' => $this->customerMock]);
 
         $observerMock = new \Magento\Framework\Object();
         $observerMock->setData('event', $event);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Coupon;
 
@@ -99,7 +96,7 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
         $data = [
             'qty' => 10,
             'length' => 15,
-            'format' => 'test-format'
+            'format' => 'test-format',
         ];
 
         $salesRuleCouponMock = $this->getMock('Magento\SalesRule\Helper\Coupon', ['getCharset'], [], '', false);
@@ -175,7 +172,7 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
             'qty' => 3,
             'length' => 15,
             'format' => 'test-format',
-            'max_attempts' => 0
+            'max_attempts' => 0,
         ];
 
         $salesRuleCouponMock = $this->getMock('Magento\SalesRule\Helper\Coupon', ['getCharset'], [], '', false);
@@ -258,16 +255,16 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
                     'qty' => 20,
                     'rule_id' => 1,
                     'length' => 15,
-                    'format' => 'test-format'
+                    'format' => 'test-format',
                 ],
-                'result' => true
+                'result' => true,
             ],
             [
                 'data' => [
                     'qty' => 0,
                     'rule_id' => 1,
                     'length' => 15,
-                    'format' => 'test-format'
+                    'format' => 'test-format',
                 ],
                 'result' => false
             ],
@@ -276,7 +273,7 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
                     'qty' => 0,
                     'rule_id' => 1,
                     'length' => 15,
-                    'format' => ''
+                    'format' => '',
                 ],
                 'result' => false
             ],
@@ -300,8 +297,8 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'data' => [
-                    'delimiter' => 'delimiter-value'
-                ]
+                    'delimiter' => 'delimiter-value',
+                ],
             ],
             [
                 'data' => []
@@ -322,14 +319,14 @@ class MassgeneratorTest extends \PHPUnit_Framework_TestCase
                     'format' => 'test-format',
                     'length' => 10,
                 ],
-                'length' => 10
+                'length' => 10,
             ],
             [
                 'data' => [
                     'format' => 'test-format',
                     'length' => 18,
                     'dash' => 6,
-                    'delimiter' => '-'
+                    'delimiter' => '-',
                 ],
                 'length' => 20
             ]

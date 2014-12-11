@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 .margin-top-rem(
@@ -286,18 +282,25 @@
     display: @_value;
 }
 
-.vendor-prefix-flex-basis (
-    @_value: auto
-) {
-    -webkit-flex-basis: @_value;
-    flex-basis: @_value;
-}
-
 .vendor-prefix-flex-grow (
     @_value: 0
 ) {
     -webkit-flex-grow: @_value;
     flex-grow: @_value;
+}
+
+.vendor-prefix-flex-shrink (
+    @_value: 1
+) {
+    -webkit-flex-shrink: @_value;
+    flex-shrink: @_value;
+}
+
+.vendor-prefix-flex-basis (
+    @_value: auto
+) {
+    -webkit-flex-basis: @_value;
+    flex-basis: @_value;
 }
 
 .vendor-prefix-flex-wrap (

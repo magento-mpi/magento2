@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Block\Customer;
 
-use Mtf\Block\Form;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Block\Form;
 
 /**
  * Class Share

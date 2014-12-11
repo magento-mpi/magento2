@@ -1,36 +1,33 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Model;
 
-use Magento\Framework\App\DeploymentConfig\Writer;
-use Magento\Setup\Module\SetupFactory;
-use Magento\Framework\Module\ModuleListInterface;
-use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
-use Magento\Framework\Module\ModuleList\DeploymentConfig;
-use Magento\Store\Model\Store;
-use Magento\Framework\Math\Random;
-use Magento\Setup\Module\ConnectionFactory;
-use Magento\Framework\Shell;
-use Magento\Framework\Shell\CommandRenderer;
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\MaintenanceMode;
-use Magento\Framework\Filesystem;
-use Magento\Framework\Filesystem\FilesystemException;
-use Zend\ServiceManager\ServiceLocatorInterface;
-use Magento\Setup\Mvc\Bootstrap\InitParamListener;
 use Magento\Framework\App\DeploymentConfig\BackendConfig;
 use Magento\Framework\App\DeploymentConfig\DbConfig;
 use Magento\Framework\App\DeploymentConfig\EncryptConfig;
 use Magento\Framework\App\DeploymentConfig\InstallConfig;
-use Magento\Framework\App\DeploymentConfig\SessionConfig;
 use Magento\Framework\App\DeploymentConfig\ResourceConfig;
-use Magento\Framework\App\DeploymentConfig\Reader;
+use Magento\Framework\App\DeploymentConfig\SessionConfig;
+use Magento\Framework\App\DeploymentConfig\Writer;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\App\MaintenanceMode;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\FilesystemException;
+use Magento\Framework\Math\Random;
+use Magento\Framework\Module\ModuleList\DeploymentConfig;
+use Magento\Framework\Module\ModuleList\Loader as ModuleLoader;
+use Magento\Framework\Module\ModuleListInterface;
+use Magento\Framework\Shell;
+use Magento\Framework\Shell\CommandRenderer;
+use Magento\Setup\Module\ConnectionFactory;
+use Magento\Setup\Module\SetupFactory;
+use Magento\Setup\Mvc\Bootstrap\InitParamListener;
+use Magento\Store\Model\Store;
+use Symfony\Component\Process\PhpExecutableFinder;
+use Zend\ServiceManager\ServiceLocatorInterface;
 
 /**
  * Class Installer contains the logic to install Magento application.
@@ -172,7 +169,7 @@ class Installer
      *
      * @var array
      */
-    private $installInfo = array();
+    private $installInfo = [];
 
     /**
      * Initialization parameters for Magento application bootstrap
@@ -273,7 +270,7 @@ class Installer
             $script[] = [
                 'Creating sales order increment prefix...',
                 'installOrderIncrementPrefix',
-                [$request[self::SALES_ORDER_INCREMENT_PREFIX]]
+                [$request[self::SALES_ORDER_INCREMENT_PREFIX]],
             ];
         }
         $script[] = ['Installing admin user...', 'installAdminUser', [$request]];
@@ -363,7 +360,7 @@ class Installer
             $key = md5($this->random->getRandomString(10));
         }
         $cryptConfigData =
-            array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] => $key);
+            [DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_ENCRYPTION_KEY] => $key];
 
         // find the latest key to display
         $keys = explode("\n", $key);
@@ -395,14 +392,14 @@ class Installer
                 $data[DeploymentConfigMapper::KEY_DB_USER],
         ];
 
-        $dbConfigData = array(
+        $dbConfigData = [
             DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DB_PREFIX] =>
                 isset($data[DeploymentConfigMapper::KEY_DB_PREFIX]) ?
                     $data[DeploymentConfigMapper::KEY_DB_PREFIX] : null,
             'connection' => [
                 'default' => $defaultConnection,
-            ]
-        );
+            ],
+        ];
         return new DbConfig($dbConfigData);
     }
 
@@ -414,9 +411,11 @@ class Installer
      */
     private function createSessionConfig($data)
     {
-        $sessionConfigData = array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_SESSION_SAVE] =>
-            isset($data[DeploymentConfigMapper::KEY_SESSION_SAVE]) ?
-                $data[DeploymentConfigMapper::KEY_SESSION_SAVE] : null);
+        $sessionConfigData = [
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_SESSION_SAVE] =>
+                isset($data[DeploymentConfigMapper::KEY_SESSION_SAVE]) ?
+                    $data[DeploymentConfigMapper::KEY_SESSION_SAVE] : null
+        ];
         return new SessionConfig($sessionConfigData);
     }
 
@@ -428,8 +427,10 @@ class Installer
      */
     private function createInstallConfig($data)
     {
-        $installConfigData = array(DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DATE] =>
-            $data[DeploymentConfigMapper::KEY_DATE]);
+        $installConfigData = [
+            DeploymentConfigMapper::$paramMap[DeploymentConfigMapper::KEY_DATE] =>
+                $data[DeploymentConfigMapper::KEY_DATE]
+        ];
         return new InstallConfig($installConfigData);
     }
 

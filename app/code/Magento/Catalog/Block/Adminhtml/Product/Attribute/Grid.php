@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -32,7 +29,7 @@ class Grid extends AbstractGrid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_module = 'catalog';
@@ -63,59 +60,59 @@ class Grid extends AbstractGrid
 
         $this->addColumnAfter(
             'is_visible',
-            array(
+            [
                 'header' => __('Visible'),
                 'sortable' => true,
                 'index' => 'is_visible_on_front',
                 'type' => 'options',
-                'options' => array('1' => __('Yes'), '0' => __('No')),
+                'options' => ['1' => __('Yes'), '0' => __('No')],
                 'align' => 'center'
-            ),
+            ],
             'frontend_label'
         );
 
         $this->addColumnAfter(
             'is_global',
-            array(
+            [
                 'header' => __('Scope'),
                 'sortable' => true,
                 'index' => 'is_global',
                 'type' => 'options',
-                'options' => array(
+                'options' => [
                     \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE => __('Store View'),
                     \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_WEBSITE => __('Web Site'),
-                    \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL => __('Global')
-                ),
+                    \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL => __('Global'),
+                ],
                 'align' => 'center'
-            ),
+            ],
             'is_visible'
         );
 
         $this->addColumn(
             'is_searchable',
-            array(
+            [
                 'header' => __('Searchable'),
                 'sortable' => true,
                 'index' => 'is_searchable',
                 'type' => 'options',
-                'options' => array('1' => __('Yes'), '0' => __('No')),
+                'options' => ['1' => __('Yes'), '0' => __('No')],
                 'align' => 'center'
-            ),
+            ],
             'is_user_defined'
         );
 
-        $this->_eventManager->dispatch('product_attribute_grid_build', array('grid' => $this));
+        $this->_eventManager->dispatch('product_attribute_grid_build', ['grid' => $this]);
 
         $this->addColumnAfter(
             'is_comparable',
-            array(
+            [
                 'header' => __('Comparable'),
                 'sortable' => true,
                 'index' => 'is_comparable',
                 'type' => 'options',
-                'options' => array('1' => __('Yes'), '0' => __('No')),
+                'options' => ['1' => __('Yes'), '0' => __('No')],
                 'align' => 'center'
-            ),
+            ],
             'is_filterable'
         );
 

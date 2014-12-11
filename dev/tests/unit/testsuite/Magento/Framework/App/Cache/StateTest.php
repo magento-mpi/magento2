@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Cache;
 
@@ -50,32 +47,32 @@ class StateTest extends \PHPUnit_Framework_TestCase
      */
     public static function isEnabledDataProvider()
     {
-        return array(
-            'enabled' => array(
+        return [
+            'enabled' => [
                 'cacheType' => 'cache_type',
-                'config' => array('some_type' => false, 'cache_type' => true),
+                'config' => ['some_type' => false, 'cache_type' => true],
                 'banAll' => false,
-                'expectedIsEnabled' => true
-            ),
-            'disabled' => array(
+                'expectedIsEnabled' => true,
+            ],
+            'disabled' => [
                 'cacheType' => 'cache_type',
-                'config' => array('some_type' => true, 'cache_type' => false),
+                'config' => ['some_type' => true, 'cache_type' => false],
                 'banAll' => false,
-                'expectedIsEnabled' => false
-            ),
-            'unknown is disabled' => array(
+                'expectedIsEnabled' => false,
+            ],
+            'unknown is disabled' => [
                 'cacheType' => 'unknown_cache_type',
-                'config' => array('some_type' => true),
+                'config' => ['some_type' => true],
                 'banAll' => false,
-                'expectedIsEnabled' => false
-            ),
-            'disabled, when all caches are banned' => array(
+                'expectedIsEnabled' => false,
+            ],
+            'disabled, when all caches are banned' => [
                 'cacheType' => 'cache_type',
-                'config' => array('cache_type' => true),
+                'config' => ['cache_type' => true],
                 'banAll' => true,
-                'expectedIsEnabled' => false
-            )
-        );
+                'expectedIsEnabled' => false,
+            ]
+        ];
     }
 
     public function testSetEnabled()

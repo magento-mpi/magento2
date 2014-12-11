@@ -2,10 +2,7 @@
 /**
  * Attribute configuration reader
  *
- * {license_notice}
- * 
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute\Config;
 
@@ -16,11 +13,11 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/entity' => 'type',
         '/config/entity/attribute' => 'code',
-        '/config/entity/attribute/field' => 'code'
-    );
+        '/config/entity/attribute/field' => 'code',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -40,7 +37,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
             $schemaLocator,
             $validationState,
             'eav_attributes.xml',
-            array()
+            []
         );
     }
 }

@@ -2,10 +2,7 @@
 /**
  * Backend container block
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Block\Widget;
@@ -51,7 +48,7 @@ class Container extends \Magento\Backend\Block\Template implements ContainerInte
      * @param Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Backend\Block\Widget\Context $context, array $data = array())
+    public function __construct(\Magento\Backend\Block\Widget\Context $context, array $data = [])
     {
         $this->buttonList = $context->getButtonList();
         $this->toolbar = $context->getButtonToolbar();

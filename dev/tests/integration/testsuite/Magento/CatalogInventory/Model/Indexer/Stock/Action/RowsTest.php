@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Indexer\Stock\Action;
 
@@ -59,7 +56,7 @@ class RowsTest extends \PHPUnit_Framework_TestCase
         $stockItem = $stockRegistry->getStockItem(1, 1);
 
         $stockItemData = [
-            'qty' => $stockItem->getQty() + 12
+            'qty' => $stockItem->getQty() + 12,
         ];
 
         $stockItemBuilder = $stockItemBuilder->mergeDataObjectWithArray($stockItem, $stockItemData);
@@ -68,7 +65,7 @@ class RowsTest extends \PHPUnit_Framework_TestCase
 
         $stockItemRepository->save($stockItemSave);
 
-        $this->_processor->reindexList(array(1));
+        $this->_processor->reindexList([1]);
 
         $category = $categoryFactory->create()->load(2);
         $layer = $listProduct->getLayer();

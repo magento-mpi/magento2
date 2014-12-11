@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Actions\Condition\Product\Special;
 
@@ -33,7 +30,7 @@ class Price extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -57,13 +54,13 @@ class Price extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
      */
     protected function _getOperatorOptionArray()
     {
-        return array(
+        return [
             '==' => __('equal to'),
             '>' => __('more'),
             '>=' => __('equals or greater than'),
             '<' => __('less'),
             '<=' => __('equals or less than')
-        );
+        ];
     }
 
     /**
@@ -111,7 +108,7 @@ class Price extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
             'final_price',
             $operator,
             $bind,
-            array(array('bindPercentOf', $this->getValue()))
+            [['bindPercentOf', $this->getValue()]]
         );
         return new \Zend_Db_Expr(sprintf('(%s)', $where));
     }

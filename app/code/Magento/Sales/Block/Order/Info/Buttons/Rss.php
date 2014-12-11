@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Info\Buttons;
 
@@ -37,7 +34,7 @@ class Rss extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->orderFactory = $orderFactory;
         $this->rssUrlBuilder = $rssUrlBuilder;
@@ -81,11 +78,11 @@ class Rss extends \Magento\Framework\View\Element\Template
      */
     protected function getUrlKey($order)
     {
-        $data = array(
+        $data = [
             'order_id' => $order->getId(),
             'increment_id' => $order->getIncrementId(),
-            'customer_id' => $order->getCustomerId()
-        );
+            'customer_id' => $order->getCustomerId(),
+        ];
         return base64_encode(json_encode($data));
     }
 
@@ -95,10 +92,10 @@ class Rss extends \Magento\Framework\View\Element\Template
     protected function getLinkParams()
     {
         $order = $this->orderFactory->create()->load($this->_request->getParam('order_id'));
-        return array(
+        return [
             'type' => 'order_status',
             '_secure' => true,
-            '_query' => array('data' => $this->getUrlKey($order))
-        );
+            '_query' => ['data' => $this->getUrlKey($order)]
+        ];
     }
 }

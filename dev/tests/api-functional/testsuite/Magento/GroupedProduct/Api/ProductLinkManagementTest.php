@@ -1,15 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Api;
 
 use Magento\Webapi\Model\Rest\Config as RestConfig;
-use Magento\GroupedProduct\Model\Resource\Product\Link;
 
 class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
@@ -28,13 +24,13 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetLinkedItemsByType',
+            ],
         ];
 
         $actual = $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'type' => $linkType]);
@@ -53,20 +49,20 @@ class ProductLinkManagementTest extends \Magento\TestFramework\TestCase\WebapiAb
                 'linked_product_sku' => 'virtual-product',
                 'linked_product_type' => 'virtual',
                 'position' => 2,
-            ]
+            ],
         ];
 
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
             array_walk(
                 $expected,
-                function(&$item) {
+                function (&$item) {
                     $item['custom_attributes'] = [['attribute_code' => 'qty', 'value' => 1.0000]];
                 }
             );
         } else {
             array_walk(
                 $expected,
-                function(&$item) {
+                function (&$item) {
                     $item['custom_attributes'] = [['attribute_code' => 'qty', 'value' => 1.0000]];
                 }
             );

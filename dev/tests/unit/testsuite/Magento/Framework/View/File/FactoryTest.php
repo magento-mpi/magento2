@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File;
@@ -36,15 +33,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(
                 'Magento\Framework\View\File',
-                $this->identicalTo(array(
+                $this->identicalTo([
                     'filename' => __FILE__,
                     'module' => 'Fixture_Module',
                     'theme' => $theme,
                     'isBase' => $isBase,
-                ))
+                ])
             )
-            ->will($this->returnValue($file))
-        ;
+            ->will($this->returnValue($file));
         $this->assertSame($file, $this->_model->create(__FILE__, 'Fixture_Module', $theme, $isBase));
     }
 }

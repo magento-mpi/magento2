@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-use Magento\Customer\Api\GroupRepositoryInterface;
 use Magento\Customer\Api\Data\GroupDataBuilder;
+use Magento\Customer\Api\GroupRepositoryInterface;
 
 /**
  * Customer groups controller

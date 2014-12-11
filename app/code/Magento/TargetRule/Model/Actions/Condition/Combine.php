@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Actions\Condition;
 
@@ -29,7 +26,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory,
         \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeFactory = $attributeFactory;
         $this->_specialFactory = $specialFactory;
@@ -44,11 +41,11 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getNewChildSelectOptions()
     {
-        $conditions = array(
-            array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+        $conditions = [
+            ['value' => $this->getType(), 'label' => __('Conditions Combination')],
             $this->_attributeFactory->create()->getNewChildSelectOptions(),
-            $this->_specialFactory->create()->getNewChildSelectOptions()
-        );
+            $this->_specialFactory->create()->getNewChildSelectOptions(),
+        ];
         $conditions = array_merge_recursive(parent::getNewChildSelectOptions(), $conditions);
         return $conditions;
     }
@@ -63,7 +60,7 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
      */
     public function getConditionForCollection($collection, $object, &$bind)
     {
-        $conditions = array();
+        $conditions = [];
         $aggregator = $this->getAggregator() == 'all' ? ' AND ' : ' OR ';
         $operator = $this->getValue() ? '' : 'NOT';
 

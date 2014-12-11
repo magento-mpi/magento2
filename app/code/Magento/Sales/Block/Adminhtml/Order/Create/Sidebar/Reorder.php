@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
@@ -46,7 +43,7 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
         PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_ordersFactory = $ordersFactory;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesConfig, $data);
@@ -87,7 +84,7 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
             $this->getCustomerId()
         )->addFieldToFilter(
             'store_id',
-            array('in' => $storeIds)
+            ['in' => $storeIds]
         )->setOrder(
             'created_at',
             'desc'
@@ -109,7 +106,7 @@ class Reorder extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abstra
     public function getItemCollection()
     {
         if ($order = $this->getLastOrder()) {
-            $items = array();
+            $items = [];
             foreach ($order->getItemsCollection() as $item) {
                 if (!$item->getParentItem()) {
                     $items[] = $item;

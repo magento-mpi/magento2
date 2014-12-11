@@ -2,10 +2,7 @@
 /**
  * Gift Message resource setup
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Model\Resource;
 
@@ -54,7 +51,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
      * @param array $data
      * @return \Magento\Catalog\Model\Resource\Setup
      */
-    public function createGiftMessageSetup(array $data = array())
+    public function createGiftMessageSetup(array $data = [])
     {
         return $this->_catalogSetupFactory->create($data);
     }

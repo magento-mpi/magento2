@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Api\Product;
@@ -32,8 +29,8 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $groupPriceList = $this->_webApiCall($serviceInfo, ['productSku' => $productSku]);
         $this->assertCount(2, $groupPriceList);
@@ -47,7 +44,7 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
     public function testDelete()
     {
         $productSku = 'simple_with_group_price';
-        $customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+        $customerGroupId = \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID;
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . "/group-prices/" . $customerGroupId,
@@ -56,10 +53,10 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Remove'
-            ]
+                'operation' => self::SERVICE_NAME . 'Remove',
+            ],
         ];
-        $requestData = array('productSku' => $productSku, 'customerGroupId' => $customerGroupId);
+        $requestData = ['productSku' => $productSku, 'customerGroupId' => $customerGroupId];
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));
     }
 
@@ -77,10 +74,10 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
         ];
-        $this->_webApiCall($serviceInfo, ['productSku' =>$productSku, 'customerGroupId' => 1, 'price' => 10]);
+        $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'customerGroupId' => 1, 'price' => 10]);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');
@@ -105,11 +102,11 @@ class ProductGroupPriceManagementTest extends WebapiAbstract
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Add'
-            ]
+                'operation' => self::SERVICE_NAME . 'Add',
+            ],
 
         ];
-        $this->_webApiCall($serviceInfo, ['productSku' =>$productSku, 'customerGroupId' => 1, 'price' => 10]);
+        $this->_webApiCall($serviceInfo, ['productSku' => $productSku, 'customerGroupId' => 1, 'price' => 10]);
         $objectManager = \Magento\TestFramework\ObjectManager::getInstance();
         /** @var \Magento\Catalog\Api\ProductGroupPriceManagementInterface $service */
         $service = $objectManager->get('\Magento\Catalog\Api\ProductGroupPriceManagementInterface');

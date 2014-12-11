@@ -2,15 +2,11 @@
 /**
  * Front controller for WebAPI SOAP area.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller;
 
 use Magento\Framework\Exception\AuthorizationException;
-use Magento\Webapi\Exception as WebapiException;
 use Magento\Webapi\Model\PathProcessor;
 
 /**

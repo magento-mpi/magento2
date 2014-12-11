@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Generator;
 
@@ -47,8 +44,8 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystemDriverMock = $this->getMock(
             'Magento\Framework\Filesystem\Driver\File',
-            array('isWritable', 'filePutContents', 'createDirectory', 'isExists'),
-            array()
+            ['isWritable', 'filePutContents', 'createDirectory', 'isExists'],
+            []
         );
 
         $this->_object = new \Magento\Framework\Code\Generator\Io(

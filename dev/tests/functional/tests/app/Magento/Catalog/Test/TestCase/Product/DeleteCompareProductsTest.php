@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Mtf\Fixture\FixtureFactory;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Catalog\Test\Page\Product\CatalogProductCompare;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Test creation for removing CompareProducts

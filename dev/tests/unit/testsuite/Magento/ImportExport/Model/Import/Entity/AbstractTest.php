@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -26,12 +23,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\Entity\AbstractEntity',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('_saveValidatedBunches')
+            ['_saveValidatedBunches']
         );
     }
 
@@ -53,12 +50,12 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $source \Magento\ImportExport\Model\Import\AbstractSource|\PHPUnit_Framework_MockObject_MockObject */
         $source = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Import\AbstractSource',
-            array(),
+            [],
             '',
             false,
             true,
             true,
-            array('getColNames')
+            ['getColNames']
         );
         $source->expects($this->any())->method('getColNames')->will($this->returnValue($columns));
         $this->_model->setSource($source);
@@ -75,7 +72,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateDataEmptyColumnName()
     {
-        $this->_createSourceAdapterMock(array(''));
+        $this->_createSourceAdapterMock(['']);
         $this->_model->validateData();
     }
 
@@ -88,7 +85,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateDataColumnNameWithWhitespaces()
     {
-        $this->_createSourceAdapterMock(array('  '));
+        $this->_createSourceAdapterMock(['  ']);
         $this->_model->validateData();
     }
 
@@ -101,7 +98,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testValidateDataAttributeNames()
     {
-        $this->_createSourceAdapterMock(array('_test1'));
+        $this->_createSourceAdapterMock(['_test1']);
         $this->_model->validateData();
     }
 
@@ -119,7 +116,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAttributeValid($attrCode, array $attrParams, array $rowData, $rowNum, $expectedResult)
     {
-        $this->_createSourceAdapterMock(array('_test1'));
+        $this->_createSourceAdapterMock(['_test1']);
         $this->assertEquals(
             $expectedResult,
             $this->_model->isAttributeValid($attrCode, $attrParams, $rowData, $rowNum)
@@ -133,19 +130,19 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function isAttributeValidDataProvider()
     {
-        return array(
-            array('created_at', array('type' => 'datetime'), array('created_at' => '2012-02-29'), 1, true),
-            array('dob', array('type' => 'datetime'), array('dob' => '29.02.2012'), 1, true),
-            array('created_at', array('type' => 'datetime'), array('created_at' => '02/29/2012'), 1, true),
-            array('dob', array('type' => 'datetime'), array('dob' => '2012-02-29 21:12:59'), 1, true),
-            array('created_at', array('type' => 'datetime'), array('created_at' => '29.02.2012 11:12:59'), 1, true),
-            array('dob', array('type' => 'datetime'), array('dob' => '02/29/2012 11:12:59'), 1, true),
-            array('created_at', array('type' => 'datetime'), array('created_at' => '2012602-29'), 1, false),
-            array('dob', array('type' => 'datetime'), array('dob' => '32.12.2012'), 1, false),
-            array('created_at', array('type' => 'datetime'), array('created_at' => '02/30/-2012'), 1, false),
-            array('dob', array('type' => 'datetime'), array('dob' => '2012-13-29 21:12:59'), 1, false),
-            array('created_at', array('type' => 'datetime'), array('created_at' => '11.02.4 11:12:59'), 1, false),
-            array('dob', array('type' => 'datetime'), array('dob' => '02/29/2012 11:12:67'), 1, false)
-        );
+        return [
+            ['created_at', ['type' => 'datetime'], ['created_at' => '2012-02-29'], 1, true],
+            ['dob', ['type' => 'datetime'], ['dob' => '29.02.2012'], 1, true],
+            ['created_at', ['type' => 'datetime'], ['created_at' => '02/29/2012'], 1, true],
+            ['dob', ['type' => 'datetime'], ['dob' => '2012-02-29 21:12:59'], 1, true],
+            ['created_at', ['type' => 'datetime'], ['created_at' => '29.02.2012 11:12:59'], 1, true],
+            ['dob', ['type' => 'datetime'], ['dob' => '02/29/2012 11:12:59'], 1, true],
+            ['created_at', ['type' => 'datetime'], ['created_at' => '2012602-29'], 1, false],
+            ['dob', ['type' => 'datetime'], ['dob' => '32.12.2012'], 1, false],
+            ['created_at', ['type' => 'datetime'], ['created_at' => '02/30/-2012'], 1, false],
+            ['dob', ['type' => 'datetime'], ['dob' => '2012-13-29 21:12:59'], 1, false],
+            ['created_at', ['type' => 'datetime'], ['created_at' => '11.02.4 11:12:59'], 1, false],
+            ['dob', ['type' => 'datetime'], ['dob' => '02/29/2012 11:12:67'], 1, false]
+        ];
     }
 }

@@ -1,19 +1,16 @@
 #!/usr/bin/env php
 <?php
 /**
- * {license_notice}
- *
  * @category Magento
  * @package Magento
  * @subpackage integration_tests
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define('INTEGRATION_TESTSUITE_NAME', 'Magento Integration Tests');
 define('DEFAULT_PROCESS_DURATION', 1200);
 
 $currentOptionName = false;
-$cliOptions = array();
+$cliOptions = [];
 foreach ($argv as $optionNameOrValue) {
     if (substr($optionNameOrValue, 0, 2) === '--') {
         $currentOptionName = substr($optionNameOrValue, 2);
@@ -61,18 +58,18 @@ if (isset($cliOptions['log-junit'])) {
     $junitLog = false;
 }
 
-$workers = array();
+$workers = [];
 for ($i = 0; $i < $maxInstances; ++$i) {
-    $workers[$i] = array(
+    $workers[$i] = [
         'dir' => __DIR__,
         'idle' => true,
-    );
+    ];
 }
 
 $parser = new \Magento\Framework\Xml\Parser();
 $parser->load('phpunit.xml.dist');
 $config = $parser->xmlToArray();
-$excludeList = array();
+$excludeList = [];
 foreach ($config['phpunit']['_value']['testsuites'] as $testsuite) {
     if ($testsuite['_attribute']['name'] == INTEGRATION_TESTSUITE_NAME) {
         $excludeList = $testsuite['_value']['exclude'];
@@ -80,10 +77,9 @@ foreach ($config['phpunit']['_value']['testsuites'] as $testsuite) {
     }
 }
 
-
 $pathToTests = $argv[1];
-$testCases = array();
-foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
+$testCases = [];
+foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: [] as $globItem) {
     if (is_dir($globItem)) {
         foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator($globItem)) as $fileInfo) {
             $pathToTestCase = (string)$fileInfo;
@@ -105,7 +101,6 @@ foreach (glob($pathToTests, GLOB_BRACE | GLOB_ERR) ?: array() as $globItem) {
     }
 }
 
-
 if (empty($testCases)) {
     echo "No tests cases found in the path {$pathToTests}.", PHP_EOL;
     exit(1);
@@ -123,7 +118,7 @@ echo "Testing process started with up to $maxInstances instances at the same tim
 $currentTestCase = 0;
 $testCasesLeft = $testCasesCount = count($testCases);
 $instancesCount = 0;
-$runningProcesses = array();
+$runningProcesses = [];
 $cleanExitCode = true;
 $openProcessFailures = 0;
 
@@ -132,7 +127,7 @@ while ($testCasesLeft > 0) {
         if ($worker['idle']) {
             if ($currentTestCase < $testCasesCount && $instancesCount < $maxInstances) {
                 $cliArguments = " --stderr -c phpunit-{$index}.xml ";
-                $pipes = array();
+                $pipes = [];
                 $process = proc_open(
                     realpath(__DIR__ . '/../../../') . '/' . $vendorDir . '/phpunit/phpunit/phpunit' . $cliArguments
                     . $testCases[$currentTestCase],
@@ -175,8 +170,8 @@ while ($testCasesLeft > 0) {
                     exit(1);
                 }
                 $testCaseId = str_replace(
-                    array(DIRECTORY_SEPARATOR, '.php'),
-                    array('_', ''),
+                    [DIRECTORY_SEPARATOR, '.php'],
+                    ['_', ''],
                     ltrim($matches[1], DIRECTORY_SEPARATOR)
                 );
 
@@ -213,7 +208,6 @@ if ($junitLog) {
     fwrite($junitLog, '</testsuites>');
     fclose($junitLog);
 }
-
 
 if ($cleanExitCode) {
     echo 'Tests execution is completed successfully.', PHP_EOL;

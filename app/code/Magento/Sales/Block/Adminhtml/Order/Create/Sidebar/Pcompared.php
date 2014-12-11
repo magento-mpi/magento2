@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
@@ -48,7 +45,7 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Reports\Model\Resource\Event $event,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_event = $event;
         $this->_productFactory = $productFactory;
@@ -87,7 +84,7 @@ class Pcompared extends \Magento\Sales\Block\Adminhtml\Order\Create\Sidebar\Abst
         $productCollection = $this->getData('item_collection');
         if (is_null($productCollection)) {
             // get products to skip
-            $skipProducts = array();
+            $skipProducts = [];
             if ($collection = $this->getCreateOrderModel()->getCustomerCompareList()) {
                 $collection = $collection->getItemCollection()->useProductItem(
                     true

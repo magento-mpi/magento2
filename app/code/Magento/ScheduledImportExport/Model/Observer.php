@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model;
 
@@ -65,7 +62,7 @@ class Observer
     protected $_operationFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -78,14 +75,14 @@ class Observer
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
@@ -151,7 +148,7 @@ class Observer
             }
             $result = true;
         } catch (\Exception $e) {
-            $this->_sendEmailNotification(array('warnings' => $e->getMessage()));
+            $this->_sendEmailNotification(['warnings' => $e->getMessage()]);
         }
         return $result;
     }
@@ -165,7 +162,7 @@ class Observer
      */
     protected function _getDirectoryList($logPath, $level = 1)
     {
-        $result = array();
+        $result = [];
 
         $logPath = rtrim($logPath, '/');
 
@@ -175,7 +172,7 @@ class Observer
                 continue;
             }
 
-            $mergePart = $level < 3 ? $this->_getDirectoryList($entity, $level + 1) : array($entity);
+            $mergePart = $level < 3 ? $this->_getDirectoryList($entity, $level + 1) : [$entity];
 
             $result = array_merge($result, $mergePart);
         }
@@ -228,7 +225,7 @@ class Observer
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
             $vars
         )->setFrom(

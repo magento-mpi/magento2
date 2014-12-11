@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Bootstrap;
 
@@ -48,7 +45,7 @@ class DocBlock
      */
     protected function _getSubscribers(\Magento\TestFramework\Application $application)
     {
-        return array(
+        return [
             new \Magento\TestFramework\Workaround\Segfault(),
             new \Magento\TestFramework\Workaround\Cleanup\TestCaseProperties(),
             new \Magento\TestFramework\Workaround\Cleanup\StaticProperties(),
@@ -57,16 +54,16 @@ class DocBlock
             new \Magento\TestFramework\Annotation\AppIsolation($application),
             new \Magento\TestFramework\Event\Transaction(
                 new \Magento\TestFramework\EventManager(
-                    array(
+                    [
                         new \Magento\TestFramework\Annotation\DbIsolation(),
-                        new \Magento\TestFramework\Annotation\DataFixture($this->_fixturesBaseDir)
-                    )
+                        new \Magento\TestFramework\Annotation\DataFixture($this->_fixturesBaseDir),
+                    ]
                 )
             ),
             new \Magento\TestFramework\Annotation\AppArea($application),
             new \Magento\TestFramework\Annotation\Cache($application),
             new \Magento\TestFramework\Annotation\ConfigFixture(),
             new \Magento\TestFramework\Annotation\AdminConfigFixture()
-        );
+        ];
     }
 }

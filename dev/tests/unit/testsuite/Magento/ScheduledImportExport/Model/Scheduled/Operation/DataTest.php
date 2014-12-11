@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled\Operation;
 
@@ -39,7 +36,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $expected = [
             Data::FILE_STORAGE => 'Local Server',
-            Data::FTP_STORAGE => 'Remote FTP'
+            Data::FTP_STORAGE => 'Remote FTP',
         ];
         $result = $this->model->getServerTypesOptionArray();
         $this->assertEquals($expected, $result);

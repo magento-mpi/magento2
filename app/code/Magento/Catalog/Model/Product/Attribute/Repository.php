@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Attribute;
 
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInterface
 {
@@ -228,7 +225,7 @@ class Repository implements \Magento\Catalog\Api\ProductAttributeRepositoryInter
                 $this->filterBuilder
                     ->setField('attribute_set_id')
                     ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
-                    ->create()
+                    ->create(),
             ]
         );
 

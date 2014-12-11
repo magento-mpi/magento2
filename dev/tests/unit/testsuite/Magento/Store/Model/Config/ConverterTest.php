@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Config;
 
@@ -19,8 +16,8 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
     {
         $this->_processorMock = $this->getMock(
             'Magento\Store\Model\Config\Processor\Placeholder',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -29,13 +26,13 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function testConvert()
     {
-        $initial = array('path' => array('to' => array('save' => 'saved value', 'overwrite' => 'old value')));
-        $source = array('path/to/overwrite' => 'overwritten', 'path/to/added' => 'added value');
-        $mergeResult = array(
-            'path' => array(
-                'to' => array('save' => 'saved value', 'overwrite' => 'overwritten', 'added' => 'added value')
-            )
-        );
+        $initial = ['path' => ['to' => ['save' => 'saved value', 'overwrite' => 'old value']]];
+        $source = ['path/to/overwrite' => 'overwritten', 'path/to/added' => 'added value'];
+        $mergeResult = [
+            'path' => [
+                'to' => ['save' => 'saved value', 'overwrite' => 'overwritten', 'added' => 'added value'],
+            ],
+        ];
         $processorResult = '123Value';
         $this->_processorMock->expects(
             $this->once()

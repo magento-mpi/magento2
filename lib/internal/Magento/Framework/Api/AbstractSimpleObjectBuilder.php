@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Api;
 
@@ -28,7 +25,7 @@ abstract class AbstractSimpleObjectBuilder implements SimpleBuilderInterface
      */
     public function __construct(ObjectFactory $objectFactory)
     {
-        $this->data = array();
+        $this->data = [];
         $this->objectFactory = $objectFactory;
     }
 
@@ -43,10 +40,10 @@ abstract class AbstractSimpleObjectBuilder implements SimpleBuilderInterface
         $dataObjectMethods = get_class_methods($this->_getDataObjectType());
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
-            $possibleMethods = array(
+            $possibleMethods = [
                 'get' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key),
-                'is' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key)
-            );
+                'is' . \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key),
+            ];
             if (array_intersect($possibleMethods, $dataObjectMethods)) {
                 $this->data[$key] = $value;
             }

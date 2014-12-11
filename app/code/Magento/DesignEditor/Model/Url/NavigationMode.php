@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Url;
 
@@ -59,7 +56,7 @@ class NavigationMode extends \Magento\Framework\Url
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         $scopeType,
         \Magento\DesignEditor\Helper\Data $helper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         if (isset($data['mode'])) {
@@ -96,7 +93,7 @@ class NavigationMode extends \Magento\Framework\Url
         $this->_hasThemeAndMode();
         $url = parent::getRouteUrl($routePath, $routeParams);
         $baseUrl = trim($this->getBaseUrl(), '/');
-        $vdeBaseUrl = implode('/', array($baseUrl, $this->_helper->getFrontName(), $this->_mode, $this->_themeId));
+        $vdeBaseUrl = implode('/', [$baseUrl, $this->_helper->getFrontName(), $this->_mode, $this->_themeId]);
         if (strpos($url, $baseUrl) === 0 && strpos($url, $vdeBaseUrl) === false) {
             $url = str_replace($baseUrl, $vdeBaseUrl, $url);
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Downloadable\Setup\Product;
 
@@ -19,7 +16,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      * @param array $downloadableData
      * @return array
      */
-    public function getDownloadableData($row, $downloadableData = array())
+    public function getDownloadableData($row, $downloadableData = [])
     {
         $separatedData = $this->groupDownloadableData($row);
         $formattedData = $this->getFormattedData($separatedData);
@@ -78,11 +75,11 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
      */
     public function formatDownloadableLinkData($linkData)
     {
-        $linkItems = array(
+        $linkItems = [
             'link_item_title',
             'link_item_price',
-            'link_item_file'
-        );
+            'link_item_file',
+        ];
         foreach ($linkItems as $csvRow) {
             $linkData[$csvRow] = isset($linkData[$csvRow]) ? $linkData[$csvRow] : '';
         }
@@ -95,8 +92,8 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             'number_of_downloads' => '0',
             'is_shareable' => '2',
             'type' => 'file',
-            'file' => json_encode(array(array('file' => $linkData['link_item_file'], 'status' => 'old'))),
-            'sort_order' => ''
+            'file' => json_encode([['file' => $linkData['link_item_file'], 'status' => 'old']]),
+            'sort_order' => '',
         ];
 
         return $link;
@@ -113,10 +110,10 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
             'sample_id' => '0',
             'file' => json_encode([[
                 'file' => '/l/u/luma_background_-_model_against_fence_4_sec_.mp4',
-                'status' => 'old'
+                'status' => 'old',
             ]]),
             'type' => 'file',
-            'sort_order' => ''
+            'sort_order' => '',
         ];
 
         $samples = [];

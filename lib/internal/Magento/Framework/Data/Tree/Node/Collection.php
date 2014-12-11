@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -33,7 +30,7 @@ class Collection implements \ArrayAccess, \IteratorAggregate
      */
     public function __construct($container)
     {
-        $this->_nodes = array();
+        $this->_nodes = [];
         $this->_container = $container;
     }
 

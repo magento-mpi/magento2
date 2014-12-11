@@ -1,15 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
-use Magento\Framework\App\ObjectManager;
-use Magento\Framework\App\Request;
-use Magento\Framework\App\Response;
 use Magento\Framework\App;
 
 /**
@@ -142,7 +136,7 @@ class StaticResource implements \Magento\Framework\AppInterface
         if (count($parts) < 5) {
             throw new \InvalidArgumentException("Requested path '$path' is wrong.");
         }
-        $result = array();
+        $result = [];
         $result['area'] = $parts[0];
         $result['theme'] = $parts[1] . '/' . $parts[2];
         $result['locale'] = $parts[3];

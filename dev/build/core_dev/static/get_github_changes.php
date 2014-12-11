@@ -3,12 +3,9 @@
 /**
  * Script to get changes between feature branch and the mainline
  *
- * {license_notice}
- *
  * @category   dev
  * @package    build
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 define('GITHUB_URL_CHANGES', 'https://%OAUTH_TOKEN%@github.corp.ebay.com/api/v3/repos/%TEAM_REPO%/magento2/compare/magento2:develop...%FEATURE_BRANCH%');
@@ -22,7 +19,7 @@ define(
 USAGE
 );
 
-$options = getopt('', array('team-repo:', 'feature-branch:', 'output-file:', 'file-formats:', 'oauth-token:'));
+$options = getopt('', ['team-repo:', 'feature-branch:', 'output-file:', 'file-formats:', 'oauth-token:']);
 if (empty($options['team-repo']) || empty($options['feature-branch']) || empty($options['oauth-token'])) {
     echo USAGE;
     exit(1);
@@ -60,7 +57,7 @@ function generateChangedFilesList($outputFile, $changedFiles)
  */
 function getChangedFiles($changes, $fileFormats)
 {
-    $files = array();
+    $files = [];
     foreach ($changes as $change) {
         $fileName = $change['filename'];
         foreach ($fileFormats as $format) {

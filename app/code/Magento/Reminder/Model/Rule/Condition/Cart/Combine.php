@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule\Condition\Cart;
 
@@ -65,7 +62,7 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Reminder\Model\Rule\Condition\Cart\TotalquantityFactory $totalQtyFactory,
         \Magento\Reminder\Model\Rule\Condition\Cart\VirtualFactory $virtualFactory,
         \Magento\Reminder\Model\Rule\Condition\Cart\AmountFactory $amountFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $ruleResource, $data);
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart\Combine');
@@ -85,18 +82,18 @@ class Combine extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     {
         return array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
+            [
                 $this->_getRecursiveChildSelectOption(),
                 $this->_couponFactory->create()->getNewChildSelectOptions(),
                 $this->_itemsQtyFactory->create()->getNewChildSelectOptions(),
                 $this->_totalQtyFactory->create()->getNewChildSelectOptions(),
                 $this->_virtualFactory->create()->getNewChildSelectOptions(),
                 $this->_amountFactory->create()->getNewChildSelectOptions(),
-                array( // subselection combo
+                [ // subselection combo
                     'value' => 'Magento\Reminder\Model\Rule\Condition\Cart\Subselection',
                     'label' => __('Items Subselection')
-                )
-            )
+                ]
+            ]
         );
     }
 }

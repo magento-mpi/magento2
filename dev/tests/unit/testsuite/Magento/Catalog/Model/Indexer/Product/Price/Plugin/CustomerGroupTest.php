@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price\Plugin;
 
@@ -34,13 +31,13 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->_subjectMock = $this->getMock(
-            '\Magento\Customer\Api\GroupRepositoryInterface', array(), array(), '', false
+            '\Magento\Customer\Api\GroupRepositoryInterface', [], [], '', false
         );
 
         $indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'invalidate'),
-            array(),
+            ['getId', 'invalidate'],
+            [],
             '',
             false
         );
@@ -53,7 +50,7 @@ class CustomerGroupTest extends \PHPUnit_Framework_TestCase
 
         $this->_model = $this->_objectManager->getObject(
             '\Magento\Catalog\Model\Indexer\Product\Price\Plugin\CustomerGroup',
-            array('indexerRegistry' => $this->indexerRegistryMock)
+            ['indexerRegistry' => $this->indexerRegistryMock]
         );
     }
 

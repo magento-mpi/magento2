@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model;
 
@@ -32,14 +29,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $filesystemMock =
-            $this->getMock('Magento\Framework\Filesystem', array('getDirectoryRead'), array(), '', false);
+            $this->getMock('Magento\Framework\Filesystem', ['getDirectoryRead'], [], '', false);
         $this->_coreConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_cacheState = $this->getMockForAbstractClass('Magento\Framework\App\Cache\StateInterface');
 
         $modulesDirectoryMock = $this->getMock(
             'Magento\Framework\Filesystem\Directory\Write',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -65,32 +62,32 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'getValue'
         )->will(
             $this->returnValueMap(
-                array(
-                    array(
+                [
+                    [
                         \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_HOST,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         null,
-                        'example.com'
-                    ),
-                    array(
+                        'example.com',
+                    ],
+                    [
                         \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_BACKEND_PORT,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         null,
                         '8080'
-                    ),
-                    array(
+                    ],
+                    [
                         \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_ACCESS_LIST,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         null,
                         '127.0.0.1, 192.168.0.1'
-                    ),
-                    array(
+                    ],
+                    [
                         \Magento\PageCache\Model\Config::XML_VARNISH_PAGECACHE_DESIGN_THEME_REGEX,
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         null,
-                        serialize(array(array('regexp' => '(?i)pattern', 'value' => 'value_for_pattern')))
-                    )
-                )
+                        serialize([['regexp' => '(?i)pattern', 'value' => 'value_for_pattern']])
+                    ],
+                ]
             )
         );
 

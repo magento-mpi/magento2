@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search\Adapter\Mysql;
 
@@ -11,7 +8,6 @@ use Magento\TestFramework\Helper\Bootstrap;
 
 class AdapterTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Search\Adapter\Mysql\Adapter
      */
@@ -367,11 +363,11 @@ class AdapterTest extends \PHPUnit_Framework_TestCase
      */
     public function advancedSearchDataProvider()
     {
-        return array(
+        return [
             ['white', 'shorts', ['from' => '16', 'to' => '18'], 0],
             ['white', 'shorts',['from' => '12', 'to' => '18'], 1],
             ['black', 'tshirts', ['from' => '12', 'to' => '20'], 0],
             ['peoples', 'green', ['from' => '12', 'to' => '22'], 2],
-        );
+        ];
     }
 }

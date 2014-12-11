@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
+use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 
 /**
  * Class AbstractRelatedProducts
@@ -64,7 +61,7 @@ class AbstractRelatedProducts implements FixtureInterface
                 $this->data[] = [
                     'entity_id' => $product->getId(),
                     'name' => $product->getName(),
-                    'sku' => $product->getSku()
+                    'sku' => $product->getSku(),
                 ];
             }
         }

@@ -2,10 +2,7 @@
 /**
  * Application interface
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -19,7 +16,7 @@ interface AppInterface
     /**
      * Magento version
      */
-    const VERSION = '0.1.0-alpha106';
+    const VERSION = '0.1.0-alpha107';
 
     /**
      * Launch application

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource;
 
-use Magento\Framework\Model\Resource\Db\AbstractDb;
-use Magento\Framework\DB\Adapter\AdapterInterface;
 use Magento\Framework\App\Resource as AppResource;
+use Magento\Framework\DB\Adapter\AdapterInterface;
+use Magento\Framework\Model\Resource\Db\AbstractDb;
 
 /**
  * Class AbstractGrid

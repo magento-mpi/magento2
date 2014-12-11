@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Currency\Import\Source;
 
@@ -33,12 +30,12 @@ class Service implements \Magento\Framework\Option\ArrayInterface
     public function toOptionArray()
     {
         if ($this->_options === null) {
-            $this->_options = array();
+            $this->_options = [];
             foreach ($this->_importConfig->getAvailableServices() as $serviceName) {
-                $this->_options[] = array(
+                $this->_options[] = [
                     'label' => $this->_importConfig->getServiceLabel($serviceName),
-                    'value' => $serviceName
-                );
+                    'value' => $serviceName,
+                ];
             }
         }
         return $this->_options;

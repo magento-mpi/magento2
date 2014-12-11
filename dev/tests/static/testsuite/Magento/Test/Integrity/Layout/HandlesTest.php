@@ -2,10 +2,7 @@
 /**
  * Test format of layout files
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Layout;
 
@@ -24,7 +21,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
              * @param string $layoutFile
              */
             function ($layoutFile) {
-                $issues = array();
+                $issues = [];
                 $node = simplexml_load_file($layoutFile);
                 $label = $node['label'];
                 $designAbstraction = $node['design_abstraction'];
@@ -52,9 +49,9 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
              * @param string $layoutFile
              */
             function ($layoutFile) {
-                $issues = array();
+                $issues = [];
                 $xml = simplexml_load_file($layoutFile);
-                $containers = $xml->xpath('/layout//container') ?: array();
+                $containers = $xml->xpath('/layout//container') ?: [];
                 /** @var \SimpleXMLElement $node */
                 foreach ($containers as $node) {
                     if (!isset($node['htmlTag']) && (isset($node['htmlId']) || isset($node['htmlClass']))) {

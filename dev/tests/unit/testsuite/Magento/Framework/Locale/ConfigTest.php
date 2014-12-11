@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Locale;
@@ -71,7 +68,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     /** @var  \Magento\Framework\Locale\Config */
     private $configObject;
-
 
     public function testGetAllowedLocalesNoDataArray()
     {
@@ -179,7 +175,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->assertNotContains($absentCurrency, $retrievedCurrenciesWithAdditions);
         }
     }
-
 
     public function testGetAllowedCurrenciesGivenRedundantDataArray()
     {

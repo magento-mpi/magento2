@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\User\Model\Resource\User\Locked;
 
@@ -23,6 +20,6 @@ class Collection extends \Magento\User\Model\Resource\User\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('lock_expires', array('notnull' => true));
+        $this->addFieldToFilter('lock_expires', ['notnull' => true]);
     }
 }

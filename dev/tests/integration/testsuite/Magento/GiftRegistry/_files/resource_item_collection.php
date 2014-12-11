@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /** @var \Magento\Framework\ObjectManagerInterface $objectManager */
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
 // create gift registry
-$data = array(
+$data = [
     'type_id' => 1,
     'title' => 'Test Registry',
     'message' => 'Test Message',
@@ -17,10 +14,10 @@ $data = array(
     'is_active' => 1,
     'event_country' => 'US',
     'event_date' => date('m/d/y', strtotime('+1 month')),
-    'registrant' => array(
-        array('firstname' => 'TestReg', 'lastname' => 'TestReg last', 'email' => 'test1@test.magento.loc')
-    ),
-    'address' => array(
+    'registrant' => [
+        ['firstname' => 'TestReg', 'lastname' => 'TestReg last', 'email' => 'test1@test.magento.loc'],
+    ],
+    'address' => [
         'firstname' => 'test',
         'lastname' => 'test',
         'address' => 'test addr',
@@ -28,9 +25,9 @@ $data = array(
         'region_id' => 1,
         'postcode' => 123456,
         'country_id' => 'US',
-        'telephone' => '123456789'
-    )
-);
+        'telephone' => '123456789',
+    ],
+];
 /** @var \Magento\Customer\Model\Customer $customer */
 $customer = $objectManager->create('Magento\Customer\Model\Customer');
 $customer->load(1);

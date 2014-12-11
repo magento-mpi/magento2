@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -15,31 +12,31 @@ $connection = $installer->getConnection();
 $connection->addColumn(
     $installer->getTable('core_theme_files'),
     'is_temporary',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_BOOLEAN,
         'nullable' => false,
         'default' => 0,
         'comment' => 'Is Temporary File'
-    )
+    ]
 );
 
 $connection->changeColumn(
     $installer->getTable('core_theme_files'),
     'file_name',
     'file_path',
-    array(
+    [
         'type' => \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         'length' => 255,
         'nullable' => true,
         'comment' => 'Relative path to file'
-    )
+    ]
 );
 
 $connection->changeColumn(
     $installer->getTable('core_theme_files'),
     'order',
     'sort_order',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT]
 );
 
 /**
@@ -51,19 +48,19 @@ $table = $connection->newTable(
     'files_link_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'nullable' => false, 'unsigned' => true, 'primary' => true),
+    ['identity' => true, 'nullable' => false, 'unsigned' => true, 'primary' => true],
     'Customization link id'
 )->addColumn(
     'theme_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false, 'unsigned' => true),
+    ['nullable' => false, 'unsigned' => true],
     'Theme Id'
 )->addColumn(
     'layout_link_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false, 'unsigned' => true),
+    ['nullable' => false, 'unsigned' => true],
     'Theme layout link id'
 )->addForeignKey(
     $installer->getFkName('core_theme_files_link', 'theme_id', 'core_theme', 'theme_id'),

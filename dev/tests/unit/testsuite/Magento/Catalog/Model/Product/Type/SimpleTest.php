@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Type;
 
@@ -17,18 +14,18 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
-        $coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
+        $coreDataMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
+        $fileStorageDbMock = $this->getMock('Magento\Core\Helper\File\Storage\Database', [], [], '', false);
         $filesystem = $this->getMockBuilder('Magento\Framework\Filesystem')
             ->disableOriginalConstructor()
             ->getMock();
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false);
         $this->_model = $objectHelper->getObject(
             'Magento\Catalog\Model\Product\Type\Simple',
-            array(
+            [
                 'productFactory' => $productFactoryMock,
                 'eventManager' => $eventManager,
                 'coreData' => $coreDataMock,
@@ -36,7 +33,7 @@ class SimpleTest extends \PHPUnit_Framework_TestCase
                 'filesystem' => $filesystem,
                 'coreRegistry' => $coreRegistry,
                 'logger' => $logger
-            )
+            ]
         );
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Config\Control;
 
@@ -17,7 +14,7 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      *
      * @var string[]
      */
-    protected $_controlAttributes = array();
+    protected $_controlAttributes = [];
 
     /**
      * Extract configuration data from the DOM structure
@@ -38,7 +35,7 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractControls(\DOMNodeList $controls)
     {
-        $result = array();
+        $result = [];
         /** @var $control \DOMElement */
         foreach ($controls as $control) {
             if (!$control instanceof \DOMElement) {
@@ -69,7 +66,7 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractLayoutParams(\DOMElement $control)
     {
-        $layoutParams = array();
+        $layoutParams = [];
         foreach ($this->_controlAttributes as $attributeName) {
             $controlTitle = $control->getAttribute($attributeName);
             if (!empty($controlTitle)) {
@@ -88,7 +85,7 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      */
     protected function _extractParams(\DOMElement $control, $useKeyIdentifier = true)
     {
-        $result = array();
+        $result = [];
         /** @var $paramNode \DOMElement */
         foreach ($control->childNodes as $paramNode) {
             if (!$paramNode instanceof \DOMElement) {
@@ -151,6 +148,6 @@ abstract class AbstractControl extends \Magento\Framework\Config\AbstractXml
      */
     protected function _getIdAttributes()
     {
-        return array('/controls/control' => 'name', '/controls/control/components/control' => 'name');
+        return ['/controls/control' => 'name', '/controls/control/components/control' => 'name'];
     }
 }

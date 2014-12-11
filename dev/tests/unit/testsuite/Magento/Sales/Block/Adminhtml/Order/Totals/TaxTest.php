@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -13,7 +10,6 @@ namespace Magento\Sales\Block\Adminhtml\Order\Totals;
 
 class TaxTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Sales\Block\Adminhtml\Order\Totals\Tax */
     private $taxMock;
 
@@ -21,7 +17,7 @@ class TaxTest extends \PHPUnit_Framework_TestCase
     {
         $getCalculatedTax = [
             'tax' => 'tax',
-            'shipping_tax' => 'shipping_tax'
+            'shipping_tax' => 'shipping_tax',
         ];
         $taxHelperMock = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->setMethods(['getCalculatedTaxes'])
@@ -35,9 +31,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->setConstructorArgs($this->_getConstructArguments($taxHelperMock))
             ->setMethods(['getOrder', 'getSource'])
             ->getMock();
-
     }
-    
+
     /**
      * Test method for getFullTaxInfo
      *
@@ -106,15 +101,13 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         return [
-            'source is not an instance of \Magento\Sales\Model\Order' =>
-                [null, []],
-            'source is an instance of \Magento\Sales\Model\Order and has reasonable data' =>
-                [
+            'source is not an instance of \Magento\Sales\Model\Order' => [null, []],
+            'source is an instance of \Magento\Sales\Model\Order and has reasonable data' => [
                     $salesModelOrderMock,
                     [
                         'tax' => 'tax',
                         'shipping_tax' => 'shipping_tax',
-                    ]
+                    ],
                 ]
         ];
     }
@@ -142,10 +135,8 @@ class TaxTest extends \PHPUnit_Framework_TestCase
             'shipping_tax' => 'shipping_tax',
         ];
         return [
-            'invoice' =>
-                [$invoiceMock, $expected],
-            'creditMemo' =>
-                [$creditMemoMock, $expected]
+            'invoice' => [$invoiceMock, $expected],
+            'creditMemo' => [$creditMemoMock, $expected]
         ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Block\Catalog\Product;
 
@@ -42,7 +39,7 @@ class Samples extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function getSampleUrl($sample)
     {
-        return $this->getUrl('downloadable/download/sample', array('sample_id' => $sample->getId()));
+        return $this->getUrl('downloadable/download/sample', ['sample_id' => $sample->getId()]);
     }
 
     /**

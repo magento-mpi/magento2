@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,7 +37,7 @@ class Mapper
      * @param array $defaults
      * @return array|object
      */
-    public static function &accumulateByMap($from, $to, array $map, array $defaults = array())
+    public static function &accumulateByMap($from, $to, array $map, array $defaults = [])
     {
         $get = 'getData';
         if (is_array(

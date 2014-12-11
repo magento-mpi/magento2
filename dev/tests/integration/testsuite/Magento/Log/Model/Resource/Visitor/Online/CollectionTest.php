@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Log\Model\Resource\Visitor\Online;
@@ -36,7 +33,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $visitorOnline->addData([
             'customer_email' => 'customer@example.com',
             'customer_firstname' => 'John',
-            'customer_lastname' => 'Smith'
+            'customer_lastname' => 'Smith',
         ]);
 
         foreach ($visitorOnline->getData() as $field => $expectedValue) {

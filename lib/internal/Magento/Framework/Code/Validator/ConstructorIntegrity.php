@@ -2,10 +2,7 @@
 /**
  * Class constructor validator. Validates call of parent construct
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Validator;
 
@@ -106,7 +103,7 @@ class ConstructorIntegrity implements ValidatorInterface
          */
         if (count($callArguments) > count($parentArguments)) {
             $extraParameters = array_slice($callArguments, count($parentArguments));
-            $names = array();
+            $names = [];
             foreach ($extraParameters as $param) {
                 $names[] = '$' . $param['name'];
             }

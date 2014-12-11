@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\File\Storage;
 
@@ -32,7 +29,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $path = '..PathInfo';
-        $this->_requestMock = $this->getMock('\Magento\Framework\App\Request\Http', array(), array(), '', false);
+        $this->_requestMock = $this->getMock('\Magento\Framework\App\Request\Http', [], [], '', false);
         $this->_requestMock->expects($this->once())->method('getPathInfo')->will($this->returnValue($path));
         $this->_model = new \Magento\Core\Model\File\Storage\Request($this->_workingDir, $this->_requestMock);
     }

@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Service\V1\Cart\PaymentMethod;
 
-use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
+use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {

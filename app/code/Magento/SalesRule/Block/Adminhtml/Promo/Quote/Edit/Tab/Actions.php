@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
@@ -43,7 +40,7 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\Rule\Block\Actions $ruleActions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $rendererFieldset,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rendererFieldset = $rendererFieldset;
         $this->_ruleActions = $ruleActions;
@@ -98,68 +95,68 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'action_fieldset',
-            array('legend' => __('Update prices using the following information'))
+            ['legend' => __('Update prices using the following information')]
         );
 
         $fieldset->addField(
             'simple_action',
             'select',
-            array(
+            [
                 'label' => __('Apply'),
                 'name' => 'simple_action',
-                'options' => array(
+                'options' => [
                     \Magento\SalesRule\Model\Rule::BY_PERCENT_ACTION => __('Percent of product price discount'),
                     \Magento\SalesRule\Model\Rule::BY_FIXED_ACTION => __('Fixed amount discount'),
                     \Magento\SalesRule\Model\Rule::CART_FIXED_ACTION => __('Fixed amount discount for whole cart'),
-                    \Magento\SalesRule\Model\Rule::BUY_X_GET_Y_ACTION => __('Buy X get Y free (discount amount is Y)')
-                )
-            )
+                    \Magento\SalesRule\Model\Rule::BUY_X_GET_Y_ACTION => __('Buy X get Y free (discount amount is Y)'),
+                ]
+            ]
         );
         $fieldset->addField(
             'discount_amount',
             'text',
-            array(
+            [
                 'name' => 'discount_amount',
                 'required' => true,
                 'class' => 'validate-not-negative-number',
                 'label' => __('Discount Amount')
-            )
+            ]
         );
         $model->setDiscountAmount($model->getDiscountAmount() * 1);
 
         $fieldset->addField(
             'discount_qty',
             'text',
-            array('name' => 'discount_qty', 'label' => __('Maximum Qty Discount is Applied To'))
+            ['name' => 'discount_qty', 'label' => __('Maximum Qty Discount is Applied To')]
         );
         $model->setDiscountQty($model->getDiscountQty() * 1);
 
         $fieldset->addField(
             'discount_step',
             'text',
-            array('name' => 'discount_step', 'label' => __('Discount Qty Step (Buy X)'))
+            ['name' => 'discount_step', 'label' => __('Discount Qty Step (Buy X)')]
         );
 
         $fieldset->addField(
             'apply_to_shipping',
             'select',
-            array(
+            [
                 'label' => __('Apply to Shipping Amount'),
                 'title' => __('Apply to Shipping Amount'),
                 'name' => 'apply_to_shipping',
                 'values' => $this->_sourceYesno->toOptionArray()
-            )
+            ]
         );
 
         $fieldset->addField(
             'stop_rules_processing',
             'select',
-            array(
+            [
                 'label' => __('Stop Further Rules Processing'),
                 'title' => __('Stop Further Rules Processing'),
                 'name' => 'stop_rules_processing',
-                'options' => array('1' => __('Yes'), '0' => __('No'))
-            )
+                'options' => ['1' => __('Yes'), '0' => __('No')]
+            ]
         );
 
         $renderer = $this->_rendererFieldset->setTemplate(
@@ -170,12 +167,12 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
 
         $fieldset = $form->addFieldset(
             'actions_fieldset',
-            array(
+            [
                 'legend' => __(
                     'Apply the rule only to cart items matching the following conditions ' .
                     '(leave blank for all items).'
                 )
-            )
+            ]
         )->setRenderer(
             $renderer
         );
@@ -183,14 +180,14 @@ class Actions extends \Magento\Backend\Block\Widget\Form\Generic implements
         $fieldset->addField(
             'actions',
             'text',
-            array('name' => 'actions', 'label' => __('Apply To'), 'title' => __('Apply To'), 'required' => true)
+            ['name' => 'actions', 'label' => __('Apply To'), 'title' => __('Apply To'), 'required' => true]
         )->setRule(
             $model
         )->setRenderer(
             $this->_ruleActions
         );
 
-        $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', array('form' => $form));
+        $this->_eventManager->dispatch('adminhtml_block_salesrule_actions_prepareform', ['form' => $form]);
 
         $form->setValues($model->getData());
 

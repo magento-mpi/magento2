@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* Action "Back" as cross  */
@@ -481,25 +478,6 @@
     position: absolute;
     left: 0;
     top: 30px;
-}
-
-/*
-    Advanced Pricing tab
--------------------------------------- */
-.field-recurring_payment > .control > .field-row:first-child + .fieldset {
-    margin-top: -14px;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .label {
-    width: 30%;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .control {
-    width: 70%;
-}
-
-.field-recurring_payment > .control > .fieldset > .field > .field-service {
-    display: none;
 }
 
 /* Change Attribute Set */

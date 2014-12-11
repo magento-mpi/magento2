@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Index;
 
@@ -91,7 +88,7 @@ class Viewfile extends \Magento\Customer\Controller\Adminhtml\Index
             $name = pathinfo($path, PATHINFO_BASENAME);
             $this->_fileFactory->create(
                 $name,
-                array('type' => 'filename', 'value' => $fileName),
+                ['type' => 'filename', 'value' => $fileName],
                 DirectoryList::MEDIA
             )->sendResponse();
         }

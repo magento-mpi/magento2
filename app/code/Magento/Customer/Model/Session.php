@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Model\Config\Share;
-use Magento\Customer\Model\Context;
-use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\Data\CustomerInterface as CustomerData;
 use Magento\Customer\Api\GroupManagementInterface;
+use Magento\Customer\Model\Config\Share;
+use Magento\Customer\Model\Resource\Customer as ResourceCustomer;
 
 /**
  * Customer session model
@@ -91,11 +87,6 @@ class Session extends \Magento\Framework\Session\SessionManager
     protected $_httpContext;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_converter;
-
-    /**
      * @var GroupManagementInterface
      */
     protected $groupManagement;
@@ -118,7 +109,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      * @param \Magento\Framework\Session\Generic $session
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
      * @param \Magento\Framework\App\Http\Context $httpContext
-     * @param Converter $converter
      * @param CustomerRepositoryInterface $customerRepository
      * @param GroupManagementInterface $groupManagement
      */
@@ -140,7 +130,6 @@ class Session extends \Magento\Framework\Session\SessionManager
         \Magento\Framework\Session\Generic $session,
         \Magento\Framework\Event\ManagerInterface $eventManager,
         \Magento\Framework\App\Http\Context $httpContext,
-        \Magento\Customer\Model\Converter $converter,
         CustomerRepositoryInterface $customerRepository,
         GroupManagementInterface $groupManagement
     ) {
@@ -165,9 +154,8 @@ class Session extends \Magento\Framework\Session\SessionManager
             $cookieMetadataFactory
         );
         $this->start();
-        $this->_converter = $converter;
         $this->groupManagement = $groupManagement;
-        $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
+        $this->_eventManager->dispatch('customer_session_init', ['customer_session' => $this]);
     }
 
     /**
@@ -225,7 +213,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function getCustomerDataObject()
     {
         /* TODO refactor this after all usages of the setCustomer is refactored */
-        return $this->_converter->createCustomerFromModel($this->getCustomer());
+        return $this->getCustomer()->getDataModel();
     }
 
     /**
@@ -237,7 +225,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function setCustomerDataObject(CustomerData $customerData)
     {
         $this->setId($customerData->getId());
-        $this->_converter->updateCustomerModel($this->getCustomer(), $customerData);
+        $this->getCustomer()->updateData($customerData);
         return $this;
     }
 
@@ -304,7 +292,6 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function getCustomerId()
     {
-
         if ($this->storage->getData('customer_id')) {
             return $this->storage->getData('customer_id');
         }
@@ -403,7 +390,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        $this->_eventManager->dispatch('customer_login', array('customer' => $customer));
+        $this->_eventManager->dispatch('customer_login', ['customer' => $customer]);
         $this->_eventManager->dispatch('customer_data_object_login', ['customer' => $this->getCustomerDataObject()]);
         $this->regenerateId();
         return $this;
@@ -418,11 +405,11 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_httpContext->setValue(Context::CONTEXT_AUTH, true, false);
         $this->setCustomerData($customer);
 
-        $customerModel = $this->_converter->createCustomerModel($customer);
+        $customerModel = $this->_customerFactory->create()->updateData($customer);
 
         $this->setCustomer($customerModel);
 
-        $this->_eventManager->dispatch('customer_login', array('customer' => $customerModel));
+        $this->_eventManager->dispatch('customer_login', ['customer' => $customerModel]);
         $this->_eventManager->dispatch('customer_data_object_login', ['customer' => $customer]);
         return $this;
     }
@@ -452,7 +439,7 @@ class Session extends \Magento\Framework\Session\SessionManager
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()));
+            $this->_eventManager->dispatch('customer_logout', ['customer' => $this->getCustomer()]);
             $this->_logout();
         }
         $this->_httpContext->unsValue(Context::CONTEXT_AUTH);
@@ -471,17 +458,17 @@ class Session extends \Magento\Framework\Session\SessionManager
         if ($this->isLoggedIn()) {
             return true;
         }
-        $this->setBeforeAuthUrl($this->_createUrl()->getUrl('*/*/*', array('_current' => true)));
+        $this->setBeforeAuthUrl($this->_createUrl()->getUrl('*/*/*', ['_current' => true]));
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
             $arguments = $this->_customerUrl->getLoginUrlParams();
             if ($this->_session->getCookieShouldBeReceived() && $this->_createUrl()->getUseSession()) {
-                $arguments += array(
-                    '_query' => array(
-                        $this->sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
-                    )
-                );
+                $arguments += [
+                    '_query' => [
+                        $this->sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId(),
+                    ]
+                ];
             }
             $action->getResponse()->setRedirect(
                 $this->_createUrl()->getUrl(\Magento\Customer\Model\Url::ROUTE_ACCOUNT_LOGIN, $arguments)
@@ -517,7 +504,7 @@ class Session extends \Magento\Framework\Session\SessionManager
         $this->_customerModel = null;
         $this->setCustomerId(null);
         $this->setCustomerGroupId($this->groupManagement->getNotLoggedInGroup()->getId());
-        $this->destroy(array('clear_storage' => false));
+        $this->destroy(['clear_storage' => false]);
         return $this;
     }
 

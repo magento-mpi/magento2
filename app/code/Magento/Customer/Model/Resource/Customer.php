@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Resource;
 
-use \Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\InputException;
 
 /**
  * Customer entity resource model
@@ -53,7 +50,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Core\Model\Validator\Factory $validatorFactory,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        $data = array()
+        $data = []
     ) {
         parent::__construct(
             $resource,
@@ -78,7 +75,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
      */
     protected function _getDefaultAttributes()
     {
-        return array(
+        return [
             'entity_type_id',
             'attribute_set_id',
             'created_at',
@@ -86,7 +83,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
             'increment_id',
             'store_id',
             'website_id'
-        );
+        ];
     }
 
     /**
@@ -107,11 +104,11 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         }
 
         $adapter = $this->_getWriteAdapter();
-        $bind = array('email' => $customer->getEmail());
+        $bind = ['email' => $customer->getEmail()];
 
         $select = $adapter->select()->from(
             $this->getEntityTable(),
-            array($this->getEntityIdField())
+            [$this->getEntityIdField()]
         )->where(
             'email = :email'
         );
@@ -262,10 +259,10 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function loadByEmail(\Magento\Customer\Model\Customer $customer, $email)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array('customer_email' => $email);
+        $bind = ['customer_email' => $email];
         $select = $adapter->select()->from(
             $this->getEntityTable(),
-            array($this->getEntityIdField())
+            [$this->getEntityIdField()]
         )->where(
             'email = :customer_email'
         );
@@ -284,7 +281,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         if ($customerId) {
             $this->load($customer, $customerId);
         } else {
-            $customer->setData(array());
+            $customer->setData([]);
         }
 
         return $this;
@@ -314,7 +311,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()->from(
             $this->getTable('customer_entity'),
-            array('email', 'cnt' => 'COUNT(*)')
+            ['email', 'cnt' => 'COUNT(*)']
         )->group(
             'email'
         )->order(
@@ -338,7 +335,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function checkCustomerId($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array('entity_id' => (int)$customerId);
+        $bind = ['entity_id' => (int)$customerId];
         $select = $adapter->select()->from(
             $this->getTable('customer_entity'),
             'entity_id'
@@ -364,7 +361,7 @@ class Customer extends \Magento\Eav\Model\Entity\AbstractEntity
     public function getWebsiteId($customerId)
     {
         $adapter = $this->_getReadAdapter();
-        $bind = array('entity_id' => (int)$customerId);
+        $bind = ['entity_id' => (int)$customerId];
         $select = $adapter->select()->from(
             $this->getTable('customer_entity'),
             'website_id'

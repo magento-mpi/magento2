@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Reader;
 
@@ -22,18 +19,18 @@ class ClassReader implements ClassReaderInterface
         $result = null;
         $constructor = $class->getConstructor();
         if ($constructor) {
-            $result = array();
+            $result = [];
             /** @var $parameter \ReflectionParameter */
             foreach ($constructor->getParameters() as $parameter) {
                 try {
-                    $result[] = array(
+                    $result[] = [
                         $parameter->getName(),
                         $parameter->getClass() !== null ? $parameter->getClass()->getName() : null,
                         !$parameter->isOptional(),
                         $parameter->isOptional()
                             ? ($parameter->isDefaultValueAvailable() ? $parameter->getDefaultValue() : null)
-                            : null
-                    );
+                            : null,
+                    ];
                 } catch (\ReflectionException $e) {
                     $message = $e->getMessage();
                     throw new \ReflectionException($message, 0, $e);
@@ -60,7 +57,7 @@ class ClassReader implements ClassReaderInterface
     {
         $parentClass = get_parent_class($className);
         if ($parentClass) {
-            $result = array();
+            $result = [];
             $interfaces = class_implements($className);
             if ($interfaces) {
                 $parentInterfaces = class_implements($parentClass);
@@ -76,7 +73,7 @@ class ClassReader implements ClassReaderInterface
             if ($result) {
                 array_unshift($result, null);
             } else {
-                $result = array();
+                $result = [];
             }
         }
         return $result;

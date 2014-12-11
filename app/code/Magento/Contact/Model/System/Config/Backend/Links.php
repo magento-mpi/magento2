@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Contact\Model\System\Config\Backend;
 
@@ -17,7 +14,7 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      *
      * @var string[]
      */
-    protected $_cacheTags = array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+    protected $_cacheTags = [\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG];
 
     /**
      * Get identities
@@ -26,6 +23,6 @@ class Links extends \Magento\Backend\Model\Config\Backend\Cache implements \Mage
      */
     public function getIdentities()
     {
-        return array(\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG);
+        return [\Magento\Store\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG];
     }
 }

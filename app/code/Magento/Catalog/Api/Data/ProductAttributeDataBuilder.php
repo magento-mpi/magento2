@@ -1,23 +1,20 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Api\Data;
 
-use Magento\Framework\Api\ObjectFactory;
 use Magento\Framework\Api\MetadataServiceInterface;
+use Magento\Framework\Api\ObjectFactory;
 
 /**
  * DataBuilder class for \Magento\Catalog\Api\Data\ProductAttributeInterface
+ * @codeCoverageIgnore
  */
 class ProductAttributeDataBuilder extends \Magento\Framework\Api\Builder
 {
-
     /**
      * @param ObjectFactory $objectFactory
      * @param MetadataServiceInterface $metadataService

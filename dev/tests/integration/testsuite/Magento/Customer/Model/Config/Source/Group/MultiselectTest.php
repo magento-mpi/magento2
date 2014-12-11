@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Config\Source\Group;
 
@@ -19,11 +16,11 @@ class MultiselectTest extends \PHPUnit_Framework_TestCase
         /** @var Multiselect $multiselect */
         $multiselect = Bootstrap::getObjectManager()->get('Magento\Customer\Model\Config\Source\Group\Multiselect');
         $this->assertEquals(
-            array(
-                array('value' => 1, 'label' => 'General'),
-                array('value' => 2, 'label' => 'Wholesale'),
-                array('value' => 3, 'label' => 'Retailer')
-            ),
+            [
+                ['value' => 1, 'label' => 'General'],
+                ['value' => 2, 'label' => 'Wholesale'],
+                ['value' => 3, 'label' => 'Retailer'],
+            ],
             $multiselect->toOptionArray()
         );
     }

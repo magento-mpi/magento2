@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Resource\Item;
 
@@ -139,19 +136,19 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $this->getSelect()->joinLeft(
-            array('p_d' => $attribute->getBackend()->getTable()),
+            ['p_d' => $attribute->getBackend()->getTable()],
             $joinConditionDefault,
-            array()
+            []
         );
 
         $this->getSelect()->joinLeft(
-            array('p' => $attribute->getBackend()->getTable()),
+            ['p' => $attribute->getBackend()->getTable()],
             $joinCondition,
-            array('name' => $this->getConnection()->getIfNullSql('p.value', 'p_d.value'))
+            ['name' => $this->getConnection()->getIfNullSql('p.value', 'p_d.value')]
         );
 
         $this->getSelect()->joinLeft(
-            array('types' => $this->getTable('googleshopping_types')),
+            ['types' => $this->getTable('googleshopping_types')],
             'main_table.type_id=types.type_id'
         );
         $this->_resourceHelper->prepareColumnsList($this->getSelect());

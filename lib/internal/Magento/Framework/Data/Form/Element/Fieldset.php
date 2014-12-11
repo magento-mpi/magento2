@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Form\Element;
 
@@ -27,7 +24,7 @@ class Fieldset extends AbstractElement
         Factory $factoryElement,
         CollectionFactory $factoryCollection,
         Escaper $escaper,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_renderer = Form::getFieldsetRenderer();
@@ -45,7 +42,7 @@ class Fieldset extends AbstractElement
     public function getElementHtml()
     {
         $html = '<fieldset id="' . $this->getHtmlId() . '"' . $this->serialize(
-            array('class')
+            ['class']
         ) . $this->_getUiId() . '>' . "\n";
         if ($this->getLegend()) {
             $html .= '<legend ' . $this->_getUiId('legend') . '>' . $this->getLegend() . '</legend>' . "\n";
@@ -63,7 +60,7 @@ class Fieldset extends AbstractElement
      */
     public function getChildren()
     {
-        $elements = array();
+        $elements = [];
         foreach ($this->getElements() as $element) {
             if ($element->getType() != 'fieldset') {
                 $elements[] = $element;
@@ -89,7 +86,7 @@ class Fieldset extends AbstractElement
      */
     public function getBasicChildren()
     {
-        $elements = array();
+        $elements = [];
         foreach ($this->getElements() as $element) {
             if (!$element->isAdvanced()) {
                 $elements[] = $element;
@@ -125,7 +122,7 @@ class Fieldset extends AbstractElement
      */
     public function getAdvancedChildren()
     {
-        $elements = array();
+        $elements = [];
         foreach ($this->getElements() as $element) {
             if ($element->isAdvanced()) {
                 $elements[] = $element;
@@ -166,7 +163,7 @@ class Fieldset extends AbstractElement
      */
     public function getSubFieldset()
     {
-        $elements = array();
+        $elements = [];
         foreach ($this->getElements() as $element) {
             if ($element->getType() == 'fieldset' && !$element->isAdvanced()) {
                 $elements[] = $element;

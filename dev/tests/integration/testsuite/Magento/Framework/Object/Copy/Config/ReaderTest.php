@@ -2,10 +2,7 @@
 /**
  * \Magento\Framework\Object\Copy\Config\Reader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Object\Copy\Config;
 
@@ -29,7 +26,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $objectManager = Bootstrap::getObjectManager();
         $this->model = $objectManager->create(
             'Magento\Framework\Object\Copy\Config\Reader',
-            array('fileResolver' => $this->fileResolver)
+            ['fileResolver' => $this->fileResolver]
         );
     }
 
@@ -47,21 +44,21 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $fileList = [
             file_get_contents(__DIR__ . '/_files/partialFieldsetFirst.xml'),
-            file_get_contents(__DIR__ . '/_files/partialFieldsetSecond.xml')
+            file_get_contents(__DIR__ . '/_files/partialFieldsetSecond.xml'),
         ];
         $this->fileResolver->expects($this->once())
             ->method('get')
             ->with('fieldset.xml', 'global')
             ->willReturn($fileList);
-        $expected = array(
-            'global' => array(
-                'sales_convert_quote_item' => array(
-                    'event_id' => array('to_order_item' => "*"),
-                    'event_name' => array('to_order_item' => "*"),
-                    'event_description' => array('to_order_item' => "complexDesciption")
-                )
-            )
-        );
+        $expected = [
+            'global' => [
+                'sales_convert_quote_item' => [
+                    'event_id' => ['to_order_item' => "*"],
+                    'event_name' => ['to_order_item' => "*"],
+                    'event_description' => ['to_order_item' => "complexDesciption"],
+                ],
+            ],
+        ];
         $this->assertEquals($expected, $this->model->read('global'));
     }
 }

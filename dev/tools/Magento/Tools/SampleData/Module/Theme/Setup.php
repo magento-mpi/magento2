@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\SampleData\Module\Theme;
 
-use \Magento\Framework\App\ScopeInterface;
-use \Magento\Store\Model\Store;
-use \Magento\Tools\SampleData\Logger;
-use \Magento\Tools\SampleData\SetupInterface;
-use \Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Framework\App\ScopeInterface;
+use Magento\Store\Model\Store;
+use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\Logger;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Launches setup of sample data for Theme module
@@ -158,7 +155,7 @@ class Setup implements SetupInterface
         $mediaDir = $this->directoryList->getPath(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
         file_put_contents("$mediaDir/styles.css", $styleContent);
         $linkTemplate = '<link  rel="stylesheet" type="text/css"  media="all" href="%sstyles.css" />';
-        $baseUrl = $this->baseUrl->getBaseUrl(array('_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA));
+        $baseUrl = $this->baseUrl->getBaseUrl(['_type' => \Magento\Framework\UrlInterface::URL_TYPE_MEDIA]);
         $linkText = sprintf($linkTemplate, $baseUrl);
 
         $miscScriptsNode = 'design/head/includes';

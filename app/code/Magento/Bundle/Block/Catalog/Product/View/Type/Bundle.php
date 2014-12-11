@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
@@ -58,8 +55,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
-        array $data = array(),
-        array $priceBlockTypes = array()
+        array $data = [],
+        array $priceBlockTypes = []
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
@@ -124,13 +121,13 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         /** @var \Magento\Bundle\Model\Option[] $optionsArray */
         $optionsArray = $this->getOptions();
-        $options = array();
-        $selected = array();
+        $options = [];
+        $selected = [];
         $currentProduct = $this->getProduct();
 
         if ($preConfiguredFlag = $currentProduct->hasPreconfiguredValues()) {
             $preConfiguredValues = $currentProduct->getPreconfiguredValues();
-            $defaultValues = array();
+            $defaultValues = [];
         }
 
 
@@ -142,12 +139,12 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             }
 
             $optionId = $optionItem->getId();
-            $option = array(
-                'selections' => array(),
+            $option = [
+                'selections' => [],
                 'title' => $optionItem->getTitle(),
-                'isMulti' => in_array($optionItem->getType(), array('multi', 'checkbox')),
+                'isMulti' => in_array($optionItem->getType(), ['multi', 'checkbox']),
                 'position' => $position++
-            );
+            ];
 
             $selectionCount = count($optionItem->getSelections());
 
@@ -188,7 +185,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                 $finalPrice = $bundleOptionPriceAmount->getValue();
                 $basePrice = $bundleOptionPriceAmount->getBaseAmount();
 
-                $selection = array(
+                $selection = [
                     'qty' => $qty,
                     'customQty' => $selectionItem->getSelectionCanChangeQty(),
                     'prices' => [
@@ -206,16 +203,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
                     'tierPrice' => $tierPrices,
                     'name' => $selectionItem->getName(),
                     'canApplyMsrp' => false
-                );
+                ];
 
-                $responseObject = new \Magento\Framework\Object();
-                $args = array('response_object' => $responseObject, 'selection' => $selectionItem);
-                $this->_eventManager->dispatch('bundle_product_view_config', $args);
-                if (is_array($responseObject->getAdditionalOptions())) {
-                    foreach ($responseObject->getAdditionalOptions() as $index => $value) {
-                        $selection[$index] = $value;
-                    }
-                }
                 $option['selections'][$selectionId] = $selection;
 
                 if (($selectionItem->getIsDefault() || $selectionCount == 1 && $optionItem->getRequired())
@@ -246,7 +235,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             ->getPrice(\Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE)
             ->getAmount();
 
-        $config = array(
+        $config = [
             'options' => $options,
             'selected' => $selected,
             'bundleId' => $currentProduct->getId(),
@@ -264,7 +253,7 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
             ],
             'priceType' => $currentProduct->getPriceType(),
             'isFixedPrice' => $isFixedPrice,
-        );
+        ];
 
         if ($preConfiguredFlag && !empty($defaultValues)) {
             $config['defaultValues'] = $defaultValues;

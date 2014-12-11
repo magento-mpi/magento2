@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
@@ -67,7 +64,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->productRepositoryMock = $this->getMock('\Magento\Catalog\Api\ProductRepositoryInterface');
         $this->attributeRepositoryMock = $this->getMock('\Magento\Catalog\Api\ProductAttributeRepositoryInterface');
         $this->mediaConfigMock = $this->getMock('\Magento\Catalog\Model\Product\Media\Config', [], [], '', false);
@@ -617,7 +614,7 @@ class GalleryManagementTest extends \PHPUnit_Framework_TestCase
             'label_default' => 'defaultLabel',
             'file' => 'code',
             'disabled_default' => false,
-            'position_default' => 1
+            'position_default' => 1,
         ]];
         $this->productRepositoryMock->expects($this->once())->method('get')->with($productSku)
             ->willReturn($this->productMock);

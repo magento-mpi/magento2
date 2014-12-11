@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Code\Generator;
 
@@ -34,11 +31,10 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
                     'tags' => [
                         [
                             'name' => 'var',
-                            'description' =>
-                                $this->_getFactoryClass()
-                        ]
-                    ]
-                ]
+                            'description' => $this->_getFactoryClass(),
+                        ],
+                    ],
+                ],
             ]
         ];
     }
@@ -76,7 +72,7 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
             'parameters' => [
                 [
                     'name' => $this->_getFactoryPropertyName(),
-                    'type' => $this->_getFactoryClass()
+                    'type' => $this->_getFactoryClass(),
                 ],
             ],
             'body' => "\$this->"
@@ -88,9 +84,9 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
                     [
                         'name' => 'param',
                         'description' => '\\' . $this->_getSourceClassName()
-                            . " \$" . $this->_getFactoryPropertyName()
-                    ]
-                ]
+                            . " \$" . $this->_getFactoryPropertyName(),
+                    ],
+                ],
             ]
         ];
     }
@@ -105,14 +101,14 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
         $construct = $this->_getDefaultConstructorDefinition();
         $paramName = 'dataObject';
         $body = 'return $this->' . $this->_getFactoryPropertyName()
-            . '->create()->setData($' . $paramName .'->__toArray());';
+            . '->create()->setData($' . $paramName . '->__toArray());';
         $getModel = [
             'name' => 'getModel',
             'parameters' => [
                 [
                     'name' => $paramName,
-                    'type' => '\Magento\Framework\Api\AbstractExtensibleObject'
-                ]
+                    'type' => '\Magento\Framework\Api\AbstractExtensibleObject',
+                ],
             ],
             'body' => $body,
             'docblock' => [
@@ -125,11 +121,11 @@ class Converter extends \Magento\Framework\Code\Generator\EntityAbstract
                     [
                         'name' => 'return',
                         'description' => $this->_getFullyQualifiedClassName($this->_getSourceClassName())
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
-        return array($construct, $getModel);
+        return [$construct, $getModel];
     }
 
     /**

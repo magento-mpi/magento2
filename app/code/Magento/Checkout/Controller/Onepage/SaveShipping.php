@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Onepage;
 
@@ -33,13 +30,13 @@ class SaveShipping extends \Magento\Checkout\Controller\Onepage
                         'sales/minimum_order/error_message',
                         \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                         $quote->getStoreId()
-                    )
+                    ),
                 ];
             } else {
                 $result['goto_section'] = 'shipping_method';
                 $result['update_section'] = [
                     'name' => 'shipping-method',
-                    'html' => $this->_getShippingMethodsHtml()
+                    'html' => $this->_getShippingMethodsHtml(),
                 ];
                 $result['update_progress'] = ['html' => $this->getProgressHtml($result['goto_section'])];
             }

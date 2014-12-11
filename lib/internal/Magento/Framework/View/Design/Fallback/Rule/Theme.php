@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Design\Fallback\Rule;
 
@@ -47,7 +44,7 @@ class Theme implements RuleInterface
                 'Parameter "theme" should be specified and should implement the theme interface.'
             );
         }
-        $result = array();
+        $result = [];
         /** @var $theme ThemeInterface */
         $theme = $params['theme'];
         unset($params['theme']);

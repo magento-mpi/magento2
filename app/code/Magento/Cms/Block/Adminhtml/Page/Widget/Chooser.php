@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Block\Adminhtml\Page\Widget;
 
@@ -96,7 +93,6 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
         )->setUniqId(
             $uniqId
         );
-
 
         if ($element->getValue()) {
             $page = $this->_pageFactory->create()->load((int)$element->getValue());

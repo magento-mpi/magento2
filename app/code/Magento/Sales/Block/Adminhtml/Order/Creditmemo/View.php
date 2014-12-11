@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo;
 
@@ -29,7 +26,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -59,57 +56,57 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
         if ($this->getCreditmemo()->canCancel()) {
             $this->buttonList->add(
                 'cancel',
-                array(
+                [
                     'label' => __('Cancel'),
                     'class' => 'delete',
                     'onclick' => 'setLocation(\'' . $this->getCancelUrl() . '\')'
-                )
+                ]
             );
         }
 
         if ($this->_isAllowedAction('Magento_Sales::emails')) {
             $this->addButton(
                 'send_notification',
-                array(
+                [
                     'label' => __('Send Email'),
                     'class' => 'send-email',
                     'onclick' => 'confirmSetLocation(\'' . __(
                         'Are you sure you want to send a Credit memo email to customer?'
                     ) . '\', \'' . $this->getEmailUrl() . '\')'
-                )
+                ]
             );
         }
 
         if ($this->getCreditmemo()->canRefund()) {
             $this->buttonList->add(
                 'refund',
-                array(
+                [
                     'label' => __('Refund'),
                     'class' => 'refund',
                     'onclick' => 'setLocation(\'' . $this->getRefundUrl() . '\')'
-                )
+                ]
             );
         }
 
         if ($this->getCreditmemo()->canVoid()) {
             $this->buttonList->add(
                 'void',
-                array(
+                [
                     'label' => __('Void'),
                     'class' => 'void',
                     'onclick' => 'setLocation(\'' . $this->getVoidUrl() . '\')'
-                )
+                ]
             );
         }
 
         if ($this->getCreditmemo()->getId()) {
             $this->buttonList->add(
                 'print',
-                array(
+                [
                     'label' => __('Print'),
                     'class' => 'print',
                     'onclick' => 'setLocation(\'' . $this->getPrintUrl() . '\')'
-                )
+                ]
             );
         }
     }
@@ -154,10 +151,10 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl(
             'sales/order/view',
-            array(
+            [
                 'order_id' => $this->getCreditmemo() ? $this->getCreditmemo()->getOrderId() : null,
                 'active_tab' => 'order_creditmemos'
-            )
+            ]
         );
     }
 
@@ -168,7 +165,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getCaptureUrl()
     {
-        return $this->getUrl('sales/*/capture', array('creditmemo_id' => $this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/capture', ['creditmemo_id' => $this->getCreditmemo()->getId()]);
     }
 
     /**
@@ -178,7 +175,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getVoidUrl()
     {
-        return $this->getUrl('sales/*/void', array('creditmemo_id' => $this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/void', ['creditmemo_id' => $this->getCreditmemo()->getId()]);
     }
 
     /**
@@ -188,7 +185,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getCancelUrl()
     {
-        return $this->getUrl('sales/*/cancel', array('creditmemo_id' => $this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/cancel', ['creditmemo_id' => $this->getCreditmemo()->getId()]);
     }
 
     /**
@@ -200,10 +197,10 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
     {
         return $this->getUrl(
             'sales/*/email',
-            array(
+            [
                 'creditmemo_id' => $this->getCreditmemo()->getId(),
                 'order_id' => $this->getCreditmemo()->getOrderId()
-            )
+            ]
         );
     }
 
@@ -214,7 +211,7 @@ class View extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getPrintUrl()
     {
-        return $this->getUrl('sales/*/print', array('creditmemo_id' => $this->getCreditmemo()->getId()));
+        return $this->getUrl('sales/*/print', ['creditmemo_id' => $this->getCreditmemo()->getId()]);
     }
 
     /**

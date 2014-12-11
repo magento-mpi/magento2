@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model;
 
@@ -87,11 +84,11 @@ class Observer
      */
     public function getCronFrequencyTypes()
     {
-        return array(
+        return [
             self::CRON_MINUTELY => __('Minute Intervals'),
             self::CRON_HOURLY => __('Hourly'),
             self::CRON_DAILY => __('Daily')
-        );
+        ];
     }
 
     /**
@@ -101,13 +98,13 @@ class Observer
      */
     public function getCronMinutes()
     {
-        return array(
+        return [
             5 => __('5 minutes'),
             10 => __('10 minutes'),
             15 => __('15 minutes'),
             20 => __('20 minutes'),
             30 => __('30 minutes')
-        );
+        ];
     }
 
     /**

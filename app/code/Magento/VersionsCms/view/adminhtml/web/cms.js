@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require([
   "prototype",
@@ -14,7 +11,7 @@ require([
   }
 
   function dataChanged() {
-     $$('p.form-buttons button.publish').each(function(e){
+      $$('div.page-actions-buttons button.publish').each(function(e){
         var isVisible = e.style.display != 'none' && !$(e).hasClassName('no-display');
         
         if(e.id == 'publish_button' && isVisible) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -44,7 +41,7 @@ class Behaviour extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistData = $wishlistData;
         $this->currentCustomer = $currentCustomer;
@@ -68,7 +65,7 @@ class Behaviour extends \Magento\Framework\View\Element\Template
      */
     public function getAddItemUrl()
     {
-        return $this->getUrl('wishlist/index/add', array('wishlist_id' => '%wishlist_id%'));
+        return $this->getUrl('wishlist/index/add', ['wishlist_id' => '%wishlist_id%']);
     }
 
     /**
@@ -78,7 +75,12 @@ class Behaviour extends \Magento\Framework\View\Element\Template
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('wishlist/index/createwishlist');
+        return $this->getUrl(
+            'wishlist/index/createwishlist',
+            [
+                '_secure' => $this->getRequest()->isSecure()
+            ]
+        );
     }
 
     /**
@@ -110,9 +112,9 @@ class Behaviour extends \Magento\Framework\View\Element\Template
      */
     public function getWishlistShortList()
     {
-        $wishlistData = array();
+        $wishlistData = [];
         foreach ($this->getWishlists() as $wishlist) {
-            $wishlistData[] = array('id' => $wishlist->getId(), 'name' => $wishlist->getName());
+            $wishlistData[] = ['id' => $wishlist->getId(), 'name' => $wishlist->getName()];
         }
         return $wishlistData;
     }

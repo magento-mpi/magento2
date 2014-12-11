@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /* @var $this \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Giftcard */?>
@@ -50,11 +47,11 @@ require([
                     <select name="giftcard_amount" id="giftcard_amount" class="required-entry select" onchange="productConfigure.giftcardConfig.switchGiftCardInputs.call(this,event||window.event)">
                         <option value=""><?php echo __('Choose an Amount...') ?></option>
                         <?php foreach ($this->getAmounts($_product) as $value): ?>
-                            <option value="<?php echo $value; ?>" price="<?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($value, $_storeId, false) ?>" <?php echo (($configValue == $value) ? 'selected' : '')?>><?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($value, $_storeId, true, false); ?></option>
+                            <option value="<?php echo $value; ?>" price="<?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($value, $_storeId, false) ?>" <?php echo(($configValue == $value) ? 'selected' : '')?>><?php echo $this->helper('Magento\Core\Helper\Data')->currencyByStore($value, $_storeId, true, false); ?></option>
                         <?php endforeach; ?>
 
                         <?php if ($this->isOpenAmountAvailable($_product)): ?>
-                            <option value="custom" <?php echo (($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
+                            <option value="custom" <?php echo(($configValue == 'custom') ? 'selected' : '')?>><?php echo __('Other Amount...') ?></option>
                         <?php endif; ?>
                     </select>
                 </div>
@@ -114,7 +111,7 @@ require([
         return parseFloat(value);
     };
 //]]>
-                        
+
 });
 </script>
                     <?php endif; ?>
@@ -154,7 +151,7 @@ require([
         }
 
         productConfigure.giftcardConfig.switchGiftCardInputs();
-        
+
 });
 </script>
     <?php endif; ?>
@@ -212,7 +209,7 @@ require([
     jQuery.validator.addMethod('giftcard-message-max-length', function(v) {
         return v.length <= <?php echo $this->getMessageMaxLength(); ?>;
     }, '<?php echo __('Maximum length of the message is %1 characters.', $this->getMessageMaxLength()); ?>');
-                        
+
 });
 </script>
                     <?php endif; ?>

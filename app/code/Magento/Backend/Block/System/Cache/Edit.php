@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Cache;
 
@@ -37,13 +34,13 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->addChild(
             'save_button',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Save Cache Settings'),
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save', 'target' => '#config-edit-form'))
-                )
-            )
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save', 'target' => '#config-edit-form']],
+                ]
+            ]
         );
         return parent::_prepareLayout();
     }
@@ -61,7 +58,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', ['_current' => true]);
     }
 
     /**
@@ -83,35 +80,35 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getCatalogData()
     {
-        return array(
-            'refresh_catalog_rewrites' => array(
+        return [
+            'refresh_catalog_rewrites' => [
                 'label' => __('Catalog Rewrites'),
-                'buttons' => array(array('name' => 'refresh_catalog_rewrites', 'action' => __('Refresh')))
-            ),
-            'clear_images_cache' => array(
+                'buttons' => [['name' => 'refresh_catalog_rewrites', 'action' => __('Refresh')]],
+            ],
+            'clear_images_cache' => [
                 'label' => __('Images Cache'),
-                'buttons' => array(array('name' => 'clear_images_cache', 'action' => __('Clear')))
-            ),
-            'rebuild_search_index' => array(
+                'buttons' => [['name' => 'clear_images_cache', 'action' => __('Clear')]],
+            ],
+            'rebuild_search_index' => [
                 'label' => __('Search Index'),
-                'buttons' => array(array('name' => 'rebuild_search_index', 'action' => __('Rebuild')))
-            ),
-            'rebuild_inventory_stock_status' => array(
+                'buttons' => [['name' => 'rebuild_search_index', 'action' => __('Rebuild')]],
+            ],
+            'rebuild_inventory_stock_status' => [
                 'label' => __('Inventory Stock Status'),
-                'buttons' => array(array('name' => 'rebuild_inventory_stock_status', 'action' => __('Refresh')))
-            ),
-            'rebuild_catalog_index' => array(
+                'buttons' => [['name' => 'rebuild_inventory_stock_status', 'action' => __('Refresh')]],
+            ],
+            'rebuild_catalog_index' => [
                 'label' => __('Rebuild Catalog Index'),
-                'buttons' => array(array('name' => 'rebuild_catalog_index', 'action' => __('Rebuild')))
-            ),
-            'rebuild_flat_catalog_category' => array(
+                'buttons' => [['name' => 'rebuild_catalog_index', 'action' => __('Rebuild')]],
+            ],
+            'rebuild_flat_catalog_category' => [
                 'label' => __('Rebuild Flat Catalog Category'),
-                'buttons' => array(array('name' => 'rebuild_flat_catalog_category', 'action' => __('Rebuild')))
-            ),
-            'rebuild_flat_catalog_product' => array(
+                'buttons' => [['name' => 'rebuild_flat_catalog_category', 'action' => __('Rebuild')]],
+            ],
+            'rebuild_flat_catalog_product' => [
                 'label' => __('Rebuild Flat Catalog Product'),
-                'buttons' => array(array('name' => 'rebuild_flat_catalog_product', 'action' => __('Rebuild')))
-            )
-        );
+                'buttons' => [['name' => 'rebuild_flat_catalog_product', 'action' => __('Rebuild')]],
+            ]
+        ];
     }
 }

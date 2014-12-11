@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Model\Plugin;
 
@@ -43,15 +40,15 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
     {
         $this->orderItemMock = $this->getMock(
             'Magento\Sales\Model\Order\Item',
-            array('setGiftMessageId', 'setGiftMessageAvailable', '__wakeup'),
-            array(),
+            ['setGiftMessageId', 'setGiftMessageAvailable', '__wakeup'],
+            [],
             '',
             false
         );
         $this->quoteItemMock = $this->getMock(
             'Magento\Sales\Model\Quote\Item',
-            array('getGiftMessageId', 'getStoreId', '__wakeup'),
-            array(),
+            ['getGiftMessageId', 'getStoreId', '__wakeup'],
+            [],
             '',
             false
         );
@@ -59,11 +56,11 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () use ($orderItems) {
             return $orderItems;
         };
-        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Sales\Model\Convert\Quote', [], [], '', false);
         $this->helperMock = $this->getMock(
             'Magento\GiftMessage\Helper\Message',
-            array('setGiftMessageId', 'isMessagesAvailable'),
-            array(),
+            ['setGiftMessageId', 'isMessagesAvailable'],
+            [],
             '',
             false
         );

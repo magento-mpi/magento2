@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -23,20 +20,20 @@
     }
 ?>
 <div class="category view">
-    <?php if($_imgUrl): ?>
+    <?php if ($_imgUrl): ?>
         <?php echo $_imgHtml ?>
     <?php endif; ?>
 
-    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+    <?php if ($_description = $this->getCurrentCategory()->getDescription()): ?>
         <div class="category description">
             <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
         </div>
     <?php endif; ?>
 
-    <?php if($this->isContentMode()): ?>
+    <?php if ($this->isContentMode()): ?>
         <?php echo $this->getCmsBlockHtml() ?>
 
-    <?php elseif($this->isMixedMode()): ?>
+    <?php elseif ($this->isMixedMode()): ?>
         <?php echo $this->getCmsBlockHtml() ?>
         <?php echo $this->getProductListHtml() ?>
 

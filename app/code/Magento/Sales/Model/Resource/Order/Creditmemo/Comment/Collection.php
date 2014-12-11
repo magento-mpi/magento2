@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Creditmemo\Comment;
 
-use Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection;
 use Magento\Sales\Api\Data\CreditmemoCommentSearchResultInterface;
+use Magento\Sales\Model\Resource\Order\Comment\Collection\AbstractCollection;
 
 /**
  * Flat sales order creditmemo comments collection

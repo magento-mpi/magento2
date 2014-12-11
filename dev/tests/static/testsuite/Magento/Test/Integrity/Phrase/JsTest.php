@@ -3,16 +3,13 @@
  * Scan javascript files for invocations of mage.__() function, verifies that all the translations
  * were output to the page.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Phrase;
 
 use Magento\Tools\I18n\Parser\Adapter;
-use Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 use Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer;
+use Magento\Tools\I18n\Parser\Adapter\Php\Tokenizer\PhraseCollector;
 
 class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 {
@@ -38,8 +35,8 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
     public function testGetPhrasesAdminhtml()
     {
-        $unregisteredMessages = array();
-        $untranslated = array();
+        $unregisteredMessages = [];
+        $untranslated = [];
 
         $registeredPhrases = $this->_getRegisteredPhrases();
 
@@ -70,8 +67,8 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
     public function testGetPhrasesFrontend()
     {
-        $unregisteredMessages = array();
-        $untranslated = array();
+        $unregisteredMessages = [];
+        $untranslated = [];
 
         $registeredPhrases = $this->_getRegisteredPhrases();
 
@@ -112,7 +109,7 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
 
         $this->_phraseCollector->parse($jsHelperFile);
 
-        $result = array();
+        $result = [];
         foreach ($this->_phraseCollector->getPhrases() as $phrase) {
             $result[] = stripcslashes(trim($phrase['phrase'], "'"));
         }
@@ -127,7 +124,7 @@ class JsTest extends \Magento\Test\Integrity\Phrase\AbstractTestCase
      */
     protected function _getJavascriptPhrases($area)
     {
-        $jsPhrases = array();
+        $jsPhrases = [];
         foreach ($this->_utilityFiles->getJsFilesForArea($area) as $file) {
             $this->_parser->parse($file);
             $jsPhrases = array_merge($jsPhrases, $this->_parser->getPhrases());

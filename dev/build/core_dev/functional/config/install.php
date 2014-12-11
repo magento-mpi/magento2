@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array(
-    'install_options' => array(
+return [
+    'install_options' => [
         'language'               => 'en_US',
         'timezone'               => 'America/Los_Angeles',
         'currency'               => 'USD',
@@ -26,8 +23,8 @@ return array(
         'base_url'               => '{{url}}',
         'session_save'           => 'db',
         'backend_frontname'      => 'backend',
-    ),
-    'install_options_no_value' => array(
+    ],
+    'install_options_no_value' => [
         'cleanup_database',
-    )
-);
+    ]
+];

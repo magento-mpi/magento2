@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Mysql DB Statement
@@ -39,7 +35,7 @@ class Mysql extends \Zend_Db_Statement_Pdo
 
         /* @var $statement \PDOStatement */
         $statement = $this->_stmt;
-        $bindValues = array();
+        $bindValues = [];
         // Separate array with values, as they are bound by reference
         foreach ($params as $name => $param) {
             $dataType = \PDO::PARAM_STR;

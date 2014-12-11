@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Quote\Address\Attribute\Frontend;
 
@@ -29,7 +26,7 @@ class Discount extends \Magento\Sales\Model\Resource\Quote\Address\Attribute\Fro
             if (strlen($couponCode)) {
                 $title .= sprintf(' (%s)', $couponCode);
             }
-            $address->addTotal(array('code' => 'discount', 'title' => $title, 'value' => -$amount));
+            $address->addTotal(['code' => 'discount', 'title' => $title, 'value' => -$amount]);
         }
         return $this;
     }

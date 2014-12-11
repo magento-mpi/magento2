@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Status;
 
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 use Magento\Rma\Model\Rma;
 use Magento\Rma\Model\Rma\Source\Status;
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * RMA model
@@ -26,7 +23,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -83,7 +80,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
@@ -99,7 +96,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
@@ -110,7 +107,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         TimezoneInterface $localeDate,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_rmaFactory = $rmaFactory;
@@ -176,7 +173,7 @@ class History extends \Magento\Framework\Model\AbstractModel
         } else {
             $customerName = $order->getCustomerName();
         }
-        $sendTo = array(array('email' => $order->getCustomerEmail(), 'name' => $customerName));
+        $sendTo = [['email' => $order->getCustomerEmail(), 'name' => $customerName]];
 
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCommentEmail(), $sendTo, true);
     }
@@ -188,12 +185,12 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function sendCustomerCommentEmail()
     {
-        $sendTo = array(
-            array(
+        $sendTo = [
+            [
                 'email' => $this->_rmaConfig->getCustomerEmailRecipient($this->getRma()->getStoreId()),
-                'name' => null
-            )
-        );
+                'name' => null,
+            ],
+        ];
         return $this->_sendCommentEmail($this->_rmaConfig->getRootCustomerCommentEmail(), $sendTo, false);
     }
 
@@ -227,11 +224,11 @@ class History extends \Magento\Framework\Model\AbstractModel
 
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array('email' => $email, 'name' => null);
+                $sendTo[] = ['email' => $email, 'name' => null];
             }
         }
 
-        $bcc = array();
+        $bcc = [];
         if ($copyTo && $copyMethod == 'bcc') {
             $bcc = $copyTo;
         }
@@ -289,7 +286,7 @@ class History extends \Magento\Framework\Model\AbstractModel
             Status::STATE_APPROVED_ON_ITEM => __('We partially approved your Return request.'),
             Status::STATE_REJECTED_ON_ITEM => __('We partially rejected your Return request.'),
             Status::STATE_CLOSED => __('We closed your Return request.'),
-            Status::STATE_PROCESSED_CLOSED => __('We processed and closed your Return request.')
+            Status::STATE_PROCESSED_CLOSED => __('We processed and closed your Return request.'),
         ];
         return isset($comments[$status]) ? $comments[$status] : null;
     }
@@ -367,19 +364,19 @@ class History extends \Magento\Framework\Model\AbstractModel
             $customerName = $rma->getCustomerName();
         }
 
-        $sendTo = array(array('email' => $order->getCustomerEmail(), 'name' => $customerName));
+        $sendTo = [['email' => $order->getCustomerEmail(), 'name' => $customerName]];
         if ($rma->getCustomerCustomEmail()) {
-            $sendTo[] = array('email' => $rma->getCustomerCustomEmail(), 'name' => $customerName);
+            $sendTo[] = ['email' => $rma->getCustomerCustomEmail(), 'name' => $customerName];
         }
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                $sendTo[] = array('email' => $email, 'name' => null);
+                $sendTo[] = ['email' => $email, 'name' => null];
             }
         }
 
-        $returnAddress = $this->rmaHelper->getReturnAddress('html', array(), $storeId);
+        $returnAddress = $this->rmaHelper->getReturnAddress('html', [], $storeId);
 
-        $bcc = array();
+        $bcc = [];
         if ($copyTo && $copyMethod == 'bcc') {
             $bcc = $copyTo;
         }
@@ -392,7 +389,7 @@ class History extends \Magento\Framework\Model\AbstractModel
                         'rma' => $this,
                         'order' => $order,
                         'return_address' => $returnAddress,
-                        'item_collection' => $rma->getItemsForDisplay()
+                        'item_collection' => $rma->getItemsForDisplay(),
                     ]
                 )
                 ->setFrom($this->_rmaConfig->getIdentity())

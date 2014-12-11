@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Controller\Adminhtml\Product;
 
@@ -18,12 +15,12 @@ class Post extends \Magento\Review\Controller\Adminhtml\Product
         $productId = $this->getRequest()->getParam('product_id', false);
 
         if ($data = $this->getRequest()->getPost()) {
-            /** @var \Magento\Framework\StoreManagerInterface $storeManagerInterface */
-            $storeManager = $this->_objectManager->get('Magento\Framework\StoreManagerInterface');
+            /** @var \Magento\Store\Model\StoreManagerInterface $storeManagerInterface */
+            $storeManager = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface');
             if ($storeManager->hasSingleStore()) {
-                $data['stores'] = array(
-                    $storeManager->getStore(true)->getId()
-                );
+                $data['stores'] = [
+                    $storeManager->getStore(true)->getId(),
+                ];
             } elseif (isset($data['select_stores'])) {
                 $data['stores'] = $data['select_stores'];
             }
@@ -38,7 +35,7 @@ class Post extends \Magento\Review\Controller\Adminhtml\Product
                     ->setCustomerId(null)//null is for administrator only
                     ->save();
 
-                $arrRatingId = $this->getRequest()->getParam('ratings', array());
+                $arrRatingId = $this->getRequest()->getParam('ratings', []);
                 foreach ($arrRatingId as $ratingId => $optionId) {
                     $this->_ratingFactory->create(
                     )->setRatingId(

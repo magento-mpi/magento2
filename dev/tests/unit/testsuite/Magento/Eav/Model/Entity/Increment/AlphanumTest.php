@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Increment;
 
@@ -43,7 +40,7 @@ class AlphanumTest extends \PHPUnit_Framework_TestCase
             [
                 'lastId' => 'prefix00000001CZ',
                 'prefix' => 'prefix',
-                'expectedResult' => 'prefix00000001D0'
+                'expectedResult' => 'prefix00000001D0',
             ],
             [
                 'lastId' => 1,

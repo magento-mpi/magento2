@@ -2,17 +2,14 @@
 /**
  * Hierarchy config file resolver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\DataProvider\Config;
 
-use Magento\Framework\Config\FileResolverInterface;
-use Magento\Framework\Config\FileIteratorFactory;
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Config\FileIteratorFactory;
+use Magento\Framework\Config\FileResolverInterface;
+use Magento\Framework\Filesystem;
 
 /**
  * Class FileResolver

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Migration\System\Configuration;
@@ -31,10 +28,9 @@ class ParserTest extends \PHPUnit_Framework_TestCase
         $this->_parser = null;
     }
 
-
     public function testParseEmptyDom()
     {
-        $this->assertEquals(array(), $this->_parser->parse(new \DOMDocument()));
+        $this->assertEquals([], $this->_parser->parse(new \DOMDocument()));
     }
 
     public function testParseDomWithoutNodes()
@@ -45,7 +41,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 </config>
 XML;
 
-        $expected = array();
+        $expected = [];
         $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));
@@ -83,22 +79,22 @@ XML;
  */
 
 XMLCOMMENT;
-        $expected = array(
+        $expected = [
             'comment' => $comment,
-            'sections' => array(
-                'some_section' => array(
-                    'label' => array('#text' => 'Section Name'),
-                    'tab' => array('#text' => 'test'),
-                    'frontend_type' => array('#text' => 'text'),
-                    'sort_order' => array('#text' => '140'),
-                    'show_in_default' => array('#text' => '1'),
-                    'show_in_website' => array('#text' => '1'),
-                    'show_in_store' => array('#text' => '1'),
-                    'resource' => array('#text' => 'Magento_Some::resource'),
-                    '@attributes' => array('translate' => 'label')
-                )
-            )
-        );
+            'sections' => [
+                'some_section' => [
+                    'label' => ['#text' => 'Section Name'],
+                    'tab' => ['#text' => 'test'],
+                    'frontend_type' => ['#text' => 'text'],
+                    'sort_order' => ['#text' => '140'],
+                    'show_in_default' => ['#text' => '1'],
+                    'show_in_website' => ['#text' => '1'],
+                    'show_in_store' => ['#text' => '1'],
+                    'resource' => ['#text' => 'Magento_Some::resource'],
+                    '@attributes' => ['translate' => 'label'],
+                ],
+            ],
+        ];
         $dom = new \DOMDocument();
         $dom->loadXML($xml);
         $this->assertEquals($expected, $this->_parser->parse($dom));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Store\Grid\Render;
 
@@ -23,7 +20,7 @@ class Website extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstrac
             'Edit Web Site'
         ) . '"
             href="' .
-        $this->getUrl('adminhtml/*/editWebsite', array('website_id' => $row->getWebsiteId())) .
+        $this->getUrl('adminhtml/*/editWebsite', ['website_id' => $row->getWebsiteId()]) .
         '">' .
         $this->escapeHtml($row->getData($this->getColumn()->getIndex())) .
         '</a>';

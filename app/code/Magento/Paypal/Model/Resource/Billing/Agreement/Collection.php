@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Resource\Billing\Agreement;
 
@@ -19,15 +16,15 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_map = array(
-        'fields' => array(
+    protected $_map = [
+        'fields' => [
             'customer_email' => 'ce.email',
             'customer_firstname' => 'firstname.value',
             'customer_lastname' => 'lastname.value',
             'agreement_created_at' => 'main_table.created_at',
-            'agreement_updated_at' => 'main_table.updated_at'
-        )
-    );
+            'agreement_updated_at' => 'main_table.updated_at',
+        ],
+    ];
 
     /**
      * @var \Magento\Customer\Model\Resource\Customer
@@ -82,9 +79,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addCustomerDetails()
     {
         $select = $this->getSelect()->joinInner(
-            array('ce' => $this->getTable('customer_entity')),
+            ['ce' => $this->getTable('customer_entity')],
             'ce.entity_id = main_table.customer_id',
-            array('customer_email' => 'email')
+            ['customer_email' => 'email']
         );
 
         $adapter = $this->getConnection();
@@ -101,9 +98,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $select->joinLeft(
-            array('firstname' => $firstNameMetadata['attribute_table']),
+            ['firstname' => $firstNameMetadata['attribute_table']],
             $joinExpr,
-            array('customer_firstname' => 'value')
+            ['customer_firstname' => 'value']
         );
 
         $lastNameMetadata = $this->_eavHelper->getAttributeMetadata(
@@ -119,9 +116,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         );
 
         $select->joinLeft(
-            array('lastname' => $lastNameMetadata['attribute_table']),
+            ['lastname' => $lastNameMetadata['attribute_table']],
             $joinExpr,
-            array('customer_lastname' => 'value')
+            ['customer_lastname' => 'value']
         );
         return $this;
     }

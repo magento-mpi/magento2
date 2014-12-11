@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Block\Checkout\Cart\Sidebar;
 
@@ -55,9 +52,6 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
 
         $this->taxHelper = $this->getMockBuilder('\Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
-            ->setMethods([
-                'getIncExcText'
-            ])
             ->getMock();
 
         $this->taxConfig = $this->getMockBuilder('\Magento\Tax\Model\Config')
@@ -187,18 +181,5 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             ->method('displayCartSubtotalBoth');
 
         $this->totalsObj->getDisplaySubtotalBoth();
-    }
-
-    public function testGetIncExcTaxLabel()
-    {
-        $flag = true;
-        $text = "Incl. Tax";
-        $expected = " (Incl. Tax)";
-        $this->taxHelper->expects($this->once())
-            ->method('getIncExcText')
-            ->with($flag)
-            ->will($this->returnValue($text));
-
-        $this->assertEquals($expected, $this->totalsObj->getIncExcTaxLabel($flag));
     }
 }

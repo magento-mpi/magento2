@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Paypal\Helper\Shortcut;
@@ -125,7 +122,7 @@ class Validator implements ValidatorInterface
         // check payment method availability
         /** @var \Magento\Payment\Model\Method\AbstractMethod $methodInstance */
         $methodInstance = $this->_paymentData->getMethodInstance($paymentCode);
-        if (!$methodInstance || !$methodInstance->isAvailable()) {
+        if (!$methodInstance->isAvailable()) {
             return false;
         }
         return true;

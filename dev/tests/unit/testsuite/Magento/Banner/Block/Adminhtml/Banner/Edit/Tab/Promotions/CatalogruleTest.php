@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
@@ -64,7 +61,7 @@ class CatalogruleTest extends \PHPUnit_Framework_TestCase
     {
         $this->urlBuilder->expects($this->once())->method('getUrl')->with(
             'adminhtml/*/catalogRuleGrid',
-            array('_current' => true)
+            ['_current' => true]
         )->will($this->returnValue('test_string'));
 
         $this->assertEquals('test_string', $this->catalogRule->getGridUrl());

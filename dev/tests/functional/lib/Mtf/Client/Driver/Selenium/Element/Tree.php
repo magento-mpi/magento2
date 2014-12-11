@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\Client\Driver\Selenium\Element;
@@ -158,7 +155,7 @@ abstract class Tree extends Element
                 'name' => $text,
                 'element' => $currentNode,
                 'subnodes' => $nodesContents->isVisible() ?
-                        $this->_getNodeContent($nodesContents, $this->nodeCssClass) : null
+                        $this->_getNodeContent($nodesContents, $this->nodeCssClass) : null,
             ];
         }
         return $nodeArray;

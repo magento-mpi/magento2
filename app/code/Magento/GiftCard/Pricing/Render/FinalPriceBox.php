@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Pricing\Render;
 
 use Magento\Catalog\Model\Product;
 use Magento\Framework\Pricing\Price\PriceInterface;
-use Magento\Framework\Pricing\Render\RendererPool;
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Pricing\Render\PriceBox;
+use Magento\Framework\Pricing\Render\RendererPool;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Gift card final price box

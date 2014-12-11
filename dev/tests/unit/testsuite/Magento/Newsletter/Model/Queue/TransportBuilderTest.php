@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model\Queue;
 
@@ -31,15 +28,15 @@ class TransportBuilderTest extends \Magento\Framework\Mail\Template\TransportBui
         $messageType = \Magento\Framework\Mail\Message::TYPE_HTML,
         $bodyText = '<h1>Html message</h1>'
     ) {
-        $data = array(
+        $data = [
             'template_subject' => 'Email Subject',
             'template_text' => $bodyText,
             'template_styles' => 'Styles',
-            'template_type' => $templateType
-        );
-        $vars = array('reason' => 'Reason', 'customer' => 'Customer');
-        $options = array('area' => 'frontend', 'store' => 1);
-        $template = $this->getMock('\Magento\Email\Model\Template', array(), array(), '', false);
+            'template_type' => $templateType,
+        ];
+        $vars = ['reason' => 'Reason', 'customer' => 'Customer'];
+        $options = ['area' => 'frontend', 'store' => 1];
+        $template = $this->getMock('\Magento\Email\Model\Template', [], [], '', false);
         $template->expects($this->once())->method('setVars')->with($this->equalTo($vars))->will($this->returnSelf());
         $template->expects(
             $this->once()
@@ -99,7 +96,7 @@ class TransportBuilderTest extends \Magento\Framework\Mail\Template\TransportBui
         )->method(
             'create'
         )->with(
-            $this->equalTo(array('message' => $this->messageMock))
+            $this->equalTo(['message' => $this->messageMock])
         )->will(
             $this->returnValue($transport)
         );

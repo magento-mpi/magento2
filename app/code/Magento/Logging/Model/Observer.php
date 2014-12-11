@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -191,7 +188,7 @@ class Observer
             $userId = $this->_user->loadByUsername($username)->getId();
         }
         $this->_event->setData(
-            array(
+            [
                 'ip' => $this->_remoteAddress->getRemoteAddress(),
                 'user' => $username,
                 'user_id' => $userId,
@@ -199,8 +196,8 @@ class Observer
                 'fullaction' => "{$this->_request->getRouteName()}_{$this->_request->getControllerName()}" .
                 "_{$this->_request->getActionName()}",
                 'event_code' => $eventCode,
-                'action' => 'login'
-            )
+                'action' => 'login',
+            ]
         );
         return $this->_event->save();
     }

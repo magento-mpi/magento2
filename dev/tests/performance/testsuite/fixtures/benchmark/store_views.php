@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\TestFramework\Application $this */
@@ -27,7 +24,7 @@ for ($i = 0; $i < $storesCount; $i++) {
     $t = microtime(true) * 10000;
     $storeCode = sprintf('store_view_%s', $t);
     $storeName = sprintf('Store View %s', $t);
-    $store->addData(array('store_id' => null, 'code' => $storeCode, 'name' => $storeName));
+    $store->addData(['store_id' => null, 'code' => $storeCode, 'name' => $storeName]);
     $store->save();
     usleep(20);
 }

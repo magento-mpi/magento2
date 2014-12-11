@@ -2,10 +2,7 @@
 /**
  * Page layout Config Converter
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Model\Layout\Config;
 
@@ -16,7 +13,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $pageLayouts = array();
+        $pageLayouts = [];
         $xpath = new \DOMXPath($source);
 
         /** @var $layout DOMNode */

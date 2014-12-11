@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -17,8 +14,8 @@ use Magento\Backend\Helper\Data;
 use Magento\Catalog\Model\Category as ModelCategory;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\CatalogEvent\Model\Event;
-use Magento\Framework\Registry;
 use Magento\Framework\Data\FormFactory;
+use Magento\Framework\Registry;
 
 class Form extends Generic
 {
@@ -50,7 +47,7 @@ class Form extends Generic
         FormFactory $formFactory,
         Data $adminhtmlData,
         CategoryFactory $categoryFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
 
@@ -65,7 +62,7 @@ class Form extends Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('adminhtml/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', ['_current' => true]);
     }
 
     /**
@@ -94,22 +91,22 @@ class Form extends Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create(
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'id' => 'edit_form',
                     'action' => $this->getActionUrl(),
                     'method' => 'post',
                     'field_name_suffix' => 'catalogevent',
-                    'enctype' => 'multipart/form-data'
-                )
-            )
+                    'enctype' => 'multipart/form-data',
+                ],
+            ]
         );
 
         $form->setHtmlIdPrefix('event_edit_');
 
         $fieldset = $form->addFieldset(
             'general_fieldset',
-            array('legend' => __('Catalog Event Information'), 'class' => 'fieldset-wide')
+            ['legend' => __('Catalog Event Information'), 'class' => 'fieldset-wide']
         );
 
         $this->_addElementTypes($fieldset);
@@ -117,7 +114,7 @@ class Form extends Generic
         /** @var ModelCategory $currentCategory */
         $currentCategory = $this->_categoryFactory->create()->load($this->getEvent()->getCategoryId());
 
-        $fieldset->addField('category_name', 'note', array('id' => 'category_span', 'label' => __('Category')));
+        $fieldset->addField('category_name', 'note', ['id' => 'category_span', 'label' => __('Category')]);
 
         $dateFormat = $this->_localeDate->getDateFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
         $timeFormat = $this->_localeDate->getTimeFormat(\Magento\Framework\Stdlib\DateTime\TimezoneInterface::FORMAT_TYPE_SHORT);
@@ -125,67 +122,67 @@ class Form extends Generic
         $fieldset->addField(
             'date_start',
             'date',
-            array(
+            [
                 'label' => __('Start Date'),
                 'name' => 'date_start',
                 'required' => true,
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat
-            )
+            ]
         );
 
         $fieldset->addField(
             'date_end',
             'date',
-            array(
+            [
                 'label' => __('End Date'),
                 'name' => 'date_end',
                 'required' => true,
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'date_format' => $dateFormat,
                 'time_format' => $timeFormat
-            )
+            ]
         );
 
-        $fieldset->addField('image', 'image', array('label' => __('Image'), 'scope' => 'store', 'name' => 'image'));
+        $fieldset->addField('image', 'image', ['label' => __('Image'), 'scope' => 'store', 'name' => 'image']);
 
         $fieldset->addField(
             'sort_order',
             'text',
-            array('label' => __('Sort Order'), 'name' => 'sort_order', 'class' => 'validate-num qty')
+            ['label' => __('Sort Order'), 'name' => 'sort_order', 'class' => 'validate-num qty']
         );
 
-        $statuses = array(
+        $statuses = [
             Event::STATUS_UPCOMING => __('Upcoming'),
             Event::STATUS_OPEN => __('Open'),
-            Event::STATUS_CLOSED => __('Closed')
-        );
+            Event::STATUS_CLOSED => __('Closed'),
+        ];
 
         $fieldset->addField(
             'display_state_array',
             'checkboxes',
-            array(
+            [
                 'label' => __('Display Countdown Ticker On'),
                 'name' => 'display_state[]',
-                'values' => array(
+                'values' => [
                     Event::DISPLAY_CATEGORY_PAGE => __('Category Page'),
-                    Event::DISPLAY_PRODUCT_PAGE => __('Product Page')
-                )
-            )
+                    Event::DISPLAY_PRODUCT_PAGE => __('Product Page'),
+                ]
+            ]
         );
 
         if ($this->getEvent()->getId()) {
             $fieldset->addField(
                 'status',
                 'note',
-                array(
+                [
                     'label' => __('Status'),
                     'text' => $this->getEvent()
                         ->getStatus() ? $statuses[$this
                         ->getEvent()
                         ->getStatus()] : $statuses[\Magento\CatalogEvent\Model\Event::STATUS_UPCOMING]
-                )
+                ]
             );
         }
 
@@ -197,7 +194,7 @@ class Form extends Generic
             )->setText(
                 '<a href="' . $this->_adminhtmlData->getUrl(
                     'catalog/category/edit',
-                    array('clear' => 1, 'id' => $currentCategory->getId())
+                    ['clear' => 1, 'id' => $currentCategory->getId()]
                 ) . '">' . $currentCategory->getName() . '</a>'
             );
         } else {
@@ -250,6 +247,6 @@ class Form extends Generic
      */
     protected function _getAdditionalElementTypes()
     {
-        return array('image' => 'Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image');
+        return ['image' => 'Magento\CatalogEvent\Block\Adminhtml\Event\Helper\Image'];
     }
 }

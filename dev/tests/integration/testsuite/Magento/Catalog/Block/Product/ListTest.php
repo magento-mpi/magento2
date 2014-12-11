@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -80,7 +77,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
         $childBlock = $layout->createBlock(
             'Magento\Framework\View\Element\Text',
             'test',
-            array('data' => array('text' => 'test'))
+            ['data' => ['text' => 'test']]
         );
         $layout->setChild($parent->getNameInLayout(), $childBlock->getNameInLayout(), 'additional');
         $this->assertEquals('test', $parent->getAdditionalHtml());

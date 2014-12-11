@@ -2,10 +2,7 @@
 /**
  * Backwards-incompatible changes in file system
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Legacy;
 
@@ -34,29 +31,29 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function relocationsDataProvider()
     {
-        return array(
-            'Relocated to pub/errors' => array('errors'),
-            'Eliminated with Magento_Compiler' => array('includes'),
-            'Eliminated with Magento_GoogleCheckout' => array('lib/googlecheckout'),
-            'Relocated to lib/web' => array('js'),
-            'Relocated to pub/media' => array('media'),
-            'Eliminated as not needed' => array('pkginfo'),
-            'Dissolved into themes under app/design ' => array('skin'),
-            'Dissolved into different modules\' view/frontend' => array('app/design/frontend/base'),
-            'Dissolved into different modules\' view/email/*.html' => array('app/locale/en_US/template'),
-            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
-                'app/code/core'
-            ),
-            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
-                'app/code/local'
-            ),
-            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => array(
-                'app/code/community'
-            ),
+        return [
+            'Relocated to pub/errors' => ['errors'],
+            'Eliminated with Magento_Compiler' => ['includes'],
+            'Eliminated with Magento_GoogleCheckout' => ['lib/googlecheckout'],
+            'Relocated to lib/web' => ['js'],
+            'Relocated to pub/media' => ['media'],
+            'Eliminated as not needed' => ['pkginfo'],
+            'Dissolved into themes under app/design ' => ['skin'],
+            'Dissolved into different modules\' view/frontend' => ['app/design/frontend/base'],
+            'Dissolved into different modules\' view/email/*.html' => ['app/locale/en_US/template'],
+            'The "core" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
+                'app/code/core',
+            ],
+            'The "local" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
+                'app/code/local',
+            ],
+            'The "community" code pool no longer exists. Use root namespace as specified in PSR-0 standard' => [
+                'app/code/community',
+            ],
             'Eliminated Magento/luma theme' => ['app/design/frontend/Magento/luma'],
             'Eliminated local.xml - use config.php instead' => ['app/etc/local.xml'],
             'Eliminated app/etc/module.xml - use config.php instead' => ['app/etc/module.xml'],
-        );
+        ];
     }
 
     public function testObsoleteDirectories()
@@ -65,7 +62,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $theme = '*';
         $root = \Magento\Framework\Test\Utility\Files::init()->getPathToSource();
         $dirs = glob("{$root}/app/design/{$area}/{$theme}/template", GLOB_ONLYDIR);
-        $msg = array();
+        $msg = [];
         if ($dirs) {
             $msg[] = 'Theme "template" directories are obsolete. Relocate files as follows:';
             foreach ($dirs as $dir) {

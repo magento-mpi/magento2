@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\Create;
 
@@ -40,7 +37,7 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'giftwrapping_design', 'class' => 'select')
+            ['id' => 'giftwrapping_design', 'class' => 'select']
         )->setName(
             'giftwrapping[' . $type . '][' . $this->getEntityId() . '][design]'
         )->setOptions(
@@ -139,17 +136,5 @@ class Info extends \Magento\GiftWrapping\Block\Adminhtml\Order\Create\AbstractCr
     public function isGiftWrappingForEntireOrder()
     {
         return $this->_giftWrappingData->isGiftWrappingAvailableForOrder($this->getStoreId());
-    }
-
-    /**
-     * Get url for ajax to refresh Gift Wrapping block
-     *
-     * @deprecated since 1.12.0.0
-     *
-     * @return string
-     */
-    public function getRefreshWrappingUrl()
-    {
-        return $this->getUrl('adminhtml/giftwrapping/orderOptions');
     }
 }

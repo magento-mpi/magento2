@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Search;
 
@@ -44,9 +41,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
     {
         $count = 0;
         foreach ($this->document as $field) {
-             $this->assertEquals($field->getName(), "$count");
-             $this->assertEquals($field->getValue(), $count);
-             $count++;
+            $this->assertEquals($field->getName(), "$count");
+            $this->assertEquals($field->getValue(), $count);
+            $count++;
         }
     }
 

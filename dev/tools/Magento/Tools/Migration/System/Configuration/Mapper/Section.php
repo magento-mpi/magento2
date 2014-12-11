@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
@@ -19,7 +16,7 @@ class Section extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstr
      *
      * @var array
      */
-    protected $_allowedFieldNames = array('label', 'class', 'resource', 'header_css', 'tab');
+    protected $_allowedFieldNames = ['label', 'class', 'resource', 'header_css', 'tab'];
 
     /**
      * @param \Magento\Tools\Migration\System\Configuration\Mapper\Group $groupMapper
@@ -37,7 +34,7 @@ class Section extends \Magento\Tools\Migration\System\Configuration\Mapper\Abstr
      */
     public function transform(array $config)
     {
-        $output = array();
+        $output = [];
         foreach ($config as $sectionName => $sectionConfig) {
             $output[] = $this->_transformElement($sectionName, $sectionConfig, 'section');
         }

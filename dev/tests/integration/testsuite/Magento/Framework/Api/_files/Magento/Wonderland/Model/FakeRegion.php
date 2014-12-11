@@ -1,19 +1,15 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wonderland\Model;
 
-use Magento\Wonderland\Api\Data\FakeRegionInterface;
 use Magento\Framework\Model\AbstractExtensibleModel;
+use Magento\Wonderland\Api\Data\FakeRegionInterface;
 
 class FakeRegion extends AbstractExtensibleModel implements FakeRegionInterface
 {
-
     /**
      * Get region
      *

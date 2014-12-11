@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
@@ -32,7 +29,7 @@ class Save extends \Magento\Tax\Controller\Adminhtml\Rate
 
             try {
                 $taxData = $this->populateTaxRateData($ratePost);
-                    $this->_taxRateRepository->save($taxData);
+                $this->_taxRateRepository->save($taxData);
 
                 $this->messageManager->addSuccess(__('The tax rate has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));

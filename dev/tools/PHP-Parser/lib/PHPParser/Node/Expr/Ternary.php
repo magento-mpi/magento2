@@ -15,13 +15,14 @@ class PHPParser_Node_Expr_Ternary extends PHPParser_Node_Expr
      * @param PHPParser_Node_Expr      $else       Expression for false
      * @param array                    $attributes Additional attributes
      */
-    public function __construct(PHPParser_Node_Expr $cond, $if, PHPParser_Node_Expr $else, array $attributes = array()) {
+    public function __construct(PHPParser_Node_Expr $cond, $if, PHPParser_Node_Expr $else, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'cond' => $cond,
                 'if'   => $if,
-                'else' => $else
-            ),
+                'else' => $else,
+            ],
             $attributes
         );
     }

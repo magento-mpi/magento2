@@ -1,9 +1,5 @@
 // /**
-//  * {license_notice}
-//  *
-//  * @category    design
-//  * @copyright   {copyright}
-//  * @license     {license_link}
+//  * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
 //  */
 
 @layout-column-main-sidebar-offset: 2%;
@@ -78,23 +74,21 @@
     .page-wrapper > .widget,
     .page-wrapper > .page-bottom,
     .block.category.event,
-    .top-container {
+    .top-container,
+    .page-main {
         padding-left: @layout-indent;
         padding-right: @layout-indent;
         margin-left: auto;
         margin-right: auto;
         width: auto;
-        max-width: @layout-max-width;
-    }
-
-    .page-main {
-        box-sizing: border-box;
-        margin-right: auto;
-        margin-left: auto;
-        padding-right: @layout-indent;
-        padding-left: @layout-indent;
         max-width: @layout-max-width + @layout-indent * 2;
+        box-sizing: border-box;
+    }
+    .page-main {
         width: 100%;
+        .vendor-prefix-flex-grow(1);
+        .vendor-prefix-flex-shrink(0);
+        .vendor-prefix-flex-basis(auto);
         .ie9 & {
             width: auto;
         }

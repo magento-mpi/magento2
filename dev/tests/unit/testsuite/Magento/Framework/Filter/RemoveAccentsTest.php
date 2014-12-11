@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -27,9 +24,9 @@ class RemoveAccentsTest extends \PHPUnit_Framework_TestCase
      */
     public function removeAccentsDataProvider()
     {
-        return array(
-            'general conversion' => array('ABCDEFGHIJKLMNOPQRSTUVWXYZ', false, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'),
-            'conversion with german specifics' => array('äöüÄÖÜß', true, 'aeoeueAeOeUess')
-        );
+        return [
+            'general conversion' => ['ABCDEFGHIJKLMNOPQRSTUVWXYZ', false, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'],
+            'conversion with german specifics' => ['äöüÄÖÜß', true, 'aeoeueAeOeUess']
+        ];
     }
 }

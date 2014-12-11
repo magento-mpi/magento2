@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Event homepage block
@@ -62,7 +58,7 @@ class Lister extends AbstractEvent
         Data $catalogEventData,
         CollectionFactory $eventCollectionFactory,
         HelperCategory $categoryHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryHelper = $categoryHelper;
         $this->_catalogEventData = $catalogEventData;
@@ -107,14 +103,14 @@ class Lister extends AbstractEvent
     public function getEvents()
     {
         if ($this->_events === null) {
-            $this->_events = array();
+            $this->_events = [];
             $categories = $this->_categoryHelper->getStoreCategories('position', true, false);
             if ($categories instanceof \Magento\Eav\Model\Entity\Collection\AbstractCollection ||
                 $categories instanceof \Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
             ) {
                 $allIds = $categories->getAllIds();
             } else {
-                $allIds = array();
+                $allIds = [];
             }
 
             if (!empty($allIds)) {
@@ -122,7 +118,7 @@ class Lister extends AbstractEvent
                 $eventCollection = $this->_eventCollectionFactory->create();
                 $eventCollection->addFieldToFilter(
                     'category_id',
-                    array('in' => $allIds)
+                    ['in' => $allIds]
                 )->addVisibilityFilter()->addImageData()->addSortByStatus();
 
                 $categories->addIdFilter($eventCollection->getColumnValues('category_id'));

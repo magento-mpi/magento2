@@ -1,26 +1,23 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
+use Magento\Catalog\Test\Page\Product\CatalogProductView;
+use Magento\Checkout\Test\Page\CheckoutCart;
 use Magento\Cms\Test\Page\CmsIndex;
+use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;
-use Mtf\TestCase\Injectable;
-use Mtf\Client\Browser;
-use Magento\Checkout\Test\Page\CheckoutCart;
-use Magento\Catalog\Test\Page\Product\CatalogProductView;
 use Magento\GiftRegistry\Test\Page\GiftRegistryItems;
+use Mtf\Client\Browser;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Manage/UpdateItemsGiftRegistryEntity on the Frontend

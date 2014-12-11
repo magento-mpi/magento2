@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model;
 
@@ -29,7 +26,7 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -59,7 +56,7 @@ class Observer
      * @param \Magento\Checkout\Model\Type\Onepage $onePageCheckout
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Framework\App\RequestInterface $request
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
@@ -68,7 +65,7 @@ class Observer
         \Magento\Checkout\Model\Type\Onepage $onePageCheckout,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency
@@ -571,7 +568,6 @@ class Observer
         $creditmemo = $observer->getEvent()->getCreditmemo();
         $order = $creditmemo->getOrder();
 
-
         if ($creditmemo->getRefundRealCustomerBalance() && $creditmemo->getBaseGrandTotal()) {
             $baseAmount = $creditmemo->getBaseGrandTotal();
             $amount = $creditmemo->getGrandTotal();
@@ -706,7 +702,7 @@ class Observer
         if ($customerBalanceTotalRefunded > $rewardedAmountRefunded) {
             $rewardedAmountAfterRefund += $rewardedAmountRefunded;
         } else {
-             $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
+            $rewardedAmountAfterRefund += $customerBalanceTotalRefunded;
         }
 
         $creditMemo->setRewardedAmountAfterRefund($rewardedAmountAfterRefund);

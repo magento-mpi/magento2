@@ -2,10 +2,7 @@
 /**
  * URL rewrite collection
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
@@ -14,7 +11,7 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
     /**
      * Store Manager Model
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -23,7 +20,7 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Framework\Event\ManagerInterface $eventManager
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param mixed $connection
      * @param \Magento\Framework\Model\Resource\Db\AbstractDb $resource
      */
@@ -32,7 +29,7 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Framework\Event\ManagerInterface $eventManager,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $connection = null,
         \Magento\Framework\Model\Resource\Db\AbstractDb $resource = null
     ) {
@@ -60,13 +57,13 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
     public function addStoreFilter($store, $withAdmin = true)
     {
         if (!is_array($store)) {
-            $store = array($this->storeManager->getStore($store)->getId());
+            $store = [$this->storeManager->getStore($store)->getId()];
         }
         if ($withAdmin) {
             $store[] = 0;
         }
 
-        $this->addFieldToFilter('store_id', array('in' => $store));
+        $this->addFieldToFilter('store_id', ['in' => $store]);
 
         return $this;
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category;
 
@@ -38,28 +35,28 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     {
         $this->fullMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\Action\FullFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->rowsMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\Action\RowsFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $this->indexerMock = $this->getMockForAbstractClass(
             'Magento\Indexer\Model\IndexerInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('getId', 'load', 'isInvalid', 'isWorking', '__wakeup')
+            ['getId', 'load', 'isInvalid', 'isWorking', '__wakeup']
         );
 
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
@@ -78,12 +75,12 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
         $this->rowsMock->expects($this->never())->method('create');
 
-        $this->model->execute(array(1, 2, 3));
+        $this->model->execute([1, 2, 3]);
     }
 
     public function testExecuteWithIndexerWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(true));
@@ -91,8 +88,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\Action\Rows',
-            array('reindex'),
-            array(),
+            ['reindex'],
+            [],
             '',
             false
         );
@@ -106,7 +103,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteWithIndexerNotWorking()
     {
-        $ids = array(1, 2, 3);
+        $ids = [1, 2, 3];
 
         $this->indexerMock->expects($this->once())->method('isInvalid')->will($this->returnValue(false));
         $this->indexerMock->expects($this->once())->method('isWorking')->will($this->returnValue(false));
@@ -114,8 +111,8 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
         $rowMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Category\Flat\Action\Rows',
-            array('reindex'),
-            array(),
+            ['reindex'],
+            [],
             '',
             false
         );

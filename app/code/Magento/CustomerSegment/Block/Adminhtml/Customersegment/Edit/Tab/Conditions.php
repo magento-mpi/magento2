@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -39,7 +36,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\Rule\Block\Conditions $conditions,
-        array $data = array()
+        array $data = []
     ) {
         $this->_fieldset = $fieldset;
         $this->_conditions = $conditions;
@@ -59,14 +56,14 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
 
         $form->setHtmlIdPrefix('segment_');
-        $params = array('apply_to' => $model->getApplyTo());
+        $params = ['apply_to' => $model->getApplyTo()];
         $url = $this->getUrl('customersegment/index/newConditionHtml/form/segment_conditions_fieldset', $params);
 
         $renderer = $this->_fieldset->setTemplate('Magento_CatalogRule::promo/fieldset.phtml')->setNewChildUrl($url);
 
         $fieldset = $form->addFieldset(
             'conditions_fieldset',
-            array('legend' => __('Conditions'), 'class' => 'fieldset')
+            ['legend' => __('Conditions'), 'class' => 'fieldset']
         )->setRenderer(
             $renderer
         );
@@ -74,7 +71,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'conditions',
             'text',
-            array('name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'), 'required' => true)
+            ['name' => 'conditions', 'label' => __('Conditions'), 'title' => __('Conditions'), 'required' => true]
         )->setRule(
             $model
         )->setRenderer(
@@ -85,7 +82,7 @@ class Conditions extends \Magento\Backend\Block\Widget\Form\Generic
             $fieldset->addField(
                 'conditions-label',
                 'label',
-                array('note' => __('* applicable to visitors and registered customers'))
+                ['note' => __('* applicable to visitors and registered customers')]
             );
         }
 

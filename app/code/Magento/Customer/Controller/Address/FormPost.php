@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Address;
 
-use Magento\Framework\Exception\InputException;
 use Magento\Customer\Api\Data\RegionInterface;
+use Magento\Framework\Exception\InputException;
 
 class FormPost extends \Magento\Customer\Controller\Address
 {
@@ -21,7 +18,7 @@ class FormPost extends \Magento\Customer\Controller\Address
     protected function _extractAddress()
     {
         $addressId = $this->getRequest()->getParam('id');
-        $existingAddressData = array();
+        $existingAddressData = [];
         if ($addressId) {
             $existingAddress = $this->_addressRepository->getById($addressId);
 
@@ -44,7 +41,7 @@ class FormPost extends \Magento\Customer\Controller\Address
             RegionInterface::REGION => !empty($attributeValues['region']) ? $attributeValues['region'] : null,
             RegionInterface::REGION_CODE => !empty($attributeValues['region_code'])
                 ? $attributeValues['region_code']
-                : null
+                : null,
         ];
 
         $region = $this->_regionDataBuilder
@@ -85,7 +82,7 @@ class FormPost extends \Magento\Customer\Controller\Address
             $address = $this->_extractAddress();
             $this->_addressRepository->save($address);
             $this->messageManager->addSuccess(__('The address has been saved.'));
-            $url = $this->_buildUrl('*/*/index', array('_secure' => true));
+            $url = $this->_buildUrl('*/*/index', ['_secure' => true]);
             $this->getResponse()->setRedirect($this->_redirect->success($url));
             return;
         } catch (InputException $e) {
@@ -98,7 +95,7 @@ class FormPost extends \Magento\Customer\Controller\Address
         }
 
         $this->_getSession()->setAddressFormData($this->getRequest()->getPost());
-        $url = $this->_buildUrl('*/*/edit', array('id' => $this->getRequest()->getParam('id')));
+        $url = $this->_buildUrl('*/*/edit', ['id' => $this->getRequest()->getParam('id')]);
         $this->getResponse()->setRedirect($this->_redirect->error($url));
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -13,7 +10,7 @@ class ReservedAttributeListTest extends \PHPUnit_Framework_TestCase
      * @var ReservedAttributeList
      */
     protected $model;
-    
+
     protected function setUp()
     {
         $this->model = new ReservedAttributeList('Magento\Catalog\Model\Product', ['some_value'], ['some_attribute']);

@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
-use Magento\Integration\Model\Integration as IntegrationModel;
 
 class TokensDialogTest extends \Magento\Integration\Controller\Adminhtml\IntegrationTest
 {
@@ -23,13 +19,13 @@ class TokensDialogTest extends \Magento\Integration\Controller\Adminhtml\Integra
                 'getParam'
             )->will(
                 $this->returnValueMap(
-                    array(
-                        array(
+                    [
+                        [
                             \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID,
                             null,
-                            self::INTEGRATION_ID),
-                        array(\Magento\Integration\Controller\Adminhtml\Integration::PARAM_REAUTHORIZE, 0, 0)
-                    )
+                            self::INTEGRATION_ID, ],
+                        [\Magento\Integration\Controller\Adminhtml\Integration::PARAM_REAUTHORIZE, 0, 0],
+                    ]
                 )
             );
 
@@ -61,14 +57,14 @@ class TokensDialogTest extends \Magento\Integration\Controller\Adminhtml\Integra
                 'getParam'
             )->will(
                 $this->returnValueMap(
-                    array(
-                        array(
+                    [
+                        [
                             \Magento\Integration\Controller\Adminhtml\Integration::PARAM_INTEGRATION_ID,
                             null,
-                            self::INTEGRATION_ID
-                        ),
-                        array(\Magento\Integration\Controller\Adminhtml\Integration::PARAM_REAUTHORIZE, 0, 1)
-                    )
+                            self::INTEGRATION_ID,
+                        ],
+                        [\Magento\Integration\Controller\Adminhtml\Integration::PARAM_REAUTHORIZE, 0, 1],
+                    ]
                 )
             );
 

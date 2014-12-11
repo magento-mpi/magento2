@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Argument\Interpreter;
 
@@ -36,7 +33,7 @@ class Object implements InterpreterInterface
      */
     public function evaluate(array $data)
     {
-        $result = array('instance' => $data['value']);
+        $result = ['instance' => $data['value']];
         if (isset($data['shared'])) {
             $result['shared'] = $this->booleanUtils->toBoolean($data['shared']);
         }

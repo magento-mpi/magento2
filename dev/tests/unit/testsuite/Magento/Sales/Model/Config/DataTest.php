@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Config;
 
@@ -31,7 +28,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGet()
     {
-        $expected = array('someData' => array('someValue', 'someKey' => 'someValue'));
+        $expected = ['someData' => ['someValue', 'someKey' => 'someValue']];
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(serialize($expected)));
         $configData = new \Magento\Sales\Model\Config\Data($this->_readerMock, $this->_cacheMock);
 

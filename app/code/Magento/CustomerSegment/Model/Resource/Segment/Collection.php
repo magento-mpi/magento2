@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Resource\Segment;
 
@@ -19,25 +16,25 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
      *
      * @var array
      */
-    protected $_associatedEntitiesMap = array(
-        'website' => array(
+    protected $_associatedEntitiesMap = [
+        'website' => [
             'associations_table' => 'magento_customersegment_website',
             'rule_id_field' => 'segment_id',
-            'entity_id_field' => 'website_id'
-        ),
-        'event' => array(
+            'entity_id_field' => 'website_id',
+        ],
+        'event' => [
             'associations_table' => 'magento_customersegment_event',
             'rule_id_field' => 'segment_id',
-            'entity_id_field' => 'event'
-        )
-    );
+            'entity_id_field' => 'event',
+        ],
+    ];
 
     /**
      * Fields map for correlation names & real selected fields
      *
      * @var array
      */
-    protected $_map = array('fields' => array('website_id' => 'website.website_id'));
+    protected $_map = ['fields' => ['website_id' => 'website.website_id']];
 
     /**
      * Store flag which determines if customer count data was added
@@ -69,9 +66,9 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
         if (!$this->getFlag('is_event_table_joined')) {
             $this->setFlag('is_event_table_joined', true);
             $this->getSelect()->joinInner(
-                array('evt' => $this->getTable($entityInfo['associations_table'])),
+                ['evt' => $this->getTable($entityInfo['associations_table'])],
                 'main_table.' . $entityInfo['rule_id_field'] . ' = evt.' . $entityInfo['rule_id_field'],
-                array()
+                []
             );
         }
         $this->getSelect()->where('evt.' . $entityInfo['entity_id_field'] . ' = ?', $eventName);
@@ -89,7 +86,7 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
     {
         if ($field == 'customer_count') {
             return $this->addCustomerCountFilter($condition);
-        } else if ($field == $this->getResource()->getIdFieldName()) {
+        } elseif ($field == $this->getResource()->getIdFieldName()) {
             $field = 'main_table.' . $field;
         }
 
@@ -138,9 +135,9 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
         $this->_customerCountAdded = true;
 
         $this->getSelect()->joinLeft(
-            array('customer_count_table' => $this->getTable('magento_customersegment_customer')),
+            ['customer_count_table' => $this->getTable('magento_customersegment_customer')],
             'customer_count_table.segment_id = main_table.segment_id',
-            array('customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)'))
+            ['customer_count' => new \Zend_Db_Expr('COUNT(customer_count_table.customer_id)')]
         )->group(
             'main_table.segment_id'
         );
@@ -172,8 +169,8 @@ class Collection extends \Magento\Rule\Model\Resource\Rule\Collection\AbstractCo
         $idsSelect->reset(\Zend_Db_Select::LIMIT_COUNT);
         $idsSelect->reset(\Zend_Db_Select::LIMIT_OFFSET);
         $select = $this->getConnection()->select()->from(
-            array('t' => new \Zend_Db_Expr(sprintf('(%s)', $idsSelect))),
-            array('t.' . $this->getResource()->getIdFieldName())
+            ['t' => new \Zend_Db_Expr(sprintf('(%s)', $idsSelect))],
+            ['t.' . $this->getResource()->getIdFieldName()]
         );
         return $this->getConnection()->fetchCol($select, $this->_bindParams);
     }

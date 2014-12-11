@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Convert;
 
@@ -24,11 +21,11 @@ class XmlTest extends \PHPUnit_Framework_TestCase
         $xmlstr = $this->getXml();
         $result = $this->_model->xmlToAssoc(new \SimpleXMLElement($xmlstr));
         $this->assertEquals(
-            array(
+            [
                 'one' => '1',
-                'two' => array('three' => '3', 'four'  => '4'),
-                'five' => array(0 => '5', 1  => '6'),
-            ),
+                'two' => ['three' => '3', 'four'  => '4'],
+                'five' => [0 => '5', 1  => '6'],
+            ],
             $result
         );
     }

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Framework\Object;
 use Magento\Paypal\Model\Api\ProcessableException as ApiProcessableException;
 
 class ExpressTest extends \PHPUnit_Framework_TestCase
@@ -24,7 +20,7 @@ class ExpressTest extends \PHPUnit_Framework_TestCase
         ApiProcessableException::API_MAX_PAYMENT_ATTEMPTS_EXCEEDED,
         ApiProcessableException::API_COUNTRY_FILTER_DECLINE,
         ApiProcessableException::API_MAXIMUM_AMOUNT_FILTER_DECLINE,
-        ApiProcessableException::API_OTHER_FILTER_DECLINE
+        ApiProcessableException::API_OTHER_FILTER_DECLINE,
     ];
 
     /**

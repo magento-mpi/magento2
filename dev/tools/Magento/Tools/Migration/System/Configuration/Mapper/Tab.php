@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Mapper;
 
@@ -14,14 +11,14 @@ class Tab extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractM
      * oldName => newName
      * @var array
      */
-    protected $_attributeMaps = array('sort_order' => 'sortOrder', 'frontend_type' => 'type', 'class' => 'class');
+    protected $_attributeMaps = ['sort_order' => 'sortOrder', 'frontend_type' => 'type', 'class' => 'class'];
 
     /**
      * List of allowed filed names for tab
      *
      * @var array
      */
-    protected $_allowedFieldNames = array('label');
+    protected $_allowedFieldNames = ['label'];
 
     /**
      * Transform tabs configuration
@@ -31,7 +28,7 @@ class Tab extends \Magento\Tools\Migration\System\Configuration\Mapper\AbstractM
      */
     public function transform(array $config)
     {
-        $output = array();
+        $output = [];
         foreach ($config as $tabName => $tabConfig) {
             $output[] = $this->_transformElement($tabName, $tabConfig, 'tab');
         }

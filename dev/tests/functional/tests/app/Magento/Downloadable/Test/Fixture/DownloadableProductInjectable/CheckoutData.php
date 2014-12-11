@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Fixture\DownloadableProductInjectable;
@@ -31,31 +28,31 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                     'links' => [
                         [
                             'label' => 'link_1',
-                            'value' => 'Yes'
-                        ]
+                            'value' => 'Yes',
+                        ],
                     ],
                 ],
                 'cartItem' => [
                     'price' => 23,
-                    'subtotal' => 23
-                ]
+                    'subtotal' => 23,
+                ],
             ],
             'with_two_bought_links' => [
                 'options' => [
                     'links' => [
                         [
                             'label' => 'link_1',
-                            'value' => 'Yes'
+                            'value' => 'Yes',
                         ],
                         [
                             'label' => 'link_2',
                             'value' => 'Yes'
-                        ]
+                        ],
                     ],
                     'cartItem' => [
                         'price' => 23,
-                        'subtotal' => 23
-                    ]
+                        'subtotal' => 23,
+                    ],
                 ],
             ],
             'forUpdateMiniShoppingCart' => [
@@ -63,24 +60,24 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                     'links' => [
                         [
                             'label' => 'link_0',
-                            'value' => 'Yes'
-                        ]
+                            'value' => 'Yes',
+                        ],
                     ],
                 ],
                 'cartItem' => [
                     'price' => 23,
-                    'subtotal' => 22.43
-                ]
+                    'subtotal' => 22.43,
+                ],
             ],
             'default' => [
                 'options' => [
                     'links' => [
                         [
                             'label' => 'link_1',
-                            'value' => 'Yes'
-                        ]
+                            'value' => 'Yes',
+                        ],
                     ],
-                ]
+                ],
             ],
         ];
         return isset($presets[$name]) ? $presets[$name] : [];

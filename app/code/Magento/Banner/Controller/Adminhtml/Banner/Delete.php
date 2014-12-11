@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Controller\Adminhtml\Banner;
 
@@ -40,7 +37,7 @@ class Delete extends \Magento\Banner\Controller\Adminhtml\Banner
                 // save data in session
                 $this->_getSession()->setFormData($this->getRequest()->getParams());
                 // redirect to edit form
-                $this->_redirect('adminhtml/*/edit', array('id' => $bannerId));
+                $this->_redirect('adminhtml/*/edit', ['id' => $bannerId]);
                 return;
             }
         }

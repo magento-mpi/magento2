@@ -1,23 +1,20 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
+
 namespace Magento\Setup\Controller;
 
-use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\WebLogger;
-use Zend\Json\Json;
-use Zend\View\Model\JsonModel;
-use Magento\Setup\Model\InstallerFactory;
-use Magento\Setup\Model\Installer;
-use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
 use Magento\Setup\Model\AdminAccount;
 use Magento\Setup\Model\DeploymentConfigMapper;
+use Magento\Setup\Model\Installer;
 use Magento\Setup\Model\Installer\ProgressFactory;
+use Magento\Setup\Model\InstallerFactory;
+use Magento\Setup\Model\UserConfigurationDataMapper as UserConfig;
+use Magento\Setup\Model\WebLogger;
+use Zend\Json\Json;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 
 class Install extends AbstractActionController
 {

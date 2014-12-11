@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <div class="locale-switcher-field field">
@@ -18,6 +15,6 @@
                 setLocation('<?php echo $this->getChangeLocaleUrl() ?>locale/'+elem.value+'/<?php echo $this->getUrlForReferer() ?>');
             }
         }
-        Event.observe('interface_locale', 'change', setInterfaceLanguage)
+        Event.observe('footer_interface_locale', 'change', setInterfaceLanguage)
     </script>
 </div>

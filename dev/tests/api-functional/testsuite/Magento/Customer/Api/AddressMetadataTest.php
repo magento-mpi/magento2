@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Api;
@@ -33,17 +30,17 @@ class AddressMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/attribute/$attributeCode",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAttributeMetadata',
+            ],
         ];
 
         $requestData = [
-            'attributeCode' => $attributeCode
+            'attributeCode' => $attributeCode,
         ];
 
         $attributeMetadata = $this->_webapiCall($serviceInfo, $requestData);
@@ -80,7 +77,7 @@ class AddressMetadataTest extends WebapiAbstract
                     AttributeMetadata::USER_DEFINED => false,
                     AttributeMetadata::BACKEND_TYPE => 'varchar',
                     AttributeMetadata::SORT_ORDER => 110
-                ]
+                ],
             ]
         ];
     }
@@ -93,13 +90,13 @@ class AddressMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAllAttributesMetadata',
+            ],
         ];
 
         $attributeMetadata = $this->_webApiCall($serviceInfo);
@@ -121,13 +118,13 @@ class AddressMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/custom',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetCustomAttributesMetadata',
+            ],
         ];
 
         $requestData = ['attribute_code' => $customAttributeCode];
@@ -148,17 +145,17 @@ class AddressMetadataTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/form/$formCode",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetAttributes'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetAttributes',
+            ],
         ];
 
         $requestData = [
-            'formCode' => $formCode
+            'formCode' => $formCode,
         ];
 
         $attributeMetadataList = $this->_webApiCall($serviceInfo, $requestData);
@@ -166,7 +163,6 @@ class AddressMetadataTest extends WebapiAbstract
             if (isset($attributeMetadata['attribute_code'])
                 && $attributeMetadata['attribute_code'] == $expectedMetadata['attribute_code']
             ) {
-
                 $validationResult = $this->checkValidationRules($expectedMetadata, $attributeMetadata);
                 list($expectedMetadata, $attributeMetadata) = $validationResult;
                 $this->assertEquals($expectedMetadata, $attributeMetadata);
@@ -186,7 +182,7 @@ class AddressMetadataTest extends WebapiAbstract
         return [
             [
                 'customer_address_edit',
-                $attributeMetadata[Address::POSTCODE][1]
+                $attributeMetadata[Address::POSTCODE][1],
             ]
         ];
     }

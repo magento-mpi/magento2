@@ -2,10 +2,7 @@
 /**
  * Test Rest renderer factory class.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Response\Renderer;
 
@@ -27,13 +24,13 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'Magento\Webapi\Controller\Rest\Request'
         )->disableOriginalConstructor()->getMock();
 
-        $renders = array(
-            'default' => array('type' => '*/*', 'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'),
-            'application_json' => array(
+        $renders = [
+            'default' => ['type' => '*/*', 'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'],
+            'application_json' => [
                 'type' => 'application/json',
-                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json'
-            )
-        );
+                'model' => 'Magento\Webapi\Controller\Rest\Response\Renderer\Json',
+            ],
+        ];
 
         $this->_factory = new \Magento\Webapi\Controller\Rest\Response\Renderer\Factory(
             $this->_objectManagerMock,
@@ -47,7 +44,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $acceptTypes = array('application/json');
+        $acceptTypes = ['application/json'];
 
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
@@ -95,7 +92,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetWithWrongRendererClass()
     {
-        $acceptTypes = array('application/json');
+        $acceptTypes = ['application/json'];
         /** Mock request getAcceptTypes method to return specified value. */
         $this->_requestMock->expects($this->once())->method('getAcceptTypes')->will($this->returnValue($acceptTypes));
         /** Mock object to return \Magento\Framework\Object */

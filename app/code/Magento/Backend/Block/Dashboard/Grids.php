@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Dashboard;
 
@@ -48,41 +45,41 @@ class Grids extends \Magento\Backend\Block\Widget\Tabs
         // load this active tab statically
         $this->addTab(
             'ordered_products',
-            array(
+            [
                 'label' => __('Bestsellers'),
                 'content' => $this->getLayout()->createBlock(
                     'Magento\Backend\Block\Dashboard\Tab\Products\Ordered'
                 )->toHtml(),
                 'active' => true
-            )
+            ]
         );
 
         // load other tabs with ajax
         $this->addTab(
             'reviewed_products',
-            array(
+            [
                 'label' => __('Most Viewed Products'),
-                'url' => $this->getUrl('adminhtml/*/productsViewed', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/productsViewed', ['_current' => true]),
                 'class' => 'ajax'
-            )
+            ]
         );
 
         $this->addTab(
             'new_customers',
-            array(
+            [
                 'label' => __('New Customers'),
-                'url' => $this->getUrl('adminhtml/*/customersNewest', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/customersNewest', ['_current' => true]),
                 'class' => 'ajax'
-            )
+            ]
         );
 
         $this->addTab(
             'customers',
-            array(
+            [
                 'label' => __('Customers'),
-                'url' => $this->getUrl('adminhtml/*/customersMost', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/customersMost', ['_current' => true]),
                 'class' => 'ajax'
-            )
+            ]
         );
 
         return parent::_prepareLayout();

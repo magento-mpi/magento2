@@ -1,15 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Review\Setup;
 
+use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Review
@@ -54,9 +52,9 @@ class Review implements SetupInterface
     protected $logger;
 
     /**
-     * @var \Magento\Customer\Service\V1\CustomerAccountServiceInterface
+     * @var CustomerRepositoryInterface
      */
-    protected $customerAccount;
+    protected $customerRepository;
 
     /**
      * @var \Magento\Review\Model\Rating\OptionFactory
@@ -84,7 +82,7 @@ class Review implements SetupInterface
      * @param CsvReaderFactory $csvReaderFactory
      * @param \Magento\Review\Model\RatingFactory $ratingFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount
+     * @param CustomerRepositoryInterface $customerAccount
      * @param \Magento\Tools\SampleData\Logger $logger
      * @param \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
@@ -95,7 +93,7 @@ class Review implements SetupInterface
         CsvReaderFactory $csvReaderFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Customer\Service\V1\CustomerAccountServiceInterface $customerAccount,
+        CustomerRepositoryInterface $customerAccount,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Review\Model\Rating\OptionFactory $ratingOptionsFactory,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager
@@ -106,7 +104,7 @@ class Review implements SetupInterface
         $this->ratingFactory = $ratingFactory;
         $this->productCollection = $productCollectionFactory->create()->addAttributeToSelect('sku');
         $this->logger = $logger;
-        $this->customerAccount = $customerAccount;
+        $this->customerRepository = $customerAccount;
         $this->ratingOptionsFactory = $ratingOptionsFactory;
         $this->storeManager = $storeManager;
     }
@@ -120,7 +118,7 @@ class Review implements SetupInterface
         $fixtureFile = 'Review/products_reviews.csv';
         $fixtureFilePath = $this->fixtureHelper->getPath($fixtureFile);
         /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
-        $csvReader = $this->csvReaderFactory->create(array('fileName' => $fixtureFilePath, 'mode' => 'r'));
+        $csvReader = $this->csvReaderFactory->create(['fileName' => $fixtureFilePath, 'mode' => 'r']);
         foreach ($csvReader as $row) {
             $storeId = [$this->storeManager->getStoreId()];
             $this->createRating($row['rating_code'], $storeId);
@@ -179,7 +177,7 @@ class Review implements SetupInterface
         )->setStoreId(
             $this->storeManager->getStoreId()
         )->setStores(
-            array($this->storeManager->getStoreId())
+            [$this->storeManager->getStoreId()]
         );
         return $review;
     }
@@ -243,7 +241,7 @@ class Review implements SetupInterface
                 2 => '2',
                 3 => '3',
                 4 => '4',
-                5 => '5'
+                5 => '5',
             ];
             foreach ($options as $key => $optionCode) {
                 $optionModel = $this->ratingOptionsFactory->create();
@@ -266,7 +264,7 @@ class Review implements SetupInterface
      */
     protected function getCustomerIdByEmail($customerEmail)
     {
-        $customerData = $this->customerAccount->getCustomerByEmail($customerEmail);
+        $customerData = $this->customerRepository->get($customerEmail);
         if ($customerData) {
             return $customerData->getId();
         }

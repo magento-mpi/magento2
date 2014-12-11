@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorization\Model\Acl\Loader;
 
@@ -59,12 +56,12 @@ class Role implements \Magento\Framework\Acl\LoaderInterface
             $parent = $role['parent_id'] > 0 ? $role['parent_id'] : null;
             switch ($role['role_type']) {
                 case RoleGroup::ROLE_TYPE:
-                    $acl->addRole($this->_groupFactory->create(array('roleId' => $role['role_id'])), $parent);
+                    $acl->addRole($this->_groupFactory->create(['roleId' => $role['role_id']]), $parent);
                     break;
 
                 case RoleUser::ROLE_TYPE:
                     if (!$acl->hasRole($role['role_id'])) {
-                        $acl->addRole($this->_roleFactory->create(array('roleId' => $role['role_id'])), $parent);
+                        $acl->addRole($this->_roleFactory->create(['roleId' => $role['role_id']]), $parent);
                     } else {
                         $acl->addRoleParent($role['role_id'], $parent);
                     }

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
+use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBannerNotInCatalogRule

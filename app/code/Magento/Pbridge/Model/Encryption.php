@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Model;
 
-use Magento\Framework\Math\Random;
-use Magento\Framework\Encryption\Crypt;
 use Magento\Framework\App\DeploymentConfig;
+use Magento\Framework\Encryption\Crypt;
+use Magento\Framework\Math\Random;
 
 class Encryption extends \Magento\Framework\Encryption\Encryptor
 {

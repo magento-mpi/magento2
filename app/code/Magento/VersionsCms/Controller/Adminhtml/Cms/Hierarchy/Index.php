@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
@@ -41,7 +38,7 @@ class Index extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
 
         $nodeModel = $this->_objectManager->create(
             'Magento\VersionsCms\Model\Hierarchy\Node',
-            array('data' => array('scope' => $this->_scope, 'scope_id' => $this->_scopeId))
+            ['data' => ['scope' => $this->_scope, 'scope_id' => $this->_scopeId]]
         );
 
         // restore data if exists

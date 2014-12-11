@@ -11,11 +11,12 @@ class PHPParser_Node_Expr_ShellExec extends PHPParser_Node_Expr
      * @param array       $parts      Encapsed string array
      * @param array       $attributes Additional attributes
      */
-    public function __construct($parts, array $attributes = array()) {
+    public function __construct($parts, array $attributes = [])
+    {
         parent::__construct(
-            array(
-                'parts' => $parts
-            ),
+            [
+                'parts' => $parts,
+            ],
             $attributes
         );
     }

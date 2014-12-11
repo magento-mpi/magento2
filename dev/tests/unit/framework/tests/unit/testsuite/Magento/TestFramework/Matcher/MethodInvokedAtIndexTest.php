@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Matcher;
 
@@ -14,7 +11,7 @@ class MethodInvokedAtIndexTest extends \PHPUnit_Framework_TestCase
         $invocationObject = new \PHPUnit_Framework_MockObject_Invocation_Object(
             'ClassName',
             'ValidMethodName',
-            array(),
+            [],
             new \StdClass()
         );
         $matcher = new MethodInvokedAtIndex(0);

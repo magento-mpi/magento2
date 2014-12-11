@@ -2,10 +2,7 @@
 /**
  * Converter of pdf configuration from \DOMDocument to array
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf\Config;
 
@@ -19,7 +16,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array('renderers' => array(), 'totals' => array());
+        $result = ['renderers' => [], 'totals' => []];
 
         $pageTypes = $source->getElementsByTagName('page');
         foreach ($pageTypes as $pageType) {

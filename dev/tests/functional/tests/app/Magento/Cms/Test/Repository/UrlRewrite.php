@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Cms\Test\Repository;
@@ -29,7 +26,7 @@ class UrlRewrite extends AbstractRepository
             'request_path' => 'test_request%isolation%',
             'redirect_type' => 'No',
             'description' => 'test description',
-            'target_path' => ['entity' => "cms_page/%cmsPage::default%"]
+            'target_path' => ['entity' => "cms_page/%cmsPage::default%"],
         ];
 
         $this->_data['default_temporary_redirect'] = [
@@ -37,7 +34,7 @@ class UrlRewrite extends AbstractRepository
             'request_path' => 'test_request%isolation%',
             'redirect_type' => 'Temporary (302)',
             'description' => 'test description',
-            'target_path' => ['entity' => "cms_page/%cmsPage::default%"]
+            'target_path' => ['entity' => "cms_page/%cmsPage::default%"],
         ];
 
         $this->_data['default_permanent_redirect'] = [
@@ -45,7 +42,7 @@ class UrlRewrite extends AbstractRepository
             'request_path' => 'test_request%isolation%',
             'redirect_type' => 'Permanent (301)',
             'description' => 'test description',
-            'target_path' => ['entity' => "cms_page/%cmsPage::default%"]
+            'target_path' => ['entity' => "cms_page/%cmsPage::default%"],
         ];
     }
 }
