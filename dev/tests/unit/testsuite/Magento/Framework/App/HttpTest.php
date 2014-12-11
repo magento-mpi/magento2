@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App;
@@ -129,7 +126,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
             ->method('dispatch')
             ->with(
                 'controller_front_send_response_before',
-                array('request' => $this->requestMock, 'response' => $this->responseMock)
+                ['request' => $this->requestMock, 'response' => $this->responseMock]
             );
         $this->assertSame($this->responseMock, $this->http->launch());
     }

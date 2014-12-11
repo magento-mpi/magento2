@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Layout\Update;
 
@@ -40,10 +37,10 @@ class Validator extends \Zend_Validate_Abstract
      *
      * @var array
      */
-    protected $_protectedExpressions = array(
+    protected $_protectedExpressions = [
         self::HELPER_ARGUMENT_TYPE => '//*[@xsi:type="helper"]',
-        self::UPDATER_MODEL => '//updater'
-    );
+        self::UPDATER_MODEL => '//updater',
+    ];
 
     /**
      * XSD Schemas for Layout Update validation
@@ -71,7 +68,7 @@ class Validator extends \Zend_Validate_Abstract
             self::LAYOUT_SCHEMA_PAGE_HANDLE => $dirList->getPath(DirectoryList::LIB_INTERNAL)
                 . '/Magento/Framework/View/Layout/etc/page_layout.xsd',
             self::LAYOUT_SCHEMA_MERGED => $dirList->getPath(DirectoryList::LIB_INTERNAL)
-                . '/Magento/Framework/View/Layout/etc/layout_merged.xsd'
+                . '/Magento/Framework/View/Layout/etc/layout_merged.xsd',
         ];
     }
 
@@ -83,11 +80,11 @@ class Validator extends \Zend_Validate_Abstract
     protected function _initMessageTemplates()
     {
         if (!$this->_messageTemplates) {
-            $this->_messageTemplates = array(
+            $this->_messageTemplates = [
                 self::HELPER_ARGUMENT_TYPE => __('Helper arguments should not be used in custom layout updates.'),
                 self::UPDATER_MODEL => __('Updater model should not be used in custom layout updates.'),
-                self::XML_INVALID => __('Please correct the XML data and try again. %value%')
-            );
+                self::XML_INVALID => __('Please correct the XML data and try again. %value%'),
+            ];
         }
         return $this;
     }
@@ -109,7 +106,7 @@ class Validator extends \Zend_Validate_Abstract
         try {
             //wrap XML value in the "layout" and "handle" tags to make it validatable
             $value = '<layout xmlns:xsi="' . self::XML_NAMESPACE_XSI . '">' . $value . '</layout>';
-            $this->_domConfigFactory->createDom(array('xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]));
+            $this->_domConfigFactory->createDom(['xml' => $value, 'schemaFile' => $this->_xsdSchemas[$schema]]);
 
             if ($isSecurityCheck) {
                 $value = new \Magento\Framework\Simplexml\Element($value);

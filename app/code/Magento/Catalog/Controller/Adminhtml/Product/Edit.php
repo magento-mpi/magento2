@@ -1,22 +1,18 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
 class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
 {
-
     /**
      * Array of actions which can be processed without secret key validation
      *
      * @var array
      */
-    protected $_publicActions = array('edit');
+    protected $_publicActions = ['edit'];
 
     /**
      * @var \Magento\Framework\View\Result\PageFactory
@@ -62,7 +58,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
             return $resultRedirect->setPath('catalog/*/');
         }
 
-        $this->_eventManager->dispatch('catalog_product_edit_action', array('product' => $product));
+        $this->_eventManager->dispatch('catalog_product_edit_action', ['product' => $product]);
 
         /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
@@ -71,7 +67,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
         $resultPage->getConfig()->getTitle()->prepend(__('Products'));
         $resultPage->getConfig()->getTitle()->prepend($product->getName());
 
-        if (!$this->_objectManager->get('Magento\Framework\StoreManagerInterface')->isSingleStoreMode()
+        if (!$this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->isSingleStoreMode()
             &&
             ($switchBlock = $resultPage->getLayout()->getBlock('store_switcher'))
         ) {
@@ -80,7 +76,7 @@ class Edit extends \Magento\Catalog\Controller\Adminhtml\Product
                 ->setSwitchUrl(
                     $this->getUrl(
                         'catalog/*/*',
-                        array('_current' => true, 'active_tab' => null, 'tab' => null, 'store' => null)
+                        ['_current' => true, 'active_tab' => null, 'tab' => null, 'store' => null]
                     )
                 );
         }

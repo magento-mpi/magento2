@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Service;
 
@@ -127,7 +124,6 @@ class Quote
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Customer\Api\Data\RegionDataBuilder $regionDataBuilder
     ) {
-
         $this->accountManagement = $accountManagement;
         $this->customerBuilder = $customerBuilder;
         $this->addressBuilder = $addressBuilder;

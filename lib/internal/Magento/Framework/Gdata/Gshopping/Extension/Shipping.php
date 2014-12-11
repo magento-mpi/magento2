@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -34,7 +31,7 @@ class Shipping extends \Zend_Gdata_App_Extension_Element
      * @param array $shippingInfo as described in product requirements
      * @see http://code.google.com/intl/ru/apis/shopping/content/getting-started/requirements-products.html#shipping
      */
-    public function __construct(array $shippingInfo = array())
+    public function __construct(array $shippingInfo = [])
     {
         $this->registerAllNamespaces(\Magento\Framework\Gdata\Gshopping\Content::$namespaces);
         parent::__construct('shipping', $this->_rootNamespace, $this->lookupNamespace($this->_rootNamespace));

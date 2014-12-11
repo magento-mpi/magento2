@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Pdf\Total;
 
@@ -41,7 +38,7 @@ class DefaultTotal extends \Magento\Framework\Object
         \Magento\Tax\Helper\Data $taxHelper,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $ordersFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxHelper;
         $this->_taxCalculation = $taxCalculation;
@@ -76,8 +73,8 @@ class DefaultTotal extends \Magento\Framework\Object
         }
 
         $fontSize = $this->getFontSize() ? $this->getFontSize() : 7;
-        $total = array('amount' => $amount, 'label' => $label, 'font_size' => $fontSize);
-        return array($total);
+        $total = ['amount' => $amount, 'label' => $label, 'font_size' => $fontSize];
+        return [$total];
     }
 
     /**
@@ -108,7 +105,7 @@ class DefaultTotal extends \Magento\Framework\Object
             $orders = $this->_taxOrdersFactory->create();
             $rates = $orders->loadByOrder($this->getOrder())->toArray();
             $fullInfo = $this->_taxCalculation->reproduceProcess($rates['items']);
-            $tax_info = array();
+            $tax_info = [];
 
             if ($fullInfo) {
                 foreach ($fullInfo as $info) {
@@ -121,11 +118,11 @@ class DefaultTotal extends \Magento\Framework\Object
                     foreach ($info['rates'] as $rate) {
                         $percent = $rate['percent'] ? ' (' . $rate['percent'] . '%)' : '';
 
-                        $tax_info[] = array(
+                        $tax_info[] = [
                             'amount' => $this->getAmountPrefix() . $this->getOrder()->formatPriceTxt($_amount),
                             'label' => __($rate['title']) . $percent . ':',
-                            'font_size' => $fontSize
-                        );
+                            'font_size' => $fontSize,
+                        ];
                     }
                 }
             }

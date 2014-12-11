@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Controller\Adminhtml\Targetrule;
 
@@ -27,7 +24,7 @@ class Delete extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('adminhtml/*/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

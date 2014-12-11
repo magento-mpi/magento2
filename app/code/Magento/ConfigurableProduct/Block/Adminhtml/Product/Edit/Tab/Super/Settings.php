@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,8 +8,8 @@
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
-use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 use Magento\Backend\Block\Widget\Form\Generic;
+use Magento\ConfigurableProduct\Model\Product\Type\Configurable;
 
 class Settings extends Generic
 {
@@ -40,7 +37,7 @@ class Settings extends Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_configurableType = $configurableType;
@@ -60,7 +57,7 @@ class Settings extends Generic
         $this->addChild(
             'continue_button',
             'Magento\Backend\Block\Widget\Button',
-            array('label' => __('Generate Variations'), 'onclick' => $onclick, 'class' => 'save')
+            ['label' => __('Generate Variations'), 'onclick' => $onclick, 'class' => 'save']
         );
         parent::_prepareLayout();
     }
@@ -84,36 +81,36 @@ class Settings extends Generic
     {
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('settings', array('legend' => __('Select Configurable Attributes')));
+        $fieldset = $form->addFieldset('settings', ['legend' => __('Select Configurable Attributes')]);
 
         $fieldset->addField(
             'configurable-attribute-selector',
             'text',
-            array('label' => 'Select Attribute', 'title' => 'Select Attribute')
+            ['label' => 'Select Attribute', 'title' => 'Select Attribute']
         );
 
         $product = $this->getProduct();
         $usedAttributes = $product->getTypeId() ==
-            Configurable::TYPE_CODE ? $this->_configurableType->getUsedProductAttributes($product) : array();
+            Configurable::TYPE_CODE ? $this->_configurableType->getUsedProductAttributes($product) : [];
         foreach ($usedAttributes as $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if ($this->_configurableType->canUseAttribute($attribute, $product)) {
                 $fieldset->addField(
                     'attribute_' . $attribute->getAttributeId(),
                     'checkbox',
-                    array(
+                    [
                         'label' => $attribute->getFrontendLabel(),
                         'title' => $attribute->getFrontendLabel(),
                         'name' => 'attributes[]',
                         'class' => 'configurable-attribute-checkbox',
                         'value' => $attribute->getAttributeId(),
                         'checked' => true
-                    )
+                    ]
                 );
             }
         }
 
-        $fieldset->addField('continue_button', 'note', array('text' => $this->getChildHtml('continue_button')));
+        $fieldset->addField('continue_button', 'note', ['text' => $this->getChildHtml('continue_button')]);
         $this->setForm($form);
 
         return parent::_prepareForm();
@@ -126,7 +123,7 @@ class Settings extends Generic
      */
     public function getContinueUrl()
     {
-        return $this->getUrl($this->getProduct()->getId() ? '*/*/edit' : '*/*/new', array('_current' => true));
+        return $this->getUrl($this->getProduct()->getId() ? '*/*/edit' : '*/*/new', ['_current' => true]);
     }
 
     /**
@@ -136,6 +133,6 @@ class Settings extends Generic
      */
     public function getBackUrl()
     {
-        return $this->getUrl('catalog/*/', array('set' => null, 'type' => null));
+        return $this->getUrl('catalog/*/', ['set' => null, 'type' => null]);
     }
 }

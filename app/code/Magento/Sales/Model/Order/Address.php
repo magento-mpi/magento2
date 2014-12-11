@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Api\Data\OrderAddressInterface;
-use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
 use Magento\Customer\Api\Data\RegionDataBuilder;
+use Magento\Customer\Model\Address\AbstractAddress;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\OrderAddressInterface;
 
 /**
  * Sales order address model

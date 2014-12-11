@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
 
-use \Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
+use Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment\Detail;
 
 class DetailTest extends \PHPUnit_Framework_TestCase
 {
@@ -43,7 +40,7 @@ class DetailTest extends \PHPUnit_Framework_TestCase
     protected $buttonList;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -65,7 +62,7 @@ class DetailTest extends \PHPUnit_Framework_TestCase
 
         $this->urlBuilder = $this->getMockForAbstractClass('Magento\Framework\UrlInterface', [], '', false);
         $this->layout = $this->getMock('Magento\Framework\View\LayoutInterface');
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->buttonList = $this->getMock('Magento\Backend\Block\Widget\Button\ButtonList', [], [], '', false);
         $this->buttonList

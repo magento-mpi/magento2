@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Address;
 
@@ -18,7 +15,7 @@ class Validator
      * @var array
      */
     protected $required = [
-        'parent_id' =>'Parent Order Id',
+        'parent_id' => 'Parent Order Id',
         'postcode' => 'Zip code',
         'lastname' => 'Last name',
         'street' => 'Street',
@@ -27,7 +24,7 @@ class Validator
         'telephone' => 'Phone Number',
         'country_id' => 'Country',
         'firstname' => 'First Name',
-        'address_type' => 'Address Type'
+        'address_type' => 'Address Type',
     ];
 
     /**

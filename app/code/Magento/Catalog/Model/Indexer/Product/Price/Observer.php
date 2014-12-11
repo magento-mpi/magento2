@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Price;
 
 class Observer
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -45,7 +42,7 @@ class Observer
     protected $_connection;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
@@ -53,7 +50,7 @@ class Observer
      * @param \Magento\Catalog\Model\Indexer\Product\Price\Processor $processor
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
@@ -134,8 +131,8 @@ class Observer
         $connection = $this->_getWriteConnection();
 
         $select = $connection->select()->from(
-            $this->_resource->getTableName(array('catalog_product_entity', 'datetime')),
-            array('entity_id')
+            $this->_resource->getTableName(['catalog_product_entity', 'datetime']),
+            ['entity_id']
         )->where(
             'attribute_id = ?',
             $attributeId
@@ -147,6 +144,6 @@ class Observer
             $attrConditionValue
         );
 
-        $this->_processor->getIndexer()->reindexList($connection->fetchCol($select, array('entity_id')));
+        $this->_processor->getIndexer()->reindexList($connection->fetchCol($select, ['entity_id']));
     }
 }

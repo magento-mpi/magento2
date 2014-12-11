@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Eav\Plugin;
 
@@ -24,10 +21,10 @@ class AttributeSetTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $filter->expects($this->at(0))
             ->method('filter')
-            ->will($this->returnValue(array(1, 2, 3)));
+            ->will($this->returnValue([1, 2, 3]));
         $filter->expects($this->at(1))
             ->method('filter')
-            ->will($this->returnValue(array(1, 2)));
+            ->will($this->returnValue([1, 2]));
 
         $subjectMock = $this->getMockBuilder('Magento\Eav\Model\Entity\Attribute\Set')
             ->disableOriginalConstructor()

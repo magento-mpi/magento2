@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Source;
 
@@ -17,7 +14,7 @@ class Cctype implements \Magento\Framework\Option\ArrayInterface
      *
      * @var array
      */
-    protected $_allowedTypes = array();
+    protected $_allowedTypes = [];
 
     /**
      * Payment config model
@@ -67,11 +64,11 @@ class Cctype implements \Magento\Framework\Option\ArrayInterface
          * making filter by allowed cards
          */
         $allowed = $this->getAllowedTypes();
-        $options = array();
+        $options = [];
 
         foreach ($this->_paymentConfig->getCcTypes() as $code => $name) {
             if (in_array($code, $allowed) || !count($allowed)) {
-                $options[] = array('value' => $code, 'label' => $name);
+                $options[] = ['value' => $code, 'label' => $name];
             }
         }
 

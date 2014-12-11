@@ -2,10 +2,7 @@
 /**
  * URL rewrite resource model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
@@ -28,9 +25,9 @@ class UrlRewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array('field' => array('request_path', 'store_id'), 'title' => __('Request Path for Specified Store'))
-        );
+        $this->_uniqueFields = [
+            ['field' => ['request_path', 'store_id'], 'title' => __('Request Path for Specified Store')],
+        ];
         return $this;
     }
 
@@ -50,7 +47,7 @@ class UrlRewrite extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if (!is_null($object->getStoreId())) {
             $select->where(
                 'store_id IN(?)',
-                array(\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId())
+                [\Magento\Store\Model\Store::DEFAULT_STORE_ID, $object->getStoreId()]
             );
             $select->order('store_id ' . \Magento\Framework\DB\Select::SQL_DESC);
             $select->limit(1);

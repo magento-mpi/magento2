@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
@@ -28,6 +25,6 @@ class CatalogruleTest extends \PHPUnit_Framework_TestCase
         );
         $catalogRule->load('Test Catalog Rule', 'name');
 
-        $this->assertSame(array($catalogRule->getId()), $block->getCollection()->getAllIds());
+        $this->assertSame([$catalogRule->getId()], $block->getCollection()->getAllIds());
     }
 }

@@ -1,14 +1,11 @@
 <?xml version="1.0"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Magento_Webapi" schema_version="1.0.0.4">
+    <module name="Magento_Webapi" schema_version="2.0.0">
         <sequence>
             <module name="Magento_Core"/>
             <module name="Magento_Store"/>

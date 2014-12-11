@@ -2,10 +2,7 @@
 /**
  * Phrase (for replacing Data Value with Object)
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -61,7 +58,7 @@ class Phrase
      * @param string $text
      * @param array $arguments
      */
-    public function __construct($text, array $arguments = array())
+    public function __construct($text, array $arguments = [])
     {
         $this->_text = (string)$text;
         $this->_arguments = $arguments;

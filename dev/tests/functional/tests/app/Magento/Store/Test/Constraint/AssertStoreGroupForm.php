@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Constraint;
 
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Store\Test\Fixture\StoreGroup;
-use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
 use Magento\Backend\Test\Page\Adminhtml\EditGroup;
+use Magento\Backend\Test\Page\Adminhtml\StoreIndex;
+use Magento\Store\Test\Fixture\StoreGroup;
+use Mtf\Constraint\AbstractAssertForm;
 
 /**
  * Class AssertStoreGroupForm

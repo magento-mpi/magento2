@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog;
 
@@ -27,7 +24,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
 
         $blocks = $config['supported_containers'];
 
-        $containers = array();
+        $containers = [];
         foreach ($blocks as $block) {
             $containers[] = $block['container_name'];
         }

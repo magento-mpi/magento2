@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Search\Block;
@@ -12,7 +9,6 @@ use PHPUnit_Framework_MockObject_MockObject as MockObject;
 
 class SearchDataTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var  \Magento\Framework\View\Element\Template\Context|MockObject */
     private $context;
 
@@ -63,7 +59,7 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
                 $this->dataProvider,
                 $this->queryFactory,
                 'Test Title',
-                array(),
+                [],
             ]
         )
             ->setMethods(['getUrl'])
@@ -72,7 +68,7 @@ class SearchDataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSuggestions()
     {
-        $value = [1, 2, 3, 100500,];
+        $value = [1, 2, 3, 100500];
 
         $this->dataProvider->expects($this->once())
             ->method('getSearchData')

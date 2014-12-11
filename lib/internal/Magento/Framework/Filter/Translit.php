@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -19,7 +16,7 @@ class Translit implements \Zend_Filter_Interface
      *
      * @var array
      */
-    protected $convertTable = array(
+    protected $convertTable = [
         '&amp;' => 'and',
         '@' => 'at',
         '©' => 'c',
@@ -336,8 +333,8 @@ class Translit implements \Zend_Filter_Interface
         'ר' => 'r',
         'ש' => 'w',
         'ת' => 't',
-        '™' => 'tm'
-    );
+        '™' => 'tm',
+    ];
 
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config

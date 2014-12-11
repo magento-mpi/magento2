@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Setup\Controller\Controls;
 
+use Magento\Setup\Model\Navigation;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
-use Magento\Setup\Model\Navigation;
 
 class MenuController extends AbstractActionController
 {

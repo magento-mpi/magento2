@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * TargetRule Catalog Product List Upsell Block
@@ -38,7 +34,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Checkout\Model\Cart $cart,
-        array $data = array()
+        array $data = []
     ) {
         $this->_cart = $cart;
         parent::__construct(
@@ -77,11 +73,11 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
              */
             $this->_eventManager->dispatch(
                 'catalog_product_upsell',
-                array(
+                [
                     'product' => $this->getProduct(),
                     'collection' => $this->_linkCollection,
                     'limit' => $this->getPositionLimit()
-                )
+                ]
             );
         }
 
@@ -101,13 +97,13 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
             }
 
             $ids = parent::getAllIds();
-            $ids = new \Magento\Framework\Object(array('items' => array_flip($ids)));
+            $ids = new \Magento\Framework\Object(['items' => array_flip($ids)]);
             /**
              * Updating collection with desired items
              */
             $this->_eventManager->dispatch(
                 'catalog_product_upsell',
-                array('product' => $this->getProduct(), 'collection' => $ids, 'limit' => null)
+                ['product' => $this->getProduct(), 'collection' => $ids, 'limit' => null]
             );
 
             $this->_allProductIds = array_keys($ids->getItems());
@@ -125,14 +121,14 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
     public function getAllItems()
     {
         $collection = parent::getAllItems();
-        $collectionMock = new \Magento\Framework\Object(array('items' => $collection));
+        $collectionMock = new \Magento\Framework\Object(['items' => $collection]);
         $this->_eventManager->dispatch(
             'catalog_product_upsell',
-            array(
+            [
                 'product'       => $this->getProduct(),
                 'collection'    => $collectionMock,
                 'limit'         => null
-            )
+            ]
         );
         return $collectionMock->getItems();
     }
@@ -147,7 +143,7 @@ class Upsell extends \Magento\TargetRule\Block\Catalog\Product\ProductList\Abstr
     {
         if (is_null($this->_excludeProductIds)) {
             $cartProductIds = $this->_cart->getProductIds();
-            $this->_excludeProductIds = array_merge($cartProductIds, array($this->getProduct()->getEntityId()));
+            $this->_excludeProductIds = array_merge($cartProductIds, [$this->getProduct()->getEntityId()]);
         }
         return $this->_excludeProductIds;
     }

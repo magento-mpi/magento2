@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
@@ -32,13 +29,13 @@ class OrderCommentsListTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/order/' . $order->getId() . '/comments',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'getCommentsList'
-            ]
+                'operation' => self::SERVICE_NAME . 'getCommentsList',
+            ],
         ];
         $requestData = ['id' => $order->getId()];
         $result = $this->_webApiCall($serviceInfo, $requestData);

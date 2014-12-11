@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Widget;
 
-use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Framework\Api\ArrayObjectSearch;
 use Magento\Customer\Api\CustomerMetadataInterface;
+use Magento\Framework\Api\ArrayObjectSearch;
+use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 /**
  * Class Dob
@@ -30,7 +27,7 @@ class Dob extends AbstractWidget
      *
      * @var array
      */
-    protected $_dateInputs = array();
+    protected $_dateInputs = [];
 
     /**
      * @var \Magento\Framework\View\Element\Html\Date
@@ -49,7 +46,7 @@ class Dob extends AbstractWidget
         \Magento\Customer\Helper\Address $addressHelper,
         CustomerMetadataInterface $customerMetadata,
         \Magento\Framework\View\Element\Html\Date $dateElement,
-        array $data = array()
+        array $data = []
     ) {
         $this->dateElement = $dateElement;
         parent::__construct($context, $addressHelper, $customerMetadata, $data);
@@ -186,7 +183,7 @@ class Dob extends AbstractWidget
      */
     public function getSortedDateInputs($stripNonInputChars = true)
     {
-        $mapping = array();
+        $mapping = [];
         if ($stripNonInputChars) {
             $mapping['/[^medy]/i'] = '\\1';
         }

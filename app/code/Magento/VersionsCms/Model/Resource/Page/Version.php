@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Resource\Page;
 
@@ -39,15 +36,15 @@ class Version extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             implode(
                 ' AND ',
-                array('page_id      = :page_id', 'access_level = :access_level', 'version_id   = :version_id')
+                ['page_id      = :page_id', 'access_level = :access_level', 'version_id   = :version_id']
             )
         );
 
-        $bind = array(
+        $bind = [
             ':page_id' => $object->getPageId(),
             ':access_level' => \Magento\VersionsCms\Model\Page\Version::ACCESS_LEVEL_PUBLIC,
-            ':version_id' => $object->getVersionId()
-        );
+            ':version_id' => $object->getVersionId(),
+        ];
 
         return !$this->_getReadAdapter()->fetchOne($select, $bind);
     }
@@ -62,13 +59,13 @@ class Version extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select();
         $select->from(
-            array('p' => $this->getTable('cms_page')),
-            array()
+            ['p' => $this->getTable('cms_page')],
+            []
         )->where(
             'p.page_id = ?',
             (int)$object->getPageId()
         )->join(
-            array('r' => $this->getTable('magento_versionscms_page_revision')),
+            ['r' => $this->getTable('magento_versionscms_page_revision')],
             'r.revision_id = p.published_revision_id',
             'r.version_id'
         );
@@ -88,13 +85,13 @@ class Version extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _addAccessRestrictionsToSelect($select, $accessLevel, $userId)
     {
-        $conditions = array();
+        $conditions = [];
 
         $conditions[] = $this->_getReadAdapter()->quoteInto('user_id = ?', (int)$userId);
 
         if (!empty($accessLevel)) {
             if (!is_array($accessLevel)) {
-                $accessLevel = array($accessLevel);
+                $accessLevel = [$accessLevel];
             }
             $conditions[] = $this->_getReadAdapter()->quoteInto('access_level IN (?)', $accessLevel);
         } else {

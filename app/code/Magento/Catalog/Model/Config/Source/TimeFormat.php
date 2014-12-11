@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Config\Source;
 
@@ -16,9 +13,9 @@ class TimeFormat implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '12h', 'label' => __('12h AM/PM')),
-            array('value' => '24h', 'label' => __('24h'))
-        );
+        return [
+            ['value' => '12h', 'label' => __('12h AM/PM')],
+            ['value' => '24h', 'label' => __('24h')]
+        ];
     }
 }

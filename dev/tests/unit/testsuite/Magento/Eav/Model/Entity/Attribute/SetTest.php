@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,21 +17,21 @@ class SetTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $resource = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set', array(), array(), '', false);
+        $resource = $this->getMock('Magento\Eav\Model\Resource\Entity\Attribute\Set', [], [], '', false);
         $attrGroupFactory = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\GroupFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false,
             false
         );
-        $attrFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', array(), array(), '', false, false);
-        $arguments = array(
+        $attrFactory = $this->getMock('Magento\Eav\Model\Entity\AttributeFactory', [], [], '', false, false);
+        $arguments = [
             'attrGroupFactory' => $attrGroupFactory,
             'attributeFactory' => $attrFactory,
-            'resource' => $resource
-        );
+            'resource' => $resource,
+        ];
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Eav\Model\Entity\Attribute\Set', $arguments);
     }
@@ -73,9 +70,9 @@ class SetTest extends \PHPUnit_Framework_TestCase
      */
     public function invalidAttributeSetDataProvider()
     {
-        return array(
-            array('', 'Attribute set name is empty.'),
-            array('existing_name', 'An attribute set with the "existing_name" name already exists.')
-        );
+        return [
+            ['', 'Attribute set name is empty.'],
+            ['existing_name', 'An attribute set with the "existing_name" name already exists.']
+        ];
     }
 }

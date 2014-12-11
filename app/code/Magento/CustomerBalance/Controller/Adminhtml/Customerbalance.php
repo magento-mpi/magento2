@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
@@ -83,7 +80,6 @@ class Customerbalance extends \Magento\Backend\App\Action
         }
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER, $customer);
         $this->_coreRegistry->register(RegistryConstants::CURRENT_CUSTOMER_ID, $customer->getId());
-
     }
 
     /**

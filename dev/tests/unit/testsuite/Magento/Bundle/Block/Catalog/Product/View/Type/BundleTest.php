@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
-use \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle as BundleBlock;
-use \Magento\Framework\Object as MagentoObject;
+use Magento\Bundle\Block\Catalog\Product\View\Type\Bundle as BundleBlock;
+use Magento\Framework\Object as MagentoObject;
 
 class BundleTest extends \PHPUnit_Framework_TestCase
 {
@@ -30,7 +27,7 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOptionHtmlNoRenderer()
     {
-        $option = $this->getMock('\Magento\Bundle\Model\Option', array('getType', '__wakeup'), array(), '', false);
+        $option = $this->getMock('\Magento\Bundle\Model\Option', ['getType', '__wakeup'], [], '', false);
         $option->expects($this->exactly(2))->method('getType')->will($this->returnValue('checkbox'));
 
         $this->assertEquals(
@@ -41,13 +38,13 @@ class BundleTest extends \PHPUnit_Framework_TestCase
 
     public function testGetOptionHtml()
     {
-        $option = $this->getMock('\Magento\Bundle\Model\Option', array('getType', '__wakeup'), array(), '', false);
+        $option = $this->getMock('\Magento\Bundle\Model\Option', ['getType', '__wakeup'], [], '', false);
         $option->expects($this->exactly(1))->method('getType')->will($this->returnValue('checkbox'));
 
         $optionBlock = $this->getMock(
             '\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox',
-            array('setOption', 'toHtml'),
-            array(),
+            ['setOption', 'toHtml'],
+            [],
             '',
             false
         );
@@ -55,8 +52,8 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         $optionBlock->expects($this->any())->method('toHtml')->will($this->returnValue('option html'));
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('getChildName', 'getBlock'),
-            array(),
+            ['getChildName', 'getBlock'],
+            [],
             '',
             false
         );
@@ -101,7 +98,7 @@ class BundleTest extends \PHPUnit_Framework_TestCase
                     'getTypeInstance',
                     'getPriceInfo',
                     'getStoreId',
-                    'getPriceType'
+                    'getPriceType',
                 ]
             )
             ->getMock();
@@ -224,7 +221,7 @@ class BundleTest extends \PHPUnit_Framework_TestCase
         );
         $prices = [
             \Magento\Catalog\Pricing\Price\FinalPrice::PRICE_CODE => $finalPriceMock,
-            \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE => $regularPriceMock
+            \Magento\Catalog\Pricing\Price\RegularPrice::PRICE_CODE => $regularPriceMock,
         ];
         $priceInfo = $this->getPriceInfoMock($prices);
 

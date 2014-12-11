@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\System\Message;
 
@@ -15,7 +12,7 @@ class Notifications implements \Magento\Framework\Notification\MessageInterface
     /**
      * Store manager object
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -46,12 +43,12 @@ class Notifications implements \Magento\Framework\Notification\MessageInterface
     protected $storesWithInvalidDiscountSettings;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\UrlInterface $urlBuilder
      * @param \Magento\Tax\Model\Config $taxConfig
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Tax\Model\Config $taxConfig
     ) {
@@ -138,7 +135,7 @@ class Notifications implements \Magento\Framework\Notification\MessageInterface
      */
     public function getIgnoreTaxNotificationUrl($section)
     {
-        return $this->urlBuilder->getUrl('tax/tax/ignoreTaxNotification', array('section' => $section));
+        return $this->urlBuilder->getUrl('tax/tax/ignoreTaxNotification', ['section' => $section]);
     }
 
     /**
@@ -149,7 +146,7 @@ class Notifications implements \Magento\Framework\Notification\MessageInterface
      */
     public function getStoresWithWrongDisplaySettings()
     {
-        $storeNames = array();
+        $storeNames = [];
         $storeCollection = $this->storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             if (!$this->checkDisplaySettings($store)) {
@@ -168,7 +165,7 @@ class Notifications implements \Magento\Framework\Notification\MessageInterface
      */
     public function getStoresWithWrongDiscountSettings()
     {
-        $storeNames = array();
+        $storeNames = [];
         $storeCollection = $this->storeManager->getStores(true);
         foreach ($storeCollection as $store) {
             if (!$this->checkDiscountSettings($store)) {

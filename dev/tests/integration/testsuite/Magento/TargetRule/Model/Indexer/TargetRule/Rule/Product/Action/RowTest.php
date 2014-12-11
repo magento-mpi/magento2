@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Action;
@@ -42,13 +39,13 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         $this->_processor->getIndexer()->setScheduled(false);
         $this->assertFalse($this->_processor->getIndexer()->isScheduled());
 
-        $data = array(
+        $data = [
             'name' => 'Target Rule',
             'is_active' => '1',
             'apply_to' => 1,
             'use_customer_segment' => '0',
-            'customer_segment_ids' => array('0' => '')
-        );
+            'customer_segment_ids' => ['0' => ''],
+        ];
         $rule = $this->_ruleFactory->create();
         $rule->loadPost($data);
         $rule->save();
@@ -66,27 +63,27 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
         $this->_processor->getIndexer()->setScheduled(false);
         $this->assertFalse($this->_processor->getIndexer()->isScheduled());
 
-        $data = array(
+        $data = [
             'name' => 'related',
             'is_active' => '1',
             'apply_to' => 1,
             'use_customer_segment' => '0',
-            'customer_segment_ids' => array('0' => ''),
-            'conditions' => array(
-                '1' => array(
+            'customer_segment_ids' => ['0' => ''],
+            'conditions' => [
+                '1' => [
                     'type' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
                     'aggregator' => 'all',
                     'value' => '1',
-                    'new_child' => ''
-                ),
-                '1--1' => array(
+                    'new_child' => '',
+                ],
+                '1--1' => [
                     'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
                     'attribute' => 'category_ids',
                     'operator' => '()',
-                    'value' => '11'
-                )
-            )
-        );
+                    'value' => '11',
+                ],
+            ],
+        ];
         $rule = $this->_ruleFactory->create();
         $rule->loadPost($data);
         $rule->save();
@@ -100,27 +97,27 @@ class RowTest extends \Magento\TestFramework\Indexer\TestCase
 
         $this->assertEquals([3, 4], $rule->getResource()->getReadConnection()->fetchCol($testSelect));
 
-        $data = array(
+        $data = [
             'name' => 'related',
             'is_active' => '1',
             'apply_to' => 1,
             'use_customer_segment' => '0',
-            'customer_segment_ids' => array('0' => ''),
-            'conditions' => array(
-                '1' => array(
+            'customer_segment_ids' => ['0' => ''],
+            'conditions' => [
+                '1' => [
                     'type' => 'Magento\TargetRule\Model\Rule\Condition\Combine',
                     'aggregator' => 'all',
                     'value' => '1',
-                    'new_child' => ''
-                ),
-                '1--1' => array(
+                    'new_child' => '',
+                ],
+                '1--1' => [
                     'type' => 'Magento\TargetRule\Model\Rule\Condition\Product\Attributes',
                     'attribute' => 'category_ids',
                     'operator' => '==',
-                    'value' => '5'
-                )
-            )
-        );
+                    'value' => '5',
+                ],
+            ],
+        ];
         $rule = $this->_ruleFactory->create();
         $rule->loadPost($data);
         $rule->save();

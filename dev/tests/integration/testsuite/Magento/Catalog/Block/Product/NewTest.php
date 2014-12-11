@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product;
 
@@ -56,7 +53,7 @@ class NewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(1, array_shift($keys));
         $this->assertEquals(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->getStore()->getId(),
             $info[1]
         );

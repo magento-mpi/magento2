@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -29,8 +26,8 @@ class ProductTypeListTest extends \PHPUnit_Framework_TestCase
         $this->typeConfigMock = $this->getMock('Magento\Catalog\Model\ProductTypes\ConfigInterface');
         $this->builderMock = $this->getMock(
             'Magento\Catalog\Api\Data\ProductTypeDataBuilder',
-            array('create', 'populateWithArray'),
-            array(),
+            ['create', 'populateWithArray'],
+            [],
             '',
             false
         );
@@ -42,21 +39,21 @@ class ProductTypeListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetProductTypes()
     {
-        $simpleProductType = array(
+        $simpleProductType = [
             'name' => 'simple',
             'label' => 'Simple Product',
-        );
-        $productTypeData = array(
+        ];
+        $productTypeData = [
             'simple' => $simpleProductType,
-        );
+        ];
         $productTypeMock = $this->getMock('Magento\Catalog\Api\Data\ProductTypeInterface');
         $this->typeConfigMock->expects($this->any())->method('getAll')->will($this->returnValue($productTypeData));
         $this->builderMock->expects($this->once())
             ->method('populateWithArray')
-            ->with(array(
+            ->with([
                 'name' => $simpleProductType['name'],
                 'label' => $simpleProductType['label'],
-            ))->willReturnSelf();
+            ])->willReturnSelf();
 
         $this->builderMock->expects($this->once())->method('create')->willReturn($productTypeMock);
         $productTypes = $this->model->getProductTypes();

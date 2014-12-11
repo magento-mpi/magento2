@@ -1,20 +1,17 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Framework\Exception\InputException;
-use \Magento\Framework\Exception\StateException;
-use \Magento\Catalog\Api\Data\ProductInterface as Product;
-use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
-use \Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
-use \Magento\Catalog\Model\Product\Media\Config as MediaConfig;
+use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryContentInterface as ContentInterface;
+use Magento\Catalog\Api\Data\ProductAttributeMediaGalleryEntryInterface;
+use Magento\Catalog\Api\Data\ProductInterface as Product;
+use Magento\Catalog\Model\Product\Media\Config as MediaConfig;
+use Magento\Framework\Exception\InputException;
+use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\Exception\StateException;
 use Magento\Framework\App\Filesystem\DirectoryList;
 
 class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGalleryManagementInterface
@@ -24,15 +21,15 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
      *
      * @var array
      */
-    protected $mimeTypeExtensionMap = array(
+    protected $mimeTypeExtensionMap = [
         'image/jpg' => 'jpg',
         'image/jpeg' => 'jpg',
         'image/gif' => 'gif',
         'image/png' => 'png',
-    );
+    ];
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -72,7 +69,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     protected $attributeRepository;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
      * @param \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository
      * @param MediaConfig $mediaConfig
@@ -83,7 +80,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media $mediaGallery
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Catalog\Api\ProductAttributeRepositoryInterface $attributeRepository,
         MediaConfig $mediaConfig,
@@ -133,7 +130,7 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
     protected function getMediaAttributeValues(Product $product)
     {
         $mediaAttributeCodes = array_keys($product->getMediaAttributes());
-        $mediaAttributeValues = array();
+        $mediaAttributeValues = [];
         foreach ($mediaAttributeCodes as $attributeCode) {
             $mediaAttributeValues[$attributeCode] = $product->getData($attributeCode);
         }
@@ -178,11 +175,11 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
             $entry->getIsDisabled()
         );
         // Update additional fields that are still empty after addImage call
-        $productMediaGallery->updateImage($product, $imageFileUri, array(
+        $productMediaGallery->updateImage($product, $imageFileUri, [
                 'label' => $entry->getLabel(),
                 'position' => $entry->getPosition(),
                 'disabled' => $entry->getIsDisabled(),
-            ));
+            ]);
         $product->setStoreId($storeId);
 
         try {
@@ -217,11 +214,11 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
             throw new NoSuchEntityException('There is no image with provided ID.');
         }
 
-        $productMediaGallery->updateImage($product, $filePath, array(
+        $productMediaGallery->updateImage($product, $filePath, [
             'label' => $entry->getLabel(),
             'position' => $entry->getPosition(),
             'disabled' => $entry->getIsDisabled(),
-        ));
+        ]);
         $productMediaGallery->clearMediaAttribute($product, array_keys($product->getMediaAttributes()));
         $productMediaGallery->setMediaAttribute($product, $entry->getTypes(), $filePath);
         $product->setStoreId($storeId);
@@ -284,14 +281,14 @@ class GalleryManagement implements \Magento\Catalog\Api\ProductAttributeMediaGal
      */
     public function getList($productSku)
     {
-        $result = array();
+        $result = [];
         /** @var \Magento\Catalog\Model\Product $product */
         $product = $this->productRepository->get($productSku);
 
         /** @var \Magento\Catalog\Api\Data\ProductAttributeInterface $galleryAttribute */
         $galleryAttribute = $this->attributeRepository->get('media_gallery');
 
-        $container = new \Magento\Framework\Object(array('attribute' => $galleryAttribute));
+        $container = new \Magento\Framework\Object(['attribute' => $galleryAttribute]);
         $gallery = $this->mediaGallery->loadGallery($product, $container);
 
         $productImages = $this->getMediaAttributeValues($product);

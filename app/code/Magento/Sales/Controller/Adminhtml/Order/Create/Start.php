@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Create;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class Start extends \Magento\Sales\Controller\Adminhtml\Order\Create
 {
@@ -20,6 +17,6 @@ class Start extends \Magento\Sales\Controller\Adminhtml\Order\Create
     public function execute()
     {
         $this->_getSession()->clearStorage();
-        $this->_redirect('sales/*', array('customer_id' => $this->getRequest()->getParam('customer_id')));
+        $this->_redirect('sales/*', ['customer_id' => $this->getRequest()->getParam('customer_id')]);
     }
 }

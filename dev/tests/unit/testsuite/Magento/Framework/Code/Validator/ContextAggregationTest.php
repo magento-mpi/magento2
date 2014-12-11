@@ -1,13 +1,9 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Validator;
-
 
 require_once __DIR__ . '/_files/ClassesForContextAggregation.php';
 class ContextAggregationTest extends \PHPUnit_Framework_TestCase

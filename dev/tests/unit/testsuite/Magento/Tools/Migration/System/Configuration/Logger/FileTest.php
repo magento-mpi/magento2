@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System\Configuration\Logger;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../../'
@@ -34,8 +30,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileManagerMock = $this->getMock(
             'Magento\Tools\Migration\System\FileManager',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

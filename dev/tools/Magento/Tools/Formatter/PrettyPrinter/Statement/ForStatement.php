@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
@@ -33,7 +30,7 @@ class ForStatement extends AbstractLoopStatement
         // add the namespace line
         $this->addToLine($treeNode, 'for (');
         // add in the init expression
-        $lineBreak = new ConditionalLineBreak(array(array('')));
+        $lineBreak = new ConditionalLineBreak([['']]);
         $this->processArgumentList($this->node->init, $treeNode, $lineBreak);
         $this->addToLine($treeNode, ';');
         if (!empty($this->node->cond)) {

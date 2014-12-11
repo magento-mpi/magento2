@@ -2,10 +2,7 @@
 /**
  * Connection adapter factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Setup\Module;
 
@@ -38,8 +35,8 @@ class ConnectionFactory implements \Magento\Framework\Model\Resource\Type\Db\Con
         }
 
         $adapterInstance = new \Magento\Framework\Model\Resource\Type\Db\Pdo\Mysql(
-            new \Magento\Framework\Stdlib\String,
-            new \Magento\Framework\Stdlib\DateTime,
+            new \Magento\Framework\Stdlib\String(),
+            new \Magento\Framework\Stdlib\DateTime(),
             $connectionConfig
         );
 

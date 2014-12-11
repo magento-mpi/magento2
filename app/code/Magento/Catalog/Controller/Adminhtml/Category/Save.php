@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -92,7 +89,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 if (!$parentId) {
                     if ($storeId) {
                         $parentId = $this->_objectManager->get(
-                            'Magento\Framework\StoreManagerInterface'
+                            'Magento\Store\Model\StoreManagerInterface'
                         )->getStore(
                             $storeId
                         )->getRootCategoryId();
@@ -183,7 +180,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Category
                 [
                     'messages' => $block->getGroupedHtml(),
                     'error' => !$refreshTree,
-                    'category' => $category->toArray()
+                    'category' => $category->toArray(),
                 ]
             );
         }

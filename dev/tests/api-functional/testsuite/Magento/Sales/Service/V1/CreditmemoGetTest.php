@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Service\V1;
 
-use Magento\Webapi\Model\Rest\Config;
 use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config;
 
 /**
  * Class CreditmemoGetTest
@@ -66,7 +63,7 @@ class CreditmemoGetTest extends WebapiAbstract
         'tax_amount',
         'order_id',
         'state',
-        'increment_id'
+        'increment_id',
     ];
 
     /**
@@ -91,13 +88,13 @@ class CreditmemoGetTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $creditmemo->getId(),
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'get',
+            ],
         ];
 
         $actual = $this->_webApiCall($serviceInfo, ['id' => $creditmemo->getId()]);

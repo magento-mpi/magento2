@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Price;
@@ -32,7 +29,7 @@ class BasePrice extends AbstractPrice
             $this->value = false;
             foreach ($this->priceInfo->getPrices() as $price) {
                 if ($price instanceof BasePriceProviderInterface && $price->getValue() !== false) {
-                    $this->value = min($price->getValue(), $this->value ? : $price->getValue());
+                    $this->value = min($price->getValue(), $this->value ?: $price->getValue());
                 }
             }
         }

@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\NotifySender;
-use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Creditmemo;
 use Magento\Sales\Model\Order\Email\Container\CreditmemoCommentIdentity;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\NotifySender;
 
 class CreditmemoCommentSender extends NotifySender
 {
@@ -45,7 +42,7 @@ class CreditmemoCommentSender extends NotifySender
                 'creditmemo' => $creditmemo,
                 'comment' => $comment,
                 'billing' => $order->getBillingAddress(),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
 

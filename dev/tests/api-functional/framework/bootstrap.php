@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 use Magento\Framework\App\Filesystem\DirectoryList;
@@ -19,6 +16,25 @@ $integrationTestsDir = realpath("{$testsBaseDir}/../integration");
 $logWriter = new \Zend_Log_Writer_Stream('php://output');
 $logWriter->setFormatter(new \Zend_Log_Formatter_Simple('%message%' . PHP_EOL));
 $logger = new \Zend_Log($logWriter);
+
+/** Copy test modules to app/code/Magento to make them visible for Magento instance */
+$pathToCommittedTestModules = __DIR__ . '/../_files/Magento';
+$pathToInstalledMagentoInstanceModules = __DIR__ . '/../../../../app/code/Magento';
+$iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($pathToCommittedTestModules));
+/** @var SplFileInfo $file */
+foreach ($iterator as $file) {
+    if (!$file->isDir()) {
+        $source = $file->getPathname();
+        $relativePath = substr($source, strlen($pathToCommittedTestModules));
+        $destination = $pathToInstalledMagentoInstanceModules . $relativePath;
+        $targetDir = dirname($destination);
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
+        copy($source, $destination);
+    }
+}
+unset($iterator, $file);
 
 /* Bootstrap the application */
 $settings = new \Magento\TestFramework\Bootstrap\Settings($testsBaseDir, get_defined_constants());

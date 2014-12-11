@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -47,7 +44,7 @@ class SplitWords implements \Zend_Filter_Interface
      */
     public function filter($str)
     {
-        $result = array();
+        $result = [];
         $split = preg_split('#' . $this->wordSeparatorRegexp . '#siu', $str, null, PREG_SPLIT_NO_EMPTY);
         foreach ($split as $word) {
             if ($this->uniqueOnly) {

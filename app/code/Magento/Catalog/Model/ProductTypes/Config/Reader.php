@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\ProductTypes\Config;
 
@@ -14,14 +11,14 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/type' => 'name',
         '/config/type/priceModel' => 'instance',
         '/config/type/indexerModel' => 'instance',
         '/config/type/stockIndexerModel' => 'instance',
         '/config/type/allowedSelectionTypes/type' => 'name',
-        '/config/composableTypes/type' => 'name'
-    );
+        '/config/composableTypes/type' => 'name',
+    ];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -39,7 +36,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'product_types.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

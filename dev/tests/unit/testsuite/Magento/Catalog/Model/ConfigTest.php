@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -224,7 +221,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $attribute->expects($this->any())->method('getStoreLabel')->will($this->returnValue($storeLabel));
         $attribute->expects($this->any())->method('getAttributeCode')->will($this->returnValue($attributeCode));
 
-        $storeManager = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $storeManager = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $store = $this->getMock('\Magento\Store\Model\Store', [], [], '', false);
         $storeManager->expects($this->any())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->any())->method('getId')->will($this->returnValue($storeId));

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,9 +34,9 @@ class Font implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        $optionArray = array();
+        $optionArray = [];
         foreach ($this->_captchaData->getFonts() as $fontName => $fontData) {
-            $optionArray[] = array('label' => $fontData['label'], 'value' => $fontName);
+            $optionArray[] = ['label' => $fontData['label'], 'value' => $fontName];
         }
         return $optionArray;
     }

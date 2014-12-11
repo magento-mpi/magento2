@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml;
 
@@ -44,12 +41,12 @@ class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
      */
     public function testSaveActionQueueTemplateAndVerifySuccessMessage()
     {
-        $postForQueue = array(
+        $postForQueue = [
             'sender_email' => 'johndoe_gieee@unknown-domain.com',
             'sender_name' => 'john doe',
             'subject' => 'test subject',
-            'text' => 'newsletter text'
-        );
+            'text' => 'newsletter text',
+        ];
         $this->getRequest()->setPost($postForQueue);
         $this->_model->loadByCode('some_unique_code');
         $this->getRequest()->setParam('template_id', $this->_model->getId());
@@ -64,7 +61,7 @@ class NewsletterQueueTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter queue has been saved.')),
+            $this->equalTo(['The newsletter queue has been saved.']),
             \Magento\Framework\Message\MessageInterface::TYPE_SUCCESS
         );
     }

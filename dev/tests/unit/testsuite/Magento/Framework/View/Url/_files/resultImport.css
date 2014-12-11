@@ -2,10 +2,7 @@
 @import url("deep/recursive.css");
 /* The above import directives are aggregated from content. */
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 body {background: url(body.gif);}
 p {background: url(1.gif?param);}

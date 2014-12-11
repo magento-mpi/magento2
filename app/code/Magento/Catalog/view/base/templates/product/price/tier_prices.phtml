@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 
@@ -17,7 +14,7 @@ $msrpShowOnGesture = $this->getPriceType('msrp_price')->isShowPriceOnGesture();
 $product = $this->getSaleableItem();
 ?>
 <?php if (count($tierPrices)) : ?>
-    <ul class="<?php echo ($this->hasListClass() ? $this->getListClass() : 'prices-tier items'); ?>">
+    <ul class="<?php echo($this->hasListClass() ? $this->getListClass() : 'prices-tier items'); ?>">
     <?php foreach ($tierPrices as $index => $price) : ?>
         <li class="item">
             <?php
@@ -46,7 +43,7 @@ $product = $this->getSaleableItem();
                                 'id_suffix'         => '-' . $index,
                                 'include_container' => true
                             ]
-                        )
+                        ),
                     ];
                     if ($this->getCanDisplayQty($product)) {
                         $tierPriceData['qty'] = $price['price_qty'];

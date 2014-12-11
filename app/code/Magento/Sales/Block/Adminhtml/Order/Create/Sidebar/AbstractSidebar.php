@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Sidebar;
 
@@ -44,7 +41,7 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Sales\Model\Config $salesConfig,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $data);
         $this->_salesConfig = $salesConfig;
@@ -145,7 +142,7 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
      */
     public function getItems()
     {
-        $items = array();
+        $items = [];
         $collection = $this->getItemCollection();
         if ($collection) {
             $productTypes = $this->_salesConfig->getAvailableProductTypes();
@@ -161,9 +158,9 @@ class AbstractSidebar extends \Magento\Sales\Block\Adminhtml\Order\Create\Abstra
             foreach ($items as $key => $item) {
                 if ($item instanceof \Magento\Catalog\Model\Product) {
                     $type = $item->getTypeId();
-                } else if ($item instanceof \Magento\Sales\Model\Order\Item) {
+                } elseif ($item instanceof \Magento\Sales\Model\Order\Item) {
                     $type = $item->getProductType();
-                } else if ($item instanceof \Magento\Sales\Model\Quote\Item) {
+                } elseif ($item instanceof \Magento\Sales\Model\Quote\Item) {
                     $type = $item->getProductType();
                 } else {
                     $type = '';

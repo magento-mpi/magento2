@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Test\Repository;
@@ -30,7 +27,7 @@ class TaxRule extends AbstractRepository
                 'dataSet' => [
                     0 => 'us_ca_rate_8_25',
                     1 => 'us_ny_rate_8_375',
-                ]
+                ],
             ],
             'priority' => '0',
             'position' => '0',
@@ -75,7 +72,7 @@ class TaxRule extends AbstractRepository
             'code' => 'TaxIdentifier%isolation%',
             'tax_rate' => [
                 'dataSet' => [
-                    0 => 'US-CA-*-Rate 1'
+                    0 => 'US-CA-*-Rate 1',
                 ],
             ],
             'tax_customer_class' => [
@@ -122,7 +119,7 @@ class TaxRule extends AbstractRepository
                 'dataSet' => [
                     0 => 'us_ca_rate_8_25_no_zip',
                     1 => 'us_ny_rate_8_25',
-                ]
+                ],
             ],
             'priority' => '0',
             'position' => '0',
@@ -134,7 +131,7 @@ class TaxRule extends AbstractRepository
                 'dataSet' => [
                     0 => 'us_ca_rate_8_375',
                     1 => 'us_ny_rate_8_25',
-                ]
+                ],
             ],
             'priority' => '0',
             'position' => '0',
@@ -146,7 +143,7 @@ class TaxRule extends AbstractRepository
                 'dataSet' => [
                     0 => 'us_ca_rate_8_25_no_zip',
                     1 => 'us_ny_rate_8_375',
-                ]
+                ],
             ],
             'priority' => '0',
             'position' => '0',
@@ -159,7 +156,7 @@ class TaxRule extends AbstractRepository
                     0 => 'tx_rate_10',
                     1 => 'ny_rate_20',
                     2 => 'ca_rate_30',
-                ]
+                ],
             ],
             'priority' => '0',
             'position' => '0',

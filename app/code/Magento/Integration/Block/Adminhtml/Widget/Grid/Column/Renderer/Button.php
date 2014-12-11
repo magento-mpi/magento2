@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
-use Magento\Integration\Model\Integration;
 use Magento\Framework\Object;
+use Magento\Integration\Model\Integration;
 
 /**
  * Render HTML <button> tag.
@@ -75,7 +72,7 @@ class Button extends AbstractRenderer
      */
     protected function _prepareAttributes(Object $row)
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->_getValidAttributes() as $attributeName) {
             $methodName = sprintf('_get%sAttribute', ucfirst($attributeName));
             $rowMethodName = sprintf('get%s', ucfirst($attributeName));
@@ -106,7 +103,7 @@ class Button extends AbstractRenderer
          *                               'onmouseover', 'onmouseup'
          * Element attributes - 'disabled', 'name', 'type', 'value'
          */
-        return array(
+        return [
             'accesskey',
             'class',
             'id',
@@ -125,7 +122,7 @@ class Button extends AbstractRenderer
             'name',
             'type',
             'value'
-        );
+        ];
     }
 
     /**

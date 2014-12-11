@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Plugin;
 
@@ -28,12 +25,12 @@ class ThemeCopyServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->factoryMock = $this->getMock(
             'Magento\DesignEditor\Model\Theme\ChangeFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $this->subjectMock = $this->getMock('Magento\Theme\Model\CopyService', array(), array(), '', false);
+        $this->subjectMock = $this->getMock('Magento\Theme\Model\CopyService', [], [], '', false);
         $this->model = new \Magento\DesignEditor\Model\Plugin\ThemeCopyService($this->factoryMock);
     }
 
@@ -43,23 +40,23 @@ class ThemeCopyServiceTest extends \PHPUnit_Framework_TestCase
         $sourceChangeTime = '21:00:00';
         $targetThemeId = 2;
 
-        $sourceThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $sourceThemeMock = $this->getMock('Magento\Core\Model\Theme', [], [], '', false);
         $sourceThemeMock->expects($this->any())->method('getId')->will($this->returnValue($sourceThemeId));
 
-        $targetThemeMock = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
+        $targetThemeMock = $this->getMock('Magento\Core\Model\Theme', [], [], '', false);
         $targetThemeMock->expects($this->any())->method('getId')->will($this->returnValue($targetThemeId));
 
         $sourceChangeMock = $this->getMock(
             'Magento\DesignEditor\Model\Theme\Change',
-            array('getId', 'getChangeTime', 'loadByThemeId', '__wakeup'),
-            array(),
+            ['getId', 'getChangeTime', 'loadByThemeId', '__wakeup'],
+            [],
             '',
             false
         );
         $targetChangeMock = $this->getMock(
             'Magento\DesignEditor\Model\Theme\Change',
-            array('setThemeId', 'setChangeTime', 'loadByThemeId', 'save', '__wakeup'),
-            array(),
+            ['setThemeId', 'setChangeTime', 'loadByThemeId', 'save', '__wakeup'],
+            [],
             '',
             false
         );

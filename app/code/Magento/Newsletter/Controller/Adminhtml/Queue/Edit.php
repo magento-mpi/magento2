@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Controller\Adminhtml\Queue;
 
@@ -45,7 +42,6 @@ class Edit extends \Magento\Newsletter\Controller\Adminhtml\Queue
             $template = $this->_objectManager->create('Magento\Newsletter\Model\Template')->load($templateId);
             $queue = $this->_coreRegistry->registry('current_queue')->setTemplateId($template->getId());
         }
-
 
         $this->_view->loadLayout();
 

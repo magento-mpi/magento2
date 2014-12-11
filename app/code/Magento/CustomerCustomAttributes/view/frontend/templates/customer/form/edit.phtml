@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var Magento\CustomerCustomAttributes\Block\Form $this */
@@ -32,7 +29,7 @@
             <?php echo $_gender->setGender($this->getCustomer()->getGender())->toHtml() ?>
         <?php endif ?>
         <div class="field choice">
-            <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if($this->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
+            <input type="checkbox" name="change_password" id="change-password" value="1" title="<?php echo __('Change Password') ?>"<?php if ($this->getChangePassword()): ?> checked="checked"<?php endif; ?> class="checkbox"/>
             <label class="label" for="change-password"><span><?php echo __('Change Password') ?></span></label>
         </div>
         <?php $userDefinedAttributes = $this->getLayout()->getBlock('customer_form_user_attributes'); ?>
@@ -88,7 +85,7 @@
         });
 
         var dataForm = $('#form-validate');
-        var ignore = <?php echo ($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()) ? '\'input[id$="full"]\'' : 'null'; ?>;
+        var ignore = <?php echo($_dob->isEnabled() || $userDefinedAttributes->hasUserDefinedAttributes()) ? '\'input[id$="full"]\'' : 'null'; ?>;
         <?php if ($userDefinedAttributes->hasUserDefinedAttributes()): ?>
         dataForm = dataForm.mage('fileElement',{});
         ignore = ignore ? ignore + ', ' + 'input[id$="_value"]' : 'input[id$="_value"]';

@@ -4,10 +4,7 @@
  *
  * Format: array(<path>[, <replacement>])
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 return [
     ['/app/code/core/Mage', '/app/code/Magento'],
@@ -234,4 +231,6 @@ return [
     ['/dev/shell/uninstall.php'],
     ['/app/design/install'],
     ['/app/etc/local.xml', '/app/etc/config.php'],
+    ['/app/code/Magento/RecurringPayment'],
+    ['/app/code/Magento/PayPalRecurringPayment'],
 ];

@@ -1,26 +1,22 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product;
 
-use Mtf\Client\Element;
-use Mtf\Fixture\DataFixture;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Fixture\InjectableFixture;
-use Magento\Catalog\Test\Fixture\Product;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\AttributeForm;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Attribute\CustomAttribute;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\ProductTab;
+use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Fixture\Product;
+use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
+use Mtf\Fixture\DataFixture;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Fixture\InjectableFixture;
 
 /**
  * Product form on backend product page.
@@ -144,7 +140,7 @@ class ProductForm extends FormTabs
             $renderArguments = [
                 'product' => $product,
                 'element' => $element,
-                'category' => $category
+                'category' => $category,
             ];
             $this->callRender($typeId, 'fill', $renderArguments);
         } else {

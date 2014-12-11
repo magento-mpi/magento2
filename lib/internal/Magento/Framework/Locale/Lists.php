@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Locale;
 
@@ -68,7 +65,7 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
      */
     protected function _getOptionLocales($translatedName = false)
     {
-        $options = array();
+        $options = [];
         $locales = $this->_localeResolver->getLocale()->getLocaleList();
         $languages = $this->_localeResolver->getLocale()->getTranslationList(
             'language',
@@ -117,7 +114,7 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
                 } else {
                     $label = $languages[$data[0]] . ' (' . $countries[$data[1]] . ')';
                 }
-                $options[] = array('value' => $code, 'label' => $label);
+                $options[] = ['value' => $code, 'label' => $label];
             }
         }
         return $this->_sortOptionArray($options);
@@ -128,12 +125,12 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
      */
     public function getOptionTimezones()
     {
-        $options = array();
+        $options = [];
         $zones = $this->getTranslationList('windowstotimezone');
         ksort($zones);
         foreach ($zones as $code => $name) {
             $name = trim($name);
-            $options[] = array('label' => empty($name) ? $code : $name . ' (' . $code . ')', 'value' => $code);
+            $options[] = ['label' => empty($name) ? $code : $name . ' (' . $code . ')', 'value' => $code];
         }
         return $this->_sortOptionArray($options);
     }
@@ -143,11 +140,11 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
      */
     public function getOptionWeekdays($preserveCodes = false, $ucFirstCode = false)
     {
-        $options = array();
+        $options = [];
         $days = $this->getTranslationList('days');
         $days = $preserveCodes ? $days['format']['wide'] : array_values($days['format']['wide']);
         foreach ($days as $code => $name) {
-            $options[] = array('label' => $name, 'value' => $ucFirstCode ? ucfirst($code) : $code);
+            $options[] = ['label' => $name, 'value' => $ucFirstCode ? ucfirst($code) : $code];
         }
         return $options;
     }
@@ -157,11 +154,11 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
      */
     public function getOptionCountries()
     {
-        $options = array();
+        $options = [];
         $countries = $this->getCountryTranslationList();
 
         foreach ($countries as $code => $name) {
-            $options[] = array('label' => $name, 'value' => $code);
+            $options[] = ['label' => $name, 'value' => $code];
         }
         return $this->_sortOptionArray($options);
     }
@@ -172,7 +169,7 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
     public function getOptionCurrencies()
     {
         $currencies = $this->getTranslationList('currencytoname');
-        $options = array();
+        $options = [];
         $allowed = $this->_config->getAllowedCurrencies();
 
         foreach ($currencies as $name => $code) {
@@ -180,7 +177,7 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
                 continue;
             }
 
-            $options[] = array('label' => $name, 'value' => $code);
+            $options[] = ['label' => $name, 'value' => $code];
         }
         return $this->_sortOptionArray($options);
     }
@@ -191,9 +188,9 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
     public function getOptionAllCurrencies()
     {
         $currencies = $this->getTranslationList('currencytoname');
-        $options = array();
+        $options = [];
         foreach ($currencies as $name => $code) {
-            $options[] = array('label' => $name, 'value' => $code);
+            $options[] = ['label' => $name, 'value' => $code];
         }
         return $this->_sortOptionArray($options);
     }
@@ -204,14 +201,14 @@ class Lists implements \Magento\Framework\Locale\ListsInterface
      */
     protected function _sortOptionArray($option)
     {
-        $data = array();
+        $data = [];
         foreach ($option as $item) {
             $data[$item['value']] = $item['label'];
         }
         asort($data);
-        $option = array();
+        $option = [];
         foreach ($data as $key => $label) {
-            $option[] = array('value' => $key, 'label' => $label);
+            $option[] = ['value' => $key, 'label' => $label];
         }
         return $option;
     }

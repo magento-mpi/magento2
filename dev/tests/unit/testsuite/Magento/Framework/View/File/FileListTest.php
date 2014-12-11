@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File;
@@ -34,9 +31,9 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     {
         $this->_baseFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule');
         $this->_themeFile = $this->_createViewFile('fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->collator = $this->getMock('Magento\Framework\View\File\FileList\Collator', array('collate'));
+        $this->collator = $this->getMock('Magento\Framework\View\File\FileList\Collator', ['collate']);
         $this->_model = new \Magento\Framework\View\File\FileList($this->collator);
-        $this->_model->add(array($this->_baseFile, $this->_themeFile));
+        $this->_model->add([$this->_baseFile, $this->_themeFile]);
     }
 
     /**
@@ -59,21 +56,21 @@ class FileListTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAll()
     {
-        $this->assertSame(array($this->_baseFile, $this->_themeFile), $this->_model->getAll());
+        $this->assertSame([$this->_baseFile, $this->_themeFile], $this->_model->getAll());
     }
 
     public function testAddBaseFile()
     {
         $file = $this->_createViewFile('new.xml', 'Fixture_TestModule');
-        $this->_model->add(array($file));
-        $this->assertSame(array($this->_baseFile, $this->_themeFile, $file), $this->_model->getAll());
+        $this->_model->add([$file]);
+        $this->assertSame([$this->_baseFile, $this->_themeFile, $file], $this->_model->getAll());
     }
 
     public function testAddThemeFile()
     {
         $file = $this->_createViewFile('new.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_model->add(array($file));
-        $this->assertSame(array($this->_baseFile, $this->_themeFile, $file), $this->_model->getAll());
+        $this->_model->add([$file]);
+        $this->assertSame([$this->_baseFile, $this->_themeFile, $file], $this->_model->getAll());
     }
 
     /**
@@ -83,7 +80,7 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     public function testAddBaseFileException()
     {
         $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule');
-        $this->_model->add(array($file));
+        $this->_model->add([$file]);
     }
 
     /**
@@ -93,21 +90,21 @@ class FileListTest extends \PHPUnit_Framework_TestCase
     public function testAddThemeFileException()
     {
         $file = $this->_createViewFile('test/fixture.xml', 'Fixture_TestModule', 'area/theme/path');
-        $this->_model->add(array($file));
+        $this->_model->add([$file]);
     }
 
     public function testReplace()
     {
-        $files = array('1');
-        $result = array('3');
+        $files = ['1'];
+        $result = ['3'];
         $this->collator
             ->expects($this->once())
             ->method('collate')
             ->with(
                 $this->equalTo($files),
-                $this->equalTo(array(
+                $this->equalTo([
                     $this->_baseFile->getFileIdentifier() => $this->_baseFile,
-                    $this->_themeFile->getFileIdentifier() => $this->_themeFile)
+                    $this->_themeFile->getFileIdentifier() => $this->_themeFile, ]
                 ))
             ->will($this->returnValue($result));
         $this->assertNull($this->_model->replace($files));

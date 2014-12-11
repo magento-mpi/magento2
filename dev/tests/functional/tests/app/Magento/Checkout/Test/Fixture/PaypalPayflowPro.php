@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Checkout\Test\Fixture;
@@ -26,8 +23,8 @@ class PaypalPayflowPro extends Checkout
         //Verification data
         $this->_data = [
             'totals' => [
-                'grand_total' => '156.81'
-            ]
+                'grand_total' => '156.81',
+            ],
         ];
     }
 
@@ -42,7 +39,7 @@ class PaypalPayflowPro extends Checkout
             'paypal_disabled_all_methods',
             'paypal_payflow_pro',
             'display_price',
-            'display_shopping_cart'
+            'display_shopping_cart',
         ]);
 
         //Tax
@@ -65,7 +62,7 @@ class PaypalPayflowPro extends Checkout
         $this->products = [
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         ];
 
         //Checkout data

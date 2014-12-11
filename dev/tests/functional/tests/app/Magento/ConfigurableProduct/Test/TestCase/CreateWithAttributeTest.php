@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\TestCase;
 
-use Mtf\Factory\Factory;
-use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Class CreateWithAttributeTest
@@ -109,8 +106,8 @@ class CreateWithAttributeTest extends Functional
         foreach ($variationsData['fields']['variations-matrix']['value'] as $variation) {
             $matrix[] = [
                 'quantity_and_stock_status' => [
-                    'qty' => $variation['value']['qty']['value']
-                ]
+                    'qty' => $variation['value']['qty']['value'],
+                ],
             ];
         }
 

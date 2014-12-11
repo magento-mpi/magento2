@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
@@ -96,7 +93,7 @@ class Index extends \Magento\Backend\App\Action
         ) {
             if ($useRedirects) {
                 $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
-                $this->_redirect('customer/index/edit', array('id' => $customer->getId()));
+                $this->_redirect('customer/index/edit', ['id' => $customer->getId()]);
                 $this->_redirectFlag = true;
                 return $this;
             } else {
@@ -118,16 +115,16 @@ class Index extends \Magento\Backend\App\Action
                         $this->_objectManager->get(
                             'Magento\Core\Helper\Data'
                         )->jsonEncode(
-                            array(
+                            [
                                 'url' => $this->getUrl(
                                     '*/*/index',
-                                    array('store' => $storeId, 'customer' => $customerId)
-                                )
-                            )
+                                    ['store' => $storeId, 'customer' => $customerId]
+                                ),
+                            ]
                         )
                     );
                 } else {
-                    $this->_redirect('checkout/*/index', array('store' => $storeId, 'customer' => $customerId));
+                    $this->_redirect('checkout/*/index', ['store' => $storeId, 'customer' => $customerId]);
                 }
                 $this->_redirectFlag = true;
                 return $this;
@@ -202,10 +199,10 @@ class Index extends \Magento\Backend\App\Action
     protected function _processException(\Exception $e)
     {
         if ($e instanceof Exception) {
-            $result = array('error' => $e->getMessage());
+            $result = ['error' => $e->getMessage()];
         } elseif ($e instanceof \Exception) {
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-            $result = array('error' => __('An error has occurred. See error log for details.'));
+            $result = ['error' => __('An error has occurred. See error log for details.')];
         }
         $this->getResponse()->representJson($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));
     }

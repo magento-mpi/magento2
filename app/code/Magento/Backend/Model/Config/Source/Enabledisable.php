@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Source;
 
@@ -14,6 +11,6 @@ class Enabledisable implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => 1, 'label' => __('Enable')), array('value' => 0, 'label' => __('Disable')));
+        return [['value' => 1, 'label' => __('Enable')], ['value' => 0, 'label' => __('Disable')]];
     }
 }

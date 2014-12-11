@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,7 +26,7 @@ class Amounts extends \Magento\Backend\Block\Dashboard\Graph
         \Magento\Backend\Helper\Dashboard\Data $dashboardData,
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Backend\Helper\Dashboard\Order $dataHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_dataHelper = $dataHelper;
         parent::__construct($context, $collectionFactory, $dashboardData, $localeLists, $data);
@@ -58,7 +55,7 @@ class Amounts extends \Magento\Backend\Block\Dashboard\Graph
         $this->getDataHelper()->setParam('group', $this->getRequest()->getParam('group'));
 
         $this->setDataRows('revenue');
-        $this->_axisMaps = array('x' => 'range', 'y' => 'revenue');
+        $this->_axisMaps = ['x' => 'range', 'y' => 'revenue'];
 
         parent::_prepareData();
     }

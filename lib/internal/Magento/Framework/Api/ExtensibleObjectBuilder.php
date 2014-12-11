@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Api;
@@ -87,7 +84,6 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Bui
         return $this;
     }
 
-
     /**
      * Populates the fields with an existing entity.
      *
@@ -114,11 +110,10 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Bui
      */
     public function populateWithArray(array $data)
     {
-        $this->data = array();
+        $this->data = [];
         $this->_setDataValues($data);
         return $this;
     }
-
 
     /**
      * Merge second Data Object data with first Data Object data and create new Data Object object based on merge
@@ -184,19 +179,6 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Bui
     }
 
     /**
-     * Set data item value.
-     *
-     * @param string $key
-     * @param mixed $value
-     * @return $this
-     * @deprecated This method should not be used in the client code and will be removed after Service Layer refactoring
-     */
-    public function set($key, $value)
-    {
-        return $this->_set($key, $value);
-    }
-
-    /**
      * Initializes Data Object with the data from array
      *
      * @param array $data
@@ -208,10 +190,10 @@ class ExtensibleObjectBuilder extends AbstractSimpleObjectBuilder implements Bui
         foreach ($data as $key => $value) {
             /* First, verify is there any getter for the key on the Service Data Object */
             $camelCaseKey = \Magento\Framework\Api\SimpleDataObjectConverter::snakeCaseToUpperCamelCase($key);
-            $possibleMethods = array(
+            $possibleMethods = [
                 'get' . $camelCaseKey,
-                'is' . $camelCaseKey
-            );
+                'is' . $camelCaseKey,
+            ];
             if ($key == AbstractExtensibleObject::CUSTOM_ATTRIBUTES_KEY
                 && is_array($data[$key])
                 && !empty($data[$key])

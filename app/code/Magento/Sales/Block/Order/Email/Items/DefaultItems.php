@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Email\Items;
 
-use Magento\Sales\Model\Order\Item as OrderItem;
-use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
 use Magento\Sales\Model\Order\Creditmemo\Item as CreditmemoItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
+use Magento\Sales\Model\Order\Item as OrderItem;
 
 /**
  * Sales Order Email items default renderer
@@ -33,7 +30,7 @@ class DefaultItems extends \Magento\Framework\View\Element\Template
      */
     public function getItemOptions()
     {
-        $result = array();
+        $result = [];
         if ($options = $this->getItem()->getOrderItem()->getProductOptions()) {
             if (isset($options['options'])) {
                 $result = array_merge($result, $options['options']);

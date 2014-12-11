@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model;
 
@@ -148,13 +145,12 @@ class Auth
             $this->_initCredentialStorage();
             $this->getCredentialStorage()->login($username, $password);
             if ($this->getCredentialStorage()->getId()) {
-
                 $this->getAuthStorage()->setUser($this->getCredentialStorage());
                 $this->getAuthStorage()->processLogin();
 
                 $this->_eventManager->dispatch(
                     'backend_auth_user_login_success',
-                    array('user' => $this->getCredentialStorage())
+                    ['user' => $this->getCredentialStorage()]
                 );
             }
 
@@ -164,13 +160,13 @@ class Auth
         } catch (\Magento\Backend\Model\Auth\Plugin\Exception $e) {
             $this->_eventManager->dispatch(
                 'backend_auth_user_login_failed',
-                array('user_name' => $username, 'exception' => $e)
+                ['user_name' => $username, 'exception' => $e]
             );
             throw $e;
         } catch (\Magento\Framework\Model\Exception $e) {
             $this->_eventManager->dispatch(
                 'backend_auth_user_login_failed',
-                array('user_name' => $username, 'exception' => $e)
+                ['user_name' => $username, 'exception' => $e]
             );
             self::throwException(__('Please correct the user name or password.'));
         }

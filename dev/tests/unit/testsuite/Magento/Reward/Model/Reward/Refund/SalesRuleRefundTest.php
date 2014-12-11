@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reward\Model\Reward\Refund;
@@ -45,7 +42,7 @@ class SalesRuleRefundTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->rewardHelperMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
         $this->subject = $this->objectManager->getObject(
             '\Magento\Reward\Model\Reward\Refund\SalesRuleRefund',

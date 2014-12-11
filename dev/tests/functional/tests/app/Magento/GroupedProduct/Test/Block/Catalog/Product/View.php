@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Block\Catalog\Product;
 
 use Magento\Catalog\Test\Block\Product\View as ParentView;
 use Mtf\Fixture\FixtureInterface;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 
 /**
  * Class View

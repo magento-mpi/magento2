@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Adminhtml\Grid\Column\Renderer;
 
@@ -24,7 +21,7 @@ class Blanknumber extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Num
         $data = parent::_getValue($row);
         if (!is_null($data)) {
             $value = $data * 1;
-            return $value ? $value: ''; // fixed for showing blank cell in grid
+            return $value ? $value : ''; // fixed for showing blank cell in grid
             /**
              * @todo may be bug in i.e. needs to be fixed
              */

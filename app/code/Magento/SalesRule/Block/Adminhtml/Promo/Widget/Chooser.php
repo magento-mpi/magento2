@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Widget;
 
@@ -24,7 +21,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\RuleFactory $ruleFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->ruleFactory = $ruleFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -55,7 +52,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->_eventManager->dispatch(
             'adminhtml_block_promo_widget_chooser_prepare_collection',
-            array('collection' => $collection)
+            ['collection' => $collection]
         );
 
         return parent::_prepareCollection();
@@ -70,7 +67,7 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     public function prepareElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         $uniqId = $this->mathRandom->getUniqueHash($element->getId());
-        $sourceUrl = $this->getUrl('sales_rule/promo_quote/chooser', array('uniq_id' => $uniqId));
+        $sourceUrl = $this->getUrl('sales_rule/promo_quote/chooser', ['uniq_id' => $uniqId]);
 
         $chooser = $this->getLayout()->createBlock(
             'Magento\Widget\Block\Adminhtml\Widget\Chooser'
@@ -133,49 +130,49 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'rule_id',
-            array('header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id')
+            ['header' => __('ID'), 'align' => 'right', 'width' => '50px', 'index' => 'rule_id']
         );
 
-        $this->addColumn('name', array('header' => __('Rule'), 'align' => 'left', 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Rule'), 'align' => 'left', 'index' => 'name']);
 
         $this->addColumn(
             'coupon_code',
-            array('header' => __('Coupon Code'), 'align' => 'left', 'width' => '150px', 'index' => 'code')
+            ['header' => __('Coupon Code'), 'align' => 'left', 'width' => '150px', 'index' => 'code']
         );
 
         $this->addColumn(
             'from_date',
-            array(
+            [
                 'header' => __('Start on'),
                 'align' => 'left',
                 'width' => '120px',
                 'type' => 'date',
                 'index' => 'from_date'
-            )
+            ]
         );
 
         $this->addColumn(
             'to_date',
-            array(
+            [
                 'header' => __('End on'),
                 'align' => 'left',
                 'width' => '120px',
                 'type' => 'date',
                 'default' => '--',
                 'index' => 'to_date'
-            )
+            ]
         );
 
         $this->addColumn(
             'is_active',
-            array(
+            [
                 'header' => __('Status'),
                 'align' => 'left',
                 'width' => '80px',
                 'index' => 'is_active',
                 'type' => 'options',
-                'options' => array(1 => 'Active', 0 => 'Inactive')
-            )
+                'options' => [1 => 'Active', 0 => 'Inactive']
+            ]
         );
 
         return parent::_prepareColumns();
@@ -188,6 +185,6 @@ class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('sales_rule/promo_quote/chooser', array('_current' => true));
+        return $this->getUrl('sales_rule/promo_quote/chooser', ['_current' => true]);
     }
 }

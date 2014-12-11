@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -11,13 +8,13 @@
  */
 namespace Magento\CatalogEvent\Helper\Adminhtml;
 
-use Magento\Framework\App\Helper\AbstractHelper;
-use Magento\Framework\App\Helper\Context;
 use Magento\Catalog\Model\Category;
 use Magento\Catalog\Model\CategoryFactory;
 use Magento\Catalog\Model\Resource\Category\Tree;
 use Magento\CatalogEvent\Model\Resource\Event\Collection;
 use Magento\CatalogEvent\Model\Resource\Event\CollectionFactory;
+use Magento\Framework\App\Helper\AbstractHelper;
+use Magento\Framework\App\Helper\Context;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Data\Tree\Node\Collection as NodeCollection;
 
@@ -91,9 +88,9 @@ class Event extends AbstractHelper
      * @param bool $emptyOption
      * @return array
      */
-    public function getCategoriesOptions($without = array(), $emptyOption = false)
+    public function getCategoriesOptions($without = [], $emptyOption = false)
     {
-        $result = array();
+        $result = [];
         foreach ($this->getCategories() as $category) {
             if (!in_array($category->getId(), $without)) {
                 $result[] = $this->_treeNodeToOption($category, $without);
@@ -101,7 +98,7 @@ class Event extends AbstractHelper
         }
 
         if ($emptyOption) {
-            array_unshift($result, array('label' => '', 'value' => ''));
+            array_unshift($result, ['label' => '', 'value' => '']);
         }
         return $result;
     }
@@ -115,10 +112,10 @@ class Event extends AbstractHelper
      */
     protected function _treeNodeToOption(Node $node, $without)
     {
-        $option = array();
+        $option = [];
         $option['label'] = $node->getName();
         if ($node->getLevel() < 2) {
-            $option['value'] = array();
+            $option['value'] = [];
             foreach ($node->getChildren() as $childNode) {
                 if (!in_array($childNode->getId(), $without)) {
                     $option['value'][] = $this->_treeNodeToOption($childNode, $without);
@@ -160,7 +157,6 @@ class Event extends AbstractHelper
      */
     public function getInEventCategoryIds()
     {
-
         if ($this->_inEventCategoryIds === null) {
             /** @var Collection $collection */
             $collection = $this->_eventCollectionFactory->create();

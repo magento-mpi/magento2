@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
@@ -48,7 +45,7 @@ class Info extends \Magento\Framework\View\Element\Template
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Customer\Helper\View $helperView,
-        array $data = array()
+        array $data = []
     ) {
         $this->currentCustomer = $currentCustomer;
         $this->_subscriberFactory = $subscriberFactory;

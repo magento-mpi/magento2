@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,7 +35,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Wishlist\Helper\Data $wishlistHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_wishlistHelper = $wishlistHelper;
         parent::__construct($context, $data);
@@ -107,7 +104,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link
     {
         if ($count > 1) {
             return __('%1 items', $count);
-        } else if ($count == 1) {
+        } elseif ($count == 1) {
             return __('1 item');
         } else {
             return;

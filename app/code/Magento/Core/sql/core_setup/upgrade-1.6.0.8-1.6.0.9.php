@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -21,37 +18,37 @@ $table = $installer->getConnection()->newTable(
     'theme_files_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Theme files identifier'
 )->addColumn(
     'theme_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false, 'unsigned' => true),
+    ['nullable' => false, 'unsigned' => true],
     'Theme Id'
 )->addColumn(
     'file_name',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'File Name'
 )->addColumn(
     'file_type',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     32,
-    array('nullable' => false),
+    ['nullable' => false],
     'File Type'
 )->addColumn(
     'content',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     \Magento\Framework\DB\Ddl\Table::MAX_TEXT_SIZE,
-    array('nullable' => false),
+    ['nullable' => false],
     'File Content'
 )->addColumn(
     'order',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('nullable' => false, 'default' => 0),
+    ['nullable' => false, 'default' => 0],
     'Order'
 )->addForeignKey(
     $installer->getFkName('core_theme_files', 'theme_id', 'core_theme', 'theme_id'),

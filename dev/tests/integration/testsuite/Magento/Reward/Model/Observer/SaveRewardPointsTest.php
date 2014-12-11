@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Customer\Service\V1\CustomerAccountServiceInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,10 +25,10 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
         $customer = $objectManager->get('Magento\Framework\Registry')
             ->registry('_fixture/Magento_ImportExport_Customer');
 
-        /** @var CustomerAccountServiceInterface $customerAccountService */
-        $customerAccountService = $objectManager->get('Magento\Customer\Service\V1\CustomerAccountServiceInterface');
+        /** @var CustomerRepositoryInterface $customerRepository */
+        $customerRepository = $objectManager->get('Magento\Customer\Api\CustomerRepositoryInterface');
 
-        $this->_saveRewardPoints($customerAccountService->getCustomer($customer->getId()), $pointsDelta);
+        $this->_saveRewardPoints($customerRepository->getById($customer->getId()), $pointsDelta);
 
         /** @var $reward \Magento\Reward\Model\Reward */
         $reward = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Reward\Model\Reward');
@@ -42,10 +39,10 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
 
     public function saveRewardPointsDataProvider()
     {
-        return array(
-            'points delta is not set' => array('$pointsDelta' => '', '$expectedBalance' => null),
-            'points delta is positive' => array('$pointsDelta' => 100, '$expectedBalance' => 100)
-        );
+        return [
+            'points delta is not set' => ['$pointsDelta' => '', '$expectedBalance' => null],
+            'points delta is positive' => ['$pointsDelta' => 100, '$expectedBalance' => 100]
+        ];
     }
 
     /**
@@ -54,17 +51,17 @@ class SaveRewardPointsTest extends \PHPUnit_Framework_TestCase
      */
     protected function _saveRewardPoints(CustomerInterface $customer, $pointsDelta = '')
     {
-        $reward = array('points_delta' => $pointsDelta);
+        $reward = ['points_delta' => $pointsDelta];
 
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $request->setPost(array('reward' => $reward));
+        $request->setPost(['reward' => $reward]);
 
-        $event = new \Magento\Framework\Event(array('request' => $request, 'customer' => $customer));
+        $event = new \Magento\Framework\Event(['request' => $request, 'customer' => $customer]);
 
-        $eventObserver = new \Magento\Framework\Event\Observer(array('event' => $event));
+        $eventObserver = new \Magento\Framework\Event\Observer(['event' => $event]);
 
         $rewardObserver = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Reward\Model\Observer\SaveRewardPoints'

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\VersionsCms\Test\Fixture\Version;
 
+use Magento\User\Test\Fixture\User;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\User\Test\Fixture\User;
 
 /**
  * Class UserId

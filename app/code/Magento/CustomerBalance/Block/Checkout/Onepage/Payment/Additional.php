@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 
@@ -47,7 +44,7 @@ class Additional extends \Magento\Framework\View\Element\Template
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        array $data = array()
+        array $data = []
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_checkoutSession = $checkoutSession;

@@ -2,10 +2,7 @@
 /**
  * Search client helper interface
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Helper;
 
@@ -17,7 +14,7 @@ interface ClientInterface
      * @param array $options
      * @return mixed
      */
-    public function prepareClientOptions($options = array());
+    public function prepareClientOptions($options = []);
 
     /**
      * Retrieve supported by Solr languages including locale codes (language codes) that are specified in configuration

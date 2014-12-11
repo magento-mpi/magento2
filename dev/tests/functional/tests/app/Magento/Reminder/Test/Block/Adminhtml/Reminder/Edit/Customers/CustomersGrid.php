@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reminder\Test\Block\Adminhtml\Reminder\Edit\Customers;
 
-use Mtf\Client\Element;
 
 /**
  * Customer grid on "Matched Customers" tab.
@@ -22,10 +18,10 @@ class CustomersGrid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     protected $filters = [
         'email' => [
-            'selector' => 'input[name="grid_email"]'
+            'selector' => 'input[name="grid_email"]',
         ],
         'coupon' => [
-            'selector' => 'input[name="grid_code"]'
-        ]
+            'selector' => 'input[name="grid_code"]',
+        ],
     ];
 }

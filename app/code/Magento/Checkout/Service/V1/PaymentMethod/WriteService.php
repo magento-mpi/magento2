@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\PaymentMethod;
 
-use \Magento\Sales\Model\QuoteRepository;
-use \Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder;
-use \Magento\Framework\Exception\State\InvalidTransitionException;
-use \Magento\Payment\Model\Checks\ZeroTotal;
+use Magento\Checkout\Service\V1\Data\Cart\PaymentMethod\Builder;
+use Magento\Framework\Exception\State\InvalidTransitionException;
+use Magento\Payment\Model\Checks\ZeroTotal;
+use Magento\Sales\Model\QuoteRepository;
 
 /**
  * Payment method write service object.

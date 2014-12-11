@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
@@ -40,7 +37,7 @@ class GiftregistryTest extends \Magento\Backend\Utility\Controller
     {
         $this->getRequest()->setPost(
             'type',
-            array('code' => 'test_registry', 'label' => 'Test', 'sort_order' => 10, 'is_listed' => 1)
+            ['code' => 'test_registry', 'label' => 'Test', 'sort_order' => 10, 'is_listed' => 1]
         );
         $this->dispatch('backend/admin/giftregistry/save/store/0');
         /** @var $type \Magento\GiftRegistry\Model\Type */

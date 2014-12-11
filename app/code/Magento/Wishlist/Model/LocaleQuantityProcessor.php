@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Model;
 
@@ -40,12 +37,11 @@ class LocaleQuantityProcessor
      */
     public function process($qty)
     {
-        $this->localFilter->setOptions(array('locale' => $this->localeResolver->getLocaleCode()));
+        $this->localFilter->setOptions(['locale' => $this->localeResolver->getLocaleCode()]);
         $qty = $this->localFilter->filter((double)$qty);
         if ($qty < 0) {
             $qty = null;
         }
         return $qty;
-
     }
 }

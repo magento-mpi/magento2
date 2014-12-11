@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Asset\PreProcessor;
@@ -27,10 +24,10 @@ class ModuleNotationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->assetMock = $this->getMock('Magento\Framework\View\Asset\File', array(), array(), '', false);
-        $this->cssResolverMock = $this->getMock('Magento\Framework\View\Url\CssResolver', array(), array(), '', false);
+        $this->assetMock = $this->getMock('Magento\Framework\View\Asset\File', [], [], '', false);
+        $this->cssResolverMock = $this->getMock('Magento\Framework\View\Url\CssResolver', [], [], '', false);
         $notationResolver = $this->getMock(
-            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', array(), array(), '', false
+            '\Magento\Framework\View\Asset\ModuleNotation\Resolver', [], [], '', false
         );
         $this->moduleNotation = new ModuleNotation(
             $this->cssResolverMock, $notationResolver

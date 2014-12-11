@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Adminhtml\Balance;
 
@@ -23,7 +20,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -35,13 +32,13 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_authSession = $authSession;
         parent::__construct(
@@ -65,7 +62,7 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     public function beforeSave()
     {
         $balance = $this->getBalanceModel();
-        if (in_array((int)$balance->getHistoryAction(), array(self::ACTION_CREATED, self::ACTION_UPDATED))
+        if (in_array((int)$balance->getHistoryAction(), [self::ACTION_CREATED, self::ACTION_UPDATED])
             && !$balance->getUpdatedActionAdditionalInfo()
         ) {
             $user = $this->_authSession->getUser();

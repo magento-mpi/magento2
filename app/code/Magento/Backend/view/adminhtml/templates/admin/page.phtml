@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Backend\Block\Page */ ?>
@@ -30,7 +27,7 @@
                 <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
             </div>
             <?php echo $this->getChildHtml('page_main_actions'); ?>
-            <?php if($this->getChildHtml('left')): ?>
+            <?php if ($this->getChildHtml('left')): ?>
                 <div id="page:main-container" class="<?php echo $this->getContainerCssClass() ?> col-2-left-layout">
                     <div class="main-col" id="content">
                         <?php echo $this->getChildHtml('content') ?>

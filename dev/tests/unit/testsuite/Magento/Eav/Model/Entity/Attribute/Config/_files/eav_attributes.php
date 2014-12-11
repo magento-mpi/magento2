@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'type_one' => array(
-        'attributes' => array(
-            'code_one' => array(
-                'code_one_one' => array('code' => 'code_one_one', 'locked' => true),
-                'code_one_two' => array('code' => 'code_one_two', 'locked' => false)
-            )
-        )
-    )
-);
+return [
+    'type_one' => [
+        'attributes' => [
+            'code_one' => [
+                'code_one_one' => ['code' => 'code_one_one', 'locked' => true],
+                'code_one_two' => ['code' => 'code_one_two', 'locked' => false],
+            ],
+        ],
+    ]
+];

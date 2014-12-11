@@ -4,10 +4,7 @@
  *
  * Uses for encapsulate some logic of rule model and for having ability change behavior (for example, in controller)
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**

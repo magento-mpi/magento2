@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,7 +21,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         /** @var $model \Magento\ImportExport\Model\Export\AbstractEntity */
         $model = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\AbstractEntity',
-            array(),
+            [],
             'Stub_UnitTest_Magento_ImportExport_Model_Export_Entity_TestSetAndGet',
             false
         );

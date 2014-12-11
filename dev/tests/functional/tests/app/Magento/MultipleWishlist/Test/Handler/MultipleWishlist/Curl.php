@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Handler\MultipleWishlist;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Handler\Curl as AbstractCurl;
-use Mtf\Util\Protocol\CurlTransport\FrontendDecorator;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\Util\Protocol\CurlInterface;
+use Mtf\Util\Protocol\CurlTransport;
+use Mtf\Util\Protocol\CurlTransport\FrontendDecorator;
 
 /**
  * Class Curl
@@ -29,7 +26,7 @@ class Curl extends AbstractCurl implements MultipleWishlistInterface
     protected $mappingData = [
         'visibility' => [
             'Yes' => 'on',
-            'No' => 'off'
+            'No' => 'off',
         ],
     ];
 

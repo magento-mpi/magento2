@@ -9,7 +9,6 @@
  */
 class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
 {
-
     /**
      * Constructs a class method node.
      *
@@ -21,14 +20,15 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
      *                                'stmts'  => array()        : Statements
      * @param array       $attributes Additional attributes
      */
-    public function __construct($name, array $subNodes = array(), array $attributes = array()) {
+    public function __construct($name, array $subNodes = [], array $attributes = [])
+    {
         parent::__construct(
-            $subNodes + array(
+            $subNodes + [
                 'type'   => PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC,
                 'byRef'  => false,
-                'params' => array(),
-                'stmts'  => array(),
-            ),
+                'params' => [],
+                'stmts'  => [],
+            ],
             $attributes
         );
         $this->name = $name;
@@ -40,27 +40,33 @@ class PHPParser_Node_Stmt_ClassMethod extends PHPParser_Node_Stmt
         }
     }
 
-    public function isPublic() {
+    public function isPublic()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC);
     }
 
-    public function isProtected() {
+    public function isProtected()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED);
     }
 
-    public function isPrivate() {
+    public function isPrivate()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE);
     }
 
-    public function isAbstract() {
+    public function isAbstract()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT);
     }
 
-    public function isFinal() {
+    public function isFinal()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_FINAL);
     }
 
-    public function isStatic() {
+    public function isStatic()
+    {
         return (bool) ($this->type & PHPParser_Node_Stmt_Class::MODIFIER_STATIC);
     }
 }

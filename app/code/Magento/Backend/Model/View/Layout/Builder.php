@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\View\Layout;
 
 use Magento\Framework\App;
-use Magento\Framework\View;
 use Magento\Framework\Event;
+use Magento\Framework\View;
 
 class Builder extends \Magento\Framework\View\Layout\Builder
 {

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog;
 
@@ -35,7 +32,7 @@ class Delete extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
                     __('An error occurred while deleting the rule. Please review the log and try again.')
                 );
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
-                $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
+                $this->_redirect('catalog_rule/*/edit', ['id' => $this->getRequest()->getParam('id')]);
                 return;
             }
         }

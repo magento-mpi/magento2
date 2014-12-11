@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event;
 
@@ -48,7 +45,7 @@ class Edit extends \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
                 $switchBlock->setDefaultStoreName(
                     __('Default Values')
                 )->setSwitchUrl(
-                    $this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null))
+                    $this->getUrl('adminhtml/*/*', ['_current' => true, 'store' => null])
                 );
             }
         }

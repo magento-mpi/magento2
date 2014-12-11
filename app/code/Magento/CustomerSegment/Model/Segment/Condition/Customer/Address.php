@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Segment\Condition\Customer;
 
@@ -32,7 +29,7 @@ class Address extends AbstractCombine
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_eavConfig = $eavConfig;
         parent::__construct($context, $conditionFactory, $resourceSegment, $data);
@@ -48,11 +45,11 @@ class Address extends AbstractCombine
     {
         $result = array_merge_recursive(
             parent::getNewChildSelectOptions(),
-            array(
-                array('value' => $this->getType(), 'label' => __('Conditions Combination')),
+            [
+                ['value' => $this->getType(), 'label' => __('Conditions Combination')],
                 $this->_conditionFactory->create('Customer\Address\DefaultAddress')->getNewChildSelectOptions(),
                 $this->_conditionFactory->create('Customer\Address\Attributes')->getNewChildSelectOptions()
-            )
+            ]
         );
         return $result;
     }
@@ -93,7 +90,7 @@ class Address extends AbstractCombine
         $select = $resource->createSelect();
         $addressEntityType = $this->_eavConfig->getEntityType('customer_address');
         $addressTable = $resource->getTable($addressEntityType->getEntityTable());
-        $select->from(array('customer_address' => $addressTable), array(new \Zend_Db_Expr(1)));
+        $select->from(['customer_address' => $addressTable], [new \Zend_Db_Expr(1)]);
         $select->where('customer_address.entity_type_id = ?', $addressEntityType->getId());
         $select->where($this->_createCustomerFilter($customer, 'customer_address.parent_id'));
         $select->limit(1);

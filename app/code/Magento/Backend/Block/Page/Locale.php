@@ -2,10 +2,7 @@
 /**
  * Backend locale switcher block
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Page;
 
@@ -45,7 +42,7 @@ class Locale extends \Magento\Backend\Block\Template
         \Magento\Framework\Locale\ListsInterface $localeLists,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Core\Helper\Url $urlHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeLists = $localeLists;
         $this->_localeResolver = $localeResolver;
@@ -82,7 +79,7 @@ class Locale extends \Magento\Backend\Block\Template
     {
         $html = $this->getLayout()->createBlock('Magento\Framework\View\Element\Html\Select')
             ->setName('locale')
-            ->setId('interface_locale')
+            ->setId('footer_interface_locale')
             ->setTitle(__('Interface Language'))
             ->setClass('select locale-switcher-select')
             ->setValue($this->_localeResolver->getLocale()->__toString())

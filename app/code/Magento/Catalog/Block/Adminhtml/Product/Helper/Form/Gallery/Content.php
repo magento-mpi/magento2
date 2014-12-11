@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog product form gallery content
@@ -46,7 +42,7 @@ class Content extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Product\Media\Config $mediaConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_mediaConfig = $mediaConfig;
@@ -65,15 +61,15 @@ class Content extends \Magento\Backend\Block\Widget
         )->setFileField(
             'image'
         )->setFilters(
-            array(
-                'images' => array(
+            [
+                'images' => [
                     'label' => __('Images (.gif, .jpg, .png)'),
-                    'files' => array('*.gif', '*.jpg', '*.jpeg', '*.png')
-                )
-            )
+                    'files' => ['*.gif', '*.jpg', '*.jpeg', '*.png'],
+                ],
+            ]
         );
 
-        $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', array('block' => $this));
+        $this->_eventManager->dispatch('catalog_product_gallery_prepare_layout', ['block' => $this]);
 
         return parent::_prepareLayout();
     }
@@ -141,7 +137,7 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImagesValuesJson()
     {
-        $values = array();
+        $values = [];
         foreach ($this->getMediaAttributes() as $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
             $values[$attribute->getAttributeCode()] = $this->getElement()->getDataObject()->getData(
@@ -158,16 +154,16 @@ class Content extends \Magento\Backend\Block\Widget
      */
     public function getImageTypes()
     {
-        $imageTypes = array();
+        $imageTypes = [];
         foreach ($this->getMediaAttributes() as $attribute) {
             /* @var $attribute \Magento\Eav\Model\Entity\Attribute */
-            $imageTypes[$attribute->getAttributeCode()] = array(
+            $imageTypes[$attribute->getAttributeCode()] = [
                 'code' => $attribute->getAttributeCode(),
                 'value' => $this->getElement()->getDataObject()->getData($attribute->getAttributeCode()),
                 'label' => $attribute->getFrontend()->getLabel(),
                 'scope' => __($this->getElement()->getScopeLabel($attribute)),
-                'name' => $this->getElement()->getAttributeFieldName($attribute)
-            );
+                'name' => $this->getElement()->getAttributeFieldName($attribute),
+            ];
         }
         return $imageTypes;
     }

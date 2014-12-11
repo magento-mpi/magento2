@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -40,7 +37,7 @@ class RelativePathConverter
             $relativePathParts = array_pad($relativePathParts, -$pathPartsCount, '*');
         }
 
-        $realPath = array();
+        $realPath = [];
         foreach ($relativePathParts as $index => $path) {
             if ($path === '*') {
                 if (false == array_key_exists($index, $pathParts)) {

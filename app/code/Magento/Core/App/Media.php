@@ -2,20 +2,16 @@
 /**
  * Media application
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App;
 
-use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\App\State;
-use Magento\Framework\App;
-use Magento\Framework\AppInterface;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Core\Model\File\Storage\Request;
 use Magento\Core\Model\File\Storage\Response;
+use Magento\Framework\App;
+use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\AppInterface;
+use Magento\Framework\ObjectManagerInterface;
 
 class Media implements AppInterface
 {
@@ -124,7 +120,7 @@ class Media implements AppInterface
         if (!$this->_mediaDirectory) {
             $config = $this->_objectManager->create(
                 'Magento\Core\Model\File\Storage\Config',
-                array('cacheFile' => $this->_configCacheFile)
+                ['cacheFile' => $this->_configCacheFile]
             );
             $config->save();
             $this->_mediaDirectory = str_replace($this->_workingDirectory, '', $config->getMediaDirectory());

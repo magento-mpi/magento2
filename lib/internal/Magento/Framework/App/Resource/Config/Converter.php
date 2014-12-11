@@ -2,10 +2,7 @@
 /**
  * Converter of resources configuration from \DOMDocument to array
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Resource\Config;
 
@@ -20,13 +17,13 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNodeList $resources */
         $resources = $source->getElementsByTagName('resource');
         /** @var \DOMNode $resourceConfig */
         foreach ($resources as $resourceConfig) {
             $resourceName = $resourceConfig->attributes->getNamedItem('name')->nodeValue;
-            $resourceData = array();
+            $resourceData = [];
             foreach ($resourceConfig->attributes as $attribute) {
                 $resourceData[$attribute->nodeName] = $attribute->nodeValue;
             }

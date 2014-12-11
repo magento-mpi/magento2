@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Backend\Test\Fixture;
@@ -17,13 +14,13 @@ use Mtf\Fixture\InjectableFixture;
 class GlobalSearch extends InjectableFixture
 {
     protected $defaultDataSet = [
-        'query' => 'catalogProductSimple::default::name'
+        'query' => 'catalogProductSimple::default::name',
     ];
 
     protected $query = [
         'attribute_code' => 'query',
         'backend_type' => 'virtual',
-        'source' => 'Magento\Backend\Test\Fixture\GlobalSearch\Query'
+        'source' => 'Magento\Backend\Test\Fixture\GlobalSearch\Query',
     ];
 
     public function getQuery()

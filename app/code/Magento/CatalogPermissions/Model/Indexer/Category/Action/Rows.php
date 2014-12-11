@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Category\Action;
 
@@ -30,7 +27,7 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      * @param bool $useIndexTempTable
      * @return void
      */
-    public function execute(array $entityIds = array(), $useIndexTempTable = false)
+    public function execute(array $entityIds = [], $useIndexTempTable = false)
     {
         if ($entityIds) {
             $this->entityIds = $entityIds;
@@ -49,10 +46,10 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
      */
     protected function removeObsoleteIndexData()
     {
-        $this->getWriteAdapter()->delete($this->getIndexTempTable(), array('category_id IN (?)' => $this->entityIds));
+        $this->getWriteAdapter()->delete($this->getIndexTempTable(), ['category_id IN (?)' => $this->entityIds]);
         $this->getWriteAdapter()->delete(
             $this->getProductIndexTempTable(),
-            array('product_id IN (?)' => $this->getProductList())
+            ['product_id IN (?)' => $this->getProductList()]
         );
     }
 
@@ -67,7 +64,7 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
     {
         $select = $this->getReadAdapter()->select()->from(
             $this->getTable('catalog_category_entity'),
-            array('path')
+            ['path']
         )->where(
             'entity_id IN (?)',
             $this->entityIds
@@ -77,12 +74,12 @@ class Rows extends \Magento\CatalogPermissions\Model\Indexer\AbstractAction
 
         $select = $this->getReadAdapter()->select()->from(
             $this->getTable('catalog_category_entity'),
-            array('entity_id', 'path')
+            ['entity_id', 'path']
         )->order(
             'level ASC'
         );
 
-        $calculatedEntityIds = array();
+        $calculatedEntityIds = [];
         foreach ($categoriesPathList as $path) {
             $select->where('path LIKE ?', $path . '/%');
             $calculatedEntityIds = array_merge($calculatedEntityIds, explode('/', $path));

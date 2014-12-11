@@ -2,10 +2,7 @@
 /**
  * List of suggested attributes
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model;
 
@@ -45,7 +42,7 @@ class SuggestedAttributeList
      */
     public function getSuggestedAttributes($labelPart)
     {
-        $escapedLabelPart = $this->_resourceHelper->addLikeEscape($labelPart, array('position' => 'any'));
+        $escapedLabelPart = $this->_resourceHelper->addLikeEscape($labelPart, ['position' => 'any']);
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->_attributeColFactory->create();
         $collection->addFieldToFilter(
@@ -53,10 +50,10 @@ class SuggestedAttributeList
             'select'
         )->addFieldToFilter(
             'frontend_label',
-            array('like' => $escapedLabelPart)
+            ['like' => $escapedLabelPart]
         )->addFieldToFilter(
             'is_configurable',
-            array(array("eq" => 1), array('null' => true))
+            [["eq" => 1], ['null' => true]]
         )->addFieldToFilter(
             'is_user_defined',
             1
@@ -65,21 +62,21 @@ class SuggestedAttributeList
             \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_GLOBAL
         );
 
-        $result = array();
-        $types = array(
+        $result = [];
+        $types = [
             \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
             \Magento\Catalog\Model\Product\Type::TYPE_VIRTUAL,
-            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE
-        );
+            \Magento\ConfigurableProduct\Model\Product\Type\Configurable::TYPE_CODE,
+        ];
         foreach ($collection->getItems() as $id => $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
             if (!$attribute->getApplyTo() || count(array_diff($types, $attribute->getApplyTo())) === 0) {
-                $result[$id] = array(
+                $result[$id] = [
                     'id' => $attribute->getId(),
                     'label' => $attribute->getFrontendLabel(),
                     'code' => $attribute->getAttributeCode(),
-                    'options' => $attribute->getSource()->getAllOptions(false)
-                );
+                    'options' => $attribute->getSource()->getAllOptions(false),
+                ];
             }
         }
         return $result;

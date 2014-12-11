@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Helper;
 
@@ -23,19 +20,19 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_frontResolverMock = $this->getMock(
             '\Magento\Backend\App\Area\FrontNameResolver',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_helper = new \Magento\Backend\Helper\Data(
-            $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false, false),
-            $this->getMock('\Magento\Framework\App\Route\Config', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false, false),
+            $this->getMock('\Magento\Framework\App\Route\Config', [], [], '', false),
             $this->getMock('Magento\Framework\Locale\ResolverInterface'),
-            $this->getMock('\Magento\Backend\Model\Url', array(), array(), '', false),
-            $this->getMock('\Magento\Backend\Model\Auth', array(), array(), '', false),
+            $this->getMock('\Magento\Backend\Model\Url', [], [], '', false),
+            $this->getMock('\Magento\Backend\Model\Auth', [], [], '', false),
             $this->_frontResolverMock,
-            $this->getMock('\Magento\Framework\Math\Random', array(), array(), '', false),
+            $this->getMock('\Magento\Framework\Math\Random', [], [], '', false),
             $this->getMock('\Magento\Framework\App\RequestInterface')
         );
     }
@@ -70,11 +67,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function getPrepareFilterStringValuesDataProvider()
     {
-        return array(
-            'both_spaces_value' => array(
-                array('field' => ' value '),
-                array('field' => 'value')
-            )
-        );
+        return [
+            'both_spaces_value' => [
+                ['field' => ' value '],
+                ['field' => 'value'],
+            ]
+        ];
     }
 }

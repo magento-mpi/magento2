@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -24,7 +21,6 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testConfigureActionWithGiftCardProduct()
     {
-        $this->markTestIncomplete('MAGETWO-30916');
         /** @var $session \Magento\Checkout\Model\Session  */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Checkout\Model\Session'
@@ -32,7 +28,9 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
 
-        $this->dispatch('checkout/cart/configure/id/' . $quoteItem->getId());
+        $this->dispatch(
+            'checkout/cart/configure/id/' . $quoteItem->getId() . '/product_id/' . $quoteItem->getProduct()->getId()
+        );
         $response = $this->getResponse();
 
         $this->assertSessionMessages($this->isEmpty(), \Magento\Framework\Message\MessageInterface::TYPE_ERROR);

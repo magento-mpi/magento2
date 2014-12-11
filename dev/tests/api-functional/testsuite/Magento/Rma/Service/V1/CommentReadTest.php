@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
@@ -33,13 +30,13 @@ class CommentReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId() . '/comments',
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'commentsList'
-            ]
+                'operation' => self::SERVICE_NAME . 'commentsList',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $rma->getId()]);
         $this->assertEquals($result['items'][0]['comment'], 'Test comment');

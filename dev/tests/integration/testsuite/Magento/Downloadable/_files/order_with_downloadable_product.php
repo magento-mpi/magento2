@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array(
-        'data' => array(
+    [
+        'data' => [
             'firstname' => 'guest',
             'lastname' => 'guest',
             'email' => 'customer@example.com',
@@ -18,9 +15,9 @@ $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->c
             'region' => 'CA',
             'postcode' => '1',
             'country_id' => 'US',
-            'telephone' => '1'
-        )
-    )
+            'telephone' => '1',
+        ]
+    ]
 );
 $billingAddress->setAddressType('billing');
 

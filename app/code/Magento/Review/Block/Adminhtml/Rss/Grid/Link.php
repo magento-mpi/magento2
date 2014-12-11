@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rss\Grid;
 
@@ -31,7 +28,7 @@ class Link extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\Rss\UrlBuilderInterface $rssUrlBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->rssUrlBuilder = $rssUrlBuilder;
         parent::__construct($context, $data);
@@ -77,6 +74,6 @@ class Link extends \Magento\Framework\View\Element\Template
      */
     protected function getLinkParams()
     {
-        return array('type' => 'review');
+        return ['type' => 'review'];
     }
 }

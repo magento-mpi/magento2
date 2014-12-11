@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db;
-
 
 require_once realpath(
     __DIR__ . '/../../../../../../../../'
@@ -26,13 +22,13 @@ class FileReaderTest extends \PHPUnit_Framework_TestCase
     public function testExtractData()
     {
         $filePath = __DIR__ . '/../_files/log/AclXPathToAclId.log';
-        $expectedMap = array(
+        $expectedMap = [
             "admin/test1/test2" => "Test1_Test2::all",
             "admin/test1/test2/test3" => "Test1_Test2::test3",
             "admin/test1/test2/test4" => "Test1_Test2::test4",
             "admin/test1/test2/test5" => "Test1_Test2::test5",
-            "admin/test6" => "Test6_Test6::all"
-        );
+            "admin/test6" => "Test6_Test6::all",
+        ];
         $this->assertEquals($expectedMap, $this->_model->extractData($filePath));
     }
 

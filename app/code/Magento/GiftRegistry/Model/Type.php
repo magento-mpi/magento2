@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model;
 
@@ -44,7 +41,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
     protected $processorFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -63,7 +60,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -73,10 +70,10 @@ class Type extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Attribute\ProcessorFactory $processorFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->attributeConfig = $attributeConfig;
@@ -210,7 +207,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
     {
         $groups = $this->getAttributes();
         if ($groups) {
-            $attributesToSave = array();
+            $attributesToSave = [];
             $config = $this->attributeConfig;
             foreach ((array)$groups as $group => $attributes) {
                 foreach ((array)$attributes as $attribute) {
@@ -225,7 +222,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
                         }
                     } else {
                         if (isset($attribute['options']) && is_array($attribute['options'])) {
-                            $optionsToSave = array();
+                            $optionsToSave = [];
                             foreach ($attribute['options'] as $option) {
                                 if ($option['is_deleted']) {
                                     $this->_getResource()->deleteAttributeStoreData(
@@ -257,7 +254,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
     {
         $xmlModel = $this->processorFactory->create();
         $groups = $xmlModel->processXml($this->getMetaXml());
-        $storeData = array();
+        $storeData = [];
 
         if (is_array($groups)) {
             foreach ($groups as $group => $attributes) {
@@ -286,9 +283,9 @@ class Type extends \Magento\Framework\Model\AbstractModel
                     $attributes[$code]['default_label'] = $attribute['label'];
                 }
                 if (isset($attribute['options']) && is_array($attribute['options'])) {
-                    $options = array();
+                    $options = [];
                     foreach ($attribute['options'] as $key => $label) {
-                        $data = array('code' => $key, 'label' => $label);
+                        $data = ['code' => $key, 'label' => $label];
                         $storeLabel = $this->getAttributeStoreData($code, $key);
                         if ($storeLabel) {
                             $data['label'] = $storeLabel;
@@ -299,7 +296,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
                     $attributes[$code]['options'] = $options;
                 }
             }
-            uasort($attributes, array($this, '_sortAttributes'));
+            uasort($attributes, [$this, '_sortAttributes']);
         }
         return $attributes;
     }
@@ -391,7 +388,7 @@ class Type extends \Magento\Framework\Model\AbstractModel
      */
     public function getListedAttributes()
     {
-        $listedAttributes = array();
+        $listedAttributes = [];
         if ($this->getAttributes()) {
             $staticCodes = $this->attributeConfig->getStaticTypesCodes();
             foreach ($this->getAttributes() as $group) {

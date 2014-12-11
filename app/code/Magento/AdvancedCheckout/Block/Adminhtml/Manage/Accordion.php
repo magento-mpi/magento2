@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
@@ -28,7 +25,7 @@ class Accordion extends \Magento\Backend\Block\Widget\Accordion
         /** @var $child \Magento\Framework\View\Element\AbstractBlock  */
         foreach ($layout->getChildBlocks($this->getNameInLayout()) as $child) {
             $name = $child->getNameInLayout();
-            $data = array('title' => $child->getHeaderText(), 'open' => false);
+            $data = ['title' => $child->getHeaderText(), 'open' => false];
             if ($child->hasData('open')) {
                 $data['open'] = $child->getData('open');
             }

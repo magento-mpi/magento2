@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Html;
 
@@ -16,7 +13,7 @@ class Notices extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = [])
     {
         parent::__construct($context, $data);
     }

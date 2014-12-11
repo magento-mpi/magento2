@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -70,7 +67,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected static $_alreadySelectedIds = array();
+    protected static $_alreadySelectedIds = [];
 
     /**
      * Gift card account data
@@ -113,7 +110,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
     /**
      * Store Manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -158,7 +155,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $coreDate
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftCardAccount\Model\PoolFactory $poolFactory
@@ -177,14 +174,14 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftCardAccount\Model\PoolFactory $poolFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Sales\Model\QuoteRepository $quoteRepository,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -340,7 +337,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
         if ($this->isValid(true, true, $website)) {
             $cards = $this->_giftCardAccountData->getCards($quote);
             if (!$cards) {
-                $cards = array();
+                $cards = [];
             } else {
                 foreach ($cards as $one) {
                     if ($one['i'] == $this->getId()) {
@@ -348,12 +345,12 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                     }
                 }
             }
-            $cards[] = array(
+            $cards[] = [
                 'i' => $this->getId(),
                 'c' => $this->getCode(),
                 'a' => $this->getBalance(),
-                'ba' => $this->getBalance()
-            );
+                'ba' => $this->getBalance(),
+            ];
             $this->_giftCardAccountData->setCards($quote, $cards);
 
             if ($saveQuote) {
@@ -533,7 +530,7 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
      */
     public function getStatesAsOptionList()
     {
-        $result = array();
+        $result = [];
 
         $result[self::STATE_AVAILABLE] = __('Available');
         $result[self::STATE_USED] = __('Used');
@@ -644,15 +641,15 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
                 $storeId
             )
         )->setTemplateOptions(
-            array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId)
+            ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $storeId]
         )->setTemplateVars(
-            array(
+            [
                 'name' => $recipientName,
                 'code' => $code,
                 'balance' => $balance,
                 'store' => $recipientStore,
-                'store_name' => $recipientStore->getName()
-            )
+                'store_name' => $recipientStore->getName(),
+            ]
         )->setFrom(
             $this->_scopeConfig->getValue(
                 'giftcard/giftcardaccount_email/identity',
@@ -663,7 +660,6 @@ class Giftcardaccount extends \Magento\Framework\Model\AbstractModel
             $recipientEmail,
             $recipientName
         )->getTransport();
-
 
         try {
             $transport->sendMessage();

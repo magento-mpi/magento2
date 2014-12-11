@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Block\Adminhtml\Sales\Order\Create;
 
@@ -48,11 +45,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
     protected $_adminhtmlSessionQuote;
 
     /**
-     * @var \Magento\Customer\Model\Converter
-     */
-    protected $_customerConverter;
-
-    /**
      * Customer repository
      *
      * @var \Magento\Customer\Api\CustomerRepositoryInterface
@@ -70,7 +62,6 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
      * @param \Magento\Customer\Model\Address\Mapper $addressConverter
      * @param \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote
      * @param \Magento\Backend\Model\UrlInterface $backendUrl
-     * @param \Magento\Customer\Model\Converter $customerConverter
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param array $data
      */
@@ -85,13 +76,11 @@ class AbstractCreate extends \Magento\Pbridge\Block\Payment\Form\AbstractForm
         \Magento\Customer\Model\Address\Mapper $addressConverter,
         \Magento\Backend\Model\Session\Quote $adminhtmlSessionQuote,
         \Magento\Backend\Model\UrlInterface $backendUrl,
-        \Magento\Customer\Model\Converter $customerConverter,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         array $data = []
     ) {
         $this->_adminhtmlSessionQuote = $adminhtmlSessionQuote;
         $this->_backendUrl = $backendUrl;
-        $this->_customerConverter = $customerConverter;
         $this->customerRepository = $customerRepository;
         parent::__construct(
             $context,

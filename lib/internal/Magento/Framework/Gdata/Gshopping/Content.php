@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -52,11 +49,11 @@ class Content extends \Zend_Gdata
      *
      * @var array
      */
-    public static $namespaces = array(
-        array('sc', 'http://schemas.google.com/structuredcontent/2009', 1, 0),
-        array('scp', 'http://schemas.google.com/structuredcontent/2009/products', 1, 0),
-        array('app', 'http://www.w3.org/2007/app', 1, 0)
-    );
+    public static $namespaces = [
+        ['sc', 'http://schemas.google.com/structuredcontent/2009', 1, 0],
+        ['scp', 'http://schemas.google.com/structuredcontent/2009/products', 1, 0],
+        ['app', 'http://www.w3.org/2007/app', 1, 0],
+    ];
 
     /**
      * Create object
@@ -207,14 +204,14 @@ class Content extends \Zend_Gdata
     ) {
         try {
             $url .= '?warnings';
-            $debugData = array(
+            $debugData = [
                 'method' => $method,
                 'url' => $url,
                 'headers' => $headers,
                 'body' => $body,
                 'content_type' => $contentType,
-                'remaining_redirects' => $remainingRedirects
-            );
+                'remaining_redirects' => $remainingRedirects,
+            ];
             $result = parent::performHttpRequest($method, $url, $headers, $body, $contentType, $remainingRedirects);
             $debugData['response'] = $result;
             $this->debugData($debugData);

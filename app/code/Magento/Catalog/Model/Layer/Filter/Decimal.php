@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -15,7 +12,6 @@ namespace Magento\Catalog\Model\Layer\Filter;
 
 class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 {
-
     /**
      * Resource instance
      *
@@ -35,7 +31,7 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
 
     /**
      * @param ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory
@@ -44,12 +40,12 @@ class Decimal extends \Magento\Catalog\Model\Layer\Filter\AbstractFilter
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
         \Magento\Catalog\Model\Layer\Filter\DataProvider\DecimalFactory $dataProviderFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_requestVar = 'decimal';
         $this->priceCurrency = $priceCurrency;

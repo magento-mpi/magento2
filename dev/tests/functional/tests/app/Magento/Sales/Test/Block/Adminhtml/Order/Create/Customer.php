@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create;
@@ -37,11 +34,11 @@ class Customer extends Grid
      *
      * @var array
      */
-    protected $filters = array(
-        'email' => array(
-            'selector' => '#sales_order_create_customer_grid_filter_email'
-        )
-    );
+    protected $filters = [
+        'email' => [
+            'selector' => '#sales_order_create_customer_grid_filter_email',
+        ],
+    ];
 
     /**
      * Select customer if it is present in fixture or click create new customer button

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model\Observer;
 
@@ -38,10 +35,10 @@ class ProcessLayoutRenderElement
     ) {
         $url = $block->getUrl(
             'page_cache/block/esi',
-            array(
-                'blocks' => json_encode(array($block->getNameInLayout())),
+            [
+                'blocks' => json_encode([$block->getNameInLayout()]),
                 'handles' => json_encode($layout->getUpdate()->getHandles())
-            )
+            ]
         );
         return sprintf('<esi:include src="%s" />', $url);
     }

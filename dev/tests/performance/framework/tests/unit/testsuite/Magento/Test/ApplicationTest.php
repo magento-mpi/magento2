@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test;
 
@@ -58,19 +55,19 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->_fixtureDir,
             $this->_fixtureDir . '/app_base_dir'
         );
-        $this->_shell = $this->getMock('Magento\Framework\Shell', array('execute'), array(), '', false);
+        $this->_shell = $this->getMock('Magento\Framework\Shell', ['execute'], [], '', false);
         $objectManager = $this->getMock('\Magento\Framework\ObjectManagerInterface');
 
         $this->_object = $this->getMock(
             'Magento\TestFramework\Application',
-            array('_cleanupMage', '_reindex', '_updateFilesystemPermissions', 'getObjectManager'),
-            array($this->_config, $objectManager, $this->_shell)
+            ['_cleanupMage', '_reindex', '_updateFilesystemPermissions', 'getObjectManager'],
+            [$this->_config, $objectManager, $this->_shell]
         );
         $this->_object->expects($this->any())->method('_reindex')->will($this->returnValue($this->_object));
         $this->_object->expects($this->any())->method('getObjectManager')->will($this->returnValue($objectManager));
 
         // For fixture testing
-        $this->_object->applied = array();
+        $this->_object->applied = [];
     }
 
     /**
@@ -103,11 +100,10 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesDataProvider()
     {
-
-        return array(
-            'empty fixtures' => array(array(), array()),
-            'fixtures' => array($this->_getFixtureFiles(array('fixture1', 'fixture2')), array('fixture1', 'fixture2'))
-        );
+        return [
+            'empty fixtures' => [[], []],
+            'fixtures' => [$this->_getFixtureFiles(['fixture1', 'fixture2']), ['fixture1', 'fixture2']]
+        ];
     }
 
     /**
@@ -121,7 +117,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     public function testApplyFixturesSeveralTimes($initialFixtures, $subsequentFixtures, $subsequentExpected)
     {
         $this->_object->applyFixtures($initialFixtures);
-        $this->_object->applied = array();
+        $this->_object->applied = [];
         $this->_object->applyFixtures($subsequentFixtures);
         $this->assertEquals($subsequentExpected, $this->_object->applied);
     }
@@ -133,24 +129,23 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function applyFixturesSeveralTimesDataProvider()
     {
-
-        return array(
-            'no fixtures applied, when sets are same' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array()
-            ),
-            'missing fixture applied for a super set' => array(
-                $this->_getFixtureFiles(array('fixture1')),
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                array('fixture2')
-            ),
-            'fixtures are re-applied for an incompatible set' => array(
-                $this->_getFixtureFiles(array('fixture1', 'fixture2')),
-                $this->_getFixtureFiles(array('fixture1')),
-                array('fixture1')
-            )
-        );
+        return [
+            'no fixtures applied, when sets are same' => [
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                [],
+            ],
+            'missing fixture applied for a super set' => [
+                $this->_getFixtureFiles(['fixture1']),
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                ['fixture2'],
+            ],
+            'fixtures are re-applied for an incompatible set' => [
+                $this->_getFixtureFiles(['fixture1', 'fixture2']),
+                $this->_getFixtureFiles(['fixture1']),
+                ['fixture1'],
+            ]
+        ];
     }
 
     /**
@@ -162,7 +157,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getFixtureFiles($fixtures)
     {
-        $result = array();
+        $result = [];
         foreach ($fixtures as $fixture) {
             $result[] = __DIR__ . "/_files/application_test/{$fixture}.php";
         }
@@ -193,7 +188,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->contains($this->_script)
         );
 
-        $fixture1 = $this->_getFixtureFiles(array('fixture1'));
+        $fixture1 = $this->_getFixtureFiles(['fixture1']);
         $this->_object->applyFixtures($fixture1);
     }
 
@@ -205,9 +200,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         // Initial uninstall/install only
         $this->_shell->expects($this->exactly(5))->method('execute');
 
-        $fixture1 = $this->_getFixtureFiles(array('fixture1'));
+        $fixture1 = $this->_getFixtureFiles(['fixture1']);
         $this->_object->applyFixtures($fixture1);
-        $superSet = $this->_getFixtureFiles(array('fixture1', 'fixture2'));
+        $superSet = $this->_getFixtureFiles(['fixture1', 'fixture2']);
         $this->_object->applyFixtures($superSet);
     }
 
@@ -234,9 +229,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $this->contains($this->_script)
         );
 
-        $fixtures = $this->_getFixtureFiles(array('fixture1', 'fixture2'));
+        $fixtures = $this->_getFixtureFiles(['fixture1', 'fixture2']);
         $this->_object->applyFixtures($fixtures);
-        $incompatibleSet = $this->_getFixtureFiles(array('fixture1'));
+        $incompatibleSet = $this->_getFixtureFiles(['fixture1']);
         $this->_object->applyFixtures($incompatibleSet);
     }
 

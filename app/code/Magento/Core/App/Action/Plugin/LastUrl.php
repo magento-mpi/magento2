@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -61,7 +58,7 @@ class LastUrl
         \Magento\Framework\App\RequestInterface $request
     ) {
         $result = $proceed($request);
-        $this->_session->setLastUrl($this->_url->getUrl('*/*/*', array('_current' => true)));
+        $this->_session->setLastUrl($this->_url->getUrl('*/*/*', ['_current' => true]));
         return $result;
     }
 }

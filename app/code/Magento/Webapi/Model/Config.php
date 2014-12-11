@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Model;
 
-use Magento\Webapi\Model\Config\Reader;
-use Zend\Code\Reflection\ClassReflection;
 use Magento\Webapi\Model\Cache\Type as WebapiCache;
+use Magento\Webapi\Model\Config\Reader;
 
 /**
  * Web API Config Model.

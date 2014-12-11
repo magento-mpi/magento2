@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Document\Outline;
 
-use Magento\Framework\Data\Argument\InterpreterInterface;
 use Magento\Framework\Stdlib\BooleanUtils;
 
 /**
@@ -27,7 +23,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
     public function __construct(
         BooleanUtils $booleanUtils = null
     ) {
-        $this->booleanUtils = $booleanUtils ? : new BooleanUtils();
+        $this->booleanUtils = $booleanUtils ?: new BooleanUtils();
     }
 
     /**
@@ -39,7 +35,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($config)
     {
-        $output = array();
+        $output = [];
         /** @var \DOMNode $node */
         foreach ($config->documentElement->childNodes as $node) {
             if ($node->nodeType != XML_ELEMENT_NODE) {
@@ -76,7 +72,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                             }
 
                             $attributes = [
-                                'signed-off-architect', 'signed-off-po', 'signed-off-tw'
+                                'signed-off-architect', 'signed-off-po', 'signed-off-tw',
                             ];
                             $this->fetchBooleans($itemAttributes, $attributes, $itemData);
 

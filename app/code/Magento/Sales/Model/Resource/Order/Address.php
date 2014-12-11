@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order;
 
+use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Spi\OrderAddressResourceInterface;
-use \Magento\Sales\Model\Resource\Entity as SalesResource;
 
 /**
  * Flat sales order address resource
@@ -51,7 +48,6 @@ class Address extends SalesResource implements OrderAddressResourceInterface
         $this->_validator = $validator;
         $this->gridPool = $gridPool;
         parent::__construct($resource, $attribute, $salesIncrement, $gridAggregator);
-
     }
 
     /**
@@ -81,7 +77,7 @@ class Address extends SalesResource implements OrderAddressResourceInterface
             'region_id' => __('State/Province'),
             'street' => __('Street Address'),
             'telephone' => __('Phone Number'),
-            'postcode' => __('Zip/Postal Code')
+            'postcode' => __('Zip/Postal Code'),
         ];
         asort($attributes);
         return $attributes;

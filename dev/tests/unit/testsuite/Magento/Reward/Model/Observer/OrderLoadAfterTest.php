@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -151,4 +148,3 @@ class OrderLoadAfterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

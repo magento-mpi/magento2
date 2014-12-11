@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Flat\Action;
 
@@ -41,8 +38,8 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
     protected function populateFlatTables(array $stores)
     {
         $rootId = \Magento\Catalog\Model\Category::TREE_ROOT_ID;
-        $categories = array();
-        $categoriesIds = array();
+        $categories = [];
+        $categoriesIds = [];
         /* @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
             if (!isset($categories[$store->getRootCategoryId()])) {
@@ -59,7 +56,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
                     "{$rootId}/{$store->getRootCategoryId()}/%"
                 );
                 $categories[$store->getRootCategoryId()] = $this->getWriteAdapter()->fetchAll($select);
-                $categoriesIds[$store->getRootCategoryId()] = array();
+                $categoriesIds[$store->getRootCategoryId()] = [];
                 foreach ($categories[$store->getRootCategoryId()] as $category) {
                     $categoriesIds[$store->getRootCategoryId()][] = $category['entity_id'];
                 }
@@ -68,7 +65,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             $categoriesIdsChunks = array_chunk($categoriesIds[$store->getRootCategoryId()], 500);
             foreach ($categoriesIdsChunks as $categoriesIdsChunk) {
                 $attributesData = $this->getAttributeValues($categoriesIdsChunk, $store->getId());
-                $data = array();
+                $data = [];
                 foreach ($categories[$store->getRootCategoryId()] as $category) {
                     if (!isset($attributesData[$category['entity_id']])) {
                         continue;
@@ -112,7 +109,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @param \Magento\Store\Model\Store[] $stores if empty, create tables for all stores of the application
      * @return Full
      */
-    protected function createTables(array $stores = array())
+    protected function createTables(array $stores = [])
     {
         if ($this->getWriteAdapter()->getTransactionLevel() > 0) {
             return $this;
@@ -134,7 +131,7 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
      * @param \Magento\Store\Model\Store[] $stores
      * @return Full
      */
-    protected function switchTables(array $stores = array())
+    protected function switchTables(array $stores = [])
     {
         /** @var $store \Magento\Store\Model\Store */
         foreach ($stores as $store) {
@@ -143,12 +140,12 @@ class Full extends \Magento\Catalog\Model\Indexer\Category\Flat\AbstractAction
             $oldTableName = $this->addOldTableSuffix($this->getMainStoreTable($store->getId()));
 
             //switch tables
-            $tablesToRename = array();
+            $tablesToRename = [];
             if ($this->getWriteAdapter()->isTableExists($activeTableName)) {
-                $tablesToRename[] = array('oldName' => $activeTableName, 'newName' => $oldTableName);
+                $tablesToRename[] = ['oldName' => $activeTableName, 'newName' => $oldTableName];
             }
 
-            $tablesToRename[] = array('oldName' => $temporaryTableName, 'newName' => $activeTableName);
+            $tablesToRename[] = ['oldName' => $temporaryTableName, 'newName' => $activeTableName];
 
             foreach ($tablesToRename as $tableToRename) {
                 $this->getWriteAdapter()->renameTable($tableToRename['oldName'], $tableToRename['newName']);

@@ -2,10 +2,7 @@
 /**
  * Cms menu hierarchy config reader
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Hierarchy\Config;
 
@@ -16,7 +13,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array('/config/menuLayout' => 'name', '/config/menuLayout/pageLayout' => 'handle');
+    protected $_idAttributes = ['/config/menuLayout' => 'name', '/config/menuLayout/pageLayout' => 'handle'];
 
     /**
      * @param \Magento\Framework\Config\FileResolverInterface $fileResolver
@@ -34,7 +31,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'menu_hierarchy.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Framework\Config\Dom',
         $defaultScope = 'global'
     ) {

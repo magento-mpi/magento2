@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Source;
 
@@ -26,8 +23,8 @@ class TypeTest extends \PHPUnit_Framework_TestCase
     {
         $abstractAttributeMock = $this->getMock(
             '\Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getAttributeCode', '__wakeup'),
-            array(),
+            ['getAttributeCode', '__wakeup'],
+            [],
             '',
             false
         );
@@ -77,7 +74,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $result = [
             [
                 'value' => 0,
-                'label' => 'Virtual'
+                'label' => 'Virtual',
             ],
             [
                 'value' => 1,
@@ -86,7 +83,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
             [
                 'value' => 2,
                 'label' => 'Combined'
-            ]
+            ],
         ];
 
         $this->assertEquals($result, $this->_model->getAllOptions());

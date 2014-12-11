@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Layer\Category\Filter;
 
@@ -21,7 +18,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
 
     /**
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
@@ -32,14 +29,14 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Filter\StripTags $tagFilter,
         \Magento\Solr\Model\Resource\Solr\Engine $resourceEngine,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceEngine = $resourceEngine;
         parent::__construct(
@@ -105,7 +102,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         if ($filter && $this->_validateFilteredValue($filter)) {
             $this->applyFilterToCollection($this, $filter);
             $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
-            $this->_items = array();
+            $this->_items = [];
         }
 
         return $this;
@@ -158,11 +155,11 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             $value['to']
         ) && empty($value['to'])
         ) {
-            $value = array();
+            $value = [];
         }
 
         if (!is_array($value)) {
-            $value = array($value);
+            $value = [$value];
         }
 
         $attribute = $filter->getAttributeModel();
@@ -176,7 +173,7 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         }
 
         $fieldName = $this->_resourceEngine->getSearchEngineFieldName($attribute, 'nav');
-        $this->getLayer()->getProductCollection()->addFqFilter(array($fieldName => $value));
+        $this->getLayer()->getProductCollection()->addFqFilter([$fieldName => $value]);
 
         return $this;
     }

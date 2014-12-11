@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Dictionary;
 
@@ -52,7 +49,7 @@ class Phrase
      *
      * @var array
      */
-    private $_contextValue = array();
+    private $_contextValue = [];
 
     /**
      * Quote type that enclose the phrase, single or double
@@ -112,7 +109,7 @@ class Phrase
      */
     public function setQuote($quote)
     {
-        if (in_array($quote, array(self::QUOTE_SINGLE, self::QUOTE_DOUBLE))) {
+        if (in_array($quote, [self::QUOTE_SINGLE, self::QUOTE_DOUBLE])) {
             $this->_quote = $quote;
         }
     }
@@ -202,7 +199,7 @@ class Phrase
         if (is_string($contextValue)) {
             $contextValue = explode(',', $contextValue);
         } elseif (null == $contextValue) {
-            $contextValue = array();
+            $contextValue = [];
         } elseif (!is_array($contextValue)) {
             throw new \DomainException('Wrong context type');
         }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -30,7 +27,7 @@ class ExportCouponsXml extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quo
             );
             return $this->_fileFactory->create($fileName, $content, DirectoryList::VAR_DIR);
         } else {
-            $this->_redirect('sales_rule/*/detail', array('_current' => true));
+            $this->_redirect('sales_rule/*/detail', ['_current' => true]);
             return;
         }
     }

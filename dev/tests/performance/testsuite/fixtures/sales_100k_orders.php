@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\TestFramework\Application $this */
 
-$addressData = array(
+$addressData = [
     'region' => 'CA',
     'postcode' => '11111',
     'street' => 'street',
     'city' => 'Los Angeles',
     'telephone' => '11111111',
-    'country_id' => 'US'
-);
+    'country_id' => 'US',
+];
 $billingAddress = $this->getObjectManager()->create(
     'Magento\Sales\Model\Order\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $shippingAddress = clone $billingAddress;
 
@@ -45,7 +42,7 @@ $order->setBaseSubtotal(
     \Magento\Sales\Model\Order::STATE_NEW,
     true
 )->setStoreId(
-    $this->getObjectManager()->get('Magento\Framework\StoreManagerInterface')->getStore()->getId()
+    $this->getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
 );
 
 for ($i = 1; $i <= 100000; $i++) {

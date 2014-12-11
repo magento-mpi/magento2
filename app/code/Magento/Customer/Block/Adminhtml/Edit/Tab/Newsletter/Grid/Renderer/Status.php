@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter\Grid\Renderer;
 
@@ -24,13 +21,13 @@ class Status extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstract
      */
     protected function _construct()
     {
-        self::$_statuses = array(
+        self::$_statuses = [
             \Magento\Newsletter\Model\Queue::STATUS_SENT => __('Sent'),
             \Magento\Newsletter\Model\Queue::STATUS_CANCEL => __('Cancel'),
             \Magento\Newsletter\Model\Queue::STATUS_NEVER => __('Not Sent'),
             \Magento\Newsletter\Model\Queue::STATUS_SENDING => __('Sending'),
-            \Magento\Newsletter\Model\Queue::STATUS_PAUSE => __('Paused')
-        );
+            \Magento\Newsletter\Model\Queue::STATUS_PAUSE => __('Paused'),
+        ];
         parent::_construct();
     }
 

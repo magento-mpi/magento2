@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource;
 
@@ -20,7 +17,7 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -29,12 +26,12 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
      *
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_storeManager = $storeManager;
@@ -59,7 +56,7 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _beforeDelete(\Magento\Framework\Model\AbstractModel $object)
     {
-        $condition = array('block_id = ?' => (int)$object->getId());
+        $condition = ['block_id = ?' => (int)$object->getId()];
 
         $this->_getWriteAdapter()->delete($this->getTable('cms_block_store'), $condition);
 
@@ -104,16 +101,16 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $delete = array_diff($oldStores, $newStores);
 
         if ($delete) {
-            $where = array('block_id = ?' => (int)$object->getId(), 'store_id IN (?)' => $delete);
+            $where = ['block_id = ?' => (int)$object->getId(), 'store_id IN (?)' => $delete];
 
             $this->_getWriteAdapter()->delete($table, $where);
         }
 
         if ($insert) {
-            $data = array();
+            $data = [];
 
             foreach ($insert as $storeId) {
-                $data[] = array('block_id' => (int)$object->getId(), 'store_id' => (int)$storeId);
+                $data[] = ['block_id' => (int)$object->getId(), 'store_id' => (int)$storeId];
             }
 
             $this->_getWriteAdapter()->insertMultiple($table, $data);
@@ -169,12 +166,12 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $select = parent::_getLoadSelect($field, $value, $object);
 
         if ($object->getStoreId()) {
-            $stores = array((int)$object->getStoreId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $stores = [(int)$object->getStoreId(), \Magento\Store\Model\Store::DEFAULT_STORE_ID];
 
             $select->join(
-                array('cbs' => $this->getTable('cms_block_store')),
+                ['cbs' => $this->getTable('cms_block_store')],
                 $this->getMainTable() . '.block_id = cbs.block_id',
-                array('store_id')
+                ['store_id']
             )->where(
                 'is_active = ?',
                 1
@@ -200,17 +197,17 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function getIsUniqueBlockToStores(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($this->_storeManager->hasSingleStore()) {
-            $stores = array(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
+            $stores = [\Magento\Store\Model\Store::DEFAULT_STORE_ID];
         } else {
             $stores = (array)$object->getData('stores');
         }
 
         $select = $this->_getReadAdapter()->select()->from(
-            array('cb' => $this->getMainTable())
+            ['cb' => $this->getMainTable()]
         )->join(
-            array('cbs' => $this->getTable('cms_block_store')),
+            ['cbs' => $this->getTable('cms_block_store')],
             'cb.block_id = cbs.block_id',
-            array()
+            []
         )->where(
             'cb.identifier = ?',
             $object->getData('identifier')
@@ -247,7 +244,7 @@ class Block extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'block_id = :block_id'
         );
 
-        $binds = array(':block_id' => (int)$id);
+        $binds = [':block_id' => (int)$id];
 
         return $adapter->fetchCol($select, $binds);
     }

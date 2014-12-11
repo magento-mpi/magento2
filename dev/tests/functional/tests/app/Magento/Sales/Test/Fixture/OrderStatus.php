@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Fixture;
@@ -27,7 +24,7 @@ class OrderStatus extends InjectableFixture
 
     protected $defaultDataSet = [
         'status' => 'order_status%isolation%',
-        'label' => 'orderLabel%isolation%'
+        'label' => 'orderLabel%isolation%',
     ];
 
     protected $status = [

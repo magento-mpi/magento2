@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -29,5 +26,5 @@ interface ToolInterface
      *
      * @return int
      */
-    public function run(array $whiteList, array $blackList = array(), array $extensions = array());
+    public function run(array $whiteList, array $blackList = [], array $extensions = []);
 }

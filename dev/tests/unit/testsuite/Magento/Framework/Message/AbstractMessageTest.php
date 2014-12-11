@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Message;
 
@@ -22,7 +19,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
         $this->model = $this->getMockBuilder(
             'Magento\Framework\Message\AbstractMessage'
         )->disableOriginalConstructor()->setMethods(
-            array('getType')
+            ['getType']
         )->getMockForAbstractClass();
     }
 
@@ -42,7 +39,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setTextGetTextProvider()
     {
-        return array(array(''), array('some text'));
+        return [[''], ['some text']];
     }
 
     /**
@@ -61,7 +58,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
      */
     public function setIdentifierGetIdentifierProvider()
     {
-        return array(array(''), array('some identifier'));
+        return [[''], ['some identifier']];
     }
 
     /**

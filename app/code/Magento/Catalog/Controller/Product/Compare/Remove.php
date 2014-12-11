@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Product\Compare;
 
@@ -51,7 +48,7 @@ class Remove extends \Magento\Catalog\Controller\Product\Compare
                     );
                     $this->_eventManager->dispatch(
                         'catalog_product_compare_remove_product',
-                        array('product' => $item)
+                        ['product' => $item]
                     );
                     $helper->calculate();
                 }

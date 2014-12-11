@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $this \Magento\Backend\Block\Store\Switcher */
@@ -15,9 +12,9 @@
     <div class="control">
         <select name="store_switcher" id="store_switcher">
             <?php foreach ($websites as $website): ?>
-                <?php $showWebsite=false; ?>
+                <?php $showWebsite = false; ?>
                 <?php foreach ($website->getGroups() as $group): ?>
-                    <?php $showGroup=false; ?>
+                    <?php $showGroup = false; ?>
                     <?php foreach ($this->getStores($group) as $store): ?>
                         <?php if ($showWebsite == false): ?>
                             <?php $showWebsite = true; ?>
@@ -27,7 +24,7 @@
                             <?php $showGroup = true; ?>
                             <optgroup label="&nbsp;&nbsp;&nbsp;<?php echo $group->getName() ?>">
                         <?php endif; ?>
-                        <option value="<?php echo $store->getId() ?>"<?php if($this->getStoreId() == $store->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $store->getName() ?></option>
+                        <option value="<?php echo $store->getId() ?>"<?php if ($this->getStoreId() == $store->getId()): ?> selected="selected"<?php endif; ?>>&nbsp;&nbsp;&nbsp;&nbsp;<?php echo $store->getName() ?></option>
                     <?php endforeach; ?>
                     <?php if ($showGroup): ?>
                         </optgroup>
@@ -53,4 +50,3 @@ require([
 });
 </script>
 <?php endif; ?>
-

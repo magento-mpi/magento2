@@ -1,15 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component\Layout\Tabs;
 
 use Magento\Ui\Component\AbstractView;
-use Magento\Framework\View\Element\Template;
-use Magento\Ui\DataProvider\Metadata;
 
 /**
  * Class Nav

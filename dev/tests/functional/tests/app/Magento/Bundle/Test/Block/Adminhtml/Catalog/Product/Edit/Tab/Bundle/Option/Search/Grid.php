@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
@@ -37,10 +34,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'name' => [
-            'selector' => 'input[name=name]'
+            'selector' => 'input[name=name]',
         ],
         'sku' => [
-            'selector' => 'input[name=sku]'
+            'selector' => 'input[name=sku]',
         ],
     ];
 

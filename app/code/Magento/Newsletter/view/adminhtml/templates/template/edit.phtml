@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /* @var $this \Magento\Newsletter\Block\Adminhtml\Template\Edit */
 ?>
@@ -18,7 +15,7 @@
 <form action="<?php echo $this->getPreviewUrl() ?>" method="post" id="newsletter_template_preview_form" target="_blank">
     <?php echo $this->getBlockHtml('formkey')?>
     <div class="no-display">
-        <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType()?1:2 ?>" />
+        <input type="hidden" id="preview_type" name="type" value="<?php echo $this->isTextType() ? 1 : 2 ?>" />
         <input type="hidden" id="preview_text" name="text" value="" />
         <input type="hidden" id="preview_styles" name="styles" value="" />
         <input type="hidden" id="preview_id" name="id" value="" />
@@ -67,7 +64,7 @@ require(['jquery', 'mage/mage', 'prototype'], function(jQuery){
 
                 eventName   = key[0];
                 selector    = key.slice(1).join(' ');
-                
+
                 jQuery(selector).on(eventName, jQuery.proxy(callback, this) );
             }
         },

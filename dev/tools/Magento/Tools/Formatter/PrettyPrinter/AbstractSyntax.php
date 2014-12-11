@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node;
 use PHPParser_Comment;
+use PHPParser_Node;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).

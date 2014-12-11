@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Api;
@@ -89,13 +86,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'DeleteById'
-            ]
+                'operation' => self::SERVICE_NAME . 'DeleteById',
+            ],
         ];
         $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -111,13 +108,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => HttpConstants::HTTP_METHOD_POST
+                'httpMethod' => HttpConstants::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         $requestData = [
             'rule' => [
@@ -127,8 +124,8 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
                 'tax_rate_ids' => [1, 2],
-                'calculate_subtotal' => 1
-            ]
+                'calculate_subtotal' => 1,
+            ],
         ];
         $taxRuleData = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertArrayHasKey('id', $taxRuleData, "Tax rule ID is expected");
@@ -148,13 +145,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => HttpConstants::HTTP_METHOD_POST
+                'httpMethod' => HttpConstants::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         $requestData = [
             'rule' => [
@@ -164,8 +161,8 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'customer_tax_class_ids' => [2],
                 'product_tax_class_ids' => [3],
                 'tax_rate_ids' => [1, 2],
-                'calculate_subtotal' => 1
-            ]
+                'calculate_subtotal' => 1,
+            ],
         ];
 
         try {
@@ -188,20 +185,20 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
                 'tax_rate_ids' => [1, 2],
-                'calculate_subtotal' => 0
-            ]
+                'calculate_subtotal' => 0,
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         $newTaxRuleData = $this->_webApiCall($serviceInfo, $requestData);
         try {
@@ -234,13 +231,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
 
         $expectedRuleData = [
@@ -251,7 +248,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
             'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
             'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
             'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
-            'calculate_subtotal' => false
+            'calculate_subtotal' => false,
         ];
         $requestData = ['ruleId' => $taxRuleId];
         $result = $this->_webApiCall($serviceInfo, $requestData);
@@ -274,13 +271,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
@@ -299,8 +296,8 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'calculate_subtotal' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
-            ]
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
+            ],
         ];
         $this->assertEquals($expectedRuleData, $searchResults['items']);
     }
@@ -329,13 +326,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
         $requestData = ['searchCriteria' => $searchData];
@@ -354,7 +351,7 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'calculate_subtotal' => 0,
                 'customer_tax_class_ids' => array_values(array_unique($fixtureRule->getCustomerTaxClasses())),
                 'product_tax_class_ids' => array_values(array_unique($fixtureRule->getProductTaxClasses())),
-                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates()))
+                'tax_rate_ids' => array_values(array_unique($fixtureRule->getRates())),
             ],
             [
                 'id' => $this->getFixtureTaxRules()[0]->getId(),
@@ -376,13 +373,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . "/$taxRuleId",
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Get'
-            ]
+                'operation' => self::SERVICE_NAME . 'Get',
+            ],
         ];
         $requestData = ['ruleId' => $taxRuleId];
         try {
@@ -413,19 +410,19 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
                 'tax_rate_ids' => [1, 2],
-                'calculate_subtotal' => 1
-            ]
+                'calculate_subtotal' => 1,
+            ],
         ];
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         $this->_webApiCall($serviceInfo, $requestData);
         $expectedRuleData = $requestData['rule'];
@@ -480,20 +477,20 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
                 'priority' => 5,
                 'customer_tax_class_ids' => [3],
                 'product_tax_class_ids' => [2],
-                'tax_rate_ids' => [1, 2]
-            ]
+                'tax_rate_ids' => [1, 2],
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -519,13 +516,13 @@ class TaxRuleRepositoryInterfaceTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/search',
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'GetList'
-            ]
+                'operation' => self::SERVICE_NAME . 'GetList',
+            ],
         ];
 
         $filter = $this->filterBuilder->setField('code')

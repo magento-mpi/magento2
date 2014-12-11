@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 /**
  * Enterprise CustomerSegment Segment Model
@@ -68,7 +65,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     /**
      * Store list manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -77,7 +74,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Data\FormFactory $formFactory
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Visitor $visitor
      * @param \Magento\Customer\Model\VisitorFactory $visitorFactory
@@ -91,14 +88,14 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Visitor $visitor,
         \Magento\Customer\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;
@@ -136,7 +133,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
             $this->setData('apply_to', $this->getOrigData('apply_to'));
         }
 
-        $events = array();
+        $events = [];
         if ($this->getIsActive()) {
             $events = $this->collectMatchedEvents();
         }
@@ -178,7 +175,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function collectMatchedEvents($conditionsCombine = null)
     {
-        $events = array();
+        $events = [];
         if ($conditionsCombine === null) {
             $conditionsCombine = $this->getConditions();
         }
@@ -189,7 +186,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         $children = $conditionsCombine->getConditions();
         if ($children) {
             if (!is_array($children)) {
-                $children = array($children);
+                $children = [$children];
             }
             foreach ($children as $child) {
                 $events = array_merge($events, $this->collectMatchedEvents($child));
@@ -197,7 +194,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         }
 
         if ($this->getApplyToo() != self::APPLY_TO_REGISTERED) {
-            $events = array_merge($events, array('visitor_init'));
+            $events = array_merge($events, ['visitor_init']);
         }
 
         $events = array_unique($events);
@@ -214,7 +211,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
      */
     public function getConditionModels($conditions = null)
     {
-        $models = array();
+        $models = [];
 
         if (is_null($conditions)) {
             $conditions = $this->getConditions();
@@ -277,7 +274,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
             $customerId = $customer;
         }
 
-        $params = array();
+        $params = [];
         if (strpos($sql, ':customer_id')) {
             $params['customer_id'] = $customerId;
         }

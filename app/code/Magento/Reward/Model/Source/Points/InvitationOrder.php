@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Source\Points;
 
@@ -19,6 +16,6 @@ class InvitationOrder implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(array('value' => '*', 'label' => __('Each')), array('value' => '1', 'label' => __('First')));
+        return [['value' => '*', 'label' => __('Each')], ['value' => '1', 'label' => __('First')]];
     }
 }

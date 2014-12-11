@@ -1,17 +1,14 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
-use \Magento\Framework\Exception\NoSuchEntityException;
-use \Magento\Catalog\Model\Resource\Product\Collection;
-use \Magento\Framework\Api\SearchCriteriaInterface;
-use \Magento\Framework\Api\SortOrder;
+use Magento\Catalog\Model\Resource\Product\Collection;
+use Magento\Framework\Api\SearchCriteriaInterface;
+use Magento\Framework\Api\SortOrder;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterface
 {
@@ -23,12 +20,12 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
     /**
      * @var Product[]
      */
-    protected $instances = array();
+    protected $instances = [];
 
     /**
      * @var Product[]
      */
-    protected $instancesById = array();
+    protected $instancesById = [];
 
     /**
      * @var \Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper
@@ -255,7 +252,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
                 $this->filterBuilder
                     ->setField('attribute_set_id')
                     ->setValue(\Magento\Catalog\Api\Data\ProductAttributeInterface::DEFAULT_ATTRIBUTE_SET_ID)
-                    ->create()
+                    ->create(),
             ]
         );
 
@@ -301,7 +298,7 @@ class ProductRepository implements \Magento\Catalog\Api\ProductRepositoryInterfa
         $fields = [];
         foreach ($filterGroup->getFilters() as $filter) {
             $condition = $filter->getConditionType() ? $filter->getConditionType() : 'eq';
-            $fields[] = array('attribute' => $filter->getField(), $condition => $filter->getValue());
+            $fields[] = ['attribute' => $filter->getField(), $condition => $filter->getValue()];
         }
         if ($fields) {
             $collection->addFieldToFilter($fields);

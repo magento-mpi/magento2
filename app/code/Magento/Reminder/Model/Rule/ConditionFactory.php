@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model\Rule;
 
@@ -24,7 +21,7 @@ class ConditionFactory
      *
      * @var string[]
      */
-    protected $_conditions = array(
+    protected $_conditions = [
         'Magento\Reminder\Model\Rule\Condition\Cart\Amount',
         'Magento\Reminder\Model\Rule\Condition\Cart\Attributes',
         'Magento\Reminder\Model\Rule\Condition\Cart\Combine',
@@ -46,8 +43,8 @@ class ConditionFactory
         'Magento\Reminder\Model\Rule\Condition\Wishlist\Subselection',
         'Magento\Reminder\Model\Rule\Condition\Cart',
         'Magento\Reminder\Model\Rule\Condition\Combine',
-        'Magento\Reminder\Model\Rule\Condition\Wishlist'
-    );
+        'Magento\Reminder\Model\Rule\Condition\Wishlist',
+    ];
 
     /**
      * Factory constructor

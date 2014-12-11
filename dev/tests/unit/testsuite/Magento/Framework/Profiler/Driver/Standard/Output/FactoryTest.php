@@ -2,10 +2,7 @@
 /**
  * Test class for \Magento\Framework\Profiler\Driver\Standard\Output\Factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver\Standard\Output;
 
@@ -66,21 +63,21 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     {
         $defaultOutputClass = $this->getMockClass(
             'Magento\Framework\Profiler\Driver\Standard\OutputInterface',
-            array(),
-            array(),
+            [],
+            [],
             'Magento_Framework_Profiler_Driver_Standard_Output_Test_Default'
         );
         $testOutputClass = $this->getMockClass(
             'Magento\Framework\Profiler\Driver\Standard\OutputInterface',
-            array(),
-            array(),
+            [],
+            [],
             'Magento_Framework_Profiler_Driver_Standard_Output_Test_Test'
         );
-        return array(
-            'Prefix and concrete type' => array(array('type' => 'test'), $testOutputClass),
-            'Prefix and default type' => array(array(), $defaultOutputClass),
-            'Concrete class' => array(array('type' => $testOutputClass), $testOutputClass)
-        );
+        return [
+            'Prefix and concrete type' => [['type' => 'test'], $testOutputClass],
+            'Prefix and default type' => [[], $defaultOutputClass],
+            'Concrete class' => [['type' => $testOutputClass], $testOutputClass]
+        ];
     }
 
     public function testCreateUndefinedClass()
@@ -92,7 +89,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 'Magento_Framework_Profiler_Driver_Standard_Output_Test_Baz'
             )
         );
-        $this->_factory->create(array('type' => 'baz'));
+        $this->_factory->create(['type' => 'baz']);
     }
 
     public function testCreateInvalidClass()
@@ -101,6 +98,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'InvalidArgumentException',
             'Output class "stdClass" must implement \Magento\Framework\Profiler\Driver\Standard\OutputInterface.'
         );
-        $this->_factory->create(array('type' => 'stdClass'));
+        $this->_factory->create(['type' => 'stdClass']);
     }
 }

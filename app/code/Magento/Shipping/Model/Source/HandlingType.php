@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Source;
 
@@ -14,15 +11,15 @@ class HandlingType implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array(
+        return [
+            [
                 'value' => \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_FIXED,
-                'label' => __('Fixed')
-            ),
-            array(
+                'label' => __('Fixed'),
+            ],
+            [
                 'value' => \Magento\Shipping\Model\Carrier\AbstractCarrier::HANDLING_TYPE_PERCENT,
                 'label' => __('Percent')
-            )
-        );
+            ]
+        ];
     }
 }

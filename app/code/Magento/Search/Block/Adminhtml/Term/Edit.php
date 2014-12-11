@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Block\Adminhtml\Term;
 
@@ -27,7 +24,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         parent::__construct($context, $data);

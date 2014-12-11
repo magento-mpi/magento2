@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Model\Resource\Country;
 
@@ -31,12 +28,12 @@ class Format extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(
-            array(
-                'field' => array('country_id', 'type'),
-                'title' => __('Country and Format Type combination should be unique')
-            )
-        );
+        $this->_uniqueFields = [
+            [
+                'field' => ['country_id', 'type'],
+                'title' => __('Country and Format Type combination should be unique'),
+            ],
+        ];
         return $this;
     }
 }

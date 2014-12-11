@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
@@ -88,7 +85,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _removeDuplicates(&$result)
     {
-        $fileToId = array();
+        $fileToId = [];
 
         foreach (array_keys($result) as $index) {
             if (!isset($fileToId[$result[$index]['file']])) {
@@ -165,10 +162,10 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
         $conditions = implode(
             ' AND ',
-            array(
+            [
                 $adapter->quoteInto('value_id = ?', (int)$valueId),
                 $adapter->quoteInto('store_id = ?', (int)$storeId)
-            )
+            ]
         );
 
         $adapter->delete($this->getTable(self::GALLERY_VALUE_TABLE), $conditions);
@@ -189,7 +186,7 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $select = $this->_getReadAdapter()->select()->from(
             $this->getMainTable(),
-            array('value_id', 'value')
+            ['value_id', 'value']
         )->where(
             'attribute_id = ?',
             $object->getAttribute()->getId()
@@ -198,14 +195,14 @@ class Media extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $originalProductId
         );
 
-        $valueIdMap = array();
+        $valueIdMap = [];
         // Duplicate main entries of gallery
         foreach ($this->_getReadAdapter()->fetchAll($select) as $row) {
-            $data = array(
+            $data = [
                 'attribute_id' => $object->getAttribute()->getId(),
                 'entity_id' => $newProductId,
-                'value' => isset($newFiles[$row['value_id']]) ? $newFiles[$row['value_id']] : $row['value']
-            );
+                'value' => isset($newFiles[$row['value_id']]) ? $newFiles[$row['value_id']] : $row['value'],
+            ];
 
             $valueIdMap[$row['value_id']] = $this->insertGallery($data);
         }

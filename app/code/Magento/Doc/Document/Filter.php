@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Document;
 
@@ -14,7 +11,7 @@ class Filter extends \Magento\Framework\Filter\Template
      *
      * @var array
      */
-    protected $modifiers = array('nl2br' => '');
+    protected $modifiers = ['nl2br' => ''];
 
     /**
      * @var \Magento\Framework\View\Asset\Repository
@@ -32,7 +29,7 @@ class Filter extends \Magento\Framework\Filter\Template
     protected $escaper = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -53,7 +50,7 @@ class Filter extends \Magento\Framework\Filter\Template
      * @param \Magento\Framework\Logger $logger
      * @param \Magento\Framework\Escaper $escaper
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param array $variables
      */
     public function __construct(
@@ -61,7 +58,7 @@ class Filter extends \Magento\Framework\Filter\Template
         \Magento\Framework\Logger $logger,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\View\Asset\Repository $assetRepo,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $variables = []
     ) {
         $this->escaper = $escaper;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Product\Index;
 
@@ -48,7 +45,7 @@ class Viewed extends \Magento\Reports\Model\Product\Index\AbstractIndex
      */
     public function getExcludeProductIds()
     {
-        $productIds = array();
+        $productIds = [];
 
         if ($this->_registry->registry('current_product')) {
             $productIds[] = $this->_registry->registry('current_product')->getId();

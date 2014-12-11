@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Category\Attribute;
 
@@ -54,12 +51,12 @@ class Collection extends \Magento\Eav\Model\Resource\Entity\Attribute\Collection
     protected function _initSelect()
     {
         $this->getSelect()->from(
-            array('main_table' => $this->getResource()->getMainTable())
+            ['main_table' => $this->getResource()->getMainTable()]
         )->where(
             'main_table.entity_type_id=?',
             $this->_eavEntityFactory->create()->setType(\Magento\Catalog\Model\Category::ENTITY)->getTypeId()
         )->join(
-            array('additional_table' => $this->getTable('catalog_eav_attribute')),
+            ['additional_table' => $this->getTable('catalog_eav_attribute')],
             'additional_table.attribute_id = main_table.attribute_id'
         );
         return $this;

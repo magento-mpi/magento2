@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Block\Adminhtml\Permission;
 
@@ -53,19 +50,19 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareLayoutDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'salesrule.related.banners',
                 'Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tabs',
-                'promo_quote_edit_tabs'
-            ),
-            array(
+                'promo_quote_edit_tabs',
+            ],
+            [
                 'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'catalogrule.related.banners',
                 'Magento\Backend\Block\Widget\Tabs',
                 'promo_catalog_edit_tabs'
-            )
-        );
+            ]
+        ];
     }
 }

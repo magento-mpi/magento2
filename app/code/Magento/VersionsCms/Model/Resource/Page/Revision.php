@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Resource\Page;
 
@@ -72,7 +69,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
              * If they are empty we need to convert them into DB
              * type NULL so in DB they will be empty and not some default value.
              */
-            foreach (array('custom_theme_from', 'custom_theme_to') as $dataKey) {
+            foreach (['custom_theme_from', 'custom_theme_to'] as $dataKey) {
                 $date = $object->getData($dataKey);
                 if (!$date) {
                     $object->setData($dataKey, new \Zend_Db_Expr('NULL'));
@@ -137,7 +134,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $adapter = $this->_getReadAdapter();
         $selectCount = $adapter->select()->from(
             $this->getMainTable(),
-            array('version_id', 'revisions_count' => 'COUNT(1)')
+            ['version_id', 'revisions_count' => 'COUNT(1)']
         )->where(
             'version_id = ?',
             (int)$versionId
@@ -148,16 +145,16 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
         $sql = new \Zend_Db_Expr(sprintf('(%s)', $selectCount));
         $select = clone $selectCount;
         $select->reset()->join(
-            array('r' => $sql),
+            ['r' => $sql],
             'p.version_id = r.version_id',
-            array('revisions_count')
+            ['revisions_count']
         )->where(
             'r.version_id = ?',
             (int)$versionId
         );
 
         $adapter = $this->_getWriteAdapter();
-        $query = $adapter->updateFromSelect($select, array('p' => $this->_versionTable));
+        $query = $adapter->updateFromSelect($select, ['p' => $this->_versionTable]);
         $adapter->query($query);
 
         return $this;
@@ -173,7 +170,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function publish(\Magento\VersionsCms\Model\Page\Revision $object, $targetId)
     {
         $data = $this->_prepareDataForTable($object, $this->_pageTable);
-        $condition = array('page_id = ?' => $targetId);
+        $condition = ['page_id = ?' => $targetId];
         $this->_getWriteAdapter()->update($this->_pageTable, $data, $condition);
 
         return $this;
@@ -201,7 +198,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select = $this->_getLoadSelect($field, $value, $object);
 
             // prepare join conditions for version table
-            $joinConditions = array($this->_getPermissionCondition($accessLevel, $userId));
+            $joinConditions = [$this->_getPermissionCondition($accessLevel, $userId)];
             $joinConditions[] = sprintf(
                 '%s.version_id = %s.version_id',
                 $this->_versionTableAlias,
@@ -254,7 +251,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
             $select->reset(\Zend_Db_Select::COLUMNS)->reset(\Zend_Db_Select::WHERE);
 
             // adding where conditions with restriction filter
-            $whereConditions = array($this->_getPermissionCondition($accessLevel, $userId));
+            $whereConditions = [$this->_getPermissionCondition($accessLevel, $userId)];
             $whereConditions[] = $read->quoteInto($this->_versionTableAlias . '.version_id = ?', $versionId);
             $select->where(implode(' AND ', $whereConditions));
 
@@ -293,7 +290,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _getPermissionCondition($accessLevel, $userId)
     {
         $read = $this->_getReadAdapter();
-        $permissionCondition = array();
+        $permissionCondition = [];
         $permissionCondition[] = $read->quoteInto($this->_versionTableAlias . '.user_id = ? ', $userId);
 
         if (is_array($accessLevel) && !empty($accessLevel)) {
@@ -321,9 +318,9 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _joinVersionData($select, $joinType, $joinConditions)
     {
         $select->{$joinType}(
-            array($this->_versionTableAlias => $this->_versionTable),
+            [$this->_versionTableAlias => $this->_versionTable],
             $joinConditions,
-            array('version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id')
+            ['version_id', 'version_number', 'label', 'access_level', 'version_user_id' => 'user_id']
         );
 
         return $select;
@@ -339,7 +336,7 @@ class Revision extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _joinPageData($select, $joinType, $joinConditions)
     {
-        $select->{$joinType}(array($this->_pageTableAlias => $this->_pageTable), $joinConditions, array('title'));
+        $select->{$joinType}([$this->_pageTableAlias => $this->_pageTable], $joinConditions, ['title']);
 
         return $select;
     }

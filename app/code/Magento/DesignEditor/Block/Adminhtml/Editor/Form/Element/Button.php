@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element;
 
@@ -17,7 +14,7 @@ class Button extends \Magento\Framework\Data\Form\Element\AbstractElement
      *
      * @var string[]
      */
-    protected $_htmlAttributes = array('data-mage-init');
+    protected $_htmlAttributes = ['data-mage-init'];
 
     /**
      * Generate button html

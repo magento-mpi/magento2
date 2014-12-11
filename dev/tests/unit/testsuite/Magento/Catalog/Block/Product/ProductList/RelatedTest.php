@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
@@ -27,8 +24,8 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $productTag = array('compare_item_1');
-        $product = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productTag = ['compare_item_1'];
+        $product = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $product->expects($this->once())->method('getIdentities')->will($this->returnValue($productTag));
 
         $itemsCollection = new \ReflectionProperty(
@@ -36,7 +33,7 @@ class RelatedTest extends \PHPUnit_Framework_TestCase
             '_itemCollection'
         );
         $itemsCollection->setAccessible(true);
-        $itemsCollection->setValue($this->block, array($product));
+        $itemsCollection->setValue($this->block, [$product]);
 
         $this->assertEquals(
             $productTag,

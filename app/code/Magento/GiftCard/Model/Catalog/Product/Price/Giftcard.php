@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Price;
 
@@ -12,7 +9,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -20,13 +17,13 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * Cached amounts
      * @var array
      */
-    protected $_amountCache = array();
+    protected $_amountCache = [];
 
     /**
      * Cached minimum and maximal amounts
      * @var array
      */
-    protected $_minMaxCache = array();
+    protected $_minMaxCache = [];
 
     /**
      * Return price of the specified product
@@ -89,7 +86,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
             }
         }
 
-        return $prices ? $prices : array();
+        return $prices ? $prices : [];
     }
 
     /**
@@ -98,7 +95,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      *
-     * @deprecated
+     * @deprecated (MAGETWO-31472)
      */
     public function getMinAmount($product)
     {
@@ -112,7 +109,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      *
-     * @deprecated
+     * @deprecated (MAGETWO-31472)
      */
     public function getMaxAmount($product)
     {
@@ -129,7 +126,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     public function getSortedAmounts($product)
     {
         if (!isset($this->_amountCache[$product->getId()])) {
-            $result = array();
+            $result = [];
 
             $giftcardAmounts = $this->getAmounts($product);
             if (is_array($giftcardAmounts)) {
@@ -185,7 +182,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
                 }
             }
 
-            $this->_minMaxCache[$product->getId()] = array('min' => $min, 'max' => $max);
+            $this->_minMaxCache[$product->getId()] = ['min' => $min, 'max' => $max];
         }
         return $this->_minMaxCache[$product->getId()];
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -38,7 +35,7 @@ class Factory
      * @return \Magento\Catalog\Model\Resource\Product\Indexer\Price\DefaultPrice
      * @throws \Magento\Catalog\Exception
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $indexerPrice = $this->_objectManager->create($className, $data);
 

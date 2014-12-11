@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Invitation\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Invitation\Test\Page\Adminhtml\InvitationsIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that success message appears after sent invitation on backend.

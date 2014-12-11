@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource\Visitor;
 
@@ -60,8 +57,8 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
         try {
             $writeAdapter->delete($this->getMainTable());
 
-            $visitors = array();
-            $lastUrls = array();
+            $visitors = [];
+            $lastUrls = [];
 
             // retrieve online visitors general data
 
@@ -69,7 +66,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
 
             $select = $readAdapter->select()->from(
                 $this->getTable('log_visitor'),
-                array('visitor_id', 'first_visit_at', 'last_visit_at', 'last_url_id')
+                ['visitor_id', 'first_visit_at', 'last_visit_at', 'last_url_id']
             )->where(
                 'last_visit_at >= ?',
                 $readAdapter->formatDate($lastDate)
@@ -91,7 +88,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
             // retrieve visitor remote addr
             $select = $readAdapter->select()->from(
                 $this->getTable('log_visitor_info'),
-                array('visitor_id', 'remote_addr')
+                ['visitor_id', 'remote_addr']
             )->where(
                 'visitor_id IN(?)',
                 array_keys($visitors)
@@ -105,7 +102,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
             // retrieve visitor last URLs
             $select = $readAdapter->select()->from(
                 $this->getTable('log_url_info'),
-                array('url_id', 'url')
+                ['url_id', 'url']
             )->where(
                 'url_id IN(?)',
                 array_keys($lastUrls)
@@ -120,7 +117,7 @@ class Online extends \Magento\Framework\Model\Resource\Db\AbstractDb
             // retrieve customers
             $select = $readAdapter->select()->from(
                 $this->getTable('log_customer'),
-                array('visitor_id', 'customer_id')
+                ['visitor_id', 'customer_id']
             )->where(
                 'visitor_id IN(?)',
                 array_keys($visitors)

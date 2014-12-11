@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -41,7 +38,7 @@ class StockFactory
      * @return \Magento\CatalogInventory\Model\Resource\Indexer\Stock\StockInterface
      * @throws \InvalidArgumentException
      */
-    public function create($indexerClassName = '', array $data = array())
+    public function create($indexerClassName = '', array $data = [])
     {
         if (empty($indexerClassName)) {
             $indexerClassName = $this->_defaultIndexer;

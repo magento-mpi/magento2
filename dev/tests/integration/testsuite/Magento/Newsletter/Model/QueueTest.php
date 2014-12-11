@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model;
 
@@ -32,8 +29,8 @@ class QueueTest extends \PHPUnit_Framework_TestCase
 
         $builder = $this->getMock(
             '\Magento\Newsletter\Model\Queue\TransportBuilder',
-            array('getTransport', 'setFrom', 'addTo'),
-            array(),
+            ['getTransport', 'setFrom', 'addTo'],
+            [],
             '',
             false
         );
@@ -44,7 +41,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         /** @var $queue \Magento\Newsletter\Model\Queue */
         $queue = $objectManager->create(
             'Magento\Newsletter\Model\Queue',
-            array('filter' => $filter, 'transportBuilder' => $builder)
+            ['filter' => $filter, 'transportBuilder' => $builder]
         );
         $queue->load('Subject', 'newsletter_subject');
         // fixture
@@ -75,8 +72,8 @@ class QueueTest extends \PHPUnit_Framework_TestCase
 
         $builder = $this->getMock(
             '\Magento\Newsletter\Model\Queue\TransportBuilder',
-            array('getTransport', 'setFrom', 'addTo'),
-            array(),
+            ['getTransport', 'setFrom', 'addTo'],
+            [],
             '',
             false
         );
@@ -85,14 +82,13 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $builder->expects($this->any())->method('addTo')->will($this->returnSelf());
 
         /** @var $queue \Magento\Newsletter\Model\Queue */
-        $queue = $objectManager->create('Magento\Newsletter\Model\Queue', array('transportBuilder' => $builder));
+        $queue = $objectManager->create('Magento\Newsletter\Model\Queue', ['transportBuilder' => $builder]);
         $queue->load('Subject', 'newsletter_subject');
         // fixture
 
         $problem = $objectManager->create('Magento\Newsletter\Model\Problem');
         $problem->load($queue->getId(), 'queue_id');
         $this->assertEmpty($problem->getId());
-
 
         $queue->sendPerSubscriber();
 

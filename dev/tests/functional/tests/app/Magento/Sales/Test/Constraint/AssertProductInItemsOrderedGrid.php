@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
 use Magento\Sales\Test\Block\Adminhtml\Order\Create\Items;
+use Magento\Sales\Test\Page\Adminhtml\OrderCreateIndex;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert product was added to Items Ordered grid in customer account on Order creation page backend.
@@ -79,7 +76,7 @@ class AssertProductInItemsOrderedGrid extends AbstractAssertForm
                 'name' => $product->getName(),
                 'price' => number_format($this->getProductPrice($product), 2),
                 'checkout_data' => [
-                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty']) ? $checkoutData['qty'] : 1
+                    'qty' => $this->productsIsConfigured && isset($checkoutData['qty']) ? $checkoutData['qty'] : 1,
                 ],
             ];
         }
@@ -119,7 +116,7 @@ class AssertProductInItemsOrderedGrid extends AbstractAssertForm
      */
     protected function getProductPrice(FixtureInterface $product)
     {
-        return isset ($product->getCheckoutData()['cartItem']['price'])
+        return isset($product->getCheckoutData()['cartItem']['price'])
             ? $product->getCheckoutData()['cartItem']['price']
             : $product->getPrice();
     }

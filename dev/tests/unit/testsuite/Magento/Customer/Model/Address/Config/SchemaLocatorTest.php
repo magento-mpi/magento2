@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Address\Config;
 
@@ -34,8 +31,8 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
         $this->_xsdFile = $this->_xsdDir . '/address_formats.xsd';
         $this->_moduleReader = $this->getMock(
             'Magento\Framework\Module\Dir\Reader',
-            array('getModuleDir'),
-            array(),
+            ['getModuleDir'],
+            [],
             '',
             false
         );

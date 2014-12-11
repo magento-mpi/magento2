@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoice;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 abstract class Pdfinvoices extends \Magento\Backend\App\Action
 {
@@ -51,7 +48,7 @@ abstract class Pdfinvoices extends \Magento\Backend\App\Action
                 '*'
             )->addAttributeToFilter(
                 'entity_id',
-                array('in' => $invoicesIds)
+                ['in' => $invoicesIds]
             )->load();
             if (!isset($pdf)) {
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Invoice')->getPdf($invoices);

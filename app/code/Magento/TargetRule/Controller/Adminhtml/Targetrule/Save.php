@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Controller\Adminhtml\Targetrule;
 
@@ -18,7 +15,7 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
     public function execute()
     {
         $redirectPath = '*/*/';
-        $redirectParams = array();
+        $redirectParams = [];
 
         $data = $this->getRequest()->getPost();
 
@@ -30,8 +27,8 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
 
             try {
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
-                    array(),
+                    ['from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter],
+                    [],
                     $data
                 );
                 $data = $inputFilter->getUnescaped();
@@ -50,7 +47,7 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
                     }
                     $this->_getSession()->setFormData($data);
 
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('adminhtml/*/edit', ['id' => $model->getId()]);
                     return;
                 }
 
@@ -64,7 +61,7 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
                 $this->messageManager->addSuccess(__('You saved the rule.'));
 
                 if ($redirectBack) {
-                    $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), '_current' => true));
+                    $this->_redirect('adminhtml/*/edit', ['id' => $model->getId(), '_current' => true]);
                     return;
                 }
             } catch (\Magento\Framework\Model\Exception $e) {
@@ -78,7 +75,7 @@ class Save extends \Magento\TargetRule\Controller\Adminhtml\Targetrule
 
                 $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
-                $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('adminhtml/*/edit', ['id' => $this->getRequest()->getParam('rule_id')]);
                 return;
             }
 

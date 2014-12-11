@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml\Create;
 
@@ -72,6 +69,6 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
      */
     public function getSaveUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => $this->getShipment()->getOrderId()));
+        return $this->getUrl('*/*/save', ['order_id' => $this->getShipment()->getOrderId()]);
     }
 }

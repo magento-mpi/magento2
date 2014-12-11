@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Locale;
 
@@ -52,7 +49,7 @@ class Resolver implements \Magento\Framework\Locale\ResolverInterface
      *
      * @var array
      */
-    protected $_emulatedLocales = array();
+    protected $_emulatedLocales = [];
 
     /**
      * @var \Magento\Framework\LocaleFactory
@@ -135,7 +132,7 @@ class Resolver implements \Magento\Framework\Locale\ResolverInterface
     {
         if (!$this->_locale) {
             \Zend_Locale_Data::setCache($this->_cache->getFrontend()->getLowLevelFrontend());
-            $this->_locale = $this->_localeFactory->create(array('locale' => $this->getLocaleCode()));
+            $this->_locale = $this->_localeFactory->create(['locale' => $this->getLocaleCode()]);
         } elseif ($this->_locale->__toString() != $this->_localeCode) {
             $this->setLocale($this->_localeCode);
         }
@@ -173,13 +170,13 @@ class Resolver implements \Magento\Framework\Locale\ResolverInterface
         if ($scopeId) {
             $this->_emulatedLocales[] = clone $this->getLocale();
             $this->_locale = $this->_localeFactory->create(
-                array(
+                [
                     'locale' => $this->_scopeConfig->getValue(
                         $this->getDefaultLocalePath(),
                         $this->_scopeType,
                         $scopeId
-                    )
-                )
+                    ),
+                ]
             );
             $this->_localeCode = $this->_locale->toString();
             $result = $this->_localeCode;

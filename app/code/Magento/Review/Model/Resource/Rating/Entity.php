@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Model\Resource\Rating;
 
@@ -40,6 +37,6 @@ class Entity extends \Magento\Framework\Model\Resource\Db\AbstractDb
         )->where(
             'entity_code = :entity_code'
         );
-        return $adapter->fetchOne($select, array(':entity_code' => $entityCode));
+        return $adapter->fetchOne($select, [':entity_code' => $entityCode]);
     }
 }

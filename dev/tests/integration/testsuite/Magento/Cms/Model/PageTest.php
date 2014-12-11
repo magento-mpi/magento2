@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model;
 
@@ -48,16 +45,16 @@ class PageTest extends \PHPUnit_Framework_TestCase
 
     public function generateIdentifierFromTitleDataProvider()
     {
-        return array(
-            array('data' => array('title' => 'Test title', 'stores' => [1]), 'expectedIdentifier' => 'test-title'),
-            array(
-                'data' => array('title' => 'Кирилический заголовок', 'stores' => [1]),
+        return [
+            ['data' => ['title' => 'Test title', 'stores' => [1]], 'expectedIdentifier' => 'test-title'],
+            [
+                'data' => ['title' => 'Кирилический заголовок', 'stores' => [1]],
                 'expectedIdentifier' => 'kirilicheskij-zagolovok'
-            ),
-            array(
-                'data' => array('title' => 'Test title', 'identifier' => 'custom-identifier', 'stores' => [1]),
+            ],
+            [
+                'data' => ['title' => 'Test title', 'identifier' => 'custom-identifier', 'stores' => [1]],
                 'expectedIdentifier' => 'custom-identifier'
-            )
-        );
+            ]
+        ];
     }
 }

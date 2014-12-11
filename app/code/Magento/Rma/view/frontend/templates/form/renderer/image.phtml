@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -12,10 +9,12 @@
  */
 /* @var $this \Magento\Rma\Block\Form\Renderer\Image */
 ?>
-<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) echo ' required' ?>">
+<div class="field <?php echo $this->getHtmlId()?>${_index_}<?php if ($this->isRequired()) {
+    echo ' required' ?>">
     <label for="items:<?php echo $this->getHtmlId()?>${_index_}" class="label"><span><?php echo $this->getLabel() ?></span></label>
     <div class="control">
         <input type="file" id="items:<?php echo $this->getHtmlId()?>${_index_}" name="<?php echo $this->getFieldName()?>_${_index_}" value="" class="input-file">
-        <input type="hidden" id="items:<?php echo $this->getHtmlId()?>${_index_}_value" name="<?php echo $this->getFieldName()?>_${_index_}_value" value="<?php echo $this->getEscapedValue()?>" <?php if ($this->isRequired()): ?>data-validate="{required:true}" <?php endif;?>>
+        <input type="hidden" id="items:<?php echo $this->getHtmlId()?>${_index_}_value" name="<?php echo $this->getFieldName()?>_${_index_}_value" value="<?php echo $this->getEscapedValue()?>" <?php if ($this->isRequired()): ?>data-validate="{required:true}" <?php endif;
+}?>>
     </div>
 </div>

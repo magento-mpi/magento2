@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Resource\Fulltext;
 
@@ -59,7 +56,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\Validator\UniversalFactory $universalFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
@@ -86,7 +83,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\Validator\UniversalFactory $universalFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Catalog\Model\Indexer\Product\Flat\State $catalogProductFlatState,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
@@ -163,7 +160,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addSearchFilter($query)
     {
-        $this->queryText = trim($this->queryText .' ' . $query);
+        $this->queryText = trim($this->queryText . ' ' . $query);
         return $this;
     }
 
@@ -179,7 +176,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
 
         $this->requestBuilder->bind(
             'price_dynamic_algorithm',
-            $this->_scopeConfig ->getValue(
+            $this->_scopeConfig->getValue(
                 \Magento\Catalog\Model\Layer\Filter\Dynamic\AlgorithmFactory::XML_PATH_RANGE_CALCULATION,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
             )

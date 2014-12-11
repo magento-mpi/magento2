@@ -1,154 +1,151 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $installer \Magento\Reward\Model\Resource\Setup */
 $installer = $this;
-$installer->addAttribute('quote', 'use_reward_points', array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER));
+$installer->addAttribute('quote', 'use_reward_points', ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]);
 $installer->addAttribute(
     'quote',
     'reward_points_balance',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 $installer->addAttribute(
     'quote',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'quote',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'quote_address',
     'reward_points_balance',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 $installer->addAttribute(
     'quote_address',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'quote_address',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'order',
     'reward_points_balance',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 $installer->addAttribute(
     'order',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'order',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'order',
     'base_rwrd_crrncy_amt_invoiced',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'order',
     'rwrd_currency_amount_invoiced',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'order',
     'base_rwrd_crrncy_amnt_refnded',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'order',
     'rwrd_crrncy_amnt_refunded',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'invoice',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'invoice',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'creditmemo',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'creditmemo',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'invoice',
     'reward_points_balance',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 
 $installer->addAttribute(
     'creditmemo',
     'reward_points_balance',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 
 $installer->addAttribute(
     'order',
     'reward_points_balance_refund',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 $installer->addAttribute(
     'creditmemo',
     'reward_points_balance_refund',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 
 $installer->addAttribute(
     'quote',
     'base_reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 $installer->addAttribute(
     'quote',
     'reward_currency_amount',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_DECIMAL]
 );
 
 $installer->addAttribute(
     'order',
     'reward_points_balance_refunded',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 
 $installer->addAttribute(
     'order',
     'reward_salesrule_points',
-    array('type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER)
+    ['type' => \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER]
 );
 
 $installer->addAttribute(
     'customer',
     'reward_update_notification',
-    array(
+    [
         'type' => 'int',
         'visible' => 0,
         'required' => false,
@@ -157,13 +154,13 @@ $installer->addAttribute(
         'is_system' => 1,
         'is_hidden' => 1,
         'label' => 'Reward update notification'
-    )
+    ]
 );
 
 $installer->addAttribute(
     'customer',
     'reward_warning_notification',
-    array(
+    [
         'type' => 'int',
         'visible' => 0,
         'required' => false,
@@ -172,16 +169,16 @@ $installer->addAttribute(
         'is_system' => 1,
         'is_hidden' => 1,
         'label' => 'Reward warning notification'
-    )
+    ]
 );
 
-$cmsPage = array(
+$cmsPage = [
     'title' => 'Reward Points',
     'page_layout' => '1column',
     'identifier' => 'reward-points',
     'content_heading' => 'Reward Points',
     'is_active' => 1,
-    'stores' => array(0),
+    'stores' => [0],
     'content' => '<p>The Reward Points Program allows you to earn points for certain actions you take on the site. Points are awarded based on making purchases and customer actions such as submitting reviews.</p>
 
 <h2>Benefits of Reward Points for Registered Customers</h2>
@@ -217,7 +214,7 @@ $cmsPage = array(
 <h2>Reward Points Expiration</h2>
 <p>Reward points can be set to expire. Points will expire in the order form which they were first earned.</p>
 <p><strong>Note</strong>: You can sign up to receive email notifications each time your balance changes when you either earn, redeem or lose points, as well as point expiration notifications. This option is found in the <a href="{{store url="reward/customer/info"}}">Reward Points section</a> of the My Account area.</p>
-'
-);
+',
+];
 
 $this->getPage()->setData($cmsPage)->save();

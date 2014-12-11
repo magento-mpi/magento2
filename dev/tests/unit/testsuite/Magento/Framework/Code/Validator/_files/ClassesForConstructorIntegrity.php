@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 class ClassA
 {
@@ -136,7 +133,7 @@ class ClassArgumentWithOptionalParams
      * @param Context $context
      * @param array $data
      */
-    public function __construct(\Context $context, array $data = array())
+    public function __construct(\Context $context, array $data = [])
     {
         $this->_context = $context;
         $this->_data = $data;
@@ -170,7 +167,7 @@ class ClassArgumentWithWrongParentArgumentsType extends ClassArgumentWithOptiona
      * @param ClassC $exC
      * @param array $data
      */
-    public function __construct(\Context $context, \ClassB $exB, \ClassC $exC, array $data = array())
+    public function __construct(\Context $context, \ClassB $exB, \ClassC $exC, array $data = [])
     {
         parent::__construct($context, $exB);
         $this->_context = $context;

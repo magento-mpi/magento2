@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\Language;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * A service for reading language package dictionaries
@@ -29,7 +26,7 @@ class Dictionary
     /**
      * @var array
      */
-    private $packList = array();
+    private $packList = [];
 
     /**
      * @param Filesystem $filesystem
@@ -100,7 +97,7 @@ class Dictionary
             $result[$packKey] = [
                 'inheritance_level' => $level,
                 'sort_order'        => $languageConfig->getSortOrder(),
-                'language'          => $languageConfig
+                'language'          => $languageConfig,
             ];
             foreach ($languageConfig->getUses() as $reuse) {
                 if (isset($this->packList[$reuse['vendor']][$reuse['package']])) {

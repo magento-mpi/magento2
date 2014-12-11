@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Model\Resource\Item\Option;
 
@@ -19,14 +16,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_optionsByItem = array();
+    protected $_optionsByItem = [];
 
     /**
      * List of option ids grouped by product id
      *
      * @var array
      */
-    protected $_optionsByProduct = array();
+    protected $_optionsByProduct = [];
 
     /**
      * Internal constructor
@@ -56,12 +53,12 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             if (isset($this->_optionsByItem[$itemId])) {
                 $this->_optionsByItem[$itemId][] = $optionId;
             } else {
-                $this->_optionsByItem[$itemId] = array($optionId);
+                $this->_optionsByItem[$itemId] = [$optionId];
             }
             if (isset($this->_optionsByProduct[$productId])) {
                 $this->_optionsByProduct[$productId][] = $optionId;
             } else {
-                $this->_optionsByProduct[$productId] = array($optionId);
+                $this->_optionsByProduct[$productId] = [$optionId];
             }
         }
 
@@ -79,9 +76,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (empty($item)) {
             $this->_totalRecords = 0;
             $this->_setIsLoaded(true);
-        } else if (is_array($item)) {
-            $this->addFieldToFilter('item_id', array('in' => $item));
-        } else if ($item instanceof \Magento\GiftRegistry\Model\Item) {
+        } elseif (is_array($item)) {
+            $this->addFieldToFilter('item_id', ['in' => $item]);
+        } elseif ($item instanceof \Magento\GiftRegistry\Model\Item) {
             $this->addFieldToFilter('item_id', $item->getId());
         } else {
             $this->addFieldToFilter('item_id', $item);
@@ -99,8 +96,8 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addProductFilter($product)
     {
         if (is_array($product)) {
-            $this->addFieldToFilter('product_id', array('in' => $product));
-        } else if ($product instanceof \Magento\Catalog\Model\Product) {
+            $this->addFieldToFilter('product_id', ['in' => $product]);
+        } elseif ($product instanceof \Magento\Catalog\Model\Product) {
             $this->addFieldToFilter('product_id', $product->getId());
         } elseif ((int)$product > 0) {
             $this->addFieldToFilter('product_id', (int)$product);
@@ -140,7 +137,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->load();
 
-        $options = array();
+        $options = [];
         if (isset($this->_optionsByItem[$itemId])) {
             foreach ($this->_optionsByItem[$itemId] as $optionId) {
                 $options[] = $this->_items[$optionId];
@@ -166,7 +163,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->load();
 
-        $options = array();
+        $options = [];
         if (isset($this->_optionsByProduct[$productId])) {
             foreach ($this->_optionsByProduct[$productId] as $optionId) {
                 $options[] = $this->_items[$optionId];

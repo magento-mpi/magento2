@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
@@ -93,7 +90,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->readAdapter->expects($this->once())->method('select')->will($this->returnValue($this->select));
         $this->select->expects($this->at(0))->method('from')->with(
             [
-                'main' => $getTableReturnValue
+                'main' => $getTableReturnValue,
             ],
             [
                 'value_id',
@@ -142,4 +139,3 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($resultRow, $this->resource->loadGallery($this->product, $this->model));
     }
 }
- 

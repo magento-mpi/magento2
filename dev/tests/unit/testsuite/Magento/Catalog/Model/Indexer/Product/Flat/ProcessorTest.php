@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat;
 
@@ -40,8 +37,8 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->_indexerMock = $this->getMock(
             'Magento\Indexer\Model\Indexer',
-            array('getId', 'invalidate'),
-            array(),
+            ['getId', 'invalidate'],
+            [],
             '',
             false
         );
@@ -49,16 +46,16 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $this->_stateMock = $this->getMock(
             'Magento\Catalog\Model\Indexer\Product\Flat\State',
-            array('isFlatEnabled'),
-            array(),
+            ['isFlatEnabled'],
+            [],
             '',
             false
         );
         $this->indexerRegistryMock = $this->getMock('Magento\Indexer\Model\IndexerRegistry', ['get'], [], '', false);
-        $this->_model = $this->_objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Processor', array(
+        $this->_model = $this->_objectManager->getObject('Magento\Catalog\Model\Indexer\Product\Flat\Processor', [
             'indexerRegistry' => $this->indexerRegistryMock,
             'state'  => $this->_stateMock
-        ));
+        ]);
     }
 
     /**

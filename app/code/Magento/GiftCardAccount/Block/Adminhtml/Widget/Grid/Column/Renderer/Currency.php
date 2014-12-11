@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
@@ -12,7 +9,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Curren
     /**
      * @var array
      */
-    protected static $_websiteBaseCurrencyCodes = array();
+    protected static $_websiteBaseCurrencyCodes = [];
 
     /**
      * @param \Magento\Framework\Object $row

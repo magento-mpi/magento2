@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Catalog\Block\Adminhtml\Product\Edit\Js $this */
@@ -75,7 +72,7 @@ function bindActiveProductTab(event, ui) {
 jQuery(document).on('tabsactivate', bindActiveProductTab);
 
 // bind active tab
-<?php if($tabsBlock = $this->getLayout()->getBlock('product_tabs')): ?>
+<?php if ($tabsBlock = $this->getLayout()->getBlock('product_tabs')): ?>
 jQuery(function () {
     if (jQuery('#<?php echo $tabsBlock->getId() ?>').length && jQuery('#<?php echo $tabsBlock->getId() ?>').is(':mage-tabs')) {
         var activeAnchor = jQuery('#<?php echo $tabsBlock->getId() ?>').tabs('activeAnchor');

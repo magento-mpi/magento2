@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model;
 
@@ -42,7 +39,7 @@ class Observer
     /**
      * Store list manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -57,7 +54,7 @@ class Observer
     protected $extensibleDataObjectConverter;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno
@@ -67,7 +64,7 @@ class Observer
      * @param \Magento\Framework\Api\ExtensibleDataObjectConverter $extensibleDataObjectConverter
      */
     public function __construct(
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\Backend\Model\Config\Source\Yesno $configSourceYesno,
@@ -99,12 +96,12 @@ class Observer
         }
         $additional = $observer->getEvent()->getAdditional();
         $additional->setConditions(
-            array(
-                array(
+            [
+                [
                     'label' => __('Customer Segment'),
-                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment'
-                )
-            )
+                    'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Segment',
+                ],
+            ]
         );
     }
 
@@ -168,7 +165,7 @@ class Observer
         if ($customerData && $customerData->getId()) {
             $customer = $this->customerFactory->create(
                 [
-                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData)
+                    'data' => $this->extensibleDataObjectConverter->toFlatArray($customerData),
                 ]
             );
             $website = $quote->getStore()->getWebsite();
@@ -189,12 +186,12 @@ class Observer
         $fieldset->addField(
             'is_used_for_customer_segment',
             'select',
-            array(
+            [
                 'name' => 'is_used_for_customer_segment',
                 'label' => __('Use in Customer Segment'),
                 'title' => __('Use in Customer Segment'),
                 'values' => $this->_configSourceYesno->toOptionArray()
-            )
+            ]
         );
     }
 

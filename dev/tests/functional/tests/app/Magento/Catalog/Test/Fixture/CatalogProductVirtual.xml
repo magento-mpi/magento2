@@ -1,10 +1,7 @@
 <?xml version="1.0" ?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <fixture class="Magento\Catalog\Test\Fixture\CatalogProductVirtual">
@@ -125,13 +122,6 @@
             <default_value></default_value>
             <input>text</input>
         </image_label>
-        <is_recurring>
-            <attribute_code>is_recurring</attribute_code>
-            <backend_type>int</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>select</input>
-        </is_recurring>
         <manufacturer>
             <attribute_code>manufacturer</attribute_code>
             <backend_type>int</backend_type>
@@ -251,13 +241,6 @@
             <input>select</input>
             <group>product-details</group>
         </quantity_and_stock_status>
-        <recurring_profile>
-            <attribute_code>recurring_profile</attribute_code>
-            <backend_type>text</backend_type>
-            <is_required>0</is_required>
-            <default_value></default_value>
-            <input>text</input>
-        </recurring_profile>
         <required_options>
             <attribute_code>required_options</attribute_code>
             <backend_type>static</backend_type>

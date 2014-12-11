@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sitemap\Model;
 
@@ -57,7 +54,7 @@ class Observer
     protected $_transportBuilder;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -69,14 +66,14 @@ class Observer
     /**
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param Resource\Sitemap\CollectionFactory $collectionFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
      * @param \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
      */
     public function __construct(
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Sitemap\Model\Resource\Sitemap\CollectionFactory $collectionFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation
     ) {
@@ -95,7 +92,7 @@ class Observer
      */
     public function scheduledGenerateSitemaps($schedule)
     {
-        $errors = array();
+        $errors = [];
 
         // check if scheduled generation enabled
         if (!$this->_scopeConfig->isSetFlag(
@@ -132,12 +129,12 @@ class Observer
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_ADMIN,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setTemplateVars(
-                array('warnings' => join("\n", $errors))
+                ['warnings' => join("\n", $errors)]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,

@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model;
 
-class StoreManager implements \Magento\Framework\StoreManagerInterface
+class StoreManager implements \Magento\Store\Model\StoreManagerInterface
 {
     /**
      * Application run code
@@ -81,7 +78,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storage;
 
@@ -109,17 +106,17 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     /**
      * Get storage instance
      *
-     * @return \Magento\Framework\StoreManagerInterface
+     * @return \Magento\Store\Model\StoreManagerInterface
      */
     protected function _getStorage()
     {
-        if (!$this->_storage instanceof \Magento\Framework\StoreManagerInterface) {
-            $arguments = array(
+        if (!$this->_storage instanceof \Magento\Store\Model\StoreManagerInterface) {
+            $arguments = [
                 'isSingleStoreAllowed' => $this->_isSingleStoreAllowed,
                 'currentStore' => $this->_currentStore,
                 'scopeCode' => $this->_scopeCode,
                 'scopeType' => $this->_scopeType
-            );
+            ];
             $this->_storage = $this->_factory->get($arguments);
         }
         return $this->_storage;
@@ -226,7 +223,7 @@ class StoreManager implements \Magento\Framework\StoreManagerInterface
     /**
      * Retrieve default store for default group and website
      *
-     * @return Store
+     * @return Store|null
      */
     public function getDefaultStoreView()
     {

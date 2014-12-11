@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Block\Adminhtml\Export\Edit;
 
@@ -32,7 +29,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_expectedFields = array('base_fieldset' => array('entity' => 'entity', 'file_format' => 'file_format'));
+    protected $_expectedFields = ['base_fieldset' => ['entity' => 'entity', 'file_format' => 'file_format']];
 
     protected function setUp()
     {
@@ -55,7 +52,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->_model->toHtml();
 
         // get fieldset list
-        $actualFieldsets = array();
+        $actualFieldsets = [];
         $formElements = $this->_model->getForm()->getElements();
         foreach ($formElements as $formElement) {
             if ($formElement instanceof \Magento\Framework\Data\Form\Element\Fieldset) {

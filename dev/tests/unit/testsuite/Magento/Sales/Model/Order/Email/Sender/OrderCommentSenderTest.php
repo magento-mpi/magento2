@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
@@ -127,7 +124,7 @@ class OrderCommentSenderTest extends \PHPUnit_Framework_TestCase
                         'order' => $this->orderMock,
                         'billing' => $billingAddress,
                         'comment' => $comment,
-                        'store' => $this->storeMock
+                        'store' => $this->storeMock,
                     ]
                 )
             );

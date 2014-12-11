@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Category\Product\Plugin;
 
@@ -16,7 +13,6 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $processorMock->expects($this->once())
             ->method('markIndexerAsInvalid');
-
 
         $subjectMock = $this->getMockBuilder('Magento\ImportExport\Model\Import')
             ->disableOriginalConstructor()

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Relations;
 
@@ -19,7 +16,7 @@ class Runtime implements \Magento\Framework\ObjectManager\RelationsInterface
      *
      * @var array
      */
-    protected $_default = array();
+    protected $_default = [];
 
     /**
      * @param \Magento\Framework\Code\Reader\ClassReader $classReader

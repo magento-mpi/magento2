@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -57,7 +54,7 @@ class Profiler
     {
         $this->_registerDriver();
         $this->_driver->registerOutput(
-            new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(array('filePath' => $profilerOutputFile))
+            new \Magento\Framework\Profiler\Driver\Standard\Output\Csvfile(['filePath' => $profilerOutputFile])
         );
     }
 
@@ -72,7 +69,7 @@ class Profiler
         $this->_registerDriver();
         $this->_driver->registerOutput(
             new \Magento\TestFramework\Profiler\OutputBamboo(
-                array('filePath' => $profilerOutputFile, 'metrics' => require $profilerMetricsFile)
+                ['filePath' => $profilerOutputFile, 'metrics' => require $profilerMetricsFile]
             )
         );
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Catalog\Product\View\Type;
 
@@ -36,7 +33,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Framework\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
         PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         $this->_customerSession = $customerSession;
@@ -53,7 +50,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getAmountSettingsJson($product)
     {
-        $result = array('min' => 0, 'max' => 0);
+        $result = ['min' => 0, 'max' => 0];
         if ($product->getAllowOpenAmount()) {
             if ($v = $product->getOpenAmountMin()) {
                 $result['min'] = $v;
@@ -81,7 +78,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return bool
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isOpenAmountAvailable (MAGETWO-31471)
      */
     public function isOpenAmountAvailable($product)
     {
@@ -95,7 +92,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return bool
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::isAmountAvailable (MAGETWO-31471)
      */
     public function isAmountAvailable($product)
     {
@@ -109,11 +106,11 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param Product $product
      * @return array
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getAmounts (MAGETWO-31471)
      */
     public function getAmounts($product)
     {
-        $result = array();
+        $result = [];
         foreach ($product->getGiftcardAmounts() as $amount) {
             $result[] = $this->priceCurrency->round($amount['website_value']);
         }
@@ -124,7 +121,7 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
     /**
      * @return string
      *
-     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency
+     * @deprecated \Magento\GiftCard\Pricing\Render\FinalPriceBox::getCurrentCurrency (MAGETWO-31471)
      */
     public function getCurrentCurrency()
     {

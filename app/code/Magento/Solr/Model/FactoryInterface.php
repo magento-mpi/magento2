@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model;
 
@@ -15,7 +12,7 @@ interface FactoryInterface
      * @param array $options
      * @return mixed
      */
-    public function createClient(array $options = array());
+    public function createClient(array $options = []);
 
     /**
      * Return search adapter
