@@ -38,8 +38,10 @@ class State1 extends AbstractState
     public function apply()
     {
         parent::apply();
-        $this->config->switchData('app_state1_configuration');
-        $this->config->persist();
+        if (file_exists(dirname(dirname(dirname(MTF_BP))) . '/app/etc/config.php')) {
+            $this->config->switchData('app_state1_configuration');
+            $this->config->persist();
+        }
     }
 
     /**

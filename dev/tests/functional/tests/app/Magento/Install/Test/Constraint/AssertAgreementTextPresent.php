@@ -16,17 +16,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertAgreementTextPresent extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Part of license agreement text.
      */
     const LICENSE_AGREEMENT_TEXT = 'Open Software License ("OSL") v. 3.0';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that part of license agreement text is present on Terms & Agreement page.

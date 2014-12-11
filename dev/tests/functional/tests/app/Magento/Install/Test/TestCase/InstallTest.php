@@ -116,6 +116,7 @@ class InstallTest extends Injectable
         AssertSuccessfulReadinessCheck $assertReadiness,
         AssertSuccessDbConnection $assertDbConnection
     ) {
+        $this->markTestIncomplete('Bug: MAGETWO-31622');
         $dataConfig = array_merge($install, $configData);
         /** @var InstallConfig $installConfig */
         $installConfig = $fixtureFactory->create('Magento\Install\Test\Fixture\Install', ['data' => $dataConfig]);

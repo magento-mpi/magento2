@@ -16,17 +16,14 @@ use Mtf\Constraint\AbstractConstraint;
  */
 class AssertSuccessDbConnection extends AbstractConstraint
 {
+    /* tags */
+    const SEVERITY = 'low';
+    /* end tags */
+
     /**
      * Successful connection message.
      */
     const SUCCESSFUL_CONNECTION = 'Test connection successful.';
-
-    /**
-     * Constraint severeness.
-     *
-     * @var string
-     */
-    protected $severeness = 'low';
 
     /**
      * Assert that system can successfully connect to DB.

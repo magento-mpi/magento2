@@ -98,10 +98,10 @@ class InjectableTests extends \PHPUnit_Framework_TestSuite
             $configurationFileName = isset($_ENV['configuration:Mtf/TestSuite/InjectableTests'])
                 ? $_ENV['configuration:Mtf/TestSuite/InjectableTests']
                 : 'basic';
-            $confDirPath = __DIR__ . '/InjectableTests/';
+            $confFilePath = __DIR__ . '/InjectableTests/' . $configurationFileName . '.xml';
             /** @var \Mtf\TestRunner\Configuration $testRunnerConfiguration */
             $testRunnerConfiguration = $objectManagerFactory->getObjectManager()->get('\Mtf\TestRunner\Configuration');
-            $testRunnerConfiguration->load($confDirPath);
+            $testRunnerConfiguration->load($confFilePath);
             $testRunnerConfiguration->loadEnvConfig();
 
             $shared = ['Mtf\TestRunner\Configuration' => $testRunnerConfiguration];

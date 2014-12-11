@@ -56,7 +56,7 @@ class CustomerForm extends Form
     public function getValidationMessages(CustomerInjectable $customer)
     {
         $messages = [];
-        foreach(array_keys($customer->getData()) as $field) {
+        foreach (array_keys($customer->getData()) as $field) {
             $element = $this->_rootElement->find(sprintf($this->validationText, str_replace('_', '-', $field)));
             if ($element->isVisible()) {
                 $messages[$field] = $element->getText();
