@@ -62,7 +62,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
         $this->_observer = $this->_objectManager->create(
             'Magento\Persistent\Model\Observer\EmulateQuote',
             [
-                'customerAccountService' => $this->customerRepository,
+                'customerRepository' => $this->customerRepository,
                 'checkoutSession' => $this->_checkoutSession,
                 'persistentSession' => $this->_persistentSessionHelper
             ]

@@ -53,7 +53,6 @@ class Validation extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCre
     {
         $payment = $this->getQuote()->getPayment();
         if (!$payment->getMethod() ||
-            !$payment->getMethodInstance() ||
             $payment->getMethodInstance()->getIsDummy() ||
             !$payment->getMethodInstance()->getIsCentinelValidationEnabled()
         ) {

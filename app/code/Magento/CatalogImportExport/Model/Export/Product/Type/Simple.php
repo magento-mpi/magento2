@@ -33,8 +33,6 @@ class Simple extends \Magento\CatalogImportExport\Model\Export\Product\Type\Abst
      */
     protected $_disabledAttrs = array(
         'old_id',
-        'recurring_payment',
-        'is_recurring',
         'tier_price',
         'group_price',
         'category_ids'

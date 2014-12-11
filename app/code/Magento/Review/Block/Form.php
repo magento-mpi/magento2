@@ -164,7 +164,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getProductInfo()
     {
-        return $this->productRepository->getById($this->getRequest()->getParam('id'));
+        return $this->productRepository->getById($this->getProductId());
     }
 
     /**
@@ -174,8 +174,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getAction()
     {
-        $productId = $this->getRequest()->getParam('id', false);
-        return $this->getUrl('review/product/post', array('id' => $productId));
+        return $this->getUrl('review/product/post', array('id' => $this->getProductId()));
     }
 
     /**
@@ -204,5 +203,15 @@ class Form extends \Magento\Framework\View\Element\Template
     public function getRegisterUrl()
     {
         return $this->customerUrl->getRegisterUrl();
+    }
+
+    /**
+     * Get review product id
+     *
+     * @return int
+     */
+    protected function getProductId()
+    {
+        return $this->getRequest()->getParam('id', false);
     }
 }

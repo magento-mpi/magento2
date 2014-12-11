@@ -9,6 +9,7 @@ namespace Magento\Multishipping\Block\Checkout\Address;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Customer\Helper\Address as CustomerAddressHelper;
+use Magento\Customer\Api\AddressRepositoryInterface;
 
 /**
  * Class Select
@@ -27,12 +28,30 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
     protected $addressMapper;
 
     /**
+     * @var \Magento\Framework\Api\FilterBuilder
+     */
+    protected $filterBuilder;
+
+    /**
+     * @var \Magento\Framework\Api\SearchCriteriaBuilder
+     */
+    protected $searchCriteriaBuilder;
+
+    /**
+     * @var AddressRepositoryInterface
+     */
+    protected $addressRepository;
+
+    /**
      * Initialize dependencies.
      *
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping
      * @param CustomerAddressHelper $customerAddressHelper
      * @param \Magento\Customer\Model\Address\Mapper $addressMapper
+     * @param AddressRepositoryInterface $addressRepository
+     * @param \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder
+     * @param \Magento\Framework\Api\FilterBuilder $filterBuilder
      * @param array $data
      */
     public function __construct(
@@ -40,10 +59,16 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         \Magento\Multishipping\Model\Checkout\Type\Multishipping $multishipping,
         CustomerAddressHelper $customerAddressHelper,
         \Magento\Customer\Model\Address\Mapper $addressMapper,
+        AddressRepositoryInterface $addressRepository,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
         array $data = []
     ) {
         $this->_customerAddressHelper = $customerAddressHelper;
         $this->addressMapper = $addressMapper;
+        $this->addressRepository = $addressRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->filterBuilder = $filterBuilder;
         parent::__construct($context, $multishipping, $data);
     }
 
@@ -73,7 +98,13 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
         $addresses = $this->getData('address_collection');
         if (is_null($addresses)) {
             try {
-                $addresses = $this->_multishipping->getCustomer()->getAddresses();
+                $filter =  $this->filterBuilder->setField('parent_id')
+                    ->setValue($this->_multishipping->getCustomer()->getId())
+                    ->setConditionType('eq')
+                    ->create();
+                $addresses = (array)($this->addressRepository->getList(
+                    $this->searchCriteriaBuilder->addFilter([$filter])->create()
+                )->getItems());
             } catch (NoSuchEntityException $e) {
                 return [];
             }
@@ -106,7 +137,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     public function isAddressDefaultBilling(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling()->getId();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultBilling();
     }
 
     /**
@@ -117,7 +148,7 @@ class Select extends \Magento\Multishipping\Block\Checkout\AbstractMultishipping
      */
     public function isAddressDefaultShipping(\Magento\Customer\Api\Data\AddressInterface $address)
     {
-        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping()->getId();
+        return $address->getId() == $this->_multishipping->getCustomer()->getDefaultShipping();
     }
 
     /**
