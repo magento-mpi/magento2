@@ -93,7 +93,7 @@ class Index extends \Magento\Backend\App\Action
         ) {
             if ($useRedirects) {
                 $this->messageManager->addError(__('Shopping cart management disabled for this customer.'));
-                $this->_redirect('customer/index/edit', ['id' => $customer->getId()]);
+                $this->_redirect('customer/index/edit', ['id' => $customerId]);
                 $this->_redirectFlag = true;
                 return $this;
             } else {
