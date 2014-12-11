@@ -72,6 +72,7 @@ class DeleteAttributeSetTest extends Injectable
      */
     public function test(FixtureFactory $fixtureFactory, CatalogAttributeSet $productTemplate)
     {
+        $this->markTestIncomplete("Bug: MAGETWO-31188");
         // Precondition
         $productTemplate->persist();
         $product = $fixtureFactory->createByCode(

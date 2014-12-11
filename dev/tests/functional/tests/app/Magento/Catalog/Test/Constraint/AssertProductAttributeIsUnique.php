@@ -14,6 +14,7 @@ use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Mtf\Constraint\AbstractConstraint;
+use Mtf\Fixture\FixtureFactory;
 
 /**
  * Check whether the attribute is unique.
@@ -34,30 +35,34 @@ class AssertProductAttributeIsUnique extends AbstractConstraint
      *
      * @param CatalogProductIndex $catalogProductIndex
      * @param CatalogProductEdit $catalogProductEdit
-     * @param CatalogProductSimple $product
      * @param CatalogProductAttribute $attribute
+     * @param FixtureFactory $fixtureFactory
      * @throws \Exception
      * @return void
      */
     public function processAssert(
         CatalogProductIndex $catalogProductIndex,
         CatalogProductEdit $catalogProductEdit,
-        CatalogProductSimple $product,
-        CatalogProductAttribute $attribute
+        CatalogProductAttribute $attribute,
+        FixtureFactory $fixtureFactory
     ) {
+        $simpleProduct = $fixtureFactory->createByCode(
+            'catalogProductSimple',
+            ['dataSet' => 'default', 'data' => ['custom_attribute' => $attribute]]
+        );
+
         $catalogProductIndex->open()->getGridPageActionBlock()->addProduct('simple');
         $productForm = $catalogProductEdit->getProductForm();
-        $productForm->fill($product);
+        $productForm->fill($simpleProduct);
         $catalogProductEdit->getFormPageActions()->save();
-        $failedAttributes = $productForm->getRequireNoticeAttributes($product);
-        $actualMessage = $failedAttributes['product-details'][$attribute->getFrontendLabel()];
-
-        $fixtureData = $attribute->getData();
-        $defaultValue = preg_grep('/^default_value/', array_keys($fixtureData));
+        $failedAttributes = $productForm->getRequireNoticeAttributes($simpleProduct);
+        $actualMessage = isset($failedAttributes['product-details'][$attribute->getFrontendLabel()])
+            ? $failedAttributes['product-details'][$attribute->getFrontendLabel()]
+            : null;
 
         \PHPUnit_Framework_Assert::assertEquals(
-            self::UNIQUE_MESSAGE,
-            sprintf($actualMessage, $fixtureData[array_shift($defaultValue)]),
+            sprintf(self::UNIQUE_MESSAGE, $attribute->getFrontendLabel()),
+            $actualMessage,
             'JS error notice on product edit page is not equal to expected.'
         );
     }
