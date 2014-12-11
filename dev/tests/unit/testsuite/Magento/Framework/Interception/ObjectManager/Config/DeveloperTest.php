@@ -16,85 +16,42 @@ class DeveloperTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var \Magento\Framework\Interception\Config | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Interception\ConfigInterface | \PHPUnit_Framework_MockObject_MockObject
      */
     private $interceptionConfig;
-
-    /** @var  \Magento\Framework\ObjectManager\Config\Config | \PHPUnit_Framework_MockObject_MockObject */
-    private $subjectConfigMock;
 
     protected function setUp()
     {
         $this->interceptionConfig = $this->getMock('\Magento\Framework\Interception\ConfigInterface');
-
-        $this->subjectConfigMock = $this->getMockBuilder('\Magento\Framework\ObjectManager\Config\Config')
-            ->disableOriginalConstructor()
-            ->setMethods(['getInstanceType'])
-            ->getMock();
-
-        $this->model = new Developer($this->subjectConfigMock);
+        $this->model = new Developer();
     }
 
     public function testGetInstanceTypeReturnsInterceptorClass()
     {
-        $instanceName = 'SomeClass';
-
-        $this->interceptionConfig->expects($this->once())
-            ->method('hasPlugins')
-            ->willReturn(true);
-
-        $this->subjectConfigMock->expects($this->once())
-            ->method('getInstanceType')
-            ->with($instanceName)
-            ->willReturn($instanceName);
-
+        $this->interceptionConfig->expects($this->once())->method('hasPlugins')->will($this->returnValue(true));
         $this->model->setInterceptionConfig($this->interceptionConfig);
 
-        $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType($instanceName));
+        $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType('SomeClass'));
     }
 
     public function testGetInstanceTypeReturnsSimpleClassIfNoPluginsAreDeclared()
     {
-        $instanceName = 'SomeClass';
-
-        $this->subjectConfigMock->expects($this->once())
-            ->method('getInstanceType')
-            ->with($instanceName)
-            ->willReturn($instanceName);
-
         $this->model->setInterceptionConfig($this->interceptionConfig);
 
-        $this->assertEquals('SomeClass', $this->model->getInstanceType($instanceName));
+        $this->assertEquals('SomeClass', $this->model->getInstanceType('SomeClass'));
     }
 
     public function testGetInstanceTypeReturnsSimpleClassIfInterceptionConfigIsNotSet()
     {
-        $instanceName = 'SomeClass';
-
-        $this->subjectConfigMock->expects($this->once())
-            ->method('getInstanceType')
-            ->with($instanceName)
-            ->willReturn($instanceName);
-
-        $this->assertEquals('SomeClass', $this->model->getInstanceType($instanceName));
+        $this->assertEquals('SomeClass', $this->model->getInstanceType('SomeClass'));
     }
 
     public function testGetOriginalInstanceTypeReturnsInterceptedClass()
     {
-        $this->interceptionConfig->expects($this->once())
-            ->method('hasPlugins')
-            ->willReturn(true);
-
-        $instanceName = 'SomeClass';
-
-        $this->subjectConfigMock->expects($this->exactly(2))
-            ->method('getInstanceType')
-            ->with($instanceName)
-            ->willReturn($instanceName);
-
+        $this->interceptionConfig->expects($this->once())->method('hasPlugins')->will($this->returnValue(true));
         $this->model->setInterceptionConfig($this->interceptionConfig);
 
-        $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType($instanceName));
-        $this->assertEquals('SomeClass', $this->model->getOriginalInstanceType($instanceName));
+        $this->assertEquals('SomeClass\Interceptor', $this->model->getInstanceType('SomeClass'));
+        $this->assertEquals('SomeClass', $this->model->getOriginalInstanceType('SomeClass'));
     }
 }

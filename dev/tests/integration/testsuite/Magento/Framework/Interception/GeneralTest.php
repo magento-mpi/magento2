@@ -28,7 +28,7 @@ class GeneralTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $config = new \Magento\Framework\Interception\ObjectManager\Config\Developer(new ObjectManagerConfig());
+        $config = new \Magento\Framework\Interception\ObjectManager\Config\Developer();
         $factory = new \Magento\Framework\ObjectManager\Factory\Dynamic\Developer($config, null);
 
         $this->_configReader = $this->getMock('Magento\Framework\Config\ReaderInterface');
