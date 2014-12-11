@@ -3151,7 +3151,7 @@ $table = $this->getConnection()->newTable(
     'tax_ratio',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     512,
-    array(),
+    [],
     'Ratio of tax invoiced over tax of the order item'
 )->addIndex(
     $this->getIdxName('sales_invoice_item', ['parent_id']),
@@ -3903,7 +3903,7 @@ $table = $this->getConnection()->newTable(
     'tax_ratio',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     512,
-    array(),
+    [],
     'Ratio of tax in the creditmemo item over tax of the order item'
 )->addIndex(
     $this->getIdxName('sales_creditmemo_item', ['parent_id']),

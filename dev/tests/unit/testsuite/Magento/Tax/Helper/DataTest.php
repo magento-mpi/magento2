@@ -224,7 +224,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->priceCurrencyMock->expects($this->any())
             ->method('round')
-            ->will($this->returnCallback(function ($arg) {return round($arg, 2);}));
+            ->will($this->returnCallback(
+                    function ($arg) {
+                        return round($arg, 2);
+                    }
+                )
+            );
 
         $result = $this->helper->getCalculatedTaxes($source);
         foreach ($result as $index => $appliedTax) {
