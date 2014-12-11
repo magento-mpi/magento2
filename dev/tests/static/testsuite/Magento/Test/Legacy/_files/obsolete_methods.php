@@ -1737,6 +1737,13 @@ return array(
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Resource\Stock\Status'],
     ['prepareCatalogProductIndexSelect', 'Magento\CatalogInventory\Model\Stock\Status'],
     [
+        'getWebsites',
+        'Magento\CatalogInventory\Model\StockIndex',
+        'Magento\CatalogInventory\Model\StockIndex:getWebsitesWithDefaultStores'
+    ],
+    ['getProductType', 'Magento\CatalogInventory\Model\StockIndex'],
+    ['getProductTypeInstance', 'Magento\CatalogInventory\Model\StockIndex'],
+    [
         'getPriceHtml',
         '\Magento\Catalog\Block\Product\AbstractProduct',
         '\Magento\Catalog\Block\Product\AbstractProduct::getProductPriceHtml'

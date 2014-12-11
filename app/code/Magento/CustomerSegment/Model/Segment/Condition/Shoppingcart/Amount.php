@@ -84,7 +84,7 @@ class Amount extends AbstractCondition
      *
      * Modify attribute_option array if needed
      *
-     * @param \Magento\Rule\Model\Rule $rule
+     * @param \Magento\Rule\Model\AbstractModel $rule
      * @return $this
      */
     public function setRule($rule)

@@ -42,7 +42,10 @@ class ConditionsTest extends \PHPUnit_Framework_TestCase
 
     public function testRender()
     {
-        $rule = $this->getMock('\Magento\Rule\Model\Rule', ['getConditions', '__sleep', '__wakeup'], [], '', false);
+        $rule = $this->getMockBuilder('Magento\Rule\Model\AbstractModel')
+            ->setMethods(['getConditions', '__sleep', '__wakeup'])
+            ->disableOriginalConstructor()
+            ->getMockForAbstractClass();
         $conditions = $this->getMock('\Magento\Rule\Model\Condition\Combine', ['asHtmlRecursive'], [], '', false);
 
         $this->_element->expects($this->any())
