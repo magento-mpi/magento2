@@ -26,6 +26,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
      * @param \Magento\Checkout\Model\Cart $checkoutCart
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Locale\ResolverInterface $localeResolver
+     * @param \Magento\Framework\Module\Manager $moduleManager
      * @param \Magento\Wishlist\Model\LocaleQuantityProcessor $quantityProcessor
      */
     public function __construct(
@@ -40,6 +41,7 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
         \Magento\Checkout\Model\Cart $checkoutCart,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
+        \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Wishlist\Model\LocaleQuantityProcessor $quantityProcessor
     ) {
         $this->quantityProcessor = $quantityProcessor;
@@ -55,7 +57,8 @@ class Addtocart extends \Magento\MultipleWishlist\Controller\Search
             $checkoutSession,
             $checkoutCart,
             $customerSession,
-            $localeResolver
+            $localeResolver,
+            $moduleManager
         );
     }
 
