@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -19,24 +16,24 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
 
     public function testDeserializeRenders()
     {
-        $childBlock = $this->getMock('Magento\Framework\View\Element\AbstractBlock', array(), array(), '', false);
+        $childBlock = $this->getMock('Magento\Framework\View\Element\AbstractBlock', [], [], '', false);
         /** @var $layout \Magento\Framework\View\LayoutInterface */
         $layout = $this->getMock(
             'Magento\Framework\View\Layout',
-            array('createBlock', 'getChildName', 'setChild'),
-            array(),
+            ['createBlock', 'getChildName', 'setChild'],
+            [],
             '',
             false
         );
 
         $rendererList = $this->_objectManager->getObject(
             'Magento\Checkout\Block\Cart\Sidebar',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
         $layout->expects(
             $this->at(0)
@@ -54,7 +51,7 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         )->with(
             'some-block',
             '.some-template',
-            array('data' => array('template' => 'some-type'))
+            ['data' => ['template' => 'some-type']]
         )->will(
             $this->returnValue($childBlock)
         );
@@ -73,12 +70,12 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Checkout\Block\Cart\Sidebar */
         $block = $this->_objectManager->getObject(
             'Magento\Checkout\Block\Cart\Sidebar',
-            array(
+            [
                 'context' => $this->_objectManager->getObject(
                     'Magento\Backend\Block\Template\Context',
-                    array('layout' => $layout)
+                    ['layout' => $layout]
                 )
-            )
+            ]
         );
 
         $block->deserializeRenders('some-template|some-block|some-type');
@@ -92,8 +89,8 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $product */
         $product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('__wakeup', 'getIdentities'),
-            array(),
+            ['__wakeup', 'getIdentities'],
+            [],
             '',
             false
         );
@@ -103,12 +100,12 @@ class SidebarTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($identities));
 
         /** @var \Magento\Sales\Model\Quote\Item|\PHPUnit_Framework_MockObject_MockObject $item */
-        $item = $this->getMock('Magento\Sales\Model\Quote\Item', array(), array(), '', false);
+        $item = $this->getMock('Magento\Sales\Model\Quote\Item', [], [], '', false);
         $item->expects($this->once())->method('getProduct')->will($this->returnValue($product));
 
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $quote */
-        $quote = $this->getMock('Magento\Sales\Model\Quote', array(), array(), '', false);
-        $quote->expects($this->once())->method('getAllVisibleItems')->will($this->returnValue(array($item)));
+        $quote = $this->getMock('Magento\Sales\Model\Quote', [], [], '', false);
+        $quote->expects($this->once())->method('getAllVisibleItems')->will($this->returnValue([$item]));
 
         $block->setData('custom_quote', $quote);
         $this->assertEquals($product->getIdentities(), $block->getIdentities());

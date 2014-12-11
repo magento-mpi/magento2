@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Block\Product;
 
@@ -48,7 +45,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Catalog\Block\Product\Context $context,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Reports\Model\Product\Index\Factory $indexFactory,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -79,7 +76,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      */
     protected function _getProductsToSkip()
     {
-        return array();
+        return [];
     }
 
     /**

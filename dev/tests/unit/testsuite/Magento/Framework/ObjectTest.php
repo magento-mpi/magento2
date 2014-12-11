@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -169,9 +166,9 @@ class ObjectTest extends \PHPUnit_Framework_TestCase
                 'subkey2.1' => 'value2.1',
                 'subkey2.2' => 'multiline
 string',
-                'subkey2.3' => new \Magento\Framework\Object(['test_key' => 'test_value'])
+                'subkey2.3' => new \Magento\Framework\Object(['test_key' => 'test_value']),
             ],
-            'key3' => 5
+            'key3' => 5,
         ];
         $this->_object->setData($data);
 
@@ -193,8 +190,8 @@ string',
                     'subkey2.1' => 'value2.1',
                     'subkey2.2' => 'multiline
 string',
-                    'subkey2.3' => new \Magento\Framework\Object(['test_key' => 'test_value'])
-                ]
+                    'subkey2.3' => new \Magento\Framework\Object(['test_key' => 'test_value']),
+                ],
             ]
         );
         $this->assertEquals('value1', $this->_object->getDataByPath('key1'));

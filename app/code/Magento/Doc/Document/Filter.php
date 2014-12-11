@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Document;
 
@@ -14,7 +11,7 @@ class Filter extends \Magento\Framework\Filter\Template
      *
      * @var array
      */
-    protected $modifiers = array('nl2br' => '');
+    protected $modifiers = ['nl2br' => ''];
 
     /**
      * @var \Magento\Framework\View\Asset\Repository

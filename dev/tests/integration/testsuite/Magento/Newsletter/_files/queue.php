@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/template.php';
@@ -36,5 +33,5 @@ $queue->setTemplateId(
 )->setQueueStartAtByString(
     0
 )->setStores(
-    array($currentStore, $otherStore)
+    [$currentStore, $otherStore]
 )->save();

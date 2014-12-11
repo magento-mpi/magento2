@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -50,7 +47,7 @@ class Widget
     /**
      * @var array
      */
-    protected $_widgetsArray = array();
+    protected $_widgetsArray = [];
 
     /**
      * @var \Magento\Widget\Helper\Conditions
@@ -136,7 +133,7 @@ class Widget
 
         // Correct widget parameters and convert its data to objects
         $params = $object->getData('parameters');
-        $newParams = array();
+        $newParams = [];
         if (is_array($params)) {
             $sortOrder = 0;
             foreach ($params as $key => $data) {
@@ -145,7 +142,7 @@ class Widget
                     $data['sort_order'] = isset($data['sort_order']) ? (int)$data['sort_order'] : $sortOrder;
 
                     // prepare values (for drop-dawns) specified directly in configuration
-                    $values = array();
+                    $values = [];
                     if (isset($data['values']) && is_array($data['values'])) {
                         foreach ($data['values'] as $value) {
                             if (isset($value['label']) && isset($value['value'])) {
@@ -172,7 +169,7 @@ class Widget
                 }
             }
         }
-        uasort($newParams, array($this, '_sortParameters'));
+        uasort($newParams, [$this, '_sortParameters']);
         $object->setData('parameters', $newParams);
 
         return $object;
@@ -184,7 +181,7 @@ class Widget
      * @param array $filters Key-value array of filters for widget node properties
      * @return array
      */
-    public function getWidgets($filters = array())
+    public function getWidgets($filters = [])
     {
         $widgets = $this->_dataStorage->get();
         $result = $widgets;
@@ -214,19 +211,19 @@ class Widget
      * @param array $filters Key-value array of filters for widget node properties
      * @return array
      */
-    public function getWidgetsArray($filters = array())
+    public function getWidgetsArray($filters = [])
     {
         if (empty($this->_widgetsArray)) {
-            $result = array();
+            $result = [];
             foreach ($this->getWidgets($filters) as $code => $widget) {
-                $result[$widget['name']] = array(
+                $result[$widget['name']] = [
                     'name' => __((string)$widget['name']),
                     'code' => $code,
                     'type' => $widget['@']['type'],
-                    'description' => __((string)$widget['description'])
-                );
+                    'description' => __((string)$widget['description']),
+                ];
             }
-            usort($result, array($this, "_sortWidgets"));
+            usort($result, [$this, "_sortWidgets"]);
             $this->_widgetsArray = $result;
         }
         return $this->_widgetsArray;
@@ -240,14 +237,14 @@ class Widget
      * @param bool $asIs Return result as widget directive(true) or as placeholder image(false)
      * @return string Widget directive ready to parse
      */
-    public function getWidgetDeclaration($type, $params = array(), $asIs = true)
+    public function getWidgetDeclaration($type, $params = [], $asIs = true)
     {
         $directive = '{{widget type="' . preg_quote($type) . '"';
 
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
             if ($name == 'conditions') {
-                $name='conditions_encoded';
+                $name = 'conditions_encoded';
                 $value = $this->conditionsHelper->encode($value);
             } elseif (is_array($value)) {
                 $value = implode(',', $value);
@@ -309,7 +306,7 @@ class Widget
      */
     public function getPlaceholderImageUrls()
     {
-        $result = array();
+        $result = [];
         $widgets = $this->getWidgets();
         /** @var array $widget */
         foreach ($widgets as $widget) {

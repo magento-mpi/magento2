@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Test\Integrity\App\Language;
@@ -29,7 +26,7 @@ class TranslationFilesNonEnglishTest extends TranslationFiles
         $this->markTestSkipped('MAGETWO-26083');
         $files = $this->getCsvFiles($placePath);
 
-        $failures = array();
+        $failures = [];
         if (!empty($files)) {
             $failures = $this->checkModuleFiles($files);
         }

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -21,7 +18,7 @@ class NewAction extends \Magento\Rma\Controller\Adminhtml\Rma
         $orderId = $this->getRequest()->getParam('order_id');
         if (!$orderId) {
             $customerId = $this->getRequest()->getParam('customer_id');
-            $this->_redirect('adminhtml/*/chooseorder', array('customer_id' => $customerId));
+            $this->_redirect('adminhtml/*/chooseorder', ['customer_id' => $customerId]);
         } else {
             try {
                 $this->_initCreateModel();

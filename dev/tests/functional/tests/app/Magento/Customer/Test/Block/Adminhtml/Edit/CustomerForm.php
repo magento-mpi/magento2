@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Block\Adminhtml\Edit;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Fixture\InjectableFixture;
 
 /**

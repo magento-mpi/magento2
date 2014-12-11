@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Render;
 
+use Magento\Catalog\Pricing\Price;
+use Magento\Framework\Pricing\Render;
 use Magento\Framework\Pricing\Render\PriceBox as BasePriceBox;
 use Magento\Msrp\Pricing\Price\MsrpPrice;
-use Magento\Framework\Pricing\Render;
-use Magento\Catalog\Pricing\Price;
 
 /**
  * Class for final_price rendering

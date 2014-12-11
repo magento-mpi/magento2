@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -27,7 +24,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\App\DefaultPathInterface $defaultPath,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $defaultPath, $data);
         $this->_registry = $registry;
@@ -50,7 +47,7 @@ class Link extends \Magento\Framework\View\Element\Html\Link\Current
      */
     public function getHref()
     {
-        return $this->getUrl($this->getPath(), array('order_id' => $this->getOrder()->getId()));
+        return $this->getUrl($this->getPath(), ['order_id' => $this->getOrder()->getId()]);
     }
 
     /**

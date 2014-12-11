@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit;
 
@@ -49,11 +46,11 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
             $data = [
                 'label' => __('Save Customer'),
                 'class' => 'save primary',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'save')),
-                    'form-role' => 'save'
-                ),
-                'sort_order' => 90
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'save']],
+                    'form-role' => 'save',
+                ],
+                'sort_order' => 90,
             ];
         }
         return $data;

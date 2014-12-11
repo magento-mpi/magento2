@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\ObjectManager\Profiler;
 
@@ -43,7 +40,7 @@ class FactoryDecorator implements \Magento\Framework\ObjectManager\FactoryInterf
     /**
      * {@inheritdoc}
      */
-    public function create($requestedType, array $arguments = array())
+    public function create($requestedType, array $arguments = [])
     {
         $this->log->startCreating($requestedType);
         $result = $this->subject->create($requestedType, $arguments);

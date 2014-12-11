@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Report\Invoiced\Collection;
 
@@ -26,7 +23,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
      *
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -68,14 +65,14 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
         }
 
         if (!$this->isTotals()) {
-            $this->_selectedColumns = array(
+            $this->_selectedColumns = [
                 'period' => $this->_periodFormat,
                 'orders_count' => 'SUM(orders_count)',
                 'orders_invoiced' => 'SUM(orders_invoiced)',
                 'invoiced' => 'SUM(invoiced)',
                 'invoiced_captured' => 'SUM(invoiced_captured)',
-                'invoiced_not_captured' => 'SUM(invoiced_not_captured)'
-            );
+                'invoiced_not_captured' => 'SUM(invoiced_not_captured)',
+            ];
         }
 
         if ($this->isTotals()) {

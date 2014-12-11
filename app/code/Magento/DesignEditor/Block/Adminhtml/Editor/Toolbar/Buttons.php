@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar;
 
@@ -35,7 +32,7 @@ class Buttons extends \Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Abstr
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_backendHelper = $backendHelper;
         parent::__construct($context, $data);

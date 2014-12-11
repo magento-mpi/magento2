@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Pci\Test\TestCase;
@@ -29,7 +26,7 @@ class LockedTest extends Functional
         //Data
         $password = '123123q';
         $incorrectPassword = 'honey boo boo';
-        $passwordDataSet = array(
+        $passwordDataSet = [
             'incorrect password #1' => $incorrectPassword,
             'incorrect password #2' => $incorrectPassword,
             'incorrect password #3' => $incorrectPassword,
@@ -37,9 +34,9 @@ class LockedTest extends Functional
             'incorrect password #5' => $incorrectPassword,
             'incorrect password #6' => $incorrectPassword,
             'correct password' => $password,
-        );
+        ];
         //Create test user and set correct password
-        $user = Factory::getFixtureFactory()->getMagentoUserAdminUser(array('password' => $password));
+        $user = Factory::getFixtureFactory()->getMagentoUserAdminUser(['password' => $password]);
         $user->switchData('admin_default');
         $user->persist();
         //Page

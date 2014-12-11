@@ -2,10 +2,7 @@
 /**
  * Attribure lock state validator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Attribute;
 
@@ -14,14 +11,14 @@ class LockValidatorComposite implements LockValidatorInterface
     /**
      * @var LockValidatorInterface[]
      */
-    protected $validators = array();
+    protected $validators = [];
 
     /**
      * @param \Magento\Framework\ObjectManagerInterface $objectManager
      * @param array $validators
      * @throws \InvalidArgumentException
      */
-    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $validators = array())
+    public function __construct(\Magento\Framework\ObjectManagerInterface $objectManager, array $validators = [])
     {
         foreach ($validators as $validator) {
             if (!is_subclass_of($validator, 'Magento\Catalog\Model\Attribute\LockValidatorInterface')) {

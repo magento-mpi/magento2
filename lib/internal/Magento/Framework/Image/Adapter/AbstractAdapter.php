@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Image\Adapter;
 
@@ -265,7 +262,7 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param \Magento\Framework\Filesystem $filesystem
      * @param array $data
      */
-    public function __construct(\Magento\Framework\Filesystem $filesystem, array $data = array())
+    public function __construct(\Magento\Framework\Filesystem $filesystem, array $data = [])
     {
         $this->_filesystem = $filesystem;
         $this->directoryWrite = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT);
@@ -561,12 +558,12 @@ abstract class AbstractAdapter implements AdapterInterface
             $dstX = 0;
         }
 
-        return array(
-            'src' => array('x' => $srcX, 'y' => $srcY),
-            'dst' => array('x' => $dstX, 'y' => $dstY, 'width' => $dstWidth, 'height' => $dstHeight),
+        return [
+            'src' => ['x' => $srcX, 'y' => $srcY],
+            'dst' => ['x' => $dstX, 'y' => $dstY, 'width' => $dstWidth, 'height' => $dstHeight],
             // size for new image
-            'frame' => array('width' => $frameWidth, 'height' => $frameHeight)
-        );
+            'frame' => ['width' => $frameWidth, 'height' => $frameHeight]
+        ];
     }
 
     /**
@@ -595,7 +592,7 @@ abstract class AbstractAdapter implements AdapterInterface
                 $dstWidth = round($dstHeight / $this->_imageSrcHeight * $this->_imageSrcWidth);
             }
         }
-        return array($dstWidth, $dstHeight);
+        return [$dstWidth, $dstHeight];
     }
 
     /**
@@ -644,7 +641,7 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     public function getSupportedFormats()
     {
-        return array('gif', 'jpeg', 'jpg', 'png');
+        return ['gif', 'jpeg', 'jpg', 'png'];
     }
 
     /**

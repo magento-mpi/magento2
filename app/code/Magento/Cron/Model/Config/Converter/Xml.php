@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cron\Model\Config\Converter;
 
@@ -21,7 +18,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
+        $output = [];
 
         if (!$source instanceof \DOMDocument) {
             return $output;
@@ -43,7 +40,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
                 if (!$jobName) {
                     throw new \InvalidArgumentException('Attribute "name" does not exist');
                 }
-                $config = array();
+                $config = [];
                 $config['name'] = $jobName;
                 $config += $this->convertCronConfig($jobConfig);
                 $config += $this->convertCronSchedule($jobConfig);
@@ -74,7 +71,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
             throw new \InvalidArgumentException('Attribute "method" does not exist');
         }
 
-        return array('instance' => $instanceName, 'method' => $methodName);
+        return ['instance' => $instanceName, 'method' => $methodName];
     }
 
     /**
@@ -85,7 +82,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
      */
     protected function convertCronSchedule(\DOMElement $jobConfig)
     {
-        $result = array();
+        $result = [];
         /** @var \DOMText $schedules */
         foreach ($jobConfig->childNodes as $schedules) {
             if ($schedules->nodeName == 'schedule') {
@@ -108,7 +105,7 @@ class Xml implements \Magento\Framework\Config\ConverterInterface
      */
     protected function convertCronConfigPath(\DOMElement $jobConfig)
     {
-        $result = array();
+        $result = [];
         /** @var \DOMText $schedules */
         foreach ($jobConfig->childNodes as $schedules) {
             if ($schedules->nodeName == 'config_path') {

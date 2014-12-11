@@ -2,10 +2,7 @@
 /**
  * Http request
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Request;
 
@@ -45,7 +42,7 @@ class Http extends \Zend_Controller_Request_Http implements
     /**
      * @var array
      */
-    protected $_routingInfo = array();
+    protected $_routingInfo = [];
 
     /**
      * @var string
@@ -75,7 +72,7 @@ class Http extends \Zend_Controller_Request_Http implements
      *
      * @var array
      */
-    protected $_beforeForwardInfo = array();
+    protected $_beforeForwardInfo = [];
 
     /**
      * @var \Magento\Framework\App\Route\ConfigInterface
@@ -111,7 +108,7 @@ class Http extends \Zend_Controller_Request_Http implements
         \Magento\Framework\Stdlib\Cookie\CookieReaderInterface $cookieReader,
         \Magento\Framework\App\Config\ReinitableConfigInterface $config,
         $uri = null,
-        $directFrontNames = array()
+        $directFrontNames = []
     ) {
         $this->_config = $config;
         $this->_routeConfig = $routeConfig;
@@ -476,13 +473,13 @@ class Http extends \Zend_Controller_Request_Http implements
     public function initForward()
     {
         if (empty($this->_beforeForwardInfo)) {
-            $this->_beforeForwardInfo = array(
+            $this->_beforeForwardInfo = [
                 'params' => $this->getParams(),
                 'action_name' => $this->getActionName(),
                 'controller_name' => $this->getControllerName(),
                 'module_name' => $this->getModuleName(),
-                'route_name' => $this->getRouteName()
-            );
+                'route_name' => $this->getRouteName(),
+            ];
         }
 
         return $this;
@@ -602,7 +599,7 @@ class Http extends \Zend_Controller_Request_Http implements
      */
     public function __sleep()
     {
-        return array();
+        return [];
     }
 
     /**

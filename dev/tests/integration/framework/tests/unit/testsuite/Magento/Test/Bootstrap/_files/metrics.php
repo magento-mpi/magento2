@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
-return array('Fixture Label' => array('fixture_key_one', 'fixture_key_two'));
+return ['Fixture Label' => ['fixture_key_one', 'fixture_key_two']];

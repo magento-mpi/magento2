@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\Catalog\Setup;
 
 use Magento\Tools\SampleData\Helper\Csv\ReaderFactory as CsvReaderFactory;
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\Fixture as FixtureHelper;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Product
@@ -84,6 +81,7 @@ class Product implements SetupInterface
      * @param \Magento\Tools\SampleData\Helper\StoreManager $storeManager
      * @param array $fixtures
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @codingStandardsIgnoreStart
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -94,13 +92,13 @@ class Product implements SetupInterface
         Product\Gallery $gallery,
         \Magento\Tools\SampleData\Logger $logger,
         \Magento\Tools\SampleData\Helper\StoreManager $storeManager,
-        $fixtures = array(
+        $fixtures = [
             'Catalog/SimpleProduct/products_gear_bags.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment_ball.csv',
             'Catalog/SimpleProduct/products_gear_fitness_equipment_strap.csv',
             'Catalog/SimpleProduct/products_gear_watches.csv',
-        )
+        ]
     ) {
         $this->productFactory = $productFactory;
         $this->catalogConfig = $catalogConfig;
@@ -112,6 +110,7 @@ class Product implements SetupInterface
         $this->logger = $logger;
         $this->storeManager = $storeManager;
     }
+    // @codingStandardsIgnoreEnd
 
     /**
      * {@inheritdoc}
@@ -125,9 +124,8 @@ class Product implements SetupInterface
         foreach ($this->fixtures as $file) {
             /** @var \Magento\Tools\SampleData\Helper\Csv\Reader $csvReader */
             $fileName = $this->fixtureHelper->getPath($file);
-            $csvReader = $this->csvReaderFactory->create(array('fileName' => $fileName, 'mode' => 'r'));
+            $csvReader = $this->csvReaderFactory->create(['fileName' => $fileName, 'mode' => 'r']);
             foreach ($csvReader as $row) {
-
                 $attributeSetId = $this->catalogConfig->getAttributeSetId(4, $row['attribute_set']);
 
                 $this->converter->setAttributeSetId($attributeSetId);
@@ -139,9 +137,9 @@ class Product implements SetupInterface
                 $product
                     ->setTypeId($this->productType)
                     ->setAttributeSetId($attributeSetId)
-                    ->setWebsiteIds(array($this->storeManager->getWebsiteId()))
+                    ->setWebsiteIds([$this->storeManager->getWebsiteId()])
                     ->setStatus(\Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED)
-                    ->setStockData(array('is_in_stock' => 1, 'manage_stock' => 0))
+                    ->setStockData(['is_in_stock' => 1, 'manage_stock' => 0])
                     ->setStoreId(\Magento\Store\Model\Store::DEFAULT_STORE_ID);
 
                 if (empty($data['visibility'])) {
@@ -191,7 +189,7 @@ class Product implements SetupInterface
             [
                 'use_config_manage_stock' => 0,
                 'is_in_stock' => 1,
-                'manage_stock' => 0
+                'manage_stock' => 0,
             ]
         );
     }

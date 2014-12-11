@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Attribute\Data;
@@ -74,7 +71,7 @@ class PostcodeTest extends \PHPUnit_Framework_TestCase
         $this->directoryHelperMock->expects($this->once())
             ->method('isZipCodeOptional')
             ->willReturnMap([
-                [$countryId, $isOptional]
+                [$countryId, $isOptional],
             ]);
 
         $object = new Postcode(

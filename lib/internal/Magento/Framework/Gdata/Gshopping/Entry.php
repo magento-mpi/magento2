@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,14 +25,14 @@ class Entry extends \Zend_Gdata_Entry
      *
      * @var string[]
      */
-    protected $_contentAttributes = array();
+    protected $_contentAttributes = [];
 
     /**
      * Tax element extension
      *
      * @var array of \Magento\Framework\Gdata\Gshopping\Extension\Tax
      */
-    protected $_tax = array();
+    protected $_tax = [];
 
     /**
      * Constructs a new \Magento\Framework\Gdata\Gshopping\Entry object.
@@ -171,7 +168,7 @@ class Entry extends \Zend_Gdata_Entry
      * @return \Zend_Gdata_App_Entry The updated entry
      * @throws \Zend_Gdata_App_InvalidArgumentException
      */
-    public function save($dryRun = false, $uri = null, $className = null, $extraHeaders = array())
+    public function save($dryRun = false, $uri = null, $className = null, $extraHeaders = [])
     {
         if ($dryRun) {
             $editLink = $this->getEditLink();
@@ -228,7 +225,7 @@ class Entry extends \Zend_Gdata_Entry
      */
     public function getContentAttributesByName($name)
     {
-        $matches = array();
+        $matches = [];
         foreach ($this->_contentAttributes as $key => $attribute) {
             if ($this->_normalizeName($attribute->getName()) == $this->_normalizeName($name)) {
                 $matches[] = $attribute;
@@ -279,7 +276,7 @@ class Entry extends \Zend_Gdata_Entry
     {
         $control = $this->getControl();
         return $control instanceof
-            \Magento\Framework\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : array();
+            \Magento\Framework\Gdata\Gshopping\Extension\Control ? $control->getDestinationsMode() : [];
     }
 
     /**
@@ -312,7 +309,7 @@ class Entry extends \Zend_Gdata_Entry
      */
     public function cleanTaxes()
     {
-        $this->_tax = array();
+        $this->_tax = [];
         return $this;
     }
 

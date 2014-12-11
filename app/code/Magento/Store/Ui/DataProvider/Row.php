@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Ui\DataProvider;
 
 use Magento\Framework\Escaper;
-use Magento\Framework\UrlInterface;
-use Magento\Ui\Component\Listing\RowInterface;
 use Magento\Store\Model\System\Store as SystemStore;
+use Magento\Ui\Component\Listing\RowInterface;
 
 /**
  * Class Store

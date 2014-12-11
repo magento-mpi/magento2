@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\Total;
 
@@ -36,7 +33,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
      */
     public function collect(\Magento\Sales\Model\Quote\Address $address)
     {
-        $collector = $this->_collectorFactory->create(array('store' => $address->getQuote()->getStore()));
+        $collector = $this->_collectorFactory->create(['store' => $address->getQuote()->getStore()]);
 
         // invoke nominal totals
         foreach ($collector->getCollectors() as $model) {
@@ -47,7 +44,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         foreach ($address->getAllNominalItems() as $item) {
             $rowTotal = 0;
             $baseRowTotal = 0;
-            $totalDetails = array();
+            $totalDetails = [];
             foreach ($collector->getCollectors() as $model) {
                 $itemRowTotal = $model->getItemRowTotal($item);
                 if ($model->getIsItemRowTotalCompoundable($item)) {
@@ -59,7 +56,7 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
                 }
                 if ((double)$itemRowTotal > 0 && ($label = $model->getLabel())) {
                     $totalDetails[] = new \Magento\Framework\Object(
-                        array('label' => $label, 'amount' => $itemRowTotal, 'is_compounded' => $isCompounded)
+                        ['label' => $label, 'amount' => $itemRowTotal, 'is_compounded' => $isCompounded]
                     );
                 }
             }
@@ -82,12 +79,12 @@ class Nominal extends \Magento\Sales\Model\Quote\Address\Total\AbstractTotal
         $items = $address->getAllNominalItems();
         if ($items) {
             $address->addTotal(
-                array(
+                [
                     'code' => $this->getCode(),
                     'title' => __('Subscription Items'),
                     'items' => $items,
-                    'area' => 'footer'
-                )
+                    'area' => 'footer',
+                ]
             );
         }
         return $this;

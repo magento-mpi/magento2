@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -26,9 +23,9 @@ class ShowShippingMethods extends \Magento\Rma\Controller\Adminhtml\Rma
                 throw new \Magento\Framework\Model\Exception(__('This is the wrong RMA ID.'));
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot display the available shipping methods.'));
+            $response = ['error' => true, 'message' => __('We cannot display the available shipping methods.')];
         }
 
         $this->_view->loadLayout();

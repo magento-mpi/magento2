@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Config;
 
@@ -43,29 +40,29 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
      */
     public function convertDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'adminhtml_customersegment_match',
-                array(
+                [
                     'group_name' => 'enterprise_checkout',
                     'action' => 'refresh_data',
                     'controller_action' => 'adminhtml_customersegment_match',
                     'post_dispatch' => 'Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch'
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'customer_index_save',
-                array(
+                [
                     'group_name' => 'enterprise_checkout',
                     'action' => 'save',
                     'controller_action' => 'customer_index_save',
-                    'expected_models' => array(
-                        'Enterprise_CustomerBalance_Model_Balance' => array(),
-                        '@' => array('extends' => 'merge')
-                    ),
-                    'skip_on_back' => array('adminhtml_customerbalance_form', 'customer_index_edit')
-                )
-            )
-        );
+                    'expected_models' => [
+                        'Enterprise_CustomerBalance_Model_Balance' => [],
+                        '@' => ['extends' => 'merge'],
+                    ],
+                    'skip_on_back' => ['adminhtml_customerbalance_form', 'customer_index_edit']
+                ]
+            ]
+        ];
     }
 }

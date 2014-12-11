@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
@@ -38,7 +35,7 @@ class Text extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\Stdlib\String $string,
-        array $data = array()
+        array $data = []
     ) {
         $this->_escaper = $escaper;
         $this->string = $string;

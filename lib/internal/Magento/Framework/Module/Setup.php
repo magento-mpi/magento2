@@ -2,10 +2,7 @@
 /**
  * Base Resource Setup Model
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Module;
 
@@ -23,7 +20,7 @@ class Setup
      *
      * @var array
      */
-    protected $_tables = array();
+    protected $_tables = [];
 
     /**
      * Modules configuration

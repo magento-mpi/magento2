@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
-use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_ArrayDimFetch;
+use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr_Variable;
 
 class StaticCallReference extends AbstractFunctionReference

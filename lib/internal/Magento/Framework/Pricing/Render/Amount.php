@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Pricing\Render;
@@ -11,8 +8,8 @@ namespace Magento\Framework\Pricing\Render;
 use Magento\Framework\Pricing\Amount\AmountInterface;
 use Magento\Framework\Pricing\Object\SaleableInterface;
 use Magento\Framework\Pricing\Price\PriceInterface;
-use Magento\Framework\View\Element\Template;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Framework\View\Element\Template;
 
 /**
  * Price amount renderer

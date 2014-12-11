@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Review\Test\Repository;
@@ -35,10 +32,10 @@ class ReviewInjectable extends AbstractRepository
             'ratings' => [
                 [
                     'dataSet' => 'visibleOnDefaultWebsite',
-                    'rating' => mt_rand(1, 5)
-                ]
+                    'rating' => mt_rand(1, 5),
+                ],
             ],
-            'entity_id' => ['dataSet' => 'catalogProductSimple::default']
+            'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
         ];
 
         $this->_data['frontend_review'] = [
@@ -47,7 +44,7 @@ class ReviewInjectable extends AbstractRepository
             'nickname' => 'nickname_%isolation%',
             'title' => 'title_%isolation%',
             'detail' => 'review_detail_%isolation%',
-            'entity_id' => ['dataSet' => 'catalogProductSimple::default']
+            'entity_id' => ['dataSet' => 'catalogProductSimple::default'],
         ];
     }
 }

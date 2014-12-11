@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
@@ -37,15 +34,15 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_1',
                             'value' => 'option_key_1',
-                        ]
+                        ],
                     ],
                 ],
                 'qty' => 3,
                 'cartItem' => [
                     'price' => 172,
                     'qty' => 3,
-                    'subtotal' => 516
-                ]
+                    'subtotal' => 516,
+                ],
             ],
             'forUpdateMiniShoppingCart' => [
                 'options' => [
@@ -57,15 +54,15 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_1',
                             'value' => 'option_key_0',
-                        ]
+                        ],
                     ],
                 ],
                 'qty' => 1,
                 'cartItem' => [
                     'price' => 172,
                     'qty' => 1,
-                    'subtotal' => 172
-                ]
+                    'subtotal' => 172,
+                ],
             ],
             'two_options' => [
                 'options' => [
@@ -73,12 +70,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_0',
                             'value' => 'option_key_0',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 101,
-                ]
+                ],
             ],
             'two_new_options' => [
                 'options' => [
@@ -86,12 +83,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_0',
                             'value' => 'option_key_1',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 102,
-                ]
+                ],
             ],
             'two_attributes' => [
                 'options' => [
@@ -103,12 +100,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_1',
                             'value' => 'option_key_0',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 112,
-                ]
+                ],
             ],
             'three_attributes' => [
                 'options' => [
@@ -124,12 +121,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_2',
                             'value' => 'option_key_0',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 112,
-                ]
+                ],
             ],
             'two_new_options_with_special_price' => [
                 'options' => [
@@ -137,12 +134,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_0',
                             'value' => 'option_key_1',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 12,
-                ]
+                ],
             ],
             'two_options_with_assigned_product' => [
                 'options' => [
@@ -150,12 +147,12 @@ class CheckoutData extends \Magento\Catalog\Test\Fixture\CatalogProductSimple\Ch
                         [
                             'title' => 'attribute_key_0',
                             'value' => 'option_key_0',
-                        ]
-                    ]
+                        ],
+                    ],
                 ],
                 'cartItem' => [
                     'price' => 101,
-                ]
+                ],
             ],
             'with_one_option' => [
                 'options' => [

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Attribute;
 
@@ -332,7 +329,7 @@ class GroupRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->groupResourceMock->expects($this->once())
             ->method('delete')
             ->with($groupMock)
-            ->will($this->throwException(new \Exception));
+            ->will($this->throwException(new \Exception()));
         $groupMock->expects($this->once())->method('getId')->willReturn(42);
         $this->model->delete($groupMock);
     }

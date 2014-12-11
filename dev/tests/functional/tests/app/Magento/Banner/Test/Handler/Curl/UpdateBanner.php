@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Handler\Curl;
 
 use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
 
 /**
  * Curl handler for updating a banner

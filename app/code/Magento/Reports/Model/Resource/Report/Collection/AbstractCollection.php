@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Report collection abstract model
@@ -63,7 +59,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
      *
      * @var array
      */
-    protected $_aggregatedColumns = array();
+    protected $_aggregatedColumns = [];
 
     /**
      * Set array of columns that should be aggregated
@@ -165,7 +161,7 @@ class AbstractCollection extends \Magento\Framework\Model\Resource\Db\Collection
         $storeIds = $this->_storesIds;
 
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
 
         $storeIds = array_unique($storeIds);

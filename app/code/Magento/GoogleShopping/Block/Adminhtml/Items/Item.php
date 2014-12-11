@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
@@ -31,7 +28,7 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\GoogleShopping\Model\Resource\Item\CollectionFactory $collectionFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_collectionFactory = $collectionFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -69,17 +66,17 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array('header' => __('Product'), 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Product'), 'index' => 'name']);
 
         $this->addColumn(
             'expires',
-            array(
+            [
                 'header' => __('Expires'),
                 'type' => 'datetime',
                 'index' => 'expires',
                 'header_css_class' => 'col-period',
                 'column_css_class' => 'col-period'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -98,22 +95,22 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->getMassactionBlock()->addItem(
             'delete',
-            array(
+            [
                 'label' => __('Delete'),
-                'url' => $this->getUrl('adminhtml/*/massDelete', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/massDelete', ['_current' => true]),
                 'confirm' => __('Are you sure?')
-            )
+            ]
         );
 
         $this->getMassactionBlock()->addItem(
             'refresh',
-            array(
+            [
                 'label' => __('Synchronize'),
-                'url' => $this->getUrl('adminhtml/*/refresh', array('_current' => true)),
+                'url' => $this->getUrl('adminhtml/*/refresh', ['_current' => true]),
                 'confirm' => __(
                     'This action will update items\' attributes and remove items that are not available in Google Content. If an attribute was deleted from the mapping, it will also be deleted from Google. Do you want to continue?'
                 )
-            )
+            ]
         );
         return $this;
     }
@@ -125,6 +122,6 @@ class Item extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current' => true));
+        return $this->getUrl('adminhtml/*/grid', ['_current' => true]);
     }
 }

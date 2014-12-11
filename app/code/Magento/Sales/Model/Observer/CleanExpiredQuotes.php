@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer;
 
@@ -29,7 +26,7 @@ class CleanExpiredQuotes
     /**
      * @var array
      */
-    protected $expireQuotesFilterFields = array();
+    protected $expireQuotesFilterFields = [];
 
     /**
      * @param StoresConfig $storesConfig
@@ -58,7 +55,7 @@ class CleanExpiredQuotes
             $quotes = $this->quoteCollectionFactory->create();
 
             $quotes->addFieldToFilter('store_id', $storeId);
-            $quotes->addFieldToFilter('updated_at', array('to' => date("Y-m-d", time() - $lifetime)));
+            $quotes->addFieldToFilter('updated_at', ['to' => date("Y-m-d", time() - $lifetime)]);
             $quotes->addFieldToFilter('is_active', 0);
 
             foreach ($this->getExpireQuotesAdditionalFilterFields() as $field => $condition) {

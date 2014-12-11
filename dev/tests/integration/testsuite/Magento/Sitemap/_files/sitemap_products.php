@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 // Copy images to tmp media path
@@ -42,9 +39,9 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -65,11 +62,11 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->setRelatedLinkData(
-    array(1 => array('position' => 1))
+    [1 => ['position' => 1]]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -90,11 +87,11 @@ $product->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_DISABLED
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->setRelatedLinkData(
-    array(1 => array('position' => 1))
+    [1 => ['position' => 1]]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -131,11 +128,11 @@ $product->setTypeId(
     false,
     false
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->setRelatedLinkData(
-    array(1 => array('position' => 1))
+    [1 => ['position' => 1]]
 )->save();
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -167,9 +164,9 @@ $product->setTypeId(
     false,
     false
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setStockData(
-    array('qty' => 100, 'is_in_stock' => 1)
+    ['qty' => 100, 'is_in_stock' => 1]
 )->setRelatedLinkData(
-    array(1 => array('position' => 1))
+    [1 => ['position' => 1]]
 )->save();

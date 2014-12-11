@@ -1,10 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
  * @api
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\Util\Generate\Factory;
@@ -26,10 +23,10 @@ class Handler extends AbstractFactory
     {
         $items = $this->collectItems('Handler');
 
-        $fallback = array(
+        $fallback = [
             0 => 'Curl',
-            1 => 'Ui'
-        );
+            1 => 'Ui',
+        ];
 
         $byTypes = [];
         foreach ($items as $item) {

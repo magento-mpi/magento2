@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var  $this \Magento\Shipping\Block\Items */ ?>
@@ -67,7 +64,9 @@
         <?php $_items = $_shipment->getAllItems(); ?>
         <?php $_count = count($_items) ?>
         <?php foreach ($_items as $_item): ?>
-        <?php if ($_item->getOrderItem()->getParentItem()) continue; ?>
+        <?php if ($_item->getOrderItem()->getParentItem()) {
+    continue;
+} ?>
         <tbody>
             <?php echo $this->getItemHtml($_item) ?>
         </tbody>

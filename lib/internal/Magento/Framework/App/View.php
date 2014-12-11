@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App;
 
@@ -157,7 +154,7 @@ class View implements ViewInterface
      * @param string|null $defaultHandle
      * @return bool
      */
-    public function addPageLayoutHandles(array $parameters = array(), $defaultHandle = null)
+    public function addPageLayoutHandles(array $parameters = [], $defaultHandle = null)
     {
         return $this->page->addPageLayoutHandles($parameters, $defaultHandle);
     }

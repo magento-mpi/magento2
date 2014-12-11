@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -39,14 +36,14 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function viewConfigFileDataProvider()
     {
-        $result = array();
+        $result = [];
         $files = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Framework\Module\Dir\Reader'
         )->getConfigurationFiles(
             'view.xml'
         );
         foreach ($files as $file) {
-            $result[] = array($file);
+            $result[] = [$file];
         }
         return $result;
     }

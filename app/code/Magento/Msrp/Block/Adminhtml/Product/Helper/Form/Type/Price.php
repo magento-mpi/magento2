@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Msrp\Block\Adminhtml\Product\Helper\Form\Type;
 
@@ -31,7 +28,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Select
         CollectionFactory $factoryCollection,
         Escaper $escaper,
         \Magento\Msrp\Model\Config $config,
-        $data = array()
+        $data = []
     ) {
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->config = $config;

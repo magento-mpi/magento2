@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Test\Constraint;
 
-use Magento\Rma\Test\Fixture\Rma;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Constraint\AbstractAssertForm;
-use Magento\Rma\Test\Page\Adminhtml\RmaView;
-use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
+use Magento\Rma\Test\Fixture\Rma;
+use Magento\Rma\Test\Page\Adminhtml\RmaIndex;
+use Magento\Rma\Test\Page\Adminhtml\RmaView;
+use Magento\Sales\Test\Fixture\OrderInjectable;
+use Mtf\Constraint\AbstractAssertForm;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert that displayed rma data on edit page equals passed from fixture.
@@ -36,7 +33,7 @@ class AssertRmaForm extends AbstractAssertForm
     protected $skippedFields = [
         'status',
         'comment',
-        'items'
+        'items',
     ];
 
     /**
@@ -47,7 +44,7 @@ class AssertRmaForm extends AbstractAssertForm
         $rmaId = $rma->getEntityId();
         $filter = [
             'rma_id_from' => $rmaId,
-            'rma_id_to' => $rmaId
+            'rma_id_to' => $rmaId,
         ];
 
         $rmaIndex->open();

@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
-use \Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
+use Magento\Checkout\Service\V1\Address\Converter as AddressConverter;
 
 /** Quote billing address read service object. */
 class ReadService implements ReadServiceInterface

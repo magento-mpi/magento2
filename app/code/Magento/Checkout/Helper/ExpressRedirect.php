@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Helper;
 
@@ -65,7 +62,7 @@ class ExpressRedirect extends \Magento\Framework\App\Helper\AbstractHelper
                 'Magento\Core\Helper\Url'
             )->addRequestParam(
                 $expressRedirect->getLoginUrl(),
-                array('context' => 'checkout')
+                ['context' => 'checkout']
             )
         );
 

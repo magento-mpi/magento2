@@ -1,25 +1,22 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $this \Magento\WebsiteRestriction\Model\Resource\Setup */
 
-$cmsPages = array(
-    array(
+$cmsPages = [
+    [
         'title' => '503 Service Unavailable',
         'page_layout' => '1column',
         'identifier' => 'service-unavailable',
         'content' => '<div class="page-title"><h1>We\'re Offline...</h1></div>
 <p>...but only for just a bit. We\'re working to make the Magento Enterprise Demo a better place for you!</p>',
         'is_active' => '1',
-        'stores' => array(0),
-        'sort_order' => 0
-    ),
-    array(
+        'stores' => [0],
+        'sort_order' => 0,
+    ],
+    [
         'title' => 'Welcome to our Exclusive Online Store',
         'page_layout' => '1column',
         'identifier' => 'private-sales',
@@ -32,10 +29,10 @@ $cmsPages = array(
 </div>
 </div>',
         'is_active' => '1',
-        'stores' => array(0),
+        'stores' => [0],
         'sort_order' => 0
-    )
-);
+    ],
+];
 
 /**
  * Insert default and system pages

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
  ?>
 
@@ -37,7 +34,7 @@
             <?php if ($_hasAssociatedProducts): ?>
                 <?php $i = 0 ?>
             <?php foreach ($_associatedProducts as $_item): ?>
-                <tr class="<?php echo (++$i % 2) ? 'even' : 'odd' ?>">
+                <tr class="<?php echo(++$i % 2) ? 'even' : 'odd' ?>">
                     <td class="col-id"><?php echo $_item->getId() ?></td>
                     <td class="col-sku"><?php echo $this->escapeHtml($_item->getSku()) ?></td>
                     <td class="col-name"><?php echo $this->escapeHtml($_item->getName()) ?></td>

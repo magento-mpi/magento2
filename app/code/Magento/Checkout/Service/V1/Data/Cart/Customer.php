@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Data\Cart;
 
@@ -179,7 +176,6 @@ class Customer extends \Magento\Framework\Api\AbstractExtensibleObject
     {
         return (bool)$this->_get(self::IS_GUEST);
     }
-
 
     /**
      * Get  taxvat value

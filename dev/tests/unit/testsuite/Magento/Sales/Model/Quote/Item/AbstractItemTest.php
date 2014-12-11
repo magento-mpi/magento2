@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Item;
 
@@ -86,26 +83,26 @@ class AbstractItemTest extends \PHPUnit_Framework_TestCase
                 10,
                 [],
                 false,
-                10
+                10,
             ],
             'kids_but_not_calculated' => [
                 10,
                 [$childOneItemMock],
                 false,
-                10
+                10,
             ],
             'one_kid' => [
                 $childOneDiscountAmount,
                 [$childOneItemMock],
                 true,
-                $valueHasNoEffect
+                $valueHasNoEffect,
             ],
             'two_kids' => [
                 $childOneDiscountAmount + $childTwoDiscountAmount,
                 [$childOneItemMock, $childTwoItemMock],
                 true,
-                $valueHasNoEffect
-            ]
+                $valueHasNoEffect,
+            ],
         ];
         return $data;
     }

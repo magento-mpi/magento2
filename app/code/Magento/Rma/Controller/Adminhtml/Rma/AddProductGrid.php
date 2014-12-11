@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -27,9 +24,9 @@ class AddProductGrid extends \Magento\Rma\Controller\Adminhtml\Rma
             $this->_view->loadLayout();
             $response = $this->_view->getLayout()->getBlock('add_product_grid')->toHtml();
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Something went wrong retrieving the product list.'));
+            $response = ['error' => true, 'message' => __('Something went wrong retrieving the product list.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

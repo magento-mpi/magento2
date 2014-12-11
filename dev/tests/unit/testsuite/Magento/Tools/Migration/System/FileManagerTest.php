@@ -1,12 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\System;
-
 
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileManager.php';
 require_once realpath(__DIR__ . '/../../../../../../../') . '/tools/Magento/Tools/Migration/System/FileReader.php';
@@ -32,11 +28,11 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\Tools\Migration\System\FileReader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\Tools\Migration\System\FileReader', [], [], '', false);
         $this->_writerMock = $this->getMock(
             'Magento\Tools\Migration\System\Writer\Memory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -78,7 +74,7 @@ class FileManagerTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFileList()
     {
-        $expected = array('file1', 'file2');
+        $expected = ['file1', 'file2'];
         $this->_readerMock->expects(
             $this->once()
         )->method(

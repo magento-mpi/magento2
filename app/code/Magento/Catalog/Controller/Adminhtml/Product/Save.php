@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -55,7 +52,6 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
         parent::__construct($context, $productBuilder);
         $this->resultRedirectFactory = $resultRedirectFactory;
     }
-
 
     /**
      * Save product action
@@ -108,7 +104,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product
 
                 $this->_eventManager->dispatch(
                     'controller_action_catalog_product_save_entity_after',
-                    array('controller' => $this)
+                    ['controller' => $this]
                 );
 
                 if ($redirectBack === 'duplicate') {

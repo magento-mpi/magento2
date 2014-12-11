@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -29,7 +26,7 @@ class Font extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer
         /** @var $element \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Font */
         $element = $this->getElement();
 
-        $classes = array();
+        $classes = [];
         $classes[] = 'fieldset';
         if ($element->getClass()) {
             $classes[] = $element->getClass();

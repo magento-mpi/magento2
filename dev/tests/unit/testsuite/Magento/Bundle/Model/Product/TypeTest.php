@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Model\Product;
 
@@ -76,7 +73,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->model = $objectHelper->getObject(
             'Magento\Bundle\Model\Product\Type',
-            array(
+            [
                 'bundleModelSelection' => $bundleModelSelection,
                 'bundleFactory' => $bundleFactory,
                 'bundleCollection' => $this->bundleCollection,
@@ -85,7 +82,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
                 'storeManager' => $this->storeManager,
                 'stockRegistry' => $this->stockRegistry,
                 'stockState' => $this->stockState
-            )
+            ]
         );
     }
 
@@ -96,19 +93,19 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIdentities()
     {
-        $identities = array('id1', 'id2');
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $identities = ['id1', 'id2'];
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $optionMock = $this->getMock(
             '\Magento\Bundle\Model\Option',
-            array('getSelections', '__wakeup'),
-            array(),
+            ['getSelections', '__wakeup'],
+            [],
             '',
             false
         );
         $optionCollectionMock = $this->getMock(
             'Magento\Bundle\Model\Resource\Option\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -127,11 +124,11 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $optionCollectionMock
             ->expects($this->once())
             ->method('getItems')
-            ->will($this->returnValue(array($optionMock)));
+            ->will($this->returnValue([$optionMock]));
         $optionMock
             ->expects($this->exactly(2))
             ->method('getSelections')
-            ->will($this->returnValue(array($productMock)));
+            ->will($this->returnValue([$productMock]));
         $this->assertEquals($identities, $this->model->getIdentities($productMock));
     }
 
@@ -197,7 +194,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $selectionMock = $this->getSelectionsByIdsMock($selectionIds, $productMock, 5, 6);
         $selectionMock->expects(($this->any()))
             ->method('getItems')
-            ->will($this->returnValue(array($selectionItemMock)));
+            ->will($this->returnValue([$selectionItemMock]));
         $selectionItemMock->expects($this->any())
             ->method('getSku')
             ->will($this->returnValue($itemSku));
@@ -260,7 +257,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $selectionMock = $this->getSelectionsByIdsMock($selectionIds, $productMock, 3, 4);
         $selectionMock->expects($this->once())
             ->method('getItems')
-            ->will($this->returnValue(array($selectionItemMock)));
+            ->will($this->returnValue([$selectionItemMock]));
         $selectionItemMock->expects($this->any())
             ->method('getSelectionId')
             ->will($this->returnValue('id'));
@@ -316,7 +313,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $selectionMock = $this->getSelectionsByIdsMock($selectionIds, $productMock, 3, 4);
         $selectionMock->expects($this->once())
             ->method('getItems')
-            ->will($this->returnValue(array($selectionItemMock)));
+            ->will($this->returnValue([$selectionItemMock]));
         $selectionItemMock->expects($this->any())
             ->method('getSelectionId')
             ->will($this->returnValue('id'));
@@ -377,7 +374,7 @@ class TypeTest extends \PHPUnit_Framework_TestCase
         $selectionMock = $this->getSelectionsByIdsMock($selectionIds, $productMock, 2, 3);
         $selectionMock->expects($this->once())
             ->method('getItems')
-            ->will($this->returnValue(array($selectionItemMock)));
+            ->will($this->returnValue([$selectionItemMock]));
         $selectionItemMock->expects($this->once())
             ->method('isVirtual')
             ->will($this->returnValue(true));

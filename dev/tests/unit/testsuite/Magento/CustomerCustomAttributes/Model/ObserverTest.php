@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Model;
 
 use Magento\CustomerCustomAttributes\Helper\Data as Helper;
-use Magento\CustomerCustomAttributes\Model\Sales\OrderFactory;
 use Magento\CustomerCustomAttributes\Model\Sales\Order\AddressFactory as OrderAddressFactory;
-use Magento\CustomerCustomAttributes\Model\Sales\QuoteFactory;
+use Magento\CustomerCustomAttributes\Model\Sales\OrderFactory;
 use Magento\CustomerCustomAttributes\Model\Sales\Quote\AddressFactory as QuoteAddressFactory;
+use Magento\CustomerCustomAttributes\Model\Sales\QuoteFactory;
 
 class ObserverTest extends \PHPUnit_Framework_TestCase
 {
@@ -54,22 +51,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->orderFactory = $orderFactory = $this->getMockBuilder(
             'Magento\CustomerCustomAttributes\Model\Sales\OrderFactory'
-        )->disableOriginalConstructor()->setMethods(array('create'))->getMock();
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         /** @var OrderFactory $orderFactory */
 
         $this->orderAddressFactory = $orderAddressFactory = $this->getMockBuilder(
             'Magento\CustomerCustomAttributes\Model\Sales\Order\AddressFactory'
-        )->disableOriginalConstructor()->setMethods(array('create'))->getMock();
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         /** @var OrderAddressFactory $orderAddressFactory */
 
         $this->quoteFactory = $quoteFactory = $this->getMockBuilder(
             'Magento\CustomerCustomAttributes\Model\Sales\QuoteFactory'
-        )->disableOriginalConstructor()->setMethods(array('create'))->getMock();
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         /** @var QuoteFactory $quoteFactory */
 
         $this->quoteAddressFactory = $quoteAddressFactory = $this->getMockBuilder(
             'Magento\CustomerCustomAttributes\Model\Sales\Quote\AddressFactory'
-        )->disableOriginalConstructor()->setMethods(array('create'))->getMock();
+        )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         /** @var QuoteAddressFactory $quoteAddressFactory */
 
         $this->observer = new Observer(
@@ -89,12 +86,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getQuote'))
+            ->setMethods(['getQuote'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('getId', '__wakeup'))
+            ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -118,18 +115,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testSalesQuoteAddressCollectionAfterLoad()
     {
-        $items = array('test', 'data');
+        $items = ['test', 'data'];
         $observer = $this->getMockBuilder('Magento\Framework\Event\Observer')
             ->disableOriginalConstructor()
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getQuoteAddressCollection'))
+            ->setMethods(['getQuoteAddressCollection'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
-            ->setMethods(array('getItems', '__wakeup'))
+            ->setMethods(['getItems', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -157,12 +154,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getQuote'))
+            ->setMethods(['getQuote'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -189,12 +186,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getQuoteAddress'))
+            ->setMethods(['getQuoteAddress'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -222,12 +219,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getOrder'))
+            ->setMethods(['getOrder'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('getId', '__wakeup'))
+            ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -251,18 +248,18 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testSalesOrderAddressCollectionAfterLoad()
     {
-        $items = array('test', 'data');
+        $items = ['test', 'data'];
         $observer = $this->getMockBuilder('Magento\Framework\Event\Observer')
             ->disableOriginalConstructor()
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getOrderAddressCollection'))
+            ->setMethods(['getOrderAddressCollection'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Data\Collection\Db')
-            ->setMethods(array('getItems', '__wakeup'))
+            ->setMethods(['getItems', '__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -290,12 +287,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getOrder'))
+            ->setMethods(['getOrder'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -322,12 +319,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAddress'))
+            ->setMethods(['getAddress'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -339,7 +336,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $event->expects($this->once())->method('getAddress')->will($this->returnValue($dataModel));
         $orderAddress->expects($this->once())
             ->method('attachDataToEntities')
-            ->with(array($dataModel))
+            ->with([$dataModel])
             ->will($this->returnSelf());
         $this->orderAddressFactory->expects($this->once())->method('create')->will($this->returnValue($orderAddress));
         /** @var \Magento\Framework\Event\Observer $observer */
@@ -357,12 +354,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAddress'))
+            ->setMethods(['getAddress'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup'))
+            ->setMethods(['__wakeup'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -389,12 +386,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew'))
+            ->setMethods(['__wakeup', 'isObjectNew'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -428,12 +425,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew'))
+            ->setMethods(['__wakeup', 'isObjectNew'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -467,12 +464,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew'))
+            ->setMethods(['__wakeup', 'isObjectNew'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -506,12 +503,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew'))
+            ->setMethods(['__wakeup', 'isObjectNew'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -540,62 +537,62 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function coreCopyMethodsDataProvider()
     {
-        return array(
-            'coreCopyFieldsetSalesConvertQuoteToOrder' => array(
+        return [
+            'coreCopyFieldsetSalesConvertQuoteToOrder' => [
                 'coreCopyFieldsetSalesConvertQuoteToOrder',
                 'getCustomerUserDefinedAttributeCodes',
                 'customer_',
-                'customer_'
-            ),
-            'coreCopyFieldsetSalesCopyOrderToEdit' => array(
+                'customer_',
+            ],
+            'coreCopyFieldsetSalesCopyOrderToEdit' => [
                 'coreCopyFieldsetSalesCopyOrderToEdit',
                 'getCustomerUserDefinedAttributeCodes',
                 'customer_',
-                'customer_'
-            ),
-            'coreCopyFieldsetCustomerAccountToQuote' => array(
+                'customer_',
+            ],
+            'coreCopyFieldsetCustomerAccountToQuote' => [
                 'coreCopyFieldsetCustomerAccountToQuote',
                 'getCustomerUserDefinedAttributeCodes',
                 '',
-                'customer_'
-            ),
-            'coreCopyFieldsetCheckoutOnepageQuoteToCustomer' => array(
+                'customer_',
+            ],
+            'coreCopyFieldsetCheckoutOnepageQuoteToCustomer' => [
                 'coreCopyFieldsetCheckoutOnepageQuoteToCustomer',
                 'getCustomerUserDefinedAttributeCodes',
                 'customer_',
-                ''
-            ),
-            'coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress' => array(
+                '',
+            ],
+            'coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress' => [
                 'coreCopyFieldsetSalesConvertQuoteAddressToOrderAddress',
                 'getCustomerAddressUserDefinedAttributeCodes',
                 '',
-                ''
-            ),
-            'coreCopyFieldsetSalesCopyOrderBillingAddressToOrder' => array(
+                '',
+            ],
+            'coreCopyFieldsetSalesCopyOrderBillingAddressToOrder' => [
                 'coreCopyFieldsetSalesCopyOrderBillingAddressToOrder',
                 'getCustomerAddressUserDefinedAttributeCodes',
                 '',
-                ''
-            ),
-            'coreCopyFieldsetSalesCopyOrderShippingAddressToOrder' => array(
+                '',
+            ],
+            'coreCopyFieldsetSalesCopyOrderShippingAddressToOrder' => [
                 'coreCopyFieldsetSalesCopyOrderShippingAddressToOrder',
                 'getCustomerAddressUserDefinedAttributeCodes',
                 '',
-                ''
-            ),
-            'coreCopyFieldsetCustomerAddressToQuoteAddress' => array(
+                '',
+            ],
+            'coreCopyFieldsetCustomerAddressToQuoteAddress' => [
                 'coreCopyFieldsetCustomerAddressToQuoteAddress',
                 'getCustomerAddressUserDefinedAttributeCodes',
                 '',
-                ''
-            ),
-            'coreCopyFieldsetQuoteAddressToCustomerAddress' => array(
+                '',
+            ],
+            'coreCopyFieldsetQuoteAddressToCustomerAddress' => [
                 'coreCopyFieldsetQuoteAddressToCustomerAddress',
                 'getCustomerAddressUserDefinedAttributeCodes',
                 '',
-                ''
-            ),
-        );
+                '',
+            ],
+        ];
     }
 
     /**
@@ -611,7 +608,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $attribute = 'testAttribute';
         $attributeData = 'data';
-        $attributes = array($attribute);
+        $attributes = [$attribute];
         $sourceAttributeWithPrefix = $sourcePrefix . $attribute;
         $targetAttributeWithPrefix = $targetPrefix . $attribute;
 
@@ -620,17 +617,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getSource', 'getTarget'))
+            ->setMethods(['getSource', 'getTarget'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $sourceModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup', 'getData'))
+            ->setMethods(['__wakeup', 'getData'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $targetModel = $this->getMockBuilder('Magento\Framework\Model\AbstractModel')
-            ->setMethods(array('__wakeup', 'setData'))
+            ->setMethods(['__wakeup', 'setData'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -667,12 +664,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew', 'getAttributeCode'))
+            ->setMethods(['__wakeup', 'isObjectNew', 'getAttributeCode'])
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -699,12 +696,12 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $event = $this->getMockBuilder('Magento\Framework\Event')
-            ->setMethods(array('getAttribute'))
+            ->setMethods(['getAttribute'])
             ->disableOriginalConstructor()
             ->getMock();
 
         $dataModel = $this->getMockBuilder('Magento\Customer\Model\Attribute')
-            ->setMethods(array('__wakeup', 'isObjectNew', 'getAttributeCode'))
+            ->setMethods(['__wakeup', 'isObjectNew', 'getAttributeCode'])
             ->disableOriginalConstructor()
             ->getMock();
 

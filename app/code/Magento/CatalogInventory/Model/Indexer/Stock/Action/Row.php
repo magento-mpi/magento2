@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_CatalogInventory
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogInventory\Model\Indexer\Stock\Action;
@@ -31,7 +28,7 @@ class Row extends \Magento\CatalogInventory\Model\Indexer\Stock\AbstractAction
             throw new \Magento\CatalogInventory\Exception(__('Could not rebuild index for undefined product'));
         }
         try {
-            $this->_reindexRows(array($id));
+            $this->_reindexRows([$id]);
         } catch (\Exception $e) {
             throw new \Magento\CatalogInventory\Exception($e->getMessage(), $e->getCode(), $e);
         }

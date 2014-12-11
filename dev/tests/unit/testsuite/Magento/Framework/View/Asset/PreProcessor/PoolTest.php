@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Asset\PreProcessor;
@@ -45,33 +42,33 @@ class PoolTest extends \PHPUnit_Framework_TestCase
 
     public function getPreProcessorsDataProvider()
     {
-        return array(
-            'css => css' => array(
+        return [
+            'css => css' => [
                 'css', 'css',
-                array('Magento\Framework\View\Asset\PreProcessor\ModuleNotation'),
-            ),
-            'css => less (irrelevant)' => array(
+                ['Magento\Framework\View\Asset\PreProcessor\ModuleNotation'],
+            ],
+            'css => less (irrelevant)' => [
                 'css', 'less',
-                array(),
-            ),
-            'less => css' => array(
+                [],
+            ],
+            'less => css' => [
                 'less', 'css',
-                array(
+                [
                     'Magento\Framework\Css\PreProcessor\Less',
                     'Magento\Framework\View\Asset\PreProcessor\ModuleNotation',
-                ),
-            ),
-            'less => less' => array(
+                ],
+            ],
+            'less => less' => [
                 'less', 'less',
-                array(
+                [
                     'Magento\Framework\Less\PreProcessor\Instruction\MagentoImport',
                     'Magento\Framework\Less\PreProcessor\Instruction\Import',
-                ),
-            ),
-            'txt => log (unsupported)' => array(
+                ],
+            ],
+            'txt => log (unsupported)' => [
                 'txt', 'log',
-                array(),
-            ),
-        );
+                [],
+            ],
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Design\FileResolution\Fallback\CacheData;
@@ -28,7 +25,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->cache = $this->getMock(
-            '\Magento\Framework\View\Design\FileResolution\Fallback\Cache', array(), array(), '', false
+            '\Magento\Framework\View\Design\FileResolution\Fallback\Cache', [], [], '', false
         );
 
         $this->theme = $this->getMockForAbstractClass('\Magento\Framework\View\Design\ThemeInterface');

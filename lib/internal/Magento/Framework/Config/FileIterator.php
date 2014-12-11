@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config;
 
@@ -18,7 +15,7 @@ class FileIterator implements \Iterator, \Countable
      *
      * @var array
      */
-    protected $paths = array();
+    protected $paths = [];
 
     /**
      * Position
@@ -104,7 +101,7 @@ class FileIterator implements \Iterator, \Countable
      */
     public function toArray()
     {
-        $result = array();
+        $result = [];
         foreach ($this as $item) {
             $result[$this->key()] = $item;
         }

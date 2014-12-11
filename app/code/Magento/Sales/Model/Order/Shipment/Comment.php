@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Shipment;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Sales\Api\Data\ShipmentCommentInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\ShipmentCommentInterface;
+use Magento\Sales\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Shipment\Comment _getResource()

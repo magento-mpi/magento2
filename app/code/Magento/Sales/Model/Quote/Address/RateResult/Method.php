@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Address\RateResult;
 
@@ -29,7 +26,7 @@ class Method extends AbstractResult
      */
     public function __construct(
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->priceCurrency = $priceCurrency;
         parent::__construct($data);

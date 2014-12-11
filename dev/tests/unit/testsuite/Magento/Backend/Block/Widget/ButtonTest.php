@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,12 +32,12 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false, false);
+        $this->_layoutMock = $this->getMock('Magento\Framework\View\Layout', [], [], '', false, false);
 
-        $arguments = array(
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false, false),
-            'layout' => $this->_layoutMock
-        );
+        $arguments = [
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false, false),
+            'layout' => $this->_layoutMock,
+        ];
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_blockMock = $objectManagerHelper->getObject('Magento\Backend\Block\Widget\Button', $arguments);
@@ -65,24 +62,24 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
 
     public function getAttributesHtmlDataProvider()
     {
-        return array(
-            array(
-                array('data_attribute' => array('validation' => array('required' => true))),
-                '/data-validation="[^"]*" /'
-            ),
-            array(
-                array('data_attribute' => array('mage-init' => array('button' => array('someKey' => 'someValue')))),
+        return [
+            [
+                ['data_attribute' => ['validation' => ['required' => true]]],
+                '/data-validation="[^"]*" /',
+            ],
+            [
+                ['data_attribute' => ['mage-init' => ['button' => ['someKey' => 'someValue']]]],
                 '/data-mage-init="[^"]*" /'
-            ),
-            array(
-                array(
-                    'data_attribute' => array(
-                        'mage-init' => array('button' => array('someKey' => 'someValue')),
-                        'validation' => array('required' => true)
-                    )
-                ),
+            ],
+            [
+                [
+                    'data_attribute' => [
+                        'mage-init' => ['button' => ['someKey' => 'someValue']],
+                        'validation' => ['required' => true],
+                    ],
+                ],
                 '/data-mage-init="[^"]*" data-validation="[^"]*" /'
-            )
-        );
+            ]
+        ];
     }
 }

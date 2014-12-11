@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Customer;
 
@@ -18,7 +15,7 @@ class Unsubscribe extends \Magento\Reward\Controller\Customer
     public function execute()
     {
         $notification = $this->getRequest()->getParam('notification');
-        if (!in_array($notification, array('update', 'warning'))) {
+        if (!in_array($notification, ['update', 'warning'])) {
             $this->_forward('noroute');
         }
 

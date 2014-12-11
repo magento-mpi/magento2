@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Model\Resource\Db;
 
@@ -18,7 +15,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     {
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Framework\App\Resource');
         $this->_model = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
-            array('resource' => $resource)
+            ['resource' => $resource]
         );
     }
 
@@ -47,18 +44,18 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetTableName()
     {
-        $tableNameOrig ='store_website';
+        $tableNameOrig = 'store_website';
         $tableSuffix = 'suffix';
         $resource = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Framework\App\Resource',
-            array('tablePrefix' => 'prefix_')
+            ['tablePrefix' => 'prefix_']
         );
 
         $model = $this->getMockForAbstractClass('Magento\Framework\Model\Resource\Db\AbstractDb',
-            array('resource' => $resource)
+            ['resource' => $resource]
         );
 
-        $tableName = $model->getTable(array($tableNameOrig, $tableSuffix));
+        $tableName = $model->getTable([$tableNameOrig, $tableSuffix]);
         $this->assertEquals('prefix_store_website_suffix', $tableName);
     }
 }

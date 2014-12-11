@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,59 +22,59 @@ $table = $installer->getConnection()->newTable(
     'notification_id',
     \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
     null,
-    array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+    ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
     'Notification id'
 )->addColumn(
     'severity',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Problem type'
 )->addColumn(
     'date_added',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Create date'
 )->addColumn(
     'title',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array('nullable' => false),
+    ['nullable' => false],
     'Title'
 )->addColumn(
     'description',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     '64k',
-    array(),
+    [],
     'Description'
 )->addColumn(
     'url',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     255,
-    array(),
+    [],
     'Url'
 )->addColumn(
     'is_read',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Flag if notification read'
 )->addColumn(
     'is_remove',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Flag if notification might be removed'
 )->addIndex(
-    $installer->getIdxName('adminnotification_inbox', array('severity')),
-    array('severity')
+    $installer->getIdxName('adminnotification_inbox', ['severity']),
+    ['severity']
 )->addIndex(
-    $installer->getIdxName('adminnotification_inbox', array('is_read')),
-    array('is_read')
+    $installer->getIdxName('adminnotification_inbox', ['is_read']),
+    ['is_read']
 )->addIndex(
-    $installer->getIdxName('adminnotification_inbox', array('is_remove')),
-    array('is_remove')
+    $installer->getIdxName('adminnotification_inbox', ['is_remove']),
+    ['is_remove']
 )->setComment(
     'Adminnotification Inbox'
 );
@@ -92,19 +89,19 @@ $table = $installer->getConnection()->newTable(
     'identity',
     \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
     100,
-    array('nullable' => false, 'primary' => true),
+    ['nullable' => false, 'primary' => true],
     'Message id'
 )->addColumn(
     'severity',
     \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
     null,
-    array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+    ['unsigned' => true, 'nullable' => false, 'default' => '0'],
     'Problem type'
 )->addColumn(
     'created_at',
     \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
     null,
-    array('nullable' => false),
+    ['nullable' => false],
     'Create date'
 )->setComment(
     'Admin System Messages'

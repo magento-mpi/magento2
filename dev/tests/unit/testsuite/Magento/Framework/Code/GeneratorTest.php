@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code;
 
@@ -22,7 +19,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     protected $expectedEntities = [
         'factory' => \Magento\Framework\ObjectManager\Code\Generator\Factory::ENTITY_TYPE,
         'proxy' => \Magento\Framework\ObjectManager\Code\Generator\Proxy::ENTITY_TYPE,
-        'interceptor' => \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE
+        'interceptor' => \Magento\Framework\Interception\Code\Generator\Interceptor::ENTITY_TYPE,
     ];
 
     /**
@@ -39,7 +36,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-
         $this->ioObjectMock = $this->getMockBuilder('\Magento\Framework\Code\Generator\Io')
             ->disableOriginalConstructor()
             ->getMock();
@@ -144,7 +140,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
             $generatedEntity = ucfirst($generatedEntity);
             $data['test class for ' . $generatedEntity] = [
                 'class name' => self::SOURCE_CLASS,
-                'entity type' => $generatedEntity
+                'entity type' => $generatedEntity,
             ];
         }
         return $data;

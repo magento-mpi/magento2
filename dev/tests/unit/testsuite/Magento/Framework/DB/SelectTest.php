@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\DB;
 
@@ -30,8 +27,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = $this->getMock(
             'Zend_Db_Adapter_Pdo_Mysql',
-            array('supportStraightJoin', 'quote'),
-            array(),
+            ['supportStraightJoin', 'quote'],
+            [],
             '',
             false
         );
@@ -76,7 +73,7 @@ class SelectTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (field LIKE '%value?%')", $select->assemble());
 
         $select = new Select($this->_getAdapterMockWithMockedQuote(1, "'1', '2', '4', '8'"));
-        $select->from('test')->where("id IN (?)", array(1, 2, 4, 8));
+        $select->from('test')->where("id IN (?)", [1, 2, 4, 8]);
         $this->assertEquals("SELECT `test`.* FROM `test` WHERE (id IN ('1', '2', '4', '8'))", $select->assemble());
     }
 
@@ -91,8 +88,8 @@ class SelectTest extends \PHPUnit_Framework_TestCase
     {
         $adapter = $this->getMock(
             'Zend_Db_Adapter_Pdo_Mysql',
-            array('supportStraightJoin', 'quote'),
-            array(),
+            ['supportStraightJoin', 'quote'],
+            [],
             '',
             false
         );

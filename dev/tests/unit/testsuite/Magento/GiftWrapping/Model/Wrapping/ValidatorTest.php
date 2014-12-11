@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftWrapping\Model\Wrapping;
@@ -28,7 +25,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $presentFields = [
             'status' => 'Status',
-            'base_price' => 'Price'
+            'base_price' => 'Price',
         ];
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');
         $wrapping->setData($presentFields);
@@ -41,7 +38,7 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $presentFields = [
             'status' => 'Status',
             'base_price' => 'Price',
-            'design' => 'Design'
+            'design' => 'Design',
         ];
 
         $wrapping = $this->objectManagerHelper->getObject('Magento\GiftWrapping\Model\Wrapping');

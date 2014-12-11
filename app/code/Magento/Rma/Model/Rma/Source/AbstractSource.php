@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Rma\Source;
 
@@ -24,9 +21,9 @@ abstract class AbstractSource extends \Magento\Eav\Model\Entity\Attribute\Source
     {
         $values = $this->_getAvailableValues();
         if ($withLabels) {
-            $result = array();
+            $result = [];
             foreach ($values as $item) {
-                $result[] = array('label' => $this->getItemLabel($item), 'value' => $item);
+                $result[] = ['label' => $this->getItemLabel($item), 'value' => $item];
             }
             return $result;
         }
@@ -41,7 +38,7 @@ abstract class AbstractSource extends \Magento\Eav\Model\Entity\Attribute\Source
     public function getAllOptionsForGrid()
     {
         $values = $this->_getAvailableValues();
-        $result = array();
+        $result = [];
         foreach ($values as $item) {
             $result[$item] = $this->getItemLabel($item);
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Structure\Element;
 
@@ -38,23 +35,23 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $this->_iteratorMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Iterator\Field',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
         $this->_cloneFactoryMock = $this->getMock(
             'Magento\Backend\Model\Config\BackendClone\Factory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_depMapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -79,11 +76,11 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testShouldCloneFields()
     {
         $this->assertFalse($this->_model->shouldCloneFields());
-        $this->_model->setData(array('clone_fields' => 1), 'scope');
+        $this->_model->setData(['clone_fields' => 1], 'scope');
         $this->assertTrue($this->_model->shouldCloneFields());
-        $this->_model->setData(array('clone_fields' => 0), 'scope');
+        $this->_model->setData(['clone_fields' => 0], 'scope');
         $this->assertFalse($this->_model->shouldCloneFields());
-        $this->_model->setData(array('clone_fields' => false), 'scope');
+        $this->_model->setData(['clone_fields' => false], 'scope');
         $this->assertFalse($this->_model->shouldCloneFields());
     }
 
@@ -97,11 +94,11 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCloneModelCreatesCloneModel()
     {
-        $cloneModel = $this->getMock('Magento\Framework\App\Config\ValueInterface', array(), array(), '', false);
+        $cloneModel = $this->getMock('Magento\Framework\App\Config\ValueInterface', [], [], '', false);
         $this->_depMapperMock = $this->getMock(
             'Magento\Backend\Model\Config\Structure\Element\Dependency\Mapper',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -114,7 +111,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($cloneModel)
         );
-        $this->_model->setData(array('clone_model' => 'clone_model_name'), 'scope');
+        $this->_model->setData(['clone_model' => 'clone_model_name'], 'scope');
         $this->assertEquals($cloneModel, $this->_model->getCloneModel());
     }
 
@@ -122,8 +119,8 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     {
         $fieldsetMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Fieldset',
-            array('setOriginalData'),
-            array(),
+            ['setOriginalData'],
+            [],
             '',
             false
         );
@@ -132,28 +129,28 @@ class GroupTest extends \PHPUnit_Framework_TestCase
         )->method(
             'setOriginalData'
         )->with(
-            array('var1' => 'val1', 'var2' => 'val2')
+            ['var1' => 'val1', 'var2' => 'val2']
         );
 
-        $this->_model->setData(array('var1' => 'val1', 'var2' => 'val2', 'var3' => array('val3')), 'scope');
+        $this->_model->setData(['var1' => 'val1', 'var2' => 'val2', 'var3' => ['val3']], 'scope');
         $this->_model->populateFieldset($fieldsetMock);
     }
 
     public function testIsExpanded()
     {
         $this->assertFalse($this->_model->isExpanded());
-        $this->_model->setData(array('expanded' => 1), 'scope');
+        $this->_model->setData(['expanded' => 1], 'scope');
         $this->assertTrue($this->_model->isExpanded());
-        $this->_model->setData(array('expanded' => 0), 'scope');
+        $this->_model->setData(['expanded' => 0], 'scope');
         $this->assertFalse($this->_model->isExpanded());
-        $this->_model->setData(array('expanded' => null), 'scope');
+        $this->_model->setData(['expanded' => null], 'scope');
         $this->assertFalse($this->_model->isExpanded());
     }
 
     public function testGetFieldsetCss()
     {
         $this->assertEquals('', $this->_model->getFieldsetCss());
-        $this->_model->setData(array('fieldset_css' => 'some_css'), 'scope');
+        $this->_model->setData(['fieldset_css' => 'some_css'], 'scope');
         $this->assertEquals('some_css', $this->_model->getFieldsetCss());
     }
 
@@ -164,14 +161,14 @@ class GroupTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDependenciesWithDependencies()
     {
-        $fields = array(
-            'field_4' => array(
+        $fields = [
+            'field_4' => [
                 'id' => 'section_2/group_3/field_4',
                 'value' => 'someValue',
-                'dependPath' => array('section_2', 'group_3', 'field_4')
-            )
-        );
-        $this->_model->setData(array('depends' => array('fields' => $fields)), 0);
+                'dependPath' => ['section_2', 'group_3', 'field_4'],
+            ],
+        ];
+        $this->_model->setData(['depends' => ['fields' => $fields]], 0);
         $this->_depMapperMock->expects(
             $this->once()
         )->method(

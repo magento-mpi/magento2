@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Simplexml;
 
@@ -156,17 +153,17 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $cache = $this->getMock('Magento\Framework\Simplexml\Config\Cache\File', ['save']);
         $cache->expects($this->at(0))->method('save')
-            ->with(null, 'cacheId__CHECKSUM', array('cacheTags'), 10)
+            ->with(null, 'cacheId__CHECKSUM', ['cacheTags'], 10)
             ->will($this->returnValue(true));
         $cache->expects($this->at(1))->method('save')
-            ->with($xml, 'cacheId', array('cacheTags'), 10)
+            ->with($xml, 'cacheId', ['cacheTags'], 10)
             ->will($this->returnValue(true));
         $cache->expects($this->exactly(2))->method('save');
 
         $this->config->loadString($xml);
         $this->config->setCache($cache);
         $this->config->setCacheChecksum(null);
-        $this->config->setCacheTags(array('cacheTags'));
+        $this->config->setCacheTags(['cacheTags']);
         $this->config->setCacheId('cacheId');
         $this->config->setCacheLifetime(10);
 

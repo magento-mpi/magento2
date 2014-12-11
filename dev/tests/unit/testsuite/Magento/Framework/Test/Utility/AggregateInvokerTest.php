@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Test\Utility;
 
@@ -25,7 +22,7 @@ class AggregateInvokerTest extends \PHPUnit_Framework_TestCase
             'PHPUnit_Framework_Test',
             ['run', 'count', 'fail', 'markTestIncomplete', 'markTestSkipped']
         );
-        $this->_invoker = new AggregateInvoker($this->_testCase, array());
+        $this->_invoker = new AggregateInvoker($this->_testCase, []);
     }
 
     /**
@@ -49,7 +46,7 @@ class AggregateInvokerTest extends \PHPUnit_Framework_TestCase
             function () use ($exceptionClass) {
                 throw new $exceptionClass('Some meaningful message.');
             },
-            array(array(0))
+            [[0]]
         );
     }
 
@@ -58,28 +55,28 @@ class AggregateInvokerTest extends \PHPUnit_Framework_TestCase
      */
     public function callbackDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'Passed: 0, Failed: 1, Incomplete: 0, Skipped: 0.',
                 'fail',
-                'PHPUnit_Framework_AssertionFailedError'
-            ),
-            array('Passed: 0, Failed: 1, Incomplete: 0, Skipped: 0.', 'fail', 'PHPUnit_Framework_OutputError'),
-            array(
+                'PHPUnit_Framework_AssertionFailedError',
+            ],
+            ['Passed: 0, Failed: 1, Incomplete: 0, Skipped: 0.', 'fail', 'PHPUnit_Framework_OutputError'],
+            [
                 'Passed: 0, Failed: 1, Incomplete: 0, Skipped: 0.',
                 'fail',
                 'PHPUnit_Framework_ExpectationFailedException'
-            ),
-            array(
+            ],
+            [
                 'Passed: 0, Failed: 0, Incomplete: 1, Skipped: 0.',
                 'markTestIncomplete',
                 'PHPUnit_Framework_IncompleteTestError'
-            ),
-            array(
+            ],
+            [
                 'Passed: 0, Failed: 0, Incomplete: 0, Skipped: 1.',
                 'markTestSkipped',
                 'PHPUnit_Framework_SkippedTestError'
-            )
-        );
+            ]
+        ];
     }
 }

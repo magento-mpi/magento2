@@ -1,14 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Formatter\Tree;
 
-use Magento\Tools\Formatter\Tree\Tree;
-use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
  * This class is used to test the tree functions.

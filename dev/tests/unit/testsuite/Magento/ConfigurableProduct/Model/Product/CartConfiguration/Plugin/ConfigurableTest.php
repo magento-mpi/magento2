@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Product\CartConfiguration\Plugin;
 
@@ -34,11 +31,11 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $this->closureMock = function () {
             return 'Expected';
         };
-        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $this->productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $this->subjectMock = $this->getMock(
             'Magento\Catalog\Model\Product\CartConfiguration',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -47,7 +44,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundIsProductConfiguredChecksThatSuperAttributeIsSetWhenProductIsConfigurable()
     {
-        $config = array('super_attribute' => 'valid_value');
+        $config = ['super_attribute' => 'valid_value'];
         $this->productMock->expects(
             $this->once()
         )->method(
@@ -68,7 +65,7 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testAroundIsProductConfiguredWhenProductIsNotConfigurable()
     {
-        $config = array('super_group' => 'valid_value');
+        $config = ['super_group' => 'valid_value'];
         $this->productMock->expects(
             $this->once()
         )->method(

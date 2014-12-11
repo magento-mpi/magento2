@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -54,7 +51,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_currencyCache = array();
+    protected $_currencyCache = [];
 
     /**
      * ISO2 country codes which have optional Zip/Postal pre-configured
@@ -157,32 +154,32 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function getRegionJson()
     {
-        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, array('group' => 'TEST', 'method' => __METHOD__));
+        \Magento\Framework\Profiler::start('TEST: ' . __METHOD__, ['group' => 'TEST', 'method' => __METHOD__]);
         if (!$this->_regionJson) {
             $cacheKey = 'DIRECTORY_REGIONS_JSON_STORE' . $this->_storeManager->getStore()->getId();
             $json = $this->_configCacheType->load($cacheKey);
             if (empty($json)) {
-                $countryIds = array();
+                $countryIds = [];
                 foreach ($this->getCountryCollection() as $country) {
                     $countryIds[] = $country->getCountryId();
                 }
                 $collection = $this->_regCollectionFactory->create();
                 $collection->addCountryFilter($countryIds)->load();
-                $regions = array(
-                    'config' => array(
+                $regions = [
+                    'config' => [
                         'show_all_regions' => $this->isShowNonRequiredState(),
-                        'regions_required' => $this->getCountriesWithStatesRequired()
-                    )
-                );
+                        'regions_required' => $this->getCountriesWithStatesRequired(),
+                    ],
+                ];
                 foreach ($collection as $region) {
                     /** @var $region \Magento\Directory\Model\Region */
                     if (!$region->getRegionId()) {
                         continue;
                     }
-                    $regions[$region->getCountryId()][$region->getRegionId()] = array(
+                    $regions[$region->getCountryId()][$region->getRegionId()] = [
                         'code' => $region->getCode(),
-                        'name' => (string)__($region->getName())
-                    );
+                        'name' => (string)__($region->getName()),
+                    ];
                 }
                 $json = $this->_coreHelper->jsonEncode($regions);
 

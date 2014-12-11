@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Resource\Oauth\Token;
 
@@ -33,7 +30,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $select = $this->getSelect();
         $select->joinLeft(
-            array('c' => $this->getTable('oauth_consumer')),
+            ['c' => $this->getTable('oauth_consumer')],
             'c.entity_id = main_table.consumer_id',
             'name'
         );
@@ -97,7 +94,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function addFilterById($tokenId)
     {
-        $this->addFilter('main_table.entity_id', array('in' => $tokenId), 'public');
+        $this->addFilter('main_table.entity_id', ['in' => $tokenId], 'public');
         return $this;
     }
 

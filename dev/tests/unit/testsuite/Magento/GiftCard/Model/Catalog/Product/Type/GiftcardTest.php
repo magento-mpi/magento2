@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
@@ -56,18 +53,18 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     {
         $this->_store = $this->getMock(
             'Magento\Store\Model\Store',
-            array('getCurrentCurrencyRate', '__sleep', '__wakeup'),
-            array(),
+            ['getCurrentCurrencyRate', '__sleep', '__wakeup'],
+            [],
             '',
             false
         );
         $this->_storeManagerMock = $this->getMockBuilder(
             'Magento\Store\Model\StoreManagerInterface'
         )->disableOriginalConstructor()->setMethods(
-            array('getStore')
+            ['getStore']
         )->getMockForAbstractClass();
         $this->_storeManagerMock->expects($this->any())->method('getStore')->will($this->returnValue($this->_store));
-        $this->_mockModel(array('_isStrictProcessMode'));
+        $this->_mockModel(['_isStrictProcessMode']);
     }
 
     /**
@@ -77,7 +74,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _mockModel($mockedMethods)
     {
-        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', array(), array(), '', false);
+        $eventManager = $this->getMock('Magento\Framework\Event\ManagerInterface', [], [], '', false);
         $coreData = $this->getMockBuilder('Magento\Core\Helper\Data')->disableOriginalConstructor()->getMock();
         $productRepository = $this->getMock('Magento\Catalog\Api\ProductRepositoryInterface');
         $filesystem =
@@ -85,13 +82,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $storage = $this->getMockBuilder(
             'Magento\Core\Helper\File\Storage\Database'
         )->disableOriginalConstructor()->getMock();
-        $locale = $this->getMock('Magento\Framework\Locale\Format', array('getNumber'), array(), '', false);
+        $locale = $this->getMock('Magento\Framework\Locale\Format', ['getNumber'], [], '', false);
         $locale->expects($this->any())->method('getNumber')->will($this->returnArgument(0));
-        $coreRegistry = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
-        $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', array(), array(), '', false);
-        $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false);
-        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', array(), array(), '', false);
+        $coreRegistry = $this->getMock('Magento\Framework\Registry', [], [], '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
+        $productOption = $this->getMock('Magento\Catalog\Model\Product\Option', [], [], '', false);
+        $eavConfigMock = $this->getMock('Magento\Eav\Model\Config', [], [], '', false);
+        $productTypeMock = $this->getMock('Magento\Catalog\Model\Product\Type', [], [], '', false);
         $priceCurrency = $this->getMockBuilder('Magento\Framework\Pricing\PriceCurrencyInterface')->getMock();
         $priceCurrency->expects($this->any())
             ->method('round')
@@ -105,7 +102,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMock(
             'Magento\GiftCard\Model\Catalog\Product\Type\Giftcard',
             $mockedMethods,
-            array(
+            [
                 $productOption,
                 $eavConfigMock,
                 $productTypeMock,
@@ -120,7 +117,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 $locale,
                 $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface'),
                 $priceCurrency
-            )
+            ]
         );
     }
 
@@ -133,52 +130,52 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue(1));
         $this->_productResource = $this->getMock(
             'Magento\Catalog\Model\Resource\Product',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->_optionResource = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Option',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $productCollection = $this->getMock(
             'Magento\Catalog\Model\Resource\Product\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $itemFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Product\Configuration\Item\OptionFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $stockItemFactoryMock = $this->getMock(
             'Magento\CatalogInventory\Model\Stock\ItemFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $productFactoryMock = $this->getMock(
             'Magento\Catalog\Model\ProductFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $categoryFactoryMock = $this->getMock(
             'Magento\Catalog\Model\CategoryFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -186,7 +183,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Catalog\Model\Product',
-            array(
+            [
                 'itemOptionFactory' => $itemFactoryMock,
                 'stockItemFactory' => $stockItemFactoryMock,
                 'productFactory' => $productFactoryMock,
@@ -195,26 +192,26 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
                 'resourceCollection' => $productCollection,
                 'collectionFactory' => $this->getMock(
                         'Magento\Framework\Data\CollectionFactory',
-                        array(),
-                        array(),
+                        [],
+                        [],
                         '',
                         false
                     )
-            )
+            ]
         );
         $this->_product = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin', '__wakeup'),
+            ['getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin', '__wakeup'],
             $arguments,
             '',
             false
         );
 
-        $this->_customOptions = array();
+        $this->_customOptions = [];
         $valueFactoryMock = $this->getMock(
             'Magento\Catalog\Model\Product\Option\ValueFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -222,19 +219,19 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         for ($i = 1; $i <= 3; $i++) {
             $option = $objectManagerHelper->getObject(
                 'Magento\Catalog\Model\Product\Option',
-                array('resource' => $this->_optionResource, 'optionValueFactory' => $valueFactoryMock)
+                ['resource' => $this->_optionResource, 'optionValueFactory' => $valueFactoryMock]
             );
             $option->setIdFieldName('id');
             $option->setId($i);
             $option->setIsRequire(true);
             $this->_customOptions[\Magento\Catalog\Model\Product\Type\AbstractType::OPTION_PREFIX .
                 $i] = new \Magento\Framework\Object(
-                array('value' => 'value')
+                ['value' => 'value']
             );
             $this->_product->addOption($option);
         }
 
-        $this->_quoteItemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', array(), array(), '', false);
+        $this->_quoteItemOption = $this->getMock('Magento\Sales\Model\Quote\Item\Option', [], [], '', false);
 
         $this->_customOptions['info_buyRequest'] = $this->_quoteItemOption;
 
@@ -252,7 +249,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->will(
-            $this->returnValue(serialize(array()))
+            $this->returnValue(serialize([]))
         );
         $this->_setGetGiftcardAmountsReturnArray();
 
@@ -274,12 +271,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
-                        'giftcard_sender_email' => 'email'
-                    )
+                        'giftcard_sender_email' => 'email',
+                    ]
                 )
             )
         );
@@ -301,13 +298,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
                         'giftcard_sender_email' => 'email',
-                        'custom_giftcard_amount' => 15
-                    )
+                        'custom_giftcard_amount' => 15,
+                    ]
                 )
             )
         );
@@ -329,13 +326,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
                         'giftcard_sender_email' => 'email',
-                        'custom_giftcard_amount' => 2
-                    )
+                        'custom_giftcard_amount' => 2,
+                    ]
                 )
             )
         );
@@ -355,13 +352,13 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
                         'giftcard_sender_email' => 'email',
-                        'giftcard_amount' => 7
-                    )
+                        'giftcard_amount' => 7,
+                    ]
                 )
             )
         );
@@ -381,12 +378,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
                         'giftcard_sender_email' => 'email',
-                        'giftcard_amount' => 5
-                    )
+                        'giftcard_amount' => 5,
+                    ]
                 )
             )
         );
@@ -406,12 +403,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_recipient_email' => 'email',
                         'giftcard_sender_email' => 'email',
-                        'giftcard_amount' => 5
-                    )
+                        'giftcard_amount' => 5,
+                    ]
                 )
             )
         );
@@ -431,12 +428,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_sender_email' => 'email',
-                        'giftcard_amount' => 5
-                    )
+                        'giftcard_amount' => 5,
+                    ]
                 )
             )
         );
@@ -456,12 +453,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue(
                 serialize(
-                    array(
+                    [
                         'giftcard_recipient_name' => 'name',
                         'giftcard_sender_name' => 'name',
                         'giftcard_recipient_email' => 'email',
-                        'giftcard_amount' => 5
-                    )
+                        'giftcard_amount' => 5,
+                    ]
                 )
             )
         );
@@ -479,7 +476,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         )->method(
             'getValue'
         )->will(
-            $this->returnValue(serialize(array()))
+            $this->returnValue(serialize([]))
         );
         $this->_setGetGiftcardAmountsReturnEmpty();
         $this->_customOptions['info_buyRequest'] = $this->_quoteItemOption;
@@ -495,7 +492,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
     public function testGetCustomGiftcardAmountForEqualRate()
     {
         $giftcardAmount = 11.54;
-        $this->_mockModel(array('_isStrictProcessMode', '_getAmountWithinConstraints'));
+        $this->_mockModel(['_isStrictProcessMode', '_getAmountWithinConstraints']);
         $this->_preConditions();
         $this->_setStrictProcessMode(false);
         $this->_setGetGiftcardAmountsReturnArray();
@@ -505,7 +502,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             'getValue'
         )->will(
             $this->returnValue(
-                serialize(array('custom_giftcard_amount' => $giftcardAmount, 'giftcard_amount' => 'custom'))
+                serialize(['custom_giftcard_amount' => $giftcardAmount, 'giftcard_amount' => 'custom'])
             )
         );
         $this->_model->expects(
@@ -530,7 +527,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $giftcardAmount = 11.54;
         $storeRate = 2;
         $this->_store->expects($this->any())->method('getCurrentCurrencyRate')->will($this->returnValue($storeRate));
-        $this->_mockModel(array('_isStrictProcessMode', '_getAmountWithinConstraints'));
+        $this->_mockModel(['_isStrictProcessMode', '_getAmountWithinConstraints']);
         $this->_preConditions();
         $this->_setStrictProcessMode(false);
         $this->_setGetGiftcardAmountsReturnEmpty();
@@ -568,7 +565,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setGetGiftcardAmountsReturnEmpty()
     {
-        $this->_product->expects($this->once())->method('getGiftcardAmounts')->will($this->returnValue(array()));
+        $this->_product->expects($this->once())->method('getGiftcardAmounts')->will($this->returnValue([]));
     }
 
     /**

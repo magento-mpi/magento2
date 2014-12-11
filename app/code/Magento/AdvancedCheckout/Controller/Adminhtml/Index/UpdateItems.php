@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml\Index;
 
@@ -24,7 +21,7 @@ class UpdateItems extends \Magento\AdvancedCheckout\Controller\Adminhtml\Index
             if ($this->_redirectFlag) {
                 return;
             }
-            $items = $this->getRequest()->getPost('item', array());
+            $items = $this->getRequest()->getPost('item', []);
             if ($items) {
                 $this->getCartModel()->updateQuoteItems($items);
             }

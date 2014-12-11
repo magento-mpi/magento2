@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Setup\Module\Setup;
 
@@ -12,7 +9,6 @@ namespace Magento\Setup\Module\Setup;
  */
 class ResourceConfig implements \Magento\Framework\App\Resource\ConfigInterface
 {
-
     /**
      * {@inheritdoc}
      */

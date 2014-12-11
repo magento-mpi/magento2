@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Search\Block\Adminhtml\Dashboard;
 
@@ -42,7 +39,7 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Framework\Module\Manager $moduleManager,
         \Magento\Search\Model\Resource\Query\CollectionFactory $queriesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_moduleManager = $moduleManager;
         $this->_queriesFactory = $queriesFactory;
@@ -68,12 +65,12 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
 
         if ($this->getRequest()->getParam('store')) {
             $this->_collection->addFieldToFilter('store_id', $this->getRequest()->getParam('store'));
-        } else if ($this->getRequest()->getParam('website')) {
+        } elseif ($this->getRequest()->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
-        } else if ($this->getRequest()->getParam('group')) {
+            $this->_collection->addFieldToFilter('store_id', ['in' => $storeIds]);
+        } elseif ($this->getRequest()->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getRequest()->getParam('group'))->getStoreIds();
-            $this->_collection->addFieldToFilter('store_id', array('in' => $storeIds));
+            $this->_collection->addFieldToFilter('store_id', ['in' => $storeIds]);
         }
 
         $this->setCollection($this->_collection);
@@ -88,22 +85,22 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
     {
         $this->addColumn(
             'search_query',
-            array(
+            [
                 'header' => __('Search Term'),
                 'sortable' => false,
                 'index' => 'query_text',
                 'renderer' => 'Magento\Backend\Block\Dashboard\Searches\Renderer\Searchquery'
-            )
+            ]
         );
 
         $this->addColumn(
             'num_results',
-            array('header' => __('Results'), 'sortable' => false, 'index' => 'num_results', 'type' => 'number')
+            ['header' => __('Results'), 'sortable' => false, 'index' => 'num_results', 'type' => 'number']
         );
 
         $this->addColumn(
             'popularity',
-            array('header' => __('Uses'), 'sortable' => false, 'index' => 'popularity', 'type' => 'number')
+            ['header' => __('Uses'), 'sortable' => false, 'index' => 'popularity', 'type' => 'number']
         );
 
         $this->setFilterVisibility(false);
@@ -117,6 +114,6 @@ class Last extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        return $this->getUrl('search/term/edit', array('id' => $row->getId()));
+        return $this->getUrl('search/term/edit', ['id' => $row->getId()]);
     }
 }

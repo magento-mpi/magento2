@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model;
 
@@ -44,7 +41,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @var array
      */
-    protected $_storeData = array();
+    protected $_storeData = [];
 
     /**
      * Reminder data
@@ -134,7 +131,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->rootFactory = $rootFactory;
         $this->collectionFactory = $collectionFactory;
@@ -256,18 +253,18 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             /* @var $coupon \Magento\SalesRule\Model\Coupon */
             $coupon = $this->couponFactory->create()->load($recipient['coupon_id']);
 
-            $templateVars = array(
+            $templateVars = [
                 'store' => $store,
                 'coupon' => $coupon,
                 'customer' => $customer,
                 'promotion_name' => $storeData['label'],
-                'promotion_description' => $storeData['description']
-            );
+                'promotion_description' => $storeData['description'],
+            ];
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $storeData['template_id']
             )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+                ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
             )->setTemplateVars(
                 $templateVars
             )->setFrom(

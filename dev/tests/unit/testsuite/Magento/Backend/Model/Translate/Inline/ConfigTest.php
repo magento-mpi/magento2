@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Translate\Inline;
 
@@ -25,7 +22,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $config = $objectManager->getObject(
             '\Magento\Backend\Model\Translate\Inline\Config',
-            array('config' => $backendConfig)
+            ['config' => $backendConfig]
         );
         $this->assertEquals($result, $config->isActive('any'));
     }

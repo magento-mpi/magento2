@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\GiftCard\Setup\Product;
 
@@ -55,7 +52,7 @@ class Converter extends \Magento\Tools\SampleData\Module\Catalog\Setup\Product\C
                 $data['giftcard_amounts'][++$i]['website_id'] = 0;
                 $data['giftcard_amounts'][$i]['price'] = $price;
                 $data['giftcard_amounts'][$i]['delete'] = null;
-            } else if ($price == 'Custom') {
+            } elseif ($price == 'Custom') {
                 $data['allow_open_amount'] = \Magento\GiftCard\Model\Giftcard::OPEN_AMOUNT_ENABLED;
                 $data['open_amount_min'] = min($prices);
                 $data['open_amount_max'] = null;

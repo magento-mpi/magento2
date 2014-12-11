@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Action;
 
@@ -37,15 +34,15 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function getHistoryMessageDataProvider()
     {
-        return array(
-            array(
-                'args' => array(),
-                'expectedResult' => 'Redeemed for order #'
-            ),
-            array(
-                'args' => array('increment_id' => 1),
+        return [
+            [
+                'args' => [],
+                'expectedResult' => 'Redeemed for order #',
+            ],
+            [
+                'args' => ['increment_id' => 1],
                 'expectedResult' => 'Redeemed for order #1'
-            )
-        );
+            ]
+        ];
     }
 }

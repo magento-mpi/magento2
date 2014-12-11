@@ -2,15 +2,12 @@
 /**
  * Class constructor validator
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Code\Validator;
 
-use Magento\Framework\Code\ValidatorInterface;
 use Magento\Framework\Code\ValidationException;
+use Magento\Framework\Code\ValidatorInterface;
 
 class ContextAggregation implements ValidatorInterface
 {
@@ -39,8 +36,8 @@ class ContextAggregation implements ValidatorInterface
         $class = new \ReflectionClass($className);
         $classArguments = $this->_argumentsReader->getConstructorArguments($class);
 
-        $errors = array();
-        $contextDependencies = array();
+        $errors = [];
+        $contextDependencies = [];
 
         $actualDependencies = $this->_getObjectArguments($classArguments);
 
@@ -82,7 +79,7 @@ class ContextAggregation implements ValidatorInterface
      */
     protected function _getObjectArguments(array $arguments)
     {
-        $output = array();
+        $output = [];
         foreach ($arguments as $argument) {
             $type = $argument['type'];
             if (!$type || $type == 'array') {

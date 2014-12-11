@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Attribute;
 
@@ -64,10 +61,10 @@ class Validate extends \Magento\Catalog\Controller\Adminhtml\Product\Attribute
 
         if ($attribute->getId() && !$attributeId) {
             if (strlen($this->getRequest()->getParam('attribute_code'))) {
-                $response->setAttributes(array('attribute_code' => __('An attribute with this code already exists.')));
+                $response->setAttributes(['attribute_code' => __('An attribute with this code already exists.')]);
             } else {
                 $response->setAttributes(
-                    array('attribute_label' => __('Attribute with the same code (%1) already exists.', $attributeCode))
+                    ['attribute_label' => __('Attribute with the same code (%1) already exists.', $attributeCode)]
                 );
             }
             $response->setError(true);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php echo $this->getChildHtml('form_before')?>
@@ -12,7 +9,7 @@
             <?php echo $this->getBlockHtml('formkey')?>
             <legend class="legend"><span><?php echo __('Subscription option') ?></span></legend><br>
             <div class="field choice">
-                <input type="checkbox" name="is_subscribed" id="subscription" value="1" title="<?php echo __('General Subscription') ?>"<?php if($this->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox">
+                <input type="checkbox" name="is_subscribed" id="subscription" value="1" title="<?php echo __('General Subscription') ?>"<?php if ($this->getIsSubscribed()): ?> checked="checked"<?php endif; ?> class="checkbox">
                 <label for="subscription" class="label"><span><?php echo __('General Subscription') ?></span></label>
             </div>
             <?php /* Extensions placeholder */ ?>

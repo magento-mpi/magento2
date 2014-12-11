@@ -2,10 +2,7 @@
 /**
  * High-level interface for catalog attributes data that hides format from the client code
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Attribute;
 
@@ -32,6 +29,6 @@ class Config
      */
     public function getAttributeNames($groupName)
     {
-        return $this->_dataStorage->get($groupName, array());
+        return $this->_dataStorage->get($groupName, []);
     }
 }

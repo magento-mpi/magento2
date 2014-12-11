@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Directory\Controller\Adminhtml\Json;
 
@@ -17,7 +14,7 @@ class CountryRegion extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $arrRes = array();
+        $arrRes = [];
 
         $countryId = $this->getRequest()->getParam('parent');
         if (!empty($countryId)) {

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Controller\Checkout;
 
-use \Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
+use Magento\Multishipping\Model\Checkout\Type\Multishipping\State;
 
 class Addresses extends \Magento\Multishipping\Controller\Checkout
 {

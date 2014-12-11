@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Sales\Model\Resource\Attribute;
-use Magento\Sales\Model\Spi\CreditmemoResourceInterface;
 use Magento\Framework\App\Resource as AppResource;
 use Magento\Sales\Model\Increment as SalesIncrement;
+use Magento\Sales\Model\Resource\Attribute;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Resource\Order\Creditmemo\Grid as CreditmemoGrid;
+use Magento\Sales\Model\Spi\CreditmemoResourceInterface;
 
 /**
  * Flat sales order creditmemo resource

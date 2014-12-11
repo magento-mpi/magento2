@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -32,7 +29,6 @@ class PaymentDataImportTest extends \PHPUnit_Framework_TestCase
 
         $this->rewardDataMock = $this->getMock('\Magento\Reward\Helper\Data', [], [], '', false);
         $this->importerMock = $this->getMock('\Magento\Reward\Model\PaymentDataImporter', [], [], '', false);
-
 
         $this->subject = $objectManager->getObject(
             '\Magento\Reward\Model\Observer\PaymentDataImport',
@@ -72,4 +68,3 @@ class PaymentDataImportTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($this->subject, $this->subject->execute($observerMock));
     }
 }
- 

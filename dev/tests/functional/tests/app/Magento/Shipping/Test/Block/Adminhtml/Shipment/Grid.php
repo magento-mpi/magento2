@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Shipping\Test\Block\Adminhtml\Shipment;
@@ -23,10 +20,10 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'id' => [
-            'selector' => 'input[name="real_shipment_id"]'
+            'selector' => 'input[name="real_shipment_id"]',
         ],
         'order_id' => [
-            'selector' => 'input[name="order_increment_id"]'
+            'selector' => 'input[name="order_increment_id"]',
         ],
         'total_qty_from' => [
             'selector' => 'input[name="total_qty[from]"]',

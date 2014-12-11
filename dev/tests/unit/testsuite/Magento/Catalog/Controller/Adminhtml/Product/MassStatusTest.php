@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
@@ -24,7 +21,7 @@ class MassStatusTest extends \Magento\Catalog\Controller\Adminhtml\ProductTest
             ->disableOriginalConstructor()->getMock();
 
         $productBuilder = $this->getMockBuilder('Magento\Catalog\Controller\Adminhtml\Product\Builder')->setMethods([
-                'build'
+                'build',
             ])->disableOriginalConstructor()->getMock();
 
         $product = $this->getMockBuilder('\Magento\Catalog\Model\Product')->disableOriginalConstructor()
@@ -50,7 +47,6 @@ class MassStatusTest extends \Magento\Catalog\Controller\Adminhtml\ProductTest
             $this->priceProcessor,
             $resultRedirectFactory
         );
-
     }
 
     public function testMassStatusAction()

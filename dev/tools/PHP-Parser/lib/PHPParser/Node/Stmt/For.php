@@ -18,14 +18,15 @@ class PHPParser_Node_Stmt_For extends PHPParser_Node_Stmt
      *                          'stmts' => array(): Statements
      * @param array $attributes Additional attributes
      */
-    public function __construct(array $subNodes = array(), array $attributes = array()) {
+    public function __construct(array $subNodes = [], array $attributes = [])
+    {
         parent::__construct(
-            $subNodes + array(
-                'init'  => array(),
-                'cond'  => array(),
-                'loop'  => array(),
-                'stmts' => array(),
-            ),
+            $subNodes + [
+                'init'  => [],
+                'cond'  => [],
+                'loop'  => [],
+                'stmts' => [],
+            ],
             $attributes
         );
     }

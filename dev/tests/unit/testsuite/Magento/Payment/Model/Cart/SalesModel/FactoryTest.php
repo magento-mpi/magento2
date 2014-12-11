@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Cart\SalesModel;
 
@@ -28,14 +25,14 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($salesModelClass, $expectedType)
     {
-        $salesModel = $this->getMock($salesModelClass, array('__wakeup'), array(), '', false);
+        $salesModel = $this->getMock($salesModelClass, ['__wakeup'], [], '', false);
         $this->_objectManagerMock->expects(
             $this->once()
         )->method(
             'create'
         )->with(
             $expectedType,
-            array('salesModel' => $salesModel)
+            ['salesModel' => $salesModel]
         )->will(
             $this->returnValue('some value')
         );
@@ -44,10 +41,10 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     public function createDataProvider()
     {
-        return array(
-            array('Magento\Sales\Model\Quote', 'Magento\Payment\Model\Cart\SalesModel\Quote'),
-            array('Magento\Sales\Model\Order', 'Magento\Payment\Model\Cart\SalesModel\Order')
-        );
+        return [
+            ['Magento\Sales\Model\Quote', 'Magento\Payment\Model\Cart\SalesModel\Quote'],
+            ['Magento\Sales\Model\Order', 'Magento\Payment\Model\Cart\SalesModel\Order']
+        ];
     }
 
     /**

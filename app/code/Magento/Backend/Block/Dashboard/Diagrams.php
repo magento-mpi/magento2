@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Dashboard;
 
@@ -36,19 +33,19 @@ class Diagrams extends \Magento\Backend\Block\Widget\Tabs
     {
         $this->addTab(
             'orders',
-            array(
+            [
                 'label' => __('Orders'),
                 'content' => $this->getLayout()->createBlock('Magento\Backend\Block\Dashboard\Tab\Orders')->toHtml(),
                 'active' => true
-            )
+            ]
         );
 
         $this->addTab(
             'amounts',
-            array(
+            [
                 'label' => __('Amounts'),
                 'content' => $this->getLayout()->createBlock('Magento\Backend\Block\Dashboard\Tab\Amounts')->toHtml()
-            )
+            ]
         );
         return parent::_prepareLayout();
     }

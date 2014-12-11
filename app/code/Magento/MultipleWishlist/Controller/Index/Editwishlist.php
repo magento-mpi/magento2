@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Controller\Index;
 
@@ -70,11 +67,11 @@ class Editwishlist extends \Magento\Framework\App\Action\Action implements Index
         }
 
         if ($this->getRequest()->isAjax()) {
-            $params = array();
+            $params = [];
             if (!$wishlist->getId()) {
-                $params = array('redirect' => $this->_url->getUrl('*/*'));
+                $params = ['redirect' => $this->_url->getUrl('*/*')];
             } else {
-                $params = array('wishlist_id' => $wishlist->getId());
+                $params = ['wishlist_id' => $wishlist->getId()];
             }
             return $this->getResponse()->representJson(
                 $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($params)
@@ -83,7 +80,7 @@ class Editwishlist extends \Magento\Framework\App\Action\Action implements Index
             if (!$wishlist || !$wishlist->getId()) {
                 return $this->_redirect('*/*');
             } else {
-                $this->_redirect('wishlist/index/index', array('wishlist_id' => $wishlist->getId()));
+                $this->_redirect('wishlist/index/index', ['wishlist_id' => $wishlist->getId()]);
             }
         }
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Resource;
 
@@ -28,14 +25,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var array
      */
-    protected $_searchQueryParams = array();
+    protected $_searchQueryParams = [];
 
     /**
      * Store search query filters
      *
      * @var array
      */
-    protected $_searchQueryFilters = array();
+    protected $_searchQueryFilters = [];
 
     /**
      * Store found entities ids
@@ -49,7 +46,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var array
      */
-    protected $_searchedSuggestions = array();
+    protected $_searchedSuggestions = [];
 
     /**
      * Store engine instance
@@ -63,14 +60,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var array
      */
-    protected $_sortBy = array();
+    protected $_sortBy = [];
 
     /**
      * General default query *:* to disable query limitation
      *
      * @var array
      */
-    protected $_generalDefaultQuery = array('*' => '*');
+    protected $_generalDefaultQuery = ['*' => '*'];
 
     /**
      * Flag that defines if faceted data needs to be loaded
@@ -84,21 +81,21 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      *
      * @var array
      */
-    protected $_facetedData = array();
+    protected $_facetedData = [];
 
     /**
      * Suggestions search result data
      *
      * @var array
      */
-    protected $_suggestionsData = array();
+    protected $_suggestionsData = [];
 
     /**
      * Conditions for faceted search
      *
      * @var array
      */
-    protected $_facetedConditions = array();
+    protected $_facetedConditions = [];
 
     /**
      * Stores original page size, because _pageSize will be unset at _beforeLoad()
@@ -217,7 +214,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function loadFacetedData()
     {
         if (empty($this->_facetedConditions)) {
-            $this->_facetedData = array();
+            $this->_facetedData = [];
             return $this;
         }
 
@@ -248,7 +245,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             return $this->_facetedData[$field];
         }
 
-        return array();
+        return [];
     }
 
     /**
@@ -272,7 +269,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     {
         if (array_key_exists($field, $this->_facetedConditions)) {
             if (!empty($this->_facetedConditions[$field])) {
-                $this->_facetedConditions[$field] = array($this->_facetedConditions[$field]);
+                $this->_facetedConditions[$field] = [$this->_facetedConditions[$field]];
             }
             $this->_facetedConditions[$field][] = $condition;
         } else {
@@ -377,7 +374,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function addCategoryFilter(Category $category)
     {
-        $this->addFqFilter(array('category_ids' => $category->getId()));
+        $this->addFqFilter(['category_ids' => $category->getId()]);
         parent::addCategoryFilter($category);
         return $this;
     }
@@ -391,7 +388,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      */
     public function setOrder($attribute, $dir = 'desc')
     {
-        $this->_sortBy[] = array($attribute => $dir);
+        $this->_sortBy[] = [$attribute => $dir];
         return $this;
     }
 
@@ -408,11 +405,11 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
             $store
         );
-        $params = array(
+        $params = [
             'store_id' => $store->getId(),
             'locale_code' => $localeCode,
-            'filters' => $this->_searchQueryFilters
-        );
+            'filters' => $this->_searchQueryFilters,
+        ];
         $params['filters'] = $this->_searchQueryFilters;
 
         if (!empty($this->_searchQueryParams)) {
@@ -422,7 +419,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
             $query = $this->_searchQueryText;
         }
 
-        return array($query, $params);
+        return [$query, $params];
     }
 
     /**
@@ -513,7 +510,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $params['solr_params']['stats'] = 'true';
 
         if (!is_array($fields)) {
-            $fields = array($fields);
+            $fields = [$fields];
         }
         foreach ($fields as $field) {
             $params['solr_params']['stats.field'][] = $field;
@@ -566,7 +563,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     public function setVisibility($visibility)
     {
         if (is_array($visibility)) {
-            $this->addFqFilter(array('visibility' => $visibility));
+            $this->addFqFilter(['visibility' => $visibility]);
         }
 
         return $this;
@@ -595,13 +592,13 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         $priceField = $this->engine->getSearchEngineFieldName('price');
         $conditions = null;
         if (!is_null($lowerPrice) || !is_null($upperPrice)) {
-            $conditions = array();
+            $conditions = [];
             $conditions['from'] = is_null($lowerPrice) ? 0 : $lowerPrice;
             $conditions['to'] = is_null($upperPrice) ? '' : $upperPrice;
         }
         if (!$getCount) {
             $params['fields'] = $priceField;
-            $params['sort_by'] = array(array('price' => $sort));
+            $params['sort_by'] = [['price' => $sort]];
             if (!is_null($limit)) {
                 $params['limit'] = $limit;
             }
@@ -614,16 +611,16 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
         } else {
             $params['solr_params']['facet'] = 'on';
             if (is_null($conditions)) {
-                $conditions = array('from' => 0, 'to' => '');
+                $conditions = ['from' => 0, 'to' => ''];
             }
-            $params['facet'][$priceField] = array($conditions);
+            $params['facet'][$priceField] = [$conditions];
         }
 
         $data = $this->engine->getResultForRequest($query, $params);
         if ($getCount) {
             return array_shift($data['faceted_data'][$priceField]);
         }
-        $result = array();
+        $result = [];
         foreach ($data['ids'] as $value) {
             $result[] = (double)$value[$priceField];
         }

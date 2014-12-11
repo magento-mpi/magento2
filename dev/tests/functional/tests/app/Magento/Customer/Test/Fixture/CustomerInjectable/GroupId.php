@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Fixture\CustomerInjectable;
 
+use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 use Mtf\Fixture\FixtureFactory;
 use Mtf\Fixture\FixtureInterface;
-use Magento\Customer\Test\Fixture\CustomerGroupInjectable;
 
 /**
  * Class GroupId

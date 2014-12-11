@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class VisitorTest
@@ -60,7 +57,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'save',
                 'addCommitCallback',
                 'commit',
-                'clean'
+                'clean',
             ])->disableOriginalConstructor()->getMock();
         $this->resource->expects($this->any())->method('getIdFieldName')->will($this->returnValue('visitor_id'));
         $this->resource->expects($this->any())->method('addCommitCallback')->will($this->returnSelf());
@@ -103,7 +100,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
                 'registry' => $this->registry,
                 'session' => $this->session,
                 'resource' => $this->resource,
-                'ignores' => array('test_route_name' => true)
+                'ignores' => ['test_route_name' => true]
             ]
         );
         $request = new \Magento\Framework\Object(['route_name' => 'test_route_name']);
@@ -113,12 +110,11 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->visitor->isModuleIgnored($observer));
     }
 
-
     public function testBindCustomerLogin()
     {
         $customer = new \Magento\Framework\Object(['id' => '1']);
         $observer = new \Magento\Framework\Object([
-            'event' => new \Magento\Framework\Object(['customer' => $customer])
+            'event' => new \Magento\Framework\Object(['customer' => $customer]),
         ]);
 
         $this->visitor->bindCustomerLogin($observer);
@@ -149,7 +145,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
     {
         $quote = new \Magento\Framework\Object(['id' => '1', 'is_checkout_cart' => true]);
         $observer = new \Magento\Framework\Object([
-            'event' => new \Magento\Framework\Object(['quote' => $quote])
+            'event' => new \Magento\Framework\Object(['quote' => $quote]),
         ]);
         $this->visitor->bindQuoteCreate($observer);
         $this->assertTrue($this->visitor->getDoQuoteCreate());
@@ -159,7 +155,7 @@ class VisitorTest extends \PHPUnit_Framework_TestCase
     {
         $quote = new \Magento\Framework\Object(['id' => '1']);
         $observer = new \Magento\Framework\Object([
-            'event' => new \Magento\Framework\Object(['quote' => $quote])
+            'event' => new \Magento\Framework\Object(['quote' => $quote]),
         ]);
         $this->visitor->bindQuoteDestroy($observer);
         $this->assertTrue($this->visitor->getDoQuoteDestroy());

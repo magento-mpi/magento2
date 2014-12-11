@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class UnassignCategoryTest

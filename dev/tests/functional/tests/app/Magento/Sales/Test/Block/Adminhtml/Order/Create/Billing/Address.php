@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing;
 
-use \Mtf\Block\Form;
+use Mtf\Block\Form;
 
 /**
  * Class BillingAddress

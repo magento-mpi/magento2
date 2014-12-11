@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Attribute\Data;
 
@@ -26,7 +23,7 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
     {
         $values = $this->_getRequestValue($request);
         if ($values !== false && !is_array($values)) {
-            $values = array($values);
+            $values = [$values];
         }
         return $values;
     }
@@ -64,7 +61,7 @@ class Multiselect extends \Magento\Eav\Model\Attribute\Data\Select
                 $output = $values;
                 // fall-through intentional
             default:
-                $output = array();
+                $output = [];
                 foreach ($values as $value) {
                     if (!$value) {
                         continue;

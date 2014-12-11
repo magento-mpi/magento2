@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Logging\Test\Block\Adminhtml;
@@ -40,7 +37,7 @@ class Details extends Block
         $fields = [
             1 => 'aggregated_information',
             2 => 'user_id',
-            3 => 'user'
+            3 => 'user',
         ];
         foreach ($fields as $key => $value) {
             $data[$value] = $this->_rootElement->find(sprintf($this->adminUserData, $key))->getText();

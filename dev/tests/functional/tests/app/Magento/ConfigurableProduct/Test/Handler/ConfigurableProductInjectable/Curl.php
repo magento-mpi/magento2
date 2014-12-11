@@ -1,20 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Handler\ConfigurableProductInjectable;
 
-use Mtf\System\Config;
-use Mtf\Fixture\FixtureInterface;
-use Mtf\Util\Protocol\CurlTransport;
-use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable\ConfigurableAttributesData;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
+use Magento\Catalog\Test\Handler\CatalogProductSimple\Curl as ProductCurl;
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable\ConfigurableAttributesData;
+use Mtf\Fixture\FixtureInterface;
+use Mtf\System\Config;
 
 /**
  * Class Curl
@@ -34,11 +29,11 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
         $this->mappingData += [
             'is_percent' => [
                 'Yes' => 1,
-                'No' => 0
+                'No' => 0,
             ],
             'include' => [
                 'Yes' => 1,
-                'No' => 0
+                'No' => 0,
             ]
         ];
     }
@@ -100,7 +95,7 @@ class Curl extends ProductCurl implements ConfigurableProductInjectableInterface
                 'code' => $attribute['attribute_code'],
                 'attribute_id' => $attributeId,
                 'label' => $attribute['frontend_label'],
-                'values' => $dataOptions
+                'values' => $dataOptions,
             ];
         }
 

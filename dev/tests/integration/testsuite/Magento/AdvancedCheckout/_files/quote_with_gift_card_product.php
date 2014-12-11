@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/GiftCard/_files/gift_card.php';
@@ -13,7 +10,7 @@ $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $product->load(1);
 
 $requestInfo = new \Magento\Framework\Object(
-    array(
+    [
         'qty' => 1,
         'giftcard_amount' => 'custom',
         'custom_giftcard_amount' => 200,
@@ -21,8 +18,8 @@ $requestInfo = new \Magento\Framework\Object(
         'giftcard_sender_email' => 'aerfg@sergserg.com',
         'giftcard_recipient_name' => 'Recipient',
         'giftcard_recipient_email' => 'awefaef@dsrthb.com',
-        'giftcard_message' => 'message'
-    )
+        'giftcard_message' => 'message',
+    ]
 );
 
 /** @var $cart \Magento\Checkout\Model\Cart */

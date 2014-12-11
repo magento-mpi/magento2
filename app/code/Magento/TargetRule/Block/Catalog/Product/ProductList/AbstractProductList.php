@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Catalog\Product\ProductList;
 
 use Magento\Framework\Model\Exception;
-use Magento\TargetRule\Block\Product\AbstractProduct;
 use Magento\Framework\View\Block\IdentityInterface;
+use Magento\TargetRule\Block\Product\AbstractProduct;
 
 /**
  * TargetRule Catalog Product List Abstract Block
@@ -70,7 +67,7 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_visibility = $visibility;
@@ -190,7 +187,7 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
     public function getExcludeProductIds()
     {
         if (is_null($this->_excludeProductIds)) {
-            $this->_excludeProductIds = array($this->getProduct()->getEntityId());
+            $this->_excludeProductIds = [$this->getProduct()->getEntityId()];
         }
         return $this->_excludeProductIds;
     }
@@ -232,7 +229,7 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
 
         $excludeProductIds = $this->getExcludeProductIds();
         if ($excludeProductIds) {
-            $linkCollection->addAttributeToFilter('entity_id', array('nin' => $excludeProductIds));
+            $linkCollection->addAttributeToFilter('entity_id', ['nin' => $excludeProductIds]);
         }
 
         return $linkCollection;
@@ -297,11 +294,11 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
 
         $productIds = $this->_getTargetRuleProductIds($limit);
 
-        $items = array();
+        $items = [];
         if ($productIds) {
             /** @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
             $collection = $this->_productCollectionFactory->create();
-            $collection->addFieldToFilter('entity_id', array('in' => $productIds));
+            $collection->addFieldToFilter('entity_id', ['in' => $productIds]);
             $this->_addProductAttributesAndPrices($collection);
 
             $collection->setPageSize(
@@ -356,7 +353,7 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
 
             $targetRuleProductIds = $this->_getTargetRuleProductIds();
             $linkProductCollection = $this->_getPreparedTargetLinkCollection();
-            $linkProductIds = array();
+            $linkProductIds = [];
             foreach ($linkProductCollection as $item) {
                 $linkProductIds[] = $item->getEntityId();
             }
@@ -374,7 +371,7 @@ abstract class AbstractProductList extends AbstractProduct implements IdentityIn
      */
     public function getIdentities()
     {
-        $identities = array();
+        $identities = [];
         foreach ($this->getItemCollection() as $item) {
             $identities = array_merge($identities, $item->getIdentities());
         }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Helper;
 
@@ -24,13 +21,13 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_paymentDataMock = $this->getMockBuilder(
             'Magento\Payment\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('getStoreMethods', 'getPaymentMethods')
+            ['getStoreMethods', 'getPaymentMethods']
         )->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManager->getObject(
             'Magento\Paypal\Helper\Data',
-            array('paymentData' => $this->_paymentDataMock)
+            ['paymentData' => $this->_paymentDataMock]
         );
     }
 
@@ -70,9 +67,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
             'Magento\Paypal\Model\Billing\Agreement\MethodInterface'
         )->getMock();
 
-        return array(
-            array('1', $quoteMock, array($methodInterfaceMock), array($methodInterfaceMock)),
-            array('1', $quoteMock, array(new \StdClass()), array())
-        );
+        return [
+            ['1', $quoteMock, [$methodInterfaceMock], [$methodInterfaceMock]],
+            ['1', $quoteMock, [new \StdClass()], []]
+        ];
     }
 }

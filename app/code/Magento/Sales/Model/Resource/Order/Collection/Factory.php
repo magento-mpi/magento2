@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Collection;
 
@@ -28,7 +25,7 @@ class Factory
      * @return AbstractCollection
      * @throws \InvalidArgumentException
      */
-    public function create($className, array $data = array())
+    public function create($className, array $data = [])
     {
         $instance = $this->_objectManager->create($className, $data);
 

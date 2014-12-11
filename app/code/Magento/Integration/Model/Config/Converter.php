@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model\Config;
 
@@ -28,7 +25,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $result = array();
+        $result = [];
         /** @var \DOMNodeList $integrations */
         $integrations = $source->getElementsByTagName('integration');
         /** @var \DOMElement $integration */
@@ -37,7 +34,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
                 continue;
             }
             $integrationName = $integration->attributes->getNamedItem('name')->nodeValue;
-            $result[$integrationName] = array();
+            $result[$integrationName] = [];
 
             /** @var \DOMElement $email */
             $email = $integration->getElementsByTagName('email')->item(0)->nodeValue;

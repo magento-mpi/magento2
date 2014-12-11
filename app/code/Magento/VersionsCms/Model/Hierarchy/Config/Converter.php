@@ -2,10 +2,7 @@
 /**
  * Converter of menu hierarchy configuration from \DOMDocument to tree array
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Hierarchy\Config;
 
@@ -20,15 +17,15 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
      */
     public function convert($source)
     {
-        $output = array();
-        $boolAttributesNames = array('isDefault');
+        $output = [];
+        $boolAttributesNames = ['isDefault'];
 
         /** @var \DOMNodeList $menuLayouts */
         $menuLayouts = $source->getElementsByTagName('menuLayout');
         /** @var DOMNode $menuLayout */
         foreach ($menuLayouts as $menuLayout) {
             $menuLayoutName = $menuLayout->attributes->getNamedItem('name')->nodeValue;
-            $menuLayoutConfig = array();
+            $menuLayoutConfig = [];
             foreach ($menuLayout->attributes as $attribute) {
                 if (!in_array($attribute->nodeName, $boolAttributesNames)) {
                     $value = $attribute->nodeValue;
@@ -39,7 +36,7 @@ class Converter implements \Magento\Framework\Config\ConverterInterface
             }
 
             /** @var DOMNode $menuLayout */
-            $pageLayoutHandles = array();
+            $pageLayoutHandles = [];
             foreach ($menuLayout->getElementsByTagName('pageLayout') as $pageLayout) {
                 $pageLayoutHandles[] = $pageLayout->attributes->getNamedItem('handle')->nodeValue;
             }

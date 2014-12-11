@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product\Attribute\Backend;
 
@@ -61,8 +58,8 @@ class Image extends AbstractBackend
 
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */
-            $uploader = $this->_fileUploaderFactory->create(array('fileId' => $this->getAttribute()->getName()));
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader = $this->_fileUploaderFactory->create(['fileId' => $this->getAttribute()->getName()]);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
         } catch (\Exception $e) {

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Controller\Adminhtml\Integration;
 
@@ -25,7 +22,7 @@ class NewAction extends \Magento\Integration\Controller\Adminhtml\Integration
         $restoredIntegration = $this->_getSession()->getIntegrationData();
         if ($restoredIntegration) {
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $restoredIntegration);
-            $this->_getSession()->setIntegrationData(array());
+            $this->_getSession()->setIntegrationData([]);
         }
         $this->_view->renderLayout();
     }

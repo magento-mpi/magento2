@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
@@ -33,7 +30,7 @@ class Js extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
@@ -53,23 +50,23 @@ class Js extends \Magento\Backend\Block\Template
      */
     public function getWebsitesJson()
     {
-        $result = array();
+        $result = [];
         foreach ($this->_storeManager->getWebsites() as $websiteId => $website) {
-            $result[$websiteId] = array(
+            $result[$websiteId] = [
                 'name' => $website->getName(),
                 'website_id' => $websiteId,
                 'currency_code' => $website->getBaseCurrencyCode(),
-                'groups' => array()
-            );
+                'groups' => [],
+            ];
 
             foreach ($website->getGroups() as $groupId => $group) {
-                $result[$websiteId]['groups'][$groupId] = array('name' => $group->getName());
+                $result[$websiteId]['groups'][$groupId] = ['name' => $group->getName()];
 
                 foreach ($group->getStores() as $storeId => $store) {
-                    $result[$websiteId]['groups'][$groupId]['stores'][] = array(
+                    $result[$websiteId]['groups'][$groupId]['stores'][] = [
                         'name' => $store->getName(),
-                        'store_id' => $storeId
-                    );
+                        'store_id' => $storeId,
+                    ];
                 }
             }
         }

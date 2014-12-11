@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model;
 
@@ -31,7 +28,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_readerMock = $this->getMock('Magento\AdminGws\Model\Config\Reader', array(), array(), '', false);
+        $this->_readerMock = $this->getMock('Magento\AdminGws\Model\Config\Reader', [], [], '', false);
         $this->_configScopeMock = $this->getMock('Magento\Framework\Config\ScopeInterface');
         $this->_cacheMock = $this->getMock('Magento\Framework\Config\CacheInterface');
         $cacheId = null;
@@ -56,10 +53,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getCallbacksDataProvider()
     {
-        return array(
-            'generic_key_exist' => array(array('callbacks' => array('group' => 'value')), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), array())
-        );
+        return [
+            'generic_key_exist' => [['callbacks' => ['group' => 'value']], 'value'],
+            'return_default_value' => [['key_one' => 'value'], []]
+        ];
     }
 
     /**
@@ -74,9 +71,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getDeniedAclResourcesDataProvider()
     {
-        return array(
-            'generic_key_exist' => array(array('acl' => array('level' => 'value')), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), array())
-        );
+        return [
+            'generic_key_exist' => [['acl' => ['level' => 'value']], 'value'],
+            'return_default_value' => [['key_one' => 'value'], []]
+        ];
     }
 }

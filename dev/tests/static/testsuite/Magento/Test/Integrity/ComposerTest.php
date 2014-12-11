@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Test\Integrity;
@@ -131,6 +128,7 @@ class ComposerTest extends \PHPUnit_Framework_TestCase
     private function assertMagentoConventions($dir, $packageType, \StdClass $json)
     {
         $this->assertObjectHasAttribute('name', $json);
+        $this->assertObjectHasAttribute('license', $json);
         $this->assertObjectHasAttribute('type', $json);
         $this->assertObjectHasAttribute('version', $json);
         $this->assertVersionInSync($json->name, $json->version);

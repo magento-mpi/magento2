@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -51,7 +48,7 @@ class Info extends \Magento\Framework\View\Element\Template
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         $this->_customerSession = $customerSession;
@@ -94,7 +91,7 @@ class Info extends \Magento\Framework\View\Element\Template
         $minBalance = (int)$helper->getGeneralConfig('min_points_balance');
         $balance = $this->_rewardInstance->getPointsBalance();
         $this->addData(
-            array(
+            [
                 'points_balance' => $balance,
                 'currency_balance' => $this->_rewardInstance->getCurrencyAmount(),
                 'pts_to_amount_rate_pts' => $this->_rewardInstance->getRateToCurrency()->getPoints(true),
@@ -106,8 +103,8 @@ class Info extends \Magento\Framework\View\Element\Template
                 'min_balance' => $minBalance,
                 'is_min_balance_reached' => $balance >= $minBalance,
                 'expire_in' => (int)$helper->getGeneralConfig('expiration_days'),
-                'is_history_published' => (int)$helper->getGeneralConfig('publish_history')
-            )
+                'is_history_published' => (int)$helper->getGeneralConfig('publish_history'),
+            ]
         );
     }
 }

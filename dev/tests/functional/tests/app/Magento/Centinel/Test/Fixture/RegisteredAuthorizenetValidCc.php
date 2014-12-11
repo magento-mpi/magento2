@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Centinel\Test\Fixture;
@@ -23,7 +20,7 @@ class RegisteredAuthorizenetValidCc extends AbstractCreditCard
         $this->_data = [
             'totals' => [
                 'grand_total' => '15',
-                'comment_history' => 'Authorized amount of $15'
+                'comment_history' => 'Authorized amount of $15',
             ],
             'payment_info' => [
                 'verification_result' => 'Successful',

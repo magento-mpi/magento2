@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Adminhtml\Rma;
 
@@ -25,15 +22,15 @@ class RemoveTrack extends \Magento\Rma\Controller\Adminhtml\Rma
                 $this->_view->loadLayout();
                 $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
-                $response = array(
+                $response = [
                     'error' => true,
-                    'message' => __('We cannot initialize an RMA to delete a tracking number.')
-                );
+                    'message' => __('We cannot initialize an RMA to delete a tracking number.'),
+                ];
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => __('We cannot delete the tracking number.'));
+            $response = ['error' => true, 'message' => __('We cannot delete the tracking number.')];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         }
         if (is_array($response)) {
             $this->getResponse()->representJson(

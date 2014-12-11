@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Helper;
 
@@ -133,53 +130,14 @@ abstract class AbstractHelper
     }
 
     /**
-     * Check is module exists and enabled in global config.
-     *
-     * @param string $moduleName the full module name, example Magento_Core
-     * @return boolean
-     * @deprecated use \Magento\Framework\Module\Manager::isEnabled()
-     */
-    public function isModuleEnabled($moduleName = null)
-    {
-        if ($moduleName === null) {
-            $moduleName = $this->_getModuleName();
-        }
-        return $this->_moduleManager->isEnabled($moduleName);
-    }
-
-    /**
      * Retrieve url
      *
      * @param   string $route
      * @param   array $params
      * @return  string
      */
-    protected function _getUrl($route, $params = array())
+    protected function _getUrl($route, $params = [])
     {
         return $this->_urlBuilder->getUrl($route, $params);
-    }
-
-    /**
-     * base64_encode() for URLs encoding
-     *
-     * @deprecated use \Magento\Framework\Url\EncoderInterface
-     * @param    string $url
-     * @return   string
-     */
-    public function urlEncode($url)
-    {
-        return $this->urlEncoder->encode($url);
-    }
-
-    /**
-     *  base64_decode() for URLs decoding
-     *
-     * @deprecated use \Magento\Framework\Url\DecoderInterface
-     * @param    string $url
-     * @return   string
-     */
-    public function urlDecode($url)
-    {
-        return $this->urlDecoder->decode($url);
     }
 }

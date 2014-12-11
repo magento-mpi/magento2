@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 return [
@@ -23,6 +20,6 @@ return [
         'Magento_OfflineShipping' => 'Magento\Tools\SampleData\Module\OfflineShipping\Setup',
         'Magento_Theme' => 'Magento\Tools\SampleData\Module\Theme\Setup',
         'Magento_SalesRule' => 'Magento\Tools\SampleData\Module\SalesRule\Setup',
-        'Magento_CatalogRule' => 'Magento\Tools\SampleData\Module\CatalogRule\Setup'
+        'Magento_CatalogRule' => 'Magento\Tools\SampleData\Module\CatalogRule\Setup',
     ],
 ];

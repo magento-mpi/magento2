@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Customer\Block\Account\Dashboard\Info $this */
@@ -30,14 +27,14 @@
                 </a>
             </div>
         </div>
-        <?php if( $this->isNewsletterEnabled() ): ?>
+        <?php if ($this->isNewsletterEnabled()): ?>
             <div class="box box-newsletter">
                 <strong class="box-title">
                     <span><?php echo __('Newsletters') ?></span>
                 </strong>
                 <div class="box-content">
                     <p>
-                        <?php if( $this->getIsSubscribed() ): ?>
+                        <?php if ($this->getIsSubscribed()): ?>
                             <?php echo __("You are currently subscribed to 'General Subscription'.") ?>
                         <?php else: ?>
                             <?php echo __('You are currently not subscribed to any newsletter.') ?>

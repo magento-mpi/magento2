@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Translation\Block;
 
+use Magento\Framework\Translate\InlineInterface as InlineTranslator;
+use Magento\Translation\Model\Js as DataProvider;
 use Magento\Framework\View\Element\Template;
-use \Magento\Translation\Model\Js as DataProvider;
-use \Magento\Framework\Translate\InlineInterface as InlineTranslator;
 
 class Js extends \Magento\Framework\View\Element\Template
 {
@@ -38,7 +35,7 @@ class Js extends \Magento\Framework\View\Element\Template
         Template\Context $context,
         DataProvider $dataProvider,
         InlineTranslator $translateInline,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->dataProvider = $dataProvider;

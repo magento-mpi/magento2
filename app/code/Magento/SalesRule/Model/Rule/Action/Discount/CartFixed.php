@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
@@ -14,7 +11,7 @@ class CartFixed extends AbstractDiscount
      *
      * @var int[]
      */
-    protected $_cartFixedRuleUsedForAddress = array();
+    protected $_cartFixedRuleUsedForAddress = [];
 
     /**
      * @param \Magento\SalesRule\Model\Rule $rule

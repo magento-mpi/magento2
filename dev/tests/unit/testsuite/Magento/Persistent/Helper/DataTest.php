@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Persistent\Helper;
 
@@ -21,11 +18,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_modulesReader = $this->getMock('\Magento\Framework\Module\Dir\Reader', array(), array(), '', false);
+        $this->_modulesReader = $this->getMock('\Magento\Framework\Module\Dir\Reader', [], [], '', false);
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_helper = $objectManager->getObject(
             '\Magento\Persistent\Helper\Data',
-            array('modulesReader' => $this->_modulesReader)
+            ['modulesReader' => $this->_modulesReader]
         );
     }
 

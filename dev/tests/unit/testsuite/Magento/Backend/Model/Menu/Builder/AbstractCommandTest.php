@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Builder;
 
@@ -18,7 +15,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Backend\Model\Menu\Builder\AbstractCommand',
-            array(array('id' => 'item'))
+            [['id' => 'item']]
         );
     }
 
@@ -34,13 +31,13 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
     {
         $command1 = $this->getMock(
             'Magento\Backend\Model\Menu\Builder\Command\Update',
-            array(),
-            array(array('id' => 1))
+            [],
+            [['id' => 1]]
         );
         $command2 = $this->getMock(
             'Magento\Backend\Model\Menu\Builder\Command\Remove',
-            array(),
-            array(array('id' => 1))
+            [],
+            [['id' => 1]]
         );
         $command1->expects($this->once())->method('chain')->with($this->equalTo($command2));
 
@@ -50,7 +47,7 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 
     public function testExecuteCallsNextCommandInChain()
     {
-        $itemParams = array();
+        $itemParams = [];
         $this->_model->expects(
             $this->once()
         )->method(
@@ -63,8 +60,8 @@ class AbstractCommandTest extends \PHPUnit_Framework_TestCase
 
         $command1 = $this->getMock(
             'Magento\Backend\Model\Menu\Builder\Command\Update',
-            array(),
-            array(array('id' => 1))
+            [],
+            [['id' => 1]]
         );
         $command1->expects(
             $this->once()

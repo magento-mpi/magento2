@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Indexer\Product;
-
 
 class AffectCacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -32,9 +28,9 @@ class AffectCacheTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->subjectMock = $this->getMockForAbstractClass('Magento\Indexer\Model\ActionInterface',
-            array(), '', false, true, true, array());
+            [], '', false, true, true, []);
         $this->contextMock = $this->getMock('Magento\Indexer\Model\CacheContext',
-            array(), array(), '', false);
+            [], [], '', false);
         $this->plugin = new \Magento\Catalog\Model\Indexer\Product\AffectCache($this->contextMock);
     }
 
@@ -43,14 +39,13 @@ class AffectCacheTest extends \PHPUnit_Framework_TestCase
      */
     public function testBeforeExecute()
     {
-        $expectedIds = array(1, 2, 3);
+        $expectedIds = [1, 2, 3];
         $this->contextMock->expects($this->once())
             ->method('registerEntities')
             ->with($this->equalTo(\Magento\Catalog\Model\Product::ENTITY),
                 $this->equalTo($expectedIds))
             ->will($this->returnValue($this->contextMock));
         $actualIds = $this->plugin->beforeExecute($this->subjectMock, $expectedIds);
-        $this->assertEquals(array($expectedIds), $actualIds);
+        $this->assertEquals([$expectedIds], $actualIds);
     }
 }
- 

@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_Cron
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cron\Model;
 
@@ -280,7 +277,6 @@ class ScheduleTest extends \PHPUnit_Framework_TestCase
 
         // 2. Run tested method
         $model->matchCronExpression($cronExpressionPart, $dateTimePart);
-
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Pricing\Price;
 
@@ -62,7 +59,7 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
         $this->priceInfoMock = $this->getMock('Magento\Framework\Pricing\PriceInfo\Base', [], [], '', false);
         $this->regularPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\RegularPrice', [], [], '', false);
         $this->groupPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\GroupPrice', [], [], '', false);
-        $this->specialPriceMock= $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
+        $this->specialPriceMock = $this->getMock('Magento\Catalog\Pricing\Price\SpecialPrice', [], [], '', false);
         $this->calculatorMock = $this->getMock('Magento\Framework\Pricing\Adjustment\Calculator', [], [], '', false);
 
         $this->saleableItemMock->expects($this->once())
@@ -71,16 +68,16 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
         $this->prices = [
             'regular_price' => $this->regularPriceMock,
             'group_price' => $this->groupPriceMock,
-            'special_price' => $this->specialPriceMock
+            'special_price' => $this->specialPriceMock,
         ];
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->basePrice = $helper->getObject('\Magento\Catalog\Pricing\Price\BasePrice',
-            array(
+            [
                 'saleableItem' => $this->saleableItemMock,
                 'quantity' => $qty,
                 'calculator' => $this->calculatorMock
-            )
+            ]
         );
     }
 
@@ -108,6 +105,6 @@ class BasePriceTest extends \PHPUnit_Framework_TestCase
 
     public function getValueDataProvider()
     {
-        return array(array(77, 77), array(0, 0), array(false, 99));
+        return [[77, 77], [0, 0], [false, 99]];
     }
 }

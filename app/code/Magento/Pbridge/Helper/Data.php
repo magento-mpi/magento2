@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Helper;
 
-use Magento\Store\Model\Store;
 use Magento\Pbridge\Model\Encryption;
 use Magento\Sales\Model\Quote;
+use Magento\Store\Model\Store;
 
 /**
  * Pbridge helper
@@ -37,14 +34,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      *
      * @var array
      */
-    protected $_pbridgeAvailableMethods = array();
+    protected $_pbridgeAvailableMethods = [];
 
     /**
      * Payment Bridge payment methods available for the current merchant and usable for current conditions
      *
      * @var array
      */
-    protected $_pbridgeUsableMethods = array();
+    protected $_pbridgeUsableMethods = [];
 
     /**
      * Encryptor model
@@ -102,7 +99,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * Application state
-     * 
+     *
      * @var \Magento\Framework\App\State
      */
     protected $_appState;
@@ -262,7 +259,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param boolean $encryptParams OPTIONAL true by default
      * @return string
      */
-    protected function _prepareRequestUrl($params = array(), $encryptParams = true)
+    protected function _prepareRequestUrl($params = [], $encryptParams = true)
     {
         $storeId = isset($params['store_id']) ? $params['store_id'] : $this->_storeId;
         $pbridgeUrl = $this->getBridgeBaseUrl($storeId);
@@ -270,7 +267,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
         if (!empty($params)) {
             if ($encryptParams) {
-                $params = array('data' => $this->encrypt(json_encode($params)));
+                $params = ['data' => $this->encrypt(json_encode($params))];
             }
         }
 
@@ -294,9 +291,9 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params OPTIONAL
      * @return array
      */
-    public function getRequestParams(array $params = array())
+    public function getRequestParams(array $params = [])
     {
-        $params = array_merge(array('locale' => $this->_localeResolver->getLocaleCode()), $params);
+        $params = array_merge(['locale' => $this->_localeResolver->getLocaleCode()], $params);
 
         $params['merchant_key'] = trim(
             $this->_scopeConfig->getValue(
@@ -319,7 +316,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param Quote|null $quote
      * @return string
      */
-    public function getGatewayFormUrl(array $params = array(), $quote = null)
+    public function getGatewayFormUrl(array $params = [], $quote = null)
     {
         $quote = $this->_getQuote($quote);
         $reservedOrderId = '';
@@ -331,13 +328,13 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             $reservedOrderId = $quote->getReservedOrderId();
         }
         $params = array_merge(
-            array(
+            [
                 'order_id' => $reservedOrderId,
                 'amount' => $quote ? $quote->getBaseGrandTotal() : '0',
                 'currency_code' => $quote ? $quote->getBaseCurrencyCode() : '',
                 'client_identifier' => md5($quote->getId()),
-                'store_id' => $quote ? $quote->getStoreId() : '0'
-            ),
+                'store_id' => $quote ? $quote->getStoreId() : '0',
+            ],
             $params
         );
 
@@ -356,7 +353,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params Additional URL query params
      * @return string
      */
-    public function getPaymentProfileUrl(array $params = array())
+    public function getPaymentProfileUrl(array $params = [])
     {
         $params = $this->getRequestParams($params);
         $params['action'] = self::PAYMENT_GATEWAY_PAYMENT_PROFILE_ACTION;
@@ -373,7 +370,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param array $params
      * @return string
      */
-    public function getRequestUrl($params = array())
+    public function getRequestUrl($params = [])
     {
         return $this->_prepareRequestUrl($params);
     }
@@ -393,7 +390,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                     $this->_storeId
                 )
             );
-            $this->_encryptor = $this->_encryptionFactory->create(array('key' => $key));
+            $this->_encryptor = $this->_encryptionFactory->create(['key' => $key]);
         }
         return $this->_encryptor;
     }
@@ -429,15 +426,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $decryptData = $this->decrypt($this->_getRequest()->getParam('data', ''));
         $data = json_decode($decryptData, true);
-        $data = array(
+        $data = [
             'original_payment_method' => isset($data['original_payment_method'])
                     ? $data['original_payment_method']
                     : null,
             'token' => isset($data['token']) ? $data['token'] : null,
             'cc_last_4' => isset($data['cc_last_4']) ? $data['cc_last_4'] : null,
             'cc_type' => isset($data['cc_type']) ? $data['cc_type'] : null,
-            'x_params' => isset($data['x_params']) ? serialize($data['x_params']) : null
-        );
+            'x_params' => isset($data['x_params']) ? serialize($data['x_params']) : null,
+        ];
 
         return $data;
     }
@@ -450,7 +447,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function prepareCart($order)
     {
-        return $this->_prepareCart($this->_cartFactory->create(array('salesModel' => $order)));
+        return $this->_prepareCart($this->_cartFactory->create(['salesModel' => $order]));
     }
 
     /**
@@ -463,7 +460,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $items = $cart->getAllItems();
 
-        $result = array();
+        $result = [];
         foreach ($items as $item) {
             $result['items'][] = $item->getData();
         }

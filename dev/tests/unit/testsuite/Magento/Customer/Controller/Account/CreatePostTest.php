@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Account;
 
 use Magento\Customer\Api\AccountManagementInterface;
-use Magento\Customer\Model\Url;
 use Magento\Customer\Helper\Address;
+use Magento\Customer\Model\Url;
 use Magento\Store\Model\ScopeInterface;
 
 /**
@@ -235,7 +232,7 @@ class CreatePostTest extends \PHPUnit_Framework_TestCase
 
         $this->redirectMock->expects($this->once())
             ->method('redirect')
-            ->with($this->responseMock, '*/*/', array())
+            ->with($this->responseMock, '*/*/', [])
             ->will($this->returnValue(false));
 
         $this->customerRepository->expects($this->never())

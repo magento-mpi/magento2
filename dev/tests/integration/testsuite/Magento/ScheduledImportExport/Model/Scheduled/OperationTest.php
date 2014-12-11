@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
@@ -31,7 +28,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
      */
     public function getOperationTypesDataProvider()
     {
-        return array('import' => array('$operationType' => 'import'), 'export' => array('$operationType' => 'export'));
+        return ['import' => ['$operationType' => 'import'], 'export' => ['$operationType' => 'export']];
     }
 
     /**

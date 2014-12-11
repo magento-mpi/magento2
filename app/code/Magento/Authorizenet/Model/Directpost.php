@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Model;
 
@@ -127,7 +124,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
         \Magento\Authorizenet\Model\Directpost\Response $response,
         \Magento\Authorizenet\Helper\HelperInterface $helper,
         OrderSender $orderSender,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $eventManager,
@@ -468,7 +465,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
             $this
         )->signRequestData();
 
-        $this->_debug(array('request' => $request->getData()));
+        $this->_debug(['request' => $request->getData()]);
 
         return $request;
     }
@@ -520,7 +517,7 @@ class Directpost extends \Magento\Authorizenet\Model\Authorizenet
      */
     public function process(array $responseData)
     {
-        $debugData = array('response' => $responseData);
+        $debugData = ['response' => $responseData];
         $this->_debug($debugData);
 
         $this->setResponseData($responseData);

@@ -1,21 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\TestCase;
 
-use Mtf\ObjectManager;
-use Mtf\Fixture\FixtureFactory;
-use Mtf\Client\Driver\Selenium\Browser;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
-use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
 use Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
+use Magento\Widget\Test\Page\Adminhtml\WidgetInstanceEdit;
+use Mtf\Client\Driver\Selenium\Browser;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\ObjectManager;
 
 /**
  * Test Creation for CreateMultipleWishlistEntity

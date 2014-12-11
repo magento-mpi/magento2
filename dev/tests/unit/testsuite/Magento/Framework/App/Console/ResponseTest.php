@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Console;
 
@@ -42,6 +39,6 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $largeCode = 256;
         $lowCode = 1;
         $lowestCode = -255;
-        return array(array($largeCode, 255), array($lowCode, $lowCode), array($lowestCode, $lowestCode));
+        return [[$largeCode, 255], [$lowCode, $lowCode], [$lowestCode, $lowestCode]];
     }
 }

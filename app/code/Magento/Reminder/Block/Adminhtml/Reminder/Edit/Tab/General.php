@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
@@ -33,7 +30,7 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Store\Model\System\Store $store,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
@@ -53,37 +50,37 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array(
+            [
                 'legend' => __('General Information'),
                 'comment' => __(
                     'Reminder emails may promote a shopping cart price rule with or without a coupon. If a shopping cart price rule defines an auto-generated coupon, this reminder rule will generate a random coupon code for each customer.'
                 )
-            )
+            ]
         );
 
         if ($model->getId()) {
-            $fieldset->addField('rule_id', 'hidden', array('name' => 'rule_id'));
+            $fieldset->addField('rule_id', 'hidden', ['name' => 'rule_id']);
         }
 
-        $fieldset->addField('name', 'text', array('name' => 'name', 'label' => __('Rule Name'), 'required' => true));
+        $fieldset->addField('name', 'text', ['name' => 'name', 'label' => __('Rule Name'), 'required' => true]);
 
         $fieldset->addField(
             'description',
             'textarea',
-            array('name' => 'description', 'label' => __('Description'), 'style' => 'height: 100px;')
+            ['name' => 'description', 'label' => __('Description'), 'style' => 'height: 100px;']
         );
 
         $field = $fieldset->addField(
             'salesrule_id',
             'note',
-            array(
+            [
                 'name' => 'salesrule_id',
                 'label' => __('Shopping Cart Price Rule'),
                 'class' => 'widget-option',
                 'value' => $model->getSalesruleId(),
                 'note' => __('Promotion rule this reminder will advertise.'),
                 'readonly' => !$isEditable
-            )
+            ]
         );
 
         $model->unsSalesruleId();
@@ -101,32 +98,32 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($this->_storeManager->hasSingleStore()) {
             $websiteId = $this->_storeManager->getStore(true)->getWebsiteId();
-            $fieldset->addField('website_ids', 'hidden', array('name' => 'website_ids[]', 'value' => $websiteId));
+            $fieldset->addField('website_ids', 'hidden', ['name' => 'website_ids[]', 'value' => $websiteId]);
             $model->setWebsiteIds($websiteId);
         } else {
             $fieldset->addField(
                 'website_ids',
                 'multiselect',
-                array(
+                [
                     'name' => 'website_ids[]',
                     'label' => __('Assigned to Website'),
                     'title' => __('Assigned to Website'),
                     'required' => true,
                     'values' => $this->_store->getWebsiteValuesForForm(),
                     'value' => $model->getWebsiteIds()
-                )
+                ]
             );
         }
 
         $fieldset->addField(
             'is_active',
             'select',
-            array(
+            [
                 'label' => __('Status'),
                 'name' => 'is_active',
                 'required' => true,
-                'options' => array('1' => __('Active'), '0' => __('Inactive'))
-            )
+                'options' => ['1' => __('Active'), '0' => __('Inactive')]
+            ]
         );
 
         if (!$model->getId()) {
@@ -138,38 +135,38 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
         $fieldset->addField(
             'from_date',
             'date',
-            array(
+            [
                 'name' => 'from_date',
                 'label' => __('From Date'),
                 'title' => __('From Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
-            )
+            ]
         );
         $fieldset->addField(
             'to_date',
             'date',
-            array(
+            [
                 'name' => 'to_date',
                 'label' => __('To Date'),
                 'title' => __('To Date'),
                 'image' => $this->getViewFileUrl('images/grid-cal.gif'),
                 'input_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                 'date_format' => $dateFormat
-            )
+            ]
         );
 
         $fieldset->addField(
             'schedule',
             'text',
-            array(
+            [
                 'name' => 'schedule',
                 'label' => __('Repeat Schedule'),
                 'note' => __(
                     'Enter the number of days before email reminder rule is triggered if conditions match (comma separate, e.g., "7, 14").'
                 )
-            )
+            ]
         );
 
         $form->setValues($model->getData());
@@ -189,6 +186,6 @@ class General extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getChooserConfig()
     {
-        return array('button' => array('open' => __('Select Rule...')));
+        return ['button' => ['open' => __('Select Rule...')]];
     }
 }

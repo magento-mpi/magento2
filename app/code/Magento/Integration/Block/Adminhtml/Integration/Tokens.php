@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Block\Adminhtml\Integration;
 
@@ -39,7 +36,7 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
 
         $fieldset = $form->addFieldset(
             'base_fieldset',
-            array('legend' => __('Integration Tokens for Extensions'), 'class' => 'fieldset-wide')
+            ['legend' => __('Integration Tokens for Extensions'), 'class' => 'fieldset-wide']
         );
 
         foreach ($this->getFormFields() as $field) {
@@ -61,39 +58,39 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getFormFields()
     {
-        return array(
-            array(
+        return [
+            [
                 'name' => self::DATA_CONSUMER_KEY,
                 'type' => 'text',
-                'metadata' => array(
+                'metadata' => [
                     'label' => __('Consumer Key'),
                     'name' => self::DATA_CONSUMER_KEY,
-                    'readonly' => true
-                )
-            ),
-            array(
+                    'readonly' => true,
+                ],
+            ],
+            [
                 'name' => self::DATA_CONSUMER_SECRET,
                 'type' => 'text',
-                'metadata' => array(
+                'metadata' => [
                     'label' => __('Consumer Secret'),
                     'name' => self::DATA_CONSUMER_SECRET,
-                    'readonly' => true
-                )
-            ),
-            array(
+                    'readonly' => true,
+                ]
+            ],
+            [
                 'name' => self::DATA_TOKEN,
                 'type' => 'text',
-                'metadata' => array('label' => __('Access Token'), 'name' => self::DATA_TOKEN, 'readonly' => true)
-            ),
-            array(
+                'metadata' => ['label' => __('Access Token'), 'name' => self::DATA_TOKEN, 'readonly' => true]
+            ],
+            [
                 'name' => self::DATA_TOKEN_SECRET,
                 'type' => 'text',
-                'metadata' => array(
+                'metadata' => [
                     'label' => __('Access Token Secret'),
                     'name' => self::DATA_TOKEN_SECRET,
-                    'readonly' => true
-                )
-            )
-        );
+                    'readonly' => true,
+                ]
+            ]
+        ];
     }
 }

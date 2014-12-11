@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Set;
 
@@ -124,7 +121,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Set
                 $body = [
                     'messages' => $block->getGroupedHtml(),
                     'error' => $hasError,
-                    'id' => $model->getId()
+                    'id' => $model->getId(),
                 ];
                 return $this->resultJsonFactory->create()->setData($body);
             } else {
@@ -137,7 +134,7 @@ class Save extends \Magento\Catalog\Controller\Adminhtml\Product\Set
                 return $resultRedirect;
             }
         } else {
-            $response = array();
+            $response = [];
             if ($hasError) {
                 $layout = $this->layoutFactory->create();
                 $layout->initMessages();

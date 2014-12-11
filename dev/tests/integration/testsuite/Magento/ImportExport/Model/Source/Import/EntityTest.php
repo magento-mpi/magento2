@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -31,15 +28,15 @@ class EntityTest extends \PHPUnit_Framework_TestCase
 
     public function testToOptionArray()
     {
-        $entities = array(
-            'entity_name_1' => array('name' => 'entity_name_1', 'label' => 'entity_label_1'),
-            'entity_name_2' => array('name' => 'entity_name_2', 'label' => 'entity_label_2')
-        );
-        $expectedResult = array(
-            array('label' => __('-- Please Select --'), 'value' => ''),
-            array('label' => __('entity_label_1'), 'value' => 'entity_name_1'),
-            array('label' => __('entity_label_2'), 'value' => 'entity_name_2')
-        );
+        $entities = [
+            'entity_name_1' => ['name' => 'entity_name_1', 'label' => 'entity_label_1'],
+            'entity_name_2' => ['name' => 'entity_name_2', 'label' => 'entity_label_2'],
+        ];
+        $expectedResult = [
+            ['label' => __('-- Please Select --'), 'value' => ''],
+            ['label' => __('entity_label_1'), 'value' => 'entity_name_1'],
+            ['label' => __('entity_label_2'), 'value' => 'entity_name_2'],
+        ];
         $this->_importConfigMock->expects($this->any())->method('getEntities')->will($this->returnValue($entities));
         $this->assertEquals($expectedResult, $this->_model->toOptionArray());
     }

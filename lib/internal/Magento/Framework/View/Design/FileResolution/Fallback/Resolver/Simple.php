@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Design\FileResolution\Fallback\Resolver;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\Design\FileResolution\Fallback;
+use Magento\Framework\Filesystem;
+use Magento\Framework\Filesystem\Directory\ReadInterface;
 use Magento\Framework\View\Design\Fallback\Rule\RuleInterface;
 use Magento\Framework\View\Design\Fallback\RulePool;
-use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\FileResolution\Fallback;
 use Magento\Framework\View\Design\ThemeInterface;
 
 /**
@@ -97,7 +94,7 @@ class Simple implements Fallback\ResolverInterface
      * @param array $params
      * @return string|bool
      */
-    protected function resolveFile(RuleInterface $fallbackRule, $file, array $params = array())
+    protected function resolveFile(RuleInterface $fallbackRule, $file, array $params = [])
     {
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {
             $path = "{$dir}/{$file}";

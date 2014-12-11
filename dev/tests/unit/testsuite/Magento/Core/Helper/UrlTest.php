@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
 
@@ -31,22 +28,22 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $urlBuilderMock->expects($this->once())
             ->method('getCurrentUrl')
             ->will($this->returnValue($url));
+        $encodedUrl = 'encodedUrl';
+        $urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlEncoder->expects($this->once())
+            ->method('encode')
+            ->will($this->returnValue($encodedUrl));
         $context = $this->objectManager->getObject(
             'Magento\Framework\App\Helper\Context',
             [
                 'urlBuilder' => $urlBuilderMock,
+                'urlEncoder' => $urlEncoder,
             ]
         );
-        /** @var \Magento\Core\Helper\Url | \PHPUnit_Framework_MockObject_MockObject $helper */
-        $helper = $this->getMockBuilder('Magento\Core\Helper\Url')
-            ->setConstructorArgs([$context, $storeManagerMock])
-            ->setMethods(['urlEncode'])
-            ->getMock();
-        $encodedUrl = 'encodedUrl';
-        $helper->expects($this->once())
-            ->method('urlEncode')
-            ->with($url)
-            ->will($this->returnValue($encodedUrl));
+        /** @var \Magento\Core\Helper\Url $helper */
+        $helper = new Url($context, $storeManagerMock);
         $this->assertEquals($encodedUrl, $helper->getCurrentBase64Url());
     }
 
@@ -67,22 +64,24 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $urlBuilderMock->expects($this->exactly($callNum))
             ->method('getCurrentUrl')
             ->will($this->returnValue($encodingUrl));
+        $encodedUrl = 'encodedUrl';
+        $encodedUrl = 'encodedUrl';
+        $urlEncoder = $this->getMockBuilder('Magento\Framework\Url\EncoderInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $urlEncoder->expects($this->once())
+            ->method('encode')
+            ->will($this->returnValue($encodedUrl));
         $context = $this->objectManager->getObject(
             'Magento\Framework\App\Helper\Context',
             [
                 'urlBuilder' => $urlBuilderMock,
+                'urlEncoder' => $urlEncoder,
             ]
         );
-        /** @var \Magento\Core\Helper\Url | \PHPUnit_Framework_MockObject_MockObject $helper */
-        $helper = $this->getMockBuilder('Magento\Core\Helper\Url')
-            ->setConstructorArgs([$context, $storeManagerMock])
-            ->setMethods(['urlEncode'])
-            ->getMock();
-        $encodedUrl = 'encodedUrl';
-        $helper->expects($this->once())
-            ->method('urlEncode')
-            ->with($encodingUrl)
-            ->will($this->returnValue($encodedUrl));
+
+        /** @var \Magento\Core\Helper\Url $helper */
+        $helper = new Url($context, $storeManagerMock);
         $this->assertEquals($encodedUrl, $helper->getEncodedUrl($url));
     }
 
@@ -147,7 +146,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
                 [
                     'null' => null,
                     'string' => 'value',
-                    'array' => ['arrayVal1', 'arrayVal2', 'arrayVal3']
+                    'array' => ['arrayVal1', 'arrayVal2', 'arrayVal3'],
                 ],
                 'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
@@ -176,15 +175,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         return [
             'no match' => [
                 'other',
-                'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3'
+                'http://example.com?null&string=value&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
             'one match' => [
                 'string',
-                'http://example.com?null&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3'
+                'http://example.com?null&array[]=arrayVal1&array[]=arrayVal2&array[]=arrayVal3',
             ],
             'array match' => [
                 'array[]',
-                'http://example.com?null&string=value'
+                'http://example.com?null&string=value',
             ],
         ];
     }

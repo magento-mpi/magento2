@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model;
 
@@ -31,7 +28,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $data = new \Magento\Framework\Object();
         $data->setRule(
-            array('actions' => array('test' => array('type' => 'Magento\TargetRule\Model\Actions\Condition\Combine')))
+            ['actions' => ['test' => ['type' => 'Magento\TargetRule\Model\Actions\Condition\Combine']]]
         );
 
         $this->assertTrue($this->_model->validateData($data), 'True for right data');
@@ -45,14 +42,14 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     {
         $data = new \Magento\Framework\Object();
         $data->setRule(
-            array(
-                'actions' => array(
-                    'test' => array(
+            [
+                'actions' => [
+                    'test' => [
                         'type' => 'Magento\TargetRule\Model\Actions\Condition\Combine',
-                        'attribute' => $code
-                    )
-                )
-            )
+                        'attribute' => $code,
+                    ],
+                ],
+            ]
         );
         $this->assertCount(1, $this->_model->validateData($data), 'Error for invalid attribute code');
     }
@@ -62,7 +59,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
      */
     public static function invalidCodesDataProvider()
     {
-        return array(array(''), array('_'), array('123'), array('!'), array(str_repeat('2', 256)));
+        return [[''], ['_'], ['123'], ['!'], [str_repeat('2', 256)]];
     }
 
     /**
@@ -71,7 +68,7 @@ class RuleTest extends \PHPUnit_Framework_TestCase
     public function testValidateDataOnInvalidType()
     {
         $data = new \Magento\Framework\Object();
-        $data->setRule(array('actions' => array('test' => array('type' => 'Magento\TargetRule\Invalid'))));
+        $data->setRule(['actions' => ['test' => ['type' => 'Magento\TargetRule\Invalid']]]);
         $this->_model->validateData($data);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Framework\Data;
 
@@ -21,7 +18,7 @@ class DependencyTest extends \PHPUnit_Framework_TestCase
         $objectManagerHelper = new ObjectManager($this);
         return $objectManagerHelper->getObject(
             'Magento\Tools\Dependency\Report\Framework\Data\Dependency',
-            array('lib' => $lib, 'count' => $count)
+            ['lib' => $lib, 'count' => $count]
         );
     }
 

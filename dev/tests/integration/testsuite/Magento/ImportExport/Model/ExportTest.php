@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model;
 
@@ -33,7 +30,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityAdapterWithValidEntity($entity, $expectedEntityType)
     {
-        $this->_model->setData(array('entity' => $entity));
+        $this->_model->setData(['entity' => $entity]);
         $this->_model->getEntityAttributeCollection();
         $this->assertAttributeInstanceOf(
             $expectedEntityType,
@@ -48,20 +45,20 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function getEntityDataProvider()
     {
-        return array(
-            'product' => array(
+        return [
+            'product' => [
                 '$entity' => 'catalog_product',
-                '$expectedEntityType' => 'Magento\CatalogImportExport\Model\Export\Product'
-            ),
-            'customer main data' => array(
+                '$expectedEntityType' => 'Magento\CatalogImportExport\Model\Export\Product',
+            ],
+            'customer main data' => [
                 '$entity' => 'customer',
-                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Customer'
-            ),
-            'customer address' => array(
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Customer',
+            ],
+            'customer address' => [
                 '$entity' => 'customer_address',
-                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Address'
-            )
-        );
+                '$expectedEntityType' => 'Magento\CustomerImportExport\Model\Export\Address',
+            ]
+        ];
     }
 
     /**
@@ -72,7 +69,7 @@ class ExportTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetEntityAdapterWithInvalidEntity()
     {
-        $this->_model->setData(array('entity' => 'test'));
+        $this->_model->setData(['entity' => 'test']);
         $this->_model->getEntityAttributeCollection();
     }
 }

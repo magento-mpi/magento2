@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Exception;
@@ -19,11 +16,11 @@ abstract class AbstractAggregateException extends LocalizedException
 
     /**
      * The original message after being processed by the parent constructor
-     * 
+     *
      * @var string
      */
     protected $originalMessage;
-    
+
     /**
      * The original raw message passed in via the constructor
      *
@@ -40,7 +37,7 @@ abstract class AbstractAggregateException extends LocalizedException
 
     /**
      * An internal variable indicating how many time addError has been called
-     * 
+     *
      * @var int
      */
     private $addErrorCalls = 0;
@@ -102,7 +99,7 @@ abstract class AbstractAggregateException extends LocalizedException
     {
         return (0 < $this->addErrorCalls);
     }
-    
+
     /**
      * Return the array of ErrorMessage objects. Return an empty array if no errors were added.
      *

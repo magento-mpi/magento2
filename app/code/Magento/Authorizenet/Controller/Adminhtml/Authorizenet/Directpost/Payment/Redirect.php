@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Controller\Adminhtml\Authorizenet\Directpost\Payment;
 
@@ -62,7 +59,7 @@ class Redirect extends \Magento\Sales\Controller\Adminhtml\Order\Create
     public function execute()
     {
         $redirectParams = $this->getRequest()->getParams();
-        $params = array();
+        $params = [];
         if (!empty($redirectParams['success']) && isset(
             $redirectParams['x_invoice_num']
         ) && isset(

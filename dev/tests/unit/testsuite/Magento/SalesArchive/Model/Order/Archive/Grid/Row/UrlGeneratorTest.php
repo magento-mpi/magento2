@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model\Order\Archive\Grid\Row;
 
@@ -40,9 +37,9 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
             [
                 'sales/order/view',
                 ['order_id' => null],
-                'http://localhost/backend/sales/order/view/order_id/'
+                'http://localhost/backend/sales/order/view/order_id/',
             ],
-            ['sales/order/view', ['order_id' => 1], 'http://localhost/backend/sales/order/view/order_id/1']
+            ['sales/order/view', ['order_id' => 1], 'http://localhost/backend/sales/order/view/order_id/1'],
         ];
         $this->_urlModelMock->expects($this->any())->method('getUrl')->will($this->returnValueMap($urlMap));
 
@@ -84,7 +81,7 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
         return [
             [new \Magento\Framework\Object(), 'http://localhost/backend/sales/order/view/order_id/'],
             [
-                new \Magento\Framework\Object(array('id' => 1)),
+                new \Magento\Framework\Object(['id' => 1]),
                 'http://localhost/backend/sales/order/view/order_id/1'
             ]
         ];

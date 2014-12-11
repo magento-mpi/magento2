@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Html\Header;
 
@@ -14,8 +11,8 @@ class LogoTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLogoSrc()
     {
-        $filesystem = $this->getMock('\Magento\Framework\Filesystem', array(), array(), '', false);
-        $mediaDirectory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', array(), array(), '', false);
+        $filesystem = $this->getMock('\Magento\Framework\Filesystem', [], [], '', false);
+        $mediaDirectory = $this->getMock('\Magento\Framework\Filesystem\Directory\Read', [], [], '', false);
         $scopeConfig = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
 
         $urlBuilder = $this->getMock('Magento\Framework\UrlInterface');
@@ -33,8 +30,8 @@ class LogoTest extends \PHPUnit_Framework_TestCase
         $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($mediaDirectory));
         $helper = $this->getMock(
             'Magento\Core\Helper\File\Storage\Database',
-            array('checkDbUsage'),
-            array(),
+            ['checkDbUsage'],
+            [],
             '',
             false,
             false
@@ -43,12 +40,12 @@ class LogoTest extends \PHPUnit_Framework_TestCase
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $arguments = array(
+        $arguments = [
             'scopeConfig' => $scopeConfig,
             'urlBuilder' => $urlBuilder,
             'fileStorageHelper' => $helper,
-            'filesystem' => $filesystem
-        );
+            'filesystem' => $filesystem,
+        ];
         $block = $objectManager->getObject('Magento\Theme\Block\Html\Header\Logo', $arguments);
 
         $this->assertEquals('http://localhost/pub/media/logo/default/image.gif', $block->getLogoSrc());

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleOptimizer\Model\Observer\CmsPage;
 
@@ -26,20 +23,20 @@ class DeleteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', array(), array(), '', false);
-        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', array(), array(), '', false);
+        $this->_codeMock = $this->getMock('Magento\GoogleOptimizer\Model\Code', [], [], '', false);
+        $this->_requestMock = $this->getMock('Magento\Framework\App\RequestInterface', [], [], '', false);
 
-        $page = $this->getMock('Magento\Cms\Model\Page', array(), array(), '', false);
+        $page = $this->getMock('Magento\Cms\Model\Page', [], [], '', false);
         $page->expects($this->once())->method('getId')->will($this->returnValue(3));
-        $event = $this->getMock('Magento\Framework\Event', array('getObject'), array(), '', false);
+        $event = $this->getMock('Magento\Framework\Event', ['getObject'], [], '', false);
         $event->expects($this->once())->method('getObject')->will($this->returnValue($page));
-        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_eventObserverMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(
             'Magento\GoogleOptimizer\Model\Observer\CmsPage\Delete',
-            array('modelCode' => $this->_codeMock)
+            ['modelCode' => $this->_codeMock]
         );
     }
 

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Authorizenet\Helper;
 
@@ -80,7 +77,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
                 false,
                 $additionalMessage,
                 'Credit Card: xxxx-' . self::LAST4 . ' amount 12.3 authorize - successful. '
-                . 'Authorize.Net Transaction ID ' . self::TRID . '. Addition message.'
+                . 'Authorize.Net Transaction ID ' . self::TRID . '. Addition message.',
             ],
             [
                 'AUTH_CAPTURE',

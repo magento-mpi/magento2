@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Pbridge\Model\Pbridge\Api;
 
@@ -21,7 +18,7 @@ class AbstractApi extends \Magento\Framework\Object
      *
      * @var array
      */
-    protected $_response = array();
+    protected $_response = [];
 
     /**
      * Core data
@@ -74,7 +71,7 @@ class AbstractApi extends \Magento\Framework\Object
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_pbridgeData = $pbridgeData;
         $this->_coreData = $coreData;
@@ -95,21 +92,21 @@ class AbstractApi extends \Magento\Framework\Object
     protected function _call(array $request)
     {
         $response = null;
-        $debugData = array('request' => $request);
+        $debugData = ['request' => $request];
         try {
             $http = new \Magento\Framework\HTTP\Adapter\Curl();
-            $config = array('timeout' => 60);
+            $config = ['timeout' => 60];
             $http->setConfig($config);
             $http->write(
                 \Zend_Http_Client::POST,
                 $this->getPbridgeEndpoint(),
                 '1.1',
-                array(),
+                [],
                 $this->_prepareRequestParams($request)
             );
             $response = $http->read();
         } catch (\Exception $e) {
-            $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
+            $debugData['result'] = ['error' => $e->getMessage(), 'code' => $e->getCode()];
             $this->_debug($debugData);
             throw $e;
         }
@@ -121,7 +118,6 @@ class AbstractApi extends \Magento\Framework\Object
         $http->close();
 
         if ($response) {
-
             $response = preg_split('/^\r?$/m', $response, 2);
             $response = $this->_coreData->jsonDecode(trim($response[1]));
 
@@ -142,7 +138,7 @@ class AbstractApi extends \Magento\Framework\Object
                 return true;
             }
         } else {
-            $response = array('status' => 'Fail', 'error' => __('Empty response received from Payment Bridge.'));
+            $response = ['status' => 'Fail', 'error' => __('Empty response received from Payment Bridge.')];
         }
 
         $this->_handleError($response);
@@ -175,7 +171,7 @@ class AbstractApi extends \Magento\Framework\Object
     protected function _prepareRequestParams($request)
     {
         $request = $this->_pbridgeData->getRequestParams($request);
-        $request = array('data' => $this->_pbridgeData->encrypt(json_encode($request)));
+        $request = ['data' => $this->_pbridgeData->encrypt(json_encode($request))];
         return http_build_query($request, '', '&');
     }
 
@@ -199,7 +195,7 @@ class AbstractApi extends \Magento\Framework\Object
     {
         $this->_debugFlag = (bool)$this->_scopeConfig->isSetFlag('payment/pbridge/debug', \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
         if ($this->_debugFlag) {
-            $this->_logAdapterFactory->create(array('fileName' => 'payment_pbridge.log'))->log($debugData);
+            $this->_logAdapterFactory->create(['fileName' => 'payment_pbridge.log'])->log($debugData);
         }
     }
 

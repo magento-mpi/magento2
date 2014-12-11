@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomAttributeManagement\Block;
 
@@ -104,7 +101,7 @@ class Form extends \Magento\Framework\View\Element\Template
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_modelFactory = $modelFactory;
         $this->_formFactory = $formFactory;
@@ -257,7 +254,7 @@ class Form extends \Magento\Framework\View\Element\Template
      */
     public function getUserDefinedAttributes()
     {
-        $attributes = array();
+        $attributes = [];
         foreach ($this->getForm()->getUserAttributes() as $attribute) {
             if ($attribute->getIsVisible()) {
                 $attributes[$attribute->getAttributeCode()] = $attribute;

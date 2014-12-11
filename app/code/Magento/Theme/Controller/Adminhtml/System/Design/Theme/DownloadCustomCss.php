@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Theme;
 
+use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\App\Filesystem\DirectoryList;
-use \Magento\Framework\App\ResponseInterface;
 
 class DownloadCustomCss extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
 {
@@ -37,7 +34,7 @@ class DownloadCustomCss extends \Magento\Theme\Controller\Adminhtml\System\Desig
             if ($customCssFile && $customCssFile->getContent()) {
                 return $this->_fileFactory->create(
                     $customCssFile->getFileName(),
-                    array('type' => 'filename', 'value' => $customCssFile->getFullPath()),
+                    ['type' => 'filename', 'value' => $customCssFile->getFullPath()],
                     DirectoryList::ROOT
                 );
             }

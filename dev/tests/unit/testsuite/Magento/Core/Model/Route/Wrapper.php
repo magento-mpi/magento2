@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,7 +17,7 @@ class Wrapper extends \PHPUnit_Framework_TestCase implements \Magento\Framework\
 
     public function __construct()
     {
-        $this->_mock = $this->getMock('SomeClass', array('get', 'put'));
+        $this->_mock = $this->getMock('SomeClass', ['get', 'put']);
     }
 
     public function getRealMock()

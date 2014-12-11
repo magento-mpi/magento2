@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\File;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 use Magento\Framework\Model\AbstractModel;
 
 /**
@@ -112,7 +109,7 @@ class Storage extends AbstractModel
         Filesystem $filesystem,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreFileStorage = $coreFileStorage;
         $this->_scopeConfig = $scopeConfig;
@@ -163,7 +160,7 @@ class Storage extends AbstractModel
      * @param  array $params
      * @return AbstractModel|bool
      */
-    public function getStorageModel($storage = null, $params = array())
+    public function getStorageModel($storage = null, $params = [])
     {
         if (is_null($storage)) {
             $storage = $this->_coreFileStorage->getCurrentStorageCode();
@@ -175,7 +172,7 @@ class Storage extends AbstractModel
                 break;
             case self::STORAGE_MEDIA_DATABASE:
                 $connection = isset($params['connection']) ? $params['connection'] : null;
-                $model = $this->_databaseFactory->create(array('connectionName' => $connection));
+                $model = $this->_databaseFactory->create(['connectionName' => $connection]);
                 break;
             default:
                 return false;
@@ -213,7 +210,7 @@ class Storage extends AbstractModel
             $sourceModel = $this->getStorageModel();
             $destinationModel = $this->getStorageModel(
                 $storageDest,
-                array('connection' => $connection, 'init' => true)
+                ['connection' => $connection, 'init' => true]
             );
 
             if (!$sourceModel || !$destinationModel) {
@@ -222,14 +219,14 @@ class Storage extends AbstractModel
 
             $hasErrors = false;
             $flag = $this->getSyncFlag();
-            $flagData = array(
+            $flagData = [
                 'source' => $sourceModel->getStorageName(),
                 'destination' => $destinationModel->getStorageName(),
                 'destination_storage_type' => $storageDest,
                 'destination_connection_name' => (string)$destinationModel->getConnectionName(),
                 'has_errors' => false,
-                'timeout_reached' => false
-            );
+                'timeout_reached' => false,
+            ];
             $flag->setFlagData($flagData);
 
             $destinationModel->clear();
@@ -279,7 +276,7 @@ class Storage extends AbstractModel
      */
     public function getScriptConfig()
     {
-        $config = array();
+        $config = [];
         $config['media_directory'] = $this->filesystem->getDirectoryRead(DirectoryList::MEDIA)->getAbsolutePath();
 
         $allowedResources = $this->_coreConfig->getValue(self::XML_PATH_MEDIA_RESOURCE_WHITELIST, 'default');

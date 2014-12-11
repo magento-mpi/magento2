@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -22,10 +19,10 @@ $_attributeLabel = $this->getAtLabel();
 $_attributeType = $this->getAtType();
 $_attributeAddAttribute = $this->getAddAttribute();
 
-if ( $_attributeLabel && $_attributeLabel == 'default' ) {
+if ($_attributeLabel && $_attributeLabel == 'default') {
     $_attributeLabel = $_product->getResource()->getAttribute($_code)->getFrontendLabel();
 }
-if ( $_attributeType && $_attributeType == 'text' ) {
+if ($_attributeType && $_attributeType == 'text') {
     $_attributeValue = ($_helper->productAttribute($_product, $_product->$_call(), $_code)) ? $_product->getAttributeText($_code) : '';
 } else {
     $_attributeValue = $_helper->productAttribute($_product, $_product->$_call(), $_code);

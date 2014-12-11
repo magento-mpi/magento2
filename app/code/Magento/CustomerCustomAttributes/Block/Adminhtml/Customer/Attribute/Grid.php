@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
 
@@ -27,7 +24,7 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Customer\Model\Resource\Attribute\CollectionFactory $attributesFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributesFactory = $attributesFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -70,18 +67,18 @@ class Grid extends \Magento\Eav\Block\Adminhtml\Attribute\Grid\AbstractGrid
 
         $this->addColumn(
             'is_visible',
-            array(
+            [
                 'header' => __('Visible to Customer'),
                 'sortable' => true,
                 'index' => 'is_visible',
                 'type' => 'options',
-                'options' => array('0' => __('No'), '1' => __('Yes'))
-            )
+                'options' => ['0' => __('No'), '1' => __('Yes')]
+            ]
         );
 
         $this->addColumn(
             'sort_order',
-            array('header' => __('Sort Order'), 'sortable' => true, 'index' => 'sort_order')
+            ['header' => __('Sort Order'), 'sortable' => true, 'index' => 'sort_order']
         );
 
         return $this;

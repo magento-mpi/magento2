@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Model\Resource;
 
@@ -49,17 +46,17 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         );
         $this->giftRegistrySetup = $helper->getObject(
             'Magento\GiftWrapping\Model\Resource\Setup',
-            array(
+            [
                 'productTypeConfig' => $this->typeConfigMock,
                 'productTypeFactory' => $this->typeFactoryMock,
                 'catalogSetupFactory' => $this->setupFactoryMock,
-            )
+            ]
         );
     }
 
     public function testGetRealProductTypes()
     {
-        $expected = array('simple', 'simple2');
+        $expected = ['simple', 'simple2'];
         $this->typeConfigMock->expects(
             $this->once()
         )->method(

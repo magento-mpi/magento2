@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
@@ -46,7 +43,7 @@ class Price extends \Magento\Framework\Data\Form\Element\Text
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_localeCurrency = $localeCurrency;
         $this->_storeManager = $storeManager;

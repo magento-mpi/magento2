@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
  ?>
 
@@ -16,7 +13,7 @@
     <legend class="legend"><span><?php echo __('Associated Products') ?></span></legend>
     <div class="product-options">
         <div class="field required">
-        <?php foreach($_attributes as $_attribute): ?>
+        <?php foreach ($_attributes as $_attribute): ?>
             <label class="label"><?php echo $_attribute->getLabel() ?></label>
             <div class="control<?php if ($_attribute->getDecoratedIsLast()):?> last<?php endif; ?>">
                 <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]" id="attribute<?php echo $_attribute->getAttributeId() ?>" class="required-entry super-attribute-select">

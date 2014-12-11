@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Resource\Product;
 
@@ -37,20 +34,20 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->resource = $this->getMock('Magento\Framework\App\Resource', array(), array(), '', false);
+        $this->resource = $this->getMock('Magento\Framework\App\Resource', [], [], '', false);
         $this->readAdapter =
-            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
+            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
         $this->writeAdapter =
-            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', array(), array(), '', false);
+            $this->getMock('Magento\Framework\DB\Adapter\AdapterInterface', [], [], '', false);
         $this->model = $objectManager->getObject(
             'Magento\Catalog\Model\Resource\Product\Link',
-            array('resource' => $this->resource)
+            ['resource' => $this->resource]
         );
     }
 
     protected function prepareReadAdapter()
     {
-        $this->dbSelect = $this->getMock('Magento\Framework\DB\Select', array(), array(), '', false);
+        $this->dbSelect = $this->getMock('Magento\Framework\DB\Select', [], [], '', false);
 
         // method flow
         $this->resource->expects(
@@ -78,7 +75,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     public function testGetAttributesByType()
     {
         $typeId = 4;
-        $result = array(100, 200, 300, 400);
+        $result = [100, 200, 300, 400];
 
         $this->prepareReadAdapter();
         $this->dbSelect->expects($this->once())->method('from')->will($this->returnValue($this->dbSelect));
@@ -118,11 +115,11 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         //prepare mocks and data
         $parentId = 100;
         $typeId = 4;
-        $bind = array(':product_id' => $parentId, ':link_type_id' => $typeId);
+        $bind = [':product_id' => $parentId, ':link_type_id' => $typeId];
 
-        $fetchedData = array(array('linked_product_id' => 100), array('linked_product_id' => 500));
+        $fetchedData = [['linked_product_id' => 100], ['linked_product_id' => 500]];
 
-        $result = array($typeId => array(100 => 100, 500 => 500));
+        $result = [$typeId => [100 => 100, 500 => 500]];
 
         // method flow
         $this->prepareReadAdapter();
@@ -146,8 +143,8 @@ class LinkTest extends \PHPUnit_Framework_TestCase
     {
         $childId = 234;
         $typeId = 4;
-        $fetchedData = array(array('product_id' => 55), array('product_id' => 66));
-        $result = array(55, 66);
+        $fetchedData = [['product_id' => 55], ['product_id' => 66]];
+        $result = [55, 66];
 
         // method flow
         $this->prepareReadAdapter();

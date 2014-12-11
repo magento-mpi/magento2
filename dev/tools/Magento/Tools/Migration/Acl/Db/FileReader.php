@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Migration\Acl\Db;
 
@@ -26,7 +23,7 @@ class FileReader
         }
         $data = json_decode(file_get_contents($fileName), true);
 
-        $output = array();
+        $output = [];
         foreach ($data as $key => $value) {
             $newKey = str_replace('config/acl/resources/', '', $key);
             $output[$newKey] = $value;

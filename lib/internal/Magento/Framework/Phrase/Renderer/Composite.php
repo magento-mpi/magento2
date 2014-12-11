@@ -2,10 +2,7 @@
 /**
  * Composite Phrase renderer
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Phrase\Renderer;
 
@@ -41,7 +38,7 @@ class Composite implements RendererInterface
      * @param [] $arguments
      * @return string
      */
-    public function render(array $source, array $arguments = array())
+    public function render(array $source, array $arguments = [])
     {
         $result = $source;
         foreach ($this->_renderers as $render) {

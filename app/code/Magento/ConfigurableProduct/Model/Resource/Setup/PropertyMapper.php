@@ -2,10 +2,7 @@
 /**
  * Configurable product attribute property mapper
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Model\Resource\Setup;
 
@@ -25,6 +22,6 @@ class PropertyMapper extends PropertyMapperAbstract
      */
     public function map(array $input, $entityTypeId)
     {
-        return array('is_configurable' => $this->_getValue($input, 'is_configurable', 1));
+        return ['is_configurable' => $this->_getValue($input, 'is_configurable', 1)];
     }
 }

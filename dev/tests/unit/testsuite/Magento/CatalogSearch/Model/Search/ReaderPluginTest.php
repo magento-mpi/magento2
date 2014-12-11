@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Search;
 
@@ -25,7 +22,7 @@ class ReaderPluginTest extends \PHPUnit_Framework_TestCase
         $this->objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->object = $this->objectManagerHelper->getObject(
             'Magento\\CatalogSearch\\Model\\Search\\ReaderPlugin',
-            array('requestGenerator' => $this->requestGenerator)
+            ['requestGenerator' => $this->requestGenerator]
         );
     }
 

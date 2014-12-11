@@ -2,10 +2,7 @@
 /**
  * Google AdWords Code block
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleAdwords\Block;
 
@@ -24,7 +21,7 @@ class Code extends \Magento\Framework\View\Element\Template
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GoogleAdwords\Helper\Data $googleAdwordsData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_googleAdwordsData = $googleAdwordsData;
         parent::__construct($context, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Api\Data;
 
@@ -22,9 +19,9 @@ interface BlockInterface
 
     const CREATION_TIME = 'creation_time';
 
-    const UPDATE_TIME ='update_time';
+    const UPDATE_TIME = 'update_time';
 
-    const IS_ACTIVE ='is_active';
+    const IS_ACTIVE = 'is_active';
 
     /**
      * Retrieve block id

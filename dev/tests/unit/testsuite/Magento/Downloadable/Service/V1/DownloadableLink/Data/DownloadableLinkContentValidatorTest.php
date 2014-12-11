@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
@@ -38,29 +35,29 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $this->fileValidatorMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContentValidator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->urlValidatorMock = $this->getMock(
             '\Magento\Framework\Url\Validator',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->linkFileMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->sampleFileMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -69,7 +66,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testIsValid()
     {
-        $linkContentData = array(
+        $linkContentData = [
             'title' => 'Title',
             'sort_order' => 1,
             'price' => 10.1,
@@ -77,7 +74,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
             'number_of_downloads' => 100,
             'link_type' => 'file',
             'sample_type' => 'file',
-        );
+        ];
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $contentMock = $this->getLinkContentMock($linkContentData);
@@ -92,7 +89,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfSortOrderIsInvalid($sortOrder)
     {
-        $linkContentData = array(
+        $linkContentData = [
             'title' => 'Title',
             'sort_order' => $sortOrder,
             'price' => 10.1,
@@ -100,7 +97,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
             'number_of_downloads' => 100,
             'link_type' => 'file',
             'sample_type' => 'file',
-        );
+        ];
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $contentMock = $this->getLinkContentMock($linkContentData);
@@ -112,11 +109,11 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidSortOrder()
     {
-        return array(
-            array(-1),
-            array('string'),
-            array(1.1),
-        );
+        return [
+            [-1],
+            ['string'],
+            [1.1],
+        ];
     }
 
     /**
@@ -127,7 +124,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfPriceIsInvalid($price)
     {
-        $linkContentData = array(
+        $linkContentData = [
             'title' => 'Title',
             'sort_order' => 1,
             'price' => $price,
@@ -135,7 +132,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
             'number_of_downloads' => 100,
             'link_type' => 'file',
             'sample_type' => 'file',
-        );
+        ];
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $contentMock = $this->getLinkContentMock($linkContentData);
@@ -147,10 +144,10 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidPrice()
     {
-        return array(
-            array(-1),
-            array('string'),
-        );
+        return [
+            [-1],
+            ['string'],
+        ];
     }
 
     /**
@@ -161,7 +158,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsValidThrowsExceptionIfNumberOfDownloadsIsInvalid($numberOfDownloads)
     {
-        $linkContentData = array(
+        $linkContentData = [
             'title' => 'Title',
             'sort_order' => 1,
             'price' => 10.5,
@@ -169,7 +166,7 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
             'number_of_downloads' => $numberOfDownloads,
             'link_type' => 'file',
             'sample_type' => 'file',
-        );
+        ];
         $this->urlValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $this->fileValidatorMock->expects($this->any())->method('isValid')->will($this->returnValue(true));
         $contentMock = $this->getLinkContentMock($linkContentData);
@@ -181,11 +178,11 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidNumberOfDownloads()
     {
-        return array(
-            array(-1),
-            array(2.71828),
-            array('string'),
-        );
+        return [
+            [-1],
+            [2.71828],
+            ['string'],
+        ];
     }
 
     /**
@@ -196,8 +193,8 @@ class DownloadableLinkContentValidatorTest extends \PHPUnit_Framework_TestCase
     {
         $contentMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\DownloadableLink\Data\DownloadableLinkContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );

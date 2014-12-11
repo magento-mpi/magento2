@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Encryption;
 
@@ -171,11 +168,11 @@ class Encryptor implements EncryptorInterface
     {
         if ($key === null) {
             if (!$this->_crypt) {
-                $this->_crypt = $this->_cryptFactory->create(array('key' => $this->_cryptKey));
+                $this->_crypt = $this->_cryptFactory->create(['key' => $this->_cryptKey]);
             }
             return $this->_crypt;
         } else {
-            return $this->_cryptFactory->create(array('key' => $key));
+            return $this->_cryptFactory->create(['key' => $key]);
         }
     }
 }

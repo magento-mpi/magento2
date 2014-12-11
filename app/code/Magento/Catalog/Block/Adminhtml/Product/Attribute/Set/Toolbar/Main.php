@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,11 +25,11 @@ class Main extends \Magento\Backend\Block\Template
         $this->getToolbar()->addChild(
             'addButton',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Add New Set'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/add') . '\')',
                 'class' => 'add primary add-set'
-            )
+            ]
         );
         return parent::_prepareLayout();
     }
@@ -60,7 +57,7 @@ class Main extends \Magento\Backend\Block\Template
     {
         $this->_eventManager->dispatch(
             'adminhtml_catalog_product_attribute_set_toolbar_main_html_before',
-            array('block' => $this)
+            ['block' => $this]
         );
         return parent::_toHtml();
     }

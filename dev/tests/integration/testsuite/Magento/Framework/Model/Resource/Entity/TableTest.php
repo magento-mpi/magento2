@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Model\Resource\Entity;
 
@@ -23,7 +20,7 @@ class TableTest extends \PHPUnit_Framework_TestCase
         // @codingStandardsIgnoreEnd
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Framework\Model\Resource\Entity\Table', array('config' => $config));
+            ->create('Magento\Framework\Model\Resource\Entity\Table', ['config' => $config]);
     }
 
     public function testGetTable()

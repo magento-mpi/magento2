@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -45,7 +42,7 @@ class Delete extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('wishlist/index/deletewishlist', array('wishlist_id' => '%item%'));
+        return $this->getUrl('wishlist/index/deletewishlist', ['wishlist_id' => '%item%']);
     }
 
     /**

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor\Tools;
 
@@ -50,16 +47,16 @@ class RemoveStoreLogo extends \Magento\DesignEditor\Controller\Adminhtml\System\
             )->save();
 
             $this->_reinitSystemConfiguration();
-            $response = array('error' => false, 'content' => array());
+            $response = ['error' => false, 'content' => []];
         } catch (CoreException $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         } catch (\Exception $e) {
             $errorMessage = __(
                 'Something went wrong uploading the image.' .
                 ' Please check the file format and try again (JPEG, GIF, or PNG).'
             );
-            $response = array('error' => true, 'message' => $errorMessage);
+            $response = ['error' => true, 'message' => $errorMessage];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

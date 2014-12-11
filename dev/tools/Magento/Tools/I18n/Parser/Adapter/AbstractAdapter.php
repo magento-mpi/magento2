@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
-use Magento\Tools\I18n\Context;
-use Magento\Tools\I18n\Parser\AdapterInterface;
 use Magento\Tools\I18n\Dictionary\Phrase;
+use Magento\Tools\I18n\Parser\AdapterInterface;
 
 /**
  * Abstract parser adapter
@@ -28,14 +24,14 @@ abstract class AbstractAdapter implements AdapterInterface
      *
      * @var array
      */
-    protected $_phrases = array();
+    protected $_phrases = [];
 
     /**
      * {@inheritdoc}
      */
     public function parse($file)
     {
-        $this->_phrases = array();
+        $this->_phrases = [];
         $this->_file = $file;
         $this->_parse();
     }
@@ -76,12 +72,12 @@ abstract class AbstractAdapter implements AdapterInterface
                 $phrase = $this->trimEnclosure($phrase);
             }
 
-            $this->_phrases[$phrase] = array(
+            $this->_phrases[$phrase] = [
                 'phrase' => $phrase,
                 'file' => $this->_file,
                 'line' => $line,
-                'quote' => $enclosureCharacter
-            );
+                'quote' => $enclosureCharacter,
+            ];
         }
     }
 

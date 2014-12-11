@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -47,7 +44,7 @@ class Rule extends AbstractModel
         \Magento\Rule\Model\Action\CollectionFactory $actionsFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_conditionsFactory = $conditionsFactory;
         $this->_actionsFactory = $actionsFactory;

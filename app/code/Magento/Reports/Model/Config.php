@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model;
 
@@ -30,7 +27,7 @@ class Config extends \Magento\Framework\Object
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleReader,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($data);
         $this->_moduleReader = $moduleReader;

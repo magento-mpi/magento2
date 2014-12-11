@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Integration\Model\Integration;
-use Magento\Webapi\Model\IntegrationConfig;
 use Magento\Integration\Service\V1\AuthorizationServiceInterface as IntegrationAuthorizationInterface;
+use Magento\Webapi\Model\IntegrationConfig;
 
 /**
  * Plugin for Magento\Framework\Module\Setup model to manage resource permissions of
@@ -67,7 +64,7 @@ class Setup
         $integrationNames
     ) {
         if (empty($integrationNames)) {
-            return array();
+            return [];
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();

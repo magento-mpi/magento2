@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
@@ -14,7 +11,7 @@
     <div class="block-content">
         <?php $suffix = $this->getNameInLayout(); ?>
         <ol id="widget-compared-<?php echo $suffix; ?>" class="product-items product-items-names">
-        <?php $i=0; foreach ($_products as $_product): ?>
+        <?php $i = 0; foreach ($_products as $_product): ?>
             <li class="product-item">
                 <strong class="product-item-name">
                     <a href="<?php echo $_product->getProductUrl() ?>" class="product-item-link">

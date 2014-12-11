@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminGws\Model\Plugin;
 
@@ -44,7 +41,7 @@ class CategoryResource
     ) {
         if (!$this->_role->getIsAll()) {
             /** @var $categoryItem \Magento\Catalog\Model\Category */
-            foreach (array($newParent, $category) as $categoryItem) {
+            foreach ([$newParent, $category] as $categoryItem) {
                 if (!$this->_role->hasExclusiveCategoryAccess($categoryItem->getData('path'))) {
                     throw new \Magento\Framework\Model\Exception(__('You need more permissions to save this item.'));
                 }

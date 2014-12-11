@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Handler\Widget;
@@ -20,10 +17,10 @@ class Curl extends \Magento\Widget\Test\Handler\Widget\Curl
      */
     protected $additionalMappingData = [
         'code' => [
-            'Banner Rotator' => 'magento_banner'
+            'Banner Rotator' => 'magento_banner',
         ],
         'template' => [
-            'Banner Block Template' => 'widget/block.phtml'
+            'Banner Block Template' => 'widget/block.phtml',
         ],
     ];
 

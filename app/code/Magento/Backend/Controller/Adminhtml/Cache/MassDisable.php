@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\Cache;
 
@@ -23,7 +20,7 @@ class MassDisable extends \Magento\Backend\Controller\Adminhtml\Cache
             $types = $this->getRequest()->getParam('types');
             $updatedTypes = 0;
             if (!is_array($types)) {
-                $types = array();
+                $types = [];
             }
             $this->_validateTypes($types);
             foreach ($types as $code) {

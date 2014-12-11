@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\UrlRewrite\Test\Repository;
@@ -23,7 +20,7 @@ class UrlRewriteProduct extends AbstractRepository
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
+    public function __construct(array $defaultConfig = [], array $defaultData = [])
     {
         $this->_data['default'] = [
             'config' => $defaultConfig,
@@ -34,7 +31,7 @@ class UrlRewriteProduct extends AbstractRepository
                         'value' => '%rewritten_product_request_path%',
                     ],
                     'store_id' => [
-                        'value' => 'Main Website/Main Website Store/Default Store View'
+                        'value' => 'Main Website/Main Website Store/Default Store View',
                     ],
                 ],
             ],

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\ObjectManager\Helper;
@@ -41,7 +38,7 @@ class Composite
                 $secondComponentSortOrder = (int)$secondComponent['sortOrder'];
                 if ($firstComponentSortOrder == $secondComponentSortOrder) {
                     return 0;
-                } else if ($firstComponentSortOrder < $secondComponentSortOrder) {
+                } elseif ($firstComponentSortOrder < $secondComponentSortOrder) {
                     return -1;
                 } else {
                     return 1;

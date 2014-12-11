@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Dependency\Report\Framework;
 
@@ -66,9 +63,9 @@ class Builder extends AbstractBuilder
     {
         $allowedModules = $this->getAllowedModules();
 
-        $modules = array();
+        $modules = [];
         foreach ($modulesData as $moduleData) {
-            $dependencies = array();
+            $dependencies = [];
             foreach ($moduleData['dependencies'] as $dependencyData) {
                 if (!in_array($dependencyData['lib'], $allowedModules)) {
                     $dependencies[] = new Data\Dependency($dependencyData['lib'], $dependencyData['count']);
@@ -86,6 +83,6 @@ class Builder extends AbstractBuilder
      */
     protected function getAllowedModules()
     {
-        return $this->configParser->parse(array('files_for_parse' => $this->options['parse']['config_files']));
+        return $this->configParser->parse(['files_for_parse' => $this->options['parse']['config_files']]);
     }
 }

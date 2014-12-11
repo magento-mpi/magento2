@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Controller\Advanced;
 
@@ -14,7 +11,7 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $filters = null;
         $expectedQuery = 'filtersData';
 
-        $view = $this->getMock('Magento\Framework\App\View', array('loadLayout', 'renderLayout'), array(), '', false);
+        $view = $this->getMock('Magento\Framework\App\View', ['loadLayout', 'renderLayout'], [], '', false);
         $view->expects($this->once())->method('loadLayout')->will(
             $this->returnCallback(
                 function () use (&$filters, $expectedQuery) {
@@ -23,13 +20,13 @@ class ResultTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $request = $this->getMock('Magento\Framework\App\Console\Request', array('getQuery'), array(), '', false);
+        $request = $this->getMock('Magento\Framework\App\Console\Request', ['getQuery'], [], '', false);
         $request->expects($this->once())->method('getQuery')->will($this->returnValue($expectedQuery));
 
         $catalogSearchAdvanced = $this->getMock(
             'Magento\CatalogSearch\Model\Advanced',
-            array('addFilters', '__wakeup'),
-            array(),
+            ['addFilters', '__wakeup'],
+            [],
             '',
             false
         );
@@ -44,13 +41,13 @@ class ResultTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectManager->getObject(
             'Magento\Framework\App\Action\Context',
-            array('view' => $view, 'request' => $request)
+            ['view' => $view, 'request' => $request]
         );
 
         /** @var \Magento\CatalogSearch\Controller\Advanced\Result $instance */
         $instance = $objectManager->getObject(
             'Magento\CatalogSearch\Controller\Advanced\Result',
-            array('context' => $context, 'catalogSearchAdvanced' => $catalogSearchAdvanced)
+            ['context' => $context, 'catalogSearchAdvanced' => $catalogSearchAdvanced]
         );
         $instance->execute();
     }
