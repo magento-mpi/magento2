@@ -31,4 +31,27 @@ class PageTest extends \Magento\TestFramework\TestCase\AbstractController
         $breadcrumbsBlock = $layout->getBlock('breadcrumbs');
         $this->assertContains($breadcrumbsBlock->toHtml(), $this->getResponse()->getBody());
     }
+
+    /**
+     * @magentoDataFixture cmsPageWIthSystemRouteFixture
+     */
+    public function testCreatePageWithSameModuleName()
+    {
+        $this->dispatch('/shipping/');
+        $content = $this->getResponse()->getBody();
+        $this->assertContains('Shipping Test Page', $content);
+    }
+
+    public static function cmsPageWIthSystemRouteFixture()
+    {
+        /** @var $page \Magento\Cms\Model\Page */
+        $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Cms\Model\Page');
+        $page->setTitle('Test title')
+            ->setIdentifier('shipping')
+            ->setStores([0])
+            ->setIsActive(1)
+            ->setContent('<h1>Shipping Test Page</h1>')
+            ->setPageLayout('1column')
+            ->save();
+    }
 }
