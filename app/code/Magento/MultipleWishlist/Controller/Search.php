@@ -139,7 +139,7 @@ class Search extends \Magento\Framework\App\Action\Action
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
+        if (!$this->_objectManager->get('Magento\Framework\Module\Manager')->isEnabled('Magento_MultipleWishlist')) {
             throw new NotFoundException();
         }
         return parent::dispatch($request);
