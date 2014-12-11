@@ -6,9 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Framework\Interception\ObjectManager;
+namespace Magento\Framework\Interception\ObjectManager\Config;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class DeveloperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Framework\Interception\ObjectManager\Config\Developer
