@@ -7,6 +7,8 @@ namespace Magento\Catalog\Model;
 
 use Magento\TestFramework\Helper\ObjectManager;
 
+require_once dirname(__FILE__) . '/../../_files/Catalog/Model/ProductRepository.php';
+
 class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -67,6 +69,11 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
         'name' => 'existing product',
     ];
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $objectManager;
+
     protected function setUp()
     {
         $this->productFactoryMock = $this->getMock('Magento\Catalog\Model\ProductFactory', ['create'], [], '', false);
@@ -108,8 +115,9 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->resourceModelMock = $this->getMock('\Magento\Catalog\Model\Resource\Product', [], [], '', false);
-        $objectManager = new ObjectManager($this);
-        $this->model = $objectManager->getObject(
+        $this->objectManager = new ObjectManager($this);
+
+        $this->model = $this->objectManager->getObject(
             'Magento\Catalog\Model\ProductRepository',
             [
                 'productFactory' => $this->productFactoryMock,
@@ -136,6 +144,100 @@ class ProductRepositoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(null));
         $this->productFactoryMock->expects($this->never())->method('setData');
         $this->model->get('test_sku');
+    }
+
+    /**
+     * @param array $keyArguments
+     *
+     * @dataProvider cacheKeyDataProvider
+     */
+    public function testGetCacheKey(array $keyArguments)
+    {
+        static $allResult = [];
+        /** @var \ProductRepositoryMock $modelMock */
+        $modelMock = $this->objectManager->getObject('ProductRepositoryMock');
+        $result = $modelMock->stubGetCacheKey($keyArguments);
+
+        $this->assertFalse(in_array($result, $allResult), 'Generated not the unique key.');
+        $allResult[] = $result;
+    }
+
+    /**
+     * Data provider for the key cache generator
+     *
+     * @return array
+     */
+    public function cacheKeyDataProvider()
+    {
+        $anyObject = $this->getMock(
+            'stdClass',
+            ['getId'],
+            [],
+            '',
+            false
+        );
+        $anyObject->expects($this->any())
+            ->method('getId')
+            ->willReturn(123);
+
+        return [
+            [
+                'keyArguments' => [
+                    'identifier' => 'test-sku',
+                    'editMode' => false,
+                    'storeId' => null
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 25,
+                    'editMode' => false,
+                    'storeId' => null
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 25,
+                    'editMode' => true,
+                    'storeId' => null
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 'test-sku',
+                    'editMode' => true,
+                    'storeId' => null
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 25,
+                    'editMode' => true,
+                    'storeId' => $anyObject
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 'test-sku',
+                    'editMode' => true,
+                    'storeId' => $anyObject
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 25,
+                    'editMode' => false,
+                    'storeId' => $anyObject
+                ]
+            ],
+            [
+                'keyArguments' => [
+                    'identifier' => 'test-sku',
+                    'editMode' => false,
+                    'storeId' => $anyObject
+                ]
+            ]
+        ];
     }
 
     public function testCreateCreatesProduct()
