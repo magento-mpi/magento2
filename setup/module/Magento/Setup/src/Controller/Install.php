@@ -15,6 +15,7 @@ use Magento\Setup\Model\WebLogger;
 use Zend\Json\Json;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\JsonModel;
+use Zend\View\Model\ViewModel;
 
 class Install extends AbstractActionController
 {
