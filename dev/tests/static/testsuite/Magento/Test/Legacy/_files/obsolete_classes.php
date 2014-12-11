@@ -2822,4 +2822,5 @@ return array(
     ['Magento\Customer\Model\Converter'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexer'],
     ['Magento\CatalogRule\Plugin\Indexer\Product\PriceIndexerTest'],
+    ['Magento\Rule\Model\Rule', 'Magento\Rule\Model\AbstractModel'],
 );
