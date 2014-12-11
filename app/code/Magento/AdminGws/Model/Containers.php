@@ -36,7 +36,7 @@ class Containers implements CallbackProcessorInterface
     /**
      * @var \Magento\Store\Model\StoreManagerInterface
      */
-    protected  $storeManager;
+    protected $storeManager;
 
     /**
      * @param Role $role
