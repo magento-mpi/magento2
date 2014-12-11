@@ -20,11 +20,12 @@ $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
 if (file_exists($vendorAutoload)) {
     $composerAutoloader = include $vendorAutoload;
 }
+/**
 require_once BP . '/lib/internal/Magento/Framework/Autoload/IncludePath.php';
 $includePath = new \Magento\Framework\Autoload\IncludePath();
 $includePath->addIncludePath([BP . '/app/code', BP . '/lib/internal', BP . '/var/generation']);
 spl_autoload_register([$includePath, 'load'], true, true);
-
+*/
 AutoloaderRegistry::registerAutoloader(new ClassLoaderWrapper($composerAutoloader));
 
 // Sets default autoload mappings, may be overridden in Bootstrap::create
