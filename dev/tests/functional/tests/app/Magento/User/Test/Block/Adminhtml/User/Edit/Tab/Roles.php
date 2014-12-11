@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\User\Test\Block\Adminhtml\User\Edit\Tab;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element;
 
 /**
  * Class Roles
@@ -37,13 +33,13 @@ class Roles extends Grid
      *
      * @var array
      */
-    protected $filters = array(
-        'id' => array(
+    protected $filters = [
+        'id' => [
             'selector' => '#permissionsUserRolesGrid_filter_assigned_user_role',
-            'input' => 'select'
-        ),
-        'role_name' => array(
-            'selector' => '#permissionsUserRolesGrid_filter_role_name'
-        )
-    );
+            'input' => 'select',
+        ],
+        'role_name' => [
+            'selector' => '#permissionsUserRolesGrid_filter_role_name',
+        ],
+    ];
 }

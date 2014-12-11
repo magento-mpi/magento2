@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filter;
 
@@ -16,8 +13,8 @@ class SplitWordsTest extends \PHPUnit_Framework_TestCase
     {
         $words = '123  123  45 789';
         $filter = new \Magento\Framework\Filter\SplitWords(false, 3);
-        $this->assertEquals(array('123', '123', '45'), $filter->filter($words));
+        $this->assertEquals(['123', '123', '45'], $filter->filter($words));
         $filter = new \Magento\Framework\Filter\SplitWords(true, 2);
-        $this->assertEquals(array('123', '45'), $filter->filter($words));
+        $this->assertEquals(['123', '45'], $filter->filter($words));
     }
 }

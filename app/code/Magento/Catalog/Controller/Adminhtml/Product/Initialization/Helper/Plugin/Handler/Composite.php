@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
@@ -24,7 +21,7 @@ class Composite implements HandlerInterface
      * @param HandlerFactory $factory
      * @param array $handlers
      */
-    public function __construct(HandlerFactory $factory, array $handlers = array())
+    public function __construct(HandlerFactory $factory, array $handlers = [])
     {
         foreach ($handlers as $instance) {
             $this->handlers[] = $factory->create($instance);

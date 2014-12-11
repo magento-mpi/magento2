@@ -2,10 +2,7 @@
 /**
  * Default no route handler
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\App\Router;
 
@@ -38,7 +35,7 @@ class NoRouteHandler implements \Magento\Framework\App\Router\NoRouteHandlerInte
         if ($noRoutePath) {
             $noRoute = explode('/', $noRoutePath);
         } else {
-            $noRoute = array();
+            $noRoute = [];
         }
 
         $moduleName = isset($noRoute[0]) ? $noRoute[0] : 'core';

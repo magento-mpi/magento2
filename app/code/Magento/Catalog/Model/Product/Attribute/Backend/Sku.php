@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -106,7 +103,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $adapter = $this->getAttribute()->getEntity()->getReadConnection();
         $select = $adapter->select();
         $value = $object->getData($attribute->getAttributeCode());
-        $bind = array('entity_type_id' => $attribute->getEntityTypeId(), 'attribute_code' => trim($value) . '-%');
+        $bind = ['entity_type_id' => $attribute->getEntityTypeId(), 'attribute_code' => trim($value) . '-%'];
 
         $select->from(
             $this->getTable(),
@@ -116,7 +113,7 @@ class Sku extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         )->where(
             $attribute->getAttributeCode() . ' LIKE :attribute_code'
         )->order(
-            array('entity_id DESC', $attribute->getAttributeCode() . ' ASC')
+            ['entity_id DESC', $attribute->getAttributeCode() . ' ASC']
         )->limit(
             1
         );

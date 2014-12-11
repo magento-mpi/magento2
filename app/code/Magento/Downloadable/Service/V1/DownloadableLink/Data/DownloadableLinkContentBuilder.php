@@ -2,15 +2,12 @@
 /**
  * Downloadable Link Builder
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\DownloadableLink\Data;
 
-use \Magento\Framework\Api\ExtensibleObjectBuilder;
-use \Magento\Downloadable\Service\V1\Data\FileContent;
+use Magento\Downloadable\Service\V1\Data\FileContent;
+use Magento\Framework\Api\ExtensibleObjectBuilder;
 
 /**
  * @codeCoverageIgnore

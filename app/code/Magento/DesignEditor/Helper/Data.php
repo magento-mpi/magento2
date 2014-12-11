@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Helper;
 
@@ -44,7 +41,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      * @param string $frontName
      * @param array $disabledCacheTypes
      */
-    public function __construct(Context $context, $frontName, array $disabledCacheTypes = array())
+    public function __construct(Context $context, $frontName, array $disabledCacheTypes = [])
     {
         parent::__construct($context);
         $this->_frontName = $frontName;

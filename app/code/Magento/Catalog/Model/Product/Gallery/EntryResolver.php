@@ -2,14 +2,11 @@
 /**
  * Product Media Gallery Entry Resolver
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product\Gallery;
 
-use \Magento\Catalog\Model\Product;
+use Magento\Catalog\Model\Product;
 
 class EntryResolver
 {

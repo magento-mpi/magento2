@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
 $websiteId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getWebsite()->getId();
 $groupId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getWebsite()->getDefaultGroupId();
 $store->setCode(
     'fixturestore'
@@ -30,5 +27,5 @@ $store->save();
 
 /* Refresh stores memory cache */
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->reinitStores();

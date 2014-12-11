@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer\Filter;
 
@@ -38,7 +35,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -60,7 +57,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      * Constructor
      *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $layer
      * @param \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder
      * @param array $data
@@ -68,10 +65,10 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      */
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $layer,
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
-        array $data = array()
+        array $data = []
     ) {
         $this->_filterItemFactory = $filterItemFactory;
         $this->_storeManager = $storeManager;
@@ -187,7 +184,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
      */
     protected function _getItemsData()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -198,7 +195,7 @@ abstract class AbstractFilter extends \Magento\Framework\Object implements Filte
     protected function _initItems()
     {
         $data = $this->_getItemsData();
-        $items = array();
+        $items = [];
         foreach ($data as $itemData) {
             $items[] = $this->_createItem($itemData['label'], $itemData['value'], $itemData['count']);
         }

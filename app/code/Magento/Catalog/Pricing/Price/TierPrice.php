@@ -1,21 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Customer\Api\GroupManagementInterface;
 use Magento\Customer\Model\Session;
-use Magento\Framework\Pricing\Price\AbstractPrice;
-use Magento\Framework\Pricing\PriceInfoInterface;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Framework\Pricing\Amount\AmountInterface;
+use Magento\Framework\Pricing\Price\AbstractPrice;
 use Magento\Framework\Pricing\Price\BasePriceProviderInterface;
+use Magento\Framework\Pricing\PriceInfoInterface;
 
 /**
  * Tire prices model
@@ -266,7 +263,7 @@ class TierPrice extends AbstractPrice implements TierPriceInterface, BasePricePr
                 }
             }
             if (null === $this->rawPriceList || !is_array($this->rawPriceList)) {
-                $this->rawPriceList = array();
+                $this->rawPriceList = [];
             }
             if (!$this->isPercentageDiscount()) {
                 foreach ($this->rawPriceList as $index => $rawPrice) {

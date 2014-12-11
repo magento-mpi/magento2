@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Repository;
@@ -39,7 +36,7 @@ class Website extends AbstractRepository
 
         $this->_data['custom_website'] = [
             'name' => 'Web_Site_%isolation%',
-            'code' => 'code_%isolation%'
+            'code' => 'code_%isolation%',
         ];
     }
 }

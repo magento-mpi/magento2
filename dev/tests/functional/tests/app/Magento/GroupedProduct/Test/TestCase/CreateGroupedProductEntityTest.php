@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
+use Magento\GroupedProduct\Test\Fixture\GroupedProductInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for CreateGroupedProductEntity

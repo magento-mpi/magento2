@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Address\Billing;
 
+use Magento\Checkout\Service\V1\Address\Converter;
+use Magento\Checkout\Service\V1\Address\Validator;
+use Magento\Sales\Model\Quote\AddressFactory;
+use Magento\Sales\Model\QuoteRepository;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Logger;
-use \Magento\Sales\Model\QuoteRepository;
-use \Magento\Sales\Model\Quote\AddressFactory;
-use \Magento\Checkout\Service\V1\Address\Converter;
-use \Magento\Checkout\Service\V1\Address\Validator;
 
 /** Quote billing address write service object. */
 class WriteService implements WriteServiceInterface

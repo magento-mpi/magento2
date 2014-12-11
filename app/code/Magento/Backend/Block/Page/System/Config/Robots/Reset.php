@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Page\System\Config\Robots;
 
@@ -25,7 +22,7 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
     }
@@ -63,11 +60,11 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
         $button = $this->getLayout()->createBlock(
             'Magento\Backend\Block\Widget\Button'
         )->setData(
-            array(
+            [
                 'id' => 'reset_to_default_button',
                 'label' => __('Reset to Default'),
-                'onclick' => 'javascript:resetRobotsToDefault(); return false;'
-            )
+                'onclick' => 'javascript:resetRobotsToDefault(); return false;',
+            ]
         );
 
         return $button->toHtml();

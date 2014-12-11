@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n;
 
@@ -21,7 +18,7 @@ class FilesCollector
      */
     public function getFiles(array $paths, $fileMask = false)
     {
-        $files = array();
+        $files = [];
         foreach ($paths as $path) {
             foreach ($this->_getIterator($path, $fileMask) as $file) {
                 $files[] = (string)$file;

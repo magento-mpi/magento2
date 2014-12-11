@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Config;
 
@@ -55,7 +52,7 @@ class MatrixTest extends \PHPUnit_Framework_TestCase
             'localeCurrency' => $this->_locale,
             'formFactory' => $this->getMock('Magento\Framework\Data\FormFactory', [], [], '', false),
             'productFactory' => $this->getMock('Magento\Catalog\Model\ProductFactory', [], [], '', false),
-            'stockRegistry' => $this->stockRegistryMock
+            'stockRegistry' => $this->stockRegistryMock,
         ];
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_object = $helper->getObject('Magento\Backend\Block\System\Config\Form', $data);

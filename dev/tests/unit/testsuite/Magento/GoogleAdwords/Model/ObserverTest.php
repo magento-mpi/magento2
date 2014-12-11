@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleAdwords\Model;
 
@@ -41,32 +38,32 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', array(), array(), '', false);
-        $this->_registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', true);
+        $this->_helperMock = $this->getMock('Magento\GoogleAdwords\Helper\Data', [], [], '', false);
+        $this->_registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', true);
         $this->_collectionMock = $this->getMock(
             'Magento\Sales\Model\Resource\Order\Collection',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
-        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
-        $this->_eventMock = $this->getMock('Magento\Framework\Event', array('getOrderIds'), array(), '', false);
+        $this->_eventObserverMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
+        $this->_eventMock = $this->getMock('Magento\Framework\Event', ['getOrderIds'], [], '', false);
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManager->getObject(
             'Magento\GoogleAdwords\Model\Observer',
-            array(
+            [
                 'helper' => $this->_helperMock,
                 'collection' => $this->_collectionMock,
                 'registry' => $this->_registryMock
-            )
+            ]
         );
     }
 
     public function dataProviderForDisabled()
     {
-        return array(array(false, false), array(false, true), array(true, false));
+        return [[false, false], [false, true], [true, false]];
     }
 
     /**
@@ -98,7 +95,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function dataProviderForOrdersIds()
     {
-        return array(array(array()), array(''));
+        return [[[]], ['']];
     }
 
     /**
@@ -128,7 +125,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetConversionValueWhenAdwordsActiveWithOrdersIds()
     {
-        $ordersIds = array(1, 2, 3);
+        $ordersIds = [1, 2, 3];
         $conversionValue = 0;
         $this->_helperMock->expects($this->once())->method('isGoogleAdwordsActive')->will($this->returnValue(true));
         $this->_helperMock->expects($this->once())->method('isDynamicConversionValue')->will($this->returnValue(true));
@@ -149,7 +146,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             'addFieldToFilter'
         )->with(
             'entity_id',
-            array('in' => $ordersIds)
+            ['in' => $ordersIds]
         );
         $this->_registryMock->expects(
             $this->once()

@@ -1,24 +1,21 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require __DIR__ . '/bootstrap.php';
 use Magento\Tools\I18n\ServiceLocator;
 
 try {
     $console = new \Zend_Console_Getopt(
-        array(
+        [
             'source|s=s' => 'Path to source dictionary file with translations',
             'pack|p=s' => 'Path to language package',
             'locale|l=s' => 'Target locale for dictionary, for example "de_DE"',
             'mode|m-s' => 'Save mode for dictionary
         - "replace" - replace language pack by new one
         - "merge" -  merge language packages, by default "replace"',
-            'allow_duplicates|d=s' => 'Is allowed to save duplicates of translate, by default "no"'
-        )
+            'allow_duplicates|d=s' => 'Is allowed to save duplicates of translate, by default "no"',
+        ]
     );
     $console->parse();
     if (!count($console->getOptions())) {
@@ -29,7 +26,7 @@ try {
     $dictionaryPath = $console->getOption('source');
     $packPath = $console->getOption('pack');
     $locale = $console->getOption('locale');
-    $allowDuplicates = in_array($console->getOption('allow_duplicates'), array('y', 'Y', 'yes', 'Yes', '1'));
+    $allowDuplicates = in_array($console->getOption('allow_duplicates'), ['y', 'Y', 'yes', 'Yes', '1']);
     $saveMode = $console->getOption('mode');
 
     if (!$dictionaryPath) {

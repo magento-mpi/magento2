@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Newsletter\Model;
 
@@ -62,7 +59,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
      *
      * @var array
      */
-    protected $_stores = array();
+    protected $_stores = [];
 
     const STATUS_NEVER = 0;
 
@@ -117,7 +114,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Newsletter\Model\Template\Filter $templateFilter
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime\DateTime $date
@@ -132,7 +129,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Newsletter\Model\Template\Filter $templateFilter,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime\DateTime $date,
@@ -140,7 +137,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
         \Magento\Newsletter\Model\ProblemFactory $problemFactory,
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
         \Magento\Newsletter\Model\Queue\TransportBuilder $transportBuilder,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
         $this->_templateFilter = $templateFilter;
@@ -224,23 +221,23 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
         )->load();
 
         $this->_transportBuilder->setTemplateData(
-            array(
+            [
                 'template_subject' => $this->getNewsletterSubject(),
                 'template_text' => $this->getNewsletterText(),
                 'template_styles' => $this->getNewsletterStyles(),
                 'template_filter' => $this->_templateFilter,
-                'template_type' => self::TYPE_HTML
-            )
+                'template_type' => self::TYPE_HTML,
+            ]
         );
 
         /** @var \Magento\Newsletter\Model\Subscriber $item */
         foreach ($collection->getItems() as $item) {
             $transport = $this->_transportBuilder->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId())
+                ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $item->getStoreId()]
             )->setTemplateVars(
-                array('subscriber' => $item)
+                ['subscriber' => $item]
             )->setFrom(
-                array('name' => $this->getNewsletterSenderEmail(), 'email' => $this->getNewsletterSenderName())
+                ['name' => $this->getNewsletterSenderEmail(), 'email' => $this->getNewsletterSenderName()]
             )->addTo(
                 $item->getSubscriberEmail(),
                 $item->getSubscriberFullName()
@@ -286,7 +283,7 @@ class Queue extends \Magento\Email\Model\AbstractTemplate
      */
     public function getDataForSave()
     {
-        $data = array();
+        $data = [];
         $data['template_id'] = $this->getTemplateId();
         $data['queue_status'] = $this->getQueueStatus();
         $data['queue_start_at'] = $this->getQueueStartAt();

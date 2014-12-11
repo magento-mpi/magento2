@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -26,7 +23,7 @@ class PoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testShift()
     {
-        $this->_model->setExcludedIds(array('fixture_code_2'));
+        $this->_model->setExcludedIds(['fixture_code_2']);
         $result = $this->_model->shift();
         // Only free non-excluded code should be selected
         $this->assertSame('fixture_code_3', $result);

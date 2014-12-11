@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
@@ -73,7 +70,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
     public function testGetSetCustomerGroupId()
     {
         $this->assertEquals(
-            \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID,
+            \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID,
             $this->_model->getCustomerGroupId()
         );
 

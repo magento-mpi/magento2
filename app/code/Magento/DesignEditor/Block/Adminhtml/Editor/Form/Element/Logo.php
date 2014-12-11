@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -33,7 +30,7 @@ class Logo extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Element\Com
         $this->addField(
             $uploaderId,
             'logo-uploader',
-            array('name' => $uploaderId, 'title' => $uploaderTitle, 'label' => null)
+            ['name' => $uploaderId, 'title' => $uploaderTitle, 'label' => null]
         );
 
         return $this;

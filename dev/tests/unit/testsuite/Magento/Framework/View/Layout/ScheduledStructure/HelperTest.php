@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Layout\ScheduledStructure;
@@ -76,10 +73,10 @@ class HelperTest extends \PHPUnit_Framework_TestCase
      */
     public function providerScheduleStructure()
     {
-        return array(
-            array('current_node', 'current_node', $this->once(), $this->once()),
-            array('', 'parent_node_schedule_block0', $this->never(), $this->never())
-        );
+        return [
+            ['current_node', 'current_node', $this->once(), $this->once()],
+            ['', 'parent_node_schedule_block0', $this->never(), $this->never()]
+        ];
     }
 
     public function testScheduleNonExistentElement()
@@ -125,16 +122,16 @@ class HelperTest extends \PHPUnit_Framework_TestCase
                             Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_PARENT_NAME => $parentName,
                             Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_SIBLING_NAME => $siblingName,
                             Layout\ScheduledStructure\Helper::SCHEDULED_STRUCTURE_INDEX_IS_AFTER => true,
-                        ]
+                        ],
                     ],
-                    [$parentName, null, []]
+                    [$parentName, null, []],
                 ]
             )
         );
         $scheduledStructure->expects($this->any())->method('getStructureElementData')->will(
             $this->returnValueMap([
                 [$key, null, $data],
-                [$parentName, null, $data]
+                [$parentName, null, $data],
             ])
         );
         $scheduledStructure->expects($this->any())->method('hasStructureElement')->will($this->returnValue(true));

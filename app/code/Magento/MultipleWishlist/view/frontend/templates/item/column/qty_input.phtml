@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <input type="text" name="qty[<?php echo $this->getItem()->getId();?>]" class="qty input-text" data-validate="{required:true, 'validate-greater-than-zero':true}" value="<?php echo $this->getItem()->getQty()*1;?>" size="2">

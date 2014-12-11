@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model\Pool;
 
@@ -39,7 +36,7 @@ abstract class AbstractPool extends \Magento\Framework\Model\AbstractModel
         $notInArray = $this->getExcludedIds();
         $collection = $this->getCollection()->addFieldToFilter('status', self::STATUS_FREE)->setPageSize(1);
         if (is_array($notInArray) && !empty($notInArray)) {
-            $collection->addFieldToFilter('code', array('nin' => $notInArray));
+            $collection->addFieldToFilter('code', ['nin' => $notInArray]);
         }
         $collection->getSelect()->forUpdate(true);
         $items = $collection->getItems();

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml\Cart\Product\Composite;
 
@@ -77,7 +74,7 @@ class Cart extends \Magento\Backend\App\Action
             $this->_quote = $this->quoteRepository->create();
         }
         $this->_quote->setWebsite(
-            $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($websiteId)
+            $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($websiteId)
         );
 
         $this->_quoteItem = $this->_quote->getItemById($quoteItemId);

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Model\Category;
 
 use Magento\Catalog\Model\Category;
-use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\CatalogUrlRewrite\Model\CategoryUrlPathGenerator;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
-use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\CatalogUrlRewrite\Model\CategoryUrlRewriteGenerator;
 use Magento\UrlRewrite\Model\OptionProvider;
 use Magento\UrlRewrite\Model\UrlFinderInterface;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewrite;
+use Magento\UrlRewrite\Service\V1\Data\UrlRewriteBuilder;
 
 class CurrentUrlRewritesRegenerator
 {

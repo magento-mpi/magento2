@@ -1,15 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Controller\Adminhtml;
 
 class Indexer extends \Magento\Backend\App\Action
 {
-
     /**
      * Check ACL permissions
      *

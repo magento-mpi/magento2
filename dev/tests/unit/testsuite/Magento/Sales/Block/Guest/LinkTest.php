@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Guest;
 
@@ -19,7 +16,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         $context = $objectManagerHelper->getObject('Magento\Framework\View\Element\Template\Context');
         $httpContext = $this->getMockBuilder('\Magento\Framework\App\Http\Context')
             ->disableOriginalConstructor()
-            ->setMethods(array('getValue'))
+            ->setMethods(['getValue'])
             ->getMock();
         $httpContext->expects($this->once())
             ->method('getValue')
@@ -28,10 +25,10 @@ class LinkTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Sales\Block\Guest\Link $link */
         $link = $objectManagerHelper->getObject(
             'Magento\Sales\Block\Guest\Link',
-            array(
+            [
                 'context' => $context,
                 'httpContext' => $httpContext,
-            )
+            ]
         );
 
         $this->assertEquals('', $link->toHtml());

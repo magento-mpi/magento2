@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\Config;
 
@@ -30,15 +27,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_fileResolverMock = $this->getMock(
             'Magento\Framework\App\Config\FileResolver',
-            array('get'),
-            array(),
+            ['get'],
+            [],
             '',
             false
         );
 
-        $this->_converter = $this->getMock('Magento\Framework\Mview\Config\Converter', array('convert'));
+        $this->_converter = $this->getMock('Magento\Framework\Mview\Config\Converter', ['convert']);
 
-        $fsDirList = $this->getMock('Magento\Framework\Filesystem\DirectoryList', array('getPath'), array(), '', false);
+        $fsDirList = $this->getMock('Magento\Framework\Filesystem\DirectoryList', ['getPath'], [], '', false);
         $fsDirList->expects(
             $this->once()
         )->method(
@@ -105,21 +102,21 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     public function readerDataProvider()
     {
-        return array(
-            'mview_merged_one' => array(
-                array(
+        return [
+            'mview_merged_one' => [
+                [
                     'mview_one.xml' => file_get_contents(__DIR__ . '/../_files/mview_one.xml'),
-                    'mview_two.xml' => file_get_contents(__DIR__ . '/../_files/mview_two.xml')
-                ),
-                'mview_merged_one.xml'
-            ),
-            'mview_merged_two' => array(
-                array(
+                    'mview_two.xml' => file_get_contents(__DIR__ . '/../_files/mview_two.xml'),
+                ],
+                'mview_merged_one.xml',
+            ],
+            'mview_merged_two' => [
+                [
                     'mview_one.xml' => file_get_contents(__DIR__ . '/../_files/mview_one.xml'),
-                    'mview_three.xml' => file_get_contents(__DIR__ . '/../_files/mview_three.xml')
-                ),
-                'mview_merged_two.xml'
-            )
-        );
+                    'mview_three.xml' => file_get_contents(__DIR__ . '/../_files/mview_three.xml'),
+                ],
+                'mview_merged_two.xml',
+            ]
+        ];
     }
 }

@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ImportExport\Model\Import;
 
 use Magento\Framework\Filesystem\Directory\Write;
-use Magento\ImportExport\Model\Import\AbstractSource;
 
 /**
  * Import adapter model

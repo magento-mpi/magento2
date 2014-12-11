@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model;
 
@@ -51,7 +48,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->categoryResourceMock = $this->getMock('\Magento\Catalog\Model\Resource\Category', [], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
 
         $this->model = new \Magento\Catalog\Model\CategoryRepository(
             $this->categoryFactoryMock,
@@ -204,7 +201,7 @@ class CategoryRepositoryTest extends \PHPUnit_Framework_TestCase
             [
                 true,
                 '\Magento\Framework\Exception\CouldNotSaveException',
-                'Could not save category: Attribute "ValidateCategoryTest" is required.'
+                'Could not save category: Attribute "ValidateCategoryTest" is required.',
             ], [
                 'Something went wrong',
                 '\magento\Framework\Exception\CouldNotSaveException',

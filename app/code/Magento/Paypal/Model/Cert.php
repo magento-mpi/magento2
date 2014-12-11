@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model;
 
@@ -46,7 +43,7 @@ class Cert extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Encryption\EncryptorInterface $encryptor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $this->encryptor = $encryptor;

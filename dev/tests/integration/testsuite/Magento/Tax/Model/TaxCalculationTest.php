@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model;
 
 use Magento\Framework\Model\AbstractExtensibleModel;
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Tax\Api\Data\TaxClassKeyInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * @magentoDbIsolation enabled
@@ -138,8 +135,8 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                         [
                             'code' => 'US - 42 - 7.5',
                             'title' => 'US - 42 - 7.5',
-                            'percent' => 7.5
-                        ]
+                            'percent' => 7.5,
+                        ],
                     ],
                     'tax_rate_key' => 'US - 42 - 7.5',
                 ],
@@ -257,7 +254,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 20,
                 'unit_price' => 11,
                 'tax_class_key' => 'DefaultProductClass',
-            ]
+            ],
         ];
         $twoProductsResults = [
             'subtotal' => 240,
@@ -352,7 +349,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                 'row_total' => 236.6,
                 'tax_class_key' => 'DefaultProductClass',
                 'tax_included' => true,
-            ]
+            ],
         ];
         $twoProductInclTaxResults = $twoProductsResults;
 
@@ -412,7 +409,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                                     'percent' => 7.5,
                                     'code' => 'US - 42 - 7.5',
                                     'title' => 'US - 42 - 7.5',
-                                ]
+                                ],
                             ],
                         ],
                     ],
@@ -425,7 +422,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                     'row_tax' => 1.5,
                     'code' => 'bundle',
                     'type' => 'product',
-                ]
+                ],
             ],
         ];
 
@@ -502,7 +499,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                         'tax_included' => false,
                     ],
                 ],
-                'customer_tax_class_key' => 'DefaultCustomerClass'
+                'customer_tax_class_key' => 'DefaultCustomerClass',
             ],
             'expected_tax_details' => [
                 'subtotal' => 10.0,
@@ -794,7 +791,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                         'tax_included' => false,
                     ],
                 ],
-                'customer_tax_class_key' => 'DefaultCustomerClass'
+                'customer_tax_class_key' => 'DefaultCustomerClass',
             ],
             'expected_tax_details' => [
                 'subtotal' => 15.94,
@@ -816,7 +813,6 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
 
         $quoteDetailItemWithDefaultProductTaxClass = $prodQuoteDetailItemBase;
         $quoteDetailItemWithDefaultProductTaxClass['tax_class_key'] = 'DefaultProductClass';
-
 
         $quoteDetailAppliedTaxesBase = [
             [
@@ -874,7 +870,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                             ],
                         ],
                     ],
-                ]
+                ],
             ],
         ];
 
@@ -914,7 +910,6 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
             'rounding product without store id, without tax class id' => $prodWithoutStoreIdWithoutTaxClassId,
         ];
     }
-
 
     /**
      * @magentoDbIsolation enabled
@@ -1127,7 +1122,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                 'quantity' => 20,
                 'unit_price' => 11,
                 'tax_class_key' => 'DefaultProductClass',
-            ]
+            ],
         ];
         $twoProductsResults = [
             'subtotal' => 230,
@@ -1220,7 +1215,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
                 'unit_price' => 11.99,
                 'tax_class_key' => 'DefaultProductClass',
                 'tax_included' => true,
-            ]
+            ],
         ];
         $twoProductInclTaxResults = [
             'subtotal' => 232.19,
@@ -1444,7 +1439,6 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
             ],
         ];
     }
-
 
     /**
      * Create quote details for use with multi rules tests
@@ -1797,7 +1791,7 @@ class TaxCalculationTest extends \PHPUnit_Framework_TestCase
         array_walk_recursive(
             $data,
             function (&$value, $key) {
-                if ( ($key === 'tax_class_key' || $key === 'customer_tax_class_key')
+                if (($key === 'tax_class_key' || $key === 'customer_tax_class_key')
                     && is_string($value)
                 ) {
                     $value = [

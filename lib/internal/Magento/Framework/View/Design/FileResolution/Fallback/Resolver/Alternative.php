@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Design\FileResolution\Fallback\Resolver;
 
-use Magento\Framework\View\Design\FileResolution\Fallback;
 use Magento\Framework\Filesystem;
 use Magento\Framework\View\Design\Fallback\Rule\RuleInterface;
+use Magento\Framework\View\Design\FileResolution\Fallback;
 
 /**
  * Resolver for view files with support of alternative extensions map
@@ -52,7 +49,7 @@ class Alternative extends Simple
     /**
      * {@inheritdoc}
      */
-    public function resolveFile(RuleInterface $fallbackRule, $file, array $params = array())
+    public function resolveFile(RuleInterface $fallbackRule, $file, array $params = [])
     {
         $path = parent::resolveFile($fallbackRule, $file, $params);
         if (!$path) {

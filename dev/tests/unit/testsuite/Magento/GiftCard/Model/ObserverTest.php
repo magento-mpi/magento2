@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model;
 
@@ -31,24 +28,24 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = $this->_objectManager->getObject(
             'Magento\GiftCard\Model\Observer',
-            array(
+            [
                 'itemsFactory' => $this->getMock(
                     'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 ),
                 'invoiceFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\InvoiceFactory',
-                    array(),
-                    array(),
+                    [],
+                    [],
                     '',
                     false
                 ),
-                'data' => array('custom_field' => 'custom_value')
-            )
+                'data' => ['custom_field' => 'custom_value']
+            ]
         );
-        $this->assertEquals(array('custom_field' => 'custom_value'), $this->_model->getData());
+        $this->assertEquals(['custom_field' => 'custom_value'], $this->_model->getData());
     }
 }

@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Reward Helper
@@ -90,7 +86,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_ratesArray = null;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -121,7 +117,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Framework\Locale\CurrencyInterface $localeCurrency
@@ -130,7 +126,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\Framework\App\Helper\Context $context,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
@@ -264,15 +260,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getExpiryConfig()
     {
         if ($this->_expiryConfig === null) {
-            $result = array();
+            $result = [];
             foreach ($this->_storeManager->getWebsites() as $website) {
                 $websiteId = $website->getId();
                 $result[$websiteId] = new \Magento\Framework\Object(
-                    array(
+                    [
                         'expiration_days' => $this->getGeneralConfig('expiration_days', $websiteId),
                         'expiry_calculation' => $this->getGeneralConfig('expiry_calculation', $websiteId),
-                        'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId)
-                    )
+                        'expiry_day_before' => $this->getNotificationConfig('expiry_day_before', $websiteId),
+                    ]
                 );
             }
             $this->_expiryConfig = $result;
@@ -306,7 +302,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     public function getLandingPageUrl()
     {
         $pageIdentifier = $this->_scopeConfig->getValue(self::XML_PATH_LANDING_PAGE, \Magento\Store\Model\ScopeInterface::SCOPE_STORE);
-        return $this->_urlBuilder->getUrl('', array('_direct' => $pageIdentifier));
+        return $this->_urlBuilder->getUrl('', ['_direct' => $pageIdentifier]);
     }
 
     /**
@@ -406,7 +402,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
      */
     protected function _loadRatesArray()
     {
-        $ratesArray = array();
+        $ratesArray = [];
         $collection = $this->_ratesFactory->create()->addFieldToFilter(
             'direction',
             \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY

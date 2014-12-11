@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model;
 
@@ -24,7 +21,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testSetGetWebsite()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface')->getWebsite();
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         $actualResult = $this->_model->getWebsite();
         $this->assertSame($website, $actualResult);
@@ -36,7 +33,7 @@ class GroupTest extends \PHPUnit_Framework_TestCase
     public function testGetWebsiteDefault()
     {
         $this->assertFalse($this->_model->getWebsite());
-        $website = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface')->getWebsite();
+        $website = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface')->getWebsite();
         $this->_model->setWebsite($website);
         // Empty string should get treated like no parameter
         $actualResult = $this->_model->getWebsite('');

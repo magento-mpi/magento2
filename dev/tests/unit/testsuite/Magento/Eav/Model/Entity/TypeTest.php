@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity;
 
@@ -51,44 +48,44 @@ class TypeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->contextMock = $this->getMock('Magento\Framework\Model\Context', array(), array(), '', false);
-        $this->registryMock = $this->getMock('Magento\Framework\Registry', array(), array(), '', false);
+        $this->contextMock = $this->getMock('Magento\Framework\Model\Context', [], [], '', false);
+        $this->registryMock = $this->getMock('Magento\Framework\Registry', [], [], '', false);
         $this->attrFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\AttributeFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->attrSetFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\SetFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->storeFactoryMock = $this->getMock(
             'Magento\Eav\Model\Entity\StoreFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->universalFactoryMock = $this->getMock(
             'Magento\Framework\Validator\UniversalFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->resourceMock = $this->getMockForAbstractClass(
             'Magento\Framework\Model\Resource\Db\AbstractDb',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('beginTransaction', 'rollBack', 'commit', 'getIdFieldName', '__wakeup')
+            ['beginTransaction', 'rollBack', 'commit', 'getIdFieldName', '__wakeup']
         );
 
         $this->model = new Type(

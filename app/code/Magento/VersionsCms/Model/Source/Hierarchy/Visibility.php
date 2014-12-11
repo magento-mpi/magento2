@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Model\Source\Hierarchy;
 
@@ -14,10 +11,10 @@ class Visibility implements \Magento\Framework\Option\ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_PARENT => __('Use Parent'),
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_YES => __('Yes'),
             \Magento\VersionsCms\Helper\Hierarchy::METADATA_VISIBILITY_NO => __('No')
-        );
+        ];
     }
 }

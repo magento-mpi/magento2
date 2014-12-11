@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Image;
 
@@ -32,7 +29,7 @@ class AdapterFactory
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Framework\Image\Adapter\ConfigInterface $config,
-        array $adapterMap = array()
+        array $adapterMap = []
     ) {
         $this->objectManager = $objectManager;
         $this->config = $config;

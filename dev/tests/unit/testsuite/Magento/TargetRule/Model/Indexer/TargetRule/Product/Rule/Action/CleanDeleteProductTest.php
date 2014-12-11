@@ -1,12 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
  * @subpackage  unit_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action;
@@ -41,27 +38,27 @@ class CleanDeleteProductTest extends \PHPUnit_Framework_TestCase
     {
         $ruleFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\RuleFactory',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
 
         $collectionFactoryMock = $this->getMock(
             'Magento\TargetRule\Model\Resource\Rule\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
-        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', array(), array(), '', false);
+        $resourceMock = $this->getMock('Magento\TargetRule\Model\Resource\Index', [], [], '', false);
 
         $resourceMock->expects($this->once())
             ->method('deleteProductFromIndex')
             ->will($this->returnValue(1));
 
-        $storeManagerMock = $this->getMockForAbstractClass('\Magento\Framework\StoreManagerInterface');
+        $storeManagerMock = $this->getMockForAbstractClass('\Magento\Store\Model\StoreManagerInterface');
         $timezoneMock = $this->getMockForAbstractClass('\Magento\Framework\Stdlib\DateTime\TimezoneInterface');
 
         $model = new \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Action\CleanDeleteProduct(

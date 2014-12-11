@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Model;
 
@@ -53,7 +50,7 @@ class Observer
      *
      * @var array
      */
-    protected $_errors = array();
+    protected $_errors = [];
 
     /**
      * Catalog data
@@ -70,7 +67,7 @@ class Observer
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -117,7 +114,7 @@ class Observer
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory
      * @param \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository
      * @param \Magento\Catalog\Api\ProductRepositoryInterface $productRepository
@@ -130,7 +127,7 @@ class Observer
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ProductAlert\Model\Resource\Price\CollectionFactory $priceColFactory,
         \Magento\Customer\Api\CustomerRepositoryInterface $customerRepository,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
@@ -366,12 +363,12 @@ class Observer
                     \Magento\Store\Model\ScopeInterface::SCOPE_STORE
                 )
             )->setTemplateOptions(
-                array(
+                [
                     'area' => \Magento\Framework\App\Area::AREA_FRONTEND,
-                    'store' => $this->_storeManager->getStore()->getId()
-                )
+                    'store' => $this->_storeManager->getStore()->getId(),
+                ]
             )->setTemplateVars(
-                array('warnings' => join("\n", $this->_errors))
+                ['warnings' => join("\n", $this->_errors)]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     self::XML_PATH_ERROR_IDENTITY,
@@ -387,7 +384,7 @@ class Observer
             $transport->sendMessage();
 
             $this->inlineTranslation->resume();
-            $this->_errors[] = array();
+            $this->_errors[] = [];
         }
         return $this;
     }

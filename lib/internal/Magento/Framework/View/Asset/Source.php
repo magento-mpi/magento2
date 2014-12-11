@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\Asset;
@@ -154,7 +151,7 @@ class Source
             $path = self::TMP_MATERIALIZATION_DIR . '/source/' . $asset->getPath();
             $this->varDir->writeFile($path, $chain->getContent());
         }
-        $result = array($dirCode, $path);
+        $result = [$dirCode, $path];
         $this->cache->save(serialize($result), $cacheId);
         return $result;
     }

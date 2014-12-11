@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mview\View;
 
@@ -80,13 +77,13 @@ class Changelog implements ChangelogInterface
             'version_id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+            ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
             'Version ID'
         )->addColumn(
             $this->getColumnName(),
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
-            array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+            ['unsigned' => true, 'nullable' => false, 'default' => '0'],
             'Entity ID'
         );
 
@@ -123,7 +120,7 @@ class Changelog implements ChangelogInterface
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
 
-        $this->write->delete($changelogTableName, array('version_id <= ?' => (int)$versionId));
+        $this->write->delete($changelogTableName, ['version_id <= ?' => (int)$versionId]);
 
         return true;
     }
@@ -147,7 +144,7 @@ class Changelog implements ChangelogInterface
             true
         )->from(
             $changelogTableName,
-            array($this->getColumnName())
+            [$this->getColumnName()]
         )->where(
             'version_id > ?',
             (int)$fromVersionId
@@ -171,7 +168,7 @@ class Changelog implements ChangelogInterface
         if (!$this->write->isTableExists($changelogTableName)) {
             throw new \Exception("Table {$changelogTableName} does not exist");
         }
-        $row = $this->write->fetchRow('SHOW TABLE STATUS LIKE ?', array($changelogTableName));
+        $row = $this->write->fetchRow('SHOW TABLE STATUS LIKE ?', [$changelogTableName]);
         if (isset($row['Auto_increment'])) {
             return (int)$row['Auto_increment'] - 1;
         } else {

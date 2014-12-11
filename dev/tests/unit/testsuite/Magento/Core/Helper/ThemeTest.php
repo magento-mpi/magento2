@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Helper;
 
@@ -20,14 +17,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $theme->expects($this->once())->method('getArea')->will($this->returnValue('area'));
         $layoutMergeFactory = $this->_getLayoutMergeFactory($theme, $layoutStr);
         $assetRepo = $this->getMock(
-            'Magento\Framework\View\Asset\Repository', array('createAsset'), array(), '', false
+            'Magento\Framework\View\Asset\Repository', ['createAsset'], [], '', false
         );
         $assetRepo->expects($this->any())
             ->method('createAsset')
-            ->will($this->returnArgument(0))
-        ;
+            ->will($this->returnArgument(0));
         $helper = new \Magento\Core\Helper\Theme(
-            $this->getMock('Magento\Framework\App\Helper\Context', array(), array(), '', false),
+            $this->getMock('Magento\Framework\App\Helper\Context', [], [], '', false),
             $layoutMergeFactory,
             $assetRepo
         );
@@ -41,16 +37,16 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      */
     public function getCssAssetsDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 '<block class="Magento\Theme\Block\Html\Head" name="head">
                     <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test1.css</argument></arguments>
                     </block>
                 </block>',
-                array('test1.css' => 'test1.css')
-            ),
-            array(
+                ['test1.css' => 'test1.css'],
+            ],
+            [
                 '<block class="Magento\Theme\Block\Html\Head" name="head">
                     <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
@@ -58,9 +54,9 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                         </arguments>
                     </block>
                 </block>',
-                array('Magento_Core::test3.css' => 'Magento_Core::test3.css'),
-            ),
-            array(
+                ['Magento_Core::test3.css' => 'Magento_Core::test3.css'],
+            ],
+            [
                 '<block class="Magento\Theme\Block\Html\Head" name="head">
                     <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test.css</argument></arguments>
@@ -99,13 +95,13 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
                         </arguments>
                     </block>
                 </referenceBlock>',
-                array(
+                [
                     'Magento_Core::test.css' => 'Magento_Core::test.css',
                     'test.css' => 'test.css',
                     'testh.css' => 'testh.css',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -130,11 +126,11 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
         /** @var $processorFactory \Magento\Framework\View\Layout\ProcessorFactory */
         $processorFactory = $this->getMock(
-            'Magento\Framework\View\Layout\ProcessorFactory', array('create'), array(), '', false
+            'Magento\Framework\View\Layout\ProcessorFactory', ['create'], [], '', false
         );
         $processorFactory->expects($this->any())
             ->method('create')
-            ->with(array('theme' => $theme))
+            ->with(['theme' => $theme])
             ->will($this->returnValue($layoutProcessor));
 
         return $processorFactory;

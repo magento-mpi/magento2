@@ -5,10 +5,7 @@
  * Find "persistent.xml" files in code tree and validate them.  Also verify schema fails on an invalid xml and
  * passes on a valid xml.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\Persistent;
 
@@ -101,10 +98,10 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 
     public function testSchemaUsingInvalidXml($expectedErrors = null)
     {
-        $expectedErrors = array(
+        $expectedErrors = [
             "Element 'welcome': This element is not expected.",
-            "Element 'models': This element is not expected."
-        );
+            "Element 'models': This element is not expected.",
+        ];
         parent::testSchemaUsingInvalidXml($expectedErrors);
     }
 }

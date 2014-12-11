@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler\ProductType;
 
@@ -28,21 +25,21 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
     {
         $this->productMock = $this->getMock(
             '\Magento\Catalog\Model\Product',
-            array(
+            [
                 'getConfigurableAttributesData',
                 'getTypeInstance',
                 'setConfigurableAttributesData',
                 '__wakeup',
                 'getTypeId'
-            ),
-            array(),
+            ],
+            [],
             '',
             false
         );
         $this->productTypeMock = $this->getMock(
             '\Magento\ConfigurableProduct\Model\Product\Type\Configurable',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -79,15 +76,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         )->with(
             $this->productMock
         )->will(
-            $this->returnValue(array())
+            $this->returnValue([])
         );
 
-        $attributeData = array(
-            array(
+        $attributeData = [
+            [
                 'attribute_id' => 1,
-                'values' => array(array('value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1))
-            )
-        );
+                'values' => [['value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1]],
+            ],
+        ];
         $this->productMock->expects(
             $this->once()
         )->method(
@@ -96,12 +93,12 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($attributeData)
         );
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'attribute_id' => 1,
-                'values' => array(array('value_index' => 0, 'pricing_value' => 0, 'is_percent' => 0))
-            )
-        );
+                'values' => [['value_index' => 0, 'pricing_value' => 0, 'is_percent' => 0]],
+            ],
+        ];
 
         $this->productMock->expects($this->once())->method('setConfigurableAttributesData')->with($expected);
         $this->model->handle($this->productMock);
@@ -109,9 +106,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
 
     public function testHandleWithOriginalProductAttributes()
     {
-        $originalAttributes = array(
-            array('id' => 1, 'values' => array(array('value_index' => 0, 'is_percent' => 10, 'pricing_value' => 50)))
-        );
+        $originalAttributes = [
+            ['id' => 1, 'values' => [['value_index' => 0, 'is_percent' => 10, 'pricing_value' => 50]]],
+        ];
 
         $this->productMock->expects(
             $this->once()
@@ -130,15 +127,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($originalAttributes)
         );
 
-        $attributeData = array(
-            array(
+        $attributeData = [
+            [
                 'attribute_id' => 1,
-                'values' => array(
-                    array('value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1),
-                    array('value_index' => 1, 'pricing_value' => 100, 'is_percent' => 200)
-                )
-            )
-        );
+                'values' => [
+                    ['value_index' => 0, 'pricing_value' => 10, 'is_percent' => 1],
+                    ['value_index' => 1, 'pricing_value' => 100, 'is_percent' => 200],
+                ],
+            ],
+        ];
         $this->productMock->expects(
             $this->once()
         )->method(
@@ -147,15 +144,15 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($attributeData)
         );
 
-        $expected = array(
-            array(
+        $expected = [
+            [
                 'attribute_id' => 1,
-                'values' => array(
-                    array('value_index' => 0, 'pricing_value' => 50, 'is_percent' => 10),
-                    array('value_index' => 1, 'pricing_value' => 0, 'is_percent' => 0)
-                )
-            )
-        );
+                'values' => [
+                    ['value_index' => 0, 'pricing_value' => 50, 'is_percent' => 10],
+                    ['value_index' => 1, 'pricing_value' => 0, 'is_percent' => 0],
+                ],
+            ],
+        ];
 
         $this->productMock->expects($this->once())->method('setConfigurableAttributesData')->with($expected);
         $this->model->handle($this->productMock);

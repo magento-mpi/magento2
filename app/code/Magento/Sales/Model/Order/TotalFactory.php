@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
@@ -36,7 +33,7 @@ class TotalFactory
      * @param array $data
      * @return \Magento\Sales\Model\Order\Total\AbstractTotal
      */
-    public function create($instanceName, array $data = array())
+    public function create($instanceName, array $data = [])
     {
         return $this->_objectManager->create($instanceName, $data);
     }

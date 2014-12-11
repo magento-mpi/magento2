@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ScheduledImportExport\Model;
 
@@ -46,7 +43,7 @@ class Export extends \Magento\ImportExport\Model\Export implements
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
         \Magento\ImportExport\Model\Export\Adapter\Factory $exportAdapterFac,
         \Magento\Framework\Stdlib\DateTime\DateTime $coreDate,
-        array $data = array()
+        array $data = []
     ) {
         $this->_dateModel = $coreDate;
         parent::__construct(
@@ -84,14 +81,14 @@ class Export extends \Magento\ImportExport\Model\Export implements
     {
         $fileInfo = $operation->getFileInfo();
         $attributes = $operation->getEntityAttributes();
-        $data = array(
+        $data = [
             'entity' => $operation->getEntityType(),
             'file_format' => $fileInfo['file_format'],
             'export_filter' => $attributes['export_filter'],
             'operation_type' => $operation->getOperationType(),
             'run_at' => $operation->getStartTime(),
-            'scheduled_operation_id' => $operation->getId()
-        );
+            'scheduled_operation_id' => $operation->getId(),
+        ];
         if (isset($attributes['skip_attr'])) {
             $data['skip_attr'] = $attributes['skip_attr'];
         }

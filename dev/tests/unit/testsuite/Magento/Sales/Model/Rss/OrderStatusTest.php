@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Rss;
 
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class OrderStatusTest
@@ -67,24 +64,24 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
     /**
      * @var array
      */
-    protected $feedData = array(
+    protected $feedData = [
         'title' => 'Order # 100000001 Notification(s)',
         'link' => 'http://magento.com/sales/order/view/order_id/1',
         'description' => 'Order # 100000001 Notification(s)',
         'charset' => 'UTF-8',
-        'entries' => array(
-            array(
+        'entries' => [
+            [
                 'title' => 'Details for Order #100000001',
                 'link' => 'http://magento.com/sales/order/view/order_id/1',
-                'description' => '<p>Notified Date: <br/>Comment: Some comment<br/></p>'
-            ),
-            array(
+                'description' => '<p>Notified Date: <br/>Comment: Some comment<br/></p>',
+            ],
+            [
                 'title' => 'Order #100000001 created at ',
                 'link' => 'http://magento.com/sales/order/view/order_id/1',
                 'description' => '<p>Current Status: Pending<br/>Total: 15.00<br/></p>'
-            ),
-        )
-    );
+            ],
+        ],
+    ];
 
     protected function setUp()
     {
@@ -92,7 +89,7 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
         $this->urlInterface = $this->getMock('Magento\Framework\UrlInterface');
         $this->requestInterface = $this->getMock('Magento\Framework\App\RequestInterface');
         $this->orderStatusFactory = $this->getMockBuilder('Magento\Sales\Model\Resource\Order\Rss\OrderStatusFactory')
-            ->setMethods(array('create'))
+            ->setMethods(['create'])
             ->disableOriginalConstructor()
             ->getMock();
         $this->timezoneInterface = $this->getMock('Magento\Framework\Stdlib\DateTime\TimezoneInterface');
@@ -109,7 +106,7 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
                 'load',
                 'getStatusLabel',
                 'formatPrice',
-                'getGrandTotal'
+                'getGrandTotal',
             ])->disableOriginalConstructor()->getMock();
         $this->order->expects($this->any())->method('getId')->will($this->returnValue(1));
         $this->order->expects($this->any())->method('getIncrementId')->will($this->returnValue('100000001'));
@@ -143,16 +140,16 @@ class OrderStatusTest extends \PHPUnit_Framework_TestCase
             ->setMethods(['getAllCommentCollection'])
             ->disableOriginalConstructor()
             ->getMock();
-        $comment = array(
+        $comment = [
             'entity_type_code' => 'order',
             'increment_id' => '100000001',
             'created_at' => '2014-10-09 18:25:50',
-            'comment' => 'Some comment'
-        );
-        $resource->expects($this->once())->method('getAllCommentCollection')->will($this->returnValue(array($comment)));
+            'comment' => 'Some comment',
+        ];
+        $resource->expects($this->once())->method('getAllCommentCollection')->will($this->returnValue([$comment]));
         $this->orderStatusFactory->expects($this->once())->method('create')->will($this->returnValue($resource));
         $this->urlInterface->expects($this->any())->method('getUrl')
-            ->with('sales/order/view', array('order_id' => 1))
+            ->with('sales/order/view', ['order_id' => 1])
             ->will($this->returnValue('http://magento.com/sales/order/view/order_id/1'));
 
         $this->assertEquals($this->feedData, $this->model->getRssData());

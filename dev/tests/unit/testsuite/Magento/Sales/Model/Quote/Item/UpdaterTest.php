@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Quote\Item;
 
 use Magento\TestFramework\Helper\ObjectManager;
-use Magento\Sales\Model\Quote\Item\Updater;
 
 /**
  * Tests  for Magento\Sales\Model\Service\Quote\Updater
@@ -208,7 +204,6 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->object->update($this->itemMock, ['qty' => $qty]);
     }
 
-
     public function testUpdateQtyDecimalWithConfiguredOption()
     {
         $this->itemMock->expects($this->any())
@@ -275,7 +270,6 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->stockItemMock->expects($this->any())
             ->method('getIsQtyDecimal')
             ->will($this->returnValue(true));
-
 
         $this->productMock->expects($this->any())
             ->method('getStockItem')
@@ -345,7 +339,6 @@ class UpdaterTest extends \PHPUnit_Framework_TestCase
         $this->stockItemMock->expects($this->any())
             ->method('getIsQtyDecimal')
             ->will($this->returnValue(true));
-
 
         $this->productMock->expects($this->any())
             ->method('getStockItem')

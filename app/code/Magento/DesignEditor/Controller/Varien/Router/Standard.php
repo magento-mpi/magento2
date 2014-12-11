@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  *
  */
 namespace Magento\DesignEditor\Controller\Varien\Router;
@@ -18,7 +15,7 @@ class Standard extends \Magento\Core\App\Router\Base
      *
      * @var string[]
      */
-    protected $_excludedRouters = array('admin', 'vde');
+    protected $_excludedRouters = ['admin', 'vde'];
 
     /**
      * Router list
@@ -49,7 +46,7 @@ class Standard extends \Magento\Core\App\Router\Base
      * @param \Magento\Framework\App\ResponseFactory $responseFactory
      * @param \Magento\Framework\App\Route\Config $routeConfig
      * @param \Magento\Framework\UrlInterface $url
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo
      * @param string $routerId
@@ -68,7 +65,7 @@ class Standard extends \Magento\Core\App\Router\Base
         \Magento\Framework\App\ResponseFactory $responseFactory,
         \Magento\Framework\App\Route\Config $routeConfig,
         \Magento\Framework\UrlInterface $url,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Url\SecurityInfoInterface $urlSecurityInfo,
         $routerId,
@@ -152,7 +149,7 @@ class Standard extends \Magento\Core\App\Router\Base
         list($vdeFrontName, $designMode, $themeId) = explode('/', trim($request->getPathInfo(), '/'));
         $request->setAlias('editorMode', $designMode);
         $request->setAlias('themeId', (int)$themeId);
-        $vdePath = implode('/', array($vdeFrontName, $designMode, $themeId));
+        $vdePath = implode('/', [$vdeFrontName, $designMode, $themeId]);
         $noVdePath = substr($request->getPathInfo(), strlen($vdePath) + 1) ?: '/';
         $request->setPathInfo($noVdePath);
         return $this;

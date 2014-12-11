@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /*
@@ -22,7 +19,7 @@ $product->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Bundle Product'
 )->setSku(
@@ -39,8 +36,8 @@ $product->setTypeId(
             'title' => 'Bundle Product Items',
             'default_title' => 'Bundle Product Items',
             'type' => 'select', 'required' => 1,
-            'delete' => ''
-        ]
+            'delete' => '',
+        ],
     ]
 )->setBundleSelectionsData(
     [[['product_id' => 1, 'selection_qty' => 1, 'selection_can_change_qty' => 1, 'delete' => '']]]

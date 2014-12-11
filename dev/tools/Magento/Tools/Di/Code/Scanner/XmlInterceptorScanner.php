@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -17,7 +14,7 @@ class XmlInterceptorScanner implements ScannerInterface
      */
     public function collectEntities(array $files)
     {
-        $output = array();
+        $output = [];
         foreach ($files as $file) {
             $output = array_merge($output, $this->_collectEntitiesFromString(file_get_contents($file)));
         }
@@ -35,7 +32,7 @@ class XmlInterceptorScanner implements ScannerInterface
      */
     protected function _collectEntitiesFromString($content)
     {
-        $output = array();
+        $output = [];
         $dom = new \DOMDocument();
         $dom->loadXML($content);
         $xpath = new \DOMXPath($dom);
@@ -60,7 +57,7 @@ class XmlInterceptorScanner implements ScannerInterface
      */
     protected function _filterEntities(array $output)
     {
-        $filteredEntities = array();
+        $filteredEntities = [];
         foreach ($output as $entityName) {
             // @todo the controller handling logic below must be removed when controllers become PSR-0 compliant
             $controllerSuffix = 'Controller';
@@ -76,7 +73,7 @@ class XmlInterceptorScanner implements ScannerInterface
                 $pathParts[2]
             ) && !in_array(
                 $pathParts[2],
-                array('Block', 'Helper', 'Model')
+                ['Block', 'Helper', 'Model']
             )
             ) {
                 $this->_handleControllerClassName($entityName);

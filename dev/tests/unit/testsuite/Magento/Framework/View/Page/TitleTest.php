@@ -1,15 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
  * Test class for \Magento\Framework\View\Page\Config
  */
 namespace Magento\Framework\View\Page;
+
+use Magento\Store\Model\ScopeInterface;
 
 class TitleTest extends \PHPUnit_Framework_TestCase
 {
@@ -63,8 +62,8 @@ class TitleTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValueMap(
                 [
-                    ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
-                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix]
+                    ['design/head/title_prefix', ScopeInterface::SCOPE_STORE, null, $prefix],
+                    ['design/head/title_suffix', ScopeInterface::SCOPE_STORE, null, $suffix],
                 ]
             ));
         $this->title->set($value);
@@ -92,9 +91,9 @@ class TitleTest extends \PHPUnit_Framework_TestCase
             ->method('getValue')
             ->will($this->returnValueMap(
                 [
-                    ['design/head/title_prefix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $prefix],
-                    ['design/head/title_suffix', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $suffix],
-                    ['design/head/default_title', \Magento\Store\Model\ScopeInterface::SCOPE_STORE, null, $defaultTitle]
+                    ['design/head/title_prefix', ScopeInterface::SCOPE_STORE, null, $prefix],
+                    ['design/head/title_suffix', ScopeInterface::SCOPE_STORE, null, $suffix],
+                    ['design/head/default_title', ScopeInterface::SCOPE_STORE, null, $defaultTitle],
                 ]
             ));
         $this->assertEquals($expected, $this->title->getDefault());

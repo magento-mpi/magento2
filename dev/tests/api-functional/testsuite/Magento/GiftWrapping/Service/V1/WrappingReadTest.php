@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Service\V1;
 
-use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\GiftWrapping\Service\V1\WrappingRead as WrappingService;
+use Magento\TestFramework\TestCase\WebapiAbstract;
 use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class WrappingReadTest extends WebapiAbstract
@@ -20,7 +17,7 @@ class WrappingReadTest extends WebapiAbstract
     const SERVICE_VERSION = 'V1';
 
     /** @var \Magento\Framework\ObjectManagerInterface */
-    private  $objectManager;
+    private $objectManager;
 
     /** @var SearchCriteriaBuilder */
     private $searchCriteriaBuilder;
@@ -56,13 +53,13 @@ class WrappingReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '/' . $wrapping->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_NAME . 'get',
+            ],
         ];
         $result = $this->_webApiCall($serviceInfo, ['id' => $wrapping->getId()]);
         $expectedData = [
@@ -71,7 +68,7 @@ class WrappingReadTest extends WebapiAbstract
             'status' => $data->getStatus(),
             'base_price' => $data->getBasePrice(),
             'image_name' => $data->getImageName(),
-            'website_ids' => $data->getWebsiteIds()
+            'website_ids' => $data->getWebsiteIds(),
         ];
         foreach ($expectedData as $key => $value) {
             $resultValue = isset($result[$key]) ? $result[$key] : null;
@@ -100,7 +97,7 @@ class WrappingReadTest extends WebapiAbstract
      */
     private function callSearch(array $filters)
     {
-        $storeId = $this->objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getId();
+        $storeId = $this->objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
         $filters[] = $this->filterBuilder->setField('store_id')->setValue($storeId)->create();
         $this->searchCriteriaBuilder->addFilter($filters);
         $searchData = $this->searchCriteriaBuilder->create()->__toArray();
@@ -108,13 +105,13 @@ class WrappingReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . '?' . http_build_query($requestData),
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'search'
-            ]
+                'operation' => self::SERVICE_NAME . 'search',
+            ],
         ];
         return $this->_webApiCall($serviceInfo, $requestData);
     }

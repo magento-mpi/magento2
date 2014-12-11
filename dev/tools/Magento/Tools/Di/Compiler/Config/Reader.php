@@ -1,20 +1,17 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tools\Di\Compiler\Config;
 
 use Magento\Framework\App;
+use Magento\Framework\ObjectManager\ConfigInterface;
 use Magento\Tools\Di\Code\Reader\ClassReaderDecorator;
+use Magento\Tools\Di\Code\Reader\Type;
 use Magento\Tools\Di\Compiler\ArgumentsResolverFactory;
 use Magento\Tools\Di\Definition\Collection as DefinitionsCollection;
-use Magento\Tools\Di\Code\Reader\Type;
-use Magento\Framework\ObjectManager\ConfigInterface;
 
 class Reader
 {
@@ -110,7 +107,7 @@ class Reader
      */
     private function getConfigForScope(DefinitionsCollection $definitionsCollection, ConfigInterface $config)
     {
-        $constructors = array();
+        $constructors = [];
         $argumentsResolver = $this->argumentsResolverFactory->create($config);
         foreach ($definitionsCollection->getInstancesNamesList() as $instanceType) {
             if (!$this->typeReader->isConcrete($instanceType)) {

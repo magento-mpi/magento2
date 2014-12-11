@@ -2,10 +2,7 @@
 /**
  * Factory of REST renders
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest\Response\Renderer;
 
@@ -32,7 +29,7 @@ class Factory
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Webapi\Controller\Rest\Request $request,
-        array $renders = array()
+        array $renders = []
     ) {
         $this->_objectManager = $objectManager;
         $this->_request = $request;
@@ -67,7 +64,7 @@ class Factory
     {
         $acceptTypes = $this->_request->getAcceptTypes();
         if (!is_array($acceptTypes)) {
-            $acceptTypes = array($acceptTypes);
+            $acceptTypes = [$acceptTypes];
         }
         foreach ($acceptTypes as $acceptType) {
             foreach ($this->_renders as $rendererConfig) {

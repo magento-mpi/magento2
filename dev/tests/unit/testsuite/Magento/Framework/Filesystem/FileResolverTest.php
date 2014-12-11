@@ -4,18 +4,14 @@
  *
  * Only one method is unit testable, other methods require integration testing.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Filesystem;
 
-use \Magento\TestFramework\Helper\ObjectManager;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class FileResolverTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\Framework\Filesystem\FileResolver
      */

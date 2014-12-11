@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,10 +27,10 @@ class ResetTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $context = $objectHelper->getObject(
             'Magento\Backend\Block\Template\Context',
-            array('scopeConfig' => $this->configMock)
+            ['scopeConfig' => $this->configMock]
         );
 
-        $this->_resetRobotsBlock = new Reset($context, array());
+        $this->_resetRobotsBlock = new Reset($context, []);
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -85,8 +82,8 @@ class Scenario
             throw new \InvalidArgumentException('Title must be defined for a scenario');
         }
 
-        $arguments += array(self::ARG_USERS => 1, self::ARG_LOOPS => 1);
-        foreach (array(self::ARG_USERS, self::ARG_LOOPS) as $argName) {
+        $arguments += [self::ARG_USERS => 1, self::ARG_LOOPS => 1];
+        foreach ([self::ARG_USERS, self::ARG_LOOPS] as $argName) {
             if (!is_int($arguments[$argName]) || $arguments[$argName] < 1) {
                 throw new \InvalidArgumentException(
                     "Scenario '{$title}' must have a positive integer argument '{$argName}'."

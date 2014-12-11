@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\TestStep;
 
-use Mtf\Fixture\FixtureFactory;
-use Mtf\TestStep\TestStepInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductAttribute;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductEdit;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestStep\TestStepInterface;
 
 /**
  * Update configurable product step.
@@ -136,7 +133,7 @@ class UpdateConfigurableProductStep implements TestStepInterface
 
         $dataProduct['configurable_attributes_data'] = [
             'attributes_data' => $attributesData,
-            'matrix' => $oldMatrix
+            'matrix' => $oldMatrix,
         ];
 
         if ($product->hasData('category_ids')) {

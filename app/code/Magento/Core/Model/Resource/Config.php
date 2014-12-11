@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Resource;
 
@@ -50,10 +47,10 @@ class Config extends \Magento\Framework\Model\Resource\Db\AbstractDb implements 
         );
         $row = $writeAdapter->fetchRow($select);
 
-        $newData = array('scope' => $scope, 'scope_id' => $scopeId, 'path' => $path, 'value' => $value);
+        $newData = ['scope' => $scope, 'scope_id' => $scopeId, 'path' => $path, 'value' => $value];
 
         if ($row) {
-            $whereCondition = array($this->getIdFieldName() . '=?' => $row[$this->getIdFieldName()]);
+            $whereCondition = [$this->getIdFieldName() . '=?' => $row[$this->getIdFieldName()]];
             $writeAdapter->update($this->getMainTable(), $newData, $whereCondition);
         } else {
             $writeAdapter->insert($this->getMainTable(), $newData);
@@ -74,11 +71,11 @@ class Config extends \Magento\Framework\Model\Resource\Db\AbstractDb implements 
         $adapter = $this->_getWriteAdapter();
         $adapter->delete(
             $this->getMainTable(),
-            array(
+            [
                 $adapter->quoteInto('path = ?', $path),
                 $adapter->quoteInto('scope = ?', $scope),
                 $adapter->quoteInto('scope_id = ?', $scopeId)
-            )
+            ]
         );
         return $this;
     }

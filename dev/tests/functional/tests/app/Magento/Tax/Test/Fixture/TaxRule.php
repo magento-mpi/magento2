@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Test\Fixture;
@@ -29,7 +26,7 @@ class TaxRule extends InjectableFixture
         'code' => 'TaxIdentifier%isolation%',
         'tax_rate' => [
             'dataSet' => [
-                'US-CA-*-Rate 1'
+                'US-CA-*-Rate 1',
             ],
         ],
     ];

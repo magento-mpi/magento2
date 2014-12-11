@@ -1,12 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerFinance\Model\Resource\Customer;
-use \Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
+
+use Magento\CustomerFinance\Model\Resource\Customer\Attribute\Finance\Collection as FinanceAttributeCollection;
 /**
  * Test collection \Magento\CustomerFinance\Model\Resource\Customer\Collection
  *
@@ -21,7 +19,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-            'Magento\Framework\StoreManagerInterface'
+            'Magento\Store\Model\StoreManagerInterface'
         )->reinitStores();
     }
 
@@ -45,7 +43,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $website \Magento\Store\Model\Website */
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         foreach ($websites as $website) {
             $key = $website->getCode() . '_' . FinanceAttributeCollection::COLUMN_REWARD_POINTS;
             $rewardPoints = $customer->getData($key);
@@ -77,7 +75,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $customer = reset($items);
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $key = $website->getCode() . '_' . FinanceAttributeCollection::COLUMN_CUSTOMER_BALANCE;
@@ -105,7 +103,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(3, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -145,7 +143,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(2, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -185,7 +183,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(2, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }
@@ -224,7 +222,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $items = $collection->getItems();
         $this->assertCount(4, $items);
 
-        $emails = array();
+        $emails = [];
         foreach ($items as $item) {
             $emails[] = $item->getEmail();
         }

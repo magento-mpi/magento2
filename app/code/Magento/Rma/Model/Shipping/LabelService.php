@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Model\Shipping;
@@ -100,8 +97,8 @@ class LabelService
             throw new \Magento\Framework\Model\Exception($response->getErrors());
         }
 
-        $labelsContent = array();
-        $trackingNumbers = array();
+        $labelsContent = [];
+        $trackingNumbers = [];
         $info = $response->getInfo();
 
         foreach ($info as $inf) {

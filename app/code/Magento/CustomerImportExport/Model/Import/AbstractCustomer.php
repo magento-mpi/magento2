@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerImportExport\Model\Import;
 
@@ -50,7 +47,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      *
      * @var string[]
      */
-    protected $_ignoredAttributes = array('website_id', 'store_id', 'default_billing', 'default_shipping');
+    protected $_ignoredAttributes = ['website_id', 'store_id', 'default_billing', 'default_shipping'];
 
     /**
      * Customer collection wrapper
@@ -76,7 +73,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
      * @param \Magento\ImportExport\Model\ImportFactory $importFactory
      * @param \Magento\ImportExport\Model\Resource\Helper $resourceHelper
      * @param \Magento\Framework\App\Resource $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\ImportExport\Model\Export\Factory $collectionFactory
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory $storageFactory
@@ -89,11 +86,11 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         \Magento\ImportExport\Model\ImportFactory $importFactory,
         \Magento\ImportExport\Model\Resource\Helper $resourceHelper,
         \Magento\Framework\App\Resource $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\ImportExport\Model\Export\Factory $collectionFactory,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CustomerImportExport\Model\Resource\Import\Customer\StorageFactory $storageFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageFactory = $storageFactory;
         parent::__construct(
@@ -136,7 +133,7 @@ abstract class AbstractCustomer extends \Magento\ImportExport\Model\Import\Entit
         $this->_customerStorage = isset(
             $data['customer_storage']
         ) ? $data['customer_storage'] : $this->_storageFactory->create(
-            array('data' => $data)
+            ['data' => $data]
         );
 
         return $this;

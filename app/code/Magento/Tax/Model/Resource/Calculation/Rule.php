@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Resource\Calculation;
 
@@ -31,7 +28,7 @@ class Rule extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => array('code'), 'title' => __('Code')));
+        $this->_uniqueFields = [['field' => ['code'], 'title' => __('Code')]];
         return $this;
     }
 
@@ -47,11 +44,11 @@ class Rule extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         $adapter = $this->_getReadAdapter();
         $select = $adapter->select()
-            ->from(array('main' => $this->getTable('tax_calculation')), null)
+            ->from(['main' => $this->getTable('tax_calculation')], null)
             ->joinLeft(
-                array('d' => $this->getTable('tax_calculation_rule')),
+                ['d' => $this->getTable('tax_calculation_rule')],
                 'd.tax_calculation_rule_id = main.tax_calculation_rule_id',
-                array('d.code')
+                ['d.code']
             )
             ->where('main.tax_calculation_rate_id in (?)', $rateId)
             ->where('main.customer_tax_class_id in (?)', $customerTaxClassIds)

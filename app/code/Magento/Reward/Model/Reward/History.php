@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Reward;
 
@@ -64,7 +61,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     /**
      * Core model store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -94,7 +91,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
      * @param \Magento\Reward\Model\Reward\Rate $rewardRate
@@ -106,12 +103,12 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Reward\Model\Reward\Rate $rewardRate,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
@@ -148,19 +145,19 @@ class History extends \Magento\Framework\Model\AbstractModel
 
         $now = time();
         $this->addData(
-            array(
+            [
                 'created_at' => $this->dateTime->formatDate($now),
                 'expired_at_static' => null,
                 'expired_at_dynamic' => null,
-                'notification_sent' => 0
-            )
+                'notification_sent' => 0,
+            ]
         );
 
         $lifetime = (int)$this->_rewardData->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
             $expires = $this->dateTime->formatDate($expires);
-            $this->addData(array('expired_at_static' => $expires, 'expired_at_dynamic' => $expires));
+            $this->addData(['expired_at_static' => $expires, 'expired_at_dynamic' => $expires]);
         }
 
         return parent::beforeSave();
@@ -220,21 +217,21 @@ class History extends \Magento\Framework\Model\AbstractModel
         );
 
         $this->addAdditionalData(
-            array(
-                'rate' => array(
+            [
+                'rate' => [
                     'points' => $this->getReward()->getRate()->getPoints(),
                     'currency_amount' => $this->getReward()->getRate()->getCurrencyAmount(),
                     'direction' => $this->getReward()->getRate()->getDirection(),
                     'currency_code' => $this->_storeManager->getWebsite(
                         $this->getReward()->getWebsiteId()
-                    )->getBaseCurrencyCode()
-                )
-            )
+                    )->getBaseCurrencyCode(),
+                ],
+            ]
         );
 
         if ($this->getReward()->getIsCappedReward()) {
             $this->addAdditionalData(
-                array('is_capped_reward' => true, 'cropped_points' => $this->getReward()->getCroppedPoints())
+                ['is_capped_reward' => true, 'cropped_points' => $this->getReward()->getCroppedPoints()]
             );
         }
         return $this;
@@ -248,7 +245,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getAdditionalData()
     {
-        $result = $this->hasData('additional_data') ? $this->_getData('additional_data') : array();
+        $result = $this->hasData('additional_data') ? $this->_getData('additional_data') : [];
         if (!is_array($result)) {
             throw new \UnexpectedValueException('Additional data for a reward point history has to be an array.');
         }

@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Integration\Model;
 
-use Magento\Integration\Model\Integration;
 use Magento\Integration\Model\Config\Converter;
 
 /**
@@ -51,13 +47,13 @@ class Manager
     public function processIntegrationConfig(array $integrationNames)
     {
         if (empty($integrationNames)) {
-            return array();
+            return [];
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {
             $integrationDetails = $integrations[$name];
-            $integrationData = array(Integration::NAME => $name);
+            $integrationData = [Integration::NAME => $name];
             if (isset($integrationDetails[Converter::KEY_EMAIL])) {
                 $integrationData[Integration::EMAIL] = $integrationDetails[Converter::KEY_EMAIL];
             }

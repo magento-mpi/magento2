@@ -13,12 +13,13 @@ class PHPParser_Node_Const extends PHPParser_NodeAbstract
      * @param PHPParser_Node_Expr $value      Value
      * @param array               $attributes Additional attributes
      */
-    public function __construct($name, PHPParser_Node_Expr $value, array $attributes = array()) {
+    public function __construct($name, PHPParser_Node_Expr $value, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'name'  => $name,
                 'value' => $value,
-            ),
+            ],
             $attributes
         );
     }

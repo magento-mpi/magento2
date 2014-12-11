@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Indexer\Fulltext\Plugin;
 
+use Magento\CatalogSearch\Model\Indexer\Fulltext;
 use Magento\CatalogSearch\Model\Indexer\Fulltext\Plugin\AbstractPlugin;
 use Magento\Solr\Helper\Data;
-use Magento\CatalogSearch\Model\Indexer\Fulltext;
 
 class CustomerGroup extends AbstractPlugin
 {
@@ -29,7 +26,6 @@ class CustomerGroup extends AbstractPlugin
         parent::__construct($indexerRegistry);
         $this->helper = $helper;
     }
-
 
     /**
      * Invalidate indexer on customer group save

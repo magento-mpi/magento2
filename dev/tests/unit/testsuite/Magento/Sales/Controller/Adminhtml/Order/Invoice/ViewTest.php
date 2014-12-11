@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\Invoice;
 
@@ -149,7 +146,6 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $this->pageConfigMock->expects($this->any())
             ->method('getTitle')
             ->willReturn($this->pageTitleMock);
-
 
         $this->controller = $objectManager->getObject(
             'Magento\Sales\Controller\Adminhtml\Order\Invoice\View',

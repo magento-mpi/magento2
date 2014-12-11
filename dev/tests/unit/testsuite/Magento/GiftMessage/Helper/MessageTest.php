@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Helper;
 
@@ -22,12 +19,12 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->layoutFactoryMock = $this->getMock('\Magento\Framework\View\LayoutFactory', array(), array(), '', false);
+        $this->layoutFactoryMock = $this->getMock('\Magento\Framework\View\LayoutFactory', [], [], '', false);
 
-        $this->helper = $objectManager->getObject('\Magento\GiftMessage\Helper\Message', array(
+        $this->helper = $objectManager->getObject('\Magento\GiftMessage\Helper\Message', [
             'layoutFactory' => $this->layoutFactoryMock,
-            'skipMessageCheck' => array('onepage_checkout'),
-        ));
+            'skipMessageCheck' => ['onepage_checkout'],
+        ]);
     }
 
     /**
@@ -36,12 +33,12 @@ class MessageTest extends \PHPUnit_Framework_TestCase
     public function testGetInlineForCheckout()
     {
         $expectedHtml = '<a href="here">here</a>';
-        $layoutMock = $this->getMock('\Magento\Framework\View\Layout', array(), array(), '', false);
-        $entityMock = $this->getMock('\Magento\Framework\Object', array(), array(), '', false);
+        $layoutMock = $this->getMock('\Magento\Framework\View\Layout', [], [], '', false);
+        $entityMock = $this->getMock('\Magento\Framework\Object', [], [], '', false);
         $inlineMock = $this->getMock(
             'Magento\GiftMessage\Block\Message\Inline',
-            array('setId', 'setDontDisplayContainer', 'setEntity', 'setCheckoutType', 'toHtml'),
-            array(),
+            ['setId', 'setDontDisplayContainer', 'setEntity', 'setCheckoutType', 'toHtml'],
+            [],
             '',
             false
         );

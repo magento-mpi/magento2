@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Model is responsible for replacing default vcl template
@@ -82,7 +79,7 @@ class Config
 
     /**
      * Return currently selected cache type: built in or varnish
-     * 
+     *
      * @return int
      */
     public function getType()
@@ -118,7 +115,7 @@ class Config
      */
     protected function _getReplacements()
     {
-        return array(
+        return [
             '{{ host }}' => $this->_scopeConfig->getValue(
                 self::XML_VARNISH_PAGECACHE_BACKEND_HOST,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE
@@ -129,7 +126,7 @@ class Config
             ),
             '{{ ips }}' => $this->_getAccessList(),
             '{{ design_exceptions_code }}' => $this->_getDesignExceptions()
-        );
+        ];
     }
 
     /**

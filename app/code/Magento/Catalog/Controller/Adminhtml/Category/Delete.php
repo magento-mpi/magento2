@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Category;
 
@@ -24,7 +21,7 @@ class Delete extends \Magento\Catalog\Controller\Adminhtml\Category
         if ($categoryId) {
             try {
                 $category = $this->_objectManager->create('Magento\Catalog\Model\Category')->load($categoryId);
-                $this->_eventManager->dispatch('catalog_controller_category_delete', array('category' => $category));
+                $this->_eventManager->dispatch('catalog_controller_category_delete', ['category' => $category]);
 
                 $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setDeletedPath($category->getPath());
 

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Handler\GiftRegistryType;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -58,7 +55,7 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
         'is_required' => [
             'Yes' => 1,
             'No' => 0,
-        ]
+        ],
     ];
 
     /**
@@ -118,7 +115,7 @@ class Curl extends AbstractCurl implements GiftRegistryTypeInterface
     protected function prepareAttributes(array $attribute)
     {
         $attribute['frontend']['is_required'] = $attribute['is_required'];
-        unset ($attribute['is_required']);
+        unset($attribute['is_required']);
         $attribute['is_deleted'] = '';
         if (isset($attribute['options'])) {
             foreach ($attribute['options'] as $key => $option) {

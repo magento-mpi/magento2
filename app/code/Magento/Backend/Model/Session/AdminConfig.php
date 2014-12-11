@@ -2,18 +2,14 @@
 /**
  * Backend Session configuration object
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Session;
 
 use Magento\Backend\App\Area\FrontNameResolver;
+use Magento\Framework\App\DeploymentConfig;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Session\Config;
-use Magento\Framework\UrlInterface;
-use Magento\Framework\App\DeploymentConfig;
 
 /**
  * Magento Backend session configuration
@@ -33,7 +29,7 @@ class AdminConfig extends Config
     protected $_frontNameResolver;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -46,7 +42,7 @@ class AdminConfig extends Config
      * @param DeploymentConfig $deploymentConfig
      * @param string $scopeType
      * @param FrontNameResolver $frontNameResolver
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param string $lifetimePath
      * @param string $sessionName
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -60,7 +56,7 @@ class AdminConfig extends Config
         DeploymentConfig $deploymentConfig,
         $scopeType,
         FrontNameResolver $frontNameResolver,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         $lifetimePath = self::XML_PATH_COOKIE_LIFETIME,
         $sessionName = self::SESSION_NAME_ADMIN
     ) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\System\Account\Edit;
 
@@ -43,35 +40,35 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('edit_form', $form->getId());
         $this->assertTrue($form->getUseContainer());
 
-        $expectedFieldset = array(
-            'username' => array(
+        $expectedFieldset = [
+            'username' => [
                 'name' => 'username',
                 'type' => 'text',
                 'required' => true,
-                'value' => $user->getData('username')
-            ),
-            'firstname' => array(
+                'value' => $user->getData('username'),
+            ],
+            'firstname' => [
                 'name' => 'firstname',
                 'type' => 'text',
                 'required' => true,
-                'value' => $user->getData('firstname')
-            ),
-            'lastname' => array(
+                'value' => $user->getData('firstname'),
+            ],
+            'lastname' => [
                 'name' => 'lastname',
                 'type' => 'text',
                 'required' => true,
-                'value' => $user->getData('lastname')
-            ),
-            'email' => array(
+                'value' => $user->getData('lastname'),
+            ],
+            'email' => [
                 'name' => 'email',
                 'type' => 'text',
                 'required' => true,
-                'value' => $user->getData('email')
-            ),
-            'password' => array('name' => 'password', 'type' => 'password', 'required' => false),
-            'confirmation' => array('name' => 'password_confirmation', 'type' => 'password', 'required' => false),
-            'interface_locale' => array('name' => 'interface_locale', 'type' => 'select', 'required' => false)
-        );
+                'value' => $user->getData('email'),
+            ],
+            'password' => ['name' => 'password', 'type' => 'password', 'required' => false],
+            'confirmation' => ['name' => 'password_confirmation', 'type' => 'password', 'required' => false],
+            'interface_locale' => ['name' => 'interface_locale', 'type' => 'select', 'required' => false],
+        ];
 
         foreach ($expectedFieldset as $fieldId => $field) {
             $element = $form->getElement($fieldId);

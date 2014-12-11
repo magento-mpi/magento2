@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Gallery;
 
@@ -43,8 +40,8 @@ class Upload extends \Magento\Backend\App\Action
     public function execute()
     {
         try {
-            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => 'image'));
-            $uploader->setAllowedExtensions(array('jpg', 'jpeg', 'gif', 'png'));
+            $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', ['fileId' => 'image']);
+            $uploader->setAllowedExtensions(['jpg', 'jpeg', 'gif', 'png']);
             /** @var \Magento\Framework\Image\Adapter\AdapterInterface $imageAdapter */
             $imageAdapter = $this->_objectManager->get('Magento\Framework\Image\AdapterFactory')->create();
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
@@ -58,7 +55,7 @@ class Upload extends \Magento\Backend\App\Action
 
             $this->_eventManager->dispatch(
                 'catalog_product_gallery_upload_image_after',
-                array('result' => $result, 'action' => $this)
+                ['result' => $result, 'action' => $this]
             );
 
             unset($result['tmp_name']);
@@ -68,7 +65,7 @@ class Upload extends \Magento\Backend\App\Action
                 ->getTmpMediaUrl($result['file']);
             $result['file'] = $result['file'] . '.tmp';
         } catch (\Exception $e) {
-            $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
+            $result = ['error' => $e->getMessage(), 'errorcode' => $e->getCode()];
         }
 
         return $this->resultJsonFactory->create()->setData($result);

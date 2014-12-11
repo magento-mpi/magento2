@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/Bundle/_files/product.php';
@@ -19,8 +16,8 @@ $typeInstance->setStoreFilter($product->getStoreId(), $product);
 $optionCollection = $typeInstance->getOptionsCollection($product);
 $selectionCollection = $typeInstance->getSelectionsCollection($typeInstance->getOptionsIds($product), $product);
 
-$bundleOptions = array();
-$bundleOptionsQty = array();
+$bundleOptions = [];
+$bundleOptionsQty = [];
 /** @var $option \Magento\Bundle\Model\Option */
 foreach ($optionCollection as $option) {
     /** @var $selection \Magento\Bundle\Model\Selection */
@@ -30,7 +27,7 @@ foreach ($optionCollection as $option) {
 }
 
 $requestInfo = new \Magento\Framework\Object(
-    array('qty' => 1, 'bundle_option' => $bundleOptions, 'bundle_option_qty' => $bundleOptionsQty)
+    ['qty' => 1, 'bundle_option' => $bundleOptions, 'bundle_option_qty' => $bundleOptionsQty]
 );
 
 /** @var $cart \Magento\Checkout\Model\Cart */

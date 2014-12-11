@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Report\Shipping\Collection;
 
@@ -19,7 +16,7 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
         $this->_collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\Sales\Model\Resource\Report\Shipping\Collection\Shipment'
         );
-        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter(array(1));
+        $this->_collection->setPeriod('day')->setDateRange(null, null)->addStoreFilter([1]);
     }
 
     /**
@@ -28,8 +25,8 @@ class ShipmentTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetItems()
     {
-        $expectedResult = array(array('orders_count' => 1, 'total_shipping' => 36, 'total_shipping_actual' => 34));
-        $actualResult = array();
+        $expectedResult = [['orders_count' => 1, 'total_shipping' => 36, 'total_shipping_actual' => 34]];
+        $actualResult = [];
         /** @var \Magento\Reports\Model\Item $reportItem */
         foreach ($this->_collection->getItems() as $reportItem) {
             $actualResult[] = array_intersect_key($reportItem->getData(), $expectedResult[0]);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Block;
 
@@ -19,11 +16,17 @@ class Javascript extends \Magento\Framework\View\Element\Template
      */
     public function getScriptOptions()
     {
-        $params = array(
-            'url' => $this->getUrl('page_cache/block/render/', array('_current' => true)),
+        $params = [
+            'url' => $this->getUrl(
+                'page_cache/block/render/',
+                [
+                    '_current' => true,
+                    '_secure' => $this->templateContext->getRequest()->isSecure()
+                ]
+            ),
             'handles' => $this->_layout->getUpdate()->getHandles(),
             'versionCookieName' => \Magento\Framework\App\PageCache\Version::COOKIE_NAME
-        );
+        ];
         return json_encode($params);
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Code\Generator;
@@ -15,7 +12,6 @@ use Magento\Framework\Autoload\AutoloaderRegistry;
  */
 class DefinedClasses
 {
-
     /**
      * Determine if a class can be loaded without using the Code\Generator\Autoloader.
      *

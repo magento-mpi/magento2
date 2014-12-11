@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Controller\Adminhtml\Rate;
 
@@ -22,38 +19,38 @@ class AjaxSave extends \Magento\Tax\Controller\Adminhtml\Rate
             $rateData = $this->_processRateData($this->getRequest()->getPost());
             /** @var \Magento\Tax\Api\Data\TaxRateInterface  $taxRate */
             $taxRate = $this->populateTaxRateData($rateData);
-                $this->_taxRateRepository->save($taxRate);
+            $this->_taxRateRepository->save($taxRate);
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array(
+                [
                     'success' => true,
                     'error_message' => '',
                     'tax_calculation_rate_id' => $taxRate->getId(),
-                    'code' => $taxRate->getCode()
-                )
+                    'code' => $taxRate->getCode(),
+                ]
             );
         } catch (\Magento\Framework\Exception\LocalizedException $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array(
+                [
                     'success' => false,
                     'error_message' => $e->getMessage(),
                     'tax_calculation_rate_id' => '',
-                    'code' => ''
-                )
+                    'code' => '',
+                ]
             );
         } catch (\Exception $e) {
             $responseContent = $this->_objectManager->get(
                 'Magento\Core\Helper\Data'
             )->jsonEncode(
-                array(
+                [
                     'success' => false,
                     'error_message' => __('Something went wrong saving this rate.'),
                     'tax_calculation_rate_id' => '',
-                    'code' => ''
-                )
+                    'code' => '',
+                ]
             );
         }
         $this->getResponse()->representJson($responseContent);

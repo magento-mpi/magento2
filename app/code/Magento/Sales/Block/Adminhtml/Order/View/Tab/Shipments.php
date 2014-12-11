@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View\Tab;
 
@@ -30,10 +27,10 @@ class Shipments extends \Magento\Framework\View\Element\Text\ListText implements
     public function __construct(
         \Magento\Framework\View\Element\Context $context,
         \Magento\Framework\Registry $coreRegistry,
-        array $data = array()
+        array $data = []
     ) {
-         $this->_coreRegistry = $coreRegistry;
-         parent::__construct($context, $data);
+        $this->_coreRegistry = $coreRegistry;
+        parent::__construct($context, $data);
     }
 
     /**

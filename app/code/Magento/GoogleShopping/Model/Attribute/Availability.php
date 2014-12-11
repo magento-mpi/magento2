@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Model\Attribute;
 
@@ -17,7 +14,7 @@ class Availability extends \Magento\GoogleShopping\Model\Attribute\DefaultAttrib
     /**
      * @var array
      */
-    protected $_googleAvailabilityMap = array(0 => 'out of stock', 1 => 'in stock');
+    protected $_googleAvailabilityMap = [0 => 'out of stock', 1 => 'in stock'];
 
     /**
      * Set current attribute to entry (for specified product)

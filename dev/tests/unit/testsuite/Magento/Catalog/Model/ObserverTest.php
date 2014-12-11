@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model;
@@ -38,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_categoryFlatState;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -60,7 +57,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             false
         );
 
-        $this->_storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
+        $this->_storeManager = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -118,7 +115,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_catalogCategory->expects($this->once())
             ->method('getStoreCategories')
-            ->will($this->returnValue(array($this->_category)));
+            ->will($this->returnValue([$this->_category]));
         $this->_catalogCategory->expects($this->once())
             ->method('getCategoryUrl')
             ->will($this->returnValue('url'));
@@ -154,7 +151,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_category->expects($this->once())
             ->method('getChildren')
-            ->will($this->returnValue(array($this->_childrenCategory)));
+            ->will($this->returnValue([$this->_childrenCategory]));
 
         $this->_observer->addCatalogToTopmenuItems($observer);
     }
@@ -165,7 +162,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_category->expects($this->once())
             ->method('getChildrenNodes')
-            ->will($this->returnValue(array($this->_childrenCategory)));
+            ->will($this->returnValue([$this->_childrenCategory]));
 
         $this->_category->expects($this->once())
             ->method('getUseFlatResource')

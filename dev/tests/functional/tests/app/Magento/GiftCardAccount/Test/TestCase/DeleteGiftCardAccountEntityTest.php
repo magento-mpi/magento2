@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCardAccount\Test\TestCase;
 
 use Magento\GiftCardAccount\Test\Fixture\GiftCardAccount;
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\Index;
 use Magento\GiftCardAccount\Test\Page\Adminhtml\NewIndex;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for DeleteGiftCardAccountEntity

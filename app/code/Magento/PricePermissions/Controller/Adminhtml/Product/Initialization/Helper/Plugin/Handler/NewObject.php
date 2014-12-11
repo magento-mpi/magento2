@@ -1,13 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Catalog\Controller\Adminhtml\Product\Initialization\Helper\HandlerInterface;
 use Magento\Catalog\Model\Product;
 
@@ -23,7 +20,7 @@ class NewObject implements HandlerInterface
     /**
      * Store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -35,7 +32,7 @@ class NewObject implements HandlerInterface
     protected $defaultProductPriceString;
 
     /**
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\PricePermissions\Helper\Data $pricePermData
      */
@@ -71,15 +68,12 @@ class NewObject implements HandlerInterface
                 $storeId = (int)$this->request->getParam('store', 0);
                 $websiteId = $this->storeManager->getStore($storeId)->getWebsiteId();
                 $product->setGiftcardAmounts(
-                    array(
-                        array('website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '')
-                    )
+                    [
+                        ['website_id' => $websiteId, 'price' => $this->defaultProductPriceString, 'delete' => '']
+                    ]
                 );
             }
         }
-        // New products are created without recurring payments
-        $product->setIsRecurring(false);
-        $product->unsRecurringPayment();
         // Add Msrp default values
         $product->setMsrpDisplayActualPriceType(
             \Magento\Msrp\Model\Product\Attribute\Source\Type\Price::TYPE_USE_CONFIG

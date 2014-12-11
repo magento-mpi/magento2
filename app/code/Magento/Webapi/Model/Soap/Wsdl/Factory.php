@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
@@ -36,7 +33,7 @@ class Factory
     {
         return $this->_objectManager->create(
             'Magento\Webapi\Model\Soap\Wsdl',
-            array('name' => $wsdlName, 'uri' => $endpointUrl)
+            ['name' => $wsdlName, 'uri' => $endpointUrl]
         );
     }
 }

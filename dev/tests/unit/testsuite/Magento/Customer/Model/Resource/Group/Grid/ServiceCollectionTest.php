@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Resource\Group\Grid;
@@ -189,13 +186,13 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
             ->addFilter(
                 [
                     $this->filterBuilder->setField($fieldA)->setConditionType('gt')
-                        ->setValue($value)->create()
+                        ->setValue($value)->create(),
                 ]
             )
             ->addFilter(
                 [
                     $this->filterBuilder->setField($fieldB)->setConditionType('gt')
-                        ->setValue($value)->create()
+                        ->setValue($value)->create(),
                 ]
             )
             ->create();
@@ -231,11 +228,11 @@ class ServiceCollectionTest extends \PHPUnit_Framework_TestCase
         return [
             'missingCondition' => [
                 ['fieldA', 'missingCondition'],
-                [['eq' => 'A']]
+                [['eq' => 'A']],
             ],
             'missingField' => [
                 ['fieldA'],
-                [['eq' => 'A'], ['eq' => 'B']]
+                [['eq' => 'A'], ['eq' => 'B']],
             ],
         ];
     }

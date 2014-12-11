@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Controller\Adminhtml\System\Config\System\Storage;
 
@@ -36,9 +33,9 @@ class Synchronize extends \Magento\Backend\Controller\Adminhtml\System\Config\Sy
             return;
         }
 
-        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)->setFlagData(array())->save();
+        $flag->setState(\Magento\Core\Model\File\Storage\Flag::STATE_RUNNING)->setFlagData([])->save();
 
-        $storage = array('type' => $requestStorage);
+        $storage = ['type' => $requestStorage];
         if (isset($requestConnection) && !empty($requestConnection)) {
             $storage['connection'] = $requestConnection;
         }

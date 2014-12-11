@@ -1,21 +1,18 @@
 <?php
 /**
- * {license_notice}
- *
  * @spi
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\Handler\Curl;
 
+use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\Handler\Curl;
 use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Fixture\FixtureInterface;
-use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class Create Configurable Product
@@ -61,7 +58,7 @@ class CreateConfigurable extends Curl
         unset($baseData['variations-matrix']);
         foreach ($baseData as $key => $field) {
             $fieldName = isset($field['input_name']) ? $field['input_name'] : $key;
-            if (isset ($field['input_value'])) {
+            if (isset($field['input_value'])) {
                 $curlData[$fieldName] = $field['input_value'];
             } elseif (isset($field['value'])) {
                 $curlData[$fieldName] = $field['value'];
@@ -71,7 +68,7 @@ class CreateConfigurable extends Curl
         $curlData['quantity_and_stock_status']['is_in_stock'] = 1;
         $curlData['stock_data'] = [
             'use_config_manage_stock' => 1,
-            'is_in_stock' => 1
+            'is_in_stock' => 1,
         ];
 
         return $curlData;

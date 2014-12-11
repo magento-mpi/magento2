@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Hostedpro;
 
@@ -61,7 +58,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'region_code' => 'CA',
             'postcode' => '12346',
             'country' => 'United States',
-            'Street' => '1 Ln Ave'
+            'Street' => '1 Ln Ave',
         ]);
         $shipping = new \Magento\Framework\Object([
             'firstname' => 'ShipFirstname',
@@ -70,7 +67,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'region' => 'olala',
             'postcode' => '12346',
             'country' => 'United States',
-            'Street' => '1 Ln Ave'
+            'Street' => '1 Ln Ave',
         ]);
         $billing2 = new \Magento\Framework\Object([
             'firstname' => 'Firstname',
@@ -79,7 +76,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'region_code' => 'muuuu',
             'postcode' => '12346',
             'country' => 'United States',
-            'Street' => '1 Ln Ave'
+            'Street' => '1 Ln Ave',
         ]);
         $shipping2 = new \Magento\Framework\Object([
             'firstname' => 'ShipFirstname',
@@ -87,7 +84,7 @@ class RequestTest extends \PHPUnit_Framework_TestCase
             'city' => 'ShipCity',
             'postcode' => '12346',
             'country' => 'United States',
-            'Street' => '1 Ln Ave'
+            'Street' => '1 Ln Ave',
         ]);
         return [
             [$billing, $shipping, 'CA', 'olala'],

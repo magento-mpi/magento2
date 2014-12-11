@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Controller\Adminhtml\Customer\Reward;
 
@@ -30,6 +27,6 @@ class DeleteOrphanPoints extends \Magento\Reward\Controller\Adminhtml\Customer\R
                 $this->messageManager->addError($e->getMessage());
             }
         }
-        $this->_redirect('customer/index/edit', array('_current' => true));
+        $this->_redirect('customer/index/edit', ['_current' => true]);
     }
 }

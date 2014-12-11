@@ -1,14 +1,10 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-use \Magento\Backend\App\Action;
 
 class Hold extends \Magento\Sales\Controller\Adminhtml\Order
 {
@@ -29,7 +25,7 @@ class Hold extends \Magento\Sales\Controller\Adminhtml\Order
             } catch (\Exception $e) {
                 $this->messageManager->addError(__('You have not put the order on hold.'));
             }
-            $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
+            $this->_redirect('sales/order/view', ['order_id' => $order->getId()]);
         }
     }
 }

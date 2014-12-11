@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftMessage\Service\V1;
 
-use \Magento\TestFramework\TestCase\WebapiAbstract;
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\TestFramework\TestCase\WebapiAbstract;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 
 class ReadServiceTest extends WebapiAbstract
 {
@@ -49,11 +46,11 @@ class ReadServiceTest extends WebapiAbstract
             ],
         ];
 
-        $expectedMessage = array (
+        $expectedMessage = [
             'recipient' => 'Mercutio',
             'sender' => 'Romeo',
             'message' => 'I thought all for the best.',
-        );
+        ];
 
         $requestData = ["cartId" => $cartId];
         $resultMessage = $this->_webApiCall($serviceInfo, $requestData);
@@ -88,11 +85,11 @@ class ReadServiceTest extends WebapiAbstract
             ],
         ];
 
-        $expectedMessage = array (
+        $expectedMessage = [
             'recipient' => 'Jane Roe',
             'sender' => 'John Doe',
             'message' => 'Gift Message Text',
-        );
+        ];
 
         $requestData = ["cartId" => $cartId, "itemId" => $itemId];
         $resultMessage = $this->_webApiCall($serviceInfo, $requestData);

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Store\Test\Handler\Store;
 
-use Mtf\System\Config;
 use Mtf\Fixture\FixtureInterface;
+use Mtf\Handler\Curl as AbstractCurl;
+use Mtf\System\Config;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\Handler\Curl as AbstractCurl;
 
 /**
  * Class Curl
@@ -35,11 +32,11 @@ class Curl extends AbstractCurl implements StoreInterface
      */
     protected $mappingData = [
         'group_id' => [
-            'Main Website Store' => 1
+            'Main Website Store' => 1,
         ],
         'is_active' => [
             'Enabled' => 1,
-            'Disabled' => 0
+            'Disabled' => 0,
         ],
     ];
 
@@ -95,7 +92,7 @@ class Curl extends AbstractCurl implements StoreInterface
     {
         //Set pager limit to 2000 in order to find created store view by name
         $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/store_title/dir/asc/limit/2000';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();

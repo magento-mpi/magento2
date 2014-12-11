@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Attribute\Backend\Giftcard;
 
@@ -19,7 +16,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
     /**
      * Store manager
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -32,7 +29,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
 
     /**
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
@@ -40,7 +37,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
      */
     public function __construct(
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Framework\App\Config\ScopeConfigInterface $config,
         \Magento\Directory\Helper\Data $directoryHelper,
@@ -65,14 +62,14 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
         if (empty($rows)) {
             return $this;
         }
-        $dup = array();
+        $dup = [];
 
         foreach ($rows as $row) {
             if (!isset($row['price']) || !empty($row['delete'])) {
                 continue;
             }
 
-            $key1 = implode('-', array($row['website_id'], $row['price']));
+            $key1 = implode('-', [$row['website_id'], $row['price']]);
 
             if (!empty($dup[$key1])) {
                 throw new \Magento\Framework\Model\Exception(__('Duplicate amount found.'));
@@ -137,7 +134,7 @@ class Amount extends \Magento\Catalog\Model\Product\Attribute\Backend\Price
                 continue;
             }
 
-            $data = array();
+            $data = [];
             $data['website_id'] = $row['website_id'];
             $data['value'] = isset($row['price']) ? $row['price'] : $row['value'];
             $data['attribute_id'] = $this->getAttribute()->getId();

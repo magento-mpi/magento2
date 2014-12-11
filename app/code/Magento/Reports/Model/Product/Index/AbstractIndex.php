@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reports\Model\Product\Index;
 
@@ -20,7 +17,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
     protected $_countCacheKey;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -52,7 +49,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Visitor $customerVisitor
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Framework\Session\Generic $reportSession
@@ -65,7 +62,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Visitor $customerVisitor,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Framework\Session\Generic $reportSession,
@@ -73,7 +70,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
@@ -221,7 +218,7 @@ abstract class AbstractIndex extends \Magento\Framework\Model\AbstractModel
      */
     public function getExcludeProductIds()
     {
-        return array();
+        return [];
     }
 
     /**

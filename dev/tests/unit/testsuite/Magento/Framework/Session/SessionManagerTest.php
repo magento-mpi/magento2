@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 // @codingStandardsIgnoreStart
 namespace {
@@ -47,7 +44,7 @@ namespace Magento\Framework\Session {
         }
         return call_user_func_array('\session_regenerate_id', func_get_args());
     }
-   
+
     /**
      * Test SessionManager
      *
@@ -104,7 +101,7 @@ namespace Magento\Framework\Session {
             $arguments = [
                 'sessionConfig' => $this->mockSessionConfig,
                 'cookieManager' => $this->mockCookieManager,
-                'cookieMetadataFactory' => $this->mockCookieMetadataFactory
+                'cookieMetadataFactory' => $this->mockCookieMetadataFactory,
             ];
             $this->sessionManager = $this->objectManager->getObject(
                 'Magento\Framework\Session\SessionManager',

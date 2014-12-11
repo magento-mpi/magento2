@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\MultipleWishlist\Model;
 
@@ -51,7 +48,7 @@ class ItemManager
         $wishlist->addNewItem($item->getProduct(), $buyRequest);
         $this->eventManager->dispatch(
             'wishlist_add_product',
-            array('wishlist' => $wishlist, 'product' => $item->getProduct(), 'item' => $item)
+            ['wishlist' => $wishlist, 'product' => $item->getProduct(), 'item' => $item]
         );
     }
 

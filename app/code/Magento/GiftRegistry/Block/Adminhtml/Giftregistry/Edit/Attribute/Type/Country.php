@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
@@ -29,7 +26,7 @@ class Country extends \Magento\Backend\Block\Widget\Form
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->sourceYesNo = $sourceYesNo;
@@ -45,7 +42,7 @@ class Country extends \Magento\Backend\Block\Widget\Form
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => '{{prefix}}_attribute_{{id}}_show_region', 'class' => 'select global-scope')
+            ['id' => '{{prefix}}_attribute_{{id}}_show_region', 'class' => 'select global-scope']
         )->setName(
             'attributes[{{prefix}}][{{id}}][show_region]'
         )->setOptions(

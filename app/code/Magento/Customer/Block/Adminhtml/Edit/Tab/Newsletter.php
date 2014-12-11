@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Ui\Component\Layout\Tabs\TabInterface;
 
 /**
@@ -54,7 +51,7 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         AccountManagementInterface $customerAccountManagement,
-        array $data = array()
+        array $data = []
     ) {
         $this->_subscriberFactory = $subscriberFactory;
         $this->customerAccountManagement = $customerAccountManagement;
@@ -148,16 +145,16 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
         $subscriber = $this->_subscriberFactory->create()->loadByCustomerId($customerId);
         $this->_coreRegistry->register('subscriber', $subscriber);
 
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Newsletter Information')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('Newsletter Information')]);
 
         $fieldset->addField(
             'subscription',
             'checkbox',
-            array(
+            [
                 'label' => __('Subscribed to Newsletter'),
                 'name' => 'subscription',
                 'data-form-part' => $this->getData('target_form')
-            )
+            ]
         );
 
         if ($this->customerAccountManagement->isReadOnly($customerId)) {
@@ -171,11 +168,11 @@ class Newsletter extends \Magento\Backend\Block\Widget\Form\Generic implements T
             $fieldset->addField(
                 'change_status_date',
                 'label',
-                array(
+                [
                     'label' => $subscriber->isSubscribed() ? __('Last Date Subscribed') : __('Last Date Unsubscribed'),
                     'value' => $changedDate,
                     'bold' => true
-                )
+                ]
             );
         }
 

@@ -38,7 +38,7 @@ class StreamClient implements ClientInterface
     public function retrieveResponse(
         UriInterface $endpoint,
         $requestBody,
-        array $extraHeaders = array(),
+        array $extraHeaders = [],
         $method = 'POST'
     ) {
         // Normalize method name
@@ -52,7 +52,6 @@ class StreamClient implements ClientInterface
                 $val = ucfirst(strtolower($key)) . ': ' . $val;
             }
         );
-
 
         if ($method === 'GET' && !empty($requestBody)) {
             throw new \InvalidArgumentException('No body expected for "GET" request.');
@@ -88,17 +87,17 @@ class StreamClient implements ClientInterface
     private function generateStreamContext($body, $headers, $method)
     {
         return stream_context_create(
-            array(
-                'http' => array(
+            [
+                'http' => [
                     'method' => $method,
                     'header' => array_values($headers),
                     'content' => $body,
                     'protocol_version' => '1.1',
                     'user_agent' => 'Lusitanian OAuth Client',
                     'max_redirects' => $this->maxRedirects,
-                    'timeout' => $this->timeout
-                )
-            )
+                    'timeout' => $this->timeout,
+                ],
+            ]
         );
     }
 }

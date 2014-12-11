@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content;
 
@@ -36,7 +33,7 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\File\Size $fileSize,
         \Magento\Theme\Helper\Storage $storageHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storageHelper = $storageHelper;
         parent::__construct($context, $fileSize, $data);

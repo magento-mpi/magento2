@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Block\System\Messages;
 
@@ -16,10 +13,10 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
      *
      * @var array
      */
-    protected $_itemClasses = array(
+    protected $_itemClasses = [
         MessageInterface::SEVERITY_CRITICAL => 'error',
-        MessageInterface::SEVERITY_MAJOR => 'warning'
-    );
+        MessageInterface::SEVERITY_MAJOR => 'warning',
+    ];
 
     /**
      * System Message list
@@ -36,7 +33,7 @@ class UnreadMessagePopup extends \Magento\Backend\Block\Template
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdminNotification\Model\Resource\System\Message\Collection\Synchronized $messages,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_messages = $messages;

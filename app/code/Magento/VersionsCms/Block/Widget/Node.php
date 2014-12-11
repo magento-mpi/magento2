@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Widget;
 
@@ -48,7 +45,7 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
@@ -87,6 +84,17 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
     public function getNodeId()
     {
         return $this->_getInstanceData('node_id');
+    }
+
+    /**
+     * Retrieve anchor text
+     *
+     * @return false|mixed
+     */
+    public function getAnchorText()
+    {
+        $value = $this->_getInstanceData('anchor_text');
+        return $value !== false ? $value : $this->getLabel();
     }
 
     /**
@@ -140,11 +148,11 @@ class Node extends \Magento\Framework\View\Element\Html\Link implements \Magento
      */
     protected function _getInstanceData($key)
     {
-        $dataKeys = array(
+        $dataKeys = [
             $key . '_' . $this->_getStoreId(),
             $key . '_' . \Magento\Store\Model\Store::DEFAULT_STORE_ID,
-            $key
-        );
+            $key,
+        ];
         foreach ($dataKeys as $value) {
             if ($this->getData($value) !== null) {
                 return $this->getData($value);

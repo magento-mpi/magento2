@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         if ($testWebsite->getId()) {
             // Clear test website info from application cache.
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-                'Magento\Framework\StoreManagerInterface'
+                'Magento\Store\Model\StoreManagerInterface'
             )->clearWebsiteCache(
                 $testWebsite->getId()
             );
@@ -66,18 +63,18 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         )->load(
             'test'
         );
-        $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsite($testWebsite->getId());
+        $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
-        $websiteCodes = array();
-        $websites = $objectManager->get('Magento\Framework\StoreManagerInterface')->getWebsites();
+        $websiteCodes = [];
+        $websites = $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getWebsites();
         /** @var $website \Magento\Store\Model\Website */
         foreach ($websites as $website) {
             $websiteCodes[$website->getId()] = $website->getCode();
         }
 
         $userName = 'TestAdmin';
-        $user = new \Magento\Framework\Object(array('username' => $userName));
+        $user = new \Magento\Framework\Object(['username' => $userName]);
         /** @var $session \Magento\Backend\Model\Auth\Session */
         $session = $objectManager->get('Magento\Backend\Model\Auth\Session');
         $session->setUser($user);
@@ -94,7 +91,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directory);
         /** @var \Magento\CustomerFinance\Model\Import\Eav\Customer\Finance $model */
         $model = $objectManager->create('Magento\CustomerFinance\Model\Import\Eav\Customer\Finance');
-        $model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE));
+        $model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_ADD_UPDATE]);
         $model->setSource($source);
         $model->validateData();
         $model->importData();
@@ -167,7 +164,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\CustomerFinance\Model\Import\Eav\Customer\Finance'
         );
-        $model->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE));
+        $model->setParameters(['behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE]);
         $model->setSource($source);
         $model->validateData();
         $model->importData();
@@ -219,8 +216,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $emailKey = Finance::COLUMN_EMAIL;
         $websiteKey = Finance::COLUMN_FINANCE_WEBSITE;
 
-        $header = array();
-        $data = array();
+        $header = [];
+        $data = [];
         $lines = str_getcsv($content, "\n");
         foreach ($lines as $index => $line) {
             if ($index == 0) {
@@ -228,7 +225,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
             } else {
                 $row = array_combine($header, str_getcsv($line));
                 if (!isset($data[$row[$emailKey]])) {
-                    $data[$row[$emailKey]] = array();
+                    $data[$row[$emailKey]] = [];
                 }
                 $data[$row[$emailKey]][$row[$websiteKey]] = $row;
             }

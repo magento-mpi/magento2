@@ -1,20 +1,17 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
-use Magento\CatalogInventory\Api\StockStatusRepositoryInterface;
-use Magento\CatalogInventory\Api\Data\StockStatusInterface;
 use Magento\CatalogInventory\Api\Data\StockStatusCollectionInterfaceFactory;
+use Magento\CatalogInventory\Api\Data\StockStatusInterface;
+use Magento\CatalogInventory\Api\StockStatusRepositoryInterface;
 use Magento\CatalogInventory\Model\Resource\Stock\Status as StockStatusResource;
-use Magento\Framework\DB\QueryBuilderFactory;
 use Magento\Framework\DB\MapperFactory;
-use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\Framework\DB\QueryBuilderFactory;
 use Magento\Framework\Exception\CouldNotDeleteException;
+use Magento\Framework\Exception\CouldNotSaveException;
 
 /**
  * Class StockStatusRepository

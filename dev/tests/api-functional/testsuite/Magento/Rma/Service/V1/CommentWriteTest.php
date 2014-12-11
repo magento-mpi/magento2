@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Service\V1;
@@ -35,13 +32,13 @@ class CommentWriteTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId() . '/comment',
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'addComment'
-            ]
+                'operation' => self::SERVICE_NAME . 'addComment',
+            ],
         ];
 
         //$requestData = ['id'=> $order->getId(), 'statusHistory' => $commentData];
@@ -54,9 +51,9 @@ class CommentWriteTest extends WebapiAbstract
                 RmaStatusHistory::VISIBLE_ON_FRONT => true,
                 RmaStatusHistory::CREATED_AT => null,
                 RmaStatusHistory::ADMIN => null,
-                RmaStatusHistory::STATUS => null
+                RmaStatusHistory::STATUS => null,
 
-            ]
+            ],
         ];
 
         $this->assertTrue($this->_webApiCall($serviceInfo, $requestData));

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Cart;
 
@@ -23,7 +20,7 @@ class Add extends \Magento\Checkout\Controller\Cart
      * @param \Magento\Framework\App\Action\Context $context
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param CustomerCart $cart
      * @param ProductRepositoryInterface $productRepository
@@ -32,7 +29,7 @@ class Add extends \Magento\Checkout\Controller\Cart
         \Magento\Framework\App\Action\Context $context,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         CustomerCart $cart,
         ProductRepositoryInterface $productRepository
@@ -50,7 +47,7 @@ class Add extends \Magento\Checkout\Controller\Cart
     {
         $productId = (int)$this->getRequest()->getParam('product');
         if ($productId) {
-            $storeId = $this->_objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getId();
+            $storeId = $this->_objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId();
             try {
                 return $this->productRepository->getById($productId, false, $storeId);
             } catch (NoSuchEntityException $e) {
@@ -71,7 +68,7 @@ class Add extends \Magento\Checkout\Controller\Cart
         try {
             if (isset($params['qty'])) {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode())
+                    ['locale' => $this->_objectManager->get('Magento\Framework\Locale\ResolverInterface')->getLocaleCode()]
                 );
                 $params['qty'] = $filter->filter($params['qty']);
             }
@@ -101,7 +98,7 @@ class Add extends \Magento\Checkout\Controller\Cart
              */
             $this->_eventManager->dispatch(
                 'checkout_cart_add_product_complete',
-                array('product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse())
+                ['product' => $product, 'request' => $this->getRequest(), 'response' => $this->getResponse()]
             );
 
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {

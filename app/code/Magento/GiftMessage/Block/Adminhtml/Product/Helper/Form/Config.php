@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Block\Adminhtml\Product\Helper\Form;
 
@@ -33,7 +30,7 @@ class Config extends \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Config
         \Magento\Framework\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\Framework\Escaper $escaper,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
-        $data = array()
+        $data = []
     ) {
         $this->_scopeConfig = $scopeConfig;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model;
 
@@ -38,8 +35,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->_readerMock = $this->getMock(
             'Magento\WebsiteRestriction\Model\Config\Reader',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -69,10 +66,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getGenericActionsDataProvider()
     {
-        return array(
-            'generic_key_exist' => array(array('generic' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), array())
-        );
+        return [
+            'generic_key_exist' => [['generic' => 'value'], 'value'],
+            'return_default_value' => [['key_one' => 'value'], []]
+        ];
     }
 
     /**
@@ -87,10 +84,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function getRegisterActionsDataProvider()
     {
-        return array(
-            'register_key_exist' => array(array('register' => 'value'), 'value'),
-            'return_default_value' => array(array('key_one' => 'value'), array())
-        );
+        return [
+            'register_key_exist' => [['register' => 'value'], 'value'],
+            'return_default_value' => [['key_one' => 'value'], []]
+        ];
     }
 
     public function testIsRestrictionEnabled()

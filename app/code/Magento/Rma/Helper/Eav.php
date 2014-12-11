@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * RMA Helper
@@ -19,12 +15,12 @@ class Eav extends \Magento\Eav\Helper\Data
      *
      * @var array
      */
-    protected $_attributeOptionValues = array();
+    protected $_attributeOptionValues = [];
 
     /**
      * Core store manager interface
      *
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -47,7 +43,7 @@ class Eav extends \Magento\Eav\Helper\Data
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
      * @param \Magento\Framework\App\Resource $resource
      */
@@ -56,7 +52,7 @@ class Eav extends \Magento\Eav\Helper\Data
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
         \Magento\Framework\App\Resource $resource
     ) {
@@ -84,53 +80,53 @@ class Eav extends \Magento\Eav\Helper\Data
      */
     public function getAttributeInputTypes($inputType = null)
     {
-        $inputTypes = array(
-            'text' => array(
+        $inputTypes = [
+            'text' => [
                 'label' => __('Text Field'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array('alphanumeric', 'numeric', 'alpha', 'url', 'email'),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => ['alphanumeric', 'numeric', 'alpha', 'url', 'email'],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'varchar',
-                'default_value' => 'text'
-            ),
-            'textarea' => array(
+                'default_value' => 'text',
+            ],
+            'textarea' => [
                 'label' => __('Text Area'),
                 'manage_options' => false,
-                'validate_types' => array('min_text_length', 'max_text_length'),
-                'validate_filters' => array(),
-                'filter_types' => array('striptags', 'escapehtml'),
+                'validate_types' => ['min_text_length', 'max_text_length'],
+                'validate_filters' => [],
+                'filter_types' => ['striptags', 'escapehtml'],
                 'backend_type' => 'text',
-                'default_value' => 'textarea'
-            ),
-            'select' => array(
+                'default_value' => 'textarea',
+            ],
+            'select' => [
                 'label' => __('Dropdown'),
                 'manage_options' => true,
                 'option_default' => 'radio',
-                'validate_types' => array(),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => [],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'source_model' => 'Magento\Eav\Model\Entity\Attribute\Source\Table',
                 'backend_type' => 'int',
-                'default_value' => false
-            ),
-            'image' => array(
+                'default_value' => false,
+            ],
+            'image' => [
                 'label' => __('Image File'),
                 'manage_options' => false,
-                'validate_types' => array('max_file_size', 'max_image_width', 'max_image_heght'),
-                'validate_filters' => array(),
-                'filter_types' => array(),
+                'validate_types' => ['max_file_size', 'max_image_width', 'max_image_heght'],
+                'validate_filters' => [],
+                'filter_types' => [],
                 'backend_type' => 'varchar',
-                'default_value' => false
-            )
-        );
+                'default_value' => false,
+            ],
+        ];
 
         if (is_null($inputType)) {
             return $inputTypes;
-        } else if (isset($inputTypes[$inputType])) {
+        } elseif (isset($inputTypes[$inputType])) {
             return $inputTypes[$inputType];
         }
-        return array();
+        return [];
     }
 
     /**
@@ -145,7 +141,7 @@ class Eav extends \Magento\Eav\Helper\Data
     public function getAttributeOptionStringValues($storeId = null, $useDefaultValue = true)
     {
         $values = $this->_getAttributeOptionValues($storeId, $useDefaultValue);
-        $return = array();
+        $return = [];
         foreach ($values as $temValue) {
             foreach ($temValue as $value) {
                 $return[$value['option_id']] = $value['value'];
@@ -167,7 +163,7 @@ class Eav extends \Magento\Eav\Helper\Data
     public function getAttributeOptionValues($attributeCode, $storeId = null, $useDefaultValue = true)
     {
         $values = $this->_getAttributeOptionValues($storeId, $useDefaultValue);
-        $return = array();
+        $return = [];
         if (isset($values[$attributeCode])) {
             foreach ($values[$attributeCode] as $key => $value) {
                 $return[$key] = $value['value'];
@@ -194,18 +190,18 @@ class Eav extends \Magento\Eav\Helper\Data
         if (!isset($this->_attributeOptionValues[$storeId])) {
             $optionCollection = $this->_collectionFactory->create()->setStoreFilter($storeId, $useDefaultValue);
             $optionCollection->getSelect()->join(
-                array('ea' => $this->_resource->getTableName('eav_attribute')),
+                ['ea' => $this->_resource->getTableName('eav_attribute')],
                 'main_table.attribute_id = ea.attribute_id',
-                array('attribute_code' => 'ea.attribute_code')
+                ['attribute_code' => 'ea.attribute_code']
             )->join(
-                array('eat' => $this->_resource->getTableName('eav_entity_type')),
+                ['eat' => $this->_resource->getTableName('eav_entity_type')],
                 'ea.entity_type_id = eat.entity_type_id',
-                array('')
+                ['']
             )->where(
                 'eat.entity_type_code = ?',
                 $this->_getEntityTypeCode()
             );
-            $value = array();
+            $value = [];
             foreach ($optionCollection as $option) {
                 $value[$option->getAttributeCode()][$option->getOptionId()] = $option->getData();
             }
@@ -222,7 +218,7 @@ class Eav extends \Magento\Eav\Helper\Data
      */
     public function getAdditionalTextElementClasses(\Magento\Framework\Object $attribute)
     {
-        $additionalClasses = array();
+        $additionalClasses = [];
 
         $validateRules = $attribute->getValidateRules();
         if (!empty($validateRules['min_text_length'])) {

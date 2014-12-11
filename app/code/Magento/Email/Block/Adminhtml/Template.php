@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -42,7 +39,7 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Button\ButtonList $buttonList,
         \Magento\Backend\Block\Widget\Button\ToolbarInterface $toolbar,
-        array $data = array()
+        array $data = []
     ) {
         $this->buttonList = $buttonList;
         $this->toolbar = $toolbar;
@@ -67,11 +64,11 @@ class Template extends \Magento\Backend\Block\Template implements \Magento\Backe
     {
         $this->buttonList->add(
             'add',
-            array(
+            [
                 'label' => __('Add New Template'),
                 'onclick' => "window.location='" . $this->getCreateUrl() . "'",
                 'class' => 'add primary add-template'
-            )
+            ]
         );
         $this->toolbar->pushButtons($this, $this->buttonList);
         return parent::_prepareLayout();

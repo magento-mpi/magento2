@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Persistent\Model\Observer;
@@ -19,7 +16,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $customerAccountService;
+    protected $customerRepository;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -69,7 +66,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $eventMethods = ['getRequest', 'dispatch', '__wakeUp'];
-        $this->customerAccountService = $this->getMockForAbstractClass(
+        $this->customerRepository = $this->getMockForAbstractClass(
             'Magento\Customer\Api\CustomerRepositoryInterface',
             [],
             '',
@@ -90,7 +87,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             $this->helperMock,
             $this->checkoutSessionMock,
             $this->customerSessionMock,
-            $this->customerAccountService
+            $this->customerRepository
         );
     }
 
@@ -177,7 +174,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->customerAccountService
+        $this->customerRepository
             ->expects($this->once())
             ->method('getById')
             ->with($customerId)
@@ -236,7 +233,7 @@ class EmulateQuoteTest extends \PHPUnit_Framework_TestCase
             ->method('getSession')
             ->will($this->returnValue($this->sessionMock));
         $this->sessionMock->expects($this->once())->method('getCustomerId')->will($this->returnValue($customerId));
-        $this->customerAccountService
+        $this->customerRepository
             ->expects($this->once())
             ->method('getById')
             ->with($customerId)

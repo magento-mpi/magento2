@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -25,50 +22,50 @@ class BeforeTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_sourceEntities = array(
-        'entity_1' => array('code' => 'behavior_1', 'token' => 'Some_Random_First_Class'),
-        'entity_2' => array('code' => 'behavior_2', 'token' => 'Some_Random_Second_Class')
-    );
+    protected $_sourceEntities = [
+        'entity_1' => ['code' => 'behavior_1', 'token' => 'Some_Random_First_Class'],
+        'entity_2' => ['code' => 'behavior_2', 'token' => 'Some_Random_Second_Class'],
+    ];
 
     /**
      * Expected entity behaviors
      *
      * @var array
      */
-    protected $_expectedEntities = array('entity_1' => 'behavior_1', 'entity_2' => 'behavior_2');
+    protected $_expectedEntities = ['entity_1' => 'behavior_1', 'entity_2' => 'behavior_2'];
 
     /**
      * Source unique behaviors
      *
      * @var array
      */
-    protected $_sourceBehaviors = array(
+    protected $_sourceBehaviors = [
         'behavior_1' => 'Some_Random_First_Class',
-        'behavior_2' => 'Some_Random_Second_Class'
-    );
+        'behavior_2' => 'Some_Random_Second_Class',
+    ];
 
     /**
      * Expected unique behaviors
      *
      * @var array
      */
-    protected $_expectedBehaviors = array('behavior_1', 'behavior_2');
+    protected $_expectedBehaviors = ['behavior_1', 'behavior_2'];
 
     protected function setUp()
     {
-        $coreHelper = $this->getMock('Magento\Core\Helper\Data', array('jsonEncode'), array(), '', false, false);
+        $coreHelper = $this->getMock('Magento\Core\Helper\Data', ['jsonEncode'], [], '', false, false);
         $coreHelper->expects(
             $this->any()
         )->method(
             'jsonEncode'
         )->will(
-            $this->returnCallback(array($this, 'jsonEncodeCallback'))
+            $this->returnCallback([$this, 'jsonEncodeCallback'])
         );
 
         $importModel = $this->getMock(
             'Magento\ImportExport\Model\Import',
-            array('getEntityBehaviors', 'getUniqueEntityBehaviors'),
-            array(),
+            ['getEntityBehaviors', 'getUniqueEntityBehaviors'],
+            [],
             '',
             false
         );
@@ -87,11 +84,11 @@ class BeforeTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($this->_sourceBehaviors)
         );
 
-        $arguments = array(
+        $arguments = [
             'coreData' => $coreHelper,
             'importModel' => $importModel,
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
-        );
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false),
+        ];
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_model = $objectManager->create('Magento\ImportExport\Block\Adminhtml\Import\Edit\Before', $arguments);
     }

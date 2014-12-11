@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Service\V1\Data;
 
@@ -24,8 +21,8 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
         $this->validator = new FileContentValidator();
         $this->fileContentMock = $this->getMock(
             '\Magento\Downloadable\Service\V1\Data\FileContent',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
@@ -43,7 +40,6 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateLinkResourceInputExceptionUrl()
     {
-
     }
 
     /**
@@ -79,21 +75,21 @@ class FileContentValidatorTest extends \PHPUnit_Framework_TestCase
      */
     public function getInvalidNames()
     {
-        return array(
-            array('test\test'),
-            array('test/test'),
-            array('test:test'),
-            array('test"test'),
-            array('test*test'),
-            array('test;test'),
-            array('test?test'),
-            array('test{test'),
-            array('test}test'),
-            array('test|test'),
-            array('test(test'),
-            array('test)test'),
-            array('test<test'),
-            array('test>test'),
-        );
+        return [
+            ['test\test'],
+            ['test/test'],
+            ['test:test'],
+            ['test"test'],
+            ['test*test'],
+            ['test;test'],
+            ['test?test'],
+            ['test{test'],
+            ['test}test'],
+            ['test|test'],
+            ['test(test'],
+            ['test)test'],
+            ['test<test'],
+            ['test>test'],
+        ];
     }
 }

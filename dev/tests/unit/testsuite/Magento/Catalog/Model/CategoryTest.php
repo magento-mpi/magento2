@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model;
@@ -25,7 +22,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject */
     protected $registry;
 
-    /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject */
     protected $storeManager;
 
     /** @var \Magento\Catalog\Model\Resource\Category\Tree|\PHPUnit_Framework_MockObject_MockObject */
@@ -91,7 +88,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->cacheManager));
 
         $this->registry = $this->getMock('Magento\Framework\Registry');
-        $this->storeManager = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
         $this->categoryTreeResource = $this->getMock('Magento\Catalog\Model\Resource\Category\Tree', [], [], '', false);
         $this->categoryTreeFactory = $this->getMock('Magento\Catalog\Model\Resource\Category\TreeFactory', ['create']);
         $this->categoryRepository = $this->getMock('Magento\Catalog\Api\CategoryRepositoryInterface');

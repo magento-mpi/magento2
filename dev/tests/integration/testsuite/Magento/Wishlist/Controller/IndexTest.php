@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Controller;
 
@@ -27,10 +24,10 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function setUp()
     {
         parent::setUp();
-        $logger = $this->getMock('Magento\Framework\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Framework\Logger', [], [], '', false);
         $this->_customerSession = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\Customer\Model\Session',
-            array($logger)
+            [$logger]
         );
         /** @var \Magento\Customer\Api\AccountManagementInterface $service */
         $service = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
@@ -126,7 +123,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             'form_key' => $this->_objectManager->get('Magento\Framework\Data\Form\FormKey')->getFormKey(),
             'emails' => 'test@tosend.com',
             'message' => 'message',
-            'rss_url' => null // no rss
+            'rss_url' => null, // no rss
         ];
 
         $this->getRequest()->setPost($request);

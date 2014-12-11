@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 use Magento\Paypal\Model\Info;
 
@@ -23,7 +20,7 @@ return [
             Info::PAYPAL_CVV2_MATCH => 'M',
             Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE_CNPJ,
             Info::CENTINEL_VPAS => '2',
-            Info::CENTINEL_ECI => '01'
+            Info::CENTINEL_ECI => '01',
         ],
         [
             Info::PAYPAL_PAYER_ID => [
@@ -84,9 +81,9 @@ return [
             ],
             'last_trans_id' => [
                 'label' => 'Last Transaction ID',
-                'value' => NULL
+                'value' => NULL,
             ]
-        ]
+        ],
     ],
     [
         [
@@ -103,7 +100,7 @@ return [
             Info::PAYPAL_CVV2_MATCH => Info::PAYPAL_CVV2_MATCH,
             Info::BUYER_TAX_ID_TYPE => Info::BUYER_TAX_ID_TYPE,
             Info::CENTINEL_VPAS => Info::CENTINEL_VPAS,
-            Info::CENTINEL_ECI => Info::CENTINEL_ECI
+            Info::CENTINEL_ECI => Info::CENTINEL_ECI,
         ],
         [
             Info::PAYPAL_PAYER_ID => [
@@ -160,7 +157,7 @@ return [
             ],
             'last_trans_id' => [
                 'label' => 'Last Transaction ID',
-                'value' => NULL
+                'value' => NULL,
             ]
         ]
     ]

@@ -1,8 +1,5 @@
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 define([
     'jquery',
@@ -209,10 +206,12 @@ define([
         var config = this.options.optionConfig;
         _.each(config.options, function(option){
             _.each(option.selections, function(item){
-                if(item.qty && item.qty !== 1) {
-                    _.each(item.prices, function(price){
-                        price.amount = price.amount / item.qty;
-                    });
+                if(item.priceType === '0') {
+                    if(item.qty && item.qty !== 1) {
+                        _.each(item.prices, function(price){
+                            price.amount = price.amount / item.qty;
+                        });
+                    }
                 }
             });
         });

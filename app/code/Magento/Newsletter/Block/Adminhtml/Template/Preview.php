@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Preview extends \Magento\Backend\Block\Widget
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Newsletter\Model\TemplateFactory $templateFactory,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_templateFactory = $templateFactory;
         $this->_subscriberFactory = $subscriberFactory;
@@ -62,11 +59,18 @@ class Preview extends \Magento\Backend\Block\Widget
 
         $storeId = (int)$this->getRequest()->getParam('store_id');
         if (!$storeId) {
-            $storeId = $this->_storeManager->getDefaultStoreView()->getId();
+            $defaultStore = $this->_storeManager->getDefaultStoreView();
+            if (!$defaultStore) {
+                $allStores = $this->_storeManager->getStores();
+                if (isset($allStores[0])) {
+                    $defaultStore = $allStores[0];
+                }
+            }
+            $storeId = $defaultStore ? $defaultStore->getId() : null;
         }
 
         \Magento\Framework\Profiler::start("newsletter_template_proccessing");
-        $vars = array();
+        $vars = [];
 
         $vars['subscriber'] = $this->_subscriberFactory->create();
         if ($this->getRequest()->getParam('subscriber')) {
@@ -76,8 +80,8 @@ class Preview extends \Magento\Backend\Block\Widget
         $template->emulateDesign($storeId);
         $templateProcessed = $this->_appState->emulateAreaCode(
             \Magento\Newsletter\Model\Template::DEFAULT_DESIGN_AREA,
-            array($template, 'getProcessedTemplate'),
-            array($vars, true)
+            [$template, 'getProcessedTemplate'],
+            [$vars, true]
         );
         $template->revertDesign();
 

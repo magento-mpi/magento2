@@ -499,23 +499,23 @@ New Block,new-block,"<div class=""blocks-promo"">
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_per_page=""8"" products_count=""8"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:2:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`sku`;s:8:`operator`;s:2:`()`;s:5:`value`;s:60:`WS12, WT09, MT07, MH07, 24-MB02, 24-WB04, 241-MB08, 240-LV05`;]]""}}
 "
 "Performance Fabrics Block",performance-fabrics-block,"<div class=""blocks-promo"">
-   <a href=""{{category key=""performance-new""}}"" class=""block-promo collection-performance"">
+   <div class=""block-promo collection-performance"">
        <img src=""{{media url=""wysiwyg/collection/collection-performance.jpg""}}"" alt="""" />
        <span class=""content"">
            <strong class=""title"">You're the best</strong>
            <span class=""info"">Make a strong statement with Luma Performance sportswear</span>
        </span>
-   </a>
+   </div>
 </div>
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""5"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:18:`performance_fabric`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`new`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}"
 "Eco Friendly Block",eco-friendly-block,"<div class=""blocks-promo"">
-    <a href=""{{category key=""eco-new""}}"" class=""block-promo collection-eco"">
+    <div class=""block-promo collection-eco"">
         <img src=""{{media url=""wysiwyg/collection/collection-eco.jpg""}}"" alt="""" />
         <span class=""content"">
             <strong class=""title"">Eco-friendly, ego-friendly</strong>
             <span class=""info"">Recycled polyester, hemp and organic cotton apperel</span>
         </span>
-    </a>
+    </div>
 </div>
 {{widget type=""Magento\\CatalogWidget\\Block\\Product\\ProductsList"" products_count=""5"" template=""product/widget/content/grid.phtml"" conditions_encoded=""a:3:[i:1;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Combine`;s:10:`aggregator`;s:3:`all`;s:5:`value`;s:1:`1`;s:9:`new_child`;s:0:``;]s:4:`1--1`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:14:`eco_collection`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]s:4:`1--2`;a:4:[s:4:`type`;s:50:`Magento|CatalogWidget|Model|Rule|Condition|Product`;s:9:`attribute`;s:3:`new`;s:8:`operator`;s:2:`==`;s:5:`value`;s:1:`1`;]]""}}
 "

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\ProductLink;
 
-use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Catalog\Model\ProductLink\Converter\ConverterPool;
+use Magento\Framework\Exception\NoSuchEntityException;
 
 class CollectionProvider
 {
@@ -27,7 +24,7 @@ class CollectionProvider
      * @param ConverterPool $converterPool
      * @param CollectionProviderInterface[] $providers
      */
-    public function __construct(ConverterPool $converterPool, array $providers = array())
+    public function __construct(ConverterPool $converterPool, array $providers = [])
     {
         $this->converterPool = $converterPool;
         $this->providers = $providers;

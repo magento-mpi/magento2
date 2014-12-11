@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -28,7 +25,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -52,13 +49,13 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
 
         $this->buttonList->add(
             'save_and_continue',
-            array(
+            [
                 'label' => __('Save and Continue Edit'),
                 'class' => 'save',
-                'data_attribute' => array(
-                    'mage-init' => array('button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'))
-                )
-            ),
+                'data_attribute' => [
+                    'mage-init' => ['button' => ['event' => 'saveAndContinueEdit', 'target' => '#edit_form']],
+                ]
+            ],
             10
         );
     }

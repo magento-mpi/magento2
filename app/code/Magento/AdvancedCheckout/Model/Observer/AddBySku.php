@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Model\Observer;
 
-use \Magento\AdvancedCheckout\Model\Cart;
+use Magento\AdvancedCheckout\Model\Cart;
 
 class AddBySku
 {
@@ -68,20 +65,20 @@ class AddBySku
 
         $addBySkuItems = $request->getPost(
             \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE,
-            array()
+            []
         );
-        $items = $request->getPost('item', array());
+        $items = $request->getPost('item', []);
         if (!$addBySkuItems) {
             return;
         }
         foreach ($addBySkuItems as $id => $params) {
             $sku = (string) (isset($params['sku']) ? $params['sku'] : $id);
-            $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : array());
+            $cart->prepareAddProductBySku($sku, $params['qty'], isset($items[$id]) ? $items[$id] : []);
         }
         /* @var $orderCreateModel \Magento\Sales\Model\AdminOrder\Create */
         $orderCreateModel = $observer->getOrderCreateModel();
         $cart->saveAffectedProducts($orderCreateModel, false);
         // We have already saved succeeded add by SKU items in saveAffectedItems(). This prevents from duplicate saving.
-        $request->setPost('item', array());
+        $request->setPost('item', []);
     }
 }

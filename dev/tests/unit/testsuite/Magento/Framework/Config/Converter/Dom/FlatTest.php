@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Converter\Dom;
 
@@ -25,13 +22,13 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     {
         $arrayNodeConfig = new \Magento\Framework\Config\Dom\ArrayNodeConfig(
             new \Magento\Framework\Config\Dom\NodePathMatcher(),
-            array(
+            [
                 '/root/multipleNode' => 'id',
                 '/root/wrongArray' => 'id',
-            ),
-            array(
+            ],
+            [
                 '/root/node_one/subnode',
-            )
+            ]
         );
         $this->_model = new \Magento\Framework\Config\Converter\Dom\Flat($arrayNodeConfig);
         $this->_fixturePath = realpath(__DIR__ . '/../../') . '/_files/converter/dom/flat/';

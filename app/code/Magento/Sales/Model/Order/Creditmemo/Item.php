@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Creditmemo;
 
+use Magento\Framework\Api\AttributeDataBuilder;
 use Magento\Framework\Model\AbstractExtensibleModel;
 use Magento\Sales\Api\Data\CreditmemoItemInterface;
-use Magento\Framework\Api\AttributeDataBuilder;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Creditmemo\Item _getResource()

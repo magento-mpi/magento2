@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Integrity\Library\PhpParser;
 
@@ -23,14 +20,14 @@ class Throws implements ParserInterface, DependenciesCollectorInterface
      *
      * @var array
      */
-    protected $dependencies = array();
+    protected $dependencies = [];
 
     /**
      * Save throw token key
      *
      * @var array
      */
-    protected $throws = array();
+    protected $throws = [];
 
     /**
      * @param Tokens $tokens

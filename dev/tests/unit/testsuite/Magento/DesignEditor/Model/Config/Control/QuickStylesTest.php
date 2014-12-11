@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Config\Control;
 
@@ -15,7 +12,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $moduleReader = $this->getMockBuilder(
             'Magento\Framework\Module\Dir\Reader'
         )->setMethods(
-            array('getModuleDir')
+            ['getModuleDir']
         )->disableOriginalConstructor()->getMock();
 
         $moduleReader->expects(
@@ -31,7 +28,7 @@ class QuickStylesTest extends \PHPUnit_Framework_TestCase
         $quickStyle = $this->getMock(
             'Magento\DesignEditor\Model\Config\Control\QuickStyles',
             null,
-            array('moduleReader' => $moduleReader, 'configFiles' => array('sample')),
+            ['moduleReader' => $moduleReader, 'configFiles' => ['sample']],
             '',
             false
         );

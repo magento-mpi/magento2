@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Test\Block\Adminhtml\Product\Grouped\AssociatedProducts\Search;
 
-use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element;
 
 /**
  * Class Grid
@@ -31,8 +28,8 @@ class Grid extends GridInterface
      */
     protected $filters = [
         'name' => [
-            'selector' => '#grouped_grid_popup_filter_name'
-        ]
+            'selector' => '#grouped_grid_popup_filter_name',
+        ],
     ];
 
     /**

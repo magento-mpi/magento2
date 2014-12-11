@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl\Role;
 
@@ -34,7 +31,7 @@ class Registry extends \Zend_Acl_Role_Registry
         }
 
         if (!is_array($parents)) {
-            $parents = array($parents);
+            $parents = [$parents];
         }
         foreach ($parents as $parent) {
             try {

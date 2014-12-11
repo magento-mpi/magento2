@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -17,13 +14,13 @@ class SalesConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $_idAttributes = array(
+    protected $_idAttributes = [
         '/config/section' => 'name',
         '/config/section/group' => 'name',
         '/config/section/group/item' => 'name',
         '/config/section/group/item/renderer' => 'name',
-        '/config/order/available_product_type' => 'name'
-    );
+        '/config/order/available_product_type' => 'name',
+    ];
 
     /**
      * Path to tough XSD for merged file validation
@@ -40,7 +37,7 @@ class SalesConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testSalesConfigFiles()
     {
-        $invalidFiles = array();
+        $invalidFiles = [];
 
         $files = \Magento\Framework\Test\Utility\Files::init()->getConfigFiles('sales.xml');
         $mergedConfig = new \Magento\Framework\Config\Dom(
@@ -63,7 +60,7 @@ class SalesConfigFilesTest extends \PHPUnit_Framework_TestCase
             $this->fail('Found broken files: ' . implode("\n", $invalidFiles));
         }
 
-        $errors = array();
+        $errors = [];
         $mergedConfig->validate($this->_mergedSchemaFile, $errors);
         if ($errors) {
             $this->fail('Merged routes config is invalid: ' . "\n" . implode("\n", $errors));

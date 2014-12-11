@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogSearch\Model\Search;
@@ -14,6 +11,7 @@ use Magento\Framework\DB\Select;
 use Magento\Framework\Search\Adapter\Mysql\IndexBuilderInterface;
 use Magento\Framework\Search\RequestInterface;
 use Magento\Store\Model\ScopeInterface;
+use Magento\Store\Model\StoreManagerInterface;
 
 /**
  * Build base Query for Index
@@ -31,13 +29,20 @@ class IndexBuilder implements IndexBuilderInterface
     private $config;
 
     /**
+     * @var StoreManagerInterface
+     */
+    private $storeManager;
+
+    /**
      * @param \Magento\Framework\App\Resource $resource
      * @param ScopeConfigInterface $config
+     * @param StoreManagerInterface $storeManager
      */
-    public function __construct(Resource $resource, ScopeConfigInterface $config)
+    public function __construct(Resource $resource, ScopeConfigInterface $config, StoreManagerInterface $storeManager)
     {
         $this->resource = $resource;
         $this->config = $config;
+        $this->storeManager = $storeManager;
     }
 
     /**
@@ -60,7 +65,6 @@ class IndexBuilder implements IndexBuilderInterface
                 []
             );
 
-
         $isShowOutOfStock = $this->config->isSetFlag(
             'cataloginventory/options/show_out_of_stock',
             ScopeInterface::SCOPE_STORE
@@ -69,7 +73,10 @@ class IndexBuilder implements IndexBuilderInterface
             $select->joinLeft(
                 ['stock_index' => $this->resource->getTableName('cataloginventory_stock_status')],
                 'search_index.product_id = stock_index.product_id'
-                . ' AND stock_index.website_id = 1 AND stock_index.stock_id = 1',
+                . $this->getReadConnection()->quoteInto(
+                    ' AND stock_index.website_id = ?',
+                    $this->storeManager->getWebsite()->getId()
+                ),
                 []
             )
                 ->where('stock_index.stock_status = ?', 1);
@@ -79,13 +86,22 @@ class IndexBuilder implements IndexBuilderInterface
     }
 
     /**
+     * Get read connection
+     *
+     * @return \Magento\Framework\DB\Adapter\AdapterInterface
+     */
+    private function getReadConnection()
+    {
+        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE);
+    }
+
+    /**
      * Get empty Select
      *
      * @return Select
      */
     private function getSelect()
     {
-        return $this->resource->getConnection(Resource::DEFAULT_READ_RESOURCE)
-            ->select();
+        return $this->getReadConnection()->select();
     }
 }

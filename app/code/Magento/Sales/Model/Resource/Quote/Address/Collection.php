@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Quote\Address;
 
@@ -47,7 +44,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setQuoteFilter($quoteId)
     {
-        $this->addFieldToFilter('quote_id', $quoteId ? $quoteId : array('null' => 1));
+        $this->addFieldToFilter('quote_id', $quoteId ? $quoteId : ['null' => 1]);
         return $this;
     }
 
@@ -60,7 +57,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         parent::_afterLoad();
 
-        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', array($this->_eventObject => $this));
+        $this->_eventManager->dispatch($this->_eventPrefix . '_load_after', [$this->_eventObject => $this]);
 
         return $this;
     }

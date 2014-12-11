@@ -1,26 +1,23 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Multishipping\Block\Checkout;
- 
+
 class StateTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var State
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $mShippingStateMock;
-    
+
     protected function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

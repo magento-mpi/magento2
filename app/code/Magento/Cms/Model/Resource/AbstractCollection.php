@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource;
 
 use Magento\Framework\Data\AbstractSearchResult;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Data\SearchResultProcessorFactory;
 use Magento\Framework\Data\SearchResultProcessor;
 use Magento\Framework\DB\QueryInterface;
@@ -94,15 +91,6 @@ class AbstractCollection extends AbstractSearchResult
             $res[] = $data;
         }
         return $res;
-    }
-
-    /**
-     * @deprecated
-     * @return void
-     */
-    public function addStoreFilter()
-    {
-        //
     }
 
     /**

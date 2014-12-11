@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Reward;
 
@@ -31,7 +28,7 @@ class ReverterTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $this->rewardFactoryMock = $this->getMock('\Magento\Reward\Model\RewardFactory', ['create'], [], '', false);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->reverter = $objectManager->getObject(
             '\Magento\Reward\Model\Reward\Reverter',
             [

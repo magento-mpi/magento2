@@ -3,6 +3,10 @@
     "description": "Magento project mainline",
     "type": "project",
     "version": "0.1.0-alpha107",
+    "license": [
+        "OSL-3.0",
+        "AFL-3.0"
+    ],
     "require": {
         "php": "~5.4.11|~5.5.0",
         "zendframework/zend-stdlib": "2.3.1",
@@ -16,7 +20,9 @@
     "require-dev": {
         "phpunit/phpunit": "4.1.0",
         "squizlabs/php_codesniffer": "1.5.3",
-        "phpmd/phpmd": "@stable"
+        "phpmd/phpmd": "@stable",
+        "sjparkinson/static-review": "~4.1",
+        "fabpot/php-cs-fixer": "~1.2"
     },
     "replace": {
         "magento/module-admin-gws": "self.version",
@@ -93,7 +99,6 @@
         "magento/module-offline-shipping": "self.version",
         "magento/module-ogone": "self.version",
         "magento/module-page-cache": "self.version",
-        "magento/module-pay-pal-recurring-payment": "self.version",
         "magento/module-payment": "self.version",
         "magento/module-paypal": "self.version",
         "magento/module-pbridge": "self.version",
@@ -104,7 +109,6 @@
         "magento/module-price-permissions": "self.version",
         "magento/module-product-alert": "self.version",
         "magento/module-promotion-permissions": "self.version",
-        "magento/module-recurring-payment": "self.version",
         "magento/module-reminder": "self.version",
         "magento/module-reports": "self.version",
         "magento/module-require-js": "self.version",
@@ -158,7 +162,6 @@
         "colinmollenhour/cache-backend-redis": "dev-master#193d377b7fb2e88595578b282fa01a62d1185abc",
         "colinmollenhour/credis": "dev-master#f07bbfd4117294f462f0fb19c49221d350bf396f",
         "linkorb/jsmin-php": "1.1.2",
-        "pear/mail_mime-decode": "1.48",
         "phpseclib/phpseclib": "0.2.1",
         "components/jquery": "1.11.0",
         "blueimp/jquery-file-upload": "5.6.14",
@@ -166,16 +169,18 @@
         "twbs/bootstrap": "3.1.0",
         "tinymce/tinymce": "3.4.7"
     },
+    "suggest": {
+        "magento/module-fedex": "0.1.0-alpha107",
+        "magento/module-ups": "0.1.0-alpha107"
+    },
     "extra": {
         "component_paths": {
             "oyejorge/less.php": "lib/internal/Less",
-            "symfony/yaml": "lib/internal/Symfony/Component/Yaml",
             "trentrichardson/jquery-timepicker-addon": "lib/web/jquery/jquery-ui-timepicker-addon.js",
             "components/handlebars.js": "lib/web/jquery/handlebars",
             "colinmollenhour/cache-backend-redis": "lib/internal/Cm/Cache/Backend/Redis.php",
             "colinmollenhour/credis": "lib/internal/Credis",
             "linkorb/jsmin-php": "lib/internal/JSMin",
-            "pear/mail_mime-decode": "lib/internal/PEAR/Mail",
             "phpseclib/phpseclib": "lib/internal/phpseclib",
             "components/jquery": [
                 "lib/web/jquery/jquery.js",

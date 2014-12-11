@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Rest;
 
 use Magento\Webapi\Controller\Rest\Router\Route;
-use Magento\Webapi\Model\Config\Converter;
 use Magento\Webapi\Model\Config as ModelConfig;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Webapi Config Model for Rest.
@@ -58,7 +55,7 @@ class Config
      * @param array $routeData Expected format:
      *  <pre>array(
      *      'routePath' => '/categories/:categoryId',
-     *      'class' => 'Magento\Catalog\Service\CategoryService',
+     *      'class' => 'Magento\Catalog\Api\CategoryRepositoryInterface',
      *      'serviceMethod' => 'item'
      *      'secure' => true
      *  );</pre>
@@ -89,7 +86,7 @@ class Config
     protected function _formatRoutePath($routePath)
     {
         $routePathParts = explode('/', $routePath);
-        $pathParts = array();
+        $pathParts = [];
         foreach ($routePathParts as $pathPart) {
             $pathParts[] = substr($pathPart, 0, 1) === ":" ? $pathPart : strtolower($pathPart);
         }

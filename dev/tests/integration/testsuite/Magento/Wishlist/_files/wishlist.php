@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 require __DIR__ . '/../../../Magento/Customer/_files/customer.php';
@@ -11,7 +8,7 @@ require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
 
 $wishlist = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Wishlist\Model\Wishlist');
 $wishlist->loadByCustomerId($customer->getId(), true);
-$item = $wishlist->addNewItem($product, new \Magento\Framework\Object(array()));
+$item = $wishlist->addNewItem($product, new \Magento\Framework\Object([]));
 //    'product' => '1',
 //    'related_product' => '',
 //    'options' => array(

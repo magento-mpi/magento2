@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit;
 
@@ -35,7 +32,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_segmentFactory = $segmentFactory;
         $this->_coreRegistry = $registry;
@@ -68,12 +65,12 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
         $this->addTab(
             'general_section',
-            array(
+            [
                 'label' => __('General Properties'),
                 'title' => __('General Properties'),
                 'content' => $generalSectionContent,
                 'active' => true
-            )
+            ]
         );
 
         $segment = $this->_coreRegistry->registry('current_customer_segment');
@@ -85,7 +82,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
             $this->addTab(
                 'conditions_section',
-                array('label' => __('Conditions'), 'title' => __('Conditions'), 'content' => $conditionsSectionContent)
+                ['label' => __('Conditions'), 'title' => __('Conditions'), 'content' => $conditionsSectionContent]
             );
 
             if ($segment->getApplyTo() != \Magento\CustomerSegment\Model\Segment::APPLY_TO_VISITORS) {
@@ -94,14 +91,14 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 );
                 $this->addTab(
                     'customers_tab',
-                    array(
+                    [
                         'label' => __('Matched Customers (%1)', $customersQty),
                         'url' => $this->getUrl(
                             'customersegment/report_customer_customersegment/customerGrid',
-                            array('segment_id' => $segment->getId())
+                            ['segment_id' => $segment->getId()]
                         ),
                         'class' => 'ajax'
-                    )
+                    ]
                 );
             }
         }

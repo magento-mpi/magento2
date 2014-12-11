@@ -2,10 +2,7 @@
 /**
  * Flat item ereaser. Used to clear items from flat table
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Indexer\Product\Flat\Action;
 
@@ -22,19 +19,19 @@ class Eraser
     protected $connection;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
     /**
      * @param \Magento\Framework\App\Resource $resource
      * @param \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Framework\App\Resource $resource,
         \Magento\Catalog\Helper\Product\Flat\Indexer $productHelper,
-        \Magento\Framework\StoreManagerInterface $storeManager
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->productIndexerHelper = $productHelper;
         $this->connection = $resource->getConnection('default');
@@ -58,7 +55,7 @@ class Eraser
         );
         $result = $this->connection->query($select);
 
-        $existentProducts = array();
+        $existentProducts = [];
         foreach ($result->fetchAll() as $product) {
             $existentProducts[] = $product['entity_id'];
         }
@@ -79,19 +76,19 @@ class Eraser
     public function deleteProductsFromStore($productId, $storeId = null)
     {
         if (!is_array($productId)) {
-            $productId = array($productId);
+            $productId = [$productId];
         }
         if (null === $storeId) {
             foreach ($this->storeManager->getStores() as $store) {
                 $this->connection->delete(
                     $this->productIndexerHelper->getFlatTableName($store->getId()),
-                    array('entity_id IN(?)' => $productId)
+                    ['entity_id IN(?)' => $productId]
                 );
             }
         } else {
             $this->connection->delete(
                 $this->productIndexerHelper->getFlatTableName((int)$storeId),
-                array('entity_id IN(?)' => $productId)
+                ['entity_id IN(?)' => $productId]
             );
         }
     }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order\Invoice\Orders\Grid;
 
@@ -45,7 +42,6 @@ class Collection extends \Magento\Sales\Model\Resource\Order\Invoice\Grid\Collec
     {
         return $this->registryManager->registry('current_order');
     }
-
 
     /**
      * Apply sorting and filtering to collection

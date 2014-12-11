@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Invoice;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Sales\Api\Data\InvoiceCommentInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Sales\Api\Data\InvoiceCommentInterface;
+use Magento\Sales\Model\AbstractModel;
 
 /**
  * @method \Magento\Sales\Model\Resource\Order\Invoice\Comment _getResource()
@@ -30,7 +27,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
     protected $_invoice;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -41,7 +38,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
      * @param AttributeDataBuilder $customAttributeBuilder
      * @param \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate
      * @param \Magento\Framework\Stdlib\DateTime $dateTime
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -53,7 +50,7 @@ class Comment extends AbstractModel implements InvoiceCommentInterface
         AttributeDataBuilder $customAttributeBuilder,
         \Magento\Framework\Stdlib\DateTime\TimezoneInterface $localeDate,
         \Magento\Framework\Stdlib\DateTime $dateTime,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         array $data = []

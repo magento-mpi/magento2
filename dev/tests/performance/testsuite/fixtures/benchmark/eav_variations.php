@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 define('ATTRIBUTE_SET_ID', 4);
@@ -20,20 +17,20 @@ $helper = $this->getObjectManager()->get('Magento\Catalog\Helper\Product');
  */
 $storeViewsCount = \Magento\TestFramework\Helper\Cli::getOption('store_views', 4) + 1;
 
-$data = array(
+$data = [
     'frontend_label' => array_fill(0, $storeViewsCount + 1, 'configurable variations'),
     'frontend_input' => 'select',
     'is_required' => '0',
-    'option' => array(
-        'order' => array('option_0' => '1', 'option_1' => '2', 'option_2' => '3'),
-        'value' => array(
+    'option' => [
+        'order' => ['option_0' => '1', 'option_1' => '2', 'option_2' => '3'],
+        'value' => [
             'option_0' => array_fill(0, $storeViewsCount + 1, 'option 1'),
             'option_1' => array_fill(0, $storeViewsCount + 1, 'option 2'),
-            'option_2' => array_fill(0, $storeViewsCount + 1, 'option 3')
-        ),
-        'delete' => array('option_0' => '', 'option_1' => '', 'option_2' => '')
-    ),
-    'default' => array('option_0'),
+            'option_2' => array_fill(0, $storeViewsCount + 1, 'option 3'),
+        ],
+        'delete' => ['option_0' => '', 'option_1' => '', 'option_2' => ''],
+    ],
+    'default' => ['option_0'],
     'attribute_code' => 'configurable_variations',
     'is_global' => '1',
     'default_value_text' => '',
@@ -54,11 +51,11 @@ $data = array(
     'used_for_sort_by' => '0',
     'source_model' => null,
     'backend_model' => null,
-    'apply_to' => array(),
+    'apply_to' => [],
     'backend_type' => 'int',
     'entity_type_id' => 4,
-    'is_user_defined' => 1
-);
+    'is_user_defined' => 1,
+];
 /**
  * The logic is not obvious, but looking to the controller logic for configurable products this attribute requires
  * to be saved twice to become a child of Default attribute set and become available for creating and|or importing

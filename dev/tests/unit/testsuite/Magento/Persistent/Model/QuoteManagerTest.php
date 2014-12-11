@@ -1,21 +1,18 @@
 <?php
-/** 
- * 
- * {license_notice}
+/**
  *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Persistent\Model;
- 
+
 class QuoteManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var QuoteManager
      */
     protected $model;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -45,7 +42,7 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $abstractCollectionMock;
-    
+
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
@@ -177,7 +174,7 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
         $this->quoteMock->expects($this->once())
             ->method('setCustomerLastname')->with(null)->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())->method('setCustomerGroupId')
-            ->with(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID)
+            ->with(\Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID)
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('setIsPersistent')->with(false)->will($this->returnValue($this->quoteMock));
@@ -241,7 +238,7 @@ class QuoteManagerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->quoteMock));
         $this->quoteMock->expects($this->once())
             ->method('setCustomerGroupId')
-            ->with(\Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID)
+            ->with(\Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID)
             ->will($this->returnValue($this->quoteMock));
 
         $this->model->expire();

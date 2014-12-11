@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column;
 
@@ -21,12 +18,12 @@ class MultistoreTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', array(), array(), '', false);
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManager', [], [], '', false);
 
-        $arguments = array(
+        $arguments = [
             'storeManager' => $this->_storeManagerMock,
-            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false)
-        );
+            'urlBuilder' => $this->getMock('Magento\Backend\Model\Url', [], [], '', false),
+        ];
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject(

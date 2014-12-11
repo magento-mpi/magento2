@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Block\Checkout\Cart;
 
@@ -109,7 +106,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
         \Magento\Catalog\Model\ProductTypes\ConfigInterface $productTypeConfig,
         ProductRepositoryInterface $productRepository,
-        array $data = array()
+        array $data = []
     ) {
         $this->productTypeConfig = $productTypeConfig;
         $this->_productCollectionFactory = $productCollectionFactory;
@@ -188,7 +185,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     protected function _getCartProducts()
     {
         if (is_null($this->_products)) {
-            $this->_products = array();
+            $this->_products = [];
             foreach ($this->getQuote()->getAllItems() as $quoteItem) {
                 /* @var $quoteItem \Magento\Sales\Model\Quote\Item */
                 $product = $quoteItem->getProduct();
@@ -218,7 +215,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     protected function _getCartProductIdsRel()
     {
-        $productIds = array();
+        $productIds = [];
         foreach ($this->getQuote()->getAllItems() as $quoteItem) {
             $productTypeOpt = $quoteItem->getOptionByCode('product_type');
             if ($productTypeOpt instanceof \Magento\Sales\Model\Quote\Item\Option &&
@@ -297,7 +294,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     {
         $product = $this->getLastAddedProduct();
         if (!$product) {
-            return array();
+            return [];
         }
         $this->_byLastAddedProduct = true;
         $items = parent::getItemCollection();
@@ -314,7 +311,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param array $excludeProductIds
      * @return array
      */
-    protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = array())
+    protected function _getProductIdsFromIndexByProduct($product, $count, $excludeProductIds = [])
     {
         return $this->_getTargetRuleIndex()->setType(
             \Magento\TargetRule\Model\Rule::CROSS_SELLS
@@ -337,7 +334,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
     {
         /* @var $collection \Magento\Catalog\Model\Resource\Product\Collection */
         $collection = $this->_productCollectionFactory->create();
-        $collection->addFieldToFilter('entity_id', array('in' => $productIds));
+        $collection->addFieldToFilter('entity_id', ['in' => $productIds]);
         $this->_addProductAttributesAndPrices($collection);
 
         $collection->setVisibility($this->_visibility->getVisibleInCatalogIds());
@@ -353,9 +350,9 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      * @param array $excludeProductIds
      * @return array
      */
-    protected function _getProductIdsFromIndexForCartProducts($limit, $excludeProductIds = array())
+    protected function _getProductIdsFromIndexForCartProducts($limit, $excludeProductIds = [])
     {
-        $resultIds = array();
+        $resultIds = [];
 
         foreach ($this->_getCartProducts() as $product) {
             if ($product->getEntityId() == $this->getLastAddedProductId()) {
@@ -408,7 +405,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $excludeProductIds
         );
 
-        $items = array();
+        $items = [];
         if ($productIds) {
             $collection = $this->_getProductCollectionByIds($productIds);
             foreach ($collection as $product) {
@@ -426,7 +423,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
      */
     protected function _getLinkProducts()
     {
-        $items = array();
+        $items = [];
         $collection = $this->getLinkCollection();
         if ($collection) {
             if ($this->_byLastAddedProduct) {

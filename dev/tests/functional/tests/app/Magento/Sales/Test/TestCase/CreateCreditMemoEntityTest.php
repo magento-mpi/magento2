@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestCase;
 
+use Magento\Sales\Test\Fixture\OrderInjectable;
 use Mtf\Fixture\FixtureFactory;
+use Mtf\Fixture\FixtureInterface;
 use Mtf\ObjectManager;
 use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureInterface;
-use Magento\Sales\Test\Fixture\OrderInjectable;
 
 /**
  * Test Creation for CreateCreditMemo for offline payment methods
@@ -61,7 +58,7 @@ class CreateCreditMemoEntityTest extends Injectable
         'website_ids',
         'checkout_data',
         'type_id',
-        'price'
+        'price',
     ];
 
     /**

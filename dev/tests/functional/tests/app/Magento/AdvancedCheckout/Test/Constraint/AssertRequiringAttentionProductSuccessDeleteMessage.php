@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\AdvancedCheckout\Test\Constraint;
 
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Checkout\Test\Page\CheckoutCart;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Assert that success message is present after requiring attention product has been deleted from cart.

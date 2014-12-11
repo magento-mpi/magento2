@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Resource\Entity;
 
@@ -38,7 +35,7 @@ class Store extends \Magento\Framework\Model\Resource\Db\AbstractDb
     public function loadByEntityStore(AbstractModel $object, $entityTypeId, $storeId)
     {
         $adapter = $this->_getWriteAdapter();
-        $bind = array(':entity_type_id' => $entityTypeId, ':store_id' => $storeId);
+        $bind = [':entity_type_id' => $entityTypeId, ':store_id' => $storeId];
         $select = $adapter->select()->from(
             $this->getMainTable()
         )->forUpdate(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Block\Adminhtml\Sales\Order\Create;
 
@@ -31,7 +28,7 @@ class Payment extends \Magento\Framework\View\Element\Template
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_giftCardAccountData = $giftCardAccountData;
@@ -53,7 +50,7 @@ class Payment extends \Magento\Framework\View\Element\Template
      */
     public function getGiftCards()
     {
-        $result = array();
+        $result = [];
         $quote = $this->_orderCreate->getQuote();
         $cards = $this->_giftCardAccountData->getCards($quote);
         foreach ($cards as $card) {

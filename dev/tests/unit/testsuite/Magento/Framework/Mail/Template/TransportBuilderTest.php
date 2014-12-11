@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Mail\Template;
 
@@ -56,13 +53,13 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         )->disableOriginalConstructor()->setMethods(['create'])->getMock();
         $this->builder = $helper->getObject(
             $this->builderClassName,
-            array(
+            [
                 'templateFactory' => $this->templateFactoryMock,
                 'message' => $this->messageMock,
                 'objectManager' => $this->objectManagerMock,
                 'senderResolver' => $this->senderResolverMock,
                 'mailTransportFactory' => $this->_mailTransportFactoryMock
-            )
+            ]
         );
     }
 
@@ -74,8 +71,8 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTransport($templateType, $messageType, $bodyText)
     {
-        $vars = array('reason' => 'Reason', 'customer' => 'Customer');
-        $options = array('area' => 'frontend', 'store' => 1);
+        $vars = ['reason' => 'Reason', 'customer' => 'Customer'];
+        $options = ['area' => 'frontend', 'store' => 1];
         $template = $this->getMock('\Magento\Framework\Mail\TemplateInterface');
         $template->expects($this->once())->method('setVars')->with($this->equalTo($vars))->will($this->returnSelf());
         $template->expects(
@@ -136,7 +133,7 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
         )->method(
             'create'
         )->with(
-            $this->equalTo(array('message' => $this->messageMock))
+            $this->equalTo(['message' => $this->messageMock])
         )->will(
             $this->returnValue($transport)
         );
@@ -160,23 +157,23 @@ class TransportBuilderTest extends \PHPUnit_Framework_TestCase
 
     public function getTransportDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 \Magento\Framework\App\TemplateTypesInterface::TYPE_TEXT,
                 \Magento\Framework\Mail\Message::TYPE_TEXT,
-                'Plain text'
-            ),
-            array(
+                'Plain text',
+            ],
+            [
                 \Magento\Framework\App\TemplateTypesInterface::TYPE_HTML,
                 \Magento\Framework\Mail\Message::TYPE_HTML,
                 '<h1>Html message</h1>'
-            )
-        );
+            ]
+        ];
     }
 
     public function testSetFrom()
     {
-        $sender = array('email' => 'from@example.com', 'name' => 'name');
+        $sender = ['email' => 'from@example.com', 'name' => 'name'];
         $this->senderResolverMock->expects(
             $this->once()
         )->method(

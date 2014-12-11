@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Usps\Model\Source;
 
@@ -25,12 +22,12 @@ class GenericTest extends \PHPUnit_Framework_TestCase
         $this->_uspsModel = $this->getMockBuilder(
             'Magento\Usps\Model\Carrier'
         )->setMethods(
-            array('getCode')
+            ['getCode']
         )->disableOriginalConstructor()->getMock();
 
         $this->_generic = $helper->getObject(
             '\Magento\Usps\Model\Source\Generic',
-            array('shippingUsps' => $this->_uspsModel)
+            ['shippingUsps' => $this->_uspsModel]
         );
     }
 
@@ -51,9 +48,9 @@ class GenericTest extends \PHPUnit_Framework_TestCase
      */
     public function getCodeDataProvider()
     {
-        return array(
-            array(array(array('value' => 'Val', 'label' => 'Label')), array('Val' => 'Label')),
-            array(array(), false)
-        );
+        return [
+            [[['value' => 'Val', 'label' => 'Label']], ['Val' => 'Label']],
+            [[], false]
+        ];
     }
 }

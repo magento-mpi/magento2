@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Model;
 
@@ -51,7 +48,7 @@ class Db implements \Magento\Framework\Backup\Db\BackupDbInterface
      *
      * @var array
      */
-    protected $_ignoreDataTablesList = array('importexport/importdata');
+    protected $_ignoreDataTablesList = ['importexport/importdata'];
 
     /**
      * Retrieve resource model
@@ -190,7 +187,7 @@ class Db implements \Magento\Framework\Backup\Db\BackupDbInterface
      */
     public function getIgnoreDataTablesList()
     {
-        $result = array();
+        $result = [];
 
         foreach ($this->_ignoreDataTablesList as $table) {
             $result[] = $this->_resource->getTableName($table);

@@ -1,18 +1,14 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Controller\Advanced;
 
-use Magento\Framework\App\Action\Context;
-use Magento\CatalogSearch\Model\Advanced as ModelAdvanced;
-use Magento\Framework\Session\Generic;
-use Magento\Framework\UrlFactory;
 use Magento\Catalog\Model\Layer\Resolver;
+use Magento\CatalogSearch\Model\Advanced as ModelAdvanced;
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\UrlFactory;
 
 class Result extends \Magento\Framework\App\Action\Action
 {

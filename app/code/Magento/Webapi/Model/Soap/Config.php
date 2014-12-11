@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Model\Soap;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Webapi\Model\Config\Converter;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Webapi\Model\Config\Converter;
 
 /**
  * Webapi Config Model for Soap.
@@ -115,7 +112,7 @@ class Config
                         self::KEY_CLASS => $class,
                         self::KEY_METHOD => $method,
                         self::KEY_IS_SECURE => $methodData[self::KEY_IS_SECURE],
-                        self::KEY_ACL_RESOURCES => $methodData[self::KEY_ACL_RESOURCES]
+                        self::KEY_ACL_RESOURCES => $methodData[self::KEY_ACL_RESOURCES],
                     ];
                 }
             }
@@ -204,7 +201,7 @@ class Config
     /**
      * Generate SOAP operation name.
      *
-     * @param string $interfaceName e.g. \Magento\Catalog\Service\ProductInterfaceV1
+     * @param string $interfaceName e.g. \Magento\Catalog\Api\ProductInterfaceV1
      * @param string $methodName e.g. create
      * @return string e.g. catalogProductCreate
      */

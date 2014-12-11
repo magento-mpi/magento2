@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
@@ -11,14 +8,13 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard
      */
     protected $block;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManager;
 
@@ -80,7 +76,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeValueDataProvider()
     {
-        return array(array(true, 'test', ''), array(false, 'test', 'value-scope="test"'));
+        return [[true, 'test', ''], [false, 'test', 'value-scope="test"']];
     }
 
     /**
@@ -90,7 +86,6 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsNew($prodId, $result)
     {
-
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->setMethods(['getId', '__wakeup'])
             ->disableOriginalConstructor()

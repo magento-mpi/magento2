@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
@@ -72,7 +69,7 @@ class Rviewed extends AbstractAccordion
         \Magento\Sales\Helper\Admin $adminhtmlSales,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Reports\Model\EventFactory $eventFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->stockHelper = $stockHelper;
@@ -111,7 +108,7 @@ class Rviewed extends AbstractAccordion
                 $this->_getCustomer()->getId(),
                 0
             );
-            $productIds = array();
+            $productIds = [];
             foreach ($collection as $event) {
                 $productIds[] = $event->getObjectId();
             }
@@ -148,6 +145,6 @@ class Rviewed extends AbstractAccordion
      */
     public function getGridUrl()
     {
-        return $this->getUrl('checkout/*/viewRecentlyViewed', array('_current' => true));
+        return $this->getUrl('checkout/*/viewRecentlyViewed', ['_current' => true]);
     }
 }

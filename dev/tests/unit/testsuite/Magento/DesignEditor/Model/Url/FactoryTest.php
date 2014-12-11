@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Model\Url;
 
@@ -37,7 +34,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         )->method(
             'configure'
         )->with(
-            array('preferences' => array('Magento\Framework\UrlInterface' => 'TestClass'))
+            ['preferences' => ['Magento\Framework\UrlInterface' => 'TestClass']]
         );
 
         $this->assertEquals($this->_model, $this->_model->replaceClassName('TestClass'));
@@ -51,7 +48,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             'create'
         )->with(
             'Magento\Framework\UrlInterface',
-            array()
+            []
         )->will(
             $this->returnValue('ModelInstance')
         );

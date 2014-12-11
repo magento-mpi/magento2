@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 // add new website
@@ -12,13 +9,13 @@ $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('
 $website->setCode('finance_website')->setName('Finance Website');
 $website->save();
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->reinitStores();
 
 // create test customer
 /** @var $customer \Magento\Customer\Model\Customer */
 $customer = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Customer\Model\Customer');
-$customer->addData(array('firstname' => 'Test', 'lastname' => 'User'));
+$customer->addData(['firstname' => 'Test', 'lastname' => 'User']);
 $customerEmail = 'customer_finance_test@test.com';
 $registerKey = 'customer_finance_email';
 /** @var $objectManager \Magento\TestFramework\ObjectManager */
@@ -28,7 +25,7 @@ $objectManager->get('Magento\Framework\Registry')->register($registerKey, $custo
 $customer->setEmail($customerEmail);
 $customer->setWebsiteId(
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-        'Magento\Framework\StoreManagerInterface'
+        'Magento\Store\Model\StoreManagerInterface'
     )->getStore()->getWebsiteId()
 );
 $customer->save();
@@ -42,7 +39,7 @@ $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
 // increment to modify balance values
 $increment = 0;
 $websites = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
-    'Magento\Framework\StoreManagerInterface'
+    'Magento\Store\Model\StoreManagerInterface'
 )->getWebsites();
 /** @var $website \Magento\Store\Model\Website */
 foreach ($websites as $website) {

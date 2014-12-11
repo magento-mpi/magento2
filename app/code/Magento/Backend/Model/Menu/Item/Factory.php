@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Item;
 
@@ -28,8 +25,8 @@ class Factory
      * @param array $data
      * @return \Magento\Backend\Model\Menu\Item
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
-        return $this->_objectManager->create('Magento\Backend\Model\Menu\Item', array('data' => $data));
+        return $this->_objectManager->create('Magento\Backend\Model\Menu\Item', ['data' => $data]);
     }
 }

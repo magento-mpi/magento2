@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Catalog\Product;
 
@@ -38,7 +35,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Tax\Helper\Data $taxData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxHelper = $taxData;
         parent::__construct(

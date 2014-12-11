@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Helper;
 
@@ -48,7 +45,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     protected $_filterManagerMock;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storeManagerMock;
 
@@ -60,7 +57,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_escaperMock = $this->getMock('Magento\Framework\Escaper');
         $this->_filterManagerMock = $this->getMock('Magento\Framework\Filter\FilterManager', [], [], '', false);
-        $this->_storeManagerMock = $this->getMock('Magento\Framework\StoreManagerInterface');
+        $this->_storeManagerMock = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->_model = new \Magento\CatalogSearch\Helper\Data(
             $this->_contextMock,
@@ -116,28 +113,28 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     public function prepareIndexdataDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 null,
-                array(
-                    'index' => array(),
+                [
+                    'index' => [],
                     'separator' => '--'
-                )
-            ),
-            array(
+                ],
+            ],
+            [
                 'element1--element2--element3--element4',
-                array(
-                    'index' => array(
+                [
+                    'index' => [
                         'element1',
                         'element2',
-                        array(
+                        [
                             'element3',
                             'element4',
-                        )
-                    ),
+                        ],
+                    ],
                     'separator' => '--'
-                )
-            )
-        );
+                ]
+            ]
+        ];
     }
 }

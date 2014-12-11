@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Reports\Test\Block\Adminhtml\Review\Products;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as AbstractGrid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid

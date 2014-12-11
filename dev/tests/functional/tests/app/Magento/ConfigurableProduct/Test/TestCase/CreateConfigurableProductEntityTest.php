@@ -1,18 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
-use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\Catalog\Test\Page\Adminhtml\CatalogProductIndex;
+use Magento\Catalog\Test\Page\Adminhtml\CatalogProductNew;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Coverage for CreateConfigurableProductEntity

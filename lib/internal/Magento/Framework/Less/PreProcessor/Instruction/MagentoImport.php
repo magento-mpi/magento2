@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Less\PreProcessor\Instruction;
 
 use Magento\Framework\Less\PreProcessor\ErrorHandlerInterface;
-use Magento\Framework\View\Asset\PreProcessorInterface;
+use Magento\Framework\View\Asset\File\FallbackContext;
 use Magento\Framework\View\Asset\LocalInterface;
+use Magento\Framework\View\Asset\PreProcessorInterface;
 use Magento\Framework\View\DesignInterface;
 use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Asset\File\FallbackContext;
 
 /**
  * LESS @magento_import instruction preprocessor

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -50,12 +47,12 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
         $this->ensureDefaultsExtraFile();
         $this->_shell->execute(
             'mysql --defaults-extra-file=%s --host=%s %s -e %s',
-            array(
+            [
                 $this->_defaultsExtraFile,
                 $this->_host,
                 $this->_schema,
                 "DROP DATABASE `{$this->_schema}`; CREATE DATABASE `{$this->_schema}`"
-            )
+            ]
         );
     }
 
@@ -87,7 +84,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
         $this->ensureDefaultsExtraFile();
         $this->_shell->execute(
             'mysqldump --defaults-extra-file=%s --host=%s  %s > %s',
-            array($this->_defaultsExtraFile, $this->_host, $this->_schema, $this->getSetupDbDumpFilename())
+            [$this->_defaultsExtraFile, $this->_host, $this->_schema, $this->getSetupDbDumpFilename()]
         );
     }
 
@@ -103,7 +100,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
         }
         $this->_shell->execute(
             'mysql --defaults-extra-file=%s --host=%s %s < %s',
-            array($this->_defaultsExtraFile, $this->_host, $this->_schema, $this->getSetupDbDumpFilename())
+            [$this->_defaultsExtraFile, $this->_host, $this->_schema, $this->getSetupDbDumpFilename()]
         );
     }
 
@@ -124,7 +121,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
     {
         if (!file_exists($this->_defaultsExtraFile)) {
             $this->assertVarPathWritable();
-            $extraConfig = array('[client]', 'user=' . $this->_user, 'password="' . $this->_password . '"');
+            $extraConfig = ['[client]', 'user=' . $this->_user, 'password="' . $this->_password . '"'];
             file_put_contents($this->_defaultsExtraFile, implode(PHP_EOL, $extraConfig));
             chmod($this->_defaultsExtraFile, 0644);
         }

@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order;
 
 use Magento\Framework\App\Resource;
-use Magento\Sales\Model\Resource\Attribute;
-use Magento\Sales\Model\Spi\InvoiceResourceInterface;
 use Magento\Sales\Model\Increment as SalesIncrement;
+use Magento\Sales\Model\Resource\Attribute;
 use Magento\Sales\Model\Resource\Entity as SalesResource;
 use Magento\Sales\Model\Resource\Order\Invoice\Grid as InvoiceGrid;
+use Magento\Sales\Model\Spi\InvoiceResourceInterface;
 
 /**
  * Flat sales order invoice resource

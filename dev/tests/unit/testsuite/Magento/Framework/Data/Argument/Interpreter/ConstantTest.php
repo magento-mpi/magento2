@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data\Argument\Interpreter;
 
@@ -22,7 +19,7 @@ class ConstantTest extends \PHPUnit_Framework_TestCase
     public function testEvaluate()
     {
         // it is defined in framework/bootstrap.php
-        $this->assertEquals(TESTS_TEMP_DIR, $this->object->evaluate(array('value' => 'TESTS_TEMP_DIR')));
+        $this->assertEquals(TESTS_TEMP_DIR, $this->object->evaluate(['value' => 'TESTS_TEMP_DIR']));
     }
 
     /**
@@ -40,10 +37,10 @@ class ConstantTest extends \PHPUnit_Framework_TestCase
      */
     public function evaluateBadValueDataProvider()
     {
-        return array(
-            array(array('value' => 'KNOWINGLY_UNDEFINED_CONSTANT')),
-            array(array('value' => '')),
-            array(array())
-        );
+        return [
+            [['value' => 'KNOWINGLY_UNDEFINED_CONSTANT']],
+            [['value' => '']],
+            [[]]
+        ];
     }
 }

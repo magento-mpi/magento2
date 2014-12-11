@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Controller\Adminhtml\Page;
 
@@ -49,8 +46,8 @@ class PostDataProcessor
     public function filter($data)
     {
         $inputFilter = new \Zend_Filter_Input(
-            array('custom_theme_from' => $this->dateFilter, 'custom_theme_to' => $this->dateFilter),
-            array(),
+            ['custom_theme_from' => $this->dateFilter, 'custom_theme_to' => $this->dateFilter],
+            [],
             $data
         );
         $data = $inputFilter->getUnescaped();

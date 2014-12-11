@@ -1,27 +1,24 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Stock;
 
-use Magento\Framework\DB\MapperFactory;
 use Magento\Catalog\Model\ProductFactory;
+use Magento\CatalogInventory\Api\Data\StockItemCollectionInterfaceFactory;
+use Magento\CatalogInventory\Api\Data\StockItemInterface;
+use Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory;
+use Magento\CatalogInventory\Api\StockConfigurationInterface;
+use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
+use Magento\CatalogInventory\Model\Indexer\Stock\Processor;
+use Magento\CatalogInventory\Model\Resource\Stock\Item as StockItemResource;
+use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
+use Magento\Framework\DB\MapperFactory;
 use Magento\Framework\DB\QueryBuilderFactory;
+use Magento\Framework\Exception\CouldNotDeleteException;
 use Magento\Framework\Exception\CouldNotSaveException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
-use Magento\Framework\Exception\CouldNotDeleteException;
-use Magento\CatalogInventory\Api\Data\StockItemInterface;
-use Magento\CatalogInventory\Model\Indexer\Stock\Processor;
-use Magento\CatalogInventory\Api\StockConfigurationInterface;
-use Magento\CatalogInventory\Api\Data\StockItemInterfaceFactory;
-use Magento\CatalogInventory\Model\Spi\StockStateProviderInterface;
-use Magento\CatalogInventory\Api\Data\StockItemCollectionInterfaceFactory;
-use Magento\CatalogInventory\Model\Resource\Stock\Item as StockItemResource;
-use Magento\CatalogInventory\Api\StockItemRepositoryInterface as StockItemRepositoryInterface;
 
 /**
  * Class StockItemRepository

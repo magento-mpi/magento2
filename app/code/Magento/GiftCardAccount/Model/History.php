@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Model;
 
@@ -40,14 +37,14 @@ class History extends \Magento\Framework\Model\AbstractModel
     const ACTION_UPDATED = 5;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
      * @param \Magento\Framework\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -55,10 +52,10 @@ class History extends \Magento\Framework\Model\AbstractModel
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -77,14 +74,14 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getActionNamesArray()
     {
-        return array(
+        return [
             self::ACTION_CREATED => __('Created'),
             self::ACTION_UPDATED => __('Updated'),
             self::ACTION_SENT => __('Sent'),
             self::ACTION_USED => __('Used'),
             self::ACTION_REDEEMED => __('Redeemed'),
             self::ACTION_EXPIRED => __('Expired')
-        );
+        ];
     }
 
     /**

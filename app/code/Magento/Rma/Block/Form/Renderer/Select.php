@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Form\Renderer;
 
@@ -36,7 +33,7 @@ class Select extends \Magento\CustomAttributeManagement\Block\Form\Renderer\Sele
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;

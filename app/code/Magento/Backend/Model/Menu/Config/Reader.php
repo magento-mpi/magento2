@@ -2,10 +2,7 @@
 /**
  * Menu configuration files handler
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Menu\Config;
 
@@ -27,7 +24,7 @@ class Reader extends \Magento\Framework\Config\Reader\Filesystem
         \Magento\Backend\Model\Menu\Config\SchemaLocator $schemaLocator,
         \Magento\Framework\Config\ValidationStateInterface $validationState,
         $fileName = 'menu.xml',
-        $idAttributes = array(),
+        $idAttributes = [],
         $domDocumentClass = 'Magento\Backend\Model\Menu\Config\Menu\Dom',
         $defaultScope = 'global'
     ) {

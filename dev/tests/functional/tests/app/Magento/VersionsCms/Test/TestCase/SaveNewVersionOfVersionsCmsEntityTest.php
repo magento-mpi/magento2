@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\VersionsCms\Test\TestCase;
 
 use Magento\Cms\Test\Fixture\CmsPage;
-use Magento\VersionsCms\Test\Fixture\Version;
-use Mtf\TestCase\Injectable;
-use Magento\Cms\Test\Page\Adminhtml\CmsNew;
 use Magento\Cms\Test\Page\Adminhtml\CmsIndex;
+use Magento\Cms\Test\Page\Adminhtml\CmsNew;
+use Magento\VersionsCms\Test\Fixture\Version;
 use Magento\VersionsCms\Test\Page\Adminhtml\CmsVersionEdit;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for SaveNewVersion of VersionsCmsEntity

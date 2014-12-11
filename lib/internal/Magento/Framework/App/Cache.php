@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -70,7 +67,7 @@ class Cache implements CacheInterface
      * @param int $lifeTime
      * @return bool
      */
-    public function save($data, $identifier, $tags = array(), $lifeTime = null)
+    public function save($data, $identifier, $tags = [], $lifeTime = null)
     {
         return $this->_frontend->save((string)$data, $identifier, $tags, $lifeTime);
     }
@@ -92,7 +89,7 @@ class Cache implements CacheInterface
      * @param array $tags
      * @return bool
      */
-    public function clean($tags = array())
+    public function clean($tags = [])
     {
         if ($tags) {
             $result = $this->_frontend->clean(\Zend_Cache::CLEANING_MODE_MATCHING_ANY_TAG, (array)$tags);

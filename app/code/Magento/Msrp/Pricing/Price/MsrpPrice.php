@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Msrp\Pricing\Price;
 
-use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Pricing\Price\FinalPrice;
+use Magento\Framework\Pricing\Adjustment\CalculatorInterface;
 
 /**
  * MSRP price model

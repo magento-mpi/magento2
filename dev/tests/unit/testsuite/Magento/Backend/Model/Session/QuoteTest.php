@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Session;
 
@@ -13,7 +10,7 @@ namespace Magento\Backend\Model\Session;
 class QuoteTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Store\Model\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $storeManagerMock;
 
@@ -183,7 +180,7 @@ class QuoteTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->storeManagerMock = $this->getMockForAbstractClass(
-            'Magento\Framework\StoreManagerInterface',
+            'Magento\Store\Model\StoreManagerInterface',
             [],
             '',
             false

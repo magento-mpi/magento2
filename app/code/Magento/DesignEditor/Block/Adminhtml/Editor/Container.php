@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor;
 
@@ -30,11 +27,11 @@ class Container extends \Magento\Backend\Block\Widget\Container
     {
         $this->addButton(
             'back_button',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('adminhtml/*') . '\')',
                 'class' => 'back'
-            )
+            ]
         );
 
         parent::_prepareLayout();

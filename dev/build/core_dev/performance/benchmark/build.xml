@@ -3,11 +3,8 @@
 /**
 * Apache Ant's build file for core development performance benchmarking
 *
-* {license_notice}
-*
-* @copyright  {copyright}
-* @license    {license_link}
-*/
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
+ */
 -->
 <project name="Core Development Performance Benchmarking" basedir="." xmlns:ac="antlib:net.sf.antcontrib">
     <property environment="env"/>

@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogRule\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
-use Mtf\Fixture\FixtureFactory;
+use Magento\Backend\Test\Page\Adminhtml\AdminCache;
 use Magento\CatalogRule\Test\Fixture\CatalogRule;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleIndex;
 use Magento\CatalogRule\Test\Page\Adminhtml\CatalogRuleNew;
-use Magento\Backend\Test\Page\Adminhtml\AdminCache;
+use Mtf\Fixture\FixtureFactory;
+use Mtf\TestCase\Injectable;
 
 /**
  * Parent class for CatalogRule tests

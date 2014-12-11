@@ -13,12 +13,13 @@ class PHPParser_Node_Stmt_TraitUse extends PHPParser_Node_Stmt
      * @param PHPParser_Node_Stmt_TraitUseAdaptation[] $adaptations Adaptations
      * @param array                                    $attributes  Additional attributes
      */
-    public function __construct(array $traits, array $adaptations = array(), array $attributes = array()) {
+    public function __construct(array $traits, array $adaptations = [], array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'traits'      => $traits,
                 'adaptations' => $adaptations,
-            ),
+            ],
             $attributes
         );
     }

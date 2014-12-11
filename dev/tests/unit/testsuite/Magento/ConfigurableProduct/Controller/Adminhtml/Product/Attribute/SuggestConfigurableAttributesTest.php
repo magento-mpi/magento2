@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Controller\Adminhtml\Product\Attribute;
 
@@ -37,30 +34,29 @@ class SuggestConfigurableAttributesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', array(), array(), '', false);
-        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', array(), array(), '', false);
-        $this->helperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
+        $this->responseMock = $this->getMock('Magento\Framework\App\Response\Http', [], [], '', false);
+        $this->requestMock = $this->getMock('Magento\Framework\App\Request\Http', [], [], '', false);
+        $this->helperMock = $this->getMock('Magento\Core\Helper\Data', [], [], '', false);
         $this->attributeListMock = $this->getMock(
             'Magento\ConfigurableProduct\Model\SuggestedAttributeList',
-            array(),
-            array(),
+            [],
+            [],
             '',
             false
         );
         $this->suggestAttributes = $helper->getObject(
             'Magento\ConfigurableProduct\Controller\Adminhtml\Product\Attribute\SuggestConfigurableAttributes',
-            array(
+            [
                 'response' => $this->responseMock,
                 'request' => $this->requestMock,
                 'coreHelper' => $this->helperMock,
                 'attributeList' => $this->attributeListMock
-            )
+            ]
         );
     }
 
     public function testIndexAction()
     {
-
         $this->requestMock->expects(
             $this->once()
         )->method(

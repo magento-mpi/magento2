@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\WebsiteRestriction\Model\Observer;
 
@@ -63,10 +60,10 @@ class RestrictWebsite
         /* @var $controller \Magento\Framework\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
-        $dispatchResult = $this->objectFactory->create(array('should_proceed' => true, 'customer_logged_in' => false));
+        $dispatchResult = $this->objectFactory->create(['should_proceed' => true, 'customer_logged_in' => false]);
         $this->eventManager->dispatch(
             'websiterestriction_frontend',
-            array('controller' => $controller, 'result' => $dispatchResult)
+            ['controller' => $controller, 'result' => $dispatchResult]
         );
 
         if (!$dispatchResult->getShouldProceed() || !$this->config->isRestrictionEnabled()) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Model\Resource\Sample;
 
@@ -35,7 +32,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if (empty($product)) {
             $this->addFieldToFilter('product_id', '');
         } elseif (is_array($product)) {
-            $this->addFieldToFilter('product_id', array('in' => $product));
+            $this->addFieldToFilter('product_id', ['in' => $product]);
         } else {
             $this->addFieldToFilter('product_id', $product);
         }
@@ -53,13 +50,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $ifNullDefaultTitle = $this->getConnection()->getIfNullSql('st.title', 'd.title');
         $this->getSelect()->joinLeft(
-            array('d' => $this->getTable('downloadable_sample_title')),
+            ['d' => $this->getTable('downloadable_sample_title')],
             'd.sample_id=main_table.sample_id AND d.store_id = 0',
-            array('default_title' => 'title')
+            ['default_title' => 'title']
         )->joinLeft(
-            array('st' => $this->getTable('downloadable_sample_title')),
+            ['st' => $this->getTable('downloadable_sample_title')],
             'st.sample_id=main_table.sample_id AND st.store_id = ' . (int)$storeId,
-            array('store_title' => 'title', 'title' => $ifNullDefaultTitle)
+            ['store_title' => 'title', 'title' => $ifNullDefaultTitle]
         )->order(
             'main_table.sort_order ASC'
         )->order(

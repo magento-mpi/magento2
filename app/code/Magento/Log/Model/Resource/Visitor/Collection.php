@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Log\Model\Resource\Visitor;
 
@@ -82,13 +79,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_fieldMap = array(
+    protected $_fieldMap = [
         'customer_firstname' => 'customer_firstname_table.value',
         'customer_lastname' => 'customer_lastname_table.value',
         'customer_email' => 'customer_email_table.email',
         'customer_id' => 'customer_table.customer_id',
-        'url' => 'url_info_table.url'
-    );
+        'url' => 'url_info_table.url',
+    ];
 
     /**
      * Collection resource initialization
@@ -132,9 +129,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($fieldName == 'type' && is_array($condition) && isset($condition['eq'])) {
             $fieldName = 'customer_id';
             if ($condition['eq'] === \Magento\Customer\Model\Visitor::VISITOR_TYPE_VISITOR) {
-                $condition = array('null' => 1);
+                $condition = ['null' => 1];
             } else {
-                $condition = array('moreq' => 1);
+                $condition = ['moreq' => 1];
             }
         }
         return parent::addFieldToFilter($this->_getFieldMap($fieldName), $condition);
@@ -167,7 +164,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
         if ($this->isLoaded()) {
             return $this;
         }
-        $this->_eventManager->dispatch('log_visitor_collection_load_before', array('collection' => $this));
+        $this->_eventManager->dispatch('log_visitor_collection_load_before', ['collection' => $this]);
         return parent::load($printQuery, $logQuery);
     }
 

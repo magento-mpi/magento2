@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Order;
 
-use Magento\Framework\Model\Exception;
 use Magento\Framework\App\Resource;
 use Magento\Framework\Logger as LogWriter;
+use Magento\Framework\Model\Exception;
 
 /**
  * Order status resource model
@@ -77,9 +74,9 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
         if ($field == 'default_state') {
             $select = $this->_getReadAdapter()->select()->from(
                 $this->getMainTable(),
-                array('label')
+                ['label']
             )->join(
-                array('state_table' => $this->stateTable),
+                ['state_table' => $this->stateTable],
                 $this->getMainTable() . '.status = state_table.status',
                 'status'
             )->where(
@@ -109,7 +106,7 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
             ->where('status = ?', $status->getStatus())
             ->columns([
                 'store_id',
-                'label'
+                'label',
             ]);
         return $this->_getReadAdapter()->fetchPairs($select);
     }
@@ -124,13 +121,13 @@ class Status extends \Magento\Framework\Model\Resource\Db\AbstractDb
     {
         if ($object->hasStoreLabels()) {
             $labels = $object->getStoreLabels();
-            $this->_getWriteAdapter()->delete($this->labelsTable, array('status = ?' => $object->getStatus()));
-            $data = array();
+            $this->_getWriteAdapter()->delete($this->labelsTable, ['status = ?' => $object->getStatus()]);
+            $data = [];
             foreach ($labels as $storeId => $label) {
                 if (empty($label)) {
                     continue;
                 }
-                $data[] = array('status' => $object->getStatus(), 'store_id' => $storeId, 'label' => $label);
+                $data[] = ['status' => $object->getStatus(), 'store_id' => $storeId, 'label' => $label];
             }
             if (!empty($data)) {
                 $this->_getWriteAdapter()->insertMultiple($this->labelsTable, $data);

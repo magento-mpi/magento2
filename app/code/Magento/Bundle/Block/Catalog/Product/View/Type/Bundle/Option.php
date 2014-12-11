@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Catalog\Product\View\Type\Bundle;
 
@@ -67,7 +64,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
         \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Helper\Data $coreHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreHelper = $coreHelper;
         $this->_catalogHelper = $catalogData;
@@ -131,7 +128,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
             $canChangeQty = $selections[0]->getSelectionCanChangeQty();
         }
 
-        return array($defaultQty, $canChangeQty);
+        return [$defaultQty, $canChangeQty];
     }
 
     /**
@@ -142,7 +139,7 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     protected function _getSelectedOptions()
     {
         if (is_null($this->_selectedOptions)) {
-            $this->_selectedOptions = array();
+            $this->_selectedOptions = [];
             $option = $this->getOption();
 
             if ($this->getProduct()->hasPreconfiguredValues()) {
@@ -278,44 +275,6 @@ class Option extends \Magento\Bundle\Block\Catalog\Product\Price
     public function setValidationContainer($elementId, $containerId)
     {
         return;
-    }
-
-    /**
-     * Format price string
-     *
-     * @param float $price
-     * @param bool $includeContainer
-     * @return string
-     * @deprecated
-     */
-    public function formatPriceString($price, $includeContainer = true)
-    {
-        $catalogHelper = $this->_catalogHelper;
-        $taxHelper = $this->_taxHelper;
-        $coreHelper = $this->_coreHelper;
-        $currentProduct = $this->getProduct();
-        if ($currentProduct->getPriceType() == Price::PRICE_TYPE_DYNAMIC && $this->getFormatProduct()) {
-            $product = $this->getFormatProduct();
-        } else {
-            $product = $currentProduct;
-        }
-
-        $priceTax = $catalogHelper->getTaxPrice($product, $price);
-        $priceIncTax = $catalogHelper->getTaxPrice($product, $price, true);
-
-        $formatted = $coreHelper->currencyByStore($priceTax, $product->getStore(), true, $includeContainer);
-        if ($taxHelper->displayBothPrices() && $priceTax != $priceIncTax) {
-            $formatted .= ' (+' . $coreHelper->currencyByStore(
-                $priceIncTax,
-                $product->getStore(),
-                true,
-                $includeContainer
-            ) . ' ' . __(
-                'Incl. Tax'
-            ) . ')';
-        }
-
-        return $formatted;
     }
 
     /**

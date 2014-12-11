@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Dictionary\Options;
 
@@ -47,7 +44,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
                     [
                         'type' => 'php',
                         'paths' => [$sourceFirst . '/app/code/', $sourceFirst . '/app/design/'],
-                        'fileMask' => '/\.(php|phtml)$/'
+                        'fileMask' => '/\.(php|phtml)$/',
                     ],
                     [
                         'type' => 'js',
@@ -55,7 +52,7 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
                             $sourceFirst . '/app/code/',
                             $sourceFirst . '/app/design/',
                             $sourceFirst . '/lib/web/mage/',
-                            $sourceFirst . '/lib/web/varien/'
+                            $sourceFirst . '/lib/web/varien/',
                         ],
                         'fileMask' => '/\.(js|phtml)$/'
                     ],
@@ -64,15 +61,15 @@ class ResolverTest extends \PHPUnit_Framework_TestCase
                         'paths' => [$sourceFirst . '/app/code/', $sourceFirst . '/app/design/'],
                         'fileMask' => '/\.xml$/'
                     ]
-                ]
+                ],
             ],
             [
                 $sourceSecond,
                 false,
                 [
-                    ['type' => 'php', 'paths' => array($sourceSecond), 'fileMask' => '/\.(php|phtml)$/'],
-                    ['type' => 'js', 'paths' => array($sourceSecond), 'fileMask' => '/\.(js|phtml)$/'],
-                    ['type' => 'xml', 'paths' => array($sourceSecond), 'fileMask' => '/\.xml$/']
+                    ['type' => 'php', 'paths' => [$sourceSecond], 'fileMask' => '/\.(php|phtml)$/'],
+                    ['type' => 'js', 'paths' => [$sourceSecond], 'fileMask' => '/\.(js|phtml)$/'],
+                    ['type' => 'xml', 'paths' => [$sourceSecond], 'fileMask' => '/\.xml$/']
                 ]
             ],
         ];

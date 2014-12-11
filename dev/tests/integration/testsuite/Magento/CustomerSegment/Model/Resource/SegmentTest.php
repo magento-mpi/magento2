@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Model\Resource;
 
@@ -27,30 +24,30 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
      */
     public function createConditionSqlDataProvider()
     {
-        return array(
-            'Operator is' => array('value', '==', '90064', "value = '90064'"),
-            'Operator is multiple values' => array('value', '==', '90064,90065', "value IN ('90064', '90065')"),
-            'Operator is not' => array('value', '!=', '90064', "value <> '90064'"),
-            'Operator is not multiple values' => array(
+        return [
+            'Operator is' => ['value', '==', '90064', "value = '90064'"],
+            'Operator is multiple values' => ['value', '==', '90064,90065', "value IN ('90064', '90065')"],
+            'Operator is not' => ['value', '!=', '90064', "value <> '90064'"],
+            'Operator is not multiple values' => [
                 'value',
                 '!=',
                 '90064,90065',
-                "value NOT IN ('90064', '90065')"
-            ),
-            'Operator contains' => array('value', '{}', '90064', "value LIKE '%90064%'"),
-            'Operator contains multiple values' => array(
+                "value NOT IN ('90064', '90065')",
+            ],
+            'Operator contains' => ['value', '{}', '90064', "value LIKE '%90064%'"],
+            'Operator contains multiple values' => [
                 'value',
                 '{}',
                 '90064,90065',
-                "value LIKE '%90064%' AND value LIKE '%90065%'"
-            ),
-            'Operator does not contain' => array('value', '!{}', '90064', "value NOT LIKE '%90064%'"),
-            'Operator does not contain multiple values' => array(
+                "value LIKE '%90064%' AND value LIKE '%90065%'",
+            ],
+            'Operator does not contain' => ['value', '!{}', '90064', "value NOT LIKE '%90064%'"],
+            'Operator does not contain multiple values' => [
                 'value',
                 '!{}',
                 '90064,90065',
-                "value NOT LIKE '%90064%' AND value NOT LIKE '%90065%'"
-            )
-        );
+                "value NOT LIKE '%90064%' AND value NOT LIKE '%90065%'",
+            ]
+        ];
     }
 }

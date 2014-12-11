@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Api;
 
@@ -21,20 +18,20 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $attributeSetId = $attributeSet->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1Get',
-            ),
-        );
-        $arguments = array(
+            ],
+        ];
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $result = $this->_webApiCall($serviceInfo, $arguments);
         $this->assertNotNull($result);
         $this->assertEquals($attributeSet->getId(), $result['attribute_set_id']);
@@ -50,20 +47,20 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetId = 9999;
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1Get',
-            ),
-        );
-        $arguments = array(
+            ],
+        ];
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $arguments);
     }
 
@@ -74,29 +71,29 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetName = 'empty_attribute_set';
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1Save',
-            ),
-        );
+            ],
+        ];
 
         $updatedSortOrder = $attributeSet->getSortOrder() + 200;
 
-        $arguments = array(
-            'attributeSet' => array(
+        $arguments = [
+            'attributeSet' => [
                 'attribute_set_id' => $attributeSet->getId(),
                 // name is the same, because it is used by fixture rollback script
                 'attribute_set_name' => $attributeSet->getAttributeSetName(),
                 'entity_type_id' => $attributeSet->getEntityTypeId(),
                 'sort_order' => $updatedSortOrder,
-            ),
-        );
+            ],
+        ];
         $result = $this->_webApiCall($serviceInfo, $arguments);
         $this->assertNotNull($result);
         // Reload attribute set data
@@ -117,21 +114,21 @@ class AttributeSetRepositoryTest extends WebapiAbstract
         $attributeSet = $this->getAttributeSetByName($attributeSetName);
         $attributeSetId = $attributeSet->getId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1DeleteById',
-            ),
-        );
+            ],
+        ];
 
-        $arguments = array(
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $arguments));
         $this->assertNull($this->getAttributeSetByName($attributeSetName));
     }
@@ -150,21 +147,21 @@ class AttributeSetRepositoryTest extends WebapiAbstract
             ->getEntityType(\Magento\Catalog\Api\Data\ProductAttributeInterface::ENTITY_TYPE_CODE)
             ->getDefaultAttributeSetId();
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/' . $defaultAttributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1DeleteById',
-            ),
-        );
+            ],
+        ];
 
-        $arguments = array(
+        $arguments = [
             'attributeSetId' => $defaultAttributeSetId,
-        );
+        ];
         $this->assertTrue($this->_webApiCall($serviceInfo, $arguments));
     }
 
@@ -175,21 +172,21 @@ class AttributeSetRepositoryTest extends WebapiAbstract
     {
         $attributeSetId = 9999;
 
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/' . $attributeSetId,
-                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
-            ),
-            'soap' => array(
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE,
+            ],
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1DeleteById',
-            ),
-        );
+            ],
+        ];
 
-        $arguments = array(
+        $arguments = [
             'attributeSetId' => $attributeSetId,
-        );
+        ];
         $this->_webApiCall($serviceInfo, $arguments);
     }
 
@@ -206,26 +203,26 @@ class AttributeSetRepositoryTest extends WebapiAbstract
                             [
                                 'field' => 'entity_type_code',
                                 'value' => 'catalog_product',
-                                'condition_type' => 'eq'
-                            ]
-                        ]
+                                'condition_type' => 'eq',
+                            ],
+                        ],
                     ],
                 ],
                 'current_page' => 1,
-                'page_size' => 2
-            ]
+                'page_size' => 2,
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/eav/attribute-sets/list',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
-            'soap' => array(
+            'soap' => [
                 'service' => 'eavAttributeSetRepositoryV1',
                 'serviceVersion' => 'V1',
                 'operation' => 'eavAttributeSetRepositoryV1GetList',
-            ),
+            ],
         ];
 
         $response = $this->_webApiCall($serviceInfo, $searchCriteria);

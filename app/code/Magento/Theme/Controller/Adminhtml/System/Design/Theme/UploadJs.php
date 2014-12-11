@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design\Theme;
 
@@ -40,16 +37,16 @@ class UploadJs extends \Magento\Theme\Controller\Adminhtml\System\Design\Theme
             /** @var $customization \Magento\Framework\View\Design\Theme\Customization */
             $customization = $this->_objectManager->create(
                 'Magento\Framework\View\Design\Theme\CustomizationInterface',
-                array('theme' => $theme)
+                ['theme' => $theme]
             );
             $customJsFiles = $customization->getFilesByType(
                 \Magento\Framework\View\Design\Theme\Customization\File\Js::TYPE
             );
-            $result = array('error' => false, 'files' => $customization->generateFileInfo($customJsFiles));
+            $result = ['error' => false, 'files' => $customization->generateFileInfo($customJsFiles)];
         } catch (\Magento\Framework\Model\Exception $e) {
-            $result = array('error' => true, 'message' => $e->getMessage());
+            $result = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $result = array('error' => true, 'message' => __('We cannot upload the JS file.'));
+            $result = ['error' => true, 'message' => __('We cannot upload the JS file.')];
             $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
         }
         $this->getResponse()->representJson(

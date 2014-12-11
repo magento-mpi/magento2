@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Block\Adminhtml\Items;
 
@@ -58,7 +55,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $eavCollectionFactory,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_eavCollectionFactory = $eavCollectionFactory;
@@ -133,9 +130,9 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'id',
-            array('header' => __('ID'), 'sortable' => true, 'width' => '60px', 'index' => 'entity_id')
+            ['header' => __('ID'), 'sortable' => true, 'width' => '60px', 'index' => 'entity_id']
         );
-        $this->addColumn('name', array('header' => __('Product'), 'index' => 'name', 'column_css_class' => 'name'));
+        $this->addColumn('name', ['header' => __('Product'), 'index' => 'name', 'column_css_class' => 'name']);
 
         $sets = $this->_eavCollectionFactory->create()->setEntityTypeFilter(
             $this->_productFactory->create()->getResource()->getTypeId()
@@ -143,40 +140,40 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->addColumn(
             'type',
-            array(
+            [
                 'header' => __('Type'),
                 'width' => '60px',
                 'index' => 'type_id',
                 'type' => 'options',
                 'options' => $this->_productType->getOptionArray()
-            )
+            ]
         );
 
         $this->addColumn(
             'set_name',
-            array(
+            [
                 'header' => __('Attribute Set'),
                 'width' => '100px',
                 'index' => 'attribute_set_id',
                 'type' => 'options',
                 'options' => $sets
-            )
+            ]
         );
 
         $this->addColumn(
             'sku',
-            array('header' => __('SKU'), 'width' => '80px', 'index' => 'sku', 'column_css_class' => 'sku')
+            ['header' => __('SKU'), 'width' => '80px', 'index' => 'sku', 'column_css_class' => 'sku']
         );
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'align' => 'center',
                 'type' => 'currency',
                 'currency_code' => $this->_getStore()->getDefaultCurrencyCode(),
                 'rate' => $this->_getStore()->getBaseCurrency()->getRate($this->_getStore()->getDefaultCurrencyCode()),
                 'index' => 'price'
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -194,10 +191,10 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
 
         $this->getMassactionBlock()->addItem(
             'add',
-            array(
+            [
                 'label' => __('Add to Google Content'),
-                'url' => $this->getUrl('adminhtml/*/massAdd', array('_current' => true))
-            )
+                'url' => $this->getUrl('adminhtml/*/massAdd', ['_current' => true])
+            ]
         );
         return $this;
     }
@@ -211,7 +208,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl(
             'adminhtml/googleshopping_selection/grid',
-            array('index' => $this->getIndex(), '_current' => true)
+            ['index' => $this->getIndex(), '_current' => true]
         );
     }
 
@@ -223,7 +220,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
     protected function _getGoogleShoppingProductIds()
     {
         $collection = $this->_itemCollectionFactory->create()->addStoreFilter($this->_getStore()->getId())->load();
-        $productIds = array();
+        $productIds = [];
         foreach ($collection as $item) {
             $productIds[] = $item->getProductId();
         }

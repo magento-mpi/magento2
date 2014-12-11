@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Model\Balance;
 
@@ -58,7 +55,7 @@ class History extends \Magento\Framework\Model\AbstractModel
     protected $_scopeConfig;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,7 +68,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      * @param \Magento\Framework\Model\Context $context
      * @param \Magento\Framework\Registry $registry
      * @param \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\View\DesignInterface $design
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param \Magento\Framework\Model\Resource\AbstractResource $resource
@@ -82,12 +79,12 @@ class History extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\View\DesignInterface $design,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_transportBuilder = $transportBuilder;
         $this->_design = $design;
@@ -113,13 +110,13 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getActionNamesArray()
     {
-        return array(
+        return [
             self::ACTION_CREATED => __('Created'),
             self::ACTION_UPDATED => __('Updated'),
             self::ACTION_USED => __('Used'),
             self::ACTION_REFUNDED => __('Refunded'),
             self::ACTION_REVERTED => __('Reverted')
-        );
+        ];
     }
 
     /**
@@ -136,12 +133,12 @@ class History extends \Magento\Framework\Model\AbstractModel
         }
 
         $this->addData(
-            array(
+            [
                 'balance_id' => $balance->getId(),
                 'updated_at' => time(),
                 'balance_amount' => $balance->getAmount(),
-                'balance_delta' => $balance->getAmountDelta()
-            )
+                'balance_delta' => $balance->getAmountDelta(),
+            ]
         );
 
         switch ((int)$balance->getHistoryAction()) {
@@ -204,19 +201,19 @@ class History extends \Magento\Framework\Model\AbstractModel
                     $storeId
                 )
             )->setTemplateOptions(
-                array('area' => $this->_design->getArea(), 'store' => $storeId)
+                ['area' => $this->_design->getArea(), 'store' => $storeId]
             )->setTemplateVars(
-                array(
+                [
                     'balance' => $this->_storeManager->getWebsite(
                         $this->getBalanceModel()->getWebsiteId()
                     )->getBaseCurrency()->format(
                         $this->getBalanceModel()->getAmount(),
-                        array(),
+                        [],
                         false
                     ),
                     'name' => $customer->getName(),
-                    'store' => $this->_storeManager->getStore($storeId)
-                )
+                    'store' => $this->_storeManager->getStore($storeId),
+                ]
             )->setFrom(
                 $this->_scopeConfig->getValue(
                     'customer/magento_customerbalance/email_identity',
@@ -259,7 +256,7 @@ class History extends \Magento\Framework\Model\AbstractModel
      */
     public function getHistoryData($customerId, $websiteId = null)
     {
-        $result = array();
+        $result = [];
         /** @var $collection \Magento\CustomerBalance\Model\Resource\Balance\History\Collection */
         $collection = $this->getCollection()->loadHistoryData($customerId, $websiteId);
         foreach ($collection as $historyItem) {

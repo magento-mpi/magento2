@@ -2,10 +2,7 @@
 /**
  * Action validator, remove action
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Model\ActionValidator;
@@ -28,7 +25,7 @@ class RemoveAction
      * @param \Magento\Framework\Registry $registry
      * @param array $protectedModels
      */
-    public function __construct(\Magento\Framework\Registry $registry, array $protectedModels = array())
+    public function __construct(\Magento\Framework\Registry $registry, array $protectedModels = [])
     {
         $this->registry = $registry;
         $this->protectedModels = $protectedModels;
@@ -61,7 +58,7 @@ class RemoveAction
     protected function getBaseClassName($object)
     {
         $className = ltrim(get_class($object), "\\");
-        $className = str_replace(array('\Interceptor', '\Proxy'), array(''), $className);
+        $className = str_replace(['\Interceptor', '\Proxy'], [''], $className);
 
         return $className;
     }

@@ -1,18 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Layer;
 
 use Magento\Catalog\Api\CategoryRepositoryInterface;
 use Magento\Catalog\Model\Layer;
 use Magento\Catalog\Model\Resource;
-use Magento\Framework\Object;
-use Magento\Catalog\Model\Layer\ContextInterface;
 
 class Search extends \Magento\Catalog\Model\Layer
 {
@@ -21,7 +16,7 @@ class Search extends \Magento\Catalog\Model\Layer
      * @param StateFactory $layerStateFactory
      * @param Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory
      * @param Resource\Product $catalogProduct
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Registry $registry
      * @param CategoryRepositoryInterface $categoryRepository
      * @param array $data
@@ -31,10 +26,10 @@ class Search extends \Magento\Catalog\Model\Layer
         StateFactory $layerStateFactory,
         Resource\Product\Attribute\CollectionFactory $attributeCollectionFactory,
         Resource\Product $catalogProduct,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Registry $registry,
         CategoryRepositoryInterface $categoryRepository,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,

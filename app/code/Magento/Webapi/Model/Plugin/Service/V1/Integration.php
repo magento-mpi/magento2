@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi\Model\Plugin\Service\V1;
@@ -116,11 +113,11 @@ class Integration
         if ($integration->getId()) {
             if ($integration->getData('all_resources')) {
                 $this->integrationAuthorizationService->grantAllPermissions($integration->getId());
-            } else if (is_array($integration->getData('resource'))) {
+            } elseif (is_array($integration->getData('resource'))) {
                 $this->integrationAuthorizationService
                     ->grantPermissions($integration->getId(), $integration->getData('resource'));
             } else {
-                $this->integrationAuthorizationService->grantPermissions($integration->getId(), array());
+                $this->integrationAuthorizationService->grantPermissions($integration->getId(), []);
             }
         }
     }

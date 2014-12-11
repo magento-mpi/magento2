@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,7 +17,7 @@ class Tar extends \Magento\Framework\Archive\Tar
      *
      * @var array
      */
-    protected $_skipFiles = array();
+    protected $_skipFiles = [];
 
     /**
      * Overridden \Magento\Framework\Archive\Tar::_createTar method that does the same actions as it's parent but filters

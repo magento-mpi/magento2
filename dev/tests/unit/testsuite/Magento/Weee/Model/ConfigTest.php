@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -52,7 +49,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'getPriceDisplayType',
                 Config::XML_PATH_FPT_DISPLAY_PRODUCT_VIEW,
                 true,
-                true
+                true,
             ],
             [
                 'getListPriceDisplayType',
@@ -75,12 +72,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             [
                 'includeInSubtotal',
                 Config::XML_PATH_FPT_INCLUDE_IN_SUBTOTAL,
-                true,
-                true
-            ],
-            [
-                'isDiscounted',
-                Config::XML_PATH_FPT_DISCOUNTED,
                 true,
                 true
             ],

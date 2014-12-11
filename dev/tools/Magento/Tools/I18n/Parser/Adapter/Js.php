@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\I18n\Parser\Adapter;
 
@@ -22,7 +19,7 @@ class Js extends AbstractAdapter
         while (!feof($fileHandle)) {
             $lineNumber++;
             $fileRow = fgets($fileHandle, 4096);
-            $results = array();
+            $results = [];
             preg_match_all('/mage\.__\(\s*([\'"])(.*?[^\\\])\1.*?[),]/', $fileRow, $results, PREG_SET_ORDER);
             for ($i = 0; $i < count($results); $i++) {
                 if (isset($results[$i][2])) {

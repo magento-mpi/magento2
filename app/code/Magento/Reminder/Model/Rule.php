@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reminder\Model;
 
@@ -44,7 +41,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      *
      * @var array
      */
-    protected $_storeData = array();
+    protected $_storeData = [];
 
     /**
      * Reminder data
@@ -69,7 +66,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $customerFactory;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -106,7 +103,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
@@ -125,7 +122,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Framework\Stdlib\DateTime\DateTimeFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
@@ -134,7 +131,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Framework\Mail\Template\TransportBuilder $transportBuilder,
         \Magento\Framework\Translate\Inline\StateInterface $inlineTranslation,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->rootFactory = $rootFactory;
         $this->collectionFactory = $collectionFactory;
@@ -256,18 +253,18 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             /* @var $coupon \Magento\SalesRule\Model\Coupon */
             $coupon = $this->couponFactory->create()->load($recipient['coupon_id']);
 
-            $templateVars = array(
+            $templateVars = [
                 'store' => $store,
                 'coupon' => $coupon,
                 'customer' => $customer,
                 'promotion_name' => $storeData['label'],
-                'promotion_description' => $storeData['description']
-            );
+                'promotion_description' => $storeData['description'],
+            ];
 
             $transport = $this->_transportBuilder->setTemplateIdentifier(
                 $storeData['template_id']
             )->setTemplateOptions(
-                array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId())
+                ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => $store->getId()]
             )->setTemplateVars(
                 $templateVars
             )->setFrom(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -35,7 +32,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function getGalleryUrl($image = null)
     {
-        $params = array('id' => $this->getProduct()->getId());
+        $params = ['id' => $this->getProduct()->getId()];
         if ($image) {
             $params['image'] = $image->getValueId();
         }
@@ -56,9 +53,7 @@ class Gallery extends \Magento\Catalog\Block\Product\View\AbstractView
     {
         $product = $this->getProduct();
         $img = $this->_imageHelper->init($product, $type, $image->getFile());
-        if ($whiteBorders) {
-            $img->constrainOnly(true)->keepAspectRatio(true)->keepFrame(false);
-        }
+        $img->constrainOnly(true)->keepAspectRatio(true)->keepFrame($whiteBorders);
         if ($width || $height) {
             $img->resize($width, $height);
         }

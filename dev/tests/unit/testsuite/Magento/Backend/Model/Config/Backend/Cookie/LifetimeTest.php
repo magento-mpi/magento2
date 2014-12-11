@@ -2,15 +2,12 @@
 /**
  * Unit test for Magento\Backend\Model\Config\Backend\Cookie\Lifetime
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Config\Backend\Cookie;
 
-use \Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Framework\Session\Config\Validator\CookieLifetimeValidator;
+use Magento\Framework\Session\Config\Validator\CookieLifetimeValidator;
+use Magento\TestFramework\Helper\ObjectManager;
 
 class LifetimeTest extends \PHPUnit_Framework_TestCase
 {

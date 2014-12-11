@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Controller\Index;
 
 use Magento\Doc\App\Controller\AbstractAction;
 use Magento\Doc\Document\Content;
 use Magento\Framework\View\TemplateEnginePool;
-use Magento\Framework\Filesystem;
 
 
 /**

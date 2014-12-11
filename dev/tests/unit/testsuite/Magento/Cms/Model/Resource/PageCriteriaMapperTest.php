@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model\Resource;
 
@@ -91,7 +88,7 @@ class PageCriteriaMapperTest extends \PHPUnit_Framework_TestCase
                     'fetchStrategy' => $this->fetchStrategyMock,
                     'objectFactory' => $this->objectFactoryMock,
                     'mapperFactory' => $this->mapperFactoryMock,
-                    'select' => $this->selectMock
+                    'select' => $this->selectMock,
                 ]
             )->setMethods(['init', 'getTable', 'getMappedField', 'getConditionSql'])
             ->getMock();

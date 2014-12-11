@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -19,7 +16,7 @@ use Magento\Catalog\Model\Product;
 use Magento\CatalogPermissions\App\ConfigInterface;
 use Magento\CatalogPermissions\Helper\Data;
 use Magento\CatalogPermissions\Model\Permission\Index;
-use Magento\Framework\StoreManagerInterface;
+use Magento\Store\Model\StoreManagerInterface;
 use Magento\Customer\Model\Session;
 use Magento\Framework\Data\Tree\Node;
 use Magento\Framework\Event\Observer as EventObserver;
@@ -47,14 +44,14 @@ class Observer
      *
      * @var array
      */
-    protected $_queue = array();
+    protected $_queue = [];
 
     /**
      * Permissions cache for products in cart
      *
      * @var array
      */
-    protected $_permissionsQuoteCache = array();
+    protected $_permissionsQuoteCache = [];
 
     /**
      * Catalog permission helper
@@ -74,7 +71,7 @@ class Observer
     protected $_customerSession;
 
     /**
-     * @var \Magento\Framework\StoreManagerInterface
+     * @var \Magento\Store\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -90,7 +87,7 @@ class Observer
 
     /**
      * @param ConfigInterface $permissionsConfig
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param Session $customerSession
      * @param Index $permissionIndex
      * @param Data $catalogPermData
@@ -98,7 +95,7 @@ class Observer
      */
     public function __construct(
         ConfigInterface $permissionsConfig,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         Session $customerSession,
         Index $permissionIndex,
         Data $catalogPermData,
@@ -147,7 +144,7 @@ class Observer
             return $this;
         }
 
-        $permissions = array();
+        $permissions = [];
         $categoryCollection = $observer->getEvent()->getCategoryCollection();
         $categoryIds = $categoryCollection->getColumnValues('entity_id');
 
@@ -261,11 +258,11 @@ class Observer
         foreach ($collection as $product) {
             if ($collection->hasFlag('product_children')) {
                 $product->addData(
-                    array(
+                    [
                         'grant_catalog_category_view' => -1,
                         'grant_catalog_product_price' => -1,
                         'grant_checkout_items' => -1
-                    )
+                    ]
                 );
             }
             $this->_applyPermissionsOnProduct($product);
@@ -363,7 +360,7 @@ class Observer
      */
     protected function _initPermissionsOnQuoteItems($quote)
     {
-        $productIds = array();
+        $productIds = [];
 
         foreach ($quote->getAllItems() as $item) {
             if (!isset($this->_permissionsQuoteCache[$item->getProductId()]) && $item->getProductId()) {
@@ -385,11 +382,11 @@ class Observer
             }
         }
 
-        $defaultGrants = array(
+        $defaultGrants = [
             'grant_catalog_category_view' => $this->_catalogPermData->isAllowedCategoryView(),
             'grant_catalog_product_price' => $this->_catalogPermData->isAllowedProductPrice(),
             'grant_checkout_items' => $this->_catalogPermData->isAllowedCheckoutItems()
-        );
+        ];
 
         foreach ($quote->getAllItems() as $item) {
             if ($item->getProductId()) {

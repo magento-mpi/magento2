@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftWrapping\Block\Checkout;
 
@@ -78,7 +75,7 @@ class Options extends \Magento\Framework\View\Element\Template
         \Magento\Checkout\Model\CartFactory $checkoutCartFactory,
         \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         array $checkoutItems,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_coreData = $coreData;
@@ -119,7 +116,7 @@ class Options extends \Magento\Framework\View\Element\Template
         $select = $this->getLayout()->createBlock(
             'Magento\Framework\View\Element\Html\Select'
         )->setData(
-            array('id' => 'giftwrapping-${_type_}-${_id_}', 'class' => 'select')
+            ['id' => 'giftwrapping-${_type_}-${_id_}', 'class' => 'select']
         )->setName(
             'giftwrapping[${_type_}][${_id_}][design]'
         )->setExtraParams(
@@ -166,10 +163,10 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     public function getDesignsInfo()
     {
-        $data = array();
+        $data = [];
         /** @var $item \Magento\GiftWrapping\Model\Wrapping */
         foreach ($this->getDesignCollection()->getItems() as $item) {
-            $temp = array();
+            $temp = [];
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
                 $entityId = $this->getQuote()->getIsMultiShipping() ? $address->getId() : $this->getQuote()->getId();
                 if ($this->getDisplayWrappingBothPrices()) {
@@ -202,7 +199,7 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     public function getItemsInfo()
     {
-        $data = array();
+        $data = [];
         if ($this->getQuote()->getIsMultiShipping()) {
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {
                 $this->_processItems($address->getAllItems(), $address, $data);
@@ -247,7 +244,7 @@ class Options extends \Magento\Framework\View\Element\Template
             }
             $allowed = $item->getProduct()->getGiftWrappingAvailable();
             if ($this->_giftWrappingData->isGiftWrappingAvailableForProduct($allowed) && !$item->getIsVirtual()) {
-                $temp = array();
+                $temp = [];
                 if ($price = $item->getProduct()->getGiftWrappingPrice()) {
                     if ($this->getDisplayWrappingBothPrices()) {
                         $temp['price_incl_tax'] = $this->calculatePrice(
@@ -283,7 +280,7 @@ class Options extends \Magento\Framework\View\Element\Template
      */
     public function getCardInfo()
     {
-        $data = array();
+        $data = [];
         if ($this->getAllowPrintedCard()) {
             $price = $this->_giftWrappingData->getPrintedCardPrice();
             foreach ($this->getQuote()->getAllShippingAddresses() as $address) {

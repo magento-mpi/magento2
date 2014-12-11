@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Data\Form;
-
 
 class AbstractFormTest extends \PHPUnit_Framework_TestCase
 {
@@ -20,7 +16,6 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $factoryCollectionMock;
-
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -44,15 +39,15 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
     {
         $this->factoryElementMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\Factory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
         $this->factoryCollectionMock = $this->getMock(
             'Magento\Framework\Data\Form\Element\CollectionFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
@@ -61,7 +56,7 @@ class AbstractFormTest extends \PHPUnit_Framework_TestCase
         $this->elementMock =
             $this->getMock('Magento\Framework\Data\Form\Element\AbstractElement', [], [], '', false);
 
-        $this->abstractForm = new AbstractForm($this->factoryElementMock, $this->factoryCollectionMock, array());
+        $this->abstractForm = new AbstractForm($this->factoryElementMock, $this->factoryCollectionMock, []);
     }
 
     public function testAddElement()

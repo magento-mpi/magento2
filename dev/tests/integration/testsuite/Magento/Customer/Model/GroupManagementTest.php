@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model;
 
-use Magento\TestFramework\Helper\Bootstrap;
 use Magento\Store\Model\ScopeInterface;
+use Magento\TestFramework\Helper\Bootstrap;
 
 /**
  * Test for Magento\Customer\Model\GroupManagement
@@ -47,8 +44,8 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
      * @magentoDataFixture Magento/Core/_files/second_third_store.php
      */
     public function testGetDefaultGroupWithNonDefaultStoreId()
-    {        /** @var \Magento\Framework\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
+    {        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
         $nonDefaultStore = $storeManager->getStore('secondstore');
         $nonDefaultStoreId = $nonDefaultStore->getId();
         /** @var \Magento\Framework\App\MutableScopeConfig $scopeConfig */
@@ -113,17 +110,17 @@ class GroupManagementTest extends \PHPUnit_Framework_TestCase
      */
     public function getDefaultGroupDataProvider()
     {
-        /** @var \Magento\Framework\StoreManagerInterface  $storeManager */
-        $storeManager = Bootstrap::getObjectManager()->get('Magento\Framework\StoreManagerInterface');
+        /** @var \Magento\Store\Model\StoreManagerInterface  $storeManager */
+        $storeManager = Bootstrap::getObjectManager()->get('Magento\Store\Model\StoreManagerInterface');
         $defaultStoreId = $storeManager->getStore()->getId();
         return [
             'no store id' => [
                 ['id' => 1, 'code' => 'General', 'tax_class_id' => 3, 'tax_class_name' => 'Retail Customer'],
-                null
+                null,
             ],
             'default store id' => [
                 ['id' => 1, 'code' => 'General', 'tax_class_id' => 3, 'tax_class_name' => 'Retail Customer'],
-                $defaultStoreId
+                $defaultStoreId,
             ],
         ];
     }

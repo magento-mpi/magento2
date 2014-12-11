@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Test\Repository;
@@ -63,7 +60,7 @@ class CustomerInjectable extends AbstractRepository
             'password_confirmation' => '123123q',
             'dob' => '01/01/1990',
             'gender' => 'Male',
-            'amount_delta' => 501
+            'amount_delta' => 501,
         ];
 
         $this->_data['defaultBackend'] = [
@@ -79,7 +76,7 @@ class CustomerInjectable extends AbstractRepository
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'address' => ['presets' => 'US_address']
+            'address' => ['presets' => 'US_address'],
         ];
 
         $this->_data['customer_US'] = [
@@ -105,7 +102,7 @@ class CustomerInjectable extends AbstractRepository
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'address' => ['presets' => 'US_address_NY']
+            'address' => ['presets' => 'US_address_NY'],
         ];
 
         $this->_data['johndoe_unique_TX'] = [
@@ -115,7 +112,7 @@ class CustomerInjectable extends AbstractRepository
             'email' => 'JohnDoe_%isolation%@example.com',
             'password' => '123123q',
             'password_confirmation' => '123123q',
-            'address' => ['presets' => 'US_address_TX']
+            'address' => ['presets' => 'US_address_TX'],
         ];
     }
 }

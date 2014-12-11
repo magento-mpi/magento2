@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Api;
 
@@ -22,7 +19,7 @@ class ProductOptionTypeListTest extends \Magento\TestFramework\TestCase\WebapiAb
             ['label' => 'Drop-down', 'code' => 'select'],
             ['label' => 'Radio Buttons', 'code' => 'radio'],
             ['label' => 'Checkbox', 'code' => 'checkbox'],
-            ['label' => 'Multiple Select', 'code' => 'multi']
+            ['label' => 'Multiple Select', 'code' => 'multi'],
         ];
         $result = $this->getTypes();
 
@@ -37,13 +34,13 @@ class ProductOptionTypeListTest extends \Magento\TestFramework\TestCase\WebapiAb
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH,
-                'httpMethod' => Config::HTTP_METHOD_GET
+                'httpMethod' => Config::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_READ_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_READ_NAME . 'getItems'
-            ]
+                'operation' => self::SERVICE_READ_NAME . 'getItems',
+            ],
         ];
         return $this->_webApiCall($serviceInfo);
     }

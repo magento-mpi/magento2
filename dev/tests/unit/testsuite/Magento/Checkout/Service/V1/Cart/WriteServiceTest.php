@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
-use Magento\TestFramework\Helper\ObjectManager;
 use Magento\Framework\Exception\CouldNotSaveException;
+use Magento\TestFramework\Helper\ObjectManager;
 
 /**
  * Class WriteServiceTest
@@ -69,7 +66,7 @@ class WriteServiceTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->objectManager = new ObjectManager($this);
-        $this->storeManagerMock = $this->getMock('\Magento\Framework\StoreManagerInterface');
+        $this->storeManagerMock = $this->getMock('\Magento\Store\Model\StoreManagerInterface');
         $this->quoteRepositoryMock = $this->getMock('\Magento\Sales\Model\QuoteRepository', [], [], '', false);
         $this->userContextMock = $this->getMock('\Magento\Authorization\Model\UserContextInterface');
 

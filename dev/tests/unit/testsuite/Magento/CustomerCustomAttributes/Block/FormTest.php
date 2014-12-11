@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Block;
 
@@ -12,11 +9,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
     public function testGetRenderer()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $layout = $this->getMock('\Magento\Framework\View\Layout', array('getBlock'), array(), '', false);
+        $layout = $this->getMock('\Magento\Framework\View\Layout', ['getBlock'], [], '', false);
         $template = $this->getMock(
             '\Magento\Framework\View\Element\Template',
-            array('getChildBlock'),
-            array(),
+            ['getChildBlock'],
+            [],
             '',
             false
         );
@@ -29,7 +26,7 @@ class FormTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($template)
         );
-        $renderer = $this->getMock('\Magento\Framework\View\Element\Template', array(), array(), '', false);
+        $renderer = $this->getMock('\Magento\Framework\View\Element\Template', [], [], '', false);
         $template->expects($this->once())->method('getChildBlock')->with('text')->will($this->returnValue($renderer));
 
         $block = $objectHelper->getObject('Magento\CustomerCustomAttributes\Block\Form');
@@ -43,8 +40,8 @@ class FormTest extends \PHPUnit_Framework_TestCase
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $customerSessionMock = $this->getMock(
             'Magento\Customer\Model\Session',
-            array('getCustomerId'),
-            array(),
+            ['getCustomerId'],
+            [],
             '',
             false
         );
@@ -52,11 +49,11 @@ class FormTest extends \PHPUnit_Framework_TestCase
             ->method('getCustomerId')
             ->will($this->returnValue(1));
 
-        $entityMock = $this->getMock('stdClass', array('load'));
+        $entityMock = $this->getMock('stdClass', ['load']);
         $entityMock->expects($this->once())
             ->method('load')
             ->with(1);
-        $modelFactoryMock = $this->getMock('Magento\Core\Model\Factory', array('create'), array(), '', false);
+        $modelFactoryMock = $this->getMock('Magento\Core\Model\Factory', ['create'], [], '', false);
         $modelFactoryMock->expects($this->once())
             ->method('create')
             ->with('stdClass')

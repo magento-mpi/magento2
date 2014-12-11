@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -16,7 +13,8 @@
             <parameter name="title" xsi:type="text" visible="false">
                 <label translate="true">Anchor Custom Title</label>
             </parameter>
-            <parameter name="template" xsi:type="select" visible="false">
+            <parameter name="template" xsi:type="select" visible="true" required="true">
+                <label translate="true">Template</label>
                 <options>
                     <option name="default_template" value="widget/guest/form.phtml">
                         <label translate="true">Default Template</label>

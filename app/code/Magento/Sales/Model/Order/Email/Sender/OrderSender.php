@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\Sender;
-use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Resource\Order as OrderResource;
 use Magento\Payment\Helper\Data as PaymentHelper;
-use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order;
 use Magento\Sales\Model\Order\Email\Container\OrderIdentity;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\Sender;
+use Magento\Sales\Model\Resource\Order as OrderResource;
 
 class OrderSender extends Sender
 {
@@ -74,7 +71,7 @@ class OrderSender extends Sender
                 'order' => $order,
                 'billing' => $order->getBillingAddress(),
                 'payment_html' => $this->getPaymentHtml($order),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
         parent::prepareTemplate($order);

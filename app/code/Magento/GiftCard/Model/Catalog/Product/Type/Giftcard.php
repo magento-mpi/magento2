@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Model\Catalog\Product\Type;
 
@@ -70,7 +67,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Framework\Registry $coreRegistry
      * @param \Magento\Framework\Logger $logger
      * @param ProductRepositoryInterface $productRepository
-     * @param \Magento\Framework\StoreManagerInterface $storeManager
+     * @param \Magento\Store\Model\StoreManagerInterface $storeManager
      * @param \Magento\Framework\Locale\FormatInterface $localeFormat
      * @param \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
      * @param PriceCurrencyInterface $priceCurrency
@@ -88,7 +85,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Framework\Registry $coreRegistry,
         \Magento\Framework\Logger $logger,
         ProductRepositoryInterface $productRepository,
-        \Magento\Framework\StoreManagerInterface $storeManager,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Framework\Locale\FormatInterface $localeFormat,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         PriceCurrencyInterface $priceCurrency
@@ -280,7 +277,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected function _getAllowedAmounts($product)
     {
         if (is_null($this->_giftcardAmounts)) {
-            $allowedAmounts = array();
+            $allowedAmounts = [];
             foreach ($product->getGiftcardAmounts() as $value) {
                 $allowedAmounts[] = $this->priceCurrency->round($value['website_value']);
             }
@@ -484,15 +481,15 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\AbstractType
      */
     public function processBuyRequest($product, $buyRequest)
     {
-        $options = array(
+        $options = [
             'giftcard_amount' => $buyRequest->getGiftcardAmount(),
             'custom_giftcard_amount' => $buyRequest->getCustomGiftcardAmount(),
             'giftcard_sender_name' => $buyRequest->getGiftcardSenderName(),
             'giftcard_sender_email' => $buyRequest->getGiftcardSenderEmail(),
             'giftcard_recipient_name' => $buyRequest->getGiftcardRecipientName(),
             'giftcard_recipient_email' => $buyRequest->getGiftcardRecipientEmail(),
-            'giftcard_message' => $buyRequest->getGiftcardMessage()
-        );
+            'giftcard_message' => $buyRequest->getGiftcardMessage(),
+        ];
 
         return $options;
     }

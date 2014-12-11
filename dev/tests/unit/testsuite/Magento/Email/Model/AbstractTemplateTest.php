@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,10 +24,10 @@ class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
             'Magento\Email\Model\AbstractTemplate',
             $helper->getConstructArguments(
                 'Magento\Email\Model\AbstractTemplate',
-                array(
+                [
                     'design' => $this->getMock('Magento\Framework\View\DesignInterface'),
-                    'data' => array('area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1)
-                )
+                    'data' => ['area' => \Magento\Framework\App\Area::AREA_FRONTEND, 'store' => 1]
+                ]
             )
         );
     }
@@ -47,13 +44,13 @@ class AbstractTemplateTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDesignConfigWithValidInputParametersReturnsSuccess()
     {
-        $config = array('area' => 'some_area', 'store' => 1);
+        $config = ['area' => 'some_area', 'store' => 1];
         $this->_model->setDesignConfig($config);
         $this->assertEquals($config, $this->_model->getDesignConfig()->getData());
     }
 
     public function invalidInputParametersDataProvider()
     {
-        return array(array(array()), array(array('area' => 'some_area')), array(array('store' => 'any_store')));
+        return [[[]], [['area' => 'some_area']], [['store' => 'any_store']]];
     }
 }

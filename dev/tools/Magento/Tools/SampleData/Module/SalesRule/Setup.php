@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\SampleData\Module\SalesRule;
 
-use Magento\Tools\SampleData\SetupInterface;
 use Magento\Tools\SampleData\Helper\PostInstaller;
+use Magento\Tools\SampleData\SetupInterface;
 
 /**
  * Class Setup

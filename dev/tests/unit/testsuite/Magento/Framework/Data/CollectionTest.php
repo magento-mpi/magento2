@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Data;
 
@@ -17,7 +14,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->_model = new \Magento\Framework\Data\Collection(
-            $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\EntityFactory', [], [], '', false)
         );
     }
 
@@ -57,7 +54,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function setItemObjectClassDataProvider()
     {
-        return array(array('Magento\Framework\Url'), array('Magento\Framework\Object'));
+        return [['Magento\Framework\Url'], ['Magento\Framework\Object']];
     }
 
     /**
@@ -97,7 +94,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($this->_model->getFlag('non_existing_flag'));
     }
 
-
     public function testGetCurPage()
     {
         $this->_model->setCurPage(10);
@@ -112,12 +108,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $arrItems = [
             'totalRecords' => 1,
             'items' => [
-                0 => 'value'
-            ]
+                0 => 'value',
+            ],
         ];
         $items = [
             'item_id' => $firstItemMock,
-            0 => $secondItemMock
+            0 => $secondItemMock,
         ];
         $firstItemMock->expects($this->exactly(2))->method('getId')->will($this->returnValue('item_id'));
 

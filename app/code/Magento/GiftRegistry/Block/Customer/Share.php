@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-use Magento\Customer\Api\CustomerRepositoryInterface;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Api\CustomerRepositoryInterface;
 
 /**
  * Customer gift registry share block
@@ -52,7 +49,7 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
         AccountManagementInterface $customerAccountManagement,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Customer\Helper\View $customerView,
-        array $data = array()
+        array $data = []
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         $this->_customerView = $customerView;
@@ -142,6 +139,6 @@ class Share extends \Magento\Customer\Block\Account\Dashboard
      */
     public function getSendUrl()
     {
-        return $this->getUrl('giftregistry/index/send', array('id' => $this->getEntity()->getId()));
+        return $this->getUrl('giftregistry/index/send', ['id' => $this->getEntity()->getId()]);
     }
 }

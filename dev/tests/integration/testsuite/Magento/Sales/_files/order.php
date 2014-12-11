@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 require 'default_rollback.php';
 require __DIR__ . '/../../../Magento/Catalog/_files/product_simple.php';
@@ -13,7 +10,7 @@ $addressData = include __DIR__ . '/address_data.php';
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-$billingAddress = $objectManager->create('Magento\Sales\Model\Order\Address', array('data' => $addressData));
+$billingAddress = $objectManager->create('Magento\Sales\Model\Order\Address', ['data' => $addressData]);
 $billingAddress->setAddressType('billing');
 
 $shippingAddress = clone $billingAddress;
@@ -50,7 +47,7 @@ $order->setIncrementId(
 )->setShippingAddress(
     $shippingAddress
 )->setStoreId(
-    $objectManager->get('Magento\Framework\StoreManagerInterface')->getStore()->getId()
+    $objectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore()->getId()
 )->addItem(
     $orderItem
 )->setPayment(

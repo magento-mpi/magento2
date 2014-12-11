@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Banner\Model\Resource\Catalogrule;
 
@@ -31,7 +28,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * @var int
      */
-    protected $_customerGroupId = \Magento\Customer\Service\V1\CustomerGroupServiceInterface::NOT_LOGGED_IN_ID;
+    protected $_customerGroupId = \Magento\Customer\Model\GroupManagement::NOT_LOGGED_IN_ID;
 
     protected function setUp()
     {
@@ -83,9 +80,9 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
      */
     public function addWebsiteCustomerGroupFilterWrongDataDataProvider()
     {
-        return array(
-            'wrong website' => array($this->_websiteId + 1, $this->_customerGroupId),
-            'wrong customer group' => array($this->_websiteId, $this->_customerGroupId + 1)
-        );
+        return [
+            'wrong website' => [$this->_websiteId + 1, $this->_customerGroupId],
+            'wrong customer group' => [$this->_websiteId, $this->_customerGroupId + 1]
+        ];
     }
 }

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Core\Model\Url;
 
@@ -22,10 +19,10 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_storeManagerMock = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')->getMock();
+        $this->_storeManagerMock = $this->getMockBuilder('Magento\Store\Model\StoreManagerInterface')->getMock();
         $this->_object = $objectManager->getObject(
             'Magento\Core\Model\Url\ScopeResolver',
-            array('storeManager' => $this->_storeManagerMock)
+            ['storeManager' => $this->_storeManagerMock]
         );
     }
 
@@ -62,7 +59,7 @@ class ScopeResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function getScopeDataProvider()
     {
-        return array(array(null), array(1));
+        return [[null], [1]];
     }
 
     public function testGetScopes()
