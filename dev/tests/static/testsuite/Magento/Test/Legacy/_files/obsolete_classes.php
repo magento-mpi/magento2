@@ -2826,4 +2826,7 @@ return [
     ['Magento\GiftMessage\Helper\Url'],
     ['Magento\Rss\Helper\Data'],
     ['Magento\Sales\Model\ConverterInterface'],
+    ['Magento\Paypal\Block\Payflow\Advanced\Review'],
+    ['Magento\Paypal\Block\Payflow\Link\Review'],
+    ['Magento\Paypal\Model\System\Config\Source\AuthorizationAmounts']
 ];
