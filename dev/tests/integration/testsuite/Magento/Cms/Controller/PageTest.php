@@ -33,7 +33,7 @@ class PageTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoDataFixture cmsPageWIthSystemRouteFixture
+     * @magentoDataFixture cmsPageWithSystemRouteFixture
      */
     public function testCreatePageWithSameModuleName()
     {
@@ -42,7 +42,7 @@ class PageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('Shipping Test Page', $content);
     }
 
-    public static function cmsPageWIthSystemRouteFixture()
+    public static function cmsPageWithSystemRouteFixture()
     {
         /** @var $page \Magento\Cms\Model\Page */
         $page = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Cms\Model\Page');
