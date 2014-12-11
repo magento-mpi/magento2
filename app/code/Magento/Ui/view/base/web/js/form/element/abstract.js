@@ -14,18 +14,16 @@ define([
             hidden:             false,
             preview:            '',
             focused:            false,
-            tooltip:            null,
             required:           false,
             disabled:           false,
             tmpPath:            'ui/form/element/',
             tooltipTpl:         'ui/form/element/helper/tooltip',
             input_type:         'input',
-            placeholder:        null,
-            noticeid:           null,
+            placeholder:        '',
             description:        '',
             label:              '',
             error:              '',
-            notice:             null
+            notice:             ''
         },
 
         /**
@@ -50,18 +48,15 @@ define([
          * @returns {Abstract} Chainable.
          */
         initObservable: function () {
-            var value = this.getInititalValue(), 
-                rules;
+            var rules = this.validation = this.validation || {};
 
             this._super();
 
-            rules = this.validation = this.validation || {};
-
-            this.initialValue = value;
+            this.initialValue = this.getInititalValue();
 
             this.observe('error disabled focused preview hidden')
                 .observe({
-                    'value':    value,
+                    'value':    this.initialValue,
                     'required': !!rules['required-entry']
                 });
 
@@ -74,11 +69,14 @@ define([
          * @returns {Abstract} Chainable.
          */
         initProperties: function () {
+            var uid = utils.uniqueid();
+
             this._super();
 
             _.extend(this, {
-                'uid':        utils.uniqueid(),
-                'inputName':  utils.serializeName(this.dataScope)
+                'uid':          uid,
+                'noticeId':     'notice-' + this.uid,
+                'inputName':    utils.serializeName(this.dataScope)
             });
 
             _.defaults(this, {
@@ -120,15 +118,6 @@ define([
             }
 
             return value;
-        },
-
-        /**
-         * Defines notice id for the element.
-         * 
-         * @returns {String} Notice id.
-         */
-        getNoticeId: function () {
-            return 'notice-' + this.uid;
         },
 
         /**
