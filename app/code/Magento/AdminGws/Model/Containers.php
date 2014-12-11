@@ -391,8 +391,8 @@ class Containers implements CallbackProcessorInterface
         }
 
         if (!$this->_role->getIsAll()) {
-            if (!$this->_role->hasExclusiveAccess(array($websiteId)) || is_null($websiteId)) {
-                if (!$this->_role->hasExclusiveStoreAccess(array($storeId)) || is_null($storeId)) {
+            if (!$this->_role->hasExclusiveAccess([$websiteId]) || is_null($websiteId)) {
+                if (!$this->_role->hasExclusiveStoreAccess([$storeId]) || is_null($storeId)) {
                     $container->removeButton('save');
                 }
             }

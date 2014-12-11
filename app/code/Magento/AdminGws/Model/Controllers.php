@@ -1131,8 +1131,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver impl
             }
         }
         if (!$this->_role->getIsAll()) {
-            if (!$this->_role->hasExclusiveAccess(array($websiteId)) || is_null($websiteId)) {
-                if (!$this->_role->hasExclusiveStoreAccess(array($storeId)) || is_null($storeId)) {
+            if (!$this->_role->hasExclusiveAccess([$websiteId]) || is_null($websiteId)) {
+                if (!$this->_role->hasExclusiveStoreAccess([$storeId]) || is_null($storeId)) {
                     $this->_forward();
                     return false;
                 }

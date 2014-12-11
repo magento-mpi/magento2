@@ -367,7 +367,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $websiteId = (isset($post['website']))? $post['website'] : 1;
         $websiteMock = $this->getMockBuilder('\Magento\Store\Model\Website')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(['getId'])
             ->getMock();
         $websiteMock->expects($this->any())
             ->method('getId')
@@ -376,7 +376,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $storeId = (isset($post['store']))? $post['store'] : 1;
         $storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'getWebsite'))
+            ->setMethods(['getId', 'getWebsite'])
             ->getMock();
         $storeMock->expects($this->any())
             ->method('getId')
@@ -389,8 +389,8 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($storeMock));
 
-        $hasExclusiveAccess = in_array($websiteMock->getId(), array(1));
-        $hasExclusiveStoreAccess = in_array($storeMock->getId(), array(2));
+        $hasExclusiveAccess = in_array($websiteMock->getId(), [1]);
+        $hasExclusiveStoreAccess = in_array($storeMock->getId(), [2]);
 
         $this->_roleMock->expects($this->any())
             ->method('hasExclusiveAccess')
@@ -404,7 +404,7 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
             ->method('getIsAll')
             ->will($this->returnValue($isAll));
 
-        $this->assertEquals($result,$this->_model->validateCmsHierarchyAction());
+        $this->assertEquals($result, $this->_model->validateCmsHierarchyAction());
     }
 
     /**
@@ -414,13 +414,13 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
      */
     public function validateCmsHierarchyActionDataProvider()
     {
-        return array(
-            array(array(), true, true),
-            array(array(), false, false),
-            array(array('website'=>1, 'store'=>1), false, false),
-            array(array('store'=>2), false, true),
-            array(array('store'=>1), false, false),
-        );
+        return [
+            [[], true, true],
+            [[], false, false],
+            [['website' => 1, 'store' => 1], false, false],
+            [['store' => 2], false, true],
+            [['store' => 1], false, false],
+        ];
     }
 
     /*
