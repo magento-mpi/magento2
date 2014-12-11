@@ -23,7 +23,7 @@ class NewsletterTest extends \PHPUnit_Framework_TestCase
         $this->block = $helper->getObject('\Magento\Customer\Block\Newsletter', ['urlBuilder' => $this->urlBuilder]);
     }
 
-    protected function testGetAction()
+    public function testGetAction()
     {
         $this->urlBuilder->expects($this->once())
             ->method('getUrl')
