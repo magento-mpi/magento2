@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Weee\Block\Item\Price;
 
-use Magento\Weee\Model\Tax as WeeeDisplayConfig;
-use Magento\Sales\Model\Order\Item as OrderItem;
-use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
-use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
 use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Model\Order\CreditMemo\Item as CreditMemoItem;
+use Magento\Sales\Model\Order\Invoice\Item as InvoiceItem;
+use Magento\Sales\Model\Order\Item as OrderItem;
+use Magento\Weee\Model\Tax as WeeeDisplayConfig;
 
 /**
  * Item price render block
@@ -37,7 +34,7 @@ class Renderer extends \Magento\Tax\Block\Item\Price\Renderer
         \Magento\Tax\Helper\Data $taxHelper,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Weee\Helper\Data $weeeHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->weeeHelper = $weeeHelper;
         parent::__construct($context, $taxHelper, $priceCurrency, $data);

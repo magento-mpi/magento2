@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Controller;
 
@@ -24,23 +21,23 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
 
     public function getViewActionDataProvider()
     {
-        return array(
-            'category without children' => array(
+        return [
+            'category without children' => [
                 '$categoryId' => 5,
-                array('catalog_category_view_type_default', 'catalog_category_view_type_default_without_children'),
-                array(
+                ['catalog_category_view_type_default', 'catalog_category_view_type_default_without_children'],
+                [
                     '%acategorypath-category-1-category-1-1-category-1-1-1%a',
                     '%acategory-category-1-1-1%a',
                     '%a<title>Category 1.1.1 - Category 1.1 - Category 1</title>%a',
                     '%a<h1%S>%SCategory 1.1.1%S</h1>%a',
                     '%aSimple Product Two%a',
                     '%a$45.67%a'
-                )
-            ),
-            'anchor category' => array(
+                ],
+            ],
+            'anchor category' => [
                 '$categoryId' => 4,
-                array('catalog_category_view_type_layered'),
-                array(
+                ['catalog_category_view_type_layered'],
+                [
                     '%acategorypath-category-1-category-1-1%a',
                     '%acategory-category-1-1%a',
                     '%a<title>Category 1.1 - Category 1</title>%a',
@@ -49,9 +46,9 @@ class CategoryTest extends \Magento\TestFramework\TestCase\AbstractController
                     '%a$10.00%a',
                     '%aSimple Product Two%a',
                     '%a$45.67%a'
-                )
-            )
-        );
+                ],
+            ]
+        ];
     }
 
     /**

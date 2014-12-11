@@ -2,10 +2,7 @@
 /**
  * Log plugin. Logs user actions
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\App\Action\Plugin;
 
@@ -50,7 +47,7 @@ class Log
         if (empty($beforeForwardInfo)) {
             $fullActionName = $request->getFullActionName();
         } else {
-            $fullActionName = array($request->getRequestedRouteName());
+            $fullActionName = [$request->getRequestedRouteName()];
 
             if (isset($beforeForwardInfo['controller_name'])) {
                 $fullActionName[] = $beforeForwardInfo['controller_name'];

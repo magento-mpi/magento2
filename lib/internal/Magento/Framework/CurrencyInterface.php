@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework;
 
@@ -17,7 +14,7 @@ interface CurrencyInterface
      * @throws \Zend_Currency_Exception When the value is not a number
      * @return string
      */
-    public function toCurrency($value = null, array $options = array());
+    public function toCurrency($value = null, array $options = []);
 
     /**
      * Sets the formating options of the localized currency string
@@ -27,7 +24,7 @@ interface CurrencyInterface
      * @param  array $options (Optional) Options to set
      * @return \Magento\Framework\CurrencyInterface
      */
-    public function setFormat(array $options = array());
+    public function setFormat(array $options = []);
 
     /**
      * Returns the actual or details of other currency symbols,

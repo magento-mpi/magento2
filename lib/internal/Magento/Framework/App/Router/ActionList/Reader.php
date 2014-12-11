@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Router\ActionList;
 
@@ -31,7 +28,7 @@ class Reader
     public function read()
     {
         $actionFiles = $this->moduleReader->getActionFiles();
-        $actions = array();
+        $actions = [];
         foreach ($actionFiles as $actionFile) {
             $action = str_replace('/', '\\', substr($actionFile, 0, -4));
             $actions[strtolower($action)] = $action;

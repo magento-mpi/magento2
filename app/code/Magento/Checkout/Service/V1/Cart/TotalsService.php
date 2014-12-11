@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Service\V1\Cart;
 
+use Magento\Checkout\Service\V1\Data\Cart\Totals;
 use Magento\Checkout\Service\V1\Data\Cart;
 use Magento\Sales\Model\Quote;
 use Magento\Sales\Model\QuoteRepository;
-use \Magento\Checkout\Service\V1\Data\Cart\Totals;
 
-/** 
- * Cart totals service object. 
+/**
+ * Cart totals service object.
  */
 class TotalsService implements TotalsServiceInterface
 {

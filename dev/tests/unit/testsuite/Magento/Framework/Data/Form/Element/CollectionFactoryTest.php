@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,12 +24,12 @@ class CollectionFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerMock = $this->getMock(
             'Magento\Framework\ObjectManager\ObjectManager',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
-        $collectionMock = $this->getMock('Magento\Framework\Data\Form\Element\Collection', array(), array(), '', false);
+        $collectionMock = $this->getMock('Magento\Framework\Data\Form\Element\Collection', [], [], '', false);
         $objectManagerMock->expects($this->once())->method('create')->will($this->returnValue($collectionMock));
         $this->_model = new \Magento\Framework\Data\Form\Element\CollectionFactory($objectManagerMock);
     }
@@ -42,6 +39,6 @@ class CollectionFactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate()
     {
-        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Collection', $this->_model->create(array()));
+        $this->assertInstanceOf('Magento\Framework\Data\Form\Element\Collection', $this->_model->create([]));
     }
 }

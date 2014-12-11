@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Fixture\GiftCardProduct;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple\Price as ParentPrice;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class Price
@@ -31,7 +28,7 @@ class Price extends ParentPrice implements FixtureInterface
             'price_from-120' => [
                 'compare_price' => [
                     'price_from' => '120.00',
-                ]
+                ],
             ],
         ];
         if (!isset($presets[$this->currentPreset])) {

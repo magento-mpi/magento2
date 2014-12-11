@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Model\Config\Source\Online;
 
@@ -21,9 +18,9 @@ class Mode implements OptionSourceInterface
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => '0', 'label' => __('Development')),
-            array('value' => '1', 'label' => __('Live'))
-        );
+        return [
+            ['value' => '0', 'label' => __('Development')],
+            ['value' => '1', 'label' => __('Live')]
+        ];
     }
 }

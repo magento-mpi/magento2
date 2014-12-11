@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Controller\Adminhtml\Billing\Agreement;
 
@@ -31,7 +28,7 @@ class Delete extends \Magento\Paypal\Controller\Adminhtml\Billing\Agreement
                 $this->messageManager->addError(__('We could not delete the billing agreement.'));
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
             }
-            $this->_redirect('paypal/*/view', array('_current' => true));
+            $this->_redirect('paypal/*/view', ['_current' => true]);
         }
         $this->_redirect('paypal/*/');
     }

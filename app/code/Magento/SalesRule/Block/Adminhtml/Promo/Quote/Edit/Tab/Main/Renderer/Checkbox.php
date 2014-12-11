@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Main\Renderer;
 
@@ -28,7 +25,7 @@ class Checkbox extends \Magento\Backend\Block\AbstractBlock implements
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Framework\Data\Form\Element\Factory $elementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_elementFactory = $elementFactory;
         parent::__construct($context, $data);
@@ -43,7 +40,7 @@ class Checkbox extends \Magento\Backend\Block\AbstractBlock implements
     public function render(\Magento\Framework\Data\Form\Element\AbstractElement $element)
     {
         /** @var \Magento\Framework\Data\Form\Element\Checkbox $checkbox */
-        $checkbox = $this->_elementFactory->create('checkbox', array('data' => $element->getData()));
+        $checkbox = $this->_elementFactory->create('checkbox', ['data' => $element->getData()]);
         $checkbox->setForm($element->getForm());
 
         $elementHtml = sprintf(

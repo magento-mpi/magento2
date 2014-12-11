@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ProductAlert\Helper;
 
@@ -103,10 +100,10 @@ class Data extends \Magento\Core\Helper\Url
     {
         return $this->_getUrl(
             'productalert/add/' . $type,
-            array(
+            [
                 'product_id' => $this->getProduct()->getId(),
                 \Magento\Framework\App\Action\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-            )
+            ]
         );
     }
 

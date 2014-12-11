@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Test\Fixture;
 
 use Exception;
-use Magento\SalesRule\Test\Repository\SalesRule as Repository;
-use Mtf\Fixture\DataFixture;
-use Mtf\Factory\Factory;
-use Magento\Customer\Test\Fixture\Customer;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Customer\Test\Fixture\Customer;
+use Magento\SalesRule\Test\Repository\SalesRule as Repository;
+use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
 
 /**
  * Class SalesRule
@@ -67,7 +64,7 @@ class SalesRule extends DataFixture
         // Edit Customer just created
         $customerGridPage->open();
         $customerGrid = $customerGridPage->getCustomerGridBlock();
-        $customerGrid->searchAndOpen(array('email' => $this->customerFixture->getEmail()));
+        $customerGrid->searchAndOpen(['email' => $this->customerFixture->getEmail()]);
         $customerEditPage = Factory::getPageFactory()->getCustomerIndexEdit();
         $editCustomerForm = $customerEditPage->getCustomerForm();
         // Set group to Retailer

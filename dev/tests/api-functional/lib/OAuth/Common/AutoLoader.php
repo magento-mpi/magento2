@@ -62,7 +62,7 @@ class AutoLoader
      */
     public function register()
     {
-        return spl_autoload_register(array($this, 'load'));
+        return spl_autoload_register([$this, 'load']);
     }
 
     /**
@@ -72,6 +72,6 @@ class AutoLoader
      */
     public function unregister()
     {
-        return spl_autoload_unregister(array($this, 'load'));
+        return spl_autoload_unregister([$this, 'load']);
     }
 }

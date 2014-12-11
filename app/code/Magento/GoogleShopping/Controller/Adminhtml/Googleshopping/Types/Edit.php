@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Types;
 
@@ -21,7 +18,7 @@ class Edit extends \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\T
         $typeId = $this->_coreRegistry->registry('current_item_type')->getTypeId();
 
         try {
-            $result = array();
+            $result = [];
             if ($typeId) {
                 $collection = $this->_objectManager->create(
                     'Magento\GoogleShopping\Model\Resource\Attribute\Collection'

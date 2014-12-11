@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Eav\Model\Entity\Attribute;
 
+use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\Exception\StateException;
-use Magento\Framework\Exception\InputException;
 
 class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInterface
 {
@@ -98,8 +95,8 @@ class OptionManagement implements \Magento\Eav\Api\AttributeOptionManagementInte
         $removalMarker = [
             'option' => [
                 'value' => [$optionId => []],
-                'delete' => [$optionId => '1']
-            ]
+                'delete' => [$optionId => '1'],
+            ],
         ];
         $attribute->addData($removalMarker);
         try {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogImportExport\Model\Export;
 
@@ -26,9 +23,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     public function testUpdateDataWithCategoryColumnsNoCategoriesAssigned()
     {
-        $dataRow = array();
+        $dataRow = [];
         $productId = 1;
-        $rowCategories = array($productId => array());
+        $rowCategories = [$productId => []];
 
         $this->assertTrue($this->_object->updateDataWithCategoryColumns($dataRow, $rowCategories, $productId));
     }

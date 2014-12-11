@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\TestFramework\Application $this */
 
 $installer = $this->getObjectManager()->create(
     'Magento\Catalog\Model\Resource\Setup',
-    array('resourceName' => 'catalog_setup')
+    ['resourceName' => 'catalog_setup']
 );
 /**
  * After installation system has two categories: root one with ID:1 and Default category with ID:2
@@ -45,7 +42,7 @@ $product->setTypeId(
 )->setStoreId(
     1
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product'
 )->setDescription(
@@ -59,7 +56,7 @@ $product->setTypeId(
 )->setWeight(
     18
 )->setCategoryIds(
-    array(2, 3)
+    [2, 3]
 )->setVisibility(
     \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH
 )->setStatus(

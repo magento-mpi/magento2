@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Cms\Model;
 
@@ -61,7 +58,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->setMethods(
                 [
                     'getStatus',
-                    'getRedirect'
+                    'getRedirect',
                 ]
             )
             ->disableOriginalConstructor()
@@ -77,7 +74,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     'setRedirectUrl',
                     'setRedirect',
                     'setPath',
-                    'setArguments'
+                    'setArguments',
                 ]
             )
             ->disableOriginalConstructor()

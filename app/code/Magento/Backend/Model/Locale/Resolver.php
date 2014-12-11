@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Model\Locale;
 
@@ -81,7 +78,7 @@ class Resolver extends \Magento\Framework\Locale\Resolver
         $sessionLocale = $this->_session->getSessionLocale();
         $userLocale = $this->_localeManager->getUserInterfaceLocale();
 
-        $localeCodes = array_filter(array($forceLocale, $sessionLocale, $userLocale));
+        $localeCodes = array_filter([$forceLocale, $sessionLocale, $userLocale]);
 
         if (count($localeCodes)) {
             $this->setLocaleCode(reset($localeCodes));

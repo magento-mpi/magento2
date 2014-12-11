@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCardAccount\Test\Block;
@@ -23,7 +20,7 @@ class Check extends Block
     protected $filter = [
         'code' => 'Gift Card: (.*)',
         'balance' => '\nCurrent Balance: \$(.*)',
-        'date_expires' => '\nExpires: (\d+\/\d+\/\d+)'
+        'date_expires' => '\nExpires: (\d+\/\d+\/\d+)',
     ];
 
     /**

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Controller\Adminhtml\Promo\Quote;
 
@@ -23,12 +20,12 @@ class Save extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                 $model = $this->_objectManager->create('Magento\SalesRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_salesrule_prepare_save',
-                    array('request' => $this->getRequest())
+                    ['request' => $this->getRequest()]
                 );
                 $data = $this->getRequest()->getPost();
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
-                    array(),
+                    ['from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter],
+                    [],
                     $data
                 );
                 $data = $inputFilter->getUnescaped();
@@ -48,7 +45,7 @@ class Save extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                         $this->messageManager->addError($errorMessage);
                     }
                     $session->setPageData($data);
-                    $this->_redirect('sales_rule/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('sales_rule/*/edit', ['id' => $model->getId()]);
                     return;
                 }
 
@@ -78,7 +75,7 @@ class Save extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                 $this->messageManager->addSuccess(__('The rule has been saved.'));
                 $session->setPageData(false);
                 if ($this->getRequest()->getParam('back')) {
-                    $this->_redirect('sales_rule/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('sales_rule/*/edit', ['id' => $model->getId()]);
                     return;
                 }
                 $this->_redirect('sales_rule/*/');
@@ -87,7 +84,7 @@ class Save extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                 $this->messageManager->addError($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('rule_id');
                 if (!empty($id)) {
-                    $this->_redirect('sales_rule/*/edit', array('id' => $id));
+                    $this->_redirect('sales_rule/*/edit', ['id' => $id]);
                 } else {
                     $this->_redirect('sales_rule/*/new');
                 }
@@ -98,7 +95,7 @@ class Save extends \Magento\SalesRule\Controller\Adminhtml\Promo\Quote
                 );
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
-                $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('sales_rule/*/edit', ['id' => $this->getRequest()->getParam('rule_id')]);
                 return;
             }
         }

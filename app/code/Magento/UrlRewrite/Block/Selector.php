@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block;
 
@@ -29,12 +26,12 @@ class Selector extends \Magento\Backend\Block\Template
      */
     protected function _construct()
     {
-        $this->_modes = array(
+        $this->_modes = [
             'id' => __('Custom'),
             'category' => __('For category'),
             'product' => __('For product'),
             'cms_page' => __('For CMS page'),
-        );
+        ];
     }
 
     /**

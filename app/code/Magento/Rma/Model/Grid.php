@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model;
 
@@ -38,7 +35,7 @@ class Grid extends \Magento\Framework\Model\AbstractModel
         \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_statusFactory = $statusFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);

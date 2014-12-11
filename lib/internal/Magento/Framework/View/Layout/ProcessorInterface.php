@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Layout;
 
@@ -98,7 +95,7 @@ interface ProcessorInterface
      * @throws \Magento\Framework\Exception
      * @return ProcessorInterface
      */
-    public function load($handles = array());
+    public function load($handles = []);
 
     /**
      * Get layout updates as \Magento\Framework\View\Layout\Element object

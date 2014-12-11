@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var \Magento\Store\Model\Website $website */
@@ -17,7 +14,6 @@ $groupId = $website->getDefaultGroupId();
 $store = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Store');
 $store->setCode('secondstore')->setName('Second Store')->setSortOrder(10)->setIsActive(1);
 $store->save();
-
 
 /** @var \Magento\Store\Model\Website $website */
 $website = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Store\Model\Website');

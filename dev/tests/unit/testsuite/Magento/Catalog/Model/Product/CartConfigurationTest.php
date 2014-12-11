@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\Product;
 
@@ -18,18 +15,18 @@ class CartConfigurationTest extends \PHPUnit_Framework_TestCase
     public function testIsProductConfigured($productType, $config, $expected)
     {
         $cartConfiguration = new \Magento\Catalog\Model\Product\CartConfiguration();
-        $productMock = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
+        $productMock = $this->getMock('Magento\Catalog\Model\Product', [], [], '', false);
         $productMock->expects($this->once())->method('getTypeId')->will($this->returnValue($productType));
         $this->assertEquals($expected, $cartConfiguration->isProductConfigured($productMock, $config));
     }
 
     public function isProductConfiguredDataProvider()
     {
-        return array(
-            'simple' => array('simple', array(), false),
-            'virtual' => array('virtual', array('options' => true), true),
-            'bundle' => array('bundle', array('bundle_option' => 'option1'), true),
-            'some_option_type' => array('some_option_type', array(), false)
-        );
+        return [
+            'simple' => ['simple', [], false],
+            'virtual' => ['virtual', ['options' => true], true],
+            'bundle' => ['bundle', ['bundle_option' => 'option1'], true],
+            'some_option_type' => ['some_option_type', [], false]
+        ];
     }
 }

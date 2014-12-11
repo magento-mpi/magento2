@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Data\Form;
@@ -42,7 +39,7 @@ class FormKeyTest extends \PHPUnit_Framework_TestCase
     {
         $valueMap = [
             [FormKey::FORM_KEY, false, null],
-            [FormKey::FORM_KEY, false, 'random_string']
+            [FormKey::FORM_KEY, false, 'random_string'],
         ];
         $this->sessionMock
             ->expects($this->any())

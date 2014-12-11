@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -27,12 +24,12 @@ abstract class AbstractForm extends \Magento\Framework\App\Config\Value implemen
      */
     public function toOptionArray()
     {
-        $optionArray = array();
+        $optionArray = [];
         $backendConfig = $this->_config->getValue($this->_configPath, 'default');
         if ($backendConfig) {
             foreach ($backendConfig as $formName => $formConfig) {
                 if (!empty($formConfig['label'])) {
-                    $optionArray[] = array('label' => $formConfig['label'], 'value' => $formName);
+                    $optionArray[] = ['label' => $formConfig['label'], 'value' => $formName];
                 }
             }
         }

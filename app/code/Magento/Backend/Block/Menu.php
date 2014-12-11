@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block;
 
@@ -77,7 +74,7 @@ class Menu extends \Magento\Backend\Block\Template
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_url = $url;
         $this->_iteratorFactory = $iteratorFactory;
@@ -95,7 +92,7 @@ class Menu extends \Magento\Backend\Block\Template
     protected function _construct()
     {
         parent::_construct();
-        $this->setCacheTags(array(self::CACHE_TAGS));
+        $this->setCacheTags([self::CACHE_TAGS]);
     }
 
     /**
@@ -229,7 +226,7 @@ class Menu extends \Magento\Backend\Block\Template
      */
     protected function _getMenuIterator($menu)
     {
-        return $this->_iteratorFactory->create(array('iterator' => $menu->getIterator()));
+        return $this->_iteratorFactory->create(['iterator' => $menu->getIterator()]);
     }
 
     /**
@@ -242,7 +239,7 @@ class Menu extends \Magento\Backend\Block\Template
     {
         $html = preg_replace_callback(
             '#' . \Magento\Backend\Model\UrlInterface::SECRET_KEY_PARAM_NAME . '/\$([^\/].*)/([^\/].*)/([^\$].*)\$#U',
-            array($this, '_callbackSecretKey'),
+            [$this, '_callbackSecretKey'],
             $html
         );
 
@@ -281,12 +278,12 @@ class Menu extends \Magento\Backend\Block\Template
      */
     public function getCacheKeyInfo()
     {
-        $cacheKeyInfo = array(
+        $cacheKeyInfo = [
             'admin_top_nav',
             $this->getActive(),
             $this->_authSession->getUser()->getId(),
-            $this->_localeResolver->getLocaleCode()
-        );
+            $this->_localeResolver->getLocaleCode(),
+        ];
         // Add additional key parameters if needed
         $newCacheKeyInfo = $this->getAdditionalCacheKeyInfo();
         if (is_array($newCacheKeyInfo) && !empty($newCacheKeyInfo)) {
@@ -371,7 +368,7 @@ class Menu extends \Magento\Backend\Block\Template
         if ($total <= $limit) {
             return;
         }
-        $result[] = array('total' => $total, 'max' => ceil($total / ceil($total / $limit)));
+        $result[] = ['total' => $total, 'max' => ceil($total / ceil($total / $limit))];
         $count = 0;
         foreach ($items as $item) {
             $place = $this->_countItems($item->getChildren()) + 1;
@@ -385,7 +382,7 @@ class Menu extends \Magento\Backend\Block\Template
             } else {
                 $colbrake = false;
             }
-            $result[] = array('place' => $place, 'colbrake' => $colbrake);
+            $result[] = ['place' => $place, 'colbrake' => $colbrake];
         }
         return $result;
     }
@@ -423,7 +420,7 @@ class Menu extends \Magento\Backend\Block\Template
      * @param array $colBrakes
      * @return string HTML
      */
-    public function renderNavigation($menu, $level = 0, $limit = 0, $colBrakes = array())
+    public function renderNavigation($menu, $level = 0, $limit = 0, $colBrakes = [])
     {
         $itemPosition = 1;
         $outputStart = '<ul ' . (0 == $level ? 'id="nav"' : '') . ' >';

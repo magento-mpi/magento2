@@ -11,7 +11,8 @@ class PHPParser_Error extends RuntimeException
      * @param string $message Error message
      * @param int    $line    Error line in PHP file
      */
-    public function __construct($message, $line = -1) {
+    public function __construct($message, $line = -1)
+    {
         $this->rawMessage = (string) $message;
         $this->rawLine    = (int) $line;
         $this->updateMessage();
@@ -22,7 +23,8 @@ class PHPParser_Error extends RuntimeException
      *
      * @return string Error message
      */
-    public function getRawMessage() {
+    public function getRawMessage()
+    {
         return $this->rawMessage;
     }
 
@@ -31,7 +33,8 @@ class PHPParser_Error extends RuntimeException
      *
      * @param string $message Error message
      */
-    public function setRawMessage($message) {
+    public function setRawMessage($message)
+    {
         $this->rawMessage = (string) $message;
         $this->updateMessage();
     }
@@ -41,7 +44,8 @@ class PHPParser_Error extends RuntimeException
      *
      * @return int Error line in the PHP file
      */
-    public function getRawLine() {
+    public function getRawLine()
+    {
         return $this->rawLine;
     }
 
@@ -50,7 +54,8 @@ class PHPParser_Error extends RuntimeException
      *
      * @param int $line Error line in the PHP file
      */
-    public function setRawLine($line) {
+    public function setRawLine($line)
+    {
         $this->rawLine = (int) $line;
         $this->updateMessage();
     }
@@ -58,7 +63,8 @@ class PHPParser_Error extends RuntimeException
     /**
      * Updates the exception message after a change to rawMessage or rawLine.
      */
-    protected function updateMessage() {
+    protected function updateMessage()
+    {
         $this->message = $this->rawMessage;
 
         if (-1 === $this->rawLine) {

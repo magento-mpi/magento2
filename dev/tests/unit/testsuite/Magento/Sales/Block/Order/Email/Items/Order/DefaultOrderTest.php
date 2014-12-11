@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order\Email\Items\Order;
 
@@ -46,12 +43,12 @@ class DefaultOrderTest extends \PHPUnit_Framework_TestCase
 
         $this->block = $this->objectManager->getObject(
             'Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder',
-            array(
+            [
                 'context' => $this->objectManager->getObject(
                         'Magento\Backend\Block\Template\Context',
-                        array('layout' => $this->layoutMock)
+                        ['layout' => $this->layoutMock]
                     )
-            )
+            ]
         );
 
         $this->priceRenderBlock = $this->getMockBuilder('\Magento\Backend\Block\Template')
@@ -81,7 +78,6 @@ class DefaultOrderTest extends \PHPUnit_Framework_TestCase
         $this->priceRenderBlock->expects($this->once())
             ->method('toHtml')
             ->will($this->returnValue($html));
-
 
         $this->assertEquals($html, $this->block->getItemPrice($this->itemMock));
     }

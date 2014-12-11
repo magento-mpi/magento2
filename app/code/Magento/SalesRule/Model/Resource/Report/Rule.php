@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Resource\Report;
 
@@ -98,7 +95,7 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
 
         $rulesNames = $adapter->fetchAll($select);
 
-        $result = array();
+        $result = [];
 
         foreach ($rulesNames as $row) {
             $result[] = $row['rule_name'];

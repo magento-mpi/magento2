@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Config;
 
@@ -45,7 +42,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     {
         $files = [
             file_get_contents(__DIR__ . '/_files/customerBalance.xml'),
-            file_get_contents(__DIR__ . '/_files/Reward.xml')
+            file_get_contents(__DIR__ . '/_files/Reward.xml'),
         ];
         $this->fileResolver->expects($this->once())->method('get')->with('logging.xml', 'global')->willReturn($files);
         $this->assertArrayHasKey('logging', $this->model->read('global'));

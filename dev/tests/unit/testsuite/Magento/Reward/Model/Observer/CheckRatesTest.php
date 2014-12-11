@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Model\Observer;
 
@@ -81,7 +78,7 @@ class CheckRatesTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = [
             [$groupId, $websiteId, \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_CURRENCY, $rateMock],
-            [$groupId, $websiteId, \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS, $rateMock]
+            [$groupId, $websiteId, \Magento\Reward\Model\Reward\Rate::RATE_EXCHANGE_DIRECTION_TO_POINTS, $rateMock],
         ];
 
         $rateMock->expects($this->exactly(2))->method('fetch')->will($this->returnValueMap($valueMap));

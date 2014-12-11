@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Fixture;
@@ -42,11 +39,11 @@ class GiftRegistry extends InjectableFixture
                 'email' => 'email@test%isolation%.com',
                 'firstname' => 'FirstName%isolation%',
                 'lastname' => 'LastName%isolation%',
-            ]
+            ],
         ],
         'address' => [
-            'dataSet' => 'US_address_without_email'
-        ]
+            'dataSet' => 'US_address_without_email',
+        ],
     ];
 
     protected $entity_id = [

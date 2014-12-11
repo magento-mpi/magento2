@@ -2,10 +2,7 @@
 /**
  * \Magento\Payment\Model\Config\Converter
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model\Config;
 
@@ -30,11 +27,11 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
         $xmlFile = __DIR__ . '/_files/payment.xml';
         $dom->loadXML(file_get_contents($xmlFile));
 
-        $expectedResult = array(
-            'credit_cards' => array('SO' => 'Solo', 'SM' => 'Switch/Maestro'),
-            'groups' => array('any_payment' => 'Any Payment'),
-            'methods' => array('checkmo' => array('allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1))
-        );
+        $expectedResult = [
+            'credit_cards' => ['SO' => 'Solo', 'SM' => 'Switch/Maestro'],
+            'groups' => ['any_payment' => 'Any Payment'],
+            'methods' => ['checkmo' => ['allow_multiple_address' => 1, 'allow_multiple_with_3dsecure' => 1]],
+        ];
         $this->assertEquals($expectedResult, $this->_model->convert($dom), '', 0, 20);
     }
 }

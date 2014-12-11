@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Multishipping\Model\Checkout\Type;
 
@@ -262,7 +259,7 @@ class Multishipping extends \Magento\Framework\Object
                     continue;
                 }
                 if ($item->getQty() > 1) {
-                    for ($i = 0,$n = $item->getQty(); $i < $n; $i++) {
+                    for ($i = 0, $n = $item->getQty(); $i < $n; $i++) {
                         if ($i == 0) {
                             $addressItem = $item;
                         } else {

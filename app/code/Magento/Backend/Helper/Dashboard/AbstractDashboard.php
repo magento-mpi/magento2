@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Helper\Dashboard;
 
@@ -26,7 +23,7 @@ abstract class AbstractDashboard extends HelperData
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * @return array|\Magento\Framework\Model\Resource\Db\Collection\AbstractCollection
@@ -68,7 +65,7 @@ abstract class AbstractDashboard extends HelperData
      */
     public function getColumn($index)
     {
-        $result = array();
+        $result = [];
         foreach ($this->getItems() as $item) {
             if (is_array($item)) {
                 if (isset($item[$index])) {

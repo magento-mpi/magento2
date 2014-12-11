@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCardAccount\Service\V1;
 
-use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccountBuilder as GiftCardAccountBuilder;
-use \Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
+use Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccount as GiftCardAccount;
+use Magento\GiftCardAccount\Service\V1\Data\Cart\GiftCardAccountBuilder as GiftCardAccountBuilder;
 
 /**
  * Class ReadService
@@ -62,7 +59,7 @@ class ReadService implements ReadServiceInterface
             GiftCardAccount::GIFT_CARDS_AMOUNT => $quote->getGiftCardsAmount(),
             GiftCardAccount::BASE_GIFT_CARDS_AMOUNT => $quote->getBaseGiftCardsAmount(),
             GiftCardAccount::GIFT_CARDS_AMOUNT_USED => $quote->getGiftCardsAmountUsed(),
-            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => $quote->getBaseGiftCardsAmountUsed()
+            GiftCardAccount::BASE_GIFT_CARDS_AMOUNT_USED => $quote->getBaseGiftCardsAmountUsed(),
         ];
 
         $output = $this->giftCardBuilder->populateWithArray($data)->create();

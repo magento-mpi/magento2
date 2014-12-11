@@ -2,10 +2,7 @@
 /**
  * Depersonalize customer session data
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Layout;
 
@@ -101,7 +98,7 @@ class DepersonalizePlugin
             $this->customerGroupId = $this->customerSession->getCustomerGroupId();
             $this->formKey = $this->session->getData(\Magento\Framework\Data\Form\FormKey::FORM_KEY);
         }
-        return array();
+        return [];
     }
 
     /**

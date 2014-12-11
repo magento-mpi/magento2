@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -20,12 +17,12 @@ class ColorPicker extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rend
      *
      * @var string[]
      */
-    protected $_templates = array(
+    protected $_templates = [
         'Magento_DesignEditor::editor/form/renderer/element/input.phtml',
         'Magento_DesignEditor::editor/form/renderer/color-picker.phtml',
         'Magento_DesignEditor::editor/form/renderer/element/wrapper.phtml',
-        'Magento_DesignEditor::editor/form/renderer/simple.phtml'
-    );
+        'Magento_DesignEditor::editor/form/renderer/simple.phtml',
+    ];
 
     /**
      * Get HTMl class of a field
@@ -43,7 +40,7 @@ class ColorPicker extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rend
         $addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
 
         //@TODO add class that show the control type 'color-picker' for this one
-        $classes = array();
+        $classes = [];
         $classes[] = 'field';
         $classes[] = 'field-' . $element->getId();
         $classes[] = $element->getCssClass();
@@ -75,7 +72,7 @@ class ColorPicker extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rend
     {
         $element = $this->getElement();
 
-        $fieldAttributes = array();
+        $fieldAttributes = [];
         if ($element->getHtmlContainerId()) {
             $fieldAttributes[] = sprintf('id="%s"', $element->getHtmlContainerId());
         }

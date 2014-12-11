@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PageCache\Model\System\Config\Backend;
 
@@ -40,10 +37,10 @@ class TtlTest extends \PHPUnit_Framework_TestCase
 
     public function beforeSaveDataProvider()
     {
-        return array(
-            array(125, 'ttl_1'),
-            array(0, 'ttl_2'),
-        );
+        return [
+            [125, 'ttl_1'],
+            [0, 'ttl_2'],
+        ];
     }
 
     /**
@@ -60,10 +57,10 @@ class TtlTest extends \PHPUnit_Framework_TestCase
 
     public function beforeSaveDataProviderWithException()
     {
-        return array(
-            array('', 'ttl_3'),
-            array('sdfg', 'ttl_4')
-        );
+        return [
+            ['', 'ttl_3'],
+            ['sdfg', 'ttl_4']
+        ];
     }
 
     /**

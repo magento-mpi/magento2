@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Block\Cart;
 
@@ -66,7 +63,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Model\Product\LinkFactory $productLinkFactory,
         \Magento\Sales\Model\Quote\Item\RelatedProducts $itemRelationsList,
         StockHelper $stockHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_checkoutSession = $checkoutSession;
         $this->_productVisibility = $productVisibility;
@@ -89,7 +86,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $items = $this->getData('items');
         if (is_null($items)) {
-            $items = array();
+            $items = [];
             $ninProductIds = $this->_getCartProductIds();
             if ($ninProductIds) {
                 $lastAdded = (int)$this->_getLastAddedProductId();
@@ -148,7 +145,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $ids = $this->getData('_cart_product_ids');
         if (is_null($ids)) {
-            $ids = array();
+            $ids = [];
             foreach ($this->getQuote()->getAllItems() as $item) {
                 $product = $item->getProduct();
                 if ($product) {

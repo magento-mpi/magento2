@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Review\Block\Adminhtml\Rating;
 
@@ -54,7 +51,7 @@ class Summary extends \Magento\Backend\Block\Template
         \Magento\Review\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Review\Model\RatingFactory $ratingFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_votesFactory = $votesFactory;
         $this->_ratingFactory = $ratingFactory;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Dashboard\Tab\Products;
 
@@ -29,7 +26,7 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Reports\Model\Resource\Product\CollectionFactory $productsFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_productsFactory = $productsFactory;
         parent::__construct($context, $backendHelper, $data);
@@ -52,7 +49,7 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
         if ($this->getParam('website')) {
             $storeIds = $this->_storeManager->getWebsite($this->getParam('website'))->getStoreIds();
             $storeId = array_pop($storeIds);
-        } else if ($this->getParam('group')) {
+        } elseif ($this->getParam('group')) {
             $storeIds = $this->_storeManager->getGroup($this->getParam('group'))->getStoreIds();
             $storeId = array_pop($storeIds);
         } else {
@@ -76,11 +73,11 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
      */
     protected function _prepareColumns()
     {
-        $this->addColumn('name', array('header' => __('Product'), 'sortable' => false, 'index' => 'name'));
+        $this->addColumn('name', ['header' => __('Product'), 'sortable' => false, 'index' => 'name']);
 
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'width' => '120px',
                 'type' => 'currency',
@@ -89,18 +86,18 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
                 )->getBaseCurrencyCode(),
                 'sortable' => false,
                 'index' => 'price'
-            )
+            ]
         );
 
         $this->addColumn(
             'views',
-            array(
+            [
                 'header' => __('Views'),
                 'width' => '120px',
                 'align' => 'right',
                 'sortable' => false,
                 'index' => 'views'
-            )
+            ]
         );
 
         $this->setFilterVisibility(false);
@@ -114,7 +111,7 @@ class Viewed extends \Magento\Backend\Block\Dashboard\Grid
      */
     public function getRowUrl($row)
     {
-        $params = array('id' => $row->getId());
+        $params = ['id' => $row->getId()];
         if ($this->getRequest()->getParam('store')) {
             $params['store'] = $this->getRequest()->getParam('store');
         }

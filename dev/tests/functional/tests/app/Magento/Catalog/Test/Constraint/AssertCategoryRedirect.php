@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Test\Constraint;
 
+use Magento\Catalog\Test\Fixture\CatalogCategory;
 use Mtf\Client\Browser;
 use Mtf\Constraint\AbstractConstraint;
-use Magento\Catalog\Test\Fixture\CatalogCategory;
 
 /**
  * Class AssertCategoryRedirect

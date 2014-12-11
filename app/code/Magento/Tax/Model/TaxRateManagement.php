@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Tax\Model;
 
-use Magento\Tax\Api\TaxRateManagementInterface;
-use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Framework\Api\FilterBuilder;
-use Magento\Tax\Api\TaxRuleRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Tax\Api\TaxRateManagementInterface;
 use Magento\Tax\Api\TaxRateRepositoryInterface;
+use Magento\Tax\Api\TaxRuleRepositoryInterface;
 
 class TaxRateManagement implements TaxRateManagementInterface
 {

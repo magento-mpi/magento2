@@ -1,18 +1,15 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order;
 
-use Magento\Sales\Model\AbstractModel;
-use Magento\Framework\Model\Exception;
-use Magento\Sales\Model\EntityInterface;
-use Magento\Sales\Api\Data\CreditmemoInterface;
-use Magento\Framework\Pricing\PriceCurrencyInterface;
 use Magento\Framework\Api\AttributeDataBuilder;
+use Magento\Framework\Model\Exception;
+use Magento\Framework\Pricing\PriceCurrencyInterface;
+use Magento\Sales\Api\Data\CreditmemoInterface;
+use Magento\Sales\Model\AbstractModel;
+use Magento\Sales\Model\EntityInterface;
 
 /**
  * Order creditmemo model
@@ -463,7 +460,6 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
         );
 
         if ($baseOrderRefund > $this->priceCurrency->round($this->getOrder()->getBaseTotalPaid())) {
-
             $baseAvailableRefund = $this->getOrder()->getBaseTotalPaid() - $this->getOrder()->getBaseTotalRefunded();
 
             throw new Exception(
@@ -628,7 +624,7 @@ class Creditmemo extends AbstractModel implements EntityInterface, CreditmemoInt
             self::$_states = [
                 self::STATE_OPEN => __('Pending'),
                 self::STATE_REFUNDED => __('Refunded'),
-                self::STATE_CANCELED => __('Canceled')
+                self::STATE_CANCELED => __('Canceled'),
             ];
         }
         return self::$_states;

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Controller\Adminhtml\Order\Shipment;
 
-use \Magento\Backend\App\Action;
+use Magento\Backend\App\Action;
 
 class AddTrack extends \Magento\Backend\App\Action
 {
@@ -76,15 +73,15 @@ class AddTrack extends \Magento\Backend\App\Action
                 $this->_view->getPage()->getConfig()->getTitle()->prepend(__('Shipments'));
                 $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
-                $response = array(
+                $response = [
                     'error' => true,
-                    'message' => __('Cannot initialize shipment for adding tracking number.')
-                );
+                    'message' => __('Cannot initialize shipment for adding tracking number.'),
+                ];
             }
         } catch (\Magento\Framework\Model\Exception $e) {
-            $response = array('error' => true, 'message' => $e->getMessage());
+            $response = ['error' => true, 'message' => $e->getMessage()];
         } catch (\Exception $e) {
-            $response = array('error' => true, 'message' => __('Cannot add tracking number.'));
+            $response = ['error' => true, 'message' => __('Cannot add tracking number.')];
         }
         if (is_array($response)) {
             $response = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($response);

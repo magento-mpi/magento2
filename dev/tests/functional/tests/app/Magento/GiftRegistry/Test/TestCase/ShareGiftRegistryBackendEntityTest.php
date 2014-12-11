@@ -1,22 +1,19 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\TestCase;
 
-use Mtf\TestCase\Injectable;
 use Magento\Cms\Test\Page\CmsIndex;
-use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\Adminhtml\CustomerIndex;
+use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
 use Magento\Customer\Test\Page\CustomerAccountLogin;
 use Magento\Customer\Test\Page\CustomerAccountLogout;
-use Magento\Customer\Test\Page\Adminhtml\CustomerIndexEdit;
+use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\Adminhtml\GiftRegistryCustomerEdit;
+use Mtf\TestCase\Injectable;
 
 /**
  * Test Creation for Share Backend GiftRegistryEntity

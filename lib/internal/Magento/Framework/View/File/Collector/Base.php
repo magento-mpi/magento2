@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\File\Collector;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 
 /**
@@ -70,7 +67,7 @@ class Base implements CollectorInterface
         $namespace = $module = '*';
         $sharedFiles = $this->modulesDirectory->search("{$namespace}/{$module}/view/base/{$this->subDir}{$filePath}");
 
-        $filePathPtn = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
+        $filePathPtn = strtr(preg_quote($filePath), ['\*' => '[^/]+']);
         $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/base/{$this->subDir}" . $filePathPtn . "$#i";
         foreach ($sharedFiles as $file) {
             $filename = $this->modulesDirectory->getAbsolutePath($file);

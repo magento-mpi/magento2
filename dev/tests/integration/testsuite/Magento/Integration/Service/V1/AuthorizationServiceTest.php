@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Integration\Service\V1;
@@ -32,9 +29,9 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
         $loggerMock->expects($this->any())->method('logException')->will($this->returnSelf());
         $this->_service = $objectManager->create(
             'Magento\Integration\Service\V1\AuthorizationService',
-            array(
+            [
                 'logger' => $loggerMock
-            )
+            ]
         );
 
         $this->userContextMock = $this->getMockForAbstractClass('Magento\Authorization\Model\UserContextInterface');
@@ -58,7 +55,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     public function testGrantPermissions()
     {
         $integrationId = rand(1, 1000);
-        $resources = array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard');
+        $resources = ['Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard'];
         /** Preconditions check */
         $this->_ensurePermissionsAreNotGranted($integrationId, $resources);
 
@@ -91,18 +88,18 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
 
     public function changePermissionsProvider()
     {
-        return array(
-            'integration' => array(
+        return [
+            'integration' => [
                 'integrationId' => rand(1, 1000),
-                'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
-                'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
-            ),
-            'integration clear permissions' => array(
+                'initialResources' => ['Magento_Cms::page', 'Magento_Adminhtml::dashboard'],
+                'newResources' => ['Magento_Sales::cancel', 'Magento_Cms::page_delete'],
+            ],
+            'integration clear permissions' => [
                 'integrationId' => rand(1, 1000),
-                'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
-                'newResources' => array()
-            )
-        );
+                'initialResources' => ['Magento_Sales::capture', 'Magento_Cms::page_delete'],
+                'newResources' => [],
+            ]
+        ];
     }
 
     /**
@@ -112,7 +109,7 @@ class AuthorizationServiceTest extends \PHPUnit_Framework_TestCase
     {
         $integrationId = rand(1, 1000);
         $this->_service->grantAllPermissions($integrationId);
-        $this->_ensurePermissionsAreGranted($integrationId, array('Magento_Adminhtml::all'));
+        $this->_ensurePermissionsAreGranted($integrationId, ['Magento_Adminhtml::all']);
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Email\Model\Template;
 
@@ -29,7 +26,7 @@ class SenderResolver implements \Magento\Framework\Mail\Template\SenderResolverI
      */
     public function resolve($sender, $scopeId = null)
     {
-        $result = array();
+        $result = [];
 
         if (!is_array($sender)) {
             $result['name'] = $this->_scopeConfig->getValue(

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model\Metadata\Form;
 
@@ -44,15 +41,15 @@ class SelectTest extends AbstractFormTestCase
 
     public function validateValueDataProvider()
     {
-        return array(
-            'empty' => array('', true),
-            '0' => array(0, true),
-            'zero' => array('0', true),
-            'string' => array('some text', true),
-            'number' => array(123, true),
-            'true' => array(true, true),
-            'false' => array(false, true)
-        );
+        return [
+            'empty' => ['', true],
+            '0' => [0, true],
+            'zero' => ['0', true],
+            'string' => ['some text', true],
+            'number' => [123, true],
+            'true' => [true, true],
+            'false' => [false, true]
+        ];
     }
 
     /**
@@ -76,15 +73,15 @@ class SelectTest extends AbstractFormTestCase
 
     public function validateValueRequiredDataProvider()
     {
-        return array(
-            'empty' => array('', '"" is a required value.'),
-            'null' => array(null, '"" is a required value.'),
-            '0' => array(0, true),
-            'string' => array('some text', true),
-            'number' => array(123, true),
-            'true' => array(true, true),
-            'false' => array(false, '"" is a required value.')
-        );
+        return [
+            'empty' => ['', '"" is a required value.'],
+            'null' => [null, '"" is a required value.'],
+            '0' => [0, true],
+            'string' => ['some text', true],
+            'number' => [123, true],
+            'true' => [true, true],
+            'false' => [false, '"" is a required value.']
+        ];
     }
 
     /**
@@ -133,11 +130,11 @@ class SelectTest extends AbstractFormTestCase
             'getOptions'
         )->will(
             $this->returnValue(
-                array(
+                [
                     $option1,
                     $option2,
-                    $option3
-                )
+                    $option3,
+                ]
             )
         );
         $select = $this->getClass($value);
@@ -147,14 +144,14 @@ class SelectTest extends AbstractFormTestCase
 
     public function outputValueDataProvider()
     {
-        return array(
-            'empty' => array('', ''),
-            'null' => array(null, ''),
-            'number' => array(14, 'fourteen'),
-            'string' => array('some key', 'some string'),
-            'boolean' => array(true, ''),
-            'unknown' => array('unknownKey', ''),
-            'true' => array('true', 'True')
-        );
+        return [
+            'empty' => ['', ''],
+            'null' => [null, ''],
+            'number' => [14, 'fourteen'],
+            'string' => ['some key', 'some string'],
+            'boolean' => [true, ''],
+            'unknown' => ['unknownKey', ''],
+            'true' => ['true', 'True']
+        ];
     }
 }

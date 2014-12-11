@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Block\Product;
@@ -75,7 +72,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
         \Magento\Framework\Stdlib\String $string,
         \Magento\Framework\Math\Random $mathRandom,
         \Magento\Checkout\Helper\Cart $cartHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_catalogData = $catalogData;
@@ -133,7 +130,7 @@ class Price extends \Magento\Framework\View\Element\Template implements \Magento
      * @param array $additional
      * @return string
      */
-    public function getAddToCartUrl($product, $additional = array())
+    public function getAddToCartUrl($product, $additional = [])
     {
         return $this->_cartHelper->getAddUrl($product, $additional);
     }

@@ -2,10 +2,7 @@
 /**
  * Captcha model factory
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Captcha\Model;
 
@@ -36,7 +33,7 @@ class CaptchaFactory
     {
         $className = 'Magento\Captcha\Model\\' . ucfirst($captchaType);
 
-        $instance = $this->_objectManager->create($className, array('formId' => $formId));
+        $instance = $this->_objectManager->create($className, ['formId' => $formId]);
         if (!$instance instanceof \Magento\Captcha\Model\ModelInterface) {
             throw new \InvalidArgumentException(
                 $className . ' does not implement \Magento\Captcha\Model\ModelInterface'

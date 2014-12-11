@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
@@ -44,7 +41,7 @@ class Data extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         PriceCurrencyInterface $priceCurrency,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_localeCurrency = $localeCurrency;
@@ -59,7 +56,7 @@ class Data extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     public function getAvailableCurrencies()
     {
         $dirtyCodes = $this->getStore()->getAvailableCurrencyCodes();
-        $codes = array();
+        $codes = [];
         if (is_array($dirtyCodes) && count($dirtyCodes)) {
             $rates = $this->_currencyFactory->create()->getCurrencyRates(
                 $this->_storeManager->getStore()->getBaseCurrency(),

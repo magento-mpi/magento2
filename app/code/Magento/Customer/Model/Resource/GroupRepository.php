@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Customer\Model\Resource;
 
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Customer\Model\Resource\Group\Collection;
+use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Exception\InputException;
 use Magento\Framework\Exception\State\InvalidTransitionException;
-use Magento\Framework\Api\Search\FilterGroup;
 use Magento\Tax\Api\Data\TaxClassInterface;
 use Magento\Tax\Api\TaxClassManagementInterface;
 
@@ -24,7 +21,6 @@ use Magento\Tax\Api\TaxClassManagementInterface;
  */
 class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
 {
-
     /**
      * The default tax class id if no tax class id is specified
      */
@@ -115,7 +111,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
             $groupModel = $this->groupFactory->create();
             $groupModel->setCode($group->getCode());
 
-            $taxClassId = $group->getTaxClassId() ? : self::DEFAULT_TAX_CLASS_ID;
+            $taxClassId = $group->getTaxClassId() ?: self::DEFAULT_TAX_CLASS_ID;
             $this->_verifyTaxClassModel($taxClassId, $group);
             $groupModel->setTaxClassId($taxClassId);
         }
@@ -186,7 +182,7 @@ class GroupRepository implements \Magento\Customer\Api\GroupRepositoryInterface
         $collection->setPageSize($searchCriteria->getPageSize());
 
         /** @var \Magento\Customer\Api\Data\GroupInterface[] $groups */
-        $groups = array();
+        $groups = [];
         /** @var \Magento\Customer\Model\Group $group */
         foreach ($collection as $group) {
             $this->groupBuilder->setId($group->getId());

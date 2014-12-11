@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Block\Catalog\Product;
 
@@ -36,7 +33,7 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
@@ -70,7 +67,7 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
                 if ($this->_getUrlRewrite()->getId() === null) {
                     $productId = $this->_getProduct()->getId();
                     $this->_updateBackButtonLink(
-                        $this->_adminhtmlData->getUrl('adminhtml/*/edit', array('product' => $productId)) . 'category'
+                        $this->_adminhtmlData->getUrl('adminhtml/*/edit', ['product' => $productId]) . 'category'
                     );
                 }
             } else {
@@ -123,11 +120,11 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         $this->addChild(
             'product_link',
             'Magento\UrlRewrite\Block\Link',
-            array(
+            [
                 'item_url' => $this->_adminhtmlData->getUrl('adminhtml/*/*') . 'product',
                 'item_name' => $this->_getProduct()->getName(),
                 'label' => __('Product:')
-            )
+            ]
         );
     }
 
@@ -141,14 +138,14 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         $this->addChild(
             'category_link',
             'Magento\UrlRewrite\Block\Link',
-            array(
+            [
                 'item_url' => $this->_adminhtmlData->getUrl(
                     'adminhtml/*/*',
-                    array('product' => $this->_getProduct()->getId())
+                    ['product' => $this->_getProduct()->getId()]
                 ) . 'category',
                 'item_name' => $this->_getCategory()->getName(),
                 'label' => __('Category:')
-            )
+            ]
         );
     }
 
@@ -182,15 +179,15 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         $this->addChild(
             'skip_categories',
             'Magento\Backend\Block\Widget\Button',
-            array(
+            [
                 'label' => __('Skip Category Selection'),
                 'onclick' => 'window.location = \'' . $this->_adminhtmlData->getUrl(
                     'adminhtml/*/*',
-                    array('product' => $this->_getProduct()->getId())
+                    ['product' => $this->_getProduct()->getId()]
                 ) . '\'',
                 'class' => 'save',
                 'level' => -1
-            )
+            ]
         );
     }
 
@@ -204,13 +201,13 @@ class Edit extends \Magento\UrlRewrite\Block\Edit
         return $this->getLayout()->createBlock(
             'Magento\UrlRewrite\Block\Catalog\Edit\Form',
             '',
-            array(
-                'data' => array(
+            [
+                'data' => [
                     'product' => $this->_getProduct(),
                     'category' => $this->_getCategory(),
-                    'url_rewrite' => $this->_getUrlRewrite()
-                )
-            )
+                    'url_rewrite' => $this->_getUrlRewrite(),
+                ]
+            ]
         );
     }
 }

@@ -1,16 +1,13 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Downloadable\Controller\Download;
 
-use Magento\Framework\App\ResponseInterface;
 use Magento\Downloadable\Helper\Download as DownloadHelper;
 use Magento\Downloadable\Model\Link\Purchased\Item as PurchasedLink;
+use Magento\Framework\App\ResponseInterface;
 
 class Link extends \Magento\Downloadable\Controller\Download
 {
@@ -70,7 +67,7 @@ class Link extends \Magento\Downloadable\Controller\Download
                         'Magento\Framework\UrlInterface'
                     )->getUrl(
                         'downloadable/customer/products/',
-                        array('_secure' => true)
+                        ['_secure' => true]
                     )
                 );
                 return;

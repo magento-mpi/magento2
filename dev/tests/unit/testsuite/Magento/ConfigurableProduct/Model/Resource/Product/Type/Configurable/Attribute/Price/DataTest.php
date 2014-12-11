@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\ConfigurableProduct\Model\Resource\Product\Type\Configurable\Attribute\Price;
@@ -24,4 +21,4 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $priceData->setProductPrice($productId, $productPrice);
         $this->assertEquals($productPrice, $priceData->getProductPrice($productId));
     }
-} 
+}

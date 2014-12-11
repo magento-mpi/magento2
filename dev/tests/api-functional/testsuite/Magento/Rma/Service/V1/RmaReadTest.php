@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Service\V1;
 
 use Magento\Rma\Service\V1\Data\Rma;
@@ -31,13 +28,13 @@ class RmaReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns/' . $rma->getId(),
-                'httpMethod' => RestConfig::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'get'
-            ]
+                'operation' => self::SERVICE_NAME . 'get',
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, ['id' => $rma->getId()]);
@@ -51,21 +48,21 @@ class RmaReadTest extends WebapiAbstract
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => '/V1/returns',
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'search'
-            ]
+                'operation' => self::SERVICE_NAME . 'search',
+            ],
         ];
 
         $request = [
             'searchCriteria' => [
                 'filterGroups' => [
-                    ['filters' => [['field' => Rma::ENTITY_ID, 'value' => $rma->getId(), 'conditionType' => 'eq']]]
-                ]
-            ]
+                    ['filters' => [['field' => Rma::ENTITY_ID, 'value' => $rma->getId(), 'conditionType' => 'eq']]],
+                ],
+            ],
         ];
 
         $result = $this->_webApiCall($serviceInfo, $request);

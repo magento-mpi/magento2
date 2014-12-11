@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GroupedProduct\Api;
 
-use \Magento\Webapi\Model\Rest\Config as RestConfig;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
 use Magento\TestFramework\Helper\Bootstrap;
 
 class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAbstract
@@ -41,27 +38,27 @@ class ProductLinkRepositoryTest extends \Magento\TestFramework\TestCase\WebapiAb
             'linked_product_sku' => 'simple',
             'position' => 3,
             'custom_attributes' => [
-                'qty' => ['attribute_code' => 'qty', 'value' => (float) 300.0000]
-            ]
+                'qty' => ['attribute_code' => 'qty', 'value' => (float) 300.0000],
+            ],
         ];
 
         $serviceInfo = [
             'rest' => [
                 'resourcePath' => self::RESOURCE_PATH . $productSku . '/links/' . $linkType,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
             ],
             'soap' => [
                 'service' => self::SERVICE_NAME,
                 'serviceVersion' => self::SERVICE_VERSION,
-                'operation' => self::SERVICE_NAME . 'Save'
-            ]
+                'operation' => self::SERVICE_NAME . 'Save',
+            ],
         ];
         $this->_webApiCall($serviceInfo, ['entity' => $productData]);
 
         /** @var \Magento\Catalog\Model\ProductLink\Management $linkManagement */
         $linkManagement = $this->objectManager->get('\Magento\Catalog\Api\ProductLinkManagementInterface');
         $actual = $linkManagement->getLinkedItemsByType($productSku, $linkType);
-        array_walk($actual, function (&$item){
+        array_walk($actual, function (&$item) {
             $item = $item->__toArray();
         });
         $this->assertEquals($productData, $actual[2]);

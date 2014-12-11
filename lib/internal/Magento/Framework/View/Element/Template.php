@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\Element;
 
-use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Framework\Filesystem;
 
 /**
  * Base html block
@@ -27,7 +24,7 @@ class Template extends AbstractBlock
      *
      * @var array
      */
-    protected $_viewVars = array();
+    protected $_viewVars = [];
 
     /**
      * Base URL
@@ -124,7 +121,7 @@ class Template extends AbstractBlock
      * @param Template\Context $context
      * @param array $data
      */
-    public function __construct(Template\Context $context, array $data = array())
+    public function __construct(Template\Context $context, array $data = [])
     {
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
@@ -196,7 +193,7 @@ class Template extends AbstractBlock
      */
     public function getTemplateFile($template = null)
     {
-        $params = array('module' => $this->getModuleName());
+        $params = ['module' => $this->getModuleName()];
         $area = $this->getArea();
         if ($area) {
             $params['area'] = $area;
@@ -245,7 +242,7 @@ class Template extends AbstractBlock
         $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
         \Magento\Framework\Profiler::start(
             'TEMPLATE:' . $fileName,
-            array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
+            ['group' => 'TEMPLATE', 'file_name' => $relativeFilePath]
         );
 
         if ($this->isTemplateFileValid($fileName)) {
@@ -306,12 +303,12 @@ class Template extends AbstractBlock
      */
     public function getCacheKeyInfo()
     {
-        return array(
+        return [
             'BLOCK_TPL',
             $this->_storeManager->getStore()->getCode(),
             $this->getTemplateFile(),
             'template' => $this->getTemplate()
-        );
+        ];
     }
 
     /**

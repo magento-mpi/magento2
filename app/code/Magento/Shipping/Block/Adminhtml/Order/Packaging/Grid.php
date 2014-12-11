@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Shipping\Block\Adminhtml\Order\Packaging;
 
@@ -36,7 +33,7 @@ class Grid extends \Magento\Backend\Block\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Sales\Model\Order\Shipment\ItemFactory $shipmentItemFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_shipmentItemFactory = $shipmentItemFactory;
         $this->_coreRegistry = $registry;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\Resource\System\Message;
 
@@ -21,7 +18,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_countBySeverity = array();
+    protected $_countBySeverity = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -99,7 +96,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      */
     public function setSeverity($severity)
     {
-        $this->addFieldToFilter('severity', array('eq' => $severity * 1));
+        $this->addFieldToFilter('severity', ['eq' => $severity * 1]);
         return $this;
     }
 

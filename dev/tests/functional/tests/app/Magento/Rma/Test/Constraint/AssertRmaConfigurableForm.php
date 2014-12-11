@@ -1,18 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Rma\Test\Constraint;
 
-use Mtf\Fixture\FixtureInterface;
-use Magento\Rma\Test\Fixture\Rma;
-use Magento\Sales\Test\Fixture\OrderInjectable;
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\ConfigurableProduct\Test\Fixture\ConfigurableProductInjectable;
+use Magento\Rma\Test\Fixture\Rma;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Assert that displayed rma data on edit page equals passed from fixture.

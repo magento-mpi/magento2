@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model;
 
 use Magento\Customer\Api\Data\CustomerInterface;
-use Magento\Sales\Model\Quote\Address;
 use Magento\Customer\Api\Data\GroupInterface;
+use Magento\Sales\Model\Quote\Address;
 
 /**
  * Quote model

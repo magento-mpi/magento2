@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Store\Model\Resource;
 
@@ -29,7 +26,7 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _initUniqueFields()
     {
-        $this->_uniqueFields = array(array('field' => 'code', 'title' => __('Website with the same code')));
+        $this->_uniqueFields = [['field' => 'code', 'title' => __('Website with the same code')]];
         return $this;
     }
 
@@ -62,9 +59,9 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
     protected function _afterSave(\Magento\Framework\Model\AbstractModel $object)
     {
         if ($object->getIsDefault()) {
-            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 0));
-            $where = array('website_id = ?' => $object->getId());
-            $this->_getWriteAdapter()->update($this->getMainTable(), array('is_default' => 1), $where);
+            $this->_getWriteAdapter()->update($this->getMainTable(), ['is_default' => 0]);
+            $where = ['website_id = ?' => $object->getId()];
+            $this->_getWriteAdapter()->update($this->getMainTable(), ['is_default' => 1], $where);
         }
         return parent::_afterSave($object);
     }
@@ -77,10 +74,10 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
      */
     protected function _afterDelete(\Magento\Framework\Model\AbstractModel $model)
     {
-        $where = array(
+        $where = [
             'scope = ?' => \Magento\Store\Model\ScopeInterface::SCOPE_WEBSITES,
-            'scope_id = ?' => $model->getWebsiteId()
-        );
+            'scope_id = ?' => $model->getWebsiteId(),
+        ];
 
         $this->_getWriteAdapter()->delete($this->getTable('core_config_data'), $where);
 
@@ -102,13 +99,13 @@ class Website extends \Magento\Framework\Model\Resource\Db\AbstractDb
             'store_group_table.default_store_id'
         );
         $select = $this->_getReadAdapter()->select()->from(
-            array('website_table' => $this->getTable('store_website')),
-            array('website_id')
+            ['website_table' => $this->getTable('store_website')],
+            ['website_id']
         )->joinLeft(
-            array('store_group_table' => $this->getTable('store_group')),
+            ['store_group_table' => $this->getTable('store_group')],
             'website_table.website_id=store_group_table.website_id' .
             ' AND website_table.default_group_id = store_group_table.group_id',
-            array('store_id' => $ifNull)
+            ['store_id' => $ifNull]
         );
         if (!$includeDefault) {
             $select->where('website_table.website_id <> ?', 0);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Downloadable\Test\Block\Catalog\Product\View;
@@ -53,7 +50,7 @@ class Samples extends Block
 
         foreach ($links as $link) {
             $linksData[] = [
-                'title' => $link->getText()
+                'title' => $link->getText(),
             ];
         }
 

@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Invitation\Controller\Index;
 
@@ -38,7 +35,7 @@ class Send extends \Magento\Invitation\Controller\Index
                 }
                 try {
                     $invitation = $this->invitationFactory->create()->setData(
-                        array('email' => $email, 'customer' => $customer, 'message' => $message)
+                        ['email' => $email, 'customer' => $customer, 'message' => $message]
                     )->save();
                     if ($invitation->sendInvitationEmail()) {
                         $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));

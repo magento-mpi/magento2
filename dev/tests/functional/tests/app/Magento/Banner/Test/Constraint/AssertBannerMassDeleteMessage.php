@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Banner\Test\Constraint;
 
 use Magento\Banner\Test\Fixture\BannerInjectable;
-use Mtf\Constraint\AbstractConstraint;
 use Magento\Banner\Test\Page\Adminhtml\BannerIndex;
+use Mtf\Constraint\AbstractConstraint;
 
 /**
  * Class AssertBannerMassDeleteMessage

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Billing\Agreement;
 
@@ -17,7 +14,7 @@ class View extends \Magento\Framework\View\Element\Template
      *
      * @var array
      */
-    protected $_paymentMethods = array();
+    protected $_paymentMethods = [];
 
     /**
      * Billing Agreement instance
@@ -83,7 +80,7 @@ class View extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Paypal\Helper\Data $helper,
         \Magento\Paypal\Model\Resource\Billing\Agreement $agreementResource,
-        array $data = array()
+        array $data = []
     ) {
         $this->_helper = $helper;
         $this->_orderCollectionFactory = $orderCollectionFactory;
@@ -112,7 +109,7 @@ class View extends \Magento\Framework\View\Element\Template
                 (int)$this->_customerSession->getCustomerId()
             )->addFieldToFilter(
                 'status',
-                array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+                ['in' => $this->_orderConfig->getVisibleOnFrontStatuses()]
             )->setOrder(
                 'created_at',
                 'desc'
@@ -154,7 +151,7 @@ class View extends \Magento\Framework\View\Element\Template
                 $value = $order->getStatusLabel();
                 break;
             case 'view_url':
-                $value = $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
+                $value = $this->getUrl('sales/order/view', ['order_id' => $order->getId()]);
                 break;
             default:
                 $value = $order->getData($key) ? $order->getData($key) : __('N/A');
@@ -230,7 +227,7 @@ class View extends \Magento\Framework\View\Element\Template
             $this->setCancelUrl(
                 $this->getUrl(
                     '*/billing_agreement/cancel',
-                    array('_current' => true, 'payment_method' => $billingAgreement->getMethodCode())
+                    ['_current' => true, 'payment_method' => $billingAgreement->getMethodCode()]
                 )
             );
 

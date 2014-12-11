@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -26,41 +23,41 @@ class System extends Generic
 
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('System Properties')));
+        $fieldset = $form->addFieldset('base_fieldset', ['legend' => __('System Properties')]);
 
         if ($model->getAttributeId()) {
-            $fieldset->addField('attribute_id', 'hidden', array('name' => 'attribute_id'));
+            $fieldset->addField('attribute_id', 'hidden', ['name' => 'attribute_id']);
         }
 
-        $yesno = array(array('value' => 0, 'label' => __('No')), array('value' => 1, 'label' => __('Yes')));
+        $yesno = [['value' => 0, 'label' => __('No')], ['value' => 1, 'label' => __('Yes')]];
 
         $fieldset->addField(
             'backend_type',
             'select',
-            array(
+            [
                 'name' => 'backend_type',
                 'label' => __('Data Type for Saving in Database'),
                 'title' => __('Data Type for Saving in Database'),
-                'options' => array(
+                'options' => [
                     'text' => __('Text'),
                     'varchar' => __('Varchar'),
                     'static' => __('Static'),
                     'datetime' => __('Datetime'),
                     'decimal' => __('Decimal'),
-                    'int' => __('Integer')
-                )
-            )
+                    'int' => __('Integer'),
+                ]
+            ]
         );
 
         $fieldset->addField(
             'is_global',
             'select',
-            array(
+            [
                 'name' => 'is_global',
                 'label' => __('Globally Editable'),
                 'title' => __('Globally Editable'),
                 'values' => $yesno
-            )
+            ]
         );
 
         $form->setValues($model->getData());

@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Controller\Guest;
 
-use \Magento\Rma\Model\Rma;
+use Magento\Rma\Model\Rma;
 
 class Create extends \Magento\Rma\Controller\Guest
 {
@@ -56,7 +53,7 @@ class Create extends \Magento\Rma\Controller\Guest
             try {
                 /** @var $rmaModel \Magento\Rma\Model\Rma */
                 $rmaModel = $this->_objectManager->create('Magento\Rma\Model\Rma');
-                $rmaData = array(
+                $rmaData = [
                     'status' => \Magento\Rma\Model\Rma\Source\Status::STATE_PENDING,
                     'date_requested' => $coreDate->gmtDate(),
                     'order_id' => $order->getId(),
@@ -65,12 +62,12 @@ class Create extends \Magento\Rma\Controller\Guest
                     'customer_id' => $order->getCustomerId(),
                     'order_date' => $order->getCreatedAt(),
                     'customer_name' => $order->getCustomerName(),
-                    'customer_custom_email' => $post['customer_custom_email']
-                );
+                    'customer_custom_email' => $post['customer_custom_email'],
+                ];
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
 
                 if (!$result) {
-                    $url = $this->_url->getUrl('*/*/create', array('order_id' => $orderId));
+                    $url = $this->_url->getUrl('*/*/create', ['order_id' => $orderId]);
                     $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }

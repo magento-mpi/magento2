@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->loadArea('frontend');
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Catalog\Model\Product');
@@ -22,7 +19,7 @@ $product->setTypeId(
 )->setTaxClassId(
     0
 )->setStockData(
-    array('use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1)
+    ['use_config_manage_stock' => 1, 'qty' => 100, 'is_qty_decimal' => 0, 'is_in_stock' => 1]
 )->setMetaTitle(
     'meta title'
 )->setMetaKeyword(
@@ -39,7 +36,7 @@ $product->load(1);
 $addressData = include __DIR__ . '/address_data.php';
 $billingAddress = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
     'Magento\Sales\Model\Quote\Address',
-    array('data' => $addressData)
+    ['data' => $addressData]
 );
 $billingAddress->setAddressType('billing');
 

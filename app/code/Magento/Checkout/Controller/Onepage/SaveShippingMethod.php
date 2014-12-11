@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Controller\Onepage;
 
@@ -37,7 +34,7 @@ class SaveShippingMethod extends \Magento\Checkout\Controller\Onepage
                 $result['goto_section'] = 'payment';
                 $result['update_section'] = [
                     'name' => 'payment-method',
-                    'html' => $this->_getPaymentMethodsHtml()
+                    'html' => $this->_getPaymentMethodsHtml(),
                 ];
                 $result['update_progress'] = ['html' => $this->getProgressHtml($result['goto_section'])];
             }

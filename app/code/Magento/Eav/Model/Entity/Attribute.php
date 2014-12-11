@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity;
 
@@ -100,7 +97,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $context,
@@ -231,7 +228,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         ) && !\Zend_Validate::is(
             $this->_data['attribute_code'],
             'StringLength',
-            array('max' => self::ATTRIBUTE_CODE_MAX_LENGTH)
+            ['max' => self::ATTRIBUTE_CODE_MAX_LENGTH]
         )
         ) {
             throw new Exception(
@@ -245,7 +242,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
         if ($this->getBackendType() == 'decimal' && $hasDefaultValue) {
             if (!\Zend_Locale_Format::isNumber(
                 $defaultValue,
-                array('locale' => $this->_localeResolver->getLocaleCode())
+                ['locale' => $this->_localeResolver->getLocaleCode()]
             )
             ) {
                 throw new Exception(__('Invalid default decimal value'));
@@ -253,7 +250,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
 
             try {
                 $filter = new \Zend_Filter_LocalizedToNormalized(
-                    array('locale' => $this->_localeResolver->getLocaleCode())
+                    ['locale' => $this->_localeResolver->getLocaleCode()]
                 );
                 $this->setDefaultValue($filter->filter($defaultValue));
             } catch (\Exception $e) {
@@ -460,6 +457,6 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute im
      */
     public function getIdentities()
     {
-        return array(self::CACHE_TAG . '_' . $this->getId());
+        return [self::CACHE_TAG . '_' . $this->getId()];
     }
 }

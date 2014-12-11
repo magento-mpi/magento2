@@ -1,13 +1,9 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\App\DeploymentConfig;
-
 
 class DbConfigTest extends \PHPUnit_Framework_TestCase
 {
@@ -23,7 +19,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                 DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                 DbConfig::KEY_ACTIVE => '1',
             ],
-        ]
+        ],
     ];
 
     public function testGetKey()
@@ -73,8 +69,8 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                                 DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                                 DbConfig::KEY_ACTIVE => '1',
                             ],
-                    ]
-                ]
+                    ],
+                ],
             ],
             [
                 [
@@ -89,7 +85,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
             [
@@ -105,7 +101,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
             [
@@ -121,7 +117,7 @@ class DbConfigTest extends \PHPUnit_Framework_TestCase
                             DbConfig::KEY_INIT_STATEMENTS => 'SET NAMES utf8;',
                             DbConfig::KEY_ACTIVE => '1',
                         ],
-                    ]
+                    ],
                 ]
             ],
         ];

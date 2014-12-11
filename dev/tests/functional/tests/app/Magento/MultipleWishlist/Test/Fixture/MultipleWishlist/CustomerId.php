@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\MultipleWishlist\Test\Fixture\MultipleWishlist;
 
-use Mtf\Fixture\FixtureInterface;
 use Magento\Sales\Test\Fixture\OrderInjectable\CustomerId as Customer;
+use Mtf\Fixture\FixtureInterface;
 
 /**
  * Class CustomerId

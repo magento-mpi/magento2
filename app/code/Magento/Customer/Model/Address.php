@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Model;
 
-use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Api\Data\AddressDataBuilder;
+use Magento\Customer\Api\Data\AddressInterface;
 use Magento\Customer\Api\Data\RegionDataBuilder;
 use Magento\Framework\Api\AttributeDataBuilder;
 
@@ -74,7 +71,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         \Magento\Framework\Reflection\DataObjectProcessor $dataProcessor,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->_customerFactory = $customerFactory;

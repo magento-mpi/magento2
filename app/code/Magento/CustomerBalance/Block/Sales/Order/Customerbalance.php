@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerBalance\Block\Sales\Order;
 
@@ -17,7 +14,7 @@ class Customerbalance extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = [])
     {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -52,11 +49,11 @@ class Customerbalance extends \Magento\Framework\View\Element\Template
             return $this;
         }
         $total = new \Magento\Framework\Object(
-            array(
+            [
                 'code' => $this->getNameInLayout(),
                 'block_name' => $this->getNameInLayout(),
-                'area' => $this->getArea()
-            )
+                'area' => $this->getArea(),
+            ]
         );
         $after = $this->getAfterTotal();
         if (!$after) {

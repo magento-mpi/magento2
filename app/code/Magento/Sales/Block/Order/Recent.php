@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -39,7 +36,7 @@ class Recent extends \Magento\Framework\View\Element\Template
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_customerSession = $customerSession;
@@ -75,7 +72,7 @@ class Recent extends \Magento\Framework\View\Element\Template
             $this->_customerSession->getCustomerId()
         )->addAttributeToFilter(
             'status',
-            array('in' => $this->_orderConfig->getVisibleOnFrontStatuses())
+            ['in' => $this->_orderConfig->getVisibleOnFrontStatuses()]
         )->addAttributeToSort(
             'created_at',
             'desc'
@@ -92,7 +89,7 @@ class Recent extends \Magento\Framework\View\Element\Template
      */
     public function getViewUrl($order)
     {
-        return $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/view', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -101,7 +98,7 @@ class Recent extends \Magento\Framework\View\Element\Template
      */
     public function getTrackUrl($order)
     {
-        return $this->getUrl('sales/order/track', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/track', ['order_id' => $order->getId()]);
     }
 
     /**
@@ -121,6 +118,6 @@ class Recent extends \Magento\Framework\View\Element\Template
      */
     public function getReorderUrl($order)
     {
-        return $this->getUrl('sales/order/reorder', array('order_id' => $order->getId()));
+        return $this->getUrl('sales/order/reorder', ['order_id' => $order->getId()]);
     }
 }

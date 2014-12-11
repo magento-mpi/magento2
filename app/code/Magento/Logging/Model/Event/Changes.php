@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Logging\Model\Event;
 
@@ -32,14 +29,14 @@ class Changes extends \Magento\Framework\Model\AbstractModel
      *
      * @var array
      */
-    protected $_globalSkipFields = array();
+    protected $_globalSkipFields = [];
 
     /**
      * Set of fields that should not be logged per expected model
      *
      * @var array
      */
-    protected $_skipFields = array();
+    protected $_skipFields = [];
 
     /**
      * Store difference between original data and result data of model
@@ -61,8 +58,8 @@ class Changes extends \Magento\Framework\Model\AbstractModel
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $skipFields = array(),
-        array $data = array()
+        array $skipFields = [],
+        array $data = []
     ) {
         $this->_globalSkipFields = $skipFields;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -111,22 +108,22 @@ class Changes extends \Magento\Framework\Model\AbstractModel
     protected function _calculateDifference()
     {
         if (is_null($this->_difference)) {
-            $updatedParams = $newParams = $sameParams = $difference = array();
+            $updatedParams = $newParams = $sameParams = $difference = [];
             $newOriginalData = $origData = $this->getOriginalData();
             $newResultData = $resultData = $this->getResultData();
 
             if (!is_array($origData)) {
-                $origData = array();
+                $origData = [];
             }
             if (!is_array($resultData)) {
-                $resultData = array();
+                $resultData = [];
             }
 
             if (!$origData && $resultData) {
-                $newOriginalData = array('__was_created' => true);
+                $newOriginalData = ['__was_created' => true];
                 $difference = $resultData;
             } elseif ($origData && !$resultData) {
-                $newResultData = array('__was_deleted' => true);
+                $newResultData = ['__was_deleted' => true];
                 $difference = $origData;
             } elseif ($origData && $resultData) {
                 $newParams = array_diff_key($resultData, $origData);
@@ -139,7 +136,7 @@ class Changes extends \Magento\Framework\Model\AbstractModel
                 $newOriginalData = array_intersect_key($origData, $updatedParams);
                 $difference = $newResultData = array_merge($updatedParams, $newParams);
                 if ($difference && !$updatedParams) {
-                    $newOriginalData = array('__no_changes' => true);
+                    $newOriginalData = ['__no_changes' => true];
                 }
             }
 
@@ -175,13 +172,13 @@ class Changes extends \Magento\Framework\Model\AbstractModel
     protected function _cleanupData($data)
     {
         if (!$data || !is_array($data)) {
-            return array();
+            return [];
         }
         $skipFields = $this->_skipFields;
         if (!$skipFields || !is_array($skipFields)) {
-            $skipFields = array();
+            $skipFields = [];
         }
-        $clearedData = array();
+        $clearedData = [];
         foreach ($data as $key => $value) {
             if (!in_array(
                 $key,

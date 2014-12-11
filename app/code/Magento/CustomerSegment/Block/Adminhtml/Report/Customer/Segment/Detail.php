@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerSegment\Block\Adminhtml\Report\Customer\Segment;
 
@@ -31,7 +28,7 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
     public function __construct(
         \Magento\Backend\Block\Widget\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -62,19 +59,19 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
         $this->buttonList->remove('add');
         $this->addButton(
             'back',
-            array(
+            [
                 'label' => __('Back'),
                 'onclick' => 'setLocation(\'' . $this->getBackUrl() . '\')',
                 'class' => 'back'
-            )
+            ]
         );
         $this->addButton(
             'refresh',
-            array(
+            [
                 'label' => __('Refresh Segment Data'),
                 'onclick' => 'setLocation(\'' . $this->getRefreshUrl() . '\')',
                 'class' => 'refresh primary'
-            )
+            ]
         );
     }
 
@@ -85,7 +82,7 @@ class Detail extends \Magento\Backend\Block\Widget\Grid\Container
      */
     public function getRefreshUrl()
     {
-        return $this->getUrl('customersegment/*/refresh', array('_current' => true));
+        return $this->getUrl('customersegment/*/refresh', ['_current' => true]);
     }
 
     /**

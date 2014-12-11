@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PbridgePaypal\Model\Payment\Method\Pbridge;
 
 use Magento\Paypal\Model\Config;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Status\History;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Model\Order\Email\Sender\CreditmemoSender;
+use Magento\Sales\Model\Order\Email\Sender\OrderSender;
+use Magento\Sales\Model\Order\Status\History;
 
 /**
  * PayPal Instant Payment Notification processor model
@@ -62,14 +59,14 @@ class Ipn
      * IPN request data
      * @var array
      */
-    protected $_ipnFormData = array();
+    protected $_ipnFormData = [];
 
     /**
      * Fields that should be replaced in debug with '***'
      *
      * @var string[]
      */
-    protected $_debugReplacePrivateDataKeys = array();
+    protected $_debugReplacePrivateDataKeys = [];
 
     /**
      * Pbridge data
@@ -198,7 +195,7 @@ class Ipn
 
         try {
             $http = new \Magento\Framework\HTTP\Adapter\Curl();
-            $http->write(\Zend_Http_Client::POST, $url, '1.1', array(), $sReq);
+            $http->write(\Zend_Http_Client::POST, $url, '1.1', [], $sReq);
             $response = $http->read();
         } catch (\Exception $e) {
             throw $e;
@@ -637,14 +634,14 @@ class Ipn
     {
         $was = $payment->getAdditionalInformation();
 
-        $from = array();
-        foreach (array(
+        $from = [];
+        foreach ([
             \Magento\Paypal\Model\Info::PAYER_ID,
             'payer_email' => \Magento\Paypal\Model\Info::PAYER_EMAIL,
             \Magento\Paypal\Model\Info::PAYER_STATUS,
             \Magento\Paypal\Model\Info::ADDRESS_STATUS,
-            \Magento\Paypal\Model\Info::PROTECTION_EL
-        ) as $privateKey => $publicKey) {
+            \Magento\Paypal\Model\Info::PROTECTION_EL,
+        ] as $privateKey => $publicKey) {
             if (is_int($privateKey)) {
                 $privateKey = $publicKey;
             }
@@ -655,7 +652,7 @@ class Ipn
         }
 
         // collect fraud filters
-        $fraudFilters = array();
+        $fraudFilters = [];
         for ($i = 1; $value = $this->getIpnFormData("fraud_management_pending_filters_{$i}"); $i++) {
             $fraudFilters[] = $value;
         }

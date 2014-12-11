@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Backup;
 
@@ -19,7 +16,7 @@ class Filesystem extends AbstractBackup
      *
      * @var array
      */
-    protected $_ignorePaths = array();
+    protected $_ignorePaths = [];
 
     /**
      * Whether use ftp account for rollback procedure
@@ -182,7 +179,7 @@ class Filesystem extends AbstractBackup
             if (!in_array($paths, $this->_ignorePaths)) {
                 $this->_ignorePaths[] = $paths;
             }
-        } else if (is_array($paths)) {
+        } elseif (is_array($paths)) {
             foreach ($paths as $path) {
                 $this->addIgnorePaths($path);
             }

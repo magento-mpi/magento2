@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog product tier price backend attribute model
@@ -60,17 +56,6 @@ class Tierprice extends \Magento\Catalog\Model\Product\Attribute\Backend\Grouppr
     protected function _getResource()
     {
         return $this->_productAttributeBackendTierprice;
-    }
-
-    /**
-     * Retrieve websites rates and base currency codes
-     *
-     * @deprecated since 1.12.0.0
-     * @return array
-     */
-    public function _getWebsiteRates()
-    {
-        return $this->_getWebsiteCurrencyRates();
     }
 
     /**

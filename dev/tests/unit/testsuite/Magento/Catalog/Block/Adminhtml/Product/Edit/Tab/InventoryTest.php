@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
@@ -13,9 +10,9 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 class InventoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Catalog\Helper\Data|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Framework\Module\Manager|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $catalogDataMock;
+    protected $moduleManager;
 
     /**
      * @var \Magento\Framework\Registry|\PHPUnit_Framework_MockObject_MockObject
@@ -106,8 +103,8 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->catalogDataMock = $this->getMock(
-            'Magento\Catalog\Helper\Data',
+        $this->moduleManager = $this->getMock(
+            'Magento\Framework\Module\Manager',
             [],
             [],
             '',
@@ -130,7 +127,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
                 'context' => $this->contextMock,
                 'backorders' => $this->backordersMock,
                 'stock' => $this->stockMock,
-                'catalogData' => $this->catalogDataMock,
+                'moduleManager' => $this->moduleManager,
                 'coreRegistry' => $this->coreRegistryMock,
                 'stockRegistry' => $this->stockRegistryMock,
                 'stockConfiguration' => $this->stockConfigurationMock,
@@ -148,8 +145,8 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetBackordersOption($moduleEnabled)
     {
-        $this->catalogDataMock->expects($this->once())
-            ->method('isModuleEnabled')
+        $this->moduleManager->expects($this->once())
+            ->method('isEnabled')
             ->with('Magento_CatalogInventory')
             ->will($this->returnValue($moduleEnabled));
         if ($moduleEnabled) {
@@ -172,8 +169,8 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetStockOption($moduleEnabled)
     {
-        $this->catalogDataMock->expects($this->once())
-            ->method('isModuleEnabled')
+        $this->moduleManager->expects($this->once())
+            ->method('isEnabled')
             ->with('Magento_CatalogInventory')
             ->will($this->returnValue($moduleEnabled));
         if ($moduleEnabled) {
@@ -569,7 +566,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
     {
         return [
             [
-                'ModuleEnabled' => true
+                'ModuleEnabled' => true,
             ],
             [
                 'ModuleEnabled' => false
@@ -588,7 +585,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
             [
                 'stockId' => 99,
                 'methods' => ['getField'],
-                'result' => 'call-method'
+                'result' => 'call-method',
             ],
             [
                 'stockId' => null,
@@ -614,7 +611,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
             [
                 'stockId' => 99,
                 'methods' => ['getUseConfigField'],
-                'result' => 'call-method'
+                'result' => 'call-method',
             ],
             [
                 'stockId' => null,
@@ -639,7 +636,7 @@ class InventoryTest extends \PHPUnit_Framework_TestCase
         return [
             [
                 'id' => 99,
-                'result' => false
+                'result' => false,
             ],
             [
                 'id' => null,

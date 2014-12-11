@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\Repository;
@@ -34,7 +31,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductSimple::default']
+            'entity_id' => ['products' => 'catalogProductSimple::default'],
         ];
 
         $this->_data['two_simple_product'] = [
@@ -46,7 +43,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductSimple::default,catalogProductSimple::default']
+            'entity_id' => ['products' => 'catalogProductSimple::default,catalogProductSimple::default'],
         ];
 
         $this->_data['virtual_product'] = [
@@ -58,7 +55,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductVirtual::default']
+            'entity_id' => ['products' => 'catalogProductVirtual::default'],
         ];
 
         $this->_data['downloadable_product'] = [
@@ -70,7 +67,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'downloadableProductInjectable::with_two_bought_links']
+            'entity_id' => ['products' => 'downloadableProductInjectable::with_two_bought_links'],
         ];
 
         $this->_data['two_downloadable_product'] = [
@@ -83,10 +80,9 @@ class OrderInjectable extends AbstractRepository
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
             'entity_id' => [
-                'products' =>
-                    'downloadableProductInjectable::with_two_bought_links,'
-                    . 'downloadableProductInjectable::with_two_bought_links'
-            ]
+                'products' => 'downloadableProductInjectable::with_two_bought_links,'
+                    . 'downloadableProductInjectable::with_two_bought_links',
+            ],
         ];
 
         $this->_data['with_coupon'] = [
@@ -100,7 +96,7 @@ class OrderInjectable extends AbstractRepository
             'billing_address_id' => ['dataSet' => 'US_address'],
             'entity_id' => ['products' => 'catalogProductSimple::default'],
             'coupon_code' => ['dataSet' => 'active_sales_rule_for_all_groups'],
-            'price' => ['preset' => 'default_with_discount']
+            'price' => ['preset' => 'default_with_discount'],
         ];
 
         $this->_data['with_unique_customer'] = [
@@ -112,7 +108,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductSimple::default']
+            'entity_id' => ['products' => 'catalogProductSimple::default'],
         ];
 
         $this->_data['simple_big_qty'] = [
@@ -124,7 +120,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductSimple::simple_big_qty']
+            'entity_id' => ['products' => 'catalogProductSimple::simple_big_qty'],
         ];
 
         $this->_data['virtual_big_qty'] = [
@@ -136,7 +132,7 @@ class OrderInjectable extends AbstractRepository
             'payment_auth_expiration' => ['method' => 'checkmo'],
             'payment_authorization_amount' => ['method' => 'free'],
             'billing_address_id' => ['dataSet' => 'US_address'],
-            'entity_id' => ['products' => 'catalogProductVirtual::virtual_big_qty']
+            'entity_id' => ['products' => 'catalogProductVirtual::virtual_big_qty'],
         ];
     }
 }

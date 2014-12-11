@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\AdminNotification\Model\System\Message;
 
@@ -41,18 +38,18 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
         $this->_scopeConfigMock = $this->getMock('Magento\Framework\App\Config\ScopeConfigInterface');
         $this->_curlFactoryMock = $this->getMock(
             'Magento\Framework\HTTP\Adapter\CurlFactory',
-            array('create'),
-            array(),
+            ['create'],
+            [],
             '',
             false
         );
 
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $arguments = array(
+        $arguments = [
             'cache' => $this->_cacheMock,
             'scopeConfig' => $this->_scopeConfigMock,
-            'curlFactory' => $this->_curlFactoryMock
-        );
+            'curlFactory' => $this->_curlFactoryMock,
+        ];
         $this->_messageModel = $objectManagerHelper->getObject(
             'Magento\AdminNotification\Model\System\Message\Security',
             $arguments
@@ -72,7 +69,7 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue($cached));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(null));
 
-        $httpAdapterMock = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', array(), array(), '', false);
+        $httpAdapterMock = $this->getMock('Magento\Framework\HTTP\Adapter\Curl', [], [], '', false);
         $httpAdapterMock->expects($this->any())->method('read')->will($this->returnValue($response));
         $this->_curlFactoryMock->expects($this->any())->method('create')->will($this->returnValue($httpAdapterMock));
 
@@ -83,11 +80,11 @@ class SecurityTest extends \PHPUnit_Framework_TestCase
 
     public function isDisplayedDataProvider()
     {
-        return array(
-            'cached_case' => array(false, true, ''),
-            'accessible_file' => array(true, false, 'HTTP/1.1 200'),
-            'inaccessible_file' => array(false, false, 'HTTP/1.1 403')
-        );
+        return [
+            'cached_case' => [false, true, ''],
+            'accessible_file' => [true, false, 'HTTP/1.1 200'],
+            'inaccessible_file' => [false, false, 'HTTP/1.1 403']
+        ];
     }
 
     public function testGetText()

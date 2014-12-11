@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
@@ -11,7 +8,6 @@ use Magento\TestFramework\Helper\ObjectManager;
 
 class GiftcardTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * @var \Magento\GiftCard\Block\Adminhtml\Catalog\Product\Composite\Fieldset\Giftcard
      */

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Order;
 
@@ -115,7 +112,6 @@ class HistoryTest extends \PHPUnit_Framework_TestCase
         $this->pageTitleMock->expects($this->atLeastOnce())
             ->method('set')
             ->willReturnSelf();
-
 
         $this->model = new \Magento\Sales\Block\Order\History(
             $this->context,

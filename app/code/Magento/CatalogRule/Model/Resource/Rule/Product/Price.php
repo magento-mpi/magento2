@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Catalog Rule Product Aggregated Price per date Resource Model
@@ -65,21 +61,21 @@ class Price extends \Magento\Framework\Model\Resource\Db\AbstractDb
         }
 
         $select->join(
-            array('rp' => $this->getMainTable()),
+            ['rp' => $this->getMainTable()],
             "rp.rule_date = {$websiteDate}",
-            array()
+            []
         )->where(
             "rp.product_id = {$entityId} AND rp.website_id = {$websiteId} AND rp.customer_group_id = {$customerGroupId}"
         );
 
         foreach ($updateFields as $priceField) {
-            $priceCond = $this->_getWriteAdapter()->quoteIdentifier(array($indexAlias, $priceField));
+            $priceCond = $this->_getWriteAdapter()->quoteIdentifier([$indexAlias, $priceField]);
             $priceExpr = $this->_getWriteAdapter()->getCheckSql(
                 "rp.rule_price < {$priceCond}",
                 'rp.rule_price',
                 $priceCond
             );
-            $select->columns(array($priceField => $priceExpr));
+            $select->columns([$priceField => $priceExpr]);
         }
 
         $query = $select->crossUpdateFromSelect($indexTable);

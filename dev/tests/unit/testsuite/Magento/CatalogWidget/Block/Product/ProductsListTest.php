@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogWidget\Block\Product;
 
+use Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 use Magento\Catalog\Model\Product\Visibility;
-use \Magento\TestFramework\Helper\ObjectManager as ObjectManagerHelper;
 
 /**
  * Class ProductsListTest
@@ -209,7 +206,7 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
     public function testCreateCollection()
     {
         $this->visibility->expects($this->once())->method('getVisibleInCatalogIds')
-            ->will($this->returnValue(array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH)));
+            ->will($this->returnValue([Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH]));
         $collection = $this->getMockBuilder('\Magento\Catalog\Model\Resource\Product\Collection')
             ->setMethods([
                 'setVisibility',
@@ -220,11 +217,11 @@ class ProductsListTest extends \PHPUnit_Framework_TestCase
                 'addUrlRewrite',
                 'addStoreFilter',
                 'setPageSize',
-                'setCurPage'
+                'setCurPage',
             ])->disableOriginalConstructor()
             ->getMock();
         $collection->expects($this->once())->method('setVisibility')
-            ->with(array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH))
+            ->with([Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH])
             ->will($this->returnSelf());
         $collection->expects($this->once())->method('addMinimalPrice')->will($this->returnSelf());
         $collection->expects($this->once())->method('addFinalPrice')->will($this->returnSelf());

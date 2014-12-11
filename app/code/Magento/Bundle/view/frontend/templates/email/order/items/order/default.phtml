@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php /** @var $this \Magento\Bundle\Block\Sales\Order\Items\Renderer */ ?>
 <?php $_item = $this->getItem() ?>
-<?php $_order=$this->getOrder() ?>
+<?php $_order = $this->getOrder() ?>
 
 <?php $parentItem = $this->getItem() ?>
-<?php $items = array_merge(array($parentItem), $parentItem->getChildrenItems()); ?>
+<?php $items = array_merge([$parentItem], $parentItem->getChildrenItems()); ?>
 
-<?php if($this->getItemOptions() || $_item->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
+<?php if ($this->getItemOptions() || $_item->getDescription() || $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $_item) && $_item->getGiftMessageId()): ?>
     <?php $_showlastRow = true ?>
 <?php else: ?>
     <?php $_showlastRow = false ?>

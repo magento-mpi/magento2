@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Modular;
 
@@ -16,7 +13,7 @@ class MviewConfigFilesTest extends \PHPUnit_Framework_TestCase
      *
      * @var array
      */
-    protected $fileList = array();
+    protected $fileList = [];
 
     /**
      * Path to scheme file

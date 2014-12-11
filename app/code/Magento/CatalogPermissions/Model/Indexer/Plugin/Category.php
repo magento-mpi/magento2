@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer\Plugin;
 
-use Magento\CatalogPermissions\Model\Permission;
 use Magento\CatalogPermissions\Block\Adminhtml\Catalog\Category\Tab\Permissions\Row as PermissionsRow;
+use Magento\CatalogPermissions\Model\Permission;
 
 class Category
 {
@@ -89,7 +86,7 @@ class Category
         if ($this->appConfig->isEnabled()) {
             $indexer = $this->indexerRegistry->get(\Magento\CatalogPermissions\Model\Indexer\Category::INDEXER_ID);
             if (!$indexer->isScheduled()) {
-                $indexer->reindexList(array($subject->getId(), $oldParentId));
+                $indexer->reindexList([$subject->getId(), $oldParentId]);
             }
         }
 

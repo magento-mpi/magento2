@@ -2,10 +2,7 @@
 /**
  * Test Rest response controller.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Rest;
 
@@ -35,7 +32,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $rendererFactoryMock->expects($this->any())->method('get')->will($this->returnValue($this->_rendererMock));
         $this->_errorProcessorMock = $this->getMockBuilder('Magento\Webapi\Controller\ErrorProcessor')
             ->disableOriginalConstructor()->getMock();
-        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', array(), array(), '', false);
+        $this->_appStateMock = $this->getMock('Magento\Framework\App\State', [], [], '', false);
 
         /** Init SUP. */
         $this->_responseRest = new \Magento\Webapi\Controller\Rest\Response(
@@ -152,7 +149,7 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         )->method(
             'render'
         )->will(
-            $this->returnCallback(array($this, 'callbackForSendResponseTest'), $this->returnArgument(0))
+            $this->returnCallback([$this, 'callbackForSendResponseTest'], $this->returnArgument(0))
         );
         $exceptionMessage = 'Message';
         $exceptionHttpCode = \Magento\Webapi\Exception::HTTP_BAD_REQUEST;

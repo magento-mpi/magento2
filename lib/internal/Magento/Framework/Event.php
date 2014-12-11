@@ -1,11 +1,7 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-
 
 /**
  * Event object and dispatcher
@@ -30,7 +26,7 @@ class Event extends \Magento\Framework\Object
      *
      * @param array $data
      */
-    public function __construct(array $data = array())
+    public function __construct(array $data = [])
     {
         $this->_observers = new \Magento\Framework\Event\Observer\Collection();
         parent::__construct($data);

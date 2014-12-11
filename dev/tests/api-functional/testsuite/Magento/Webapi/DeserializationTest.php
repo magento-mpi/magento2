@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Webapi;
@@ -35,12 +32,12 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     public function testPostRequestWithEmptyBody()
     {
         $this->_markTestAsRestOnly();
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => RestConfig::HTTP_METHOD_POST
-            )
-        );
+                'httpMethod' => RestConfig::HTTP_METHOD_POST,
+            ],
+        ];
         $expectedMessage = 'Request body should not be empty.';
         try {
             $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);
@@ -60,12 +57,12 @@ class DeserializationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
     {
         $this->_markTestAsRestOnly();
         $itemId = 1;
-        $serviceInfo = array(
-            'rest' => array(
+        $serviceInfo = [
+            'rest' => [
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => RestConfig::HTTP_METHOD_PUT
-            )
-        );
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT,
+            ],
+        ];
         $expectedMessage = 'Request body should not be empty.';
         try {
             $this->_webApiCall($serviceInfo, CurlClient::EMPTY_REQUEST_BODY);

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Test\Fixture;
@@ -31,7 +28,7 @@ class CatalogEventEntity extends InjectableFixture
         'sort_order' => '1',
         'display_state' => [
             'category_page' => 'Yes',
-            'product_page' => 'Yes'
+            'product_page' => 'Yes',
         ],
         'category_id' => ['presets' => 'default_subcategory'],
     ];

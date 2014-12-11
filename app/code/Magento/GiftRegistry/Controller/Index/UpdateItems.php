@@ -1,15 +1,12 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\App\ResponseInterface;
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Model\Exception;
 
 class UpdateItems extends \Magento\GiftRegistry\Controller\Index
 {
@@ -40,6 +37,6 @@ class UpdateItems extends \Magento\GiftRegistry\Controller\Index
         } catch (\Exception $e) {
             $this->messageManager->addError(__("We couldn't update the gift registry."));
         }
-        $this->_redirect('*/*/items', array('_current' => true));
+        $this->_redirect('*/*/items', ['_current' => true]);
     }
 }

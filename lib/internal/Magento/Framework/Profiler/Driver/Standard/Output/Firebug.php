@@ -2,10 +2,7 @@
 /**
  * Class that uses Firebug for output profiling results
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Profiler\Driver\Standard\Output;
 
@@ -48,7 +45,7 @@ class Firebug extends AbstractOutput
         $firebugMessage->setHeader(array_keys($this->_columns));
 
         foreach ($this->_getTimerIds($stat) as $timerId) {
-            $row = array();
+            $row = [];
             foreach ($this->_columns as $column) {
                 $row[] = $this->_renderColumnValue($stat->fetch($timerId, $column), $column);
             }

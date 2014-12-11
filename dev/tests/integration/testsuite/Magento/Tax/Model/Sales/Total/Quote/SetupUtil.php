@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Model\Sales\Total\Quote;
 
@@ -132,7 +129,7 @@ class SetupUtil
     protected $defaultShoppingCartPriceRule = [
         'name' => 'Shopping Cart Rule',
         'is_active' => 1,
-        'customer_group_ids' => array(\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL),
+        'customer_group_ids' => [\Magento\Customer\Model\GroupManagement::CUST_GROUP_ALL],
         'coupon_type' => \Magento\SalesRule\Model\Rule::COUPON_TYPE_NO_COUPON,
         'simple_action' => 'by_percent',
         'discount_amount' => 40,
@@ -665,7 +662,7 @@ class SetupUtil
         //create shopping cart rules if necessary
         if (!empty($quoteData['shopping_cart_rules'])) {
             foreach ($quoteData['shopping_cart_rules'] as $ruleData) {
-                $ruleData['customer_group_ids'] = array($customer->getGroupId());
+                $ruleData['customer_group_ids'] = [$customer->getGroupId()];
                 $this->createCartRule($ruleData);
             }
         }

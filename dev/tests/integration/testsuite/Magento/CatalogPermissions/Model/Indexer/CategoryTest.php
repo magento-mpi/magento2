@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Indexer;
 
@@ -107,13 +104,13 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
      */
     protected function getCategoryDataById($id)
     {
-        return array(
+        return [
             'category_id' => $id,
             'website_id' => '1',
             'customer_group_id' => '1',
             'grant_catalog_category_view' => '-2',
             'grant_catalog_product_price' => '-2',
             'grant_checkout_items' => '-2'
-        );
+        ];
     }
 }

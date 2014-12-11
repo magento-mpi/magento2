@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Layout;
 
@@ -36,7 +33,7 @@ class Formatter
         $xmlDom->loadXML($xmlString);
 
         // replace text in the document with unique placeholders
-        $placeholders = array();
+        $placeholders = [];
         $xmlXpath = new \DOMXPath($xmlDom);
         /** @var DOMNode $textNode */
         foreach ($xmlXpath->query('//text() | //comment() | //@*') as $textNode) {

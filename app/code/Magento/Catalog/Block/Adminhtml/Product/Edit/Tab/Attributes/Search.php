@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -44,7 +41,7 @@ class Search extends \Magento\Backend\Block\Widget
         \Magento\Framework\DB\Helper $resourceHelper,
         \Magento\Catalog\Model\Resource\Product\Attribute\CollectionFactory $collectionFactory,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_resourceHelper = $resourceHelper;
         $this->_collectionFactory = $collectionFactory;
@@ -69,13 +66,13 @@ class Search extends \Magento\Backend\Block\Widget
     public function getSelectorOptions()
     {
         $templateId = $this->_coreRegistry->registry('product')->getAttributeSetId();
-        return array(
+        return [
             'source' => $this->getUrl('catalog/product/suggestAttributes'),
             'minLength' => 0,
-            'ajaxOptions' => array('data' => array('template_id' => $templateId)),
+            'ajaxOptions' => ['data' => ['template_id' => $templateId]],
             'template' => '[data-template-for="product-attribute-search-' . $this->getGroupId() . '"]',
             'data' => $this->getSuggestedAttributes('', $templateId)
-        );
+        ];
     }
 
     /**
@@ -89,24 +86,24 @@ class Search extends \Magento\Backend\Block\Widget
     {
         $escapedLabelPart = $this->_resourceHelper->addLikeEscape(
             $labelPart,
-            array('position' => 'any')
+            ['position' => 'any']
         );
         /** @var $collection \Magento\Catalog\Model\Resource\Product\Attribute\Collection */
         $collection = $this->_collectionFactory->create()->addFieldToFilter(
             'frontend_label',
-            array('like' => $escapedLabelPart)
+            ['like' => $escapedLabelPart]
         );
 
         $collection->setExcludeSetFilter($templateId ?: $this->getRequest()->getParam('template_id'))->setPageSize(20);
 
-        $result = array();
+        $result = [];
         foreach ($collection->getItems() as $attribute) {
             /** @var $attribute \Magento\Catalog\Model\Resource\Eav\Attribute */
-            $result[] = array(
+            $result[] = [
                 'id' => $attribute->getId(),
                 'label' => $attribute->getFrontendLabel(),
-                'code' => $attribute->getAttributeCode()
-            );
+                'code' => $attribute->getAttributeCode(),
+            ];
         }
         return $result;
     }

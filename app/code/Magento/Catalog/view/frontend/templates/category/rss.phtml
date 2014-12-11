@@ -1,11 +1,8 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
-<?php if($this->isRssAllowed() && $this->getLink() && $this->isTopCategory()): ?>
+<?php if ($this->isRssAllowed() && $this->getLink() && $this->isTopCategory()): ?>
     <a href="<?php echo $this->getLink() ?>" class="action link rss"><span><?php echo $this->getLabel() ?></span></a>
 <?php endif; ?>

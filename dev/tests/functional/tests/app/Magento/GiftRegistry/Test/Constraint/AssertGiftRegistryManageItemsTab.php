@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftRegistry\Test\Constraint;
 
-use Magento\Customer\Test\Fixture\CustomerInjectable;
 use Magento\Customer\Test\Page\CustomerAccountIndex;
 use Magento\GiftRegistry\Test\Fixture\GiftRegistry;
 use Magento\GiftRegistry\Test\Page\GiftRegistryIndex;

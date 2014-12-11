@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Action\Discount;
 
@@ -31,18 +28,18 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
         $this->validator = $this->getMockBuilder(
             'Magento\SalesRule\Model\Validator'
         )->disableOriginalConstructor()->setMethods(
-            array('getItemPrice', 'getItemBasePrice', 'getItemOriginalPrice', 'getItemBaseOriginalPrice', '__wakeup')
+            ['getItemPrice', 'getItemBasePrice', 'getItemOriginalPrice', 'getItemBaseOriginalPrice', '__wakeup']
         )->getMock();
 
         $this->discountDataFactory = $this->getMockBuilder(
             'Magento\SalesRule\Model\Rule\Action\Discount\DataFactory'
         )->disableOriginalConstructor()->setMethods(
-            array('create')
+            ['create']
         )->getMock();
 
         $this->model = $helper->getObject(
             'Magento\SalesRule\Model\Rule\Action\Discount\ByPercent',
-            array('discountDataFactory' => $this->discountDataFactory, 'validator' => $this->validator)
+            ['discountDataFactory' => $this->discountDataFactory, 'validator' => $this->validator]
         );
     }
 
@@ -67,7 +64,7 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
         $discountData = $this->getMockBuilder(
             'Magento\SalesRule\Model\Rule\Action\Discount\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('setAmount', 'setBaseAmount', 'setOriginalAmount', 'setBaseOriginalAmount')
+            ['setAmount', 'setBaseAmount', 'setOriginalAmount', 'setBaseOriginalAmount']
         )->getMock();
 
         $this->discountDataFactory->expects($this->once())->method('create')->will($this->returnValue($discountData));
@@ -75,14 +72,13 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
         $rule = $this->getMockBuilder(
             'Magento\SalesRule\Model\Rule'
         )->disableOriginalConstructor()->setMethods(
-            array('getDiscountAmount', 'getDiscountQty', '__wakeup')
+            ['getDiscountAmount', 'getDiscountQty', '__wakeup']
         )->getMock();
-
 
         $item = $this->getMockBuilder(
             'Magento\Sales\Model\Quote\Item\AbstractItem'
         )->disableOriginalConstructor()->setMethods(
-            array(
+            [
                 'getDiscountAmount',
                 'getBaseDiscountAmount',
                 'getDiscountPercent',
@@ -90,8 +86,8 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
                 '__wakeup',
                 'getQuote',
                 'getAddress',
-                'getOptionByCode'
-            )
+                'getOptionByCode',
+            ]
         )->getMock();
 
         $this->validator->expects(
@@ -131,7 +127,6 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
             $this->returnValue($validItemData['baseOriginalPrice'])
         );
 
-
         $rule->expects(
             $this->atLeastOnce()
         )->method(
@@ -146,7 +141,6 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
         )->will(
             $this->returnValue($ruleData['discountQty'])
         );
-
 
         $item->expects(
             $this->atLeastOnce()
@@ -198,26 +192,26 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
      */
     public function calculateDataProvider()
     {
-        return array(
-            array(
+        return [
+            [
                 'qty' => 3,
-                'ruleData' => array('discountAmount' => 30, 'discountQty' => 5),
-                'itemData' => array('discountAmount' => 10, 'baseDiscountAmount' => 50, 'discountPercent' => 55),
-                'validItemData' => array(
+                'ruleData' => ['discountAmount' => 30, 'discountQty' => 5],
+                'itemData' => ['discountAmount' => 10, 'baseDiscountAmount' => 50, 'discountPercent' => 55],
+                'validItemData' => [
                     'price' => 50,
                     'basePrice' => 45,
                     'originalPrice' => 60,
-                    'baseOriginalPrice' => 55
-                ),
+                    'baseOriginalPrice' => 55,
+                ],
                 'expectedRuleDiscountQty' => 85,
-                'expectedDiscountData' => array(
+                'expectedDiscountData' => [
                     'amount' => 42,
                     'baseAmount' => 25.5,
                     'originalAmount' => 51,
-                    'baseOriginalAmount' => 46.5
-                )
-            )
-        );
+                    'baseOriginalAmount' => 46.5,
+                ],
+            ]
+        ];
     }
 
     /**
@@ -230,8 +224,8 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
     {
         $rule = $this->getMock(
             'Magento\SalesRule\Model\Rule',
-            array('getDiscountStep', '__wakeup'),
-            array(),
+            ['getDiscountStep', '__wakeup'],
+            [],
             '',
             false
         );
@@ -245,11 +239,11 @@ class ByPercentTest extends \PHPUnit_Framework_TestCase
      */
     public function fixQuantityDataProvider()
     {
-        return array(
-            array('step' => 0, 'qty' => 23, 'expected' => 23),
-            array('step' => 10, 'qty' => 23.5, 'expected' => 20),
-            array('step' => 20, 'qty' => 33, 'expected' => 20),
-            array('step' => 25, 'qty' => 23, 'expected' => 0)
-        );
+        return [
+            ['step' => 0, 'qty' => 23, 'expected' => 23],
+            ['step' => 10, 'qty' => 23.5, 'expected' => 20],
+            ['step' => 20, 'qty' => 33, 'expected' => 20],
+            ['step' => 25, 'qty' => 23, 'expected' => 0]
+        ];
     }
 }

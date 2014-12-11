@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftMessage\Helper;
 
@@ -32,7 +29,7 @@ class Message extends \Magento\Core\Helper\Data
      *
      * @var array
      */
-    protected $_innerCache = array();
+    protected $_innerCache = [];
 
     /**
      * @var \Magento\Catalog\Api\ProductRepositoryInterface
@@ -59,7 +56,7 @@ class Message extends \Magento\Core\Helper\Data
      *
      * @var array
      */
-    protected $skipMessageCheck = array();
+    protected $skipMessageCheck = [];
 
     /**
      * @param \Magento\Framework\App\Helper\Context $context
@@ -84,7 +81,7 @@ class Message extends \Magento\Core\Helper\Data
         \Magento\Framework\View\LayoutFactory $layoutFactory,
         \Magento\GiftMessage\Model\MessageFactory $giftMessageFactory,
         \Magento\Framework\Escaper $escaper,
-        $skipMessageCheck = array(),
+        $skipMessageCheck = [],
         $dbCompatibleMode = true
     ) {
         $this->_escaper = $escaper;

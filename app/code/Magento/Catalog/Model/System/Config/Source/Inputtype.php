@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Model\System\Config\Source;
 
@@ -15,9 +12,9 @@ class Inputtype
      */
     public function toOptionArray()
     {
-        return array(
-            array('value' => 'multiselect', 'label' => __('Multiple Select')),
-            array('value' => 'select', 'label' => __('Dropdown'))
-        );
+        return [
+            ['value' => 'multiselect', 'label' => __('Multiple Select')],
+            ['value' => 'select', 'label' => __('Dropdown')]
+        ];
     }
 }

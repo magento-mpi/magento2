@@ -1,14 +1,11 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\GiftRegistry\Controller\Index;
 
-use \Magento\Framework\Model\Exception;
+use Magento\Framework\Model\Exception;
 
 class Edit extends \Magento\GiftRegistry\Controller\Index
 {

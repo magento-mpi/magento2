@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\PricePermissions\Controller\Adminhtml\Product\Initialization\Helper\Plugin\Handler;
 
@@ -20,7 +17,7 @@ class CustomOptions implements HandlerInterface
      */
     public function handle(Product $product)
     {
-        $originalOptionsAssoc = array();
+        $originalOptionsAssoc = [];
         $originalOptions = $product->getOptions();
         $options = $product->getData('product_options');
         if (!is_array($options)) {
@@ -30,7 +27,7 @@ class CustomOptions implements HandlerInterface
         if (is_array($originalOptions)) {
             foreach ($originalOptions as $originalOption) {
                 /** @var $originalOption \Magento\Catalog\Model\Product\Option */
-                $originalOptionAssoc = array();
+                $originalOptionAssoc = [];
                 $originalOptionAssoc['id'] = $originalOption->getOptionId();
                 $originalOptionAssoc['option_id'] = $originalOption->getOptionId();
                 $originalOptionAssoc['type'] = $originalOption->getType();
@@ -39,13 +36,13 @@ class CustomOptions implements HandlerInterface
                     $originalOptionAssoc['price'] = $originalOption->getPrice();
                     $originalOptionAssoc['price_type'] = $originalOption->getPriceType();
                 } else {
-                    $originalOptionAssoc['values'] = array();
+                    $originalOptionAssoc['values'] = [];
                     foreach ($originalOption->getValues() as $value) {
                         /** @var $value \Magento\Catalog\Model\Product\Option\Value */
-                        $originalOptionAssoc['values'][$value->getOptionTypeId()] = array(
+                        $originalOptionAssoc['values'][$value->getOptionTypeId()] = [
                             'price' => $value->getPrice(),
-                            'price_type' => $value->getPriceType()
-                        );
+                            'price_type' => $value->getPriceType(),
+                        ];
                     }
                 }
                 $originalOptionsAssoc[$originalOption->getOptionId()] = $originalOptionAssoc;

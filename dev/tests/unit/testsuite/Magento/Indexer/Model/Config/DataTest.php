@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Indexer\Model\Config;
 
@@ -37,24 +34,24 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var string
      */
-    protected $indexers = array('indexer1' => array(), 'indexer3' => array());
+    protected $indexers = ['indexer1' => [], 'indexer3' => []];
 
     protected function setUp()
     {
-        $this->reader = $this->getMock('Magento\Indexer\Model\Config\Reader', array('read'), array(), '', false);
+        $this->reader = $this->getMock('Magento\Indexer\Model\Config\Reader', ['read'], [], '', false);
         $this->cache = $this->getMockForAbstractClass(
             'Magento\Framework\Config\CacheInterface',
-            array(),
+            [],
             '',
             false,
             false,
             true,
-            array('test', 'load', 'save')
+            ['test', 'load', 'save']
         );
         $this->stateCollection = $this->getMock(
             'Magento\Indexer\Model\Resource\Indexer\State\Collection',
-            array('getItems'),
-            array(),
+            ['getItems'],
+            [],
             '',
             false
         );
@@ -92,8 +89,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $stateExistent = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
-            array('getIndexerId', '__wakeup', 'delete'),
-            array(),
+            ['getIndexerId', '__wakeup', 'delete'],
+            [],
             '',
             false
         );
@@ -102,15 +99,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $stateNonexistent = $this->getMock(
             'Magento\Indexer\Model\Indexer\State',
-            array('getIndexerId', '__wakeup', 'delete'),
-            array(),
+            ['getIndexerId', '__wakeup', 'delete'],
+            [],
             '',
             false
         );
         $stateNonexistent->expects($this->once())->method('getIndexerId')->will($this->returnValue('indexer2'));
         $stateNonexistent->expects($this->once())->method('delete');
 
-        $states = array($stateExistent, $stateNonexistent);
+        $states = [$stateExistent, $stateNonexistent];
 
         $this->stateCollection->expects($this->once())->method('getItems')->will($this->returnValue($states));
 

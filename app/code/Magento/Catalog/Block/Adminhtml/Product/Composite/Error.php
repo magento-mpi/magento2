@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -37,7 +34,7 @@ class Error extends \Magento\Framework\View\Element\Template
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Framework\Json\EncoderInterface $jsonEncoder,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
@@ -53,6 +50,6 @@ class Error extends \Magento\Framework\View\Element\Template
     public function _toHtml()
     {
         $message = $this->_coreRegistry->registry('composite_configure_result_error_message');
-        return $this->_jsonEncoder->encode(array('error' => true, 'message' => $message));
+        return $this->_jsonEncoder->encode(['error' => true, 'message' => $message]);
     }
 }

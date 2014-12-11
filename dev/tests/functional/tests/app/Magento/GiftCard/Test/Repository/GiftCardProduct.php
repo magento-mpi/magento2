@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GiftCard\Test\Repository;
@@ -37,7 +34,7 @@ class GiftCardProduct extends AbstractRepository
                 ],
                 [
                     'price' => 150,
-                ]
+                ],
             ],
             'quantity_and_stock_status' => [
                 'qty' => 123.0000,
@@ -55,7 +52,7 @@ class GiftCardProduct extends AbstractRepository
             'use_config_gift_message_available' => 'Yes',
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'default'],
         ];
 
         $this->_data['fixed_amount'] = [
@@ -68,7 +65,7 @@ class GiftCardProduct extends AbstractRepository
                 ],
                 [
                     'price' => 150,
-                ]
+                ],
             ],
             'quantity_and_stock_status' => [
                 'qty' => 123.0000,
@@ -86,7 +83,7 @@ class GiftCardProduct extends AbstractRepository
             'use_config_gift_message_available' => 'Yes',
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'default'],
         ];
 
         $this->_data['open_amount'] = [
@@ -112,7 +109,7 @@ class GiftCardProduct extends AbstractRepository
             'use_config_gift_message_available' => 'Yes',
             'website_ids' => ['Main Website'],
             'attribute_set_id' => ['dataSet' => 'default'],
-            'checkout_data' => ['preset' => 'default']
+            'checkout_data' => ['preset' => 'default'],
         ];
 
         $this->_data['giftcard_product_with_price'] = [
@@ -128,7 +125,7 @@ class GiftCardProduct extends AbstractRepository
                 [
                     'website_id' => 'All Websites [USD]',
                     'price' => 150,
-                ]
+                ],
             ],
             'quantity_and_stock_status' => [
                 'qty' => 123.0000,
@@ -145,7 +142,7 @@ class GiftCardProduct extends AbstractRepository
             'url_key' => 'test-product-giftcard-%isolation%',
             'use_config_gift_message_available' => 'Yes',
             'website_ids' => ['Main Website'],
-            'attribute_set_id' => ['dataSet' => 'default']
+            'attribute_set_id' => ['dataSet' => 'default'],
         ];
     }
 }

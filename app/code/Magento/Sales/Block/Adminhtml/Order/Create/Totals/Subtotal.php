@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Totals;
 
@@ -48,7 +45,7 @@ class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\Defaul
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Tax\Model\Config $taxConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_taxConfig = $taxConfig;
         parent::__construct($context, $sessionQuote, $orderCreate, $priceCurrency, $salesData, $salesConfig, $data);

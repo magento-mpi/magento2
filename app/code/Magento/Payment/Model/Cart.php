@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Payment\Model;
 
@@ -51,21 +48,21 @@ class Cart
      *
      * @var array
      */
-    protected $_customItems = array();
+    protected $_customItems = [];
 
     /**
      * Items imported from sales model
      *
      * @var array
      */
-    protected $_salesModelItems = array();
+    protected $_salesModelItems = [];
 
     /**
      * Flags that indicates whether discount, shopping and taxes should be transferred as cart item
      *
      * @var array
      */
-    protected $_transferFlags = array();
+    protected $_transferFlags = [];
 
     /**
      * Flags which indicates whether items data is outdated and has to be recollected
@@ -286,12 +283,12 @@ class Cart
 
         $this->_itemsCollectingRequired = false;
 
-        $this->_salesModelItems = array();
-        $this->_customItems = array();
+        $this->_salesModelItems = [];
+        $this->_customItems = [];
 
         $this->_resetAmounts();
 
-        $this->_eventManager->dispatch('payment_cart_collect_items_and_amounts', array('cart' => $this));
+        $this->_eventManager->dispatch('payment_cart_collect_items_and_amounts', ['cart' => $this]);
 
         $this->_importItemsFromSalesModel();
         $this->_calculateCustomItemsSubtotal();
@@ -304,7 +301,7 @@ class Cart
      */
     protected function _importItemsFromSalesModel()
     {
-        $this->_salesModelItems = array();
+        $this->_salesModelItems = [];
 
         foreach ($this->_salesModel->getAllItems() as $item) {
             if ($item->getParentItem()) {
@@ -400,7 +397,7 @@ class Cart
      */
     protected function _createItemFromData($name, $qty, $amount, $identifier = null)
     {
-        $item = new \Magento\Framework\Object(array('name' => $name, 'qty' => $qty, 'amount' => (double)$amount));
+        $item = new \Magento\Framework\Object(['name' => $name, 'qty' => $qty, 'amount' => (double)$amount]);
 
         if ($identifier) {
             $item->setData('id', $identifier);
@@ -416,11 +413,11 @@ class Cart
      */
     protected function _resetAmounts()
     {
-        $this->_amounts = array(
+        $this->_amounts = [
             self::AMOUNT_DISCOUNT => 0,
             self::AMOUNT_SHIPPING => 0,
             self::AMOUNT_SUBTOTAL => 0,
-            self::AMOUNT_TAX => 0
-        );
+            self::AMOUNT_TAX => 0,
+        ];
     }
 }

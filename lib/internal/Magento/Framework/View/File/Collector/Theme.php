@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\View\File\Collector;
 
 use Magento\Framework\App\Filesystem\DirectoryList;
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\Design\ThemeInterface;
 use Magento\Framework\Filesystem;
 use Magento\Framework\Filesystem\Directory\ReadInterface;
+use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File\CollectorInterface;
 use Magento\Framework\View\File\Factory;
 
 /**
@@ -66,7 +63,7 @@ class Theme implements CollectorInterface
     {
         $themePath = $theme->getFullPath();
         $files = $this->themesDirectory->search("{$themePath}/{$this->subDir}{$filePath}");
-        $result = array();
+        $result = [];
         foreach ($files as $file) {
             $filename = $this->themesDirectory->getAbsolutePath($file);
             $result[] = $this->fileFactory->create($filename, null, $theme);

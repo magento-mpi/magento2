@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Translate\Inline;
 
@@ -22,7 +19,7 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->objectManagerMock = $this->getMock('Magento\Framework\ObjectManagerInterface');
-        $this->translateMock = $this->getMock('Magento\Framework\Translate\Inline', array(), array(), '', false);
+        $this->translateMock = $this->getMock('Magento\Framework\Translate\Inline', [], [], '', false);
     }
 
     public function testIsAllowed()
@@ -62,7 +59,6 @@ class ProxyTest extends \PHPUnit_Framework_TestCase
         );
         $this->objectManagerMock->expects($this->never())->method('get');
         $this->translateMock->expects($this->once())->method('getParser')->will($this->returnValue($parser));
-
 
         $model = new Proxy(
             $this->objectManagerMock,

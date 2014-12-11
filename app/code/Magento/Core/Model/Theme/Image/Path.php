@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Model\Theme\Image;
@@ -40,7 +37,7 @@ class Path implements \Magento\Framework\View\Design\Theme\Image\PathInterface
 
     /**
      * Initialize dependencies
-     * 
+     *
      * @param \Magento\Framework\Filesystem $filesystem
      * @param \Magento\Framework\View\Asset\Repository $assetRepo
      * @param \Magento\Store\Model\StoreManagerInterface $storeManager

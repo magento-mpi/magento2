@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Config\Dom;
 
@@ -22,14 +19,14 @@ class ArrayNodeConfig
      *
      * @var array
      */
-    private $assocArrays = array();
+    private $assocArrays = [];
 
     /**
      * Format: array('/numeric/array/path', ...)
      *
      * @var array
      */
-    private $numericArrays = array();
+    private $numericArrays = [];
 
     /**
      * @param NodePathMatcher $nodePathMatcher
@@ -39,7 +36,7 @@ class ArrayNodeConfig
     public function __construct(
         NodePathMatcher $nodePathMatcher,
         array $assocArrayAttributes,
-        array $numericArrays = array()
+        array $numericArrays = []
     ) {
         $this->nodePathMatcher = $nodePathMatcher;
         $this->assocArrays = $assocArrayAttributes;

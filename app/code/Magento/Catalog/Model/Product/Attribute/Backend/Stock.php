@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
@@ -44,7 +41,7 @@ class Stock extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $stockItem = $this->stockRegistry->getStockItem($object->getId(), $object->getStore()->getWebsiteId());
         $object->setData(
             $this->getAttribute()->getAttributeCode(),
-            array('is_in_stock' => $stockItem->getIsInStock(), 'qty' => $stockItem->getQty())
+            ['is_in_stock' => $stockItem->getIsInStock(), 'qty' => $stockItem->getQty()]
         );
         return parent::afterLoad($object);
     }

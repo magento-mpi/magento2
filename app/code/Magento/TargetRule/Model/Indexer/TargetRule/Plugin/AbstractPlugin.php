@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
  * @category    Magento
  * @package     Magento_TargetRule
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TargetRule\Model\Indexer\TargetRule\Plugin;
 
-use \Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor as RuleProductProcessor;
-use \Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor as ProductRuleProcessor;
+use Magento\TargetRule\Model\Indexer\TargetRule\Product\Rule\Processor as ProductRuleProcessor;
+use Magento\TargetRule\Model\Indexer\TargetRule\Rule\Product\Processor as RuleProductProcessor;
 
 abstract class AbstractPlugin
 {

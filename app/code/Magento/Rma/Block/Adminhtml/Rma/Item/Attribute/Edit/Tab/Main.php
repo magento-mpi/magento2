@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Item\Attribute\Edit\Tab;
 
@@ -42,7 +39,7 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         \Magento\CustomAttributeManagement\Helper\Data $attributeHelper,
         \Magento\Rma\Helper\Eav $rmaEav,
-        array $data = array()
+        array $data = []
     ) {
         $this->_attributeHelper = $attributeHelper;
         $this->_rmaEav = $rmaEav;
@@ -109,145 +106,145 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
         $fieldset->addField(
             'multiline_count',
             'text',
-            array(
+            [
                 'name' => 'multiline_count',
                 'label' => __('Lines Count'),
                 'title' => __('Lines Count'),
                 'required' => true,
                 'class' => 'validate-digits-range digits-range-2-20',
                 'note' => __('Valid range 2-20')
-            ),
+            ],
             'frontend_input'
         );
 
         $fieldset->addField(
             'input_validation',
             'select',
-            array(
+            [
                 'name' => 'input_validation',
                 'label' => __('Input Validation'),
                 'title' => __('Input Validation'),
-                'values' => array('' => __('None'))
-            ),
+                'values' => ['' => __('None')]
+            ],
             'default_value_textarea'
         );
 
         $fieldset->addField(
             'min_text_length',
             'text',
-            array(
+            [
                 'name' => 'min_text_length',
                 'label' => __('Minimum Text Length'),
                 'title' => __('Minimum Text Length'),
                 'class' => 'validate-digits'
-            ),
+            ],
             'input_validation'
         );
 
         $fieldset->addField(
             'max_text_length',
             'text',
-            array(
+            [
                 'name' => 'max_text_length',
                 'label' => __('Maximum Text Length'),
                 'title' => __('Maximum Text Length'),
                 'class' => 'validate-digits'
-            ),
+            ],
             'min_text_length'
         );
 
         $fieldset->addField(
             'max_file_size',
             'text',
-            array(
+            [
                 'name' => 'max_file_size',
                 'label' => __('Maximum File Size (bytes)'),
                 'title' => __('Maximum File Size (bytes)'),
                 'class' => 'validate-digits'
-            ),
+            ],
             'max_text_length'
         );
 
         $fieldset->addField(
             'file_extensions',
             'text',
-            array(
+            [
                 'name' => 'file_extensions',
                 'label' => __('File Extensions'),
                 'title' => __('File Extensions'),
                 'note' => __('Comma separated')
-            ),
+            ],
             'max_file_size'
         );
 
         $fieldset->addField(
             'max_image_width',
             'text',
-            array(
+            [
                 'name' => 'max_image_width',
                 'label' => __('Maximum Image Width (px)'),
                 'title' => __('Maximum Image Width (px)'),
                 'class' => 'validate-digits'
-            ),
+            ],
             'file_extensions'
         );
 
         $fieldset->addField(
             'max_image_heght',
             'text',
-            array(
+            [
                 'name' => 'max_image_heght',
                 'label' => __('Maximum Image Height (px)'),
                 'title' => __('Maximum Image Height (px)'),
                 'class' => 'validate-digits'
-            ),
+            ],
             'max_image_width'
         );
 
         $fieldset->addField(
             'input_filter',
             'select',
-            array(
+            [
                 'name' => 'input_filter',
                 'label' => __('Input/Output Filter'),
                 'title' => __('Input/Output Filter'),
-                'values' => array('' => __('None'))
-            )
+                'values' => ['' => __('None')]
+            ]
         );
 
         /** @var $config \Magento\Backend\Model\Config\Source\Yesno */
         $config = $this->_yesnoFactory->create();
         $yesnoSource = $config->toOptionArray();
 
-        $fieldset = $form->addFieldset('front_fieldset', array('legend' => __('Frontend Properties')));
+        $fieldset = $form->addFieldset('front_fieldset', ['legend' => __('Frontend Properties')]);
 
         $fieldset->addField(
             'is_visible',
             'select',
-            array(
+            [
                 'name' => 'is_visible',
                 'label' => __('Show on Frontend'),
                 'title' => __('Show on Frontend'),
                 'values' => $yesnoSource
-            )
+            ]
         );
 
         $fieldset->addField(
             'sort_order',
             'text',
-            array(
+            [
                 'name' => 'sort_order',
                 'label' => __('Sort Order'),
                 'title' => __('Sort Order'),
                 'required' => true,
                 'class' => 'validate-digits'
-            )
+            ]
         );
 
         $fieldset->addField(
             'used_in_forms',
             'multiselect',
-            array(
+            [
                 'name' => 'used_in_forms',
                 'label' => __('Forms to Use In'),
                 'title' => __('Forms to Use In'),
@@ -255,18 +252,18 @@ class Main extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Main\AbstractMain
                 'value' => $attribute->getUsedInForms(),
                 'can_be_empty' => true,
                 'required' => true,
-            )
+            ]
         )->setSize(
             5
         );
 
         if ($attribute->getId()) {
-            $elements = array();
+            $elements = [];
             if ($attribute->getIsSystem()) {
-                $elements = array('sort_order', 'is_visible', 'is_required');
+                $elements = ['sort_order', 'is_visible', 'is_required'];
             }
             if (!$attribute->getIsUserDefined() && !$attribute->getIsSystem()) {
-                $elements = array('sort_order');
+                $elements = ['sort_order'];
             }
             foreach ($elements as $elementId) {
                 $form->getElement($elementId)->setDisabled(true);

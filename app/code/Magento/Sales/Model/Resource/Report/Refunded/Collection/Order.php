@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Resource\Report\Refunded\Collection;
 
@@ -26,7 +23,7 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
      *
      * @var array
      */
-    protected $_selectedColumns = array();
+    protected $_selectedColumns = [];
 
     /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
@@ -68,13 +65,13 @@ class Order extends \Magento\Sales\Model\Resource\Report\Collection\AbstractColl
         }
 
         if (!$this->isTotals()) {
-            $this->_selectedColumns = array(
+            $this->_selectedColumns = [
                 'period' => $this->_periodFormat,
                 'orders_count' => 'SUM(orders_count)',
                 'refunded' => 'SUM(refunded)',
                 'online_refunded' => 'SUM(online_refunded)',
-                'offline_refunded' => 'SUM(offline_refunded)'
-            );
+                'offline_refunded' => 'SUM(offline_refunded)',
+            ];
         }
 
         if ($this->isTotals()) {

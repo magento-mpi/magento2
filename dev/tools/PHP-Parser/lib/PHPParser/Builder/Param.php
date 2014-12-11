@@ -13,7 +13,8 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @param string $name Name of the parameter
      */
-    public function __construct($name) {
+    public function __construct($name)
+    {
         $this->name = $name;
 
         $this->default = null;
@@ -28,7 +29,8 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Param The builder instance (for fluid interface)
      */
-    public function setDefault($value) {
+    public function setDefault($value)
+    {
         $this->default = $this->normalizeValue($value);
 
         return $this;
@@ -41,7 +43,8 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Param The builder instance (for fluid interface)
      */
-    public function setTypeHint($type) {
+    public function setTypeHint($type)
+    {
         if ($type === 'array' || $type === 'callable') {
             $this->type = $type;
         } else {
@@ -56,7 +59,8 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Builder_Param The builder instance (for fluid interface)
      */
-    public function makeByRef() {
+    public function makeByRef()
+    {
         $this->byRef = true;
 
         return $this;
@@ -67,7 +71,8 @@ class PHPParser_Builder_Param extends PHPParser_BuilderAbstract
      *
      * @return PHPParser_Node_Param The built parameter node
      */
-    public function getNode() {
+    public function getNode()
+    {
         return new PHPParser_Node_Param(
             $this->name, $this->default, $this->type, $this->byRef
         );

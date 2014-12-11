@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Account\Dashboard;
 
@@ -80,7 +77,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template
         \Magento\Wishlist\Model\WishlistFactory $wishListFactory,
         \Magento\Catalog\Model\Resource\Product\Compare\Item\CollectionFactory $itemsCompareFactory,
         \Magento\Customer\Helper\Session\CurrentCustomer $currentCustomer,
-        array $data = array()
+        array $data = []
     ) {
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
@@ -129,7 +126,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template
                 'small_image'
             )->addAttributeToFilter(
                 'store_id',
-                array('in' => $this->_wishlist->getSharedStoreIds())
+                ['in' => $this->_wishlist->getSharedStoreIds()]
             )->addAttributeToSort(
                 'added_at',
                 'desc'
@@ -157,7 +154,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template
      */
     public function getWishlistAddToCartLink($wishlistItem)
     {
-        return $this->_urlBuilder->getUrl('wishlist/index/cart', array('item' => $wishlistItem->getId()));
+        return $this->_urlBuilder->getUrl('wishlist/index/cart', ['item' => $wishlistItem->getId()]);
     }
 
     /**
@@ -191,7 +188,7 @@ class Sidebar extends \Magento\Framework\View\Element\Template
      */
     public function getCompareRemoveUrlTemplate()
     {
-        return $this->getUrl('catalog/product_compare/remove', array('product' => '#{id}'));
+        return $this->getUrl('catalog/product_compare/remove', ['product' => '#{id}']);
     }
 
     /**

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\System\Config\Backend;
 
@@ -42,7 +39,7 @@ class MerchantCountry extends \Magento\Framework\App\Config\Value
         \Magento\Core\Helper\Data $coreData,
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreData = $coreData;
         parent::__construct($context, $registry, $config, $resource, $resourceCollection, $data);

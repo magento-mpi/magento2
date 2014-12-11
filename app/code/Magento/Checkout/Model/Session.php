@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Checkout\Model;
 
-use Magento\Sales\Model\Quote;
 use Magento\Customer\Api\Data\CustomerInterface;
+use Magento\Sales\Model\Quote;
 
 class Session extends \Magento\Framework\Session\SessionManager
 {
@@ -175,7 +172,7 @@ class Session extends \Magento\Framework\Session\SessionManager
      */
     public function getQuote()
     {
-        $this->_eventManager->dispatch('custom_quote_process', array('checkout_session' => $this));
+        $this->_eventManager->dispatch('custom_quote_process', ['checkout_session' => $this]);
 
         if ($this->_quote === null) {
             $quote = $this->quoteRepository->create();
@@ -215,18 +212,17 @@ class Session extends \Magento\Framework\Session\SessionManager
                         $quote = $this->quoteRepository->getActiveForCustomer($customerId);
                         $this->setQuoteId($quote->getId());
                     } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                     }
                 } else {
                     $quote->setIsCheckoutCart(true);
-                    $this->_eventManager->dispatch('checkout_quote_init', array('quote' => $quote));
+                    $this->_eventManager->dispatch('checkout_quote_init', ['quote' => $quote]);
                 }
             }
 
             if ($this->getQuoteId()) {
                 if ($this->_customer) {
                     $quote->setCustomer($this->_customer);
-                } else if ($this->_customerSession->isLoggedIn()) {
+                } elseif ($this->_customerSession->isLoggedIn()) {
                     $quote->setCustomer($this->customerRepository->getById($this->_customerSession->getCustomerId()));
                 }
             }
@@ -329,7 +325,7 @@ class Session extends \Magento\Framework\Session\SessionManager
             }
         } else {
             if (!isset($steps[$step])) {
-                $steps[$step] = array();
+                $steps[$step] = [];
             }
             if (is_string($data)) {
                 $steps[$step][$data] = $value;
@@ -456,7 +452,6 @@ class Session extends \Magento\Framework\Session\SessionManager
                 $this->_eventManager->dispatch('restore_quote', ['order' => $order, 'quote' => $quote]);
                 return true;
             } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
             }
         }
         return false;

@@ -2,10 +2,7 @@
 /**
  * Date filter. Converts date from localized to internal format.
  *
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Stdlib\DateTime\Filter;
 
@@ -39,10 +36,10 @@ class Date implements \Zend_Filter_Interface
     {
         $this->_localeDate = $localeDate;
         $this->_localToNormalFilter = new \Zend_Filter_LocalizedToNormalized(
-            array('date_format' => $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT))
+            ['date_format' => $this->_localeDate->getDateFormat(TimezoneInterface::FORMAT_TYPE_SHORT)]
         );
         $this->_normalToLocalFilter = new \Zend_Filter_NormalizedToLocalized(
-            array('date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT)
+            ['date_format' => \Magento\Framework\Stdlib\DateTime::DATE_INTERNAL_FORMAT]
         );
     }
 

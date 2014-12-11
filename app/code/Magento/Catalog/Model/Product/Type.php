@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -177,7 +174,7 @@ class Type
      */
     public function getOptionArray()
     {
-        $options = array();
+        $options = [];
         foreach ($this->getTypes() as $typeId => $type) {
             $options[$typeId] = __($type['label']);
         }
@@ -192,7 +189,7 @@ class Type
     public function getAllOption()
     {
         $options = $this->getOptionArray();
-        array_unshift($options, array('value' => '', 'label' => ''));
+        array_unshift($options, ['value' => '', 'label' => '']);
         return $options;
     }
 
@@ -259,7 +256,7 @@ class Type
     public function getCompositeTypes()
     {
         if (is_null($this->_compositeTypes)) {
-            $this->_compositeTypes = array();
+            $this->_compositeTypes = [];
             $types = $this->getTypes();
             foreach ($types as $typeId => $typeInfo) {
                 if (array_key_exists('composite', $typeInfo) && $typeInfo['composite']) {
@@ -278,9 +275,9 @@ class Type
     public function getTypesByPriority()
     {
         if (is_null($this->_typesPriority)) {
-            $this->_typesPriority = array();
-            $simplePriority = array();
-            $compositePriority = array();
+            $this->_typesPriority = [];
+            $simplePriority = [];
+            $compositePriority = [];
 
             $types = $this->getTypes();
             foreach ($types as $typeId => $typeInfo) {

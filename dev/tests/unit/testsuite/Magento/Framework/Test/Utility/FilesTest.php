@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Test\Utility;
 
@@ -43,7 +40,7 @@ class FilesTest extends \PHPUnit_Framework_TestCase
 
     public function testReadListsWrongPattern()
     {
-        $this->assertSame(array(), Files::init()->readLists(__DIR__ . '/_files/no_good.txt'));
+        $this->assertSame([], Files::init()->readLists(__DIR__ . '/_files/no_good.txt'));
     }
 
     /**

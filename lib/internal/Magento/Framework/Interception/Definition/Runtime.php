@@ -3,10 +3,7 @@
  * \Reflection based plugin method list. Uses reflection to retrieve list of interception methods defined in plugin.
  * Should be only used in development mode, because it reads method list on every request which is expensive.
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Interception\Definition;
 
@@ -17,22 +14,22 @@ class Runtime implements DefinitionInterface
     /**
      * @var array
      */
-    protected $_typesByPrefixes = array(
+    protected $_typesByPrefixes = [
         'befor' => self::LISTENER_BEFORE,
         'aroun' => self::LISTENER_AROUND,
-        'after' => self::LISTENER_AFTER
-    );
+        'after' => self::LISTENER_AFTER,
+    ];
 
     /**
      * Plugin method service prefix lengths
      *
      * @var array
      */
-    protected $prefixLengths = array(
+    protected $prefixLengths = [
         self::LISTENER_BEFORE => 6,
         self::LISTENER_AROUND => 6,
-        self::LISTENER_AFTER => 5
-    );
+        self::LISTENER_AFTER => 5,
+    ];
 
     /**
      * Retrieve list of methods
@@ -42,7 +39,7 @@ class Runtime implements DefinitionInterface
      */
     public function getMethodList($type)
     {
-        $methods = array();
+        $methods = [];
         $allMethods = get_class_methods($type);
         if ($allMethods) {
             foreach ($allMethods as $method) {

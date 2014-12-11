@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -23,24 +20,24 @@ class Formattribute extends \Magento\Backend\Block\Widget\Form\Generic
         /** @var \Magento\Framework\Data\Form $form */
         $form = $this->_formFactory->create();
 
-        $fieldset = $form->addFieldset('set_fieldset', array('legend' => __('Add New Attribute')));
+        $fieldset = $form->addFieldset('set_fieldset', ['legend' => __('Add New Attribute')]);
 
         $fieldset->addField(
             'new_attribute',
             'text',
-            array('label' => __('Name'), 'name' => 'new_attribute', 'required' => true)
+            ['label' => __('Name'), 'name' => 'new_attribute', 'required' => true]
         );
 
         $fieldset->addField(
             'submit',
             'note',
-            array(
+            [
                 'text' => $this->getLayout()->createBlock(
                     'Magento\Backend\Block\Widget\Button'
                 )->setData(
-                    array('label' => __('Add Attribute'), 'onclick' => 'this.form.submit();', 'class' => 'add')
+                    ['label' => __('Add Attribute'), 'onclick' => 'this.form.submit();', 'class' => 'add']
                 )->toHtml()
-            )
+            ]
         );
 
         $form->setUseContainer(true);

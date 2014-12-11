@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version\Edit;
 
@@ -52,7 +49,7 @@ class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Framework\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollectionFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         $this->_cmsData = $cmsData;
@@ -120,28 +117,28 @@ class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'revision_number',
-            array('header' => __('Revision'), 'width' => 200, 'type' => 'number', 'index' => 'revision_number')
+            ['header' => __('Revision'), 'width' => 200, 'type' => 'number', 'index' => 'revision_number']
         );
 
         $this->addColumn(
             'created_at',
-            array(
+            [
                 'header' => __('Created'),
                 'index' => 'created_at',
                 'type' => 'datetime',
                 'filter_time' => true,
                 'width' => 250
-            )
+            ]
         );
 
         $this->addColumn(
             'author',
-            array(
+            [
                 'header' => __('Author'),
                 'index' => 'user',
                 'type' => 'options',
                 'options' => $this->getCollection()->getUsersArray()
-            )
+            ]
         );
 
         return parent::_prepareColumns();
@@ -154,7 +151,7 @@ class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/revisions', array('_current' => true));
+        return $this->getUrl('adminhtml/*/revisions', ['_current' => true]);
     }
 
     /**
@@ -167,7 +164,7 @@ class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl(
             'adminhtml/cms_page_revision/edit',
-            array('page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId())
+            ['page_id' => $row->getPageId(), 'revision_id' => $row->getRevisionId()]
         );
     }
 
@@ -205,11 +202,11 @@ class Revisions extends \Magento\Backend\Block\Widget\Grid\Extended
 
             $this->getMassactionBlock()->addItem(
                 'delete',
-                array(
+                [
                     'label' => __('Delete'),
-                    'url' => $this->getUrl('adminhtml/*/massDeleteRevisions', array('_current' => true)),
+                    'url' => $this->getUrl('adminhtml/*/massDeleteRevisions', ['_current' => true]),
                     'confirm' => __('Are you sure?')
-                )
+                ]
             );
         }
         return $this;

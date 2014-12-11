@@ -2,10 +2,7 @@
 /**
  * Default configuration data reader. Reads configuration data from storage
  *
- * {license_notice}
- *
- * @copyright {copyright}
- * @license {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config\Initial;
 
@@ -44,7 +41,7 @@ class Reader
      *
      * @var array
      */
-    protected $_scopePriorityScheme = array('global');
+    protected $_scopePriorityScheme = ['global'];
 
     /**
      * Path to corresponding XSD file with validation rules for config
@@ -85,7 +82,7 @@ class Reader
      */
     public function read()
     {
-        $fileList = array();
+        $fileList = [];
         foreach ($this->_scopePriorityScheme as $scope) {
             $directories = $this->_fileResolver->get($this->_fileName, $scope);
             foreach ($directories as $key => $directory) {
@@ -94,7 +91,7 @@ class Reader
         }
 
         if (!count($fileList)) {
-            return array();
+            return [];
         }
 
         /** @var \Magento\Framework\Config\Dom $domDocument */
@@ -103,7 +100,7 @@ class Reader
             try {
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
-                    $domDocument = new $class($file, array(), null, $this->_schemaFile);
+                    $domDocument = new $class($file, [], null, $this->_schemaFile);
                 } else {
                     $domDocument->merge($file);
                 }
@@ -112,7 +109,7 @@ class Reader
             }
         }
 
-        $output = array();
+        $output = [];
         if ($domDocument) {
             $output = $this->_converter->convert($domDocument->getDom());
         }

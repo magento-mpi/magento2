@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -21,14 +18,14 @@
 		"mage/mage",
 		"mage/cookies"
 	], function($){
-	    
+
 	    $.extend($.mage.cookies.defaults, {
 	        expires: null,
 	        path: '<?php echo $this->getPath()?>',
 	        domain: '<?php echo $this->getDomain()?>',
 	        secure: false
 	    });
-	    
+
 	    $.extend($.cookie.defaults, $.mage.cookies.defaults);
 	});
 </script>

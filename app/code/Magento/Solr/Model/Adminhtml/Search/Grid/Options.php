@@ -2,10 +2,7 @@
 /**
  * Options for Query Id column
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Solr\Model\Adminhtml\Search\Grid;
 
@@ -49,7 +46,7 @@ class Options implements \Magento\Framework\Option\ArrayInterface
         $queries = $this->_request->getPost('selected_queries');
 
         $currentQueryId = $this->_registryManager->registry('current_catalog_search')->getId();
-        $queryIds = array();
+        $queryIds = [];
         if (is_null($queries) && !empty($currentQueryId)) {
             $queryIds = $this->_searchResourceModel->getRelatedQueries($currentQueryId);
         }

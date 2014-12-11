@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\GroupedProduct\Pricing\Price;
@@ -43,8 +40,7 @@ class FinalPriceTest extends \PHPUnit_Framework_TestCase
 
         $this->priceCurrencyMock = $this->getMock('\Magento\Framework\Pricing\PriceCurrencyInterface');
 
-        $this->finalPrice = new \Magento\GroupedProduct\Pricing\Price\FinalPrice
-        (
+        $this->finalPrice = new \Magento\GroupedProduct\Pricing\Price\FinalPrice(
             $this->saleableItemMock,
             null,
             $this->calculatorMock,

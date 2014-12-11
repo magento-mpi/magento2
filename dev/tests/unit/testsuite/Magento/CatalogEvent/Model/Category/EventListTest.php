@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\CatalogEvent\Model\Category;
@@ -103,23 +100,23 @@ class EventListTest extends \PHPUnit_Framework_TestCase
      */
     public function getEventInStoreDataProvider()
     {
-        return array(
-            array(
-                array(2 => 3, 3 => null, 4 => null),
+        return [
+            [
+                [2 => 3, 3 => null, 4 => null],
                 2,
-                3
-            ),
-            array(
-                array(2 => 3, 3 => null, 4 => null),
+                3,
+            ],
+            [
+                [2 => 3, 3 => null, 4 => null],
                 4,
                 null
-            ),
-            array(
-                array(2 => 3, 3 => null, 4 => null),
+            ],
+            [
+                [2 => 3, 3 => null, 4 => null],
                 5,
                 false
-            )
-        );
+            ]
+        ];
     }
 
     /**
@@ -134,7 +131,7 @@ class EventListTest extends \PHPUnit_Framework_TestCase
         $this->resourceEvent->expects($this->once())->method('getCategoryIdsWithEvent')->will(
             $this->returnValue($categoryList)
         );
-        $eventCollectionReturnMap = array();
+        $eventCollectionReturnMap = [];
         foreach ($categoryList as $eventId) {
             if ($eventId) {
                 $eventCollectionReturnMap[] = [$eventId, $eventId];
@@ -154,24 +151,24 @@ class EventListTest extends \PHPUnit_Framework_TestCase
      */
     public function getCategoryListDataProvider()
     {
-        return array(
-            array(
-                array(2 => 3, 3 => null, 4 => null),
-                1
-            ),
-            array(
-                array(4=>3, 3=>1, 5=>4),
+        return [
+            [
+                [2 => 3, 3 => null, 4 => null],
+                1,
+            ],
+            [
+                [4 => 3, 3 => 1, 5 => 4],
                 3
-            ),
-            array(
-                array(),
+            ],
+            [
+                [],
                 0
-            ),
-            array(
-                array(2 => null, 3 => null, 4 => null, 10 => null),
+            ],
+            [
+                [2 => null, 3 => null, 4 => null, 10 => null],
                 0
-            ),
-        );
+            ],
+        ];
     }
 
     /**
@@ -204,7 +201,7 @@ class EventListTest extends \PHPUnit_Framework_TestCase
     public function testGetEventCollectionWithIds()
     {
         $this->eventCollection->expects($this->once())->method('addFieldToFilter');
-        $collection = $this->eventList->getEventCollection(array(1, 3));
+        $collection = $this->eventList->getEventCollection([1, 3]);
         $this->assertInstanceOf('\Magento\CatalogEvent\Model\Resource\Event\Collection', $collection);
     }
 

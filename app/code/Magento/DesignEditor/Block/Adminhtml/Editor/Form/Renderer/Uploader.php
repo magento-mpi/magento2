@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Form\Renderer;
 
@@ -19,5 +16,5 @@ class Uploader extends \Magento\DesignEditor\Block\Adminhtml\Editor\Form\Rendere
      *
      * @var string[]
      */
-    protected $_templates = array('Magento_DesignEditor::editor/form/renderer/element/input.phtml');
+    protected $_templates = ['Magento_DesignEditor::editor/form/renderer/element/input.phtml'];
 }

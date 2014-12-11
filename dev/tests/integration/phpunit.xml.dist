@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 -->
 <phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -62,6 +59,8 @@
         <!--<const name="TESTS_BAMBOO_PROFILER_METRICS_FILE" value="../../build/profiler_metrics.php"/>-->
         <!-- Magento mode for tests execution. Possible values are "default", "developer" and "production". -->
         <const name="TESTS_MAGENTO_MODE" value="developer"/>
+        <!-- Minimum error log level to listen for. Possible values are \Zend_Log::EMERG(0) to \Zend_Log::DEBUG(7) respectively. -->
+        <const name="TESTS_ERROR_LOG_LISTENER_LEVEL" value="-1"/>
         <!-- Connection parameters for MongoDB library tests -->
         <!--<const name="MONGODB_CONNECTION_STRING" value="mongodb://localhost:27017"/>-->
         <!--<const name="MONGODB_DATABASE_NAME" value="magento_integration_tests"/>-->
@@ -69,5 +68,6 @@
     <!-- Test listeners -->
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>
+        <listener class="Magento\TestFramework\ErrorLog\Listener"/>
     </listeners>
 </phpunit>

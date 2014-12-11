@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogSearch\Model\Layer\Filter;
 
@@ -40,7 +37,7 @@ class Decimal extends AbstractFilter
         \Magento\Catalog\Model\Layer\Filter\Item\DataBuilder $itemDataBuilder,
         \Magento\Catalog\Model\Resource\Layer\Filter\DecimalFactory $filterDecimalFactory,
         \Magento\Framework\Pricing\PriceCurrencyInterface $priceCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct(
             $filterItemFactory,
@@ -122,7 +119,7 @@ class Decimal extends AbstractFilter
                     'value' => $value,
                     'count' => $count,
                     'from' => $from,
-                    'to' => $to
+                    'to' => $to,
                 ];
             }
         }

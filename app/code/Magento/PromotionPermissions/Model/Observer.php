@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -66,11 +63,13 @@ class Observer
      * @param \Magento\PromotionPermissions\Helper\Data $promoPermData
      * @param \Magento\Framework\App\RequestInterface $request
      * @param \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
+     * @param \Magento\Framework\Module\Manager $moduleManager
      */
     public function __construct(
         \Magento\PromotionPermissions\Helper\Data $promoPermData,
         \Magento\Framework\App\RequestInterface $request,
-        \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection
+        \Magento\Banner\Model\Resource\Banner\Collection $bannerCollection,
+        \Magento\Framework\Module\Manager $moduleManager
     ) {
         $this->_request = $request;
         $this->_bannerCollection = $bannerCollection;
@@ -78,8 +77,8 @@ class Observer
         $this->_canEditSalesRules = $promoPermData->getCanAdminEditSalesRules();
         $this->_canEditReminderRules = $promoPermData->getCanAdminEditReminderRules();
 
-        $this->_isEnterpriseBannerEnabled = $promoPermData->isModuleEnabled('Magento_Banner');
-        $this->_isEnterpriseReminderEnabled = $promoPermData->isModuleEnabled('Magento_Reminder');
+        $this->_isEnterpriseBannerEnabled = $moduleManager->isEnabled('Magento_Banner');
+        $this->_isEnterpriseReminderEnabled = $moduleManager->isEnabled('Magento_Reminder');
     }
 
     /**
@@ -185,7 +184,7 @@ class Observer
     {
         $controllerAction = $observer->getControllerAction();
         $controllerActionName = $this->_request->getActionName();
-        $forbiddenActionNames = array('new', 'applyRules', 'save', 'delete', 'run');
+        $forbiddenActionNames = ['new', 'applyRules', 'save', 'delete', 'run'];
 
         if (in_array(
             $controllerActionName,

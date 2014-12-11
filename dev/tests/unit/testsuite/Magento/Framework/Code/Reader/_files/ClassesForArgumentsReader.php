@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 class ClassWithAllArgumentTypes
 {
@@ -61,7 +58,7 @@ class ClassWithAllArgumentTypes
         $const = \ClassWithAllArgumentTypes::DEFAULT_VALUE,
         $optionalNumValue = 9807,
         $optionalStringValue = 'optional string',
-        $optionalArrayValue = array('optionalKey' => 'optionalValue')
+        $optionalArrayValue = ['optionalKey' => 'optionalValue']
     ) {
         $this->_stdClassObject = $stdClassObject;
         $this->_withoutConstructorClassObject = $withoutConstructorClassObject;
@@ -106,7 +103,7 @@ class FirstClassForParentCall
     public function __construct(
         \stdClass $stdClassObject,
         \ClassExtendsDefaultPhpType $runeTimeException,
-        $arrayVariable = array('key' => 'value')
+        $arrayVariable = ['key' => 'value']
     ) {
         $this->_stdClassObject = $stdClassObject;
         $this->_runeTimeException = $runeTimeException;

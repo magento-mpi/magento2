@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *   
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /** @var $category \Magento\Catalog\Model\Category */
@@ -60,7 +57,6 @@ $categoryThird->setName(
     2
 )->save();
 
-
 $categoryFourth = $objectManager->create('Magento\Catalog\Model\Category');
 $categoryFourth->setName(
     'Category 4'
@@ -95,7 +91,6 @@ $categoryFifth->setName(
     2
 )->save();
 
-
 /** @var $productFirst \Magento\Catalog\Model\Product */
 $productFirst = $objectManager->create('Magento\Catalog\Model\Product');
 $productFirst->setTypeId(
@@ -103,7 +98,7 @@ $productFirst->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product 01'
 )->setSku(
@@ -121,7 +116,7 @@ $productFirst->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->save();
 
 /** @var $productSecond \Magento\Catalog\Model\Product */
@@ -131,7 +126,7 @@ $productSecond->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product 02'
 )->setSku(
@@ -149,7 +144,7 @@ $productSecond->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->save();
 
 /** @var $productThird \Magento\Catalog\Model\Product */
@@ -159,7 +154,7 @@ $productThird->setTypeId(
 )->setAttributeSetId(
     4
 )->setWebsiteIds(
-    array(1)
+    [1]
 )->setName(
     'Simple Product 03'
 )->setSku(
@@ -177,5 +172,5 @@ $productThird->setTypeId(
 )->setStatus(
     \Magento\Catalog\Model\Product\Attribute\Source\Status::STATUS_ENABLED
 )->setStockData(
-    array('use_config_manage_stock' => 0)
+    ['use_config_manage_stock' => 0]
 )->save();

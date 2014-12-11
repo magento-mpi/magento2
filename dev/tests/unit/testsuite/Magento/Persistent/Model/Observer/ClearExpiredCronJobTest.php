@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Persistent\Model\Observer;
@@ -90,5 +87,4 @@ class ClearExpiredCronJobTest extends \PHPUnit_Framework_TestCase
             ->method('create');
         $this->model->execute($this->scheduleMock);
     }
-
 }

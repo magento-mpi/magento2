@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Model\ActionValidator;
 
@@ -21,13 +18,13 @@ class RemoveActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsAllowed($modelToCheck, $protectedModel, $secureArea, $expectedResult)
     {
-        $registryMock = $this->getMock('\Magento\Framework\Registry', array(), array(), '', false);
+        $registryMock = $this->getMock('\Magento\Framework\Registry', [], [], '', false);
         $registryMock->expects($this->once())
             ->method('registry')->with('isSecureArea')->will($this->returnValue($secureArea));
 
         $model = new \Magento\Framework\Model\ActionValidator\RemoveAction(
             $registryMock,
-            array('class' => $protectedModel)
+            ['class' => $protectedModel]
         );
         $this->assertEquals($expectedResult, $model->isAllowed($modelToCheck));
     }
@@ -37,28 +34,28 @@ class RemoveActionTest extends \PHPUnit_Framework_TestCase
      */
     public function isAllowedDataProvider()
     {
-        $productMock = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
-        $bannerMock = $this->getMock('\Magento\Wishlist\Model\Wishlist', array(), array(), '', false);
+        $productMock = $this->getMock('\Magento\Catalog\Model\Product', [], [], '', false);
+        $bannerMock = $this->getMock('\Magento\Wishlist\Model\Wishlist', [], [], '', false);
 
-        return array(
-            array(
+        return [
+            [
                 'modelToCheck' => $productMock,
                 'protectedModel' => 'Model',
                 'secureArea' => false,
-                'expectedResult' => true
-            ),
-            array(
+                'expectedResult' => true,
+            ],
+            [
                 'modelToCheck' => $bannerMock,
                 'protectedModel' => get_class($bannerMock),
                 'secureArea' => false,
                 'expectedResult' => false
-            ),
-            array(
+            ],
+            [
                 'modelToCheck' => $bannerMock,
                 'protectedModel' => get_class($bannerMock),
                 'secureArea' => true,
                 'expectedResult' => true
-            ),
-        );
+            ],
+        ];
     }
 }

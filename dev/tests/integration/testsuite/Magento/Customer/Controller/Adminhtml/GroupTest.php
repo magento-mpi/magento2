@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
@@ -157,7 +154,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
                 'code' => self::CUSTOMER_GROUP_CODE,
                 'id' => $groupId,
                 'tax_class_id' => self::TAX_CLASS_ID,
-                'tax_class_name' => self::TAX_CLASS_NAME
+                'tax_class_name' => self::TAX_CLASS_NAME,
             ],
             $customerGroupData
         );

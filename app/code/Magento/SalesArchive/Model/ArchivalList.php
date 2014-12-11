@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesArchive\Model;
 
@@ -31,20 +28,20 @@ class ArchivalList
     protected $_entities = [
         self::ORDER => [
             'model' => 'Magento\Sales\Model\Order',
-            'resource_model' => 'Magento\Sales\Model\Resource\Order'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order',
         ],
         self::INVOICE => [
             'model' => 'Magento\Sales\Model\Order\Invoice',
-            'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Invoice',
         ],
         self::SHIPMENT => [
             'model' => 'Magento\Sales\Model\Order\Shipment',
-            'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment'
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Shipment',
         ],
         self::CREDITMEMO => [
             'model' => 'Magento\Sales\Model\Order\Creditmemo',
-            'resource_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo'
-        ]
+            'resource_model' => 'Magento\Sales\Model\Resource\Order\Creditmemo',
+        ],
     ];
 
     /**

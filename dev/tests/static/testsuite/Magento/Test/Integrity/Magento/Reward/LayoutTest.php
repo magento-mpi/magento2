@@ -2,10 +2,7 @@
 /**
  * Validator of class names in Reward nodes
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Test\Integrity\Magento\Reward;
 
@@ -20,8 +17,8 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
              */
             function ($file) {
                 $xml = simplexml_load_file($file);
-                $nodes = $xml->xpath('//argument[@name="reward_type"]') ?: array();
-                $errors = array();
+                $nodes = $xml->xpath('//argument[@name="reward_type"]') ?: [];
+                $errors = [];
                 /** @var \SimpleXMLElement $node */
                 foreach ($nodes as $node) {
                     $class = (string)$node;

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CustomerCustomAttributes\Model;
 
@@ -201,7 +198,7 @@ class Observer
         if ($address instanceof \Magento\Framework\Model\AbstractModel) {
             /** @var $orderAddress \Magento\CustomerCustomAttributes\Model\Sales\Order\Address */
             $orderAddress = $this->_orderAddressFactory->create();
-            $orderAddress->attachDataToEntities(array($address));
+            $orderAddress->attachDataToEntities([$address]);
         }
         return $this;
     }
@@ -241,7 +238,7 @@ class Observer
             $validate = \Zend_Validate::is(
                 $attribute->getAttributeCode(),
                 'StringLength',
-                array('max' => $attributeCodeMaxLength)
+                ['max' => $attributeCodeMaxLength]
             );
             if (!$validate) {
                 throw new \Magento\Eav\Exception(

@@ -2,10 +2,7 @@
 /**
  * Configuration source for grant permission select
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogPermissions\Model\Adminhtml\System\Config\Source;
 
@@ -21,10 +18,10 @@ class Grant implements ArrayInterface
      */
     public function toOptionArray()
     {
-        return array(
+        return [
             ConfigInterface::GRANT_ALL => __('Yes, for Everyone'),
             ConfigInterface::GRANT_CUSTOMER_GROUP => __('Yes, for Specified Customer Groups'),
             ConfigInterface::GRANT_NONE => __('No')
-        );
+        ];
     }
 }

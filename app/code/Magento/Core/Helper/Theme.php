@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -53,7 +50,7 @@ class Theme extends \Magento\Framework\App\Helper\AbstractHelper
     public function getCssAssets($theme)
     {
         /** @var $layoutProcessor \Magento\Framework\View\Layout\ProcessorInterface */
-        $layoutProcessor = $this->_layoutProcessorFactory->create(array('theme' => $theme));
+        $layoutProcessor = $this->_layoutProcessorFactory->create(['theme' => $theme]);
         $layoutElement = $layoutProcessor->getFileLayoutUpdatesXml();
 
         /**
@@ -69,16 +66,16 @@ class Theme extends \Magento\Framework\App\Helper\AbstractHelper
             '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         $elements = array_merge(
-            $layoutElement->xpath($xpathSelectorBlocks) ?: array(),
-            $layoutElement->xpath($xpathSelectorRefs) ?: array()
+            $layoutElement->xpath($xpathSelectorBlocks) ?: [],
+            $layoutElement->xpath($xpathSelectorRefs) ?: []
         );
 
-        $params = array(
+        $params = [
             'area'       => $theme->getArea(),
             'themeModel' => $theme,
-        );
+        ];
 
-        $result = array();
+        $result = [];
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
             $result[$fileId] = $this->_assetRepo->createAsset($fileId, $params);

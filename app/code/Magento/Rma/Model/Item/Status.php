@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Rma\Model\Item;
 
@@ -40,7 +37,7 @@ class Status extends \Magento\Framework\Object
      * @param \Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus
      * @param array $data
      */
-    public function __construct(\Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus, array $data = array())
+    public function __construct(\Magento\Rma\Model\Item\Attribute\Source\Status $sourceStatus, array $data = [])
     {
         $this->_sourceStatus = $sourceStatus;
         parent::__construct($data);
@@ -53,32 +50,32 @@ class Status extends \Magento\Framework\Object
      */
     public function getAllowedStatuses()
     {
-        $statusesAllowed = array(
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING => array(
+        $statusesAllowed = [
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING => [
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING,
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
-            ),
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
+            ],
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED => [
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED
-            ),
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => array(
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED,
+            ],
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED => [
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_RECEIVED,
                 \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED
-            ),
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => array(
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED
-            ),
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => array(
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED
-            ),
-            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => array(
-                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED
-            )
-        );
-        $boundingArray = isset($statusesAllowed[$this->getStatus()]) ? $statusesAllowed[$this->getStatus()] : array();
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
+            ],
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED => [
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_APPROVED,
+            ],
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED => [
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
+            ],
+            \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED => [
+                \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
+            ],
+        ];
+        $boundingArray = isset($statusesAllowed[$this->getStatus()]) ? $statusesAllowed[$this->getStatus()] : [];
         return array_intersect_key($this->_sourceStatus->getAllOptionsForGrid(), array_flip($boundingArray));
     }
 
@@ -89,7 +86,7 @@ class Status extends \Magento\Framework\Object
      */
     protected function _getStatusSequence()
     {
-        return array(
+        return [
             self::STATUS_ALL_ARE_EDITABLE,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_PENDING,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_AUTHORIZED,
@@ -98,7 +95,7 @@ class Status extends \Magento\Framework\Object
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_REJECTED,
             \Magento\Rma\Model\Item\Attribute\Source\Status::STATE_DENIED,
             self::STATUS_ORDER_IS_CLOSED
-        );
+        ];
     }
 
     /**

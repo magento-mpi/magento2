@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Ui\Component\Control;
 
@@ -24,7 +21,6 @@ class Button extends Template
         $this->setTemplate('Magento_Ui::control/button/default.phtml');
         parent::_construct();
     }
-
 
     /**
      * Retrieve button type
@@ -101,7 +97,7 @@ class Button extends Template
             'onclick' => $this->getOnClick(),
             'style' => $this->getStyle(),
             'value' => $this->getValue(),
-            'disabled' => $disabled
+            'disabled' => $disabled,
         ];
         if ($this->getDataAttribute()) {
             foreach ($this->getDataAttribute() as $key => $attr) {

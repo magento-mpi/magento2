@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Encryption;
 
@@ -28,9 +25,9 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', array(), array(), '', false);
-        $this->_cryptFactory = $this->getMock('Magento\Framework\Encryption\CryptFactory', array(), array(), '', false);
-        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $this->_randomGenerator = $this->getMock('Magento\Framework\Math\Random', [], [], '', false);
+        $this->_cryptFactory = $this->getMock('Magento\Framework\Encryption\CryptFactory', [], [], '', false);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->any())
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
@@ -101,12 +98,12 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function validateHashDataProvider()
     {
-        return array(
-            array('password', 'hash', false),
-            array('password', 'hash:salt', false),
-            array('password', '5f4dcc3b5aa765d61d8327deb882cf99', true),
-            array('password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true)
-        );
+        return [
+            ['password', 'hash', false],
+            ['password', 'hash:salt', false],
+            ['password', '5f4dcc3b5aa765d61d8327deb882cf99', true],
+            ['password', '67a1e09bb1f83f5007dc119c14d663aa:salt', true]
+        ];
     }
 
     /**
@@ -124,7 +121,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function validateHashExceptionDataProvider()
     {
-        return array(array('password', 'hash1:hash2:hash3'), array('password', 'hash1:hash2:hash3:hash4'));
+        return [['password', 'hash1:hash2:hash3'], ['password', 'hash1:hash2:hash3:hash4']];
     }
 
     /**
@@ -134,7 +131,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncryptWithEmptyKey($key)
     {
-        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', array(), array(), '', false);
+        $deploymentConfigMock = $this->getMock('\Magento\Framework\App\DeploymentConfig', [], [], '', false);
         $deploymentConfigMock->expects($this->any())
             ->method('get')
             ->with(Encryptor::PARAM_CRYPT_KEY)
@@ -146,7 +143,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function encryptWithEmptyKeyDataProvider()
     {
-        return array(array(null), array(0), array(''), array('0'));
+        return [[null], [0], [''], ['0']];
     }
 
     /**
@@ -157,7 +154,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testEncrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
         $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
         $crypt->expects($this->once())->method('encrypt')->with($value)->will($this->returnArgument(0));
         $actual = $this->_model->encrypt($value);
@@ -166,7 +163,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function encryptDataProvider()
     {
-        return array(array('value1', 'dmFsdWUx'), array(true, 'MQ=='));
+        return [['value1', 'dmFsdWUx'], [true, 'MQ==']];
     }
 
     /**
@@ -177,7 +174,7 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
      */
     public function testDecrypt($value, $expected)
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
         $this->_cryptFactory->expects($this->once())->method('create')->will($this->returnValue($crypt));
         $crypt->expects($this->once())->method('decrypt')->with($expected)->will($this->returnValue($expected));
         $actual = $this->_model->decrypt($value);
@@ -186,18 +183,18 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function decryptDataProvider()
     {
-        return array(array('dmFsdWUx', 'value1'));
+        return [['dmFsdWUx', 'value1']];
     }
 
     public function testValidateKey()
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
         $this->_cryptFactory->expects(
             $this->once()
         )->method(
             'create'
         )->with(
-            array('key' => 'some_key')
+            ['key' => 'some_key']
         )->will(
             $this->returnValue($crypt)
         );
@@ -206,13 +203,13 @@ class EncryptorTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateKeyDefault()
     {
-        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', array(), array(), '', false);
+        $crypt = $this->getMock('Magento\Framework\Encryption\Crypt', [], [], '', false);
         $this->_cryptFactory->expects(
             $this->once()
         )->method(
             'create'
         )->with(
-            array('key' => 'cryptKey')
+            ['key' => 'cryptKey']
         )->will(
             $this->returnValue($crypt)
         );

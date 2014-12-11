@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Observer\Backend;
 
@@ -31,12 +28,12 @@ class CatalogProductQuoteTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Resource\Quote', array(), array(), '', false);
-        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', array(), array(), '', false);
+        $this->_quoteMock = $this->getMock('Magento\Sales\Model\Resource\Quote', [], [], '', false);
+        $this->_observerMock = $this->getMock('Magento\Framework\Event\Observer', [], [], '', false);
         $this->_eventMock = $this->getMock(
             'Magento\Framework\Event',
-            array('getProduct', 'getStatus', 'getProductId'),
-            array(),
+            ['getProduct', 'getStatus', 'getProductId'],
+            [],
             '',
             false
         );
@@ -53,8 +50,8 @@ class CatalogProductQuoteTest extends \PHPUnit_Framework_TestCase
     {
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getId', 'getStatus', '__wakeup'),
-            array(),
+            ['getId', 'getStatus', '__wakeup'],
+            [],
             '',
             false
         );
@@ -67,15 +64,15 @@ class CatalogProductQuoteTest extends \PHPUnit_Framework_TestCase
 
     public function statusUpdateDataProvider()
     {
-        return array(array(125, 1), array(100, 0));
+        return [[125, 1], [100, 0]];
     }
 
     public function testSubtractQtyFromQuotes()
     {
         $productMock = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getId', 'getStatus', '__wakeup'),
-            array(),
+            ['getId', 'getStatus', '__wakeup'],
+            [],
             '',
             false
         );

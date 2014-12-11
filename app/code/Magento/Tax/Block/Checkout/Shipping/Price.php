@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tax\Block\Checkout\Shipping;
 
@@ -30,7 +27,7 @@ class Price extends \Magento\Checkout\Block\Shipping\Price
         \Magento\Checkout\Model\Session $checkoutSession,
         PriceCurrencyInterface $priceCurrency,
         \Magento\Tax\Helper\Data $taxHelper,
-        array $data = array()
+        array $data = []
     ) {
         $this->taxHelper = $taxHelper;
         parent::__construct(

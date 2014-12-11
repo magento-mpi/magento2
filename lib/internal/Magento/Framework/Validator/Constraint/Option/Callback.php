@@ -2,10 +2,7 @@
 /**
  * Constraint callback option
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Validator\Constraint\Option;
 
@@ -51,7 +48,7 @@ class Callback implements \Magento\Framework\Validator\Constraint\OptionInterfac
         if (is_array($arguments)) {
             $this->_arguments = $arguments;
         } elseif (null !== $arguments) {
-            $this->_arguments = array($arguments);
+            $this->_arguments = [$arguments];
         } else {
             $this->_arguments = null;
         }

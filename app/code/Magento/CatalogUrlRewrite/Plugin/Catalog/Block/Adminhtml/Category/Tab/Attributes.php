@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogUrlRewrite\Plugin\Catalog\Block\Adminhtml\Category\Tab;
 
@@ -28,7 +25,7 @@ class Attributes
                 $fieldset->addField(
                     'url_key',
                     'hidden',
-                    array('name' => 'url_key', 'value' => $subject->getCategory()->getUrlKey())
+                    ['name' => 'url_key', 'value' => $subject->getCategory()->getUrlKey()]
                 );
             } else {
                 $field->setRenderer(

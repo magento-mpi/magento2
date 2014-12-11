@@ -1,39 +1,36 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
-return array(
-    'link' => array(
-        array(
+return [
+    'link' => [
+        [
             'is_delete' => false,
             'link_id' => null,
             'title' => 'title',
             'is_shareable' => 'is_shareable',
-            'sample' => array(
+            'sample' => [
                 'type' => 'sample_type',
                 'url' => 'sample_url',
-                'file' => array(array('file' => 'sample_file', 'name' => 'sample_file', 'size' => 0, 'status' => null))
-            ),
-            'file' => array(array('file' => 'link_file', 'name' => 'link_file', 'size' => 0, 'status' => null)),
+                'file' => [['file' => 'sample_file', 'name' => 'sample_file', 'size' => 0, 'status' => null]],
+            ],
+            'file' => [['file' => 'link_file', 'name' => 'link_file', 'size' => 0, 'status' => null]],
             'type' => 'link_type',
             'link_url' => 'link_url',
             'sort_order' => 'sort_order',
             'number_of_downloads' => 'number_of_downloads',
-            'price' => 'price'
-        )
-    ),
-    'sample' => array(
-        array(
+            'price' => 'price',
+        ],
+    ],
+    'sample' => [
+        [
             'is_delete' => false,
             'sample_id' => null,
             'title' => 'title',
             'type' => 'sample_type',
-            'file' => array(array('file' => 'sample_file', 'name' => 'sample_file', 'size' => 0, 'status' => null)),
+            'file' => [['file' => 'sample_file', 'name' => 'sample_file', 'size' => 0, 'status' => null]],
             'sample_url' => 'sample_url',
-            'sort_order' => 'sort_order'
-        )
-    )
-);
+            'sort_order' => 'sort_order',
+        ],
+    ]
+];

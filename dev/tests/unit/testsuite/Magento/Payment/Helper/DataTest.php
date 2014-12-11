@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Payment\Helper;
@@ -140,8 +137,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockA = $this->getMock(
             'Magento\Framework\Object',
-            array('isAvailable','getConfigData'),
-            array(),
+            ['isAvailable', 'getConfigData'],
+            [],
             '',
             false
         );
@@ -154,8 +151,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $methodInstanceMockB = $this->getMock(
             'Magento\Framework\Object',
-            array('isAvailable','getConfigData'),
-            array(),
+            ['isAvailable', 'getConfigData'],
+            [],
             '',
             false
         );
@@ -273,15 +270,15 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function getSortMethodsDataProvider()
     {
-        return array(
-            array(
-                array('code' => 'methodA', 'data' => ['sort_order' => 0]),
-                array('code' => 'methodB', 'data' => ['sort_order' => 1])
-            ),
-            array(
-                array('code' => 'methodA', 'data' => ['sort_order' => 2]),
-                array('code' => 'methodB', 'data' => ['sort_order' => 1]),
-            )
-        );
+        return [
+            [
+                ['code' => 'methodA', 'data' => ['sort_order' => 0]],
+                ['code' => 'methodB', 'data' => ['sort_order' => 1]]
+            ],
+            [
+                ['code' => 'methodA', 'data' => ['sort_order' => 2]],
+                ['code' => 'methodB', 'data' => ['sort_order' => 1]],
+            ]
+        ];
     }
 }

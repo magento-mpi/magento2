@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -30,7 +27,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
     public function __construct(
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Framework\Registry $registry,
-        array $data = array()
+        array $data = []
     ) {
         $this->_coreRegistry = $registry;
         parent::__construct($context, $data);
@@ -52,7 +49,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getPrintInvoiceUrl($invoice)
     {
-        return $this->getUrl('*/*/printInvoice', array('invoice_id' => $invoice->getId()));
+        return $this->getUrl('*/*/printInvoice', ['invoice_id' => $invoice->getId()]);
     }
 
     /**
@@ -61,7 +58,7 @@ class Items extends \Magento\Sales\Block\Items\AbstractItems
      */
     public function getPrintAllInvoicesUrl($order)
     {
-        return $this->getUrl('*/*/printInvoice', array('order_id' => $order->getId()));
+        return $this->getUrl('*/*/printInvoice', ['order_id' => $order->getId()]);
     }
 
     /**

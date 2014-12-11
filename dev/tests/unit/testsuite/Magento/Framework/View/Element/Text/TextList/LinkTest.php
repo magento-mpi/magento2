@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -56,9 +53,9 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             'child' => [
                 'tag' => 'a',
                 'attributes' => [$aAttr['name'] => $aAttr['value']],
-                'content' => $innerText
+                'content' => $innerText,
             ],
-            'content' => $afterText
+            'content' => $afterText,
         ], $this->link->toHtml());
     }
 

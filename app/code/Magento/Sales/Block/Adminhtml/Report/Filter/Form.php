@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Block\Adminhtml\Report\Filter;
 
@@ -33,7 +30,7 @@ class Form extends \Magento\Reports\Block\Adminhtml\Filter\Form
         \Magento\Framework\Registry $registry,
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
-        array $data = array()
+        array $data = []
     ) {
         $this->_orderConfig = $orderConfig;
         parent::__construct($context, $registry, $formFactory, $data);
@@ -53,31 +50,30 @@ class Form extends \Magento\Reports\Block\Adminhtml\Filter\Form
         $fieldset = $this->getForm()->getElement('base_fieldset');
 
         if (is_object($fieldset) && $fieldset instanceof \Magento\Framework\Data\Form\Element\Fieldset) {
-
             $statuses = $this->_orderConfig->create()->getStatuses();
-            $values = array();
+            $values = [];
             foreach ($statuses as $code => $label) {
                 if (false === strpos($code, 'pending')) {
-                    $values[] = array('label' => __($label), 'value' => $code);
+                    $values[] = ['label' => __($label), 'value' => $code];
                 }
             }
 
             $fieldset->addField(
                 'show_order_statuses',
                 'select',
-                array(
+                [
                     'name' => 'show_order_statuses',
                     'label' => __('Order Status'),
-                    'options' => array('0' => __('Any'), '1' => __('Specified')),
+                    'options' => ['0' => __('Any'), '1' => __('Specified')],
                     'note' => __('Applies to Any of the Specified Order Statuses')
-                ),
+                ],
                 'to'
             );
 
             $fieldset->addField(
                 'order_statuses',
                 'multiselect',
-                array('name' => 'order_statuses', 'values' => $values, 'display' => 'none'),
+                ['name' => 'order_statuses', 'values' => $values, 'display' => 'none'],
                 'show_order_statuses'
             );
 

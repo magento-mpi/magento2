@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 ?>
 <?php
@@ -105,7 +102,7 @@
 require(['jquery', "mage/mage"], function($){
 
     $('#address\\:country_id').mage('regionUpdater', {
-        optionalRegionAllowed: <?php echo ($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
+        optionalRegionAllowed: <?php echo($this->getConfig('general/region/display_all') ? 'true' : 'false'); ?>,
         regionListId: '#address\\\:region_id',
         regionInputId: '#address\\\:region',
         postcodeId: '#address\\\:postcode',

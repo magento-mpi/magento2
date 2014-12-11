@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Block\Customer\Wishlist;
 
@@ -18,8 +15,8 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
         $block = $layout->addBlock('Magento\Wishlist\Block\Customer\Wishlist\Items', 'test');
         $child = $this->getMock(
             'Magento\Wishlist\Block\Customer\Wishlist\Item\Column',
-            array('isEnabled'),
-            array($objectManager->get('Magento\Framework\View\Element\Context')),
+            ['isEnabled'],
+            [$objectManager->get('Magento\Framework\View\Element\Context')],
             '',
             false
         );

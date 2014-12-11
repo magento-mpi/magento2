@@ -1,19 +1,16 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Doc\Ui\Widget\Document;
 
+use Magento\Doc\Document\Filter;
+use Magento\Doc\Document\Item;
+use Magento\Doc\Document\ItemFactory;
+use Magento\Doc\Document\Outline as DocumentOutline;
+use Magento\Doc\Document\Type\Factory;
 use Magento\Framework\View\Element\Template;
 use Magento\Framework\View\Element\Template\Context;
-use Magento\Doc\Document\Outline as DocumentOutline;
-use Magento\Doc\Document\ItemFactory;
-use Magento\Doc\Document\Item;
-use Magento\Doc\Document\Type\Factory;
-use Magento\Doc\Document\Filter;
 
 class Content extends Template
 {
@@ -170,7 +167,7 @@ class Content extends Template
                 'name' => $name,
                 'display_content' => $content,
                 'src_content' => $content,
-                'data' => $this->currentItem
+                'data' => $this->currentItem,
             ];
             $this->filter->setVariables($vars);
             return $this->filter->preProcess($this->itemTemplate);
@@ -178,7 +175,7 @@ class Content extends Template
             $vars = [
                 'render' => $this,
                 'message' => $e->getMessage(),
-                'data' => $this->currentItem
+                'data' => $this->currentItem,
             ];
             $this->filter->setVariables($vars);
             return $this->filter->preProcess($this->errorTemplate);

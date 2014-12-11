@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Reward\Block;
 
@@ -18,7 +15,7 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         $rewardHelper = $this->getMockBuilder(
             'Magento\Reward\Helper\Data'
         )->disableOriginalConstructor()->setMethods(
-            array('isEnabledOnFront')
+            ['isEnabledOnFront']
         )->getMock();
         $customerSession = $this->getMockBuilder(
             'Magento\Customer\Model\Session'
@@ -26,12 +23,12 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         $rewardInstance = $this->getMockBuilder(
             'Magento\Reward\Model\Reward'
         )->disableOriginalConstructor()->setMethods(
-            array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup')
+            ['setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup']
         )->getMock();
         $storeManager = $this->getMockBuilder(
             'Magento\Store\Model\StoreManager'
         )->disableOriginalConstructor()->setMethods(
-            array('getStore', 'getWebsiteId')
+            ['getStore', 'getWebsiteId']
         )->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -39,15 +36,15 @@ class TooltipTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Reward\Block\Tooltip */
         $block = $objectManager->getObject(
             'Magento\Reward\Block\Tooltip',
-            array(
-                'data' => array('reward_type' => 'Magento\Reward\Model\Action\OrderExtra'),
+            [
+                'data' => ['reward_type' => 'Magento\Reward\Model\Action\OrderExtra'],
                 'customerSession' => $customerSession,
                 'rewardHelper' => $rewardHelper,
                 'rewardInstance' => $rewardInstance,
                 'storeManager' => $storeManager
-            )
+            ]
         );
-        $layout = $this->getMock('Magento\Framework\View\Layout', array(), array(), '', false);
+        $layout = $this->getMock('Magento\Framework\View\Layout', [], [], '', false);
 
         $rewardHelper->expects($this->any())->method('isEnabledOnFront')->will($this->returnValue(true));
 

@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\Order\Email\Sender;
 
-use Magento\Sales\Model\Order\Email\NotifySender;
 use Magento\Sales\Model\Order;
-use Magento\Sales\Model\Order\Email\Container\Template;
 use Magento\Sales\Model\Order\Email\Container\OrderCommentIdentity;
+use Magento\Sales\Model\Order\Email\Container\Template;
+use Magento\Sales\Model\Order\Email\NotifySender;
 
 class OrderCommentSender extends NotifySender
 {
@@ -42,7 +39,7 @@ class OrderCommentSender extends NotifySender
                 'order' => $order,
                 'comment' => $comment,
                 'billing' => $order->getBillingAddress(),
-                'store' => $order->getStore()
+                'store' => $order->getStore(),
             ]
         );
         return $this->checkAndSend($order, $notify);

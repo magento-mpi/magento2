@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Model\Payment\Method\Billing;
 
@@ -55,7 +52,7 @@ abstract class AbstractAgreement extends \Magento\Payment\Model\Method\AbstractM
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Framework\Logger\AdapterFactory $logAdapterFactory,
         \Magento\Paypal\Model\Billing\AgreementFactory $agreementFactory,
-        array $data = array()
+        array $data = []
     ) {
         $this->_agreementFactory = $agreementFactory;
         parent::__construct($eventManager, $paymentData, $scopeConfig, $logAdapterFactory, $data);

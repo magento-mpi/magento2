@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -45,7 +42,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Framework\Data\FormFactory $formFactory,
         \Magento\Framework\Option\ArrayPool $sourceModelPool,
         \Magento\Widget\Model\Widget $widget,
-        array $data = array()
+        array $data = []
     ) {
         $this->_sourceModelPool = $sourceModelPool;
         $this->_widget = $widget;
@@ -97,7 +94,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         $this->setMainFieldsetHtmlId($mainFieldsetHtmlId);
         $fieldset = $this->getForm()->addFieldset(
             $mainFieldsetHtmlId,
-            array('legend' => __('Widget Options'), 'class' => 'fieldset-wide')
+            ['legend' => __('Widget Options'), 'class' => 'fieldset-wide']
         );
         $this->setData('main_fieldset', $fieldset);
 
@@ -145,13 +142,13 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
 
         // prepare element data with values (either from request of from default values)
         $fieldName = $parameter->getKey();
-        $data = array(
+        $data = [
             'name' => $form->addSuffixToName($fieldName, 'parameters'),
             'label' => __($parameter->getLabel()),
             'required' => $parameter->getRequired(),
             'class' => 'widget-option',
-            'note' => __($parameter->getDescription())
-        );
+            'note' => __($parameter->getDescription()),
+        ];
 
         if ($values = $this->getWidgetValues()) {
             $data['value'] = isset($values[$fieldName]) ? $values[$fieldName] : '';
@@ -166,9 +163,9 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
         // prepare element dropdown values
         if ($values = $parameter->getValues()) {
             // dropdown options are specified in configuration
-            $data['values'] = array();
+            $data['values'] = [];
             foreach ($values as $option) {
-                $data['values'][] = array('label' => __($option['label']), 'value' => $option['value']);
+                $data['values'][] = ['label' => __($option['label']), 'value' => $option['value']];
             }
             // otherwise, a source model is specified
         } elseif ($sourceModel = $parameter->getSourceModel()) {
@@ -198,7 +195,7 @@ class Options extends \Magento\Backend\Block\Widget\Form\Generic
             $helperBlock = $this->getLayout()->createBlock(
                 $helper->getType(),
                 '',
-                array('data' => $helper->getData())
+                ['data' => $helper->getData()]
             );
             if ($helperBlock instanceof \Magento\Framework\Object) {
                 $helperBlock->setConfig(

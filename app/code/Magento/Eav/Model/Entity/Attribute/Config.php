@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright {copyright}
- * @license   {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Eav\Model\Entity\Attribute;
 
@@ -35,9 +32,9 @@ class Config extends \Magento\Framework\Config\Data
         );
 
         if (!is_array($allFields)) {
-            return array();
+            return [];
         }
-        $lockedFields = array();
+        $lockedFields = [];
         foreach (array_keys($allFields) as $fieldCode) {
             $lockedFields[$fieldCode] = $fieldCode;
         }
@@ -53,7 +50,7 @@ class Config extends \Magento\Framework\Config\Data
      */
     public function getEntityAttributesLockedFields($entityCode)
     {
-        $lockedFields = array();
+        $lockedFields = [];
 
         $entityAttributes = $this->get($entityCode . '/attributes');
         foreach ($entityAttributes as $attributeCode => $attributeData) {

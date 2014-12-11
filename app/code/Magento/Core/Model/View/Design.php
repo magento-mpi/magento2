@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Core\Model\View;
@@ -156,7 +153,7 @@ class Design implements \Magento\Framework\View\DesignInterface
      * @param array $params
      * @return string|int
      */
-    public function getConfigurationDesignTheme($area = null, array $params = array())
+    public function getConfigurationDesignTheme($area = null, array $params = [])
     {
         if (!$area) {
             $area = $this->getArea();
@@ -257,11 +254,11 @@ class Design implements \Magento\Framework\View\DesignInterface
      */
     public function getDesignParams()
     {
-        $params = array(
+        $params = [
             'area' => $this->getArea(),
             'themeModel' => $this->getDesignTheme(),
             'locale'     => $this->getLocale(),
-        );
+        ];
 
         return $params;
     }

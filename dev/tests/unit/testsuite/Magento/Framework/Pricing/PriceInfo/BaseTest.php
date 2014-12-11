@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\Pricing\PriceInfo;
@@ -80,22 +77,22 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         return [
             'case with empty quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 1
+                'createCount' => 1,
             ],
             'case with existing price' => [
                 'entryParams' => [
                     ['priceCode' => 'testCode'],
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 2
+                'createCount' => 2,
             ],
             'case with quantity' => [
                 'entryParams' => [
-                    ['priceCode' => 'testCode']
+                    ['priceCode' => 'testCode'],
                 ],
-                'createCount' => 1
+                'createCount' => 1,
             ],
         ];
     }

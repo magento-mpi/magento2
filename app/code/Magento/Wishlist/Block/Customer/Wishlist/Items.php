@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Wishlist\Block\Customer\Wishlist;
@@ -17,7 +14,7 @@ class Items extends \Magento\Framework\View\Element\Template
      * @param \Magento\Framework\View\Element\Template\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = array())
+    public function __construct(\Magento\Framework\View\Element\Template\Context $context, array $data = [])
     {
         parent::__construct($context, $data);
         $this->_isScopePrivate = true;
@@ -30,7 +27,7 @@ class Items extends \Magento\Framework\View\Element\Template
      */
     public function getColumns()
     {
-        $columns = array();
+        $columns = [];
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $child) {
             if ($child instanceof \Magento\Wishlist\Block\Customer\Wishlist\Item\Column && $child->isEnabled()) {
                 $columns[] = $child;

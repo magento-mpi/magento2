@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\TestFramework\Interception;
 
@@ -12,7 +9,7 @@ class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
     /**
      * @var array
      */
-    protected $_originScopeScheme = array();
+    protected $_originScopeScheme = [];
 
     /**
      * @param \Magento\Framework\Config\ReaderInterface $reader
@@ -61,7 +58,7 @@ class PluginList extends \Magento\Framework\Interception\PluginList\PluginList
     public function reset()
     {
         $this->_scopePriorityScheme = $this->_originScopeScheme;
-        $this->_data = array();
-        $this->_loadedScopes = array();
+        $this->_data = [];
+        $this->_loadedScopes = [];
     }
 }

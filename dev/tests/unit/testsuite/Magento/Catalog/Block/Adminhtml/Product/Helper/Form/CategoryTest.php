@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 
@@ -36,7 +33,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
         $this->authorization->expects($this->any())
             ->method('isAllowed')
             ->will($this->returnValue($isAllowed));
-        $model = $this->objectManager ->getObject(
+        $model = $this->objectManager->getObject(
             '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
             ['authorization' => $this->authorization]
         );
@@ -62,7 +59,7 @@ class CategoryTest extends \PHPUnit_Framework_TestCase
 
     public function testGetAfterElementHtml()
     {
-        $model = $this->objectManager ->getObject(
+        $model = $this->objectManager->getObject(
             '\Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Category',
             ['authorization' => $this->authorization]
         );

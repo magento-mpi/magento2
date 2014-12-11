@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /* @var $installer \Magento\Setup\Module\SetupModule */
@@ -21,106 +18,106 @@ if (!$installer->getConnection()->isTableExists($installer->getTable('admin_user
         'user_id',
         \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
         null,
-        array('identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true),
+        ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
         'User ID'
     )->addColumn(
         'firstname',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         32,
-        array('nullable' => true),
+        ['nullable' => true],
         'User First Name'
     )->addColumn(
         'lastname',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         32,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Last Name'
     )->addColumn(
         'email',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         128,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Email'
     )->addColumn(
         'username',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         40,
-        array('nullable' => true),
+        ['nullable' => true],
         'User Login'
     )->addColumn(
         'password',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         255,
-        array('nullable' => false),
+        ['nullable' => false],
         'User Password'
     )->addColumn(
         'created',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array('nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT),
+        ['nullable' => false, 'default' => \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT],
         'User Created Time'
     )->addColumn(
         'modified',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        [],
         'User Modified Time'
     )->addColumn(
         'logdate',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array(),
+        [],
         'User Last Login Time'
     )->addColumn(
         'lognum',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('unsigned' => true, 'nullable' => false, 'default' => '0'),
+        ['unsigned' => true, 'nullable' => false, 'default' => '0'],
         'User Login Number'
     )->addColumn(
         'reload_acl_flag',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('nullable' => false, 'default' => '0'),
+        ['nullable' => false, 'default' => '0'],
         'Reload ACL'
     )->addColumn(
         'is_active',
         \Magento\Framework\DB\Ddl\Table::TYPE_SMALLINT,
         null,
-        array('nullable' => false, 'default' => '1'),
+        ['nullable' => false, 'default' => '1'],
         'User Is Active'
     )->addColumn(
         'extra',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         '64k',
-        array(),
+        [],
         'User Extra Data'
     )->addColumn(
         'rp_token',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         256,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Reset Password Link Token'
     )->addColumn(
         'rp_token_created_at',
         \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
         null,
-        array('nullable' => true, 'default' => null),
+        ['nullable' => true, 'default' => null],
         'Reset Password Link Token Creation Date'
     )->addColumn(
         'interface_locale',
         \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
         5,
-        array('nullable' => false, 'default' => 'en_US'),
+        ['nullable' => false, 'default' => 'en_US'],
         'Backend interface locale'
     )->addIndex(
         $installer->getIdxName(
             'admin_user',
-            array('username'),
+            ['username'],
             \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE
         ),
-        array('username'),
-        array('type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE)
+        ['username'],
+        ['type' => \Magento\Framework\DB\Adapter\AdapterInterface::INDEX_TYPE_UNIQUE]
     )->setComment(
         'Admin User Table'
     );

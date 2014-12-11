@@ -17,14 +17,15 @@ class PHPParser_Node_Stmt_TraitUseAdaptation_Alias extends PHPParser_Node_Stmt_T
      * @param null|string              $newName     New name
      * @param array                    $attributes  Additional attributes
      */
-    public function __construct($trait, $method, $newModifier, $newName, array $attributes = array()) {
+    public function __construct($trait, $method, $newModifier, $newName, array $attributes = [])
+    {
         parent::__construct(
-            array(
+            [
                 'trait'       => $trait,
                 'method'      => $method,
                 'newModifier' => $newModifier,
                 'newName'     => $newName,
-            ),
+            ],
             $attributes
         );
     }

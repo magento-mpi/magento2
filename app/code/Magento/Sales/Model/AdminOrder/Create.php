@@ -1,16 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Sales\Model\AdminOrder;
 
-use Magento\Customer\Api\Data\AddressInterface;
-use Magento\Sales\Model\Quote\Item;
 use Magento\Customer\Api\AddressMetadataInterface;
 use Magento\Customer\Model\Metadata\Form as CustomerForm;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Order create model
@@ -362,7 +358,7 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
             $this->quoteRepository->save($this->getCustomerCart());
         }
         $this->setRecollect(true);
-        
+
         return $this;
     }
 
@@ -1899,7 +1895,6 @@ class Create extends \Magento\Framework\Object implements \Magento\Checkout\Mode
     {
         $email = $this->getData('account/email');
         if (empty($email)) {
-
             $host = $this->_scopeConfig->getValue(
                 self::XML_PATH_DEFAULT_EMAIL_DOMAIN,
                 \Magento\Store\Model\ScopeInterface::SCOPE_STORE

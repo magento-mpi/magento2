@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Wishlist\Model\Resource\Item;
 
@@ -38,14 +35,14 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      *
      * @var array
      */
-    protected $_productIds = array();
+    protected $_productIds = [];
 
     /**
      * Store Ids array
      *
      * @var array
      */
-    protected $_storeIds = array();
+    protected $_storeIds = [];
 
     /**
      * Add days in wishlist filter of product collection
@@ -151,7 +148,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param \Magento\Wishlist\Model\Resource\Item $resource
      * @param \Magento\Framework\App\State $appState
      * @param \Zend_Db_Adapter_Abstract $connection
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -252,9 +249,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         \Magento\Framework\Profiler::start(
             'WISHLIST:' . __METHOD__,
-            array('group' => 'WISHLIST', 'method' => __METHOD__)
+            ['group' => 'WISHLIST', 'method' => __METHOD__]
         );
-        $productIds = array();
+        $productIds = [];
 
         $this->_productIds = array_merge($this->_productIds, array_keys($productIds));
         $attributes = $this->_wishlistConfig->getProductAttributes();
@@ -278,7 +275,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
 
         $this->_eventManager->dispatch(
             'wishlist_item_collection_products_after_load',
-            array('product_collection' => $productCollection)
+            ['product_collection' => $productCollection]
         );
 
         $checkInStock = $this->_productInStock && !$this->stockConfiguration->isShowOutOfStock();
@@ -289,7 +286,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 if ($checkInStock && !$product->isInStock()) {
                     $this->removeItemByKey($item->getId());
                 } else {
-                    $product->setCustomOptions(array());
+                    $product->setCustomOptions([]);
                     $item->setProduct($product);
                     $item->setProductName($product->getName());
                     $item->setName($product->getName());
@@ -326,9 +323,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     public function addCustomerIdFilter($customerId)
     {
         $this->getSelect()->join(
-            array('wishlist' => $this->getTable('wishlist')),
+            ['wishlist' => $this->getTable('wishlist')],
             'main_table.wishlist_id = wishlist.wishlist_id',
-            array()
+            []
         )->where(
             'wishlist.customer_id = ?',
             $customerId
@@ -342,13 +339,13 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
      * @param array $storeIds
      * @return $this
      */
-    public function addStoreFilter($storeIds = array())
+    public function addStoreFilter($storeIds = [])
     {
         if (!is_array($storeIds)) {
-            $storeIds = array($storeIds);
+            $storeIds = [$storeIds];
         }
         $this->_storeIds = $storeIds;
-        $this->addFieldToFilter('store_id', array('in' => $this->_storeIds));
+        $this->addFieldToFilter('store_id', ['in' => $this->_storeIds]);
 
         return $this;
     }
@@ -362,9 +359,9 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
     {
         $storeTable = $this->_coreResource->getTableName('store');
         $this->getSelect()->join(
-            array('store' => $storeTable),
+            ['store' => $storeTable],
             'main_table.store_id=store.store_id',
-            array('store_name' => 'name', 'item_store_id' => 'store_id')
+            ['store_name' => 'name', 'item_store_id' => 'store_id']
         );
         return $this;
     }
@@ -443,7 +440,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             return $this;
         }
 
-        $filter = array();
+        $filter = [];
 
         $now = $this->_date->date();
         $gmtOffset = (int)$this->_date->getGmtOffset();
@@ -488,7 +485,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
             $storeId = $this->_storeManager->getStore(\Magento\Store\Model\Store::ADMIN_CODE)->getId();
 
             $this->getSelect()->join(
-                array('product_name_table' => $attribute->getBackendTable()),
+                ['product_name_table' => $attribute->getBackendTable()],
                 'product_name_table.entity_id=main_table.product_id' .
                 ' AND product_name_table.store_id=' .
                 $storeId .
@@ -496,7 +493,7 @@ class Collection extends \Magento\Framework\Model\Resource\Db\Collection\Abstrac
                 $attribute->getId() .
                 ' AND product_name_table.entity_type_id=' .
                 $entityTypeId,
-                array()
+                []
             );
 
             $this->_isProductNameJoined = true;

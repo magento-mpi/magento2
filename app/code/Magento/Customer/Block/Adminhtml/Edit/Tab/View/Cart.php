@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
@@ -168,7 +165,6 @@ class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
                 try {
                     $this->quote = $this->quoteRepository->getForCustomer($currentCustomerId, $storeIds);
                 } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
-
                 }
             }
         }

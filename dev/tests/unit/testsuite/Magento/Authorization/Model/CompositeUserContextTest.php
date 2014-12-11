@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Authorization\Model;
 
+use Magento\Framework\ObjectManager\Helper\Composite as CompositeHelper;
 use Magento\TestFramework\Helper\ObjectManager;
-use \Magento\Framework\ObjectManager\Helper\Composite as CompositeHelper;
 
 class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,8 +48,8 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $contexts = [
             [
                 'sortOrder' => 10,
-                'type' => $userContextMock
-            ]
+                'type' => $userContextMock,
+            ],
         ];
         $model = $this->objectManager->getObject(
             'Magento\Authorization\Model\CompositeUserContext',
@@ -72,8 +69,8 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $contexts = [
             [
                 'sortOrder' => 10,
-                'type' => $userContextMock
-            ]
+                'type' => $userContextMock,
+            ],
         ];
         $this->userContext = $this->objectManager->getObject(
             'Magento\Authorization\Model\CompositeUserContext',
@@ -94,8 +91,8 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $contexts = [
             [
                 'sortOrder' => 10,
-                'type' => $userContextMock
-            ]
+                'type' => $userContextMock,
+            ],
         ];
         $this->userContext = $this->objectManager->getObject(
             'Magento\Authorization\Model\CompositeUserContext',
@@ -118,8 +115,8 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $contexts = [
             [
                 'sortOrder' => 10,
-                'type' => $userContextMock
-            ]
+                'type' => $userContextMock,
+            ],
         ];
         $this->userContext = $this->objectManager->getObject(
             'Magento\Authorization\Model\CompositeUserContext',
@@ -141,8 +138,8 @@ class CompositeUserContextTest extends \PHPUnit_Framework_TestCase
         $contexts = [
             [
                 'sortOrder' => 10,
-                'type' => $userContextMock
-            ]
+                'type' => $userContextMock,
+            ],
         ];
         $this->userContext = $this->objectManager->getObject(
             'Magento\Authorization\Model\CompositeUserContext',

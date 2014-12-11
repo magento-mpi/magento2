@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super;
 
@@ -22,14 +19,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $product = $this->getMockBuilder(
             'Magento\Catalog\Model\Product'
         )->disableOriginalConstructor()->setMethods(
-            array('getId', '__wakeup')
+            ['getId', '__wakeup']
         )->getMock();
         $product->expects($this->any())->method('getId')->will($this->returnValue($productId));
 
         $urlModel = $this->getMockBuilder(
             'Magento\Backend\Model\Url'
         )->disableOriginalConstructor()->setMethods(
-            array('getUrl')
+            ['getUrl']
         )->getMock();
         $urlModel->expects(
             $this->any()
@@ -45,14 +42,14 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\Framework\Registry')->register('current_product', $product);
 
-        $context = $objectManager->create('Magento\Backend\Block\Template\Context', array('urlBuilder' => $urlModel));
+        $context = $objectManager->create('Magento\Backend\Block\Template\Context', ['urlBuilder' => $urlModel]);
         /** @var $layout \Magento\Framework\View\Layout */
         $layout = $objectManager->get('Magento\Framework\View\LayoutInterface');
         /** @var $block \Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings */
         $block = $layout->createBlock(
             'Magento\ConfigurableProduct\Block\Adminhtml\Product\Edit\Tab\Super\Settings',
             'block',
-            array('context' => $context)
+            ['context' => $context]
         );
         $this->assertEquals('url', $block->getContinueUrl());
     }
@@ -62,6 +59,6 @@ class SettingsTest extends \PHPUnit_Framework_TestCase
      */
     public static function getContinueUrlDataProvider()
     {
-        return array(array(null, '*/*/new'), array(1, '*/*/edit'));
+        return [[null, '*/*/new'], [1, '*/*/edit']];
     }
 }

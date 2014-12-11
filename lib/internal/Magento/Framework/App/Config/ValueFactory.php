@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\App\Config;
 
@@ -47,7 +44,7 @@ class ValueFactory
      * @return \Magento\Framework\App\Config\ValueInterface
      * @throws \InvalidArgumentException
      */
-    public function create(array $data = array())
+    public function create(array $data = [])
     {
         $model = $this->_objectManager->create($this->_instanceName, $data);
         if (!$model instanceof \Magento\Framework\App\Config\ValueInterface) {

@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
@@ -38,7 +35,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Bundle\Helper\Data $bundleData,
-        array $data = array()
+        array $data = []
     ) {
         $this->_bundleData = $bundleData;
         $this->_productFactory = $productFactory;
@@ -110,10 +107,10 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             'attribute_set_id'
         )->addAttributeToFilter(
             'entity_id',
-            array('nin' => $this->_getSelectedProducts())
+            ['nin' => $this->_getSelectedProducts()]
         )->addAttributeToFilter(
             'type_id',
-            array('in' => $this->getAllowedSelectionTypes())
+            ['in' => $this->getAllowedSelectionTypes()]
         )->addFilterByRequiredOptions()->addStoreFilter(
             \Magento\Store\Model\Store::DEFAULT_STORE_ID
         );
@@ -137,43 +134,43 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $this->addColumn(
             'id',
-            array(
+            [
                 'header' => __('ID'),
                 'index' => 'entity_id',
                 'renderer' => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Checkbox',
                 'type' => 'skip-list'
-            )
+            ]
         );
 
         $this->addColumn(
             'name',
-            array(
+            [
                 'header' => __('Product'),
                 'index' => 'name',
                 'header_css_class' => 'col-name',
                 'column_css_class' => 'name col-name'
-            )
+            ]
         );
         $this->addColumn(
             'sku',
-            array(
+            [
                 'header' => __('SKU'),
                 'width' => '80px',
                 'index' => 'sku',
                 'header_css_class' => 'col-sku',
                 'column_css_class' => 'sku col-sku'
-            )
+            ]
         );
         $this->addColumn(
             'price',
-            array(
+            [
                 'header' => __('Price'),
                 'align' => 'center',
                 'type' => 'currency',
                 'index' => 'price',
                 'header_css_class' => 'col-price',
                 'column_css_class' => 'col-price'
-            )
+            ]
         );
         return parent::_prepareColumns();
     }
@@ -187,7 +184,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         return $this->getUrl(
             'adminhtml/bundle_selection/grid',
-            array('index' => $this->getIndex(), 'productss' => implode(',', $this->_getProducts()))
+            ['index' => $this->getIndex(), 'productss' => implode(',', $this->_getProducts())]
         );
     }
 
@@ -214,7 +211,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
             if ($productss = $this->getRequest()->getParam('productss', null)) {
                 return explode(',', $productss);
             } else {
-                return array();
+                return [];
             }
         }
     }

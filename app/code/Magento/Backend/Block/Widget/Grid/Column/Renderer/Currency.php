@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
@@ -24,7 +21,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
      *
      * @var \Magento\Framework\Object[]
      */
-    protected static $_currencies = array();
+    protected static $_currencies = [];
 
     /**
      * Application object
@@ -62,7 +59,7 @@ class Currency extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Abstra
         \Magento\Directory\Model\Currency\DefaultLocator $currencyLocator,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Framework\Locale\CurrencyInterface $localeCurrency,
-        array $data = array()
+        array $data = []
     ) {
         parent::__construct($context, $data);
         $this->_storeManager = $storeManager;

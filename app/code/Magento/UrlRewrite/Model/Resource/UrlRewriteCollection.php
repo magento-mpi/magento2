@@ -2,10 +2,7 @@
 /**
  * URL rewrite collection
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\UrlRewrite\Model\Resource;
 
@@ -60,13 +57,13 @@ class UrlRewriteCollection extends \Magento\Framework\Model\Resource\Db\Collecti
     public function addStoreFilter($store, $withAdmin = true)
     {
         if (!is_array($store)) {
-            $store = array($this->storeManager->getStore($store)->getId());
+            $store = [$this->storeManager->getStore($store)->getId()];
         }
         if ($withAdmin) {
             $store[] = 0;
         }
 
-        $this->addFieldToFilter('store_id', array('in' => $store));
+        $this->addFieldToFilter('store_id', ['in' => $store]);
 
         return $this;
     }

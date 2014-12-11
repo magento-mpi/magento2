@@ -1,14 +1,10 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
- 
+
 namespace Magento\Catalog\Test\Fixture\Cart;
 
-use Magento\Bundle\Test\Fixture\BundleProduct;
 use Magento\Catalog\Test\Fixture\CatalogProductSimple;
 use Mtf\Fixture\FixtureInterface;
 
@@ -54,7 +50,7 @@ class Item implements FixtureInterface
                     : $attribute,
                 'value' => isset($customOptions[$attribute]['options'][$option]['title'])
                     ? $customOptions[$attribute]['options'][$option]['title']
-                    : $option
+                    : $option,
             ];
         }
 

@@ -1,15 +1,12 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Mtf\TestSuite;
 
-use Mtf\ObjectManagerFactory;
 use Mtf\ObjectManager;
+use Mtf\ObjectManagerFactory;
 use Mtf\TestRunner\Configuration;
 
 /**
@@ -102,9 +99,9 @@ class InjectableTests extends \PHPUnit_Framework_TestSuite
             $testRunnerConfiguration = new Configuration();
             $testRunnerConfiguration->load($confFilePath);
 
-            $shared = array(
-                'Mtf\TestRunner\Configuration' => $testRunnerConfiguration
-            );
+            $shared = [
+                'Mtf\TestRunner\Configuration' => $testRunnerConfiguration,
+            ];
             $this->objectManager = $objectManagerFactory->create($shared);
         }
     }

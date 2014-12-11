@@ -1,17 +1,14 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Framework\View\File\Collector\Decorator;
 
-use Magento\Framework\View\File\CollectorInterface;
-use Magento\Framework\View\File;
 use Magento\Framework\Module\Manager;
 use Magento\Framework\View\Design\ThemeInterface;
+use Magento\Framework\View\File;
+use Magento\Framework\View\File\CollectorInterface;
 
 /**
  * Decorator that filters out view files that belong to modules, output of which is prohibited
@@ -57,7 +54,7 @@ class ModuleOutput implements CollectorInterface
      */
     public function getFiles(ThemeInterface $theme, $filePath)
     {
-        $result = array();
+        $result = [];
         foreach ($this->subject->getFiles($theme, $filePath) as $file) {
             if ($this->moduleManager->isOutputEnabled($file->getModule())) {
                 $result[] = $file;

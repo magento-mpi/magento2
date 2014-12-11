@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Paypal\Block\Standard;
 
@@ -45,7 +42,7 @@ class Form extends \Magento\Payment\Block\Form
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Framework\Locale\ResolverInterface $localeResolver,
-        array $data = array()
+        array $data = []
     ) {
         $this->_paypalConfigFactory = $paypalConfigFactory;
         $this->_localeResolver = $localeResolver;

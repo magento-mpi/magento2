@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Rma\Controller\Adminhtml;
@@ -115,7 +112,6 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
      * @var \Magento\Rma\Model\Rma\RmaDataMapper|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $rmaDataMapperMock;
-
 
     /**
      * test setUp
@@ -232,7 +228,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
                         ['Magento\Rma\Model\Rma', [], $this->rmaModelMock],
                         ['Magento\Sales\Model\Order', [], $this->orderMock],
                         ['Magento\Rma\Model\Rma\Source\Status', [], $this->sourceStatusMock],
-                        ['Magento\Rma\Model\Rma\Status\History', [], $this->statusHistoryMock]
+                        ['Magento\Rma\Model\Rma\Status\History', [], $this->statusHistoryMock],
                     ]
                 )
             );
@@ -247,7 +243,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
             'comment' => [
                 'comment' => $commentText,
                 'is_visible_on_front' => $visibleOnFront,
-            ]
+            ],
         ];
         $this->requestMock->expects($this->once())
             ->method('isPost')
@@ -262,7 +258,7 @@ abstract class RmaTest extends \PHPUnit_Framework_TestCase
                         'comment' => [
                             'comment' => $commentText,
                             'is_visible_on_front' => $visibleOnFront,
-                        ]
+                        ],
                     ]
                 )
             );

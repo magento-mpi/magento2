@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\SalesRule\Model\Rule\Action;
 
@@ -16,7 +13,7 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
      */
     public function loadAttributeOptions()
     {
-        $this->setAttributeOption(array('rule_price' => __('Special Price')));
+        $this->setAttributeOption(['rule_price' => __('Special Price')]);
         return $this;
     }
 
@@ -28,12 +25,12 @@ class Product extends \Magento\Rule\Model\Action\AbstractAction
     public function loadOperatorOptions()
     {
         $this->setOperatorOption(
-            array(
+            [
                 'to_fixed' => __('To Fixed Value'),
                 'to_percent' => __('To Percentage'),
                 'by_fixed' => __('By Fixed value'),
-                'by_percent' => __('By Percentage')
-            )
+                'by_percent' => __('By Percentage'),
+            ]
         );
         return $this;
     }

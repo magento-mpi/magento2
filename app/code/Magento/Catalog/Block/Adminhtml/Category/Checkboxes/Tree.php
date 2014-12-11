@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,12 +17,12 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     /**
      * @var int[]
      */
-    protected $_selectedIds = array();
+    protected $_selectedIds = [];
 
     /**
      * @var array
      */
-    protected $_expandedPath = array();
+    protected $_expandedPath = [];
 
     /**
      * @return void
@@ -50,9 +47,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
     public function setCategoryIds($ids)
     {
         if (empty($ids)) {
-            $ids = array();
+            $ids = [];
         } elseif (!is_array($ids)) {
-            $ids = array((int)$ids);
+            $ids = [(int)$ids];
         }
         $this->_selectedIds = $ids;
         return $this;
@@ -83,7 +80,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
      */
     protected function _getNodeJson($node, $level = 1)
     {
-        $item = array();
+        $item = [];
         $item['text'] = $this->escapeHtml($node->getName());
         if ($this->_withProductCount) {
             $item['text'] .= ' (' . $node->getProductCount() . ')';
@@ -101,13 +98,13 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\Tree
             $this->setExpandedPath($node->getData('path'));
         }
         if ($node->hasChildren()) {
-            $item['children'] = array();
+            $item['children'] = [];
             foreach ($node->getChildren() as $child) {
                 $item['children'][] = $this->_getNodeJson($child, $level + 1);
             }
         }
         if (empty($item['children']) && (int)$node->getChildrenCount() > 0) {
-            $item['children'] = array();
+            $item['children'] = [];
         }
         $item['expanded'] = in_array($node->getId(), $this->getExpandedPath());
         return $item;

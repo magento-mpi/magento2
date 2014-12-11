@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Backup\Model\Config\Backend;
 
@@ -52,7 +49,7 @@ class Cron extends \Magento\Framework\App\Config\Value
         \Magento\Framework\Model\Resource\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\Db $resourceCollection = null,
         $runModelPath = '',
-        array $data = array()
+        array $data = []
     ) {
         $this->_runModelPath = $runModelPath;
         $this->_configValueFactory = $configValueFactory;
@@ -75,13 +72,13 @@ class Cron extends \Magento\Framework\App\Config\Value
         $frequencyMonthly = \Magento\Cron\Model\Config\Source\Frequency::CRON_MONTHLY;
 
         if ($enabled) {
-            $cronExprArray = array(
+            $cronExprArray = [
                 intval($time[1]),                                 # Minute
                 intval($time[0]),                                 # Hour
                 $frequency == $frequencyMonthly ? '1' : '*',      # Day of the Month
                 '*',                                              # Month of the Year
-                $frequency == $frequencyWeekly ? '1' : '*'        # Day of the Week
-            );
+                $frequency == $frequencyWeekly ? '1' : '*',        # Day of the Week
+            ];
             $cronExprString = join(' ', $cronExprArray);
         } else {
             $cronExprString = '';

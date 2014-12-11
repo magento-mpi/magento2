@@ -2,10 +2,7 @@
 /**
  * Soap API request.
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Webapi\Controller\Soap;
 
@@ -22,7 +19,7 @@ class Request extends \Magento\Webapi\Controller\Request
         $wsdlParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_WSDL;
         $servicesParam = \Magento\Webapi\Model\Soap\Server::REQUEST_PARAM_SERVICES;
         $requestParams = array_keys($this->getParams());
-        $allowedParams = array($wsdlParam, $servicesParam);
+        $allowedParams = [$wsdlParam, $servicesParam];
         $notAllowedParameters = array_diff($requestParams, $allowedParams);
         if (count($notAllowedParameters)) {
             $notAllowed = implode(', ', $notAllowedParameters);
@@ -61,7 +58,7 @@ class Request extends \Magento\Webapi\Controller\Request
         }
         //Split the $param string to create an array of 'service' => 'version'
         $serviceVersionArray = explode($serviceSeparator, $param);
-        $serviceArray = array();
+        $serviceArray = [];
         foreach ($serviceVersionArray as $service) {
             $serviceArray[] = $service;
         }

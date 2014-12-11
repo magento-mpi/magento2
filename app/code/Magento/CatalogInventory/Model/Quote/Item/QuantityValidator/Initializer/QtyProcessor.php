@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\Initializer;
 
-use Magento\Sales\Model\Quote\Item;
 use Magento\CatalogInventory\Model\Quote\Item\QuantityValidator\QuoteItemQtyList;
+use Magento\Sales\Model\Quote\Item;
 
 /**
  * Class QtyProcessor

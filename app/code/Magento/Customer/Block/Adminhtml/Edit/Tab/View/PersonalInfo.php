@@ -1,14 +1,11 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Api\AccountManagementInterface;
+use Magento\Customer\Controller\RegistryConstants;
 use Magento\Customer\Model\AccountManagement;
 use Magento\Customer\Model\Address\Mapper;
 use Magento\Framework\Exception\NoSuchEntityException;
@@ -82,7 +79,7 @@ class PersonalInfo extends \Magento\Backend\Block\Template
         \Magento\Framework\Stdlib\DateTime $dateTime,
         \Magento\Framework\Registry $registry,
         Mapper $addressMapper,
-        array $data = array()
+        array $data = []
     ) {
         $this->coreRegistry = $registry;
         $this->accountManagement = $accountManagement;

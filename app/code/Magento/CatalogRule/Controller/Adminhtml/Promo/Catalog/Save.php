@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog;
 
@@ -22,12 +19,12 @@ class Save extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
                 $model = $this->_objectManager->create('Magento\CatalogRule\Model\Rule');
                 $this->_eventManager->dispatch(
                     'adminhtml_controller_catalogrule_prepare_save',
-                    array('request' => $this->getRequest())
+                    ['request' => $this->getRequest()]
                 );
                 $data = $this->getRequest()->getPost();
                 $inputFilter = new \Zend_Filter_Input(
-                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter),
-                    array(),
+                    ['from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter],
+                    [],
                     $data
                 );
                 $data = $inputFilter->getUnescaped();
@@ -45,7 +42,7 @@ class Save extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
                         $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setPageData($data);
-                    $this->_redirect('catalog_rule/*/edit', array('id' => $model->getId()));
+                    $this->_redirect('catalog_rule/*/edit', ['id' => $model->getId()]);
                     return;
                 }
 
@@ -66,7 +63,7 @@ class Save extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
                 } else {
                     $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()->setState(1)->save();
                     if ($this->getRequest()->getParam('back')) {
-                        $this->_redirect('catalog_rule/*/edit', array('id' => $model->getId()));
+                        $this->_redirect('catalog_rule/*/edit', ['id' => $model->getId()]);
                         return;
                     }
                     $this->_redirect('catalog_rule/*/');
@@ -80,7 +77,7 @@ class Save extends \Magento\CatalogRule\Controller\Adminhtml\Promo\Catalog
                 );
                 $this->_objectManager->get('Magento\Framework\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
-                $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
+                $this->_redirect('catalog_rule/*/edit', ['id' => $this->getRequest()->getParam('rule_id')]);
                 return;
             }
         }

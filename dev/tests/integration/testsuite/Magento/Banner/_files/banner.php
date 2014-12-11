@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 /**
@@ -20,5 +17,5 @@ $banner->setIsEnabled(
 )->setTypes(
     ''
 )->setStoreContents(
-    array(0 => 'Banner Content')
+    [0 => 'Banner Content']
 )->save();

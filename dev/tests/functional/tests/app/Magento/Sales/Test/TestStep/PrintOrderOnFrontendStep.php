@@ -1,16 +1,13 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 
 namespace Magento\Sales\Test\TestStep;
 
+use Magento\Sales\Test\Page\SalesGuestView;
 use Mtf\Client\Browser;
 use Mtf\TestStep\TestStepInterface;
-use Magento\Sales\Test\Page\SalesGuestView;
 
 /**
  * Click on "Print Order" button.

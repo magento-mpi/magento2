@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Framework\Acl;
 
@@ -48,7 +45,7 @@ class BuilderTest extends \PHPUnit_Framework_TestCase
     {
         $this->_aclMock = new \Magento\Framework\Acl();
         $this->_aclCacheMock = $this->getMock('Magento\Framework\Acl\CacheInterface');
-        $this->_aclFactoryMock = $this->getMock('Magento\Framework\AclFactory', array(), array(), '', false);
+        $this->_aclFactoryMock = $this->getMock('Magento\Framework\AclFactory', [], [], '', false);
         $this->_aclFactoryMock->expects($this->any())->method('create')->will($this->returnValue($this->_aclMock));
         $this->_roleLoader = $this->getMock('Magento\Framework\Acl\Loader\DefaultLoader');
         $this->_ruleLoader = $this->getMock('Magento\Framework\Acl\Loader\DefaultLoader');

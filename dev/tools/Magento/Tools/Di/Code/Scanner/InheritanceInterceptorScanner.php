@@ -1,9 +1,6 @@
 <?php
 /**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\Tools\Di\Code\Scanner;
 
@@ -16,9 +13,9 @@ class InheritanceInterceptorScanner implements ScannerInterface
      * @param array $interceptedEntities
      * @return array
      */
-    public function collectEntities(array $classes, array $interceptedEntities = array())
+    public function collectEntities(array $classes, array $interceptedEntities = [])
     {
-        $output = array();
+        $output = [];
         foreach ($classes as $class) {
             foreach ($interceptedEntities as $interceptorClass) {
                 $interceptedEntity = substr($interceptorClass, 0, -12);

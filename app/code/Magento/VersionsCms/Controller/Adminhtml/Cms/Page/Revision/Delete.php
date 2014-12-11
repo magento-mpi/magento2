@@ -1,10 +1,7 @@
 <?php
 /**
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @copyright Copyright (c) 2014 X.commerce, Inc. (http://www.magentocommerce.com)
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision;
 
@@ -54,7 +51,7 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Delete i
                 $this->messageManager->addSuccess(__('You have deleted the revision.'));
                 $this->_redirect(
                     'adminhtml/cms_page_version/edit',
-                    array('page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId())
+                    ['page_id' => $revision->getPageId(), 'version_id' => $revision->getVersionId()]
                 );
                 return;
             } catch (\Magento\Framework\Model\Exception $e) {
@@ -69,13 +66,13 @@ class Delete extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Delete i
 
             // go back to edit form
             if ($error) {
-                $this->_redirect('adminhtml/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', ['_current' => true]);
                 return;
             }
         }
         // display error message
         $this->messageManager->addError(__("We can't find a revision to delete."));
         // go to grid
-        $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
+        $this->_redirect('adminhtml/cms_page/edit', ['_current' => true]);
     }
 }
