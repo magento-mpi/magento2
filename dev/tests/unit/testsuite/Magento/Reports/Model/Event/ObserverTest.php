@@ -49,6 +49,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()->getMock();
 
         $productIndexFactoryMock = $this->getMockBuilder('Magento\Reports\Model\Product\Index\ViewedFactory')
+            ->setMethods(['create'])
             ->disableOriginalConstructor()->getMock();
         $this->productIndexMock = $this->getMockBuilder('Magento\Reports\Model\Product\Index\Viewed')
             ->disableOriginalConstructor()->getMock();
@@ -66,9 +67,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->willReturn($this->reportEventMock);
 
-        /** @var \Magento\Framework\StoreManagerInterface|\PHPUnit_Framework_MockObject_MockObject $storeManager */
-        $storeManager = $this->getMockBuilder('Magento\Framework\StoreManagerInterface')
-            ->getMockForAbstractClass();
+        /** @var \Magento\Store\Model\StoreManagerInterfac|\PHPUnit_Framework_MockObject_MockObject $storeManager */
+        $storeManager = $this->getMock('Magento\Store\Model\StoreManagerInterface');
 
         $this->storeMock = $this->getMockBuilder('\Magento\Store\Model\Store')
             ->disableOriginalConstructor()->getMock();
